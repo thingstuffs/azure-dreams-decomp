@@ -42,7 +42,7 @@ state_2:
             anim->step++;
             func_8052D558();
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         anim->state = 3;
     }
 

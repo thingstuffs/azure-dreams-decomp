@@ -26,7 +26,7 @@ void func_80096D58(Input *arg0) {
     }
 
     input = arg0;
-    ASM_KEEP(input);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     value = input->unk4;
     if (value <= 0x03FFFFFF) {
         State *state = &D_800FE520;
@@ -38,7 +38,7 @@ void func_80096D58(Input *arg0) {
         return;
     }
     page = (State *)0x80100000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     page = (State *)((u8 *)page - 0x1AE0);
     page->unk24 = 0x13500000 - value;
     page->unk30 = input->unk4 + 0x0CB00000;

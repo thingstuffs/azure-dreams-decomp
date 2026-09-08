@@ -20,14 +20,14 @@ extern void func_8009F644(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 void func_800969B8(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 action = 0x33;
-    register s32 saved_arg ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 saved_arg ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 out_arg;
     s32 call_result;
 
     *((s8 *)arg0 + 0x9A) = action;
     *((s8 *)arg0 + 0x9B) = 0;
     *(s32 *)((s8 *)arg0 + 0x8C) = 0;
-    ASM_KEEP(action);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_arg = arg3;
 
     if (D_80013714.flags & 2) {
@@ -37,7 +37,7 @@ void func_800969B8(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (!(D_80083168[0] & 0x20)) {
         goto done;
     }
-    ASM_KEEP(out_arg);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(out_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     call_result = func_800A5C70(out_arg);
     out_arg = saved_arg;
     if (!call_result) {
@@ -46,7 +46,7 @@ void func_800969B8(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 apply_flag:
     D_80083460.unk2 |= 0x80;
-    ASM_KEEP(saved_arg);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(saved_arg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     out_arg = saved_arg;
 
 done:

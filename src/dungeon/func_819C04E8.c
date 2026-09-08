@@ -86,34 +86,34 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
     Object *objects[21];
     Copy32 copy;
     u8 *copy_page;
-    register Copy32 *copy_source ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register Copy32 *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 i;
     Object **slot;
-    register Object *allocated ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register Object *allocated ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     Object *cleanup;
     Object *object_after;
     S_80025CE8_1 *part8;
     S_80025CE8_2 *partC;
     s32 entry_x;
     u16 entry_y;
-    register u8 *entry ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 next ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 slot_offset ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 asset_offset ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u16 part_flags ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 next ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 slot_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 asset_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u16 part_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 cleanup_flags;
     s32 color;
     Object *dispatch_arg;
     u8 *alloc_page;
 
     copy_page = (u8 *)0x80020000;
-    ASM_KEEP(copy_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     copy_source = (Copy32 *)(copy_page + 0x4028);
-    ASM_KEEP(copy_source);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(copy_source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     copy.first = copy_source->first;
     copy.second = copy_source->second;
     copy.third = copy_source->third;
-    ASM_KEEP(copy_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     i = 0;
     do {
         if (((u32)(u16)i << 16) != 0) {
@@ -122,7 +122,7 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
             goto call_alloc;
         }
         alloc_page = (u8 *)0x80080000;
-        ASM_KEEP(alloc_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(alloc_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         dispatch_arg = (Object *)(alloc_page + 0x3498);
     call_alloc:
         allocated = func_8003FD64(0x12, dispatch_arg);
@@ -131,7 +131,7 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
         *slot = allocated;
         if (allocated != 0) {
             color = 0x800000;
-            ASM_KEEP(color);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             allocated->part10 = D_80025800;
             entry = (u8 *)&copy + ((arg3 >> 7) & 0x1C);
             color |= 0x8080;
@@ -149,7 +149,7 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
             partC->unk_20 = 0x1000;
             partC->unk_1E = 0x1000;
             partC->unk_1C = 0x1000;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             entry = D_80028664 + asset_offset;
             partC->unk_08 = entry;
             part_flags = partC->unk_14;
@@ -158,7 +158,7 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
             partC->unk_0C = color;
 #ifndef NON_MATCHING
             color = 0x800D0000;
-            ASM_KEEP(color);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
             part_flags |= 0xC;
             partC->unk_14 = part_flags;
@@ -171,13 +171,13 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
             object_after = *slot;
             if ((s16)i != 0) {
                 entry = (u8 *)object_after + 0x20;
-                ASM_KEEP(entry);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 ((S_80025CE8_0 *)entry)->unk_20 = objects[0];
                 goto shared_tail;
             }
             entry = (u8 *)object_after + 0x20;
             alloc_page = (u8 *)0x80030000;
-            ASM_KEEP(alloc_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(alloc_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_80025CE8_3_pre *)alloc_page)[-1].unk_00 = part8;
         shared_tail:
             partC->unk_1E = 0;
@@ -191,7 +191,7 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
         }
             slot_offset = i - 1;
             i = slot_offset;
-            ASM_KEEP(slot_offset);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(slot_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if ((s32)((u32)slot_offset << 16) >= 0) {
                 do {
                     slot_offset = (s32)((u32)i << 16);
@@ -215,7 +215,7 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
         continue_loop:
         slot_offset = i + 1;
         i = slot_offset;
-        ASM_KEEP(i);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     } while ((s16)slot_offset < 21);
     return (s32)objects[0];
 }

@@ -60,14 +60,14 @@ void func_819A764C(void *arg0)
     s16 delta[3];
     s32 state;
     s32 i;
-    register void *dst ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *dst ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *tail_arg;
     S_819A764C_1 *inner;
-    register u32 page_base ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u32 page_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *message;
-    register void *self ASM_REG("$18") = arg0;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *self ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(self);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     inner = ((S_819A764C_0 *)self)->unk_00;
     inner->unk_52 |= 0x8000;
 
@@ -111,7 +111,7 @@ high_states:
 
 state_zero:
     message = D_80020000;
-    ASM_KEEP(message);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     message += 0x4B20;
     func_8004491C(tail_arg, message);
 
@@ -124,7 +124,7 @@ state_one:
 
 state_two:
     page_base = 0x80080000;
-    ASM_KEEP(page_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_819A764C_0_pre *)self)[-1].unk_00 |= 0x8000;
     ((S_819A764C_3 *)((void *)page_base))->unk_14A0 |= 0x8000;
 }

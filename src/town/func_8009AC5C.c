@@ -21,7 +21,7 @@ void func_800983BC(S_800983BC_1 *arg0, Rec_D_800E3D7C *arg1, s32 arg2) {
     s16 temp_a0;
     u16 temp_v0;
     s32 side_v0;
-    register s32 side_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 side_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     arg1->unk_08.at02_s16.v = func_800C2AE8(arg1);
     temp_v0 = arg0->unk_0A - 1;
@@ -50,8 +50,8 @@ void func_800983BC(S_800983BC_1 *arg0, Rec_D_800E3D7C *arg1, s32 arg2) {
 case_400:
     side_v0 = arg1->unk_00.at00_s32.v;
     side_v1 = 0x120000;
-    ASM_KEEP(side_v0);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_TAILSLOT_PIN(side_v1);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(side_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_TAILSLOT_PIN(side_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80098464();
     return;
 
@@ -62,8 +62,8 @@ case_C00:
 case_0:
     side_v0 = arg1->unk_04.at00_s32.v;
     side_v1 = 0x120000;
-    ASM_KEEP(side_v0);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_LIVE_SIBCALL_PIN(side_v1, 1179648);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(side_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_LIVE_SIBCALL_PIN(side_v1, 1179648);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_80098488();
     arg1->unk_04.at00_s32.v -= 0x120000;
 }

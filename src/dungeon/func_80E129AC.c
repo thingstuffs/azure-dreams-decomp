@@ -16,10 +16,10 @@ extern s32 func_800A6D30();
 
 s32 func_801761AC(S_801761AC_0 *arg0) {
     s32 seed;
-    register s32 d ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 d ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 r;
     s32 slot;
-    register s32 count ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (arg0 == D_800E3D7C) {
         goto fail;
@@ -29,10 +29,10 @@ s32 func_801761AC(S_801761AC_0 *arg0) {
     if (count != 0) {
         d = count;
         r = seed % d;
-        ASM_KEEP_DEP_NV(r, d);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_DEP_NV(r, d);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         slot = r;
     } else {
-        ASM_KEEP(count);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         slot = 0;
     }
     if (slot >= 16) {

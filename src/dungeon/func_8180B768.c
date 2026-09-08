@@ -29,7 +29,7 @@ s32 func_80026F68(void *arg0, void *arg1)
     input = arg0;
     owner = arg1;
     globalp = (u8 **)D_80083160;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     count = 3;
 
 loop:

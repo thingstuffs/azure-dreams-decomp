@@ -27,7 +27,7 @@ s32 func_81984E94(s32 unused, s32 arg1, s32 arg2, s16 arg3) {
     struct S_80083178 *state = &D_80083178;
     S_8191696C_state *p = (S_8191696C_state *)&state->field_B8;
     void *next = (void *)((u8 *)&state->field_B8 + 4);
-    register s32 saved_arg2 ASM_REG("$9");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 saved_arg2 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
     s32 var_a1;
 

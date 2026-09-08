@@ -46,16 +46,16 @@ extern s32 D_80083460;
 extern u8 D_800E2970[];
 
 void func_801723F8(void *in0, void *arg1, void *in2, void *in3) {
-    register u8 *arg0 ASM_REG("$21") = in0;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u8 *arg2 ASM_REG("$20") = in2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *arg0 ASM_REG("$21") = in0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *arg2 ASM_REG("$20") = in2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *arg3 = in3;
     u8 *global;
     u16 global_flags;
     s32 movement_flags;
     s32 special_path;
     s32 attempt;
-    register s16 *angle_step ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 angle ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s16 *angle_step ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 target_x;
     s32 target_y;
     s32 new_angle;
@@ -64,14 +64,14 @@ void func_801723F8(void *in0, void *arg1, void *in2, void *in3) {
     s32 direction_offset;
     s32 phase;
     s32 type;
-    register s32 value ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *node;
     void *parent;
 
     global = (u8 *)&D_80083460;
     global_flags = U16_AT(global, 2);
-    ASM_KEEP(arg0);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     special_path = global_flags & 0;
 
     if ((global_flags & 0x4000) || (S8_AT(arg3, 0x71) >= 0)) {
@@ -108,7 +108,7 @@ void func_801723F8(void *in0, void *arg1, void *in2, void *in3) {
                     node_work);
                 node_history = U8_AT(arg3, 0x71);
                 node_history &= 0x7F;
-                ASM_KEEP_DEP_NV(node_history, arg0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                ASM_KEEP_DEP_NV(node_history, arg0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 U8_AT(arg3, 0x71) = node_history;
                 return;
             }
@@ -125,7 +125,7 @@ void func_801723F8(void *in0, void *arg1, void *in2, void *in3) {
         value = (s32)func_800A04F0(arg3, U8_AT(arg2, 0x24),
                                     U8_AT(arg2, 0x25),
                                     S16_AT(arg3, 0x2A));
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         attempt = 0;
         if (value == 0) {
             goto loop_ready;
@@ -173,7 +173,7 @@ void func_801723F8(void *in0, void *arg1, void *in2, void *in3) {
                 U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
                 D_80082E80_center[0].x,
                 D_80082E80_center[0].y);
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             attempt = 0;
             if ((value << 16) != 0) {
                 special_path = 1;
@@ -245,7 +245,7 @@ loop_setup:
 
 loop_ready:
     value = (s32)0x80070000;
-    ASM_KEEP(value);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     angle_step = (s16 *)(value - 0x3300);
 
 loop_head:
@@ -287,7 +287,7 @@ loop_head:
         }
 
         {
-            register s32 position_x ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register s32 position_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
             direction_offset = (U16_AT(arg3, 0x2A) >> 8) & 0xE;
             position_x = U8_AT(arg2, 0x24);

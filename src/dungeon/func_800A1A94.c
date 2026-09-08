@@ -10,17 +10,17 @@ s32 func_800A71F4(void) {
 
     i = 0;
     page = (u8 *)0x800E0000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     entry = page + 0x3548;
     do {
         if (entry[1] == 0) {
             s32 index;
 
             index = (s16)i;
-            ASM_TAILSLOT_PIN_TIED(index);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800A722C(entry);
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         i++;
         entry += 4;
     } while (i < 0x40);

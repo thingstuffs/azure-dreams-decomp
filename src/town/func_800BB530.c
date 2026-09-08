@@ -40,7 +40,7 @@ s32 func_800B8C90(void)
         if (other[0x33BB] != compare) {
             return 0;
         }
-        ASM_KEEP(other);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     }
     compare = 0x29;
     if (D_800133E6 != compare) {
@@ -49,7 +49,7 @@ s32 func_800B8C90(void)
         if (other[0x33E7] != compare) {
             return 0;
         }
-        ASM_KEEP(other);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     }
     compare = 7;
     if (D_800133C8 != compare) {
@@ -58,13 +58,13 @@ s32 func_800B8C90(void)
         if (other[0x33C9] != compare) {
             return 0;
         }
-        ASM_KEEP(other);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     }
     compare = 10;
     if (D_800133A6 != compare) {
-        register u8 *other ASM_REG("$3") = (u8 *)0x80010000;   /* MATCH pin: keeps a constant in a register as retail does */
+        register u8 *other ASM_REG("$3") = (u8 *)0x80010000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        ASM_KEEP(other);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         i = 0;
         if (other[0x33A7] != compare) {
 return_zero:
@@ -96,7 +96,7 @@ loop_preheader:
         i++;
         outer++;
     } while (i < 4);
-    ASM_KEEP(outer);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(outer);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 1;
 }
 

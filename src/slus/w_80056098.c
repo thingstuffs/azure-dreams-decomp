@@ -22,10 +22,10 @@ typedef struct {
 
 void func_80056098(S_80085458 *arg0) {
     s32 temp_a1;
-    register s32 var_v0 ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 var_v0_2;
     s32 temp_v0;
-    register s32 a1 ASM_REG("$5");   /* MATCH pin: slus-diff */
+    register s32 a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 v1;
     u8 temp_v1;
     u8 temp_v1_2;

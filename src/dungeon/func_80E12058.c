@@ -61,15 +61,15 @@ void *func_80175858(void *arg0, Copy24 *arg1, void *arg2) {
     void *temp_a2;
     void *temp_v0;
     void *temp_v1;
-    register void *result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 temp_a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *arg0_hold = arg0;
     Copy24 *arg1_hold = arg1;
     void *arg2_hold = arg2;
 
-    ASM_KEEP_NV(arg0_hold);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP_NV(arg1_hold);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(arg2_hold);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(arg0_hold);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(arg1_hold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(arg2_hold);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_v0 = func_8003FC64(0x312);
     if (temp_v0 != NULL) {
         goto allocated;
@@ -80,7 +80,7 @@ allocated:
     ((S_80175858_0 *)temp_v0)->unk_10 = &D_8017573C;
     func_8004491C(temp_v0, &D_80045340);
     temp_a2 = temp_v0 + 0x20;
-    ASM_KEEP_NV(temp_a2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(temp_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80175858_1 *)temp_a2)->unk_04.s =
         (u16)((S_80175858_2 *)arg0_hold)->unk_2A;
     temp_a0 = ((S_80175858_0 *)temp_v0)->unk_0C;

@@ -85,10 +85,10 @@ void func_800BD688(void *arg0_in) {
     s32 upper;
     s32 decrement;
     s32 var_s1;
-    register s32 var_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_v0_2;
     u16 temp_v0;
-    register s32 *page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 *page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void **var_s0;
     S_800BD688_6 *temp_a0;
     S_800BD688_8 *temp_a0_2;
@@ -123,9 +123,9 @@ state_zero:
         if (var_v0 < 0) {
             var_v0 = 0 - var_v0;
         }
-        ASM_KEEP(var_v0);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         {
-            register u32 range ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u32 range ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             range = var_v0 + 0xFFE00000;
             if (range > 0x200000U) {
@@ -178,7 +178,7 @@ state_zero:
 
 state_one:
     page = (s32 *)0x80080000;
-    ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_800BD688_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800BD688_0_pre *)arg0)[-1].unk_00 | 0x8000);
     page[0x14A0 / 4] |= 0x8000;
 

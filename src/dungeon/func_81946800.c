@@ -50,9 +50,9 @@ void func_81946800(void *arg0_in, void *arg1) __asm__("func_81946800_body")
 void func_81946800(void *arg0_in, void *arg1)
 {
   void *arg0;
-  void *base;   /* MATCH pin: retail schedule: same instructions, different order without it */
-  register u8 *context ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-  register void *object ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  void *base;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  register u8 *context ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  register void *object ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   void *part;
   void *source0;
   void *source;
@@ -88,7 +88,7 @@ void func_81946800(void *arg0_in, void *arg1)
     func_80024350(timer);
     return;
   }
-  ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+  ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   if (state == 2)
   {
     goto state_2;
@@ -187,7 +187,7 @@ void func_81946800(void *arg0_in, void *arg1)
   {
     s32 tail_value;
     tail_value = (*((u16 *) (((u8 *) arg0) + 0xA))) + 1;
-    ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     func_800242D8();
   }
   return;

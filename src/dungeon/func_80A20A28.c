@@ -34,18 +34,18 @@ s32 func_80174228(u8 *arg0)
     s32 delta;
     s32 q;
     s32 value;
-    register s32 tail_y ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 pos_y ASM_REG("$6");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 tail_y ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 pos_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *next;
-    register s32 x0 ASM_REG("$4");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 x1 ASM_REG("$4");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 x0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 x1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 y0;
     register s32 y1;
     register s32 width;
     register s32 neg_width;
     u32 mask24;
-    register u32 hi8 ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
-    register u8 *vertex0 ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 hi8 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u8 *vertex0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *vertex;
     u8 *prim;
     u8 shade;
@@ -65,11 +65,11 @@ s32 func_80174228(u8 *arg0)
     u32 outu;
     u16 item_u;
     s32 half;
-    register u8 *item ASM_REG("$23");   /* MATCH pin: retail register colouring depends on it */
-    register s32 abs11 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *item ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 abs11 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *page;
-    register u8 *sb ASM_REG("$4");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *setup ASM_REG("$4");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *sb ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *setup ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     page = D_80083160;
     __builtin_memcpy(storage, D_8017087C, 8);
@@ -102,13 +102,13 @@ s32 func_80174228(u8 *arg0)
     } while (i >= 0);
 
     setup = storage + 0x28;
-    ASM_KEEP_NV(setup);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(setup);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     packed_x &= 0xFFFF;
     packed_y &= 0xFFFF;
     i = 3;
     setup_cursor = page;
     abs11 = FIELD(setup_cursor, u16, 0xC8);
-    ASM_USE_NV(abs11);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE_NV(abs11);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     FIELD(storage, s16, 0x32) = 0;
     FIELD(storage, s16, 0x30) = 0;
     setup_cursor = slot;
@@ -134,7 +134,7 @@ s32 func_80174228(u8 *arg0)
         depth_input = depth;
         outv = OUTX;
         depth_old = depth_input - 8;
-        ASM_USE2_NV(outv, depth_old);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE2_NV(outv, depth_old);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         depth_result = depth_old + ret;
         x_condition = (s16)packed_y < outv;
         depth = depth_result;
@@ -164,7 +164,7 @@ s32 func_80174228(u8 *arg0)
     i = 1;
     depth >>= 2;
     item_u = FIELD(item, u16, 0xE);
-    ASM_KEEP_MEMDEP_NV(item_u, dst, storage[0]);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_MEMDEP_NV(item_u, dst, storage[0]);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dst = storage + 0x60;
     FIELD(storage, u16, 0x5E) = item_u;
     do {
@@ -187,7 +187,7 @@ s32 func_80174228(u8 *arg0)
             FIELD(context, u8 *, 0x8D0) = prim + 0x28;
 
             elem_ptr = (s16 *)(storage + i * 2 - 0x10);
-            ASM_USE(elem_ptr);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_USE(elem_ptr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             abs11 = 0xB;
             abs11 -= i;
             elem = FIELD(elem_ptr, s16, 0x58);
@@ -224,7 +224,7 @@ s32 func_80174228(u8 *arg0)
             FIELD(prim, s8, 0x1C) = value;
 
             tex_height = FIELD(storage, u8, 6);
-            ASM_USE(tex_height);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_USE(tex_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             FIELD(prim, u8, 0x25) = tex_height;
             value = FIELD(prim, u8, 0xD) + 2;
             if (tex_height >= 2) {

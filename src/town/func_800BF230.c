@@ -28,16 +28,16 @@ void func_800BC990(void *arg0, void *arg1, void *arg2) {
     void *handler;
     s16 *base_x;
     s16 *base_y;
-    register s16 *step_y ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s16 *step_x ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s16 *probe_x ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s16 *step_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s16 *step_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s16 *probe_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 state;
     u16 timer;
     s32 choice;
     s32 index;
-    register s32 byte_off ASM_REG("$6");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 distance ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 delta_x ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 byte_off ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 distance ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 delta_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 delta_y;
     s32 direction;
     s32 value;
@@ -131,7 +131,7 @@ random_direction:
     index = rand() & 3;
     byte_off = index * 4;
     probe_x = (s16 *)(byte_off + (s32)base_x);
-    ASM_KEEP(probe_x);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(probe_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     distance = F_S16(arg0, 0xA2);
     delta_x = *probe_x;
     distance += delta_x;
@@ -153,7 +153,7 @@ random_direction:
     }
 
     value = 0x40;
-    ASM_KEEP(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     step_x = D_8006CCD8;
     step_x = (s16 *)((u8 *)step_x + byte_off);
     step_y = D_8006CCE8;

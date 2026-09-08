@@ -48,13 +48,13 @@ s32 func_8182121C(void *arg0)
     u16 outputs[3];
     void *outer;
     void *item;
-    register s32 next ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 next ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 **global;
     u8 *packet0;
     u8 *packet1;
     u32 index;
     s32 i;
-    register u32 low_mask ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 low_mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 high_mask;
     s32 kind;
     s32 offset;
@@ -123,6 +123,6 @@ s32 func_8182121C(void *arg0)
         outer = (void *)(next + 0x20);
     } while (next != 0);
 
-    ASM_KEEP(next);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }

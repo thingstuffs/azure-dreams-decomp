@@ -15,13 +15,13 @@ extern void func_800C9088(void *, s32, Entry *, s32);
 extern void func_80025AE4(void) __attribute__((noreturn));
 
 #ifndef NON_MATCHING
-register s32 volatile v0_carrier ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+register s32 volatile v0_carrier ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
 
 s32 func_80025AAC(void *arg0, s32 arg1, Entry *arg2)
 {
     void *state = arg0;
-    register s32 value ASM_REG("$20") = arg1;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 value ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     Entry *entry = arg2;
     u8 *base;
     s32 i;
@@ -34,14 +34,14 @@ s32 func_80025AAC(void *arg0, s32 arg1, Entry *arg2)
 #else
     base = D_800274C0;
 #endif
-    ASM_KEEP(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     i = 0;
     ptr = base;
     call_arg = entry;
     do {
         entry->field_8 = ptr;
         ptr += 0x10;
-        ASM_KEEP(ptr);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         func_8002590C((Entry *)call_arg, entry->field_4);
         i++;
         func_800257D0(state, entry->field_0);
@@ -58,14 +58,14 @@ s32 func_80025AAC(void *arg0, s32 arg1, Entry *arg2)
         state = (u8 *)call_arg + 0x20;
         value = *(s32 *)((u8 *)call_arg + 8);
         entry = *(Entry **)((u8 *)call_arg + 0xC);
-        ASM_KEEP(state);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP(value);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_KEEP(entry);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         i = 0;
-        ASM_TAILSLOT_PIN_TIED(i);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_TAILSLOT_PIN_TIED(i);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         func_80025AE4();
     }
-    ASM_KEEP(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return 0;
 }
 

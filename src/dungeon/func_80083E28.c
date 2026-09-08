@@ -44,11 +44,11 @@ extern void func_80089654(void) __attribute__((noreturn));
 void func_80089588(void) {
     s32 sp18[2];
     s32 temp_s0;
-    register s32 temp_s3 ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     u16 temp_v0_3;
     void *temp_s2;
-    register u32 temp_s1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     temp_s0 = (s32) D_80083160 != (s32) D_801C9E40;
     temp_s2 = ((Rec_D_80083160 *)D_80083160)->unk_8D0;
@@ -73,12 +73,12 @@ void func_80089588(void) {
         ((S_80089588_1 *)temp_s2)->unk_0C.s = cmd_value;
     }
     temp_s1 = (u32) &D_80083160;
-    ASM_KEEP_NV(temp_s1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP_NV(temp_s1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     temp_s3 = temp_s0;
     if (temp_s0 != 0) {
         s32 tail_value;
         tail_value = 0xE0;
-        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80089654();
         return;
     }
@@ -86,7 +86,7 @@ void func_80089588(void) {
         register s32 first_value;
         first_value = 0x1C0;
         ((S_80089588_1 *)temp_s2)->unk_0E = first_value;
-        ASM_KEEP(temp_s2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     temp_v0 = ((S_80089588_1 *)temp_s2)->unk_0E;
     ((S_80089588_1 *)temp_s2)->unk_03 = 5;
@@ -96,7 +96,7 @@ void func_80089588(void) {
     func_8006658C(((S_80089588_2 *)temp_s1)->unk_00 + 0x830, temp_s2);
     temp_s2 += 0x18;
     {
-        register s32 cmd_value ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register s32 cmd_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         cmd_value = 0x2A000000;
         ((S_80089588_1 *)temp_s2)->unk_04 = cmd_value;
         cmd_value = 1;
@@ -107,16 +107,16 @@ void func_80089588(void) {
         ((S_80089588_1 *)temp_s2)->unk_0C.u = cmd_value;
     }
     {
-        register s32 packet_width ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register s32 packet_width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         packet_width = temp_s3;
-        ASM_KEEP_NV(packet_width);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP_NV(packet_width);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         if (packet_width != 0) {
             packet_width = 0xE0;
         } else {
             packet_width = 0x1C0;
         }
         ((S_80089588_1 *)temp_s2)->unk_0E = packet_width;
-        ASM_KEEP(temp_s2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     temp_v0_3 = ((S_80089588_1 *)temp_s2)->unk_0E;
     ((S_80089588_1 *)temp_s2)->unk_03 = 5;

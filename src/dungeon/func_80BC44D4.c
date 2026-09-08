@@ -82,10 +82,10 @@ void func_80173CD4(void *in0, void *in1, void *in2, void *in3)
 {
     s32 state;
     void *arg0 = in0;
-    register void *arg1 ASM_REG("$19") = in1;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *arg2 ASM_REG("$17") = in2;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *arg1 ASM_REG("$19") = in1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$17") = in2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *arg3;
-    register u8 *global ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *global ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     state = ((S_80173CD4_0 *)arg0)->unk_9B;
     arg3 = in3;
@@ -125,7 +125,7 @@ state_zero:
 
 state_one:
     {
-        register u32 global_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register u32 global_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u32 flags;
 
         if ((func_80042900(arg3, 1) << 16) == 0) {
@@ -133,7 +133,7 @@ state_one:
         }
 
         global_page = 0x80080000;
-        ASM_KEEP(global_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         global = (u8 *)(global_page + 0x3460);
         if (((S_80173CD4_4 *)global)->unk_02 & 0x1000) {
             goto done;
@@ -228,7 +228,7 @@ animate:
         }
 
         {
-            register u8 *base ASM_REG("$2") = (u8 *)&D_80083460;   /* MATCH pin: load-bearing for the whole function shape */
+            register u8 *base ASM_REG("$2") = (u8 *)&D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_80173CD4_3 *)base)->unk_0A++;
         }
     }
@@ -239,7 +239,7 @@ increment_state:
 
 state_two:
     if (((S_80173CD4_1 *)arg2)->unk_14 & 0xE000) {
-        register u8 *base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         base = (u8 *)&D_80083460;
         ((S_80173CD4_3 *)base)->unk_0A--;

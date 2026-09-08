@@ -11,7 +11,7 @@ s32 func_80018A54(void) {
     do {
         dst = (s32 *)(*(u8 *volatile *)((u8 *)D_80016000[0] + 0x38) + 0x3188);
     } while (0);
-    ASM_KEEP(dst);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     if ((*(Callback *)(*(u8 **)((u8 *)D_80016000[0] + 0x20) + 0x54))(2) & 1) {
         value = 0x15;
     } else {

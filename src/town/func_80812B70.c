@@ -140,9 +140,9 @@ state_2:
         call_result = func_80240810(D_8053016C, arg1, D_80290704, D_80132AE8);
         if (call_result != 0) {
             D_80012BCC_store[0] = values.v[S16_AT(arg0, 0x54)] * 1000 + D_80012BCC_load[0];
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             call_result = 255;
-            ASM_TAILSLOT_PIN_TIED(call_result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(call_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8052DC20();
         }
         return;
@@ -158,9 +158,9 @@ state_3:
         call_result = func_80240810(D_8053016C, arg1, D_80290704, D_80132AE8);
         if (call_result != 0) {
             D_80012BCC_store2[0] = valuep[S16_AT(arg0, 0x54)] * 1000 + D_80012BCC_load2[0];
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             call_result = 255;
-            ASM_TAILSLOT_PIN_TIED(call_result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(call_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8052DC20();
         }
         return;
@@ -173,7 +173,7 @@ state_4:
         if ((U16_AT(arg0, 6) >> 2) & 1) {
             register s32 tail_value;
             tail_value = U16_AT(arg2, 0x14) | 0x80;
-            ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8052DC00();
             return;
         }

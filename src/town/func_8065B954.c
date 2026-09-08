@@ -7,7 +7,7 @@ s32 func_80017FEC();
 s32 func_80016154(s32 arg0, s32 arg1) {
     s32 result;
     s32 first;
-    register s32 call_arg ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     first = func_80017FEC();
     call_arg = arg0;

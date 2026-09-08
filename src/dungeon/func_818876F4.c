@@ -72,8 +72,8 @@ loop:
         Entry *entry;
         u32 *call0;
         u32 *call1;
-        register u32 *call2 ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-        register u32 *call3 ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+        register u32 *call2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u32 *call3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u32 *upper_table;
         u32 value88;
         s32 masked_index;
@@ -82,13 +82,13 @@ loop:
         u16 neighbor_half;
         EmptyCallArg late_stores;
 
-        ASM_KEEP_NV(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         call0 = &scratch->value70;
         masked_index = index & ~0xF;
         entry = (Entry *)scratch->current;
-        ASM_KEEP(entry);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         call1 = &scratch->value78;
-        ASM_KEEP(call1);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(call1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         call2 = &scratch->value80;
         scratch->current = (u8 *)entry + 0x24;
         scratch->value70 = *(u32 *)record;
@@ -102,7 +102,7 @@ loop:
         record_half = *(u16 *)(record + 4);
         scratch->half74 = record_half;
         scratch->half7c = record_half;
-        ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         neighbor_index = index + 16;
         neighbor_half = ((u16 *)table_base)[(neighbor_index * 4) + 2];
 

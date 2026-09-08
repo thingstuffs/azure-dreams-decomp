@@ -81,7 +81,7 @@ void func_800AACA4(Rec_func_800A9E70_arg0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_800
     void *root;
     S_800AACA4_4 *table;
     S_800AACA4_5 *entry;
-    register u32 offset ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 first_offset;
     s16 count;
     s32 result;

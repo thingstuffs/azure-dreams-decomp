@@ -44,7 +44,7 @@ void func_801249A0(Object *arg0)
 {
     GlobalState *state = &D_80083160;
     u32 flags;
-    register u32 tail_value ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 other;
     u8 second;
     u8 wanted;
@@ -54,7 +54,7 @@ void func_801249A0(Object *arg0)
     flags = state->field_10;
     if (flags & 0x40) {
         s32 slot;
-        register Object *call_arg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register Object *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         if (!func_80123200(arg0->field_13)) {
             goto end;
@@ -157,7 +157,7 @@ matched_five:
             (*(volatile s16 *)&arg0->field_4) = raw_toggle;
             raw_toggle = arg0->field_11;
             saved_toggle = raw_toggle;
-            ASM_KEEP(saved_toggle);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(saved_toggle);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             *(volatile u8 *)&arg0->field_11 = raw_toggle + 7;
             arg0->field_6 = 4;
             (*(volatile u8 *)&arg0->field_11) &= 7;
@@ -176,7 +176,7 @@ matched_five:
     {
         u32 raw_toggle;
         s32 saved_toggle;
-        register s32 one ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 one ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         one = 1;
         if (arg0->field_F == 3) {
@@ -184,7 +184,7 @@ matched_five:
         }
         raw_toggle = arg0->field_11;
         saved_toggle = raw_toggle;
-        ASM_KEEP(saved_toggle);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(saved_toggle);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         *(volatile u8 *)&arg0->field_11 = raw_toggle + 1;
         arg0->field_4 = one;
         (*(volatile u8 *)&arg0->field_11) &= 7;
@@ -195,7 +195,7 @@ matched_five:
         goto set_two;
     }
     tail_value = arg0->field_10;
-    ASM_KEEP(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     arg0->field_A = 3;
     goto toggle;
 

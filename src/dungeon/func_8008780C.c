@@ -26,7 +26,7 @@ void func_8008CF6C(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 flags = D_800E296C[0];
                 *(s32 *)((u8 *)arg0 + 0x8C) = 0;
                 D_80082EB8[0] = 0;
-                ASM_KEEP(flags);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 D_800E296C[0] = flags | 0x2000;
             }
         }

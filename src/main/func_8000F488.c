@@ -25,7 +25,7 @@ void func_80022488(void *arg0) {
     s32 base;
 
     base = (s32)D_80030000;
-    ASM_KEEP(base);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     base -= 0x7f4c;
     table_index = *(s32 *)((u8 *)arg0 + 8);
     entry = (EntryT *)(table_index * 0x18 + base);

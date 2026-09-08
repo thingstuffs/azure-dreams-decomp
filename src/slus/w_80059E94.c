@@ -30,7 +30,7 @@ s32 func_80059E94(s32 arg0)
     if (entry0->unk00 != 0) {
         goto loop_start;
     }
-    ASM_KEEP(result);   /* MATCH pin: slus-diff */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     candidate = saved + 0x1010;
     {
         u8 fast_idx = D_8007382B[0];

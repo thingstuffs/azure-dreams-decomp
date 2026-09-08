@@ -16,13 +16,13 @@ extern u16 D_80083462;
 void func_800B2A60(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3)
 {
     u8 *obj = arg0;
-    register u8 *entity ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *entity ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 context = arg1;
     u8 *pos = arg2;
     u16 *flags = D_80083460;
     u8 *call_a0 = arg0;
 
-    ASM_KEEP(obj);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if (!(flags[1] & 0x1000)) {
         entity = arg3;

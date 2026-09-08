@@ -113,12 +113,12 @@ extern s32 D_800814A0;
 void func_8187BFE0(void *arg0, void *arg1) {
     u8 *state;
     u8 *source;
-    register u8 *node ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *node ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *work;
     u8 *sprite;
     u8 *dst;
     u8 *page = (u8 *)0x80020000;
-    register s32 i ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 i ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 angle;
     s16 average;
     s32 mode;
@@ -126,8 +126,8 @@ void func_8187BFE0(void *arg0, void *arg1) {
 
     state = arg0;
     source = arg1;
-    ASM_KEEP(state);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(source);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     mode = ((S_8187BFE0_0 *)state)->unk_00.s;
     *(s16 *)(page + 0x694C) = 1;
 
@@ -189,10 +189,10 @@ void func_8187BFE0(void *arg0, void *arg1) {
             u16 edge_v1;
             s32 span_v0;
             edge_v1 = ((S_8187BFE0_0 *)state)->unk_2E;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             span_v0 = 0x18;
-            ASM_KEEP(edge_v1);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_TAILSLOT_PIN(span_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(edge_v1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(span_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_80025AB0();
         }
         case 1:
@@ -206,10 +206,10 @@ void func_8187BFE0(void *arg0, void *arg1) {
             u16 edge_v1;
             s32 span_v0;
             edge_v1 = ((S_8187BFE0_0 *)state)->unk_32;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             span_v0 = 0x18;
-            ASM_KEEP(edge_v1);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_TAILSLOT_PIN(span_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(edge_v1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(span_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_80025AB0();
         }
         case 2:
@@ -223,10 +223,10 @@ void func_8187BFE0(void *arg0, void *arg1) {
             u16 edge_v1;
             s32 span_v0;
             edge_v1 = ((S_8187BFE0_0 *)state)->unk_2C;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             span_v0 = 0x18;
-            ASM_KEEP(edge_v1);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_TAILSLOT_PIN(span_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(edge_v1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(span_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_80025AB0();
         }
         case 3:
@@ -240,10 +240,10 @@ void func_8187BFE0(void *arg0, void *arg1) {
             u16 edge_v1;
             s32 span_v0;
             edge_v1 = ((S_8187BFE0_0 *)state)->unk_30;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             span_v0 = 0x18;
-            ASM_KEEP(edge_v1);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_TAILSLOT_PIN(span_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(edge_v1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(span_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_80025AB0();
         }
         case 4:

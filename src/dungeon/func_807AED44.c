@@ -17,7 +17,7 @@ void func_800F6544(void *arg0)
 
     if (*(s32 *)0x80013718 == 3) {
         page = 0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         count = 1;
         flags = (u16 *)(page + 0x3460);
         entry_base = D_800F8A44;

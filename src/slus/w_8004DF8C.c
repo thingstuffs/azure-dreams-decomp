@@ -28,7 +28,7 @@ void func_8004DF8C(char *arg0)
     strcpy(p, (D_80083E18[0] = 8, arg0));
     do { } while (0);
     dst = p;
-    ASM_KEEP(dst);   /* MATCH pin: slus-diff */
+    ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     strcat(dst, D_80071404);
     base = D_80083E18;
     p = strrchr(base, 0);

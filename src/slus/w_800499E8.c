@@ -64,7 +64,7 @@ void *func_800499E8(u8 *p, u8 *src, u8 *col)
 
     p += 0x18;
     ret = p - 0x3C;
-    ASM_USE_NV(ret);   /* MATCH pin: slus-diff */
+    ASM_USE_NV(ret);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     p[1] = 0x81;
     *(u16 *)(p + 4) = 0x10;
     *(u16 *)(p + 6) = 1;

@@ -71,18 +71,18 @@ typedef struct S_8015F3A8_2 {
 
 void func_8015F3A8(void *arg0, S_8015F3A8_0 *arg1, void *arg2)
 {
-    register void *base ASM_REG("$19") = arg0;   /* MATCH pin: retail delay-slot fill depends on it */
-    register s16 old_state ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 old_raw ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    void *call_arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *base ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s16 old_state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 old_raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    void *call_arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call_arg1;
     void *call_arg2;
     s32 motion_value;
-    register u32 motion_raw ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u32 motion_raw ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 index;
     s16 value;
     s32 flags;
-    register s32 amount ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 amount ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u16 initial_mode;
     u16 mode;
 
@@ -92,7 +92,7 @@ void func_8015F3A8(void *arg0, S_8015F3A8_0 *arg1, void *arg2)
 
         entry_callback = (*(Callback *)((u8 *)arg0 + 0x8C));
         if (entry_callback == (Callback)&D_8015F9DC) {
-            ASM_KEEP(entry_self);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(entry_self);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             entry_callback(entry_self, arg1, arg2, entry_self);
             return;
         }
@@ -103,7 +103,7 @@ void func_8015F3A8(void *arg0, S_8015F3A8_0 *arg1, void *arg2)
     call_arg0 = arg0;
     call_arg1 = arg1;
     call_arg2 = arg2;
-    ASM_KEEP4(call_arg0, call_arg1, call_arg2, base);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP4(call_arg0, call_arg1, call_arg2, base);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     old_raw = (*(u8 *)((u8 *)arg0 + 0x6D));
     old_state = (s8)old_raw;
     if (func_800A9E70(call_arg0, call_arg1, call_arg2, arg0) != 0) {
@@ -119,10 +119,10 @@ void func_8015F3A8(void *arg0, S_8015F3A8_0 *arg1, void *arg2)
     }
     D_801626A0[(*(u8 *)((u8 *)arg0 + 0x9A))](arg0, arg1, arg2, arg0);
     {
-        register s32 old_compare ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 old_compare ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         old_compare = (u32)(u16)old_state << 16;
-        ASM_KEEP_NV(old_compare);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(old_compare);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         old_compare >>= 16;
         if (old_compare != (*(s8 *)((u8 *)arg0 + 0x6D))) {
             func_800AA36C(arg0, arg1, arg2, arg0);
@@ -156,7 +156,7 @@ void func_8015F3A8(void *arg0, S_8015F3A8_0 *arg1, void *arg2)
             u32 tail_value;
 
             tail_value = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 1;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_801715E4();
             return;
         }
@@ -223,7 +223,7 @@ clear_8000000:
 
         {
             s32 tail_sum;
-            register u16 tail_mode ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register u16 tail_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
             amount = (*(s32 *)((u8 *)arg0 + 0xA4));
             tail_sum = (*(s32 *)((u8 *)arg0 + 0x90));
@@ -231,8 +231,8 @@ clear_8000000:
             (*(s16 *)((u8 *)arg0 + 0xB8)) = 0;
             (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
             tail_sum += amount;
-            ASM_USE_NV(tail_mode);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_TAILSLOT_PIN(tail_sum);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_USE_NV(tail_mode);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(tail_sum);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_801717E4();
             return;
         }

@@ -69,8 +69,8 @@ BODY_STORAGE void BODY_NAME(void *arg0, void *arg1, void *arg2) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5 };
     void *state_obj;
     void *owner;
-    register void *input2 ASM_REG("$16");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_s5 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *input2 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *temp_v0_2;
     void *temp_v1_2;
     void *temp_s0_2;
@@ -78,20 +78,20 @@ BODY_STORAGE void BODY_NAME(void *arg0, void *arg1, void *arg2) {
     void *sp20;
     s32 sp24;
     s32 sp28;
-    register s32 var_s6 ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 var_s7 ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 var_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 var_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     M2C_UNK var_s3;
-    register s32 temp_s2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 temp_s4 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s8 *base_y ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 var_a0 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s8 *base_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 var_s2;
     s32 temp_v0_4;
     s32 temp_v1_3;
     s16 temp_v0;
     s32 temp_v1;
     s16 var_s4;
-    register M2C_UNK temp_a0 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register M2C_UNK temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u16 header_raw;
     u16 duration;
     u16 temp_s0;
@@ -106,12 +106,12 @@ BODY_STORAGE void BODY_NAME(void *arg0, void *arg1, void *arg2) {
     header_raw = M2C_FIELD(temp_s5, u16 *, 0x2A);
     temp_s2 = header_raw >> 8;
     temp_a0 = temp_s2 & 0xE;
-    ASM_KEEP_DEP_NV(temp_a0, header_raw);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_DEP_NV(temp_a0, header_raw);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     sp20 = M2C_FIELD(temp_s5, void **, -0x14);
     sp24 = *(s16 *)(temp_a0 + base_y);
     sp28 = *(s16 *)(temp_a0 + (s8 *)&D_8006CCE8);
-    ASM_KEEP_NV(input2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(state_obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(input2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(state_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (M2C_FIELD(state_obj, s16 *, 0xA) != 1) {
         goto block_3;
     }
@@ -149,14 +149,14 @@ jt_c0:
 loop_8:
     {
         void *work = sp20;
-        register s32 cx ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+        register s32 cx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         s32 cy;
         cx = (M2C_FIELD(work, u8 *, 0x24) + var_s6) << 6;
         coord_x = cx + 0x20;
         cy = (M2C_FIELD(work, u8 *, 0x25) + var_s7) << 6;
         coord_y = cy + 0x20;
-        ASM_KEEP_NV(coord_x);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP_NV(coord_y);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_NV(coord_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400), (s16) M2C_FIELD(temp_s5, u16 *, 0x2A), M2C_FIELD(temp_s5, void **, 0x60)) << 0x10) != 0) {
         goto block_10;
@@ -168,8 +168,8 @@ loop_8:
         goto loop_8;
     }
 block_10:
-    ASM_USE(coord_x);   /* MATCH pin: retail register colouring depends on it */
-    ASM_USE2(coord_x, coord_y);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_USE2(coord_x, coord_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
         void *work = sp20;
         M2C_FIELD(temp_s5, u8 *, 0x72) = (u8) (M2C_FIELD(work, u8 *, 0x24) + (sp24 * var_s3));
@@ -200,10 +200,10 @@ block_13:
         work_y = M2C_FIELD(work, u8 *, 0x25);
         temp_s2 = actor_x - work_x;
         temp_s4 = actor_y - work_y;
-        ASM_KEEP(work_y);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(work_x);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(actor_y);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(actor_x);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(work_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(work_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(actor_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(actor_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
     var_s3 = temp_s2;
     if (temp_s2 >= 0) {

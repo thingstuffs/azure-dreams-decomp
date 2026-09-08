@@ -29,10 +29,10 @@ s32 func_800403EC(Struct800403EC *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
     Struct800403EC *ptr = arg0;
     s32 temp_arg1 = arg1;
     s32 temp_arg2 = arg2;
-    register s32 off0 ASM_REG("$4") = 0x15A40;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 off0 ASM_REG("$4") = 0x15A40;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 off1 = 0x22AB0;
-    register s32 off2 ASM_REG("$6") = 0x10040;   /* MATCH pin: retail immediate-load split depends on it */
-    register u8 *base ASM_REG("$3") = D_80189390[0];   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 off2 ASM_REG("$6") = 0x10040;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u8 *base ASM_REG("$3") = D_80189390[0];   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 flags = D_801781E0[0];
     void *temp_a1;
 
@@ -44,12 +44,12 @@ s32 func_800403EC(Struct800403EC *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
     ptr->unk04 = temp_a1;
     ptr->unk0C = base + off2;
     if (flags & 1) {
-        register s32 temp_wide ASM_REG("$2") = 0x1E0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 temp_wide ASM_REG("$2") = 0x1E0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 dead_h = 0xF0;
 
         ptr->unk14 = temp_wide;
         ptr->unk1C = temp_wide;
-        ASM_KEEP(dead_h);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(dead_h);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         func_80176C7C(arg4, temp_a1, off2);
         return 0x18;
     }

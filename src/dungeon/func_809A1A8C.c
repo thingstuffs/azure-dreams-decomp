@@ -32,7 +32,7 @@ void func_8017328C(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 table_off;
     s32 table_idx;
     s32 object_type;
-    register s32 count ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 count ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 next_count;
     u16 flags;
     s32 state;
@@ -67,7 +67,7 @@ state_zero:
         func_8009C12C(arg3, arg2, S16(arg3, 0x2A), 1);
         return;
     }
-       /* MATCH pin: retail basic-block layout depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if ((flags & 0x6000) == 0) {
         goto done;
     }
@@ -75,10 +75,10 @@ state_zero:
     if (S16(arg0, 0x92) != 0) {
         goto done;
     }
-    ASM_KEEP_NV(byte_table);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(byte_table);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     byte_table += 0x5E88;
     phase_page = (u8 *)0x80080000;
-    ASM_KEEP(phase_page);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(phase_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     PTR(arg2, 0x2C) = byte_table;
     table_idx = (*(s16 *)(phase_page + 0x3228) + S16(arg3, 0x2A) + 0x100) >> 9;
     table_idx &= 7;
@@ -91,14 +91,14 @@ state_zero:
 
 state_one:
 {
-    register u8 *direction_base ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *direction_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 active_x;
     s32 active_y;
     s32 limit;
     s32 raw_y;
 
     direction_base = (u8 *)0x80070000;
-    ASM_KEEP_NV(direction_base);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(direction_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     count = U16(arg0, 0x96);
     direction_base -= 0x3328;
     next_count = count + 1;
@@ -107,10 +107,10 @@ state_one:
     table_off = (U16(arg3, 0x2A) >> 8) & 0xE;
     count = (u32)count < 8U;
     direction_base = (u8 *)(table_off + (s32)direction_base);
-    ASM_KEEP_NV(direction_base);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(direction_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     delta_x = *(s16 *)direction_base;
     direction_base = (u8 *)0x80070000;
-    ASM_KEEP_NV(direction_base);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(direction_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     direction_base -= 0x3318;
     table_off = table_off + (s32)direction_base;
     raw_y = *(s16 *)table_off;
@@ -121,8 +121,8 @@ state_one:
     if (count) {
         active_x = S32(arg1, 0xC) - delta_x;
         active_y = S32(arg1, 0x10) - delta_y;
-        ASM_KEEP(active_x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_TAILSLOT_PIN_TIED(active_y);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(active_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN_TIED(active_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_80173420();
     }
     limit = (s16)next_count;
@@ -131,7 +131,7 @@ state_one:
         S32(arg1, 0x10) += delta_y;
         func_80173438();
     }
-    ASM_CLOBBER("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S32(arg1, 0x14) = 0;
     S32(arg1, 0x10) = 0;
     S32(arg1, 0xC) = 0;
@@ -155,10 +155,10 @@ after_c12c:
         if ((U16(arg2, 0x14) & 0xE000) == 0) {
             goto done;
         }
-        ASM_KEEP_NV(byte_table);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(byte_table);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         byte_table += 0x5EB8;
         phase_page = (u8 *)0x80080000;
-        ASM_KEEP(phase_page);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(phase_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         PTR(arg2, 0x2C) = byte_table;
         table_idx = (*(s16 *)(phase_page + 0x3228) + S16(arg3, 0x2A) + 0x100) >> 9;
         table_idx &= 7;
@@ -182,9 +182,9 @@ state_two:
     }
     func_800AD594(arg3, 0x100);
     PTR(arg0, 0x8C) = D_801710EC;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     global_page = (u8 *)0x80080000;
-    ASM_KEEP(global_page);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S32(global_page, 0x346C) = 0;
     U16(arg3, 0x46) &= 0x7FFF;
     func_800A4ACC(arg3);

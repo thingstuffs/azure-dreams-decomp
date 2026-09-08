@@ -35,7 +35,7 @@ void func_80042560(CallbackObject *object)
     CallbackGlobals *globals = &D_80013714;
     u16 saved_flags;
 
-    ASM_KEEP(initial_type);   /* MATCH pin: slus-diff */
+    ASM_KEEP(initial_type);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     saved_flags = globals->flags;
     globals->flags = saved_flags | 2;
     func_80042518(object, initial_type);

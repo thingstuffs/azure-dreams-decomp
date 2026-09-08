@@ -21,16 +21,16 @@ s32 func_800AC1B0(s16 arg0, s16 arg1, s16 arg2, s32 arg3) {
     s32 var_a3;
     s16 temp_v0;
     s16 temp_v0_2;
-    register s16 var_s2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 var_s3 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s16 var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 temp_a1;
     s32 temp_s5;
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 var_s4 ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_v0;
     s32 var_v0_2;
     s32 arg0_shift;
-    register s32 var_s7 ASM_REG("$23");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 *temp_s8;
     u8 *table_base;
 

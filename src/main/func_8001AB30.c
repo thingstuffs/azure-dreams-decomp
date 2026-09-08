@@ -17,7 +17,7 @@ s32 func_8001AB30(s32 arg0) {
     s32 result;
 
     count = 0;
-    ASM_KEEP(count);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     func_80408654(0);
     func_80408654(1);
     func_80401578();
@@ -29,7 +29,7 @@ s32 func_8001AB30(s32 arg0) {
     result = func_8040153C();
     if (result == 0) {
         count++;
-        ASM_KEEP(count);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         func_800702F0(0);
         return func_80401B80();
     }

@@ -65,7 +65,7 @@ void func_80173A08(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 timer;
     s32 flags;
     s32 index;
-    register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *global_base;
     u8 *map_base;
 
@@ -150,7 +150,7 @@ state_two:
     }
 
     entity_mask = 0x08000000;
-    ASM_KEEP(entity_mask);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(entity_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80173A08_0 *)arg0)->unk_90 = 0;
     ((S_80173A08_0 *)arg0)->unk_98 &= 0xFFF7;
     ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 |= entity_mask;

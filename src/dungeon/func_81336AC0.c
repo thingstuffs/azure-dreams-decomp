@@ -43,22 +43,22 @@ void func_8016DAC0(Rec_func_800A9E70_arg0 *arg0, void *arg1, void *arg2, Rec_D_8
 
 table_0:
     temp_a1 = (u8 *)0x80170000;
-    ASM_KEEP(temp_a1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_a1 += 0x39E0;
     goto dispatch;
 table_1:
     temp_a1 = (u8 *)0x80170000;
-    ASM_KEEP(temp_a1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_a1 += 0x39E8;
     goto dispatch;
 table_2:
     temp_a1 = (u8 *)0x80170000;
-    ASM_KEEP(temp_a1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_a1 += 0x39F0;
     goto dispatch;
 table_3:
     temp_a1 = (u8 *)0x80170000;
-    ASM_KEEP(temp_a1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_a1 += 0x39F8;
 
 dispatch:

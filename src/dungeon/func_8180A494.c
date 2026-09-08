@@ -109,7 +109,7 @@ void func_80025C94(void *arg0, void *arg1, void *arg2) {
     s32 var_a0_3;
     s32 var_a0_4;
     u16 *temp_table;
-    register S_80025C94_1 *temp_a3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register S_80025C94_1 *temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_80025C94_0 *temp_s0;
     S_80025C94_2 *temp_s1;
     S_80025C94_3 *temp_s2;
@@ -234,7 +234,7 @@ block_after_92:
     temp_v0_3 = 0x400;
 block_store_2a:
     temp_s0->unk_2A = temp_v0_3;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s0->unk_5C(temp_a3, temp_s2, temp_s1, temp_a3);
     temp_s2->unk_00.at02.v = (u16) (temp_s2->unk_00.at02.v - 0x100);
     temp_s2->unk_04.at02.v = (u16) (temp_s2->unk_04.at02.v - 0x100);

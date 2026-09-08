@@ -52,15 +52,15 @@ void func_806D85A0(void) {
     s32 var_s2;
     s32 var_s4;
     s32 var_s5;
-    register s32 var_s7 ASM_REG("$23");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v0;
     s32 call_a0;
-    register s32 call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 call_a2;
-    register void *temp_v1 ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_func ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_func ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *temp_s0;
-    register void *temp_s3 ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *var_s6;
 
     temp_s0 = ((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_38;
@@ -74,19 +74,19 @@ void func_806D85A0(void) {
         var_s7 = 0;
     }
     call_a0 = 4;
-    ASM_KEEP_NV(call_a0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     call_a1 = call_a0;
     call_a2 = 0;
-    ASM_KEEP_NV(call_a1);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP_NV(call_a2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(call_a2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     temp_func = (void *)0x80010000;
-    ASM_KEEP_NV(temp_func);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(temp_func);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_v1 = ((S_806D85A0_1 *)temp_func)->unk_6000;
     var_s4 = call_a2;
     temp_func = ((S_806D85A0_2 *)temp_v1)->unk_20;
     var_s5 = var_s7 * 8;
     temp_func = ((S_806D85A0_1 *)temp_func)->unk_2D0;
-    ASM_KEEP(temp_func);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(temp_func);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     var_s6 = temp_s0;
     ((M2C_UNK (*)(M2C_UNK, M2C_UNK, M2C_UNK))temp_func)(call_a0, call_a1, call_a2);
     do {
@@ -95,7 +95,7 @@ void func_806D85A0(void) {
             s16 *temp_fp;
 
             temp_func = (void *)0x80020000;
-            ASM_KEEP_NV(temp_func);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP_NV(temp_func);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             temp_fp = (s16 *)((s8 *)temp_func - 0x7020);
 loop_6:
             if (((S_806D85A0_3 *)(var_s6 + var_s2))->unk_3640 != 0) {

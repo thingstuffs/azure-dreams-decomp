@@ -134,7 +134,7 @@ void func_80171014(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
 
-           /* MATCH pin: retail delay-slot fill depends on it */
+           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         {
             u8 current_state = ((S_80171014_0 *)arg0)->unk_9A;
             u32 actor_state = 0xE;

@@ -424,14 +424,14 @@ void func_80020DF0(void *arg0, void *arg1, void *arg2)
                 ((S_80020DF0_2 *)arg1)->unk_08.at00.v = 0x200000;
             }
             {
-                register s32 ax ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+                register s32 ax ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 ax = ((S_80020DF0_2 *)arg1)->unk_00;
                 ax = ax - 0x03A00000;
                 if (ax < 0) {
                     ax = -ax;
                 }
-                ASM_KEEP(ax);   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_KEEP(ax);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 if (ax <= 0x80000 && ((S_80020DF0_0 *)arg0)->unk_6C.u < 0) {
                     ((S_80020DF0_1 *)actor)->unk_2A |= 2;
                     ((S_80020DF0_2 *)arg1)->unk_14 = 0;

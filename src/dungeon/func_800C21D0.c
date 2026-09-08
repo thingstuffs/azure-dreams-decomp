@@ -46,20 +46,20 @@ s32 func_800C7930(s32 arg0, void *arg1, s32 arg2)
     s32 index2;
     s32 result;
     u16 table_value;
-    register u16 source_x ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+    register u16 source_x ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_800C7930_2 *work;
     register u8 *camera;
-    register u8 *destination ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *destination ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *table1;
     register u8 *table2;
-    register s32 object ASM_REG("$10") = arg0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 object ASM_REG("$10") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     S_800C7930_1 *source = arg1;
 
-    ASM_KEEP_NV(object);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP_NV(source);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     camera = &D_80083780;
-    ASM_CLOBBER("$7");   /* MATCH pin: retail register colouring depends on it */
-    ASM_KEEP(camera);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(camera);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     delta = ((S_800C7930_0 *)camera)->unk_02;
     source_coord = source->unk_02.s;
     source_x = source->unk_02.u;

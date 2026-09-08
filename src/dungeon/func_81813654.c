@@ -4,7 +4,7 @@ extern u32 D_80029548;
 extern u32 D_8002954C;
 
 void *func_80028654(void *a0, void *a1) {
-    register u32 type ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register u32 type ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *src = (u8 *)a1;
 
     *(u32 *)((u8 *)a0 + 4) = D_8002954C;
@@ -32,7 +32,7 @@ void *func_80028654(void *a0, void *a1) {
     *((u8 *)a0 + 0xA) = src[4];
     *((u8 *)a0 + 0xB) = src[6];
     type = 3;
-    ASM_KEEP(type);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     *((u8 *)a0 + 0) = type;
 
     a0 = (u8 *)a0 + 0xC;

@@ -134,7 +134,7 @@ void func_8008ACDC(void *arg0, void *arg1_raw, void *arg2_raw, void *arg3_raw) {
     s32 kind;
     s32 angle_target;
     s32 normalized;
-    register s32 sign_tmp ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 sign_tmp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 signed_target;
     s32 current_s;
     u32 current_u;
@@ -151,9 +151,9 @@ void func_8008ACDC(void *arg0, void *arg1_raw, void *arg2_raw, void *arg3_raw) {
     s32 var_v0_4;
     u16 *flags_page;
     s32 flags;
-    register u32 temp_v1_6 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u32 temp_v1_6 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 case88_index;
-    register void *case88_value ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *case88_value ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *case68_value;
     u8 temp_a0_2;
     u8 temp_a1_2;
@@ -164,7 +164,7 @@ void func_8008ACDC(void *arg0, void *arg1_raw, void *arg2_raw, void *arg3_raw) {
     void *temp_v0;
     void *temp_v0_2;
     void *arg1;
-    register void *arg2 ASM_REG("$20");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register void *arg2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     void *arg3;
     void *case_arg0;
     void *case_call_a0;
@@ -231,7 +231,7 @@ block_7:
         }
         if (!(((S_8008ACDC_3 *)status)->unk_02 & 4)) {
             if (((S_8008ACDC_4 *)arg3)->unk_1C & 0x20) {
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 if (!(D_80013714 & 1) && (((S_8008ACDC_5 *)data)->unk_08 & 0x80)) {
                     ((S_8008ACDC_4 *)arg3)->unk_8A = 2;
                     D_800E4940 = 2;
@@ -254,12 +254,12 @@ block_7:
                 if (temp_v0 != NULL) {
                     kind = ((S_8008ACDC_6 *)temp_v0)->unk_01 & 7;
                     temp_a1 = ((S_8008ACDC_4 *)arg3)->unk_2A.s;
-                    ASM_KEEP_NV(kind);   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_KEEP_NV(kind);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     kind &= 0xFF;
                     temp_a0 = kind << 9;
                     sign_tmp = temp_a1 & 0xFFF;
                     angle_target = temp_a0;
-                    ASM_KEEP_NV(angle_target);   /* MATCH pin: retail delay-slot fill depends on it */
+                    ASM_KEEP_NV(angle_target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     ((S_8008ACDC_4 *)arg3)->unk_2A.s = sign_tmp;
                     if (sign_tmp != angle_target) {
                         normalized = temp_a1 & 0x800;
@@ -278,7 +278,7 @@ block_7:
                         temp_a0 = normalized;
                         sign_tmp = temp_a0 << 16;
                         signed_target = sign_tmp >> 16;
-                        ASM_MEM_BARRIER();   /* MATCH pin: retail register colouring depends on it */
+                        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                         current_s = ((S_8008ACDC_4 *)arg3)->unk_2A.u;
                         current_u = ((S_8008ACDC_4 *)arg3)->unk_2A.s;
                         var_v0_3 = current_s - signed_target;
@@ -336,14 +336,14 @@ call_C7B4:
                         u8 case50_byte;
                         s32 case50_bits;
                         s32 case50_kind;
-                        register void *case50_value ASM_REG("$5");   /* MATCH pin: retail keeps a computation the compiler would drop */
+                        register void *case50_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
                         case50_byte = ((S_8008ACDC_6 *)temp_v0)->unk_00;
                         case50_bits = case50_byte & 0x60;
                         temp_v0 = (void *) ((u32) case50_bits >> 5);
                         case50_value = func_8009FADC(case50_byte & 0x1F, temp_a1);
                         case50_kind = 0x15;
-                        ASM_KEEP_NV(case50_kind);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_KEEP_NV(case50_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         case50_bits = (s32) temp_v0 << 2;
                         case50_bits = case50_bits + (s32) arg0;
                         if (func_80098920(((S_8008ACDC_7 *)((void *) case50_bits))->unk_AC, case50_value, case50_kind, 0) >= 0) {
@@ -373,7 +373,7 @@ call_F988:
                         case88_index = temp_v1_6 << 2;
                         case88_index = case88_index + (s32) case_call_a0;
                         case88_value = (void *) ((S_8008ACDC_8 *)((void *) case88_index))->unk_D0;
-                        ASM_KEEP(case88_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_KEEP(case88_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         case_call_a2 = arg2;
 call_94270:
                         func_80094270(case_call_a0, case_call_a1, case_call_a2, case88_value, temp_v1_6);
@@ -486,7 +486,7 @@ block_163:
                             }
                         } else {
 block_176:
-                            ASM_MEM_BARRIER();   /* MATCH pin: retail register colouring depends on it */
+                            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                             if (D_80013714 & 9) {
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A4.as_u16 = 0U;
                             }

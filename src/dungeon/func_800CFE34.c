@@ -28,33 +28,33 @@ extern u8 D_800E2460[];
 
 void func_800D5594(void *arg0, void *arg1, void *arg2)
 {
-    register u8 *owner ASM_REG("$19") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *owner ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *dst = arg1;
     u8 *entity = arg2;
-    register u8 *record ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *record ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *effect;
     u8 *kind;
-    register u8 *coords ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *coords ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *effect_data;
     u8 *table;
-    register s32 index ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 comparison_index ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 comparison_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *saved_effect;
     void *type;
     s32 direction_index;
-    register s32 computed_index ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 computed_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 effect_angle;
     u16 effect_angle_bits;
 
-    ASM_KEEP(owner);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(dst);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(entity);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     record = PTR(owner, 0xAC);
     effect = record + 0x20;
-    ASM_KEEP(effect);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     effect_data = PTR(effect, 0x1C);
     kind = PTR(record, 0xC);
-    ASM_KEEP(kind);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(kind);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     coords = PTR(record, 8);
 
     func_800A020C(effect_data, entity + 0xC);

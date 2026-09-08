@@ -69,13 +69,13 @@ void func_81977D08(S_81977D08_4 *arg0, S_81977D08_3 *arg1)
 
     temp_v0 = func_8003FD64(0x212, &D_80083498);
     if (temp_v0 != NULL) {
-        register void *call_a1 ASM_REG("$5") = &D_800DEB70;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register void *call_a1 ASM_REG("$5") = &D_800DEB70;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-        ASM_KEEP_NV(call_a1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v0->unk_10 = &D_8002548C;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
-            register s32 color ASM_REG("$2") = 0x80;   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register s32 color ASM_REG("$2") = 0x80;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
             temp_s0 = temp_v0->unk_0C;
             {

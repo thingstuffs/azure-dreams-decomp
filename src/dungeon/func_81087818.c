@@ -78,9 +78,9 @@ state0:
     void *source;
     s32 base_x;
     s32 base_y;
-    register s32 diff1_x ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 diff1_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 diff1_y;
-    register u32 value ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *direction_table;
     s32 actor_coord;
 
@@ -101,7 +101,7 @@ state0:
             ((*(s16 *)((u8 *)D_8006CCE8 + value) + 1) * 32);
         FIELD(arg0, u16, 0x32) = FIELD(&base, u16, 0xA);
 
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         diff1_x = FIELD(arg0, s16, 0x2A);
         base_x = FIELD(&base, s16, 2);
         base_y = FIELD(&base, s16, 6);
@@ -135,7 +135,7 @@ state0:
         s32 i = 1;
         s32 diff_x;
         s32 diff_y;
-        register s32 diff_z ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 diff_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         u8 *delta_scan;
         s32 case2_base_x;
         s32 case2_base_y;
@@ -149,7 +149,7 @@ state0:
         FIELD(arg0, s32, 0x2C) = position[1];
         height = D_800DDC40[FIELD(FIELD(FIELD(arg0, void *, 0x4C), void *, 0x60), u8, 0x13)];
         position_z = position[2];
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         diff_x = FIELD(arg0, s16, 0x2A);
         FIELD(arg0, s32, 0x30) = position_z - (height << 15);
 
@@ -167,9 +167,9 @@ state0:
         delta[1] = diff_y;
         diff_z = FIELD(arg0, s16, 0x32);
         case2_base_z = FIELD(&base, s16, 0xA);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         delta_scan = (u8 *)&base + 2;
-        ASM_KEEP_NV(diff_z);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(diff_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         diff_z -= case2_base_z;
         if (diff_z < 0) {
             diff_z = -diff_z;
@@ -228,7 +228,7 @@ state1:
         arg1->dx = (base.x - arg1->x) >> (FIELD(arg0, s16, 4) + 1);
         arg1->dy = (base.y - arg1->y) >> (FIELD(arg0, s16, 4) + 1);
         final_dz = (base.z - arg1->z) >> (FIELD(arg0, s16, 4) + 1);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         next_state = 3;
         arg1->dz = final_dz;
     } else {
@@ -273,13 +273,13 @@ state2:
 
     trig_value = func_800644B8(FIELD(arg0, s16, 6));
     trig_value2 = func_800644B8(FIELD(arg0, s16, 8));
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     trig_value >>= 4;
     trig_value2 >>= 4;
     arg1->x = FIELD(arg0, s32, 0x28) + ((trig_value * trig_value2) << 5);
     trig_value = func_800644B8(FIELD(arg0, s16, 6));
     trig_value2 = func_80064584(FIELD(arg0, s16, 8));
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     trig_value >>= 4;
     trig_value2 >>= 4;
     arg1->y = FIELD(arg0, s32, 0x2C) + ((trig_value * trig_value2) << 5);

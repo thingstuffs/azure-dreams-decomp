@@ -52,10 +52,10 @@ void func_80174260(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *base;
     s32 effect;
 
-    ASM_KEEP(p0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(p3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     U16_AT(p0, 0xA0)--;
     state = U8_AT(p0, 0x9B);
 
@@ -68,7 +68,7 @@ void func_80174260(void *arg0, void *arg1, void *arg2, void *arg3) {
         }
         return;
     }
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_two;
     }
@@ -108,7 +108,7 @@ state_zero:
         }
         func_800A56E0(0x815);
         {
-            register s32 end_timer ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 end_timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             (void)*(volatile u8 *)((u8 *)p0 + 0x9B);
             end_timer = 0x1E;

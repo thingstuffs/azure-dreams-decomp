@@ -22,7 +22,7 @@ void *func_80026ED0(s32 arg0, s32 arg1)
     temp_s1 = (u8 *)base + 0x20;
     if (func_8004B4A8(base) == 0) {
         base = func_8003FE78(0, base, 0x45);
-           /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8004491C(base, D_80027DD0);
     } else {
         func_80026FB4(base);
@@ -31,9 +31,9 @@ void *func_80026ED0(s32 arg0, s32 arg1)
     }
     func_80026DF0(temp_s1, 4);
     {
-        void *body = temp_s1;   /* MATCH pin: retail keeps a computation the compiler would drop */
+        void *body = temp_s1;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
-           /* MATCH pin: load-bearing for the whole function shape */
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         *(void **)((u8 *)base + 0xC) = (u8 *)body + 0x50;
         *(s32 *)((u8 *)body + 0x5C) = func_80026DC8((u8 *)body + 0x60);
         *(s32 *)((u8 *)body + 0x24) = arg1;

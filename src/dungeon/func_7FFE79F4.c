@@ -85,7 +85,7 @@ extern u16 D_80094422;
 extern M2C_UNK D_8010AA44;
 
 void func_7FFE79F4(void *arg0, void *arg1, M2C_UNK arg2) {
-    register s32 product ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 product ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_s4;
     u16 temp_v0;
     u16 temp_v0_3;

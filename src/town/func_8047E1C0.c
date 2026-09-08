@@ -14,7 +14,7 @@ typedef void (*TownCall)(s32, s32, void *);
 void func_8047E1C0(void) {
     void *first_value;
     s32 arg0;
-    register void *dispatch ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *dispatch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     arg0 = 0x3B0;
     first_value = &D_8001802A;

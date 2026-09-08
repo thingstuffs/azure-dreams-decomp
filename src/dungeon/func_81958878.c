@@ -86,7 +86,7 @@ void func_80024078(State *arg0)
         s32 rect[2];
         s32 phase;
         s32 duration;
-        register void *parent ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register void *parent ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         void *object;
         void *child;
 
@@ -105,7 +105,7 @@ void func_80024078(State *arg0)
         ((Rec_D_800814A8 *)D_800814A8)->unk_102 = 1;
 
         arg0->state++;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if ((*arg0->field_4 & 0x80) == 0) {
             break;
         }
@@ -119,10 +119,10 @@ void func_80024078(State *arg0)
 
         duration = 0x20;
         {
-            register s16 discarded_state ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s16 discarded_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             discarded_state = ((S_80024078_3 *)arg0)->unk_0A;
-            ASM_KEEP(discarded_state);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP(discarded_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         }
         phase = -1;
         arg0->timer_1A = duration;
@@ -138,7 +138,7 @@ void func_80024078(State *arg0)
         }
         arg0->timer_1C = 0x18;
         arg0->state++;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg0->timer_1C--;
         if (arg0->timer_1C >= 0xB) {
             break;

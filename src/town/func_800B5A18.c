@@ -65,7 +65,7 @@ loop_1:
         *((S_800B3178_1 *)(*var_s0))->unk_04 = var_s4;
         ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_01 = var_s4;
         ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_02 = var_s4;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         var_s0 = (void **)((s8 *)((void **)((s8 *)var_s0 + 4)));
         var_s3 += 1;
         var_s1 = (void **)((s8 *)((void **)((s8 *)var_s1 + 4)));

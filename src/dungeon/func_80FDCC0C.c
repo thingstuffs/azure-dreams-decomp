@@ -64,7 +64,7 @@ void func_8017240C(State *arg0, Motion *arg1, Actor *arg2, Entity *arg3)
 {
     s32 scratch[2];
     s32 index;
-    register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 state;
     u32 flags;
 

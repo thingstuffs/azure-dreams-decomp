@@ -55,7 +55,7 @@ void func_8004D294(void *a0, void *a1, s32 a2)
     }
     p->f_AC = sv;
     {
-      register s32 svw ASM_REG("$3") = sv;   /* MATCH pin: slus-diff */
+      register s32 svw ASM_REG("$3") = sv;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       diff = (*((s16 *) (((u8 *) a1) + 0))) - svw;
     }
     if (diff < 0)
@@ -89,7 +89,7 @@ void func_8004D294(void *a0, void *a1, s32 a2)
     }
     p->f_AE = sv;
     {
-      register s32 svw ASM_REG("$3") = sv;   /* MATCH pin: slus-diff */
+      register s32 svw ASM_REG("$3") = sv;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       diff = (*((s16 *) (((u8 *) a1) + 2))) - svw;
     }
     if (diff < 0)
@@ -123,7 +123,7 @@ void func_8004D294(void *a0, void *a1, s32 a2)
     }
     p->f_B0 = sv;
     {
-      register s32 svw ASM_REG("$3") = sv;   /* MATCH pin: slus-diff */
+      register s32 svw ASM_REG("$3") = sv;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       diff = (*((s16 *) (((u8 *) a1) + 4))) - svw;
     }
     if (diff < 0)

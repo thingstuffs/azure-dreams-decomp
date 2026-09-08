@@ -77,11 +77,11 @@ void func_80171BEC(void *arg0, S_80171BEC_3 *arg1)
     Offset3 offset;
     void *object;
     S_80171BEC_1 *render;
-    register u8 *copy_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register PackedWord *copy_source ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-    register u32 copy0 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register u32 copy1 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register u32 copy2 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register PackedWord *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 copy0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 copy1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 copy2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_80171BEC_2 *position;
     S_80171BEC_5 *owner;
 
@@ -115,9 +115,9 @@ void func_80171BEC(void *arg0, S_80171BEC_3 *arg1)
         render->unk_0D = 0x80;
         render->unk_0C = 0x80;
 
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         copy_page = (u8 *)0x80170000;
-        ASM_KEEP(copy_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         copy_source = (PackedWord *)(copy_page + 0x5EE8);
         copy0 = copy_source[0].value;
         copy1 = copy_source[1].value;
@@ -125,7 +125,7 @@ void func_80171BEC(void *arg0, S_80171BEC_3 *arg1)
         ((PackedWord *)((u8 *)object + 0x44))[0].value = copy0;
         ((PackedWord *)((u8 *)object + 0x44))[1].value = copy1;
         ((PackedWord *)((u8 *)object + 0x44))[2].value = copy2;
-        ASM_KEEP(copy2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(copy2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         render->unk_08 = (u8 *)object + 0x44;
     }
 }

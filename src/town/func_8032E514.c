@@ -30,8 +30,8 @@ void func_80018D14(u8 *arg0)
 {
     void **page;
     u8 *root;
-    register u8 *loaded_base ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register u32 raw_index ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *loaded_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u32 raw_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *call_table;
     TownCall3 call3;
     u8 *root2;
@@ -46,40 +46,40 @@ void func_80018D14(u8 *arg0)
     s32 scaled;
     s32 scaled2;
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     page = (void **)0x80010000;
     root = ((S_80018D14_0 *)page)->unk_6000;
     loaded_base = ((S_80018D14_1 *)root)->unk_38;
     objects = loaded_base + 0x2F0;
     base = loaded_base;
     raw_index = arg0[3];
-    ASM_KEEP(raw_index);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(raw_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     index = raw_index & 0x1F;
 
     if (arg0[0] != objects[index * 0x54 + 0x13]) {
         call_table = ((S_80018D14_1 *)root)->unk_20;
         call3 = (*(TownCall3 *)((u8 *)call_table + 0x168));
-        ASM_KEEP(call3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(call3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call3(D_80016034, D_8001605C, 0x41);
         root2 = ((S_80018D14_0 *)page)->unk_6000;
         call_table2 = ((S_80018D14_2 *)root2)->unk_20;
         call1 = (*(TownCall1 *)((u8 *)call_table2 + 0x174));
         call1(1);
-        ASM_KEEP(index);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 
     scaled = index * 4;
     record = (u8 *)((u32)(((scaled + index) * 4 + index) * 4) +
                     (u32)objects);
     record[0x13] = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     raw_final = record[0x43];
     index = raw_final & 0x3F;
     scaled2 = index * 4;
     small = base + scaled2;
     small[0x980] = 0;
     small[0x981] = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     record = (((scaled2 + index) * 4 + index) * 4) + base;
     record[0xA93] = 0;
 }

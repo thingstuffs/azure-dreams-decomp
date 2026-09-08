@@ -69,13 +69,13 @@ typedef struct S_80170BB8_4 {
 
 void func_80170BB8(void *input0, void *input1, void *input2)
 {
-    register u8 *actor ASM_REG("$18") = input0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u8 *actor ASM_REG("$18") = input0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *motion = input1;
     u8 *entity = input2;
-    register u8 *subject ASM_REG("$19") = actor;   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *part ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *sprite ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 work ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *subject ASM_REG("$19") = actor;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *part ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 work ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 global_flags;
     u16 *global_flags_ptr = (u16 *)0x80080000;
     u8 *part_base;
@@ -85,21 +85,21 @@ void func_80170BB8(void *input0, void *input1, void *input2)
     s32 ground;
     s32 correction;
     s16 reset_offset;
-    register s32 velocity_limit ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u32 velocity_raw ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 velocity_limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 velocity_raw ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 velocity_current;
-    register s32 velocity_ground ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 velocity_ground ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(global_flags_ptr);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(global_flags_ptr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     part_base = (*(u8 * *)((u8 *)actor + 0xA4));
-    ASM_KEEP(part_base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(part_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     global_flags = global_flags_ptr[0x1A31];
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     part = part_base + 0x20;
 
-    ASM_KEEP(actor);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(subject);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(sprite);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(subject);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     global_flags &= 0x2000;
     sprite = part_base + 0x28;
@@ -116,16 +116,16 @@ void func_80170BB8(void *input0, void *input1, void *input2)
 
     {
         void *call0 = actor;
-        register void *call1 ASM_REG("$5") = motion;   /* MATCH pin: retail register colouring depends on it */
-        register void *call2 ASM_REG("$6") = entity;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register void *call1 ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register void *call2 ASM_REG("$6") = entity;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         void *call3;
-        register u32 old_state ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register u32 old_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         old_state = (*(u8 *)((u8 *)actor + 0x6D));
         call3 = actor;
         old_state <<= 24;
-        ASM_KEEP(call0);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP(call3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(call3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         work = (s32)old_state >> 24;
         if (func_800A9E70(call0, call1, call2, call3) != 0) {
             goto done;
@@ -235,14 +235,14 @@ void func_80170BB8(void *input0, void *input1, void *input2)
     entity_flags = ((S_80170BB8_4 *)entity)->unk_14;
     if (!(entity_flags & 0x8000)) {
         {
-            register s32 direction_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 direction_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             direction_value =
                 D_80083228[0] + ((S_80170BB8_1 *)subject)->unk_2A + 0x100;
             work = (direction_value >> 9) & 7;
         }
         {
-            register s32 direction_copy ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register s32 direction_copy ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
             if ((*(s16 *)((u8 *)actor + 0x94)) != (direction_copy = work)) {
                 func_80047738(entity,
@@ -293,7 +293,7 @@ void func_80170BB8(void *input0, void *input1, void *input2)
                 velocity_raw = (*(volatile u16 *)((u8 *)actor + 0x92));
                 velocity_limit = velocity_ground - 0x18;
                 if (velocity_limit < velocity_current) {
-                    register u32 adjusted ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                    register u32 adjusted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                     adjusted = velocity_raw - 8;
                     (*(u16 *)((u8 *)actor + 0x92)) = adjusted;
@@ -353,7 +353,7 @@ ground_reset:
             velocity_raw = (*(volatile u16 *)((u8 *)actor + 0x92));
             velocity_limit = velocity_ground - 0x18;
             if (velocity_limit < velocity_current) {
-                register u32 adjusted ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register u32 adjusted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 adjusted = velocity_raw - 8;
                 (*(u16 *)((u8 *)actor + 0x92)) = adjusted;
@@ -365,7 +365,7 @@ adjust_velocity:
                 goto final_collision;
             }
             {
-                register u32 adjusted ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register u32 adjusted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 adjusted = velocity_raw + 8;
                 (*(u16 *)((u8 *)actor + 0x92)) = adjusted;
@@ -393,8 +393,8 @@ final_collision:
     ((S_80170BB8_4 *)entity)->unk_14 |= 0x40;
 
 done:
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(entity);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(sprite);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    ASM_KEEP(work);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

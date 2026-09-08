@@ -62,15 +62,15 @@ void func_80173AD4(void *arg0, void *arg1, void *arg2, void *arg3) {
     M2C_UNK var_a2;
     s32 temp_v0;
     s32 temp_ret;
-    register void *temp_a0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 temp_a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 temp_byte;
     u8 call_a0;
     u8 call_a1;
     s32 call_flags;
     void *var_s1 = arg3;
     void *var_s0;
-    void *var_s2;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *var_s2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *var_s3;
 
     temp_byte = ((S_80173AD4_0 *)var_s1)->unk_71;
@@ -104,10 +104,10 @@ void func_80173AD4(void *arg0, void *arg1, void *arg2, void *arg3) {
         temp_ret = func_800990FC();
         temp_a0 = var_s1;
         temp_a1 = temp_ret;
-        ASM_KEEP(temp_a1);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         temp_v0 = temp_a1;
         func_80099290(func_80099194(&D_80170854, func_80099734(temp_a0, temp_a1)));
-        ASM_KEEP(var_s1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_800A5720(temp_v0);
     }
 }

@@ -33,14 +33,14 @@ void func_800B8B00(s32 arg0) {
     s16 temp_a0;
     s32 *var_a1;
     s32 *var_a1_2;
-    register s32 var_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s32 var_a0_2 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 var_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_a2;
     S_800B8B00_0 *temp_v1;
     S_800B8B00_1 *temp_v1_2;
     u8 *page;
     u8 *page2;
-    register volatile u8 *store_base ASM_REG("$1");   /* MATCH pin: retail register colouring depends on it */
+    register volatile u8 *store_base ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     var_t0 = arg0;
     first = D_800894D0;

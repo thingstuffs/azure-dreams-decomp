@@ -32,24 +32,24 @@ extern u8 D_80083160_line[] __asm__("D_80083160");
 extern u8 D_80083160_tpage[] __asm__("D_80083160");
 void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
 {
-    register u8 *entry_value ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *entry_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *page_color;
     u8 *mesh = arg0;
     u8 *object = arg2;
     u8 *scratch = (u8 *)0x1F800000;
-    register s32 raw_depth ASM_REG("$16");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 raw_depth ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *texture;
-    register u8 *texture_data ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u32 low_mask ASM_REG("$21");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *texture_data ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u32 low_mask ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 high_mask;
     s32 depth;
     u16 object_flags;
     MATRIX matrix;
 
     entry_value = *(u8 **)(D_80083150 + 0x10);
-    ASM_KEEP_MEMDEP(entry_value, page_color, *(u8 **)(D_80083150 + 0x10));   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(mesh);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(object);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_MEMDEP(entry_value, page_color, *(u8 **)(D_80083150 + 0x10));   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(mesh);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     FIELD(scratch, u8 *, 0x24) = entry_value + 0xB0;
     FIELD(scratch, s32, 0x88) = FIELD(arg1, s16, 2);
     FIELD(scratch, s32, 0x8C) = FIELD(arg1, s16, 6);
@@ -59,7 +59,7 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
     object_flags = FIELD(object, u16, 0x14);
     object_flags |= 0x8000;
     high_mask = 0xFF000000;
-    ASM_USE_NV(high_mask);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE_NV(high_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     FIELD(object, u16, 0x14) = object_flags;
 
     func_800649A0();
@@ -76,13 +76,13 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
     func_80064BC0((u8 *)0x1F800054, (u8 *)0x1F800034);
     func_80064D80((u8 *)0x1F800054);
     func_80064CF0((u8 *)0x1F800054);
-    ASM_KEEP(scratch);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     depth = (s16)raw_depth;
     texture = FIELD(object, u8 *, 8);
     texture_data = texture + 1;
     FIELD(scratch, u16, 0x28) = FIELD(object, u16, 0x14);
-    ASM_KEEP(texture);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(texture);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if (FIELD(mesh, u8, 0x4E) != 0) {
         u8 *packet;
@@ -91,10 +91,10 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
         u8 tex_flags;
         s32 adjust;
         u8 *state;
-        register u8 **state_ref ASM_REG("$10");   /* MATCH pin: retail register colouring depends on it */
+        register u8 **state_ref ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         state_ref = (u8 **)D_80083160_quad;
-        ASM_KEEP(state_ref);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(state_ref);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         state = *state_ref;
         packet = FIELD(state, u8 *, 0x8D0);
         FIELD(state, u8 *, 0x8D0) = packet + 0x28;
@@ -158,7 +158,7 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
                 {
                     u32 helper_value;
                     helper_value = adjust + FIELD(texture_data, u16, 5);
-                    ASM_TAILSLOT_PIN(helper_value);   /* MATCH pin: retail delay-slot fill depends on it */
+                    ASM_TAILSLOT_PIN(helper_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     func_8002458C();
                 }
             }
@@ -174,7 +174,7 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
                 u32 helper_value;
                 helper_value = adjust +
                     (FIELD(texture_data, u16, 3) & 0xFF9F);
-                ASM_TAILSLOT_PIN(helper_value);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_TAILSLOT_PIN(helper_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 func_800245E4();
             }
             FIELD(packet, u16, 0x16) = FIELD(texture_data, u16, 3);
@@ -200,7 +200,7 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
                 FIELD(object, u8, 0x0F) = (flags & 4) ?
                     (tex_flags | 2) : (tex_flags & 0xFD);
             }
-            ASM_KEEP(flags);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             FIELD(packet, u32, 4) = FIELD(object, u32, 0x0C);
             FIELD(packet, u32, 0) = (FIELD(packet, u32, 0) & high_mask) |
@@ -215,7 +215,7 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
     }
 
     if (FIELD(mesh, u8, 0x4E) == 0) {
-        register u8 *packet ASM_REG("$16");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register u8 *packet ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 index;
         s32 average;
         s32 final_average;
@@ -232,16 +232,16 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
         u8 *call5;
         u8 *call6;
         u8 *call7;
-        register s32 call_a0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register s32 call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         u32 *table_entry;
         u32 packet_word;
         s32 packet_code;
-        register u8 *state ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-        register u8 **state_ref ASM_REG("$10");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 **state_ref ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         state_ref = (u8 **)D_80083160_line;
-        ASM_KEEP(state_ref);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(state_ref);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         state = *state_ref;
         packet = FIELD(state, u8 *, 0x8D0);
         FIELD(state, u8 *, 0x8D0) = packet + 0x10;
@@ -301,7 +301,7 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
             if (flags & 4) {
                 u32 helper_value;
                 helper_value = FIELD(object, u8, 0x0F) | 2;
-                ASM_TAILSLOT_PIN(helper_value);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_TAILSLOT_PIN(helper_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 func_80024854();
             }
             FIELD(object, u8, 0x0F) &= 0xFD;
@@ -310,11 +310,11 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
         call_a0 = 0;
         packet_word = FIELD(object, u32, 0x0C);
         FIELD(packet, u8, 3) = 3;
-        ASM_SET(packet_code);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SET(packet_code);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         packet_code = 0x42;
         call_a1 = 1;
         state_ref = (u8 **)D_80083160_tpage;
-        ASM_KEEP(state_ref);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(state_ref);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         FIELD(packet, u32, 4) = packet_word;
         FIELD(packet, u8, 7) = packet_code;
 
@@ -324,10 +324,10 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
         table_entry = (u32 *)
             (((u32)FIELD(scratch, s32, 0x100) << 2) +
              (u32)FIELD(scratch, u32 *, 0x24));
-        ASM_KEEP(table_entry);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(table_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         {
             u32 table_word;
-            register u32 packet_low ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register u32 packet_low ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             table_word = *table_entry;
             packet_low = (u32)packet & low_mask;
@@ -355,9 +355,9 @@ void func_8187A9A8(void *arg0, void *arg1, void *arg2, s32 arg3)
 
     if ((s8)*texture >= 0) {
         texture_data += 0x0C;
-        ASM_KEEP(texture_data);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(texture_data);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         texture += 0x0C;
-        ASM_TAILSLOT_PIN(texture);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_TAILSLOT_PIN(texture);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_800242C8();
     }
     func_80064A40();

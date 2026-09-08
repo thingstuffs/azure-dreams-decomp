@@ -26,7 +26,7 @@ extern u32 D_80084878[];
 void func_80055ADC(S_80055ADC_arg0 *a0, u32 a1)
 {
   int new_var;
-  register u32 idx ASM_REG("$5") = a1;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  register u32 idx ASM_REG("$5") = a1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   u8 *base;
   u32 off = 0x14;
   s32 count;

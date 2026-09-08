@@ -68,12 +68,12 @@ s32 func_801732A4(Entity *arg0, s32 arg1, Aux *arg2)
 {
     s32 angle_out[2];
     Entity *ent;
-    register s32 saved_arg1 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 saved_arg1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Aux *aux;
-    register Entity *ent_arg3 ASM_REG("$19");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register Entity *ent_arg3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *script;
     s32 code;
-    register s32 raw_kind ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register s32 raw_kind ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 selector;
     s32 next_state;
     s32 kind;
@@ -93,17 +93,17 @@ s32 func_801732A4(Entity *arg0, s32 arg1, Aux *arg2)
     saved_arg1 = arg1;
     aux = arg2;
     ent_arg3 = ent;
-    ASM_KEEP(ent);   /* MATCH pin: retail schedule: same instructions, different order without it */
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(ent);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 top:
     if (aux->flags14 & 0x40) {
         goto return_zero;
     }
     script = D_80175DC4;
     code = script[1];
-    ASM_KEEP(code);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(code);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     raw_kind = code & 0xFF;
-    ASM_KEEP(raw_kind);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(raw_kind);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if (raw_kind == 0) {
         ent->fieldAF = 0;
         goto common;
@@ -115,13 +115,13 @@ top:
         D_80175DC4 = script + 2;
         D_80175DC8 = 0;
     }
-    ASM_KEEP(script);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(script);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     old_flags = ent_arg3->flags46;
     ent_arg3->angle = (s16)((code & 7) << 9);
     dispatch_d8 = 0xD8;
     ent_arg3->flags46 = (u16)(old_flags | 0x8000);
     kind = raw_kind & 0xF8;
-    ASM_KEEP(raw_kind);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(raw_kind);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if (kind == dispatch_d8) {
         goto case_D8;
     }
@@ -240,7 +240,7 @@ sequence_join:
         }
         angle_base = &D_80083228;
         aux->sequence = sequence;
-        ASM_KEEP(sequence);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         index = ((*angle_base + ent_arg3->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(index, sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(index, sequence), 0);
@@ -271,7 +271,7 @@ case_F8_state0:
         }
         angle_base = &D_80083228;
         aux->sequence = f8_sequence;
-        ASM_KEEP(f8_sequence);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(f8_sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         index = ((*angle_base + ent_arg3->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(index, f8_sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(index, f8_sequence), aux->field04);
@@ -290,11 +290,11 @@ case_F8_state1:
         }
         next_state = 2;
         sequence = D_801739B0;
-        ASM_KEEP(sequence);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         angle_base = &D_80083228;
         ent->animation = next_state;
         aux->sequence = sequence;
-        ASM_KEEP(sequence);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         index = ((*angle_base + ent_arg3->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(index, sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(index, sequence), 0);
@@ -326,7 +326,7 @@ case_E0_state0:
         }
         angle_base = &D_80083228;
         aux->sequence = e0_sequence;
-        ASM_KEEP(e0_sequence);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(e0_sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         index = ((*angle_base + ent_arg3->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(index, e0_sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(index, e0_sequence), aux->field04);
@@ -354,11 +354,11 @@ case_E0_state1:
         }
         next_state = 3;
         sequence = D_801739B8;
-        ASM_KEEP(sequence);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         angle_base = &D_80083228;
         ent->animation = next_state;
         aux->sequence = sequence;
-        ASM_KEEP(sequence);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         index = ((*angle_base + ent_arg3->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(index, sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(index, sequence), 0);
@@ -438,11 +438,11 @@ case_C8_state1:
         ent_arg3->angle = func_800A0818(aux->x24, aux->y25,
             D_80082E80[0x24], D_80082E80[0x25], angle_out);
         c8_sequence = D_801739A0;
-        ASM_KEEP(c8_sequence);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(c8_sequence);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         angle_base = &D_80083228;
         ent->animation = 0;
         aux->sequence = c8_sequence;
-        ASM_KEEP(c8_sequence);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(c8_sequence);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         index = ((*angle_base + ent_arg3->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(index, c8_sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(index, c8_sequence), 0);

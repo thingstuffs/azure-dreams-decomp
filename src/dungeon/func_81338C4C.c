@@ -95,17 +95,17 @@ void func_8016FC4C(void *arg0, void *arg1, void *arg2) {
     u16 temp_v0_4;
     u16 temp_v0_5;
     s16 temp_v1_3;
-    register u16 var_a0_4 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u16 var_a0_4 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 temp_v1_2;
     S_8016FC4C_4 *temp_s5;
     S_8016FC4C_6 *entity;
-    register S_8016FC4C_5 *object ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register S_8016FC4C_5 *object ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *temp_v0;
     S_8016FC4C_2 *temp_v1;
     void *var_a0;
     void *var_a0_2;
     void *var_a0_3;
-    register u32 common_page ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 common_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 table_page;
     u16 table_angle;
     u32 table_ptr;
@@ -162,7 +162,7 @@ void func_8016FC4C(void *arg0, void *arg1, void *arg2) {
         temp_s5->unk_2A = func_800A0818(
             object->unk_24, object->unk_25,
             D_80082E80[0x24], D_80082E80[0x25], &sp18);
-        ASM_CLOBBER("$16");   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_v0 = 0 - (object->unk_1E.s << 6);
         var_s0 = 0;
         if (var_v0 < 0) var_v0 += 0xFFF;
@@ -205,18 +205,18 @@ void func_8016FC4C(void *arg0, void *arg1, void *arg2) {
         if (((s16)temp_v0_4 == 3) || ((s16)temp_v0_4 == 6) || ((s16)temp_v0_4 == 9) || ((s16)temp_v0_4 == 0xC)) {
             var_a0_4 = temp_s5->unk_2A;
             temp_v1_3 = var_a0_4 - 0x200;
-            ASM_KEEP(var_a0_4);   /* MATCH pin: retail branch polarity depends on it */
+            ASM_KEEP(var_a0_4);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
             if (temp_v1_3 < 0) var_a0_4 = temp_v1_3 + 0x1000;
             else var_a0_4 = temp_v1_3;
             temp_s5->unk_2A = var_a0_4;
         }
         if ((s16)((S_8016FC4C_3 *)arg0)->unk_96 < 0xE) goto common_tail;
         temp_case4_state = ((S_8016FC4C_3 *)arg0)->unk_9A;
-        ASM_KEEP(temp_case4_state);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_case4_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         table_page = 0x80170000U;
-        ASM_KEEP(table_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_8016FC4C_3 *)arg0)->unk_96 = 0U;
-        ASM_KEEP(temp_case4_state);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_case4_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_case4_state = (u8)(temp_case4_state + 1);
         ((S_8016FC4C_3 *)arg0)->unk_9A = temp_case4_state;
         table_angle = temp_s5->unk_2A;
@@ -252,18 +252,18 @@ void func_8016FC4C(void *arg0, void *arg1, void *arg2) {
     }
 common_tail:
     common_page = 0x80170000;
-    ASM_KEEP(common_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(common_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (((S_8016FC4C_8 *)((u8 *)common_page))->unk_5D50 != 0) {
         s32 compare_state;
         s32 current_state;
         common_page = 0x80080000U;
-        ASM_KEEP(common_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(common_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         common_page = (u32)(s32)((S_8016FC4C_8 *)((u8 *)common_page))->unk_3228;
         temp_s0_3 = (((s32)common_page + (s16)temp_s5->unk_2A + 0x100) >> 9) & 7;
         current_state = ((S_8016FC4C_3 *)arg0)->unk_94;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         compare_state = temp_s0_3;
-        ASM_KEEP(compare_state);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(compare_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (current_state != compare_state) {
             func_80047738(object, *(object->unk_2C + compare_state), object->unk_04);
             ((S_8016FC4C_3 *)arg0)->unk_94 = temp_s0_3;

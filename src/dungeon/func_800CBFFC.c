@@ -13,15 +13,15 @@ s16 func_800D175C(s32 arg0, s32 arg1)
     u16 reference;
     s32 height;
     s32 rounded;
-    register s32 fallback ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 fallback ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     base = D_8008333C;
     state = base - 0x1C4;
     table = D_800EA000;
     arg1 = (s16)arg1;
     arg0 = (s16)arg0;
-    ASM_KEEP(base);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(state);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     reference = *(u16 *)(table +
         ((arg1 << *(s16 *)(base + 0x14)) + arg0) * 6 + 2);
     height = func_800BCB04(*(u16 *)(state + 0xA4),

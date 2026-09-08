@@ -68,13 +68,13 @@ extern s32 D_800814A0;
 
 void func_81876014(void *arg0, void *arg1, void *arg2) {
     s16 temp_a0;
-    register s16 temp_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    register s16 temp_a2 ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s16 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s16 temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u16 temp_v0_field;
-    register u16 temp_v1_base ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s16 temp_v1_field64 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 temp_v1_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s16 temp_v1_field64 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *temp_v1_data;
-    register s32 temp_v0_3 ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u16 temp_v0_tail;
     s16 temp_v0_4;
     s32 temp_v0;
@@ -93,33 +93,33 @@ void func_81876014(void *arg0, void *arg1, void *arg2) {
         ((S_81876014_0 *)arg0)->unk_60 = 0;
         temp_a0 = (*(volatile u16 *)((u8 *)arg0 + 0x60));
         temp_v0_field = ((S_81876014_0 *)arg0)->unk_50;
-        ASM_KEEP(temp_v0_field);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(temp_v0_field);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_81876014_0 *)arg0)->unk_62 = temp_a0;
-        ASM_KEEP(temp_v0_field);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(temp_v0_field);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         temp_v1_base = temp_v0_field;
         temp_v0_field += 0x10;
-        ASM_KEEP(temp_v0_field);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(temp_v0_field);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_81876014_0 *)arg0)->unk_52 = temp_v0_field;
         temp_v0_field = temp_v1_base;
         ((S_81876014_0 *)arg0)->unk_54 = temp_v1_base;
-        ASM_KEEP(temp_v1_base);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(temp_v1_base);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         temp_v1_field64 = temp_a0;
-        ASM_KEEP(temp_v1_field64);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_v1_field64);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_v1_field64 += 0x10;
         ((S_81876014_0 *)arg0)->unk_64 = temp_v1_field64;
         temp_v0_field += 0x10;
         ((S_81876014_0 *)arg0)->unk_56 = temp_v0_field;
         temp_v1_data = ((S_81876014_0 *)arg0)->unk_44;
-        ASM_KEEP(temp_v1_data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_v1_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v0_3 = temp_product >> 12;
         ((S_81876014_0 *)arg0)->unk_58 = temp_v0_3;
-        ASM_KEEP(temp_v0_3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_a0 = temp_v0_3;
-        ASM_KEEP(temp_a0);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(temp_a0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         temp_a1 = temp_v0_3;
-        ASM_KEEP(temp_a1);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         temp_a2 = temp_v0_3;
-        ASM_KEEP(temp_a2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_a2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_v0_tail = ((S_81876014_0 *)arg0)->unk_60;
         ((S_81876014_0 *)arg0)->unk_5A = temp_a0;
         ((S_81876014_0 *)arg0)->unk_5C = temp_a1;

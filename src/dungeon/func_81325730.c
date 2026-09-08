@@ -81,7 +81,7 @@ void func_8016CF30(DungeonState *state, Arg1 *arg1, Arg2 *arg2, Arg3 *arg3) {
         }
         return;
     }
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (stage == 2) {
         goto phase2;
     }
@@ -128,7 +128,7 @@ phase3:
 
             func_8016AD00();
             effect = D_800F93AA;
-            ASM_USE_NV(effect);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_USE_NV(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             i = 0;
             state->unk8c = D_8016B778;
             D_80083460.zero = 0;
@@ -141,7 +141,7 @@ phase3:
             state->unk9b = 0;
             for (;;) {
                 DungeonEntry *entry;
-                register u32 entryAddress ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register u32 entryAddress ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 entryAddress = (u32)(i * 4) + (u32)D_800E3D7C.entries;
                 entry = (DungeonEntry *)entryAddress;

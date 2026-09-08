@@ -46,7 +46,7 @@ extern void SetSemiTrans(S_80053604_PolyF4 *p, s32 abe);
 extern void SetDrawMode(S_80053604_TPage *p, s32 tge, s32 abe, u16 tpage, s32 unk4);
 s32 func_80053604(S_80053604_Obj *obj)
 {
-  register u32 mask_lo ASM_REG("$4");   /* MATCH pin: slus-diff */
+  register u32 mask_lo ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   register u32 mask_hi;
   u32 color;
   S_80053604_TPage *tpage;

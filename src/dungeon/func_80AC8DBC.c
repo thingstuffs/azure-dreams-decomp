@@ -76,21 +76,21 @@ extern void func_801747B8(void) __attribute__((noreturn));
 
 void func_801745BC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    register void *node ASM_REG("$16") = arg0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *node ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     OffsetTable offsets = D_80170884;
     void *head = node;
-    register void *owner ASM_REG("$17") = head;   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 key1 ASM_REG("$23") = arg1;   /* MATCH pin: retail register colouring depends on it */
+    register void *owner ASM_REG("$17") = head;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 key1 ASM_REG("$23") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register void *saved = ((S_801745BC_0_pre *)head)[-1].unk_04;
-    register void *next ASM_REG("$2") = ((S_801745BC_0 *)head)->unk_5C;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *next ASM_REG("$2") = ((S_801745BC_0 *)head)->unk_5C;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *position = ((S_801745BC_0_pre *)head)[-1].unk_00;
     s32 key2;
-    register s32 angle_arg ASM_REG("$7") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 angle_base ASM_REG("$20");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 lower ASM_REG("$21");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 shifted ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 angle_arg ASM_REG("$7") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 angle_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 lower ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(next);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     node = (u8 *)next + 0x20;
     key2 = arg2;
 
@@ -143,8 +143,8 @@ void func_801745BC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
         } while (node != head);
     }
 
-       /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(saved);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(position);   /* MATCH pin: retail register colouring depends on it */
-    ASM_KEEP(key2);   /* MATCH pin: retail register colouring depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(key2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 }

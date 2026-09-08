@@ -32,7 +32,7 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
     u8 *s2;
     u8 *s3;
     u8 *s4;
-    register s32 s1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 s5;
     s32 index;
     s32 i;
@@ -52,19 +52,19 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
         s4 = D_8006D168 + (index * 0x18);
 
         {
-            register s32 b ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register s32 b ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             s32 call_result;
             s32 first_left;
             s32 first_right;
             s32 second_left;
             s32 second_right;
             s32 second_partial;
-            register s32 second_base ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 second_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 right;
             s32 partial;
             s32 current;
             s32 old;
-            register s32 delta ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register s32 delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             call_result = func_800647A0((s5 * s3[5]) << 0xB, index);
             b = *(volatile u8 *)(s4 + 5);
             first_left = s3[5] * s5;
@@ -91,7 +91,7 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
                 second_right += 0x7FFF;
             }
             right = second_partial + (second_right >> 0xF);
-            ASM_KEEP(second_base);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(second_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             current = s2[5];
             old = current;
@@ -110,10 +110,10 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
             s32 right;
             s32 current;
             s32 old;
-            register s32 delta ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-            register s32 product ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+            register s32 delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register s32 product ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             {
-                register s32 left_byte ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+                register s32 left_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 right_byte;
                 left_byte = s3[4];
                 right_byte = s4[4];
@@ -128,7 +128,7 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
             if (right_product < 0) {
                 right_product += 0x3FF;
             }
-            ASM_KEEP_NV(work);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP_NV(work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             right = s4[4] + (right_product >> 0xA);
             current = s2[4];
             old = current;
@@ -142,15 +142,15 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
         }
 
         {
-            register s32 left_byte ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register s32 left_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 right_byte;
-            register s32 product ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+            register s32 product ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 left_product;
-            register s32 right_product ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-            register s32 right ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register s32 right_product ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register s32 right ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 current;
             s32 old;
-            register s32 delta ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register s32 delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             left_byte = s3[0];
             right_byte = s4[0];
             product = left_byte * right_byte;
@@ -177,15 +177,15 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
 
         {
             s32 decrement;
-            register s32 left_byte ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register s32 left_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 right_byte;
-            register s32 product ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+            register s32 product ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 left_product;
-            register s32 right_product ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-            register s32 right ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register s32 right_product ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register s32 right ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 current;
             s32 old;
-            register s32 delta ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register s32 delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             decrement = s1 - 1;
 
             left_byte = s3[1];
@@ -224,7 +224,7 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
             if (right_product < 0) {
                 right_product += 0x3F;
             }
-            ASM_KEEP_NV(work);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP_NV(work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             right = right_byte + (right_product >> 6);
             current += right - work;
             if ((u32) current >= 0x100) {
@@ -245,7 +245,7 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
             if (right_product < 0) {
                 right_product += 0x3FF;
             }
-            ASM_KEEP_NV(work);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP_NV(work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             right = right_byte + (right_product >> 0xA);
             current += right - work;
             if ((u32) current >= 0x100) {
@@ -256,7 +256,7 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
 
         {
             s16 height;
-            register s32 height_product ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register s32 height_product ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             s32 byte_product;
             s32 height_base;
             s32 product;
@@ -265,7 +265,7 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
             height = *(s16 *)(s4 + 6);
             height_product = s1 * height;
             byte_product = s3[6] * s1;
-            ASM_KEEP(byte_product);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(byte_product);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             shared_t0 = s1 * s1;
             height_base = height + byte_product;
             product = shared_t0 * height_base;
@@ -285,7 +285,7 @@ s32 func_800A1D4C(void *arg0, s32 arg1) {
             s32 one;
             u8 *table2;
             s32 limit;
-            register u8 *p ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+            register u8 *p ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 *flagp;
             s32 id;
 

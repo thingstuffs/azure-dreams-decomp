@@ -41,13 +41,13 @@ s32 func_800C3D3C(void *arg0, s32 arg1, s16 arg2, s32 arg3) {
     void *ent0;
     u8 *p1;
     u8 *p0;
-    register s32 i ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 i ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 y;
     s32 idx;
     s32 c68;
-    register s32 mask ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 av1 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 av1 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 se;
     u16 *cell;
 
@@ -55,7 +55,7 @@ s32 func_800C3D3C(void *arg0, s32 arg1, s16 arg2, s32 arg3) {
     info = (u8 *) (b160 + 119);
     grid = b160[119];
     se = arg2;
-    ASM_KEEP_NV(av1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(av1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (se == 13) {
         func_80098864(av1, arg3);
         return func_800C400C();
@@ -66,7 +66,7 @@ s32 func_800C3D3C(void *arg0, s32 arg1, s16 arg2, s32 arg3) {
         {
             s32 tail_zero;
             tail_zero = 0;
-            ASM_TAILSLOT_PIN(tail_zero);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(tail_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_800C400C();
         }
     }
@@ -77,7 +77,7 @@ s32 func_800C3D3C(void *arg0, s32 arg1, s16 arg2, s32 arg3) {
             {
                 s32 tail_one;
                 tail_one = 1;
-                ASM_TAILSLOT_PIN(tail_one);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(tail_one);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 return func_800C400C();
             }
         }
@@ -139,9 +139,9 @@ s32 func_800C3D3C(void *arg0, s32 arg1, s16 arg2, s32 arg3) {
         D_800E296C = D_800E296C & mask;
         func_800403BC(D_800CE028, mask);
         {
-            register u32 tail_page ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register u32 tail_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             tail_page = 0x80080000;
-            ASM_PAGEBASE_PIN(tail_page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(tail_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_800C3FF0();
         }
     }

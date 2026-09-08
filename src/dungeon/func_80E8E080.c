@@ -147,7 +147,7 @@ state_one:
         }
 
         {
-            register u8 *system_base ASM_REG("$2") = (u8 *)&D_80083460;   /* MATCH pin: retail register colouring depends on it */
+            register u8 *system_base ASM_REG("$2") = (u8 *)&D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             ((S_80173880_3 *)system_base)->unk_0A++;
         }
@@ -242,11 +242,11 @@ state_one_long:
 
     {
         u8 *system_base = (u8 *)&D_80083460;
-        register u16 val ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u16 val ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         val = ((S_80173880_3 *)system_base)->unk_0A;
         val++;
-        ASM_KEEP(val);   /* MATCH pin: retail branch polarity depends on it */
+        ASM_KEEP(val);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         ((S_80173880_3 *)system_base)->unk_0A = val;
     }
     goto increment_state;
@@ -284,8 +284,8 @@ finish:
     ((S_80173880_0 *)arg0)->unk_8C = D_801710F4;
 
 done:
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     return;
 }

@@ -9,8 +9,8 @@ extern u8 D_800D185D;
 void func_800B9260(void) {
     s32 *state = (s32 *) D_80083160;
     s32 flags = state[4];
-    register s32 buttons ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 masked_buttons ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 buttons ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 masked_buttons ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (flags < 0) {
         D_800D185C += 0x20;

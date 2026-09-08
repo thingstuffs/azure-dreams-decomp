@@ -98,9 +98,9 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *arg1, void *arg2)
         ((S_8008BC58_3 *)record)->unk_34 = y;
         goto done;
     } else if (state == 10) {
-        register s32 index ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         u8 selection;
-        register u8 *table ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *table ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 buttons;
 
         func_800478B8(arg2);

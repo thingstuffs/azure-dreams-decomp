@@ -37,9 +37,9 @@ typedef struct S_80173730_0 {
 
 void func_80173730(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-    register void *p0 ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *p1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *p2 ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *p0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *p1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *p2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *p3;
     u8 state;
     s16 timer;
@@ -157,7 +157,7 @@ update_motion:
                 *(s32 *)((u8 *)global + 0x10) = value & 0x7FFFFFFF;
             }
             ((S_80173730_0 *)arg0)->unk_8C = &D_801714B8;
-            ASM_USE(p3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_USE(p3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         }
         return;
     }

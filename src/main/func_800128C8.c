@@ -11,17 +11,17 @@ extern Callback_800128C8 D_800200A8[4];
 
 void func_800258C8(Object_800128C8 *object)
 {
-    register u32 high ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 high ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Callback_800128C8 *source;
     Callback_800128C8 callbacks[4];
-    register Callback_800128C8 scratch ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register Callback_800128C8 scratch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Callback_800128C8 callback1;
     Callback_800128C8 callback2;
 
     high = 0x80020000;
-    ASM_KEEP(high);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(high);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     source = (Callback_800128C8 *)(high + 0xA8);
-    ASM_KEEP(source);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     scratch = source[0];
     callback1 = source[1];
     callback2 = source[2];

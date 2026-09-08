@@ -24,7 +24,7 @@ void *func_80017180(s32 arg0, s32 arg1, s32 arg2)
     if ((u32)index >= 43) {
         goto case_default;
     }
-    ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     goto *D_800160D0[index];
 
 case_19:

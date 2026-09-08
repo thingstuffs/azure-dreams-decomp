@@ -21,16 +21,16 @@ extern void func_8001ACE8();
 s32 func_80019DFC(Entry *entries, s32 object, void *context, s32 arg3)
 {
     Entry *saved_entries;
-    register s32 saved_object ASM_REG("$18");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *saved_context ASM_REG("$19");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 saved_object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *saved_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 index;
     Position *position;
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_entries = entries;
     saved_object = object;
     saved_context = context;
-    ASM_USE(saved_context);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE(saved_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     index = func_800194E4(saved_entries, arg3);
     position = (Position *)(saved_entries[index].selector * 8

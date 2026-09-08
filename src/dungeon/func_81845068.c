@@ -38,11 +38,11 @@ s32 func_81845068(u8 *arg0)
     Coord coords[3];
     u8 *node;
     u8 *current;
-    register u8 *next ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *next ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *global;
-    register u8 *alloc_ctx ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+    register u8 *alloc_ctx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *table_ctx;
-    register u8 *table_entry ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *table_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *prim;
     Coord *coord_base;
     Coord *coord;
@@ -55,15 +55,15 @@ s32 func_81845068(u8 *arg0)
     s32 color0;
     s32 color1;
     s32 random;
-    register u32 mask ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
-    register u32 table_word ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 table_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 x0;
     u16 y0;
     u16 y1;
 
     node = arg0;
     global = D_80083160;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     selectors[0] = 0xA0;
     do { selectors[1] = 0x80; } while (0);
     coord_base = &coords[0];
@@ -116,7 +116,7 @@ s32 func_81845068(u8 *arg0)
             temp = 7 - *(s16 *)(current + 0x2A);
             ((Scratch *)&coords[2])->word = temp;
             table_entry = (u8 *)(index * 4);
-            ASM_KEEP_NV(table_entry);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(table_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             color1 = (((Scratch *)&coords[2])->byte & 3) << 5;
             color0 = color1 - 0x80;
             color1 -= 0x61;
@@ -131,7 +131,7 @@ s32 func_81845068(u8 *arg0)
             STORE_U8(prim + 0x15, temp + 0x1F);
             STORE_U8(prim + 0x0D, temp + 0x1F);
             {
-                register u32 high_mask ASM_REG("$5") = 0xFF000000;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                register u32 high_mask ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 table_ctx = LOAD_PTR(global);
                 table_word = LOAD_U32(table_ctx + 0xB0 + index * 4);
                 STORE_U32(prim, (LOAD_U32(prim) & high_mask) | (table_word & mask));
@@ -189,7 +189,7 @@ s32 func_81845068(u8 *arg0)
         STORE_U16(prim + 0x12, y1);
 
         {
-            register u32 high_mask ASM_REG("$5") = 0xFF000000;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register u32 high_mask ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             table_ctx = LOAD_PTR(global);
             table_word = LOAD_U32(table_ctx + 0xB0 + index * 4);
             STORE_U32(prim, (LOAD_U32(prim) & high_mask) | (table_word & mask));
@@ -205,6 +205,6 @@ s32 func_81845068(u8 *arg0)
         node = next + 0x20;
     } while (next != 0);
 
-    ASM_SET(next);   /* MATCH pin: retail register colouring depends on it */
+    ASM_SET(next);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }

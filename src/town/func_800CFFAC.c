@@ -49,7 +49,7 @@ void func_800CD70C(void *arg0, void *arg1, s32 arg2) {
     timer = U16_AT(arg0, 0x6C) - 1;
     U16_AT(arg0, 0x6C) = timer;
     if ((s32)(timer << 16) <= 0) {
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_800CDD98(arg0, arg1, arg2);
     }
 }

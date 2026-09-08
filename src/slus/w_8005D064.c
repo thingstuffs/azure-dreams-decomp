@@ -14,7 +14,7 @@ extern s32 D_800799A8;
 void func_8005D064(void)
 {
     u32 count;
-    register u32 event ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register u32 event ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     SpuRegs *regs;
 
     if (D_800799A8 == 0) {

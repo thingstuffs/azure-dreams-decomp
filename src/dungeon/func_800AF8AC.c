@@ -22,14 +22,14 @@ extern s32 func_8009A350(s16, s16, s32, u16 *);
 extern void func_800B510C(void);
 
 s32 func_800B500C(s16 arg0, s16 arg1, s16 arg2) {
-    register s32 rv ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 rv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u16 flags;
     s32 i;
     s32 delta;
 
     if ((func_8009A350(arg0 - 1, arg1, 0, &flags) << 16) == 0) {
         rv = -1;
-        ASM_KEEP(rv);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(rv);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800B510C();
         return rv;
     }
@@ -44,7 +44,7 @@ s32 func_800B500C(s16 arg0, s16 arg1, s16 arg2) {
                 }
                 if (delta < 0x40) {
                     rv = (s16)i;
-                    ASM_TAILSLOT_PIN(rv);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_TAILSLOT_PIN(rv);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     func_800B510C();
                     return rv;
                 }

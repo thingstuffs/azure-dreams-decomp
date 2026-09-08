@@ -70,11 +70,11 @@ extern u8 D_800DD008[];
 
 void func_80025A14(void *arg0, void *arg1, void *arg2)
 {
-    register void *obj ASM_REG("$17") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *state ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register void *obj ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 counter;
-    register void *var_a0 ASM_REG("$4") = arg0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register void *buffer ASM_REG("$5") = arg1;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *var_a0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register void *buffer ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u16 tail_value;
     u8 *template;
     s8 phase;
@@ -182,7 +182,7 @@ final_update:
     func_80048AC8(obj, 2);
     if (D_8006CCF8[index] != 0) {
         tail_value = ((S_80025A14_2 *)obj)->unk_14 | 1;
-        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80025C78();
     }
     ((S_80025A14_2 *)obj)->unk_14 &= 0xFFFE;

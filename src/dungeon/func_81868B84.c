@@ -44,7 +44,7 @@ void func_81868B84(void *arg0, void *arg1) {
     s32 var_s3;
     s32 var_s3_2;
     s32 var_s4;
-    register s32 var_s4_2 ASM_REG("$20");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_s4_2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state3_compare;
     u16 temp_v0_2;
     void *temp_v0;
@@ -69,7 +69,7 @@ void func_81868B84(void *arg0, void *arg1) {
         goto state2;
     }
     state3_compare = 3;
-    ASM_KEEP(state3_compare);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(state3_compare);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     if (state == state3_compare) {
         goto state3;
     }
@@ -87,7 +87,7 @@ state0:
             s32 tail_value;
             tail_value = ((S_81868B84_0 *)arg0)->unk_00 + 1;
             ((S_81868B84_0 *)arg0)->unk_02.s = 0U;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8002465C();
         }
         return;
@@ -117,7 +117,7 @@ state1:
             s32 tail_value;
             tail_value = ((S_81868B84_0 *)arg0)->unk_00 + 1;
             ((S_81868B84_0 *)arg0)->unk_02.s = 0U;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8002465C();
         }
         return;
@@ -146,12 +146,12 @@ state2:
             s32 tail_value;
             tail_value = ((S_81868B84_0 *)arg0)->unk_00 + 1;
             ((S_81868B84_0 *)arg0)->unk_02.s = 0U;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8002465C();
         }
         return;
 state3:
-        ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_81868B84_3 *)(((S_81868B84_0 *)arg0)->unk_0C))->unk_16 = 1;
         (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_81868B84_0_pre *)arg0)[-1].unk_00 | 0x8000);
         {

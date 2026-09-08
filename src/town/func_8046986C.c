@@ -30,7 +30,7 @@ extern u8 D_80017D50;
 u8 *func_8001A86C(s32 arg0) {
     s32 i;
     s32 flag;
-    register s32 setting ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 setting ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *base;
     Record12 *record_base;
     Record12 *record;

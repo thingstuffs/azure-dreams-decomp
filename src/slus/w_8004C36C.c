@@ -57,13 +57,13 @@ void func_8004C36C(u8 *parent, u8 *node)
     u8 *m7;
     u8 *m5;
     u32 mask_lo;
-    register u32 mask_hi ASM_REG("$22");   /* MATCH pin: slus-diff */
+    register u32 mask_hi ASM_REG("$22");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u8 *cmd;
     u8 *m0;
     u8 *rot0;
     u8 *ctx;
     u8 **root;
-    register s32 t ASM_REG("$2");   /* MATCH pin: slus-diff */
+    register s32 t ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     m7 = buf + 0xE4;
     m5 = buf + 0x7C;
@@ -143,8 +143,8 @@ command:
             s32 raw = U8_AT(L, 2);
             u32 b = U16_AT(L, 0xB0);
             u32 d = U16_AT(L, 0x20);
-            ASM_KEEP_DEP_NV(raw, b);   /* MATCH pin: slus-diff */
-            ASM_KEEP_DEP_NV(raw, d);   /* MATCH pin: slus-diff */
+            ASM_KEEP_DEP_NV(raw, b);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(raw, d);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             t = b - ((raw << 24) >> 24) - d - U16_AT(L, 0xBE);
             S16_AT(L, 0x68) = t;
             S16_AT(L, 0x58) = t;
@@ -153,8 +153,8 @@ command:
             s32 raw = U8_AT(L, 2);
             u32 b = U16_AT(L, 0xB0);
             u32 d = U16_AT(L, 0x20);
-            ASM_KEEP_DEP_NV(raw, b);   /* MATCH pin: slus-diff */
-            ASM_KEEP_DEP_NV(raw, d);   /* MATCH pin: slus-diff */
+            ASM_KEEP_DEP_NV(raw, b);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(raw, d);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             t = b + ((raw << 24) >> 24) - d - U16_AT(L, 0xBE);
             S16_AT(L, 0x68) = t;
             S16_AT(L, 0x58) = t;
@@ -162,14 +162,14 @@ command:
         }
         S16_AT(L, 0x70) = t;
         S16_AT(L, 0x60) = t;
-        ASM_KEEP(L);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(L);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         if (U8_AT(L, 0) & 2) {
             s32 raw = U8_AT(L, 3);
             u32 b = U16_AT(L, 0xB2);
             u32 d = U16_AT(L, 0x24);
-            ASM_KEEP_DEP_NV(raw, b);   /* MATCH pin: slus-diff */
-            ASM_KEEP_DEP_NV(raw, d);   /* MATCH pin: slus-diff */
+            ASM_KEEP_DEP_NV(raw, b);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(raw, d);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             t = b - ((raw << 24) >> 24) - d - U16_AT(L, 0xC0);
             S16_AT(L, 0x62) = t;
             S16_AT(L, 0x5A) = t;
@@ -178,8 +178,8 @@ command:
             s32 raw = U8_AT(L, 3);
             u32 b = U16_AT(L, 0xB2);
             u32 d = U16_AT(L, 0x24);
-            ASM_KEEP_DEP_NV(raw, b);   /* MATCH pin: slus-diff */
-            ASM_KEEP_DEP_NV(raw, d);   /* MATCH pin: slus-diff */
+            ASM_KEEP_DEP_NV(raw, b);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(raw, d);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             t = b + ((raw << 24) >> 24) - d - U16_AT(L, 0xC0);
             S16_AT(L, 0x62) = t;
             S16_AT(L, 0x5A) = t;
@@ -187,7 +187,7 @@ command:
         }
         S16_AT(L, 0x72) = t;
         S16_AT(L, 0x6A) = t;
-        ASM_KEEP(L);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(L);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         gte_ldv3(L + 0x58, L + 0x60, L + 0x68);
         gte_rtpt();
@@ -198,7 +198,7 @@ command:
     }
 
     {
-        register s32 grp ASM_REG("$3") = U8_AT(L, 1) & 0xFC;   /* MATCH pin: slus-diff */
+        register s32 grp ASM_REG("$3") = U8_AT(L, 1) & 0xFC;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         if (grp != 0x2C) goto big;
     }
     {
@@ -213,9 +213,9 @@ command:
         func_8004C010(packet + 4, L + 0x78);
         {
             u8 c1 = U8_AT(L, 1);
-            register u8 c8 ASM_REG("$4") = U8_AT(L, 8);   /* MATCH pin: slus-diff */
-            register s32 p8 ASM_REG("$5") = S16_AT(packet, 8);   /* MATCH pin: slus-diff */
-            register s32 p10 ASM_REG("$2") = S16_AT(packet, 0x10);   /* MATCH pin: slus-diff */
+            register u8 c8 ASM_REG("$4") = U8_AT(L, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            register s32 p8 ASM_REG("$5") = S16_AT(packet, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            register s32 p10 ASM_REG("$2") = S16_AT(packet, 0x10);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             U8_AT(packet, 7) = c1;
             U8_AT(packet, 0xC) = c8;
             {
@@ -229,16 +229,16 @@ command:
             }
         }
         {
-            register u8 c8 ASM_REG("$3") = U8_AT(L, 8);   /* MATCH pin: slus-diff */
-            register u8 ca ASM_REG("$2") = U8_AT(L, 0xA);   /* MATCH pin: slus-diff */
+            register u8 c8 ASM_REG("$3") = U8_AT(L, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            register u8 ca ASM_REG("$2") = U8_AT(L, 0xA);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             u8 c9 = U8_AT(L, 9);
             s32 pa = S16_AT(packet, 0xA);
-            register u8 sum ASM_REG("$3") = c8 + ca;   /* MATCH pin: slus-diff */
+            register u8 sum ASM_REG("$3") = c8 + ca;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             U8_AT(packet, 0x24) = sum;
             U8_AT(packet, 0x14) = sum;
             U8_AT(packet, 0x15) = c9;
             {
-                register u8 d8 ASM_REG("$4") = U8_AT(L, 8);   /* MATCH pin: slus-diff */
+                register u8 d8 ASM_REG("$4") = U8_AT(L, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 s32 p1a = S16_AT(packet, 0x1A);
                 u16 c4;
                 c4 = U16_AT(L, 4);
@@ -250,9 +250,9 @@ command:
             }
         }
         {
-            register u8 e9 ASM_REG("$3") = U8_AT(L, 9);   /* MATCH pin: slus-diff */
-            register u8 eb ASM_REG("$2") = U8_AT(L, 0xB);   /* MATCH pin: slus-diff */
-            register u8 sum2 ASM_REG("$3") = e9 + eb;   /* MATCH pin: slus-diff */
+            register u8 e9 ASM_REG("$3") = U8_AT(L, 9);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            register u8 eb ASM_REG("$2") = U8_AT(L, 0xB);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            register u8 sum2 ASM_REG("$3") = e9 + eb;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             U8_AT(packet, 0x25) = sum2;
             U8_AT(packet, 0x1D) = sum2;
         }

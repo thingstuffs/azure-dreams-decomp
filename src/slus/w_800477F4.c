@@ -37,8 +37,8 @@ void func_800477F4(S_800477F4_Actor *a0)
 {
     u16 v0;
     s32 a1;
-    register S_800477F4_Node *v1 ASM_REG("$3");   /* MATCH pin: slus-diff */
-    register S_800477F4_Sub *a2 ASM_REG("$6");   /* MATCH pin: slus-diff */
+    register S_800477F4_Node *v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register S_800477F4_Sub *a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     v0 = a0->flags;
     a1 = v0 & 0xCFFF;

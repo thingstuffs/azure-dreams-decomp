@@ -14,7 +14,7 @@ extern void func_800249B4(void);
 void func_80024A50(S_80011A50 *arg0)
 {
     u8 *base;
-    register s32 unk80 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 unk80 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     base = &D_80083E98;
     if (*(s32 *)(base + (arg0->unk7C << 7)) != 0) {

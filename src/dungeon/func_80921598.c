@@ -60,7 +60,7 @@ s32 func_800F6598(void) {
     const s32 temp_a0_1 = 0x1F;
     const s32 temp_a0_2 = 0x20;
     const s32 temp_a0_3 = 0x21;
-    register s32 temp_v1_value ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_v1_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_value;
     u8 *temp_s1;
     s32 temp_s0;

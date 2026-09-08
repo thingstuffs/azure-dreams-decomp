@@ -190,7 +190,7 @@ selection_ready:
         s32 special_test;
 
         special_test = special;
-        ASM_KEEP(special_test);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_test != 0) {
             active = D_800814A8;
             (*(void * *)((u8 *)arg3 + 0x60)) = active;
@@ -205,7 +205,7 @@ selection_ready:
         if (D_8006DE24[item].kind == 2) {
             active = (*(void * *)((u8 *)arg3 + 0x60));
             if (active != 0) {
-                register u8 *linked ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *linked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 copy_active_coords:
                 linked = ((S_801731C8_1_pre *)active)[-1].unk_00;
@@ -221,7 +221,7 @@ copy_active_coords:
                 arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
                 (*(s16 *)((u8 *)arg3 + 0x2A)), 0x10);
             (*(void * volatile *)((u8 *)arg3 + 0x60)) = active;
-            ASM_KEEP(active);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             dx = (*(s8 *)((u8 *)arg3 + 0x72));
             dy = (*(s8 *)((u8 *)arg3 + 0x73));
             if (dx < 0) {
@@ -322,11 +322,11 @@ state_2:
             if (object == 0) {
                 goto null_counter;
             }
-            ASM_KEEP(object);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             {
                 void *part;
                 s32 random;
-                register s32 selector ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
+                register s32 selector ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
                 ((S_801731C8_5 *)object)->unk_22 = 8;
                 ((S_801731C8_5 *)object)->unk_10 = handler;
@@ -376,7 +376,7 @@ state_2:
                 if (selector == 0) {
                     goto null_counter;
                 }
-                ASM_KEEP(part);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 ((S_801731C8_6 *)part)->unk_12 = random + 0x7DC6;
                 ((S_801731C8_6 *)part)->unk_14 |= 0x100;
                 switch (selector) {
@@ -403,7 +403,7 @@ null_counter:
             next_counter = counter + 1;
 assign_counter:
             counter = next_counter;
-            ASM_KEEP(next_counter);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(next_counter);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 counter_test:
             ;
         } while ((s16)next_counter < 1);

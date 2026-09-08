@@ -34,25 +34,25 @@ typedef struct S_8004F330_Entity {
 
 void func_8004F330(S_8004F330_Entity *a0, s32 a1)
 {
-    register S_8004F330_Entity *self ASM_REG("$11") = a0;   /* MATCH pin: slus-diff */
+    register S_8004F330_Entity *self ASM_REG("$11") = a0;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 i;
-    register u8 *bodyBase ASM_REG("$6");   /* MATCH pin: slus-diff */
-    register u8 *ptrBase ASM_REG("$8");   /* MATCH pin: slus-diff */
-    register s32 nodeOff ASM_REG("$9");   /* MATCH pin: slus-diff */
-    register s32 bodyOff ASM_REG("$10");   /* MATCH pin: slus-diff */
+    register u8 *bodyBase ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u8 *ptrBase ASM_REG("$8");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 nodeOff ASM_REG("$9");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 bodyOff ASM_REG("$10");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     S_8002E5E8 *hdr;
     u8 *srcHi;
-    register S_8002E5D8 *src ASM_REG("$12");   /* MATCH pin: slus-diff */
+    register S_8002E5D8 *src ASM_REG("$12");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 tmp0;
     s32 tmp1;
     s32 tmp2;
     s32 tmp3;
 
-    ASM_USE(self);   /* MATCH pin: slus-diff */
+    ASM_USE(self);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     if (a1 > 0) {
         i = 0;
         srcHi = (u8 *)0x80030000;
-        ASM_KEEP(srcHi);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(srcHi);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         src = (S_8002E5D8 *)(srcHi - 0x1A28);
         hdr = &self->hdr;
         bodyOff = 0x2AC;

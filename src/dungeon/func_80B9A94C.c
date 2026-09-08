@@ -114,7 +114,7 @@ state_done:
     do {
         object = func_8003FC64(0x12);
         if (object != 0) {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             sub = object->sub;
             *(s16 *)(sub + 0x1A) = 1;
             *(s16 *)(sub + 0x1C) = 1;

@@ -16,19 +16,19 @@ extern u8 *func_8009F9E8(s32 arg0, s32 arg1);
 void func_8009F644(void *arg0, s32 arg1, s32 arg2, s8 arg3) {
     u8 *object = arg0;
     DungeonWriteState *state = (DungeonWriteState *)0x80013710;
-    register s32 saved_arg1 ASM_REG("$21") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 saved_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 saved_arg2 = arg2;
     s8 saved_arg3 = arg3;
     u8 *entry;
     u8 *old_entry;
-    register s32 compare_kind ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 compare_kind ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 kind;
-    register s32 shifted_arg1 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 shifted_arg1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 packed;
     s32 high_bit;
     s16 action;
     u32 index;
-    register s32 out_value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 out_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (D_800E296C[0] & 0x10000000) {
         return;
@@ -49,7 +49,7 @@ void func_8009F644(void *arg0, s32 arg1, s32 arg2, s8 arg3) {
             goto clear_entry;
         }
         shifted_arg1 = arg1 << 16;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (((*(volatile u8 *)(entry + 1)) & 0xF8) != (shifted_arg1 >> 16)) {
             goto clear_entry;
         }
@@ -125,5 +125,5 @@ jt_default:
     entry[2] = 0;
 
 jt_return:
-    ASM_KEEP(saved_arg1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

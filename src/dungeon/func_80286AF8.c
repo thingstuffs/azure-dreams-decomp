@@ -302,7 +302,7 @@ s32 func_80019AF8(void)
             room->link = 1;
             rp[next].link = 1;
             do { } while (0);
-            ASM_USE_NV(k);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_USE_NV(k);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             n = (s32) D_8001F6A8;
             ((Pair *) n)[idx].a = k;
             ((Pair *) n)[((s16 *) x0)[0]].b = next;

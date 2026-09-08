@@ -67,9 +67,9 @@ typedef struct S_80173A2C_6 {
 void func_80173A2C(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     void *p0;
-    register void *p1 ASM_REG("$19");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *p2 ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *p3 ASM_REG("$16");   /* MATCH pin: retail branch polarity depends on it */
+    register void *p1 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *p2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *p3 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     s32 flags;
     u16 current_value;
     u8 *global_base;

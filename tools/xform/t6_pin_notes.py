@@ -1,4 +1,7 @@
-"""T6: annotate every surviving ASM_* pin with its measured reason.
+"""T6: annotate every surviving ASM_* pin as an UNRESOLVED C shape with the measured effect of removing it.
+
+The note is not a justification: every pin stands for a source shape nobody has found (measured
+against the shipped toolchain, docs/FIDELITY.md); the note records what breaks when it is erased.
 
 Uses the T2 journal (greedy erasure verdicts) and the pin census (single-site verdicts) to
 write, after each pin statement or register pin, a comment naming the breakage class observed
@@ -8,23 +11,25 @@ import json, re
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 NOTE = {
-    "reorder-only": "retail schedule: same instructions, different order without it",
-    "reg-rename": "retail register colouring depends on it",
-    "hold-set": "retail callee-saved set / frame layout depends on it",
-    "const-remat": "keeps a constant in a register as retail does",
-    "li-expansion": "retail immediate-load split depends on it",
-    "addressing": "retail address form (%hi/%lo vs base+offset) depends on it",
-    "code-motion": "keeps a statement from moving across a call/branch",
-    "length-drift": "retail keeps a copy the compiler would otherwise drop/add",
-    "block-order": "retail basic-block layout depends on it",
-    "polarity": "retail branch polarity depends on it",
-    "slot-rotation": "retail delay-slot fill depends on it",
-    "delay-slot": "retail delay-slot contents depend on it",
-    "dead-code-retention": "retail keeps a computation the compiler would drop",
-    "linked-target": "jump/call target placement depends on it",
-    "broad": "load-bearing for the whole function shape",
-    "div-guard": "assembler div/rem guard expansion",
+    "reorder-only": "reorders the instructions (same instructions, different order)",
+    "reg-rename": "changes the register colouring",
+    "hold-set": "changes the callee-saved set / frame layout",
+    "const-remat": "rematerialises a constant retail keeps in a register",
+    "li-expansion": "changes the immediate-load split",
+    "addressing": "changes the address form (%hi/%lo vs base+offset)",
+    "code-motion": "moves a statement across a call/branch",
+    "length-drift": "changes the instruction count (a copy retail keeps is dropped or added)",
+    "block-order": "changes the basic-block layout",
+    "polarity": "flips a branch polarity",
+    "slot-rotation": "changes a delay-slot fill",
+    "delay-slot": "changes a delay-slot's contents",
+    "dead-code-retention": "drops a computation retail keeps",
+    "linked-target": "moves a jump/call target",
+    "broad": "changes the whole function shape",
+    "div-guard": "changes the assembler div/rem guard expansion",
 }
+PREFIX = "UNRESOLVED C shape (pin): removing it"
+SUFFIX = "; the source shape that makes it unnecessary has not been found"
 _idx = None
 def index():
     global _idx
@@ -65,7 +70,7 @@ class T:
             c = cls_for(m.group(2), m.group(3).strip())
             if not c: return m.group(0)
             n += 1
-            return f"{m.group(0)}   /* MATCH pin: {NOTE.get(c, c)} */"
+            return f"{m.group(0)}   /* {PREFIX} {NOTE.get(c, c)}{SUFFIX} */"
         out = STMT.sub(stmt, text)
         def reg(m):
             nonlocal n
@@ -74,6 +79,6 @@ class T:
             c = cls_for("ASM_REG", r)
             if not c: return m.group(0)
             n += 1
-            return f"{m.group(0)}   /* MATCH pin: {NOTE.get(c, c)} */"
+            return f"{m.group(0)}   /* {PREFIX} {NOTE.get(c, c)}{SUFFIX} */"
         out = REG.sub(reg, out)
         return out if n else None

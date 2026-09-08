@@ -23,32 +23,32 @@ s32 *func_80016C00(s32 arg0, s32 arg1, s32 arg2) {
         if (func_80017E98() != 0) {
             if (func_8001A510(0x798) != 0) {
                 page_v0 = (u8 *)0x80020000;
-                ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 return (s32 *)(page_v0 - 0x4930);
             }
             if (func_8001A510(0x47D) == 0) {
                 page_v0 = (u8 *)0x80020000;
-                ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 return (s32 *)(page_v0 - 0x49C4);
             }
         }
         var_s0 = (u8 *)0x80020000;
-        ASM_KEEP(var_s0);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         var_s0 -= 0x568C;
         var_s1 = func_80019ABC(var_s0, &D_8001B1FC, arg0, arg2);
         if (func_80019A04(var_s0, arg0, arg2) != 0) {
             page_v0 = (u8 *)0x80020000;
-            ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             var_s1 = (s32 *)(page_v0 - 0x39B2);
         }
     } else if (arg2 == 1) {
         page_v0 = (u8 *)0x80020000;
-        ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s1 = (s32 *)(page_v0 - 0x47DC);
     } else {
         func_80016B88();
         page_v0 = (u8 *)0x80020000;
-        ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s1 = (s32 *)(page_v0 - 0x3A05);
     }
     return var_s1;

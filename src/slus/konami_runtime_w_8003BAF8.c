@@ -149,7 +149,7 @@ void func_8003BAF8(InputRecord *arg0)
             D_8006ADE8[0] = one;
             D_8006AE18[0] = 0;
         } else {
-            ASM_KEEP(ret);   /* MATCH pin: slus-diff */
+            ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             D_8006ADE8_else[0] = 0;
             D_8006AE18[0] = 0;
         }

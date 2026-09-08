@@ -165,7 +165,7 @@ void func_8195F43C(void *arg0, void *arg1, u8 *object, s16 arg3, s16 arg4)
     table2 = (u8 *)((u32)(arg4 * 2) +
         (u32)(tableBase + arg3 * 0x10));
     {
-        register u32 rawTableValue ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register u32 rawTableValue ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         rawTableValue = ((S_8195F43C_2 *)table)->unk_00;
         ((S_8195F43C_0 *)scratch)->unk_74 = (s16)rawTableValue / 2;
@@ -243,7 +243,7 @@ void func_8195F43C(void *arg0, void *arg1, u8 *object, s16 arg3, s16 arg4)
             if (objectValue != 0) {
                 u32 tailValue;
                 tailValue = objectValue + (((S_8195F43C_6 *)texture)->unk_04 & 0xFF9F);
-                ASM_TAILSLOT_PIN(tailValue);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN(tailValue);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_80024FEC();
                 return;
             }
@@ -273,14 +273,14 @@ void func_8195F43C(void *arg0, void *arg1, u8 *object, s16 arg3, s16 arg4)
             {
                 s32 y;
                 u16 packed;
-                register u16 packedOffset ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register u16 packedOffset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 {
-                    register s32 coord ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                    register s32 coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                     {
                         s32 x;
-                        register s32 dx ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                        register s32 dx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                         x = VFIELD(scratch, s32, 0x10);
                         dx = VFIELD(scratch, s32, 8);
@@ -288,10 +288,10 @@ void func_8195F43C(void *arg0, void *arg1, u8 *object, s16 arg3, s16 arg4)
                         VFIELD(scratch, s32, 0x10) = x + dx;
                     }
                     {
-                        register s32 shifted ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                        register s32 shifted ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                         shifted = coord;
-                        ASM_USE(shifted);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                        ASM_USE(shifted);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         y = VFIELD(scratch, s32, 0x14);
                         shifted <<= 8;
                         VFIELD(scratch, s32, 0xC) = shifted;

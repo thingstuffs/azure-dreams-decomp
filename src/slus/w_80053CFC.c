@@ -27,12 +27,12 @@ extern S_80081568_Hi D_80081568_hi asm("D_80081568");
 
 void func_80053CFC(S_80053CFC *arg0, s32 arg1)
 {
-    register s32 saved_arg1 ASM_REG("$6");   /* MATCH pin: slus-diff */
+    register s32 saved_arg1 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 low;
     S_80081568_Hi *global_ptr;
 
     saved_arg1 = arg1;
-    ASM_KEEP_INPUT(saved_arg1);   /* MATCH pin: slus-diff */
+    ASM_KEEP_INPUT(saved_arg1);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     D_80081568 = arg0->field_0;
     D_8008156C = arg0->field_4;
     __asm__ volatile("" : "=r"(saved_arg1) : "0"(saved_arg1), "m"(D_80081568) : "memory");

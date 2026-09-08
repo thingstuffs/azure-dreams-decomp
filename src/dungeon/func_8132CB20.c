@@ -53,29 +53,29 @@ extern s16 D_80174AB8;
 s32 func_80174320(void *arg0, void *arg1, void *arg2) {
     s32 var_a2;
     s16 temp_v0;
-    register s32 temp_t0 ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
     u16 temp_v0_2;
-    register u8 temp_a3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register u8 temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 stream_count;
     u8 *stream;
     void *call_arg0;
-    register void *obj ASM_REG("$17");   /* MATCH pin: retail delay-slot fill depends on it */
+    register void *obj ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *ctx;
     void *entity;
-    register s32 zero_ret ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 zero_ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u32 page;
     void *old_anim;
     u8 *anim;
     u8 audio_x;
     u8 audio_y;
-    register s32 angle_val ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 angle_val ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u16 flags;
     s32 case_d0;
 
     call_arg0 = arg0;
     ctx = arg1;
-    ASM_KEEP_NV(ctx);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP_NV(ctx);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     entity = arg2;
     obj = arg0;
     if (((S_80174320_0 *)entity)->unk_14 & 0x40) {
@@ -89,7 +89,7 @@ s32 func_80174320(void *arg0, void *arg1, void *arg2) {
     }
 
     temp_a3 = stream[1];
-    ASM_KEEP_NV(temp_a3);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_t0 = temp_a3 & 0xFF;
     if (temp_t0 == 0) {
         ((S_80174320_1 *)obj)->unk_B2 = 0;
@@ -107,16 +107,16 @@ s32 func_80174320(void *arg0, void *arg1, void *arg2) {
 
     angle_val = temp_a3 & 7;
     flags = ((S_80174320_1 *)obj)->unk_46;
-    ASM_KEEP_NV(flags);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     angle_val <<= 9;
     ((S_80174320_1 *)obj)->unk_2A = angle_val;
     case_d0 = 0xD0;
-    ASM_USE(case_d0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE(case_d0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     flags |= 0x8000;
     ((S_80174320_1 *)obj)->unk_46 = flags;
     temp_v1 = temp_t0 & 0xF8;
-    ASM_KEEP(temp_t0);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(call_arg0);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(temp_t0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
     if (temp_v1 == case_d0) {
         goto block_D0;
@@ -161,10 +161,10 @@ s32 func_80174320(void *arg0, void *arg1, void *arg2) {
 
 block_8:
         call_arg0 = obj;
-        ASM_KEEP_NV(call_arg0);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP_NV(call_arg0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         func_8016FCE4(call_arg0, ctx, entity, call_arg0);
         zero_ret = 0;
-        ASM_TAILSLOT_PIN(zero_ret);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(zero_ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80174658();
 
 block_C0:
@@ -175,20 +175,20 @@ block_C8:
 
 block_10:
         old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-        ASM_KEEP(old_anim);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(old_anim);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         page = 0x80170000;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         stream = (u8 *)(page + 0x4A2C);
-        ASM_TAILSLOT_PIN(stream);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_TAILSLOT_PIN(stream);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_801744C0();
 
 block_F8:
         page = 0x80170000;
-        ASM_KEEP_NV(page);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-        ASM_KEEP(old_anim);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(old_anim);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         stream = (u8 *)(page + 0x4AA4);
-        ASM_TAILSLOT_PIN(stream);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_TAILSLOT_PIN(stream);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_801744C0();
 
 block_F0:

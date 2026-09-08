@@ -30,7 +30,7 @@ void func_800A4E1C(TownTransition *state) {
     if (target != state->previous_target) {
         Vec3i *saved_target = target;
 
-        ASM_KEEP(saved_target);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(saved_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         state->steps = 9;
         state->unk14 = 0;
         state->unk18 = 0;

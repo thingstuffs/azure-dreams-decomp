@@ -75,7 +75,7 @@ void func_80170700(void) {
     S_80170700_1 *temp_v0;
     void *var_a2;
     void *var_a3;
-    register void *call_obj ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     temp_s0 = ((Rec_D_80175D50 *)D_80175D50)->unk_0C;
     temp_v0 = func_8003FC64(0x112);
@@ -96,7 +96,7 @@ void func_80170700(void) {
         func_8004491C(temp_v0, &D_80045340, var_a2, var_a3);
         call_obj = temp_s0_2;
         var_a1 = *(&D_80170000[0x3A80]);
-        ASM_KEEP(var_a1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(var_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_s0_2->unk_2C = &D_80170000[0x3A80];
         func_80047784(call_obj, var_a1, 0);
         temp_s0_2->unk_06 = 6;

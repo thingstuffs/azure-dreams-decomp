@@ -59,9 +59,9 @@ void func_818D4B94(Rec_D_800E3D7C *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4,
     s16 held_arg1 = arg1;
     s32 held_arg2 = arg2;
     s32 held_arg3 = arg3;
-    register s32 held_arg4 ASM_REG("$18") = arg4;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 held_arg5 ASM_REG("$19") = arg5;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 held_arg6 ASM_REG("$20") = arg6;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg4 ASM_REG("$18") = arg4;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 held_arg5 ASM_REG("$19") = arg5;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 held_arg6 ASM_REG("$20") = arg6;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 signed_arg3;
     s32 var_v1;
     s32 temp_a1;
@@ -94,16 +94,16 @@ void func_818D4B94(Rec_D_800E3D7C *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4,
             temp_lo += 0xF;
         }
         temp_s0->unk_48 = temp_lo >> 4;
-        ASM_KEEP(held_arg4);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_lo_2 = (s32) (0 - (held_arg5 << 0x10)) / temp_a1;
         if (temp_lo_2 < 0) {
             temp_lo_2 += 0xF;
         }
         temp_s0->unk_4C = temp_lo_2 >> 4;
-        ASM_KEEP(held_arg5);   /* MATCH pin: retail keeps a computation the compiler would drop */
-        ASM_KEEP(held_arg1);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP(held_arg3);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         var_v1_2 = (s32) (0 - (held_arg6 << 0x10)) / temp_a1;
         if (var_v1_2 < 0) {
             var_v1_2 += 0xF;
@@ -112,7 +112,7 @@ void func_818D4B94(Rec_D_800E3D7C *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4,
         temp_s0->unk_14 = held_arg1;
         temp_s0->unk_32 = held_arg3;
         func_8004491C(temp_v0, &D_80024044, signed_arg3);
-        ASM_KEEP(held_arg6);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(held_arg6);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_s0->unk_08 = held_arg2;
     }
 }

@@ -68,12 +68,12 @@ void func_807AE960(void *arg0, void *arg1, void *arg2) {
     u16 countdown_u;
     s32 actor_pos;
     u8 *state = arg0;
-    register u8 *actor ASM_REG("$20") = arg1;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *actor ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *target = arg2;
-    register u8 *global ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 temp_s2 ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 temp_s5 ASM_REG("$21");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register u8 *global_end ASM_REG("$22");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *global ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 temp_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u8 *global_end ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *dungeon_data;
     S_807AE960_6 *temp_v0_2;
 
@@ -111,7 +111,7 @@ jt_c2:
 block_11:
     temp_v1_2 = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
     ((S_807AE960_1 *)state)->unk_04.u = temp_v1_2;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     global = (u8 *)0x80010000;
     if ((u16) D_8001371A >= 4U) {
         goto block_15;

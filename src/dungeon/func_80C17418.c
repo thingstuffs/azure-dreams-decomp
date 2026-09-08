@@ -207,7 +207,7 @@ have_slot:
         state_flags &= 0xFF7F;
         state->flags98 = state_flags;
         special_test = special;
-        ASM_KEEP(special_test);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_test) {
             link_base = (u8 *)D_800814A8;
             ent->f60 = link_base;
@@ -218,7 +218,7 @@ have_slot:
             if (link_base != 0) {
 copy_link:
                 {
-                    register u8 *link ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                    register u8 *link ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                     link = *(u8 **)(link_base - 0x14);
                     ent->f72 = link[0x24];

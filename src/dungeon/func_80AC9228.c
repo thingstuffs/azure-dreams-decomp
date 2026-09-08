@@ -79,9 +79,9 @@ void func_80174A28(void *arg0, void *arg1, void *arg2, void *arg3)
             s32 x_sum;
             s32 x_raw;
             s32 off_x;
-            register s32 y_offset ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-            register s32 scratch ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-            register void *call_arg0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 scratch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register void *call_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             flags = ((S_80174A28_2 *)arg2)->unk_14;
             call_arg0 = arg3;
@@ -92,7 +92,7 @@ void func_80174A28(void *arg0, void *arg1, void *arg2, void *arg3)
             off_x = offset->x;
             x_sum = x_raw + off_x;
             y_offset = offset->y;
-            ASM_USE(y_offset);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_USE(y_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             x = x_sum & 0xFFFF;
             scratch = ((S_80174A28_2 *)arg2)->unk_25 + y_offset;
             func_80174800(call_arg0, x, scratch & 0xFFFF, height);

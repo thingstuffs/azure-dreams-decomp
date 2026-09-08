@@ -102,7 +102,7 @@ void func_800BACB0(Core *arg0, Position *arg1)
     quotient = value - quotient;
     arg0->angle = quotient;
     arg0->index = 0;
-    ASM_KEEP(quotient);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     i = 0;
     do {
         obj = func_8003FD64(0x136, (u8 *)arg0 - 0x20);

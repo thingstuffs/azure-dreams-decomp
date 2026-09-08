@@ -14,18 +14,18 @@ extern void func_80701604(void) __attribute__((noreturn));
 extern void func_8070168C(void);
 
 #ifndef NON_MATCHING
-register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
 #define zero 0
 #endif
 
 s32 func_808755AC(s32 arg0) {
     if (func_80700C9C(zero | 2) == 0) {
-        register s32 result ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         func_80700D54(zero | 2);
         result = arg0;
-        ASM_TAILSLOT_PIN_TIED(result);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_TAILSLOT_PIN_TIED(result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_80701604();
     }
     func_80700D24(zero | 2);

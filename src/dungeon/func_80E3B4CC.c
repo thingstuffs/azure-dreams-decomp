@@ -123,7 +123,7 @@ void func_80174CCC(void *arg0, S_80174CCC_1 *arg1, Rec_D_80082E80 *arg2)
     S_80174CCC_7 *source;
     S_80174CCC_10 *owner;
     S_80174CCC_9 *parent;
-    register void *tail_arg ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *tail_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *global_base;
     s32 kind;
     s32 target_coord;
@@ -212,7 +212,7 @@ state_one:
     marked |= 0x8000;
     ((S_80174CCC_0_pre *)arg0)[-1].unk_00.u = marked;
     state_page = 0x800E0000;
-    ASM_KEEP(state_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_80174CCC_4 *)((void *)state_page))->unk_2968 = state;
     ((S_80174CCC_5 *)((void *)used_page))->unk_14A0 |= 0x8000;
     if (flags & 0x2000) {
@@ -253,7 +253,7 @@ state_one:
         func_80174FBC();
     }
     tail_arg = created;
-    ASM_KEEP_NV(tail_arg);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP_NV(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     if (source->unk_A4 != 0) {
         ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
     }

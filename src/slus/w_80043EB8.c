@@ -46,7 +46,7 @@ void func_80043EB8(void)
 #ifdef NON_MATCHING
   u8 *copy_base;
 #else
-  register u8 *copy_base ASM_REG("$1");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  register u8 *copy_base ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
 
   PutDispEnv(((u8 *) D_80083160[0]) + 0x5C);
@@ -82,7 +82,7 @@ void func_80043EB8(void)
   suppress = D_80080A85[0];
   if (suppress == 0)
   {
-    ASM_KEEP(suppress);   /* MATCH pin: slus-diff */
+    ASM_KEEP(suppress);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     sync = D_80080A84[0];
 #else

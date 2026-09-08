@@ -11,7 +11,7 @@ void func_800924F0(void *arg0, void *arg1, void *arg2, void *arg3) {
         if (*(u16 *)((u8 *)arg2 + 0x14) & 0xE000) {
             void *dead;
             dead = D_8008ACDC;
-            ASM_TAILSLOT_PIN(dead);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(dead);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80092534(arg3, arg0);
             return;
         }

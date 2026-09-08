@@ -42,18 +42,18 @@ s32 func_800BD45C(void *arg0, s32 arg1, s16 arg2) {
         return 0;
     }
     if ((u32) arg0 <= 0x9FFFFFFFU) {
-        register void *call_obj ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register u8 *table_page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register u8 *table_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 table_index;
 
         func_800A63B8(arg0, arg1, arg2);
         call_obj = arg0;
         table_page = (u8 *)0x800E0000;
-        ASM_KEEP(table_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table_index = ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         table = (u16 *)(table_page - 0x217C);
-        ASM_KEEP(table);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         if (func_800AD6FC(call_obj, (table[table_index] >> 6) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
             return 1;
@@ -64,14 +64,14 @@ block_8:
     func_800C4AFC(((S_800BD45C_0_pre *)arg0)[-1].unk_00, 0x802080, arg0);
     if ((((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) && !(((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x40)) {
         M2C_UNK *format_obj;
-        register s32 format_arg ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-        register s32 saved_result ASM_REG("$16");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 format_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 saved_result ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 raw_result;
         s32 format_result;
 
         raw_result = func_800990FC();
         format_obj = &D_800E0E69;
-        ASM_USE(format_obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE(format_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         format_arg = raw_result;
         saved_result = format_arg;
         format_result = func_80099194(format_obj, format_arg);
@@ -81,7 +81,7 @@ block_8:
     func_80042B68(arg0, 5);
     func_80098B38(arg1);
     counter = D_80083460;
-    ASM_KEEP(counter);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_800BD45C_1 *)counter)->unk_0A = (u16) (((S_800BD45C_1 *)counter)->unk_0A - 1);
     return 1;
 }

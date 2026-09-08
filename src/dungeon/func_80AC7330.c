@@ -8,8 +8,8 @@ extern s32 D_80171728;
 
 void func_80172B30(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     void *entity = arg0;
-    register s32 value ASM_REG("$18") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 actor ASM_REG("$16") = arg3;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 value ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 actor ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     if (func_800AB1C0() != 0) {
         func_800AD594(actor, 4);

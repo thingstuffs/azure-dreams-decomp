@@ -54,15 +54,15 @@ void func_80024DAC(void *arg0, void *arg1, void *arg2) {
     s16 var_v0_22;
     s32 temp_a0;
     s32 temp_a1;
-    register s32 temp_s0 ASM_REG("$16");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_11;
-    register s32 temp_v0_8 ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 temp_v0_8 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
     s32 temp_v1_10;
     s32 temp_v1_11;
     s32 divisor16;
-    register s32 division_numerator ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 var_a3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register s32 division_numerator ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_v0_10;
     s32 var_v0_12;
     s32 var_v0_13;
@@ -73,7 +73,7 @@ void func_80024DAC(void *arg0, void *arg1, void *arg2) {
     s32 var_v0_21;
     s32 var_v0_2;
     s32 var_v0_3;
-    register s32 var_v0_5 ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 var_v0_5 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 var_v0_6;
     s32 var_v0_7;
     s32 var_v0_9;
@@ -112,16 +112,16 @@ void func_80024DAC(void *arg0, void *arg1, void *arg2) {
     void *temp_s3;
     void *temp_v0_10;
     void *temp_v0_4;
-    register void *var_a2 ASM_REG("$6");   /* MATCH pin: retail delay-slot fill depends on it */
+    register void *var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *var_s0;
     M2C_UNK *state0_move;
     void *state0_actor;
     void *state0_height_actor;
-    register s32 state0_second ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 state0_second ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 state0_delta_x;
     s32 state0_delta_y;
-    register s32 update_v0 ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 update_v1 ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 update_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 update_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 update_a0;
     s32 update_a1;
     void *state1_global;
@@ -129,7 +129,7 @@ void func_80024DAC(void *arg0, void *arg1, void *arg2) {
     M2C_UNK *state1_move;
     void *state1_actor;
     void *state2_stage;
-    register void *list_sentinel ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register void *list_sentinel ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 tile_x;
     u16 tile_counter;
     u8 tile_y;
@@ -143,13 +143,13 @@ void func_80024DAC(void *arg0, void *arg1, void *arg2) {
     u32 tile_coord;
     s32 tile_call_arg;
     s32 common_speed;
-    register s32 common_pitch ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 common_pitch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 state6_timer_signed;
     u16 state6_timer;
     u16 state6_next;
     u16 state6_height;
     s32 state6_spin_arg;
-    register s32 state6_velocity ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 state6_velocity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 state6_target_base;
     s32 alternate_delta;
     s32 alternate_scale;
@@ -167,7 +167,7 @@ loop_1:
         copy1 = M2C_FIELD(var_a2, M2C_PACKED_PAIR *, 0x48).b;
         M2C_FIELD(var_a2, M2C_PACKED_PAIR *, 0x50).a = copy0;
         M2C_FIELD(var_a2, M2C_PACKED_PAIR *, 0x50).b = copy1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     var_a3 -= 1;
     var_a2 -= 8;
@@ -191,7 +191,7 @@ jt_c0:
     temp_s0 = func_80064584(M2C_FIELD((*(void **)&D_800E3D7C), s16 *, 0x2A));
     state0_second = func_80064584(M2C_FIELD((*(void **)&D_800E3D7C), s16 *, 0x2A) - 0x400);
     state0_move = &D_80083780;
-    ASM_KEEP(state0_move);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(state0_move);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s0 >>= 4;
     state0_delta_x = M2C_FIELD(state0_move, u16 *, 2);
     state0_second >>= 4;
@@ -219,10 +219,10 @@ jt_c0:
     update_v1 -= 0x50;
     update_a0 += update_v1;
     M2C_FIELD(arg0, u16 *, 0x2C) = (u16) update_a0;
-    ASM_MEM_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     division_numerator = (M2C_FIELD(arg0, s16 *, 0x2C) - M2C_FIELD(arg1, s16 *, 0xA)) << 0x10;
     divisor16 = 16;
-    ASM_KEEP(divisor16);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(divisor16);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg1, s32 *, 0x14) = division_numerator / divisor16;
     M2C_FIELD(arg0, s16 *, 0x30) = (s16) ((u16) M2C_FIELD(arg0, s16 *, 0x30) + 1);
 jt_c1:
@@ -410,7 +410,7 @@ block_52:
     update_v1 = M2C_FIELD(arg1, s32 *, 8);
     update_v0 += update_a0;
     update_v1 += update_a1;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg1, s32 *, 4) = update_v0;
     state2_stage = M2C_FIELD(&D_800814A8, void **, 0);
     M2C_FIELD(arg1, s32 *, 8) = update_v1;
@@ -481,11 +481,11 @@ block_65:
     }
     tile_base = &D_80082E80;
     tile_coord = M2C_FIELD(tile_base, u8 *, 0x24);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     tile_call_arg = 0x300;
-    ASM_KEEP(tile_call_arg);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(tile_call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg0, s16 *, 0x40) = (s16) tile_coord;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg0, u8 *, 0x98) = (u8) tile_coord;
     tile_coord = M2C_FIELD(tile_base, u8 *, 0x25);
     M2C_FIELD(arg0, s16 *, 0x30) = 5;
@@ -692,7 +692,7 @@ block_115:
     state6_velocity = func_800644B8((s16) M2C_FIELD(arg0, u16 *, 0x38));
 
     state6_velocity <<= 8;
-    ASM_KEEP(state6_velocity);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(state6_velocity);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg1, s32 *, 0x10) = state6_velocity;
 
     if ((s16) M2C_FIELD(arg0, u16 *, 0x38) != temp_s2) {
@@ -730,7 +730,7 @@ block_120:
     state6_target_base += 0x40;
     division_numerator = (update_v0 - state6_target_base) << 0x10;
     divisor16 = 16;
-    ASM_KEEP(divisor16);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(divisor16);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg1, s32 *, 0x14) = division_numerator / divisor16;
     M2C_FIELD(arg0, u16 *, 0x9A) = 0x3CU;
     goto block_122;
@@ -783,11 +783,11 @@ block_128:
 block_129:
     M2C_FIELD(arg2, u16 *, 0x1A) = (u16) (func_800A07D0(0, 0, M2C_FIELD(arg1, s16 *, 0xE), M2C_FIELD(arg1, s16 *, 0x12)) - 0x400);
     common_speed = M2C_FIELD(arg1, s16 *, 0x16);
-    ASM_KEEP(common_speed);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(common_speed);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_a0_3 = M2C_FIELD(arg2, u16 *, 0x1C);
     temp_v1_15 = M2C_FIELD(arg2, u8 *, 0xC);
-    ASM_KEEP(temp_a0_3);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(temp_v1_15);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_a0_3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(temp_v1_15);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_s2 = common_speed * 4;
     common_pitch = temp_s2 + 0x400;
     M2C_FIELD(arg2, u16 *, 0x16) = (u16) common_pitch;

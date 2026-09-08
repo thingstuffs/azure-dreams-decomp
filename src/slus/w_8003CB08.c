@@ -59,7 +59,7 @@ void func_8003CB08(void)
             }
 
             {
-                register s32 count ASM_REG("$16") = 63;   /* MATCH pin: slus-diff */
+                register s32 count ASM_REG("$16") = 63;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 s16 *base2 = D_800838D8;
                 s16 *dst2 = base2 + 63;
                 s16 *src2 = base2 + 62;
@@ -83,7 +83,7 @@ void func_8003CB08(void)
             {
                 s16 *out = D_80083858;
                 high = result >> 7;
-                ASM_KEEP(high);   /* MATCH pin: slus-diff */
+                ASM_KEEP(high);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 low = shift10(result) + 0x100;
                 *out = (s16)(high + low);
             }
@@ -92,7 +92,7 @@ void func_8003CB08(void)
             {
                 s16 *out = D_800838D8;
                 high = result >> 7;
-                ASM_KEEP(high);   /* MATCH pin: slus-diff */
+                ASM_KEEP(high);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 low = shift10(result) + 0xB0;
                 *out = (s16)(high + low);
             }

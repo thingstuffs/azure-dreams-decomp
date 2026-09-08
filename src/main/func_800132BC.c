@@ -23,12 +23,12 @@ extern M2C_UNK D_80026240[];
 extern M2C_UNK D_800265B8[];
 
 #ifndef NON_MATCHING
-register u8 * volatile call_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+register u8 * volatile call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
 
 void *func_800262BC(void *arg0) {
 #ifndef NON_MATCHING
-    register u8 *dead_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *dead_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #endif
     void *result;
 
@@ -45,7 +45,7 @@ void *func_800262BC(void *arg0) {
 #endif
 #ifndef NON_MATCHING
         dead_v0 = (u8 *)0x80020000;
-        ASM_KEEP(dead_v0);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_80026378();
         return dead_v0 + 0x61C0;
 #else
@@ -71,7 +71,7 @@ void *func_800262BC(void *arg0) {
         func_80053DA8(0x503);
 #ifndef NON_MATCHING
         dead_v0 = (u8 *)0x80020000;
-        ASM_KEEP(dead_v0);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         dead_v0 += 0x65B8;
         *(u8 **)((s8 *)arg0 - 0x10) = dead_v0;
 #else
@@ -85,7 +85,7 @@ void *func_800262BC(void *arg0) {
     func_800A6104();
 #ifndef NON_MATCHING
     dead_v0 = (u8 *)0x80020000;
-    ASM_KEEP(dead_v0);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     func_80026378();
     return dead_v0 + 0x6240;
 #else

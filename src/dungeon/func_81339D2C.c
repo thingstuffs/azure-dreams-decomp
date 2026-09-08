@@ -61,11 +61,11 @@ extern u8 D_80170BB0[];
 extern u8 D_80173B88[];
 
 void func_80170D2C(s32 unused, s16 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    register s32 n ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 n ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 denom;
     s32 qz;
     s32 qy;
-    register s32 qx ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 qx ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 num;
     s32 x;
     s32 y;
@@ -94,12 +94,12 @@ void func_80170D2C(s32 unused, s16 arg1, s32 arg2, s32 arg3, s32 arg4) {
         ((S_80170D2C_3 *)prim)->unk_08.at02.v += arg4;
         ((S_80170D2C_0 *)work)->unk_1C = ((S_80170D2C_4 *)D_80083780)->unk_00.at02.v;
         ((S_80170D2C_0 *)work)->unk_1E = ((S_80170D2C_4 *)D_80083780)->unk_04.at02.v;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         num = arg1 << 16;
         n = num >> 16;
         ((S_80170D2C_0 *)work)->unk_20 = ((S_80170D2C_4 *)D_80083780)->unk_08.at02.v;
         denom = n;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         num = -(arg2 << 16);
         if (n < 0) {
             denom = n + 7;
@@ -107,17 +107,17 @@ void func_80170D2C(s32 unused, s16 arg1, s32 arg2, s32 arg3, s32 arg4) {
         denom >>= 3;
         qx = num / denom;
         ((S_80170D2C_0 *)work)->unk_5C = qx / 2;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         qy = -(arg3 << 16) / denom;
         ((S_80170D2C_0 *)work)->unk_60 = qy / 2;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         qz = -(arg4 << 16) / denom;
         ((S_80170D2C_0 *)work)->unk_64 = qz / 2;
-        ASM_KEEP(n);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(n);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         x = qx;
         if (x < 0) x += 3;
         ((S_80170D2C_0 *)work)->unk_68 = x >> 2;
-        ASM_KEEP(qx);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(qx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         y = qy;
         if (y < 0) y += 3;
         ((S_80170D2C_0 *)work)->unk_6C = y >> 2;

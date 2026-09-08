@@ -49,7 +49,7 @@ s32 func_808106E0(void)
     Triple positions0 = D_80526670;
     Triple positions1 = D_80526688;
     u8 *object;
-    register u8 *part ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *part ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *selected;
     s32 i;
     s32 y_first;
@@ -107,7 +107,7 @@ s32 func_808106E0(void)
                 if (i < 2) {
                     selected = anchor + 6;
                     if (i != 0) {
-                        ASM_KEEP(part);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                        ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                         ((S_808106E0_1 *)part)->unk_0C = anchor;
                         func_8052B4E8();
                     }
@@ -115,7 +115,7 @@ s32 func_808106E0(void)
                     if (i == 2) {
                         selected = anchor + 10;
                     } else {
-                        ASM_KEEP(part);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                        ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                         ((S_808106E0_1 *)part)->unk_0C = anchor;
                         func_8052B4E8();
                     }

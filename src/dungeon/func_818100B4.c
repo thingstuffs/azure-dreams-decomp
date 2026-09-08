@@ -45,7 +45,7 @@ void func_800250B4(ItemResult *result, ItemId *item, void *data)
         s32 tail_data;
 
         tail_data = func_80049330(item) + 52;
-        ASM_TAILSLOT_PIN(tail_data);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(tail_data);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8002517C();
     } else {
         new_data = func_8004A784(item->category, item->index);

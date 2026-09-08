@@ -28,7 +28,7 @@ extern u16 D_80083462;
 extern u8 D_80174AE4[];
 
 void func_801720D8(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register s32 value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     if (!(D_80083462 & 0x2000) && ((func_800A2BDC(arg3) << 16) == 0)) {

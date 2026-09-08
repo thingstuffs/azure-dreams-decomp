@@ -20,7 +20,7 @@ typedef struct {
 } Struct800AE2BC;
 
 void func_800ABA1C(Struct800AE2BC *arg0) {
-    register s32 s0 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 s1;
     register Struct800AE2BC *self = arg0;
     s32 value;

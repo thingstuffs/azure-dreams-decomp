@@ -42,7 +42,7 @@ void func_80016C24(s32 arg0, s32 arg1, s32 arg2)
             value = dispatch_state->dispatch->get_value(3);
             update_state = *(TownState **)D_80016000;
             index = update_state->index;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             entries = update_state->entries;
             entries[(index * 8) + 1] = value;
             func_800169F8(entries);

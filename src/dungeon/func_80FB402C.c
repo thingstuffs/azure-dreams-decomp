@@ -122,11 +122,11 @@ state_zero:
         s32 scaled;
         s32 index;
         u8 *entry;
-        register u8 *records ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *records ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *table;
         u8 *global;
         void *effect;
-        register u8 *child ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *child ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u16 facing;
 
         i = 0;
@@ -224,7 +224,7 @@ state_two:
         void *effect;
         u8 *child;
         void *random_arg;
-        register u16 facing ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+        register u16 facing ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         if (((S_8017382C_0 *)arg0)->unk_AC.u == 0) {
             i = 0;

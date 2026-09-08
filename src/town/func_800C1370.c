@@ -50,7 +50,7 @@ s32 func_800BEAD0(void)
         ((S_800BEAD0_0 *)temp_v0)->unk_10 = &D_800BEBA4;
         func_8004491C(temp_v0, &D_80045340);
         temp_v1 = temp_v0 + 0x20;
-        ASM_KEEP(temp_v1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         (*(s16 *)((u8 *)temp_v1 + 2)) = 0x10;
         color = 0x00800000;
         temp_s0[0] = D_80083780;

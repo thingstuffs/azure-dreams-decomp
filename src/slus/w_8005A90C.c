@@ -52,12 +52,12 @@ found:
     slot = &D_80086A40[idx];
 
     slot->unk14 = arg2;
-    ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     slot->marker = i;
     slot->unk04 = arg0;
     slot->unk08 = arg2;
     a2c = arg2;
-    ASM_KEEP_NV(a2c);   /* MATCH pin: slus-diff */
+    ASM_KEEP_NV(a2c);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     ret = arg1;
     slot->unk18 = 0x7F;
     slot->unk1B = 0x40;

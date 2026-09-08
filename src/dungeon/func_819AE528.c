@@ -57,7 +57,7 @@ void func_80025D28(void *arg0, void *arg1, void *arg2) {
     temp_v0_3 = func_80064584(((Rec_func_80025D28_arg0 *)arg0)->unk_36 + 0x800);
     temp_prod = temp_s2 * temp_s0_3;
     temp_prod *= ((Rec_func_80025D28_arg0 *)arg0)->unk_3E;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_lo = temp_v0_3 * ((Rec_func_80025D28_arg0 *)arg0)->unk_40;
     ((S_80025D28_1 *)arg1)->unk_0C = (((Rec_func_80025D28_arg0 *)arg0)->unk_1C << 0x10) +
         (temp_prod >> 7) + (temp_lo << 6);
@@ -66,7 +66,7 @@ void func_80025D28(void *arg0, void *arg1, void *arg2) {
     temp_v0_4 = func_800644B8(((Rec_func_80025D28_arg0 *)arg0)->unk_36 + 0x800);
     temp_prod_2 = temp_s2_2 * temp_s0_4;
     temp_prod_2 *= ((Rec_func_80025D28_arg0 *)arg0)->unk_3E;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_lo_2 = temp_v0_4 * ((Rec_func_80025D28_arg0 *)arg0)->unk_40;
     ((S_80025D28_1 *)arg1)->unk_10 = (((Rec_func_80025D28_arg0 *)arg0)->unk_1E << 0x10) +
         (temp_prod_2 >> 7) + (temp_lo_2 << 6);

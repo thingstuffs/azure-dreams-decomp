@@ -95,12 +95,12 @@ void func_8009255C(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *a
 
 state_0:
     page = (void *)0x80080000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     base = (volatile s16 *)(page + 0x3160);
     if ((((((S_8009255C_1 *)base)->unk_C8 +
              arg3->unk_2A.as_s16 + 0x100) >> 9) & 7) == 2) {
         call_arg = arg2;
-        ASM_KEEP(call_arg);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         table = D_800DD100;
         call_arg->unk_2C = table;
         entry = (u8 *)((s32)(((((S_8009255C_1 *)base)->unk_C8 +

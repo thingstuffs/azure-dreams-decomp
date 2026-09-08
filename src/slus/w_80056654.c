@@ -86,7 +86,7 @@ void func_80056654(S_80056654_0 *arg0, s32 arg1) {
         temp_a1 = (arg0->unk_0C << 7) + temp_v0;
         D_80084918.field4 = 0x60;
         table = tbase + arg0->unk_00;
-        ASM_KEEP_NV(table);   /* MATCH pin: slus-diff */
+        ASM_KEEP_NV(table);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         temp_s0_2 = temp_s0 + temp_a1;
         hi = (s32) (temp_s0_2 << 0x10) >> 0x17;
         temp_s0_2 &= 0x7F;

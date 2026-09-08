@@ -11,7 +11,7 @@ extern s32 D_80082A38[];
 
 void func_800AE0F4(s32 *arg0) {
     Words *src;
-    register Words *dst ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register Words *dst ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     Words *end;
 
     {
@@ -37,7 +37,7 @@ void func_800AE0F4(s32 *arg0) {
         dst->b = b;
         dst->c = c;
         dst->d = d;
-        ASM_KEEP(src);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         src++;
         dst++;
     } while (src != end);

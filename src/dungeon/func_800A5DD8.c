@@ -79,7 +79,7 @@ s32 func_800AB538(void *arg0, void *arg1, void *arg2, void *arg3)
     {
         s32 continuation_state = 0;
 
-        ASM_KEEP(continuation_state);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(continuation_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         return func_800AB758();
     }
 
@@ -90,7 +90,7 @@ state_ge_2:
     {
         s32 continuation_state = 0;
 
-        ASM_KEEP(continuation_state);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(continuation_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         return func_800AB758();
     }
 
@@ -103,7 +103,7 @@ state_0:
 
         ((S_800AB538_0 *)p0)->unk_9B = 2;
         tail_result = func_800AB754();
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         return tail_result;
     }
     ((S_800AB538_1 *)p3)->unk_8A = 0x800 / ((S_800AB538_0 *)p0)->unk_96.s;
@@ -111,7 +111,7 @@ state_0:
         s32 continuation_state =
             ((S_800AB538_0 *)p0)->unk_9B + 1;
 
-        ASM_TAILSLOT_PIN(continuation_state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(continuation_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         return func_800AB734();
     }
 
@@ -169,13 +169,13 @@ state_1:
 state_2:
     ((S_800AB538_4 *)p2)->unk_1E = 0;
     ((S_800AB538_4 *)p2)->unk_1C = 0;
-       /* MATCH pin: retail branch polarity depends on it */
+       /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     {
         s32 flags = ((S_800AB538_1 *)p3)->unk_1C;
 
         flags |= 0x800000;
         ((S_800AB538_1 *)p3)->unk_1C = flags;
-        ASM_KEEP(flags);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     }
     return 0;
 }

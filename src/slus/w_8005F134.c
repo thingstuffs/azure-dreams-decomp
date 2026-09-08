@@ -78,13 +78,13 @@ void func_8005F134(SpuVoiceAttr_ *attr)
     u32 mask;
     s32 vreg;
     s32 all;
-    register s32 voll ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 volr ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 voll ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 volr ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 mode;
     s32 sub;
-    register u16 tmp ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u16 tmp ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u16 old;
-    register u16 vraw ASM_REG("$2");   /* MATCH pin: slus-diff */
+    register u16 vraw ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u16 cn;
     u16 nt;
     s16 vm;

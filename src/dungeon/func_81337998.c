@@ -75,16 +75,16 @@ void func_8016E998(Rec_D_800E3D7C *arg0) {
     s32 temp_v0_6;
     s32 temp_v0_7;
     s32 temp_v0_8;
-    register s32 temp_a0_4 ASM_REG("$4");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 temp_a0_4 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *temp_a0_5;
-    register s32 temp_v1_2 ASM_REG("$3");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u16 temp_v1_3;
     s32 var_s3;
     s32 var_s4;
     u16 temp_v0_2;
     M2C_UNK *temp_s7;
     void **var_s5;
-    register S_8016E998_2 *temp_a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register S_8016E998_2 *temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_8016E998_5 *temp_a1_3;
     S_8016E998_0 *temp_s0;
     void *temp_v0;
@@ -98,10 +98,10 @@ void func_8016E998(Rec_D_800E3D7C *arg0) {
         temp_v0 = func_8003FC64(0x12);
         if (temp_v0 != NULL) {
             temp_a0_5 = temp_v0;
-            ASM_KEEP(temp_a0_5);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(temp_a0_5);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_s0 = temp_v0 + 0x20;
             temp_v0_8 = 0x32;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_s0->unk_18 = (s16) temp_v0_8;
             temp_s0->unk_1A = (s16) temp_v0_8;
             ((S_8016E998_1 *)temp_v0)->unk_10 = temp_s7;
@@ -109,9 +109,9 @@ void func_8016E998(Rec_D_800E3D7C *arg0) {
             temp_a1 = ((S_8016E998_1 *)temp_v0)->unk_0C;
             temp_v0_2 = temp_a1->unk_14 | 0xC;
             temp_a1->unk_14 = temp_v0_2;
-            ASM_KEEP(temp_v0_2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_v1_3 = temp_v0_2;
-            ASM_KEEP(temp_v1_3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(temp_v1_3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             temp_a1->unk_10 = 0x20;
             temp_a1->unk_14 = (u16) (temp_v1_3 | 0x80);
             temp_v1 = ((S_8016E998_1 *)temp_v0)->unk_08;
@@ -139,11 +139,11 @@ void func_8016E998(Rec_D_800E3D7C *arg0) {
             temp_s0->unk_88 = (s16) temp_v0_6;
             temp_s0->unk_7C = (s16) temp_v0_6;
             temp_a1_3 = ((S_8016E998_1 *)temp_v0)->unk_0C;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_v0_7 = 0x1000;
-            ASM_KEEP(temp_v0_7);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(temp_v0_7);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             temp_a1_3->unk_0C = (s8) temp_v1_2;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_a0_4 = temp_v1_2;
             temp_a1_3->unk_1E = (s16) temp_v0_7;
             temp_a1_3->unk_1C = (s16) temp_v0_7;

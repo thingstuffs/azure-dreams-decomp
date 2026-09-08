@@ -45,7 +45,7 @@ s32 func_800CA93C(void *arg0, s32 arg1, void *arg2) {
     void *obj;
     s32 mask;
     S_800CA93C_3 *other;
-    register void *call_arg0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *call_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 found;
     void *entry;
 
@@ -54,7 +54,7 @@ s32 func_800CA93C(void *arg0, s32 arg1, void *arg2) {
     ((S_800CA93C_0 *)obj)->unk_14 |= 0x2000;
     ((S_800CA93C_0 *)obj)->unk_1C |= 0x2000;
     ((S_800CA93C_0 *)obj)->unk_60 = func_800A3D18(call_arg0, obj, 4);
-    ASM_KEEP(obj);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     mask = -0x2001;
     ((S_800CA93C_0 *)obj)->unk_14 &= mask;
@@ -71,8 +71,8 @@ s32 func_800CA93C(void *arg0, s32 arg1, void *arg2) {
         ((S_800CA93C_0 *)obj)->unk_14 &= mask;
         ((S_800CA93C_0 *)obj)->unk_1C &= mask;
         if (found == (s32)((S_800CA93C_0 *)obj)->unk_60) {
-            ASM_KEEP(other);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-            ASM_KEEP(mask);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             func_800CA788(obj, arg1_hold, arg2_hold, obj);
             return 0;
         }
@@ -85,9 +85,9 @@ s32 func_800CA93C(void *arg0, s32 arg1, void *arg2) {
         ((S_800CA93C_0 *)obj)->unk_46 |= 0x8000;
     }
 
-    ASM_KEEP(obj0);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(arg1_hold);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2_hold);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(obj0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1_hold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2_hold);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     func_800CA444(obj0, arg1_hold, arg2_hold, obj);
     return 0;
 }

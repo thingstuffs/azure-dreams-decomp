@@ -33,6 +33,6 @@ s32 func_800165E4(S_800165E4_0 *arg0, s32 arg1) {
     }
     func_80016CCC(value);
     func_80016D20(arg0->unk_18);
-    ASM_USE(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     return 1;
 }

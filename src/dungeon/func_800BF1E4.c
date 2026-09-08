@@ -71,7 +71,7 @@ extern void *func_8003FC64(s32);
 extern s32 func_8004491C(void *, void *);
 
 void func_800C4944(FuncArg *arg0) {
-    register s32 counter ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 counter ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     FuncSub *sub;
     FuncItem *item;
     FuncBlock *block;

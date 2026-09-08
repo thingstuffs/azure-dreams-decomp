@@ -78,21 +78,21 @@ void func_801652FC(
 {
     S_801652FC_2 *saved_arg0 = arg0;
     s32 saved_arg1 = arg1;
-    register s32 saved_arg3 ASM_REG("$22") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    s32 saved_arg4 = arg3;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 saved_arg3 ASM_REG("$22") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 saved_arg4 = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 saved_arg5 = arg4;
     s32 saved_arg6 = arg5;
-    register void *obj ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *obj ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *tail;
     register s32 narrowed_arg3;
-    register s32 divisor ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 numerator_x;
-    register s32 numerator_y ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 numerator_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 quotient_x;
-    register s32 quotient_y ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 quotient_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 quotient_z;
     s32 rounded_x;
-    register s32 rounded_y ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 rounded_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 rounded_z;
 
     obj = func_8003FD64(0x211, saved_arg0);
@@ -121,16 +121,16 @@ void func_801652FC(
 
         quotient_x = numerator_x / divisor;
         ((S_801652FC_0 *)tail)->unk_4C = quotient_x / 2;
-        ASM_KEEP(quotient_x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(quotient_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         numerator_y = -(saved_arg5 << 16);
         quotient_y = numerator_y / divisor;
         ((S_801652FC_0 *)tail)->unk_50 = quotient_y / 2;
-        ASM_KEEP(quotient_y);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(quotient_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         quotient_z = -(saved_arg6 << 16) / divisor;
         ((S_801652FC_0 *)tail)->unk_54 = quotient_z / 2;
 
         rounded_x = quotient_x;
-        ASM_KEEP(rounded_x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(rounded_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (rounded_x < 0) {
             rounded_x += 3;
         }
@@ -154,6 +154,6 @@ void func_801652FC(
         ((S_801652FC_0 *)tail)->unk_08 = saved_arg1;
     }
 
-    ASM_KEEP(saved_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(saved_arg4);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_arg4);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 }

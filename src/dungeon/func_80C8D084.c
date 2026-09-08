@@ -81,13 +81,13 @@ s32 func_8014C884(u8 *arg0, u16 *arg1)
 
         if ((u32)index < 480U) {
         u16 tpage;
-        register s32 call_zero ASM_REG("$4") = 0;   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register s32 call_one ASM_REG("$5") = 1;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 call_zero ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register s32 call_one ASM_REG("$5") = 1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         u32 link;
         u32 color_r;
-        register u32 color_g ASM_REG("$6");   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register u32 color_b ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register u32 code_command ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register u32 color_g ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register u32 color_b ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register u32 code_command ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         link = *(u32 *)(arg0 + 8);
         obj->data.link = link;
@@ -97,8 +97,8 @@ s32 func_8014C884(u8 *arg0, u16 *arg1)
         color_r = obj->data.color.r;
         color_g = obj->data.color.g;
         color_b = obj->data.color.b;
-        ASM_KEEP(color_g);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP(color_b);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(color_g);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(color_b);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         obj->data.color.command = code_command;
 
         *(u32 *)obj = (*(u32 *)obj & mask_hi) |

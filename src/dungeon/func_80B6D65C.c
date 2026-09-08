@@ -95,7 +95,7 @@ extern u8 D_80173D4C[];
 void func_80170E5C(void *in0, void *in1, void *in2, void *in3)
 {
     void *arg0;
-    register void *arg1 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *arg1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *arg2;
     void *arg3;
     u8 *table;
@@ -115,8 +115,8 @@ void func_80170E5C(void *in0, void *in1, void *in2, void *in3)
         return;
     }
 
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     if (((S_80170E5C_1 *)arg3)->unk_25 == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);

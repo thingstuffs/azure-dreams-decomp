@@ -34,7 +34,7 @@ extern s32 D_800814A0;
 
 void func_80024370(void *arg0, s32 arg1, void *arg2)
 {
-    register void *saved_arg2 ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *saved_arg2 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_80024370_1 *object;
     u16 count;
 
@@ -59,13 +59,13 @@ count_8:
 
 count_16:
     {
-        register s32 *global_page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 *global_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         global_page = (s32 *)0x80080000;
-        ASM_KEEP(global_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_80024370_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         ((S_80024370_2 *)global_page)->unk_14A0 |= 0x8000;
-        ASM_KEEP(saved_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         func_800478B8(saved_arg2);
     }
 }

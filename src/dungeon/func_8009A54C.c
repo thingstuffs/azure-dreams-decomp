@@ -7,7 +7,7 @@ s32 func_8009FCAC(s16 arg0) {
 
     value = 0;
     if (arg0 >= 0) {
-        register s8 *entry ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+        register s8 *entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
         value = (s32)&D_800E2970;
         entry = (s8 *)value + arg0 * 0x14;

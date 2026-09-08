@@ -53,8 +53,8 @@ extern u8 D_801749EC[];
 
 void func_80175180(void *in_arg0, void *in_arg1)
 {
-    register void *arg0 ASM_REG("$17") = in_arg0;   /* MATCH pin: retail immediate-load split depends on it */
-    register void *arg1 ASM_REG("$18") = in_arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg0 ASM_REG("$17") = in_arg0;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register void *arg1 ASM_REG("$18") = in_arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 flags;
     void *obj;
     S_80175180_3 *part;
@@ -62,8 +62,8 @@ void func_80175180(void *in_arg0, void *in_arg1)
     u8 *state;
 
     obj = func_8003FC64(0x12);
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     state = (u8 *)obj + 0x20;
     if (obj != 0) {
         ((S_80175180_0 *)state)->unk_08 = 0x4A;

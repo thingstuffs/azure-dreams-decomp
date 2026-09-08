@@ -25,10 +25,10 @@ extern void func_80701404(void);
 extern void func_80701350(void) __attribute__((noreturn));
 
 s32 func_808752CC(s32 arg0) {
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     if ((func_80700C9C(zero | 1) != 0) && (*D_80701988[0]->value >= 2)) {
-        ASM_UNDEF(zero);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_UNDEF(zero);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_80700D24(zero | 1);
         D_80701968[0]->flags |= 2;
         func_80701404();

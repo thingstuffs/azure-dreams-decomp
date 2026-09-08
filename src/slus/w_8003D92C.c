@@ -54,17 +54,17 @@ int func_8003D92C(void)
 {
   int a;
   int b;
-  register int flags ASM_REG("$2");   /* MATCH pin: slus-diff */
+  register int flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   int saved;
   u8 *page = BASE_PAGE;
-  register S_8003D92C_80083160 *p ASM_REG("$3");   /* MATCH pin: slus-diff */
-  ASM_KEEP_NV(page);   /* MATCH pin: slus-diff */
+  register S_8003D92C_80083160 *p ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   p = (S_8003D92C_80083160 *)(page + BASE_OFFSET);
   if (D_80082E6F[0] & 0x80)
   {
     return 0;
   }
-  ASM_KEEP_NV(p);   /* MATCH pin: slus-diff */
+  ASM_KEEP_NV(p);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   a = p->field10;
   if (a & 0x100)
   {
@@ -129,7 +129,7 @@ int func_8003D92C(void)
     {
       u8 *flags_base = FLAGS_PAGE;
       saved = D_80080A94[0];
-      ASM_KEEP(flags_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      ASM_KEEP(flags_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       flags = *(int *)(flags_base + FLAGS_OFFSET);
       D_80080A8A[0] = 0;
       D_80080A88[0] = 0;

@@ -20,7 +20,7 @@ void func_800C9FBC(TownObject *obj) {
     if ((timer << 16) <= 0) {
         func_800CA60C();
         value = obj->value + 0x800;
-        ASM_TAILSLOT_PIN_TIED(value);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_800CA008();
         return;
     }

@@ -67,7 +67,7 @@ void func_80173408(void *arg0, void *arg1, void *arg2, void *arg3)
 
 L0:
     {
-        void *call_a0 = arg3;   /* MATCH pin: retail basic-block layout depends on it */
+        void *call_a0 = arg3;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
         if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
             ((S_80173408_0 *)arg0)->unk_9B.n = 4;
@@ -111,13 +111,13 @@ L2:
         s16 *base_x;
         s16 *base_y;
         s16 *addr_x;
-        register s16 *addr_y ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s16 *addr_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 arc;
-        register s32 index ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register s32 direction_x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 direction_y ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register s32 shifted_x ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
-        register s32 shifted_y ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 direction_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 direction_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 shifted_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        register s32 shifted_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 timer;
 
         base_x = (s16 *)&D_8006CCD8;
@@ -125,7 +125,7 @@ L2:
         index = ((u16)((S_80173408_4 *)arg3)->unk_2A.u >> 8) & 0xE;
         addr_x = (s16 *)(index + (u8 *)base_x);
         addr_y = (s16 *)(index + (u8 *)base_y);
-        ASM_KEEP(index);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         direction_x = *addr_x;
         direction_y = *addr_y;
         shifted_x = direction_x << 16;
@@ -155,11 +155,11 @@ L3:
         s16 *addr_x;
         s16 *addr_y;
         s32 arc;
-        register s32 direction_x ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register s32 direction_y ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 direction_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 direction_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 index;
-        register s32 shifted_x ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
-        register s32 shifted_y ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 shifted_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        register s32 shifted_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 timer;
         s32 velocity_x;
         s32 velocity_y;
@@ -172,7 +172,7 @@ L3:
         index = ((u16)((S_80173408_4 *)arg3)->unk_2A.u >> 8) & 0xE;
         addr_x = (s16 *)(index + (u8 *)base_x);
         addr_y = (s16 *)(index + (u8 *)base_y);
-        ASM_KEEP(addr_x);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(addr_x);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         direction_x = *addr_x;
         direction_y = *addr_y;
         shifted_x = direction_x << 16;

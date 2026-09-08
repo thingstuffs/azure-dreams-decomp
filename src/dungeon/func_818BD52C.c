@@ -85,7 +85,7 @@ void *func_818BD52C(S_818BD52C_1 *arg0, void *arg1, s32 arg2, s32 arg3)
     S_818BD52C_4 *coords;
     void *node;
     s32 val;
-    register void *ret ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     node = func_8003FC64(0x212);
     if (node != 0) {
@@ -132,7 +132,7 @@ void *func_818BD52C(S_818BD52C_1 *arg0, void *arg1, s32 arg2, s32 arg3)
         coords->unk_14 = coords->unk_08;
         ret = node;
         val = coords->unk_14 + ((u32)base->unk_0A << 16);
-        ASM_USE(ret);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE(ret);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coords->unk_14 = val;
         func_80024F24(coords, val);
     }

@@ -32,15 +32,15 @@ void func_800B4188(CopyTarget *arg0)
 {
     CopyTarget *base;
     register u8 *src;
-    register u8 *dst ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *dst ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *end;
-    register u32 page ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u32 tail0 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register u32 tail1 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register u32 tail2 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u32 tail0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 tail1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 tail2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     base = arg0;
-    ASM_KEEP(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     src = D_800D16FC;
     dst = (u8 *)base;
     if (((u32)src | (u32)base) & 3) {
@@ -68,7 +68,7 @@ void func_800B4188(CopyTarget *arg0)
             *(u32 *)(dst + 0x4) = word1;
             *(u32 *)(dst + 0x8) = word2;
             *(u32 *)(dst + 0xC) = word3;
-            ASM_KEEP(src);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(src);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             dst += 0x10;
             src += 0x10;
         } while (src != end);

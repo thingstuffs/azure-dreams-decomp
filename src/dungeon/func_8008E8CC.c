@@ -47,7 +47,7 @@ extern s8 D_8006CCE8;
 extern DungeonSlot *D_800E3DF0[];
 
 s32 func_8009402C(void *arg0, void *arg1, void *arg2, s16 *arg3, s16 *arg4, void *arg5) {
-    register s32 shifted_result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 shifted_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 temp_a2;
     s16 temp_s0;
     s16 temp_s1;
@@ -64,7 +64,7 @@ s32 func_8009402C(void *arg0, void *arg1, void *arg2, s16 *arg3, s16 *arg4, void
     coord_arg = arg3;
     if (arg5 != NULL) {
         var_v0 = 3;
-        ASM_CLOBBER("$7");   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (!(D_800E3DF0[(*(u8 *)((u8 *)arg5 + 3)) & 0x1F]->flags & 0x04000000)) {
             temp_v1 = ((u16) ((S_8009402C_0 *)arg0)->unk_2A >> 8) & 0xE;
             temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_24 + *(u16 *)(&D_8006CCD8 + temp_v1);

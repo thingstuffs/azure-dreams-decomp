@@ -103,7 +103,7 @@ case_0:
         D_8002992E = 1;
         FIELD(arg0, u16, 0x2A) = 0;
         FIELD(arg0, u16, 0xA) = state + 1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         child = FIELD(arg0, ChildObj *, 4);
         if ((child->flags & 0x80) == 0) {
             return;
@@ -117,7 +117,7 @@ case_0:
 case_1:
     {
         u16 timer = FIELD(arg0, u16, 0x28);
-        register GlobalObj *owner ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+        register GlobalObj *owner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         Position *position;
         OffsetPair *offsetBase;
         u16 nextState;
@@ -206,7 +206,7 @@ case_2:
         }
         resetTimer = 0x3C;
         deadState = FIELD(arg0, u16, 0xA);
-        ASM_KEEP(deadState);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(deadState);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         FIELD(arg0, s16, 0x1C) = resetTimer;
         func_800268A0();
         return;

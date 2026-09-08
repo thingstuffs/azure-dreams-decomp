@@ -29,14 +29,14 @@ void func_80025A58(void *arg0, void *arg1, void *arg2)
     s32 b1;
     s32 b2;
     s32 b3;
-    register s32 b4 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
-    register s32 b5 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 b4 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 b5 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 q0;
     s32 q1;
     s32 q2;
     s32 q3;
-    register s32 q4 ASM_REG("$11");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 q5 ASM_REG("$9");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 q4 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 q5 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 remaining;
     s32 remaining_test;
 
@@ -97,24 +97,24 @@ void func_80025A58(void *arg0, void *arg1, void *arg2)
     U16_AT(arg0, 0x34) = scratch[0x9C / 2] + U16_AT(state, 0xA);
 
     b0 = U8_AT(arg0, 0x50);
-    ASM_KEEP_NV(b0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(b0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     q0 = b0 / S16_AT(arg0, 0x1A);
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     b1 = U8_AT(arg0, 0x51);
-    ASM_KEEP_NV(b1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(b1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     q1 = b1 / S16_AT(arg0, 0x1A);
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     b2 = U8_AT(arg0, 0x52);
-    ASM_KEEP_NV(b2);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(b2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     q2 = b2 / S16_AT(arg0, 0x1A);
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     b3 = U8_AT(arg0, 0x54);
-    ASM_KEEP_NV(b3);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP_NV(b3);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     q3 = b3 / S16_AT(arg0, 0x1A);
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     b4 = U8_AT(arg0, 0x55);
     q4 = b4 / S16_AT(arg0, 0x1A);
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     b5 = U8_AT(arg0, 0x56);
     q5 = b5 / S16_AT(arg0, 0x1A);
 
@@ -131,7 +131,7 @@ void func_80025A58(void *arg0, void *arg1, void *arg2)
     b3 -= q3;
     b4 -= q4;
     b5 -= q5;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     U8_AT(arg0, 0x50) = b0;
     U8_AT(arg0, 0x51) = b1;
     U8_AT(arg0, 0x52) = b2;

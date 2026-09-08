@@ -51,10 +51,10 @@ typedef struct S_801740DC_6 {
 
 void func_801740DC(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
-    register void *actor ASM_REG("$18") = arg0;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 actor_index ASM_REG("$19") = arg1;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *target ASM_REG("$17") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *entity ASM_REG("$16") = arg3;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *actor ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 actor_index ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *target ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *entity ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 flags;
     s32 index;
@@ -111,9 +111,9 @@ state_one:
     if (((S_801740DC_4 *)global_base)->unk_02 & 0x1000) {
         goto done;
     }
-    ASM_CLOBBER("$4");   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_CLOBBER("$5");   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_CLOBBER("$6");   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
         if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
             goto done;

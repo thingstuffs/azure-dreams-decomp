@@ -37,7 +37,7 @@ extern void *D_80026208;
 
 void func_8197829C(s32 arg0, s32 *arg1, s32 *arg2)
 {
-    register Obj *obj ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register Obj *obj ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ObjSub *sub;
     s32 temp_a2;
     s32 temp_v0;
@@ -50,7 +50,7 @@ void func_8197829C(s32 arg0, s32 *arg1, s32 *arg2)
         obj->arg = arg0;
         sub = (ObjSub *)&obj->arg;
         obj->callback = D_80025940;
-        ASM_KEEP(obj);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         sub->unk4C = 0;
         sub->unk4E = 0;
         sub->x1 = arg1[0];
@@ -74,7 +74,7 @@ void func_8197829C(s32 arg0, s32 *arg1, s32 *arg2)
             return;
         }
         sub->z0 = height << 16;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         sub->unk40 = (arg2[0] - arg1[0]) / 12;
         temp_a2 = sub->z0;
         temp_v0 = sub->z1;

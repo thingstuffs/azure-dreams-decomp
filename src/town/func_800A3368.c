@@ -11,7 +11,7 @@ void func_800A0AC8(void *arg0, void *arg1, void *arg2) {
     if (*(s16 *)((u8 *)arg0 + 0x68) == 0) {
         if (func_800A0668(arg0) == 0) {
             void *call_arg = arg0;
-            ASM_KEEP(call_arg);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800A0B1C(call_arg);
         }
     } else if ((func_800A0668(arg0) != 0) && (func_800A0F10(arg0, arg1) != 0)) {

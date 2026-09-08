@@ -1,10 +1,10 @@
 #include "common.h"
 
 s32 func_800A35D8(s32 arg0, s32 arg1) {
-    register s32 result ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 flags0 ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 flags1 ASM_REG("$6");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register s32 next ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 flags0 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 flags1 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register s32 next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp;
 
     result = 0;

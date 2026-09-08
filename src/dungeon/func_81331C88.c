@@ -127,7 +127,7 @@ extern u8 D_80175DD8[];
 
 void func_80168C88(u8 *arg0, void *arg1, void *arg2_in)
 {
-    register void *arg2 ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg2 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 temp_v1;
     u16 temp_a0;
     s32 var_v0;
@@ -137,22 +137,22 @@ void func_80168C88(u8 *arg0, void *arg1, void *arg2_in)
     s32 var_t5;
     s32 var_t2;
     s32 var_t3;
-    register s32 var_t1 ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_a3;
     s32 temp_a1;
-    register u8 *temp_v1_2 ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *temp_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *temp_a2;
-    register s32 temp_a0_2 ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *table_base;
     s32 var_s3;
     s32 var_s4;
     void *temp_v0_2;
     u8 *temp_s0;
-    register void *temp_a3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *temp_v1_3;
-    register s32 var_t0_2 ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *var_a0 ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 var_t0_2 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *temp_a3_2;
     s32 var_t2_2;
     u8 *var_t0_3;
@@ -161,15 +161,15 @@ void func_80168C88(u8 *arg0, void *arg1, void *arg2_in)
     s32 var_a3_2;
     s32 temp_t1;
     u16 *var_a1;
-    register u16 *var_a2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register u16 *var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_a0_5;
     s32 temp_v1_4;
     s32 temp_v0_4;
-    register u8 *lookup ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *lookup ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *lookup_final;
     s16 temp_v0_3;
     u8 *base_80175DD8;
-    register s32 one ASM_REG("$22");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 one ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     temp_v1 = ((S_80168C88_0 *)arg0)->unk_12.s;
     temp_a0 = *(volatile u16 *)(arg0 + 0x12);
@@ -216,20 +216,20 @@ loop_14:
 loop_15:
         temp_a1 = var_a3 * 2;
         temp_v1_2 = (u8 *)(((S_80168C88_0 *)arg0)->unk_1C * 0x60);
-        ASM_KEEP_NV(temp_v1_2);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         temp_v1_2 += (s32)table_base;
         temp_v0 = (u8 *)((s32)var_t1 + (s32)temp_v1_2);
         temp_a2 = (s16 *)temp_a1;
         temp_a2 = (s16 *)((u8 *)temp_a2 + (s32)temp_v0);
-        ASM_KEEP_DEP_NV(temp_a2, temp_v0);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_DEP_NV(temp_a2, temp_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         temp_v0 += temp_a1;
-        ASM_KEEP_NV(temp_v0);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(temp_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         temp_a0_2 = (((S_80168C88_2 *)temp_v0)->unk_54 - *temp_a2) * var_t0;
         var_a3 += 1;
         temp_v1_2 = (u8 *)((s32)var_t5 + (s32)temp_v1_2);
         temp_v1_2 = (u8 *)((s32)var_t1 + (s32)temp_v1_2);
         temp_a1 += (s32)temp_v1_2;
-        ASM_KEEP_NV(temp_a1);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(temp_a1);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         ((S_80168C88_3 *)((void *)temp_a1))->unk_00 = *temp_a2 + temp_a0_2 / 7;
         if (var_a3 < 3) {
             goto loop_15;
@@ -251,15 +251,15 @@ loop_15:
     do {
         temp_v0_2 = func_8003FC64(0x12);
         if (temp_v0_2 != NULL) {
-            register void *task_arg ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+            register void *task_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             void *init_fn;
             void *callback;
 
             task_arg = temp_v0_2;
             temp_s0 = (u8 *)temp_v0_2 + 0x20;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             init_fn = D_80167C30;
-            ASM_KEEP_DEP_NV(init_fn, temp_s0);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP_DEP_NV(init_fn, temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             callback = D_80166914;
             ((S_80168C88_4 *)temp_s0)->unk_18 = one;
             ((S_80168C88_4 *)temp_s0)->unk_1A = one;
@@ -324,10 +324,10 @@ loop_15:
             do {
                 var_a3_2 = 0;
                 temp_v1_4 = one - var_t2_2;
-                ASM_KEEP_NV(temp_v1_4);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_KEEP_NV(temp_v1_4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 temp_v0_4 = temp_v1_4 * 2;
                 temp_v0_4 += temp_v1_4;
-                ASM_KEEP_NV(temp_v0_4);   /* MATCH pin: keeps a constant in a register as retail does */
+                ASM_KEEP_NV(temp_v0_4);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 temp_t1 = temp_v0_4 * 2;
                 var_a2 = (u16 *)(var_t0_3 + 0x80);
                 var_a1 = (u16 *)(var_t0_3 + 0x74);
@@ -347,7 +347,7 @@ loop_28:
                 lookup += 0xC;
                 lookup = (u8 *)((s32)temp_t1 + (s32)lookup);
                 lookup_final = (u8 *)((s32)temp_a0_5 + (s32)lookup);
-                ASM_KEEP_NV(lookup_final);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_KEEP_NV(lookup_final);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 *var_a2 = ((S_80168C88_14 *)lookup_final)->unk_00;
                 var_a2 += 1;
                 if (var_a3_2 < 3) {

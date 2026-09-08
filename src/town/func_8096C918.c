@@ -81,9 +81,9 @@ active:
 
     out = &rect0;
     pixels = D_8012E998;
-    ASM_KEEP(pixels);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(pixels);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     size = 0x80;
-    ASM_KEEP(size);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(size);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     rect0.x = (((S_80124DB0_0 *)arg0)->unk_16 << 6) + 0x240;
     rect0.y = size;
     rect0.w = 0x40;

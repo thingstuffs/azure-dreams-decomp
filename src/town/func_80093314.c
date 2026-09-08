@@ -51,8 +51,8 @@ void func_80090A74(S_80090A74_3 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     s16 temp_v0;
     s32 temp_v0_2;
     s32 temp_v0_3;
-    register u8 *page_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *temp_s3 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *page_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *temp_s4 = D_80083160;
 
     func_80095C80(arg1);
@@ -60,9 +60,9 @@ void func_80090A74(S_80090A74_3 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     {
         void *call_a0 = arg1;
 
-        ASM_KEEP(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         page_v0 = (u8 *)0x80100000;
-        ASM_KEEP(page_v0);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         temp_s3 = page_v0 - 0x1B78;
         temp_v0 = func_80095978(call_a0, temp_s3);
     }
@@ -97,7 +97,7 @@ block_6:
         }
     } else {
         page_v0 = (u8 *)0x800D0000;
-        ASM_KEEP(page_v0);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         temp_s3 = page_v0 - 0x34C;
         temp_v0_3 = func_8009567C(temp_s3);
         if (temp_v0_3 != 0) {

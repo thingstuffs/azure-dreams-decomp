@@ -44,7 +44,7 @@ advance:
         pair_offset += 4;
         return_value = pair_offset + (s32)ranges;
         return_value = *(s16 *)return_value;
-        ASM_KEEP(return_value);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(return_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if (return_value != inner_sentinel) {
             goto inner_loop;
         }
@@ -60,7 +60,7 @@ advance:
 not_found:
     return_value = 0;
 done:
-    ASM_KEEP(return_value);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(return_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return return_value;
 }
 

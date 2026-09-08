@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-08T02:16:10Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-08T02:30:12Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -44,7 +44,7 @@ Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,
 | L0 | 2,558,124 | 100.0% |
 | L1 | 1,991,104 | 77.8% |
 | L2 | 1,891,456 | 73.9% |
-| L3 | 1,383,652 | 54.1% |
+| L3 | 1,415,044 | 55.3% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 

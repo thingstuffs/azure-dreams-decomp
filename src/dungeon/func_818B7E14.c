@@ -49,11 +49,11 @@ s32 func_818B7E14(void *arg0, DungeonSource *arg1)
     DungeonRenderData *render;
     u8 *sub;
     DungeonSource *dst;
-    register DungeonObject *result ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register s32 copy0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s32 copy1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register s32 copy2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
-    register s32 copy3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register DungeonObject *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register s32 copy0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 copy1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 copy2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 copy3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
@@ -79,9 +79,9 @@ s32 func_818B7E14(void *arg0, DungeonSource *arg1)
         render->f1C = 0x400;
         func_8004491C(obj, D_80045C34);
         dst = (DungeonSource *)obj->data;
-        ASM_KEEP_NV(dst);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_NV(dst);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         result = obj;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         copy0 = arg1->word[0];
         copy1 = arg1->word[1];
         copy2 = arg1->word[2];

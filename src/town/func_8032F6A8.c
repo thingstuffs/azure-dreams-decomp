@@ -14,7 +14,7 @@ extern s16 D_8001B8A8[3];
 
 void func_80019EA8(s32 arg0, s32 arg1)
 {
-    register s32 i ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     TownRecord *record;
     s16 *global;
 
@@ -23,7 +23,7 @@ void func_80019EA8(s32 arg0, s32 arg1)
 loop:
         record = (TownRecord *)((i * 8) + arg0);
         func_8001AD60(record->unk2);
-        ASM_KEEP(i);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (func_8001ADE0(global[1]) == 0) {
             func_8001AD60(record->unk4);
         } else {

@@ -28,7 +28,7 @@ s32 func_800CBCA0(void *arg0)
     S_800CBCA0_1 *parent;
     s32 result;
     s32 value;
-    register s32 divisor ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 numerator;
 
     if (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v == 0) {
@@ -37,7 +37,7 @@ s32 func_800CBCA0(void *arg0)
     if (!(((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000)) {
         goto check_global;
     }
-    ASM_KEEP(arg0);   /* MATCH pin: retail branch polarity depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     value = 1;
     goto done;
 
@@ -47,7 +47,7 @@ check_global:
         divisor = ((Rec_D_800E3D7C *)arg0)->unk_00.at03_u8.v;
         if (divisor != 0) {
             value = divisor;
-            ASM_KEEP(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             divisor = numerator % value;
             value = divisor;
             goto value_ready;

@@ -37,7 +37,7 @@ void func_801712C4(void)
 
         {
             u32 value;
-            register u8 *state_page ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+            register u8 *state_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             u32 flags;
 
             value = D_800E296C[0];

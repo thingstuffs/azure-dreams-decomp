@@ -51,10 +51,10 @@ void func_8196C280(void *arg0, void *arg1, void *arg2) {
     u16 temp_v0_2;
     u16 temp_v0_3;
     u16 temp_v0_4;
-    register u16 raw_x ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 raw_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 raw_y;
     u16 var_a0;
-    register u16 var_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     ((S_8196C280_0 *)arg1)->unk_00.at00.v += ((S_8196C280_1 *)arg0)->unk_8C;
     ((S_8196C280_1 *)arg0)->unk_8C += ((S_8196C280_1 *)arg0)->unk_98;

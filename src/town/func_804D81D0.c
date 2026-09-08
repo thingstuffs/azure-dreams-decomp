@@ -28,12 +28,12 @@ void func_800161D0(void)
 {
     s32 zero = 0;
     DataPage *page = (DataPage *)0x80010000;
-    register void (*callback)(s32, void *) ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void (*callback)(s32, void *) ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     CallbackOwner *owner;
     CallbackTable *table;
 
     owner = D_80016000;
-    ASM_KEEP(zero);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     table = owner->table;
     callback = table->callback;
     page->callback_data = &D_80017908;

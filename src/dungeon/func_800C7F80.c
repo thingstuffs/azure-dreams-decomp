@@ -98,14 +98,14 @@ s32 func_800CD6E0(void *arg0) {
     u16 *counter;
     s32 i;
     s32 random;
-    register s32 call_arg ASM_REG("$4");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 divisor;
     s32 gate;
-    register s32 color ASM_REG("$7");   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 count ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 owner_coord;
     s32 coord;
-    register s32 table_offset ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 table_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *callback_base;
 
     if (D_800E3D40 == 0) {
@@ -113,16 +113,16 @@ s32 func_800CD6E0(void *arg0) {
         count = ((S_800CD6E0_0 *)arg0)->unk_03;
         if (count != 0) {
             divisor = count;
-            ASM_KEEP(divisor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             count = call_arg % divisor;
-            ASM_KEEP(count);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             func_800CD744();
             return count;
         }
     }
 
     gate = 0;
-    ASM_KEEP(gate);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(gate);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (gate < 0x30) {
         owner = ((S_800CD6E0_0_pre *)arg0)[-1].unk_00;
         if (owner->unk_14 & 0x8000) {
@@ -135,7 +135,7 @@ s32 func_800CD6E0(void *arg0) {
 
         i = 0;
         coord = 0x800D0000;
-        ASM_KEEP_NV(coord);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         callback_base = (void *)(coord - 0x2B8C);
         counter = D_80083460;
         xpos = D_8006CCD8;
@@ -144,7 +144,7 @@ s32 func_800CD6E0(void *arg0) {
             func_8004491C(obj, D_80045C34);
             color = 0x808080;
             call_arg = 0x50D;
-            ASM_KEEP_NV(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             table_offset = i << 2;
 
             owner_coord = owner->unk_24;

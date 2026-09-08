@@ -104,11 +104,11 @@ void func_80170E70(void *in0, void *in1, void *in2, void *in3)
     void *arg0 = in0;
     void *arg1 = in1;
     void *arg2 = in2;
-    register void *arg3 ASM_REG("$18") = in3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg3 ASM_REG("$18") = in3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 state;
     u32 origin_page;
 #ifdef __mips__
-    register u8 *stack_base ASM_REG("$29");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *stack_base ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 #endif
     s16 sp18;
     s16 path_result;
@@ -128,8 +128,8 @@ void func_80170E70(void *in0, void *in1, void *in2, void *in3)
         return;
     }
 
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((S_80170E70_1 *)arg3)->unk_25 == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
@@ -167,7 +167,7 @@ void func_80170E70(void *in0, void *in1, void *in2, void *in3)
         }
 
         current_state = ((S_80170E70_0 *)arg0)->unk_9A;
-           /* MATCH pin: retail delay-slot fill depends on it */
+           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         state = 14;
         if (current_state != state) {
             u8 *effect = D_80175A54;
@@ -286,7 +286,7 @@ jt_default:
             ((((DungeonRecord *)D_800E2970)[tile].flags & 2) == 0)) {
             if ((flags & 0x430) == 0) {
                 origin_page = 0x80080000;
-                ASM_KEEP(origin_page);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(origin_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 arg0 = (void *)(origin_page + 0x2E80);
                 if ((s16)func_8009FD7C(
                         ((S_80170E70_2 *)arg2)->unk_24.at00.v, ((S_80170E70_2 *)arg2)->unk_24.at01.v,
@@ -318,7 +318,7 @@ jt_default:
     if (((S_80170E70_2 *)arg2)->unk_2C == effect_tbl) {
         return;
     }
-    ASM_KEEP(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     {
         u8 *et = effect_tbl;
         (*(void * *)((u8 *)arg2 + (0x2C))) = et;

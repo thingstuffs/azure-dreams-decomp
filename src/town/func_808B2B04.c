@@ -29,6 +29,6 @@ s32 func_808B2B04(void)
         i++;
     }
     result = i;
-    ASM_KEEP(result);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return result;
 }

@@ -37,7 +37,7 @@ void func_80046E38(s16 arg0, u8 *arg1)
     s32 saved_align;
     s32 cursor;
     s32 count;
-    register u8 *slot_base ASM_REG("$2");   /* MATCH pin: slus-diff */
+    register u8 *slot_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 index;
     s32 tmp;
     Info80046E38 **slot;
@@ -45,14 +45,14 @@ void func_80046E38(s16 arg0, u8 *arg1)
     s32 *data;
 
     state = arg1;
-    ASM_KEEP_NV(state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     original = arg1;
     D_80081480 = D_8008148C[0];
     saved_align = (s32)D_8008148C[0];
     DrawSync(0);
 
     tmp = arg0 << 16;
-    ASM_KEEP_NV(tmp);   /* MATCH pin: slus-diff */
+    ASM_KEEP_NV(tmp);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     slot_base = (u8 *)D_8006E7F0;
     index = tmp >> 14;
     slot = (Info80046E38 **)(index + (u32)slot_base);
@@ -75,11 +75,11 @@ void func_80046E38(s16 arg0, u8 *arg1)
 
     func_80046D64(original, arg0);
     {
-        register s32 mode ASM_REG("$3");   /* MATCH pin: slus-diff */
+        register s32 mode ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         u32 page;
 
         page = 0x80080000;
-        ASM_KEEP_NV(page);   /* MATCH pin: slus-diff */
+        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         mode = *(u8 *)(page + 0x2E6A);
         {
             s32 out;

@@ -120,7 +120,7 @@ void func_800D6AD4(Rec_D_800E3D7C *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         func_8004491C(temp_v0, D_800D68F4, temp_a2);
         ((S_800D6AD4_0 *)temp_v0)->unk_20 = arg1;
         temp_s0->unk_08 = arg1;
-        ASM_KEEP(held_arg4);   /* MATCH pin: retail immediate-load split depends on it */
-        ASM_KEEP(held_arg5);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 }

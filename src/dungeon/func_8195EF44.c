@@ -71,8 +71,8 @@ void *func_8195EF44(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     s16 hold3 = arg3;
     void *obj;
     S_8195EF44_2 *work;
-    register u8 *map ASM_REG("$21");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register u8 *page ASM_REG("$22");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *map ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u8 *page ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *field_addr;
     void *call_addr;
     void *call_obj;
@@ -83,21 +83,21 @@ void *func_8195EF44(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     u16 cell;
     s32 flags;
     s32 global_flags;
-    register void *zero_return ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
-    register u8 *global_page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register void *zero_return ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    register u8 *global_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 x;
-    register s32 y ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 sign ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+    register s32 y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 sign ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(2);
     page = (u8 *)0x80080000;
-    ASM_KEEP(page);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     map = page + 0x333C;
     if (obj == NULL) {
         goto done;
     }
 
-    ASM_KEEP(map);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(map);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     work = (*(void * *)((u8 *)obj + 0xC));
     sign = (s32)((u32)(u16)hold0 << 16);
     x = sign >> 16;
@@ -122,9 +122,9 @@ void *func_8195EF44(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     }
 
     zero_return = NULL;
-    ASM_KEEP(zero_return);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(zero_return);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     global_page = (u8 *)0x80080000;
-    ASM_KEEP(global_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     flags = (*(u16 *)((u8 *)obj + 0x1E));
     global_flags = ((S_8195EF44_3 *)global_page)->unk_14A0;
     flags |= 0x8000;
@@ -135,18 +135,18 @@ void *func_8195EF44(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 
 nonzero:
     call_obj = obj;
-    ASM_KEEP(call_obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     field_addr = &D_80024648;
-    ASM_KEEP(field_addr);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(field_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_addr = &D_80046398;
     (*(void * *)((u8 *)obj + 0x10)) = field_addr;
     func_8004491C(call_obj, call_addr);
 
     color = 0x808080;
     render = (*(void * volatile *)((u8 *)obj + 8));
-    ASM_CLOBBER("$3");   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     coord = (u8 *)obj + 0x20;
-    ASM_KEEP_NV(coord);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ((S_8195EF44_4 *)render)->unk_02 = hold0;
     ((S_8195EF44_5 *)coord)->unk_38 = hold0;
     ((S_8195EF44_4 *)render)->unk_06 = hold1;

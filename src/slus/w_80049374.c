@@ -57,7 +57,7 @@ s32 func_80049374(Item *arg0, StrPair *arg1) {
         var_v1 = var_v1 + id;
         /* Pin scale/addr to $v1 so final addu is addu v1,v1,v0 (not addu v0,v0,v1) */
         {
-            register s32 addr ASM_REG("$3");   /* MATCH pin: slus-diff */
+            register s32 addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             addr = var_v1;
             addr = addr * 4;
             addr = addr + (s32)temp_a0->records;

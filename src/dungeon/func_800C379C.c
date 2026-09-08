@@ -28,7 +28,7 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
 
     {
         s32 random;
-        register s32 masked ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+        register s32 masked ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 denominator;
         u8 divisor;
 
@@ -37,7 +37,7 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
         if (divisor != 0) {
             masked = random & 0xFFFF;
             denominator = divisor;
-            ASM_KEEP(denominator);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(denominator);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             mod = masked % denominator;
         } else {
             mod = 0;
@@ -45,8 +45,8 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
     }
 
     {
-        register s32 signed_arg ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
-        register s32 work ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 signed_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        register s32 work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         work = arg1 << 16;
         signed_arg = work >> 16;
@@ -66,10 +66,10 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
 
     {
         void *object;
-        register s32 decremented ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 decremented ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         object = arg0;
-        ASM_KEEP(object);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         decremented = count - 1;
         *(u8 *)((u8 *)arg0 + 0x26) = decremented;
         func_80041E70(object);
@@ -78,7 +78,7 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
     text = func_80099194(D_800E1A88, handle);
 
     {
-        register void *message_object ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+        register void *message_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
         message_object = arg0;
         if (*(s32 *)((u8 *)arg0 + 0x14) & 0x4000) {

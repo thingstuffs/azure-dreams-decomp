@@ -45,9 +45,9 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
   s32 flags_value;
   s32 position_word;
   s32 final_value;
-  register u8 *global_page ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+  register u8 *global_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   u8 *geometry_arg;
-  register s32 setup_arg ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+  register s32 setup_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   global_page = D_80083160 - 0x3160;
   cursor = (*((DungeonState **) (global_page + 0x3160)))->cursor;
   hw = (volatile u8 *) 0x1F800000;
@@ -59,7 +59,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
   *((volatile s32 *) (((volatile u8 *) hw) + 0xC)) = parameters->y0;
   *((volatile s32 *) (((volatile u8 *) hw) + 0x10)) = parameters->x1;
   *((volatile s32 *) (((volatile u8 *) hw) + 0x14)) = parameters->y1;
-  ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+  ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
   index = 0;
   if (parameters->count != 0)
   {
@@ -77,46 +77,46 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       *((volatile u8 *) (((volatile u8 *) vertex) + 6)) = y_value;
       angle = func_80064584(phase / parameters->count);
       index += 1;
-      ASM_USE(index);   /* MATCH pin: load-bearing for the whole function shape */
+      ASM_USE(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       {
         s32 value;
-        register s32 product ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 product ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = *((volatile s32 *) (((volatile u8 *) hw) + 0x10));
         product = value * angle;
-        ASM_USE2_NV(value, product);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE2_NV(value, product);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = product >> 13;
         *((volatile u8 *) (((volatile u8 *) vertex) + 41)) = (*((volatile u8 *) (((volatile u8 *) vertex) + 5))) + value;
       }
       angle = func_800644B8(phase / parameters->count);
       phase += 0x1000;
-      ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
       {
         s32 value;
-        register s32 product ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 product ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = *((volatile s32 *) (((volatile u8 *) hw) + 0x14));
         product = value * angle;
-        ASM_USE2_NV(value, product);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE2_NV(value, product);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = product >> 13;
         *((volatile u8 *) (((volatile u8 *) vertex) + 42)) = (*((volatile u8 *) (((volatile u8 *) vertex) + 6))) + value;
       }
       angle = func_80064584(phase / parameters->count);
       {
         s32 value;
-        register s32 product ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 product ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = parameters->x2;
         product = value * angle;
-        ASM_USE2_NV(value, product);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE2_NV(value, product);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = product >> 12;
         *((volatile u16 *) (((volatile u8 *) hw) + 0x78)) = position->x + value;
       }
-      ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
       angle = func_800644B8(phase / parameters->count);
       {
         s32 value;
-        register s32 product ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 product ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = parameters->y2;
         product = value * angle;
-        ASM_USE2_NV(value, product);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE2_NV(value, product);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = product >> 12;
         *((volatile u16 *) (((volatile u8 *) hw) + 0x7A)) = position->y + value;
       }
@@ -128,26 +128,26 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       angle = func_80064584(phase / parameters->count);
       {
         s32 value;
-        register s32 product ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 product ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = *((volatile s32 *) (((volatile u8 *) hw) + 0x10));
         product = value * angle;
-        ASM_USE2_NV(value, product);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE2_NV(value, product);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = product >> 13;
         *((volatile u8 *) (((volatile u8 *) vertex) + 29)) = (*((volatile u8 *) (((volatile u8 *) vertex) + 5))) + value;
       }
       angle = func_800644B8(phase / parameters->count);
       {
         s32 value;
-        register s32 product ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 product ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = *((volatile s32 *) (((volatile u8 *) hw) + 0x14));
         product = value * angle;
-        ASM_USE2_NV(value, product);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE2_NV(value, product);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = product >> 13;
         *((volatile u8 *) (((volatile u8 *) vertex) + 30)) = (*((volatile u8 *) (((volatile u8 *) vertex) + 6))) + value;
       }
       *((volatile u16 *) (((volatile u8 *) vertex) + 7)) = parameters->texture;
       flags_value = parameters->flags;
-      ASM_KEEP(vertex);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+      ASM_KEEP(vertex);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
       *((u16 *) (((u8 *) vertex) + 19)) = flags_value;
       if (flag != 0)
       {
@@ -173,9 +173,9 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
     while (index < parameters->count);
   }
   {
-    register u8 *end_page ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *end_page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     end_page = D_80083160;
-    ASM_KEEP(end_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(end_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     (*((DungeonState **) end_page))->cursor = cursor;
   }
 }

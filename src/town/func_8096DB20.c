@@ -53,7 +53,7 @@ void func_80125FB8(Rec_func_801237A4_arg0 *arg0)
     s8 *source_base;
     s32 *source;
     void **object_base;
-    register void **objects ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register void **objects ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_80125FB8_1 *destination;
     S_80125FB8_3 *object_data;
     s32 value;
@@ -76,9 +76,9 @@ case_0:
         source = (s32 *)((u32)offset + (u32)source_base);
         offset += 8;
         destination = objects[0];
-        ASM_KEEP(destination);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(destination);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         value = *source;
-        ASM_KEEP(value);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         counter += 1;
         destination->unk_00 = value;
         objects += 1;
@@ -91,7 +91,7 @@ case_123:
     do {
         object_data = ((S_80125FB8_2 *)(*objects))->unk_08;
         half = object_data->unk_02;
-        ASM_KEEP(half);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(half);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         counter += 1;
         object_data->unk_02 = (u16)(half - 0x100);
         objects += 1;
@@ -109,7 +109,7 @@ case_567:
     do {
         object_data = ((S_80125FB8_2 *)(*objects))->unk_08;
         half = object_data->unk_02;
-        ASM_KEEP(half);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(half);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         counter += 1;
         object_data->unk_02 = (u16)(half - 0x100);
         objects += 1;

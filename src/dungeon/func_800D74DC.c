@@ -24,24 +24,24 @@ void func_800DCC3C(u8 *arg0) {
     u8 value;
     u8 *page1;
     Vec3 *src1;
-    register s32 offset1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 offset1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 offset0;
-    register s32 final_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 final_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 final_value;
 
     header = arg0;
     i = 0;
-    ASM_KEEP(i);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     page0 = (u8 *)0x80030000;
-    ASM_KEEP(page0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     src0 = (Template0 *)(page0 - 0x1A28);
-    ASM_KEEP(src0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(src0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     value = 4;
-    ASM_KEEP(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     page1 = (u8 *)0x80030000;
-    ASM_KEEP(page1);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(page1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     src1 = (Vec3 *)(page1 - 0x1A18);
-    ASM_KEEP(src1);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(src1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     offset1 = i;
 
     do {

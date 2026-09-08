@@ -38,9 +38,9 @@ void func_80AC5470(void *arg0, void *arg1) {
     s16 temp_v0;
     s32 reg_v0;
     s32 reg_v1;
-    register s32 reg_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 reg_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 reg_a1;
-    register s32 reg_a2 ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 reg_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_a0;
     s32 var_a1;
     s32 var_v0;
@@ -78,7 +78,7 @@ void func_80AC5470(void *arg0, void *arg1) {
         reg_a0 += 0xFF;
     }
     reg_v1 = ((S_80AC5470_1 *)arg0)->unk_01;
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     reg_v0 = ((S_80AC5470_1 *)arg0)->unk_32;
     reg_a1 = reg_v1 * reg_v0;
     reg_v0 = reg_a0 >> 8;

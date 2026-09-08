@@ -18,7 +18,7 @@ loop_1:
     {
         s32 found = func_8008B2E4(table[*(u8 *)((u32)i + (u32)base)]);
 
-        ASM_KEEP(found);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(found);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         i += 1;
         if (found != 0) {
             ret = 1;

@@ -54,11 +54,11 @@ void func_80054B08(s32 arg0)
   {
     case 0:
     {
-      register S_800847D0 *status ASM_REG("$7");   /* MATCH pin: slus-diff */
-      register u32 mask ASM_REG("$6");   /* MATCH pin: slus-diff */
+      register S_800847D0 *status ASM_REG("$7");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+      register u32 mask ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       u16 t1;
       u32 t2;
-      register u32 t3 ASM_REG("$4");   /* MATCH pin: slus-diff */
+      register u32 t3 ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       int *p;
       int a1;
       u8 high2;
@@ -66,12 +66,12 @@ void func_80054B08(s32 arg0)
       u32 flags;
       p = func_8003F534();
       mask = 0xFF0000;
-      ASM_KEEP(mask);   /* MATCH pin: slus-diff */
+      ASM_KEEP(mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       t1 = *((u16 *) p);
       status = &D_800847D0;
       status->field1C = t1;
       a1 = p[1];
-      ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       t2 = p[2];
       mask |= 0xFFFF;
       status->field10 = t2;

@@ -98,7 +98,7 @@ s32 func_81988C1C(void *arg0) {
     void *node = arg0;
     S_800A1600_D80083160 *base = &D_80083160;
     void *output_base = output;
-    register void *next ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *next ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     do {
         void *item = node;
@@ -129,11 +129,11 @@ s32 func_81988C1C(void *arg0) {
             void *packet;
             register u8 c1;
             u8 c0;
-            register u8 delta ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register u8 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u16 packet_value;
-            register u32 index ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register u32 index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u32 mask_lo;
-            register u32 mask_hi ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+            register u32 mask_hi ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             mask_hi = 0xA00000;
             pool = ((S_81988C1C_2 *)base)->unk_00.s;
@@ -183,7 +183,7 @@ s32 func_81988C1C(void *arg0) {
             ((S_81988C1C_5 *)((u8 *)index))->unk_B0 =
                 (((S_81988C1C_5 *)((u8 *)index))->unk_B0 & mask_hi) |
                 ((u32)packet & mask_lo);
-            ASM_KEEP(mask_lo);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP(mask_lo);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         }
 
         next = ((S_81988C1C_6_pre *)node)[-1].unk_00;
@@ -191,11 +191,11 @@ s32 func_81988C1C(void *arg0) {
     } while (next != 0);
 
     {
-        register s32 zero ASM_REG("$0");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        register s32 ret ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register s32 ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         READ_ZERO(zero);
         ret = zero;
-        ASM_KEEP(ret);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         return ret;
     }
 }

@@ -38,8 +38,8 @@ typedef struct S_800C355C_1 {
 void func_800C355C(S_800C355C_1 *arg0, void *arg1, void *arg2)
 {
     s32 pos_x;
-    register s32 step_x ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 pos_y ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 step_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 pos_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 step_y;
     s32 angle;
     s32 quadrant;
@@ -82,9 +82,9 @@ void func_800C355C(S_800C355C_1 *arg0, void *arg1, void *arg2)
 
 case_zero:
     if (arg0->unk_84.s + arg0->unk_8C.s < ((S_800C355C_0 *)arg1)->unk_00.at02.v) {
-        register u16 bound_x ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-        register u16 bound_y ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register u16 bound_sum ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register u16 bound_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u16 bound_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u16 bound_sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         bound_x = arg0->unk_84.u;
         bound_y = arg0->unk_8C.u;
         bound_sum = bound_y + bound_x;

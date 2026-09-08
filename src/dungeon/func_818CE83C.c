@@ -86,7 +86,7 @@ s32 func_8002403C(void *arg0, void *arg1)
     register void *previous;
     u32 index;
     u16 first;
-    register u32 rgb_mask ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 rgb_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u32 code_mask;
 
     node = arg0;
@@ -114,8 +114,8 @@ s32 func_8002403C(void *arg0, void *arg1)
 
     if (index < 0x1E0) {
         register s32 value;
-        register s32 first ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register s32 second ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 first ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register s32 second ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         register s32 third;
         s32 command;
 
@@ -141,17 +141,17 @@ s32 func_8002403C(void *arg0, void *arg1)
         ((S_8002403C_3 *)packet)->unk_04.at02.v = value >> 8;
         ((S_8002403C_3 *)packet)->unk_00.at03.v = 2;
         command = 0x6A;
-        ASM_SET(third);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SET(third);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         third = first;
-        ASM_KEEP_DEP_NV(third, command);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_DEP_NV(third, command);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_8002403C_3 *)packet)->unk_04.at03.v = command;
 
         ((S_8002403C_3 *)packet)->unk_00.at00.v =
             (((S_8002403C_3 *)packet)->unk_00.at00.v & code_mask) |
             ((*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) & rgb_mask);
         {
-            register u32 *table ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
-            register u32 table_word ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u32 *table ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u32 table_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u32 packet_bits;
 
             table = (u32 *)(((S_8002403C_1 *)scratch)->unk_C0 << 2);

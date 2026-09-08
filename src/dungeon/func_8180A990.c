@@ -182,7 +182,7 @@ void func_80026190(void *arg0)
     s32 signed_kind;
     s32 shifted_kind;
     s32 copied;
-    register s32 loaded_fail_flags ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 loaded_fail_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 fail_flags;
     s32 entity_flags;
     s32 source_check_flags;
@@ -196,8 +196,8 @@ void func_80026190(void *arg0)
     s32 cleanup_flags;
     s32 alloc_flags;
     s32 amount100;
-    register void *call_work ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *owner ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *call_work ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *owner ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *status_page;
     u8 *mode_page;
     s32 mode;
@@ -217,17 +217,17 @@ void func_80026190(void *arg0)
     void *spawn_fail0;
     void *spawn_fail1;
     void *spawn_fail2;
-    register void *spawn_fail3 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *spawn_fail3 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *work;
 
     owner = arg0;
     status_page = (u8 *)0x80080000;
-    ASM_KEEP(owner);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP_NV(status_page);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     state = ((S_80026190_0 *)owner)->unk_1C.s;
-    ASM_KEEP(state);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state_two = 2;
-    ASM_KEEP_NV(state_two);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(state_two);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == state_two) {
         if (D_8002715C == 0) {
             (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
@@ -238,7 +238,7 @@ void func_80026190(void *arg0)
     }
 
     status = status_page + 0x3160;
-    ASM_KEEP_NV(status);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (((S_80026190_1 *)status)->unk_08 & 0x20) {
         early0 = ((S_80026190_0 *)owner)->unk_00;
         if (early0 != NULL) {
@@ -374,17 +374,17 @@ loop:
     do {
         clear[0x2C] = 0;
         clear[0x2D] = 0;
-        ASM_KEEP(clear);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(clear);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         loop_count--;
         clear -= 2;
     } while (loop_count >= 0);
 
     clear_mask = 0xBFFFFFFF;
-    ASM_KEEP(clear_mask);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(clear_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_work = work;
     amount100 = 0x64;
     ((S_80026190_17 *)work)->unk_25 = amount100;
-    ASM_KEEP(amount100);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(amount100);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_80026190_17 *)work)->unk_88 = 0;
     entity_flags = ((S_80026190_17 *)work)->unk_1C;
     entity_flags &= ~0x1EF8;
@@ -394,7 +394,7 @@ loop:
     func_8009A028(call_work, clear_mask);
 
     source_check_mask = 0x20000000;
-    ASM_KEEP_NV(source_check_mask);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP_NV(source_check_mask);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     source_check_flags = ((S_80026190_10 *)source)->unk_14;
     parent = ((S_80026190_17_pre *)work)[-1].unk_00;
     source_check_flags &= source_check_mask;
@@ -404,7 +404,7 @@ loop:
         copied = ((S_80026190_19 *)(((S_80026190_10_pre *)source)[-1].unk_00))->unk_12;
     }
     ((S_80026190_18 *)parent)->unk_12 = copied;
-    ASM_KEEP(work);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     role_s1 = (s32)work - 0x20;
     *(s32 *)((u8 *)container + (i * 4) + 0xC) = role_s1;

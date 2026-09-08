@@ -21,11 +21,11 @@ extern M2C_UNK *D_80017A98;
 
 void func_806F1A40(void) {
     if (((S_806F1A40_1 *)(D_80016000->unk_20))->unk_334(0) != 5) {
-        register u32 pagebase ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u32 pagebase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         func_80017744(0xBE9);
         pagebase = 0x80010000;
-        ASM_PAGEBASE_PIN(pagebase);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(pagebase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80016290();
         return;
     }

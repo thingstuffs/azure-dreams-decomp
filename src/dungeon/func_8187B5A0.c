@@ -26,21 +26,21 @@ s32 func_8187B5A0(u8 *arg0, u8 *arg1)
     u16 first_coord;
     u8 blue;
     u32 index;
-    register u32 high_mask ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 high_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 low_mask;
     u32 *entry2;
-    register u8 *tail_arg ASM_REG("$4");   /* MATCH pin: retail delay-slot contents depend on it */
+    register u8 *tail_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
     context = FIELD_PTR(D_80080000, 0x3160);
     context_slot = (u8 **)(D_80080000 + 0x3160);
-    ASM_KEEP_NV(context_slot);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(context_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     low_mask = 0x00FFFFFF;
     high_mask = 0xFF000000;
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP(high_mask);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(high_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     FIELD_PTR(scratch, 0x18) = FIELD_PTR(context, 0x8D0);
     FIELD_PTR(scratch, 0x20) = context + 0xB0;
-    ASM_KEEP(scratch);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     packet = VOL_PTR(scratch, 0x18);
     first_coord = FIELD_U16(input, 2);
     FIELD_U16(scratch, 0) = first_coord;
@@ -66,7 +66,7 @@ s32 func_8187B5A0(u8 *arg0, u8 *arg1)
             (*(u32 *)((VOL_U32(scratch, 0xC0) * 4) + (u32)VOL_PTR(scratch, 0x20)) & low_mask);
         {
             u32 *tag_ptr;
-            register u32 tag_word ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u32 tag_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             tag_ptr = (u32 *)((VOL_U32(scratch, 0xC0) * 4) +
                               (u32)VOL_PTR(scratch, 0x20));
             tag_word = *tag_ptr;
@@ -88,10 +88,10 @@ s32 func_8187B5A0(u8 *arg0, u8 *arg1)
     arg0 = next + 0x20;
     if (next != 0) {
         input = FIELD_PTR(next, 8);
-        ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(input);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         tail_arg = scratch;
-        ASM_TAILSLOT_PIN_TIED(tail_arg);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024DF8();
     }
     FIELD_PTR(*context_slot, 0x8D0) = FIELD_PTR(scratch, 0x18);

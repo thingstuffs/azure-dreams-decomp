@@ -81,12 +81,12 @@ extern u8 *D_80174704;
 
 void *func_8016AEDC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    register s32 held_arg0 ASM_REG("$22");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 held_arg0 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *work_copy;
     s32 one;
-    register s32 reload ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 reload ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 held_arg1;
-    register s32 held_arg2 ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg2 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *object;
     u8 *work;
     u8 *part_a;
@@ -112,7 +112,7 @@ void *func_8016AEDC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         callback = D_8017467C;
         do { part_a = ((S_8016AEDC_0 *)object)->unk_08; } while (0);
         do { work_copy = work; } while (0);
-        ASM_KEEP_NV(work_copy);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP_NV(work_copy);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ((S_8016AEDC_2 *)part_a)->unk_0A = arg3;
         do { part_b = ((S_8016AEDC_0 *)object)->unk_0C; } while (0);
         do { mode = arg0 & 3; } while (0);
@@ -120,13 +120,13 @@ void *func_8016AEDC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         ((S_8016AEDC_3 *)part_b)->unk_24 = held_arg1;
 
         one = 1;
-        ASM_KEEP_NV(one);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(one);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_8016AEDC_3 *)part_b)->unk_25 = held_arg2;
         if (mode == one) {
             u32 tail_v0 = ((S_8016AEDC_1 *)work)->unk_14 | 0x6000;
             u32 tail_v1 = ((S_8016AEDC_1 *)work)->unk_1C | 0x6000;
-            ASM_KEEP(tail_v0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-            ASM_TAILSLOT_PIN(tail_v1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(tail_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             func_8016AFCC();
         }
         if (mode >= 2) {
@@ -136,7 +136,7 @@ void *func_8016AEDC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
         func_800A9C18(object, part_a, part_b, (s16)held_arg0);
         {
-            u8 *a0_copy = work_copy;   /* MATCH pin: retail schedule: same instructions, different order without it */
+            u8 *a0_copy = work_copy;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             u8 *a1_copy = part_a;
             u8 *a2_copy = part_b;
             ((S_8016AEDC_4 *)a0_copy)->unk_9A = 0xFF;
@@ -161,14 +161,14 @@ void *func_8016AEDC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
         spawn_arg0 = (s16)held_arg0;
         spawn_arg1 = (s16)(held_arg1 + 1);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         spawn_arg2 = (s32)((u32)held_arg2 << 16);
         reload = saved_arg3;
-        ASM_KEEP_NV(reload);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_NV(reload);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         spawn_arg2 >>= 16;
         spawned = func_8016F160(spawn_arg0, spawn_arg1, spawn_arg2, (s16)reload);
     }
-    ASM_KEEP(held_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_800A152C(((S_8016AEDC_6 *)spawned)->unk_13, 1);
     func_80042640(spawned, ((S_8016AEDC_6 *)spawned)->unk_13);
     ((S_8016AEDC_6 *)spawned)->unk_43 = 0xFF;

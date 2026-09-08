@@ -51,7 +51,7 @@ static Callback const func_8184A800_table[]
 void FUNC_8184A800_BODY(void *arg0, void *arg1, void *arg2)
 {
     s32 random;
-    register s32 quotient ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 quotient ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 count;
     s16 i;
     s16 next;
@@ -62,7 +62,7 @@ void FUNC_8184A800_BODY(void *arg0, void *arg1, void *arg2)
     *(s16 *)((u8 *)arg2 + 0x1A) = 0;
 
     quotient = rand();
-    ASM_KEEP(quotient);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(quotient);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     random = quotient;
     quotient >>= 2;
     if (random < 0) {

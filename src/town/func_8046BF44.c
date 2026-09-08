@@ -10,7 +10,7 @@ void func_8001CF44(void)
 {
     TownCallback callbacks[2];
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     callbacks[0] = (TownCallback)&D_8001CED4;
     callbacks[1] = (TownCallback)&D_8001CF1C;
     callbacks[D_8001E950[1]]();

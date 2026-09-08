@@ -43,20 +43,20 @@ loop_1:
     table = ((S_800B3C74_1 *)var_s2)->unk_5C;
     entry = (s32 *)(temp_v1 + (s32)table);
     temp_v0 = *entry;
-    ASM_USE(temp_v1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE(temp_v1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     var_s0 += 4;
     func_800B3B18(((S_800B3C74_2 *)((s32 *)temp_v0))->unk_04);
-    ASM_USE(var_s0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    ASM_USE(var_s2);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_USE(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_USE(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     var_s1 += 1;
     goto check_done;
 
 nonzero_count:
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     temp_v0--;
     ((S_800B3C74_0 *)var_s0)->unk_0C = temp_v0;
     var_s0 += 4;
-    ASM_KEEP(var_s0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     var_s1 += 1;
 check_done:
     if (var_s1 >= 5) {

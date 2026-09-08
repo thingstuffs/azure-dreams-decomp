@@ -7,7 +7,7 @@ extern void func_800541E8(void);
 extern void func_80055B44(s32 a0);
 
 void func_80054A7C(s32 a0) {
-    register s32 v1 ASM_REG("$3") = a0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 v1 ASM_REG("$3") = a0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     a0 = a0 & 0xFF;
     if (a0 == 3) {
         goto case3;

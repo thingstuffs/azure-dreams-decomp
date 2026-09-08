@@ -61,26 +61,26 @@ typedef struct S_81971760_4 {
 } S_81971760_4;   /* temp_arg1 in func_81971760 */
 
 void func_81971760(void *unused0, void *arg1, s32 unused2, s32 arg3, s32 arg4, s32 arg5) {
-    register u16 temp_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register void *temp_call_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 temp_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 temp_sum ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+    register u16 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *temp_call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 temp_sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     s32 temp_rand;
     S_81971760_2 *temp_a3;
     S_81971760_0 *temp_s0;
     S_81971760_3 *temp_s1;
     void *temp_v0;
     S_81971760_4 *temp_arg1 = arg1;
-    register s32 temp_arg3 ASM_REG("$17") = arg3;   /* MATCH pin: retail basic-block layout depends on it */
-    register s32 temp_s3 ASM_REG("$19") = *(volatile s32 *)&arg4;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 temp_s4 ASM_REG("$20") = *(volatile s32 *)&arg5;   /* MATCH pin: retail basic-block layout depends on it */
+    register s32 temp_arg3 ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    register s32 temp_s3 ASM_REG("$19") = *(volatile s32 *)&arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 temp_s4 ASM_REG("$20") = *(volatile s32 *)&arg5;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != NULL) {
         temp_call_a0 = temp_v0;
         temp_s0 = temp_v0 + 0x20;
         temp_s0->unk_38 = 0x1E;
         temp_s0->unk_3A = 0x1E;
-        ASM_KEEP4_NV(temp_arg3, temp_s0, temp_s3, temp_s4);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP4_NV(temp_arg3, temp_s0, temp_s3, temp_s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_s0->unk_44 = temp_arg3;
         temp_s0->unk_46 = (u16) temp_s3;
         temp_s0->unk_48 = (u16) temp_s4;
@@ -109,9 +109,9 @@ void func_81971760(void *unused0, void *arg1, s32 unused2, s32 arg3, s32 arg4, s
         temp_s1->unk_06 = (u16) temp_s0->unk_46;
         temp_s1->unk_0A = (u16) temp_s0->unk_48;
         temp_v1 = temp_arg1->unk_02;
-        ASM_KEEP(temp_v1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         temp_sum = temp_a0;
-        ASM_KEEP(temp_sum);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_sum = (u16) (temp_sum + temp_v1);
         temp_s1->unk_02 = temp_sum;
         temp_s1->unk_06 = (u16) (temp_s1->unk_06 + temp_arg1->unk_06);

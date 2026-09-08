@@ -8,7 +8,7 @@ extern u16 D_80083462;
 s32 func_80175C94(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 held_arg1 = arg1;
     s32 held_arg2 = arg2;
-    register s32 held_arg3 ASM_REG("$19") = arg3;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 held_arg3 ASM_REG("$19") = arg3;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *held_arg0 = arg0;
     s32 zero_case_value;
     s32 tail_return;
@@ -17,14 +17,14 @@ s32 func_80175C94(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     result = func_800ADDA0(held_arg1, held_arg2, held_arg0, 3, 6,
                            (u8 *)held_arg0 + 0x9C);
-    ASM_KEEP(held_arg1);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (result < 0) {
         goto return_zero;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     shifted_arg3 = held_arg3 << 16;
-    ASM_KEEP(held_arg3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (shifted_arg3 != 0) {
         goto call_block;
     }

@@ -49,13 +49,13 @@ void func_800B8C20(void *arg0, s32 arg1, void *arg2, void *arg3)
     EntityHeader *header;
 
     {
-        register u8 *call_page ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register u8 *call_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 kind;
 
         call_page = (u8 *)0x80080000;
         kind = 0x12;
-        ASM_KEEP(call_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP(kind);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object = func_8003FD64(kind, call_page + 0x3498);
     }
     if (object != 0) {
@@ -85,7 +85,7 @@ void func_800B8C20(void *arg0, s32 arg1, void *arg2, void *arg3)
             ((Tail *)object)->valueC = fallback;
         }
         descriptor_page = (u8 *)0x80080000;
-        ASM_KEEP(descriptor_page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(descriptor_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         header = D_800814A8[0];
         descriptor = descriptor_page + 0x3498;
         ((Tail *)object)->owner = arg0;

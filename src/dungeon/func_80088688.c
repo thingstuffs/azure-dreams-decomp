@@ -36,7 +36,7 @@ void func_8008DDE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u16 temp_v0_3;
     u16 temp_timer;
     u32 temp_v0_2;
-    u32 temp_page;   /* MATCH pin: load-bearing for the whole function shape */
+    u32 temp_page;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *temp_table;
     s32 *temp_global;
 
@@ -80,7 +80,7 @@ void func_8008DDE8(void *arg0, void *arg1, void *arg2, void *arg3) {
         (*(u8 **)((u8 *)arg2 + (0x2C))) = temp_table;
         func_80048A44(arg2, temp_table[((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
         temp_page = 0x80080000;
-        ASM_KEEP(temp_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_global = (s32 *)(temp_page + 0x3460);
         if (((S_8008DDE8_4 *)temp_global)->unk_10 == (arg3 - 0x20)) {
             ((S_8008DDE8_4 *)temp_global)->unk_10 = (s32) (((S_8008DDE8_4 *)temp_global)->unk_10 & 0x7FFFFFFF);

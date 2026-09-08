@@ -31,20 +31,20 @@ extern Callback D_800E264C[];
 
 void func_800D8728(void *arg0, void *arg1, void *arg2)
 {
-    register void *self ASM_REG("$4") = arg0;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *entity ASM_REG("$17") = self;   /* MATCH pin: load-bearing for the whole function shape */
-    register void *motion ASM_REG("$20") = arg1;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *self ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *entity ASM_REG("$17") = self;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *motion ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *monster = arg2;
-    register void *actor ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *actor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 previous_direction;
-    register s32 direction_temp ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 state_direction ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 lookup_direction ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 compare_direction ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 direction_temp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 state_direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 lookup_direction ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 compare_direction ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 floor;
     u16 flags;
 
-    ASM_KEEP_NV(self);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP_NV(self);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     actor = entity;
     FIELD(monster, u16, 0x12) = 0;
 
@@ -58,7 +58,7 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
         return;
     }
 
-    ASM_CLOBBER("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     previous_direction = (s8)FIELD(entity, u8, 0x6D);
     if (func_800A9E70(entity, motion, monster, entity) != 0) {
         return;
@@ -85,7 +85,7 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
         if (FIELD(entity, s16, 0x94) != compare_direction) {
             void *table = FIELD(monster, void *, 0x2C);
             if (table != 0) {
-                register s32 dir_index ASM_REG("$2") = (s16)compare_direction * 4;   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 dir_index ASM_REG("$2") = (s16)compare_direction * 4;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 func_8003DB94(monster,
                               *(void **)(dir_index + (s32)table),
                               FIELD(monster, s8, 4));
@@ -96,10 +96,10 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
         if (D_8006CCF8[lookup_direction] != 0) {
             u16 tail_flags;
             tail_flags = FIELD(monster, u16, 0x14) | 1;
-            ASM_TAILSLOT_PIN(tail_flags);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800D88E4();
         }
-        ASM_KEEP(lookup_direction);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(lookup_direction);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         VFIELD(monster, u16, 0x14) &= 0xFFFE;
 
         if (!(FIELD(actor, s32, 0x1C) & 0x20)) {
@@ -162,7 +162,7 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
     FIELD(motion, s32, 0x14) +=
         ((s8)FIELD(entity, u8, 0x9D) * 5) << 14;
     FIELD(entity, u8, 0x9D)++;
-    ASM_USE(entity);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE(entity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     FIELD(entity, s32, 0x90) += FIELD(motion, s32, 0x14);
 
     if (!(FIELD(entity, u16, 0x98) & 4)) {
@@ -205,6 +205,6 @@ finish:
     FIELD(motion, u16, 0xA) =
         FIELD(actor, u16, 0x88) + FIELD(entity, u16, 0x92);
     FIELD(monster, u16, 0x14) |= 0x40;
-    ASM_KEEP(entity);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

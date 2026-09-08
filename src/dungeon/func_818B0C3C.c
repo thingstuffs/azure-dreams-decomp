@@ -59,21 +59,21 @@ s32 func_8002443C(s32 arg0, void *arg1, s16 arg2, s32 arg3) {
     s32 var_s0;
     M2C_UNK *node_type;
     S_8002443C_3 *temp_s0;
-    register s32 return_v0 ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 return_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     u8 *work_s1 = (u8 *)arg0;
     u8 *work_s2 = (u8 *)arg1;
-    register s16 work_s0 ASM_REG("$16") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s16 work_s0 ASM_REG("$16") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *work_s3;
     s32 work_s4 = arg3;
     s32 init_value;
 
     work_s3 = func_8003FC64(0x212);
-    ASM_KEEP(work_s1);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(work_s0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(work_s4);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(work_s1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(work_s0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(work_s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (work_s3 != NULL) {
         node_type = &D_800242E0;
-        ASM_USE(node_type);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE(node_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_8002443C_0 *)work_s3)->unk_20 = (s32)work_s1;
         work_s1 = work_s3 + 0x20;
         ((S_8002443C_0 *)work_s3)->unk_10 = node_type;
@@ -82,9 +82,9 @@ s32 func_8002443C(s32 arg0, void *arg1, s16 arg2, s32 arg3) {
         ((S_8002443C_1 *)work_s1)->unk_08 = (u16) ((S_8002443C_2 *)work_s2)->unk_02.s;
         ((S_8002443C_1 *)work_s1)->unk_0A = (u16) ((S_8002443C_2 *)work_s2)->unk_06.s;
         copy_value = ((S_8002443C_2 *)work_s2)->unk_0A.s;
-        ASM_KEEP(copy_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(copy_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         init_value = 0x7E09;
-        ASM_USE(init_value);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_USE(init_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_8002443C_1 *)work_s1)->unk_0C = copy_value;
         temp_s0 = ((S_8002443C_0 *)work_s3)->unk_0C;
         temp_s0->unk_0E = 0;
@@ -95,7 +95,7 @@ s32 func_8002443C(s32 arg0, void *arg1, s16 arg2, s32 arg3) {
         temp_s0->unk_10 = (u16) (temp_s0->unk_10 | 0x20);
         temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0x100);
         func_8003DB94(temp_s0, &D_800DEC70, (s16)work_s4 % 16, (s16)work_s4);
-        ASM_USE(work_s4);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_USE(work_s4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_s0->unk_1E = 0x1000;
         temp_s0->unk_1C = 0x1000;
         func_8004491C(work_s3, &D_80045340);
@@ -104,13 +104,13 @@ s32 func_8002443C(s32 arg0, void *arg1, s16 arg2, s32 arg3) {
         ((S_8002443C_2 *)work_s2)->unk_02.u = (s16) (((S_8002443C_1 *)work_s1)->unk_08 + ((s32) (func_800644B8(var_s0) * 2) >> 8));
         ((S_8002443C_2 *)work_s2)->unk_06.u = (s16) (((S_8002443C_1 *)work_s1)->unk_0A + ((s32) (func_80064584(var_s0) * 2) >> 8));
         final_value = ((S_8002443C_1 *)work_s1)->unk_0C;
-        ASM_USE(final_value);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE(final_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         return_v0 = (s32)work_s3;
-        ASM_KEEP(return_v0);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(return_v0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         ((S_8002443C_2 *)work_s2)->unk_0A.u = (s16)final_value;
         return;
     }
     return_v0 = 0;
-       /* MATCH pin: retail keeps a computation the compiler would drop */
+       /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     return return_v0;
 }

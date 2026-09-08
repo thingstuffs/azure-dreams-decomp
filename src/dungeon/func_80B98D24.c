@@ -79,7 +79,7 @@ jt_c1:
         goto block_31;
     }
     {
-        register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
+        register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         void *tail_arg = &D_80174F30;
         func_801727E8(call_a0, tail_arg);
     }
@@ -92,7 +92,7 @@ jt_c2:
     }
     func_800A56E0(0x808);
     {
-        register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
+        register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         void *tail_arg = &D_80174F38;
         func_801727E8(call_a0, tail_arg);
     }
@@ -106,7 +106,7 @@ jt_c3:
     }
     func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
     {
-        register u16 six ASM_REG("$3") = 6;   /* MATCH pin: retail register colouring depends on it */
+        register u16 six ASM_REG("$3") = 6;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         (void) ((S_80172524_0 *)arg0)->unk_9B.v;
         ((S_80172524_0 *)arg0)->unk_96.u = six;
     }

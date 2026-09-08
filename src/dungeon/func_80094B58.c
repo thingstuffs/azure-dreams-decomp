@@ -12,7 +12,7 @@ s32 func_8009A2B8(s16 arg0, s16 arg1, s32 arg2) {
     u8 *entry;
 
     base = D_80083160;
-    ASM_KEEP(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     x = arg0 + ((s16 *)D_8006CCD8)[(s16)arg2];
     y = arg1 + ((s16 *)D_8006CCE8)[(s16)arg2];
     x += y << *(s16 *)(base + 0x1F0);
@@ -29,7 +29,7 @@ s32 func_8009A2B8(s16 arg0, s16 arg1, s32 arg2) {
     }
     value = 1;
 done:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return value;
 }
 

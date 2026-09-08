@@ -40,7 +40,7 @@ extern void func_800243C8(void) __attribute__((noreturn));
 
 void func_81814A80(State *state, s32 *sum, Flags *flags) {
     s32 i;
-    register s32 compare ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 compare ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 next;
 
     state->unk02 = state->unk02 - 1;
@@ -74,7 +74,7 @@ mode0:
 mode1:
     if (state->unk1a > 0) {
         i = 0;
-        ASM_KEEP(i);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_800478B8(flags);
         i = i + 1;
         compare = i < state->unk1a;

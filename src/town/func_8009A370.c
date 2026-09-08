@@ -80,7 +80,7 @@ void func_80097AD0(S_80097AD0_0 *arg0, S_80097AD0_1 *arg1, s32 count) {
                 value = func_800644B8(angle);
                 {
                     void *record_ptr = &record;
-                    ASM_KEEP(record_ptr);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP(record_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     value <<= 5;
                     record.field10 = value;
                     object = func_8009792C(record_ptr, angle);

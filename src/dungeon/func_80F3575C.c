@@ -86,10 +86,10 @@ extern u8 D_80174A7C[];
 void func_80172F5C(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     u16 pending[3];
-    register u8 *sel ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *sel ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 special;
     void *obj;
-    register void *rec ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *rec ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 y;
     s32 counter;
@@ -143,7 +143,7 @@ void func_80172F5C(void *arg0, void *arg1, void *arg2, void *arg3)
             {
                 s32 flag = special;
 
-                ASM_KEEP(flag);   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_KEEP(flag);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 if (flag != 0) {
                     obj = D_800814A8;
                     ((S_80172F5C_1 *)arg3)->unk_60 = obj;
@@ -164,7 +164,7 @@ void func_80172F5C(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_80172F5C_1 *)arg3)->unk_60 =
                 func_800A05A4(arg3, ((S_80172F5C_4 *)arg2)->unk_24, ((S_80172F5C_4 *)arg2)->unk_25,
                               ((S_80172F5C_1 *)arg3)->unk_2A, 0x10);
-            ASM_KEEP(arg3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             x = ((S_80172F5C_1 *)arg3)->unk_72.u;
             y = ((S_80172F5C_1 *)arg3)->unk_73.u;
             if (x < 0) {

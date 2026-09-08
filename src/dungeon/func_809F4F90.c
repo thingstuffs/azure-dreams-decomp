@@ -119,11 +119,11 @@ void func_80172790(void *in0, void *in1, void *in2, void *in3)
     u8 *table1;
     s32 floor1;
     s32 slot1;
-    register s32 heading ASM_REG("$19");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 offset ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 scaled ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 heading ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 scaled ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
-    register s32 counter ASM_REG("$19");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 counter ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 rng;
     s32 fall_speed;
     u16 flags;
@@ -147,25 +147,25 @@ void func_80172790(void *in0, void *in1, void *in2, void *in3)
     void *arg1;
     void *arg2;
     void *arg3;
-    register u8 *x_base ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *x_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     arg0 = in0;
     arg1 = in1;
     arg2 = in2;
     arg3 = in3;
     x_base = (u8 *)0x80070000;
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(x_base);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(x_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     heading_raw = ((S_80172790_0 *)arg3)->unk_2A.s;
-    ASM_KEEP(heading_raw);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(heading_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     x_base -= 0x3328;
     heading = heading_raw >> 8;
     offset = heading & 0xE;
-    ASM_KEEP(offset);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     x_base = (u8 *)((az_uptr)offset + (az_uptr)x_base);
     x_step = *(s16 *)x_base;
     y_step = *(s16 *)(offset + (u8 *)D_8006CCE8);
@@ -185,7 +185,7 @@ void func_80172790(void *in0, void *in1, void *in2, void *in3)
                     ((S_80172790_3 *)part)->unk_0C = ((S_80172790_4 *)arg1)->unk_02.s + (rand() & 0xF) - 8;
                     rng = rand();
                     fall_speed = -0x500;
-                    ASM_KEEP(fall_speed);   /* MATCH pin: retail register colouring depends on it */
+                    ASM_KEEP(fall_speed);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     x_pos = ((S_80172790_4 *)arg1)->unk_06.s;
                     rng &= 0xF;
                     ((S_80172790_3 *)part)->unk_16 = fall_speed;
@@ -195,7 +195,7 @@ void func_80172790(void *in0, void *in1, void *in2, void *in3)
                     ((S_80172790_3 *)part)->unk_0C = ((S_80172790_4 *)arg1)->unk_02.s + (rand() & 0xF) + stack_value;
                     rng = rand();
                     fall_speed = -0x200;
-                    ASM_KEEP(fall_speed);   /* MATCH pin: retail register colouring depends on it */
+                    ASM_KEEP(fall_speed);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     x_pos = ((S_80172790_4 *)arg1)->unk_06.s;
                     rng &= 0xF;
                     ((S_80172790_3 *)part)->unk_16 = fall_speed;
@@ -210,7 +210,7 @@ void func_80172790(void *in0, void *in1, void *in2, void *in3)
                 do {
                     color = 0x00C00000;
                 } while (0);
-                ASM_KEEP(color);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 ((S_80172790_3 *)part)->unk_4C = 0;
                 ((S_80172790_3 *)part)->unk_48 = 0;
                 ((S_80172790_3 *)part)->unk_18 = heading_raw;

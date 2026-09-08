@@ -94,7 +94,7 @@ extern u8 *D_800E3D7C[];
 s32 func_800C0E88(void *arg0, void *arg1, s16 arg2, void *arg3)
 {
     u8 *object;
-    register u8 *data ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *data ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *scan;
     u8 *record;
     u8 *status;
@@ -115,9 +115,9 @@ s32 func_800C0E88(void *arg0, void *arg1, s16 arg2, void *arg3)
 
     object = arg0;
     data = arg1;
-    ASM_KEEP_NV(data);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(data);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     arg1 = arg3;
-    ASM_KEEP_NV(arg1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if (arg2 == 13) {
         return func_80098864(data, arg1);
@@ -131,7 +131,7 @@ s32 func_800C0E88(void *arg0, void *arg1, s16 arg2, void *arg3)
         ((S_800C0E88_0 *)equal_object)->unk_110 = data;
         func_8008D344(equal_object, callback, D_80082E80, equal_object);
 return_zero:
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         return 0;
     }
 
@@ -195,7 +195,7 @@ set_scan_slot:
 normal_finish:
         func_80098B38(data);
         tail_status = (u8 *)0x80080000;
-        ASM_KEEP_NV(tail_status);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(tail_status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tail_status += 0x3460;
         goto decrement_status;
     }
@@ -225,7 +225,7 @@ decrement_status:
     object = (u8 *)((u32)object & 0xDFFFFFFF);
     ((S_800C0E88_2 *)object)->unk_60 = func_800A05A4(
         object, record[0x24], record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
     x = ((S_800C0E88_2 *)object)->unk_72;
     y = ((S_800C0E88_2 *)object)->unk_73;

@@ -21,7 +21,7 @@ s32 func_800C77D0(s32 arg0, void *arg1, s32 arg2, s16 arg3) {
         return 0;
     }
     arg2keep = arg2;
-    ASM_KEEP(arg2keep);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(arg2keep);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     d = D_80083780[3];
     rhs = *(s16 *)((u8 *)arg1 + 6);
     d -= rhs;

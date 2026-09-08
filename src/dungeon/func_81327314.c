@@ -89,7 +89,7 @@ void func_8016EB14(void)
     void *root;
     S_8016EB14_5 *source;
     S_8016EB14_6 *owner;
-    register void *body ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *body ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *object;
     S_8016EB14_2 *part;
     S_8016EB14_4 *target;
@@ -115,7 +115,7 @@ void func_8016EB14(void)
         table = (u8 *)D_80174708;
 #else
         table = (u8 *)0x80170000;
-        ASM_KEEP(table);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         table += 0x4708;
 #endif
         x = *(s16 *)(u8 *)(((owner->unk_2A >> 7) & 0x1C) +

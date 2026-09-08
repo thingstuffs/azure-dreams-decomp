@@ -108,7 +108,7 @@ s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
         if ((u32)(((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v - 3) < 0x2B) {
             temp_v0 = func_80099734(arg0, temp_s1);
             message = (u8 *)0x800E0000;
-            ASM_KEEP(message);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             message += 0x1095;
         } else {
             temp_v0 = func_80099734(arg0, temp_s1);
@@ -143,11 +143,11 @@ s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
             local);
 
         state_page = (s32 *)0x80080000;
-        ASM_KEEP(state_page);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         state_base1 = (s32 *)((u8 *)state_page + 0x3460);
-        ASM_KEEP(state_base1);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(state_base1);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         state_value = ((S_800BE6F0_2 *)state_base1)->unk_10;
-        ASM_KEEP(state_value);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(state_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if (state_value == (s32)((u8 *)arg0 - 0x20)) {
             state_masked = state_value & 0x7FFFFFFF;
             ((S_800BE6F0_2 *)state_base1)->unk_10 = state_masked;
@@ -159,7 +159,7 @@ s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
             if (index < 0x40) {
                 index_base = (s32 *)0x80010980;
                 entity_base = (u8 *)0x80010000;
-                ASM_KEEP(entity_base);   /* MATCH pin: keeps a constant in a register as retail does */
+                ASM_KEEP(entity_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 entity_base[index * 0x54 + 0xA93] = 0;
                 index_base[index] = 0;
             }
@@ -179,7 +179,7 @@ s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
         func_8009A028(arg0);
         ((S_800BE6F0_0_pre *)arg0)[-1].unk_16 |= 0x8000;
         flags_page = (s32 *)0x80080000;
-        ASM_KEEP(flags_page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         ((S_800BE6F0_4 *)flags_page)->unk_14A0 |= 0x8000;
         goto success_cleanup;
     }
@@ -190,7 +190,7 @@ s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
 success_cleanup:
     func_80098B38(arg1);
     state_base2 = D_80083460;
-    ASM_KEEP(state_base2);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(state_base2);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_800BE6F0_5 *)state_base2)->unk_0A--;
     return 1;
 }

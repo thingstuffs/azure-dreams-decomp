@@ -58,10 +58,10 @@ extern u8 D_8017558C[];
 
 void func_801738B8(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-    register void *object ASM_REG("$16") = arg0;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *motion ASM_REG("$17") = arg1;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *actor ASM_REG("$18") = arg2;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *room ASM_REG("$19") = arg3;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *object ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *motion ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *room ASM_REG("$19") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 timer;
     u16 old_timer;
     s32 value;
@@ -164,10 +164,10 @@ start_action:
         }
         ((S_801738B8_0 *)object)->unk_8C = D_801716F4;
         ((S_801738B8_0 *)object)->unk_9A = 0xE;
-        ASM_KEEP(object);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(actor);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(room);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(room);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         return;
 
     default:

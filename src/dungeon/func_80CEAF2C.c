@@ -96,15 +96,15 @@ void func_8017472C(void *arg0, void *arg1, void *arg2, void *arg3)
         &&special_1, &&special_2, &&special_3
     };
     s32 state;
-    register s32 special ASM_REG("$21");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 special ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 kind;
     u8 *choice;
     void *object;
-    register void *record ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 y;
     u16 timer;
-    register s32 i ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *table;
     void *state3_object;
     u32 state3_page;
@@ -141,17 +141,17 @@ state_0:
 
 special_3:
         special = 1;
-        ASM_TAILSLOT_PIN(special);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80174840();
         return;
 special_2:
         special = 1;
-        ASM_TAILSLOT_PIN(special);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80174848();
         return;
 special_1:
         special = 1;
-        ASM_TAILSLOT_PIN(special);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80174850();
         return;
     }
@@ -165,7 +165,7 @@ special_1:
             goto kind_1;
         }
         choice = 0;
-        ASM_KEEP(choice);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8017485C();
         return;
     }
@@ -175,18 +175,18 @@ special_1:
 
 kind_3:
     choice = (u8 *)arg3 + 0xE;
-    ASM_TAILSLOT_PIN(choice);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_8017485C();
     return;
 kind_2:
     choice = (u8 *)arg3 + 0xB;
-    ASM_TAILSLOT_PIN(choice);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_8017485C();
     return;
 kind_1:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     choice = (u8 *)arg3 + 8;
-    ASM_TAILSLOT_PIN(choice);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_8017485C();
     return;
 
@@ -220,7 +220,7 @@ kind_none:
             ((S_8017472C_1 *)arg3)->unk_2A,
             0x10);
         ((S_8017472C_1 *)arg3)->unk_60 = object;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         x = ((S_8017472C_1 *)arg3)->unk_72.u;
         y = ((S_8017472C_1 *)arg3)->unk_73.u;
         if (x < 0) {
@@ -267,14 +267,14 @@ state_1:
     func_800A56E0(0x703);
 
 state_2:
-    ASM_SET(slot_carrier);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_SET(slot_carrier);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     i = 0;
     if (!(((S_8017472C_0 *)arg0)->unk_96.s & 1) &&
         ((S_8017472C_0 *)arg0)->unk_AE.s != 0) {
         ((S_8017472C_0 *)arg0)->unk_AE.u--;
-        ASM_SET(i);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SET(i);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         i = 0;
-        ASM_USE(slot_carrier);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_USE(slot_carrier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
     do {
         func_80171790(arg0, arg1, arg2, arg3);
@@ -317,9 +317,9 @@ state_3:
         }
         {
             state3_page = 0x80080000;
-            ASM_KEEP(state3_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             state3_object = (u8 *)state3_page + 0x3460;
-            ASM_TAILSLOT_PIN(state3_object);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(state3_object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80174BC4();
             return;
         }
@@ -329,37 +329,37 @@ state_3:
     }
     {
         state3_page = 0x80080000;
-        ASM_KEEP(state3_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         state3_object = (u8 *)state3_page + 0x3460;
-        ASM_TAILSLOT_PIN(state3_object);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(state3_object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80174BC4();
         return;
     }
 
 state3_kind_d:
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         state3_object = ((S_8017472C_4 *)arg2)->unk_2C;
         state3_page = 0x80170000;
-        ASM_KEEP(state3_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table = (u8 *)state3_page + 0x5E24;
-        ASM_KEEP(state3_object);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_TAILSLOT_PIN(table);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(state3_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80174B84();
         return;
 state3_kind_e:
         state3_object = ((S_8017472C_4 *)arg2)->unk_2C;
         state3_page = 0x80170000;
-        ASM_KEEP(state3_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table = (u8 *)state3_page + 0x5E2C;
-        ASM_KEEP(state3_object);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_TAILSLOT_PIN(table);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(state3_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80174B84();
         return;
 state3_kind_f:
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         state3_object = ((S_8017472C_4 *)arg2)->unk_2C;
         state3_page = 0x80170000;
-        ASM_KEEP(state3_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table = (u8 *)state3_page + 0x5E34;
 
     if (state3_object != table) {

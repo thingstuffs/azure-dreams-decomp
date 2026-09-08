@@ -4,7 +4,7 @@ extern void func_8009F2A0(void *arg0);
 extern void *D_800CFCC4[];
 
 s32 func_8009F270(void) {
-    register u8 *ptr ASM_REG("$4") = (u8 *)D_800CFCC4[0];   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *ptr ASM_REG("$4") = (u8 *)D_800CFCC4[0];   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     if (ptr != 0) {
         s32 type = 4;

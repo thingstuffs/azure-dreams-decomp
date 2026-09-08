@@ -105,16 +105,16 @@ static void (*const func_8016A800_table[])(void)
 void *func_8016A800(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     void *result = NULL;
-    register s32 arg1_role ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 arg1_role ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *root;
     void *position;
-    register s32 saved_arg0 ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 opcode ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *factory ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 saved_arg0 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 opcode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *factory ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 kind;
 
     {
-    register void *arg3_part ASM_REG("$17");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *arg3_part ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *arg2_work;
 
     opcode = 0x112;
@@ -122,12 +122,12 @@ void *func_8016A800(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     factory = D_80083498;
     arg3_part = (void *)arg3;
     arg2_work = (void *)arg2;
-    ASM_KEEP_DEP_NV(arg1_role, opcode);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_DEP_NV(arg3_part, factory);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_DEP_NV(arg1_role, opcode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_DEP_NV(arg3_part, factory);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     root = func_8003FD64(opcode, factory);
     if (root != NULL) {
         saved_arg0 = arg0;
-        ASM_USE_NV(saved_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE_NV(saved_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         result = (u8 *)root + 0x20;
         ((S_8016A800_0 *)result)->unk_13 = 0x1C;
         func_8004491C(root, D_80045340);
@@ -166,7 +166,7 @@ void *func_8016A800(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             ((S_8016A800_0 *)result)->unk_8C = D_8016AE5C;
         }
 
-        ASM_KEEP(arg0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
 after_state:
         ((S_8016A800_1 *)root)->unk_10 = D_8016AA58;

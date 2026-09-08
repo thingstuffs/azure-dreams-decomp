@@ -78,7 +78,7 @@ s32 func_818BDB44(S_818BDB44_2 *arg0, S_818BDB44_4 *arg1)
     s32 random;
     s32 other_flags;
     s32 scale;
-    register s32 flags ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
@@ -104,7 +104,7 @@ s32 func_818BDB44(S_818BDB44_2 *arg0, S_818BDB44_4 *arg1)
         part->unk_08 = D_80025DF8;
         flags = part->unk_14 | 0xC;
         other_flags = part->unk_10 | 0x20;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         part->unk_14 = flags;
         flags |= 0x100;
         part->unk_10 = other_flags;
@@ -124,14 +124,14 @@ s32 func_818BDB44(S_818BDB44_2 *arg0, S_818BDB44_4 *arg1)
         {
             S_818BDB44_5 *dst = ((S_818BDB44_0 *)obj)->unk_08;
             {
-                register s32 result ASM_REG("$2") = (s32)obj;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                register s32 result ASM_REG("$2") = (s32)obj;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 s32 word4;
                 s32 word5;
 
                 *(Copy16 *)dst = *(Copy16 *)arg1;
                 word4 = arg1->unk_10;
                 word5 = arg1->unk_14;
-                ASM_USE_NV(result);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_USE_NV(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 dst->unk_10 = word4;
                 dst->unk_14 = word5;
                 func_800254C0();

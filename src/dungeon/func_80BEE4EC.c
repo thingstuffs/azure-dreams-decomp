@@ -117,7 +117,7 @@ void func_80173CEC(S_80173CEC_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
     s32 temp_a0;
     s32 temp_a3;
     s32 temp_v0_3;
-    register s32 var_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     u16 temp_v0_5;
     u16 temp_v1_2;
@@ -125,8 +125,8 @@ void func_80173CEC(S_80173CEC_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
     u8 temp_v1;
     void *temp_a0_2;
     S_80173CEC_4 *temp_a1;
-    register S_80173CEC_7 *temp_a1_2 ASM_REG("$5");   /* MATCH pin: retail delay-slot fill depends on it */
-    register S_80173CEC_8 *temp_a2 ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register S_80173CEC_7 *temp_a1_2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register S_80173CEC_8 *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_80173CEC_9 *temp_s0;
     S_80173CEC_3 *temp_s0_3;
     S_80173CEC_5 *temp_v0_2;
@@ -198,11 +198,11 @@ jt_c4:
     temp_v0_2->unk_10 = &D_80173B94;
     func_8004491C(temp_v0_2, &D_801736AC);
     temp_a3 = 0x808080;
-    ASM_KEEP(temp_a3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     arg0->unk_AC = temp_v0_2;
     temp_a0_2 = arg3;
     ((S_80173CEC_12 *)(((S_80173CEC_11 *)temp_v0_2)->unk_08))->unk_00 = (s32) arg1->unk_00.at00_s32.v;
-    ASM_KEEP(temp_a0_2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(temp_a0_2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80173CEC_12 *)(((S_80173CEC_11 *)temp_v0_2)->unk_08))->unk_04 = (s32) arg1->unk_04.at00_s32.v;
     temp_a2 = temp_v0_2->unk_08;
     var_v1 = arg1->unk_08.at00_s32.v;
@@ -215,7 +215,7 @@ jt_c4:
     temp_s0->unk_0C.s = temp_a3;
     temp_v0_3 = func_800498A0(temp_a0_2, temp_a1_2, temp_a2, temp_a3) - 1;
     var_v1 = temp_v0_3;
-    ASM_KEEP(temp_v0_3);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if ((temp_v0_3 << 0x10) >= 0) {
         goto block_16;
     }

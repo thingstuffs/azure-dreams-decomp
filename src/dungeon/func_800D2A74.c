@@ -54,10 +54,10 @@ void func_800D81D4(void *arg0, void *arg1, void *arg2) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
     s32 temp_v1;
     M2C_UNK temp_v0;
-    register u16 phase ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u16 phase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_800D81D4_1 *p1 = arg1;
-    register S_800D81D4_2 *p2 ASM_REG("$17") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register S_800D81D4_2 *p2 ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     ((S_800D81D4_0 *)arg0)->unk_48.s = (s16) (((S_800D81D4_0 *)arg0)->unk_48.s - 1);
     func_800478B8(p2);
@@ -74,14 +74,14 @@ jt_c0:
     ((S_800D81D4_0 *)arg0)->unk_18 = func_80069EF8();
     ((S_800D81D4_0 *)arg0)->unk_4C.s = (s16) ((u16) ((S_800D81D4_0 *)arg0)->unk_4C.s + 1);
 jt_c1: {
-    register s32 pos ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 pos ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 speed;
-    register s32 color ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     p1->unk_08 = (s32) (p1->unk_08 + p1->unk_14.at00.v);
     pos = ((S_800D81D4_0 *)arg0)->unk_1C.at00.v;
     speed = ((S_800D81D4_0 *)arg0)->unk_28;
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     color = 0x40000;
     ((S_800D81D4_0 *)arg0)->unk_1C.at00.v = pos + speed;
     pos = p2->unk_0C;

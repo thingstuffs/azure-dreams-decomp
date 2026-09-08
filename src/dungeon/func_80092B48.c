@@ -53,11 +53,11 @@ extern u8 D_800DD2B4_index[] __asm__("D_800DD2B4");
 
 void func_800982A8(Arg0 *arg0, Item *arg1) {
     s32 temp_v0;
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 var_s2 ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
-    register s32 tail_index ASM_REG("$4");   /* MATCH pin: retail delay-slot contents depend on it */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 tail_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     s32 state;
-    register s32 item_b3 ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+    register s32 item_b3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     Item *temp_s2;
     Item *var_s0;
     u8 *head_c;
@@ -70,7 +70,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         if (var_s0->b1 == 0xF && var_s0->b0 >= 0xD) {
             func_800A56E0(0x506);
             var_s1 = func_800990FC();
-            ASM_USE_NV(var_s1);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_USE_NV(var_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             func_80099368(var_s0, func_80099194(D_800E080A, func_80099734(arg0, func_8009929C(8, var_s1))));
             func_800983C8(D_80088B64);
             return;
@@ -102,7 +102,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
     if (var_s0 != NULL) {
         item_b3 = var_s0->b3;
         var_s2 = var_s0->b0;
-        ASM_USE_NV(var_s2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE_NV(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s0->b3 = item_b3 & 0x7F;
         var_s1 = func_800990FC();
         func_80099290(func_80099194(D_800E0844, func_80099368(var_s0, func_8009929C(8, var_s1))));
@@ -121,7 +121,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
     }
 
     state = var_s1;
-    ASM_KEEP_NV(state);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (state != 0) {
         var_s1 = func_800990FC();
         temp_v0 = func_8009929C(8, var_s1);
@@ -134,11 +134,11 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
     arg0->b84 = head_c[0];
     head_b = D_800DD2B4;
     head_b_value = head_b[0];
-    ASM_SET(head_b);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SET(head_b);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     var_s2 = 0;
-    ASM_KEEP(var_s2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     arg0->b85 = head_b_value;
-    ASM_KEEP(var_s0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     arg0->field4C = var_s0;
     func_800A56E0(0x508);
     tail_index = var_s2;
@@ -155,7 +155,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         arg0->b85 = D_800DD2B4_index[tail_index];
         if (tail_index != 0) {
             func_80048568(tail_index);
-            ASM_KEEP(var_s2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             if (var_s2 != 0) {
                 return;
             }

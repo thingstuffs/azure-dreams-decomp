@@ -60,16 +60,16 @@ void func_8001D5D8(DungeonRect *arg0) {
     s32 attempt_init;
     s16 flag0;
     s16 flag1;
-    register s16 fill_value ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s16 fill_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 value_40_shift;
     DungeonCell *cell;
     s32 row;
     s32 raw_bound;
-    register u32 dead_page ASM_REG("$2") = 0x80080000;   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 dead_page ASM_REG("$2") = 0x80080000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     DungeonState *page = &D_8008333C;
 
-    ASM_KEEP(dead_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP_NV(value);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(dead_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     y0 = arg0->y;
     start_y = y0;
     fill_value = value - 0x80;
@@ -87,7 +87,7 @@ void func_8001D5D8(DungeonRect *arg0) {
                 s32 signed_row;
                 s32 signed_bound;
 
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a computation the compiler would drop */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 signed_row = (s16)start_y;
                 signed_bound = raw_bound >> 16;
 
@@ -120,7 +120,7 @@ void func_8001D5D8(DungeonRect *arg0) {
     {
         DungeonPage *level_page = (DungeonPage *)0x80080000;
 
-        ASM_KEEP_NV(level_page);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(level_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if (level_page->level < 5) {
             attempt_init = area >> 4;
         }
@@ -163,17 +163,17 @@ void func_8001D5D8(DungeonRect *arg0) {
                                             func_8001DD08(cell, value_40_shift >> 16);
                                         } else {
                                             DungeonCell *tail_cell = cell;
-                                            register s32 tail_value ASM_REG("$5") = value - 0xC0;   /* MATCH pin: retail register colouring depends on it */
-                                            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                                            register s32 tail_value ASM_REG("$5") = value - 0xC0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                                            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                                             func_8001D900();
                                         }
                                     } else {
                                         if (current_flag != 0) {
                                             u16 tail_remaining;
                                             func_8001DD48(cell, (s16)(value - 0xC0));
-                                            ASM_USE_NV(current_x);   /* MATCH pin: retail register colouring depends on it */
+                                            ASM_USE_NV(current_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                                             tail_remaining = remaining_x - 1;
-                                            ASM_TAILSLOT_PIN(tail_remaining);   /* MATCH pin: load-bearing for the whole function shape */
+                                            ASM_TAILSLOT_PIN(tail_remaining);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                                             func_8001D920();
                                         } else {
                                             func_8001DD08(cell, value_40_shift >> 16);
@@ -192,6 +192,6 @@ void func_8001D5D8(DungeonRect *arg0) {
             attempts--;
         } while (attempts > 0);
     }
-    ASM_USE_G_NV(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE_G_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_8001D9CC((s16)x0, (s16)y0, (s16)x1, (s16)y1, (s16)value);
 }

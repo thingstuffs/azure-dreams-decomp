@@ -22,7 +22,7 @@ s32 func_818B15F4(Func818B15F4Arg *arg0)
     if (state >= 0 && state < 8) {
         s32 index = state << 2;
         void **table = D_80024008;
-        ASM_KEEP(table);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         goto *(*(void **)(index + (u32)table));
     }
     (void)keepalive;

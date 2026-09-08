@@ -65,7 +65,7 @@ block_10:
         arg3->unk_48.at01_u8.v = 0U;
     }
     color = 0x808080;
-    ASM_KEEP(color);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     arg2->unk_10 = 0x20;
     arg2->unk_12 = (u16)(arg2->unk_12 - 0x80);
     arg2->unk_14 = (u16)(arg2->unk_14 | 0xC);

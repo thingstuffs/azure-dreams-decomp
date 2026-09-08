@@ -40,7 +40,7 @@ extern void func_8003DBD0(S_8003DE58_Ent *a0, void *a1, S_8003DE58_Vec *a2);
  * "reset" orientation (0,0,-0x40) and return arg0 itself. */
 S_8004CAE8 *func_8003DE58(S_8004CAE8 *arg0, S_8003DE58_Ent *arg1, S_8003DE58_Vec *arg2, s16 arg3) {
     S_8003DE58_Vec tmp;
-    register S_8004CAE8 *var_s0 ASM_REG("$16");   /* MATCH pin: slus-diff */
+    register S_8004CAE8 *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     var_s0 = func_8004CAE8(arg0, arg3);
     if (var_s0 != NULL) {

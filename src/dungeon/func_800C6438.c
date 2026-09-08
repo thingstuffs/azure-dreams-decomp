@@ -47,10 +47,10 @@ typedef struct S_800CBB98_4 {
 } S_800CBB98_4;   /* global_base in func_800CBB98 */
 
 void *func_800CBB98(s32 arg0, s32 arg1, s16 arg2, void *arg3) {
-    register s16 held_arg2 ASM_REG("$20") = arg2;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register S_800CBB98_3 *held_arg3 ASM_REG("$19") = arg3;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 held_arg0 ASM_REG("$17") = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 held_arg1 ASM_REG("$18") = arg1;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s16 held_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register S_800CBB98_3 *held_arg3 ASM_REG("$19") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 held_arg0 ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 held_arg1 ASM_REG("$18") = arg1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_800CBB98_2 *temp_a0;
     S_800CBB98_0 *temp_v0;
     S_800CBB98_1 *temp_v1;
@@ -76,10 +76,10 @@ void *func_800CBB98(s32 arg0, s32 arg1, s16 arg2, void *arg3) {
         temp_v0->unk_20 = held_arg3;
         held_arg3->unk_14 = (s32) (held_arg3->unk_14 | 0x100000);
         func_800A56E0(0x614);
-        ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(held_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(held_arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP(held_arg1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         global_base = D_80083460;
         ((S_800CBB98_4 *)global_base)->unk_0A = (u16) (((S_800CBB98_4 *)global_base)->unk_0A + 1);
     }

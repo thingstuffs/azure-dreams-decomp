@@ -82,7 +82,7 @@ void func_800A47A8(s16 arg0) {
         func_8004491C(temp_v0, D_800A3B1C);
         shifted = arg0 << 0x10;
         table = D_800D0C40;
-        ASM_USE(table);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE(table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         shifted >>= 0xE;
         ((S_800A47A8_5 *)(((S_800A47A8_4 *)temp_v0)->unk_0C))->unk_08 =
             *(s32 *)((s8 *)table + shifted);

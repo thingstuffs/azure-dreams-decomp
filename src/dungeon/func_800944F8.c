@@ -86,9 +86,9 @@ void func_80099C58(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             tex = D_800DE870;
         }
         (*(void **)((u8 *)a3 + 0)) = tex;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         color = 0x808080;
-        ASM_KEEP(color);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         v1 = (*(void * volatile *)((u8 *)a3 + 0));
         v1 = v1->unk_04;
         (*(u16 *)((u8 *)a3 + 0x14)) |= 0x8C;
@@ -126,9 +126,9 @@ void func_80099C58(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
                 tex = D_800DE870;
             }
             (*(void **)((u8 *)a3 + 0)) = tex;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             color = 0x808080;
-            ASM_KEEP(color);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             v1 = (*(void * volatile *)((u8 *)a3 + 0));
             v1 = v1->unk_04;
             (*(u16 *)((u8 *)a3 + 0x14)) |= 0x8C;

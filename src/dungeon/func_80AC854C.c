@@ -72,12 +72,12 @@ extern u8 D_80174E54[];
 void func_80173D4C(void *arg0_in, void *arg1_in, void *arg2_in, void *arg3_in)
 {
     void *arg0;
-    register void *arg1 ASM_REG("$19");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *arg2 ASM_REG("$17");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *arg1 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *arg3;
     s32 state;
-    register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register void *check_arg ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
+    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *check_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u8 *status;
     s32 flags;
 
@@ -200,7 +200,7 @@ update_table:
         goto assign_owner;
     }
     {
-        register u8 *counter_base ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+        register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         counter_base = (u8 *)&D_80083460;
         ((S_80173D4C_3 *)counter_base)->unk_0A++;
@@ -215,7 +215,7 @@ state_two:
         goto done;
     }
     {
-        register u8 *counter_base ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+        register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         counter_base = (u8 *)&D_80083460;
         ((S_80173D4C_3 *)counter_base)->unk_0A--;

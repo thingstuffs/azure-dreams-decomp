@@ -7,13 +7,13 @@ extern s32 D_8001BB6C;
 extern s32 D_8001C354;
 
 #ifndef NON_MATCHING
-register u8 *dispatch_result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 u8 *func_80017694(s32 arg0, s32 arg1, s32 arg2) {
     u8 *result;
-    register s32 first_arg ASM_REG("$2") = arg0;   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 fourth_arg ASM_REG("$7") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 first_arg ASM_REG("$2") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 fourth_arg ASM_REG("$7") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
 #ifndef NON_MATCHING
     __asm__("" : "=r"(fourth_arg) : "0"(fourth_arg));

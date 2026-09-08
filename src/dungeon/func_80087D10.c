@@ -180,7 +180,7 @@ nonzero_state:
         ((S_8008D470_0 *)arg0)->unk_A8.s = 0;
         if (mode == 1) {
             spawned = func_800A8E74(arg0, arg1, arg2, D_800814A8[0], ((S_8008D470_0 *)arg0)->unk_9C, -1);
-            ASM_KEEP(arg0);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if (spawned != 0) {
                 entity = (void *)(spawned + 0x20);
                 target = D_800E3D7C[0];

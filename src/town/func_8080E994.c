@@ -69,8 +69,8 @@ void func_8080E994(State *state, Motion *motion, Actor *actor)
     State *st = state;
     Motion *mot = motion;
     Actor *act = actor;
-    register Entity *entity ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 dispatch_a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register Entity *entity ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 dispatch_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Vec3 choices;
     s32 value;
     static void *const reachable_arms[] __attribute__((used)) = {
@@ -78,7 +78,7 @@ void func_8080E994(State *state, Motion *motion, Actor *actor)
         &&case_6
     };
 
-    ASM_KEEP(st);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(st);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entity = st->entity;
     choices = D_80526448;
 
@@ -87,7 +87,7 @@ void func_8080E994(State *state, Motion *motion, Actor *actor)
     if (entity->flags20 & 8) {
         st->state = 6;
     }
-    ASM_KEEP(dispatch_a1);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(dispatch_a1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     value = st->state;
     if ((u32)value >= 7) {
@@ -98,7 +98,7 @@ void func_8080E994(State *state, Motion *motion, Actor *actor)
 case_0:
     {
         s32 call_a0;
-        register s32 call_a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 result_v0;
         s32 threshold;
 
@@ -107,31 +107,31 @@ case_0:
             return func_80529650();
         case 1:
             call_a1 = 10;
-            ASM_TAILSLOT_PIN_TIED(call_a1);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(call_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_80529650();
         case 2:
             break;
         }
 
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         {
-            register s32 divisor ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register s32 divisor ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             divisor = 100;
             call_a0 = entity->field1E;
-            ASM_KEEP(divisor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             call_a0 /= divisor;
         }
         {
             s32 quotient;
             quotient = call_a0 / 10;
-            ASM_KEEP(quotient);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             result_v0 = quotient * 10;
             threshold = st->threshold;
             quotient = call_a0 - result_v0;
             if (threshold < quotient) {
                 result_v0 = act->flags;
                 result_v0 &= 0xff7f;
-                ASM_TAILSLOT_PIN_TIED(result_v0);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_TAILSLOT_PIN_TIED(result_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 return func_805296D8();
             }
         }
@@ -153,17 +153,17 @@ case_1:
         if (value == 0) {
             result_v0 = act->height;
             result_v0 += 5;
-            ASM_TAILSLOT_PIN_TIED(result_v0);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN_TIED(result_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             return func_8052974C();
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (value == 1) {
             act->height -= 5;
         }
         st->field1D = 0;
         st->state = 2;
 
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8003EA54(act);
         mot->x += mot->dx;
         mot->y += mot->dy;
@@ -201,7 +201,7 @@ case_2:
             choice = ((s32 *)&choices)[product];
             product = choice * 125;
             D_80012BCC = product * 8 + D_80012BCC;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             st->state = 6;
         }
         st->timer--;
@@ -226,7 +226,7 @@ case_3:
             choice = ((s32 *)&choices)[product];
             product = choice * 125;
             D_80012BCC = product * 8 + D_80012BCC;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             st->state = 6;
         }
         st->timer--;
@@ -243,11 +243,11 @@ case_4:
         if ((st->timer >> 2) & 1) {
             result_v0 = act->flags;
             result_v0 |= 0x80;
-            ASM_TAILSLOT_PIN_TIED(result_v0);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN_TIED(result_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             return func_805299DC();
         }
         act->flags &= 0xff7f;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (func_80240810(D_805300F4, mot, D_80290704, D_80132AE8)) {
             s32 product;
             s32 choice;
@@ -255,7 +255,7 @@ case_4:
             choice = ((s32 *)&choices)[product];
             product = choice * 125;
             D_80012BCC = product * 8 + D_80012BCC;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             st->state = 6;
         }
         st->timer--;

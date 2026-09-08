@@ -30,12 +30,12 @@ void func_8052BCCC(void *arg0, void *arg1, void *incoming_out) {
     void *self = arg0;
     void *motion = arg1;
     void *aux;
-    register void *out ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register void *out ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 table[14];
     s32 a0;
     s32 a1;
     s32 value;
-    register s32 next_state ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 flag;
     s32 state;
     s16 phase_u16;
@@ -47,7 +47,7 @@ void func_8052BCCC(void *arg0, void *arg1, void *incoming_out) {
 #define arg2 out
 #define s2 aux
     aux = FIELD(arg0, void **, 0xAC);
-    ASM_KEEP(aux);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(aux);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     __builtin_memcpy(table, D_805266C0, 12);
     __builtin_memcpy((u8 *)table + 16, D_805266CC, 12);
 
@@ -144,7 +144,7 @@ case_1: {
 }
 
 case_2: {
-            register u16 phase ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+            register u16 phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             if (FIELD(arg0, s16 *, 0xA2) <= 0) {
                 phase = FIELD(arg0, u16 *, 0xA6);
                 mode = FIELD(arg0, u16 *, 0xA0);
@@ -238,7 +238,7 @@ case_6:
 	                FIELD(arg0, u16 *, 0xA2) = 8;
 	                next_state = (s32)0xFF900000 - FIELD(arg1, s32 *, 8);
 	                FIELD(arg1, s32 *, 0x14) = next_state / FIELD(arg0, s16 *, 0xA2);
-	                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+	                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 	                next_state = 4;
                 goto set_state;
             }

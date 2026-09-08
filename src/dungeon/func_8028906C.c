@@ -52,18 +52,18 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     delta = dest->x;
     delta = delta - delta2;
     dir = start->dir;
-    ASM_USE2_NV(delta2, cx);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE2_NV(delta2, cx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (delta < 0) {
         delta = -delta;
     }
     rangeX = delta - 4;
-    ASM_SET(dead);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SET(dead);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dead = (DungeonState *)D_80083160;
     dirSlot = dir;
     dstY = dest->y;
     st = (DungeonState *)((u8 *)dead + 476);
-    ASM_KEEP_NV(dir);   /* MATCH pin: retail immediate-load split depends on it */
-    ASM_KEEP_NV(dest);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(dir);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     dstX = dest->x;
     if (rangeX <= 0) {
         rangeX = 1;
@@ -77,7 +77,7 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
         rangeX = 1;
     }
 
-    ASM_USE_NV(dstY);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE_NV(dstY);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     icy = cy;
     delta2 = dstY - icy;
     if (delta2 < 0) {

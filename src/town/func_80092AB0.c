@@ -57,11 +57,11 @@ void func_80090210(void) {
             ((S_80090210_0 *)((u8 *)base_834B8 - 0x10))->unk_26 = 0;
             temp_s0 = func_80033B2C(0x1202);
             if (temp_s0 != func_80033B2C(0x9D)) {
-                register u32 dead_result_page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+                register u32 dead_result_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 func_80048D20();
                 dead_result_page = 0x80080000;
-                ASM_PAGEBASE_PIN(dead_result_page);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_PAGEBASE_PIN(dead_result_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_800902C0();
                 return;
             }
@@ -76,11 +76,11 @@ void func_80090210(void) {
         }
 block_7:
         if (func_80033B2C(0x1202) != 0) {
-            register u32 dead_arg_page ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register u32 dead_arg_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             func_80033AA8(0x9D);
             dead_arg_page = 0x800D0000;
-            ASM_PAGEBASE_PIN(dead_arg_page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(dead_arg_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800902F4();
             return;
         }
@@ -93,10 +93,10 @@ block_7:
             u8 *handler_page;
 
             handler_page = (u8 *)0x80090000;
-            ASM_KEEP(handler_page);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP(handler_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             callback_page = (u8 *)0x800D0000;
             callback = ((S_80090210_2 *)callback_page)->unk_438.s;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_80090210_0 *)((u8 *)base_834B8 - 0x10))->unk_14 =
                 (M2C_UNK *)(handler_page + 0x7D54);
             ((S_80090210_0 *)((u8 *)base_834B8 - 0x10))->unk_1A = 0x10;

@@ -110,7 +110,7 @@ decrement_loop:
 
             decode = state->index;
             decode_copy = decode;
-            ASM_KEEP(decode_copy);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(decode_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state->digit0 = decode >> 4;
             state->digit1 = (decode_copy >> 3) & 1;
             state->digit2 = state->index & 7;
@@ -149,7 +149,7 @@ decrement_loop:
         goto done;
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     if (buttons & 0x2000) {
         limit = 0x32;
         state->old_index = state->index;
@@ -174,7 +174,7 @@ increment_loop:
 
             decode = state->index;
             decode_copy = decode;
-            ASM_KEEP(decode_copy);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(decode_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state->digit0 = decode >> 4;
             state->digit1 = (decode_copy >> 3) & 1;
             state->digit2 = state->index & 7;

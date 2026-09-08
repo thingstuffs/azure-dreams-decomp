@@ -36,7 +36,7 @@ extern Cell D_800264F8[];
 
 void func_80026010(void) {
     Cell *base;
-    register Cell *current ASM_REG("$23");   /* MATCH pin: keeps a constant in a register as retail does */
+    register Cell *current ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     Cell *p1;
     Cell *p2;
     Cell *p4;
@@ -46,16 +46,16 @@ void func_80026010(void) {
     void *dst;
     s32 i;
     s32 block;
-    register s32 next ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 next ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 byte_offset;
     s32 y1;
     s32 y2;
     s32 y3;
-    register s32 value ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 z1;
     s32 z2;
     s32 z3;
-    register s32 temp_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 rounded;
     s32 limit;
 #ifdef NON_MATCHING
@@ -76,12 +76,12 @@ void func_80026010(void) {
                 func_8004491C((void *)value, D_80025E4C);
 
                 block = i & ~0xF;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 next = (i + 1) & 0xF;
                 byte_offset = (block + next) * 8;
                 p4 = (Cell *)((unsigned long)byte_offset + (unsigned long)base);
                 p2 = (Cell *)((unsigned long)((i + 0x10) * 8) + (unsigned long)base);
-                ASM_KEEP(next);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 next += 0x10;
                 p1 = (Cell *)((unsigned long)((block + next) * 8) + (unsigned long)base);
 
@@ -139,15 +139,15 @@ void func_80026010(void) {
                 }
                 FIELD(dst, s32, 0x54) = D_80026470;
                 FIELD(dst, s32, 0x50) = D_80026474;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 SET_COUNT_PAGE();
             }
             limit = READ_COUNT_PAGE();
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             i++;
             current++;
         } while (i < limit);
     }
     *(volatile s16 *)&D_8002632A = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

@@ -83,14 +83,14 @@ typedef struct S_8016D6F0_9 {
 void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     S_8016D6F0_7 *room_base;
-    register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
     u8 *base8008;
     u8 *base8001;
-    u8 *clear_page;   /* MATCH pin: load-bearing for the whole function shape */
+    u8 *clear_page;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *clear_base;
-    void *call_obj;   /* MATCH pin: retail basic-block layout depends on it */
-    register u8 *update_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    void *call_obj;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    register u8 *update_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 bits;
     s32 mask;
@@ -106,7 +106,7 @@ void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg
         }
         return;
     }
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_two;
     }
@@ -118,7 +118,7 @@ state_zero:
     }
     base8008 = (u8 *)0x80080000;
     table = D_801746A4;
-    ASM_KEEP(base8008);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base8008);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     arg2->unk_2C.as_pu8 = table;
     func_80047784(
         arg2,
@@ -135,7 +135,7 @@ state_one:
         goto post_actions;
     }
     base8008 = (u8 *)0x80080000;
-    ASM_KEEP(base8008);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base8008);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (((S_8016D6F0_2 *)base8008)->unk_3462 & 0x1000) {
         goto done;
     }
@@ -152,7 +152,7 @@ state_one:
     }
     if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
         clear_page = (u8 *)0x80080000;
-        ASM_KEEP(clear_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(clear_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         clear_base = clear_page + 0x3460;
         if (((S_8016D6F0_6 *)clear_base)->unk_10 ==
             (u32)((u8 *)arg3 - 0x20)) {
@@ -181,7 +181,7 @@ action_body:
     }
     if ((func_800A2C34(arg3) << 0x10) != 0) {
         base8008 = (u8 *)0x80080000;
-        ASM_KEEP(base8008);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(base8008);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if ((func_8009A180(
                  arg3,
                  ((S_8016D6F0_9 *)(((S_8016D6F0_2 *)base8008)->unk_14A8))->unk_58 + 0x20)
@@ -212,7 +212,7 @@ second_check:
 post_actions:
     table = D_801746AC;
     base8008 = (u8 *)0x80080000;
-    ASM_KEEP(base8008);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base8008);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     arg2->unk_2C.as_pu8 = table;
     func_80047784(
         arg2,

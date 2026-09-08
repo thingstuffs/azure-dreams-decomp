@@ -21,10 +21,10 @@ void func_800A0150(s32 arg0, u8 *arg1, TownRecord *arg2, s8 arg3)
     s32 *end;
     s32 flag_bits;
     s32 tail_offset;
-    register s32 index ASM_REG("$10");   /* MATCH pin: retail register colouring depends on it */
+    register s32 index ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     index = arg0;
-    ASM_KEEP(index);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     flags = (u8 *)0x80010000;
     arg0 = index * 4;
     flags += arg0;
@@ -43,7 +43,7 @@ void func_800A0150(s32 arg0, u8 *arg1, TownRecord *arg2, s8 arg3)
             dst += 4;
         } while (src != end);
         *dst = *src;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         tail_offset = index * 4;
         page_after = (u8 *)0x80010000;
         flags_after = page_after + tail_offset;

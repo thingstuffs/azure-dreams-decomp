@@ -53,7 +53,7 @@ void func_801750F8(void *arg0_in, void *arg1_in, void *arg2_in, void *arg3_in)
 {
     void *arg0 = arg0_in;
     void *arg1 = arg1_in;
-    register void *arg2 ASM_REG("$17") = arg2_in;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg2 ASM_REG("$17") = arg2_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *arg3 = arg3_in;
     u8 state;
     static void *const sw_keep[] = { &&L0, &&L1, &&L2, &&L3, &&L4, &&L5 };
@@ -163,7 +163,7 @@ timer_ge_11:
     x = ((S_801750F8_2 *)arg2)->unk_1C;
     y = ((S_801750F8_2 *)arg2)->unk_1E;
     x += 0x258;
-    ASM_KEEP(x);   /* MATCH pin: retail branch polarity depends on it */
+    ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     y -= 0x258;
     goto store_xy;
 

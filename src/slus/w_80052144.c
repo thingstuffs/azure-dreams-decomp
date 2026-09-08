@@ -48,8 +48,8 @@ void func_80052144(Controller *s)
 {
     s32 idx;
     void **tbl;
-    register u8 *page ASM_REG("$3") = (u8 *)0x80080000;   /* MATCH pin: slus-diff */
-    register Shared83160 *g ASM_REG("$3");   /* MATCH pin: slus-diff */
+    register u8 *page ASM_REG("$3") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register Shared83160 *g ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     static void *const keepalive[] = {
         &&L_case_0, &&L_case_1, &&L_case_2, &&L_case_3,
         &&L_case_4, &&L_default
@@ -57,9 +57,9 @@ void func_80052144(Controller *s)
     (void)keepalive;
 
     s->timer++;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP_NV(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     g = (Shared83160 *)(page + 0x3160);
 
     if (s->state < 4 && (g->flags10 & 0x40)) {
@@ -101,9 +101,9 @@ void func_80052144(Controller *s)
     }
     {
         u8 *pgt = (u8 *)0x80030000;
-        ASM_KEEP_NV(pgt);   /* MATCH pin: slus-diff */
+        ASM_KEEP_NV(pgt);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         tbl = (void **)(pgt - 0x1024);
-        ASM_KEEP_NV(tbl);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(tbl);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     }
     goto *tbl[idx];
 
@@ -158,27 +158,27 @@ L_case_4:
         }
 #line 900 "x"
         {
-            register u8 *pg2 ASM_REG("$3");   /* MATCH pin: slus-diff */
+            register u8 *pg2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             Shared82E60 *g2;
             s32 z;
             s32 six;
-            register s32 z2 ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register s32 z2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             six = 6;
             z = 0;
-            ASM_KEEP_NV(six);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            ASM_KEEP_NV(z);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(six);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             z2 = z;
-            ASM_KEEP_NV(z2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(z2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             pg2 = (u8 *)0x80080000;
-            ASM_KEEP_NV(pg2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(pg2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             g2 = (Shared82E60 *)(pg2 + 0x2E60);
-            ASM_KEEP_NV(g2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(g2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             g2->flags16 |= 0x8000;
             func_80041094(six, z, z2, z, g2->flags16 ^ 1);
         }
 #line 1000 "x"
         ((u16 *)s)[-1] |= 0x8000;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         D_800814A0 |= 0x8000;
         return;
 
@@ -216,27 +216,27 @@ L_default:
         func_80053DA8(0xB4);
 #line 900 "x"
         {
-            register u8 *pg2 ASM_REG("$3");   /* MATCH pin: slus-diff */
+            register u8 *pg2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             Shared82E60 *g2;
             s32 z;
             s32 six;
-            register s32 z2 ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register s32 z2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             six = 6;
             z = 0; ASM_USE_NV(z); /* cross-jump boundary; MUST stay on this line -- see NOTES.md */
-            ASM_KEEP_NV(six);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            ASM_KEEP_NV(z);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(six);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             z2 = z;
-            ASM_KEEP_NV(z2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(z2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             pg2 = (u8 *)0x80080000;
-            ASM_KEEP_NV(pg2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(pg2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             g2 = (Shared82E60 *)(pg2 + 0x2E60);
-            ASM_KEEP_NV(g2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(g2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             g2->flags16 |= 0x8000;
             func_80041094(six, z, z2, z, g2->flags16 ^ 1);
         }
 #line 1000 "x"
         ((u16 *)s)[-1] |= 0x8000;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         D_800814A0 |= 0x8000;
         return;
 }

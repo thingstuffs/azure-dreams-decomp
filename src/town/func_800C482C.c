@@ -26,8 +26,8 @@ extern u8 D_800C1EA4[];
 void func_800C1F8C(S_800C1F8C_0 *arg0)
 {
     s32 temp_a0;
-    register s32 temp_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     temp_v0 = arg0->unk_04;
     temp_v1 = D_80083780.x;

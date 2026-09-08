@@ -73,7 +73,7 @@ extern void func_80054F9C(u32 a0, void *a1);
    through to a generic default handler (func_80054A7C). */
 void func_80054788(s32 arg0) {
     s32 a = arg0;
-    register s32 b ASM_REG("$17") = a;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 b ASM_REG("$17") = a;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     switch (a & 0xF0) {
     case 0x10:

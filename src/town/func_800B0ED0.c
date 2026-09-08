@@ -43,7 +43,7 @@ typedef struct S_800AE630_1 {
 extern M2C_UNK D_800AE600;
 
 void func_800AE630(void *arg0) {
-    register M2C_UNK (*temp_v0_2)(void) ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register M2C_UNK (*temp_v0_2)(void) ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_v0;
     s32 var_v1;
     s32 var_v1_2;
@@ -52,7 +52,7 @@ void func_800AE630(void *arg0) {
     void *obj;
 
     obj = arg0;
-    ASM_KEEP(obj);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_a1 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_DC;
     var_v1 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_24 * ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34;
     if (var_v1 < 0) {
@@ -78,7 +78,7 @@ void func_800AE630(void *arg0) {
         register u8 *page;
 
         page = (u8 *)0x800B0000;
-        ASM_KEEP_NV(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_00 = (M2C_UNK *)(page - 0x1A00);
     }
     temp_v0_2 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_10;

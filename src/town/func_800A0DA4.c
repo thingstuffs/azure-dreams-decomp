@@ -29,7 +29,7 @@ extern s32 func_8009FF50();
 
 void func_8009E504(void *arg0, s32 arg1, void *arg2)
 {
-    register u32 result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+    register u32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 t0;
     u8 t1;
 
@@ -40,9 +40,9 @@ void func_8009E504(void *arg0, s32 arg1, void *arg2)
         return;
     }
     if ((s8)t0 == -1) {
-        register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        register s32 call_a1 ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        register void *call_a2 ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register void *call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 call_a3;
 
         func_8008F104(arg0, arg1, D_800D073C);
@@ -50,7 +50,7 @@ void func_8009E504(void *arg0, s32 arg1, void *arg2)
         call_a1 = arg1;
         call_a2 = arg2;
         call_a3 = 0;
-        ASM_KEEP(call_a3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(call_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8009B218(call_a0, call_a1, call_a2, call_a3);
         BU(arg0, 0x4C) = BU(arg0, 0x95);
         BU(arg0, 0x4D) = BU(arg0, 0x96);
@@ -61,7 +61,7 @@ void func_8009E504(void *arg0, s32 arg1, void *arg2)
     func_8008F0D4(arg0, arg1, D_800D073C);
     func_8009B218(arg0, arg1, arg2, D_800D0788);
     {
-        register u8 *table ASM_REG("$7");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register u8 *table ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         table = (u8 *)0x80010000;
         BU(arg0, 0x4C) = table[BU(arg0, 0x95) * 4 + 0x980];
@@ -73,7 +73,7 @@ void func_8009E504(void *arg0, s32 arg1, void *arg2)
 
     if (func_8009FF50() == 0) {
         result = 0x800A0000;
-        ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8009E654();
         result -= 0x22C0;
         goto keep_return;
@@ -81,7 +81,7 @@ void func_8009E504(void *arg0, s32 arg1, void *arg2)
 
     result = (u32)D_8009DEBC;
     PP(arg0, -0x10) = (u8 *)result;
-    ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     if ((u32)(BU(arg0, 0x4D) - 0x12) < 2U) {
         PP(arg0, 0xC) = D_800D0754;
     }
@@ -89,7 +89,7 @@ void func_8009E504(void *arg0, s32 arg1, void *arg2)
     t1 = BU(arg0, 0x4D);
     if (t1 == 0x12) {
         result = 0x80070000;
-        ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8009E6F4();
         result -= 0x1DC0;
         goto keep_return;
@@ -111,5 +111,5 @@ void func_8009E504(void *arg0, s32 arg1, void *arg2)
     WD(arg2, 8) = result;
 
 keep_return:
-    ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 }

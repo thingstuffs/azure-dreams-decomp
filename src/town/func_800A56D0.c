@@ -114,7 +114,7 @@ void func_800A2E30(InputPair arg0, InputPair arg2, InputPair arg4,
     if (value >= 0x1E0) {
         value = 0x1DF;
     }
-    ASM_USE(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     func_8006658C(*(u8 **)D_80083160 + 0xD8, obj);
 

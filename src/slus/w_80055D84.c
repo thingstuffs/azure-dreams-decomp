@@ -25,7 +25,7 @@ extern void func_8005AC30(s32 a0);
    to func_8003F52C. On success of the retry path, marks entry idx as available
    in D_800847D0.avail and reactivates the subsystem via func_8005AC30(1). */
 void func_80055D84(s16 param_0) {
-    register s32 idx ASM_REG("$16") = param_0;   /* MATCH pin: slus-diff */
+    register s32 idx ASM_REG("$16") = param_0;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 flag;
     flag = idx;
     if ((s16)func_8005A778(D_80084538[flag], flag, D_800847C0[flag]) == -1) {

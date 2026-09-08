@@ -40,7 +40,7 @@ extern u8 D_80083160[];
 
 void func_80016BF0(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
-    register s16 held_arg2 ASM_REG("$16") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 held_arg2 ASM_REG("$16") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_a3;
     s32 temp_v1_3;
     s32 temp_t6;
@@ -118,7 +118,7 @@ void func_80016BF0(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             } while (var_t1 < arg3);
         }
     }
-    ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The 8-byte leaf frame preserves arg2 in pinned s0; the body

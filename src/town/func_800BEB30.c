@@ -41,7 +41,7 @@ void func_800BC290(void *arg0, s32 arg1, void *arg2)
 
     case 1: {
         s32 color;
-        register s32 adjustment ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 adjustment ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         if (((S_800BC290_1 *)arg2)->unk_0C.u8 < 0x10U) {
             goto color_done;

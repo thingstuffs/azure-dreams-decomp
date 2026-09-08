@@ -143,10 +143,10 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
         {
-            register void *next_state ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register void *next_state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             next_state = D_80174188;
-            ASM_TAILSLOT_PIN(next_state);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         }
         func_80171060();
         return;
@@ -346,7 +346,7 @@ generic:
                 void *next_state;
 
                 next_state = D_80174148;
-                ASM_TAILSLOT_PIN(next_state);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             }
             func_80171430();
         }

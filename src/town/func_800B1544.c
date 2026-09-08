@@ -128,39 +128,39 @@ void func_800AECA4(void *arg0) {
         do {
             temp_s0 = var_s3 * 4;
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 base = (u8 *)(temp_s0 + (s32)base);
                 ((S_800AECA4_11 *)(((S_800AECA4_6 *)(((S_800AECA4_3 *)base)->unk_38))->unk_04))->unk_0A = var_s2;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 base = (u8 *)(temp_s0 + (s32)base);
                 *((S_800AECA4_1 *)base)->unk_38 = arg0 + 0x40;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 base = (u8 *)(temp_s0 + (s32)base);
                 ((S_800AECA4_12 *)(((S_800AECA4_7 *)(((S_800AECA4_3 *)base)->unk_08))->unk_04))->unk_0A = var_s2;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 base = (u8 *)(temp_s0 + (s32)base);
                 *((S_800AECA4_1 *)base)->unk_08 = var_s6;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 base = (u8 *)(temp_s0 + (s32)base);
                 ((S_800AECA4_13 *)(((S_800AECA4_8 *)(((S_800AECA4_3 *)base)->unk_20))->unk_04))->unk_0A = var_s2;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 base = (u8 *)(temp_s0 + (s32)base);
                 *((S_800AECA4_1 *)base)->unk_20 = var_s5;
             }
             var_s2 += 0x10;
             {
                 s32 result = func_8004DC14(func_800AE4E4(*(((S_800AECA4_0 *)arg0)->unk_38 + var_s3)), 1);
-                register u8 *base ASM_REG("$3") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *base ASM_REG("$3") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 base = (u8 *)(temp_s0 + (s32)base);
                 *((S_800AECA4_1 *)base)->unk_50 = result;
             }

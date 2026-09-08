@@ -34,7 +34,7 @@ void func_8009D8A4(void) {
     s16 var_t1;
     s32 var_a2;
     s16 temp_v0_3;
-    register s32 var_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_2;
     s32 temp_a0_3;
     s16 temp_v0_5;
@@ -42,12 +42,12 @@ void func_8009D8A4(void) {
     u16 temp_v1;
     s32 temp_a0_2;
     u8 temp_v1_2;
-    register s32 var_v0 ASM_REG("$2");   /* MATCH pin: retail branch polarity depends on it */
+    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
     sp10 = D_80088CB0;
     var_a1 = D_800E50A8;
     var_a3 = var_a1;
-    ASM_KEEP(var_a3);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_v0 = D_80083160;
     temp_t2 = (DungeonConfig *)(temp_v0 + 0x1DC);
     if ((1 << temp_t2->field_16) > 0) {
@@ -60,7 +60,7 @@ loop_2:
         {
             s16 temp_v0_4 = temp_t2->field_14;
             u16 temp_a0_3;
-            register s32 held_outer ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+            register s32 held_outer ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             temp_a0_3 = *(volatile u16 *)((u8 *)temp_t2 + 0x14);
             if (!(var_t5 < (var_t3 << temp_v0_4))) {
                 goto block_21;
@@ -77,7 +77,7 @@ loop_4:
 
                 var_v0 = (s16) (*(u16 *)(temp_a0 + 2) + 0x200) / 64;
                 clamp_a0 = var_v0;
-                ASM_KEEP_NV(var_v0);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                ASM_KEEP_NV(var_v0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 clamp_v1 = var_v0;
                 if (clamp_v1 >= 0x10) {
                     func_8009D9B4(15, var_a1, var_a2, var_a3);
@@ -91,20 +91,20 @@ loop_4:
                 temp_a0_2 = *var_a3;
                 if ((s32) var_a2 & 1) {
                     var_v0 = temp_a0_2 | (temp_v0_6 << 4);
-                    ASM_TAILSLOT_PIN(var_v0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                    ASM_TAILSLOT_PIN(var_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     func_8009D9F0(temp_a0_2, var_a1, var_a2, var_a3);
                     return;
                 }
                 var_v0 = temp_a0_2 | temp_v0_6;
-                ASM_TAILSLOT_PIN(var_v0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_TAILSLOT_PIN(var_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 func_8009D9F0(temp_a0_2, var_a1, var_a2, var_a3);
                 return;
             }
             {
-                register s32 var_odd ASM_REG("$2");   /* MATCH pin: retail branch polarity depends on it */
+                register s32 var_odd ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
                 temp_v1_2 = *var_a3;
-                ASM_USE(temp_v1_2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_USE(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 var_odd = var_a2 & 1;
                 if (var_odd) {
                     var_v0 = temp_v1_2 & 0xF;
@@ -119,7 +119,7 @@ loop_4:
                 var_v0 = var_a2 + 1;
             }
             var_a2 = var_v0;
-            ASM_KEEP_NV(var_v0);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP_NV(var_v0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             var_v0 = (s16) var_v0;
             temp_v0_4 = temp_t2->field_14;
             temp_a0_3 = *(volatile u16 *)((u8 *)temp_t2 + 0x14);

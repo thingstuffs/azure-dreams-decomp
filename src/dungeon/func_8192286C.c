@@ -4,7 +4,7 @@ s32 func_80069EF8(void);
 s32 func_80024184(void) __attribute__((noreturn));
 
 s32 func_8192286C(s32 limit) {
-    register s32 result ASM_REG("$2");   /* MATCH pin: retail delay-slot contents depend on it */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     s32 value;
 
     if (limit < 0) {
@@ -18,7 +18,7 @@ s32 func_8192286C(s32 limit) {
                 value = (func_80069EF8() & 0xC) >> 2;
             } while (value >= limit);
             result = value;
-            ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80024184();
         }
         if (limit < 0x11) {
@@ -26,7 +26,7 @@ s32 func_8192286C(s32 limit) {
                 value = (func_80069EF8() & 0xF0) >> 4;
             } while (value >= limit);
             result = value;
-            ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80024184();
         }
         if (limit < 0x41) {
@@ -34,7 +34,7 @@ s32 func_8192286C(s32 limit) {
                 value = (func_80069EF8() & 0xFC) >> 2;
             } while (value >= limit);
             result = value;
-            ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80024184();
         }
         if (limit < 0x101) {
@@ -42,7 +42,7 @@ s32 func_8192286C(s32 limit) {
                 value = (func_80069EF8() & 0xFF0) >> 4;
             } while (value >= limit);
             result = value;
-            ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80024184();
         }
         if (limit < 0x1001) {
@@ -50,7 +50,7 @@ s32 func_8192286C(s32 limit) {
                 value = func_80069EF8() & 0xFFF;
             } while (value >= limit);
             result = value;
-            ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80024184();
         }
         do {

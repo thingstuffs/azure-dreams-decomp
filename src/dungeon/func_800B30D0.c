@@ -122,7 +122,7 @@ void func_800B8830(void *arg0, S_800B8830_3 *arg1, S_800B8830_1 *arg2) {
     s16 state;
     s16 one;
     void *source;
-    register void *page_base ASM_REG("$4");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *page_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_800B8830_4 *position;
     s32 curve;
     u16 flags;
@@ -171,11 +171,11 @@ state_zero:
             arg1->unk_00.at02.v += (u16)delta.x;
             arg1->unk_04.at02.v += (u16)delta.y;
             w = arg1->unk_08.at02.v + (u16)delta.z;
-            ASM_TAILSLOT_PIN(w);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(w);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800B8994();
             return;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg1->unk_08.at02.v = z - 0x20;
     }
 
@@ -189,7 +189,7 @@ state_zero:
 
 state_two:
 {
-    register void *target_node ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *target_node ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *entry;
     s32 index;
     s32 start_x;
@@ -238,22 +238,22 @@ state_two:
     func_800B8D64(arg1->unk_00.at02u.v, arg1->unk_04.at02u.v, arg1->unk_08.at02u.v);
     {
         void *flags_page;
-        register s32 final_flags ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 final_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u16 object_flags;
 
         object_flags = ((S_800B8830_0_pre *)arg0)[-1].unk_00;
-        ASM_KEEP(object_flags);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         flags_page = (void *)0x80080000;
-        ASM_KEEP_NV(flags_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         object_flags |= 0x8000;
         ((S_800B8830_0_pre *)arg0)[-1].unk_00 = object_flags;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         count = ((S_800B8830_0 *)arg0)->unk_20.u;
-        ASM_KEEP(count);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         final_flags = ((S_800B8830_9 *)flags_page)->unk_14A0;
         count += 1;
         final_flags |= 0x8000;
-        ASM_KEEP(final_flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(final_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800B8830_0 *)arg0)->unk_20.u = count;
         ((S_800B8830_9 *)flags_page)->unk_14A0 = final_flags;
     }

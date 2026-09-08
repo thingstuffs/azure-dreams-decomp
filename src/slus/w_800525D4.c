@@ -51,7 +51,7 @@ void func_800525D4(void)
 {
     S_800525D4_obj *s2;
     S_800525D4_sub *s0;
-    register void *s1 ASM_REG("$17");   /* MATCH pin: slus-diff */
+    register void *s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     s2 = (S_800525D4_obj *)func_8003FC64(0);
     if (s2 != 0) {

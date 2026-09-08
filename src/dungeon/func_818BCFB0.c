@@ -81,12 +81,12 @@ s32 func_818BCFB0(s32 *arg0, void *arg1, s16 arg2)
             var_a2 += 3;
         }
         {
-            register s32 result ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
-            register s32 field ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-            register s32 scaled ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            register s32 field ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 scaled ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             result = (s32)obj;
-            ASM_KEEP(result);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             field = temp_a3->unk_0A;
             scaled = var_a2 >> 2;
             field += scaled;

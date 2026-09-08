@@ -86,8 +86,8 @@ void func_80174E78(Source *src, Vec3i *vec)
         Entity *call_arg;
         s32 fifty;
         s32 trig_arg;
-        register s32 raw_value ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        register u8 intensity ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register s32 raw_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register u8 intensity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         u8 held_intensity;
 
         entity = func_8003FC64(18);
@@ -98,7 +98,7 @@ void func_80174E78(Source *src, Vec3i *vec)
         sub = &entity->sub;
         fifty = 50;
         call_arg = entity;
-        ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         sub->field_1A = fifty;
         sub->field_1C = src->field_96;
         entity->callback = callback;
@@ -128,21 +128,21 @@ void func_80174E78(Source *src, Vec3i *vec)
         raw_value = func_80064584(next);
         angle <<= 8;
         trig_arg = angle;
-        ASM_KEEP(trig_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         value = (raw_value * 24) >> 12;
         sub->field_70 = value;
         sub->field_64 = value;
 
         raw_value = func_80064584(trig_arg);
         trig_arg = next;
-        ASM_KEEP(trig_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         value = (raw_value * 24) >> 12;
         sub->field_76 = value;
         sub->field_6A = value;
 
         raw_value = func_800644B8(trig_arg);
         trig_arg = angle;
-        ASM_KEEP(trig_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         value = (raw_value * 24) >> 12;
         sub->field_72 = value;
         sub->field_66 = value;
@@ -155,9 +155,9 @@ void func_80174E78(Source *src, Vec3i *vec)
         prim = entity->prim;
         intensity = 128;
         prim->field_0C = intensity;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         held_intensity = intensity;
-        ASM_KEEP(held_intensity);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(held_intensity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         prim->field_1E = 4096;
         prim->field_1C = 4096;
         prim->field_0D = thirty_two;

@@ -121,7 +121,7 @@ s32 func_80024D58(void *arg0) {
     s32 k544;
     void **gp0;
     s32 kb;
-    register u8 *base128 ASM_REG("$22");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *base128 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *base256;
     u32 mask_lo;
     s32 var_s1;
@@ -158,13 +158,13 @@ loop_1:
     var_s5 = 0xE;
     frame.p.f52A = 0;
     var_fp = (u8 *)obj + 0x2A;
-    ASM_KEEP_NV(var_fp);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(var_fp);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     k544 = kb + 672;
     do {
         s32 temp_v0 = var_s3 * 8;
         s32 temp_v1 = 8 - var_s3;
         u8 *temp_a1 = pbase + temp_v0;
-        ASM_KEEP_NV(temp_a1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_NV(temp_a1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         frame.p.f51C = ((S_80024D58_1 *)var_fp)->unk_12;
         frame.p.f514 = base128 + temp_v0;
         frame.p.f510 = temp_a1;
@@ -215,8 +215,8 @@ loop_8:
                                   base256 + (((c1 + (s16) raw) - (temp_s0 = var_s1 + 1)) << 6) + (var_s3 * 4),
                                   &frame.p.f530, &frame.p.f534);
                     var_s1 = temp_s0;
-                    ASM_KEEP_NV(var_s3);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-                    ASM_USE2_NV(base256, base256);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP_NV(var_s3);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                    ASM_USE2_NV(base256, base256);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     raw = ((S_80024D58_5 *)(&frame.p))->unk_18;
                 } while (var_s1 < (var_s3 + frame.p.f528));
             }
@@ -258,7 +258,7 @@ loop_8:
             goto loop_8;
         }
         var_s5 -= 2;
-        ASM_USE2_NV(var_s5, var_s5);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_USE2_NV(var_s5, var_s5);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         var_fp -= 6;
         p540 -= 0x40;
         var_s3 -= 1;
@@ -277,14 +277,14 @@ loop_33:
                 u8 *o = ((S_80024D58_6 *)ctx)->unk_8D0;
                 u8 *r1;
                 u8 *r1b;
-                register s32 a0v ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 a0v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 ((S_80024D58_6 *)ctx)->unk_8D0 = o + 0x28;
                 ((S_80024D58_7 *)o)->unk_04 = ((S_80024D58_2 *)obj)->unk_0C;
                 func_800666F4(o);
                 func_80066640(o, 1);
                 ((S_80024D58_7 *)o)->unk_16 = func_80066460(0, 3, 0x300, 0x100);
                 ((S_80024D58_7 *)o)->unk_0E = func_8006649C(0x10, 0x1F8);
-                ASM_USE(o);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_USE(o);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 a0v = var_s1 << 6;
                 r1b = (u8 *) (a0v + (s32) pbase);
                 r1b = r1b + 0x100;

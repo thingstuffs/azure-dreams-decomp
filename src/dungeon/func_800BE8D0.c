@@ -44,8 +44,8 @@ s32 func_800C4030(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
     u8 *slot;
     u8 *state;
     s32 call_x;
-    register s32 call_y ASM_REG("$5");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 copy ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 call_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 saved;
 
     if (arg2 == 0xD) {
@@ -62,7 +62,7 @@ s32 func_800C4030(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
         value = func_800990FC();
         call_x = arg1;
         call_y = value;
-        ASM_KEEP(call_y);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         saved = call_y;
         value = func_80099368(call_x, call_y);
         value = func_80099194(D_800E187C, value);
@@ -73,13 +73,13 @@ s32 func_800C4030(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
         func_800A5720(saved);
 
         call_x = (s32)arg0;
-        ASM_KEEP(call_x);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(call_x);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         state = (u8 *)0x800E0000;
-        ASM_KEEP(state);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         copy = arg0->unk_10.at03_u8.v;
         state -= 0x217C;
         call_y = ((u16 *)state)[copy];
-        ASM_KEEP(state);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         if (func_800AD6FC((void *)call_x, call_y & 3, arg1) == 0) {
             func_800A5F38(arg0, arg1);
             return 1;
@@ -89,17 +89,17 @@ s32 func_800C4030(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
         func_800A56E0(0x80F);
         i = 0;
         copy = 0x800E0000;
-        ASM_KEEP(copy);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         entry = (u8 *)(copy + 0x36C8);
         copy = 0x800E0000;
-        ASM_KEEP(copy);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         slot = (u8 *)(copy + 0x3548);
         do {
             if (slot[1] != 0) {
                 call_x = 0xE;
                 call_y = 3;
-                ASM_KEEP(call_x);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-                ASM_KEEP(call_y);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(call_x);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(call_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 copy = call_x;
                 slot[1] = copy;
                 copy = call_y;
@@ -116,7 +116,7 @@ s32 func_800C4030(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
     }
 
     state = (u8 *)0x80080000;
-    ASM_KEEP(state);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     state += 0x3460;
     value = ((S_800C4030_1 *)state)->unk_0A;
     call_x = arg1;

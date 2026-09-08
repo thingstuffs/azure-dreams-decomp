@@ -36,8 +36,8 @@ void func_8008B158(Object *arg0) {
     s32 arg0_call;
     u32 arg1;
     u32 arg2;
-    register u32 tail_base ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register u32 tail_offset ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 tail_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 tail_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     item = arg0->item98;
     if (item != 0) {

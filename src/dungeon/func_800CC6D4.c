@@ -44,9 +44,9 @@ typedef struct S_800D1E34_2 {
 void func_800D1E34(void *arg0, void *arg1, void *arg2)
 {
     void *obj = arg0;
-    register void *pos ASM_REG("$18") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *pos ASM_REG("$18") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *ent = arg2;
-    register void *work ASM_REG("$16") = obj;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *work ASM_REG("$16") = obj;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     EntityCallback callback;
     s16 floor;
     u16 flags;
@@ -57,10 +57,10 @@ void func_800D1E34(void *arg0, void *arg1, void *arg2)
         return;
     }
 
-    ASM_KEEP(obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(pos);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(ent);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(work);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(pos);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(ent);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     callback = (*(EntityCallback *)((u8 *)work + (0x8C)));
     if (callback != 0) {

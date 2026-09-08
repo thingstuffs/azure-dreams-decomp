@@ -75,8 +75,8 @@ void func_8017390C(S_8017390C_0 *arg0, void *arg1, Rec_func_800AD058_arg2 *arg2,
     s32 temp_a2;
     s32 temp_word;
     s32 state;
-    register void *saved_arg1 ASM_REG("$19") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
-    register void *saved_arg3 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *saved_arg1 ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *saved_arg3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *temp_s0;
     S_8017390C_5 *temp_s1;
     void *temp_s5;
@@ -84,7 +84,7 @@ void func_8017390C(S_8017390C_0 *arg0, void *arg1, Rec_func_800AD058_arg2 *arg2,
     S_8017390C_4 *temp_v1;
     void *call_arg0;
     void *call_obj;
-    register s32 angle ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     saved_arg3 = arg3;
     state = arg0->unk_9B;
@@ -128,7 +128,7 @@ active:
             temp_v1->unk_08 = temp_a2;
             func_8004491C(call_obj, &D_80045340, temp_a2);
             temp_s1->unk_0C = 0x808080;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             angle = 0xC90;
             temp_s1->unk_1E = angle;
             temp_s5 = (u8 *)temp_s0 + 0x20;
@@ -141,7 +141,7 @@ active:
                     ((S_8017390C_1 *)saved_arg3)->unk_49, ((S_8017390C_1 *)saved_arg3)->unk_48);
             }
             temp_s1->unk_08 = temp_v0;
-            ASM_KEEP(temp_v0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_8017390C_3 *)saved_arg1)->unk_A8 = arg2->unk_24;
             ((S_8017390C_3 *)saved_arg1)->unk_AA = arg2->unk_25;
             *(Unaligned32 *)((u8 *)temp_s5 + 0x48) =
@@ -165,9 +165,9 @@ active:
 
 state_two:
     call_arg0 = arg0;
-    ASM_KEEP(call_arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(saved_arg1);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_CLOBBER("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_800AD058(call_arg0, saved_arg1, arg2, saved_arg3);
 
 done:

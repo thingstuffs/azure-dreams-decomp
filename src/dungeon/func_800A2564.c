@@ -39,11 +39,11 @@ s32 func_800A7CC4(s32 arg0, s32 arg1, void *arg2) {
     u8 *prim;
     u8 *pc;
     u8 *w;
-    register u8 *q ASM_REG("$18");   /* MATCH pin: retail immediate-load split depends on it */
+    register u8 *q ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 n0, n1, n2, n5;
     u8 n3, n4;
     s32 xa, xb, ya, yb;
-    register s32 xa2 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 xa2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 xb2;
     s32 ya2;
     s32 yb2;
@@ -61,8 +61,8 @@ s32 func_800A7CC4(s32 arg0, s32 arg1, void *arg2) {
     u8 *c4;
     u8 *dpage;
     s32 off90, off94;
-    register u8 *a0v ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *a1v ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u8 *a0v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *a1v ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 calc104;
     s32 calc102;
 
@@ -106,11 +106,11 @@ s32 func_800A7CC4(s32 arg0, s32 arg1, void *arg2) {
             pp = (u8 *)0;
             ff = (u8 *)0;
             U32(sp, 0xC0) = n1;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             n5 = n1;
-            ASM_KEEP_NV(n5);   /* MATCH pin: retail delay-slot fill depends on it */
-            ASM_KEEP_DEP_NV(n5, n1 * 4);   /* MATCH pin: retail schedule: same instructions, different order without it */
-            ASM_KEEP_MEMDEP_NV(n5, a0v, U32(cd, 0x1C));   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(n5);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(n5, n1 * 4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_MEMDEP_NV(n5, a0v, U32(cd, 0x1C));   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             U32(cd, 0x1C) = n1 * 4;
             n5 -= 2;
             U32(sp, 0xC0) = n5;
@@ -125,13 +125,13 @@ s32 func_800A7CC4(s32 arg0, s32 arg1, void *arg2) {
                 q5C = sp + 0xFC;
                 q60 = sp + 0x90;
                 e94 = sp + 0x94;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 U16(sp, 0xB8) = U16(sp, 0xB8) - 0xA0;
                 U16(sp, 0xBA) = U16(sp, 0xBA) - 0x78;
                 q = w + 4;
                 pc = prim + 7;
                 U16(sp, 0x100) = U16(arg2, 0x16);
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 calc104 = U16(arg2, 0x1A);
                 calc104 -= sv.b;
                 U16(sp, 0x104) = U16(gp, 184) + calc104;
@@ -213,9 +213,9 @@ s32 func_800A7CC4(s32 arg0, s32 arg1, void *arg2) {
                             xb2 = xb2 + xa2;
                             yb2 = yb2 + ya2;
                             U32(sp, 0x10) = xb2;
-                            ASM_SET(yc);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                            ASM_SET(yc);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                             yc = ya2;
-                            ASM_KEEP_NV(yc);   /* MATCH pin: retail delay-slot fill depends on it */
+                            ASM_KEEP_NV(yc);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                             yb2 = yb2 << 8;
                             yc = yc << 8;
                             U32(sp, 0x14) = yb2;
@@ -244,7 +244,7 @@ s32 func_800A7CC4(s32 arg0, s32 arg1, void *arg2) {
                             func_800666F4(prim);
                             a1v = prim;
                             pc += 40;
-                            ASM_KEEP(pc);   /* MATCH pin: retail immediate-load split depends on it */
+                            ASM_KEEP(pc);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                             func_8006658C(U32(sp, 0x20) + U32(sp, 0xC0) * 4, a1v);
                             prim += 40;
                             func_800649A0();
@@ -259,7 +259,7 @@ s32 func_800A7CC4(s32 arg0, s32 arg1, void *arg2) {
                             U16(sp, 0x100) = -sv.a;
                             U16(sp, 0x104) = U16(gp, 184) - sv.b;
                             func_80065820(sp + 0x100, c7);
-                            ASM_USE_G_NV(cd);   /* MATCH pin: retail immediate-load split depends on it */
+                            ASM_USE_G_NV(cd);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                             func_80064840(dpage - 0x32D0, c7, c4);
                             func_80064BC0(c4, &vec);
                             func_80064D80(c4);

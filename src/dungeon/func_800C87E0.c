@@ -34,7 +34,7 @@ void func_800CDF40(s16 arg0, s16 arg1, s16 arg2) {
     SecondEntry *entry2;
     ActiveEntry *status2;
     s32 i1;
-    register s32 i2 ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i2 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 x1;
     s32 y1;
     s32 x2;

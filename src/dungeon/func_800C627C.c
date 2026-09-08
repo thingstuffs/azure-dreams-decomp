@@ -90,7 +90,7 @@ extern u8 *D_800E3D7C;
 void func_800CB9DC(void *arg0_in, void *arg1_in, void *arg2_in) {
     void *arg0 = arg0_in;
     S_800CB9DC_2 *arg1 = arg1_in;
-    register S_800CB9DC_4 *arg2 ASM_REG("$18") = arg2_in;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register S_800CB9DC_4 *arg2 ASM_REG("$18") = arg2_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     M2C_UNK *temp_a1;
     M2C_UNK var_a2;
     s32 temp_v1;
@@ -111,12 +111,12 @@ void func_800CB9DC(void *arg0_in, void *arg1_in, void *arg2_in) {
         if (temp_s1 == D_800E3D7C) {
             s16 *counts;
             u8 call_a0;
-            register u8 *page8 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-            register s32 count32 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+            register u8 *page8 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register s32 count32 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             u16 count16;
 
             arg1 = (void *)0x80010000;
-            ASM_KEEP(arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             if (arg1->unk_3714 & 4) {
                 func_80040AA0(3U, temp_a1);
                 func_800CBB58();
@@ -126,7 +126,7 @@ void func_800CB9DC(void *arg0_in, void *arg1_in, void *arg2_in) {
             func_800948BC();
             func_800A6780();
             page8 = (u8 *)0x80080000;
-            ASM_KEEP(page8);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP(page8);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             counts = D_80081468;
             call_a0 = page8[0x2E6B];
             count32 = arg1->unk_234;
@@ -157,9 +157,9 @@ void func_800CB9DC(void *arg0_in, void *arg1_in, void *arg2_in) {
         func_800A32A4(temp_s1);
         func_8009A028(temp_s1);
         {
-            register u8 *page14 ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
+            register u8 *page14 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             u8 *base34;
-            register s32 global_value ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+            register s32 global_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             u16 dec_value;
             u8 *page14_again;
             u16 halfword;
@@ -174,7 +174,7 @@ void func_800CB9DC(void *arg0_in, void *arg1_in, void *arg2_in) {
             dec_value--;
             ((S_800CB9DC_7 *)page14)->unk_14A0 = global_value;
             ((S_800CB9DC_8 *)base34)->unk_0A = dec_value;
-            ASM_CLOBBER("$5");   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             halfword = ((S_800CB9DC_0_pre *)arg0)[-1].unk_00;
             page14_again = (u8 *)0x80080000;
             ((S_800CB9DC_0_pre *)arg0)[-1].unk_00 = halfword | 0x8000;

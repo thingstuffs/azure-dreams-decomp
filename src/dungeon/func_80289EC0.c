@@ -25,9 +25,9 @@ void func_8001CEC0(Rect *rect)
     s32 y_end;
     s32 x;
     s32 y;
-    register s32 initial_y ASM_REG("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 initial_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 initial_x;
-    register s32 initial_width ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 initial_width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 initial_height;
     s32 y_parity;
     u16 flags;
@@ -39,7 +39,7 @@ void func_8001CEC0(Rect *rect)
     initial_y = rect->y;
     initial_x = rect->x;
     initial_width = rect->width;
-    ASM_KEEP4(initial_y, initial_x, initial_width, rect);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP4(initial_y, initial_x, initial_width, rect);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     y = initial_y;
     initial_height = rect->height;
     x_end = initial_x + initial_width;

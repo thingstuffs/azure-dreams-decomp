@@ -11,7 +11,7 @@ extern u8 D_800157D2[];
 
 s32 func_80026E70(s32 arg0, s32 arg1) {
     s32 count;
-    register s32 i ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *p;
     u8 value;
 

@@ -41,8 +41,8 @@ s32 func_800CA788(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 mask;
     u8 *object;
     u8 *actor;
-    register void *held_arg1 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *held_arg2 ASM_REG("$18");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *held_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *held_arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *global_base;
     u16 flags;
 
@@ -50,7 +50,7 @@ s32 func_800CA788(void *arg0, void *arg1, void *arg2, void *arg3)
     actor = arg3;
     actor[0x71] &= 0x7F;
     held_arg1 = arg1;
-    ASM_KEEP(held_arg1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     global_base = (u8 *)&D_80083460;
     if (((S_800CA788_0 *)global_base)->unk_02 & 0x2000) {
         goto return_negative;
@@ -68,7 +68,7 @@ s32 func_800CA788(void *arg0, void *arg1, void *arg2, void *arg3)
         goto check_flag_8;
     }
 return_negative:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     return -1;
 check_flag_8:
     if (flags & 8) {
@@ -89,24 +89,24 @@ check_flag_8:
 
     {
         void *call_a0;
-        register void *call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register void *call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 call_a2;
-        s32 call_a3;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        s32 call_a3;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 word_14;
         s32 word_1C;
 
         call_a0 = actor;
-        ASM_KEEP(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         call_a1 = held_arg2;
         object[0x9B] = 0;
         ((S_800CA788_3 *)object)->unk_8C = 0;
         object[0x9A] = 0x11;
         call_a2 = ((S_800CA788_1 *)actor)->unk_2A;
         actor[0x84] = 0x80;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         word_14 = ((S_800CA788_1 *)actor)->unk_14;
         word_1C = ((S_800CA788_1 *)actor)->unk_1C;
-           /* MATCH pin: retail branch polarity depends on it */
+           /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         call_a3 = 0;
         actor[0x85] = 0;
         word_14 |= 0x2000;

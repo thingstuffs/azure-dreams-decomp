@@ -33,11 +33,11 @@ extern u8 D_80175E40[12];
 extern ActorCallback D_80175ED8[16];
 void func_80170A94(void *input0, void *input1, void *input2)
 {
-  register void *arg0 ASM_REG("$17") = input0;   /* MATCH pin: load-bearing for the whole function shape */
+  register void *arg0 ASM_REG("$17") = input0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   void *entry_arg0 = input0;
   void *arg1 = input1;
   s32 direction;
-  register s32 direction_index ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+  register s32 direction_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
   s32 direction_value;
   void *arg2 = input2;
   s16 old_state;
@@ -49,11 +49,11 @@ void func_80170A94(void *input0, void *input1, void *input2)
   s32 random_value;
   s32 delta;
   s32 clear_delta;
-  register s32 actor_mask ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+  register s32 actor_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   s32 accumulator_probe;
   s32 tail_value;
   s32 correction;
-  register void *physics ASM_REG("$19") = arg0;   /* MATCH pin: load-bearing for the whole function shape */
+  register void *physics ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   ActorCallback callback;
   u32 initial_flags = D_80083462.value;
   if (initial_flags & 0x2000)
@@ -61,7 +61,7 @@ void func_80170A94(void *input0, void *input1, void *input2)
     callback = *((ActorCallback *) (((u8 *) arg0) + 0x8C));
     if (callback == ((ActorCallback) D_801710EC))
     {
-      ASM_KEEP(entry_arg0);   /* MATCH pin: retail register colouring depends on it */
+      ASM_KEEP(entry_arg0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       callback(entry_arg0, arg1, arg2, entry_arg0);
       return;
     }
@@ -71,7 +71,7 @@ void func_80170A94(void *input0, void *input1, void *input2)
       return;
     }
   }
-  ASM_CLOBBER("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+  ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   old_state = (s8) (*((u8 *) (((u8 *) arg0) + 0x6D)));
   if (func_800A9E70(arg0, arg1, arg2, arg0) != 0)
   {
@@ -102,7 +102,7 @@ void func_80170A94(void *input0, void *input1, void *input2)
   *((s32 *) (((u8 *) arg0) + 0x90)) += *((s32 *) (((u8 *) arg1) + 0x14));
   direction_value = ((D_80083228.value + (*((s16 *) (((u8 *) physics) + 0x2A)))) + 0x100) >> 9;
   direction = direction_value & 7;
-  ASM_KEEP(direction);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   direction_index = direction;
   if ((*((s16 *) (((u8 *) arg0) + 0x94))) != direction_index)
   {
@@ -112,7 +112,7 @@ void func_80170A94(void *input0, void *input1, void *input2)
   if (D_8006CCF8[direction_index] != 0)
   {
     flags = (*((u16 *) (((u8 *) arg2) + 0x14))) | 1;
-    ASM_TAILSLOT_PIN(flags);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_TAILSLOT_PIN(flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_80170CBC();
   }
   else
@@ -120,7 +120,7 @@ void func_80170A94(void *input0, void *input1, void *input2)
     flags = (*((u16 *) (((u8 *) arg2) + 0x14))) & 0xFFFE;
     *((u16 *) (((u8 *) arg2) + 0x14)) = flags;
   }
-  ASM_KEEP(direction_index);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  ASM_KEEP(direction_index);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   state_flags = *((volatile u16 *) (((u8 *) arg2) + 0x14));
   if (!(state_flags & 0x8000))
   {
@@ -131,7 +131,7 @@ void func_80170A94(void *input0, void *input1, void *input2)
       {
         func_800478B8(arg2);
         actor_mask = 0xF7FF0000;
-        ASM_TAILSLOT_PIN(actor_mask);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(actor_mask);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80170D3C();
       }
     }
@@ -156,7 +156,7 @@ void func_80170A94(void *input0, void *input1, void *input2)
           (*((u16 *) (((u8 *) arg0) + 0x9E)))++;
           random_value = func_800644B8(count * 0xAA);
  do { accumulator_probe = *((volatile s32 *) (((u8 *) arg0) + 0xA0)); tail_value = random_value << 5; } while (0);
-          ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot contents depend on it */
+          ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
           func_80170E24();
         }
         else
@@ -231,7 +231,7 @@ void func_80170A94(void *input0, void *input1, void *input2)
       random_value = func_800644B8(count * 0xAA);
       accumulator_probe = *((volatile s32 *) (((u8 *) arg0) + 0xA0));
       tail_value = random_value << 5;
-      ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot contents depend on it */
+      ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
       func_80170FDC();
     }
     else

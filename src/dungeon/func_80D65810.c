@@ -75,8 +75,8 @@ void func_80D65810(s32 arg0, void *arg1, s32 arg2, u16 arg3, s32 arg4, s32 arg5)
     u16 temp_v0_2;
     S_80D65810_4 *input;
     u16 x;
-    register s32 y ASM_REG("$20");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 z ASM_REG("$21");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 z ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 size;
     S_80D65810_2 *temp_a0;
     S_80D65810_5 *temp_a0_2;
@@ -98,11 +98,11 @@ void func_80D65810(s32 arg0, void *arg1, s32 arg2, u16 arg3, s32 arg4, s32 arg5)
         temp_a0 = ((S_80D65810_1 *)temp_v0)->unk_0C;
         temp_a0->unk_06 = 0;
         temp_a0->unk_14 |= 0xC;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v0_2 = temp_a0->unk_14;
-        ASM_KEEP(temp_v0_2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         size = 0x60;
-        ASM_KEEP(size);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(size);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_a0->unk_10 = size;
         temp_a0->unk_14 = (u16)(temp_v0_2 | 2);
         temp_s1 = ((S_80D65810_1 *)temp_v0)->unk_08;

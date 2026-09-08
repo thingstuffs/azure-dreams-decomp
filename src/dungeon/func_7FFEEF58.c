@@ -23,7 +23,7 @@ s16 func_8008C6B8(S_8008C6B8_0 *arg0, s32 arg1, s32 arg2) {
     s32 temp_v1;
     s32 var_v0_2;
     s32 component;
-    register s32 addend ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 addend ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_8008C6B8_1 *temp_s0;
 
     temp_a2 = arg2 * 0x10;

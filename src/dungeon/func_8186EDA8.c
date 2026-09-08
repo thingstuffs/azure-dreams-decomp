@@ -69,7 +69,7 @@ void func_8186EDA8(DungeonState *arg0, S_8186EDA8_0 *arg1, DungeonEffect *arg2) 
     u16 *flag_page = (u16 *)0x80020000;
     s32 first_angle = arg0->angle;
 
-    ASM_USE_NV(flag_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE_NV(flag_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     
     arg1->unk_00 = (s32) (arg0->base0 + (arg0->count * func_800644B8((flag_page[0x2984] = 1, first_angle)) * 0x10));
     arg1->unk_04 = (s32) (arg0->base1 + (arg0->count * func_80064584(arg0->angle) * 0x10));
@@ -99,7 +99,7 @@ case_0:
             ((S_8186EDA8_1 *)((u8 *)arg0 - 0x2))->unk_04 = temp_v0;
             if ((temp_v0 << 0x10) <= 0) {
                 u16 state_plus_one = ((S_8186EDA8_1 *)((u8 *)arg0 - 0x2))->unk_02.s + 1;
-                ASM_TAILSLOT_PIN(state_plus_one);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_TAILSLOT_PIN(state_plus_one);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 func_80024770();
                 return;
             }
@@ -118,7 +118,7 @@ case_1:
             if (temp_v1_5 >= 0x41) {
                 if (temp_v1_5 >= 0x65) {
                     s32 tail_arg = 3;
-                    ASM_TAILSLOT_PIN(tail_arg);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_TAILSLOT_PIN(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     func_80024710(tail_arg);
                     return;
                 }

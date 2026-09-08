@@ -53,16 +53,16 @@ typedef struct S_8017103C_2 {
 
 void func_8017103C(void *a0, void *a1, void *a2)
 {
-    register void *entity ASM_REG("$18") = a0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *entity ASM_REG("$18") = a0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_8017103C_2 *motion = a1;
     void *monster = a2;
     S_8017103C_1 *actor = entity;
-    register u32 raw_direction ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 direction ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 direction_copy ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 direction_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    void *call0;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    void *call1;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u32 raw_direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 direction_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *call0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *call1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call2;
     void *call3;
     s32 direction_index;
@@ -73,8 +73,8 @@ void func_8017103C(void *a0, void *a1, void *a2)
     if (D_80083462 & 0x2000) {
         Callback first_callback;
 
-        ASM_KEEP(entity);   /* MATCH pin: retail register colouring depends on it */
-        ASM_KEEP(actor);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         first_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (first_callback == (Callback)&D_801714B8) {
             first_callback(a0, a1, a2, a0);
@@ -84,7 +84,7 @@ void func_8017103C(void *a0, void *a1, void *a2)
         return;
     }
 
-    ASM_KEEP(entity);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     call0 = entity;
     call1 = motion;
@@ -115,7 +115,7 @@ void func_8017103C(void *a0, void *a1, void *a2)
     if (!(flags & 0x8000)) {
         direction_value = D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (direction_value >> 9) & 7;
-        ASM_KEEP(direction);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         direction_index = direction;
         direction_copy = direction;
 
@@ -151,7 +151,7 @@ void func_8017103C(void *a0, void *a1, void *a2)
                 if (state != 0) {
                     goto nonzero_state;
                 }
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
                 value = 0x80;
                 goto set_state_bytes;
 nonzero_state:
@@ -244,10 +244,10 @@ finish:
         actor->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     ((S_8017103C_0 *)monster)->unk_14 |= 0x40;
 
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(monster);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(direction);   /* MATCH pin: retail delay-slot fill depends on it */
-    ASM_KEEP(direction_copy);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(monster);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The 48-byte frame holds entity/motion/monster/actor in s2/s4/s1/s3

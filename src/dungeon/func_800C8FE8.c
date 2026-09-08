@@ -84,15 +84,15 @@ s32 func_800CE748(void *arg0) {
                 s32 is_one;
 
                 is_one = temp_s0->unk_00 == 1;
-                ASM_KEEP_NV(is_one);   /* MATCH pin: keeps a constant in a register as retail does */
+                ASM_KEEP_NV(is_one);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 var_s1 = is_one;
             }
             if (*D_800E3D40 == 0) {
                 temp_a0_2 = func_800A6D30() & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17 != 0) {
-                    register s32 random_mod ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    register s32 random_mod ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     random_mod = temp_a0_2 % ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17;
-                    ASM_KEEP(random_mod);   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_KEEP(random_mod);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     func_800CE7F0(temp_a0_2);
                     return random_mod;
                 }
@@ -123,9 +123,9 @@ block_13:
             if (*D_800E3D40 == 0) {
                 temp_a0 = func_800A6D30(temp_a0_3) & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17 != 0) {
-                    register s32 random_mod ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    register s32 random_mod ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     random_mod = temp_a0 % ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17;
-                    ASM_KEEP(random_mod);   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_KEEP(random_mod);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     func_800CE8A0(temp_a0);
                     return random_mod;
                 }
@@ -151,7 +151,7 @@ block_28:
 
             func_800A6508();
             dead_shift = (u16) var_s2 << 0x10;
-            ASM_TAILSLOT_PIN(dead_shift);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(dead_shift);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800CE9C0();
         }
         temp_v0 = func_800990FC();
@@ -159,7 +159,7 @@ block_28:
         if (var_s2 & 1) {
             temp_a1_2 = func_8009955C(((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_60, var_a1);
             {
-                register void *message ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
+                register void *message ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
                 if (!(var_s1 & 1)) {
                     message = D_800E1B76;
@@ -175,14 +175,14 @@ block_28:
         if (var_s2 & 2) {
             temp_a1 = func_8009955C(((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_64, var_a1);
             {
-                register void *message ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
+                register void *message ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
                 if (!(var_s1 & 2)) {
                     message = D_800E1B99;
                 } else {
                     message = D_800E1BAA;
                 }
-                ASM_KEEP_NV(message);   /* MATCH pin: keeps a constant in a register as retail does */
+                ASM_KEEP_NV(message);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 var_a1 = func_80099194(message, temp_a1);
             }
         }

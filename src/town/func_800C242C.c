@@ -56,21 +56,21 @@ extern M2C_UNK D_800BFFF4;
 void func_800BFB8C(void *arg0)
 {
     s16 temp_v0_3;
-    register s16 temp_v0_4 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 temp_v0_4 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 temp_v1;
     s32 temp_a0;
-    register s32 temp_v0_2 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_v0_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_s1;
     s32 initial_v0;
-    register s32 rng_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 final_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 rng_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 final_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_v0;
     s32 base_coord;
     u16 temp_v0_5;
     u8 *town;
     u8 *kind;
     void *temp_s0;
-    register void *temp_s2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *temp_v0;
     void *var_a0;
     void *callback;

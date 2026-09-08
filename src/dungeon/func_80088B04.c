@@ -61,7 +61,7 @@ case_0:
             if (temp_v1_2 != 0) {
                 goto temp_nonzero;
             }
-            ASM_KEEP(temp_v1_2);   /* MATCH pin: retail branch polarity depends on it */
+            ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
             var_v0 = 0xFFF00000;
             goto temp_join;
 temp_nonzero:

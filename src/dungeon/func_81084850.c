@@ -52,12 +52,12 @@ s32 func_80172050(void *arg0, s32 arg1, void *arg2, void *arg3)
     volatile u8 frame_pad[8];
     void *out;
     s32 held_arg1;
-    register void *info ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *info ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *actor;
     void *call_actor;
     u16 *state;
     u8 *table;
-    register s32 temp_v0 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_v0 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 raw_v0;
     s32 result;
     s32 actor84_value;
@@ -67,7 +67,7 @@ s32 func_80172050(void *arg0, s32 arg1, void *arg2, void *arg3)
     actor = arg3;
     ((S_80172050_0 *)actor)->unk_71 &= 0x7F;
     held_arg1 = arg1;
-    ASM_KEEP(held_arg1);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     state = (u16 *)&D_80083460;
     if (state[1] & 0x2000) {
         goto failure;
@@ -110,7 +110,7 @@ s32 func_80172050(void *arg0, s32 arg1, void *arg2, void *arg3)
     }
 
 failure:
-    ASM_KEEP(state);   /* MATCH pin: retail branch polarity depends on it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     result = -1;
     goto done;
 
@@ -119,7 +119,7 @@ success:
     actor84_value = 0x7C;
     ((S_80172050_2 *)out)->unk_9B = 0;
     ((S_80172050_2 *)out)->unk_8C = 0;
-    ASM_KEEP(out);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_80172050_0 *)actor)->unk_84 = actor84_value;
     ((S_80172050_0 *)actor)->unk_85 = 4;
     table = &D_80175F48;
@@ -128,10 +128,10 @@ success:
         table[((D_80083228 + ((S_80172050_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     call_actor = actor;
-    ASM_KEEP(call_actor);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(call_actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     ((S_80172050_3 *)call_actor)->unk_6D--;
     func_8009C93C(call_actor, info, ((S_80172050_3 *)call_actor)->unk_2A, 1, 0);
-    ASM_KEEP(actor);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     result = 1;
 
 done:

@@ -110,7 +110,7 @@ void func_7FFFE25C(void *arg0, S_7FFFE25C_1 *arg1, Rec_D_800E3D7C *arg2, s32 arg
         }
 
         if (current == (s32)&D_80093328) {
-            ASM_USE2(arg3, arg3);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_USE2(arg3, arg3);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             a0r = arg0;
             a1r = arg1;
             handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_0C;

@@ -29,8 +29,8 @@ s32 func_80025340(void *arg0, void *arg1, void *arg2)
     void *vertex = arg1;
     void *interp = arg2;
     u8 **global = (u8 **) &D_80083160;
-    register u8 *scratch ASM_REG("$17") = (u8 *) 0x1F800000;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *prim ASM_REG("$19");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *scratch ASM_REG("$17") = (u8 *) 0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *prim ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *packet;
     u32 color_even;
     u32 color_odd;
@@ -39,11 +39,11 @@ s32 func_80025340(void *arg0, void *arg1, void *arg2)
     s16 amount;
     s32 index;
     s32 packet_word;
-    ASM_KEEP(global);   /* MATCH pin: retail immediate-load split depends on it */
-    ASM_KEEP(scratch);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(global);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     *((u8 **) (((u8 *) scratch) + 0x18)) = *((u8 **) (((u8 *) global_value) + 0x8D0));
     *((u8 **) (((u8 *) scratch) + 0x20)) = global_value + 0xB0;
-    ASM_MEM_BARRIER();   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     prim = *((u8 **) (((u8 *) scratch) + 0x18));
     *((u8 **) (((u8 *) scratch) + 0x18)) = prim + 0x14;
     amount = *((s16 *) (((u8 *) interp) + 6));
@@ -83,7 +83,7 @@ s32 func_80025340(void *arg0, void *arg1, void *arg2)
       *((u16 *) (((u8 *) scratch) + 2)) = *((u16 *) (((u8 *) vertex) + 6));
       *((u16 *) (((u8 *) scratch) + 4)) = *((u16 *) (((u8 *) vertex) + 0xA));
     }
-    ASM_MEM_BARRIER();   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     depth = ((*((s32 *) (((u8 *) scratch) + 0xC0))) + func_80065420(scratch, prim + 0x10, scratch + 0x90, scratch + 0x94)) >> 1;
     *((s32 *) (((u8 *) scratch) + 0xC0)) = depth;
     if (((u32) depth) < 0x1E0U)
@@ -93,7 +93,7 @@ s32 func_80025340(void *arg0, void *arg1, void *arg2)
       *((s32 *) (((u8 *) packet) + 4)) = packet_word;
       color_even = *((u8 *) (((u8 *) packet) + 4));
       *((volatile u8 *) (((u8 *) packet) + 7)) = 0x52;
-      ASM_MEM_BARRIER();   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+      ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
       color_odd = *((u8 *) (((u8 *) packet) + 5));
       color_even >>= 1;
       *((u8 *) (((u8 *) packet) + 0xC)) = color_even;
@@ -114,12 +114,12 @@ s32 func_80025340(void *arg0, void *arg1, void *arg2)
       owner = ((u8 *) next) + 0x20;
       vertex = *((void **) (((u8 *) next) + 8));
       interp = *((void **) (((u8 *) next) + 0xC));
-      ASM_KEEP(owner);   /* MATCH pin: load-bearing for the whole function shape */
-      ASM_KEEP(vertex);   /* MATCH pin: retail basic-block layout depends on it */
-      ASM_KEEP(interp);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+      ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+      ASM_KEEP(vertex);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+      ASM_KEEP(interp);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
       func_80025398();
     }
-    ASM_CLOBBER("$6");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     *((u8 **) (((u8 *) (*global)) + 0x8D0)) = *((u8 **) (((u8 *) scratch) + 0x18));
     return 0;
   }

@@ -125,7 +125,7 @@ void func_80095A10(u8 *incoming0, void *incoming1, void *incoming2, u8 *incoming
     u8 *arg0 = incoming0;
     void *arg1 = incoming1;
     void *arg2 = incoming2;
-    register u8 *arg3 ASM_REG("$19") = incoming3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *arg3 ASM_REG("$19") = incoming3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *var_a1;
     s32 temp_v0;
     s32 temp_v0_2;
@@ -207,7 +207,7 @@ jt_c3:
 block_12:
     temp_a0 = *(volatile u8 *)((u8 *)arg0 + 0x9B);
     {
-        register u16 timer ASM_REG("$3") = 0x10U;   /* MATCH pin: retail register colouring depends on it */
+        register u16 timer ASM_REG("$3") = 0x10U;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ((S_80095A10_0 *)arg0)->unk_96 = timer;
         return func_80095D34();
     }

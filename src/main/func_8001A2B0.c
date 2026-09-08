@@ -12,7 +12,7 @@ extern s32 func_80408684(s32 arg0);
 s32 func_804012B0(void)
 {
     s32 state;
-    register s32 result ASM_REG("$17");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 selection;
     s32 *destination;
 
@@ -38,11 +38,11 @@ case_one:
 
 case_three:
     selection = D_804094EC;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     destination = (s32 *)0x800A0000;
-    ASM_KEEP(destination);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(destination);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     destination -= 1820;
-    ASM_KEEP(destination);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(destination);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (selection != 0) {
         destination++;
         result = 3;
@@ -51,11 +51,11 @@ case_three:
     }
     *destination = 0;
     D_804094E8 = 0;
-    ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     goto fast_done;
 
 done:
-    ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 fast_done:
     return result;
 }

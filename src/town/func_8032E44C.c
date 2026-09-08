@@ -5,7 +5,7 @@ typedef s32 (*Callback)(void *);
 extern s8 D_80016000[];
 
 s32 func_80018C4C(void *arg0, s32 arg1) {
-    register s32 total ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register s32 total ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Callback callback;
 
     total = 0;

@@ -127,7 +127,7 @@ void func_80093894(void) {
             }
             if (work.bytes.unk1 == 0x13) {
                 void *callback_slot;
-                register void (*callback)(void *, void *, void *) ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+                register void (*callback)(void *, void *, void *) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 func_8008B5D8(D_80088C8C, 0x11);
                 func_800947BC(object, arg1, arg2);
@@ -162,7 +162,7 @@ process:
         work.pos.unk8 = arg1->unk_08 + D_800D0428;
         mode = 0;
         if (state_is_12_or_13) {
-            register s32 zero ASM_REG("$0");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
 #ifdef NON_MATCHING
             zero = 0;

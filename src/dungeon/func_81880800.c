@@ -64,7 +64,7 @@ void FUNC_81880800_BODY(void *arg0, void *arg1, void *arg2)
 {
     u8 *self = (u8 *)arg0;
     u8 *motion = (u8 *)arg1;
-    register u8 *part ASM_REG("$19") = (u8 *)arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *part ASM_REG("$19") = (u8 *)arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *owner;
     u8 *base;
     u8 *record;
@@ -80,19 +80,19 @@ void FUNC_81880800_BODY(void *arg0, void *arg1, void *arg2)
     s32 magnitude;
     s32 velocity;
     s32 position;
-    register s32 adjusted ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 adjusted ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 compare;
     s32 x_pos;
-    register s32 x_vel ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 y_pos ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 x_vel ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 y_pos ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 y_vel;
     s32 z_base;
     s32 z_delta;
     s32 coord;
-    register u8 *spawn_base ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
-    register u32 tail_x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *spawn_base ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 tail_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 tail_timer;
-    register u32 tail_y ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 tail_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 calc_x;
     u32 chan0;
     u32 chan1;
@@ -146,7 +146,7 @@ state0:
     F(arg1, u16, 6) = F(record, u16, 6);
     if (F(F(base, void *, 0xC), u16, 0x14) & 0x8000) {
         tail_value = F(record, u16, 0xA) - 0x40;
-        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_800241B0();
     }
     F(arg1, u16, 0xA) = F(record, u16, 0xA) + vector[2];
@@ -196,7 +196,7 @@ state0:
         }
         {
             s32 left;
-            register s32 right ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 right ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 delta;
             left = F(owner, s8, 0x72);
             right = F(entry_copy, u8, 0x24);
@@ -219,13 +219,13 @@ state0:
     F(arg0, u16, 0x10) = F(arg1, u16, 2);
     F(arg0, u16, 0x12) = F(arg1, u16, 6);
     F(arg0, u16, 0x14) = F(owner, u16, 0x88) - 0x50;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     value = D_8006CCD8[F(arg0, s16, 0x1A)];
     F(arg1, s16, 0x0E) = value << 3;
     value = D_8006CCE8[F(arg0, s16, 0x1A)];
     F(arg1, s16, 0x12) = value << 3;
     value = F(arg0, u16, 0xA);
-    ASM_KEEP(value);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     F(arg0, u16, 0x1C) = 0;
     func_800246AC();
 
@@ -233,10 +233,10 @@ state1:
     velocity = F(arg1, s32, 0x0C);
     position = F(arg1, s32, 0);
     adjusted = velocity;
-    ASM_KEEP(adjusted);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     position += velocity;
     F(arg1, s32, 0) = position;
-    ASM_KEEP(adjusted);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     adjusted += adjusted >> 4;
     magnitude = adjusted;
     if (adjusted < 0) {
@@ -256,10 +256,10 @@ state1:
     velocity = F(arg1, s32, 0x10);
     position = F(arg1, s32, 4);
     adjusted = velocity;
-    ASM_KEEP(adjusted);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     position += velocity;
     F(arg1, s32, 4) = position;
-    ASM_KEEP(adjusted);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     adjusted += adjusted >> 4;
     magnitude = adjusted;
     if (adjusted < 0) {

@@ -11,7 +11,7 @@ extern Callback_8001F2F4 D_8040076C[4];
 
 void func_8001F2F4(Object_8001F2F4 *object)
 {
-    register Callback_8001F2F4 *source ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register Callback_8001F2F4 *source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Callback_8001F2F4 callbacks[4];
     Callback_8001F2F4 callback0;
     Callback_8001F2F4 callback1;

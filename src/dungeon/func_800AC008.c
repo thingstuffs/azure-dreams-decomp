@@ -79,26 +79,26 @@ void func_800B1768(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
     s32 var_a1;
     s32 var_a1_2;
     s32 var_a0;
-    register s32 var_a0_2 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s8 var_v0;
     s32 var_v1;
     s16 arg0_reg = arg0;
     s32 arg1_reg = arg1;
-    register u8 *arg2_reg ASM_REG("$21") = (u8 *)arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *arg2_reg ASM_REG("$21") = (u8 *)arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 temp_s6 = arg3;
     s32 count = 0;
-    register s32 arg3_ff ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 arg3_ff ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     AcObject *obj;
     AcHeader *header;
     AcMeta *meta;
     AcSub *sub;
-    register s32 *table_entry ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 *table_entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *base;
     void *new_buf;
     void *buf;
-    register void *call_arg ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *prev_arg;
-    register s32 hard_zero ASM_REG("$0");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 color1;
     u32 color2;
     u32 tail_flags;
@@ -123,9 +123,9 @@ void func_800B1768(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
         obj->field10 = D_800B14FC;
         func_8004491C(obj, D_800B06F0, meta);
         arg3_ff = temp_s6 & 0xFF;
-        ASM_KEEP_NV(arg3_ff);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP_NV(arg3_ff);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         base = (u8 *)&sub->field38;
-        ASM_KEEP_NV(base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg2_reg = base;
         sub->field24 = (s16)((temp_s6 << 0x10) >> 0x18);
         sub->field00 = (u8 *)&sub->slots[0];
@@ -148,7 +148,7 @@ shared_setup:
             call_arg = buf;
             base = (u8 *)D_800DF03C;
             table_entry = (s32 *)((arg3_ff * 4) + (s32)base);
-            ASM_KEEP_NV(table_entry);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP_NV(table_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
             hard_zero = 0;
 #endif
@@ -175,7 +175,7 @@ shared_setup:
             color1 = 0x808080;
             *(volatile u32 *)arg2_reg = color1;
             arg2_reg += 4;
-            ASM_KEEP_NV(arg2_reg);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP_NV(arg2_reg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             buf = (u8 *)buf + 0x60;
             *(void **)((u8 *)sub + 0x50 + count++ * 4) = buf;
             call_arg = buf;
@@ -215,7 +215,7 @@ shared_setup:
                 var_v0 -= 2;
             }
             color2 = 0x80000;
-            ASM_KEEP_NV(color2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(color2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((s8 *)buf)[0xA] = var_v0;
             var_v0 = 0x10;
             var_a0_2 = 0xC0;
@@ -229,7 +229,7 @@ shared_setup:
             *(s32 *)((u8 *)buf + 4) = sub->field10;
             *(s32 *)((u8 *)buf + 0xC) = sub->field14;
             *(s32 *)((u8 *)buf + 0x10) = sub->field18;
-            ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             tail_flags = ((u8 *)buf)[1];
             tail_field1c = sub->field1C;
             tail_flags |= 2;

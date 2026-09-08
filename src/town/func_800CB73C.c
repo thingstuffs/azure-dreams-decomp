@@ -25,12 +25,12 @@ void func_800C8E9C(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
         }
         if ((func_800C2F14((*(s16 *)((u8 *)arg0 + 0x72)), (*(s16 *)((u8 *)arg0 + 0x64))) << 0x10) != 0) {
             u16 bit_value = arg2->unk_14.at00_u16.v | 1;
-            ASM_TAILSLOT_PIN(bit_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(bit_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800C8F4C();
             return;
         }
         arg2->unk_14.at00_u16.v = (s16) (arg2->unk_14.at00_u16.v & 0xFFFE);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800C2C80(arg0, arg2, 0, 0);
     }
 }

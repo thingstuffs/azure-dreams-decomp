@@ -14,7 +14,7 @@ s32 func_8016ABC8(u16 *arg0)
 {
     u32 value = D_80083160.unkA8;
 
-    ASM_KEEP(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if ((value & 0xFF) < 0x80U) {
         D_80083160.unkA8 = value + 4;

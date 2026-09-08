@@ -41,7 +41,7 @@ extern Root D_8040B1D0;
 s32 func_8001DC84(s32 arg0, s32 arg1) {
     Root *base;
     Obj *obj;
-    register Obj *tail_obj ASM_REG("$17");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register Obj *tail_obj ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
     base = &D_8040B1D0;
     obj = &base->obj;
@@ -66,8 +66,8 @@ s32 func_8001DC84(s32 arg0, s32 arg1) {
     D_805030EF[0] = 8;
     func_80404B84(obj, 7);
     tail_obj = obj;
-    ASM_KEEP(tail_obj);   /* MATCH pin: retail immediate-load split depends on it */
-    ASM_KEEP(base);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(tail_obj);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     base->field_0C = (u8 *)tail_obj + 0x210;
     tail_obj->field_21C = func_80404B5C(tail_obj->field_220);
     func_80404C44(tail_obj, (tail_obj->field_04 = arg1, arg0));

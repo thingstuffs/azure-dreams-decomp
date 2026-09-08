@@ -20,13 +20,13 @@ s32 func_800A982C(s16 arg0, s16 arg1) {
     register s32 changed;
     s32 result;
     u32 raw;
-    register u32 scaled ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 scaled ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *entry;
     s32 *table;
     s32 *root;
     s32 *message;
     s32 sound_pos;
-    register s32 offset ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state_value;
 
     root = (s32 *)0x80024000;
@@ -59,7 +59,7 @@ s32 func_800A982C(s16 arg0, s16 arg1) {
         }
         scaled = raw >> 15;
         state_value = D_8006CD58[0];
-        ASM_KEEP(state_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(state_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         offset = (s32)(scaled << 16) >> 14;
         entry = (s32 *)(offset + (u32)table);
         func_8003F540(0, state_value, entry[0], entry[1]);

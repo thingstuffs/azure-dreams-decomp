@@ -6,8 +6,8 @@ extern void func_80177A9C(s32 *arg0, u16 arg1);
 
 void func_80041044(s32 *arg0, s32 arg1)
 {
-    register s32 value ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 mask ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 mask ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (arg1 & 1) {
         mask = 0xF7FF0000;

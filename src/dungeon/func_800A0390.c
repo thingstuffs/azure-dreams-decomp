@@ -57,7 +57,7 @@ void func_800A5AF0(void *arg0, S_800A5AF0_1 *arg1, S_800A5AF0_2 *arg2) {
             ((S_800A5AF0_0 *)arg0)->unk_06 = 0x30;
             arg2->unk_1C = 0x1000;
             next_state = ((S_800A5AF0_0 *)arg0)->unk_04.u + 1;
-            ASM_TAILSLOT_PIN(next_state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800A5BC4();
         }
     } else if (state == 1) {

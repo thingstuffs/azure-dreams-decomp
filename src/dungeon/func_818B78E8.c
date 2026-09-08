@@ -81,7 +81,7 @@ void func_818B78E8(S818B78E8_Obj *arg0, S818B78E8_Vec *arg1, S818B78E8_State *ar
     temp_v1_2 = base->field12;
     temp_v1_3 = temp_v1_2 + 1;
     inc_field10 = base->field10 + 1;
-    ASM_KEEP_NV(inc_field10);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(inc_field10);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     base->field10 = (u16) inc_field10;
     base->field12 = (u16) temp_v1_3;
     temp_a1 = temp_v1_3 << 0x10;
@@ -101,7 +101,7 @@ void func_818B78E8(S818B78E8_Obj *arg0, S818B78E8_Vec *arg1, S818B78E8_State *ar
         }
         goto state0;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (temp_v1_4 == 2) {
         goto state2;
     }
@@ -120,7 +120,7 @@ state0:
     tail_v0 = (s16) base->field10;
     tail_v1 = base->field14;
     tail_cond = tail_v0 < tail_v1;
-    ASM_TAILSLOT_PIN(tail_cond);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_TAILSLOT_PIN(tail_cond);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80025360();
     return;
 

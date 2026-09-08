@@ -71,13 +71,13 @@ void func_80025E48(void *arg0, S_80025E48_1 *arg1, S_80025E48_2 *arg2)
 {
     s32 init[2];
     s16 state;
-    register u16 counter ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u16 counter ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     {
-        register s32 base_angle ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 held_angle ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 base_angle ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 held_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 angle_offset;
-        register s16 angle ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+        register s16 angle ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         counter = D_80026472.value;
         base_angle = ((S_80025E48_0 *)arg0)->unk_22;
@@ -88,7 +88,7 @@ void func_80025E48(void *arg0, S_80025E48_1 *arg1, S_80025E48_2 *arg2)
         if (((S_80025E48_0 *)arg0)->unk_24 != 0) {
             angle_offset = ((S_80025E48_0 *)arg0)->unk_18.s * 0x10;
             angle = base_angle + angle_offset;
-            ASM_TAILSLOT_PIN(angle);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(angle);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80025EB8();
             return;
         }
@@ -115,7 +115,7 @@ void func_80025E48(void *arg0, S_80025E48_1 *arg1, S_80025E48_2 *arg2)
         }
         return;
     }
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }
@@ -126,8 +126,8 @@ void func_80025E48(void *arg0, S_80025E48_1 *arg1, S_80025E48_2 *arg2)
 
 state_0:
     {
-        register s32 color0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 target0 ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 color0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 target0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 divisor0;
         s32 reset0;
         u16 dead_mode0;
@@ -154,7 +154,7 @@ state_0:
         }
         reset0 = 0x18;
         dead_mode0 = ((S_80025E48_0 *)arg0)->unk_0A.u;
-        ASM_KEEP(dead_mode0);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(dead_mode0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         ((S_80025E48_0 *)arg0)->unk_1A.u = reset0;
         func_800260F4();
         return;
@@ -162,7 +162,7 @@ state_0:
 
 state_1:
     {
-        register u16 step1 ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register u16 step1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         u16 timer1;
         u16 dead_mode1;
         s32 reset1;
@@ -178,8 +178,8 @@ state_1:
         }
         dead_mode1 = ((S_80025E48_0 *)arg0)->unk_0A.u;
         reset1 = 0x10;
-        ASM_KEEP(dead_mode1);   /* MATCH pin: retail delay-slot fill depends on it */
-        ASM_TAILSLOT_PIN(reset1);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(dead_mode1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(reset1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800260F0();
         return;
     }
@@ -217,8 +217,8 @@ state_3:
     {
         u8 *effect3;
         s32 effect_color3;
-        register s32 fade_color3 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 fade_quotient3 ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 fade_color3 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 fade_quotient3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 target3;
         u16 step3;
         u16 timer3;
@@ -275,7 +275,7 @@ fade_slow:
         if ((timer3 << 16) > 0) {
             goto epilogue;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         ((S_80025E48_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         D_800814A0.value |= 0x8000;
     }

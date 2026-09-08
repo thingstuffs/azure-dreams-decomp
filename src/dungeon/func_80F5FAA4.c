@@ -226,14 +226,14 @@ block_40:
     if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) goto block_44;
     if (!(((S_801732A4_0 *)arg0)->unk_98 & 0x8000)) goto block_14;
     {
-        register u16 effect_count ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u16 effect_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         effect_count = D_80083460[5];
         D_80083460[5] = (u16)(effect_count + 1);
     }
     func_80173954();
 block_44:
     {
-        register u16 effect_count ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u16 effect_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         effect_count = D_80083460[5];
         D_80083460[5] = (u16)(effect_count + 1);
     }

@@ -58,8 +58,8 @@ s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
     s32 raw_value;
     s32 value;
     u8 *message;
-    register s32 call_value ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register u32 page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 call_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 index;
 
     if (arg2 == 13) {
@@ -70,7 +70,7 @@ s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
         ((Rec_D_800E3D7C *)arg0)->unk_110 = (s32)arg1;
         func_8008D344(arg0, D_80083780, D_80082E80, arg0);
         return 0;
-           /* MATCH pin: retail delay-slot contents depend on it */
+           /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         return 0;
     }
 
@@ -98,14 +98,14 @@ s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
             func_800C4D78(0x20C0C0, 1);
             raw_value = func_800990FC();
             message = D_800E12D6;
-            ASM_KEEP(message);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             call_value = raw_value;
-            ASM_KEEP_NV(call_value);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(call_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             func_80099290(func_80099194(message,
                                          value = call_value));
             func_800A5720(value);
             page = 0x80080000;
-            ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_800BF9B0();
         }
         func_800997FC(D_800E1303);

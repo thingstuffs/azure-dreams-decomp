@@ -79,7 +79,7 @@ state1:
     duration = arg0->unk_96;
     arg0->unk_90 -= arg0->unk_A4;
     if (duration != 0) {
-        register s32 coord ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+        register s32 coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 origin;
 
         coord = arg2->unk_24 << 6;

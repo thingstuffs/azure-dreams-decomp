@@ -76,13 +76,13 @@ extern void func_8006658C(s32 arg0, void *arg1);
 
 void func_800D1824(u8 *arg0)
 {
-    register u8 *scratch ASM_REG("$16") = (u8 *)0x1F800000;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *scratch ASM_REG("$16") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *globals = D_80083160;
     u8 *input = arg0;
     u8 *style;
-    register u8 *prim ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *prim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *rec;
-    register u8 *cmd ASM_REG("$17");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *cmd ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *gte0;
     u8 *root;
     u8 *draw_prim;
@@ -101,11 +101,11 @@ void func_800D1824(u8 *arg0)
     ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;
     ((S_800D1824_0 *)scratch)->unk_20 = root + 0xB0;
 
-    ASM_KEEP(input);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if (*input != 0) {
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         gte0 = scratch + 0x70;
-        ASM_KEEP_NV(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         rec = arg0 + 2;
         cmd = prim + 3;
 

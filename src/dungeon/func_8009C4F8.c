@@ -29,7 +29,7 @@ s32 func_800A1C58(void *a) {
     }
     if (F(a,u8,0x13) == 0) {
         global_page = (u8 *)0x800E0000;
-        ASM_KEEP(global_page);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (F(F(global_page,u8 *,0x3D7C),u8,0x9A) == 0x22) {
             return r;
         }
@@ -38,12 +38,12 @@ s32 func_800A1C58(void *a) {
         return r;
     }
     table = (s32 *)0x80080000;
-    ASM_KEEP(table);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     index = F(a,u8,0x11);
     offset = index << 2;
     table = (s32 *)((u8 *)table + 0x35E8);
     entry = (u8 *)(offset + (u32)table);
-    ASM_KEEP(entry);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (*(u32 *)entry <= F(a,u32,0x18)) {
         r++;
     }

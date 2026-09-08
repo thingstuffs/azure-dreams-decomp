@@ -12,7 +12,7 @@ extern u8 D_800157D2[9];
 s32 func_80026F54(s32 arg0, s32 arg1, s32 arg2)
 {
     u8 *entry;
-    register s32 occurrence ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 occurrence ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 index;
     s32 result;
 

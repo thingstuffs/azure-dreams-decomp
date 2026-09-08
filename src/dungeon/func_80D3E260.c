@@ -120,7 +120,7 @@ void func_80173A60(void *arg0, void *arg1, void *arg2, void *arg3)
         &&L_kind1, &&L_kind2, &&L_kind3, &&L_kind4,
         &&L_kind5, &&L_kind6, &&L_kind7
     };
-    register s32 special ASM_REG("$17");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 special ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *selector;
 
     special = 0;
@@ -171,9 +171,9 @@ L_kind4:
             void *active;
 
             ((S_80173A60_0 *)arg0)->unk_98 &= 0xFF7F;
-            ASM_KEEP(special);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             special_test = special;
-            ASM_KEEP(special_test);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if (special_test != 0) {
                 active = D_800814A8;
                 (*(void * *)((u8 *)arg3 + 0x60)) = active;
@@ -181,7 +181,7 @@ L_kind4:
             } else if (D_8006DE24[*selector].type == 2) {
                 active = (*(void * *)((u8 *)arg3 + 0x60));
                 if (active != 0) {
-                    register u8 *linked ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                    register u8 *linked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 L_copy_linked:
                     linked = ((S_80173A60_1_pre *)active)[-1].unk_00;
@@ -197,7 +197,7 @@ L_copy_linked:
                                        ((Rec_D_80082E80 *)arg2)->unk_25,
                                        (*(s16 *)((u8 *)arg3 + 0x2A)), 0x10);
                 (*(void * volatile *)((u8 *)arg3 + 0x60)) = active;
-                ASM_USE(active);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_USE(active);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 x = (*(s8 *)((u8 *)arg3 + 0x72));
                 y = (*(s8 *)((u8 *)arg3 + 0x73));
                 if (x < 0) {
@@ -261,7 +261,7 @@ L_copy_linked:
                     u8 *animation;
                     u8 *animation_entry;
                     s8 *offsets;
-                    register s32 index ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                    register s32 index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                     state = object + 0x20;
                     ((S_80173A60_4 *)state)->unk_96 = 0x10;

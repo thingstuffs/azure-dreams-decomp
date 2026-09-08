@@ -53,7 +53,7 @@ s32 func_80024A64(S_80024A64_0 *arg0, S_80024A64_1 *arg1, s32 arg2) {
     s32 i;
     s32 q;
     s32 p;
-    register s32 o ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 o ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 o2;
     s32 w;
     s32 eA;
@@ -65,11 +65,11 @@ s32 func_80024A64(S_80024A64_0 *arg0, S_80024A64_1 *arg1, s32 arg2) {
         ((S_80024A64_2 *)sc)->unk_38 = w;
         {
             s32 base = arg0->unk_06;
-            register s32 product2 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 product2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 product6;
             product2 = base * 2;
             product6 = (product2 + base) * 2;
-            ASM_USE(product2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_USE(product2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             hB = product2;
             hA = product6;
         }
@@ -92,7 +92,7 @@ s32 func_80024A64(S_80024A64_0 *arg0, S_80024A64_1 *arg1, s32 arg2) {
         {
             s32 base = 48 - arg0->unk_06;
             s32 product2;
-            register s32 product6 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register s32 product6 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             product2 = base * 2;
             product6 = (product2 + base) * 2;
             hB = product2;
@@ -144,7 +144,7 @@ s32 func_80024A64(S_80024A64_0 *arg0, S_80024A64_1 *arg1, s32 arg2) {
     {
         s32 random_raw = func_80069EF8();
         s32 magic = 0x66666667;
-        ASM_USE_NV(magic);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_USE_NV(magic);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         o = random_raw;
         o = o - (o / 5) * 5;
     }
@@ -154,7 +154,7 @@ s32 func_80024A64(S_80024A64_0 *arg0, S_80024A64_1 *arg1, s32 arg2) {
         s32 next30;
         wave_x = func_800644B8(arg0->unk_0E);
         shifted_wave_x = wave_x >> 4;
-        ASM_KEEP_DEP_NV(o, shifted_wave_x);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_DEP_NV(o, shifted_wave_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         o = (s16)o;
         o = (s16)hA + o;
         next30 = arg1->unk_00 +
@@ -180,7 +180,7 @@ s32 func_80024A64(S_80024A64_0 *arg0, S_80024A64_1 *arg1, s32 arg2) {
     {
         s32 final64 = arg1->unk_04 +
             (((func_80064584(arg0->unk_0E + 512) >> 4) * (s16)hB) << 8);
-        ASM_KEEP_NV(final64);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(final64);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         v64 = final64;
         ((S_80024A64_2 *)sc)->unk_64 = v64;
     }
@@ -212,7 +212,7 @@ s32 func_80024A64(S_80024A64_0 *arg0, S_80024A64_1 *arg1, s32 arg2) {
             {
                 s32 wave_x3 = func_800644B8(arg0->unk_0E + (i * 512));
                 s32 shifted_x3 = wave_x3 >> 4;
-                ASM_KEEP_DEP_NV(o, shifted_x3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP_DEP_NV(o, shifted_x3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 o = (s16)o;
                 o = (s16)hA + o;
                 ((S_80024A64_2 *)sc)->unk_30 = arg1->unk_00 +

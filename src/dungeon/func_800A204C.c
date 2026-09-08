@@ -46,7 +46,7 @@ void func_800A77AC(FuncObj *arg0, FuncVec *arg1, FuncVec *arg2) {
     s32 temp_v1_2;
     s32 temp_v1_3;
     u16 temp_v1_4;
-    register D_800E36C8_Entry *temp_v0_3 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register D_800E36C8_Entry *temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     temp_v1 = arg1->x;
     arg1->x = temp_v1 +

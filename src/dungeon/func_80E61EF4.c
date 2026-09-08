@@ -84,7 +84,7 @@ void func_801716F4(void *arg0, void *arg1, void *arg2, void *arg3)
     void *p0;
     void *p1;
     void *p2;
-    register void *p3 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *p3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *table;
     s32 result;
     s32 scratch;
@@ -105,16 +105,16 @@ void func_801716F4(void *arg0, void *arg1, void *arg2, void *arg3)
         return;
     }
 
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
         if (((S_801716F4_2 *)arg2)->unk_2C != D_801755A4) {
 #ifdef __mips__
-            register void *state ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register void *state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             state = D_8017559C;
-            ASM_TAILSLOT_PIN(state);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 #endif
             func_80171C50();
         }
@@ -140,7 +140,7 @@ void func_801716F4(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
 
-        ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if (((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 != 0xE) {
             u8 state = 0xE;
 
@@ -304,7 +304,7 @@ generic:
     if (((S_801716F4_2 *)arg2)->unk_2C == table) {
         return;
     }
-    ASM_KEEP(arg2);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(void * *)((u8 *)arg2 + (0x2C))) = table;
     func_80047784(arg2,
         table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],

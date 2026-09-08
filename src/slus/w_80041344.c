@@ -27,11 +27,11 @@ void func_80041344(s32 base, void *arg)
     s32 i, j, n;
     s32 x, y;
     u32 idx;
-    register u16 raw_flags ASM_REG("$3");   /* MATCH pin: slus-diff */
+    register u16 raw_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u16 *walk;
     void *src;
-    register void *short_src ASM_REG("$4");   /* MATCH pin: slus-diff */
-    register s32 flags ASM_REG("$7");   /* MATCH pin: slus-diff */
+    register void *short_src ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     S_80041344 *op;
     void **tbl = jtbl_8002D630;
     static void *const keepalive[] = {
@@ -103,14 +103,14 @@ LF:
         raw_flags |= 2;
 sign_flags:
         flags = (s16)raw_flags;
-        ASM_KEEP(raw_flags);   /* MATCH pin: slus-diff */
+        ASM_KEEP(raw_flags);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 call_tile:
         func_8003F80C(src, x, y, flags);
         DrawSync(0);
         goto next;
 LG:
         short_src = (void *)op->arg0;
-        ASM_KEEP(short_src);   /* MATCH pin: slus-diff */
+        ASM_KEEP(short_src);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         func_8004068C((void *)(base + (s32)short_src),
                       (void *)(D_80080A8C[0] + op->u.m.a));
         goto next;

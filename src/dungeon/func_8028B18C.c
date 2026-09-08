@@ -55,14 +55,14 @@ void func_8001E18C(void)
     u8 y;
     u8 kind;
     u8 subtype;
-    register s32 count ASM_REG("$18");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 special_x;
     s32 special_y;
     s32 limit;
     s32 index;
     s32 special_flag;
     s32 setup_result;
-    register u8 *page ASM_REG("$19");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *page ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     DungeonGroup *groups;
     DungeonRecord *record;
     DungeonState *state;
@@ -118,7 +118,7 @@ void func_8001E18C(void)
     count = 0;
     if (*(s32 *)0x80012090 == 0) {
         setup_result = func_800A6928(6, 3);
-        ASM_UNDEF(count);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_UNDEF(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         count = 0;
         if ((s16)setup_result < 2) {
             if ((func_800A6D30() & 3) == 0) {
@@ -161,7 +161,7 @@ main_loop:
 
                 special_flag = special_x;
                 if (special_flag != 0) {
-                    register u16 page_value ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+                    register u16 page_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                     subtype = ((func_800A6D30() & 0xF) == 0) ? 2 : 1;
                     special_x = 0;
@@ -173,7 +173,7 @@ main_loop:
                 }
 
                 special_flag = special_y;
-                ASM_KEEP_NV(special_flag);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(special_flag);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (special_flag != 0) {
                     u32 item;
 
@@ -237,7 +237,7 @@ cleanup:
         do {
             cleanup_state->active = 0;
             cleanup_state->kind = 0;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             count++;
             cleanup_state++;
         } while (count < 0x40);

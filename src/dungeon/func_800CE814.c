@@ -74,8 +74,8 @@ void *func_800D3F74(s16 arg0, u8 arg1, u8 arg2, s16 arg3)
     s8 *part0;
     s8 *result = NULL;
     s8 *object;
-    register u8 held_arg2 ASM_REG("$20") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u8 held_arg1 ASM_REG("$21") = arg1;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u8 held_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 held_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s8 *part1;
     s16 height;
     s32 mode;

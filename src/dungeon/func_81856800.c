@@ -77,14 +77,14 @@ BODY_STORAGE void FUNC_81856800_BODY(void *param0, void *param1) BODY_ATTR;
 BODY_STORAGE void FUNC_81856800_BODY(void *param0, void *param1)
 {
 #ifdef __mips__
-    void *arg0 = param0;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *arg1 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    void *arg0 = param0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *arg1 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #else
     void *arg0 = param0;
     void *arg1;
 #endif
 #ifdef __mips__
-    register void *object ASM_REG("$23");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *object ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 #else
     void *object;
 #endif
@@ -110,16 +110,16 @@ BODY_STORAGE void FUNC_81856800_BODY(void *param0, void *param1)
     s32 value;
     s32 timer;
     s32 in_range;
-    register s32 next_state ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register s32 t1_reserve ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
-    register s32 t2_reserve ASM_REG("$10");   /* MATCH pin: retail register colouring depends on it */
-    register s32 t3_reserve ASM_REG("$11");   /* MATCH pin: retail register colouring depends on it */
-    register s32 t4_reserve ASM_REG("$12");   /* MATCH pin: retail register colouring depends on it */
-    register s32 t5_reserve ASM_REG("$13");   /* MATCH pin: retail register colouring depends on it */
-    register s32 t6_reserve ASM_REG("$14");   /* MATCH pin: retail register colouring depends on it */
-    register s32 t7_reserve ASM_REG("$15");   /* MATCH pin: retail register colouring depends on it */
-    register s32 t8_reserve ASM_REG("$24");   /* MATCH pin: retail register colouring depends on it */
-    register s32 t9_reserve ASM_REG("$25");   /* MATCH pin: retail register colouring depends on it */
+    register s32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 t1_reserve ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 t2_reserve ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 t3_reserve ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 t4_reserve ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 t5_reserve ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 t6_reserve ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 t7_reserve ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 t8_reserve ASM_REG("$24");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 t9_reserve ASM_REG("$25");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     static void *const keepalive[] = {
         &&case0, &&case1, &&case2, &&case3, &&case5, &&case4, &&done
     };
@@ -144,7 +144,7 @@ BODY_STORAGE void FUNC_81856800_BODY(void *param0, void *param1)
         void *setup_part;
 #endif
         s32 delta;
-        register s32 setup_kind ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register s32 setup_kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u16 flags;
 
         i = 7;
@@ -153,7 +153,7 @@ BODY_STORAGE void FUNC_81856800_BODY(void *param0, void *param1)
             if (effect != 0) {
                 setup_part = (u8 *)effect + 32;
                 part = FIELD(effect, void *, 0xC);
-                ASM_KEEP(part);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 {
                     void *effect_type = D_80024850;
 
@@ -176,36 +176,36 @@ BODY_STORAGE void FUNC_81856800_BODY(void *param0, void *param1)
                 FIELD(part, u16, 20) = flags;
                 if (i & 1) {
                     void *texture;
-                    register s32 size ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                    register s32 size ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                     {
-                        register s32 color ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+                        register s32 color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         color = 0x00404040;
                         size = 32;
                         texture = D_800DEC70;
-                        ASM_CLOBBER("$4");   /* MATCH pin: retail register colouring depends on it */
-                        ASM_CLOBBER("$5");   /* MATCH pin: retail register colouring depends on it */
-                        ASM_CLOBBER("$6");   /* MATCH pin: retail register colouring depends on it */
-                        ASM_CLOBBER("$7");   /* MATCH pin: retail register colouring depends on it */
-                        ASM_KEEP(texture);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        ASM_KEEP(texture);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         FIELD(part, s32, 12) = color;
                     }
                     setup_kind = 16;
                     FIELD(part, s16, 16) = size;
                     FIELD(part, void *, 0) = texture;
                 } else {
-                    register s32 color ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                    register s32 color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                     color = 0x00282828;
                     {
-                        register s32 size ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+                        register s32 size ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         size = 96;
                         FIELD(part, s16, 16) = size;
                     }
                     {
-                        register void *texture ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+                        register void *texture ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         texture = D_800DEC50;
                         FIELD(part, void *, 0) = texture;
@@ -255,7 +255,7 @@ case0:
         FIELD(object, u8, 0x72) = FIELD(owner, u8, 0x24);
         FIELD(object, u8, 0x73) = FIELD(owner, u8, 0x25);
     } else {
-        register void *child_owner ASM_REG("$17");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register void *child_owner ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         child_owner = FIELD(FIELD(object, void *, 0x60), void *, -20);
         FIELD(object, u8, 0x72) = FIELD(child_owner, u8, 0x24);
@@ -286,7 +286,7 @@ case0:
         s32 quotient;
 
         quotient = FIELD(arg1, s32, 0xC) / FIELD(arg0, s16, 0x50);
-        ASM_KEEP(quotient);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(quotient);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         FIELD(arg1, s32, 0xC) = quotient;
     }
     {
@@ -335,7 +335,7 @@ case2:
 {
     void *spawn_type;
 #ifdef __mips__
-    register u8 *spawn_page ASM_REG("$22");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *spawn_page ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #else
     u8 *spawn_page;
 #endif
@@ -378,8 +378,8 @@ case3:
 {
     s32 offset;
 #ifdef __mips__
-    register void *loop_other ASM_REG("$18");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 modulo_magic ASM_REG("$22");   /* MATCH pin: retail register colouring depends on it */
+    register void *loop_other ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 modulo_magic ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 a1_reserve;
     s32 a2_reserve;
     s32 a3_reserve;
@@ -430,7 +430,7 @@ case3:
             MipsProduct product;
             s32 mod_value;
             s32 mod_sign;
-            register s32 mod_quotient ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 mod_quotient ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             mod_value = func_80069EF8();
             product.value = (long long)mod_value * modulo_magic;
@@ -448,7 +448,7 @@ case3:
             MipsProduct product;
             s32 mod_value;
             s32 mod_sign;
-            register s32 mod_quotient ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 mod_quotient ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             mod_value = func_80069EF8();
             product.value = (long long)mod_value * modulo_magic;
@@ -500,7 +500,7 @@ case3_tick:
 case5:
 {
 #ifdef __mips__
-    register void *case5_setup_part ASM_REG("$18");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *case5_setup_part ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #else
     void *case5_setup_part;
 #endif
@@ -569,14 +569,14 @@ case4:
 }
 
 done:
-    ASM_SET(t1_reserve);   /* MATCH pin: retail register colouring depends on it */
-    ASM_SET(t2_reserve);   /* MATCH pin: retail register colouring depends on it */
-    ASM_SET(t3_reserve);   /* MATCH pin: retail register colouring depends on it */
-    ASM_SET(t4_reserve);   /* MATCH pin: retail register colouring depends on it */
-    ASM_SET(t5_reserve);   /* MATCH pin: retail register colouring depends on it */
-    ASM_SET(t6_reserve);   /* MATCH pin: retail register colouring depends on it */
-    ASM_SET(t7_reserve);   /* MATCH pin: retail register colouring depends on it */
-    ASM_SET(t8_reserve);   /* MATCH pin: retail register colouring depends on it */
+    ASM_SET(t1_reserve);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_SET(t2_reserve);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_SET(t3_reserve);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_SET(t4_reserve);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_SET(t5_reserve);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_SET(t6_reserve);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_SET(t7_reserve);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_SET(t8_reserve);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     ASM_SET(t9_reserve);
     return;
 }

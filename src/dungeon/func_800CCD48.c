@@ -69,9 +69,9 @@ void *func_800D24A8(s16 arg0, u8 arg1, u8 arg2, s16 arg3) {
     S_800D24A8_2 *temp_s1;
     void *temp_v0;
     S_800D24A8_0 *var_s2;
-    register u8 hold_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u8 hold_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 hold_arg3;
-    register u8 hold_arg2 ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u8 hold_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 kind;
     u8 call_x;
     u8 call_y;

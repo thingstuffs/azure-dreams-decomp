@@ -136,7 +136,7 @@ void func_8197D468(void *arg0, void *arg1, void *arg2) {
         }
         func_80025050();
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (temp_v1 == 2) {
         goto state_2;
     }
@@ -154,15 +154,15 @@ state_0:
         if (((S_8197D468_3 *)arg1)->unk_14 > 0) {
             ((S_8197D468_2 *)arg2)->unk_00 = &D_800DE990;
             temp_a0_4 = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
-            ASM_KEEP(temp_a0_4);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(temp_a0_4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_v1_2 = ((S_8197D468_2 *)arg2)->unk_14;
-            ASM_KEEP(temp_v1_2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             ((S_8197D468_2 *)arg2)->unk_04 = 0;
             ((S_8197D468_2 *)arg2)->unk_05 = 0;
             ((S_8197D468_2 *)arg2)->unk_1E = 0x400U;
             ((S_8197D468_2 *)arg2)->unk_1C = 0x400U;
             ((S_8197D468_2 *)arg2)->unk_10 = 0;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_8197D468_2 *)arg2)->unk_08 = temp_a0_4;
             ((S_8197D468_2 *)arg2)->unk_14 = (u16) (temp_v1_2 | 2);
             ((S_8197D468_0 *)arg0)->unk_48 = (u16) ((func_80069EF8(temp_a0_4) & 3) + 4);
@@ -215,7 +215,7 @@ state_2:
                     ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_10 = (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
                     ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_14 = (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
                     temp_a0_5 = 0xC00000;
-                       /* MATCH pin: retail immediate-load split depends on it */
+                       /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                     ((S_8197D468_6 *)temp_s0)->unk_1E = 0xC00;
                     ((S_8197D468_6 *)temp_s0)->unk_1C = 0xC00;
                     ((S_8197D468_6 *)temp_s0)->unk_10 = 0x20;
@@ -230,7 +230,7 @@ state_2:
                     temp_v0_4 = ((S_8197D468_0 *)arg0)->unk_00;
                     ((S_8197D468_5 *)temp_v0_2)->unk_20 = temp_v0_4;
                     temp_v0_4 = temp_v0_2 + 0x20;
-                    ASM_KEEP(temp_v0_4);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_KEEP(temp_v0_4);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     ((S_8197D468_8 *)temp_v0_4)->unk_4C = 0;
                 }
                 var_s3 -= 1;

@@ -5,8 +5,8 @@ extern u8 D_800E3E48[];
 s32 func_80099090(void)
 {
     u8 *entry;
-    register s32 index ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 result ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     index = 0;
     entry = D_800E3E48;
@@ -24,6 +24,6 @@ loop:
 
     result = -1;
 done:
-    ASM_KEEP(result);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return result;
 }

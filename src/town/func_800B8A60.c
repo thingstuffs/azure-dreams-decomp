@@ -37,9 +37,9 @@ void func_800B61C0(S_800B61C0_1 *arg0, s32 arg1, s32 arg2)
 {
     s32 sp18[4];
     s32 sp28[2];
-    register s32 temp_s2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 temp_s3;
-    register s32 temp_v0 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 temp_v0 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 *temp_a1;
     S_800B61C0_0 *temp_s0;
 

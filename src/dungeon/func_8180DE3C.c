@@ -27,11 +27,11 @@ extern s32 D_800814A0[3];
 
 void func_80026E3C(void *arg0, M2C_UNK arg1, S_80026E3C_1 *arg2)
 {
-    register u16 temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u16 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     u16 temp_v0_3;
     u32 temp_v0_2;
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     temp_v0 = ((S_80026E3C_0 *)arg0)->unk_68 + 1;
     ((S_80026E3C_0 *)arg0)->unk_68 = temp_v0;
@@ -48,7 +48,7 @@ void func_80026E3C(void *arg0, M2C_UNK arg1, S_80026E3C_1 *arg2)
     temp_v1 = (s16)temp_v0_3 >> 4;
     temp_a0 = ((S_80026E3C_0 *)arg0)->unk_66;
     temp_v0_3 -= temp_v1;
-    ASM_KEEP(temp_v0_3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_a0--;
     ((S_80026E3C_0 *)arg0)->unk_66 = temp_a0;
     ((S_80026E3C_0 *)arg0)->unk_6A.u16 = temp_v0_3;

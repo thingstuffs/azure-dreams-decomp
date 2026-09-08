@@ -52,7 +52,7 @@ typedef struct S_8016CB80_4 {
 
 void func_8016CB80(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *base1 = arg1;
-    register void *base2 ASM_REG("$17") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *base2 ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *base3 = arg3;
     M2C_UNK sp18;
     s32 temp_a0;
@@ -64,9 +64,9 @@ void func_8016CB80(void *arg0, void *arg1, void *arg2, void *arg3) {
     u16 temp_v1_4;
     s32 temp_v1;
     u8 *temp_a0_2;
-    register void *temp_v1_dispatch ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register u32 temp_v0_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *temp_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *temp_v1_dispatch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 temp_v0_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 #define arg1 base1
 #define arg2 base2
@@ -102,7 +102,7 @@ block_10:
     ((S_8016CB80_0 *)arg0)->unk_90 = (s32) (((S_8016CB80_0 *)arg0)->unk_90 - ((S_8016CB80_0 *)arg0)->unk_A0);
     if (temp_a0 != 0) {
         scaled = ((S_8016CB80_2 *)arg2)->unk_24;
-        ASM_KEEP(scaled);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(scaled);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         delta = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20;
         ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = (s32) ((s32) (((scaled << 6) - delta) << 0x10) / temp_a0);
         delta = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
@@ -133,11 +133,11 @@ block_14:
 block_18:
     if (((S_8016CB80_0 *)arg0)->unk_B3 == 0) {
         temp_v1_dispatch = ((S_8016CB80_2 *)arg2)->unk_2C.p;
-        ASM_KEEP(temp_v1_dispatch);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(temp_v1_dispatch);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         temp_v0_page = 0x80170000;
-        ASM_KEEP(temp_v0_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_v0_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_a1 = (u8 *)temp_v0_page + 0x467C;
-        ASM_TAILSLOT_PIN(temp_a1);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8016CD88();
         return;
     }

@@ -28,8 +28,8 @@ typedef struct S_8016A9FC_1 {
 
 void func_8016A9FC(void *arg0) {
     s32 state;
-    register s32 state_arg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 call_arg ASM_REG("$5");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 state_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 call_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u16 counter;
     u8 fade_a9;
     u8 fade_aa;
@@ -54,7 +54,7 @@ void func_8016A9FC(void *arg0) {
     return;
 
 state_ge_2:
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }
@@ -65,15 +65,15 @@ state_0:
         base[0xA8] -= 4;
         fade_a9 = base[0xA9] - 4;
         fade_aa = base[0xAA] - 4;
-        ASM_KEEP(fade_a9);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_TAILSLOT_PIN(fade_aa);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(fade_a9);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(fade_aa);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_8016AB64();
     }
     ((S_8016A9FC_0 *)arg0)->unk_12.u = state_arg + 1;
     ((S_8016A9FC_0 *)arg0)->unk_1A = 0;
     value = func_800990FC(state_arg, base, arg0);
     state_arg = 0xA;
-    ASM_KEEP_NV(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_arg = value;
     first_value = call_arg;
     value = func_8009929C(state_arg, call_arg);
@@ -99,14 +99,14 @@ state_1:
 
 state_2:
     value = base[0xA8];
-    ASM_KEEP_NV(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if ((u32)(value & 0xFF) < 0x80) {
         base[0xA8] = value + 4;
         base[0xA9] += 4;
         base[0xAA] += 4;
         return;
     }
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     base[0xAA] = 0x80;
     base[0xA9] = 0x80;
     base[0xA8] = 0x80;

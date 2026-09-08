@@ -31,7 +31,7 @@ void func_819A1034(void *arg0)
 {
     void *base;
     s32 i;
-    register u8 *p ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *p ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *page;
     u16 count;
 
@@ -43,7 +43,7 @@ void func_819A1034(void *arg0)
 #else
     page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     count = ((S_819A1034_0 *)base)->unk_3A.s;
     ((S_819A1034_1 *)page)->unk_61B0 = 1;
     count--;

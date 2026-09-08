@@ -35,11 +35,11 @@ void func_800A4300(Rec_D_80082E80 *arg0, Rec_D_800E3D7C *arg1) {
     if ((first << 16) != 0) {
 #ifndef NON_MATCHING
         u32 page = 0x80080000;
-        register void *owner ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 out ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+        register void *owner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 out ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
         owner = *(void *volatile *)D_800814A8;
-        ASM_USE(owner);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE(owner);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         out = first | 0x1400;
         *(s16 *)(page + 0x1470) = (s16)out;
 #else
@@ -77,7 +77,7 @@ void func_800A4300(Rec_D_80082E80 *arg0, Rec_D_800E3D7C *arg1) {
         return;
     }
 
-       /* MATCH pin: retail basic-block layout depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     *(void **)D_80081470 = 0;
     ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.i = 0;
 }

@@ -25,7 +25,7 @@ void func_800A9C18(void *arg0, void *arg1, void *arg2, s32 arg3)
 {
     s32 aligned;
     s32 mode;
-    register s32 kind ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 kind ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *base;
     s16 *world;
 

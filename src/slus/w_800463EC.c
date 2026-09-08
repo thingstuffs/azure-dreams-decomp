@@ -98,10 +98,10 @@ void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
     u8 *root;
     u8 *face;
     u8 *prim;
-    register volatile u8 *scratch ASM_REG("$18");   /* MATCH pin: slus-diff */
-    register u32 vertexIndex ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register volatile u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u32 vertexIndex ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     unsigned long vertexTransfer;
-    register void *rotVertex0 ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register void *rotVertex0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     void *rotVertex1;
     void *rotVertex2;
     void *rotVertex3;
@@ -121,9 +121,9 @@ void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
     PushMatrix();
 
     vertexIndex = *(volatile u16 *)&arg2->scale[0];
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     scratch = (volatile u8 *)0x1F800000;
-    ASM_KEEP_NV(scratch);   /* MATCH pin: slus-diff */
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     SPAD_NV(scratch, s32, 0x30) = vertexIndex;
     SPAD_NV(scratch, s32, 0x34) = arg2->scale[1];
@@ -134,15 +134,15 @@ void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
 
     ReadRotMatrix(&matrix);
     rotVertex0 = (u8 *)scratch;
-    ASM_KEEP_NV(rotVertex0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(rotVertex0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     rotVertex0 = (void *)((unsigned long)rotVertex0 | 0x50);
     rotVertex1 = (u8 *)scratch;
-    ASM_KEEP_NV(rotVertex1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(rotVertex1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     rotVertex1 = (void *)((unsigned long)rotVertex1 | 0x40);
     TransMatrix(rotVertex0, rotVertex1);
     rotVertex0 = &arg2->rotation[0];
     rotVertex1 = (u8 *)scratch;
-    ASM_KEEP_NV(rotVertex1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(rotVertex1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     rotVertex1 = (void *)((unsigned long)rotVertex1 | 0x50);
     RotMatrix(rotVertex0, rotVertex1);
 
@@ -196,7 +196,7 @@ void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
         SPAD_NV(scratch, s32, 0x88) = vertexTransfer;
         vertexTransfer = ((S_800463EC_2 *)((u8 *)vertexTable + vertexIndex * 8))->unk_04;
         SPAD_NV(scratch, u16, 0x8C) = vertexTransfer;
-        ASM_JALDELAY_PIN(vertexTransfer);   /* MATCH pin: slus-diff */
+        ASM_JALDELAY_PIN(vertexTransfer);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
         SPAD(scratch, s32, 0xC0) = RotAverage4(
             rotVertex0,

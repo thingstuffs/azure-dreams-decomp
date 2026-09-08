@@ -34,8 +34,8 @@ void func_8001A760(s32 arg0, s32 arg1, s32 arg2) {
     S_8001A760_1 *tile;
     S_8001A760_2 *out1;
     S_8001A760_3 *out2;
-    register s32 quotient ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 coord ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     ctx = *(void **)D_80016000;
     tile = (u8 *)*ctx->unk_30 + (ctx->unk_08 << 5);

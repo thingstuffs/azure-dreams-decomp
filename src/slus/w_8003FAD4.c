@@ -43,7 +43,7 @@ void func_8003FAD4(void)
     S_80044AAC **s60;
 
     page = 0x801F0000;
-    ASM_KEEP_NV(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     p = (S_801EAFE8 *)(page - 20504);
 
     for (i = 0, cur = p; i < 0x100; i++) {
@@ -59,10 +59,10 @@ void func_8003FAD4(void)
     i = 0x1F;
     e0_base = D_800833E0;
     e0 = e0_base + 0x1F;
-    ASM_KEEP(e0_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(e0_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s60_base = D_80083360;
     s60 = s60_base + 0x1F;
-    ASM_KEEP(s60_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(s60_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     p->next = 0;
     D_80081498.head = 0;
     D_80081490.head = D_801EAFE8;

@@ -86,7 +86,7 @@ void func_8016BE20(void *arg0, void *arg1, void *arg2, void *arg3)
     u8 *control;
     u8 *header;
     void *object;
-    register void *setup ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *setup ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u32 mask;
     s32 i;
     u16 timer;
@@ -187,17 +187,17 @@ jt_c5:
         ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
         control = (u8 *)&D_80083460;
         control_count = ((S_8016BE20_5 *)control)->unk_0A;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         i = 0;
-        ASM_KEEP_NV(i);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(i);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         ((S_8016BE20_5 *)control)->unk_0C = 0;
         control_count++;
         ((S_8016BE20_5 *)control)->unk_0A = control_count;
         ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
         flags = D_80013714;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         mask = 0x80000000;
-        ASM_USE(mask);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_USE(mask);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         D_80013714 = flags | 8;
         func_800353F4(setup, work);
         ((S_8016BE20_2 *)ctx)->unk_6D = 0;

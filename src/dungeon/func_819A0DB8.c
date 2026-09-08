@@ -16,13 +16,13 @@ void func_800245B8(void *arg0)
 {
     s32 index;
     void *self = arg0;
-    register u8 *page ASM_REG("$4") = (u8 *)0x80020000;   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *page ASM_REG("$4") = (u8 *)0x80020000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     static void *const keepalive[] = {
         &&L0, &&L1, &&L2, &&L3
     };
 
     (void)keepalive;
-    ASM_KEEP(page);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     index = (s16)(FIELD(self, u16 *, 0x3A) - 3);
     FIELD(page, s16 *, 0x61B0) = 1;
     if ((u32)index < 11) {
@@ -49,7 +49,7 @@ L2:
     {
         s32 tail_value;
         tail_value = -12;
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     }
     func_8002468C();
 L3:

@@ -59,8 +59,8 @@ extern u8 D_801741A0;
 void func_80174374(void *arg0, Rec_func_80173CFC_arg1 *arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5) {
     void *obj;
     S_80174374_0 *work;
-    register void *part ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *pos ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *part ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *pos ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 value;
 
     obj = func_8003FC64(0x212);

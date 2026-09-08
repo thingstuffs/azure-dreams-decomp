@@ -32,14 +32,14 @@ void func_808816D8(void) {
     u8 *temp_a0;
 
     if (D_80700740[0] != 0) {
-        register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         READ_ZERO(zero);
         D_8070100C[0]->func68(D_807007A8, D_807007D0, zero | 0x4B);
         READ_ZERO(zero);
         D_8070100C[0]->func74(zero | 1);
     }
     {
-        register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         READ_ZERO(zero);
         *(s32 *)0x80700740 = zero | 1;
     }
@@ -47,13 +47,13 @@ void func_808816D8(void) {
     D_80701000[0]->data = D_80700704;
     temp_a0 = D_80701000[0]->data;
     {
-        register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         s32 limit;
-        register u8 check ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+        register u8 check ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 var_a1;
         READ_ZERO(zero);
         check = temp_a0[1];
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         limit = zero | 0x80;
         READ_ZERO(zero);
         if (check != limit) {

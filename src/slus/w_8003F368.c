@@ -95,7 +95,7 @@ L8003F3A4:
         return 0;
     }
     {
-        register s32 result ASM_REG("$2");   /* MATCH pin: slus-diff */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
         if (func_8003F688(((u8 *)&D_80081452)[-1]) < 0x3C) {
         s32 sectOk;

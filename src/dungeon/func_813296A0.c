@@ -57,7 +57,7 @@ extern void func_80171034(void) __attribute__((noreturn));
 void func_80170EA0(void) {
     Extra *s0;
     Vec3 *s1;
-    register Sub *s2 ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register Sub *s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Extra *s3;
     Node *node;
     s32 lo;
@@ -111,9 +111,9 @@ block_1:
     goto block_exit;
 
 block_2: {
-    register s32 a0 ASM_REG("$4") = s1->field_0C;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 a0 ASM_REG("$4") = s1->field_0C;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 v1 = s1->field_00;
-    register s32 v0 ASM_REG("$2") = a0;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 v0 ASM_REG("$2") = a0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's
      * `jal 0x80170CE0` at 0x8017102C forwards $a3 untouched from this row's
      * entry; the row never reads it, so m2c had no name for it (section 22).
@@ -123,12 +123,12 @@ block_2: {
      * (`lh a0,158(s0)` / `div zero,v0,a0` became t0).  Retail leaves field_9E in
      * a0 at the call, so the existing $4 pin carries the divisor and is the
      * position-0 forwarder -- byte-neutral. */
-    register s32 fa1 ASM_REG("$5");   /* MATCH pin: retail delay-slot contents depend on it */
-    register s32 fa2 ASM_REG("$6");   /* MATCH pin: retail delay-slot contents depend on it */
-    register s32 fa3 ASM_REG("$7");   /* MATCH pin: retail delay-slot contents depend on it */
+    register s32 fa1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    register s32 fa2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    register s32 fa3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     v1 += a0;
     s1->field_00 = v1;
-    ASM_KEEP(v0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     v0 /= 2;
     s1->field_0C = v0;
     a0 = s0->field_9E;

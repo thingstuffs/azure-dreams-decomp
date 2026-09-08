@@ -15,7 +15,7 @@ void func_80022514(void *arg0) {
     s16 mode;
     s32 delta;
     s32 next;
-    register s32 value ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     mode = ((S_80022514_0 *)arg0)->unk_00.s;
     value = ((S_80022514_0 *)arg0)->unk_00.u;
@@ -31,7 +31,7 @@ void func_80022514(void *arg0) {
         }
         goto done;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (mode == 2) {
         goto mode_two;
     }
@@ -44,7 +44,7 @@ mode_zero:
     s32 sum;
 
     delta |= 0x404;
-    ASM_MEM_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     sum = ((S_80022514_0 *)arg0)->unk_08;
     count = ((S_80022514_0 *)arg0)->unk_02.u;
     sum += delta;
@@ -65,7 +65,7 @@ mode_one:
         goto done;
     }
     {
-        register s32 increment ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 increment ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         increment = value + 1;
         ((S_80022514_0 *)arg0)->unk_00.u = increment;
@@ -88,6 +88,6 @@ mode_two:
 }
 
 done:
-    ASM_CLOBBER("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return;
 }

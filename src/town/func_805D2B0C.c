@@ -40,7 +40,7 @@ s32 func_80016B0C(void) {
     s32 index;
     u8 *cells;
 
-    ASM_KEEP(result);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state = *(void **)D_80016000;
     local[0] = 2;
     local[1] = 0xFF;

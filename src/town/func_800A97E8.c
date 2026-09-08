@@ -112,7 +112,7 @@ void func_800A6F48(S_800A6F48_10 *arg0, S_800A6F48_0 *arg1, S_800A6F48_2 *arg2, 
     s32 var_v0_2;
     u32 temp_v0;
     S_800A6F48_4 *temp_v0_2;
-    register S_800A6F48_8 *temp_v0_3 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register S_800A6F48_8 *temp_v0_3 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_800A6F48_5 *temp_v1_2;
     S_800A6F48_6 *temp_v1_3;
     S_800A6F48_9 *temp_v1_5;

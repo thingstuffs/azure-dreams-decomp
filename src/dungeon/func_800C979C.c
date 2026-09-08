@@ -16,22 +16,22 @@ extern void func_800CEF0C(void) __attribute__((noreturn));
 extern void func_800CEFB8();
 
 s32 func_800CEEFC(void *arg0, s32 arg1, void *arg2) {
-    register u8 *state ASM_REG("$16") = arg0;   /* MATCH pin: retail register colouring depends on it */
+    register u8 *state ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    ASM_CLOBBER_A0();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_CLOBBER_A0();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_800CEFB8(state, arg1, arg2, *(s16 *)((u8 *)arg2 + 6), 0);
     arg2 = *(Node **)(state - 8);
     if (arg2 != 0) {
-        register s32 value1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register s32 value1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         state = (u8 *)arg2 + 32;
         value1 = ((Node *)arg2)->value1;
         arg2 = ((Node *)arg2)->value2;
-        ASM_USE(state);   /* MATCH pin: retail delay-slot contents depend on it */
-        ASM_USE(value1);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_USE(arg2);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_USE(state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        ASM_USE(value1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_USE(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_800CEF0C();
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return 0;
 }

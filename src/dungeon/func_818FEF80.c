@@ -52,7 +52,7 @@ extern s32 D_800814A0;
 
 void func_818FEF80(void *arg0, void *arg1, void *arg2) {
     void *object;
-    register void *linked ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *linked ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 count;
 
     object = ((S_818FEF80_0 *)arg0)->unk_30;
@@ -69,7 +69,7 @@ void func_818FEF80(void *arg0, void *arg1, void *arg2) {
         ((S_818FEF80_0 *)arg0)->unk_0A.u = 1;
         (void)((S_818FEF80_2 *)arg1)->unk_08.s;
         object = (void *)0xfffe0000;
-        ASM_TAILSLOT_PIN(object);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024800();
         return;
     }
@@ -88,7 +88,7 @@ void func_818FEF80(void *arg0, void *arg1, void *arg2) {
         ((S_818FEF80_3 *)arg2)->unk_0E = (((0x3C - count) << 6) / 60) + 0x40;
         ((S_818FEF80_3 *)arg2)->unk_0D = (((0x3C - ((S_818FEF80_0 *)arg0)->unk_02.u) << 6) / 60) + 0x40;
         tail_value = ((0x3C - ((S_818FEF80_0 *)arg0)->unk_02.u) << 6) / 60;
-        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_80024954();
         return;
     }

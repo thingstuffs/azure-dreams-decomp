@@ -16,9 +16,9 @@ typedef struct S_8009CEE8_0 {
 } S_8009CEE8_0;   /* temp_v1 in func_8009CEE8 */
 
 void func_8009CEE8(void) {
-    register u16 *call_base ASM_REG("$5");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 call_a2 ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 call_a3 ASM_REG("$7");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u16 *call_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 call_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     M2C_UNK sp10[2];
     M2C_UNK sp18[2];
     s32 *var_s0;

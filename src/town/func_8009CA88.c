@@ -52,7 +52,7 @@ void func_8009A1E8(void *arg0, void *arg1, M2C_UNK arg2)
   s32 temp_a0;
   s32 var_v0_2;
   s32 var_v1;
-  register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+  register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   s32 var_v0;
   s8 *new_var;
   *(((*((s32 *) (((s8 *) arg0) + 0x40))) * 8) + (&D_80082660)) = 0;
@@ -82,7 +82,7 @@ void func_8009A1E8(void *arg0, void *arg1, M2C_UNK arg2)
   }
   if (temp_v1 < 0)
   {
-    ASM_KEEP(temp_v1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     new_var2 = temp_v1;
     if (temp_v1 < 0)
     {

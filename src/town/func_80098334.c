@@ -21,11 +21,11 @@ void func_800954F4(void);
 void func_80095A94(TownObj *arg0, s32 arg1, TownVec **arg2)
 {
     TownVec *vec;
-    register s32 x ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 y;
     s32 divisor;
     s32 absX;
-    register s32 absY ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 absY ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 value;
     s32 clampValue;
 
@@ -63,7 +63,7 @@ calculate:
     }
     value >>= 8;
     arg0->value14 = value;
-    ASM_KEEP(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     clampValue = *(volatile s32 *)&arg0->value14;
     if (clampValue > 0xCC000) {
         arg0->value14 = 0xCC000;

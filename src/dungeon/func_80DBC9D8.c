@@ -69,8 +69,8 @@ extern u8 D_8017540C[];
 void func_801741D8(void *in0, void *in1, void *in2, void *in3)
 {
     void *arg0 = in0;
-    register void *arg1 ASM_REG("$19") = in1;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *arg2 ASM_REG("$17") = in2;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *arg1 ASM_REG("$19") = in1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$17") = in2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *arg3;
     u8 state;
     u8 *global_state;
@@ -183,7 +183,7 @@ set_effect:
         if (((S_801741D8_1 *)arg2)->unk_14 & 0x8000) {
             goto set_owner;
         } else {
-            register u8 *counter ASM_REG("$2") = (u8 *)&D_80083460;   /* MATCH pin: keeps a constant in a register as retail does */
+            register u8 *counter ASM_REG("$2") = (u8 *)&D_80083460;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             ((S_801741D8_3 *)counter)->unk_0A++;
         }
 
@@ -193,7 +193,7 @@ increment_state:
 
     case 2:
         if (((S_801741D8_1 *)arg2)->unk_14 & 0xE000) {
-            register u8 *counter ASM_REG("$2") = (u8 *)&D_80083460;   /* MATCH pin: keeps a constant in a register as retail does */
+            register u8 *counter ASM_REG("$2") = (u8 *)&D_80083460;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             ((S_801741D8_3 *)counter)->unk_0A--;
 set_owner:
             ((S_801741D8_0 *)arg0)->unk_8C = D_80171E20;

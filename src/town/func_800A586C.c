@@ -26,7 +26,7 @@ void func_800A2FCC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     Coord8 *initial_b;
     register Coord8 *loop_a;
     Coord8 *loop_b;
-    register s32 final_arg ASM_REG("$23") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 final_arg ASM_REG("$23") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 angle;
     s32 count;
     register s32 product;

@@ -98,7 +98,7 @@ void func_8017516C(u8 *arg0, Position *position_arg, Source *source_arg, Context
     Vec3s input;
     u16 hit;
     s32 direction;
-    register s32 trial ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register s32 trial ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 final_y;
     s32 final_x;
     Object *object;
@@ -110,7 +110,7 @@ void func_8017516C(u8 *arg0, Position *position_arg, Source *source_arg, Context
     s32 owner_byte;
     s32 angle_index;
     u32 initial_test;
-    register u8 *scratch_t1 ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *scratch_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Position *position;
     Source *source;
     Context *context;
@@ -118,8 +118,8 @@ void func_8017516C(u8 *arg0, Position *position_arg, Source *source_arg, Context
     position = position_arg;
     source = source_arg;
     context = context_arg;
-    ASM_KEEP_NV(source);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(position);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     final_y = final_x = 0;
     if (context->f60 == D_800E3D7C) {
         special = *(u8 **)((u8 *)context->f60 + 0x4C);
@@ -145,7 +145,7 @@ void func_8017516C(u8 *arg0, Position *position_arg, Source *source_arg, Context
 
     {
         register u16 *xbase;
-        register u16 *trial_x ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register u16 *trial_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u16 *xptr;
         u16 *yptr;
         s32 result;
@@ -153,9 +153,9 @@ void func_8017516C(u8 *arg0, Position *position_arg, Source *source_arg, Context
         trial = 0;
         xbase = D_8006CCD8;
         {
-            register s32 failure_offset ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 failure_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            ASM_SET(failure_offset);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_SET(failure_offset);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             failure_offset = direction << 1;
             xptr = (u16 *)(failure_offset + (s32)xbase);
             scratch_t1 = (u8 *)D_8006CCE8;
@@ -180,19 +180,19 @@ search_done:
         if (trial >= 8) {
             goto exit;
         }
-        ASM_USE_NV(trial);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE_NV(trial);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         goto allocate;
 
 trial_success:
         {
-            register s32 trial_offset ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 trial_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 trial_y_address;
 
             trial_offset = trial << 1;
             trial_x = (u16 *)(trial_offset + (s32)xbase);
             scratch_t1 = (u8 *)D_8006CCE8;
             trial_y_address = trial_offset + (s32)scratch_t1;
-            ASM_KEEP(trial_x);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(trial_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             final_x = trial_x[0] + (source->x + xptr[0]);
             final_y = *(u16 *)trial_y_address + (source->y + yptr[0]);
             goto search_done;
@@ -233,7 +233,7 @@ allocate:
 
     table_index = ((D_80083228 + context->f2A + 0x100) >> 8) & 0xE;
     input.x = D_801766F0[table_index];
-    ASM_KEEP(context);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     angle_index = ((D_80083228 + context->f2A + 0x100) >> 8) & 0xE;
     input.y = D_801766F0[angle_index + 1];
     input.z = 0;
@@ -252,7 +252,7 @@ allocate:
     work->hit = hit;
     work->flags = context->f14 & 0x2007;
     work->source_id = source->f12;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     scratch_t1 = arg0;
     owner_byte = scratch_t1[0xAC];
     work->owner_minus20 = (u8 *)context - 0x20;

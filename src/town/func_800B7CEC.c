@@ -16,32 +16,32 @@ extern u8 D_800892EC[];
 
 void *func_800B544C(void *arg0, void *arg1)
 {
-    register u32 source_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register Text5 *source ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 copy_word ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 copy_tail ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 source_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register Text5 *source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 copy_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 copy_tail ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 raw_value;
     s32 half_test;
-    register s32 value ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 value ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 loop_page;
-    register s32 odd ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 odd ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 digits[64];
     s32 half;
     s32 i;
 
     source_page = 0x80090000;
-    ASM_KEEP_NV(source_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(source_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     source = (Text5 *)(source_page - 0x6D24);
     copy_word = source->word;
-    ASM_KEEP_NV(copy_word);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(copy_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     copy_tail = source->tail;
-    ASM_KEEP_NV(copy_tail);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(copy_tail);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((Text5 *)arg0)->word = copy_word;
     ((Text5 *)arg0)->tail = copy_tail;
     strcat(arg0, func_8004E634(1, digits));
     raw_value = func_80043868(arg1);
     value = raw_value;
-    ASM_KEEP(value);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     half_test = (s16)raw_value / 2;
     if (half_test > 0) {
         i = 0;

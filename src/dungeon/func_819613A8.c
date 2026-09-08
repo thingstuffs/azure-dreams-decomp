@@ -80,32 +80,32 @@ void func_819613A8(s16 arg0, s32 arg1, S_819613A8_0 *arg2) {
     s16 temp_v0_3;
     s16 temp_v0_4;
     s16 temp_v0_5;
-    register s32 temp_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 temp_a3 ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 temp_s0 ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 temp_t0;
     s32 temp_t1;
-    register s32 temp_t2 ASM_REG("$10");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_t2 ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 temp_sum ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 temp_t5 ASM_REG("$13");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 temp_t6 ASM_REG("$14");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 temp_t7 ASM_REG("$15");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 temp_sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 temp_t5 ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_t6 ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 temp_t7 ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 temp_s4;
-    register s32 temp_tail ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register TempObj *temp_arg0 ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
-    register void *temp_init ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 temp_tail ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register TempObj *temp_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register void *temp_init ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s8 *temp_base;
-    register void *temp_a2 ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-    register s16 *temp_t3 ASM_REG("$11");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s16 *temp_t3 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_t4;
     TempObj *temp_v0;
 
     temp_v0 = func_8003FC64(0x202);
     if (temp_v0 != NULL) {
         temp_s4 = arg1;
-        ASM_KEEP(temp_s4);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(temp_s4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_s0 = arg1;
         temp_arg0 = temp_v0;
         temp_init = &D_800264D4;
@@ -113,7 +113,7 @@ void func_819613A8(s16 arg0, s32 arg1, S_819613A8_0 *arg2) {
         func_8004491C(temp_arg0, &D_800269CC);
         temp_t1 = (s16) arg0;
         temp_t2 = (temp_t1 - 3) << 6;
-        ASM_KEEP(temp_t2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_t2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_a1 = (s16) temp_s0;
         temp_base = D_8002745C;
         temp_s0 = temp_a1 * 0x10;
@@ -181,7 +181,7 @@ void func_819613A8(s16 arg0, s32 arg1, S_819613A8_0 *arg2) {
         ((TempOutput *)temp_a2)->field9 = (s8) temp_s0;
         if (temp_t1 == temp_tail) {
             temp_tail = 0xF;
-            ASM_TAILSLOT_PIN(temp_tail);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(temp_tail);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80026D84(temp_a0, temp_a1, temp_a2, temp_a3);
             return;
         }

@@ -63,9 +63,9 @@ extern u8 D_80171A80[];
 
 void *func_80170F9C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
 {
-    register s8 held_arg1 ASM_REG("$23") = arg1;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 held_arg1 ASM_REG("$23") = arg1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 held_arg3 = arg3;
-    register s8 held_arg2 ASM_REG("$22") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 held_arg2 ASM_REG("$22") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 mode_copy;
     s32 kind;
     u16 saved_x;

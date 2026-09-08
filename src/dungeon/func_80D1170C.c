@@ -19,10 +19,10 @@ void func_80170F0C(void *arg0, void *arg1)
 
     product = FIELD(arg0, u8 *, 0) * FIELD(arg0, s16 *, 0x32);
     red = product / FIELD(arg0, s16 *, 0x34);
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     product = FIELD(arg0, u8 *, 1) * FIELD(arg0, s16 *, 0x32);
     green = product / FIELD(arg0, s16 *, 0x34);
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     product = FIELD(arg0, u8 *, 2) * FIELD(arg0, s16 *, 0x32);
     blue = product / FIELD(arg0, s16 *, 0x34);
 
@@ -38,7 +38,7 @@ void func_80170F0C(void *arg0, void *arg1)
     if ((timer << 16) <= 0) {
         FIELD(arg0, u16 *, -2) |= 0x8000;
         page = (s32 *)0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         page[0x14A0 / sizeof(s32)] =
             page[0x14A0 / sizeof(s32)] | 0x8000;
     }

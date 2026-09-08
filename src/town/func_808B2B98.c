@@ -53,13 +53,13 @@ s32 func_808B2B98(s32 arg0) {
         }
         *(s32 *)0xA0700F3C = var_s0;
         temp_v0 = var_s0;
-        ASM_TAILSLOT_PIN_TIED(temp_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8070049C();
     }
     {
-        register s32 final_value ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 final_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         final_value = *(s32 *)0xA0700F3C;
-        ASM_KEEP(final_value);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(final_value);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         return final_value;
     }
 }

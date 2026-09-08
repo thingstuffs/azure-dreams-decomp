@@ -26,8 +26,8 @@ void func_80041284(void *a0)
 {
     s32 s0;
     s32 s1;
-    register s32 t0 ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 t1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 t0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 t1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     DrawSync(0);
     s0 = *(s32 *)a0 & 0x7FFFFF;

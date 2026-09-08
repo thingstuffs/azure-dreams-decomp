@@ -23,7 +23,7 @@ extern TownState D_800167B4;
 extern Entry4 D_80016818[];
 
 void func_80017EA0(s32 arg0) {
-    register TownState *state ASM_REG("$2") = &D_800167B4;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register TownState *state ASM_REG("$2") = &D_800167B4;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     Entry12 *entries = D_80016470;
     Entry12 *entry = &entries[arg0];
     Entry4 *position;

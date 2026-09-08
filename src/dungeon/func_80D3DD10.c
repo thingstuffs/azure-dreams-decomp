@@ -187,7 +187,7 @@ L2:
 
 L3:
     {
-        register u32 state_step ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u32 state_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s16 timer;
 
         timer = ((S_80173510_0 *)arg0)->unk_96.u - 1;
@@ -217,7 +217,7 @@ L3:
         }
         (void)((S_80173510_0 *)arg0)->unk_9B.v;
         state_step = 2;
-        ASM_TAILSLOT_PIN(state_step);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(state_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80173938();
     }
 

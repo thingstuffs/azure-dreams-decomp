@@ -53,7 +53,7 @@ void func_801729A0(void *arg0, VecData *arg1, void *arg2, void *arg3)
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
         &&kind_5, &&kind_6, &&kind_7
     };
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail register colouring depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 alternate = 0;
     void *object = (void *)zero;
     void *active;
@@ -127,7 +127,7 @@ selection_ready:
             s32 active_result;
 
             active_result = alternate;
-            ASM_KEEP(active_result);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(active_result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (active_result != 0) {
                 active = D_800814A8;
                 FIELD(arg3, void *, 0x60) = active;
@@ -142,7 +142,7 @@ selection_ready:
             if (D_8006DE24[item].type == 2) {
                 active = FIELD(arg3, void *, 0x60);
                 if (active != 0) {
-                    register u8 *linked ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                    register u8 *linked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 copy_active_coords:
                     linked = FIELD(active, u8 *, -0x14);
@@ -151,7 +151,7 @@ copy_active_coords:
                     goto invoke_item;
                 }
             } else {
-                register s32 x ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 s32 y;
 
                 active = func_800A05A4(
@@ -184,7 +184,7 @@ invoke_item:
 
             alloc_result = func_8003FD64(0x112, D_80083498);
             object = alloc_result;
-            ASM_KEEP(alloc_result);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(alloc_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             FIELD(arg0, void *, 0xA8) = alloc_result;
             if (object != 0) {
                 VecData *dst;
@@ -197,7 +197,7 @@ invoke_item:
                 FIELD(object, u16, 0x4A) = FIELD(arg3, u16, 0x2A);
                 {
                     s32 entity_flags = FIELD(arg2, s32, 0x28);
-                    register void *entity ASM_REG("$4") = FIELD(object, void *, 0x0C);   /* MATCH pin: retail register colouring depends on it */
+                    register void *entity ASM_REG("$4") = FIELD(object, void *, 0x0C);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                     FIELD(entity, u16, 0x1E) = 0x1000;
                     FIELD(entity, u16, 0x1C) = 0x1000;

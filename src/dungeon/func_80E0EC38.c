@@ -60,7 +60,7 @@ s32 func_80172438(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 *x_step;
     s16 *y_step;
     s16 floor;
-    register s32 spawn ASM_REG("$5");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 spawn ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     ((S_80172438_0 *)arg3)->unk_71 &= 0x7F;
     if (D_80083462 & 0x2000) {
@@ -81,7 +81,7 @@ s32 func_80172438(void *arg0, void *arg1, void *arg2, void *arg3) {
         s32 try_y = (s16)y;
         s32 floor_x;
         s32 floor_y;
-        register s16 *y_base ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+        register s16 *y_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
         ((S_80172438_2 *)arg0)->unk_B2++;
         if ((func_800A44E0((try_x << 6) & 0xFFC0,

@@ -211,7 +211,7 @@ state_two:
 finish:
     ((S_80173358_2 *)arg3)->unk_1C &= ~0x200;
     ((S_80173358_0 *)arg0)->unk_8C = D_80170E54;
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 }

@@ -84,12 +84,12 @@ void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
     S_80BFD000_3 *temp_s2;
     S_80BFD000_2 *temp_s4;
     S_80BFD000_4 *actor;
-    register s8 saved_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 left;
     s32 right;
-    register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail delay-slot contents depend on it */
+    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     void *call_a1;
 
     saved_arg1 = arg1;

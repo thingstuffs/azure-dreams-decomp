@@ -82,7 +82,7 @@ state_1: {
     arg2->unk_0C.at00_u8.v = value;
     arg2->unk_1C.at00_u16.v = lower;
     tail_value = arg0->unk_02.s << 8;
-    ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_8002436C();
 }
 

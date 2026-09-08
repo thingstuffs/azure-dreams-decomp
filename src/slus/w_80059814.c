@@ -17,8 +17,8 @@ typedef struct {
 extern u32 D_800869A8[4];
 
 void func_80059814(S_80059814 *p) {
-    register u32 value ASM_REG("$2");   /* MATCH pin: slus-diff */
-    register u32 high ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u32 high ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     switch (D_800869A8[0]) {
     case 0x30:
@@ -27,7 +27,7 @@ void func_80059814(S_80059814 *p) {
         p->value = value;
         value += p->remainder;
         p->value = value;
-        ASM_KEEP(value);   /* MATCH pin: slus-diff */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         high = value;
         value &= 3;
         high >>= 2;
@@ -38,10 +38,10 @@ void func_80059814(S_80059814 *p) {
         p->value = value;
         value += p->remainder;
         p->value = value;
-        ASM_KEEP(value);   /* MATCH pin: slus-diff */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         high = value;
         value &= 3;
-        ASM_KEEP(value);   /* MATCH pin: slus-diff */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         high >>= 2;
         break;
     case 0xC0:
@@ -49,7 +49,7 @@ void func_80059814(S_80059814 *p) {
         value = p->value;
         value += p->remainder;
         p->value = value;
-        ASM_KEEP(value);   /* MATCH pin: slus-diff */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         high = value;
         value &= 1;
         high >>= 1;
@@ -63,10 +63,10 @@ void func_80059814(S_80059814 *p) {
         value = p->value;
         value += p->remainder;
         p->value = value;
-        ASM_KEEP(value);   /* MATCH pin: slus-diff */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         high = value;
         value &= 3;
-        ASM_KEEP(value);   /* MATCH pin: slus-diff */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         high >>= 2;
         break;
     case 0x300:
@@ -74,7 +74,7 @@ void func_80059814(S_80059814 *p) {
         value = p->value;
         value += p->remainder;
         p->value = value;
-        ASM_KEEP(value);   /* MATCH pin: slus-diff */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         high = value;
         value &= 7;
         high >>= 3;

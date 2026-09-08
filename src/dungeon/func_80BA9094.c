@@ -52,11 +52,11 @@ extern void func_800AA36C(Body *, ChildA *, ChildB *, Body *);
 
 Body *func_8015E894(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 saved_arg0 = arg0;
-    register s32 saved_arg1 ASM_REG("$21") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 saved_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 saved_arg3 = arg3;
-    register s32 saved_arg2 ASM_REG("$20") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register Body *body ASM_REG("$16");   /* MATCH pin: retail basic-block layout depends on it */
-    register Object *object ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 saved_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register Body *body ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    register Object *object ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ChildA *child_a;
     s32 arg0_copy;
     ChildB *child_b;
@@ -67,7 +67,7 @@ Body *func_8015E894(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     object = func_8003FD64(0x112, D_80083498);
     if (object != 0) {
         arg0_copy = saved_arg0;
-        ASM_KEEP(arg0_copy);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(arg0_copy);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         body = &object->body_20;
         body->field_13 = 14;
         func_8004491C(object, D_80045340);

@@ -87,9 +87,9 @@ void FUNC_80024000_BODY(void *arg0, void *arg1, void *arg2)
         &&L0, &&L1, &&L2, &&L3, &&L4, &&L5
     };
 
-    register u8 *ccd8 ASM_REG("$4") = D_8006CCD8;   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 idx_reg ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
-    register u32 temp ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *ccd8 ASM_REG("$4") = D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 idx_reg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u32 temp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     inner = FIELD(arg0, void *, 0);
     temp = FIELD(inner, u16, 0x2A);
     base = (u8 *)inner - 0x20;
@@ -193,7 +193,7 @@ L0:
         dy = (FIELD(other, u8, 0x25) + ay) * 64 + 32;
         ptr = i & 0xFFFF;
         {
-            register s32 a0_arg ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
+            register s32 a0_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             a0_arg = ptr;
             obj = dy & 0xFFFF;
             vq = func_800BCB04(a0_arg, obj,
@@ -237,12 +237,12 @@ Lset73:
     dy = HI16(coords.y) - FIELD(arg1, s16, 6);
     n = i;
     if (i < 0) {
-        ASM_KEEP_NV(n);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP_NV(n);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         n = -n;
     }
     tabs = dy;
     if (dy < 0) {
-        ASM_KEEP_NV(tabs);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP_NV(tabs);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         tabs = -tabs;
     }
     if (n < tabs) {

@@ -59,14 +59,14 @@ void func_800BA810(S_800B50B0_Entity *arg0, s16 arg1) {
     s16 var_a2;
     s16 var_a2_2;
     s16 var_a2_3;
-    register s32 *var_a0 ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 temp_a2;
-    register s32 temp_a1 ASM_REG("$5");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 temp_entry ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 temp_mode ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 temp_entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 temp_mode ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 var_s1;
     s32 var_s1_2;
-    register s32 var_s1_3 ASM_REG("$17");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 var_s1_3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 var_s2;
     u32 var_s3;
     u8 temp_a0;
@@ -82,7 +82,7 @@ void func_800BA810(S_800B50B0_Entity *arg0, s16 arg1) {
         return;
     }
     if (D_800DF374 == arg0) {
-        ASM_KEEP_NV(arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         if (D_800DF37A == (s16) arg0->angle2a) {
             var_a0 = &D_800BA6B8;
             if (D_800DF378 != (arg1 & 0xFFFF)) {
@@ -98,9 +98,9 @@ block_6:
 block_7:
         temp_angle = arg0->angle2a;
         do { D_800DF374 = arg0; } while (0);
-        ASM_KEEP_NV(arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         D_800DF378 = arg1;
-        ASM_KEEP_NV(arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         D_800DF37A = temp_angle;
         func_800403BC(var_a0);
         do { temp_a1 = arg1 & 0x3FFF; } while (0);

@@ -105,7 +105,7 @@ void func_819ACDA0(Motion *motion, Position *position, u8 *color)
     func_800249C4();
 
 check_upper_states:
-    ASM_KEEP(color);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     if (motion->state == 2) {
         goto fade;
     }
@@ -171,7 +171,7 @@ update_position:
         func_800B8D64(motion->target_x, motion->target_y, motion->target_z);
         final_state = ((S_819ACDA0_1 *)motion)->unk_2C;
         {
-            register u16 five ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u16 five ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             five = 5;
             motion->timer = five;

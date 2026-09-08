@@ -86,7 +86,7 @@ s32 func_8009D218(void *arg0, s32 arg1, S_8009D218_0 *arg2) {
         if (arg1 & 1) {
             if (((func_80042900(arg0, 0x16) << 0x10) != 0) && (arg2->unk_13 >= 0)) {
                 s32 result = func_8009D34C();
-                ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 return result;
             }
             goto block_17;

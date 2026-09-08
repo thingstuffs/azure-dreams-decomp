@@ -33,7 +33,7 @@ state_one:
     if (*(s32 *)(data + 0x10) == 0) {
         return;
     }
-    ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (D_80012090[0] == state) {
         return;
     }

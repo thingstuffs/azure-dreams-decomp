@@ -21,13 +21,13 @@ typedef struct S_800BDC98_1 {
 void func_800BDC98(s16 arg0, s16 arg1, s16 arg2, s32 arg3) {
     u16 sp[8];
     s32 var_t1;
-    register s32 arg3_hold ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 arg3_hold ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 temp_t5;
     s32 var_t7;
     s32 var_a2;
     s32 var_a3;
     s32 temp_v1;
-    register s32 zero_test ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 zero_test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 arg1_shift;
     s32 outer_end;
     s32 temp_v1_2;

@@ -20,7 +20,7 @@ extern s32 func_80019880(s32, s32);
 char *func_800172DC(s32 arg0, s32 arg1, s32 arg2)
 {
     u32 index;
-    register s32 selector ASM_REG("$6") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 selector ASM_REG("$6") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     static void *const keepalive[] = {
         &&L_first, &&L_second, &&L_third, &&L_fourth, &&L_default
     };

@@ -138,7 +138,7 @@ s32 func_807B040C(void) {
             s32 result;
 
             result = 0;
-            ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800F80A8();
             return result;
         }
@@ -150,7 +150,7 @@ s32 func_807B040C(void) {
         s32 result;
 
         result = 0;
-        ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800F80A8();
         return result;
     }
@@ -167,7 +167,7 @@ state_zero:
 #else
     state_page = (u8 *)0x80080000;
 #endif
-    ASM_KEEP_NV(state_page);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     state_room = state_page + 0x2E80;
     dx = ((S_807B040C_2 *)state_room)->unk_24;
     state_target = ((S_807B040C_3 *)target)->unk_24;
@@ -183,11 +183,11 @@ state_zero:
                 state_dy = -state_dy;
             }
             if (state_dy < 3) {
-                register s32 result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-                register s32 store_state ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+                register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s32 store_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 result = 1;
-                ASM_KEEP(result);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 store_state = 0x63;
                 ((S_807B040C_1 *)entity)->unk_9B = store_state;
                 store_state = 2;
@@ -227,23 +227,23 @@ next_direction:
                 goto find_direction;
             }
             direction = 0;
-            ASM_TAILSLOT_PIN(direction);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800F7DA8();
             return direction;
         }
 
         {
         s32 target_x;
-        register s32 collision_y ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 collision_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 distance_compare;
         s32 entity_flags;
 
         distance_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
-        ASM_KEEP_NV(distance_x);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_NV(distance_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         target_x = ((S_807B040C_3 *)target)->unk_24;
-        ASM_KEEP_NV(target_x);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(target_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         target_y = ((S_807B040C_3 *)target)->unk_25;
-        ASM_KEEP_NV(target_y);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(target_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         distance_x -= target_x;
         entity_y = ((S_807B040C_1 *)entity)->unk_AE.s16;
         if (distance_x < 0) {
@@ -263,7 +263,7 @@ next_direction:
         ((S_807B040C_1 *)entity)->unk_96.s = scaled_distance;
 
         entity_flags = ((S_807B040C_6 *)entity_aux)->unk_1C;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         call_x = ((S_807B040C_3 *)target)->unk_24;
         call_y = ((S_807B040C_3 *)target)->unk_25;
         tile_flags = 0x3000;
@@ -276,16 +276,16 @@ next_direction:
 
 move_entity:
     {
-        register s32 move_x ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register s32 move_raw_y ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 move_y ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 move_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 move_raw_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 move_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 move_x_arg;
 
         move_x = ((S_807B040C_1 *)entity)->unk_AA.s16 << 6;
-        ASM_KEEP_NV(move_x);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(move_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         move_x += 0x20;
         move_raw_y = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
-        ASM_KEEP_NV(move_raw_y);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(move_raw_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         move_y = move_raw_y + 0x20;
         move_x_arg = move_x & 0xFFE0;
         height = func_800BCB04(move_x_arg, move_y & 0xFFE0, -0x400);
@@ -307,7 +307,7 @@ move_entity:
         direction = 6;
         if (motion[4] > 0) {
             direction = 2;
-            ASM_TAILSLOT_PIN(direction);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800F7FD0();
             return direction;
         }
@@ -316,7 +316,7 @@ move_entity:
     dy = motion[4];
     if (dy == 0) {
         direction = (dx < 1) << 2;
-        ASM_TAILSLOT_PIN(direction);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800F7FD0();
         return direction;
     }
@@ -324,7 +324,7 @@ move_entity:
         direction = 7;
         if (dy > 0) {
             direction = 1;
-            ASM_TAILSLOT_PIN(direction);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800F7FD0();
             return direction;
         }
@@ -346,7 +346,7 @@ set_direction:
     return 0;
 
 state_two:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_807B040C_3 *)target)->unk_24 = ((S_807B040C_1 *)entity)->unk_AA.u8;
     ((S_807B040C_3 *)target)->unk_25 = ((S_807B040C_1 *)entity)->unk_AE.u8;
     motion[0] = ((((S_807B040C_3 *)target)->unk_24 << 6) + 0x20) << 16;
@@ -361,7 +361,7 @@ state_two:
         s32 entity_flags;
 
         entity_flags = ((S_807B040C_1 *)entity)->unk_1C;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         call_x = ((S_807B040C_3 *)target)->unk_24;
         call_y = ((S_807B040C_3 *)target)->unk_25;
         tile_flags = 0x3000;
@@ -372,10 +372,10 @@ state_two:
     func_8009A21C(call_x, call_y, tile_flags);
     ((S_807B040C_1 *)entity)->unk_B8 = state;
     {
-        register s32 result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         result = 1;
-        ASM_TAILSLOT_PIN(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800F80A8_returning();
         return 0;
     }

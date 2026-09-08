@@ -66,9 +66,9 @@ void func_80921B2C(S_80921B2C_3 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 saved_arg2 = arg2;
     s32 saved_arg3 = arg3;
     u16 temp_v0_2;
-    register s32 temp_call_arg ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u8 *temp_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *temp_s6 ASM_REG("$22");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *temp_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *temp_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_80921B2C_2 *temp_a0_2;
     S_80921B2C_5 *temp_a0_3;
     S_80921B2C_0 *temp_v0;
@@ -76,7 +76,7 @@ void func_80921B2C(S_80921B2C_3 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     temp_source = D_800F6000;
     memcpy(sp, temp_source, 0x20);
     temp_call_arg = 0x212;
-    ASM_USE_NV(temp_call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE_NV(temp_call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_page = D_80083498;
     temp_s6 = temp_page + 0x20;
     temp_v0 = func_8003FC64(temp_call_arg);
@@ -90,10 +90,10 @@ void func_80921B2C(S_80921B2C_3 *arg0, s32 arg1, s32 arg2, s32 arg3) {
 
             temp_a0 = temp_v0->unk_0C;
             temp_v0_2 = temp_a0->unk_14.n;
-            ASM_USE(temp_v0_2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_USE(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             temp_a0->unk_10 = 0x20;
             temp_a0->unk_06 = 6;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_v0_2 |= 0xC;
             temp_a0->unk_14.v = temp_v0_2;
             temp_v0_2 |= 2;

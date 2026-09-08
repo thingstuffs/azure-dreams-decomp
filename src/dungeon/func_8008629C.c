@@ -88,7 +88,7 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800
     u16 *check_flags;
     s16 temp_v0;
     u16 index;
-    register s32 mask ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 mask ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 flag_word;
     u16 temp_v0_2;
 
@@ -137,7 +137,7 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800
                 if (arg2->unk_2C.as_pu8 != D_800DCFB8) {
                     void *callback_call;
                     callback_call = arg2;
-                    ASM_KEEP(callback_call);   /* MATCH pin: retail register colouring depends on it */
+                    ASM_KEEP(callback_call);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     arg2->unk_2C.as_pu8 = D_800DCFB8;
                     func_80048A44(
                         callback_call,
@@ -177,7 +177,7 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800
             0, 1);
         arg0->unk_9A = 0x10;
         {
-            register void *tail_word_obj ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register void *tail_word_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             tail_word_obj = arg3;
             ((S_8008B9FC_4 *)tail_word_obj)->unk_1C |= 0x40000000;
         }
@@ -188,7 +188,7 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800
 block_80086620:
         func_8009F644(arg3, 8, 0, 0);
         mask = 0x40000000;
-        ASM_PAGEBASE_PIN(mask);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(mask);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8008BE64();
         return;
     }
@@ -209,7 +209,7 @@ block_80086620:
     }
 
     {
-        register void *callback_obj ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register void *callback_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         callback_obj = arg2;
         ((S_8008B9FC_5 *)callback_obj)->unk_2C = D_800DCFB0;
         func_80048A44(
@@ -225,7 +225,7 @@ block_80086620:
 block_80086704:
     flag_word = arg3->unk_1C.as_s32 | mask;
     arg3->unk_1C.as_s32 = flag_word;
-    ASM_KEEP(flag_word);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(flag_word);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     flags = D_80083460;
     flags[1] |= 0x812;
     func_800A67F4();

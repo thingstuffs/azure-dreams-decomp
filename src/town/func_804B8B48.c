@@ -39,7 +39,7 @@ s32 func_80017348(void) {
         context_second = *context_ptr;
         calls_second = *(u8 * volatile *)&context_second->calls;
         state_second = *(TownState * volatile *)&context_second->state;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         saved_value = state_second->value;
         (*(TownCall2 *)(calls_second + 0x248))(1, state_second);
     }
@@ -64,10 +64,10 @@ s32 func_80017348(void) {
             return 0;
         }
         if (saved_value < state_final->value) {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             new_value = saved_value + 0x30;
         } else {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             new_value = saved_value - 0x30;
         }
         state_final->value = new_value;

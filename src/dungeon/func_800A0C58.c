@@ -14,7 +14,7 @@ extern M2C_UNK D_800E0A03[];
 extern M2C_UNK D_800E0A12[];
 
 void func_800A63B8(s32 arg0, M2C_UNK arg1, s16 arg2) {
-    register s32 temp_s2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     temp_s2 = func_800990FC();
     if (arg2 == 0x15) {

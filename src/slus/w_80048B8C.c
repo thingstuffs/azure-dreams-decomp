@@ -36,8 +36,8 @@ void func_80048B8C(S_80048B8C *arg0) {
     S_80048B8C_node *node;
     S_80048B8C_entry *entry;
     volatile u16 *valptr;
-    register int loaded ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register int new_var ASM_REG("$3");   /* MATCH pin: slus-diff */
+    register int loaded ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register int new_var ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     signed char mask;
 
     cur = arg0->list + (arg0->index << 2);

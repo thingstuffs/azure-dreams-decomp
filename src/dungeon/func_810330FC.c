@@ -29,17 +29,17 @@ void *func_801748FC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     u8 *current;
     u8 *result;
     s32 coordinate;
-    register u8 *sentinel ASM_REG("$19");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u8 *sentinel ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 lower;
     s32 filter2;
-    register s32 filter1 ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 filter1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 scratch;
     u8 *object;
     s16 height;
 
     current = arg0;
     sentinel = current;
-    ASM_KEEP_NV(sentinel);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(sentinel);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     filter1 = arg1;
     scratch = ((S_801748FC_0 *)current)->unk_5C;
     current = (u8 *)scratch + 0x20;
@@ -64,7 +64,7 @@ void *func_801748FC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
                 }
             }
             scratch = ((S_801748FC_0 *)current)->unk_5C;
-            ASM_KEEP_NV(filter1);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(filter1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             current = (u8 *)scratch + 0x20;
         } while (current != sentinel);
     }

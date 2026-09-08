@@ -76,7 +76,7 @@ void func_800204F8(void)
     s16 row_x;
     s16 *row_scale;
     s16 *column_scale;
-    register s16 *cbase ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 *cbase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     buffer = 0;
     s.text_words = D_80020010;

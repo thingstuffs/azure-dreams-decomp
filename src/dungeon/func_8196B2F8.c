@@ -65,12 +65,12 @@ extern M2C_UNK D_800DE870;
 
 void func_8196B2F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
     s32 temp_rand;
-    register s32 temp_v0_coords ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_v0_coords ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
     s32 temp_v1_coords;
     s16 temp_v0_2;
     u16 temp_flags;
-    register u16 temp_v0_3 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register u16 temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *temp_a0;
     S_8196B2F8_4 *temp_a0_2;
     S_8196B2F8_3 *temp_s0;
@@ -90,36 +90,36 @@ void func_8196B2F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
         ((S_8196B2F8_2 *)temp_a0)->unk_06.s = 0;
         temp_v0_3 |= 0xC;
         ((S_8196B2F8_2 *)temp_a0)->unk_14 = temp_v0_3;
-        ASM_CLOBBER("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_flags = temp_v0_3;
-        ASM_KEEP(temp_flags);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_v0_3 = 0x60;
         temp_flags |= 2;
         ((S_8196B2F8_2 *)temp_a0)->unk_10 = temp_v0_3;
         ((S_8196B2F8_2 *)temp_a0)->unk_14 = temp_flags;
         temp_a0 = (void *) 0x80080000;
-        ASM_KEEP(temp_a0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_a0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_s0 = ((S_8196B2F8_1 *)temp_v0)->unk_08;
         temp_a0 = (void *) ((u8 *) temp_a0 + 0x3780);
         temp_s0->unk_02 = arg3;
         temp_s0->unk_06 = (u16) arg4;
         temp_s0->unk_0A = (u16) arg5;
         temp_v1_coords = ((S_8196B2F8_2 *)temp_a0)->unk_02;
-        ASM_KEEP(temp_v1_coords);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(temp_v1_coords);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_v0_coords = arg3;
-        ASM_KEEP(temp_v0_coords);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_v0_coords);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_v0_coords += temp_v1_coords;
         temp_s0->unk_02 = (u16) temp_v0_coords;
         temp_v1_coords = ((S_8196B2F8_2 *)temp_a0)->unk_06.u;
-        ASM_KEEP(temp_v1_coords);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(temp_v1_coords);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_v0_coords = arg4;
-        ASM_KEEP(temp_v0_coords);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_v0_coords);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_v0_coords += temp_v1_coords;
         temp_s0->unk_06 = (u16) temp_v0_coords;
         temp_v1_coords = ((S_8196B2F8_2 *)temp_a0)->unk_0A;
-        ASM_KEEP(temp_v1_coords);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(temp_v1_coords);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_v0_coords = arg5;
-        ASM_KEEP(temp_v0_coords);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_v0_coords);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_v0_coords += temp_v1_coords;
         temp_s0->unk_0A = (u16) temp_v0_coords;
         temp_rand = rand() & 0x1F;

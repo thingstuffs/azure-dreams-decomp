@@ -9,7 +9,7 @@ extern struct {
 
 void func_800D78C0(void *arg0) {
     s32 i;
-    register s32 offset ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register s32 offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (*(*(u16 **)((u8 *)arg0 + 0x98)) & 0x8000) {
         *((u16 *)arg0 - 1) |= 0x8000;

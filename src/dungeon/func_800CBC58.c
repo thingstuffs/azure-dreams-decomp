@@ -22,18 +22,18 @@ typedef struct S_800D13B8_1 {
 
 void func_800D13B8(void) {
     s8 *temp_s0_1;
-    register s8 *temp_s1 ASM_REG("$17");   /* MATCH pin: retail immediate-load split depends on it */
+    register s8 *temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s16 temp_s2;
     s16 temp_s3;
     s32 temp_s0;
     s32 temp_s4;
-    register s32 temp_s5 ASM_REG("$21");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_s6;
     s32 temp_a0;
     s32 temp_a1;
-    register s32 temp_a0_2 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 temp_a1_2 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 temp_a2_2 ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 temp_a1_2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_a2_2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_wide1;
     s32 temp_wide2;
     s32 temp_v1;
@@ -86,7 +86,7 @@ void func_800D13B8(void) {
         temp_a1_2 = temp_wide1 >> 16;
         temp_wide2 = (s32) ((u32) (temp_s3 + (temp_v1 * 0xA)) << 16);
         temp_a2_2 = temp_wide2 >> 16;
-        ASM_KEEP(temp_a2_2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_a2_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800D112C(temp_a0_2, temp_a1_2, temp_a2_2);
     }
 }

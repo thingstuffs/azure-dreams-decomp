@@ -19,9 +19,9 @@ typedef struct S_80123A60_0 {
 void func_80123A60(S_80123A60_0 *arg0) {
     s16 stack_values[4];
     s32 *var_s2;
-    register s32 *temp_base ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 *temp_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_s0;
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 temp_v0;
     u8 temp_v1;
 
@@ -49,7 +49,7 @@ void func_80123A60(S_80123A60_0 *arg0) {
         func_80067014(0);
         return;
     }
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     temp_v0 = arg0->unk_0F;
     var_s0 = temp_v0 * 0x10;
     temp_base = &D_80126E98;

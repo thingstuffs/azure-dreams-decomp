@@ -27,7 +27,7 @@ extern void func_800AFFA8(void *arg0);
 
 void func_800B0024(Obj *arg0) {
     Obj *this = arg0;
-    register void *sp28 ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *sp28 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 i;
 
     for (i = 0; i < 2; i++) {

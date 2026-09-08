@@ -47,19 +47,19 @@ typedef struct S_80170A28_2 {
 
 void func_80170A28(void *input0, void *input1, void *input2)
 {
-    register void *arg0 ASM_REG("$18") = input0;   /* MATCH pin: retail register colouring depends on it */
+    register void *arg0 ASM_REG("$18") = input0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_80170A28_2 *arg1 = input1;
     void *arg2 = input2;
-    register void *entity ASM_REG("$17") = arg0;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *entity ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 work;
-    register s32 direction_copy ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *call0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *call1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *call2 ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    void *call3;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 state_load ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *call0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *call1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *call2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *call3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 state_load ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 tail_value;
-    register s32 floor_height ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 floor_height ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     EntityCallback callback;
     s32 arithmetic;
     s16 height;
@@ -77,7 +77,7 @@ void func_80170A28(void *input0, void *input1, void *input2)
             {
                 void *self;
                 self = input0;
-                ASM_KEEP(self);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 callback(self, input1, input2, self);
             }
             goto done;
@@ -86,7 +86,7 @@ void func_80170A28(void *input0, void *input1, void *input2)
         goto done;
     }
 
-    ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     call0 = arg0;
     call1 = arg1;
     call2 = arg2;
@@ -129,7 +129,7 @@ void func_80170A28(void *input0, void *input1, void *input2)
         }
 
         table_value = D_8006CCF8[direction_copy];
-        ASM_KEEP(direction_copy);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (table_value != 0) {
             ((S_80170A28_0 *)arg2)->unk_14.n |= 1;
         } else {

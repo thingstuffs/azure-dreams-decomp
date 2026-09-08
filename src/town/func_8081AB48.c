@@ -101,8 +101,8 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
     }
 
 jt_c0: {
-        register s32 r ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 value ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 r ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         r = rand() & 0xF;
         if (owner->kindA >= 25) {
             r = rand() & 7;
@@ -166,12 +166,12 @@ jt_c2: {
             type = actor->typeA0;
             actor->timerA2 = raw;
             {
-                register s32 sx ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register s32 sx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 sx = actor->timerA2;
                 value = -0x400000 / sx;
             }
             {
-                register s32 flag ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register s32 flag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 flag = type & 1;
                 if (flag) {
                 s32 out;
@@ -183,7 +183,7 @@ jt_c2: {
                 motion->vx = out;
                 motion->vy = 0;
                 } else {
-                    ASM_UNDEF(flag);   /* MATCH pin: retail register colouring depends on it */
+                    ASM_UNDEF(flag);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     motion->vx = 0;
                     motion->vy = value;
                 }
@@ -268,7 +268,7 @@ jt_c7:
             owner->flagsC &= ~4;
             actor->timerA2 = 8;
             {
-                register s32 back ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 back ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 u16 type = actor->typeA0;
                 back = -0x80000;
                 if (type & 1) {

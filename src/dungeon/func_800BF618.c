@@ -33,8 +33,8 @@ typedef struct S_800C4D78_1 {
 void func_800C4D78(s32 arg0, s32 arg1) {
     S_800C4D78_0 *temp_v0;
     u8 *counter_base;
-    register s32 held_arg0 ASM_REG("$17") = arg0;   /* MATCH pin: retail register colouring depends on it */
-    register s32 held_arg1 ASM_REG("$16") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 held_arg0 ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 held_arg1 ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_8003FD64(0x200, &D_80083498);
     if (temp_v0 != NULL) {
@@ -47,8 +47,8 @@ void func_800C4D78(s32 arg0, s32 arg1) {
         counter_base = (u8 *)&D_80083460;
         ((S_800C4D78_1 *)counter_base)->unk_0A =
             (u16)(((S_800C4D78_1 *)counter_base)->unk_0A + 1);
-        ASM_KEEP(held_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(held_arg1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
 }
 

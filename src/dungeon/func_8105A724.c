@@ -62,7 +62,7 @@ checks:
         goto range_ok;
     }
 return_zero:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     return 0;
 
 range_ok:
@@ -85,7 +85,7 @@ success:
     ((Rec_D_800E3D7C *)arg3)->unk_84.as_s8 = 0x7C;
     ((Rec_D_800E3D7C *)arg3)->unk_85.as_s8 = 0;
     dead_mask = ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 0x8000;
-    ASM_KEEP(dead_mask);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(dead_mask);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_80173FB8;
     func_80047784(arg2,
         D_80173FB8[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],

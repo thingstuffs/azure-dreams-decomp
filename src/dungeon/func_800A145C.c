@@ -16,11 +16,11 @@ void func_800A6BBC(Record *record, s16 step)
     s32 wide_step;
 
     wide_step = step;
-    ASM_KEEP(wide_step);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(wide_step);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     value = &record->value;
     offset = 0;
-    ASM_KEEP(value);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(offset);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     *value += offset;
     if (record->state < 0) {
@@ -29,8 +29,8 @@ void func_800A6BBC(Record *record, s16 step)
     offset += wide_step;
     value += sizeof(Record);
     record++;
-    ASM_KEEP(value);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_TAILSLOT_PIN_TIED(record);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_TAILSLOT_PIN_TIED(record);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     func_800A6BCC(record, wide_step, offset);
 }
 

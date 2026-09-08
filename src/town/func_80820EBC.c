@@ -149,7 +149,7 @@ state_2:
             return func_800239BC();
         }
         ((S_800236BC_0 *)arg1)->unk_14 = -((S_800236BC_0 *)arg1)->unk_14 >> 1;
-        ASM_KEEP(speculative_page);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(speculative_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         speculative_page = 0x80020000;
 state_2_collision:
         speculative_page += 0x4488;
@@ -158,14 +158,14 @@ state_2_collision:
         }
         func_80053DA8(0x516);
         {
-            register s32 tail_value ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-            register u32 page ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register s32 tail_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u32 page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u8 *frame;
             frame = __builtin_alloca(0);
             tail_value = *(s32 *)(((S_800236BC_1 *)arg0)->unk_54 * 4 + frame);
-            ASM_KEEP(tail_value);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             page = 0x80010000;
-            ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_80023A74();
         }
 
@@ -196,7 +196,7 @@ state_4:
         if ((((S_800236BC_1 *)arg0)->unk_06.u >> 2) & 1) {
             s32 tail_value;
             tail_value = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x80;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             return func_80023B5C();
         }
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFF7F;

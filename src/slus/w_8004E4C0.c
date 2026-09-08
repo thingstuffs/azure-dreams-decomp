@@ -1,7 +1,7 @@
 #include "common.h"
 char *func_8004E4C0(u32 value, s32 width, char *buf, s32 pad) {
     s32 count; u32 q; s32 limit;
-    register u32 next ASM_REG("$2");   /* MATCH pin: slus-diff */
+    register u32 next ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     count = 1;
     q = value / 10u;
     *buf = (char)((value - q * 10u) + '0');
@@ -15,7 +15,7 @@ char *func_8004E4C0(u32 value, s32 width, char *buf, s32 pad) {
             if (value == 0) break;
             count++;
             next = value / 10u;
-            ASM_KEEP_NV(next);   /* MATCH pin: slus-diff */
+            ASM_KEEP_NV(next);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             *buf++ = (char)((value - next * 10u) + '0');
         } while (count < limit);
         q = width & 0xFFFF;

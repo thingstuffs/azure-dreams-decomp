@@ -30,11 +30,11 @@ void func_80047054(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     void *header = arg0;
     s32 count;
-    register u32 cursor ASM_REG("$3");   /* MATCH pin: slus-diff */
+    register u32 cursor ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u8 *entry;
     u8 *part;
-    register u8 *coords ASM_REG("$8");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    s32 type;   /* MATCH pin: slus-diff */
+    register u8 *coords ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 type;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 limit;
     u16 value;
     u8 flags;
@@ -43,9 +43,9 @@ void func_80047054(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     cursor = ((S_80047054_0 *)header)->unk_00;
     count *= 4;
     cursor += count;
-    ASM_KEEP(cursor);   /* MATCH pin: slus-diff */
+    ASM_KEEP(cursor);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     if (cursor < ((S_80047054_0 *)header)->unk_08) {
-        ASM_KEEP(cursor);   /* MATCH pin: slus-diff */
+        ASM_KEEP(cursor);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         type = 2;
         entry = (u8 *)cursor + 4;
         do {

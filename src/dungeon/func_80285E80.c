@@ -163,7 +163,7 @@ process_quotient:
 finish_state_zero:
         if (forced_exit == 0) {
             final_page = (DungeonPage80285E80 *)0x80080000;
-            ASM_KEEP_NV(final_page);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP_NV(final_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             func_800194C4(final_page->floor_146C);
             final_page = (DungeonPage80285E80 *)0x80080000;
             goto final;
@@ -195,7 +195,7 @@ finish_state_zero:
             {
                 s32 value;
                 s32 level;
-                register s32 i ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+                register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 u8 *left;
                 u8 *right;
                 u8 *base;
@@ -209,7 +209,7 @@ finish_state_zero:
                 i = 0;
                 dungeon = &D_80083460;
                 base = D_800DDC9C[0];
-                ASM_KEEP_NV(base);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 left = base;
                 right = left + 1;
                 do {
@@ -226,7 +226,7 @@ finish_state_zero:
             {
                 s32 value;
                 s32 level;
-                register s32 i ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+                register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 u8 *left;
                 u8 *right;
                 u8 *base;
@@ -240,7 +240,7 @@ finish_state_zero:
                 i = 0;
                 dungeon = &D_80083460;
                 base = D_800DDC9C[1];
-                ASM_KEEP_NV(base);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 left = base;
                 right = left + 1;
                 do {
@@ -266,7 +266,7 @@ third_pair:
             s32 value;
             s32 level;
             s32 randbit;
-            register s32 i ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u8 *left;
             u8 *right;
             s32 scratch;
@@ -276,15 +276,15 @@ third_pair:
             randbit = func_800A6D30() & 1;
             i = 0;
             scratch = 0x80080000;
-            ASM_KEEP_NV(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dungeon = (DungeonState80285E80 *)(scratch + 0x3460);
             scratch = (s32)D_800DDC9C[2];
-            ASM_KEEP_NV(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             left = (u8 *)scratch;
             right = left + 1;
             scratch = D_8008146C[0];
             level = scratch + randbit;
-            ASM_KEEP_NV(level);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(level);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             do {
                 dungeon->records[i + 8].value = value;
                 dungeon->records[i + 8].level = level;
@@ -300,7 +300,7 @@ third_pair:
             s32 value;
             s32 level;
             s32 randbit;
-            register s32 i ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u8 *left;
             u8 *right;
             s32 scratch;
@@ -310,15 +310,15 @@ third_pair:
             randbit = func_800A6D30() & 1;
             i = 0;
             scratch = 0x80080000;
-            ASM_KEEP_NV(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dungeon = (DungeonState80285E80 *)(scratch + 0x3460);
             scratch = (s32)D_800DDC9C[3];
-            ASM_KEEP_NV(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             left = (u8 *)scratch;
             right = left + 1;
             scratch = D_8008146C[0];
             level = scratch + randbit;
-            ASM_KEEP_NV(level);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(level);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             do {
                 dungeon->records[i + 12].value = value;
                 dungeon->records[i + 12].level = level;

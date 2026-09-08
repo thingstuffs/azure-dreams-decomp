@@ -66,7 +66,7 @@ extern u8 D_80174ABC[];
 
 void func_80172A14(void *arg0, S_80172A14_5 *arg1) {
     S_80172A14_3 *temp_a0;
-    register void *temp_a0_2 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *temp_v0;
     S_80172A14_2 *temp_v0_2;
     S_80172A14_4 *temp_v1;

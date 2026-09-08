@@ -62,7 +62,7 @@ typedef struct S_8181B1A0_3 {
 } S_8181B1A0_3;   /* temp_v1 in func_8181B1A0 */
 
 void func_8181B1A0(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    register s32 saved_arg4 ASM_REG("$18") = arg4;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 saved_arg4 ASM_REG("$18") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_8181B1A0_2 *temp_a3;
     S_8181B1A0_0 *temp_s0;
     void *temp_v0;
@@ -71,7 +71,7 @@ void func_8181B1A0(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     temp_v0 = func_8003FC64(0x212);
     temp_s0 = temp_v0 + 0x20;
     if (temp_v0 != NULL) {
-        ASM_KEEP(temp_s0);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         temp_s0->unk_02 = (s16) saved_arg4;
         temp_s0->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
         ((S_8181B1A0_1 *)temp_v0)->unk_10 = &D_80024878;

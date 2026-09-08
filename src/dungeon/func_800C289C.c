@@ -12,7 +12,7 @@ s32 func_800C7FFC(u8 *arg0) {
 
     if (*(u32 *)(arg0 + 0x14) & 0x4000) {
         page = 0x800E0000;
-        ASM_KEEP(page);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         i = 1;
         base = (unsigned long)*(u8 **)(page + 0x3D7C);
         mask = 0x20000000;
@@ -32,7 +32,7 @@ s32 func_800C7FFC(u8 *arg0) {
     arg0 = (u8 *)0x20000000;
     slot &= (u32)arg0;
     if (!slot) {
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         return 0;
     }
     return 1;

@@ -25,10 +25,10 @@ void func_800A55CC(void *arg0, Rec_D_800E3D7C *arg1) {
     ((S_800A55CC_0_pre *)arg0)[-1].unk_00 = D_800903FC;
     func_800942B0();
     {
-        register void *call_arg0 ASM_REG("$4") = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register void *call_arg0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         void *call_arg1 = D_800970FC;
 
-        ASM_KEEP(call_arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         delta = 0x10000;
         arg1->unk_08.at00_s32.v =
             (arg1->unk_08.at00_s32.v + delta) - D_800D0CC0[0];

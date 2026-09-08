@@ -26,7 +26,7 @@ void func_8009E038(void *arg0, void *arg1, void *arg2, M2C_UNK *arg3) {
     s16 temp_v0_3;
     s16 temp_v0_4;
     s32 temp_v1;
-    register s16 temp_v1_10 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s16 temp_v1_10 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_state_1e;
     s32 temp_a0_4;
     s32 temp_flags;
@@ -56,8 +56,8 @@ void func_8009E038(void *arg0, void *arg1, void *arg2, M2C_UNK *arg3) {
     M2C_UNK *var_epage;
     M2C_UNK *var_v0_base;
     s32 var_a2;
-    register s32 shared_flags ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 reset_flags ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 shared_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 reset_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     temp_s1 = arg2;
     var_s3 = &D_80083160;
@@ -276,7 +276,7 @@ block_39:
     }
     func_800A67F4();
     var_a1_2 = 0xFEFFFFFF;
-    ASM_KEEP(var_a1_2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(var_a1_2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     var_epage = (M2C_UNK *)0x800E0000;
     shared_flags = M2C_FIELD(var_epage, s32 *, 0x296C);
     M2C_FIELD(arg0, u16 *, 0x2C) = 0U;

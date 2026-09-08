@@ -41,7 +41,7 @@ void func_800B8E08(s32 arg0) {
     u8 *c4;
     s32 kind;
     s32 state0;
-    register s32 kind_use ASM_REG("$16");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 kind_use ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u32 switch_index;
 
     func_8009CDB4();
@@ -76,7 +76,7 @@ case_12:
 switch_done:
         {
             s32 c8_value;
-            register u8 *c8_page ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+            register u8 *c8_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
             c8_page = (u8 *)0x80010000;
             c8_value = c8_page[0x33C8];
@@ -84,7 +84,7 @@ switch_done:
             if (7 == c8_value) {
                 func_800B7A6C(0x40, 0xC, D_80127024, arg0);
             }
-            ASM_KEEP(c4);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP(c4);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             if (c4[0x33C4] == 5) {
                 func_800B7A6C(0xE, 0xE, D_80126494, arg0);
             }
@@ -107,15 +107,15 @@ switch_done:
         }
 
         {
-            register u8 *end_page ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-            register volatile u8 *end_state ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+            register u8 *end_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register volatile u8 *end_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             u8 *end_entry;
             s32 end_state0;
             s32 end_state1;
             s32 end_index;
 
             end_page = (u8 *)0x800D0000;
-            ASM_KEEP(end_page);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP(end_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             end_state = end_page + 0x3814;
             end_state0 = end_page[0x3814];
             end_state1 = end_state[1];

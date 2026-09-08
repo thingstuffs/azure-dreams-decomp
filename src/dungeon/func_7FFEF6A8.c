@@ -66,7 +66,7 @@ tail_one:
     {
         s32 rv;
         rv = 1;
-        ASM_TAILSLOT_PIN(rv);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(rv);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8008CF34();
         return rv;
     }
@@ -77,11 +77,11 @@ have_field70:
     arg0->unk_80 = temp_a0;
     if (temp_a0 < 0x801) {
         s32 tail_angle;
-        register s32 rv ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 rv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         tail_angle = (arg0->unk_84 - temp_a0) & 0xFFF;
         rv = tail_angle < 0x801;
-        ASM_KEEP(rv);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(rv);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg0->unk_90 = tail_angle;
         func_8008CF34();
         return rv;

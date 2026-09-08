@@ -30,8 +30,8 @@ s32 func_80174574(void *arg0, s32 arg1, Entry *arg2, s32 arg3)
         (GlobalPage *)0x80170000;
     Entry *next;
 
-    ASM_KEEP(scratch);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(global_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     for (;;) {
         scratch->value = global_page->value;

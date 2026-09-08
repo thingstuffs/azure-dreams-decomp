@@ -51,7 +51,7 @@ void func_801716D8(void *arg0, void *arg1, void *arg2, void *arg3) {
     M2C_UNK var_a2;
     M2C_UNK var_a2_2;
     s16 temp_v0_2;
-    register s32 temp_a2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_s1;
     s32 temp_s2;
     s32 next_x;
@@ -100,7 +100,7 @@ void func_801716D8(void *arg0, void *arg1, void *arg2, void *arg3) {
             ((S_801716D8_3 *)arg0)->unk_96 = (s16) (8 / (s32) temp_a2);
         }
     }
-    ASM_KEEP(state);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: A guarded $s0 state-base pin restores the retail 0x30 frame and

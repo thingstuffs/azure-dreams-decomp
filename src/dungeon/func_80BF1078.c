@@ -65,9 +65,9 @@ void *func_8016A878(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     void *temp_v0;
     S_8016A878_4 *temp_s5;
     S_8016A878_1 *var_s0;
-    register s8 saved_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     var_s0 = 0;
     saved_arg1 = arg1;
@@ -100,7 +100,7 @@ void *func_8016A878(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         var_s0->unk_14 = state_flags0;
         var_s0->unk_1C = state_flags1;
     } else if (((arg0 & ~3) << 0x10) == 0) {
-        register void *call_a0 ASM_REG("$4") = temp_v0;   /* MATCH pin: retail delay-slot contents depend on it */
+        register void *call_a0 ASM_REG("$4") = temp_v0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         if (!(var_s0->unk_14 & 0x200)) {
             if (func_800A6D30(call_a0) & 1) {
                 func_800A48F0(var_s0, 1, (func_800A6D30(call_a0) & 0x3F) | 0x20);

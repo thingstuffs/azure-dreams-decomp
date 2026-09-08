@@ -122,7 +122,7 @@ void func_80174D98(void *arg0, SourcePosition *arg1, void *arg2,
     func_8004491C(entity, &D_80045340);
 
     copy_dst = (PackedWord *)((u8 *)entity + 0x4C);
-    ASM_USE(copy_dst);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE(copy_dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     render = entity->render;
     render->flags &= 0xFFF3;
     work = &entity->work;

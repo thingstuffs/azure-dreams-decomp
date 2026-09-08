@@ -24,7 +24,7 @@ void func_80097844(void *arg0, s32 arg1)
     s32 current;
     s32 count;
     s32 step;
-    register s32 dividend ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 dividend ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (arg1 != 0) {
         dividend = 0x1000;

@@ -72,7 +72,7 @@ s32 func_801264AC(S_801264AC_2 *arg0) {
     arg0->unk_58 = &D_80129728;
     arg0->unk_54 = (s32)((S_801264AC_3 *)(&D_80129728))->unk_184;
     ret = 1;
-    ASM_KEEP(ret);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     return ret;
 }
 

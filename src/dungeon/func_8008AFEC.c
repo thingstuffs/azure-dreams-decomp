@@ -7,12 +7,12 @@ extern u16 D_80083168[];
 s32 func_8009074C(s16 arg0, u16 *arg1, u16 *arg2) {
     static void *const jt_keep[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     s32 temp_a0;
-    register s16 var_a3 ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s16 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 temp_t0;
-    register s32 temp_v1_2 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 var_v0_2;
     s32 var_v0_5;
-    register s32 var_v0_6 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_v0_6 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 temp_a2;
     u16 temp_v1;
     u16 var_v0;
@@ -38,7 +38,7 @@ jt_c2:
         goto block_19;
     }
     {
-        register s32 tail_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 tail_a3;
         tail_v0 = ((s32) (arg0 << 0x10) >> 7);
         tail_a3 = 0 - tail_v0;
@@ -47,9 +47,9 @@ jt_c2:
     }
 jt_c6:
     {
-        register s32 tail_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 tail_a3;
-        register s32 tail_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tail_v0 = (s16)arg0;
         tail_v1 = 1 - tail_v0;
         tail_a3 = tail_v1 << 9;
@@ -69,9 +69,9 @@ jt_c4:
     }
 jt_c12:
     {
-        register s32 tail_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 tail_a3;
-        register s32 tail_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tail_v0 = (s16)arg0;
         tail_v1 = 3 - tail_v0;
         tail_a3 = tail_v1 << 9;
@@ -91,8 +91,8 @@ jt_c8:
     }
 jt_c9:
     {
-        register s32 tail_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        register s32 tail_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 tail_a3;
         tail_v0 = (s16)arg0;
         tail_v1 = 5 - tail_v0;
@@ -114,8 +114,8 @@ entry_v0_minus_v1:
     goto block_19;
 jt_c3:
     {
-        register s32 tail_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 tail_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 tail_a3;
         tail_v0 = (s16)arg0;
         tail_v1 = 7 - tail_v0;
@@ -132,11 +132,11 @@ jt_c11:
 block_17:
     var_v0 = *arg1 & 0xFFF;
 block_18_c1:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 block_18_c3:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 block_18_c5:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 block_18_c7:
 block_18:
     *arg1 = var_v0;
@@ -173,17 +173,17 @@ block_25:
     }
     var_v0_5 = 0 - var_v0_5;
 block_27:
-    ASM_KEEP(var_a3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (var_v0_5 < 0x801) {
         goto block_28;
     }
     {
         u16 wrap_hi;
-        register u16 wrap_lo ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register u16 wrap_lo ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         wrap_hi = temp_a2 & 0xF000;
-        ASM_KEEP(wrap_hi);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(wrap_hi);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         wrap_lo = var_a3 & 0xFFF;
-        ASM_KEEP(wrap_lo);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(wrap_lo);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_a3 = wrap_hi | wrap_lo;
     }
     var_v0_6 = var_a3 << 0x10;

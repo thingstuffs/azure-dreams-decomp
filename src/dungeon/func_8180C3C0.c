@@ -196,9 +196,9 @@ void func_800253C0(void *arg0_in, void *arg1_in, void *arg2_in, void *arg3_in)
     void *arg2 = arg2_in;
     register void *arg3 = arg3_in;
     u8 *page = D_80083160;
-    register void *fa0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *fa0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 fa2;
-    register u8 *tp ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *tp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 state;
     u32 sp20;
 
@@ -255,7 +255,7 @@ l0_calls:
 
 
         do {
-            register void *object ASM_REG("$16") = ((S_800253C0_4 *)record)->unk_AC;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register void *object ASM_REG("$16") = ((S_800253C0_4 *)record)->unk_AC;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             if ((((S_800253C0_5 *)object)->unk_14 & mask) != 0) {
                 func_800ACB98(object, ((S_800253C0_5_pre *)object)[-1].unk_00,
                               ((S_800253C0_5_pre *)object)[-1].unk_04, object);
@@ -271,11 +271,11 @@ l0_calls:
         goto done;
     }
     {
-        register s32 i ASM_REG("$17") = 0;   /* MATCH pin: retail register colouring depends on it */
+        register s32 i ASM_REG("$17") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 mask = 0x100000;
         void *record = arg0;
         do {
-            register void *object ASM_REG("$16") = ((S_800253C0_4 *)record)->unk_AC;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register void *object ASM_REG("$16") = ((S_800253C0_4 *)record)->unk_AC;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             u16 angle;
             record = (u8 *)record + 4;
             i++;
@@ -285,20 +285,20 @@ l0_calls:
         } while (i < 2);
     }
     {
-        register s32 i ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+        register s32 i ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         void *record;
         u8 amount;
         s16 timer;
         s32 delta;
         u8 *amounts;
-        register s32 num ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 num ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *page_loop;
         s16 *table_x;
         s16 *table_y;
 
         ((S_800253C0_0 *)arg0)->unk_9B.n++;
         ((S_800253C0_0 *)arg0)->unk_96.v = 32;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         num = 32;
         amount = ((S_800253C0_6 *)page)->unk_A8;
         timer = ((S_800253C0_0 *)arg0)->unk_96.n;
@@ -310,17 +310,17 @@ l0_calls:
         page_loop = D_80083160;
         table_x = (s16 *)&D_8006CCD8;
         table_y = (s16 *)&D_8006CCE8;
-        ASM_KEEP(amounts);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(amounts);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800253C0_6 *)page)->unk_A8 = amount;
         amounts[1] = amount;
         amounts[2] = amount;
         do {
-            register void *object ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-            register void *prim ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
-            register s32 table_index ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-            register s32 x ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register void *object ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            register void *prim ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 table_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 delta;
-            register s32 old ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 old ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 dv;
 
             table_index = i << 11;
@@ -339,7 +339,7 @@ l0_calls:
             ((S_800253C0_9 *)prim)->unk_02.u = ((S_800253C0_9 *)prim)->unk_02.u + x / dv;
             x = (s32)((S_800253C0_8 *)arg2)->unk_25;
             {
-                register s32 tv ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 tv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 tv = table_y[table_index >> 1];
                 x = x + tv;
             }
@@ -372,7 +372,7 @@ l0_calls:
         }
         func_800A56E0(0x300);
         {
-        register s32 j ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+        register s32 j ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *page3b;
         s16 *table_x2;
         s16 *table_y2;
@@ -384,12 +384,12 @@ l0_calls:
         table_y2 = (s16 *)&D_8006CCE8;
         record2 = arg0;
         do {
-            register void *object ASM_REG("$16") = ((S_800253C0_12 *)record2)->unk_AC;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-            register void *prim ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+            register void *object ASM_REG("$16") = ((S_800253C0_12 *)record2)->unk_AC;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            register void *prim ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 table_index = ((j << 11) - ((S_800253C0_13 *)page3b)->unk_C8 + 0x100) >> 8;
             s32 x;
             s32 y;
-            ASM_KEEP_NV(table_index);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(table_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             table_index &= 0xE;
             x = (s32)((S_800253C0_8 *)arg2)->unk_24 + table_x2[table_index >> 1];
             prim = ((S_800253C0_5_pre *)object)[-1].unk_00;
@@ -401,7 +401,7 @@ l0_calls:
             j++;
         } while (j < 2);
         {
-            register s32 nv ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 16;
             (void)((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
@@ -420,7 +420,7 @@ l0_calls:
         func_80026C88(((S_800253C0_10 *)arg1)->unk_02, ((S_800253C0_10 *)arg1)->unk_06,
                       ((S_800253C0_10 *)arg1)->unk_0A.s, arg2);
         {
-            register s32 nv ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 32;
             (void)((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
@@ -432,8 +432,8 @@ l0_calls:
     {
         s16 timer = ((S_800253C0_0 *)arg0)->unk_96.n - 1;
         s32 i;
-        register void *record ASM_REG("$18");   /* MATCH pin: load-bearing for the whole function shape */
-        register void *object ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register void *record ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register void *object ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         ((S_800253C0_0 *)arg0)->unk_96.n = timer;
         if (timer > 0) {
@@ -442,8 +442,8 @@ l0_calls:
         i = 0;
         record = arg0;
         do {
-            register void *ca0 ASM_REG("$4") = arg1;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            register void *ca3 ASM_REG("$7") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register void *ca0 ASM_REG("$4") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            register void *ca3 ASM_REG("$7") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             object = ((S_800253C0_4 *)record)->unk_AC;
             record = (u8 *)record + 4;
             i++;
@@ -471,9 +471,9 @@ l0_calls:
             goto done;
         }
         {
-            register s32 nv ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 8;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             (void)((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
         }
@@ -493,10 +493,10 @@ l0_calls:
         goto done;
     }
     {
-        register s32 effect ASM_REG("$22") = func_800990FC();   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 effect ASM_REG("$22") = func_800990FC();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 text = func_8009929C(8, effect);
         s32 saved_text;
-        register s32 stv ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 stv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         text = func_80099734(((S_800253C0_0 *)arg0)->unk_AC, text);
         text = func_80099194(D_80025000, text);
         text = func_80099734(((S_800253C0_0 *)arg0)->unk_B0, text);
@@ -509,11 +509,11 @@ l0_calls:
             ((S_800253C0_1 *)arg3)->unk_60 = object;
             if (object != 0) {
                 s32 i = 0;
-                register void *record ASM_REG("$20") = arg0;   /* MATCH pin: load-bearing for the whole function shape */
+                register void *record ASM_REG("$20") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 L7_object_loop:
                 {
-                    register s32 call_i ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-                    register s32 shifted ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                    register s32 call_i ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                    register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     void *other;
                     shifted = i << 16;
                     call_i = shifted >> 16;
@@ -521,12 +521,12 @@ L7_object_loop:
                     func_800264D4(((S_800253C0_14_pre *)other)[-1].unk_00, other,
                                   call_i, object == other);
                     if (object == ((S_800253C0_4 *)record)->unk_AC) {
-                        register u8 *tb ASM_REG("$12") = D_80083160;   /* MATCH pin: keeps a constant in a register as retail does */
+                        register u8 *tb ASM_REG("$12") = D_80083160;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                         s32 angle;
                         s32 index;
                         s32 x;
                         s32 y;
-                        ASM_USE_NV(tb);   /* MATCH pin: retail delay-slot fill depends on it */
+                        ASM_USE_NV(tb);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                         angle = ((S_800253C0_15 *)tb)->unk_C8;
                         angle = -angle;
                         index = ((angle + 0x500) >> 8) & 0xE;
@@ -545,18 +545,18 @@ L7_object_loop:
                     goto L7_object_loop;
                 }
                 {
-                    register s32 j ASM_REG("$17") = 0;   /* MATCH pin: retail register colouring depends on it */
+                    register s32 j ASM_REG("$17") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     register s32 c32 = 32;
                     register s32 c12 = 12;
                     void *record2 = arg0;
                     do {
-                        register void *object2 ASM_REG("$16") = ((S_800253C0_12 *)record2)->unk_AC;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-                        register void *child ASM_REG("$5") = ((S_800253C0_16_pre *)object2)[-1].unk_00;   /* MATCH pin: load-bearing for the whole function shape */
+                        register void *object2 ASM_REG("$16") = ((S_800253C0_12 *)record2)->unk_AC;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                        register void *child ASM_REG("$5") = ((S_800253C0_16_pre *)object2)[-1].unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         u16 child_y = ((S_800253C0_17 *)child)->unk_12.u;
                         j++;
                         ((S_800253C0_17 *)child)->unk_10 = c32;
                         ((S_800253C0_17 *)child)->unk_14.s = c12;
-                        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                         ((S_800253C0_17 *)child)->unk_12.s = child_y - 128;
                         record2 = (u8 *)record2 + 4;
                     } while (j < 2);
@@ -569,7 +569,7 @@ L7_object_loop:
         }
         saved_text = func_8009929C(10, saved_text);
         saved_text = func_80099194(D_80025028, saved_text);
-        ASM_KEEP(saved_text);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(saved_text);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         stv = ((S_800253C0_0 *)arg0)->unk_9B.n;
         ((S_800253C0_0 *)arg0)->unk_96.n = 32;
         stv = stv + 2;
@@ -583,13 +583,13 @@ L_AC4:
     case 8:
     func_80025FF4(((S_800253C0_0 *)arg0)->unk_AC, ((S_800253C0_0 *)arg0)->unk_B0);
     {
-        register s32 i ASM_REG("$17") = 0;   /* MATCH pin: retail register colouring depends on it */
+        register s32 i ASM_REG("$17") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         void *record = arg0;
         do {
-            register void *object ASM_REG("$16") = ((S_800253C0_4 *)record)->unk_AC;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register void *object ASM_REG("$16") = ((S_800253C0_4 *)record)->unk_AC;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             void *child = ((S_800253C0_5_pre *)object)[-1].unk_04;
             u32 x = ((S_800253C0_17 *)child)->unk_0C.at00.v;
-            register u32 y ASM_REG("$3") = ((S_800253C0_17 *)child)->unk_0C.at01.v;   /* MATCH pin: load-bearing for the whole function shape */
+            register u32 y ASM_REG("$3") = ((S_800253C0_17 *)child)->unk_0C.at01.v;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u32 z;
             x = x - (x >> 1);
             ((S_800253C0_17 *)child)->unk_0C.at00.v = x;
@@ -623,8 +623,8 @@ L_AC4:
             void **q;
             void **q3;
             void *new_object;
-            register s32 raw ASM_REG("$22");   /* MATCH pin: load-bearing for the whole function shape */
-            register s32 eff2 ASM_REG("$18");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 raw ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 eff2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 effect;
 
             raw = func_800990FC();
@@ -668,10 +668,10 @@ L_AC4:
             register void *object ASM_REG("$16") =
                 ((S_800253C0_18 *)((void *)((i << 2) + (s32)arg0)))->unk_AC;
             if (object != 0) {
-                register void *prim ASM_REG("$8") = ((S_800253C0_5_pre *)object)[-1].unk_00;   /* MATCH pin: load-bearing for the whole function shape */
-                register void *child ASM_REG("$5") = ((S_800253C0_5_pre *)object)[-1].unk_04;   /* MATCH pin: load-bearing for the whole function shape */
+                register void *prim ASM_REG("$8") = ((S_800253C0_5_pre *)object)[-1].unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register void *child ASM_REG("$5") = ((S_800253C0_5_pre *)object)[-1].unk_04;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 index;
-                register u8 *tyb ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *tyb ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 sz;
                 s32 x;
                 s32 y;
@@ -697,7 +697,7 @@ L_AC4:
             i++;
         } while (i < 2);
         {
-            register s32 nv ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 64;
             (void)((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
@@ -713,9 +713,9 @@ L_AC4:
             goto done;
         }
         {
-            register s32 nv ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 32;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             (void)((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
         }
@@ -724,14 +724,14 @@ L_AC4:
 
     case 10:
     {
-        register s32 i ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+        register s32 i ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         void *record;
-        register u8 *amounts ASM_REG("$18");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *amounts ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 num;
-        register void *object ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-        register void *prim ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+        register void *object ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        register void *prim ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         void *child;
-        register void *record2 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register void *record2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 timer;
         s32 step;
         s32 amount;
@@ -754,8 +754,8 @@ L_AC4:
         do {
             object = ((S_800253C0_4 *)record)->unk_AC;
             if (object != 0) {
-                register s32 xv ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-                register s32 ov ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 xv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s32 ov ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 child = ((S_800253C0_5_pre *)object)[-1].unk_04;
                 prim = ((S_800253C0_5_pre *)object)[-1].unk_00;
                 xv = (s32)((S_800253C0_17 *)child)->unk_24;
@@ -765,7 +765,7 @@ L_AC4:
                 ((S_800253C0_9 *)prim)->unk_02.u = ((S_800253C0_9 *)prim)->unk_02.u +
                                       xv / ((S_800253C0_0 *)arg0)->unk_96.n;
                 xv = (s32)((S_800253C0_17 *)child)->unk_25;
-                ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 xv = xv << 6;
                 ov = ((S_800253C0_9 *)prim)->unk_06.s - 0x20;
                 xv = xv - ov;

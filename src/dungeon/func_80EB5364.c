@@ -83,10 +83,10 @@ typedef struct S_80170B64_3 {
 
 void func_80170B64(void *in0, void *in1, void *in2)
 {
-    register void *p0 ASM_REG("$17") = in0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *p1 ASM_REG("$21") = in1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *p2 ASM_REG("$20") = in2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *work ASM_REG("$18") = p0;   /* MATCH pin: retail delay-slot contents depend on it */
+    register void *p0 ASM_REG("$17") = in0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *p1 ASM_REG("$21") = in1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *p2 ASM_REG("$20") = in2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *work ASM_REG("$18") = p0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     M2C_UNK (*temp_v0)(void *, void *, void *, void *);
     M2C_UNK (*temp_v1)(void *, void *, void *, void *);
     u8 *var_v0;
@@ -119,7 +119,7 @@ void func_80170B64(void *in0, void *in1, void *in2)
         void *raw0 = in0;
         temp_v1 = ((S_80170B64_0 *)arg0)->unk_8C;
         if (temp_v1 == &D_801711A4) {
-            ASM_KEEP(raw0);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(raw0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             temp_v1(raw0, arg1, arg2, raw0);
             return;
         }
@@ -127,9 +127,9 @@ void func_80170B64(void *in0, void *in1, void *in2)
         return;
     }
 
-    ASM_KEEP(p0);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(p1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP(p2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     temp_s0 = (s8)((S_80170B64_0 *)arg0)->unk_6D;
     if (func_800A9E70(arg0, arg1, arg2, arg0) == 0) {
@@ -153,7 +153,7 @@ void func_80170B64(void *in0, void *in1, void *in2)
             return;
         }
         ((S_80170B64_0 *)arg0)->unk_9D.s = 0;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_80170B64_0 *)arg0)->unk_90.at00.v = ((S_80170B64_0 *)arg0)->unk_90.at00.v +
             ((S_80170B64_1 *)arg1)->unk_14;
         temp_v1_2 = ((S_80170B64_2 *)arg2)->unk_14;
@@ -168,7 +168,7 @@ void func_80170B64(void *in0, void *in1, void *in2)
             if (D_8006CCF8[temp_s3] != 0) {
 #ifdef __mips__
                 tail_flag = ((S_80170B64_2 *)arg2)->unk_14 | 1;
-                ASM_TAILSLOT_PIN(tail_flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN(tail_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
                 func_80170DA0();
                 return;
@@ -180,7 +180,7 @@ void func_80170B64(void *in0, void *in1, void *in2)
                     func_800478B8(arg2);
 #ifdef __mips__
                     tail_page = 0xF7FF0000;
-                    ASM_PAGEBASE_PIN(tail_page);   /* MATCH pin: retail delay-slot contents depend on it */
+                    ASM_PAGEBASE_PIN(tail_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 #endif
                     func_80170E0C();
                     return;

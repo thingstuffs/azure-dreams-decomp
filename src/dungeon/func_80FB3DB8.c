@@ -42,7 +42,7 @@ extern s32 D_800814A0;
 extern s32 D_80083460;
 
 void func_801735B8(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register void *held_arg2 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *held_arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     M2C_UNK *global_ptr;
     s32 state;
     s32 flags;
@@ -119,7 +119,7 @@ void func_801735B8(void *arg0, void *arg1, void *arg2, void *arg3) {
     default:
         return;
     }
-    ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: A natural three-case switch preserves the retail dispatch and fallthrough block order.

@@ -71,7 +71,7 @@ void func_800C5FA8(u8 *w) {
     s32 x, y, x1, y1, k;
     s32 t16;
     s32 mode;
-    register s32 t ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 t ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 rv;
     s32 cc;
     s32 ic;
@@ -191,7 +191,7 @@ void func_800C5FA8(u8 *w) {
         rv = func_800A6D30() & 0xFFFF;
         cnt = D_80081468;
         cc = *(s16 *)(cnt + 6);
-        ASM_KEEP_NV(cc);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(cc);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         st = cc;
         phase = rv % st;
         if (st > 0) {

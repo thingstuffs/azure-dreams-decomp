@@ -22,9 +22,9 @@ s32 func_800A365C(S_800A365C_0 *arg0, S_800A365C_1 *arg1, s32 arg2) {
     s32 var_v1;
 
     var_v1 = arg0->unk_24 - arg1->unk_24;
-    ASM_USE(arg0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     var_v0 = arg0->unk_25;
-    ASM_USE2(arg0, arg2);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE2(arg0, arg2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     var_a0 = arg1->unk_25;
     if (var_v1 < 0) {
         var_v1 = 0 - var_v1;

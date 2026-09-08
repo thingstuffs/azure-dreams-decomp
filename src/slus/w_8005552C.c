@@ -10,8 +10,8 @@ extern void func_80055730(s32 a0, s32 a1);
    else→1; then func_8005405C and optional func_80055730/func_8005560C. */
 void func_8005552C(s32 arg0) {
     /* Pin keeps andi a0,a0 (not CSE-from-s1) and value temps in $v0. */
-    register s32 t ASM_REG("$4") = arg0;   /* MATCH pin: slus-diff */
-    register s32 v ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 t ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 v ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 s1;
     s32 code;
     s32 pa0;

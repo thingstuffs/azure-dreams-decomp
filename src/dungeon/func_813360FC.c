@@ -58,10 +58,10 @@ extern u8 D_80173AD0[];
 
 void func_8016D0FC(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
-    register void *object ASM_REG("$16") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *object ASM_REG("$16") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
-    register u16 count ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *table_direct ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u16 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *table_direct ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *actor = arg3;
     u8 *table_compare;
     u8 *current;

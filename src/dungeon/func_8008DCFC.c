@@ -175,7 +175,7 @@ void func_8009345C(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *actor = arg0;
     void *map = arg1;
     void *entity = arg2;
-    register void *ctx ASM_REG("$19") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *ctx ASM_REG("$19") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     M2C_UNK *var_a0;
     M2C_UNK *var_a0_2;
@@ -192,7 +192,7 @@ void func_8009345C(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 temp_idx;
     s32 temp_slot;
     u8 temp_v1;
-    register u8 var_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *temp_v0_5;
     void *temp_case0_ptr;
     void *temp_case2_ptr;
@@ -343,7 +343,7 @@ block_27:
     func_800A56E0(0x704);
 block_28:
     var_v0 = ((S_8009345C_0 *)actor)->unk_9B;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_8009345C_0 *)actor)->unk_96 = 0x10U;
     goto block_34;
 jt_c7:

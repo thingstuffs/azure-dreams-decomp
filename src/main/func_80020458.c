@@ -54,8 +54,8 @@ typedef struct S_80020458_1 {
 } S_80020458_1;   /* temp_a2_2 in func_80020458 */
 
 void func_80020458(S_80020458_2 *arg0) {
-    register S_80020458_0 *temp_a2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
-    register S_80020458_1 *temp_a2_2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register S_80020458_0 *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register S_80020458_1 *temp_a2_2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     temp_a2 = ((S_80020458_5 *)(arg0->unk_60))->unk_00;
     ((S_80020458_6 *)(((S_80020458_3 *)temp_a2)->unk_04))->unk_08 = 0x40;

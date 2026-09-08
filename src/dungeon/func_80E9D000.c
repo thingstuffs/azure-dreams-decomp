@@ -74,11 +74,11 @@ BODY_STORAGE s32 BODY_NAME(void *arg0, void *arg1) {
         s32 selected;
 
         destination = (s32 *)0x80160000;
-        ASM_KEEP(destination);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(destination);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         selected = D_800E3548[result];
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         dead_destination = destination + 3065;
-        ASM_KEEP(dead_destination);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(dead_destination);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         destination[3065] = selected;
         D_800E3548[result] = 0;
         func_8015EADC(selected, destination);
@@ -96,9 +96,9 @@ BODY_STORAGE s32 BODY_NAME(void *arg0, void *arg1) {
         }
         {
 #ifdef __mips__
-            register s32 i ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register s32 i ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             s16 count;
-            register s32 *scan ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register s32 *scan ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #else
             s32 i;
             s16 count;
@@ -133,20 +133,20 @@ BODY_STORAGE s32 BODY_NAME(void *arg0, void *arg1) {
                 s32 loaded;
                 s32 *destination;
 #ifdef __mips__
-                register s32 tail_value ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+                register s32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #else
                 s32 tail_value;
 #endif
                 value = (u8 *)(offset + 0x80010248);
                 loaded = *(s32 *)value;
-                ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 destination = (s32 *)0x80160000;
-                ASM_KEEP(destination);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP(destination);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 destination[3065] = loaded;
                 destination += 3065;
                 func_80098B38(value, entry);
                 tail_value = (s32)destination;
-                ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_8015EADC();
                 __builtin_unreachable();
             }
@@ -161,7 +161,7 @@ BODY_STORAGE s32 BODY_NAME(void *arg0, void *arg1) {
     {
 #ifdef __mips__
         s32 *destination;
-        register s32 *dead_destination ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+        register s32 *dead_destination ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #else
         s32 *destination;
         s32 *dead_destination;
@@ -169,18 +169,18 @@ BODY_STORAGE s32 BODY_NAME(void *arg0, void *arg1) {
         s32 selected;
 
         destination = (s32 *)0x80160000;
-        ASM_KEEP(destination);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(destination);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         selected = *(s32 *)((u8 *)found + 0x48);
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         dead_destination = destination + 3065;
-        ASM_KEEP(dead_destination);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(dead_destination);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         destination[3065] = selected;
         *(s32 *)((u8 *)found + 0x48) = 0;
         func_8015EADC(selected, found);
         __builtin_unreachable();
     }
 entry_zero:
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 return_zero:
     return 0;
 }

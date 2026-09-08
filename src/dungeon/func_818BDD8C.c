@@ -81,7 +81,7 @@ void *func_818BDD8C(S_818BDD8C_2 *arg0, S_818BDD8C_4 *arg1)
     s32 temp_a2;
     s32 temp_a3;
     s32 other_flags;
-    register s32 temp_v1_2 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_818BDD8C_3 *temp_s0;
     void *temp_v0;
     S_818BDD8C_1 *temp_v1;
@@ -103,30 +103,30 @@ void *func_818BDD8C(S_818BDD8C_2 *arg0, S_818BDD8C_4 *arg1)
         temp_s0->unk_08 = &D_80025DF8;
         temp_v1_2 = temp_s0->unk_14 | 0xC;
         other_flags = temp_s0->unk_10 | 0x20;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_s0->unk_14 = temp_v1_2;
         temp_v1_2 |= 0x100;
         temp_s0->unk_10 = other_flags;
         temp_s0->unk_14 = temp_v1_2;
         {
-            register void *call_obj ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 scale;
 
             temp_s0->unk_1A =
                 (s16)(rand() % 0x1000);
             call_obj = temp_v0;
             scale = 0x400;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_s0->unk_1E = scale;
             temp_s0->unk_1C = scale;
             func_8004491C(call_obj, &D_80045340);
         }
         temp_v1_4 = ((S_818BDD8C_0 *)temp_v0)->unk_08;
-        ASM_KEEP(temp_v1_4);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(temp_v1_4);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
-            register void *v0pin ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register void *v0pin ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             v0pin = temp_v0;
-            ASM_KEEP(v0pin);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP(v0pin);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         }
         temp_a0 = arg1->unk_00;
         temp_a1 = arg1->unk_04;

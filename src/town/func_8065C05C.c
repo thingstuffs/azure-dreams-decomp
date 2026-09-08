@@ -8,11 +8,11 @@ void func_8065C05C(void *arg0) {
     register void *base;
     s32 count;
     register s32 index;
-    register s32 tag ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *page ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *base_copy ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 tag ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *page ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *base_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 end;
-    register void *out ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *out ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     base = arg0;
     count = 0;
@@ -38,5 +38,5 @@ void func_8065C05C(void *arg0) {
     end += (u32)base_copy;
     FIELD((void *)end, s8 *, 1) = 0;
     FIELD((void *)end, s8 *, 0) = 0;
-    ASM_USE2(base_copy, end);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_USE2(base_copy, end);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 }

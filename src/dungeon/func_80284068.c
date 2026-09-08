@@ -61,7 +61,7 @@ void func_80017068(void)
   {
     clear[0x21C0] = 0;
     clear[0x21C1] = 0;
-    ASM_USE_NV(i);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_USE_NV(i);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     clear -= 2;
   }
   while ((--i) >= 0);

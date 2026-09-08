@@ -28,7 +28,7 @@ unsigned int func_800CEE0C(void *arg0, s16 arg1)
     page = (u8 *)0x80080000;
 #endif
     entry_base = D_800E3648;
-    ASM_KEEP(page);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     entry = (u8 *)(((s32)(arg1 << 0x10) >> 0xE) + (u32)entry_base);
     state = (u16 *)(page + 0x3460);
     if ((s16)(state[14] + *(s8 *)(entry + 2)) >= 0x21) {

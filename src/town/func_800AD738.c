@@ -18,7 +18,7 @@ s32 func_800AAE98(Rec_func_800AAE98_arg0 *arg0) {
     if ((u32) (temp_v1 - 0xCE) < 3U) {
         return 0x18;
     }
-    ASM_KEEP(temp_v1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return 0x60;
 }
 

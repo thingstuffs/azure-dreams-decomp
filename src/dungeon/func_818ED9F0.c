@@ -32,14 +32,14 @@ void func_800251F0(void *arg0)
         &&case_0, &&case_1, &&case_2, &&case_2,
         &&case_2, &&case_2, &&case_2, &&case_2
     };
-    register u8 *page ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *arg1;
     u16 old_counter;
     s32 i;
 
     arg1 = arg0;
     page = (u8 *)0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     old_counter = ((S_800251F0_0 *)arg1)->unk_02.s;
     ((S_800251F0_1 *)page)->unk_6428 = 1;
     ((S_800251F0_0 *)arg1)->unk_02.s = old_counter - 1;

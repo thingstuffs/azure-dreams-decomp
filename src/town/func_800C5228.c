@@ -23,21 +23,21 @@ typedef struct S_800C2988_1 {
 
 void func_800C2988(void *arg0, void *arg1) {
     S_800C2988_1 *object = arg0;
-    register S_800C2988_0 *motion ASM_REG("$16") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+    register S_800C2988_0 *motion ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (D_8006ADD4 == 0x17000C) {
         u32 page = 0xFF600000;
 
-        ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800C29C0();
         return;
     }
     motion->unk_08 = 0xFFE00000;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_8008F074(object, motion, func_800C296C(0));
     object->unk_50 = &D_800C2A10;
     object->unk_16 = (s16) ((object->unk_72 - 0x800) & 0xFFF);
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: Guarded s1/s0 pins encode the retail arg0/arg1 callee-saved roles and 0x20 frame.

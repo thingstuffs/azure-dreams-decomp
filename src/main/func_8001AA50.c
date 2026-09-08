@@ -14,10 +14,10 @@ s32 func_8001AA50(s32 arg0) {
     register s32 sum ASM_REG("$3"); /* v1 */
     register Entry *p ASM_REG("$5"); /* a1 */
     s32 t;   /* v0 */
-    register s32 val ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 val ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     i = 0;
-    ASM_KEEP(i);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     sum = 0;
     if (arg0 > 0) {
         p = D_80409290;

@@ -3,7 +3,7 @@
 extern u8 D_800D2644[];
 
 void func_800B8A9C(void) {
-    register s32 i ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *state;
     u8 *page;
     u8 *base;

@@ -52,7 +52,7 @@ void func_8092192C(S_8092192C_2 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     S_8092192C_1 *temp_a0;
     S_8092192C_4 *temp_a0_2;
     S_8092192C_0 *temp_v0;
-    register S_8092192C_3 *temp_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register S_8092192C_3 *temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 temp_page;
     s32 temp_input0;
     s32 temp_input4;
@@ -68,7 +68,7 @@ void func_8092192C(S_8092192C_2 *arg0, s32 arg1, s32 arg2, s32 arg3) {
         temp_v0_2 = temp_a0->unk_14.s;
         temp_v0_2 = temp_v0_2 | 0xC;
         temp_a0->unk_14.u = temp_v0_2;
-        ASM_KEEP(temp_v0_2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_v0_2 = temp_v0_2 | 2;
         temp_a0->unk_14.u = temp_v0_2;
         temp_v1 = temp_v0->unk_08;
@@ -76,9 +76,9 @@ void func_8092192C(S_8092192C_2 *arg0, s32 arg1, s32 arg2, s32 arg3) {
         temp_page = 0x800E0000;
         temp_v1->unk_00.at00.v = temp_input0;
         temp_input4 = (s32) arg0->unk_04;
-        ASM_KEEP_DEP_NV(temp_page, temp_input4);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_DEP_NV(temp_page, temp_input4);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_page -= 5008;
-        ASM_KEEP(temp_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_v1->unk_04.at00.v = temp_input4;
         temp_input8 = (s32) arg0->unk_08;
         temp_v1->unk_00.at02.v = (u16) (temp_v1->unk_00.at02.v + arg1);

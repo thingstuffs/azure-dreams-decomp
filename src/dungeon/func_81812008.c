@@ -10,12 +10,12 @@ typedef struct {
 } Entry19;
 
 s32 func_80027008(s32 arg0, s32 arg1, s32 arg2) {
-    register s32 held_arg0 ASM_REG("$22") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg0 ASM_REG("$22") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 temp_a1;
     s32 temp_v0;
     s32 var_s0;
     s32 var_s1;
-    register s32 var_s2 ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_s3;
     Entry19 *base;
 
@@ -27,12 +27,12 @@ s32 func_80027008(s32 arg0, s32 arg1, s32 arg2) {
         goto end;
     }
     temp_a1 = var_s0 * 8;
-    ASM_KEEP(temp_a1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     var_s3 -= temp_a1;
     if (var_s3 >= 9) {
         var_s3 = 8;
     }
-    ASM_KEEP(held_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     var_s0 = func_80026EC0(held_arg0, temp_a1);
     var_s1 = 0;
     if (var_s3 > 0) {

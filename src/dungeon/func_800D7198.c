@@ -19,7 +19,7 @@ void func_800DC8F8(u8 *arg0) {
     do {
         u8 *call_arg = arg0;
 
-        ASM_KEEP(call_arg);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         callback = *func++;
         callback(call_arg, *(s32 *)(arg0 + 0x3C) + i * 0x10);
         i++;

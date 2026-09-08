@@ -63,7 +63,7 @@ void func_800A75E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     void *object;
     u8 *body;
     S_800A75E4_3 *part;
-    register s32 *value_slot ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 *value_slot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_800A75E4_2 *part_data;
 
     saved_arg1 = arg1;
@@ -84,10 +84,10 @@ void func_800A75E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     body = (u8 *)object + 0x20;
     if (object != NULL) {
         call_arg0 = body;
-        ASM_KEEP(call_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         entry = D_800D0E24;
         value_slot = (s32 *)(((u32)saved_arg1 << 2) + (u32)entry);
-        ASM_KEEP(value_slot);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(value_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         part = ((S_800A75E4_1 *)object)->unk_08;
         part_data = ((S_800A75E4_1 *)object)->unk_0C;
         part_data->unk_08 = *value_slot;
@@ -99,10 +99,10 @@ void func_800A75E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         ((S_800A75E4_4 *)body)->unk_96 = saved_arg2;
         ((S_800A75E4_4 *)body)->unk_50 = D_800D0E3C[saved_arg2];
     }
-    ASM_KEEP(saved_arg1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP(saved_arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(saved_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(part);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: Pinned argument/call registers reproduce the retail 0x28 frame and saved-register roles.

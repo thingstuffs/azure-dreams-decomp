@@ -61,10 +61,10 @@ void func_8016FAFC(s32 arg0)
 {
     u8 *obj;
     u8 *part;
-    register u8 *call_obj ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u8 *sprite ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *copy_page ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *copy_src ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *sprite ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *store_page;
     u8 *dest;
     u8 *coords;
@@ -73,7 +73,7 @@ void func_8016FAFC(s32 arg0)
     if (obj != NULL) {
         call_obj = obj;
         part = obj + 0x20;
-        ASM_KEEP(part);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_8016FAFC_0 *)part)->unk_18 = 0;
         ((S_8016FAFC_0 *)part)->unk_1C = arg0;
         (*(void * *)((u8 *)obj + 0x10)) = D_8016F99C;
@@ -96,25 +96,25 @@ void func_8016FAFC(s32 arg0)
 
         if (arg0 == 0) {
             copy_page = (u8 *)0x80170000;
-            ASM_KEEP(copy_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             copy_src = copy_page + 0x3B1C;
-            ASM_KEEP(copy_src);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)((u8 *)copy_src + 0));
-            ASM_KEEP(copy_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             store_page = (u8 *)0x80170000;
-            ASM_KEEP(store_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(store_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_8016FAFC_3 *)store_page)->unk_5D58 = obj;
         } else {
             copy_page = (u8 *)0x80170000;
-            ASM_KEEP(copy_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             copy_src = copy_page + 0x3B28;
-            ASM_KEEP(copy_src);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)((u8 *)copy_src + 0));
-            ASM_KEEP(copy_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             store_page = (u8 *)0x80170000;
-            ASM_KEEP(store_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(store_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_8016FAFC_3 *)store_page)->unk_5D5C = obj;
         }
         dest = part + 0x28;

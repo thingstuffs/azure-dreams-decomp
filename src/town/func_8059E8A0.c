@@ -4,7 +4,7 @@ extern s32 func_80018964(s32);
 
 s32 func_800168A0(void) {
     s32 result;
-    register s32 return_value ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 return_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     if (func_80018964(0x1200) != 0) {
         goto return_zero;

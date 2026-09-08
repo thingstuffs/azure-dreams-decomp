@@ -4,7 +4,7 @@ extern void * volatile D_80016000;
 
 void func_80016CCC(s32 arg0) {
     s32 value = arg0;
-    register s32 quotient ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 mask;
     s32 *word;
     void *object;

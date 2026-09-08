@@ -15,17 +15,17 @@ extern void func_8001672C(void) __attribute__((noreturn));
 extern void func_8001672C_tail(void) __asm__("func_8001672C");
 
 s32 func_8094D708(Func8094D708Object *arg0) {
-    register s32 i ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 i ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Func8094D708Callback *base;
-    register u8 *address ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *address ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *call_arg;
     Func8094D708Callback callback;
 
     func_800166A4(arg0->field14, arg0->field1A);
     i = 0;
-    ASM_KEEP(i);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     call_arg = arg0;
-    ASM_KEEP(arg0);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     base = arg0->callbacks;
     address = (u8 *)(i << 4);
     address = (u8 *)((s32)address + (s32)base);
@@ -35,5 +35,5 @@ s32 func_8094D708(Func8094D708Object *arg0) {
     }
     func_8001672C_tail();
     i++;
-    ASM_KEEP(i);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 }

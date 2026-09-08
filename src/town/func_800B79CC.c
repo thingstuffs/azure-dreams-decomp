@@ -5,7 +5,7 @@
 static volatile s32 hidden_v1;
 #elif __GNUC__ < 3
 #define LEGACY_ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
-register s32 hidden_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+register s32 hidden_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #else
 #define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
 s32 hidden_v1;

@@ -72,15 +72,15 @@ void func_80173204(S_80173204_0 *arg0, s32 arg1, S_80173204_1 *arg2, Rec_D_800E3
     s32 state;
     s32 flags;
     s8 floor;
-    register u8 *status ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 mode ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *status ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 mode ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
     u8 *floor_base;
     u8 *status_page;
-    register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     mode = arg1;
-    ASM_KEEP_NV(mode);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (arg0->unk_9B < 2U) {
         if (arg2->unk_0C.u8 < 0x33U) {
             goto dispatch;
@@ -141,9 +141,9 @@ state_1:
     }
 
     status_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(status_page);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     status = status_page + 0x3460;
-    ASM_USE2(status_page, status);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE2(status_page, status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (((S_80173204_4 *)status)->unk_02 & 0x1000) {
         goto done;
     }
@@ -217,7 +217,7 @@ second_check:
     }
 increment_counter:
     {
-        register u8 *counter ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+        register u8 *counter ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         counter = D_80083460;
         ((S_80173204_7 *)counter)->unk_0A++;

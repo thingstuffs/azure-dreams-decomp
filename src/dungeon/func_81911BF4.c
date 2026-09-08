@@ -40,18 +40,18 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
     s32 phase;
     volatile Obj81911BF4 *out;
     s32 i;
-    register u8 fade45 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 fade45 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 value;
     u16 step45;
     u16 scale45;
     u16 duration_value;
     s16 sum;
     s32 signed_sum;
-    register s32 modulo45 ASM_REG("$9");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 modulo45 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 byte_value;
     s32 state;
 
-    ASM_KEEP(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj->inner->field14++;
     obj->timer++;
 
@@ -87,8 +87,8 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
             return;
         }
         {
-            register u16 duration_c1 ASM_REG("$3") = 4;   /* MATCH pin: load-bearing for the whole function shape */
-            ASM_KEEP(duration_c1);   /* MATCH pin: retail delay-slot fill depends on it */
+            register u16 duration_c1 ASM_REG("$3") = 4;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(duration_c1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             (void)*(volatile u16 *)&obj->state;
             obj->timer = 0;
             obj->duration = duration_c1;
@@ -104,7 +104,7 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
         }
         {
             u16 value_c2 = 3;
-            register u16 duration_c2 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register u16 duration_c2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             obj->field12 = value_c2;
             value_c2 = *(volatile u16 *)&obj->state;
             duration_c2 = 0x10;
@@ -135,7 +135,7 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
         sum += step45;
         signed_sum = (s16)sum;
         modulo45 = signed_sum;
-        ASM_USE(modulo45);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_USE(modulo45);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         scale45 = (u16)obj->scale;
         fade45 += 0x0C;
         obj->field42 = fade45;
@@ -152,7 +152,7 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
         func_8002539C(obj);
         {
             u16 state_c4;
-            register u16 duration_c4 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register u16 duration_c4 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             state_c4 = *(volatile u16 *)&obj->state;
             duration_c4 = 0x20;
             obj->timer = 0;
@@ -169,7 +169,7 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
         sum += step45;
         signed_sum = (s16)sum;
         modulo45 = signed_sum;
-        ASM_USE(modulo45);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_USE(modulo45);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         scale45 = (u16)obj->scale;
         fade45 -= 6;
         obj->field42 = fade45;

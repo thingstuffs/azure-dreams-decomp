@@ -97,7 +97,7 @@ void func_80045CC4(void *arg0, s32 arg1, S_80045CC4_Arg2 *arg2, s16 arg3)
     s32 inside2;
     s32 inside3;
     s32 acc;
-    register u32 addr_mask ASM_REG("$22");   /* MATCH pin: slus-diff */
+    register u32 addr_mask ASM_REG("$22");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u16 flags;
     u16 tex;
     u8 *desc;
@@ -106,7 +106,7 @@ void func_80045CC4(void *arg0, s32 arg1, S_80045CC4_Arg2 *arg2, s16 arg3)
     void **root;
     void *global_base;
     u8 b;
-    register u8 value ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register u8 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     root = D_80083160;
     global_base = root[0];
@@ -178,8 +178,8 @@ loop:
             s32 raw = data[-6];
             u16 center = SP_U16(0x108);
             s32 extent = SP_U16(0x10);
-            ASM_KEEP_DEP_NV(raw, center);   /* MATCH pin: slus-diff */
-            ASM_KEEP_DEP_NV(raw, extent);   /* MATCH pin: slus-diff */
+            ASM_KEEP_DEP_NV(raw, center);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(raw, extent);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             x = -((raw << 24) >> 24) - center;
             SP_S16(0x80) = x;
             SP_S16(0x70) = x;
@@ -188,8 +188,8 @@ loop:
             s32 raw = data[-6];
             u16 center = SP_U16(0x108);
             s32 extent = SP_U16(0x10);
-            ASM_KEEP_DEP_NV(raw, center);   /* MATCH pin: slus-diff */
-            ASM_KEEP_DEP_NV(raw, extent);   /* MATCH pin: slus-diff */
+            ASM_KEEP_DEP_NV(raw, center);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(raw, extent);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             x = ((raw << 24) >> 24) - center;
             SP_S16(0x80) = x;
             SP_S16(0x70) = x;
@@ -202,8 +202,8 @@ loop:
             s32 raw = data[-5];
             u16 center = SP_U16(0x10A);
             s32 extent = SP_U16(0x14);
-            ASM_KEEP_DEP_NV(raw, center);   /* MATCH pin: slus-diff */
-            ASM_KEEP_DEP_NV(raw, extent);   /* MATCH pin: slus-diff */
+            ASM_KEEP_DEP_NV(raw, center);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(raw, extent);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             y = -((raw << 24) >> 24) - center;
             SP_S16(0x7A) = y;
             SP_S16(0x72) = y;
@@ -212,8 +212,8 @@ loop:
             s32 raw = data[-5];
             u16 center = SP_U16(0x10A);
             s32 extent = SP_U16(0x14);
-            ASM_KEEP_DEP_NV(raw, center);   /* MATCH pin: slus-diff */
-            ASM_KEEP_DEP_NV(raw, extent);   /* MATCH pin: slus-diff */
+            ASM_KEEP_DEP_NV(raw, center);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(raw, extent);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             y = ((raw << 24) >> 24) - center;
             SP_S16(0x7A) = y;
             SP_S16(0x72) = y;
@@ -222,7 +222,7 @@ loop:
         SP_S16(0x8A) = y;
         SP_S16(0x82) = y;
 
-        ASM_KEEP(spad);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(spad);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         depth = RotAverage4(
             spad + 0x70, spad + 0x78,
             spad + 0x80, spad + 0x88,
@@ -251,7 +251,7 @@ loop:
             if ((u32)((((S_80045CC4_0 *)poly)->unk_14 + 0x20) & 0xFFFF) < 0x181U) {
                 {
                     u32 m = (((S_80045CC4_0 *)poly)->unk_16 + 0x20) & 0xFFFF;
-                    ASM_USE_NV(inside2);   /* MATCH pin: slus-diff */
+                    ASM_USE_NV(inside2);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     inside2 = m < 0x121U;
                 }
             }
@@ -260,7 +260,7 @@ loop:
             if ((u32)((((S_80045CC4_0 *)poly)->unk_1C.u + 0x20) & 0xFFFF) < 0x181U) {
                 {
                     u32 m = (((S_80045CC4_0 *)poly)->unk_1E.u + 0x20) & 0xFFFF;
-                    ASM_USE_NV(inside3);   /* MATCH pin: slus-diff */
+                    ASM_USE_NV(inside3);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     inside3 = m < 0x121U;
                 }
             }
@@ -270,7 +270,7 @@ loop:
                 *(volatile u16 *)&arg2->unk14 &= 0x7FFF;
 
                 {
-                    register s32 sum_x ASM_REG("$2");   /* MATCH pin: slus-diff */
+                    register s32 sum_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     s32 base_x;
                     s32 old_y;
 
@@ -279,7 +279,7 @@ loop:
                     old_y = SP_S32(0x0C);
                     sum_x += base_x;
                     base_x = old_y;
-                    ASM_KEEP_NV(base_x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_KEEP_NV(base_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     SP_S32(0x10) = sum_x;
                     sum_x = SP_S32(0x14);
                     SP_S32(0x0C) = base_x << 8;
@@ -311,7 +311,7 @@ loop:
 
                 {
                     s32 raw50 = SP_U16(0x50);
-                    ASM_KEEP_NV(raw50);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_KEEP_NV(raw50);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     if (((raw50 << 16) >> 16) >= 0x1800) {
                         b = ((S_80045CC4_0 *)poly)->unk_20.at00u.v;
                         ((S_80045CC4_0 *)poly)->unk_20.at00u.v = b + 0xFF;
@@ -320,7 +320,7 @@ loop:
                 }
                 {
                     s32 raw58 = SP_U16(0x58);
-                    ASM_KEEP_NV(raw58);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_KEEP_NV(raw58);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     if (((raw58 << 16) >> 16) >= 0x1800) {
                         b = ((S_80045CC4_0 *)poly)->unk_20.at01.v;
                         ((S_80045CC4_0 *)poly)->unk_20.at01.v = b + 0xFF;
@@ -340,7 +340,7 @@ loop:
                 ((S_80045CC4_2 *)arg2)->unk_0F = value;
                 flags = SP_U16(0x24);
                 if (flags & 8) {
-                    register u32 flag_value ASM_REG("$2");   /* MATCH pin: slus-diff */
+                    register u32 flag_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     if (flags & 4) {
                         flag_value = value | 2;
                     } else {

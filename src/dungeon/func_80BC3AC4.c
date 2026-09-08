@@ -111,8 +111,8 @@ void func_801732C4(void *arg0, void *arg1, void *arg2, void *arg3)
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
         &&kind_7, &&kind_6, &&kind_5
     };
-    register u8 *selection ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 special ASM_REG("$19");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *selection ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 special ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 state;
     u8 next_state;
     void *active;
@@ -185,12 +185,12 @@ selection_ready:
         goto empty_selection;
     }
     ((S_801732C4_0 *)arg0)->unk_98 &= 0xFF7F;
-    ASM_KEEP(selection);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(selection);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     {
         s32 special_test;
 
         special_test = special;
-        ASM_KEEP(special_test);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (special_test != 0) {
             active = D_800814A8;
             (*(void * *)((u8 *)arg3 + 0x60)) = active;
@@ -207,7 +207,7 @@ selection_ready:
         if (item_table[item * 20 + 0x12] == 2) {
             active = (*(void * *)((u8 *)arg3 + 0x60));
             if (active != 0) {
-                register u8 *linked ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *linked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 copy_active_coords:
                 linked = ((S_801732C4_1_pre *)active)[-1].unk_00;
@@ -223,7 +223,7 @@ copy_active_coords:
                 arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
                 (*(s16 *)((u8 *)arg3 + 0x2A)), 0x10);
             (*(void * volatile *)((u8 *)arg3 + 0x60)) = active;
-            ASM_KEEP(active);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             dx = (*(s8 *)((u8 *)arg3 + 0x72));
             dy = (*(s8 *)((u8 *)arg3 + 0x73));
             if (dx < 0) {
@@ -301,8 +301,8 @@ state_2:
 state_2_particles:
     {
         s32 color;
-        register s32 x ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        register s32 y ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register s32 y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 z;
 
         special++;

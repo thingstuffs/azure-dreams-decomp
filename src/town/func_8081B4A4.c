@@ -111,7 +111,7 @@ s32 func_800254A4(void)
 {
     void *first[2];
     void *second[2];
-    register u8 *root ASM_REG("$21") = NULL;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *root ASM_REG("$21") = NULL;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *obj;
     S_800254A4_3 *part1;
     S_800254A4_5 *part2;
@@ -132,13 +132,13 @@ s32 func_800254A4(void)
     u8 byte;
     s32 i;
     s32 final_color;
-    register s32 final_extent ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 final_extent ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 coord;
 
-    ASM_KEEP(root);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(root);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     first[0] = D_8002012C;
     first[1] = D_80020134;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     second[0] = D_8002013C;
     second[1] = D_80020140;
     source = D_80020144;
@@ -214,8 +214,8 @@ first_loop:
         dst0 = (u8 *)second[0] + i;
         dst1 = (u8 *)second[1] + i;
         byte = *indexed_source;
-        ASM_KEEP(dst0);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(dst1);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(dst0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(dst1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         i--;
         *dst1 = byte;
         *dst0 = byte;
@@ -263,7 +263,7 @@ third_continue:
         func_8004491C(obj, &D_80053A88);
         final_color = 0x00404040;
         final_part = (u8 *)obj + 0x20;
-        ASM_KEEP(final_part);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(final_part);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         final_extent = 0x1C;
         final_part->unk_0C = final_extent;
         final_part->unk_0E = final_extent;

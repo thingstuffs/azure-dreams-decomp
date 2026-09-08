@@ -30,24 +30,24 @@ extern M2C_UNK D_800D5058;
 void func_800C321C(s32 arg0, s32 arg1, void *arg2) {
     s32 temp_v0;
     u8 temp_v1;
-    register TargetObj *obj ASM_REG("$17") = (TargetObj *)arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register TargetObj *obj ASM_REG("$17") = (TargetObj *)arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *motion = arg2;
 
     temp_v1 = obj->state70;
     if (temp_v1 == 0) {
         void *ret = &D_800D5028;
-        ASM_TAILSLOT_PIN_TIED(ret);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(ret);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800C326C();
     }
     if (temp_v1 == 1) {
         u32 ret = 0x800d0000;
-        ASM_KEEP_NV(ret);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(ret);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ret += 0x5040;
-        ASM_TAILSLOT_PIN_TIED(ret);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(ret);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800C326C();
     }
     obj->field0c = &D_800D5058;
-    ASM_KEEP_NV(obj);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(obj);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     obj->callback(obj, arg1, arg2);
     if (!(*(u16 *)((u8 *)obj - 2) & 0x8000)) {
         temp_v0 = func_800C2E1C(obj->field72, obj->field64);
@@ -59,7 +59,7 @@ void func_800C321C(s32 arg0, s32 arg1, void *arg2) {
             if ((func_800C2F14(obj->field72, obj->field64) << 0x10) == 0) {
                 u32 tail_result = *(u16 *)((u8 *)motion + 0x14);
                 tail_result &= 0xfffe;
-                ASM_TAILSLOT_PIN_TIED(tail_result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN_TIED(tail_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_800C3348();
                 return;
             }
@@ -68,13 +68,13 @@ void func_800C321C(s32 arg0, s32 arg1, void *arg2) {
         if ((func_800C2F14(obj->field72, obj->field64) << 0x10) != 0) {
             u32 tail_result = *(u16 *)((u8 *)motion + 0x14);
             tail_result &= 0xfffe;
-            ASM_TAILSLOT_PIN_TIED(tail_result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN_TIED(tail_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800C3348();
             return;
         }
 block_16:
         *(u16 *)((u8 *)motion + 0x14) = (s16) (*(u16 *)((u8 *)motion + 0x14) | 1);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800C2C80(obj, motion, 0, 0);
     }
 }

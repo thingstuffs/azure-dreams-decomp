@@ -46,16 +46,16 @@ void func_80174D24(void *arg0, void *arg1, void *arg2)
     u16 local[3];
     void *object;
     Copy24 *source;
-    register s32 copy0 ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 copy0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 copy1;
-    register s32 copy2 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register s32 copy3 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register s32 copy2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 copy3 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 call_zero;
     s32 call_arg0;
     s32 mode;
     u16 old_count;
-    register u16 count ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 signed_count ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 signed_count ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 flags;
 
     if (((S_80174D24_4 *)(((S_80174D24_0 *)arg0)->unk_08))->unk_2C != &D_80175F38) {
@@ -69,8 +69,8 @@ void func_80174D24(void *arg0, void *arg1, void *arg2)
     copy1 = source->words[1];
     copy2 = source->words[2];
     copy3 = source->words[3];
-       /* MATCH pin: retail schedule: same instructions, different order without it */
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80174D24_1 *)arg1)->unk_00.at00.v = copy0;
     ((S_80174D24_1 *)arg1)->unk_04.at00.v = copy1;
     ((S_80174D24_1 *)arg1)->unk_08.at00.v = copy2;
@@ -81,9 +81,9 @@ void func_80174D24(void *arg0, void *arg1, void *arg2)
     ((S_80174D24_1 *)arg1)->unk_14 = copy1;
 
     object = ((S_80174D24_0 *)arg0)->unk_08;
-    ASM_KEEP(object);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_zero = 0;
-    ASM_KEEP(call_zero);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_arg0 = ((S_80174D24_2 *)object)->unk_08;
     if (func_8003DE58(call_arg0, object,
                       (s16 *)local, call_zero) != 0) {
@@ -95,7 +95,7 @@ void func_80174D24(void *arg0, void *arg1, void *arg2)
     old_count = ((S_80174D24_0 *)arg0)->unk_02;
     mode = ((S_80174D24_0 *)arg0)->unk_00.s;
     count = old_count + 1;
-    ASM_KEEP(old_count);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(old_count);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_80174D24_0 *)arg0)->unk_02 = count;
 
     if (mode == 0) {

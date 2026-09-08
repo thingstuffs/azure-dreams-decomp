@@ -18,7 +18,7 @@ extern DungeonGroup D_80073414[];
 void func_800A9024(s32 arg0) {
     DungeonGroup *var_a3;
     s32 var_a1;
-    register s32 var_a2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_t0;
     s32 var_v0;
     s32 temp_t1;
@@ -34,7 +34,7 @@ void func_800A9024(s32 arg0) {
     one = 1;
     var_a3 = D_80073414;
     do {
-        ASM_KEEP(var_a3);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (((s32)*((u8 *)var_a3 + 1) >> arg0) & 1) {
             var_a1 = 0;
             if (var_a3->count != 0) {

@@ -43,9 +43,9 @@ void func_8004F684(S_8004F684 *a0)
     s32 valA;
     s32 diff;
     s32 m;
-    register s32 quot ASM_REG("$3");   /* MATCH pin: slus-diff */
+    register s32 quot ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 scaled;
-    register void *p ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register void *p ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     S_8004F684_Obj *obj;
 
     self = a0;
@@ -80,5 +80,5 @@ void func_8004F684(S_8004F684 *a0)
             row += 3;
         } while (i < self->count);
     }
-    ASM_KEEP(i);   /* MATCH pin: slus-diff */
+    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 }

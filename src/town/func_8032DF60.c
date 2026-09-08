@@ -6,8 +6,8 @@ extern s8 D_80016000[];
 extern s32 D_8001BE60;
 
 s32 func_80018760(void) {
-    register void *temp_v0 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register void *temp_v0_2 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *temp_v0_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     func_80018760_fn temp_v0_fn;
     u32 temp_v0_3;
     void *temp_v1;

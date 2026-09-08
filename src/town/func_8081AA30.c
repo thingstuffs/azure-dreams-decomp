@@ -47,5 +47,5 @@ void func_80024A30(void *arg0) {
         break;
     }
 
-    ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

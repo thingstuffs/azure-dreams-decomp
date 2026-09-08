@@ -141,7 +141,7 @@ selection_ready:
         s32 special_test;
 
         special_test = special;
-        ASM_KEEP(special_test);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_test != 0) {
             active = D_800814A8;
             (*(void * *)((u8 *)arg3 + 0x60)) = active;
@@ -156,7 +156,7 @@ selection_ready:
         if (D_8006DE24[item * 20 + 0x12] == 2) {
             active = (*(void * *)((u8 *)arg3 + 0x60));
             if (active != 0) {
-                register u8 *linked ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *linked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 copy_active_coords:
                 linked = ((S_80173078_1_pre *)active)[-1].unk_00;
@@ -172,7 +172,7 @@ copy_active_coords:
                 arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
                 (*(s16 *)((u8 *)arg3 + 0x2A)), 0x10);
             (*(void * volatile *)((u8 *)arg3 + 0x60)) = active;
-            ASM_KEEP(active);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             dx = (*(s8 *)((u8 *)arg3 + 0x72));
             dy = (*(s8 *)((u8 *)arg3 + 0x73));
             if (dx < 0) {
@@ -253,8 +253,8 @@ store_next_state:
 state_4:
     {
         s32 color;
-        register s32 x ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 y ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 z;
 
         special++;
@@ -293,7 +293,7 @@ state_3:
             func_80170F2C((u8 *)arg0 - 0x20, 0, 0x00C0C0C0,
                           color, 0, 0, 0);
         } while ((u16)special < 20);
-        ASM_KEEP(special);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(special);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
     {
         u8 *global;

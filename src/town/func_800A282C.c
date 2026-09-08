@@ -22,12 +22,12 @@ extern TownState *D_80100900;
 s32 func_8009FF8C(s32 arg0, void *arg1)
 {
     TownRecord *records;
-    register TownRecord *record ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register TownRecord *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *flagBase;
-    register u8 *argPtr ASM_REG("$23");   /* MATCH pin: retail immediate-load split depends on it */
+    register u8 *argPtr ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 count;
     s32 best;
-    register s32 bestIndex ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 bestIndex ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 i;
     s32 baseX;
     s32 baseY;
@@ -37,7 +37,7 @@ s32 func_8009FF8C(s32 arg0, void *arg1)
     u16 rawY;
 
     argPtr = arg1;
-    ASM_KEEP_NV(argPtr);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(argPtr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     best = 0x7FFFFFFF;
     i = 0;
     count = D_800D0728[arg0];

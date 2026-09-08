@@ -15,10 +15,10 @@ s32 func_800C8CD8(void *arg0, s32 arg1, s32 arg2) {
     s32 kind = arg2;
     s32 random;
     s32 range;
-    register s32 roll ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 roll ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 threshold_shift;
     s32 signed_threshold;
-    register s32 compare ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 compare ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 rng;
 
     rng = func_800A6D30();
@@ -26,10 +26,10 @@ s32 func_800C8CD8(void *arg0, s32 arg1, s32 arg2) {
     random = rng & 0xFFFF;
     if (range != 0) {
         s32 divisor = range;
-        ASM_KEEP(divisor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         roll = random % divisor;
-        ASM_KEEP(random);   /* MATCH pin: retail register colouring depends on it */
-        ASM_KEEP(roll);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(random);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(roll);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800C8D28();
         return (u32)threshold << 16;
     } else {
@@ -38,7 +38,7 @@ s32 func_800C8CD8(void *arg0, s32 arg1, s32 arg2) {
 
     threshold_shift = (u32)threshold << 16;
     signed_threshold = threshold_shift >> 16;
-    ASM_KEEP(signed_threshold);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(signed_threshold);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     compare = roll < signed_threshold;
     if ((compare != 0) || (signed_threshold == 0xFF)) {
         if ((s16)func_800A48F0(entity, 2, (s8)kind) >= 0) {

@@ -86,20 +86,20 @@ extern void func_80024060();
 
 void func_80024CD4(Controller *ctrl, Motion *motion, void *arg2)
 {
-    register Controller *p ASM_REG("$18") = ctrl;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register Motion *m ASM_REG("$21") = motion;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register Controller *p ASM_REG("$18") = ctrl;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register Motion *m ASM_REG("$21") = motion;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *root;
-    register void *third ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *third ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     RootPrefix *prefix;
     Lookup *lookup;
     Motion *initial;
-    register Motion *other ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register Motion *other ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *link;
     s16 delta[3];
     u16 last_x;
     u16 final_y;
     s32 i;
-    register s32 diff ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 diff ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 base;
     s32 result;
     s32 x;
@@ -151,7 +151,7 @@ void func_80024CD4(Controller *ctrl, Motion *motion, void *arg2)
         s32 div_magic = (s32)0x88880000;
         WideProduct product;
 
-        ASM_KEEP_NV(div_magic);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_NV(div_magic);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         other = *(Motion **)(link - 0x18);
 
         base = m->x.h.hi;
@@ -209,9 +209,9 @@ void func_80024CD4(Controller *ctrl, Motion *motion, void *arg2)
 
     i = 0;
     lookup = prefix->lookup;
-    ASM_USE_NV(lookup);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_USE_NV(lookup);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     diff = (s32)0x80070000;
-    ASM_USE_NV(diff);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE_NV(diff);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     y = lookup->cell_y;
     x = lookup->cell_x;
     last_x = x;
@@ -235,7 +235,7 @@ void func_80024CD4(Controller *ctrl, Motion *motion, void *arg2)
         ang = (s16)p->angle;
         hraw = *(u16 *)(root + 0x88);
         xptr = &D_8006CCD8[ang];
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         height = (s16)(hraw - 32);
         yptr = &D_8006CCE8[ang];
         result = func_800BCB04((((s16)x + *xptr) << 6) + 32 & 0xFFE0,
@@ -250,8 +250,8 @@ void func_80024CD4(Controller *ctrl, Motion *motion, void *arg2)
     }
 
     {
-        register s32 next_x ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 next_y ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         s16 *xptr;
         s16 *yptr;
         s32 ang;
@@ -298,7 +298,7 @@ void func_80024CD4(Controller *ctrl, Motion *motion, void *arg2)
     m->y.val += m->dy.val;
     m->z.val += m->dz.val;
     func_800248C8(p, third);
-    ASM_KEEP(p);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(p);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (p->timer < 15) {
         goto finish;
     }

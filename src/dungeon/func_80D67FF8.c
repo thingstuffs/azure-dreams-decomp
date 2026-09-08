@@ -78,7 +78,7 @@ L0:
         u16 tail_flags;
 
         tail_flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x000C;
-        ASM_TAILSLOT_PIN(tail_flags);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80173AE4();
     }
 

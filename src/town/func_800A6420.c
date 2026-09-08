@@ -75,8 +75,8 @@ s32 func_800A3B80(S_800A3B80_3 *arg0, s32 unused, void *arg2)
     s32 coord_y;
     s32 coord_x;
     s32 calc;
-    register s32 adjusted ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 result ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 adjusted ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *global_base;
     void *town;
     void *root;
@@ -111,7 +111,7 @@ s32 func_800A3B80(S_800A3B80_3 *arg0, s32 unused, void *arg2)
     adjusted = initial_adjusted;
     negative = adjusted;
     positive = adjusted;
-    ASM_KEEP(adjusted);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     adjusted = (s16)adjusted;
     calc = func_80064584(adjusted) * 6;
     coord_y = calc - origin_y;
@@ -132,7 +132,7 @@ positive_store_first:
     }
     result = positive + 0x80;
     positive = result;
-    ASM_KEEP(result);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     next_angle = (s16)result;
     scratch->data82 = calc;
     scratch->data72 = calc;
@@ -154,7 +154,7 @@ positive_store_first:
                                            (arg0->unk_00 << 5)) >> 1);
     }
     {
-        void *call_object;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        void *call_object;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         void *call_arg2;
         void *call_scratch;
         void *call_root;
@@ -185,7 +185,7 @@ positive_store_first:
     }
     result = positive + 0x80;
     positive = result;
-    ASM_KEEP(result);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     next_angle = (s16)result;
     scratch->data82 = calc;
     scratch->data72 = calc;
@@ -207,7 +207,7 @@ positive_store_first:
                                            (arg0->unk_00 << 5)) >> 1);
     }
     {
-        void *call_object;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        void *call_object;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         void *call_arg2;
         void *call_scratch;
         void *call_root;
@@ -246,7 +246,7 @@ negative_store_first:
     }
     result = negative - 0x80;
     negative = result;
-    ASM_KEEP(result);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     next_angle = (s16)result;
     scratch->data8A = calc;
     scratch->data7A = calc;
@@ -268,7 +268,7 @@ negative_store_first:
                                            (arg0->unk_00 << 5)) >> 1);
     }
     {
-        void *call_object;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        void *call_object;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         void *call_arg2;
         void *call_scratch;
         void *call_root;
@@ -299,7 +299,7 @@ negative_store_first:
     }
     result = negative - 0x80;
     negative = result;
-    ASM_KEEP(result);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     next_angle = (s16)result;
     scratch->data8A = calc;
     scratch->data7A = calc;
@@ -321,7 +321,7 @@ negative_store_first:
                                            (arg0->unk_00 << 5)) >> 1);
     }
     {
-        void *call_object;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        void *call_object;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         void *call_arg2;
         void *call_scratch;
         void *call_root;

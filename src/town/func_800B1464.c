@@ -75,29 +75,29 @@ void func_800AEBC4(void *arg0, S_800AEBC4_4 *arg1, S_800AEBC4_1 *arg2, S_800AEBC
     u8 *base1;
     s32 word;
     s32 x;
-    register s32 y ASM_REG("$10");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 y ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 *stack = __builtin_frame_address(0);
 
-    ASM_KEEP(tail);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     base0 = (u8 *)D_8002E5D8 + 0x1A28;
 #else
     base0 = (u8 *)0x80030000;
 #endif
-    ASM_KEEP(base0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(base0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     word = ((S_800AEBC4_0_pre *)base0)[-1].unk_00;
 #ifdef NON_MATCHING
     x = arg4;
 #else
     x = stack[4];
 #endif
-    ASM_UNDEF(y);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_UNDEF(y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     y = arg5;
 #else
     y = stack[5];
 #endif
-    ASM_KEEP(y);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     base0 -= 0x1A28;
     arg2->unk_00 = word;
 
@@ -105,13 +105,13 @@ void func_800AEBC4(void *arg0, S_800AEBC4_4 *arg1, S_800AEBC4_1 *arg2, S_800AEBC
     arg2->unk_04 = word;
 
     word = ((S_800AEBC4_0 *)base0)->unk_08;
-    ASM_UNDEF(base1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_UNDEF(base1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     base1 = (u8 *)D_8002E5E8 + 0x1A18;
 #else
     base1 = (u8 *)0x80030000;
 #endif
-    ASM_KEEP(base1);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(base1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     arg2->unk_08 = word;
 
     word = ((S_800AEBC4_0 *)base0)->unk_0C;
@@ -126,9 +126,9 @@ void func_800AEBC4(void *arg0, S_800AEBC4_4 *arg1, S_800AEBC4_1 *arg2, S_800AEBC
     arg3->unk_08 = word;
 
     arg1->unk_08 = arg3;
-    ASM_UNDEF(base1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_UNDEF(base1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     base1 = arg3;
-    ASM_KEEP(base1);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(base1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     word = -0x400;
     arg1->unk_04.s = arg2;
     arg1->unk_00 = 0;
@@ -148,7 +148,7 @@ void func_800AEBC4(void *arg0, S_800AEBC4_4 *arg1, S_800AEBC4_1 *arg2, S_800AEBC
     tail->unk_0C = (s16)x;
     tail->unk_0E = (s16)y;
     tail->unk_10 = (s16)(u32)base0;
-    ASM_KEEP(base0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(base0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     word = -0x60;
     if (x < 0) {
         word = 0x30;

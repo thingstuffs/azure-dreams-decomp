@@ -45,10 +45,10 @@ MainObj *func_800241F8(s32 arg0, VecObj *arg1) {
     VecObj *vec;
 
     if (obj == 0) {
-        register MainObj *rv ASM_REG("$2");   /* MATCH pin: retail delay-slot contents depend on it */
+        register MainObj *rv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
         rv = 0;
-        ASM_TAILSLOT_PIN(rv);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(rv);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800242C0();
         return rv;
     }

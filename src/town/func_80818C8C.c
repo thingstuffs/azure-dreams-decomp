@@ -66,7 +66,7 @@ s32 func_80022C8C(void)
 
     link = NULL;
     held_page = (u8 *)0x80020000;
-    ASM_KEEP_NV(held_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(held_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     count_page = (volatile u16 *)0x80010000;
     count = (s16)*(count_page + (0x35C2 / 2));
     held = held_page + 0x54;
@@ -101,16 +101,16 @@ s32 func_80022C8C(void)
             work[1] = odd_half;
         } else {
             remat = 0x03E00000;
-            ASM_KEEP(remat);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP(remat);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             work[1] = remat;
         }
 
         call_work = work;
-        ASM_KEEP(call_work);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_work);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         call_kind = 0x35;
-        ASM_KEEP(call_kind);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         call_table = (void *)0x80020000;
-        ASM_KEEP(call_table);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(call_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         call_table = (u8 *)call_table + 0x3920;
         func_80022E64(call_work, call_kind, call_table, link);
         state--;

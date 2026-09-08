@@ -80,7 +80,7 @@ void func_801717F4(void *arg0, void *arg1, void *arg2, void *arg3)
     void *p0;
     void *p1;
     void *p2;
-    register void *p3 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *p3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 scratch;
     s32 result;
     u16 state;
@@ -101,9 +101,9 @@ void func_801717F4(void *arg0, void *arg1, void *arg2, void *arg3)
         return;
     }
 
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         u8 *table;
@@ -143,7 +143,7 @@ void func_801717F4(void *arg0, void *arg1, void *arg2, void *arg3)
             u32 current_state = ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8;
             u32 actor_state;
 
-               /* MATCH pin: retail delay-slot fill depends on it */
+               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             actor_state = 0xE;
             if (current_state != actor_state) {
                 u8 *table = D_80175988;
@@ -226,7 +226,7 @@ jt_c9:
             return;
         }
         func_8017297C(arg0, arg1, arg2, arg3);
-        ASM_KEEP(p0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         return;
 
 jt_c10:

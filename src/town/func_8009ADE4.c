@@ -21,14 +21,14 @@ M2C_UNK func_80099754();
 extern M2C_UNK D_800984AC;
 
 void func_80098544(S_80098544_0 *arg0, void *arg1) {
-    S_80098544_1 *out;   /* MATCH pin: load-bearing for the whole function shape */
+    S_80098544_1 *out;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 remaining;
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     s32 temp_v2;
 
     out = arg1;
-    ASM_KEEP(out);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_v0 = arg0->unk_0A.s - 1;
     arg0->unk_0A.s = temp_v0;
     if ((s16) temp_v0 > 0) {

@@ -105,7 +105,7 @@ void func_80172D74(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 xdir;
     s32 zdir;
     s32 next_state;
-    register u8 state_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 state_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     static void *const outer_keepalive[] = {
         &&state0, &&state1, &&state2, &&state3, &&state16
     };
@@ -195,7 +195,7 @@ selected:
         s32 special_test;
 
         special_test = special;
-        ASM_KEEP(special_test);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_test != 0) {
             entity = D_800814A8;
             ((S_80172D74_0 *)arg3)->unk_60 = entity;
@@ -210,7 +210,7 @@ selected:
             entity = ((S_80172D74_0 *)arg3)->unk_60;
 
             if (entity != 0) {
-                register void *position ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register void *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 have_entity:
                 position = ((S_80172D74_2_pre *)entity)[-1].unk_00;
@@ -226,7 +226,7 @@ have_entity:
                 ((S_80172D74_4 *)arg2)->unk_24, ((S_80172D74_4 *)arg2)->unk_25,
                 ((S_80172D74_0 *)arg3)->unk_2A, 0x10);
             ((S_80172D74_0 *)arg3)->unk_60 = spawned;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             x = ((S_80172D74_0 *)arg3)->unk_72.u;
             z = ((S_80172D74_0 *)arg3)->unk_73.u;
             if (x < 0) {

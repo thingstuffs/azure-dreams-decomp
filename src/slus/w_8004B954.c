@@ -25,14 +25,14 @@ void *func_8004B954(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4,
     s32 step;
     s32 i;
     s32 j;
-    register s32 ang ASM_REG("$18");   /* MATCH pin: slus-diff */
+    register s32 ang ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 basey;
     s32 cnt;
     s32 dy;
-    register u8 *src ASM_REG("$20");   /* MATCH pin: slus-diff */
+    register u8 *src ASM_REG("$20");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u8 *dst14;
     u8 *dst1c;
-    register u8 *m ASM_REG("$16");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 *m ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 f;
     u32 t14;
 
@@ -104,7 +104,7 @@ void *func_8004B954(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4,
             U32_AT(dst1c, 0x0C) = U32_AT(arg3, 0);
             func_8004C010(m, arg0);
             func_8004C010(m, arg1);
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             U32_AT(dst1c, 0x14) = U32_AT(dst1c, 0x0C);
             m = dst1c + 0x18;
             j = i;

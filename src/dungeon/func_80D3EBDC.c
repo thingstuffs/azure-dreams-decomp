@@ -195,7 +195,7 @@ state_two:
         goto done;
     }
     {
-        register u8 *counter_base ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         counter_base = (u8 *)&D_80083460;
         ((S_801743DC_3 *)counter_base)->unk_0A--;

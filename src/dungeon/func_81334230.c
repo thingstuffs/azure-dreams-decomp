@@ -132,11 +132,11 @@ extern s32 D_80083460;
 extern s8 D_800E2970[];
 
 void func_8016B230(u8 *in0, void *arg1, u8 *in2, u8 *in3) {
-    register u8 *arg0 ASM_REG("$21") = in0;   /* MATCH pin: retail delay-slot fill depends on it */
-    register u8 *arg2 ASM_REG("$20") = in2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *arg3 ASM_REG("$18") = in3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 enabled ASM_REG("$22");   /* MATCH pin: retail register colouring depends on it */
-    register s32 i ASM_REG("$19");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *arg0 ASM_REG("$21") = in0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register u8 *arg2 ASM_REG("$20") = in2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *arg3 ASM_REG("$18") = in3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 enabled ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 i ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s16 *delta;
     register u8 *x_table;
     u8 *state;
@@ -144,8 +144,8 @@ void func_8016B230(u8 *in0, void *arg1, u8 *in2, u8 *in3) {
     u32 flags;
     u32 attr;
     s32 ret;
-    register s32 direction_index ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 loop_test ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 direction_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 loop_test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 step;
     s32 base_wide;
     s16 move_angle;
@@ -156,9 +156,9 @@ void func_8016B230(u8 *in0, void *arg1, u8 *in2, u8 *in3) {
 
     state = (u8 *)&D_80083460;
     do { flags = ((S_8016B230_0 *)state)->unk_02; } while (0);
-    ASM_KEEP(arg0);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(arg3);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     enabled = 0;
 
     if ((flags & 0x4000) || (((S_8016B230_1 *)arg3)->unk_71.s >= 0)) {
@@ -191,7 +191,7 @@ void func_8016B230(u8 *in0, void *arg1, u8 *in2, u8 *in3) {
                 goto end;
             }
             {
-                register s32 object_status ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 object_status ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 object_status = ((S_8016B230_1 *)arg3)->unk_14;
                 if (object_status >= 0) {
@@ -316,8 +316,8 @@ init_loop:
 setup_loop:
     x_table = (u8 *)&D_8006CCD8;
     delta = &D_8006CD00;
-    ASM_KEEP(i);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(x_table);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(x_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
 loop:
     base_wide = (s32)((S_8016B230_1 *)arg3)->unk_2A.s;
@@ -338,7 +338,7 @@ loop:
         if (i >= 3) {
             s32 enabled_test = enabled;
 
-            ASM_KEEP(enabled_test);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(enabled_test);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (enabled_test) {
                 goto clear_history;
             }
@@ -408,6 +408,6 @@ update_height:
     goto end;
 
 end:
-    ASM_KEEP(arg0);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return;
 }

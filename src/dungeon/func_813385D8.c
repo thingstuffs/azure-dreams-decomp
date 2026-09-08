@@ -31,7 +31,7 @@ extern u8 *D_80175D54;
 
 void func_8016F5D8(S_8016F5D8_1 *arg0, S_8016F5D8_2 *arg1, S_8016F5D8_0 *arg2) {
     s32 temp_v1;
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 temp_a1;
     s32 temp_a1_3;
     s32 temp_v1_2;
@@ -45,7 +45,7 @@ void func_8016F5D8(S_8016F5D8_1 *arg0, S_8016F5D8_2 *arg1, S_8016F5D8_0 *arg2) {
         }
         if ((u32) ((u8) arg2->unk_04 - 1) < 4U) {
             temp_v1_2 = arg0->unk_9E;
-            ASM_KEEP(temp_v1_2);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             signed_count = temp_v1_2;
             temp_a0 = signed_count * 0xAA;
             temp_v1_2++;
@@ -54,7 +54,7 @@ void func_8016F5D8(S_8016F5D8_1 *arg0, S_8016F5D8_2 *arg1, S_8016F5D8_0 *arg2) {
             goto finish;
         }
         temp_v1_2 = arg0->unk_9E;
-        ASM_KEEP(temp_v1_2);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         signed_count = temp_v1_2;
         temp_a0 = signed_count * 0xAA;
         temp_v1_2++;
@@ -69,7 +69,7 @@ void func_8016F5D8(S_8016F5D8_1 *arg0, S_8016F5D8_2 *arg1, S_8016F5D8_0 *arg2) {
         }
         if ((u32) ((u8) arg2->unk_04 - 1) < 4U) {
             temp_a1 = arg0->unk_9E;
-            ASM_KEEP(temp_a1);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             signed_count = temp_a1;
             temp_a0 = signed_count * 0x155;
             temp_a1++;
@@ -78,7 +78,7 @@ void func_8016F5D8(S_8016F5D8_1 *arg0, S_8016F5D8_2 *arg1, S_8016F5D8_0 *arg2) {
             goto finish;
         }
         temp_a1_3 = arg0->unk_9E;
-        ASM_KEEP(temp_a1_3);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(temp_a1_3);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         signed_count = temp_a1_3;
         temp_a0 = signed_count * 0x155;
         temp_a1_3++;

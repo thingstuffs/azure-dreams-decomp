@@ -180,7 +180,7 @@ void func_81814EDC(void *arg0, void *arg1) {
             temp_s1_2 = ((S_81814EDC_1 *)temp_v0)->unk_08;
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
-                register void *source ASM_REG("$8") = *arg1_addr;   /* MATCH pin: load-bearing for the whole function shape */
+                register void *source ASM_REG("$8") = *arg1_addr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 coordinate = ((S_81814EDC_3 *)source)->unk_02;
 
                 coordinate -= 0x10;
@@ -189,7 +189,7 @@ void func_81814EDC(void *arg0, void *arg1) {
             }
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
-                register void *source ASM_REG("$8") = *arg1_addr;   /* MATCH pin: load-bearing for the whole function shape */
+                register void *source ASM_REG("$8") = *arg1_addr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 coordinate = ((S_81814EDC_3 *)source)->unk_06;
 
                 coordinate -= 0x10;
@@ -198,7 +198,7 @@ void func_81814EDC(void *arg0, void *arg1) {
             }
             {
                 s32 random_offset = func_80069EF8() & 7;
-                register void *source ASM_REG("$8") = *arg1_addr;   /* MATCH pin: load-bearing for the whole function shape */
+                register void *source ASM_REG("$8") = *arg1_addr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 coordinate = ((S_81814EDC_3 *)source)->unk_0A;
 
                 coordinate -= 4;
@@ -277,21 +277,21 @@ loop_13:
                     s32 random_offset;
                     s32 coordinate;
                     s32 callback_type = 0xB;
-                    register void *task ASM_REG("$4") = temp_v0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    register void *task ASM_REG("$4") = temp_v0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-                    ASM_KEEP(callback_type);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP(callback_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
                         void *source_owner;
-                        register u8 *handler ASM_REG("$5") = (u8 *) 0x80040000;   /* MATCH pin: retail delay-slot fill depends on it */
+                        register u8 *handler ASM_REG("$5") = (u8 *) 0x80040000;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-                        ASM_KEEP(handler);   /* MATCH pin: retail delay-slot fill depends on it */
+                        ASM_KEEP(handler);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                         ((S_81814EDC_1 *)temp_v0)->unk_22 = callback_type;
                         source_owner = ((S_81814EDC_0 *)arg0)->unk_30;
                         handler += 0x5340;
                         temp_s3 = ((S_81814EDC_7_pre *)source_owner)[-1].unk_00;
-                        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         {
-                            register M2C_UNK *callback ASM_REG("$8") = &D_80024280;   /* MATCH pin: load-bearing for the whole function shape */
+                            register M2C_UNK *callback ASM_REG("$8") = &D_80024280;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                             ((S_81814EDC_1 *)temp_v0)->unk_10 = callback;
                         }
@@ -325,7 +325,7 @@ loop_13:
                     }
                     temp_s0_2->unk_1C = temp_s7;
                     temp_s0_2->unk_1E = temp_s8;
-                    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     func_8003DB94(temp_s0_2, D_800DE938, 0);
                     goto block_18;
                 }
@@ -358,7 +358,7 @@ block_18:
 block_24:
         {
             void **arg1_addr = &arg1;
-            register S_81814EDC_10 *arg1_value ASM_REG("$8") = *arg1_addr;   /* MATCH pin: load-bearing for the whole function shape */
+            register S_81814EDC_10 *arg1_value ASM_REG("$8") = *arg1_addr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             if ((func_800A4778(arg1_value->unk_00.at02.v, arg1_value->unk_04.at02.v, (s16) arg1_value->unk_08.at02.v, ((S_81814EDC_0 *)arg0)->unk_30) << 0x10) == 0) {
                 arg1_value = *arg1_addr;

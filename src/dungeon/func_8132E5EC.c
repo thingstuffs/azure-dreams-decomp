@@ -48,13 +48,13 @@ void func_801655EC(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
         sprite->field6 = 6;
         sprite->flags14 |= 0xC;
         {
-            register void *position ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register void *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             position = obj->position;
             *(s32 *)((u8 *)position + 0) = *(s32 *)((u8 *)arg0 + 0);
 #ifndef NON_MATCHING
             call_data = (u8 *)0x800E0000;
-            ASM_KEEP(call_data);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             call_data -= 0x1790;
 #else
             call_data = D_800DE870;

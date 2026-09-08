@@ -42,14 +42,14 @@ void func_8005EDA0(SpuCommonAttr *attr)
 {
     u32 mask;
     s32 none;
-    register u16 vl ASM_REG("$6");   /* MATCH pin: slus-diff */
-    register u16 vr ASM_REG("$8");   /* MATCH pin: slus-diff */
+    register u16 vl ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u16 vr ASM_REG("$8");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 mode;
     u16 rmw;
     s32 ml;
     s32 mr;
     s16 tl;
-    register s32 tr ASM_REG("$6");   /* MATCH pin: slus-diff */
+    register s32 tr ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s16 trc;
     static void *const keepalive_l[] = {
         &&plain_l, &&l_1, &&l_2, &&l_3, &&l_4, &&l_5, &&l_6, &&l_7

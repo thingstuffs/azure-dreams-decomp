@@ -43,7 +43,7 @@ typedef struct S_800A2FE0_4 {
 void func_800A2FE0(Rec_D_800E3D7C *arg0) {
     s32 temp_v0_3;
     s32 temp_v0_4;
-    register s32 temp_v0_5 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v0_5 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_raw;
     s32 temp_a;
     s32 temp_v1;
@@ -79,9 +79,9 @@ void func_800A2FE0(Rec_D_800E3D7C *arg0) {
                 if (!(arg0->unk_14.as_s32 & 0x4000)) {
                     do { temp_v0_raw = func_800990FC(); } while (0);
                     temp_global = D_8007359C;
-                    ASM_KEEP(temp_v0_raw);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                    ASM_KEEP(temp_v0_raw);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     temp_v0_5 = temp_v0_raw;
-                    ASM_KEEP(temp_v0_5);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP(temp_v0_5);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     func_8003AD08(var_s2, func_80099194(&D_800E09D9, func_80099194(temp_global->unk_04, temp_v0_5)));
                     func_800A319C(&D_800E09E6);
                 }

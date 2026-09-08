@@ -29,9 +29,9 @@ void func_8050E100(void)
 #ifndef NON_MATCHING
     u8 *page = (u8 *)0x80010000;
 
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_page = (u8 *)0x80010000;
-    ASM_KEEP(func_page);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(func_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #endif
     value = town->unk_35BE;
 

@@ -86,28 +86,28 @@ __asm__(".globl func_80170800\n"
 
 void *BODY_NAME(s16 arg0, s8 _arg1, s8 arg2, s16 _arg3)
 {
-    register s8 arg1 ASM_REG("$21");   /* MATCH pin: retail immediate-load split depends on it */
-    register s16 arg3 ASM_REG("$17");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s16 arg3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 kind;
     s32 random;
     s16 arg0_copy;
     s32 alloc_id;
     void *alloc_base;
     void *part;
-    register void *work ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register void *work ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_80CBD000_2 *coord;
     S_80CBD000_3 *state;
-    register void *actor ASM_REG("$20");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     work = 0;
     alloc_id = 0x112;
-    ASM_KEEP_NV(alloc_id);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(alloc_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     arg1 = _arg1;
     alloc_base = &D_80083498;
     arg3 = _arg3;
-    ASM_KEEP_NV(alloc_base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(alloc_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     part = func_8003FD64(alloc_id, alloc_base);
-    ASM_KEEP(arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     arg0_copy = arg0;
     if (part == 0) {
         goto done;
@@ -119,7 +119,7 @@ void *BODY_NAME(s16 arg0, s8 _arg1, s8 arg2, s16 _arg3)
     coord = ((S_80CBD000_1 *)part)->unk_08;
     kind = arg0 & 3;
     coord->unk_0A = arg3;
-    ASM_KEEP(arg1);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     state = ((S_80CBD000_1 *)part)->unk_0C;
     state->unk_25 = arg2;
     actor = work;

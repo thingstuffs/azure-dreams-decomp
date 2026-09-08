@@ -110,22 +110,22 @@ void *func_8017087C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_8017087C_8 *work_copy;
     s32 base;
     void *part_b;
-    register void *work ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s8 saved_arg1 ASM_REG("$19");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s8 saved_arg1 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$18");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 left;
     register s32 right;
-    register void *call_a0 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 call_a2 ASM_REG("$6");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 i;
     u8 *slot;
     s32 j;
 
     work = 0;
     call_a0 = (void *)274;
-    ASM_USE_NV(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_arg1 = arg1;
     saved_arg3 = arg3;
     saved_arg2 = arg2;
@@ -197,7 +197,7 @@ call_a1_setup:
             new_obj = func_8003FD64(274, D_80083498);
             ((S_8017087C_4 *)slot)->unk_A4 = new_obj;
             if (new_obj != 0) {
-                register void *new_work ASM_REG("$17") = (u8 *)new_obj + 0x20;   /* MATCH pin: retail register colouring depends on it */
+                register void *new_work ASM_REG("$17") = (u8 *)new_obj + 0x20;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 if (i != 0) {
                     ((S_8017087C_6 *)new_work)->unk_02 = 1;
@@ -206,7 +206,7 @@ call_a1_setup:
                 }
                 j = 0;
                 if (((S_8017087C_6 *)new_work)->unk_02 > 0) {
-                    register s32 stride ASM_REG("$19");   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    register s32 stride ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     s32 cur_base;
 
                     work_copy = slot;
@@ -215,7 +215,7 @@ call_a1_setup:
                     do {
                         u8 *entry = (u8 *)new_work + stride;
                         S_8017087C_9 *callback_obj;
-                        register u32 color ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+                        register u32 color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
                         color = 0x00C0C0C0;
                         call_a0 = entry;
@@ -225,7 +225,7 @@ call_a1_setup:
                         ((S_8017087C_7 *)entry)->unk_28 = left;
                         call_a2 = 0;
                         callback_obj = work_copy->unk_A4;
-                        ASM_USE(call_a2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_USE(call_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         stride += 48;
                         callback_obj->unk_10 = func_800D78C0;
                         left = ((S_8017087C_7 *)entry)->unk_14;

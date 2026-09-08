@@ -50,9 +50,9 @@ void *func_80024600(s32 *arg0, Copy24 *arg1) {
 
     temp_v0 = func_8003FD64(0x212, (s8 *) arg0 - 0x20);
     if (temp_v0 == NULL) {
-        register s32 tail_result ASM_REG("$2") = 0;   /* MATCH pin: retail delay-slot contents depend on it */
+        register s32 tail_result ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
-        ASM_TAILSLOT_PIN_TIED(tail_result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800246F4();
         return NULL;
     }

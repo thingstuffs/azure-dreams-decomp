@@ -6,7 +6,7 @@ asm("D_8008DAB4 = 0x8008DAB4");
 extern s32 D_8008DAB4;
 
 void func_8001B4A4(void *arg0) {
-    register u8 *ptr ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *ptr ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     ptr = arg0;
     if (ptr != 0) {

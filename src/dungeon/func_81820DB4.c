@@ -83,7 +83,7 @@ extern void func_800DBA90(LocalPacket *, s32);
 
 void func_81820DB4(DungeonObj *arg)
 {
-    register DungeonObj *obj ASM_REG("$18") = arg;   /* MATCH pin: keeps a constant in a register as retail does */
+    register DungeonObj *obj ASM_REG("$18") = arg;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 i;
     s32 value;
     s32 base;
@@ -94,7 +94,7 @@ void func_81820DB4(DungeonObj *arg)
     u8 *vertex;
     LocalPacket packet;
 
-    ASM_KEEP(obj);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     obj->parent->timer |= 0x8000;
     value = obj->timer--;
@@ -155,7 +155,7 @@ transition_done:
     }
 
     bcb_height = obj->height;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     bcb_height = (s16)(bcb_height - 0x30);
     i = (s16)func_800BCB04(*(u16 *)((u8 *)obj + 6),
                            *(u16 *)((u8 *)obj + 0x0A), bcb_height);
@@ -178,7 +178,7 @@ transition_done:
         obj->vx0 = value;
 
         random_value = func_80069EF8();
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         vertex = (u8 *)obj + 0x18;
         value = (random_value & 7) + 8;
         base += value;
@@ -209,9 +209,9 @@ transition_done:
                     + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
         {
         LocalPacket *packet_ptr = &packet;
-        ASM_KEEP(packet_ptr);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(packet_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         packet_angle = *(u16 *)((u8 *)obj + 0x0E);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         packet_height = obj->height;
         packet_height += packet_angle << 1;
         packet.height = packet_height;

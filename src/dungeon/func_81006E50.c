@@ -16,7 +16,7 @@ void func_800A56E0(s32);
 void func_800AD594(void *, s32);
 
 void func_80172650(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register u8 *actor ASM_REG("$18");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register u8 *actor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     u16 counter;
     u8 next_state;
     s32 state;
@@ -83,7 +83,7 @@ state_3:
         goto end;
     }
     D_800E3DE8 = actor - 0x20;
-    ASM_USE(actor);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_USE(actor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
 end:
     return;

@@ -71,9 +71,9 @@ void func_801722E4(S_801722E4_3 *arg0, M2C_UNK arg1, S_801722E4_1 *arg2, void *a
                     &sp18);
                 temp_tbl = D_801764A0;
                 arg0->unk_9A = 0x17;
-                ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 page_8008 = (s8 *)0x80080000;
-                ASM_KEEP(page_8008);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(page_8008);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 arg0->unk_9B = 0;
                 arg0->unk_8C = 0;
                 arg2->unk_2C = temp_tbl;

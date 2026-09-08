@@ -130,7 +130,7 @@ block_7:
         }
         {
             void *saved0 = arg0;
-            register void *saved2 ASM_REG("$18") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
+            register void *saved2 ASM_REG("$18") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 mask = (s32)0xFFFB0000;
             s32 flags;
             ((S_801711A4_3 *)saved0)->unk_9A = 0xDU;

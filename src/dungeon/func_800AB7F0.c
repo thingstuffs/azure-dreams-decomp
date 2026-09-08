@@ -33,13 +33,13 @@ void *func_800B0F50(void *arg0)
   s32 i;
   s32 temp_a0;
   s32 temp_a1_value;
-  register s32 temp_a2_value ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-  register s32 temp_a3_value ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+  register s32 temp_a2_value ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  register s32 temp_a3_value ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 temp_s4_value;
-  register s32 temp_v0_value ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  register s32 temp_v0_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   s32 temp_v0_3;
-  register s32 shared_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-  register s32 temp_v1_value ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+  register s32 shared_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  register s32 temp_v1_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   u16 temp_v1_2;
   void *temp_a2;
   void *temp_a3;
@@ -78,7 +78,7 @@ void *func_800B0F50(void *arg0)
     if (temp_s1 != 0)
     {
       temp_a1_value = 3;
-      ASM_KEEP_NV(temp_a1_value);   /* MATCH pin: retail keeps a computation the compiler would drop */
+      ASM_KEEP_NV(temp_a1_value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
       {
         s32 stack_value;
         stack_value = 9;
@@ -115,18 +115,18 @@ void *func_800B0F50(void *arg0)
         s32 *base = D_800DEFF8;
         *((s32 *) (((s8 *) temp_v0) + 0x7C)) = func_8004DA74(temp_s1, base[4] + 1, 0);
         shared_a0 = base[4];
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         i = 4;
         join_69e98:
         temp_v0_3 = func_80069E98(shared_a0 + 1);
 
         temp_v0_3 *= 4;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         func_800B1320(temp_s1, (s16) ((((s32) (0x20 - temp_v0_3)) >> 1) + 0x80), (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) temp_s1) + 3))))) + 0x11)));
         func_800B135C(temp_s1, 8);
         temp_s1 += 0x30;
       }
-      ASM_KEEP(temp_s4_value);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+      ASM_KEEP(temp_s4_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
       *((s32 *) temp_s4_value) = 0x808080;
       *((void **) (((s8 *) ((i * 4) + temp_s3)) + 0x50)) = temp_s1;
       *((u8 *) (((s8 *) temp_s1) + 1)) = 0x38U;
@@ -143,10 +143,10 @@ void *func_800B0F50(void *arg0)
       temp_a2_value = 0x204020;
       temp_v1_value = 0x200000;
       *((s32 *) (((s8 *) temp_s3) + 0x18)) = temp_a1_value;
-      ASM_KEEP_NV(temp_a1_value);   /* MATCH pin: retail keeps a computation the compiler would drop */
+      ASM_KEEP_NV(temp_a1_value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
       temp_v0_value = temp_a1_value;
-      ASM_KEEP_NV(temp_v0_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-      ASM_KEEP_NV(temp_v1_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+      ASM_KEEP_NV(temp_v0_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      ASM_KEEP_NV(temp_v1_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
       temp_v1_value |= 0x2040;
       *((s32 *) (((s8 *) temp_s3) + 0x1C)) = temp_a3_value;
       *((s32 *) (((s8 *) temp_s3) + 0x20)) = temp_a2_value;

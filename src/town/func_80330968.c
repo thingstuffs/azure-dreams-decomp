@@ -10,7 +10,7 @@ void func_8001B168(s32 base, s32 bits, s32 count)
     s32 held_count;
     s32 i;
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     held_base = base;
     held_bits = bits;
     held_count = count;
@@ -28,8 +28,8 @@ loop:
             goto loop;
         }
     }
-    ASM_KEEP(held_base);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(held_bits);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(held_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_bits);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The counted loop pins the retail callee-saved argument/index roles,

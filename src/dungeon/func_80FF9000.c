@@ -88,13 +88,13 @@ __asm__(".globl func_80152800\n"
 void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) BODY_ATTR;
 
 void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
-    register s16 saved_arg0 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s16 saved_arg0 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s8 saved_arg1;
     s8 saved_arg2;
     s16 saved_arg3;
     s16 late_arg0;
     S_80FF9000_1 *work;
-    register s32 alloc_kind ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 alloc_kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *alloc_desc;
     s32 unksp24;
     s32 sp24;
@@ -107,16 +107,16 @@ void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
     S_80FF9000_4 *actor;
 
     saved_arg0 = arg0;
-    ASM_KEEP_NV(saved_arg0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP_NV(saved_arg0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     work = NULL;
     alloc_kind = 0x112;
     saved_arg1 = arg1;
-    ASM_KEEP_NV(saved_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(saved_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     alloc_desc = &D_80083498;
     saved_arg3 = arg3;
-    ASM_KEEP_NV(saved_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_arg2 = arg2;
-    ASM_KEEP_NV(saved_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     unksp24 = (s32) *(s8 *)0x4A64;
     obj = func_8003FD64(alloc_kind, alloc_desc);
     late_arg0 = saved_arg0;
@@ -152,7 +152,7 @@ write_kind:
 
 normal_kind:
         sp24 = (saved_arg0 & ~3) << 0x10;
-        ASM_USE_NV(saved_arg0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE_NV(saved_arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         alloc_kind = (s32)obj;
         if (sp24 != 0) {
             goto post_arg1;

@@ -49,7 +49,7 @@ void func_80170534(void *arg0, void *arg1, void *arg2) {
         goto state_end;
     }
     input = arg2;
-    ASM_KEEP(input);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     table = jtbl_80164A38;
     (void)jt_keep;
     goto *table[(u32) temp_v1];
@@ -79,8 +79,8 @@ state_1:
         D_801760D8[0] = 1;
 #else
         {
-            register u8 *flag_page ASM_REG("$3") = (u8 *) 0x80170000;   /* MATCH pin: retail register colouring depends on it */
-            ASM_KEEP(flag_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register u8 *flag_page ASM_REG("$3") = (u8 *) 0x80170000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             *(u16 *)(flag_page + 0x60D8) = 1;
         }
 #endif
@@ -125,9 +125,9 @@ state_4:
     {
         u8 *page;
         u16 flags = ((S_80170534_0_pre *)state)[-1].unk_00;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         page = (u8 *) 0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         flags = (u16) (flags | 0x8000);
         ((S_80170534_0_pre *)state)[-1].unk_00 = flags;
 #ifdef NON_MATCHING

@@ -178,11 +178,11 @@ state_1:
 
             object = func_8003FD64(0x112, D_80083498);
             if (object == 0) goto particle1_increment;
-            ASM_KEEP_NV(object);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             {
                 s32 ry;
                 s32 shifted_ry;
-                register s32 rx ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register s32 rx ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 s32 shifted_rx;
                 s32 rz;
                 s32 position_z;
@@ -239,7 +239,7 @@ state_1:
                 position_x += rx;
                 new_y = ((S_80174BEC_6 *)position)->unk_06 + ry;
                 ((S_80174BEC_6 *)position)->unk_02 = position_x;
-                ASM_KEEP(new_y);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(new_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 ((S_80174BEC_6 *)position)->unk_06 = new_y;
                 rz = func_80069EF8() & 0x1F;
                 shifted_rx = (s32)(rx << 16) >> 4;
@@ -278,11 +278,11 @@ particle1_increment:
 
             object = func_8003FC64(0x212);
             if (object == 0) goto particle2_increment;
-            ASM_KEEP_NV(object);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             {
                 s32 ry;
                 s32 shifted_ry;
-                register s32 rx ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register s32 rx ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 s32 shifted_rx;
                 s32 rz;
                 s32 position_z;
@@ -325,7 +325,7 @@ particle1_increment:
                 position_x += rx;
                 new_y = ((S_80174BEC_6 *)position)->unk_06 + ry;
                 ((S_80174BEC_6 *)position)->unk_02 = position_x;
-                ASM_KEEP(new_y);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(new_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 ((S_80174BEC_6 *)position)->unk_06 = new_y;
                 rz = func_80069EF8() & 0x1F;
                 shifted_rx = (s32)(rx << 16) >> 4;

@@ -63,10 +63,10 @@ void *func_8015E854(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
     s32 left;
     s32 right;
     void *work;
-    register s16 saved_arg3 ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *obj ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s16 saved_arg3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *obj ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s8 saved_arg2;
-    register s8 saved_arg1 ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
+    register s8 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *part_a;
     s32 final_arg0;
     S_8015E854_3 *part_b;
@@ -76,11 +76,11 @@ void *func_8015E854(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
     saved_arg1 = arg1;
     saved_arg3 = arg3;
     saved_arg2 = arg2;
-    ASM_KEEP_DEP_NV(saved_arg2, saved_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_DEP_NV(saved_arg2, saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         final_arg0 = arg0;
-        ASM_KEEP(final_arg0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(final_arg0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         work = (u8 *)obj + 0x20;
         ((S_8015E854_0 *)work)->unk_13 = 0x1C;
         func_8004491C(obj, D_80045340);

@@ -95,7 +95,7 @@ void func_8080E59C(void)
     s32 scale;
 
     root = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     stack.copy = D_80526440[0];
     obj = func_800373DC(2, D_80526440);
     persistent = D_8052643C;
@@ -117,7 +117,7 @@ void func_8080E59C(void)
         call_a0 = (u8 *)obj + 0x2C;
         call_a1 = (u8 *)obj + 0x78;
         call_a2 = D_805300DC;
-        ASM_KEEP(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         data = ((S_8080E59C_0 *)obj)->unk_08;
         part = ((S_8080E59C_0 *)obj)->unk_0C;
         ((S_8080E59C_0 *)obj)->unk_10 = D_80529AC4;
@@ -140,19 +140,19 @@ void func_8080E59C(void)
         data->unk_00 = 0x03600000;
         data->unk_04 = 0x03600000;
         data->unk_08.n = 0;
-        ASM_KEEP(data);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         {
             s32 copy0;
             s32 copy1;
             s32 copy2;
-            register s32 copy3 ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 copy3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             copy0 = data->unk_00;
             copy1 = data->unk_04;
             copy2 = data->unk_08.v;
             copy3 = data->unk_0C;
-               /* MATCH pin: load-bearing for the whole function shape */
-               /* MATCH pin: retail schedule: same instructions, different order without it */
+               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_8080E59C_0 *)obj)->unk_78 = copy0;
             ((S_8080E59C_0 *)obj)->unk_7C = copy1;
             ((S_8080E59C_0 *)obj)->unk_80 = copy2;
@@ -161,7 +161,7 @@ void func_8080E59C(void)
             copy1 = data->unk_14;
             ((S_8080E59C_0 *)obj)->unk_88 = copy0;
             ((S_8080E59C_0 *)obj)->unk_8C = copy1;
-            ASM_KEEP(copy0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(copy0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_8080E59C_0 *)obj)->unk_74.p32 = persistent;
             func_8023FA58(call_a0, call_a1, call_a2, (void *)copy2);
         }
@@ -181,16 +181,16 @@ void func_8080E59C(void)
 
             func_8003BC18(obj, D_8003D588);
             loop_color = 0x808080;
-            ASM_KEEP(loop_color);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(loop_color);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             loop_a0 = (u8 *)obj + 0x28;
-            ASM_KEEP(loop_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(loop_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             handler = D_8052AE20;
-            ASM_KEEP(handler);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(handler);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             data = ((S_8080E59C_0 *)obj)->unk_08;
             part = ((S_8080E59C_0 *)obj)->unk_0C;
-            ASM_KEEP(part);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             loop_a2 = D_805300C4;
-            ASM_KEEP(loop_a2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(loop_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_8080E59C_0 *)obj)->unk_10 = handler;
             ((S_8080E59C_0 *)obj)->unk_24 = root;
             ((S_8080E59C_0 *)obj)->unk_74.s16 = i;

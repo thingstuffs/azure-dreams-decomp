@@ -38,7 +38,7 @@ extern void func_800954E0(Actor *, s32, s32, s32);
 extern s16 func_800B627C(s32, s32, s16, s32);
 
 void func_80095DFC(Actor *a0, s32 a1, s32 a2, s32 arg3) {
-    register u8 *entry ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     int st = a0->state;
     s32 a3 = arg3;
     if (st != 1) {
@@ -77,14 +77,14 @@ void func_80095DFC(Actor *a0, s32 a1, s32 a2, s32 arg3) {
              * live range after the branch; the delay-slot fill comes back and
              * the row is byte-exact. */
             s32 fa0;
-            register s32 fa1 ASM_REG("$5");   /* MATCH pin: retail delay-slot contents depend on it */
-            register s32 fa2 ASM_REG("$6");   /* MATCH pin: retail delay-slot contents depend on it */
-            register s32 fa3 ASM_REG("$7");   /* MATCH pin: retail delay-slot contents depend on it */
+            register s32 fa1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            register s32 fa2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            register s32 fa3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             s32 t;
             s32 h;
             s32 s0;
             s32 t2;
-            ASM_SET(fa0);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_SET(fa0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             t = func_800990FC(fa0, fa1, fa2, fa3);
             h = t;
             t = func_80099978(func_80099194(D_800E0B39, func_8009929C(8, t)));

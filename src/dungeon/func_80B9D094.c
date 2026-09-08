@@ -17,10 +17,10 @@ extern void func_8016AA98(void);
 
 u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
 {
-    register s32 mode_arg ASM_REG("$18") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 byte_arg1 ASM_REG("$21") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 half_arg3 ASM_REG("$17") = arg3;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u8 byte_arg2 ASM_REG("$20") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 mode_arg ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 byte_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 half_arg3 ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 byte_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *result;
     u8 *allocation;
     u8 *part_a;
@@ -28,7 +28,7 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
     u8 *secondary;
     s16 saved_arg0;
 
-    ASM_KEEP_NV(mode_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(mode_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     result = 0;
     allocation = func_8003FD64(0x112, D_80083498);
     if (allocation == 0) {
@@ -37,7 +37,7 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
 
     saved_arg0 = mode_arg;
     result = allocation + 0x20;
-    ASM_KEEP(result);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     result[0x13] = 14;
     func_8004491C(allocation, func_80045340);
 
@@ -85,7 +85,7 @@ load_handler:
     *(void (**)(void))(part_b + 44) = func_8016EED8;
 
 common_tail:
-    ASM_USE(mode_arg);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE(mode_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     *(void (**)(void))(allocation + 16) = func_8016AA98;
     func_800A9C18(allocation, part_a, part_b, saved_arg0);
 

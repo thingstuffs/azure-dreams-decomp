@@ -60,7 +60,7 @@ void func_800A5DF8(void *arg0, void *arg1, M2C_UNK arg2) {
     u16 temp_v0_3;
     u8 *var_v0;
     u32 page;
-    register S_800A5DF8_4 *var_s2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register S_800A5DF8_4 *var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_800A5DF8_0 *var_s0;
     M2C_UNK var_s4;
     register u8 *var_s1;
@@ -76,7 +76,7 @@ void func_800A5DF8(void *arg0, void *arg1, M2C_UNK arg2) {
     if (var_s0->unk_0A >= temp_v0) {
         func_80095A94(var_s0, temp_v0, var_s3);
         page = 0x80080000;
-        ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800A5EA0();
         return;
     }
@@ -84,7 +84,7 @@ void func_800A5DF8(void *arg0, void *arg1, M2C_UNK arg2) {
         var_s0->unk_14 = 0;
         func_800954F4(var_s0, temp_v0);
         page = 0x80080000;
-        ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800A5EA0();
         return;
     }
@@ -104,11 +104,11 @@ after_effect:
     }
     temp_v0_3 = var_s2->unk_0A.s - 1;
     var_s2->unk_0A.s = temp_v0_3;
-       /* MATCH pin: load-bearing for the whole function shape */
+       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
         s32 sign_v0;
         s32 count_a0;
-        register s32 quotient_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 quotient_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         sign_v0 = (s32) temp_v0_3 << 16;
         count_a0 = sign_v0 >> 16;
         quotient_v1 = -0x280;
@@ -132,8 +132,8 @@ after_effect:
     }
 
 done:
-    ASM_KEEP(var_s4);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(var_s0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(var_s2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

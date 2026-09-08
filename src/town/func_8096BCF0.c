@@ -45,14 +45,14 @@ extern u8 D_801289EC[16];
 
 void func_80124188(TownObject *arg0)
 {
-    register s32 slot ASM_REG("$16");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     TownObject *obj = arg0;
     s16 value;
     s32 iteration;
     s32 input;
     void **lo_digits;
     void **hi_digits;
-    register s32 initial ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 initial ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 page;
     s32 clear;
     SpriteFields *source;
@@ -68,16 +68,16 @@ void func_80124188(TownObject *arg0)
         slot = 33;
         iteration = 0;
         initial = 0x80120000;
-        ASM_KEEP(initial);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(initial);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         hi_digits = (void **)(initial + 0x69A8);
         initial = *(volatile u8 *)&obj->digit;
         page = 0x80120000;
-        ASM_KEEP(page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         lo_digits = (void **)(page + 0x69D0);
         initial <<= 4;
         input = initial;
         value = initial | 1;
-        ASM_KEEP(initial);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(initial);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         do {
             if (func_80123200((u8)input) != 0) {
                 *obj->town->slots[slot++] = D_80127B64;
@@ -115,16 +115,16 @@ void func_80124188(TownObject *arg0)
         slot = 33;
         iteration = 0;
         initial = 0x80120000;
-        ASM_KEEP(initial);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(initial);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         hi_digits = (void **)(initial + 0x69A8);
         initial = *(volatile u8 *)&obj->digit;
         page = 0x80120000;
-        ASM_KEEP(page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         lo_digits = (void **)(page + 0x69D0);
         initial <<= 4;
         input = initial;
         value = initial | 1;
-        ASM_KEEP(initial);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(initial);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         do {
             if (func_80123200((u8)input) != 0) {
                 *obj->town->slots[slot++] = D_80127B64;

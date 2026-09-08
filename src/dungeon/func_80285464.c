@@ -112,7 +112,7 @@ void func_80018464(s16 arg0)
     s32 i;
     s16 idx;
     s32 c;
-    register s32 tbl ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 tbl ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 v;
     u16 mv;
     u16 sy;
@@ -144,7 +144,7 @@ void func_80018464(s16 arg0)
         D_800E2970[i].h = q[3];
         D_800E2970[i].count = 0;
         p = (u8 *)(q + 4);
-        ASM_KEEP_NV(q);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(q);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         while (*p != 0) {
             D_800E2970[i].tiles = &D_800E2C40[i << 6];
             ROOM_CELL(i, D_800E2970[i].count).a = *p++;
@@ -158,7 +158,7 @@ void func_80018464(s16 arg0)
         q = (u16 *)p;
     }
     p = (u8 *)(q + 4);
-    ASM_KEEP_NV(p);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(p);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     D_8008146E = i;
     i = 0;
     while (*p != 0) {

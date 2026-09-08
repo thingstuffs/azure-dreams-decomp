@@ -28,11 +28,11 @@ extern u8 D_80080000[];
 
 void func_80170A54(void *arg0) {
     s32 state_value = 2;
-    register u8 *page_a8 ASM_REG("$4") = (u8 *)0x80080000;   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *page_a8 ASM_REG("$4") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register u8 *base = D_80082E80;
     S_80170A54_1 *object;
 
-    ASM_KEEP(base);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     {
         register u8 item;

@@ -66,7 +66,7 @@ s32 func_80024100(void)
     void *final_callback;
     void *link;
     s32 i;
-    register s32 coord ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 coord ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 value;
     u16 flags;
 
@@ -156,7 +156,7 @@ second_continue:
         obj = func_8003FD64(1, D_80083498);
         if (obj != NULL) {
             final_callback = &D_80053A88;
-            ASM_KEEP(final_callback);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(final_callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             part = (u8 *)obj + 0x20;
             ((S_80024100_0 *)obj)->unk_10 = callback;
             func_8004491C(obj, final_callback);

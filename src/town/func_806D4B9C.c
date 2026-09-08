@@ -16,9 +16,9 @@ extern u8 D_8001B3D2[];
 
 s32 func_80016B9C(s32 arg0, s32 unused, s32 arg2)
 {
-    register s32 held_arg0 ASM_REG("$19") = arg0;   /* MATCH pin: load-bearing for the whole function shape */
-    register void *base ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u32 page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 held_arg0 ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 secondary_page;
     s32 result;
     s32 index;
@@ -33,13 +33,13 @@ s32 func_80016B9C(s32 arg0, s32 unused, s32 arg2)
     }
 
     secondary_page = 0x80020000;
-    ASM_KEEP(secondary_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(secondary_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     page = 0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     base = (void *) (page - 0x75F4);
     result = func_80017960(base, (void *) (secondary_page - 0x746C),
                           held_arg0, arg2);
-    ASM_KEEP(held_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     index = func_80018868(0x990, 2);
 
     if (arg2 != 0xB) {

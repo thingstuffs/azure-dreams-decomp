@@ -73,7 +73,7 @@ s32 func_80175060(S_80175060_4 *arg0, Rec_D_800E3D7C *arg1) {
         color = 0x606060;
         temp_s0->unk_04 = (s16) (temp_a0 - ((var_v0 >> 0xC) << 0xC));
         four = 4;
-        ASM_KEEP(four);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(four);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_s0->unk_08 = (s16) four;
         temp_s0 = ((S_80175060_0 *)temp_v0)->unk_0C;
         temp_s0->unk_0C = color;
@@ -93,11 +93,11 @@ s32 func_80175060(S_80175060_4 *arg0, Rec_D_800E3D7C *arg1) {
         {
             s32 copy0;
             s32 copy1;
-            register s32 copy2 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-            register s32 copy3 ASM_REG("$6");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register s32 copy2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register s32 copy3 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             temp_v1_2 = ((S_80175060_0 *)temp_v0)->unk_08;
-            ASM_KEEP(temp_v1_2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             copy0 = arg1->unk_00.at00_s32.v;
             copy1 = arg1->unk_04.at00_s32.v;
             copy2 = arg1->unk_08.at00_s32.v;
@@ -110,7 +110,7 @@ s32 func_80175060(S_80175060_4 *arg0, Rec_D_800E3D7C *arg1) {
             copy1 = arg1->unk_14.as_s32;
             temp_v1_2->unk_10 = copy0;
             temp_v1_2->unk_14 = copy1;
-            ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             copy0 = temp_v1_2->unk_00;
             copy1 = temp_v1_2->unk_04;
             temp_v1_2->unk_0C = copy0;

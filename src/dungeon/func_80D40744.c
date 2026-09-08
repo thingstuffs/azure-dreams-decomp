@@ -11,13 +11,13 @@ void func_80175F44(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     s32 var_a1;
     void *saved_arg0 = arg0;
     u8 field_71 = FIELD(arg0, volatile u8, 0x71);
-    register s32 initial_mode ASM_REG("$3") = arg4;   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 initial_mode ASM_REG("$3") = arg4;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 raw_mode;
 
     field_71 &= 0x7F;
-    ASM_KEEP(field_71);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(field_71);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     raw_mode = initial_mode;
-    ASM_KEEP_NV(initial_mode);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP_NV(initial_mode);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     initial_mode = (s16)initial_mode;
     FIELD(arg0, u8, 0x71) = field_71;
     if (initial_mode != 2) {
@@ -78,7 +78,7 @@ accepted:
     FIELD(arg0, s8, 0xB2) = 0;
     FIELD(arg0, s8, 0xB4) = raw_mode;
     if (mode == 0) {
-        ASM_KEEP(mode);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_800A4ACC(saved_arg0, mode, raw_mode);
         FIELD(saved_arg0, u8, 0x6D)--;
     }

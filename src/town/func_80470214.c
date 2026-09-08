@@ -23,7 +23,7 @@ s32 func_80017214(void *arg0, s32 arg1, s32 arg2)
         s32 page;
 
         page = (s32)0x80020000;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         return page - 0x4852;
     }
 
@@ -35,25 +35,25 @@ s32 func_80017214(void *arg0, s32 arg1, s32 arg2)
             s32 page;
 
             page = (s32)0x80020000;
-            ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ret = page - 0xABD;
         } else {
             u8 *state_page;
 
             state_page = (u8 *)0x80020000;
-            ASM_KEEP(state_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             if (*(s32 *)(state_page - 0x4DF8) == 0) {
                 s32 zero_page;
 
                 *(s32 *)(state_page - 0x4DF8) = 1;
                 zero_page = (s32)0x80020000;
-                ASM_KEEP(zero_page);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(zero_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 ret = zero_page - 0x1094;
             } else {
                 s32 nonzero_page;
 
                 nonzero_page = (s32)0x80020000;
-                ASM_KEEP(nonzero_page);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(nonzero_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 ret = nonzero_page - 0x1230;
             }
         }

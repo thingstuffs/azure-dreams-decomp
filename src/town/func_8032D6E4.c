@@ -8,7 +8,7 @@ extern u8 D_8001DD86[];
 extern u8 D_8001DDA1[];
 
 #ifndef NON_MATCHING
-register s32 dispatch_result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register s32 dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 void *func_80017EE4(s32 arg0, s32 arg1, s32 arg2) {
@@ -40,13 +40,13 @@ void *func_80017EE4(s32 arg0, s32 arg1, s32 arg2) {
     }
 #ifndef NON_MATCHING
     dispatch_result = 0x80020000;
-    ASM_KEEP(dispatch_result);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(dispatch_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #endif
     func_80019BC0();
 #ifndef NON_MATCHING
     dispatch_result = 0x80020000;
     dispatch_result -= 0x225F;
-    ASM_KEEP(dispatch_result);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(dispatch_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     return (void *)dispatch_result;
 #else
     return D_8001DDA1;

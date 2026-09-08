@@ -5,7 +5,7 @@ extern u8 D_800E3DD0[];
 extern u8 D_800E3DE0[];
 
 u8 *func_800A17E8(s16 arg0, s16 arg1) {
-    register s16 var_a2 ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *var_v1;
     s16 next;
 

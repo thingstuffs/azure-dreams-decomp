@@ -89,15 +89,15 @@ void func_801730AC(void *in0, void *in1, void *in2) {
     u8 *state_table;
     void *temp_s3;
     s32 tail_test;
-    register s32 tail_state ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *tail_sprite ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register void *particle_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 tail_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *tail_sprite ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *particle_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 particle_a2;
     s32 particle_a3;
     s32 particle_random;
 
     sp18 = D_8016A894;
-    ASM_KEEP(arg1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_s3 = D_80174CE0 + 0x20;
     func_800478B8(arg2);
     temp_v1 = M2C_FIELD(arg0, u8 *, 0x9A);
@@ -121,7 +121,7 @@ jt_c1:
     tail_test = M2C_FIELD(arg0, u16 *, 0x96) + 1;
     M2C_FIELD(arg0, u16 *, 0x96) = (u16) tail_test;
     tail_test = (s16) tail_test < 0x28;
-    ASM_TAILSLOT_PIN(tail_test);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_TAILSLOT_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80173240();
     return;
 jt_c3:
@@ -156,12 +156,12 @@ jt_c6:
     M2C_FIELD(arg2, u8 **, 0x2C) = D_80174C64;
     func_80047784(arg2, D_80174C64[((s32) (D_80083228 + M2C_FIELD(temp_s3, s16 *, 0x2A) + 0x100) >> 9) & 7], 0);
     {
-        void *case6_a0 = arg0;   /* MATCH pin: retail keeps a computation the compiler would drop */
+        void *case6_a0 = arg0;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         void *case6_a1 = arg1;
         void *case6_a2;
         u8 case6_state;
 
-        ASM_SET(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_SET(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         case6_state = M2C_FIELD(arg0, u8 *, 0x9A);
         case6_a2 = arg2;
         M2C_FIELD(arg0, u16 *, 0x96) = 0U;
@@ -169,7 +169,7 @@ jt_c6:
         func_80172B00(case6_a0, case6_a1, case6_a2);
     }
     tail_test = 0x80170000;
-    ASM_PAGEBASE_PIN(tail_test);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_PAGEBASE_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80173D38();
     return;
 jt_c7:
@@ -245,7 +245,7 @@ block_29:
         goto block_32;
     }
     particle_a0 = arg2;
-    ASM_SET(arg2);   /* MATCH pin: retail register colouring depends on it */
+    ASM_SET(arg2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg2, u8 **, 0x2C) = D_80174C6C;
     func_80047784(particle_a0, D_80174C6C[((s32) (D_80083228 + M2C_FIELD(temp_s3, s16 *, 0x2A) + 0x100) >> 9) & 7], 0);
     var_s0 = 0;
@@ -256,7 +256,7 @@ loop_31:
     particle_a0 = arg0 - 0x20;
     particle_a2 = 0x8080FF;
     particle_a3 = (particle_random & 0xFF) | 0x80;
-    ASM_KEEP4(particle_a0, particle_a2, particle_a3, temp_s3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP4(particle_a0, particle_a2, particle_a3, temp_s3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     func_80171A10(particle_a0, M2C_FIELD(temp_s3, s16 *, 0x2A), particle_a2, particle_a3, 0);
     if (var_s0 < 0x14) {
         goto loop_31;
@@ -281,7 +281,7 @@ loop_36:
     particle_a0 = arg0 - 0x20;
     particle_a2 = 0x8080FF;
     particle_a3 = (particle_random & 0xFF) | 0x80;
-    ASM_KEEP4(particle_a0, particle_a2, particle_a3, temp_s3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP4(particle_a0, particle_a2, particle_a3, temp_s3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     func_80171A10(particle_a0, M2C_FIELD(temp_s3, s16 *, 0x2A), particle_a2, particle_a3, 0);
     if (var_s0_2 < 0x14) {
         goto loop_36;
@@ -294,7 +294,7 @@ block_37:
     }
     M2C_FIELD(arg0, u16 *, 0x96) = 0x2EU;
     M2C_FIELD(arg0, u8 *, 0x9A) = (u8) (M2C_FIELD(arg0, u8 *, 0x9A) + 1);
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
     tail_state = 0x80170000;
 #endif
@@ -302,7 +302,7 @@ block_37:
 #ifdef NON_MATCHING
     tail_sprite = D_80174C64;
 #else
-    ASM_KEEP(tail_state);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     tail_sprite = (u8 *)tail_state + 0x4C64;
 #endif
     if (case11_current == tail_sprite) {
@@ -310,7 +310,7 @@ block_37:
     }
 #ifndef NON_MATCHING
     tail_state = 0x80080000;
-    ASM_KEEP(tail_state);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #endif
     M2C_FIELD(arg2, u8 **, 0x2C) = tail_sprite;
     func_80173CF8();
@@ -379,11 +379,11 @@ jt_c14:
         goto block_98;
     }
     tail_sprite = (u8 *)0x80170000;
-    ASM_KEEP(tail_sprite);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(tail_sprite);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     tail_state = M2C_FIELD(arg0, u8 *, 0x9A);
-    ASM_KEEP(tail_state);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     tail_sprite += 0x4C6C;
-    ASM_KEEP(tail_sprite);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(tail_sprite);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg0, u16 *, 0x96) = 0U;
     func_80173CE8();
     return;
@@ -397,7 +397,7 @@ jt_c15:
     sprite_angle_base = D_80083228;
     sprite_angle_delta = M2C_FIELD(temp_s3, s16 *, 0x2A);
     var_s0_3 = particle_a2;
-    ASM_KEEP_NV(var_s0_3);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(var_s0_3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     one = 1;
     func_80047784(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7], particle_a2);
     func_800A56E0(0x706);
@@ -407,7 +407,7 @@ loop_66:
     particle_a0 = arg0 - 0x20;
     particle_a2 = 0x8080FF;
     particle_a3 = (particle_random & 0xFF) | 0x80;
-    ASM_KEEP4(particle_a0, particle_a2, particle_a3, temp_s3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP4(particle_a0, particle_a2, particle_a3, temp_s3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     func_80171A10(particle_a0, M2C_FIELD(temp_s3, s16 *, 0x2A), particle_a2, particle_a3, one);
     if (var_s0_3 < 0x14) {
         goto loop_66;
@@ -455,14 +455,14 @@ block_74:
         goto block_98;
     }
     particle_a0 = arg2;
-    ASM_SET(arg2);   /* MATCH pin: retail register colouring depends on it */
+    ASM_SET(arg2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     particle_a2 = 0;
-    ASM_KEEP_NV(particle_a2);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(particle_a2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg2, u8 **, 0x2C) = D_80174C6C;
     sprite_angle_base = D_80083228;
     sprite_angle_delta = M2C_FIELD(temp_s3, s16 *, 0x2A);
     var_s0_4 = particle_a2;
-    ASM_KEEP_NV(var_s0_4);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(var_s0_4);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     one_2 = 1;
     func_80047784(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7], particle_a2);
     func_800A56E0(0x706);
@@ -472,13 +472,13 @@ loop_76:
     particle_a0 = arg0 - 0x20;
     particle_a2 = 0x8080FF;
     particle_a3 = (particle_random & 0xFF) | 0x80;
-    ASM_KEEP4(particle_a0, particle_a2, particle_a3, temp_s3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP4(particle_a0, particle_a2, particle_a3, temp_s3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     func_80171A10(particle_a0, M2C_FIELD(temp_s3, s16 *, 0x2A), particle_a2, particle_a3, one_2);
     if (var_s0_4 < 0x14) {
         goto loop_76;
     }
     tail_test = 0x80170000;
-    ASM_KEEP(tail_test);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(tail_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80173D38();
     return;
 jt_c17:
@@ -537,7 +537,7 @@ block_90:
     func_80172F44(arg1, -0x10, 0, -4);
     func_80172F44(arg1, 0xC, 0, -0xC);
     tail_test = 0x80170000;
-    ASM_PAGEBASE_PIN(tail_test);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_PAGEBASE_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80173D38();
     return;
 jt_c19:
@@ -550,7 +550,7 @@ jt_c19:
     M2C_FIELD(arg2, u8 **, 0x2C) = D_80174C84;
     func_80047784(arg2, D_80174C84[((s32) (D_80083228 + M2C_FIELD(temp_s3, s16 *, 0x2A) + 0x100) >> 9) & 7], 0);
     tail_test = 0x80170000;
-    ASM_PAGEBASE_PIN(tail_test);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_PAGEBASE_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80173D38();
     return;
 jt_c20:
@@ -558,7 +558,7 @@ jt_c20:
 jt_c2:
 jt_c4:
 block_97:
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 block_98:
     if (D_80174CE0 == 0) {
         goto block_105;
@@ -574,7 +574,7 @@ block_101:
         goto block_104;
     }
     tail_test = M2C_FIELD(arg2, u16 *, 0x14) | 1;
-    ASM_TAILSLOT_PIN(tail_test);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_TAILSLOT_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80173DC4();
     return;
 block_104:

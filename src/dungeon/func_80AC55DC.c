@@ -96,10 +96,10 @@ void func_80AC55DC(
     s32 div_raw;
     s32 numerator;
     s32 divisor;
-    register s32 adjusted ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 step_x ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 step_y ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 step_z ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 adjusted ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 step_x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 step_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     node = func_8003FC64(0x212);
     if (node != 0) {
@@ -121,7 +121,7 @@ void func_80AC55DC(
         third = source->unk_0A;
         adjusted = divisor;
         work->unk_3A = third;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         numerator = arg4 << 16;
         numerator = -numerator;
         if (divisor < 0) {
@@ -131,21 +131,21 @@ void func_80AC55DC(
 
         step_x = numerator / adjusted;
         work->unk_40 = step_x / 2;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         numerator = arg5 << 16;
         numerator = -numerator;
         step_y = numerator / adjusted;
         work->unk_44 = step_y / 2;
-        ASM_KEEP(adjusted);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         step_z = -(arg6 << 16) / adjusted;
         work->unk_48 = step_z / 2;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         work->unk_4C = step_x / 4;
-        ASM_KEEP(step_x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(step_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         work->unk_50 = step_y / 4;
-        ASM_KEEP(step_y);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_KEEP(step_z);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(step_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(step_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         work->unk_54 = step_z / 4;
 
         work->unk_14 = arg1;
@@ -154,11 +154,11 @@ void func_80AC55DC(
         func_8004491C(node, &D_80045340);
 
         data = D_800DEC70;
-        ASM_KEEP(data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         sprite = ((S_80AC55DC_0 *)node)->unk_0C;
         size = 0x20;
         flags = sprite->unk_14;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         sprite->unk_10 = size;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;

@@ -82,11 +82,11 @@ void func_800DAEF4(void *arg0, void *arg1)
 {
     void *owner;
     void *params;
-    register s32 count ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 count ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *link;
     void *object;
     void *node;
-    register u8 *work ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *work ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 random;
     s32 other2;
     s32 random2;
@@ -112,9 +112,9 @@ void func_800DAEF4(void *arg0, void *arg1)
             random = func_80069EF8();
             do {
                 const s32 other = func_80069EF8();
-                register s32 firstWork ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register s32 firstWork ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 s32 secondWork;
-                register s32 randomSum ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 randomSum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 part = ((S_800DAEF4_0 *)object)->unk_08;
                 firstWork = random;
@@ -129,7 +129,7 @@ void func_800DAEF4(void *arg0, void *arg1)
                 }
                 randomSum = (secondWork >> 6) << 6;
                 randomSum = firstWork + (other - randomSum) - 64;
-                ASM_USE_NV(other);   /* MATCH pin: retail register colouring depends on it */
+                ASM_USE_NV(other);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 ((S_800DAEF4_1 *)part)->unk_02 = ((S_800DAEF4_2 *)params)->unk_02 + randomSum / 2;
             } while (0);
 

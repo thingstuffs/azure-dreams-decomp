@@ -67,5 +67,5 @@ void func_800BF654(void *arg0)
     }
     (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
     D_800814A0 |= 0x8000;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

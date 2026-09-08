@@ -89,7 +89,7 @@ void func_81934C5C(void *arg0) {
     s16 temp_v1_2;
     s32 temp_a2;
     s32 temp_a3;
-    s32 temp_state2_x;   /* MATCH pin: retail basic-block layout depends on it */
+    s32 temp_state2_x;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     s32 temp_state2_dx;
     s32 temp_call_a1;
     s32 temp_call_a0;
@@ -150,19 +150,19 @@ block_state2:
     temp_state2_x = ((S_81934C5C_0 *)arg0)->unk_1C.at00.v;
     temp_state2_dx = ((S_81934C5C_0 *)arg0)->unk_28.at00.v;
     temp_call_a1 = ((S_81934C5C_0 *)arg0)->unk_20.at02.v;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_a2 = ((S_81934C5C_0 *)arg0)->unk_30.at02.v;
     temp_a3 = ((S_81934C5C_0 *)arg0)->unk_30.at00.v;
     ((S_81934C5C_0 *)arg0)->unk_1C.at00.v = temp_state2_x + temp_state2_dx;
-    ASM_CLOBBER("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_state2_step_x = ((S_81934C5C_0 *)arg0)->unk_28.at02.v;
     temp_call_a0 = ((S_81934C5C_0 *)arg0)->unk_1C.at02.v;
     temp_state2_step_x3 = temp_state2_step_x * 3;
-    ASM_KEEP(temp_state2_step_x);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(temp_state2_step_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_81934C5C_0 *)arg0)->unk_0C = (u16) (((S_81934C5C_0 *)arg0)->unk_0C + (temp_state2_step_x3 >> 2));
     temp_state2_step_y3 = temp_a2 * 3;
     temp_state2_delta_y = temp_state2_step_y3 >> 2;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_state2_base_y = ((S_81934C5C_0 *)arg0)->unk_10;
     do {
         temp_a2 = ((S_81934C5C_0 *)arg0)->unk_24.at00.v;
@@ -196,14 +196,14 @@ block_state2:
         if (func_80069EF8() & 1) {
             M2C_UNK *temp_tail_base = &D_800DEDB0;
 
-            ASM_TAILSLOT_PIN(temp_tail_base);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(temp_tail_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80024678();
             return;
         }
         {
             M2C_UNK *temp_spawn_base;
 
-            ASM_CLOBBER("$2");   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             temp_spawn_base = &D_800DEE38;
             temp_s1->unk_00 = temp_spawn_base;
             temp_s1->unk_08 = (s32) ((S_81934C5C_4 *)temp_spawn_base)->unk_04;

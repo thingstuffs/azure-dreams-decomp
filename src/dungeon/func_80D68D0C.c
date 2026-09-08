@@ -161,8 +161,8 @@ state_0:
         ((S_8017450C_3 *)actor)->unk_88 = 0;
     }
     {
-        register u16 motion_angle ASM_REG("$2") = ((S_8017450C_0 *)arg0)->unk_9B;   /* MATCH pin: load-bearing for the whole function shape */
-        register u16 final_angle ASM_REG("$5") = ((S_8017450C_0 *)arg0)->unk_90.at02.v;   /* MATCH pin: load-bearing for the whole function shape */
+        register u16 motion_angle ASM_REG("$2") = ((S_8017450C_0 *)arg0)->unk_9B;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u16 final_angle ASM_REG("$5") = ((S_8017450C_0 *)arg0)->unk_90.at02.v;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 *sound_flags = &D_800E296C;
         s32 flags_value;
 
@@ -243,7 +243,7 @@ angle_store:
     }
 
     {
-        register s32 angle ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 angle ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 diff;
 
         angle = ((S_8017450C_1 *)monster)->unk_1A.u;

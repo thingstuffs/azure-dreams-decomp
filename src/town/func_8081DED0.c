@@ -86,7 +86,7 @@ state0:
     s32 mode;
     s32 quotient;
 
-    ASM_CLOBBER("$5");   /* MATCH pin: retail register colouring depends on it */
+    ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     mode = ((S_800206D0_0 *)arg0)->unk_54;
     switch (mode) {
     case 1:

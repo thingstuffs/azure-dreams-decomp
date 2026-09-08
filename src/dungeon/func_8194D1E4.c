@@ -36,8 +36,8 @@ void func_800249E4(s32 arg0, void *arg1, void *arg2, s16 arg3, FourWords arg4, F
     s32 tail0;
     s32 tail1;
     void *temp_a0;
-    register void *temp_v0 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *stackbase ASM_REG("$29");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *temp_v0 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *stackbase ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != NULL) {

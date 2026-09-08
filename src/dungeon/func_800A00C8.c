@@ -34,7 +34,7 @@ void func_800A5828(void *arg0, s32 arg1, void *arg2)
             s32 tail_value;
 
             tail_value = (s16)U16_AT(arg0, 0x6A) >> 1;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800A58A4();
         }
 

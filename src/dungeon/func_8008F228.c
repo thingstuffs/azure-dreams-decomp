@@ -156,29 +156,29 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     u8 *var_a2;
     u8 *var_t2;
     u8 *var_t3;
-    register u8 *var_t4 ASM_REG("$12");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *var_t4 ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *var_t5;
     s32 temp_v0;
     s16 var_s1;
     s32 var_s6;
-    register s32 var_t1 ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_t1_2;
-    register s32 var_t1_3 ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_t1_3 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *var_s2;
     S_80094988_12 *temp_s1_2;
     S_80094988_13 *temp_v0_2;
-    register void *var_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *var_v1;
-    register u8 *page ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *page ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 idx0;
-    register s32 idx1 ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 idx1_copy ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 idx1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 idx1_copy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *entry_ptr;
-    register S_800E3E48 *entries ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 ff ASM_REG("$15");   /* MATCH pin: retail register colouring depends on it */
+    register S_800E3E48 *entries ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 ff ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *d3df0;
     S_800E3E48 *entries_src;
-    register u8 *addr_temp ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *addr_temp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 *copy_src;
     s32 *copy_dst;
     s32 *copy_end;
@@ -189,14 +189,14 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     u8 *page2;
     void **table2;
     s32 ff2;
-    register s32 scaled ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
-    register u8 *var_v1_2 ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
-    register u32 dispatch_probe ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
-    register u8 *dispatch_page ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 scaled ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register u8 *var_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register u32 dispatch_probe ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register u8 *dispatch_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 dispatch_idx;
-    s32 sign_temp;   /* MATCH pin: retail delay-slot fill depends on it */
+    s32 sign_temp;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 signed_index;
-    register s32 scaled_index ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s32 scaled_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     page = (u8 *)0x80010000;
     sp30 = (s16)((S_80094988_0 *)page)->unk_3714 & 2;
@@ -208,14 +208,14 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     func_80041E28(arg1, (s32)page | 0x2194);
     var_t1 = 0;
     ff = 0xFF;
-    ASM_KEEP(ff);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(ff);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     addr_temp = (u8 *)0x800E0000;
-    ASM_KEEP(addr_temp);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(addr_temp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     var_t5 = addr_temp + 0x3DF0;
     var_t3 = page;
     var_t4 = var_t3;
     addr_temp = (u8 *)0x800E0000;
-    ASM_KEEP(addr_temp);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(addr_temp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     entries = (S_800E3E48 *)(addr_temp + 0x3E48);
     var_t6 = (u8 *)entries;
     arg0->unk_F8 = (u16)((S_80094988_0 *)page)->unk_2D50;
@@ -235,7 +235,7 @@ loop_1:
     (*(S_800E3E48 *)((u8 *)var_t6 + 0)) =
         (*(S_800E3E48 *)((u8 *)var_t4 + 0x2260));
     idx1 = ((S_80094988_2 *)var_t3)->unk_224C;
-    ASM_KEEP(idx1);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(idx1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (idx1 != ff) {
         idx1_copy = idx1;
         entry_ptr = (void *)((u32)(idx1_copy * sizeof(S_800E3E48)) +
@@ -249,7 +249,7 @@ loop_1:
     var_t4 += 0x8C;
     var_t6 += 0x8C;
     var_t1 += 1;
-    ASM_KEEP(var_t1);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(var_t1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     var_t2 += 4;
     if (var_t1 < 0x14) {
         goto loop_1;
@@ -347,10 +347,10 @@ loop_1:
                                     temp_s1_2->unk_D0 = var_s2;
                                     ((S_80094988_9 *)var_s4)->unk_00 =
                                         (u8)(((S_80094988_9 *)var_s4)->unk_00 | 0x20);
-                                    ASM_KEEP(var_s4);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                                    ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                                     addr_temp =
                                         (u8 *)&D_800E3D74 + scaled_index;
-                                    ASM_KEEP(addr_temp);   /* MATCH pin: retail immediate-load split depends on it */
+                                    ASM_KEEP(addr_temp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                                     ((S_80094988_14 *)addr_temp)->unk_00 = 0;
                                     if (temp_v0_2->unk_25 == 0) {
                                         temp_v0_2->unk_1C =

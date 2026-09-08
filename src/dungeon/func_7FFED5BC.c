@@ -30,6 +30,6 @@ loop_2:
 block_6:
         var_result = var_a3 - 0x80000000;
     }
-    ASM_USE(var_result);   /* MATCH pin: retail branch polarity depends on it */
+    ASM_USE(var_result);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     return var_result;
 }

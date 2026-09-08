@@ -129,9 +129,9 @@ void func_80175CD8(void *arg0, void *arg1, void *arg2, void *arg3)
 
 state_0:
     {
-        register u8 *pin_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
+        register u8 *pin_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         s32 pin_a1;
-        register s32 dx ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 dx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 dy;
         u8 w24;
         u8 c24;
@@ -140,9 +140,9 @@ state_0:
 
         pin_a0 = arg3;
         world0 = D_80082E80;
-        ASM_KEEP(world0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(world0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         pin_a1 = 0x2000;
-        ASM_KEEP(pin_a1);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(pin_a1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         w24 = world0[0x24];
         c24 = ((Rec_D_80082E80 *)arg2)->unk_24;
         c25 = ((Rec_D_80082E80 *)arg2)->unk_25;
@@ -275,7 +275,7 @@ state_4:
         }
     }
     ((S_80175CD8_0 *)arg0)->unk_96.s = 0;
-    ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     if ((D_80012090 == 0) && (D_8008146C == 0x28)) {
         ((S_80175CD8_0 *)arg0)->unk_9B = 7;
     } else if (((Rec_D_800E3D7C *)arg3)->unk_10.at01_u8.v >= D_8008146C) {
@@ -298,14 +298,14 @@ state_6:
         u8 *page8;
         u8 *page_1;
         s16 *counts;
-        register u8 call_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
+        register u8 call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         s32 count32;
-        register u16 count16 ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register u16 count16 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         page8 = (u8 *)0x80080000;
-        ASM_KEEP(page8);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(page8);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         page_1 = (u8 *)0x80010000;
-        ASM_KEEP(page_1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(page_1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         counts = D_80081468;
         call_a0 = page8[0x2E6B];
         count32 = *(s32 *)(page_1 + 0x234);
@@ -332,7 +332,7 @@ state_7:
         u16 height;
 
         masked = ((S_80175CD8_6 *)global_ptr)->unk_14 & 0xFFEFFFFF;
-        ASM_KEEP(masked);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(masked);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         globals = D_80083498;
         globals += 0x20;
         ((S_80175CD8_6 *)global_ptr)->unk_14 = masked;

@@ -29,21 +29,21 @@ extern u16 D_80162004[];
 void func_800B7428(s32 x, s32 y, u16 *src)
 {
     s32 width;
-    register s32 height ASM_REG("$15");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 height ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 row;
     s32 col;
     s32 tile;
-    register s32 index ASM_REG("$5");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 scratch ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 row_odd;
     s32 signed_width;
     s32 has_columns;
-    register s32 signed_x ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
-    register s32 signed_y ASM_REG("$24");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register s32 raw_x ASM_REG("$14");   /* MATCH pin: retail register colouring depends on it */
-    register s32 raw_y ASM_REG("$13");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 signed_x ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 signed_y ASM_REG("$24");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register s32 raw_x ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 raw_y ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 *dst;
-    register u16 *tilemap ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+    register u16 *tilemap ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     width = *src++;
     height = *src++;
@@ -51,10 +51,10 @@ void func_800B7428(s32 x, s32 y, u16 *src)
     raw_x = x;
     raw_y = y;
     scratch = height << 16;
-    ASM_KEEP_NV(scratch);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     if (scratch > 0) {
         tile = 0;
-        ASM_KEEP_NV(tile);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(tile);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         scratch = width << 16;
         signed_width = scratch >> 16;
         has_columns = tile < signed_width;
@@ -70,15 +70,15 @@ outer:
             scratch += signed_y;
             row_odd = scratch & 1;
             scratch = (s32)TOWN_TILE_PAGE;
-            ASM_KEEP_NV(scratch);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             tilemap = (u16 *)(scratch + 0x2004);
 inner:
-            ASM_KEEP_NV(row);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             scratch = row + raw_y;
             scratch <<= 7;
             scratch = col + scratch;
             index = raw_x + scratch;
-            ASM_KEEP_NV(index);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP_NV(index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             x = index;
             tile = *src;
             switch (tile) {
@@ -176,7 +176,7 @@ inner:
             default:
                 scratch = (s16)x;
                 scratch *= 2;
-                ASM_MEM_BARRIER();   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 tile = *src;
                 scratch += (s32)tilemap;
                 dst = (u16 *)scratch;
@@ -195,7 +195,7 @@ store:
         }
         scratch = row + 1;
         row = scratch;
-        ASM_KEEP_NV(height);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         scratch <<= 16;
         tile = height << 16;
         if (scratch < tile) {

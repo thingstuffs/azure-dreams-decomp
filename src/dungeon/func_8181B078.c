@@ -37,7 +37,7 @@ extern void func_80024920(void) __attribute__((noreturn));
 void func_8181B078(void *arg0, S_8181B078_1 *arg1, S_8181B078_2 *arg2)
 {
     s32 one;
-    register s32 tail_value ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 state;
 
     D_80025914 = 1;
@@ -60,7 +60,7 @@ void func_8181B078(void *arg0, S_8181B078_1 *arg1, S_8181B078_2 *arg2)
         func_80024920();
 
 check_state_2:
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (state == 2) {
             goto state_2;
         }
@@ -69,13 +69,13 @@ check_state_2:
 state_0:
         ((S_8181B078_0 *)arg0)->unk_1E = one;
         tail_value = ((S_8181B078_0 *)arg0)->unk_28 + 8;
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8002491C();
 
 state_1:
         ((S_8181B078_0 *)arg0)->unk_1E = 2;
         tail_value = ((S_8181B078_0 *)arg0)->unk_28 + 8;
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8002491C();
 
 state_2:

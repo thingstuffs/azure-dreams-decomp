@@ -86,8 +86,8 @@ extern u8 D_80175190[];
 
 void func_80171400(void *arg0, void *arg1, void *in_arg2, void *in_arg3)
 {
-    register void *arg2 ASM_REG("$18") = in_arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg3 ASM_REG("$17") = in_arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg2 ASM_REG("$18") = in_arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg3 ASM_REG("$17") = in_arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 scratch;
     s8 result;
     u16 state;
@@ -102,8 +102,8 @@ void func_80171400(void *arg0, void *arg1, void *in_arg2, void *in_arg3)
         return;
     }
 
-    ASM_CLOBBER("$6");   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_CLOBBER("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (((S_80171400_1 *)arg3)->unk_25 == 0) {
         u8 *table;
 

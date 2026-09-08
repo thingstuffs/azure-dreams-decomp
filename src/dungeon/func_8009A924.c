@@ -13,7 +13,7 @@ s32 func_800A0084(u8 *arg0, s16 *arg1) {
         s16 result;
 
         result = func_8009FB34((arg0[0x24] + *y) & 0xFFFF, (arg0[0x25] + *x) & 0xFFFF);
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         x++;
         if (result < 0) {
             goto next;
@@ -22,7 +22,7 @@ s32 func_800A0084(u8 *arg0, s16 *arg1) {
         {
             s32 rv;
             rv = 1;
-            ASM_TAILSLOT_PIN(rv);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN(rv);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             func_800A0110();
             return rv;
         }
@@ -33,7 +33,7 @@ next:
     {
         s32 rv;
         rv = 0;
-        ASM_KEEP(rv);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(rv);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         return rv;
     }
 }

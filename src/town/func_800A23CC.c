@@ -55,7 +55,7 @@ void func_8009FB2C(s32 arg0, S_8009FB2C_1 *arg1) {
     void *temp_v0_3;
     S_8009FB2C_2 *temp_v1;
     void *temp_a0;
-    register void *result ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_800B2344();
     temp_v0->unk_00 = (u8) arg1->unk_00;
@@ -67,7 +67,7 @@ void func_8009FB2C(s32 arg0, S_8009FB2C_1 *arg1) {
         func_80042640(&D_80100A10, temp_v0->unk_00);
         func_800423C0(&D_80100A10, temp_v0->unk_00, 0);
         {
-            register u8 *addr ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+            register u8 *addr ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             addr = (u8 *)&D_80100AF8;
             var_s1 = addr;
             func_800422DC(addr, &D_80100A10);
@@ -81,12 +81,12 @@ void func_8009FB2C(s32 arg0, S_8009FB2C_1 *arg1) {
             var_a2 += 0x10;
         } while (var_s1 != temp_a3);
         *(s32 *)var_a2 = *(s32 *)var_s1;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         temp_s0 = (temp_v0_2 * 0x54) + (u8 *)0x80010324;
         temp_v0_3 = func_8003C06C(temp_v0->unk_00);
         *(Copy10 *)temp_s0 = *(Copy10 *)temp_v0_3;
         temp_v0->unk_03 = (u8) ((temp_v0->unk_03 & 0xC0) | temp_v0_2);
-        ASM_KEEP(temp_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         result = temp_v0;
     } else {
         result = temp_v0;

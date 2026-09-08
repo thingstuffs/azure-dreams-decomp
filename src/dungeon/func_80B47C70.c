@@ -125,7 +125,7 @@ void func_80175470(void *arg0, void *arg1, Rec_D_80082E80 *arg2, void *arg3) {
     u16 next_timer;
     u16 *counter_base;
     s32 next_state;
-    register s32 rem_index ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 rem_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = ((S_80175470_0 *)arg0)->unk_9B.n;
     if (state >= 9U) {
@@ -136,7 +136,7 @@ void func_80175470(void *arg0, void *arg1, Rec_D_80082E80 *arg2, void *arg3) {
 
 jt_c0:
     next_state = ((S_80175470_0 *)arg0)->unk_9B.v + 1;
-    ASM_TAILSLOT_PIN(next_state);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_801757E4();
 
 jt_c1:
@@ -212,7 +212,7 @@ jt_c4:
     model->unk_0C = fill;
     raw_index = func_800498A0(arg3) - 1;
     rem_index = raw_index;
-    ASM_KEEP_NV(raw_index);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(raw_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if ((s16)raw_index < 0) {
         rem_index = func_80069EF8() % 3;
     }

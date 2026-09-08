@@ -5,7 +5,7 @@ extern void func_800960E4(void);
 extern s32 D_8008ACDC;
 
 #ifndef NON_MATCHING
-register u8 *dispatch_result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #define KEEP_DISPATCH() \
     ASM_KEEP(dispatch_result)
 #endif
@@ -23,7 +23,7 @@ void func_80096088(void *arg0in, void *arg1in) {
 
 #ifndef NON_MATCHING
     {
-        register s32 cond1 ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+        register s32 cond1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         cond1 = func_80042900(arg1, 10) << 16;
         if (cond1 != 0) {
             dispatch_result = (u8 *)0x80090000;
@@ -37,7 +37,7 @@ void func_80096088(void *arg0in, void *arg1in) {
     KEEP_DISPATCH();
 
     {
-        register s32 cond2 ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+        register s32 cond2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         cond2 = *(s32 *)((u8 *)arg1 + 0x1C);
         cond2 &= 0x100000;
         if (cond2 != 0) {
@@ -52,7 +52,7 @@ void func_80096088(void *arg0in, void *arg1in) {
     KEEP_DISPATCH();
 
     {
-        register u8 *result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+        register u8 *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         result = (u8 *)&D_8008ACDC;
         *(void **)((u8 *)arg0 + 0x8C) = result;
     }

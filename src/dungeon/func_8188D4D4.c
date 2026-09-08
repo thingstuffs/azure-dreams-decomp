@@ -66,7 +66,7 @@ void func_80024CD4(void *arg0, S_80024CD4_2 *arg1, S_80024CD4_1 *arg2) {
     u16 temp_v0_2;
     u16 temp_v0_3;
     u16 temp_v1_2;
-    register void *call_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 call_a1;
 
     D_80026472.value++;
@@ -108,11 +108,11 @@ state_0:
         call_a1 = ((S_80024CD4_0 *)arg0)->unk_16;
         temp_v1_2 = ((S_80024CD4_0 *)arg0)->unk_18.s;
         temp_a3 = ((S_80024CD4_0 *)arg0)->unk_1C;
-        ASM_USE2(temp_v1_2, temp_a3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE2(temp_v1_2, temp_a3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v1_2 =
             (u16) (temp_v1_2 - ((s32) (temp_v1_2 << 0x10) >> 0x13));
         temp_a3 += 0x80;
-        ASM_USE(temp_a3);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_USE(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_80024CD4_0 *)arg0)->unk_1C = temp_a3;
         ((S_80024CD4_0 *)arg0)->unk_18.u = temp_v1_2;
         func_8002522C(call_a0, call_a1,
@@ -156,7 +156,7 @@ state_3:
     }
 
 set_20:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     temp_v0 = 0x20;
 
 finish:

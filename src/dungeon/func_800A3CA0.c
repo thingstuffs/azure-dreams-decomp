@@ -11,7 +11,7 @@ s32 func_800A9400(s32 arg0)
     u8 *tile;
     s32 value;
 
-    ASM_KEEP(raw);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(raw);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     index = raw;
     tile = D_800DD8E7 + index;
     value = *tile;

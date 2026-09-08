@@ -91,7 +91,7 @@ state_1: {
 
 state_2: {
         s32 position;
-        register s32 result ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         s32 speed;
 
         position = arg1->unk_08.s;
@@ -120,7 +120,7 @@ state_f0: {
     }
 
 state_3: {
-        register s32 result ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         result = arg1->unk_08.s;
         result -= 0x100000;

@@ -49,17 +49,17 @@ extern s32 D_800252E0[3];
 
 s32 func_800254C4(void *arg0, s16 arg1, s16 arg2, s16 arg3) {
     register void *source = arg0;
-    register s16 value1 ASM_REG("$20") = arg1;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s16 value2 ASM_REG("$21") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s16 value1 ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s16 value2 ASM_REG("$21") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s16 mode = arg3;
     register void *node;
 
     node = func_8003FC64(0x202);
     if (node != 0) {
-        register s16 savedMode ASM_REG("$19") = mode;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register s16 savedMode ASM_REG("$19") = mode;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 modeTest;
 
-        ASM_KEEP(savedMode);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(savedMode);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_800254C4_0 *)node)->unk_10 = D_800250E8;
         func_8004491C(node, D_800252E0);
         modeTest = mode << 0x10;
@@ -75,7 +75,7 @@ s32 func_800254C4(void *arg0, s16 arg1, s16 arg2, s16 arg3) {
                 s32 tailValue =
                     ((S_800254C4_2 *)source)->unk_0A - 0x50;
 
-                ASM_TAILSLOT_PIN(tailValue);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN(tailValue);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_80025590();
             }
             }

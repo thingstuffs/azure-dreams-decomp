@@ -88,7 +88,7 @@ void *func_80E122F4(S_80E122F4_0 *arg0, void *arg1, void *arg2)
     S_80E122F4_5 *reference;
     void *obj;
     S_80E122F4_2 *arg2_reg;
-    register void *ret ASM_REG("$2");   /* MATCH pin: retail delay-slot contents depend on it */
+    register void *ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     S_80E122F4_4 *coords;
     S_80E122F4_1 *child;
     S_80E122F4_3 *part;
@@ -143,7 +143,7 @@ void *func_80E122F4(S_80E122F4_0 *arg0, void *arg1, void *arg2)
                  part->unk_0C.at00.v) / 32;
         part->unk_18 = delta;
         ret = obj;
-        ASM_TAILSLOT_PIN(ret);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_TAILSLOT_PIN(ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_80175CDC();
         return obj;
     }

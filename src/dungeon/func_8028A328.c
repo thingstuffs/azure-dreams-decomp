@@ -39,10 +39,10 @@ void func_8001D328(S_8001D328_0 *arg0) {
 
     rand_v0 = func_800A6D30();
     {
-        register s32 mul_a0 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register s32 mul_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register s32 mul_t0 ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 calc_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 mul_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register s32 mul_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 mul_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 calc_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         mul_a0 = arg0->unk_06;
         mul_v1 = arg0->unk_04;
@@ -50,7 +50,7 @@ void func_8001D328(S_8001D328_0 *arg0) {
         rand_v0 &= 7;
         calc_v1 = (mul_t0 >> 6) + rand_v0 + 4;
         var_v0 = calc_v1;
-        ASM_KEEP(var_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_v1 = calc_v1;
     }
     temp_v1 = temp_v1 < 0x3D;
@@ -59,8 +59,8 @@ void func_8001D328(S_8001D328_0 *arg0) {
     }
     var_s2 = (s16) var_v0;
     if (var_s2 >= 0) {
-        register u8 *prev_a0 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register s32 index_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *prev_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register s32 index_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *base36_v1;
         s32 offset_v0;
 

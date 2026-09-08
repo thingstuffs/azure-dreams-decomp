@@ -82,7 +82,7 @@ jt_c1:
             goto block_14;
         }
         table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-        ASM_KEEP(table_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table_page += 0x5EC8;
         if ((arg2->unk_14.at00_u16.v & 0x8000) == 0) {
             return;
@@ -91,7 +91,7 @@ jt_c1:
 jt_c2:
         if (arg2->unk_14.at00_u16.v & 0xE000) {
             table_page = DGN_TABLE_PAGE(D_80175ED0, 0x5ED0);
-            ASM_KEEP(table_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             table_page += 0x5ED0;
             goto block_14_ready;
         }
@@ -112,7 +112,7 @@ jt_c3:
 block_14:
         table_page += 0x5EC8;
 block_14_ready:
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         {
             u8 *table;
             table = (u8 *)table_page;

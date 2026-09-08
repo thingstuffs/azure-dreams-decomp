@@ -86,7 +86,7 @@ void func_80172970(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 kind;
     u8 *choice;
     void *object;
-    register void *record ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 y;
     u16 timer;
@@ -156,11 +156,11 @@ kind_none:
     choice = 0;
 
 have_choice:
-    ASM_KEEP(choice);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(choice);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (*choice != 0) {
         ((S_80172970_0 *)arg0)->unk_98 &= 0xFF7F;
         special_test = special;
-        ASM_KEEP(special_test);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_test != 0) {
             object = D_800814A8;
             ((S_80172970_1 *)arg3)->unk_60 = object;
@@ -184,7 +184,7 @@ copy_existing:
                           ((S_80172970_4 *)arg2)->unk_24,
                           ((S_80172970_4 *)arg2)->unk_25,
                           ((S_80172970_1 *)arg3)->unk_2A, 0x10);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         x = ((S_80172970_1 *)arg3)->unk_72.u;
         y = ((S_80172970_1 *)arg3)->unk_73.u;
         if (x < 0) {

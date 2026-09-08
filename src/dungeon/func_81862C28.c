@@ -56,16 +56,16 @@ extern u16 D_8006CCD8[];
 extern u16 D_8006CCE8[];
 
 void func_81862C28(s32 arg0, void *arg1, s32 arg2, u8 *arg3) {
-    register void *held_arg1 ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *held_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 held_arg2;
     s16 temp_s3;
     s16 temp_s4;
     s32 var_a1;
     s32 var_v1;
-    register s32 temp_a2 ASM_REG("$6");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 var_s2;
-    register void *var_s5 ASM_REG("$21");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *page_8007 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *var_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *page_8007 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_81862C28_1 *temp_s0;
     S_81862C28_0 *temp_v0;
     s32 xSum;
@@ -74,7 +74,7 @@ void func_81862C28(s32 arg0, void *arg1, s32 arg2, u8 *arg3) {
     s16 zValue;
 
     held_arg1 = arg1;
-    ASM_KEEP_NV(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     held_arg2 = temp_a2;
     temp_a2 <<= 0x10;
     if (temp_a2 == 0) {
@@ -103,7 +103,7 @@ void func_81862C28(s32 arg0, void *arg1, s32 arg2, u8 *arg3) {
     } else {
         var_s2 = 0;
         page_8007 = (u8 *)0x80070000;
-        ASM_KEEP(page_8007);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page_8007);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s5 = page_8007 - 0x3328;
 loop_5:
         temp_s0 = arg3 + var_s2;

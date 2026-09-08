@@ -20,7 +20,7 @@ extern void *D_800E5910[];
 
 void *func_800DCD38(void) {
     s32 allocation;
-    register ObjectHeader *header ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register ObjectHeader *header ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 *statusPage;
     s32 *source;
     u8 *data;
@@ -32,7 +32,7 @@ void *func_800DCD38(void) {
         allocation = func_8004B404(0x100);
         if (allocation != 0) {
             header = (ObjectHeader *)(object + 0x20);
-            ASM_KEEP(header);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(header);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             data = object + 0x5C;
             func_800DCCF4(data, allocation);
             source = (s32 *)0x800133A0;

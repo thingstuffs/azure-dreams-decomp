@@ -69,7 +69,7 @@ void *func_8014C870(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_8014C870_3 *part_b;
     S_8014C870_4 *actor;
     void *call_a0;
-    register s8 saved_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
     s8 saved_arg2;
     s32 left;
@@ -79,7 +79,7 @@ void *func_8014C870(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     saved_arg1 = arg1;
     saved_arg3 = arg3;
     saved_arg2 = arg2;
-    ASM_KEEP_NV(saved_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (void *)((Work *)((u8 *)obj + 0x20));

@@ -63,14 +63,14 @@ void func_80173450(void *arg0, void *arg1, void *arg2, void *arg3)
     goto end;
 
 state_ge_2:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto update;
     }
     goto end;
 
 state_zero:
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     if (page[0x1A35] != 0) {
         goto end;
     }

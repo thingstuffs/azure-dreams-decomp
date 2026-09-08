@@ -175,10 +175,10 @@ s32 func_80173FDC(u8 *arg0)
     desc.zero = 0;
     desc.angle = ((S_80173FDC_0 *)arg0)->unk_10 - 0x400;
     input = arg0;
-    ASM_KEEP(input);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     desc.value = func_80065F90(((S_80173FDC_0 *)arg0)->unk_12, 0x40);
     row = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     col = 7;
 grid_loop:
     {
@@ -335,7 +335,7 @@ grid_loop:
     }
 
     {
-        register u8 *tail ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *tail ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         tail = ((S_80173FDC_0_pre *)arg0)[-1].unk_00;
         if (tail == 0) {
@@ -343,7 +343,7 @@ grid_loop:
         }
         arg0 = tail + 0x20;
         tail = ((S_80173FDC_8 *)tail)->unk_08;
-        ASM_KEEP(tail);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     }
 
     }

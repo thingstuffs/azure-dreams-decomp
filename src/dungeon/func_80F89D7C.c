@@ -66,7 +66,7 @@ void func_8017357C(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     s32 flags;
     s32 counter_value;
-    register u8 *counter_base ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *counter_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *global_base;
     s32 state;
 

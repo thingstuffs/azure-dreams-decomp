@@ -92,7 +92,7 @@ s32 func_8080C324(void) {
     s16 *upper;
     s32 count;
     s32 loop_value;
-    register s32 page1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 page1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 page2;
     s32 store_page;
     s32 store_value;
@@ -134,11 +134,11 @@ s32 func_8080C324(void) {
     count = 7;
     loop_value = 0x30;
     page1 = 0x80530000;
-    ASM_KEEP_NV(page1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(page1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     page1 += 0x6D6;
     upper = (s16 *)page1;
     page2 = 0x80530000;
-    ASM_KEEP_NV(page2);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(page2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     page2 += 0x666;
     lower = (s16 *)page2;
     do {
@@ -152,7 +152,7 @@ s32 func_8080C324(void) {
     loaded = 0x00404040;
     call_base = D_805267E0;
     call_record = &rec1;
-    ASM_USE2(call_base, call_record);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE2(call_base, call_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     count = 8;
     value1 = 0xE0;
     rec1.f8 = loaded;
@@ -162,9 +162,9 @@ s32 func_8080C324(void) {
     *(s32 *)(store_page + 0x6D8) = store_value;
     rec1.fC = 0x30;
     rec1.fE = 0xA0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     field_value = 0xE0;
-    ASM_KEEP_NV(field_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(field_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     rec1.f10 = field_value;
     rec1.f12 = 0x22;
     rec1.f14 = 2;
@@ -208,9 +208,9 @@ s32 func_8080C324(void) {
         init_value = 0x00808080;
         base2 = D_80526970;
         record2 = &rec2;
-        ASM_USE2(base2, record2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE2(base2, record2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         count2 = 8;
-        ASM_KEEP_NV(count2);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP_NV(count2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         value2 = 0xE4;
         words2 = D_805300BC;
         rec2.f10 = init_value;
@@ -229,14 +229,14 @@ s32 func_8080C324(void) {
 
         rec2.f16 = 0xA4;
         do {
-            register void *iter_base ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-            register void *iter_record ASM_REG("$5");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register void *iter_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            register void *iter_record ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
             iter_base = D_80526970;
             loop_value = *words2;
-            ASM_USE(loop_value);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_USE(loop_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             iter_record = &rec2;
-            ASM_KEEP_NV(iter_record);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(iter_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             rec2.f14 = value2;
             value2 -= 0x10;
             words2--;

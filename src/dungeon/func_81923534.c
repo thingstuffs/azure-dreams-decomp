@@ -78,7 +78,7 @@ void func_80024D34(void *arg0, Rec_func_800247B8_arg1 *arg1)
         control->unk_10 = 0x60;
         flags = control->unk_14 | 0xC;
         VFIELD(control, u16, 0x14) = flags;
-        ASM_KEEP(flags);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         control->unk_14 = flags | 2;
 
         position = ((S_80024D34_1 *)node)->unk_08;

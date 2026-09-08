@@ -83,9 +83,9 @@ void *func_80024FD8(S_80024FD8_2 *arg0, s16 arg1, s16 arg2)
         temp_a0 = (s16)arg2;
         temp_s0->unk_18 = (temp_a0 << 8) - 0x400;
         value = 0x60;
-           /* MATCH pin: load-bearing for the whole function shape */
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_v1_2 = (u8 *)temp_v0 + 0x20;
-           /* MATCH pin: load-bearing for the whole function shape */
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_s0->unk_10 = value;
         counter = D_800257CC;
         temp_s0->unk_16 = 0x400;

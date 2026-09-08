@@ -102,16 +102,16 @@ void func_80172AB4(void *arg0_in, void *arg1_in, void *arg2_in, void *arg3_in)
     s32 kind;
     void *object;
     void *arg0 = arg0_in;
-    register void *arg1 ASM_REG("$20") = arg1_in;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg2 ASM_REG("$18") = arg2_in;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg3 ASM_REG("$17") = arg3_in;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *record ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 x ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg1 ASM_REG("$20") = arg1_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$18") = arg2_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg3 ASM_REG("$17") = arg3_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 y;
     u16 position[3];
     u16 next;
 
-    ASM_KEEP4_NV(arg0, arg1, arg2, arg3);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP4_NV(arg0, arg1, arg2, arg3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     state = ((S_80172AB4_0 *)arg0)->unk_9B;
     special = 0;
@@ -133,7 +133,7 @@ void func_80172AB4(void *arg0_in, void *arg1_in, void *arg2_in, void *arg3_in)
     {
         s32 five = 5;
 
-        ASM_KEEP_NV(five);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(five);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (state == five) {
             goto state_5;
         }
@@ -200,7 +200,7 @@ have_choice:
         {
             s32 special_test = special;
 
-            ASM_KEEP(special_test);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (special_test != 0) {
                 object = D_800814A8;
                 ((S_80172AB4_1 *)arg3)->unk_60 = object;

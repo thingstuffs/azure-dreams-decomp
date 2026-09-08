@@ -36,7 +36,7 @@ void func_8017208C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
             ((Rec_D_800E3D7C *)arg3)->unk_84.as_s8 = 0x7C;
         }
         ((Rec_D_800E3D7C *)arg3)->unk_85.as_s8 = 8;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         (*(u8 **)((u8 *)arg2 + 0x2C)) = D_80174038;
         func_80047784(arg2, D_80174038[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
         ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);

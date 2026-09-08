@@ -20,7 +20,7 @@ s32 func_80874D84(void)
 #ifdef NON_MATCHING
     s32 zero = 0;
 #else
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
     s32 result;
 
@@ -34,6 +34,6 @@ s32 func_80874D84(void)
         i++;
     }
     result = i;
-    ASM_KEEP(result);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return result;
 }

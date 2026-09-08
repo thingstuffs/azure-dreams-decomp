@@ -71,7 +71,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
         }
         return;
     }
-       /* MATCH pin: keeps a statement from moving across a call/branch */
+       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }

@@ -22,7 +22,7 @@ void func_80043914(S_80043914_Arg *a0)
     if (a1->field_0x00 == 0x16) {
         S_800E3E48 *base = D_800E3E48;
         u8 v = base[a1->field_0x03 & 0x1F].field_0x48;
-        register u8 out ASM_REG("$2");   /* MATCH pin: slus-diff */
+        register u8 out ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
         if (v == 0xD) {
             out = 0xF;

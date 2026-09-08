@@ -205,13 +205,13 @@ void func_80171D74(void *arg0_in, void *arg1_in, void *arg2_in) {
     s32 temp_a1_4;
     s32 temp_a1_8;
     void *arg0;
-    register void *arg1 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *arg1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *arg2;
     Table32 *copy_base;
-    register s32 *base833c ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 temp_s2 ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register s32 *base833c ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 tail_phase;
-    register void *tail_call_arg ASM_REG("$4");   /* MATCH pin: retail delay-slot contents depend on it */
+    register void *tail_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     s32 temp_v1_3;
     u16 temp_a0_12;
     u16 temp_a0_14;
@@ -256,7 +256,7 @@ void func_80171D74(void *arg0_in, void *arg1_in, void *arg2_in) {
     s32 temp_a1_6;
     s32 temp_a1_7;
     S_80171D74_4 *temp_s3;
-    register void *temp_s4 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_80171D74_13 *temp_v0_12;
     S_80171D74_14 *temp_v0_13;
     S_80171D74_15 *temp_v0_14;
@@ -272,9 +272,9 @@ void func_80171D74(void *arg0_in, void *arg1_in, void *arg2_in) {
     arg0 = arg0_in;
     arg1 = arg1_in;
     arg2 = arg2_in;
-    ASM_KEEP_NV(arg0);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP_NV(arg1);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP_NV(arg2);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     copy_base = &D_8016482C;
     sp18 = *copy_base;
     copy_base = &D_80164AC0;
@@ -387,7 +387,7 @@ jt_c7:
             func_8016738C(temp_s4);
             func_801676CC(temp_s4);
             tail_page7 = 0x80170000;
-            ASM_PAGEBASE_PIN(tail_page7);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(tail_page7);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80173084();
             return;
         }
@@ -395,7 +395,7 @@ jt_c7:
 jt_c9:
         func_801677FC(temp_a0, temp_a1_2);
         tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
-        ASM_KEEP(tail_phase);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_80171D74_1 *)arg0)->unk_96 = 0;
         func_80173074();
         return;
@@ -405,9 +405,9 @@ jt_c10:
         if ((s16) temp_v0_7 >= 2) {
             u8 *sp1_base = (u8 *)&sp18;
             u8 *sp2_base;
-            register s32 angle_input ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)arg0)->unk_96 = 0U;
             ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
             ((S_80171D74_5 *)arg2)->unk_14 = (u16) (((S_80171D74_5 *)arg2)->unk_14 & 0xFF7F);
@@ -431,7 +431,7 @@ jt_c10:
             ((S_80171D74_3 *)arg1)->unk_10.n = (void *) (0 - (SP2_Y_AT(sp2_base, temp_s3->unk_2A.n) << 0x10));
             func_801715D0();
             tail_call_arg = arg0;
-            ASM_TAILSLOT_PIN(tail_call_arg);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(tail_call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8017301C();
             return;
         }
@@ -491,10 +491,10 @@ jt_c16:
         ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_10;
         if ((temp_v0_10 << 0x10) <= 0) {
             u8 *sp2_base16;
-            register s32 angle_input16 ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_input16 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp16;
-            register s32 angle_result16 ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
-            register u32 angle_index16 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 angle_result16 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            register u32 angle_index16 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)arg0)->unk_96 = 0U;
             ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
             ((S_80171D74_10 *)(D_80175DB8[0]))->unk_32 = 3;
@@ -530,7 +530,7 @@ jt_c17:
             pitch17 = ((S_80171D74_1 *)arg0)->unk_92.u;
             phase17 = ((S_80171D74_1 *)arg0)->unk_96;
             pitch17 = pitch17 - 2;
-            ASM_KEEP_NV(pitch17);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(pitch17);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             phase17 = phase17 + 1;
             temp_v0_11 = phase17;
             ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_11;
@@ -544,9 +544,9 @@ jt_c17:
         }
         temp_v1_2 = (s16) ((S_80171D74_1 *)arg0)->unk_96;
         if ((temp_v1_2 == 0xA) || (temp_v1_2 == 0x14) || (temp_v1_2 == 0x1E)) {
-            register s32 angle_input ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             angle_input = temp_s3->unk_2A.n;
             angle_tmp = angle_input - 0x200;
             angle_result = angle_tmp;
@@ -557,7 +557,7 @@ jt_c17:
             if ((s16) ((S_80171D74_1 *)arg0)->unk_96 == 0x1E) {
                 func_800A56E0(0x81A);
                 tail_call_arg = arg0;
-                ASM_TAILSLOT_PIN(tail_call_arg);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(tail_call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_8017301C();
                 return;
             }
@@ -597,7 +597,7 @@ jt_c20:
         ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_21;
         if ((temp_v0_21 << 0x10) <= 0) {
             tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
-            ASM_KEEP(tail_phase);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)arg0)->unk_96 = 0;
             func_80173074();
             return;
@@ -618,7 +618,7 @@ jt_c22:
         }
         temp_v0_22 = ((S_80171D74_1 *)arg0)->unk_96;
         phase22 = temp_v0_22 + 1;
-        ASM_KEEP_NV(phase22);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP_NV(phase22);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ((S_80171D74_1 *)arg0)->unk_96 = phase22;
         if ((u32) (temp_v0_22 - 0xA) < 8U) {
             ((S_80171D74_1 *)arg0)->unk_A0.at00.v = (s32) (func_800644B8(((s32) (phase22 << 0x10) >> 8) - 0xA00) << 8);
@@ -627,9 +627,9 @@ jt_c22:
         }
         temp_v1_6 = (s16) ((S_80171D74_1 *)arg0)->unk_96;
         if ((temp_v1_6 == 0x19) || (temp_v1_6 == 0x1E) || (temp_v1_6 == 0x23) || (temp_v1_6 == 0x28)) {
-            register s32 angle_input ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             angle_input = temp_s3->unk_2A.n;
             angle_tmp = angle_input - 0x200;
             angle_result = angle_tmp;
@@ -653,9 +653,9 @@ jt_c24:
         temp_v0_23 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
         ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_23;
         if (((s16) temp_v0_23 == 5) || ((s16) temp_v0_23 == 0xA) || ((s16) temp_v0_23 == 0xF) || ((s16) temp_v0_23 == 0x14)) {
-            register s32 angle_input ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             angle_input = temp_s3->unk_2A.n;
             angle_tmp = angle_input - 0x200;
             angle_result = angle_tmp;
@@ -689,7 +689,7 @@ jt_c25:
         ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_24;
         if ((s16) temp_v0_24 >= 0x28) {
             tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
-            ASM_KEEP(tail_phase);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)arg0)->unk_96 = 0;
             func_80173074();
             return;
@@ -706,7 +706,7 @@ jt_c30: {
         ((S_80171D74_3 *)arg1)->unk_14 = (void *)0xFFFB0000;
         ((S_80171D74_3 *)arg1)->unk_10.n = (void *) (y30 << 0x13);
         tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
-        ASM_KEEP(tail_phase);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_80171D74_1 *)arg0)->unk_96 = 0;
         func_80173074();
         return;
@@ -794,9 +794,9 @@ jt_c34: {
         temp_v0_28 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
         ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_28;
         if ((temp_v0_28 & 3) == 3) {
-            register s32 angle_input ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             angle_input = temp_s3->unk_2A.n;
             angle_tmp = angle_input - 0x200;
             angle_result = angle_tmp;
@@ -843,7 +843,7 @@ jt_c41:
         ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_29;
         if ((s16) temp_v0_29 >= 0x3C) {
             tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
-            ASM_KEEP(tail_phase);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)arg0)->unk_96 = 0;
             func_80173074();
             return;
@@ -877,7 +877,7 @@ block_147:
     {
         u32 tail_page147;
         tail_page147 = 0x80170000;
-        ASM_PAGEBASE_PIN(tail_page147);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(tail_page147);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     }
     func_80173084();
 
@@ -889,10 +889,10 @@ jt_c47:
             s32 fwd_a1;
             s32 fwd_a2;
             s32 fwd_a3;
-            ASM_SET(fwd_a0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-            ASM_SET(fwd_a1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-            ASM_SET(fwd_a2);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-            ASM_SET(fwd_a3);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_SET(fwd_a0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ASM_SET(fwd_a1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ASM_SET(fwd_a2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ASM_SET(fwd_a3);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             func_800948BC(fwd_a0, fwd_a1, fwd_a2, fwd_a3);
         }
         D_80082E76[0] = 0x8000;
@@ -922,7 +922,7 @@ block_152:
         if ((*(u8 *)((u8 *)D_8006CCF8 + temp_s2_2)) != 0) {
             u16 tail_flag;
             tail_flag = ((S_80171D74_5 *)arg2)->unk_14 | 1;
-            ASM_TAILSLOT_PIN(tail_flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80173110();
             return;
         }

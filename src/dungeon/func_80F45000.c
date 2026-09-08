@@ -91,9 +91,9 @@ void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_80F45000_4 *actor;
     register s32 kind;
     s32 probe;
-    register s8 saved_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call_a0;
     void *call_a1;
 
@@ -122,8 +122,8 @@ void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
 
             left = ((S_80F45000_1 *)work)->unk_14 | 0x6000;
             right = ((S_80F45000_1 *)work)->unk_1C | 0x6000;
-            ASM_KEEP(left);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            ASM_TAILSLOT_PIN(right);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(left);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(right);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             return func_8015E974();
         }
         if (kind >= 2) {

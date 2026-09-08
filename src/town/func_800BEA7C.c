@@ -38,7 +38,7 @@ extern void func_80044BB0(void);
 void func_800BC1DC(Input *arg0, s32 arg1, s32 arg2)
 {
     Object *obj;
-    register u8 *ptr ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 color;
 
     obj = func_8003FC64(0x136);
@@ -49,7 +49,7 @@ void func_800BC1DC(Input *arg0, s32 arg1, s32 arg2)
         func_8004491C(obj, (void *)func_80044BB0);
         color = 0x808080;
         ptr = (u8 *)obj + 0x20;
-        ASM_KEEP(ptr);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(ptr);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         *(s16 *)(ptr + 2) = 0x1E;
         ptr = (u8 *)obj->data;
         *(s16 *)(ptr + 0x1E) = 0x1000;

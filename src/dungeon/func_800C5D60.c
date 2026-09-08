@@ -104,11 +104,11 @@ void *func_800CB4C0(void *arg0, s16 arg1) {
             temp_s0->unk_10 = 0x60;
             temp_s0->unk_0C = temp_s32;
         }
-           /* MATCH pin: retail schedule: same instructions, different order without it */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_s0->unk_06 = -1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v0_2 = temp_v0 + 0x20;
-        ASM_KEEP(temp_v0_2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_v0_2->unk_A8 = arg0;
         temp_v0_2->unk_B4 = arg1;
         temp_v0_2->unk_96 = 8;

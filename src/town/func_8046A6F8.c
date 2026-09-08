@@ -53,7 +53,7 @@ void *func_8001B6F8(s32 arg0, s32 arg1, s32 arg2)
     }
 
     page = 0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     if (*(s16 *)(page - 0x7F8C) != 0) {
         entry = (s16 *)(page - 0x7F8C);
         do {

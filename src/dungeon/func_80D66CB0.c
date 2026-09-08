@@ -92,7 +92,7 @@ void func_801724B0(void *arg0, s32 arg1, void *arg2, void *arg3) {
             func_8009A21C(next_x, next_y, mode);
         }
 
-        ASM_KEEP(state);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_801724B0_0 *)arg3)->unk_2A = result;
         if (state == 3) {
             if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {

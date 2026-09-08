@@ -65,7 +65,7 @@ state_1:
     temp_a0 += temp_step;
     temp_v0 = temp_a0 + ((s32) (temp_v0 << 0x10) >> 0x12);
     temp_condition = (temp_v0 + 8) & 0xFFFF;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_808127A4_0 *)arg0)->unk_16.p = temp_a0;
     ((S_808127A4_0 *)arg0)->unk_16.u = temp_v0;
     if (temp_condition >= 0xF9U) {

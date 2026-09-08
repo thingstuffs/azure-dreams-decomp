@@ -11,7 +11,7 @@ void func_800C2A10(void *arg0) {
     result = func_8008FE78(D_800FE4A6, *(s16 *)((s8 *)arg0 + 0x16));
     var_a0 = 1;
     if (result != 0) {
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         var_a0 = 0;
     }
     *(s32 *)((s8 *)arg0 + 0xC) = func_800C296C(var_a0);

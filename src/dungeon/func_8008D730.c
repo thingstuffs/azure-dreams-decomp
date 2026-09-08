@@ -82,13 +82,13 @@ typedef struct S_80092E90_9 {
 
 void func_80092E90(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-    register void *savedArg3 ASM_REG("$21") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *savedArg3 ASM_REG("$21") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *actorBase;
     s32 found;
     s32 adjusted;
     s32 pixel;
-    register s32 initArg ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
-    register s32 loopResult ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 initArg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    register s32 loopResult ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 count;
     s16 divisor;
     s16 *global;
@@ -116,7 +116,7 @@ void func_80092E90(void *arg0, void *arg1, void *arg2, void *arg3)
 
     ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     countBase = &D_80083460_count;
     count = ((S_80092E90_3 *)countBase)->unk_04.n;
     rawCount = ((S_80092E90_3 *)countBase)->unk_04.v;
@@ -152,7 +152,7 @@ state1:
         if (!(((S_80092E90_1 *)arg2)->unk_14 & 0xE000)) {
             return;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         found = 0;
         if (!(D_80013714 & 8)) {
@@ -171,8 +171,8 @@ state1:
             loopResult = found;
             if (loopResult != 0) {
 #ifndef NON_MATCHING
-                register u32 page ASM_REG("$2") = 0x800E0000;   /* MATCH pin: load-bearing for the whole function shape */
-                ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+                register u32 page ASM_REG("$2") = 0x800E0000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 func_8009307C((void *)(page + 0x597));
 #else
                 func_8009307C(&D_800E0597);
@@ -180,13 +180,13 @@ state1:
                 return;
             }
 #ifndef NON_MATCHING
-            ASM_CLOBBER("$2");   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             {
-                register u32 page ASM_REG("$2") = 0x800E0000;   /* MATCH pin: load-bearing for the whole function shape */
-                register void *message ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
-                ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+                register u32 page ASM_REG("$2") = 0x800E0000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register void *message ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 message = (void *)(page + 0x5C3);
-                ASM_KEEP(message);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 func_800997FC(message);
             }
 #else

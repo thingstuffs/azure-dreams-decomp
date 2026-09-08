@@ -20,7 +20,7 @@ void func_80170A5C(void)
     u16 temp_a1;
     u16 temp_v0_u;
     void *temp_s1;
-    register void *temp_s2 ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *temp_s3;
     void *temp_v0;
     void *temp_v1;

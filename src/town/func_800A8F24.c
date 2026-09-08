@@ -57,13 +57,13 @@ void func_800A6684(void *arg0, Rec_D_800E3D7C *arg1, S_800A6684_0 *arg2)
 
         if ((func_800C2F14((*(s16 *)((u8 *)arg0 + 0x72)), (*(s16 *)((u8 *)arg0 + 0x64))) << 0x10) != 0) {
             tail_value = arg2->unk_14 | 1;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             func_800A6758();
             return;
         }
 
         arg2->unk_14 &= 0xFFFE;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         call_a0 = arg2;
         func_800478B8(call_a0);
 

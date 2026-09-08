@@ -98,7 +98,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
         func_801719C0(arg0);
         return;
     }
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     if (((S_80171514_0 *)arg3)->unk_1C & 0x200) {
         if (((S_80171514_1 *)arg2)->unk_2C == D_80173EC4) {
@@ -119,7 +119,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
             return;
         }
 
-           /* MATCH pin: keeps a statement from moving across a call/branch */
+           /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if ((*(u8 *)((u8 *)arg0 + (0x9A))) != 14) {
             (*(u8 *)((u8 *)arg0 + (0x9A))) = 14;
         }
@@ -188,9 +188,9 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
 
                 func_80173D6C(arg0, arg1, arg2);
                 tail_flags = ((S_80171514_0 *)arg3)->unk_71;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 tail_arg = arg3;
-                ASM_KEEP(tail_arg);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_KEEP(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 tail_flags &= 0x7F;
                 ((S_80171514_0 *)arg3)->unk_71 = tail_flags;
                 func_801718A4(tail_arg);

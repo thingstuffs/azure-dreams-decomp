@@ -14,8 +14,8 @@ extern s32 D_800E4940;
 void func_80097C78(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
     void *early_p2 = arg2;
-    register void *p2 ASM_REG("$19") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
-    register void *p3 ASM_REG("$17") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *p2 ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *p3 ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 direction = *(s16 *)((u8 *)p3 + 0x64);
     u8 *state = D_80083160;
 
@@ -25,8 +25,8 @@ void func_80097C78(void *arg0, s32 arg1, void *arg2, void *arg3)
         return;
     }
 
-    ASM_CLOBBER("$6");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    ASM_CLOBBER("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (direction > 0) {
         func_8008CBA0(arg0, arg1, p2, p3);
     }

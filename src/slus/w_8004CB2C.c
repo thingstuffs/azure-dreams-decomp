@@ -46,7 +46,7 @@ s32 func_8004CB2C(FrameState *state)
             }
 
             tail_node = state->node;
-            ASM_KEEP(tail_node);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(tail_node);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             divisor = D_80080A84[0];
             duration = tail_node->duration;
             state->countdown = duration / divisor;

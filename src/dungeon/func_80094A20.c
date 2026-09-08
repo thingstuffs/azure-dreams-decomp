@@ -19,8 +19,8 @@ extern void func_8009A028(void *arg0);
 
 
 s32 func_8009A180(void *arg0, S_8009A180_0 *arg1) {
-    register u32 carrier ASM_REG("$4");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 result ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register u32 carrier ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 flags;
     s32 link;
     S_8009A180_2 *node;
@@ -29,7 +29,7 @@ s32 func_8009A180(void *arg0, S_8009A180_0 *arg1) {
     if (arg0 == arg1) {
         result = 0;
         flags = arg1->unk_1C;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         carrier = 0x80000000;
         arg1->unk_1C = flags | carrier;
         return;
@@ -45,13 +45,13 @@ s32 func_8009A180(void *arg0, S_8009A180_0 *arg1) {
 
         link = arg1->unk_5C.s;
         ((Rec_D_800E3D7C *)arg0)->unk_5C = link;
-        ASM_KEEP(link);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         node = (void *)(link + 0x20);
-        ASM_KEEP(node);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         carrier = (u32)node->unk_58;
-        ASM_KEEP(carrier);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(carrier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         result = 1;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((Rec_D_800E3D7C *)arg0)->unk_58 = (void *)carrier;
         carrier = (u32)((u8 *)arg0 - 0x20);
         node->unk_58 = (void *)carrier;

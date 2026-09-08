@@ -42,7 +42,7 @@ void func_800951B4(Actor *actor)
     Vec3 *call_result;
 
     town = &D_80083160;
-    ASM_KEEP(town);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(town);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     index = func_80094BC8(town->field8, town->fieldC8);
     if (index == -1) {
         return;
@@ -65,7 +65,7 @@ void func_800951B4(Actor *actor)
     }
     call_point = &point;
     call_result = &result;
-    ASM_KEEP(call_result);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     point.y = value >> 12;
     point.z = 0;
 
@@ -106,7 +106,7 @@ void func_800951B4(Actor *actor)
     }
     call_point = &point;
     call_result = &result;
-    ASM_KEEP(call_result);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     point.y = value >> 12;
     point.z = 0;
 

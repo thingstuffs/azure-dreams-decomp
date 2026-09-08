@@ -21,7 +21,7 @@ void func_800DC650(u8 *arg0) {
     s32 current;
     s32 target;
     s32 delta;
-    register u32 call_flags ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 call_flags ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *call_arg;
     s32 result;
 
@@ -46,7 +46,7 @@ void func_800DC650(u8 *arg0) {
     }
 
 set_target:
-    ASM_USE_NV(current);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE_NV(current);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     current = target;
 compare:
     if (current != target) {
@@ -58,7 +58,7 @@ compare:
     call_flags = *(u32 *)(ctx + 0x50);
     call_arg = *(void **)(ctx + 0x3C);
     call_flags = ((call_flags >> 1) ^ 1) % 2;
-    ASM_KEEP(call_flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     result = func_800DCA1C(call_arg, call_flags);
     do {
         D_800E5910->value = result;

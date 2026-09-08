@@ -49,9 +49,9 @@ void *func_800C5214(s32 arg0)
     }
 
     {
-        register void *result ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
-        register u16 flags ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register s32 value ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        register u16 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         object->unk_10 = D_800C52D0;
         object->unk_BC = arg0;
@@ -68,7 +68,7 @@ void *func_800C5214(s32 arg0)
         part->unk_06 = -0x10;
         func_8004491C(object, D_800345B8);
         result = object;
-        ASM_KEEP(result);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         flags = part->unk_14;
         value = 0x20;
         part->unk_10 = value;

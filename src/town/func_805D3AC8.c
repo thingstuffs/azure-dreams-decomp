@@ -2,9 +2,9 @@
 
 void *func_805D3AC8(void *arg0) {
     s32 var_a2 = 0;
-    register s32 var_a1 ASM_REG("$5") = 1;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 var_a1 ASM_REG("$5") = 1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 var_a3 = 0x19;
-    register void *var_v1 ASM_REG("$3") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *var_v1 ASM_REG("$3") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s8 *temp_v0;
 
     do {

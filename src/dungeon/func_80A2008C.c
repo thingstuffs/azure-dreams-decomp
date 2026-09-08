@@ -69,7 +69,7 @@ void func_8017388C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
 {
     void *arg0 = in_arg0;
     void *arg1 = in_arg1;
-    register void *arg2 ASM_REG("$18") = in_arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg2 ASM_REG("$18") = in_arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *arg3 = in_arg3;
     s32 state;
 
@@ -200,6 +200,6 @@ state_two:
 finish:
     ((S_8017388C_2 *)arg3)->unk_1C &= ~0x200;
     ((S_8017388C_0 *)arg0)->unk_8C = D_80170E84;
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

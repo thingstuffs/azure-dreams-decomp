@@ -20,7 +20,7 @@ void func_80093744(void) {
     value1 = *(s32 *)((u8 *)values + 8);
     value2 = *(s32 *)((u8 *)values + 0xC);
     object = *(u8 **)(base + 0x2C);
-    ASM_KEEP(base);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     if (func_8009368C(arg0, value1, value2) != 0) {
         u8 *current;

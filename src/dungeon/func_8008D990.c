@@ -152,16 +152,16 @@ jt_c1:
     }
     func_800945E8(arg0);
     func_800948BC();
-    ASM_KEEP(var_s0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
-        register UnalignedCopy3 *copy_src ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
+        register UnalignedCopy3 *copy_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         UnalignedCopy3 *copy_dst;
-        register s32 copy_v0 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register s32 copy_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 copy_v1;
 
         copy_src = (UnalignedCopy3 *)0x80013710;
         copy_dst = (UnalignedCopy3 *)0x80012080;
-        ASM_KEEP(copy_dst);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(copy_dst);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         copy_v0 = copy_src->unk0;
         copy_v1 = copy_src->unk4;
         copy_dst->unk0 = copy_v0;
@@ -231,19 +231,19 @@ block_23:
     func_800948BC();
     {
         s32 call_a0;
-        register s32 call_a1 ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
-        register s32 call_a2 ASM_REG("$6");   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register s32 call_a3 ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register s32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register s32 call_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *store_base;
-        register u16 store_value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register u16 store_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         call_a0 = 6;
         call_a1 = 0;
         call_a2 = call_a1;
         call_a3 = call_a1;
-        ASM_KEEP4_NV(call_a0, call_a1, call_a2, call_a3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP4_NV(call_a0, call_a1, call_a2, call_a3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         store_base = (u8 *)0x80080000;
-        ASM_KEEP(store_base);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(store_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         store_value = 0x8000;
         ((S_800930F0_9 *)store_base)->unk_2E76 = store_value;
         func_80041094(call_a0, call_a1, call_a2, call_a3, 0x8000);

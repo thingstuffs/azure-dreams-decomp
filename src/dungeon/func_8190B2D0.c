@@ -67,16 +67,16 @@ void func_80024AD0(void *arg0, void *arg1, void *arg2)
     CoordTable table;
     void *s4;
     u32 s0;
-    register u32 s5 ASM_REG("$21");   /* MATCH pin: retail register colouring depends on it */
+    register u32 s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
-    register void *arg0_r ASM_REG("$19") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg0_r ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *arg1_r = arg1;
     void *arg2_r = arg2;
 #define arg0 arg0_r
 #define arg1 arg1_r
 #define arg2 arg2_r
 
-    ASM_KEEP_NV(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s4 = FIELD(arg0, void *, 0);
     rect = D_80024038;
     table = D_80024064;
@@ -119,10 +119,10 @@ state1:
     u16 base_z;
     u16 base_height;
     void *info;
-    register void *entry1 ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *entry1 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *entry;
     s32 distance;
-    register s32 offset ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     FIELD(arg1, u16, 2) = FIELD((void *)s5, u16, 2);
     FIELD(arg1, u16, 6) = FIELD((void *)s5, u16, 6);
     base_z = FIELD((void *)s5, u16, 0xA);
@@ -202,14 +202,14 @@ state1:
 state2:
     {
     u8 shade;
-    register s32 delta ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 result;
     void *info;
-    register void *entry ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *entry ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s0 = 0;
     do {
-        void *call_obj;   /* MATCH pin: retail schedule: same instructions, different order without it */
-        s32 call_code;   /* MATCH pin: retail basic-block layout depends on it */
+        void *call_obj;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        s32 call_code;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         s32 call_shade;
         s32 random = func_80069EF8();
         call_obj = (u8 *)arg0 - 32;
@@ -279,10 +279,10 @@ state2:
 
 state3:
     {
-    register void *entry ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *entry ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *dst;
     s32 state_count;
-    register void *new_obj ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *new_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *info;
     s32 current_count;
     {
@@ -310,7 +310,7 @@ state3:
         if (arg1 != 0) {
             new_obj = arg1;
             s0 = (u32)((u8 *)arg1 + 32);
-                ASM_KEEP(s0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_KEEP(s0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 FIELD((void *)s0, void *, 44) = s4;
                 FIELD((void *)s0, void *, 48) = FIELD(s4, void *, 0x60);
                 FIELD((void *)s0, void *, 52) = arg0;

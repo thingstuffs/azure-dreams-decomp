@@ -101,13 +101,13 @@ void func_81988E48(MainObject *obj)
 {
     s16 hit[3];
     s32 state_count;
-    register s32 count ASM_REG("$19");   /* MATCH pin: retail basic-block layout depends on it */
+    register s32 count ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     EffectObject *effect;
     volatile EffectTail *tail;
     ChildObject *child;
     void *callback;
     Resource *resource;
-    register u8 *call_data ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 case3;
 
@@ -120,7 +120,7 @@ void func_81988E48(MainObject *obj)
         goto state_1;
     }
     if (state < 2) {
-        ASM_KEEP_NV(state_count);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(state_count);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (state == 0) {
             goto state_0;
         }
@@ -130,8 +130,8 @@ void func_81988E48(MainObject *obj)
         goto state_2;
     }
     case3 = 3;
-    ASM_USE_NV(case3);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP_NV(state_count);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE_NV(case3);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(state_count);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     count = state_count;
     if (state == case3) {
         goto state_3;
@@ -140,7 +140,7 @@ void func_81988E48(MainObject *obj)
 
 state_0:
         count = state_count;
-        ASM_KEEP(count);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         obj->value_a = func_80066460(0, 1, 0x2C0, 0x100);
         obj->value_b = func_8006649C(0x80, 0x1F7);
         obj->size_b = 0x1F;
@@ -158,10 +158,10 @@ state_1:
             obj->z -= func_800644B8((obj->age << 11) / 10) << 9;
         }
         if (obj->age >= 10) {
-            register u16 old_state ASM_REG("$2") = obj->state;   /* MATCH pin: retail register colouring depends on it */
-            register u16 new_timer ASM_REG("$3") = 0x10;   /* MATCH pin: retail register colouring depends on it */
+            register u16 old_state ASM_REG("$2") = obj->state;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register u16 new_timer ASM_REG("$3") = 0x10;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            ASM_USE_NV(old_state);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_USE_NV(old_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             obj->timer = new_timer;
             func_80024908();
             return;
@@ -195,7 +195,7 @@ state_2:
         goto state_done;
 
 state_3:
-        ASM_USE2_NV(count, state_count);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_USE2_NV(count, state_count);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         state_count = 5;
         if (obj->age == 15) {
             ((u16 *)obj)[-1] |= 0x8000;

@@ -64,19 +64,19 @@ void *func_8015E854(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_8015E854_4 *actor;
     s32 left;
     s32 right;
-    register s8 saved_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call_a0;
-    register void *call_a1 ASM_REG("$5");   /* MATCH pin: retail delay-slot contents depend on it */
+    register void *call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's
      * `jal 0x800A6D30` forwards whatever $a2/$a3 hold -- this row never writes
      * them, so m2c had no name to forward.  These pins ARE that name
      * (section 22); they emit no code because the values are already in their
      * registers.  `need` is a positional SET, so the call carries 0..3
      * (section 21). */
-    register M2C_UNK call_a2 ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register M2C_UNK call_a3 ASM_REG("$7");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register M2C_UNK call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK call_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     work = 0;
     saved_arg1 = arg1;
@@ -119,7 +119,7 @@ normal_kind:
         if (((arg0 & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
                 call_a1 = part_a;
-                ASM_KEEP(call_a0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 left = func_800A6D30(call_a0, call_a1, call_a2, call_a3);
                 call_a0 = obj;
                 if (!(left & 1)) {

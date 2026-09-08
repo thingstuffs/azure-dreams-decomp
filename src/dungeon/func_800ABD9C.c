@@ -40,14 +40,14 @@ void func_800B14FC(void *arg0, s32 arg1, void *arg2)
     void *base = arg0;
     void *render;
     s32 (**dispatch_table)(void);
-    register s32 (**dispatch_entry)(void) ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 (**dispatch_entry)(void) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 state;
 
-    ASM_KEEP4_NV(base, render, arg1, arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP4_NV(base, render, arg1, arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     render = arg2;
     dispatch_table = D_800DF030;
     dispatch_entry = &dispatch_table[((S_800B14FC_0 *)base)->unk_24];
-    ASM_KEEP_DEP_NV(dispatch_entry, dispatch_table);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_DEP_NV(dispatch_entry, dispatch_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if ((*dispatch_entry)() != 0 &&
         ((S_800B14FC_0 *)base)->unk_20.s < 2) {
@@ -68,7 +68,7 @@ void func_800B14FC(void *arg0, s32 arg1, void *arg2)
         goto state0;
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state != 2) {
         func_800B1750();
         return;
@@ -155,7 +155,7 @@ state2:
             if ((s32)object > 0) {
                 render = (u8 *)render + 4;
                 func_8004E994(object);
-                ASM_USE_NV(render);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_USE_NV(render);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_800B16BC();
                 return;
             }

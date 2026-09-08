@@ -51,20 +51,20 @@ typedef struct S_8009B2C4_1 {
 
 
 s32 func_8009B2C4(TownObject *arg0, void *arg1) {
-    register TownControl *control ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
-    register TownControl *initial_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register TownControl *control ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register TownControl *initial_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     TownControl *var_v0;
     TownControl *base;
-    register u8 *entry ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *page;
     s32 temp_v1;
 
     initial_page = (TownControl *)0x800D0000;
-    ASM_KEEP_NV(initial_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(initial_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     control = (TownControl *)((u8 *)initial_page - 0x34C);
 
     if (control->field_10 == arg1) {
-        register s32 index ASM_REG("$8") = control->index;   /* MATCH pin: retail register colouring depends on it */
+        register s32 index ASM_REG("$8") = control->index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if (((S_8009B2C4_0 *)((u8 *)arg1 + D_800CFDD8[index]))->unk_3A != 0) {
             entry = (u8 *)(index + (s32)control);
             if (((S_8009B2C4_1 *)entry)->unk_3A == 1) {
@@ -78,7 +78,7 @@ block_7:
             if (D_800834B8 == (s32)&D_80092698) {
                 func_8009C120();
                 return 1;
-                   /* MATCH pin: retail delay-slot fill depends on it */
+                   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 return 1;
             }
             var_v0 = (TownControl *)0x800D0000;
@@ -87,7 +87,7 @@ block_7:
                 if (D_800CFCCC == 0) {
                     func_8009C148();
                     return 1;
-                       /* MATCH pin: retail delay-slot fill depends on it */
+                       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     return 1;
                 }
             }
@@ -97,7 +97,7 @@ block_7:
     }
 block_15:
     var_v0 = (TownControl *)0x800D0000;
-    ASM_KEEP(var_v0);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     base = (TownControl *)((u8 *)var_v0 - 0x34C);
     if ((base->state == 0) || (base->owner != arg1)) {
         if ((((Rec_D_800CFCB4 *)arg1)->unk_3B != 0) && (((Rec_D_800CFCB4 *)arg1)->unk_20 == base)) {

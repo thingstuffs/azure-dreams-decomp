@@ -69,7 +69,7 @@ void func_8017364C(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 var_s0;
     s32 temp_v0;
     s32 temp_v1_2;
-    register s32 var_s4 ASM_REG("$20");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s8 var_v0_2;
     s8 var_v1;
     u16 temp_v0_2;
@@ -159,7 +159,7 @@ block_22:
         ((S_8017364C_0 *)arg0)->unk_98 & 0xFF7F;
     {
         s32 use_mode = var_s4;
-        ASM_KEEP(use_mode);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(use_mode);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (use_mode) {
             var_v0 = D_800814A8;
             ((S_8017364C_1 *)arg3)->unk_60 = var_v0;
@@ -173,12 +173,12 @@ block_25:
         u32 entry;
 
         base = (u8 *)0x80070000;
-        ASM_KEEP(base);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         kind = *var_s1;
         base -= 0x21DC;
         entry = kind * 20;
         entry += (u32)base;
-        ASM_KEEP(entry);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (((u8 *)entry)[0x12] != 2) {
             goto block_28;
         }
@@ -200,7 +200,7 @@ block_28:
         func_800A05A4(arg3, ((Rec_D_80082E80 *)arg2)->unk_24,
                       ((Rec_D_80082E80 *)arg2)->unk_25,
                       ((S_8017364C_1 *)arg3)->unk_2A, 0x10);
-    ASM_KEEP(var_s4);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     {
         s32 x = ((S_8017364C_1 *)arg3)->unk_72.u;
         s32 y = ((S_8017364C_1 *)arg3)->unk_73.u;

@@ -89,10 +89,10 @@ typedef struct S_80024E5C_5 {
 } S_80024E5C_5;   /* ((S_80024E5C_0 *)arg0)->unk_8C in func_80024E5C */
 
 void func_80024E5C(void *arg0, void *arg1, void *arg2) {
-    register s32 temp_v0_3 ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s16 temp_v0_8;
     u8 *var_v0;
-    register s32 var_v0_2 ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 var_v0_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s16 temp_a0;
     s16 temp_v0_10;
     s16 temp_v0_11;
@@ -183,7 +183,7 @@ void func_80024E5C(void *arg0, void *arg1, void *arg2) {
                     if (temp_v0_3 < 0) {
                         var_v0_2 = 0 - var_v0_2;
                     }
-                    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     if (var_v0_2 < 0) {
                         var_v0_2 += 0x3F;
                     }
@@ -194,39 +194,39 @@ void func_80024E5C(void *arg0, void *arg1, void *arg2) {
                 temp_a0 = (s16) ((S_80024E5C_0 *)arg0)->unk_5A.u;
                 temp_a2 = ((S_80024E5C_3 *)temp_a1)->unk_08 - (((u8) *(((S_80024E5C_4 *)(((S_80024E5C_0 *)arg0)->unk_88))->unk_13 + var_v0) >> 1) << 0x10);
                 var_v0_3 = temp_a0 < 0xE;
-                ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 temp_v1_2 = ((S_80024E5C_3 *)temp_a1)->unk_00.at00.v;
                 temp_a1_2 = ((S_80024E5C_3 *)temp_a1)->unk_04.at00.v;
                 if (var_v0_3 == 0) {
                     current_x = ((S_80024E5C_2 *)arg1)->unk_00.at00.v;
                     ((S_80024E5C_2 *)arg1)->unk_0C = (s32) ((temp_v1_2 - current_x) / (s32) (temp_a0 - 0xB));
                     ((S_80024E5C_2 *)arg1)->unk_10 = (s32) ((s32) (temp_a1_2 - ((S_80024E5C_2 *)arg1)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)arg0)->unk_5A.u - 0xB));
-                    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     temp_v1_2 = ((S_80024E5C_2 *)arg1)->unk_08.at00.v;
                     temp_v0_3 = ((S_80024E5C_0 *)arg0)->unk_5A.s;
                     temp_v1_2 = temp_a2 - temp_v1_2;
                     temp_v0_3 -= 0xB;
-                    ASM_USE(temp_v1_2);   /* MATCH pin: retail basic-block layout depends on it */
-                    ASM_TAILSLOT_PIN(temp_v0_3);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_USE(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                    ASM_TAILSLOT_PIN(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     func_80025190(temp_a0, temp_a1_2, temp_a2);
                     return;
                 }
-                ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (temp_a0 >= 0xB) {
                     current_x = ((S_80024E5C_2 *)arg1)->unk_00.at00.v;
                     ((S_80024E5C_2 *)arg1)->unk_0C = (s32) ((temp_v1_2 - current_x) / (s32) (temp_a0 - 9));
                     ((S_80024E5C_2 *)arg1)->unk_10 = (s32) ((s32) (temp_a1_2 - ((S_80024E5C_2 *)arg1)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)arg0)->unk_5A.u - 9));
-                    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     temp_v1_2 = ((S_80024E5C_2 *)arg1)->unk_08.at00.v;
                     temp_v0_3 = ((S_80024E5C_0 *)arg0)->unk_5A.s;
                     temp_v1_2 = temp_a2 - temp_v1_2;
                     temp_v0_3 -= 9;
-                    ASM_USE(temp_v1_2);   /* MATCH pin: retail basic-block layout depends on it */
-                    ASM_TAILSLOT_PIN(temp_v0_3);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_USE(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                    ASM_TAILSLOT_PIN(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     func_80025190(temp_a0, temp_a1_2, temp_a2);
                     return;
                 }
-                ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (temp_a0 >= 5) {
                     current_x = ((S_80024E5C_2 *)arg1)->unk_00.at00.v;
                     ((S_80024E5C_2 *)arg1)->unk_0C = (s32) ((temp_v1_2 - current_x) / (s32) (temp_a0 - 4));
@@ -238,7 +238,7 @@ void func_80024E5C(void *arg0, void *arg1, void *arg2) {
                 ((S_80024E5C_2 *)arg1)->unk_0C = (s32) ((s32) (temp_v1_2 - ((S_80024E5C_2 *)arg1)->unk_00.at00.v) / temp_a0);
                 ((S_80024E5C_2 *)arg1)->unk_10 = (s32) ((s32) (temp_a1_2 - ((S_80024E5C_2 *)arg1)->unk_04.at00.v) / (s16) ((S_80024E5C_0 *)arg0)->unk_5A.u);
                 ((S_80024E5C_2 *)arg1)->unk_14 = (s32) ((s32) (temp_a2 - ((S_80024E5C_2 *)arg1)->unk_08.at00.v) / (s16) ((S_80024E5C_0 *)arg0)->unk_5A.u);
-                ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 temp_a0_2 = ((S_80024E5C_2 *)arg1)->unk_10;
                 temp_a1_3 = ((S_80024E5C_2 *)arg1)->unk_14;
                 ((S_80024E5C_2 *)arg1)->unk_00.at00.v = (s32) (((S_80024E5C_2 *)arg1)->unk_00.at00.v + ((S_80024E5C_2 *)arg1)->unk_0C);

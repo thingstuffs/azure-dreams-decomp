@@ -114,7 +114,7 @@ void func_80170E9C(void *in0, M2C_UNK in1, void *in2, void *in3) {
     s8 temp_v0;
     u8 current_mode;
     u16 temp_v0_2;
-    register void *arg3 ASM_REG("$18") = in3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg3 ASM_REG("$18") = in3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 mode_14;
 
     if (!(D_80083462 & 0x1000)) {
@@ -124,7 +124,7 @@ void func_80170E9C(void *in0, M2C_UNK in1, void *in2, void *in3) {
     func_80171B58(arg0);
     return;
 block_3:
-    ASM_CLOBBER("$7");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     if (((S_80170E9C_1 *)arg3)->unk_25 != 0) {
         goto block_7;
     }
@@ -133,8 +133,8 @@ block_3:
         goto block_63;
     }
     {
-        register M2C_UNK *dead_a1 ASM_REG("$5") = &D_80174EF8;   /* MATCH pin: retail register colouring depends on it */
-        ASM_TAILSLOT_PIN(dead_a1);   /* MATCH pin: retail delay-slot contents depend on it */
+        register M2C_UNK *dead_a1 ASM_REG("$5") = &D_80174EF8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(dead_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_801713B8();
     }
     return;
@@ -308,7 +308,7 @@ block_59:
     if (((S_80170E9C_2 *)arg2)->unk_2C == D_80174EE0) {
         goto block_63;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = D_80174EE0;
     func_80047784(arg2, D_80174EE0[((s32)(D_80083228 + ((S_80170E9C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
 block_63:

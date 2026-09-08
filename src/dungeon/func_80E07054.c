@@ -21,14 +21,14 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     s32 v_s2 = arg0;
     u8 *v_s0 = 0;
-    register s32 v_s5 ASM_REG("$21") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 v_s5 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     long v_s1;
     long v_s4;
     u8 *v_s3;
     u8 *v_s6;
-    register s32 v_s7 ASM_REG("$23");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 v_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 alloc_kind;
-    register u8 *alloc_data ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *alloc_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 callback_page;
     u32 flags0;
     u32 flags1;
@@ -36,16 +36,16 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 random;
 
     alloc_kind = 0x112;
-    ASM_KEEP_NV(alloc_kind);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(alloc_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     alloc_data = D_80083498;
     v_s1 = arg3;
     v_s4 = arg2;
-    ASM_KEEP_DEP_NV(v_s4, alloc_data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_DEP_NV(v_s4, alloc_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     v_s3 = func_8003FD64(alloc_kind, alloc_data);
     v_s7 = v_s2;
     if (v_s3 != 0) {
         v_s0 = v_s3 + 0x20;
-        ASM_KEEP_NV(v_s0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(v_s0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         *(u8 *)(v_s0 + 0x13) = 0x1C;
         func_8004491C(v_s3, func_80045340);
 
@@ -58,7 +58,7 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
     if ((v_s2 & 3) == 1) {
         *(Callback *)(v_s0 + 0x8C) = func_8014CE5C;
-        ASM_MEM_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         flags0 = *(u32 *)(v_s0 + 0x14);
         flags1 = *(u32 *)(v_s0 + 0x1C);
         flags0 |= 0x6000;
@@ -68,7 +68,7 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         *(Callback *)((u8 *)v_s1 + 0x2C) = func_80150510;
     } else if ((v_s2 & 3) >= 2) {
         *(Callback *)(v_s0 + 0x8C) = func_8014CE5C;
-        ASM_MEM_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         flags0 = *(u32 *)(v_s0 + 0x14);
         flags1 = *(u32 *)(v_s0 + 0x1C);
         flags0 |= 0x2000;
@@ -90,7 +90,7 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             *(Callback *)((u8 *)v_s4 + 0x8C) = func_8014CE5C;
 #else
             callback_page = 0x80150000;
-            ASM_KEEP_NV(callback_page);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             callback_page -= 0x31A4;
             *(Callback *)((u8 *)v_s4 + 0x8C) = (Callback)callback_page;
 #endif
@@ -99,7 +99,7 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             *(Callback *)(v_s0 + 0x8C) = func_8014CE5C;
 #else
             callback_page = 0x80150000;
-            ASM_KEEP_NV(callback_page);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             callback_page -= 0x31A4;
             *(Callback *)(v_s0 + 0x8C) = (Callback)callback_page;
 #endif

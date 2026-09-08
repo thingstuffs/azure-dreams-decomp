@@ -15,7 +15,7 @@ extern s32 func_8008FD9C();
 extern s32 func_8008FE78();
 
 Node *func_8008FE90(Node *arg0) {
-    register s32 temp_s1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 temp_s3;
     s32 temp_s4;
     s32 temp_s5;

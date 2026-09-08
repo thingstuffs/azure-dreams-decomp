@@ -41,7 +41,7 @@ void func_818BD74C(void *arg0, void *arg1, void *arg2) {
     temp_s2 = arg1;
     temp_head_10 = FIELD(temp_s1, u16 *, 0x10);
     temp_head_12 = FIELD(temp_s1, u16 *, 0x12);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     FIELD(temp_s1, u16 *, 0x10) = (u16)(temp_head_10 + 1);
     FIELD(temp_s1, u16 *, 0x12) = (u16)(temp_head_12 + 1);
     temp_head_16 = FIELD(temp_s1, u16 *, 0x16);
@@ -76,7 +76,7 @@ void func_818BD74C(void *arg0, void *arg1, void *arg2) {
     return;
 
 state_ge2:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     temp_v0 = 2;
     
     if (temp_v1_2 != temp_v0) {

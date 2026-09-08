@@ -25,7 +25,7 @@ typedef struct S_800B15B8_1 {
 } S_800B15B8_1;   /* var_s0 in func_800B15B8 */
 
 void func_800B15B8(Rec_func_800B15B8_arg0 *arg0) {
-    register void *var_s0 ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 var_s1;
 
     var_s1 = 0;

@@ -37,14 +37,14 @@ void func_801671AC(void *arg0, void *arg1, void *arg2) {
     u16 temp_v0;
 
     flags = ((S_801671AC_0 *)arg2)->unk_14;
-    ASM_CLOBBER("$7");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = arg0;
-    ASM_KEEP(obj);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_801671AC_0 *)arg2)->unk_14 = (u16) (flags & 0xFF7F);
     count = ((S_801671AC_1 *)obj)->unk_18;
     temp_v0 = ((S_801671AC_1 *)obj)->unk_1C;
     count--;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v0++;
     ((S_801671AC_1 *)obj)->unk_1C = temp_v0;
     ((S_801671AC_1 *)obj)->unk_18 = count;
@@ -71,7 +71,7 @@ void func_801671AC(void *arg0, void *arg1, void *arg2) {
         ((S_801671AC_0 *)arg2)->unk_0E = (s8) ((var_t1 * (s16) ((S_801671AC_1 *)obj)->unk_18) / 20);
         func_80167354();
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_801671AC_0 *)arg2)->unk_0C = (s8) ((var_a1 * (0x1E - temp_v1_2)) / 10);
     ((S_801671AC_0 *)arg2)->unk_0D = (s8) ((var_t0 * (0x1E - (s16) ((S_801671AC_1 *)obj)->unk_18)) / 10);
     ((S_801671AC_0 *)arg2)->unk_0E = (s8) ((var_t1 * (0x1E - (s16) ((S_801671AC_1 *)obj)->unk_18)) / 10);

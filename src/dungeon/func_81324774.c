@@ -108,13 +108,13 @@ void func_8016BF74(void *raw_arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
     void *arg0;
     S_8016BF74_2 *arg2;
     void *arg3;
-    register s32 var_s3 ASM_REG("$19");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 var_s6;
-    register u8 *var_s7 ASM_REG("$23");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *var_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     M2C_UNK var_a2;
     M2C_UNK var_a2_2;
-    register s8 *var_s1 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
-    register s8 *loop_page ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s8 *var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s8 *loop_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 temp_a1;
     s32 temp_a2;
     s32 temp_t1;
@@ -123,20 +123,20 @@ void func_8016BF74(void *raw_arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
     s32 temp_w2;
     s16 temp_v0_4;
     s16 temp_v0_6;
-    register s32 temp_a0_2 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *temp_v1_ptr;
     s32 temp_v0_3;
-    register s32 temp_high_bit ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_high_bit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
     s32 temp_v1_2;
     s32 var_v0;
     s8 temp_a0;
     s8 *state;
     s32 state_flags;
-    register void *temp_v0 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_v0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_8016BF74_4 *temp_v0_2;
     void *temp_v0_7;
-    register void *temp_v0_5 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_v0_5 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_c008;
     s32 temp_call_a1;
     s32 loop_angle;
@@ -146,14 +146,14 @@ void func_8016BF74(void *raw_arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
     s32 first_a1;
     s32 first_a2;
     s32 first_a3;
-    register s32 loop_flags ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 loop_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 loop_flags2;
     s32 loop_table_y;
     s32 loop_call_a0;
     s32 first_compare_x;
-    register s32 loop_next ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 loop_y ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *loop_table_base ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 loop_next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 loop_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *loop_table_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *loop_table_ptr;
     u8 *world_call;
 
@@ -161,7 +161,7 @@ void func_8016BF74(void *raw_arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
     arg2 = raw_arg2;
     arg3 = raw_arg3;
     state = (s8 *)&D_80083460;
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state_flags = ((S_8016BF74_0 *)state)->unk_02;
     var_s6 = 0;
     if ((state_flags & 0x4000) || (((S_8016BF74_1 *)arg3)->unk_71.s >= 0)) {
@@ -221,12 +221,12 @@ void func_8016BF74(void *raw_arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
                     temp_w1 = D_80082E80[0x25];
                     temp_t2 = (*(u16 *)((u8 *)(&D_8006CCD8) + temp_v1_2));
                     temp_t1 = (*(u16 *)((u8 *)(&D_8006CCE8) + temp_v1_2));
-                    ASM_MEM_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+                    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     first_compare_x = arg2->unk_24.at00.v;
                     temp_a2 = temp_w2 + temp_t2;
                     temp_a1 = temp_w1 + temp_t1;
-                    ASM_KEEP(first_compare_x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-                    ASM_USE_NV(temp_t2);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP(first_compare_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    ASM_USE_NV(temp_t2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     if ((first_compare_x != (temp_a2 & 0xFFFF)) || (arg2->unk_24.at01.v != (temp_a1 & 0xFFFF))) {
                         temp_v0_4 = func_800A0818(arg2->unk_24.at00.v, arg2->unk_24.at01.v, (s16) temp_a2, (s16) temp_a1, arg0 + 0x98);
                         ((S_8016BF74_1 *)arg3)->unk_2A.u = (u16) temp_v0_4;
@@ -238,7 +238,7 @@ void func_8016BF74(void *raw_arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
                         }
                         world_call = (u8 *)&D_80082EA4 - 0x24;
                         var_v0 = func_8009FD7C(arg2->unk_24.at00.v, arg2->unk_24.at01.v, world_call[0x24], world_call[0x25]);
-                        ASM_CLOBBER("$19");   /* MATCH pin: keeps a constant in a register as retail does */
+                        ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                         var_s3 = 0;
                         if ((var_v0 << 0x10) == 0) {
                             goto block_47;
@@ -268,7 +268,7 @@ void func_8016BF74(void *raw_arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
                             var_s3 = 0;
                             if (temp_v0_6 < 0x81) {
                                 var_v0 = func_8009A540(((s32) (((S_8016BF74_1 *)arg3)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, arg2->unk_24.at00.v, arg2->unk_24.at01.v, (s16) (((S_8016BF74_1 *)arg3)->unk_88 - 0x20));
-                                ASM_CLOBBER("$19");   /* MATCH pin: keeps a constant in a register as retail does */
+                                ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                                 var_s3 = 0;
                                 if ((var_v0 << 0x10) == 0) {
                                     goto block_47;
@@ -296,14 +296,14 @@ block_47:
 #else
         loop_page = (s8 *)&D_8006CCD8 + 0x3328;
 #endif
-        ASM_KEEP(loop_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(loop_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s7 = (u8 *)(loop_page - 0x3328);
 #ifdef __mips__
         loop_page = (s8 *)0x80070000;
 #else
         loop_page = (s8 *)&D_8006CD00 + 0x3300;
 #endif
-        ASM_KEEP(loop_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(loop_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s1 = loop_page - 0x3300;
 loop_48:
         loop_angle = ((S_8016BF74_1 *)arg3)->unk_2A.s;
@@ -340,7 +340,7 @@ block_step_loop:
                 temp_a0_2 = ((u16) ((S_8016BF74_1 *)arg3)->unk_2A.u >> 8) & 0xE;
                 temp_v1_ptr = (u8 *)((u32) temp_a0_2 + (u32) var_s7);
                 arg2->unk_24.at00.v = (u8) (arg2->unk_24.at00.v + *temp_v1_ptr);
-                ASM_KEEP(var_s7);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP(var_s7);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 loop_table_base = (u8 *)&D_8006CCE8;
                 loop_table_ptr = (u8 *)((u32) temp_a0_2 + (u32) loop_table_base);
                 loop_y = arg2->unk_24.at01.v;
@@ -365,7 +365,7 @@ block_cleanup_loop:
             if (var_s3 >= 8) {
                 s8 *state2;
 
-                ASM_KEEP(var_s3);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(var_s3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 var_v0 = var_s3 < 8;
 block_594:
                 if (var_v0 == 0) {

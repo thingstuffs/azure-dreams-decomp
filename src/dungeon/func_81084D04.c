@@ -55,15 +55,15 @@ extern s8 D_8006CCE8;
 extern u16 D_80083462;
 
 s32 func_80172504(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register void *entity ASM_REG("$20") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *state ASM_REG("$23") = arg0;   /* MATCH pin: retail register colouring depends on it */
+    register void *entity ASM_REG("$20") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *state ASM_REG("$23") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *delta_base;
-    register u32 initial_direction ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u32 initial_direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *delta_x;
     s16 *delta_y;
-    register s32 i ASM_REG("$21");   /* MATCH pin: retail register colouring depends on it */
-    register s32 x ASM_REG("$19");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 y ASM_REG("$18");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 i ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 x ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 y ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 signed_x;
     s32 signed_y;
     s32 direction_offset;
@@ -74,7 +74,7 @@ s32 func_80172504(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *copy_dest;
     s16 height_result;
     u16 direction;
-    register u32 scratch ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 scratch ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     ((S_80172504_0 *)entity)->unk_71 &= 0x7F;
     if (D_80083462 & 0x2000) {
@@ -140,8 +140,8 @@ loop:
     }
 
     {
-        register u32 step_x ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register u32 step_y ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+        register u32 step_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register u32 step_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         step_x = (u16)*delta_x;
         step_y = (u16)*delta_y;
@@ -155,8 +155,8 @@ loop:
         goto success;
     }
     {
-        register s32 next_x ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register s32 next_y ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
+        register s32 next_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
         i++;
         next_x = x + (u16)*delta_x;
@@ -173,7 +173,7 @@ loop:
     }
 
 failure_arg:
-    ASM_KEEP(entity);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 failure:
     ((S_80172504_1 *)state)->unk_9A = 0x1A;
     ((S_80172504_1 *)state)->unk_9B = 0;

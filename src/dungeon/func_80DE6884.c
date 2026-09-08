@@ -80,11 +80,11 @@ void func_80DE6884(void *arg0, void *arg1, void *arg2) {
     s32 temp_v1;
     s32 var_s2;
     s32 var_v0;
-    register S_80DE6884_3 *held_arg1 ASM_REG("$21") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register S_80DE6884_3 *held_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_80DE6884_5 *held_arg0;
     M2C_UNK *temp_s4;
     u32 temp_v0_addr;
-    register S_80DE6884_0 *setup_arg1 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register S_80DE6884_0 *setup_arg1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *setup_arg2;
     void *db_arg1;
     S_80DE6884_2 *temp_s0;
@@ -98,10 +98,10 @@ void func_80DE6884(void *arg0, void *arg1, void *arg2) {
     offsets[1] = 0;
     offsets[0] = 0;
     held_arg0 = arg0;
-    ASM_KEEP(setup_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(setup_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_8003DE58(setup_arg1->unk_08, setup_arg1, setup_arg2, var_s2);
     temp_v0_addr = 0x80170000;
-    ASM_KEEP(temp_v0_addr);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(temp_v0_addr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_s4 = (M2C_UNK *)(temp_v0_addr + 0x3F8C);
     do {
         temp_v0 = func_8003FC64(0x212);

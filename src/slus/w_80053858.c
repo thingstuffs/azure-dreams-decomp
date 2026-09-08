@@ -56,12 +56,12 @@ s32 func_80053858(S_80053858_rec *arg0)
   S_80083160_t *base = &D_80083160;
   S_80053858_rec *r;
   int new_var2;
-  register S_80053858_rec *next ASM_REG("$4");   /* MATCH pin: slus-diff */
+  register S_80053858_rec *next ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   int new_var = 0xFFFFFF;
   do
   {
     s32 i = 0;
-    register s32 acc ASM_REG("$20");   /* MATCH pin: slus-diff */
+    register s32 acc ASM_REG("$20");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     r = cur;
     acc = r->unk14;
     if (r->unk4[0] != 0)
@@ -107,6 +107,6 @@ s32 func_80053858(S_80053858_rec *arg0)
     cur = (S_80053858_rec *) (((char *) next) + 0x20);
   }
   while (next != 0);
-  ASM_KEEP(next);   /* MATCH pin: slus-diff */
+  ASM_KEEP(next);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
  do { return 0; } while (0);
 }

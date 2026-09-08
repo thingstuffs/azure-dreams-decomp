@@ -19,20 +19,20 @@ extern s32 D_80083460;
 s32 func_80172BB0(Rec_func_800A9E70_arg0 *arg0, M2C_UNK arg1, Rec_D_80082E80 *arg2, void *arg3) {
     s32 temp_v0;
     s32 var_v0;
-    register u16 *global ASM_REG("$20");   /* MATCH pin: retail register colouring depends on it */
+    register u16 *global ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     {
-        register s32 history ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 history ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         history = ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8;
         history &= 0x7F;
         ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = history;
     }
     {
-        register u8 *page ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         page = (u8 *)0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         global = (u16 *)(page + 0x3460);
     }
     var_v0 = 0;
@@ -74,12 +74,12 @@ s32 func_80172BB0(Rec_func_800A9E70_arg0 *arg0, M2C_UNK arg1, Rec_D_80082E80 *ar
             func_8009C93C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1, 0);
             ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8--;
         } else {
-            register s32 one ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register s32 one ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             one = 1;
             func_80175F44(arg0, arg1, arg2, one, one);
         }
     }
-    ASM_KEEP(var_v0);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return var_v0;
 }

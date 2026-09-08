@@ -95,7 +95,7 @@ extern RenderPool *D_80083160[];
 s32 func_800345B8(u8 *arg0, u8 *arg1, u8 *arg2)
 {
   u8 *spad;
-  register void *fixed_matrix ASM_REG("$22");   /* MATCH pin: slus-diff */
+  register void *fixed_matrix ASM_REG("$22");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   u8 *point;
   s32 base_x;
   s32 t;
@@ -230,7 +230,7 @@ s32 func_800345B8(u8 *arg0, u8 *arg1, u8 *arg2)
           }
           else
           {
-            ASM_USE_NV(spad);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_USE_NV(spad);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             source_matrix = page - 0x32F0;
           }
           CompMatrix(source_matrix, fixed_matrix, spad + 0x54);
@@ -404,7 +404,7 @@ s32 func_800345B8(u8 *arg0, u8 *arg1, u8 *arg2)
             arg2[0x0F] = flag;
             if (copy_index != 0)
             {
-              ASM_USE_NV(spad);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+              ASM_USE_NV(spad);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
               tv = flag | 2;
               arg2[0x0F] = tv;
             }

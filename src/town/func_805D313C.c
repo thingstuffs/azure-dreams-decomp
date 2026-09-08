@@ -23,12 +23,12 @@ s32 func_805D313C(s32 arg0, s32 arg1, s32 arg2) {
         if (D_8001967C != 3) {
             result = (s32)D_8001DE58;
             tail_result = func_800171D0();
-            ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             return tail_result;
         } else {
             result = (s32)D_8001AAEC;
             tail_result = func_800171D0();
-            ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             return tail_result;
         }
     } else if (arg2 == 3) {

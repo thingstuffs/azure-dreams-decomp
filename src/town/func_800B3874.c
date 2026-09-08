@@ -48,7 +48,7 @@ typedef struct S_800B0FD4_1 {
 } S_800B0FD4_1;   /* temp_v0 in func_800B0FD4 */
 
 void func_800B0FD4(void *arg0) {
-    register S_800B0FD4_0 *ctx ASM_REG("$17") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register S_800B0FD4_0 *ctx ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     M2C_UNK sp10[8];
     s32 sp30;
     s32 temp_v0_2;

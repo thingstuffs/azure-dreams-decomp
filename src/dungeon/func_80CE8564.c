@@ -73,11 +73,11 @@ void *func_80171D64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     void *result;
     s32 saved_arg1;
     s32 reused_arg3;
-    register s32 reused_arg2 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 original_arg0 ASM_REG("$23");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 reused_arg2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 original_arg0 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *created;
-    register void *position ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 selector ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 selector ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 kind_e;
     s32 kind_f;
     s32 field_4b;
@@ -94,11 +94,11 @@ void *func_80171D64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     result = 0;
     selector = 0x112;
     saved_arg1 = arg1;
-    ASM_KEEP_DEP_NV(saved_arg1, selector);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_DEP_NV(saved_arg1, selector);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     kind_e = (s32)D_80083498;
-    ASM_KEEP_DEP_NV(kind_e, saved_arg1);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP_DEP_NV(kind_e, saved_arg1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     reused_arg3 = arg3;
-    ASM_KEEP_DEP_NV(reused_arg3, kind_e);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_DEP_NV(reused_arg3, kind_e);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     reused_arg2 = arg2;
     created = func_8003FD64(selector, (void *)kind_e);
     original_arg0 = saved_arg0;
@@ -117,12 +117,12 @@ void *func_80171D64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     kind_f = 0xF;
     ((S_80171D64_2 *)position)->unk_0A = reused_arg3;
     reused_arg3 = (s32)((S_80171D64_0 *)created)->unk_0C;
-    ASM_KEEP(reused_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(reused_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     selector = saved_arg0 & 3;
     ((S_80171D64_3 *)((void *)reused_arg3))->unk_2C = initial_callback;
-    ASM_KEEP(initial_callback);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(initial_callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     field_4b = 0x20;
-    ASM_KEEP(field_4b);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(field_4b);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80171D64_3 *)((void *)reused_arg3))->unk_25 = reused_arg2;
     reused_arg2 = (s32)result;
     ((S_80171D64_3 *)((void *)reused_arg3))->unk_24 = saved_arg1;
@@ -146,7 +146,7 @@ void *func_80171D64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     }
 
     if (selector >= 2) {
-        ASM_KEEP(selector);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_80171D64_1 *)result)->unk_14 |= 0x2000;
         ((S_80171D64_1 *)result)->unk_1C |= 0x2000;
         goto setup;
@@ -163,10 +163,10 @@ void *func_80171D64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
     if (((original_arg0 & ~3) << 16) == 0) {
         selector = (s32)created;
-        ASM_KEEP_NV(selector);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(selector);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (!(((S_80171D64_1 *)result)->unk_14 & 0x200)) {
             kind_e = (s32)position;
-            ASM_KEEP(kind_e);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(kind_e);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             field_4b = func_800A6D30((void *)selector, (void *)kind_e);
             selector = (s32)created;
             if (field_4b & 1) {

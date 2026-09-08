@@ -99,8 +99,8 @@ void func_80052A90(u8 *arg0, s16 arg1, s16 arg2)
       __asm__ __volatile__("" : : "r"(flag));
       if (flag != 0)
       {
-        register void *pbuf ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        register RECT *prect ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register void *pbuf ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register RECT *prect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         pbuf = buf;
         __asm__ __volatile__("" : : "r"(pbuf));
         prect = &rect;

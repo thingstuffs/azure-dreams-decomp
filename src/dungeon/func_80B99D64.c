@@ -91,7 +91,7 @@ state_one:
         }
 
         {
-        void *callArg0 = arg0;   /* MATCH pin: retail basic-block layout depends on it */
+        void *callArg0 = arg0;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(callArg0, arg1, arg2, arg3);

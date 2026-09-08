@@ -81,7 +81,7 @@ inactive_callback:
         if (*(s16 *)(base + 0xC8) < -0x1E0) {
             *(s16 *)(base + 0xC8) = -0x1E0;
             func_8009085C();
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return;
         }
     } else if (initial_flags & 4) {
@@ -130,7 +130,7 @@ after_initial:
     }
 
     *(s16 *)((u8 *)arg0 + 0x18) = *(u16 *)((u8 *)arg0 + 0x10);
-    ASM_MEM_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     index = func_80095360(*(s16 *)((u8 *)arg0 + 0x18));
     if (*(s16 *)((u8 *)arg0 + 0x12) != index) {
         func_800489F4(arg2,
@@ -142,13 +142,13 @@ after_initial:
     if (D_800D01F8[index] != 0) {
         u16 bit_value = *(u16 *)((u8 *)arg2 + 0x14) | 1;
 
-        ASM_TAILSLOT_PIN(bit_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(bit_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80090910();
         return;
     }
 
     *(u16 *)((u8 *)arg2 + 0x14) &= 0xFFFE;
-    ASM_MEM_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_80096868(arg0, arg1, arg2);
     func_80048AC8(arg2, 0);
 

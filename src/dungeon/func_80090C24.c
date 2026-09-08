@@ -78,7 +78,7 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
     s32 kind;
     s32 angle_target;
     s32 normalized;
-    register s32 sign_tmp ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 sign_tmp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 signed_target;
     s32 current_s;
     u32 current_u;
@@ -95,7 +95,7 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
     S_80096384_5 *temp_v0_2;
     u8 *temp_s5 = D_80083160;
     u8 *temp_s4;
-    u16 *flags_page;   /* MATCH pin: retail register colouring depends on it */
+    u16 *flags_page;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 flags;
     s32 temp_s4_value = 0x32;
     s32 temp_state;
@@ -157,12 +157,12 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
                 if (temp_v0_2 != 0) {
                     kind = temp_v0_2->unk_01 & 7;
                     temp_a1 = ((S_80096384_3 *)arg3)->unk_2A.u;
-                    ASM_KEEP_NV(kind);   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_KEEP_NV(kind);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     kind &= 0xFF;
                     temp_a0 = kind << 9;
                     sign_tmp = temp_a1 & 0xFFF;
                     angle_target = temp_a0;
-                    ASM_KEEP_NV(angle_target);   /* MATCH pin: retail delay-slot fill depends on it */
+                    ASM_KEEP_NV(angle_target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     ((S_80096384_3 *)arg3)->unk_2A.u = sign_tmp;
 
                     if (sign_tmp != angle_target) {
@@ -183,7 +183,7 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
                         temp_a0 = normalized;
                         sign_tmp = temp_a0 << 16;
                         signed_target = sign_tmp >> 16;
-                        ASM_MEM_BARRIER();   /* MATCH pin: retail register colouring depends on it */
+                        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                         current_s = ((S_80096384_3 *)arg3)->unk_2A.s;
                         current_u = ((S_80096384_3 *)arg3)->unk_2A.u;
                         var_v0_3 = current_s - signed_target;
@@ -269,7 +269,7 @@ block_state_D8:
                     func_80096990();
                 }
 
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 temp_a1_2 = (u8 *)arg0 + 0xA2;
                 if (((S_80096384_2 *)temp_s5)->unk_08.s & 3) {
                     func_800A56E0(0x506, temp_a1_2);

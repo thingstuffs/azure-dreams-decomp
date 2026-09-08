@@ -12,10 +12,10 @@ s32 func_80098C48(s32 arg0) {
         if ((s32)ptr == arg0) {
             s32 dead = (s16)count;
 
-            ASM_TAILSLOT_PIN_TIED(dead);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN_TIED(dead);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80098C78();
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         count -= 1;
         ptr -= 4;
     } while (count >= 0);

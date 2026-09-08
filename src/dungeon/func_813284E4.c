@@ -104,21 +104,21 @@ extern u8 D_80083460[];
 void func_8016FCE4(void *arg0, void *arg1, void *in2, void *in3) {
     M2C_UNK var_a2;
     M2C_UNK var_a2_2;
-    register void *arg2 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg3 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 *var_s1;
     s32 temp_a1;
     s32 temp_a2;
     s32 temp_s0_2;
     s16 temp_v0_4;
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 temp_call_a1;
     s32 temp_s0;
-    register s32 temp_v0_3 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
-    register s32 temp_v1_2 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
-    register s32 var_s4 ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_s6;
     u8 *var_s7;
     void *temp_v0;
@@ -134,8 +134,8 @@ void func_8016FCE4(void *arg0, void *arg1, void *in2, void *in3) {
     }
     if (D_80083462 & 0x2000) {
         func_800A19E4(arg2, arg3, 3, 6, arg0 + 0x9C);
-        ASM_KEEP_NV(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP_NV(arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_NV(arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v1 = ((S_8016FCE4_0 *)arg3)->unk_1C;
         if (temp_v1 & 0x410) {
             if (temp_v1 & 0x400) {
@@ -179,7 +179,7 @@ void func_8016FCE4(void *arg0, void *arg1, void *in2, void *in3) {
                 temp_a2 = position_base[0x24] + *(u16 *)(x_table_base + dir_index);
                 temp_a1 = D_80082E80[0x25] + *(u16 *)(D_8006CCE8 + dir_index);
                 if ((((S_8016FCE4_1 *)arg2)->unk_24.at00.v != (temp_a2 & 0xFFFF)) || (((S_8016FCE4_1 *)arg2)->unk_24.at01.v != (temp_a1 & 0xFFFF))) {
-                    ASM_MEM_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     temp_s0 = arg0 + 0x98;
                     temp_v0_4 = func_800A0818(((S_8016FCE4_1 *)arg2)->unk_24.at00.v, ((S_8016FCE4_1 *)arg2)->unk_24.at01.v, (s16) temp_a2, (s16) temp_a1, temp_s0);
                     ((S_8016FCE4_0 *)arg3)->unk_2A.u = (u16) temp_v0_4;
@@ -187,11 +187,11 @@ void func_8016FCE4(void *arg0, void *arg1, void *in2, void *in3) {
                         ((S_8016FCE4_0 *)arg3)->unk_2A.u = func_800A0818(((S_8016FCE4_1 *)arg2)->unk_24.at00.v, ((S_8016FCE4_1 *)arg2)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25], temp_s0);
                     }
                     temp_v0_3 = func_8009FD7C(((S_8016FCE4_1 *)arg2)->unk_24.at00.v, ((S_8016FCE4_1 *)arg2)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25]);
-                    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     var_s4 = 0;
                     if ((temp_v0_3 << 0x10) != 0) {
                         var_s6 = 1;
-                        ASM_TAILSLOT_PIN(var_s6);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                        ASM_TAILSLOT_PIN(var_s6);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                         call_8016FF84();
                         return;
                     }
@@ -201,7 +201,7 @@ void func_8016FCE4(void *arg0, void *arg1, void *in2, void *in3) {
             }
             func_800A0E6C(arg2, ((Rec_func_800A9E70_arg0 *)arg0)->unk_9C.as_s8, arg3, arg0 + 0x98);
 block_26:
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             var_s4 = 0;
             goto block_27;
         }
@@ -213,19 +213,19 @@ loop_28:
         if (((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 2) {
             temp_v0_3 = *var_s1;
             temp_s0_2 = temp_v1_2 - temp_v0_3;
-            ASM_TAILSLOT_PIN(temp_s0_2);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN(temp_s0_2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             call_8016FFC0();
             return;
         }
         temp_v0_3 = *var_s1;
-        ASM_KEEP(temp_v0_3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_s0_2 = temp_v1_2 + temp_v0_3;
         if ((func_8009A66C((s16) temp_s0_2, arg2, arg3, 0x20) << 0x10) > 0) {
             if (var_s4 < 3) {
                 goto block_step;
             }
             temp_v0_3 = var_s6;
-            ASM_KEEP_NV(temp_v0_3);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (temp_v0_3 != 0) {
                 goto block_cleanup;
             }
@@ -249,7 +249,7 @@ block_step:
                 }
                 func_8009A21C(temp_a0, temp_call_a1, var_a2_2);
                 temp_v0_3 = var_s4 < 8;
-                ASM_TAILSLOT_PIN(temp_v0_3);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_TAILSLOT_PIN(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 call_80170110();
             }
         }
@@ -258,7 +258,7 @@ block_step:
             var_s1 += 1;
             if (var_s4 >= 8) {
 block_48:
-                ASM_KEEP_NV(var_s4);   /* MATCH pin: retail immediate-load split depends on it */
+                ASM_KEEP_NV(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 temp_v0_3 = var_s4 < 8;
                 if (temp_v0_3 == 0) {
                     ((S_8016FCE4_0 *)arg3)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F);

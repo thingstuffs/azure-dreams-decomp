@@ -7,7 +7,7 @@ extern M2C_UNK D_8001DCD4;
 extern M2C_UNK D_8001DF1B;
 
 #ifndef NON_MATCHING
-register s32 dispatch_result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register s32 dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 M2C_UNK *func_800162A4(s32 arg0, s32 arg1, s32 arg2) {

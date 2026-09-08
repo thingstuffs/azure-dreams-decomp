@@ -92,14 +92,14 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
     Entity *previous;
     Entity *call_entity;
     void *call_data;
-    register s32 i ASM_REG("$20");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 j;
     s32 target;
     s32 normalized_target;
     s32 signed_target;
     s32 current;
     s32 difference;
-    register u8 *allocation_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *allocation_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *allocation_data;
 
     angle_value = angle;
@@ -108,9 +108,9 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
     local_y = y;
     local_z = z;
     if (func_8003FA44(9) == 0) {
-        register void *failure_result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register void *failure_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         failure_result = previous;
-        ASM_TAILSLOT_PIN_TIED(failure_result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(failure_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8002620C();
         return failure_result;
     }
@@ -126,14 +126,14 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
         allocation_page = (u8 *)0x80080000;
 #endif
         if (i != 0) {
-            register Object *prior ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register Object *prior ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             prior = cur[-1];
-            ASM_KEEP(prior);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(prior);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80025FD4();
         }
-        ASM_KEEP(allocation_page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(allocation_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         allocation_data = allocation_page + 0x3498;
-        ASM_KEEP(i);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         *cur = func_8003FD64(2, allocation_data);
         (*cur)->state = (void (*)(void *))D_80024DAC;
         func_8004491C(*cur, D_800C9034);
@@ -160,7 +160,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
             if (link_value != 0) {
                 link_work = 0x7FFFFFFF;
                 link_value = (u32)base[link_value - 1] & link_work;
-                ASM_TAILSLOT_PIN_TIED(link_value);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_TAILSLOT_PIN_TIED(link_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 func_800260AC();
             } else {
                 entity->parent = cur[-1];
@@ -221,10 +221,10 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
 
         func_800262B0(part, 0);
         call_entity = entity;
-        ASM_KEEP(call_entity);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(call_entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         call_data = part->unk0;
         previous = call_entity;
-        ASM_KEEP(previous);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(previous);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         cur++;
         i++;
         func_80026240(call_entity, call_data);

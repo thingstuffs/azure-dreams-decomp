@@ -41,25 +41,25 @@ extern void *func_800654B0(u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 
 void *func_800D71A8(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3, u8 *arg4)
 {
   register Scratch800D1A48 *scratch;
-  register s32 index ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  register s32 index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   register s32 arg1_reg;
   s32 arg2_entry;
   register s32 arg2_reg;
-  register u8 *arg3_reg ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
+  register u8 *arg3_reg ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   u8 *selected;
-  register u8 *s7 ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  register u8 *s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   u8 *s1;
   u8 *s2;
   u8 *s3;
-  register u8 *s4 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  register u8 *s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   s32 last;
   arg1_reg = arg1;
   arg2_entry = arg2;
-  ASM_KEEP_NV(arg2_entry);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP_NV(arg2_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   arg2_reg = arg2_entry;
-  ASM_KEEP_NV(arg2_reg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP_NV(arg2_reg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   arg3_reg = arg3;
-  ASM_KEEP_NV(arg3_reg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP_NV(arg3_reg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   selected = 0;
   index = (u32) selected;
   s7 = arg4;
@@ -199,7 +199,7 @@ void *func_800D71A8(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3, u8 *arg4)
           scratch->data8A = value;
           scratch->data82 = value;
         }
-        ASM_KEEP_NV(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_800654B0(&scratch->data70, &scratch->data78, &scratch->data80, &scratch->data88, &scratch->dataF0, &scratch->dataF4, &scratch->dataF8, &scratch->dataFC, (u16 *) (((u8 *) scratch) + 0x90), (u16 *) (((u8 *) scratch) + 0x94));
         *((u16 *) (((u8 *) s1) + 4)) = scratch->dataF0 + (*((u16 *) (((u8 *) scratch) + 0xB8)));
         *((u16 *) (((u8 *) s1) + 6)) = scratch->dataF2 + (*((u16 *) (((u8 *) scratch) + 0xBA)));
@@ -276,7 +276,7 @@ void *func_800D71A8(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3, u8 *arg4)
             *((s16 *) (((u8 *) s1) + 0x18)) = (*((u16 *) (((u8 *) scratch) + 0x14))) + (*((u16 *) (((u8 *) scratch) + 0x08)));
             {
               s32 right_edge;
-              register s32 left_edge ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+              register s32 left_edge ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
               right_edge = *((u16 *) (((u8 *) scratch) + 0x14));
               right_edge += *((u16 *) (((u8 *) scratch) + 0x10));
               *((s16 *) (((u8 *) s1) + 0x20)) = right_edge;
@@ -294,7 +294,7 @@ void *func_800D71A8(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3, u8 *arg4)
               *((u8 *) (((u8 *) s1) + 0x21)) -= 1;
             }
             {
-              register u16 attr ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+              register u16 attr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
               register u8 flags;
               attr = *((u16 *) (((u8 *) s3) + 0x14));
               flags = s2[0];
@@ -311,7 +311,7 @@ void *func_800D71A8(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3, u8 *arg4)
                   updated = flags & 0xFD;
                 }
                 *((u8 *) (((u8 *) s3) + 0xF)) = updated;
-                ASM_KEEP(attr);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(attr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
               }
             }
             {
@@ -337,10 +337,10 @@ void *func_800D71A8(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3, u8 *arg4)
               table_base = scratch->data20;
               {
                 u32 *table_ptr;
-                register u32 dst_value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+                register u32 dst_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 u32 table_value;
                 table_ptr = (u32 *) ((table_index << 2) + ((u32) table_base));
-                ASM_KEEP(table_ptr);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP(table_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 dst_value = *((u32 *) (((u8 *) s7) + 0));
                 table_value = *table_ptr;
                 dst_value &= high;

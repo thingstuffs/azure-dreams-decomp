@@ -29,7 +29,7 @@ void *func_8009F868(void)
 
 loop:
     state = (u8 *)0x80013710;
-    ASM_KEEP(state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     entry = ((S_8009F868_0 *)state)->unk_0C + ((S_8009F868_0 *)state)->unk_0A * 2;
     kind = entry[1];
 

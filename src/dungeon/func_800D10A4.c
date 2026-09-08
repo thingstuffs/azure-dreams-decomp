@@ -28,10 +28,10 @@ void func_800D6804(void *arg0, void *arg1)
     s16 timer;
 
     {
-        register void *state ASM_REG("$7");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        register s32 amount ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register void *state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register s32 amount ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 scaled;
-        register s32 addend ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 addend ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 current;
         s32 quarter;
 
@@ -40,7 +40,7 @@ void func_800D6804(void *arg0, void *arg1)
         current = ((S_800D6804_0 *)state)->unk_08;
         scaled = amount << 1;
         addend = amount;
-        ASM_KEEP(addend);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(addend);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         scaled += amount;
         current += addend;
         ((S_800D6804_0 *)state)->unk_08 = current;

@@ -242,9 +242,9 @@ void func_8002466C(void *arg0)
                 ((S_8002466C_7 *)draw)->unk_0C = 0x808080;
                 ((S_8002466C_7 *)draw)->unk_08 = temp_link;
                 ((S_8002466C_6 *)obj)->unk_20 = ((S_8002466C_0 *)arg0)->unk_00;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 ent = (u8 *)obj + 0x20;
-                ASM_KEEP(ent);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP(ent);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 ((S_8002466C_9 *)ent)->unk_4C = 0;
             }
             var_s3 -= 1;

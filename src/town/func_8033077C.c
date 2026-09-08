@@ -10,26 +10,26 @@ extern ByteBlock8 D_80016164;
 s32 func_8001AF7C(void) {
     ByteBlock8 local;
     s32 index;
-    register s32 sum ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register s32 sum ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 value;
     u8 *records;
-    register u8 *table ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
-    register ByteBlock8 *source ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register ByteBlock8 *source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *page;
     u8 *entry;
 
     sum = 0;
-    ASM_KEEP(sum);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(sum);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     table = **(u8 ***)((u8 *)D_80016000 + 0x30);
-    ASM_KEEP(table);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     page = (u8 *)0x80010000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     source = (ByteBlock8 *)(page + 0x6164);
-    ASM_KEEP(source);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     local = *source;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     index = sum;
-    ASM_KEEP(index);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     records = *(u8 **)((u8 *)D_80016000 + 0x38);
     do {
         entry = records + (index * 2);

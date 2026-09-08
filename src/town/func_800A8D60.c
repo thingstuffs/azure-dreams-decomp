@@ -44,16 +44,16 @@ void func_800A64C0(void) {
 
     if (func_80033B2C(0xD) != 0) {
         if (func_80033B2C(0xE) != 0) {
-            register u32 page_hi ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u32 page_hi ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u32 page;
 
             D_80100E24 = D_800D0D0C;
             D_80100E28 = D_800D0D30;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             page_hi = 0x80100000;
-            ASM_KEEP(page_hi);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(page_hi);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             page = 0x260000;
-            ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800A654C();
             return;
         }

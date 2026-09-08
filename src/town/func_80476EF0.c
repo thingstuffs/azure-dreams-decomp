@@ -22,7 +22,7 @@ s32 func_80017EF0(S_80017EF0_0 *arg0, s32 arg1) {
 
     if (D_80019BB0 == 3) {
         result = 0;
-        ASM_TAILSLOT_PIN(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         return func_80017F44();
     }
     ((S_80017EF0_1 *)((arg1 * 0x10) + arg0->unk_10))->unk_08 =

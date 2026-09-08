@@ -24,7 +24,7 @@ extern u8 D_000006BC[];
 extern u8 D_00000FE4[];
 
 void func_808BB5EC(void) {
-    register u8 *var_a0 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *temp_a0;
 
     if (D_00001020[0] != 0) {

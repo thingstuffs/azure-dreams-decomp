@@ -11,7 +11,7 @@ extern u8 D_807009B8[];
 extern u8 D_807009BA[];
 
 void func_8087FE98(void) {
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 i;
     u16 value;
 

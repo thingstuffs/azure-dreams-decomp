@@ -41,9 +41,9 @@ s32 func_800B44F0(void *arg0, s32 arg1)
     temp_v0 = func_80049004(temp_s2, arg1, 0xC);
     ((S_800B44F0_0 *)arg0)->unk_5C = temp_v0;
     if (temp_v0 != 0) {
-        register s32 call_arg ASM_REG("$4") = temp_v0;   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 call_arg ASM_REG("$4") = temp_v0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        ASM_KEEP(call_arg);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_v1 = D_8002E5E8;
         ((S_800B44F0_0 *)arg0)->unk_40 = D_8002E5E8[0];
         ((S_800B44F0_0 *)arg0)->unk_44 = ((S_800B44F0_1 *)temp_v1)->unk_04;

@@ -151,7 +151,7 @@ void func_801728C4(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 mode;
     s32 mode_test;
     s32 count;
-    register s32 next_state ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *anim;
     u16 timer;
     void *entity;
@@ -244,7 +244,7 @@ selected:
     }
     ((S_801728C4_0 *)arg0)->unk_98.s &= 0xFF7F;
     mode_test = mode;
-    ASM_KEEP_NV(mode_test);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(mode_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (mode_test != 0) {
         mode_global = D_800814A8;
         ((S_801728C4_1 *)arg3)->unk_60 = mode_global;
@@ -266,7 +266,7 @@ copy_parent:
         ((S_801728C4_1 *)arg3)->unk_60 = func_800A05A4(
             arg3, ((S_801728C4_4 *)arg2)->unk_24, ((S_801728C4_4 *)arg2)->unk_25,
             ((S_801728C4_1 *)arg3)->unk_2A, 0x10);
-        ASM_MEM_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         x = ((S_801728C4_1 *)arg3)->unk_72.u;
         y = ((S_801728C4_1 *)arg3)->unk_73.u;
         if (x < 0) {
@@ -363,7 +363,7 @@ state_2:
 
     if (((S_801728C4_0 *)arg0)->unk_98.u & 0x8000) {
         callback_page = 0x80170000;
-        ASM_KEEP(callback_page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(callback_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         count = 7;
         callback = (void *)(callback_page + 0x40FC);
         do {

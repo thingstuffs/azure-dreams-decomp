@@ -88,9 +88,9 @@ void func_80172810(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     u16 pending[4];
     u8 *sel;
-    register s32 special ASM_REG("$21");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 special ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *obj;
-    register void *rec ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *rec ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 y;
     s32 counter;
@@ -141,11 +141,11 @@ void func_80172810(void *arg0, void *arg1, void *arg2, void *arg3)
 
         if (*sel != 0) {
             ((S_80172810_0 *)arg0)->unk_98 &= 0xFF7F;
-            ASM_KEEP(sel);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(sel);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             {
                 s32 flag = special;
 
-                ASM_KEEP(flag);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP(flag);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 if (flag != 0) {
                     obj = D_800814A8;
                     ((S_80172810_1 *)arg3)->unk_60 = obj;
@@ -166,7 +166,7 @@ void func_80172810(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_80172810_1 *)arg3)->unk_60 =
                 func_800A05A4(arg3, ((S_80172810_4 *)arg2)->unk_24, ((S_80172810_4 *)arg2)->unk_25,
                               ((S_80172810_1 *)arg3)->unk_2A, 0x10);
-            ASM_KEEP(arg3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             x = ((S_80172810_1 *)arg3)->unk_72.u;
             y = ((S_80172810_1 *)arg3)->unk_73.u;
             if (x < 0) {

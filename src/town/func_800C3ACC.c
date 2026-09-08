@@ -50,7 +50,7 @@ void func_800C122C(void)
     if (D_80080A88[0] != 0) goto finish;
     func_80053DA8(0x71);
     func_800542BC();
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     goto play_active_floor;
 
 inactive_floor:

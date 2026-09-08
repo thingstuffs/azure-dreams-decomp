@@ -22,17 +22,17 @@ typedef struct DataRecord {
 
 void *func_8001976C(void *arg0, void *arg1, s32 arg2, s32 arg3)
 {
-    register DataRecord *var_s0 ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register u8 *var_s1 ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register DataRecord *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u8 *var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 var_s2;
     u32 var_s3;
     u32 var_s4;
     u32 var_s5;
-    register u32 var_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_v1;
     u32 var_a0;
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     var_s0 = arg0;
     var_s1 = arg1;
     var_s2 = arg2;
@@ -52,7 +52,7 @@ void *func_8001976C(void *arg0, void *arg1, s32 arg2, s32 arg3)
         }
         var_v0 = var_s3 | var_v0;
         var_v0 = var_s4 | var_v0;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         var_v1 = var_s0->unkC.half.lo;
         var_v0 = var_v0 | var_v1;
         var_s0->unkC.word = var_v0;
@@ -65,10 +65,10 @@ void *func_8001976C(void *arg0, void *arg1, s32 arg2, s32 arg3)
         }
         var_a0 = (u32)var_s0;
     } while (*(var_s1 - 0x13) != 0x80);
-    ASM_KEEP(var_s2);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(var_s3);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(var_s4);   /* MATCH pin: retail register colouring depends on it */
-    ASM_KEEP(var_s5);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(var_s3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(var_s5);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return var_s0;
 }
 

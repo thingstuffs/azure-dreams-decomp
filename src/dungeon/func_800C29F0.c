@@ -39,8 +39,8 @@ u32 func_800C8150(Rec_D_800E3D7C *arg0, s16 arg1, s16 arg2, s32 arg3)
     s32 scaled;
     s32 state;
     s32 store_value;
-    register s32 shifted_index ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register TablePage *table_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 shifted_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register TablePage *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     i = 1;
     if (arg0->unk_14.as_u32 & 0x4000) {

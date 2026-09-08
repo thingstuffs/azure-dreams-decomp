@@ -63,7 +63,7 @@ void func_80176028(void *arg0, s32 arg1, void *arg2, void *arg3)
     u8 *work = arg3;
     register s32 state = owner[0x9B];
     register u8 *actor = *(u8 **)(work + 0x60);
-    register s32 type_check ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 type_check ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (state == 1) {
         goto state_1;
@@ -115,9 +115,9 @@ state_1:
         table2 = D_80082E80;
         value_map = D_800E3D7C;
         owner[0xA9] = value;
-        ASM_KEEP_DEP_NV(actor, value);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_JALDELAY_PIN(actor);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP_NV(actor);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_DEP_NV(actor, value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_JALDELAY_PIN(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((Rec_D_800E3D7C *)D_800E3D7C)->unk_60.as_pu8 = actor;
         ((S_80176028_2 *)value_map)->unk_8A = value;
         func_80093E74(D_800E3D7C, table1, table2, D_800E3D7C);
@@ -153,7 +153,7 @@ state_2:
         func_8009A028(actor);
         (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
         D_800814A0 |= 0x8000;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         {
             u8 *map_value;
             s32 owner_index;

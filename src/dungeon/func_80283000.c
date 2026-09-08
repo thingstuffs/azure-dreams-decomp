@@ -70,12 +70,12 @@ void BODY_NAME(void) {
     func_80064D50(base + 0x70);
 
     call_arg = base + 0x50;
-    ASM_KEEP_NV(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     negative = -0x800;
     positive = 0x800;
     *(s16 *)(state + 0x38) = negative;
     *(s16 *)(state + 0x3C) = negative;
-    ASM_KEEP_NV(positive);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(positive);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     negative = 0x800;
     *(s16 *)(state + 0x3A) = positive;
     positive = -0x800;

@@ -20,7 +20,7 @@ S_80083968 *func_8003E39C(s16 arg0, s32 arg1, s32 arg2)
   s32 kff;
   u8 *hdr;
   u8 *hdr2;
-  register S_80083968 *tbl ASM_REG("$6");   /* MATCH pin: slus-diff */
+  register S_80083968 *tbl ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   hdr = (u8 *) (&D_800814D1);
   if (((D_800814D1 + 1) & 0x1F) == hdr[-1])
   {
@@ -33,8 +33,8 @@ S_80083968 *func_8003E39C(s16 arg0, s32 arg1, s32 arg2)
   }
 
   {
-    register u32 page ASM_REG("$2") = 0x80080000;   /* MATCH pin: slus-diff */
-    ASM_KEEP_NV(page);   /* MATCH pin: slus-diff */
+    register u32 page ASM_REG("$2") = 0x80080000;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     tbl = (S_80083968 *)(page + 0x3968);
   }
   kff = 0xFF;
@@ -44,8 +44,8 @@ S_80083968 *func_8003E39C(s16 arg0, s32 arg1, s32 arg2)
   (&tbl[idx])->unk08[15] = 0;
   if ((arg0 & 0xFF) == kff)
   {
-    register S_80083968 *e1 ASM_REG("$2");   /* MATCH pin: slus-diff */
-    ASM_KEEP_NV(tbl);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register S_80083968 *e1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(tbl);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     e1 = &tbl[idx];
     *((s32 *) e1->unk08) = arg2;
   }
@@ -56,8 +56,8 @@ S_80083968 *func_8003E39C(s16 arg0, s32 arg1, s32 arg2)
   }
   else
   {
-    register u8 *e3 ASM_REG("$2");   /* MATCH pin: slus-diff */
-    ASM_KEEP_NV(tbl);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 *e3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(tbl);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     e3 = (u8 *) tbl + 8;
     if (arg2 != 0)
     {
@@ -66,10 +66,10 @@ S_80083968 *func_8003E39C(s16 arg0, s32 arg1, s32 arg2)
     }
   }
   {
-    register s32 off ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 off ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     off = idx * 24;
     D_800814D1 = (D_800814D1 + 1) & 0x1F;
-    ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     return (S_80083968 *) ((u8 *) D_80083968 + off);
   }
 }

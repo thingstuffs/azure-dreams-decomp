@@ -3,7 +3,7 @@
 extern u8 D_800E045D[];
 
 void *func_80099978(void *arg0) {
-    register u8 *dst ASM_REG("$4") = (u8 *)arg0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 *dst ASM_REG("$4") = (u8 *)arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     *dst = D_800E045D[0];
     dst++;

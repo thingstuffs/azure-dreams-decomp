@@ -34,6 +34,6 @@ loop:
 success:
     result = 1;
 done:
-    ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     return result;
 }

@@ -14,10 +14,10 @@ loop:
     if (value != 0) {
         if (value == arg0) {
             s32 index = (s16)i;
-            ASM_TAILSLOT_PIN_TIED(index);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80099088(arg0, entry);
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         i++;
         entry++;
         if (i < 20) {

@@ -20,11 +20,11 @@ void func_80094F58(s16 arg0, s32 arg1, FuncData *arg2) {
     s32 result;
     s32 condition;
     s32 rounded_result;
-    register s32 adjusted_result ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 divisor ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 rounded_arg ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 first_quotient ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 second_quotient ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 adjusted_result ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 rounded_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 first_quotient ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 second_quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     first = func_800644B8(arg0) << 6;
     second = func_80064584(arg0) << 6;
@@ -41,7 +41,7 @@ void func_80094F58(s16 arg0, s32 arg1, FuncData *arg2) {
         divisor = adjusted_result >> 12;
         first_quotient =
             ((Rec_D_800E3D7C *)arg2)->unk_0C.as_vs32 / divisor;
-        ASM_KEEP(first_quotient);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(first_quotient);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rounded_arg = arg1;
         if (arg1 < 0) {
             rounded_arg = arg1 + 0xFFF;

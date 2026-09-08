@@ -60,8 +60,8 @@ typedef struct S_801738B4_4 {
 
 void func_801738B4(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-    register void *entity ASM_REG("$18") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *actor ASM_REG("$17") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *entity ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     static void *const keep_cases[] = {
         &&case_1, &&case_2, &&case_3, &&case_4,
         &&case_5, &&case_6, &&case_7
@@ -75,7 +75,7 @@ void func_801738B4(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 y;
     void *object;
     void *copy_object;
-    register u8 *record ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *global;
 
     special = 0;
@@ -187,7 +187,7 @@ spawn_object:
         ((S_801738B4_2 *)entity)->unk_25,
         (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
     (*(void * volatile *)((u8 *)actor + 0x60)) = copy_object;
-    ASM_USE(copy_object);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE(copy_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     x = (*(s8 *)((u8 *)actor + 0x72));
     y = (*(s8 *)((u8 *)actor + 0x73));
     if (x < 0) {
@@ -285,7 +285,7 @@ state_3:
 
 done:
 epilogue:
-    ASM_KEEP(actor);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(entity);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

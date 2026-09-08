@@ -15,17 +15,17 @@ extern void func_80702488(void) __attribute__((noreturn));
 
 s32 func_80702444(void) {
     if (D_80701DC8[0] == 0) {
-        register s32 value ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+        register s32 value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         value = *(s32 *)((u8 *)D_80700000 + (D_80701DC4[0] << 5) + 0x1E30);
-        ASM_KEEP(value);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_80702488();
     }
 
     {
         s32 value = (s32)D_807014C8;
 
-        ASM_KEEP(value);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_80702180(D_80701DC4[0], 1);
         return value;
     }

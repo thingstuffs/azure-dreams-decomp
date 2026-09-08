@@ -44,7 +44,7 @@ void func_8017085C(void *arg0, void *arg1, void *arg2) {
     s32 temp_v0_3;
     s32 var_a1;
     s32 var_v0;
-    register u16 temp_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u16 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 temp_v0_5;
     u16 temp_v0_7;
 
@@ -58,7 +58,7 @@ void func_8017085C(void *arg0, void *arg1, void *arg2) {
         }
         return;
     }
-       /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (temp_v1 == 2) {
         goto state2;
     }

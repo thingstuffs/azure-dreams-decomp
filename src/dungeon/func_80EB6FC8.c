@@ -171,7 +171,7 @@ block_22:
         s32 special_test;
 
         special_test = var_s5;
-        ASM_KEEP(special_test);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (special_test == 0) {
             goto block_25;
         }
@@ -190,10 +190,10 @@ block_25:
     }
 block_27:
     {
-        register void *owner ASM_REG("$2") = var_v0;   /* MATCH pin: load-bearing for the whole function shape */
+        register void *owner ASM_REG("$2") = var_v0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         temp_v1_3 = ((S_801727C8_2_pre *)owner)[-1].unk_00;
-        ASM_USE(owner);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE(owner);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8 = (s8) ((S_801727C8_3 *)temp_v1_3)->unk_24;
         ((Rec_D_800E3D7C *)arg3)->unk_73.as_s8 = (s8) ((S_801727C8_3 *)temp_v1_3)->unk_25;
     }
@@ -204,7 +204,7 @@ block_28:
 
         spawned = func_800A05A4(arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 0x10);
         ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv = spawned;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     }
     var_v0_2 = ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8;
     var_v1 = ((Rec_D_800E3D7C *)arg3)->unk_73.as_s8;
@@ -235,7 +235,7 @@ block_34:
     func_800A56E0(0x703);
     temp_v1 = ((S_801727C8_0 *)arg0)->unk_9B;
     {
-        register s32 next_state ASM_REG("$3") = 6;   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 next_state ASM_REG("$3") = 6;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         ((S_801727C8_0 *)arg0)->unk_96 = (u16)next_state;
     }

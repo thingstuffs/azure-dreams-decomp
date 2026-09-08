@@ -23,7 +23,7 @@ s32 func_800A70E4(s32 arg0, s32 arg1, s32 arg2) {
     s32 held_z;
     s32 held_y;
     s32 result;
-    register s32 var_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 y;
     u16 sp10;
     ActiveEntry *var_a2;
@@ -49,10 +49,10 @@ scan:
     y = held_y;
     z = (s16)held_z;
     result = 0x800E0000;
-    ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     var_v1 = (PositionEntry *)(result + 0x36C8);
     result = 0x800E0000;
-    ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     var_a2 = (ActiveEntry *)(result + 0x3548);
 loop_6:
     if ((var_a2->active != 0) && (var_v1->x == x) && (var_v1->y == y)) {
@@ -75,7 +75,7 @@ block_12:
     }
     goto loop_6;
 done:
-    ASM_KEEP(var_a0);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(var_a0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     return result;
 }
 

@@ -171,9 +171,9 @@ void func_80167C74(void *arg0, S_80167C74_2 *arg1, S_80167C74_11 *arg2) {
     void *self = arg0;
 #define arg0 self
     u8 *var_v0;
-    register u8 *table_join ASM_REG("$6");   /* MATCH pin: retail delay-slot fill depends on it */
-    register u8 *clamp_base ASM_REG("$8");   /* MATCH pin: retail delay-slot fill depends on it */
-    u8 *var_v0_2;   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *table_join ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register u8 *clamp_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *var_v0_2;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *temp_v1_3;
     s16 *temp_v1_4;
     s16 temp_v0_5;
@@ -184,9 +184,9 @@ void func_80167C74(void *arg0, S_80167C74_2 *arg1, S_80167C74_11 *arg2) {
     s32 temp_a0_2;
     s32 temp_a0_3;
     s32 temp_a0_6;
-    register void *interp_call_a0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *interp_call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 temp_a2_2;
-    register s32 interp_call_a2 ASM_REG("$6");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 interp_call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 temp_a3;
     s32 temp_fp;
     s32 temp_s6;
@@ -205,29 +205,29 @@ void func_80167C74(void *arg0, S_80167C74_2 *arg1, S_80167C74_11 *arg2) {
     s32 var_a1_4;
     s32 var_a2;
     s32 var_a2_clamp;
-    register s32 var_a2_4 ASM_REG("$6");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 var_a2_4 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 var_a3;
     s32 var_a3_2;
     s32 var_s0;
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
-    register s32 var_s1_2 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
-    register s32 var_s1_3 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 var_s1_2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 var_s1_3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_s2;
     s32 var_s3;
-    register s32 var_s3_2 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 var_s3_2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 var_s4;
-    register s32 var_s4_2 ASM_REG("$20");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 var_t1 ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
-    register s32 var_t0_2 ASM_REG("$8");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 var_s4_2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 var_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 var_t0_2 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 var_t2;
     s32 var_t2_2;
     s32 var_t2_3;
-    register s32 var_t3 ASM_REG("$11");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_t3 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_v0_3;
     s32 var_v0_4;
     s32 var_v0_5;
     s32 clamp_row;
-    register s32 clamp_index ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 clamp_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 clamp_min;
     u16 *temp_a1_2;
     u16 *var_a2_2;
@@ -241,7 +241,7 @@ void func_80167C74(void *arg0, S_80167C74_2 *arg1, S_80167C74_11 *arg2) {
     S_80167C74_6 *temp_a1_5;
     S_80167C74_7 *temp_a1_6;
     S_80167C74_8 *temp_a1_7;
-    register u8 *temp_s2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_80167C74_1 *temp_t1;
     u8 *temp_v0_2;
     u8 *temp_v0_3;
@@ -256,10 +256,10 @@ void func_80167C74(void *arg0, S_80167C74_2 *arg1, S_80167C74_11 *arg2) {
     u8 *object_table_base;
     u8 *object_base;
     S_80167C74_16 *temp_v1_7;
-    register u8 *var_a1_3 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u8 *var_t0 ASM_REG("$8");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *var_a1_3 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *var_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 object_offset;
-    register s32 object_copy_index ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 object_copy_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     temp_v1 = ((S_80167C74_0 *)arg0)->unk_12;
     temp_t1 = ((S_80167C74_0 *)arg0)->unk_24;
@@ -345,9 +345,9 @@ block_18:
         var_a2_clamp = var_a3;
 loop_32:
         clamp_row = ((S_80167C74_0 *)arg0)->unk_1C;
-        ASM_KEEP_NV(clamp_row);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_NV(clamp_row);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         temp_a0_2 = var_a1 * 2;
-        ASM_KEEP_NV(temp_a0_2);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(temp_a0_2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         clamp_index = clamp_row * 0x60;
         clamp_index = clamp_index + (s32)clamp_base;
         clamp_index = var_a2_clamp + clamp_index;
@@ -362,7 +362,7 @@ loop_32:
         temp_v1_3 = (s16 *)clamp_index;
         if (*temp_v1_3 < -0x190) {
             clamp_min = -0x190;
-            ASM_KEEP(clamp_min);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(clamp_min);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             *temp_v1_3 = clamp_min;
         }
         var_a1 += 1;
@@ -421,7 +421,7 @@ loop_41:
             temp_t2 = var_s2 / var_s0;
             interp_call_a0 = arg0 - 0x20;
             interp_call_a2 = 0xA;
-            ASM_KEEP_NV(interp_call_a2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(interp_call_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             var_s4 += temp_s6;
             var_s3 += temp_s7;
             var_s2 += temp_fp;
@@ -437,7 +437,7 @@ loop_41:
         } while (var_s1_2 < (var_s0 + 1));
     }
     var_v0_2 = (u8 *)0x80170000;
-    ASM_KEEP_NV(var_v0_2);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(var_v0_2);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     object_table_base = var_v0_2 + 0x5DD8;
     temp_v1_6 = (u8 *)((((S_80167C74_0 *)arg0)->unk_1C * 0x60) + (s32)object_table_base);
     if ((((S_80167C74_12 *)temp_v1_6)->unk_00 != 0x190) && (((S_80167C74_12 *)temp_v1_6)->unk_02 != 0x190) && (((S_80167C74_12 *)temp_v1_6)->unk_04 != 0x190)) {

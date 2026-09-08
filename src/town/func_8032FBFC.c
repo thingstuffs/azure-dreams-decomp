@@ -28,7 +28,7 @@ void func_8001A3FC(void) {
     } while (0);
     index = ((Rec_D_80016000 *)D_80016000)->unk_14;
     offset = index * 0x1C;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entry = (void *)(offset + *entryBase);
     do {
         type = entry->unk_00;

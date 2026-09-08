@@ -108,8 +108,8 @@ void func_818F9E48(void *arg0, void *arg1, void *arg2) {
     s32 one;
 
     source = D_8002400C;
-    ASM_KEEP(out);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP(effect);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     D_800266BC = 1;
     ((S_818F9E48_0 *)arg0)->unk_98 += 0xC8;
 
@@ -135,11 +135,11 @@ void func_818F9E48(void *arg0, void *arg1, void *arg2) {
     timer = ((S_818F9E48_0 *)arg0)->unk_02.s;
     if (timer < 0x15) {
         tail_value = (timer * 6) - 0x79;
-        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80025758();
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (timer >= 0x50) {
         value = ((0x64 - timer) * 6) - 0x80;
         ((S_818F9E48_1 *)effect)->unk_0E = value;
@@ -177,7 +177,7 @@ state_zero:
     ((S_818F9E48_1 *)effect)->unk_0D = ((S_818F9E48_5 *)motion)->unk_0D;
     ((S_818F9E48_1 *)effect)->unk_0E = ((S_818F9E48_5 *)motion)->unk_0E;
     ((S_818F9E48_5 *)motion)->unk_14 |= 0x80;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     one = 1;
 
 state_done:

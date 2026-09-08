@@ -145,7 +145,7 @@ setup:
         func_8009A21C(next_x, next_y, call_mode);
     }
 
-    ASM_KEEP(result);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_80172CC0_0 *)state)->unk_2A = step;
     if (result == 3) {
         if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {

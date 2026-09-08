@@ -71,7 +71,7 @@ void func_80AC5820(void *arg0, S_80AC5820_0 *arg1, Rec_D_80082E80 *arg2)
     work.xyz[2] = other->unk_0A;
     second = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
     angle_page = 0x80080000;
-    ASM_KEEP(angle_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(angle_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     table_entry = &D_800DCECC[
         ((*(s16 *)(angle_page + 0x3228) +
           ((S_80AC5820_1 *)arg0)->unk_94 + 0x100) >> 9) & 7];
@@ -81,10 +81,10 @@ void func_80AC5820(void *arg0, S_80AC5820_0 *arg1, Rec_D_80082E80 *arg2)
     count = ((S_80AC5820_1 *)arg0)->unk_96 - 1;
     ((S_80AC5820_1 *)arg0)->unk_96 = count;
     if ((count << 16) <= 0) {
-        register u32 flags_page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u32 flags_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         flags_page = 0x80080000;
-        ASM_KEEP(flags_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_80AC5820_1_pre *)arg0)[-1].unk_00 |= 0x8000;
         *(s32 *)(flags_page + 0x14A0) |= 0x8000;
     }

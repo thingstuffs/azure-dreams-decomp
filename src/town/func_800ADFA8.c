@@ -19,15 +19,15 @@ typedef struct {
 void func_800AB708(Rec_func_800AB014_arg0 *arg0, Rec_func_800AAE98_arg0 *arg1) {
     LocalEntry sp10[6];
     void *call_arg;
-    register s32 call_result ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 call_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 temp_s0;
     u16 stack_value;
 
     func_800AAFE0(sp10, 4);
     call_result = func_800AAE98(arg1);
-    ASM_KEEP(call_result);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_arg = arg0;
-    ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s0 = call_result;
     call_result = func_800AB030(call_arg);
     stack_value = sp10[2].value;

@@ -101,9 +101,9 @@ void *func_8191C938(S_8191C938_3 *arg0)
         temp_v0_3 = arg0->unk_20;
         *temp_a0 = *temp_v0_3;
         override = arg0->unk_16;
-        ASM_KEEP(override);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(override);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         result = temp_v0;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         ((S_8191C938_4 *)temp_a0)->unk_0A = override;
         func_8002426C(temp_a0);
         return temp_v0;

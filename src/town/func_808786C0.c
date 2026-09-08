@@ -3,7 +3,7 @@
 extern s32 *D_807030A4[];
 
 void func_807026C0(s32 arg0) {
-    register s32 input ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 input ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 *ptr;
     s32 word;
     s32 value;

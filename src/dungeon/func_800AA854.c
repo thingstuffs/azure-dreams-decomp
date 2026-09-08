@@ -124,23 +124,23 @@ extern void func_8006671C();
 
 s32 func_800AFFB4(void *arg0, void *arg1, void *arg2_in, u8 *arg3, volatile ShortArg arg4) {
     s32 var_a0_2;
-    register s32 temp_a0_2 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 temp_a0_3;
-    register s32 temp_a1_2 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_a1_2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 temp_a2;
-    register s32 inner_v0 ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 inner_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 inner_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 inner_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 temp_v0_3;
     s32 temp_v0_4;
     s32 temp_v0_5;
     s32 temp_v0_6;
     s32 var_a0;
     s32 var_a1;
-    register void *arg2 ASM_REG("$17");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 var_fp;
     TwelveByteEntry *var_s4;
     s32 var_s5;
-    register u8 *var_s6 ASM_REG("$22");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 *var_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 var_s7;
     s32 var_v0;
     s32 var_v1;
@@ -149,9 +149,9 @@ s32 func_800AFFB4(void *arg0, void *arg1, void *arg2_in, u8 *arg3, volatile Shor
     u16 sp30;
     u16 sp38;
     u32 temp_hi;
-    register u8 *var_s0 ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *var_s2;
-    register u8 *var_s3 ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     (void)arg1;
     arg2 = arg2_in;
@@ -159,11 +159,11 @@ s32 func_800AFFB4(void *arg0, void *arg1, void *arg2_in, u8 *arg3, volatile Shor
     var_fp = 0;
     var_s7 = 0;
     var_s2 = var_s6 + 0x50;
-    ASM_KEEP(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     flagv = ((S_800AFFB4_0 *)arg0)->unk_08.s;
     flagv = flagv < 0xE00;
     sp30 = arg4.value;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     inner_v1 = ((S_800AFFB4_0 *)arg0)->unk_08.u;
     flagv ^= 1;
     sp38 = flagv;
@@ -292,7 +292,7 @@ local_s5_zero:
             ((S_800AFFB4_2 *)var_s2)->unk_0C = inner_v1;
             ((S_800AFFB4_2 *)var_s2)->unk_00 = inner_v1;
             inner_v1 = var_s7 & 1;
-            ASM_KEEP(inner_v1);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(inner_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             inner_v1 <<= 1;
             inner_v0 = (s32)(sp30 << 0x10) >> 0xE;
             inner_v1 += inner_v0;
@@ -321,7 +321,7 @@ local_s5_zero:
                 inner_v1 <<= 8;
                 ((S_800AFFB4_1 *)arg2)->unk_14.s32 = inner_v1;
                 inner_v1 = temp_a1_2;
-                ASM_KEEP(inner_v1);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(inner_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 ((S_800AFFB4_1 *)arg2)->unk_10.s32 = temp_v0_3;
                 inner_v0 = ((S_800AFFB4_3 *)var_s3)->unk_02;
                 temp_a0_2 += inner_v1;
@@ -337,13 +337,13 @@ local_s5_zero:
                 (*(s32 *)((u8 *)var_s0 + -0x19)) = inner_v0;
                 inner_v0 = ((S_800AFFB4_1 *)arg2)->unk_14.u16;
                 inner_v1 = ((S_800AFFB4_1 *)arg2)->unk_08.u16;
-                ASM_KEEP(inner_v0);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(inner_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 inner_v0 += inner_v1;
                 (*(volatile s16 *)((u8 *)var_s0 + -0xD)) = inner_v0;
                 inner_v1 = ((S_800AFFB4_1 *)arg2)->unk_14.u16;
                 inner_v0 = ((S_800AFFB4_4_pre *)var_s0)[-1].unk_00.v;
                 temp_a0_2 = ((S_800AFFB4_1 *)arg2)->unk_10.u16;
-                ASM_KEEP(inner_v0);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(inner_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 inner_v0 -= 1;
                 inner_v1 += temp_a0_2;
                 ((S_800AFFB4_4_pre *)var_s0)[-1].unk_00.v2 = inner_v0;

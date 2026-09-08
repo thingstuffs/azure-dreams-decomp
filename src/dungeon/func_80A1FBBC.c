@@ -170,14 +170,14 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
                 {
                     u32 owner;
                     u16 sourceZ;
-                    register u32 effectColor ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
-                    register u16 flags ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+                    register u32 effectColor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    register u16 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     u16 flaggedFlags;
-                    register u16 size ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
-                    register s32 command ASM_REG("$5");   /* MATCH pin: retail delay-slot fill depends on it */
-                    register s32 zeroArg ASM_REG("$6");   /* MATCH pin: retail delay-slot fill depends on it */
-                    u32 objectColor;   /* MATCH pin: retail delay-slot fill depends on it */
-                    register u16 objectArg ASM_REG("$7");   /* MATCH pin: retail delay-slot fill depends on it */
+                    register u16 size ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    register s32 command ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    register s32 zeroArg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    u32 objectColor;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    register u16 objectArg ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                     random %= ((S_801733BC_1 *)arg0)->unk_A8.s + 0x60;
                     effectColor = 0x00040404;
@@ -200,7 +200,7 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
                     flags = ((S_801733BC_0 *)arg2)->unk_14;
                     zeroArg = 0;
                     ((S_801733BC_5 *)objectPart)->unk_14 = flags;
-                    ASM_USE(flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_USE(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     flaggedFlags = flags;
                     size = 0x20;
                     objectArg = ((S_801733BC_0 *)arg2)->unk_12;
@@ -234,7 +234,7 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
         }
         ((S_801733BC_1 *)arg0)->unk_A8.u = 0;
         {
-            register void *centerCallObject ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+            register void *centerCallObject ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             Rect *rectArg;
             Point *centerArg;
             s16 centerY;
@@ -242,10 +242,10 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
             centerCallObject = arg0;
             rectArg = &rect;
             centerArg = &center;
-            ASM_USE(centerArg);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_USE(centerArg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             center.x = rect.x + ((s16)rect.w >> 1);
             centerY = rect.y + ((s16)rect.h >> 1);
-            ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             center.y = centerY;
             func_800B8FC8(centerCallObject, rectArg, centerArg, 1, 0);
         }
@@ -264,7 +264,7 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
         }
         func_8004491C(object, D_80174228);
         projectileCallback = D_801741A4;
-        ASM_KEEP(projectileCallback);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(projectileCallback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_801733BC_2 *)object)->unk_10 = projectileCallback;
         ((S_801733BC_2 *)object)->unk_20 = ((S_801733BC_3 *)arg1)->unk_02;
         projectileY = ((S_801733BC_3 *)arg1)->unk_06;

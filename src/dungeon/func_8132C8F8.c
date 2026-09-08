@@ -44,7 +44,7 @@ void func_801740F8(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 timer;
     s16 next_timer;
     s32 state;
-    register u8 *page ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *tbl;
 
     state = ((S_801740F8_0 *)arg0)->unk_9B;
@@ -68,7 +68,7 @@ void func_801740F8(void *arg0, void *arg1, void *arg2, void *arg3)
     }
 
 state_0:
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     tbl = page + 0x4A7C;
     if (((S_801740F8_1 *)arg2)->unk_2C != tbl) {
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = tbl;

@@ -66,7 +66,7 @@ void func_80172664(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 table_y;
     s32 table_offset;
     s32 state;
-    register s32 next_state ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     table_offset = ((u16)((S_80172664_0 *)arg3)->unk_2A >> 8) & 0xE;
     table_x = *(s16 *)((u8 *)&D_8006CCD8 + table_offset);

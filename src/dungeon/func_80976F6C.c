@@ -22,5 +22,5 @@ block_3:
             *(s16 *)((u8 *)arg0 + 0x92) = -0x20;
         }
     }
-    ASM_USE(arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE(arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 }

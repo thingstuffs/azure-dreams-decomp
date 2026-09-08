@@ -169,9 +169,9 @@ build_objects:
             obj = func_8003FC64(0x12);
             if (obj != 0) {
                 call_obj = obj;
-                ASM_KEEP(call_obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 callback = D_8017489C;
-                ASM_KEEP(callback);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 work = obj + 0x20;
                 ((S_80174934_1 *)work)->unk_1A = 1;
                 ((S_80174934_1 *)work)->unk_1C = 1;

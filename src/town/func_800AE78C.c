@@ -88,7 +88,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
     /* $0 read as the constant zero.  Spelling `step_no = 0` with a literal
        lets reload's find_equiv_reg re-source the 0 from $s4/$s5 (which hold 0
        here); reading the zero register keeps retail's `move $s7,$zero`. */
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail register colouring depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
 #ifdef NON_MATCHING
     zero = 0;
@@ -101,7 +101,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
        stops local-alloc's optimize_reg_copy_1 from re-sourcing the second copy
        below from the first (would give `move $s2,$s3` instead of retail's two
        direct `move $sN,$a1`). */
-    ASM_KEEP_NV(start_x);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(start_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     fwd_x = start_x;
     rev_y = start_y;
     ASM_KEEP_NV(start_y); /* same pin for the $a2 pair */

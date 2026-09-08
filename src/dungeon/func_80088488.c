@@ -63,7 +63,7 @@ void func_8008DBE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
 
     if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x100) {
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         mode = ((S_8008DBE8_0 *)status)->unk_04;
         if (D_80013714 & 8) {
             if (mode != 3) {
@@ -93,7 +93,7 @@ continue_update:
     }
 
     page = 0x80080000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     late_status = (void *)(page + 0x3460);
     timer = ((S_8008DBE8_5 *)late_status)->unk_04 - 1;
     ((S_8008DBE8_5 *)late_status)->unk_04 = timer;

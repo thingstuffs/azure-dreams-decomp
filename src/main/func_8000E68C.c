@@ -48,11 +48,11 @@ jt_c2:
 jt_c3:
     {
         s32 *dead_base;
-        register s32 tail_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         dead_base = D_80028530;
-        ASM_KEEP(dead_base);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(dead_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         tail_v1 = temp_a0 * 4;
-        ASM_TAILSLOT_PIN(tail_v1);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(tail_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     }
     return func_8002177C(temp_a0);
 jt_c4:

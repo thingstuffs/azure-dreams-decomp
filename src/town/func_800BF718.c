@@ -37,8 +37,8 @@ void func_800BCE78(void *arg0, void *arg1, void *arg2)
     register s32 *callback;
     register s32 state;
     register s32 state_10;
-    register s32 arg_31 ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 state_34 ASM_REG("$6");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 arg_31 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 state_34 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     callback = 0;
     if ((func_800352FC() != 0) && (func_800C2AB4(arg0) != 0)) {
@@ -112,7 +112,7 @@ case_0: {
         }
         result = rand();
         random = result;
-        ASM_KEEP(result);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         rem = result >> 2;
         if (random < 0) {
             rem = (random + 3) >> 2;
@@ -239,16 +239,16 @@ case_10: {
 
 case_20: {
         void *call_arg;
-        register s32 x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 vx ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 vx ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         s32 y;
-        register s32 vy ASM_REG("$6");   /* MATCH pin: keeps a constant in a register as retail does */
-        register s32 floor ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 compare ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 vy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register s32 floor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 compare ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register u16 timer;
 
         call_arg = arg1;
-        ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         x = ((S_800BCE78_1 *)arg1)->unk_00;
         vx = ((S_800BCE78_1 *)arg1)->unk_0C.s;
         y = ((S_800BCE78_1 *)arg1)->unk_08.at00.v;
@@ -257,10 +257,10 @@ case_20: {
         y += vy;
         ((S_800BCE78_1 *)arg1)->unk_00 = x;
         {
-            register s32 new_vy ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 new_vy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             new_vy = vy;
-            ASM_KEEP(new_vy);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(new_vy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_800BCE78_1 *)arg1)->unk_08.at00.v = y;
             y = 0x10000;
             new_vy += y;
@@ -289,7 +289,7 @@ case_30: {
         s32 new_vy;
 
         {
-            register s32 x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 vx;
 
             x = ((S_800BCE78_1 *)arg1)->unk_00;
@@ -297,11 +297,11 @@ case_30: {
             vy = ((S_800BCE78_1 *)arg1)->unk_14;
             x += vx;
             new_vy = vy;
-            ASM_KEEP(new_vy);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(new_vy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_800BCE78_1 *)arg1)->unk_00 = x;
         }
         {
-            register s32 y ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             y = ((S_800BCE78_1 *)arg1)->unk_08.at00.v;
             new_vy -= 0x4000;
@@ -376,7 +376,7 @@ case_32: {
                 floor = func_800C2AE8(arg1);
                 floor_scaled = (s32)floor << 16;
                 height = ((S_800BCE78_1 *)arg1)->unk_08.at00.v;
-                ASM_KEEP(height);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP(height);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 height = height + 0x100000;
                 ((S_800BCE78_1 *)arg1)->unk_14 =
                     (floor_scaled - height) /

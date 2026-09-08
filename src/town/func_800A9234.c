@@ -56,7 +56,7 @@ void func_800A6994(void *arg0, M2C_UNK arg1, void *arg2, M2C_UNK arg3) {
         tail_value = ((Rec_func_80094268_arg0 *)arg0)->unk_72.as_u16;
         tail_value += 0x200;
         tail_value &= 0xFC00;
-        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800A6A6C();
         return;
     }

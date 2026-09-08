@@ -26,7 +26,7 @@ void func_80171030(Obj0 *arg0, s32 unused, Obj2 *arg2)
         u32 tail_value;
 
         tail_value = arg2->value1E + 0x200;
-        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8017106C();
         return;
     }

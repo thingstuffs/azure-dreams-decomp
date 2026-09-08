@@ -74,14 +74,14 @@ block_13:
         }
         if (var_s0 == 0) {
             if (((S_8004FAA4_0 *)input)->unk_10 & 1) {
-                ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 if (((S_8004FAA4_2 *)(D_800814A8[0]))->unk_B0 != 0) {
                     call_arg0 = arg0;
                     var_a1 = 1;
                     goto block_22;
                 }
             } else if (((S_8004FAA4_0 *)input)->unk_10 & 2) {
-                ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 if (((S_8004FAA4_2 *)(D_800814A8[0]))->unk_AC != 0) {
                     call_arg0 = arg0;
                     var_a1 = 0;

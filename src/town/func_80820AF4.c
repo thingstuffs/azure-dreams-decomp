@@ -25,9 +25,9 @@ void func_800232F4(void *arg0)
     u8 *obj;
     void *owner;
     s16 state;
-    register u16 step ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u16 step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 value;
-    register s32 correction ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 correction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     volatile u16 *position;
 
     obj = arg0;
@@ -63,7 +63,7 @@ state_one:
     value = *position;
     correction = step;
     value += step;
-    ASM_KEEP(value);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     *position = value;
     correction = (s32)(correction << 16) >> 18;
     value += correction;

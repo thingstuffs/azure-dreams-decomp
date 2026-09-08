@@ -12,12 +12,12 @@ void func_8004DE88(char *arg0)
 {
     char *cursor;
     u32 address;
-    register char *buffer ASM_REG("$17");   /* MATCH pin: slus-diff */
+    register char *buffer ASM_REG("$17");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     buffer = (char *)0x80080000;
-    ASM_KEEP_NV(buffer);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(buffer);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     cursor = buffer + 0x3E18;
-    ASM_KEEP_NV(cursor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(cursor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     buffer[0x3E18] = 8;
     strcpy(cursor + 1, arg0);
 

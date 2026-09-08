@@ -76,7 +76,7 @@ void func_80170AD0(void *arg0, void *arg1, void *arg2)
     s16 level;
     s16 count;
     s32 value;
-    register s32 product ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 product ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 first;
     s32 second;
     s32 amount;

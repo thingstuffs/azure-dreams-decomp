@@ -88,7 +88,7 @@ void func_801745E0(Source *src, Vec3i *vec)
         s32 full;
         u8 held;
         s32 trig_arg;
-        register s32 raw_value ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register s32 raw_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
         entity = func_8003FC64(18);
         if (entity == 0) {
@@ -129,22 +129,22 @@ void func_801745E0(Source *src, Vec3i *vec)
             angle <<= 8;
         } while (0);
         trig_arg = angle;
-        ASM_KEEP(trig_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(raw_value);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(raw_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value = (raw_value * 24) >> 12;
         sub->field_70 = value;
         sub->field_64 = value;
 
         raw_value = func_80064584(trig_arg);
         trig_arg = next;
-        ASM_KEEP(trig_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         value = (raw_value * 24) >> 12;
         sub->field_76 = value;
         sub->field_6A = value;
 
         raw_value = func_800644B8(trig_arg);
         trig_arg = angle;
-        ASM_KEEP(trig_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         value = (raw_value * 24) >> 12;
         sub->field_72 = value;
         sub->field_66 = value;

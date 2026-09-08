@@ -79,9 +79,9 @@ s32 func_800248EC(void *arg0, void *arg1)
     void *cur = arg0;
     void *input = arg1;
     u8 *global = D_80083160;
-    register u32 low_mask ASM_REG("$18") = 0x00FFFFFF;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 low_mask ASM_REG("$18") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *ctx = *(u8 **)D_80083160;
-    register u8 *initial_next ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *initial_next ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 high_mask = 0xFF000000;
     Scratch800248EC *scratch =
         (Scratch800248EC *)0x1F800000;
@@ -90,18 +90,18 @@ s32 func_800248EC(void *arg0, void *arg1)
     u8 *final_ctx;
     s32 value;
     void *next;
-    register s32 call_arg0 ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register s32 call_arg1 ASM_REG("$5");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register s32 call_arg2 ASM_REG("$6");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 call_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register s32 call_arg1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register s32 call_arg2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     u32 packet_code;
 
-    ASM_KEEP(global);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(high_mask);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(scratch);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(global);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(high_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     initial_next = ((S_800248EC_0 *)ctx)->unk_8D0;
     scratch->ot = (u32 *)(ctx + 0xB0);
     scratch->cursor = initial_next;
-    ASM_KEEP(initial_next);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(initial_next);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     packet = *(Packet800248EC *volatile *)&scratch->cursor;
     scratch->x = ((S_800248EC_1 *)input)->unk_02;
     scratch->y = ((S_800248EC_1 *)input)->unk_06;
@@ -134,9 +134,9 @@ s32 func_800248EC(void *arg0, void *arg1)
         call_arg0 = 0;
         call_arg1 = 1;
         ((S_800248EC_2 *)packet)->unk_03 = 2;
-        ASM_KEEP(call_arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         packet_code = 0x6A;
-        ASM_KEEP(packet_code);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(packet_code);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         call_arg2 = call_arg0;
         ((S_800248EC_2 *)packet)->unk_04.at03.v = packet_code;
         packet->tag = (packet->tag & high_mask) |
@@ -148,7 +148,7 @@ s32 func_800248EC(void *arg0, void *arg1)
 
             scratch->ot[scratch->index] =
                 (old_tag & high_mask) | packet_mask;
-            ASM_KEEP(packet_mask);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(packet_mask);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         }
 
         packet2 = (Packet800248EC *)scratch->cursor;
@@ -167,14 +167,14 @@ s32 func_800248EC(void *arg0, void *arg1)
     if (next != 0) {
         cur = (u8 *)next + 0x20;
         input = ((S_800248EC_4 *)next)->unk_08;
-        ASM_KEEP(cur);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        ASM_KEEP(input);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(cur);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         final_ctx = (u8 *)scratch;
-        ASM_TAILSLOT_PIN(final_ctx);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_TAILSLOT_PIN(final_ctx);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_80024944(final_ctx);
     }
 
-    ASM_KEEP(next);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     final_ctx = *(u8 **)global;
     ((S_800248EC_5 *)final_ctx)->unk_8D0 = scratch->cursor;
     return 0;

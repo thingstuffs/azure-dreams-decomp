@@ -20,7 +20,7 @@ extern M2C_UNK D_80024EF4[3];
 void *func_80024C80(s32 arg0, void *arg1, s32 arg2, s32 arg3)
 {
     void *temp_s3 = arg1;
-    register s32 temp_s5 ASM_REG("$21") = arg3;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 temp_s5 ASM_REG("$21") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 temp_s4;
     s32 var_s0;
     void *temp_s1;
@@ -42,7 +42,7 @@ void *func_80024C80(s32 arg0, void *arg1, s32 arg2, s32 arg3)
         *(u16 *)((u8 *)temp_s1 + 0xA) = *(u16 *)((u8 *)temp_s3 + 0xA);
         temp_s3 = (void *)temp_s4;
         *(s32 *)((u8 *)temp_v0 + 0x20) = temp_s5;
-        ASM_KEEP(temp_s5);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_s5);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         do {
             func_8002569C(temp_s1, (s16)(var_s0 << 8), 0x40, -0x100, temp_s3);

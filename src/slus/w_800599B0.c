@@ -43,7 +43,7 @@ s32 func_800599B0(void)
     u8 *q;
     u8 *qtmp;
     s32 amt2;
-    register s32 v ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 v ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 sum;
     s32 k68a;
     s32 k68b;
@@ -116,14 +116,14 @@ lane2:
         p->f00 = off;
         amt = *(u16 *)(q + 0x10);
         p->f18 = amt;
-        ASM_KEEP_NV(amt);   /* MATCH pin: slus-diff */
+        ASM_KEEP_NV(amt);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         amt2 = amt;
-        ASM_KEEP_NV(amt2);   /* MATCH pin: slus-diff */
+        ASM_KEEP_NV(amt2);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         p->f24 = k68b;
         p->f20 = k68b;
         v = p->f00;
         sum = v;
-        ASM_USE2_NV(sum, amt2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_USE2_NV(sum, amt2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         p->f04 = v;
         p->f38 = v;
         off += amt;

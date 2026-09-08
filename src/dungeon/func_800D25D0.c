@@ -38,7 +38,7 @@ typedef struct S_800D7D30_1 {
 
 
 void func_800D7D30(void *arg0, void *arg1, void *arg2) {
-    register s32 x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 z;
     s32 dz;
     s32 value;

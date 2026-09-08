@@ -9,9 +9,9 @@ void func_800439F8(void)
 {
     if (D_80080A8A[0] != 0) {
         u8 *page;
-        register u32 value0 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register u32 value0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         u8 value4;
-        register u8 value6 ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register u8 value6 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         page = (u8 *)0x80010000;
         value0 = D_80081494[0];
         value4 = D_800814AC[0];

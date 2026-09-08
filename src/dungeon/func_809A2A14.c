@@ -68,7 +68,7 @@ void func_80174214(void *arg0, void *arg1, void *arg2, void *arg3)
     return;
 
 at_least_two:
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_two;
     }
@@ -114,7 +114,7 @@ state_one:
             func_801744F8();
         }
 
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         global = (u8 *)&D_80083460;
         if (((S_80174214_4 *)global)->unk_02 & 0x1000) {
             goto done;
@@ -139,7 +139,7 @@ state_one:
             return;
         }
 
-           /* MATCH pin: retail basic-block layout depends on it */
+           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (flags & 0x80000) {
             u16 old_value;
             u16 amount;

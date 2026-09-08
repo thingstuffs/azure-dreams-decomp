@@ -29,7 +29,7 @@ DungeonObj81811168 *func_80026168(s32 arg0, s32 arg1, s32 arg2)
 {
     DungeonObj81811168 *obj;
     DungeonSub81811168 *sub;
-    register DungeonObj81811168 *ret ASM_REG("$2");   /* MATCH pin: retail delay-slot contents depend on it */
+    register DungeonObj81811168 *ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0);
     sub = &obj->sub20;
@@ -41,7 +41,7 @@ DungeonObj81811168 *func_80026168(s32 arg0, s32 arg1, s32 arg2)
             func_8004491C(obj, D_8004CAA0);
             func_80026314(obj);
             ret = obj;
-            ASM_TAILSLOT_PIN(ret);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8002622C();
         } else {
             func_8004B248((u8 *)obj + 0x78);

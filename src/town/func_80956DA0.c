@@ -60,11 +60,11 @@ void func_80956DA0(s32 arg0) {
         ((S_80956DA0_0 *)temp_v0)->unk_10 = &D_80023E64;
         func_8004491C(temp_v0, &D_80044BB0);
         temp_v3 = 0x800000;
-        ASM_KEEP(temp_v3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_v3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v1 = ((S_80956DA0_0 *)temp_v0)->unk_0C;
-        ASM_KEEP(temp_v1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v2 = (u8 *)temp_v0 + 0x20;
-        ASM_KEEP(temp_v2);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(temp_v2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         temp_v2->unk_04 = arg0;
         ((S_80956DA0_4 *)(((S_80956DA0_3 *)temp_v0)->unk_08))->unk_02 = 0xF0;
         ((S_80956DA0_4 *)(((S_80956DA0_3 *)temp_v0)->unk_08))->unk_06 = 0xAC;

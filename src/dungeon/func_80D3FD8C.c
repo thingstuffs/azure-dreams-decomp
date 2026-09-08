@@ -127,10 +127,10 @@ jt_c0:
         goto block_5;
     }
     {
-        register s32 five ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register s32 five ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         func_8009D8A4();
         five = 5;
-        ASM_KEEP(five);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(five);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         temp_flag = D_800E296C[0];
         ((S_8017558C_0 *)arg0)->unk_96 = five;
         D_800E296C[0] = temp_flag | 0x800000;

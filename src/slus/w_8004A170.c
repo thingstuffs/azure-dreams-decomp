@@ -23,7 +23,7 @@ void func_8004A170(void *arg0, Template96 *dst, u32 value, u32 arg3) {
     u8 *end;
     u32 half;
 
-    ASM_KEEP(base);   /* MATCH pin: slus-diff */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     src = D_8007136C.bytes;
     out = base->bytes;
     if (((u32)base | (u32)src) & 3) {

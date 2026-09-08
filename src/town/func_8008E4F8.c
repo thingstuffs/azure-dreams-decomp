@@ -69,7 +69,7 @@ void func_8008BC58(u8 *object, void *arg1, void *arg2) {
         s32 index;
         u8 selection;
         u8 *table;
-        register u8 *page ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         func_800478B8();
         buttons = *(s32 *)(input + 0x10);
@@ -89,9 +89,9 @@ void func_8008BC58(u8 *object, void *arg1, void *arg2) {
         func_8008B620(list[*(s32 *)(object + 0x74)]);
     skip:
         index = *(s32 *)(object + 0x74);
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         page = (u8 *)0x800D0000;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table = page + 0x2EA4;
         selection = list[index];
         *(s32 *)(*(u8 **)object + 0x30) = table[selection * 8] - 0x18;

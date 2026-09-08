@@ -84,10 +84,10 @@ void *func_8015E8A4(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
 
 void *func_8015E8A4(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
 {
-    register void *work ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *work ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *obj;
-    register s32 call_id ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *call_target ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 call_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *call_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     S_8015E8A4_3 *part_b;
     void *part_a;
     s16 saved_arg0;
@@ -103,18 +103,18 @@ void *func_8015E8A4(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
     s16 *values_ptr;
     s16 values[4];
     u8 *entry;
-    register s8 pin_arg1 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s8 pin_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 pin_arg3;
     void *pin_part_a;
-    register void *pin_actor ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *pin_actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     work = 0;
     call_id = 0x112;
-    ASM_USE_NV(call_id);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE_NV(call_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     pin_arg1 = arg1;
     pin_arg3 = arg3;
     call_target = D_80083498;
-    ASM_USE2_NV(pin_arg3, call_target);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE2_NV(pin_arg3, call_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(call_id, call_target);
     saved_arg0 = (s16)arg0;
     if (obj != 0) {
@@ -181,7 +181,7 @@ scan_entries:
 scan_done:
 
         values_ptr = values;
-        ASM_KEEP(values_ptr);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(values_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         scaled_index = double_index + index;
         scaled_index <<= 2;
         selected_entry =

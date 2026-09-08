@@ -18,14 +18,14 @@ void func_80041E70(void *arg0)
 
         U16(0x6E, arg0) = 0x100;
         test = S32(0x54, arg0);
-        ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         scale = 0x10;
         U8(0x87, arg0) = scale;
         if (test & 1) {
             s32 width;
 
             width = U16(0x6E, arg0);
-            ASM_KEEP_NV(scale);   /* MATCH pin: slus-diff */
+            ASM_KEEP_NV(scale);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             scale *= 2;
             U8(0x87, arg0) = scale;
             U16(0x6E, arg0) = width * 2;
@@ -33,7 +33,7 @@ void func_80041E70(void *arg0)
     }
 
     {
-        register s32 direction ASM_REG("$3");   /* MATCH pin: slus-diff */
+        register s32 direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
         direction = func_80042900(arg0, 7);
         direction = (s16)direction;
@@ -88,7 +88,7 @@ void func_80041E70(void *arg0)
 
     {
         s32 i = 2;
-        register u8 *slot ASM_REG("$4") = (u8 *)arg0 + 6;   /* MATCH pin: slus-diff */
+        register u8 *slot ASM_REG("$4") = (u8 *)arg0 + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
         do {
             if (slot[8] != 0) {

@@ -20,27 +20,27 @@ s32 func_800182FC(s32 arg0, void *arg1)
     if (func_8001A64C(0x949) == 0) {
         if (func_8001A64C(0x94A) != 0) {
             s8 *page;
-            register void *ptr ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register void *ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             func_8001A554(0x949);
             page = (s8 *)0x80010000;
-            ASM_KEEP(page);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ptr = *(void **)(page + 0x6000);
             page = (s8 *)0x80020000;
-            ASM_KEEP(page);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ptr = *(void **)((s8 *)ptr + 0x1C);
             page -= 0x2950;
             *(void **)((s8 *)ptr + 0x40) = page;
         } else {
             s8 *page;
-            register void *ptr ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register void *ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             func_8001A554(0x949);
             page = (s8 *)0x80010000;
-            ASM_KEEP(page);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ptr = *(void **)(page + 0x6000);
             page = (s8 *)0x80020000;
-            ASM_KEEP(page);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ptr = *(void **)((s8 *)ptr + 0x1C);
             page -= 0x2860;
             *(void **)((s8 *)ptr + 0x40) = page;
@@ -61,7 +61,7 @@ dispatch:
         ptr = (void *)0x80010000;
         ptr = *(void **)((s8 *)ptr + 0x6000);
         ptr = *(void **)((s8 *)ptr + 0x20);
-           /* MATCH pin: retail schedule: same instructions, different order without it */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         first_arg = 0xF;
         ptr = *(void **)((s8 *)ptr + 0x2F8);
         ((Callback)ptr)(first_arg, 0x200);

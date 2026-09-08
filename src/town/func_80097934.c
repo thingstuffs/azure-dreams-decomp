@@ -14,8 +14,8 @@ void func_80095094(Rec_D_800E3D7C *arg0) {
     s32 var_a1;
     s32 var_a2;
     s32 temp_v0;
-    register s32 temp_v0_2 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 temp_v0_3 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v0_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_4;
     s32 temp_v0_5;
     s32 temp_v0_6;
@@ -30,7 +30,7 @@ void func_80095094(Rec_D_800E3D7C *arg0) {
     temp_v1 = arg0->unk_0C.as_s32;
     if ((temp_v1 != 0) || (arg0->unk_10.at00_s32.v != 0)) {
         var_a2 = 0x80000001;
-        ASM_KEEP(var_a2);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(var_a2);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         var_a0 = 0x80000001;
         if (var_a2 < temp_v1) {
             var_a0 = temp_v1;

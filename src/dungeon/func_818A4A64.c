@@ -19,7 +19,7 @@ extern u8 D_80045340[];
 extern u8 D_800DEAE0[];
 
 #ifndef NON_MATCHING
-register u32 match_v0 ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register u32 match_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 typedef struct S_818A4A64_0 {
@@ -81,10 +81,10 @@ void *func_818A4A64(s32 arg0, S_818A4A64_2 *arg1) {
         func_80024320();
     }
 #ifndef NON_MATCHING
-    ASM_KEEP(call_data);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     call_data -= 0x1520;
     match_v0 = 0x80020000;
-    ASM_KEEP(match_v0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(match_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     match_v0 += 0x4230;
 #else
     match_v0 = (u32) D_80024230;

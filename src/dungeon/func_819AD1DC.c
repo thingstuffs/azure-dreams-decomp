@@ -76,11 +76,11 @@ void *func_819AD1DC(void *arg0)
     s32 var_s1;
     M2C_UNK *temp_s5;
     M2C_UNK *temp_s4;
-    register s32 temp_s2 ASM_REG("$18");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *temp_v0;
     s32 arithmetic_v0;
-    register s32 arithmetic_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 reload_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 arithmetic_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 reload_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 temp_v0_2;
     u16 temp_v0_3;
     u16 temp_v0_4;
@@ -116,11 +116,11 @@ loop_1:
         temp_a1->unk_08 = temp_s4;
         if (var_s1 != temp_s2) {
             arithmetic_v0 = 0x200;
-            ASM_TAILSLOT_PIN_TIED(arithmetic_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(arithmetic_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80024A94();
             return (void *)0x200;
         }
-        ASM_KEEP(temp_s2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         do { temp_a1->unk_1E = 0x800U; } while (0);
         arithmetic_v0 = (temp_s2 - var_s1) * 4;
         arithmetic_v1 = -0x80 - arithmetic_v0;

@@ -15,7 +15,7 @@ void func_800B3B18(u8 *arg0)
     delta = 0x80 - value;
     magnitude = delta;
     if (delta < 0) {
-        ASM_KEEP(magnitude);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         magnitude = 0 - magnitude;
     }
     if (magnitude >= 5) {
@@ -32,7 +32,7 @@ void func_800B3B18(u8 *arg0)
     delta = 0x80 - value;
     magnitude = delta;
     if (delta < 0) {
-        ASM_KEEP(magnitude);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         magnitude = 0 - magnitude;
     }
     if (magnitude >= 5) {
@@ -49,7 +49,7 @@ void func_800B3B18(u8 *arg0)
     delta = 0x80 - value;
     magnitude = delta;
     if (delta < 0) {
-        ASM_KEEP(magnitude);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         magnitude = 0 - magnitude;
     }
     if (magnitude >= 5) {

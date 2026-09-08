@@ -75,7 +75,7 @@ void *func_800B0BE0(s32 arg0, S_800B0BE0_1 *arg1, void **arg2, void *arg3) {
     temp_v1_4 = arg1->unk_10;
     if (temp_v1_4 != 0) {
         tail_value = temp_v1_4 + (((S_800B0BE0_2 *)(*arg2))->unk_04 & 0xFF9F);
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         return func_800B0C64();
     }
     ((S_800B0BE0_0 *)arg3)->unk_16 = (u16) ((S_800B0BE0_2 *)(*arg2))->unk_04;
@@ -90,7 +90,7 @@ void *func_800B0BE0(s32 arg0, S_800B0BE0_1 *arg1, void **arg2, void *arg3) {
     ((S_800B0BE0_0 *)arg3)->unk_15 = temp_v0_3;
     ((S_800B0BE0_0 *)arg3)->unk_0D = temp_v0_3;
     temp_v1_2 = *arg2;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_arg0 = arg0;
     
     temp_v0_4 = (temp_v1_2->unk_09 + temp_v1_2->unk_0B) - 1;

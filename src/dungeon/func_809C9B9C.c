@@ -46,13 +46,13 @@ typedef struct S_8017139C_3 {
 
 void func_8017139C(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-    register void *state ASM_REG("$17") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *state ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 move_flags;
     s16 action;
     s16 result;
     s32 x;
     s32 y;
-    register u16 flags ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u16 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     if (((S_8017139C_0 *)state)->unk_71.s <= 0) {
         return;
@@ -120,7 +120,7 @@ void func_8017139C(void *arg0, void *arg1, void *arg2, void *arg3)
     ((S_8017139C_2 *)arg0)->unk_9A = 0xF;
     flags &= ~8;
     ((S_8017139C_2 *)arg0)->unk_98 = flags;
-    ASM_KEEP(flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_8017139C_2 *)arg0)->unk_8C = 0;
     (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
     if (D_80083462 & 0x80) {

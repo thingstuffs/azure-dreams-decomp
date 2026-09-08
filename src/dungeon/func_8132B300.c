@@ -90,10 +90,10 @@ void func_80172B00(void *arg0, S_80172B00_6 *arg1, void *arg2) {
     void *temp_v0;
     S_80172B00_5 *temp_v1;
     s8 *base_83160;
-    register CopyBlock *var_a2 ASM_REG("$6");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register CopyBlock *var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     CopyBlock *var_a3;
-    register CopyBlock *copy_end ASM_REG("$8");   /* MATCH pin: retail basic-block layout depends on it */
-    register s32 word0 ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register CopyBlock *copy_end ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    register s32 word0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 word1;
     s32 word2;
     s32 word3;
@@ -121,17 +121,17 @@ void func_80172B00(void *arg0, S_80172B00_6 *arg1, void *arg2) {
             word1 = var_a3->words[1];
             word2 = var_a3->words[2];
             word3 = var_a3->words[3];
-               /* MATCH pin: keeps a statement from moving across a call/branch */
-               /* MATCH pin: load-bearing for the whole function shape */
+               /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             var_a2->words[0] = word0;
             var_a2->words[1] = word1;
             var_a2->words[2] = word2;
             var_a2->words[3] = word3;
-            ASM_KEEP(var_a3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             var_a3++;
             var_a2++;
         } while (var_a3 != copy_end);
-        ASM_KEEP(copy_end);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(copy_end);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_8004491C(temp_v0, &D_80045340, var_a2, var_a3);
         ((S_80172B00_3 *)temp_s1)->unk_2C = D_80174C74;
         base_83160 = D_80083160;
@@ -141,9 +141,9 @@ void func_80172B00(void *arg0, S_80172B00_6 *arg1, void *arg2) {
         temp_v1->unk_06 = (u16) arg1->unk_06;
         temp_v1->unk_0A = (u16) arg1->unk_0A;
         field_1c = ((S_80172B00_7 *)arg2)->unk_1C;
-        ASM_KEEP(field_1c);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(field_1c);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         call_arg0 = temp_v0;
-        ASM_KEEP(call_arg0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_80172B00_3 *)temp_s1)->unk_1C = field_1c;
         ((S_80172B00_3 *)temp_s1)->unk_1E = (u16) ((S_80172B00_7 *)arg2)->unk_1E;
         ((S_80172B00_3 *)temp_s1)->unk_0E = 0x80;
@@ -151,7 +151,7 @@ void func_80172B00(void *arg0, S_80172B00_6 *arg1, void *arg2) {
         ((S_80172B00_3 *)temp_s1)->unk_0C = 0x80;
         table_index = ((S_80172B00_4 *)base_83160)->unk_C8;
         angle = ((S_80172B00_2 *)arg0)->unk_2A.u;
-           /* MATCH pin: keeps a statement from moving across a call/branch */
+           /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         call_arg1 = 0;
         table_index += angle;
         table_index += 0x100;

@@ -17,7 +17,7 @@ void func_800B7978(s32 arg0, s32 arg1, s32 arg2, void *arg3) {
 
     index = arg2 << 0x10;
     base = (u8 *)D_800D1868;
-    ASM_KEEP(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     index >>= 0xE;
     address = (u8 *)index;
     address = (u8 *)((s32)address + (s32)base);

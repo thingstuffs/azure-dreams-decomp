@@ -65,13 +65,13 @@ void func_801737B0(void *arg0, void *arg1, void *arg2, void *arg3) {
         &&kind_5, &&kind_6, &&kind_7
     };
     s32 flag;
-    register s32 count ASM_REG("$18");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 value;
     s32 nonflag_kind;
-    register s32 particle_zero ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 particle_color ASM_REG("$6");   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 rand_x ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
-    register s32 rand_y ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register s32 particle_zero ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 particle_color ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 rand_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 rand_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 half;
     u16 flags;
     u16 kind_raw;
@@ -80,7 +80,7 @@ void func_801737B0(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 *kind_ptr;
     u8 *global;
     u8 *particle_ptr;
-    register void *ptr ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register void *ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     state = ((S_801737B0_0 *)arg0)->unk_9B;
     flag = 0;
@@ -145,7 +145,7 @@ kind_ready:
     }
 
     ((S_801737B0_0 *)arg0)->unk_98 &= 0xFF7F;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ptr = (void *)flag;
     if (ptr != 0) {
         ptr = D_800814A8;
@@ -162,7 +162,7 @@ copy_facing:
                 u8 facing;
 
                 desc = ((S_801737B0_2_pre *)ptr)[-1].unk_00;
-                ASM_USE(ptr);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_USE(ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 facing = ((S_801737B0_3 *)desc)->unk_24;
                 ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8 = facing;
                 facing = ((S_801737B0_3 *)desc)->unk_25;
@@ -178,7 +178,7 @@ copy_facing:
             ((Rec_D_80082E80 *)arg2)->unk_25,
             ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16,
             0x10);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         value = ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8;
         facing_y = ((Rec_D_800E3D7C *)arg3)->unk_73.as_s8;
@@ -263,10 +263,10 @@ particle_loop:
     rand_y = (s16)rand_y;
     value = func_80069EF8();
     particle_ptr = (u8 *)arg0 - 0x20;
-    ASM_USE(particle_ptr);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE(particle_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     particle_zero = 0;
     particle_color = 0xC0C0C0;
-    ASM_USE(particle_color);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     value = (s16)((value & 0x3F) - 0x20);
     func_80171498(
         particle_ptr,

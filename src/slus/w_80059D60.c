@@ -11,7 +11,7 @@ extern Slot D_80085FA8[];
 
 s32 func_80059D60(void) {
     u32 count;
-    register u32 i ASM_REG("$3");   /* MATCH pin: slus-diff */
+    register u32 i ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     Slot *slot;
 
     i = 0;

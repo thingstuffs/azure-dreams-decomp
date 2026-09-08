@@ -90,37 +90,37 @@ void func_8009B9BC(void *arg0, S_8009B9BC_1 *arg1, Rec_D_800E3D7C *arg2, s32 arg
     flag = 1;
 
     if (current == (s32)&D_800930E4 || current == (s32)&D_80093250) {
-        register void *a0r ASM_REG("$4") = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register void *a1r ASM_REG("$5") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+        register void *a0r ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register void *a1r ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 selector;
-        ASM_KEEP(a0r);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(a0r);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         selector = ((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_08;
-        ASM_KEEP(selector);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_8009BBDC(a0r, a1r, arg2);
-        ASM_USE2(flag, arg3);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_USE2(flag, arg3);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         return;
     }
 
     if (current == (s32)&D_800AA5F8) {
-        register void *a0r ASM_REG("$4") = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register void *a1r ASM_REG("$5") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+        register void *a0r ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register void *a1r ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 selector;
-        ASM_KEEP(a0r);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(a0r);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         selector = ((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_14;
-        ASM_KEEP(selector);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_8009BBDC(a0r, a1r, arg2);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         return;
     }
 
     if (current == (s32)&D_80093328) {
-        register void *a0r ASM_REG("$4") = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register void *a1r ASM_REG("$5") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+        register void *a0r ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register void *a1r ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 selector;
-        ASM_USE2(arg3, arg3);   /* MATCH pin: retail immediate-load split depends on it */
-        ASM_KEEP(a0r);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_USE2(arg3, arg3);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(a0r);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         selector = ((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_0C;
-        ASM_KEEP(selector);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_8009BBDC(a0r, a1r, arg2);
         return;
     }
@@ -144,7 +144,7 @@ void func_8009B9BC(void *arg0, S_8009B9BC_1 *arg1, Rec_D_800E3D7C *arg2, s32 arg
     {
         void *a0r = arg0;
         void *a1r = arg1;
-        ASM_KEEP(a0r);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(a0r);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_10)(
             a0r, a1r, arg2, arg3);
     }
@@ -153,7 +153,7 @@ void func_8009B9BC(void *arg0, S_8009B9BC_1 *arg1, Rec_D_800E3D7C *arg2, s32 arg
 
 skip:
     flag = 0;
-    ASM_KEEP(flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (flag != 0 && func_8009B120((u8 *)arg0 + 0x4C) != 0) {
         func_800C172C();
     }

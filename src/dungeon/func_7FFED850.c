@@ -20,25 +20,25 @@ typedef struct S_8008AFB0_0 {
 } S_8008AFB0_0;   /* &D_800CF720[0] in func_8008AFB0 */
 
 s32 func_8008AFB0(s8 arg0, s8 arg1, s16 arg2, s32 arg3) {
-    register s32 call_a0 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 call_a1 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 call_a2 ASM_REG("$6");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s8 r_arg0 = arg0;
     s8 r_arg1 = arg1;
     s16 r_arg2 = arg2;
     s32 r_arg3 = arg3;
     u32 *r_ptr;
     s32 r_size;
-    register s32 r_remaining ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s8 *r_base ASM_REG("$16");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 r_remaining ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s8 *r_base ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 raw_size;
-    register s32 limit ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 limit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 call_result;
 
     r_ptr = func_8008AF2C(call_a0, call_a1, call_a2);
-    ASM_KEEP(r_arg0);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(r_arg1);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(r_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(r_arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(r_arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(r_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     raw_size = 0;
     if (r_ptr == NULL)
         return raw_size;
@@ -50,18 +50,18 @@ s32 func_8008AFB0(s8 arg0, s8 arg1, s16 arg2, s32 arg3) {
     r_remaining = limit - call_result;
     if (r_size > 0x7FFF) {
         r_arg3 = 0;
-        ASM_KEEP(r_arg3);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(r_arg3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_8008AC84(r_arg3);
         {
-            register s32 r_tail_arg ASM_REG("$4") = r_arg3;   /* MATCH pin: keeps a statement from moving across a call/branch */
-            ASM_TAILSLOT_PIN(r_tail_arg);   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 r_tail_arg ASM_REG("$4") = r_arg3;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(r_tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_8008B07C();
         }
     }
 
     if (r_remaining < r_size) {
-        register s8 *r_page ASM_REG("$2") = D_800CF720;   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register s32 r_index ASM_REG("$3") = r_arg3 << 3;   /* MATCH pin: load-bearing for the whole function shape */
+        register s8 *r_page ASM_REG("$2") = D_800CF720;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register s32 r_index ASM_REG("$3") = r_arg3 << 3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         r_base = r_page + r_index;
         func_8008B058_live();
         do {
@@ -71,7 +71,7 @@ s32 func_8008AFB0(s8 arg0, s8 arg1, s16 arg2, s32 arg3) {
             r_base -= 8;
         } while (r_remaining < r_size);
         r_base += 8;
-        ASM_KEEP(r_base);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(r_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
     func_8008AD90(r_arg3, r_size);
     func_8008AC84(r_arg3 + 1);

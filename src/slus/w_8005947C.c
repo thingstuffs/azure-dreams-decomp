@@ -39,11 +39,11 @@ extern s32 func_8005914C(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 s32 func_8005947C(S_80085FA8 *arg0)
 {
     s32 s1;
-    register s32 s2 ASM_REG("$18");   /* MATCH pin: slus-diff */
+    register s32 s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 s4;
-    register s32 s3 ASM_REG("$19");   /* MATCH pin: slus-diff */
-    register s32 ev ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 kind ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register s32 s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 ev ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 idx;
     s32 v0;
 

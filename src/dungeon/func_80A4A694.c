@@ -74,7 +74,7 @@ s32 func_80173E94(void *arg0, void *arg1)
     void *previous;
     u32 index;
     u16 first;
-    register u32 rgb_mask ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 rgb_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 code_mask;
 
     node = arg0;
@@ -84,9 +84,9 @@ s32 func_80173E94(void *arg0, void *arg1)
     state = *(u8 **)D_80083160;
     code_mask = 0xFF000000;
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP(global);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(code_mask);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(global);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(code_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     *(u8 * volatile *)(scratch + 0x18) = ((S_80173E94_0 *)state)->unk_8D0;
     ((S_80173E94_1 *)scratch)->unk_20.p = state + 0xB0;
@@ -105,8 +105,8 @@ loop:
 
     if (index < 0x1E0) {
         s32 value;
-        register s32 first ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register s32 second ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 first ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register s32 second ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 third;
         s32 command;
 
@@ -132,7 +132,7 @@ loop:
         ((S_80173E94_3 *)packet)->unk_04.at02.v = value >> 8;
         ((S_80173E94_3 *)packet)->unk_00.at03.v = 2;
         command = 0x6A;
-        ASM_SET(third);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SET(third);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         third = first;
         ((S_80173E94_3 *)packet)->unk_04.at03.v = command;
 
@@ -140,8 +140,8 @@ loop:
             (((S_80173E94_3 *)packet)->unk_00.at00.v & code_mask) |
             ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & rgb_mask);
         {
-            register u32 *table ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
-            register u32 table_word ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u32 *table ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u32 table_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u32 packet_bits;
 
             table = (u32 *)(((S_80173E94_1 *)scratch)->unk_C0 << 2);
@@ -171,7 +171,7 @@ loop:
     node = (u8 *)previous + 0x20;
     if (previous != 0) {
         input = ((S_80173E94_5 *)previous)->unk_08;
-        ASM_KEEP(node);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         goto loop;
     }
 

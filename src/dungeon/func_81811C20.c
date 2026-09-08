@@ -21,7 +21,7 @@ extern u8 D_80029510[12];
 s32 func_80026C20(s32 arg0) {
     s32 temp_v1;
     s32 loop_bound;
-    register s32 compare_space ASM_REG("$11");   /* MATCH pin: retail register colouring depends on it */
+    register s32 compare_space ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_a1;
     s32 var_a3;
     s32 var_t0;

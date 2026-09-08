@@ -12,7 +12,7 @@ int func_800492B0(int arg0)
   s32 ret;
   if (func_80049280(arg0))
   {
-    ASM_KEEP(arg0);   /* MATCH pin: slus-diff */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     v1 = *((s32 *) (((u8 *) D_800814A8[0]) + 0x124));
   }
   else

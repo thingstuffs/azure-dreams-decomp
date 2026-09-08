@@ -106,7 +106,7 @@ void func_800277A8(void *arg0) {
             goto dispatch_negative;
         }
         tail_flags = flags & 0x4000;
-        ASM_KEEP(tail_flags);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80027954(input_word, input);
         return;
     }
@@ -124,7 +124,7 @@ void func_800277A8(void *arg0) {
 
 dispatch_negative:
     delta = -9;
-    ASM_TAILSLOT_PIN(delta);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80027968(input_word, input);
     return;
 
@@ -135,7 +135,7 @@ test_positive:
 
 dispatch_positive:
     delta = 9;
-    ASM_TAILSLOT_PIN(delta);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80027968(input_word, input);
     return;
 

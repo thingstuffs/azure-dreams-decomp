@@ -7,13 +7,13 @@ extern s32 D_800869C0[];
 void func_80059DAC(void)
 {
     s32 sp[2];
-    register s32 count ASM_REG("$8");   /* MATCH pin: slus-diff */
+    register s32 count ASM_REG("$8");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 i;
     s32 j;
     void *scan;
     void *cur;
     void *base;
-    register void *other ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *other ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *cur2;
 
     count = 0;
@@ -34,7 +34,7 @@ loop_1:
         do {
             j = count - 1;
             if (i < j) {
-                register s32 offset ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                register s32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
                 offset = j * 8;
                 cur2 = cur;

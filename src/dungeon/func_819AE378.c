@@ -117,9 +117,9 @@ void *func_80025B78(void *arg0, S_80025B78_2 *arg1, S_80025B78_4 *arg2)
             copy1 = ((UnalignedWord *)arg0)[1].value;
             copy2 = ((UnalignedWord *)arg0)[2].value;
             copy3 = ((UnalignedWord *)arg0)[3].value;
-            ASM_KEEP(copy0);   /* MATCH pin: load-bearing for the whole function shape */
-            ASM_KEEP(copy1);   /* MATCH pin: load-bearing for the whole function shape */
-            ASM_KEEP(copy2);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(copy0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(copy1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(copy2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[0].value = copy0;
             ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[1].value = copy1;
             ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[2].value = copy2;

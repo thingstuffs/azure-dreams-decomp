@@ -202,7 +202,7 @@ void func_80057D20(u8 idx, u8 type, u32 val)
     }
     else
     {
-      ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       e->f40 = (new_var & 0xFF) << 1;
     }
       goto after_switch;
@@ -221,40 +221,40 @@ void func_80057D20(u8 idx, u8 type, u32 val)
 
     L_case_7:
     {
-      register s32 call_flag ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      register s32 call_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       e->f0c = new_var & 0xFF;
       call_flag = 1;
-      ASM_KEEP(call_flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      ASM_KEEP(call_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       func_80055E7C(3, idx, new_var & 0xFF, flag14 = call_flag);
       goto after_switch;
     }
 
     L_case_10:
     {
-      register s32 call_flag ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      register s32 call_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       e->f04 = ((new_var & 0xFF) == 0) ? (1) : (new_var & 0xFF);
       call_flag = 1;
-      ASM_KEEP(call_flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      ASM_KEEP(call_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       func_80055E7C(2, idx, e->f04, flag14 = call_flag);
       goto after_switch;
     }
 
     L_case_11:
     {
-      register s32 call_flag ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      register s32 call_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       e->f14 = new_var & 0xFF;
       call_flag = 1;
-      ASM_KEEP(call_flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      ASM_KEEP(call_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       func_80055E7C(5, idx, new_var & 0xFF, flag14 = call_flag);
       goto after_switch;
     }
 
     L_case_12:
     {
-      register s32 call_flag ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      register s32 call_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       e->f2c = new_var & 0xFF;
       call_flag = 1;
-      ASM_KEEP(call_flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      ASM_KEEP(call_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       flag14 = call_flag;
       goto after_switch;
     }
@@ -330,11 +330,11 @@ void func_80057D20(u8 idx, u8 type, u32 val)
             if (((D_80085458[i].f06 == idx) && (D_80085458[i].f1d != 0)) && (D_80085458[i].f1c & 0x80))
             {
               {
-                register s32 v ASM_REG("$2");   /* MATCH pin: slus-diff */
-                register s32 acc ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                register s32 v ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                register s32 acc ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 v = D_80073740[i];
                 acc = flag18;
-                ASM_KEEP_DEP_NV(acc, v);   /* MATCH pin: slus-diff */
+                ASM_KEEP_DEP_NV(acc, v);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 acc |= v;
                 flag18 = acc;
               }
@@ -407,15 +407,15 @@ void func_80057D20(u8 idx, u8 type, u32 val)
   after_switch: ;
 
   {
-    register s32 pending_flag ASM_REG("$7") = flag18;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 pending_flag ASM_REG("$7") = flag18;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (pending_flag)
     {
       func_8005E97C(0, pending_flag);
     }
   }
   {
-    register s32 pending_flag ASM_REG("$7") = flag14;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP(pending_flag);   /* MATCH pin: slus-diff */
+    register s32 pending_flag ASM_REG("$7") = flag14;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(pending_flag);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     if (pending_flag)
     {
       for (k = 0; k < D_80073734; k++)

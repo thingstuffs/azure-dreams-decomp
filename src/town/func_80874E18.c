@@ -58,7 +58,7 @@ s32 func_80874E18(s32 arg0) {
         s32 *word;
         s32 old_value;
 #ifndef NON_MATCHING
-        register s32 zero_nf ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+        register s32 zero_nf ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
         s32 zero_nf = 0;
 #endif
@@ -80,14 +80,14 @@ callback_path:
         {
 #ifndef NON_MATCHING
             void *state;
-            register s32 new_flags ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 new_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #else
             void *state;
             s32 new_flags;
 #endif
             state = (void *)STATE_ROOT;
             new_flags = FIELD(state, s32 *, 0x30) | tail_arg;
-            ASM_TAILSLOT_PIN_TIED(tail_arg);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_TAILSLOT_PIN_TIED(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             FIELD(state, s32 *, 0x30) = new_flags;
         }
         func_80700EEC(tail_arg);
@@ -118,7 +118,7 @@ callback_path:
         goto return_arg;
     }
     arg0 += 1;
-    ASM_TAILSLOT_PIN_TIED(arg0);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN_TIED(arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80700F34();
 
 return_arg:
@@ -126,6 +126,6 @@ return_arg:
 
 zero_return:
     arg0 = 0;
-    ASM_KEEP(arg0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     return arg0;
 }

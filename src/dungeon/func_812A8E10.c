@@ -33,7 +33,7 @@ void func_80174610(S_A *a0, S_B *a1, S_C *a2, S_D *a3) {
         }
         goto state_zero;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_two;
     }
@@ -50,7 +50,7 @@ state_zero:
             a0->state9b = 2;
             func_8017488C();
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         a1->dxC = (-(*(s16 *)(D_8006CCD8 + (((u16)a3->index6A >> 8) & 0xE)))) << 0xF;
         a1->dy10 = (-(*(s16 *)(D_8006CCE8 + (((u16)a3->index6A >> 8) & 0xE)))) << 0xF;
         a0->count96 = 8;

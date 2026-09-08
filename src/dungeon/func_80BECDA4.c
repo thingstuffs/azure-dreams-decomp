@@ -81,26 +81,26 @@ void func_801725A4(void *arg0, void *arg1, void *arg2, void *arg3)
         &&L_tail_b0, &&L_tail_b8, &&L_tail_c0, &&L_after_jt
     };
     void *owner = arg0;
-    register void *motion ASM_REG("$19") = arg1;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *actor ASM_REG("$18") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *object ASM_REG("$16") = arg3;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *motion ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *object ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 special;
     u8 *selected;
-    register s32 x ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 y;
     s32 kind;
     u32 index;
     void *spawn;
     u8 *entry;
-    register u8 *record ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *record_base;
     u32 record_id;
     void **dispatch;
     s32 state;
     state = ((S_801725A4_0 *)owner)->unk_9B;
-    ASM_KEEP_NV(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(actor);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(object);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     special = 0;
     if (state == 1) {
         goto L_state1;
@@ -128,15 +128,15 @@ L_state0:
 
 L_tail_b0:
             special = 1;
-            ASM_TAILSLOT_PIN(special);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_801726B0();
 L_tail_b8:
             special = 1;
-            ASM_TAILSLOT_PIN(special);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_801726B8();
 L_tail_c0:
             special = 1;
-            ASM_TAILSLOT_PIN(special);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_801726C0();
         }
 
@@ -153,18 +153,18 @@ L_tail_c0:
         }
         if (kind == 3) {
             selected = (u8 *)object + 0xE;
-            ASM_TAILSLOT_PIN(selected);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(selected);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_801726CC();
         }
         selected = 0;
         goto L_selected;
 L_kind2:
         selected = (u8 *)object + 0xB;
-        ASM_TAILSLOT_PIN(selected);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(selected);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_801726CC();
 L_kind1:
         selected = (u8 *)object + 8;
-        ASM_TAILSLOT_PIN(selected);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(selected);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_801726CC();
 
 L_after_jt:
@@ -172,9 +172,9 @@ L_after_jt:
 L_selected:
         if (*selected != 0) {
             ((S_801725A4_0 *)owner)->unk_98 &= 0xFF7F;
-            ASM_KEEP(owner);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             x = special;
-            ASM_KEEP(x);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if (x) {
                 spawn = D_800814A8;
                 ((S_801725A4_1 *)object)->unk_60 = spawn;

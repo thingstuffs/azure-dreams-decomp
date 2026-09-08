@@ -108,9 +108,9 @@ void func_80051228(void)
         u8 value;
 
         addr = D_800D381A[0];
-        ASM_KEEP_OLD(addr);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_OLD(addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg1 = (u8 *)0x80130000;
-        ASM_KEEP_OLD(arg1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_OLD(arg1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         addr = (addr << 5) + (u32)base;
         value = *(u8 *)addr;
         func_80046E38(value, arg1 - 0xFFC);

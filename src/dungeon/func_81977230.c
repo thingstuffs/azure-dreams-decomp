@@ -41,24 +41,24 @@ s32 func_81977230(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     Poly *temp_s4;
     Context *context;
     s16 temp_v0;
-    register s32 temp_k ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_k ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_c0;
     s32 temp_ff;
     OffsetGlobal *offset_global;
     Scratch *scratch;
-    register s32 *temp_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 *temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 *temp_t0;
     u16 *out0;
     u16 *out1;
     u16 *out2;
-    register u16 *out3 ASM_REG("$11");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u16 *out3 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *arg_t2;
     void *arg_t1;
     void *arg_a0;
     void *arg_a1;
     void *arg_a2;
     void *arg_a3;
-    register u32 temp_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     arg_a0 = (void *)0;
     arg_a1 = (void *)3;
@@ -82,14 +82,14 @@ s32 func_81977230(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     out3 = (u16 *)((u32)out3 | 0x7CU);
     temp_s4->halfwords[0x1A / 2] = temp_v0;
     temp_k = 0x7DCF;
-    ASM_KEEP(temp_k);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(temp_k);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_c0 = 0xC0;
-    ASM_KEEP(temp_c0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(temp_c0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_s4->halfwords[0xE / 2] = temp_k;
     temp_k = 0x40;
-    ASM_KEEP(temp_k);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(temp_k);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_ff = 0xFF;
-    ASM_KEEP(temp_ff);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(temp_ff);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_s4->bytes[0xD] = temp_k;
     temp_s4->bytes[0x19] = temp_k;
     temp_s4->bytes[0x25] = 0x7F;

@@ -11,7 +11,7 @@ void func_8001922C(void *arg0, s32 arg1)
     s32 in_condition;
     u8 *entry;
     s32 index;
-    register u8 terminal ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register u8 terminal ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 condition;
 
     in_entry = arg0;

@@ -66,8 +66,8 @@ void func_8002626C(
     S_8002626C_0 *temp_s0;
     S_8002626C_2 *temp_s1;
     void *temp_v0;
-    register s32 held_arg4 ASM_REG("$22") = arg4;   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 held_arg5 ASM_REG("$23") = arg5;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg4 ASM_REG("$22") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 held_arg5 ASM_REG("$23") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != NULL) {
@@ -108,8 +108,8 @@ void func_8002626C(
         temp_s1->unk_12 = 0x7DCF;
         temp_s1->unk_14 = (u16) (temp_s1->unk_14 | 0x100);
         func_8003DB94(temp_s1, &D_800DE870, 0);
-        ASM_KEEP(held_arg4);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-        ASM_KEEP(held_arg5);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 }
 /* MECHANISM: The ten-argument ABI and reused pointer local produce the retail

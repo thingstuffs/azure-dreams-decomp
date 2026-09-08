@@ -3,7 +3,7 @@
 s32 func_80094B58(s32 arg0) {
     if (arg0 & 0x1000) {
         s32 temp_v0;
-        s32 temp_v1;   /* MATCH pin: retail register colouring depends on it */
+        s32 temp_v1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         temp_v0 = arg0 & 0x8000;
         if (temp_v0 != 0) {
@@ -15,7 +15,7 @@ s32 func_80094B58(s32 arg0) {
         }
         return 0x800;
     } else {
-        s32 temp_v0;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        s32 temp_v0;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         temp_v0 = arg0 & 0x4000;
         if (temp_v0 != 0) {
@@ -25,7 +25,7 @@ s32 func_80094B58(s32 arg0) {
             }
             temp_v0 = arg0 & 0x2000;
             temp_v0 = temp_v0 != 0;
-               /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+               /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             return temp_v0 << 9;
         } else {
             temp_v0 = arg0 & 0x8000;

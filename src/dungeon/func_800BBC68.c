@@ -55,7 +55,7 @@ s32 func_800C13C8(void *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
         ((S_800C13C8_0 *)((u8 *)arg0 - 0x14))->unk_124 = arg1;
         func_8008D344(arg0, &D_80083780, &D_80082E80, 0);
         func_800C1514();
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         return 0;
     }
     if ((u32) arg0 <= 0x9FFFFFFFU) {

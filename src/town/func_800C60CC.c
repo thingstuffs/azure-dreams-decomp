@@ -57,7 +57,7 @@ void func_800C382C(Rec_func_80094268_arg0 *arg0, S_800C382C_0 *arg1, void *arg2)
         }
     }
 
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     next = *(volatile void **)((u8 *)arg0->unk_7C.as_pv + 4);
     do {
         func_800C2E84(arg0, arg2, next);

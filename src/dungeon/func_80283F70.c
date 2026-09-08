@@ -25,10 +25,10 @@ typedef struct S_80016F70_2 {
 extern s8 D_800E3DB0;
 
 void func_80016F70(void) {
-    register u32 page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 temp_v0;
     s16 temp_v0_2;
-    register s16 var_a2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register s16 var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 var_a2_2;
     s8 *var_a0;
     s8 *var_v1;
@@ -37,9 +37,9 @@ void func_80016F70(void) {
     s8 var_a3;
 
     page = 0x800E0000;
-    ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     var_a0 = (s8 *)(page + 0x3DB0);
-    ASM_CLOBBER("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     var_a2 = 0;
     var_a1 = var_a2;
     var_a3 = 1;

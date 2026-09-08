@@ -123,9 +123,9 @@ void func_80173230(void *arg0, void *arg1, void *arg2, void *arg3)
     void *held_arg1;
     void *held_arg2;
     void *held_arg3;
-    register s32 special ASM_REG("$19");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 special ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 offset[4];
-    register u8 *selection ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *selection ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *base;
     s32 next_state;
     u8 state;
@@ -140,9 +140,9 @@ void func_80173230(void *arg0, void *arg1, void *arg2, void *arg3)
 #define arg1 held_arg1
 #define arg2 held_arg2
 #define arg3 held_arg3
-    ASM_KEEP(held_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(held_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     base = (u8 *)arg0 - 0x20;
     state = ((S_80173230_0 *)arg0)->unk_9B;
     if ((u32)state >= 5) {
@@ -211,12 +211,12 @@ selection_ready:
         goto empty_selection;
     }
     ((S_80173230_0 *)arg0)->unk_98 &= 0xFF7F;
-    ASM_KEEP(selection);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(selection);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     {
         s32 special_test;
 
         special_test = special;
-        ASM_KEEP(special_test);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (special_test != 0) {
             active = D_800814A8;
             (*(void * *)((u8 *)arg3 + 0x60)) = active;
@@ -233,7 +233,7 @@ selection_ready:
         if (items[item * 20 + 0x12] == 2) {
             active = (*(void * *)((u8 *)arg3 + 0x60));
             if (active != 0) {
-                register u8 *linked ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *linked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 copy_active_coords:
                 linked = ((S_80173230_1_pre *)active)[-1].unk_00;
@@ -249,7 +249,7 @@ copy_active_coords:
                 arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
                 (*(s16 *)((u8 *)arg3 + 0x2A)), 0x10);
             (*(void * volatile *)((u8 *)arg3 + 0x60)) = active;
-            ASM_KEEP(active);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             dx = (*(s8 *)((u8 *)arg3 + 0x72));
             dy = (*(s8 *)((u8 *)arg3 + 0x73));
             if (dx < 0) {
@@ -319,7 +319,7 @@ state_2:
                 copy_src = (u32 *)arg2;
                 ((S_80173230_5 *)part)->unk_94 = (*(u16 *)((u8 *)arg3 + 0x2A));
                 target = ((S_80173230_6 *)((void *)special))->unk_0C;
-                ASM_KEEP(arg2);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 copy_end = (u32 *)arg2 + 12;
                 copy_dst = (u32 *)target;
                 do {

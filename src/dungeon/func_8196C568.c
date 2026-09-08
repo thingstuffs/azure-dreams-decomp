@@ -158,20 +158,20 @@ void func_8196C568(Work *work, s32 arg1, s32 arg2)
     Motion *motion;
     register s32 i;
     Position *pos;
-    register Position *base ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
-    Work *active;   /* MATCH pin: keeps a constant in a register as retail does */
-    register DungeonState *dungeon ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register Position *base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    Work *active;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register DungeonState *dungeon ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void **state_table;
     u8 *page_v0;
-    register u8 *page_v1 ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *page_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *page_a0;
     u8 *page_a3;
     u8 *copy_hold;
-    register SearchContext *search ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register SearchContext *search ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *object;
-    register u16 next_state ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u16 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 table_value;
-    s32 call_arg1;   /* MATCH pin: retail register colouring depends on it */
+    s32 call_arg1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 call_arg2;
     u16 dungeon_count;
     u8 object_kind;
@@ -195,21 +195,21 @@ void func_8196C568(Work *work, s32 arg1, s32 arg2)
 
 state0:
     page_v0 = (u8 *)0x80080000;
-    ASM_KEEP_NV(page_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     dungeon = *(DungeonState **)(page_v0 + 0x14A8);
     init_timer = 33;
     page_a0 = (u8 *)0x80020000;
     *(s32 *)&dungeon->pad0[0xF4] = 0;
-    ASM_KEEP(dungeon);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(dungeon);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     *(s16 *)&dungeon->pad0[0x96] = init_timer;
     page_v1 = (u8 *)0x80080000;
-    ASM_KEEP_NV(page_v1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(page_v1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     *(s16 *)(page_v1 + 0x2E86) = 6;
     next_state = (u16)work->state;
     *(s16 *)(page_a0 + 0x69B4) = 1;
     next_state++;
     work->state = next_state;
-    ASM_KEEP(next_state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     object = work->object;
     if ((*(u16 *)object & 0x80) == 0) {
         return;

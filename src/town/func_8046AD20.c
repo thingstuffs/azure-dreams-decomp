@@ -75,7 +75,7 @@ s32 func_8001BD20(s32 arg0, s32 arg1) {
         return 1;
     }
 
-    ASM_KEEP(hold0);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(hold0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     func_8001BC98(hold0, hold1);
     return 0;
 }

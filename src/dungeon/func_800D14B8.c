@@ -88,7 +88,7 @@ void func_800D6C18(void *arg0, S_800D6C18_2 *arg1) {
             func_800D6AD4((void *)((s8 *)arg0 - 0x20), color, 0, 0, var_s1 >> 0x10, (s16) var_s0);
             delta = -0x40000;
             var_s1 += delta;
-            ASM_KEEP(delta);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             var_s0 += 1;
         } while (var_s0 < 0x51);
     }

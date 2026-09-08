@@ -51,8 +51,8 @@ void func_8005914C(S_80085FA8 *arg0, s32 arg1, s32 arg2, s32 arg3)
   u32 i;
   s32 count;
   S_80085FA8 *s;
-  register S_80085FA8 *p ASM_REG("$13");   /* MATCH pin: slus-diff */
-  register s32 a2copy ASM_REG("$10");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  register S_80085FA8 *p ASM_REG("$13");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  register s32 a2copy ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   p = arg0;
   chan = arg1 & 0xF;
   a2copy = arg2;
@@ -78,7 +78,7 @@ void func_8005914C(S_80085FA8 *arg0, s32 arg1, s32 arg2, s32 arg3)
       return;
 
     case 0xB0:
-      ASM_KEEP(p);   /* MATCH pin: slus-diff */
+      ASM_KEEP(p);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       if ((a2copy & 0xFF) == 0x63)
     {
       if ((arg3 & 0xFF) == 0x14)
@@ -94,7 +94,7 @@ void func_8005914C(S_80085FA8 *arg0, s32 arg1, s32 arg2, s32 arg3)
             s32 x2;
             s32 x3;
             s32 loopCount;
-            register u8 x4 ASM_REG("$6");   /* MATCH pin: slus-diff */
+            register u8 x4 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             s32 twenty;
             i = 0;
             twenty = 0x14;
@@ -145,7 +145,7 @@ void func_8005914C(S_80085FA8 *arg0, s32 arg1, s32 arg2, s32 arg3)
               s32 x2;
               s32 x3;
               s32 loopCount;
-              register u8 x4 ASM_REG("$6");   /* MATCH pin: slus-diff */
+              register u8 x4 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
               i = 0;
               s = D_80085FA8;
               do

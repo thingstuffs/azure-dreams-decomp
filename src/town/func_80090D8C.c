@@ -77,7 +77,7 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
     Scratch *sc = (Scratch *)0x1F800000;
     u16 *grid;
     Vec8 *vertices;
-    register s16 scan_x ASM_REG("$7");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s16 scan_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s16 scan_y;
     s32 base_y;
     GlobalState *global;
@@ -104,12 +104,12 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
         func_8008E598();
     }
     sc->step_x = -0x40;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if ((s16)sc->y >= 0x20) {
         sc->step_y = 0x40;
     } else {
-        register s32 nv ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+        register s32 nv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         nv = -0x40;
         sc->step_y = nv;
     }
@@ -141,7 +141,7 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
             scan_x = tx;
             if (sc->step_x >= 0) {
                 if ((s16)tx < D_800FE480) {
-                    register s32 t2 ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+                    register s32 t2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     t2 = ((s32)scan_x) << 16;
                     return func_8008E698(t2 >> 16);
                 }
@@ -181,10 +181,10 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
                     if ((sc->planes[*(u16 *)(end - 6)].y < 0) && !(*(end + 1) & 1)) {
                         s32 value;
                         u32 vertex_index;
-                        register s16 qtmp ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                        register s16 qtmp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         Scratch *call_arg;
                         call_arg = sc;
-                        ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
                         vertex_index = *(u16 *)(end - 0x12);
                         qtmp = vertices[vertex_index].x; sc->quad[0] = qtmp - *(volatile s16 *)&sc->x;
@@ -205,8 +205,8 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
 
                         if (func_8008CE08(call_arg) != 0) {
                             {
-                                register s32 vx ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
-                                register s32 pv ASM_REG("$4");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                                register s32 vx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                                register s32 pv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                                 value = ((pv = sc->planes[*(u16 *)(end - 6)].x) * ((vx = vertices[record->vertex0].x) - (s16)sc->x)
                                        + sc->planes[*(u16 *)(end - 6)].z * ((vx = vertices[record->vertex0].z) - (s16)sc->z)
                                        + sc->planes[*(u16 *)(end - 6)].y * vertices[record->vertex0].y) / sc->planes[*(u16 *)(end - 6)].y;
@@ -225,11 +225,11 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
                         end += 0x18;
                         if (fl != 0x8001) {
                             record = (CellRecord *)((u8 *)record + 0x18);
-                            ASM_TAILSLOT_PIN(record);   /* MATCH pin: retail delay-slot contents depend on it */
+                            ASM_TAILSLOT_PIN(record);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                             func_8008E740();
                         }
                     }
-                    ASM_KEEP(end);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                    ASM_KEEP(end);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 }
             }
 

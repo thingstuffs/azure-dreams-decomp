@@ -37,7 +37,7 @@ void func_8001EC54(void)
     u8 y;
     register s32 budget;
     s32 index;
-    register s32 decrement ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register s32 decrement ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 amount;
     s32 flag;
     s32 type;
@@ -46,7 +46,7 @@ void func_8001EC54(void)
     s32 scan_y;
     s32 level;
     s32 scaled;
-    register u8 *mode_page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *mode_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 entry_state;
     volatile DungeonEntry *entry;
     volatile DungeonCell *cell;

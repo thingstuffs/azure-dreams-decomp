@@ -98,9 +98,9 @@ void *func_801708B4(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     s32 mode;
     s16 direction;
     u8 *inner;
-    register s8 saved_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     direction = arg0;
     inner = 0;
@@ -134,13 +134,13 @@ void *func_801708B4(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
                 void *call_entity = entity;
                 void *call_part_a = part_a;
 
-                ASM_SET(call_entity);   /* MATCH pin: retail delay-slot contents depend on it */
-                ASM_SET(call_part_a);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_SET(call_entity);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+                ASM_SET(call_part_a);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 if (func_800A6D30(call_entity, call_part_a) & 1) {
                     s32 value;
                     void *second_entity = entity;
 
-                    ASM_SET(second_entity);   /* MATCH pin: retail delay-slot contents depend on it */
+                    ASM_SET(second_entity);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                     value = func_800A6D30(second_entity);
 
                     func_800A48F0(inner, 1, (value & 0x3F) | 0x20);

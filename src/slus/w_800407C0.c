@@ -2,12 +2,12 @@
 
 u8 *func_800407C0(u8 *sp0, u8 *dp0)
 {
-    register u8 *dp ASM_REG("$16");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 *dp ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *rowbase;
     u8 *rowend;
     u8 *end;
-    register u8 *q ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 hdr ASM_REG("$6");   /* MATCH pin: slus-diff */
+    register u8 *q ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 hdr ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 stride;
     s32 size;
     s32 cnt;
@@ -15,14 +15,14 @@ u8 *func_800407C0(u8 *sp0, u8 *dp0)
     s32 sphase;
     s32 v;
     s32 vA;
-    register s32 vst ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 vst ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 t;
     s32 u;
     u32 b;
     u8 *sp;
 
     sp = sp0;
-    ASM_KEEP_NV(sp);   /* MATCH pin: slus-diff */
+    ASM_KEEP_NV(sp);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     dp = dp0;
     phase = 0;
     rowbase = dp;

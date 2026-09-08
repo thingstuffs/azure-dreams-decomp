@@ -63,7 +63,7 @@ typedef struct S_818A4CA0_4 {
 } S_818A4CA0_4;   /* temp_s3 in func_818A4CA0 */
 
 s32 func_818A4CA0(S_818A4CA0_1 *arg0, S_818A4CA0_2 *arg1, s16 arg2, s16 arg3) {
-    register s32 result ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s16 temp_s0_2;
     u16 temp_v1;
     s32 shifted_arg3;
@@ -77,7 +77,7 @@ s32 func_818A4CA0(S_818A4CA0_1 *arg0, S_818A4CA0_2 *arg1, s16 arg2, s16 arg3) {
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != NULL) {
         callback = &D_80024340;
-        ASM_KEEP(callback);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_818A4CA0_0 *)temp_v0)->unk_20 = arg0;
         arg0 = temp_v0 + 0x20;
         ((S_818A4CA0_0 *)temp_v0)->unk_10 = callback;
@@ -108,9 +108,9 @@ s32 func_818A4CA0(S_818A4CA0_1 *arg0, S_818A4CA0_2 *arg1, s16 arg2, s16 arg3) {
         temp_s3->unk_02 = (s16) (arg0->unk_08 + ((s32) (func_800644B8(temp_s0_2) * 2) >> 8));
         temp_s3->unk_06 = (s16) (arg0->unk_0A + ((s32) (func_80064584(temp_s0_2) * 2) >> 8));
         temp_v1 = arg0->unk_0C;
-        ASM_KEEP(temp_v1);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         result = (s32)temp_v0;
-        ASM_KEEP(result);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_s3->unk_0A = (s16)temp_v1;
         func_80024650();
     }

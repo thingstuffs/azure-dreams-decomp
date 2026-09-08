@@ -21,16 +21,16 @@ Func8032EEE4Record *func_800196E4(void *arg0, Func8032EEE4Record *arg1) {
     temp_v0 = (Func8032EEE4Record *) func_800196A8(arg0, temp_s1);
     if (temp_v0->unk4 == NULL) {
         s32 temp_v1;
-        register s32 temp_v0_base ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 temp_v0_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         temp_a0 = arg1->unk8;
-        ASM_KEEP(temp_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v1 = (s32) arg1->unkC;
         temp_v0_base = D_8001DCCC;
         temp_v1 = temp_v1 - temp_v0_base;
         temp_v1 = temp_v1 + 4;
         *temp_a0 = temp_v1;
         temp_v0_base = (s32) arg1->unk8;
-        ASM_KEEP(temp_v0_base);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(temp_v0_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         temp_v0->unk4 = (void *) temp_v0_base;
         temp_v0->unk0 = temp_s1;
         temp_v0->unkC = 0;

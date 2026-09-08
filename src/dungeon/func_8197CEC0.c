@@ -137,7 +137,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
             sprite->top = sprite->bottom;
         }
         if ((s16)actor->counter >= 0x1C) {
-            register u16 actor_value ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register u16 actor_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             s32 global_value;
             actor_value = ((u16 *)actor)[-1];
             actor_value |= 0x8000;
@@ -156,7 +156,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
     actor->field42 = (s16)(((((s32)(actor->counter << 16) >> 18) << 5)) + 0x80);
 
     {
-        register s32 count ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+        register s32 count ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 loop_count;
         s32 counter_lt8;
         u16 counter_range;
@@ -179,14 +179,14 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                 Spawn *spawn;
                 spawn = func_8003FD64(0x312, D_80083498);
                 if (spawn != 0) {
-                    register s32 difference ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    register s32 difference ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     s32 dx;
                     s32 random;
                     s32 z_random;
                     s32 field_c;
                     s32 base_value;
                     SpawnState *state;
-                    register SpawnChild *child ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    register SpawnChild *child ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     s16 target_y;
                     s16 start_y_signed;
                     u16 start_y_unsigned;
@@ -236,7 +236,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     state->field5 = 0;
                     state->fieldC = field_c;
                     state->field8 = base_value;
-                    ASM_KEEP_DEP_NV(child, field_c);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                    ASM_KEEP_DEP_NV(child, field_c);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     base_value = (s32)actor->field0;
                     child->field4C = 0;
                     child->parent = (void *)base_value;

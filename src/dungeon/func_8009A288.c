@@ -18,7 +18,7 @@ extern DungeonEntry D_80013720[];
 
 void *func_8009F9E8(s32 arg0, s32 arg1) {
     s32 i;
-    register s32 count ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 count ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 count_page;
     s32 kind;
     s32 kind70;
@@ -26,10 +26,10 @@ void *func_8009F9E8(s32 arg0, s32 arg1) {
     s32 kind80;
     s32 kind90;
     void *base;
-    register void *p ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    register void *p ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     base = (void *)0x80010000;
-    ASM_KEEP(base);   /* MATCH pin: retail branch polarity depends on it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     count = 0x80010000;
     count = *(volatile u16 *)(count + 0x3716);
     i = count - 1;
@@ -42,14 +42,14 @@ void *func_8009F9E8(s32 arg0, s32 arg1) {
     kind78 = 0x78;
     kind80 = 0x80;
     kind90 = 0x90;
-    ASM_KEEP(kind70);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(kind78);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(kind80);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(kind90);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(kind70);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(kind78);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(kind80);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(kind90);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     arg0 &= 0xFF;
     arg1 &= 0xFF;
     count_page = 0x80010000;
-    ASM_KEEP(count_page);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(count_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     count = i * 2;
     p = (void *)((u32)count + (u32)base);
     do {

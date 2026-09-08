@@ -10,7 +10,7 @@ extern s32 D_8002593C;
 extern s32 D_80024FAC;
 
 #ifndef NON_MATCHING
-register u8 *match_v0 ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register u8 *match_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 void func_80025848(void *arg0) {

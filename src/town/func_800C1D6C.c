@@ -28,7 +28,7 @@ extern void func_800BF634(void) __attribute__((noreturn));
 extern void *D_80089900[];
 
 #ifndef NON_MATCHING
-register s32 state ASM_REG("$7");   /* MATCH pin: keeps a constant in a register as retail does */
+register s32 state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #else
 static s32 state;
 #endif
@@ -48,26 +48,26 @@ void func_800BF4CC(S0 *self, s32 *arg1, S1 *arg2) {
         state = obj->f68;
         countdown--;
         obj->f6C = countdown;
-        ASM_KEEP(countdown);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(countdown);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     }
     value = 0x800000;
     limit = addend + value;
-    ASM_KEEP(addend);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(addend);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if ((u32)state < 6) {
         goto *D_80089900[state];
     }
     return;
 
 L_A: {
-        register s32 threshold ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register s32 d ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 threshold ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 d ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 rhs;
 
         d = D_80083780.field0;
         rhs = arg1[0];
         d -= rhs;
         threshold = 0x3FFFFF;
-        ASM_KEEP(threshold);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(threshold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if (d < 0) {
             d = -d;
         }
@@ -83,7 +83,7 @@ L_A: {
         }
         func_80053DA8(0x50B);
         value = (u16)obj->f68;
-        ASM_KEEP(value);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         threshold = 32;
         obj->f6C = threshold;
         func_800BF634();
@@ -94,11 +94,11 @@ L_B: {
 
     below = D_80083780.field4 < limit;
     if (below != 0) {
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         D_80083780.field4 += 0x40000;
     }
     value = arg2->f1A - 32;
-    ASM_TAILSLOT_PIN(value);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_TAILSLOT_PIN(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_800BF61C();
 }
 

@@ -34,7 +34,7 @@ typedef struct S_8051E954_0 {
 
 
 void func_8051E954(s32 arg0) {
-    register s32 *temp_s0 ASM_REG("$16");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 *temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *temp_v1;
     s32 temp_a0;
     s32 temp_a0_2;

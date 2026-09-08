@@ -76,7 +76,7 @@ case_0:
     U32_AT(MANAGER_PTR(), 0xF4) = (u32)D_80024A64;
     func_800246F4((u8 *)PTR_AT(state, 0) - 0x20, PTR_AT(state, 4));
     VOL_U16_AT(state, 0x0A)++;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if ((U16_AT(PTR_AT(state, 4), 0) & 0x80) == 0) {
         goto default_case;
     }
@@ -84,7 +84,7 @@ case_0:
         u8 *manager_page = (u8 *)0x80080000;
         void *manager =
             *(void **)(manager_page + 0x14A8);
-        ASM_KEEP(manager_page);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(manager_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         U16_AT(state, 0x18) = 0x12;
         result = U16_AT(manager, 0xA6) - 1;
@@ -109,7 +109,7 @@ case_1:
     {
         u16 countdown = 0x10;
         u16 live = U16_AT(state, 0x0A);
-        ASM_KEEP(live);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(live);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         U16_AT(state, 0x18) = countdown;
     }
     func_80024208();
@@ -120,8 +120,8 @@ case_2:
 
         if (entry != 0) {
             s32 value = (s32)U32_AT(entry, 0x1C) | 0x10000000;
-            register u32 effect ASM_REG("$4") = 0;   /* MATCH pin: retail register colouring depends on it */
-            register void *child ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+            register u32 effect ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register void *child ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             U32_AT(entry, 0x1C) = value;
             child = PTR_AT(entry, -0x14);
             if ((U16_AT(global_table, 4) & 1) != 0) {
@@ -137,11 +137,11 @@ case_2:
         }
     }
     {
-        register void *entry ASM_REG("$5") = PTR_AT(MANAGER_PTR(), 0x60);   /* MATCH pin: retail register colouring depends on it */
+        register void *entry ASM_REG("$5") = PTR_AT(MANAGER_PTR(), 0x60);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         if (entry != 0) {
             u32 mask = 0xEFFFFFFF;
-            register u32 effect ASM_REG("$4") = 0x00808080;   /* MATCH pin: retail register colouring depends on it */
+            register u32 effect ASM_REG("$4") = 0x00808080;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             void *child = PTR_AT(entry, -0x14);
             s32 value = (s32)U32_AT(entry, 0x1C) & mask;
             U32_AT(entry, 0x1C) = value;

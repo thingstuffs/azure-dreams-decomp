@@ -27,8 +27,8 @@ void func_800B8FC8(s32 arg0, Position *arg1, Position *arg2, s32 arg3, volatile 
     void *first_context;
     void *ordering_table;
     Packet *packet;
-    register s32 held_arg3 ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 shifted ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 held_arg3 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 shifted ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 held_arg4;
     s32 y;
 
@@ -40,7 +40,7 @@ void func_800B8FC8(s32 arg0, Position *arg1, Position *arg2, s32 arg3, volatile 
     *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)packet + 0xC);
     first_context = *(void * volatile *)D_80083160;
     held_arg4 = arg4;
-    ASM_KEEP_DEP_NV(packet, held_arg4);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_DEP_NV(packet, held_arg4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_80067E2C(packet, first_context);
     func_8006658C(ordering_table, packet);
 
@@ -73,7 +73,7 @@ void func_800B8FC8(s32 arg0, Position *arg1, Position *arg2, s32 arg3, volatile 
             packet2->data = *(u32 *)((u8 *)arg1 + 4);
             func_8006658C(ordering_table, packet2);
         }
-        ASM_KEEP(held_arg3);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         context = *context_slot;
         packet = *(Packet **)(context + 0x8D0);

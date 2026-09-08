@@ -91,8 +91,8 @@ void func_818FF19C(void *arg0, void *arg1, void *arg2) {
         ((S_818FF19C_0 *)arg0)->unk_0A = 1;
         old_value = ((S_818FF19C_1 *)arg1)->unk_08;
         delta = -0x20000;
-        ASM_KEEP(old_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_TAILSLOT_PIN(delta);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(old_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024A54();
     }
 

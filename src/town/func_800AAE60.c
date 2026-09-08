@@ -18,7 +18,7 @@ extern void func_800A84D0(LocalRecord *, s32);
 void func_800A85C0(void *arg0, void *arg1, s32 count) {
     LocalRecord local;
     void *data = arg1;
-    register s32 i ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 i ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 value;
 
     if (count != 0) {
@@ -41,7 +41,7 @@ void func_800A85C0(void *arg0, void *arg1, s32 count) {
                 local.z = value;
                 func_800A84D0(&local, value);
             } while (i < count);
-            ASM_KEEP(data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         }
     }
 }

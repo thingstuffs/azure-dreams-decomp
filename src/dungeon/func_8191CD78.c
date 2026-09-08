@@ -33,7 +33,7 @@ typedef struct {
 void func_80024578(void *arg0, void *arg1, void *arg2)
 {
     void *self = arg0;
-    register void *out ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *out ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *root;
     register void *arg2_reg = arg2;
     void **table;
@@ -45,7 +45,7 @@ void func_80024578(void *arg0, void *arg1, void *arg2)
     s32 state;
     u16 ctr;
     s32 i;
-    register s32 delta_x ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 delta_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 delta_y;
     s32 delta_z;
     u16 copied_z;
@@ -57,7 +57,7 @@ void func_80024578(void *arg0, void *arg1, void *arg2)
     s16 step;
     s16 *scan1;
     u32 dead_page;
-    register s16 final_floor ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s16 final_floor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     static void *const keepalive[] = {
         &&case_0, &&case_1_entry, &&case_7, &&case_motion_flags,
         &&case_1, &&case_10, &&case_2, &&case_3,
@@ -101,10 +101,10 @@ case_1_entry:
         if ((FIELD(FIELD(base, void *, 0xC), u16, 0x14) & 0x8000) == 0) {
             FIELD(out, u16, 2) = (u16)(FIELD(out, u16, 2) + DELTA(0));
             FIELD(out, u16, 6) = (u16)(FIELD(out, u16, 6) + DELTA(1));
-            ASM_MEM_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             {
-                register u16 blk_z ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
-                register u16 blk_dz ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register u16 blk_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                register u16 blk_dz ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 blk_z = FIELD(out, u16, 0xA);
                 blk_dz = (u16)DELTA(2);
@@ -135,7 +135,7 @@ case_1_entry:
         DELTA(0) = (s16)delta_x;
         {
             s32 dy;
-            register s32 ty ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 ty ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dy = FIELD(base, s16, 6);
             ty = FIELD(out, s16, 6);
             dy -= ty;
@@ -144,12 +144,12 @@ case_1_entry:
         }
         {
             s32 dz;
-            register s32 tz ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 tz ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             tz = FIELD(out, s16, 0xA);
             dz = FIELD(FIELD(root, void *, 0x60), s16, 0x88);
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             scan1 = (s16 *)(local + 2);
-            ASM_KEEP(scan1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(scan1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             dz -= tz;
             if (dz < 0) dz = -dz;
             DELTA(2) = (s16)dz;
@@ -181,16 +181,16 @@ case_1_entry:
 
     i = 0;
     source2 = FIELD(base, void *, 0xC);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dead_page = 0x80070000;
-    ASM_KEEP(dead_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(dead_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
         s32 x;
         s32 y;
         register s32 first_x;
         u16 stored_y;
         s32 arg_x;
-        register s32 arg_z ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 arg_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 arg_y;
         s32 signed_x;
         s32 signed_y;
@@ -201,7 +201,7 @@ case_1_entry:
         x = FIELD(source2, u8, 0x24);
         y = FIELD(source2, u8, 0x25);
         first_x = x;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         saved_y = (u16)y;
         do {
             signed_x = (s16)x;
@@ -215,12 +215,12 @@ case_1_entry:
                     (s16)(FIELD(root, s16, 0x88) - 0x20));
                 if ((floor < 513) && ((s16)(floor - FIELD(root, s16, 0x88)) >= -63)) {
                     s32 next_x;
-                    register s32 next_y ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+                    register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                     i++;
                     next_x = x + ((u16 *)D_8006CCD8)[(s16)FIELD(self, u16, 0xE)];
                     x = next_x;
-                    ASM_KEEP_NV(x);   /* MATCH pin: retail register colouring depends on it */
+                    ASM_KEEP_NV(x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     next_y = y + ((u16 *)D_8006CCE8)[(s16)FIELD(self, u16, 0xE)];
                     y = next_y;
                     saved_y = (u16)next_y;
@@ -237,10 +237,10 @@ case_1_entry:
         x_base = (first_x << 16) >> 10;
         arg_x = (x_base + 0x20) & 0xFFE0;
         x_adjust_table = (s16 *)D_8006CCD8;
-        ASM_CLOBBER("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         arg_z = -0x400;
         i = 1;
-        ASM_KEEP(i);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         stored_y = saved_y;
         y_base = (s32)stored_y << 16;
         y_base >>= 10;
@@ -252,20 +252,20 @@ case_1_entry:
         FIELD(base, u16, 6) = (u16)(y_base + ((y_adjust + 1) << 5));
         final_floor = func_800BCB04(arg_x, arg_y, arg_z);
         {
-            register s32 expanded_floor ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+            register s32 expanded_floor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 widened_y;
-            register s32 out_y ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register s32 out_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s16 *delta_scan = (s16 *)(local + 2);
 
             FIELD(base, s16, 0xA) = final_floor;
             expanded_floor = (s32)final_floor << 16;
-            ASM_KEEP(expanded_floor);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(expanded_floor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             delta_x = (s16)FIELD(base, u16, 2) - FIELD(out, s16, 2);
             if (delta_x < 0) delta_x = -delta_x;
             DELTA(0) = (s16)delta_x;
             widened_y = FIELD(base, u16, 6);
             out_y = FIELD(out, s16, 6);
-            ASM_KEEP_DEP_NV(widened_y, out_y);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP_DEP_NV(widened_y, out_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             widened_y <<= 16;
             widened_y >>= 16;
             widened_y -= out_y;
@@ -296,12 +296,12 @@ case_1_entry:
         (FIELD(base, s32, 4) - FIELD(out, s32, 4)) / FIELD(self, s16, 0x12);
     FIELD(out, s32, 0x14) =
         (FIELD(base, s32, 8) - FIELD(out, s32, 8)) / FIELD(self, s16, 0x12);
-    ASM_CLOBBER("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     next_state = 11;
 set_state:
     FIELD(self, u16, 0xA) = next_state;
     FIELD(self, u16, 0x10) = 0;
-    ASM_CLOBBER("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_800243CC(self, out);
     goto finish;
 
@@ -340,7 +340,7 @@ case_2:
     FIELD(FIELD(self, void *, 0x1C), u16, 0x2A) =
         (u16)(FIELD(FIELD(self, void *, 0x1C), u16, 0x2A) + 0x200);
     if (FIELD(self, s16, 0x10) >= 28) {
-        register void *tail ASM_REG("$2") = FIELD(self, void *, 0x24);   /* MATCH pin: retail delay-slot fill depends on it */
+        register void *tail ASM_REG("$2") = FIELD(self, void *, 0x24);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
         FIELD(tail, u16, 0x1A) = (u16)(FIELD(tail, u16, 0x1A) + 0x800);
         goto advance_state;
@@ -358,8 +358,8 @@ case_3:
         u8 *height_entry;
         u16 max_height;
         void *owner;
-        register s32 fx_b ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-        register s32 fx_a ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 fx_b ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 fx_a ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         height_base = D_800DDC40;
         owner = FIELD(self, void *, 0x1C);
@@ -369,7 +369,7 @@ case_3:
         if (FIELD(moving, s16, 0xA) >=
             FIELD(self, s16, 0x16) - FIELD(height_entry, u8, 0)) {
             fx_a = 8;
-            ASM_CLOBBER("$16");   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             i = 0;
             max_height = FIELD(self, u16, 0x16);
             FIELD(moving, u16, 0xA) =

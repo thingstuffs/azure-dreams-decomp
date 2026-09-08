@@ -100,7 +100,7 @@ void func_80171E20(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     void *arg0 = arg0_;
     void *arg1 = arg1_;
     void *arg2 = arg2_;
-    register void *arg3 ASM_REG("$18") = arg3_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg3 ASM_REG("$18") = arg3_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 initial_flags = D_80083462;
     s16 sp18;
     s32 flags;
@@ -118,10 +118,10 @@ void func_80171E20(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
         return;
     }
 
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((S_80171E20_1 *)arg3)->unk_25 == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);

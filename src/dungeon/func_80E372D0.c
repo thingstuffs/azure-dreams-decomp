@@ -53,12 +53,12 @@ typedef struct S_80170AD0_2 {
 void func_80170AD0(void *a0, void *a1, void *a2)
 {
     void *entity = a0;
-    register void *motion ASM_REG("$21") = a1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *monster ASM_REG("$20") = a2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *actor ASM_REG("$17") = entity;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 direction_index ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *motion ASM_REG("$21") = a1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *monster ASM_REG("$20") = a2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$17") = entity;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 direction_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 direction;
-    register u32 old_direction_raw ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 old_direction_raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     Callback callback;
     u16 flags;
     s16 floor;
@@ -68,7 +68,7 @@ void func_80170AD0(void *a0, void *a1, void *a2)
     if (D_80083462 & 0x2000) {
         Callback first_callback;
 
-        ASM_KEEP(actor);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         first_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (first_callback == (Callback)D_80170EE4) {
             first_callback(a0, a1, a2, a0);
@@ -78,9 +78,9 @@ void func_80170AD0(void *a0, void *a1, void *a2)
         return;
     }
 
-    ASM_KEEP(motion);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(monster);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(actor);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(monster);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     old_direction_raw = (*(volatile u8 *)((u8 *)entity + 0x6D));
     kind = (*(u8 *)((u8 *)entity + 0x9A));
@@ -194,6 +194,6 @@ finish:
         ((S_80170AD0_0 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     ((S_80170AD0_1 *)monster)->unk_14 |= 0x40;
 
-    ASM_KEEP(entity);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(direction_index);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(direction_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

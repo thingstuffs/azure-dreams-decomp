@@ -39,22 +39,22 @@ void func_800BB2E4(s32 *arg0, s32 *arg1, u8 *arg2, s32 arg3, s32 arg4)
 {
     CoordPair point;
     u8 *arg2_r = arg2;
-    register s32 arg3_r ASM_REG("$22") = arg3;   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 arg4_r ASM_REG("$19") = arg4;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 **state_addr ASM_REG("$21");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 arg3_r ASM_REG("$22") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 arg4_r ASM_REG("$19") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 **state_addr ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *state;
-    register u8 *base ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *base ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *packet;
     u8 *primitive;
     u16 height;
     s32 shifted_height;
     s32 y;
-    register s32 comparison ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 shifted_arg ASM_REG("$6");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 comparison ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 shifted_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 shifted;
-    register s32 shift_test ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 shift_test2 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *call_base ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 shift_test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 shift_test2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *call_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 primitive_flag;
 
     state_addr = (u8 **)D_80083160;
@@ -63,10 +63,10 @@ void func_800BB2E4(s32 *arg0, s32 *arg1, u8 *arg2, s32 arg3, s32 arg4)
     comparison = (s32)state ^ (s32)D_801C9E40;
     shifted_arg = comparison != 0;
     shifted = shifted_arg;
-    ASM_KEEP_NV(arg2_r);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(arg3_r);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(state_addr);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(arg2_r);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(arg3_r);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(state_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     if (arg4_r != 0) {
         primitive = ((S_800BB2E4_0 *)state)->unk_8D0;
@@ -91,22 +91,22 @@ void func_800BB2E4(s32 *arg0, s32 *arg1, u8 *arg2, s32 arg3, s32 arg4)
         ((S_800BB2E4_0 *)state)->unk_8D0 = packet + 0x10;
         ((S_800BB2E4_2 *)packet)->unk_08.at00.v = *arg0;
         ((S_800BB2E4_2 *)packet)->unk_0C.at00.v = *arg1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         shift_test = shifted_arg;
-        ASM_KEEP_NV(shift_test);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(shift_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_base = base;
         if (shift_test != 0) {
             ((S_800BB2E4_2 *)packet)->unk_08.at02.v -= 0xE0;
             ((S_800BB2E4_2 *)packet)->unk_0C.at02.v -= 0xE0;
         }
         ((S_800BB2E4_2 *)packet)->unk_03 = 3;
-        ASM_UNDEF(arg4_r);   /* MATCH pin: retail register colouring depends on it */
+        ASM_UNDEF(arg4_r);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0;
         ((S_800BB2E4_2 *)packet)->unk_04.at03.v = 0x40;
         func_8006658C(call_base, packet, shifted_arg);
 
         state = *(u8 **)D_80083160;
-        ASM_USE(state);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_USE(state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         primitive_flag = 0;
 allocate_primitive:
         primitive = ((S_800BB2E4_0 *)state)->unk_8D0;
@@ -125,10 +125,10 @@ draw_packet:
         ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0x60000000;
         ((S_800BB2E4_2 *)packet)->unk_03 = 3;
         ((S_800BB2E4_2 *)packet)->unk_08.at00u.v = ((S_800BB2E4_1 *)arg2_r)->unk_00;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         shift_test2 = shifted;
         y = ((S_800BB2E4_1 *)arg2_r)->unk_02.s;
-        ASM_USE2(shift_test2, y);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_USE2(shift_test2, y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (shift_test2 != 0) {
             y -= 0xE0;
         }
@@ -150,5 +150,5 @@ draw_packet:
         func_8006658C(base, primitive);
     }
 
-    ASM_USE(arg3_r);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE(arg3_r);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

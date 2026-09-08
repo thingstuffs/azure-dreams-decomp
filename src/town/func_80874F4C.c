@@ -42,7 +42,7 @@ s32 func_80874F4C(s32 arg0) {
     s32 value;
     s32 index;
     s32 old_value;
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
     s16 value;
     s32 index;
@@ -87,14 +87,14 @@ callback_path:
     {
 #ifndef NON_MATCHING
         void *state;
-        register s32 new_flags ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 new_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #else
         void *state;
         s32 new_flags;
 #endif
         state = (void *)D_80701968[0];
         new_flags = FIELD(state, s32 *, 0x30) | tail_arg;
-        ASM_TAILSLOT_PIN_TIED(tail_arg);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_TAILSLOT_PIN_TIED(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         FIELD(state, s32 *, 0x30) = new_flags;
     }
     func_80701024(tail_arg);
@@ -104,7 +104,7 @@ clear_flags:
 #ifndef NON_MATCHING
         void *state;
         s32 clear_mask;
-        register s32 clear_value ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+        register s32 clear_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
         void *state;
         s32 clear_mask;

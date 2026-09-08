@@ -132,16 +132,16 @@ void BODY_NAME(void *arg0, void *arg1)
     s16 position[3];
     void *object;
     u8 *work;
-    register void *state ASM_REG("$18") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *state ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *base;
-    register void *out ASM_REG("$20") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *out ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *global;
     u8 *fields;
     u16 timer;
 
-    ASM_KEEP(state);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     timer = ((S_81988800_0 *)state)->unk_50.u;
-    ASM_KEEP(timer);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(timer);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     base = ((S_81988800_0 *)state)->unk_00;
     ((S_81988800_0 *)state)->unk_50.u = timer - 1;
     work = (u8 *)base - 0x20;
@@ -224,8 +224,8 @@ jt_c2: {
     }
 
 jt_c3: {
-        register u8 *settings ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
-        register u8 *loop_ptr ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *settings ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        register u8 *loop_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 counter;
 
         if (0) {
@@ -245,7 +245,7 @@ jt_c3: {
                 for (counter = 7; counter >= 0; counter--, loop_ptr -= 6) {
                     ((S_81988800_7 *)loop_ptr)->unk_12 = 0;
                     ((S_81988800_7 *)loop_ptr)->unk_10 = 0;
-                    ASM_KEEP(counter);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 }
                 ((S_81988800_3 *)work)->unk_00 = state;
                 ((S_81988800_3 *)work)->unk_40 = 0;
@@ -264,7 +264,7 @@ jt_c4: {
 
                 out = object;
                 table = (u8 *)0x80080000;
-                ASM_KEEP(table);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 work = table + 0x2E80;
 loop:
                 object = func_800A3F28(work[0x24], work[0x25], out, object);

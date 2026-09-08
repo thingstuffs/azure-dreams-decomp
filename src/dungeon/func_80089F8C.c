@@ -28,7 +28,7 @@ void func_8008F6EC(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 sp1A;
     s16 sp1C;
     s32 temp_v1;
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     var_s1 = 0;
     if (D_80081485 == 0x13) {

@@ -94,7 +94,7 @@ s32 func_800C2CDC(void *arg0, u8 *arg1, s16 arg2) {
                           entity->unk_25,
                           ((S_800C2CDC_0 *)arg0)->unk_88, 6, object);
     object_fields = object + 0x20;
-    ASM_KEEP(object_fields);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(object_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     entries = D_800E39C8;
     ((S_800C2CDC_2 *)object_fields)->unk_20 = index;
     ((S_800C2CDC_3 *)(entries + (index * 24)))->unk_08 = 0;

@@ -48,9 +48,9 @@ typedef struct S_800BC0A8_3 {
 } S_800BC0A8_3;   /* temp_a0 in func_800BC0A8 */
 
 void *func_800BC0A8(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
-    register s32 hold4 ASM_REG("$21") = arg4;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 hold5 ASM_REG("$23") = arg5;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 hold7 ASM_REG("$22") = arg7;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 hold4 ASM_REG("$21") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 hold5 ASM_REG("$23") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 hold7 ASM_REG("$22") = arg7;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_800BC0A8_3 *temp_a0;
     S_800BC0A8_2 *temp_a1;
     void *temp_v0;

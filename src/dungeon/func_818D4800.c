@@ -54,7 +54,7 @@ s32 BODY_NAME(void *arg0, void *arg1)
     u8 *obj = arg0;
     u8 *input = arg1;
     u8 *global_addr = D_80083160;
-    register u32 low_mask ASM_REG("$18") = 0x00FFFFFF;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 low_mask ASM_REG("$18") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     DungeonState818D4800 *state =
         *(DungeonState818D4800 **)D_80083160;
     u32 high_mask = 0xFF000000;
@@ -65,13 +65,13 @@ s32 BODY_NAME(void *arg0, void *arg1)
     u8 *initial_next;
     u8 *next_prim;
 
-    ASM_KEEP(high_mask);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(global_addr);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(high_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(global_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     initial_next = state->next;
     scratch->ot = (u32 *)((u8 *)state + 0xB0);
     scratch->next = initial_next;
-    ASM_KEEP(scratch);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     scratch->x = *(volatile u16 *)(input + 2);
     prim = scratch->next;
@@ -95,7 +95,7 @@ s32 BODY_NAME(void *arg0, void *arg1)
         *(u32 *)prim = (*(u32 *)prim & high_mask) |
             (scratch->ot[scratch->index] & low_mask);
         {
-            register u32 ot_word ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u32 ot_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             ot_word = scratch->ot[scratch->index];
             scratch->ot[scratch->index] = (ot_word & high_mask) |
@@ -122,14 +122,14 @@ s32 BODY_NAME(void *arg0, void *arg1)
 
     obj = (u8 *)next_obj + 0x20;
     input = *(u8 **)((u8 *)next_obj + 8);
-    ASM_KEEP(obj);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(input);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #ifdef __mips__
     {
-        register void *tail_a0 ASM_REG("$4") = scratch;   /* MATCH pin: retail delay-slot contents depend on it */
+        register void *tail_a0 ASM_REG("$4") = scratch;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         void *tail_a1 = next_obj;
 
-        ASM_TAILSLOT_PIN(tail_a0);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(tail_a0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8002409C();
     }
 #else

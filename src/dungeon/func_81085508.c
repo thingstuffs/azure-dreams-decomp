@@ -150,16 +150,16 @@ state_one: {
 state_two: {
     s16 timer;
     s16 next_timer;
-    register s32 vertical_out ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 vertical_step ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 vertical_out ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 vertical_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     ((S_80172D08_0 *)arg0)->unk_90 -= ((S_80172D08_0 *)arg0)->unk_A0;
     timer = ((S_80172D08_0 *)arg0)->unk_96.s;
     if (timer >= 9) {
         if (((S_80172D08_2 *)arg3)->unk_60 != 0) {
-            register s32 scaled_value ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-            register s32 scale ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-            register s32 vertical ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 scaled_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 scale ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 vertical ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 scaled_shifted;
             s32 value;
             void *owner;
@@ -184,7 +184,7 @@ state_two: {
             s32 direction;
             s32 scaled_vertical;
             s32 terrain_height;
-            register s32 signed_terrain_height ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 signed_terrain_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 value;
             s32 vertical;
 
@@ -287,7 +287,7 @@ state_four: {
             s32 random_value;
             s32 scaled_movement;
             s32 terrain_height;
-            register s32 signed_terrain_height ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 signed_terrain_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 base_height;
 
             direction = (((S_80172D08_2 *)arg3)->unk_2A.u >> 8) & 0xE;

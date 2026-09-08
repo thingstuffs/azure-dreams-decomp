@@ -56,9 +56,9 @@ typedef struct S_800C9AAC_2 {
 void func_800C9AAC(void *arg0, void *arg1, void *arg2)
 {
     u32 entry_value = D_80083462;
-    register void *state ASM_REG("$17") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *motion ASM_REG("$21") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *part ASM_REG("$19") = arg2;   /* MATCH pin: retail delay-slot fill depends on it */
+    register void *state ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *motion ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *part ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *secondary = state;
     Callback callback;
     s16 direction;
@@ -71,8 +71,8 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
     if (entry_value & 0x2000) {
         Callback early_callback = (*(Callback *)((u8 *)state + (0x8C)));
         if (early_callback == (Callback)&D_800C9F34) {
-            register void *incoming_a0 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
-            ASM_KEEP(incoming_a0);   /* MATCH pin: retail register colouring depends on it */
+            register void *incoming_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(incoming_a0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             early_callback(incoming_a0, motion, part, incoming_a0);
             return;
         } else {
@@ -82,12 +82,12 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
     }
 
     {
-        register void *call_a0 ASM_REG("$4") = state;   /* MATCH pin: retail delay-slot fill depends on it */
-        register void *call_a1 ASM_REG("$5") = motion;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        register void *call_a2 ASM_REG("$6") = part;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_KEEP(call_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_KEEP(call_a1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_KEEP(call_a2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register void *call_a0 ASM_REG("$4") = state;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        register void *call_a1 ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register void *call_a2 ASM_REG("$6") = part;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(call_a2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_a0 = state;
         call_a1 = motion;
         call_a2 = part;
@@ -130,7 +130,7 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
         if (D_8006CCF8[direction_index] != 0) {
             u32 tail_value;
             tail_value = ((S_800C9AAC_0 *)part)->unk_14 | 1;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800C9CA0();
             return;
         }
@@ -174,9 +174,9 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
                 }
             }
         } else {
-            register s32 accumulated ASM_REG("$2") = (*(s32 *)((u8 *)state + (0xA0)));   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 accumulated ASM_REG("$2") = (*(s32 *)((u8 *)state + (0xA0)));   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 position = (*(s32 *)((u8 *)state + (0x90)));
-            register u32 motion_flags ASM_REG("$4") = (*(u16 *)((u8 *)state + (0x98)));   /* MATCH pin: retail delay-slot fill depends on it */
+            register u32 motion_flags ASM_REG("$4") = (*(u16 *)((u8 *)state + (0x98)));   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             (*(u16 *)((u8 *)state + (0x9E))) = 0;
             (*(s32 *)((u8 *)state + (0xA0))) = 0;
             position -= accumulated;

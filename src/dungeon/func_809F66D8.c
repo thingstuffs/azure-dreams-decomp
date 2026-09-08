@@ -53,12 +53,12 @@ typedef struct S_80173ED8_5 {
 void func_80173ED8(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     void *p0;
-    register void *p1 ASM_REG("$19");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *p1 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *p2;
     register void *global;
-    register void *p3 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *p3 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 state;
-    register u8 *effect ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *effect ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 index;
 
     p0 = arg0;
@@ -67,9 +67,9 @@ void func_80173ED8(void *arg0, void *arg1, void *arg2, void *arg3)
 #define arg0 p0
 #define arg1 p1
 #define arg2 p2
-    ASM_KEEP_NV(p0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    ASM_KEEP_NV(p1);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP_NV(p2);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(p0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(p1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(p2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = ((S_80173ED8_0 *)arg0)->unk_9B;
     p3 = arg3;

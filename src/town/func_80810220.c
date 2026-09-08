@@ -98,7 +98,7 @@ state_0: {
     }
 
 state_1: {
-        register s32 called_v0 ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+        register s32 called_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         called_v0 = called;
         if (called_v0 != 0 && ((S_80810220_4 *)(arg0->unk_04))->unk_22 == 3) {
             child->unk_20 |= 1;

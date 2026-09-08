@@ -33,7 +33,7 @@ void func_80099C18(void *arg0, void *arg1, s32 arg2) {
         pos->x = work->target_x << 16;
         pos->y = work->target_y << 16;
         func_80098928(work, pos, arg2);
-        ASM_USE(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         pos->angle = func_800C2AE8(pos);
         return;
     }
@@ -53,6 +53,6 @@ void func_80099C18(void *arg0, void *arg1, s32 arg2) {
             ((work->target_y << 16) - value_y) / (s16)work->count;
     }
 
-    ASM_USE(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     pos->angle = func_800C2AE8(pos);
 }

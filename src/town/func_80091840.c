@@ -16,7 +16,7 @@ s32 func_8008EFA0(Node *arg0) {
 
     if (arg0 != NULL) {
         Node *head;
-        ASM_KEEP(page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         head = (Node *)(page - 0x34C);
         arg0->prev = head;
         arg0->next = head->next;

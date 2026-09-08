@@ -107,8 +107,8 @@ void func_80023260(void *arg0, void *arg1, void *arg2) {
     s32 temp_v1_9;
     s32 constant2;
     s32 old_c;
-    register s32 old_10 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    s32 angle_obj;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 old_10 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 angle_obj;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 angle_base;
     s32 final_kind;
     s32 case_value;
@@ -120,7 +120,7 @@ void func_80023260(void *arg0, void *arg1, void *arg2) {
     u16 temp_a0;
     u16 temp_a1;
     s32 temp_v1_3;
-    register s32 var_v0_3 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Record12 *record_base;
     void *temp_s0;
     void *temp_s2;

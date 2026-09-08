@@ -19,7 +19,7 @@ s32 func_80094AA0(s32 arg0, s32 arg1, s32 arg2) {
         arg0 -= arg2;
         if (arg0 >= 0) {
             scratch = original - arg2;
-            ASM_KEEP(scratch);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return;
         }
     } else {
@@ -29,6 +29,6 @@ s32 func_80094AA0(s32 arg0, s32 arg1, s32 arg2) {
         }
     }
 return_arg1:
-       /* MATCH pin: retail basic-block layout depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return arg1;
 }

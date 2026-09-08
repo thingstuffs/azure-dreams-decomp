@@ -41,7 +41,7 @@ void func_800BE0D4(S0 *self, s32 arg1, S1 *arg2) {
 L0:
     if (func_800352FC() && func_800C2AB4(obj)) {
         S1 *callArg = dst;
-        ASM_KEEP(callArg);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(callArg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800BE1BC(callArg, obj->fieldA4);
     }
 L0After:
@@ -49,7 +49,7 @@ L0After:
 L1:
     if (dst->field14 & 0x6000) {
         S1 *callArg = dst;
-        ASM_KEEP(callArg);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(callArg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800BE1BC(callArg, obj->fieldA8);
     }
 L1After:

@@ -90,7 +90,7 @@ loop:
         } while (0);
     if ((s32)var_t1 < (s32)stack_end)
         goto loop;
-    ASM_SET(stack_end);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SET(stack_end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     var_t0[-0x18] |= 0x80;
     return var_t0;
 }

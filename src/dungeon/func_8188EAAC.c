@@ -63,10 +63,10 @@ extern s32 D_800CEEFC[3];
 
 void *func_800262AC(s16 arg0, s16 arg1, s16 arg2)
 {
-    register s32 outer ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register s32 outer ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 inner;
     s32 kind;
-    register s32 state_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 state_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 render_value;
     void *object;
     S_800262AC_1 *coords;
@@ -76,9 +76,9 @@ void *func_800262AC(s16 arg0, s16 arg1, s16 arg2)
     void *texture;
 
     if (func_8003FA44(0x30) == 0) {
-        register void *zero ASM_REG("$2") = 0;   /* MATCH pin: load-bearing for the whole function shape */
+        register void *zero ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        ASM_TAILSLOT_PIN(zero);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800263D4();
     }
     outer = 2;
@@ -114,7 +114,7 @@ inner_loop:
         render_value = render->unk_1E.u;
         render->unk_14 = 0xC;
         render->unk_10 = 0x20;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         state_value = 8;
         render->unk_08 = texture;
         render->unk_1C = render_value;

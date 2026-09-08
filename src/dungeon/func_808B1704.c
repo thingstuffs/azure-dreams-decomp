@@ -22,7 +22,7 @@ s32 func_808B1704(Func8094D708Object *arg0)
 
 L_CALLBACK:
 {
-    register void *call_arg ASM_REG("$4") = arg0;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *call_arg ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     address = (u8 *)(i << 4);
     address = (u8 *)((s32)address + (s32)arg0->callbacks);
     callback = *(Func8094D708Callback *)address;

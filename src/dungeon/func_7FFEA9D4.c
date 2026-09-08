@@ -61,8 +61,8 @@ extern M2C_UNK D_8010C994;
 
 void func_7FFEA9D4(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
     M2C_UNK saved_arg1 = arg1;
-    register M2C_UNK saved_arg2 ASM_REG("$23") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 delta ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register M2C_UNK saved_arg2 ASM_REG("$23") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_s4;
     s32 rand_value;
     s32 current;

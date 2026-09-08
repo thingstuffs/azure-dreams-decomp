@@ -60,14 +60,14 @@ void func_80170A70(void *arg0, void *raw_arg1, void *raw_arg2)
         &&phase_update_b,
     };
     S_80170A70_2 *object = arg0;
-    register void *arg1 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg2 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     Callback callback;
     Callback callback2;
     s16 old_state;
     s16 direction;
     s16 ground;
-    register s32 ground32 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 ground32 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 angle;
     s32 bob;
     u16 flags;
@@ -86,8 +86,8 @@ void func_80170A70(void *arg0, void *raw_arg1, void *raw_arg2)
         return;
     }
 
-    ASM_KEEP_NV(arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP_NV(arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     old_state = (s8)(*(u8 *)((u8 *)arg0 + (0x6D)));
     if (func_800A9E70(arg0, arg1, arg2, arg0) != 0) {
         return;
@@ -146,7 +146,7 @@ void func_80170A70(void *arg0, void *raw_arg1, void *raw_arg2)
                 func_800478B8(arg2);
                 {
                     u32 tail_v0 = 0xF7FF0000;
-                    ASM_TAILSLOT_PIN(tail_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+                    ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                     func_80170D30();
                 }
             }
@@ -182,7 +182,7 @@ phase_update_a:
                         (u16)(*(s16 *)((u8 *)arg0 + (0x92))) - 8;
                     func_80171068();
                 }
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 if (ground - 0x3A > (*(s16 *)((u8 *)arg0 + (0x92)))) {
                     (*(s16 *)((u8 *)arg0 + (0x92))) =
                         (u16)(*(s16 *)((u8 *)arg0 + (0x92))) + 8;
@@ -194,7 +194,7 @@ phase_update_a:
 
         (*(s16 *)((u8 *)arg0 + (0xA0))) = 0;
         if (!((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
-            register s32 object_height ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 object_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             ground32 = (s16)func_800BCB04(
                 ((S_80170A70_0 *)arg1)->unk_00.at02.v, ((S_80170A70_0 *)arg1)->unk_04.at02.v,
@@ -219,7 +219,7 @@ phase_update_a:
             new_flags = flags | 0x7000;
         }
         ((S_80170A70_1 *)arg2)->unk_14 = new_flags;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
     object->unk_1C &= 0xF7FFFFFF;
 
@@ -228,7 +228,7 @@ phase_update_a:
         (*(s16 *)((u8 *)arg0 + (0x92))) = (u16)(*(s16 *)((u8 *)arg0 + (0x92))) - bob;
         bob = 0;
         if (!((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
-            register s32 object_height ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 object_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             ground32 = (s16)func_800BCB04(
                 ((S_80170A70_0 *)arg1)->unk_00.at02.v, ((S_80170A70_0 *)arg1)->unk_04.at02.v,

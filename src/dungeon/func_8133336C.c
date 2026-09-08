@@ -112,7 +112,7 @@ void func_8016A36C(void *arg0, void *arg1, void *in2, void *arg3) {
     M2C_UNK *late_state;
     u8 *temp_v1_5;
     u8 *temp_v1_6;
-    register u8 *var_a1 ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *var_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     unsigned long table_index;
     u8 *late_table;
     u8 *late_current;
@@ -159,8 +159,8 @@ block_6:
         goto block_19;
     }
     func_800AA79C(arg0, arg1, arg2, arg3);
-    ASM_KEEP_NV(arg0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP_NV(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_a0 = ((Rec_func_800A9E70_arg0 *)arg0)->unk_AC;
     if (temp_a0 == 0xE) {
         goto block_15;
@@ -259,7 +259,7 @@ block_37:
     return;
 block_40:
     {
-        register s32 dispatch_14 ASM_REG("$2") = 0xE;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 dispatch_14 ASM_REG("$2") = 0xE;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_v1 = ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8;
         if (temp_v1 == dispatch_14) {
             goto block_56;
@@ -533,7 +533,7 @@ block_116:
     if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x20) {
         goto block_150;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (D_80013714 & 8) {
         goto block_150;
     }

@@ -39,8 +39,8 @@ void func_80040C08(void)
 {
     State *p = &D_80082E60;
     State *q;
-    register s32 old_value ASM_REG("$2");   /* MATCH pin: slus-diff */
-    register s32 magic ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register s32 old_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 magic ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 next;
     u8 state;
     u8 arg;

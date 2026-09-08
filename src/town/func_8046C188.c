@@ -46,7 +46,7 @@ void func_8001D188(s32 arg0) {
     u8 *temp_a1;
     s32 temp_v1;
     s32 var_s1;
-    register S_8001D188_2 *temp_a2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register S_8001D188_2 *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 *temp_a0;
     u8 *page;
     S_8001D188_1 *cursor;
@@ -62,26 +62,26 @@ void func_8001D188(s32 arg0) {
     cursor = cursor->unk_24;
     cursor = cursor->unk_6C;
     entries = cursor->unk_1EC;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     temp_a3 = *(s16 *)((u8 *)entries + (var_s1 * 0x14));
     temp_a2 = temp_s2 + temp_a3;
     next_count = temp_a2->unk_3700.s;
     next_count += 1;
     temp_a2->unk_3700.s = next_count;
     count = temp_a2->unk_3700.u;
-    ASM_USE(count);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE(count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     var_a0 = 0;
     temp_a0 = D_8001902C;
     if (count >= *(s16 *)((u8 *)temp_a0 + (((temp_a3 * 3) + temp_v0) * 8))) {
         temp_a2->unk_3700.s = 0U;
     }
-    ASM_KEEP_NV(temp_a3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     temp_a1 = (u8 *)(temp_a3 * 0xC) + temp_s2 + 0x3640;
     do {
         temp_v0_2 = temp_a1 + var_a0;
         temp_v1 = *temp_v0_2;
         *temp_v0_2 = var_s1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         var_a0 += 1;
         var_s1 = temp_v1;
     } while (var_a0 < 0xC);

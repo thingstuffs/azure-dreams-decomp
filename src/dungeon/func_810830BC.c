@@ -79,7 +79,7 @@ void *func_801708BC(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         void *handler;
 
         page = (void *)0x80170000;
-        ASM_KEEP_NV(page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         do {
             part0 = object->unk_08;
         } while (0);

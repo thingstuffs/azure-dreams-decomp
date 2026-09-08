@@ -74,9 +74,9 @@ extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80165A0C;
 
 void func_80166204(S_80166204_4 *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    register s32 held_arg4 ASM_REG("$19") = arg4;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg4 ASM_REG("$19") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 held_arg5 = arg5;
-    register s32 byte_value ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 byte_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 temp_v0_2;
     S_80166204_2 *temp_a0;
     S_80166204_1 *temp_s0;
@@ -87,9 +87,9 @@ void func_80166204(S_80166204_4 *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s
         ((S_80166204_0 *)temp_v0)->unk_10 = &D_80165A0C;
         ((S_80166204_5 *)(((S_80166204_3 *)temp_v0)->unk_08))->unk_02 = (s16) (((S_80166204_6 *)(arg0->unk_08))->unk_02 + arg3);
         ((S_80166204_5 *)(((S_80166204_3 *)temp_v0)->unk_08))->unk_06 = (s16) (((S_80166204_6 *)(arg0->unk_08))->unk_06 + held_arg4);
-        ASM_KEEP(held_arg4);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_80166204_5 *)(((S_80166204_3 *)temp_v0)->unk_08))->unk_0A = (s16) (((S_80166204_6 *)(arg0->unk_08))->unk_0A + held_arg5);
-        ASM_KEEP(held_arg5);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         temp_s0 = temp_v0 + 0x20;
         temp_s0->unk_42 = (u16) ((S_80166204_6 *)(arg0->unk_08))->unk_02;
         temp_s0->unk_44 = (u16) ((S_80166204_6 *)(arg0->unk_08))->unk_06;
@@ -111,7 +111,7 @@ void func_80166204(S_80166204_4 *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s
         temp_a0->unk_12 = 0x7DCF;
         temp_v0_2 = temp_a0->unk_14.s & 0xFFF3;
         temp_v0_2 |= 2;
-        ASM_KEEP_NV(temp_v0_2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_a0->unk_14.u = temp_v0_2;
         temp_v0_2 |= 0x100;
         temp_a0->unk_14.s = temp_v0_2;

@@ -91,7 +91,7 @@ void func_80172654(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 count;
     s32 next_state;
     s32 shifted_count;
-    register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
+    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     void *obj;
     u8 *tail;
 

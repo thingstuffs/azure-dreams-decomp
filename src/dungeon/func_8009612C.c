@@ -50,7 +50,7 @@ s32 func_8009B88C(u8 *arg0, s32 arg1, s32 arg2, s16 *out_x, s16 *out_y) {
     s32 x16;
     s32 y16;
     s32 first;
-    register s32 fl ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 fl ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     spad = (u8 *)0x1F800000;
     if (arg0 != 0) {
@@ -96,7 +96,7 @@ s32 func_8009B88C(u8 *arg0, s32 arg1, s32 arg2, s16 *out_x, s16 *out_y) {
 loop_tail:
     arg0 = *(u8 **)(arg0 + 92) + 32;
     } while (arg0 != state || (fl = first) != 0);
-    ASM_KEEP_NV(arg0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (spad[0] != 0) {
         goto search;
@@ -140,21 +140,21 @@ found16:
 search:
     count = 0;
     x8 = (s16)arg1;
-    ASM_MEM_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     tmp = D_8008347E;
     y8 = (s16)arg2;
-    ASM_USE(y8);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE(y8);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     idx = tmp & 7;
     do {
         j = idx;
-        ASM_KEEP_NV(j);   /* MATCH pin: retail keeps a computation the compiler would drop */
-        ASM_USE2(arg1, arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        ASM_USE2(arg1, arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        ASM_USE2(arg2, arg2);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(j);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        ASM_USE2(arg1, arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_USE2(arg1, arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_USE2(arg2, arg2);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         if (*(spad + j + 1) == 0) {
             xp = D_8006CCD8 + j;
             yp = D_8006CCE8 + j;
-            ASM_USE(yp);   /* MATCH pin: retail register colouring depends on it */
+            ASM_USE(yp);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if ((xa = xp[0], ya = yp[0],
                  func_800A0548((s16)(arg1 + xa), (s16)(arg2 + ya))) == 0 &&
                 (func_8009A350(x8, y8, j, &info) << 16) != 0 &&
@@ -177,13 +177,13 @@ search:
     idx = tmp & 15;
     do {
         j2 = idx;
-        ASM_KEEP_NV(j2);   /* MATCH pin: retail keeps a computation the compiler would drop */
-        ASM_USE2(arg1, arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        ASM_USE2(arg2, arg2);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(j2);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        ASM_USE2(arg1, arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_USE2(arg2, arg2);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         if (*(spad + j2 + 9) == 0) {
             xp2 = D_800DCE6C + j2;
             yp2 = D_800DCE8C + j2;
-            ASM_USE(yp2);   /* MATCH pin: retail register colouring depends on it */
+            ASM_USE(yp2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if ((xb = xp2[0], yb = yp2[0],
                  func_800A0548((s16)(arg1 + xb), (s16)(arg2 + yb))) == 0 &&
                 ((xc = xp2[0], yc = yp2[0],
@@ -199,6 +199,6 @@ search:
         count++;
         idx = (idx + 1) & 15;
     } while (count < 16);
-    ASM_USE_NV(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return 0;
 }

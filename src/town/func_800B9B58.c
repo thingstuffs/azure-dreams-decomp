@@ -22,7 +22,7 @@ void func_800B72B8(void)
     seven = 7;
     limit = 0x7F;
     size = 0x2000;
-    ASM_KEEP4(p, seven, limit, size);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP4(p, seven, limit, size);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *(s16 *)(p + 0x14) = seven;
     seven = 7;
     *(s16 *)(p + 0x16) = seven;

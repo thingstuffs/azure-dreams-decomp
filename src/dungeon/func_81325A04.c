@@ -35,8 +35,8 @@ u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 dy2;
     s32 *shared;
     u8 *chosen;
-    register u32 page ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *tail_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *tail_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = FIELD(u8 *, arg0, 0x9B);
     if (state == 1) {
@@ -48,7 +48,7 @@ u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
         }
         return;
     }
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state2_body;
     }
@@ -67,7 +67,7 @@ state0_body:
         FIELD(s32 *, arg1, 0x0C) = 0;
         if (FIELD(u8 *, arg0, 0xB4) != 0) {
             page = (u32)D_8016B778;
-            ASM_KEEP(page);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             FIELD(u8 *, arg0, 0x9B) = 0;
             return func_8016D590();
         }
@@ -122,7 +122,7 @@ state1_body:
         }
         timer = 4;
         page = FIELD(u8 *, arg0, 0x9B);
-        ASM_KEEP(page);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         FIELD(s16 *, arg0, 0x96) = timer;
         return func_8016D470();
 state2_body:
@@ -170,7 +170,7 @@ initialize:
 
 state3_tail:
     page = (u32)D_8016B778;
-    ASM_KEEP(page);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     FIELD(u8 *, arg0, 0x9B) = 0;
     return func_8016D590();
 
@@ -178,9 +178,9 @@ state3_continue:
     if (FIELD(s32 *, arg2, 0x2C) == (s32)D_801746C4) {
         if (FIELD(u8 *, arg0, 0xB3) == 0) {
             page = 0x80170000;
-            ASM_KEEP(page);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             tail_a1 = (u8 *)page + 18044;
-            ASM_TAILSLOT_PIN(tail_a1);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8016D528();
             return (u8 *)0;
         }

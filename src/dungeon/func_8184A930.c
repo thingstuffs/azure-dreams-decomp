@@ -57,7 +57,7 @@ s32 func_80024130(s32 arg0, S_80024130_3 *arg1)
     S_80024130_0 *temp_v0;
     S_80024130_2 *temp_v1_2;
     s32 temp_a0;
-    register void *temp_ret ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+    register void *temp_ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != 0) {
@@ -81,9 +81,9 @@ s32 func_80024130(s32 arg0, S_80024130_3 *arg1)
         temp_v1_2->unk_02 = arg1->unk_02;
         temp_v1_2->unk_06 = arg1->unk_06;
         temp_a0 = arg1->unk_0A;
-        ASM_KEEP(temp_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_ret = temp_v0;
-        ASM_KEEP(temp_ret);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(temp_ret);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         temp_v1_2->unk_0A = temp_a0;
         return func_80024204(temp_a0);
     }

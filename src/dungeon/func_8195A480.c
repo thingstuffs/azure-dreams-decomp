@@ -135,24 +135,24 @@ void func_80025C80(void *arg0_in, void *arg1_in, void *arg2_in) {
     void *arg0;
     void *arg1;
     void *arg2;
-    register s32 x_step ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 y_step ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 eight ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 x_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 y_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 eight ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *case0_base;
     void *temp_v1_6;
-    register s16 *update_base ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s16 *update_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *update_ptr;
-    register s16 *update_y_page ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s16 *update_y_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *update_y_base;
     s16 *update_y_ptr;
     s32 update_y_offset;
-    register s32 motion_x ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 motion_dx ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 motion_y ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 motion_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 motion_dx ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 motion_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 motion_dy;
-    register s32 motion_z ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 motion_dz ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 motion_damp_x ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 motion_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 motion_dz ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 motion_damp_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 motion_damp_y;
     u16 linked_flags;
     s32 *linked_global;
@@ -176,7 +176,7 @@ void func_80025C80(void *arg0_in, void *arg1_in, void *arg2_in) {
     s32 temp_v0_9;
     u16 *var_v0;
     u16 temp_v0_6;
-    register u16 update_x ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u16 update_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 update_y;
     u8 temp_v0_5;
     u8 temp_v1_2;
@@ -225,12 +225,12 @@ case_0:
     ((S_80025C80_1 *)arg2)->unk_0C.at01.v = temp_v1_3;
     temp_v0 = ((u16) ((S_80025C80_0 *)arg0)->unk_30.n ^ 1) & 1;
     temp_v1_4 = ((S_80025C80_0 *)arg0)->unk_30.v - 1;
-    ASM_KEEP(temp_v0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80025C80_0 *)arg0)->unk_30.n = temp_v1_4;
     ((S_80025C80_0 *)arg0)->unk_32 = temp_v0;
     if (((temp_v1_4 << 0x10) <= 0) && (((S_80025C80_1 *)arg2)->unk_14 & 0x4000)) {
         eight = 8;
-        ASM_KEEP(eight);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(eight);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v1_6 = D_800E3D7C;
         ((S_80025C80_0 *)arg0)->unk_38 = eight;
         ((S_80025C80_0 *)arg0)->unk_36 = 0xF;
@@ -251,7 +251,7 @@ case_0:
 
 case_1:
     resident_hi = (u8 *) 0x80080000;
-    ASM_KEEP_NV(resident_hi);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(resident_hi);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     arg2 = resident_hi + 0x2E80;
     temp_v0_10 = func_8003DE58(((S_80025C80_1 *)arg2)->unk_08, arg2, arg0 + 0x24, 0);
     temp_v1_5 = (u16) ((S_80025C80_0 *)arg0)->unk_30.n - 1;
@@ -313,7 +313,7 @@ case2_update:
     x_step = (u16) *update_ptr;
     update_x += x_step;
     update_y_page = (s16 *) 0x80070000;
-    ASM_KEEP_NV(update_y_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(update_y_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_80025C80_0 *)arg0)->unk_3C = update_x;
     update_y_base = (s16 *) ((u8 *) update_y_page - 0x3318);
     update_y_offset = ((S_80025C80_0 *)arg0)->unk_40.s << 1;
@@ -362,11 +362,11 @@ case_16:
     motion_damp_x = ((S_80025C80_2 *)arg1)->unk_0C.at00.v;
     motion_z += motion_dz;
     ((S_80025C80_2 *)arg1)->unk_08.at00.v = motion_z;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     motion_damp_x -= motion_damp_x >> 2;
     motion_damp_y = motion_dy;
     ((S_80025C80_2 *)arg1)->unk_0C.at00.v = motion_damp_x;
-    ASM_KEEP(motion_damp_y);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(motion_damp_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     motion_damp_y -= motion_damp_x >> 2;
     ((S_80025C80_2 *)arg1)->unk_10.at00.v = motion_damp_y;
     if (((s16) ((S_80025C80_0 *)arg0)->unk_3A - 0x10) < ((S_80025C80_2 *)arg1)->unk_08.at02.v) {
@@ -398,16 +398,16 @@ block_47:
     return;
 
 linked_monster:
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (temp_a0->unk_1E & 0x8000) {
         linked_flags = ((S_80025C80_0_pre *)arg0)[-1].unk_00;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         linked_global = &D_800814A0;
         linked_flags |= 0x8000;
         ((S_80025C80_0_pre *)arg0)[-1].unk_00 = linked_flags;
-        ASM_MEM_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         *linked_global |= 0x8000;
         return;
     }

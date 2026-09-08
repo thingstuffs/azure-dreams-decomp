@@ -21,7 +21,7 @@ void func_80025FFC(void *arg0, s32 arg1);
  * the (arg2==2) xori/sltiu from floating above the unaligned block.
  */
 void func_80026128(UA32 *arg0, s32 arg1, s32 arg2) {
-    register u32 hi ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 hi ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     UA32 *src;
     s32 a2r;
     u8 *p;
@@ -29,13 +29,13 @@ void func_80026128(UA32 *arg0, s32 arg1, s32 arg2) {
 
     /* &D_80028064 == 0x80030000 - 32668 */
     hi = 0x80030000;
-    ASM_KEEP(hi);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(hi);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     src = (UA32 *)(hi - 32668);
-    ASM_KEEP(src);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     *arg0 = *src;
 
     a2r = arg2;
-    ASM_KEEP(a2r);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(a2r);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     p = (u8 *)0x80010000;
     temp = (a2r == 2);
     *(s16 *)(p + 0x208) = temp;

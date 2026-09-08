@@ -39,7 +39,7 @@ void *func_80025874(s32 arg0, Copy24 *arg1, s16 arg2) {
     void *obj;
     S_80025874_1 *fields;
     void *dst;
-    register void *result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     do { obj = func_8003FC64(0x212); } while (0);
     result = 0;

@@ -66,18 +66,18 @@ void func_80025C5C(void *in0, void *in1, void *in2) {
     void *arg0 = in0;
     void *arg1 = in1;
     void *arg2 = in2;
-    register void *owner ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *base ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *position ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *base ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *a0ptr;
     void *call_gfx;
-    register void *v1ptr ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
-    register void *a3ptr ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register void *v1ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *a3ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *gfx;
     void *child;
-    register void **jump_table ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register PointTable *copy_src ASM_REG("$6");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register u16 next_state ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void **jump_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register PointTable *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register u16 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 render_flags;
     s32 value;
     s32 count;
@@ -88,24 +88,24 @@ void func_80025C5C(void *in0, void *in1, void *in2) {
     s32 fade_n1;
     s32 fade_n2;
     s32 fade_n3;
-    register s32 fade_result ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 fade_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 z;
     s32 z_result;
-    register s32 z_addend ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 z_addend ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 difference;
 
     jump_table = (void **)0x80020000;
-    ASM_KEEP(jump_table);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     owner = PTR(arg0, 0);
-    ASM_KEEP(owner);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     copy_src = (PointTable *)((u8 *)jump_table + 0x4074);
-    ASM_KEEP_NV(copy_src);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     memcpy(&points, copy_src, 12);
     memcpy((u8 *)&points + 12, (u8 *)copy_src + 12, 12);
     memcpy((u8 *)&points + 24, (u8 *)copy_src + 24, 8);
-    ASM_USE_NV(jump_table);   /* MATCH pin: retail register colouring depends on it */
+    ASM_USE_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     count = S16(arg0, 0xA);
-    ASM_KEEP(count);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     base = (u8 *)owner - 0x20;
     position = PTR(base, 8);
 
@@ -118,26 +118,26 @@ state_0:
     U32(arg2, 0xC) = 0x00808080;
     U16(arg2, 0x1E) = 0x1000;
     U16(arg2, 0x1C) = 0x1000;
-    ASM_KEEP(arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     jump_table = (void **)0x80020000;
-    ASM_KEEP(jump_table);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     copy_src = (PointTable *)((u8 *)jump_table + 0x6934);
-    ASM_KEEP_NV(copy_src);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     memcpy((u8 *)arg0 + 0x98, copy_src, 12);
-    ASM_USE_NV(jump_table);   /* MATCH pin: retail register colouring depends on it */
+    ASM_USE_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     {
     void *cd = (u8 *)arg0 + 0x98;
-    ASM_KEEP(cd);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(cd);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     a0ptr = (void *)0x80020000;
     PTR(arg2, 8) = cd;
     }
     jump_table = (void **)(u32)U16(owner, 0x2A);
-    ASM_KEEP_NV(jump_table);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     v1ptr = (void *)1;
     S16(a0ptr, 0x694C) = (u32)v1ptr;
-    ASM_KEEP(a0ptr);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(a0ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     v1ptr = (void *)(u32)U16(arg0, 0xA);
-    ASM_KEEP_NV(v1ptr);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(v1ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     jump_table = (void **)(((u32)jump_table >> 9) & 7);
     v1ptr = (void *)((u32)v1ptr + 1);
     U16(arg0, 0x7E) = (u32)jump_table;
@@ -157,7 +157,7 @@ state_0:
     if (!(U16(PTR(base, 0xC), 0x14) & 0x8000)) {
         U16(arg1, 2) = U16(arg1, 2) + delta[0];
         U16(arg1, 6) = U16(arg1, 6) + delta[1];
-        ASM_KEEP(arg1);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         z_result = U16(arg1, 0xA);
         z_addend = delta[2];
         z_result += z_addend;
@@ -193,27 +193,27 @@ state_1:
         base = PTR(jump_table, -0x18);
         U16(arg0, 0x74) = U16(base, 2);
         U16(arg0, 0x76) = U16(base, 6);
-        ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         v1ptr = PTR(owner, 0x60);
-        ASM_KEEP_NV(v1ptr);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(v1ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         jump_table = (void **)0x800E0000;
-        ASM_KEEP_NV(jump_table);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         v1ptr = (void *)(u32)U8(v1ptr, 0x13);
         jump_table = (void **)((u8 *)jump_table - 0x23C0);
         v1ptr = (u8 *)v1ptr + (u32)jump_table;
-        ASM_KEEP_DEP_NV(v1ptr, jump_table);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_DEP_NV(v1ptr, jump_table);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         jump_table = (void **)(u32)U8(v1ptr, 0);
         v1ptr = (void *)(u32)U16(base, 0xA);
         jump_table = (void **)((u32)jump_table + 0x20);
         v1ptr = (void *)((u32)v1ptr - (u32)jump_table);
         jump_table = (void **)0x80070000;
-        ASM_KEEP_NV(jump_table);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         jump_table = (void **)((u8 *)jump_table - 0x3328);
         U16(arg0, 0x78) = (u32)v1ptr;
         v1ptr = (void *)(s32)S16(arg0, 0x7E);
-        ASM_KEEP(v1ptr);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(v1ptr);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         a0ptr = PTR(owner, -0x14);
-        ASM_KEEP(a0ptr);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(a0ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         v1ptr = (void *)((s32)v1ptr * 2);
         v1ptr = (u8 *)v1ptr + (u32)jump_table;
         jump_table = (void **)(u32)U8(a0ptr, 0x24);
@@ -222,7 +222,7 @@ state_1:
         U8(arg0, 0xA4) = (u32)jump_table;
 
         jump_table = (void **)0x80070000;
-        ASM_KEEP_NV(jump_table);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         v1ptr = (void *)(s32)S16(arg0, 0x7E);
         jump_table = (void **)((u8 *)jump_table - 0x3318);
         v1ptr = (void *)((s32)v1ptr * 2);
@@ -234,7 +234,7 @@ state_1:
 
         {
             s32 owner_axis = S8(owner, 0x72);
-            register u32 sprite_axis ASM_REG("$3") = U8(a0ptr, 0x24);   /* MATCH pin: keeps a constant in a register as retail does */
+            register u32 sprite_axis ASM_REG("$3") = U8(a0ptr, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
             if (owner_axis != sprite_axis) {
                 difference = owner_axis - sprite_axis;
@@ -250,14 +250,14 @@ state_1:
         U8(arg0, 0x7B) = difference * 2 - 1;
     } else {
         jump_table = (void **)(s32)S16(arg0, 0x7E);
-        ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         a0ptr = (void *)(s32)S16(arg0, 0x7E);
         U8(arg0, 0x7B) = (u32)v1ptr;
         call_gfx = &points.p[0];
-        ASM_KEEP4_NV(jump_table, v1ptr, a0ptr, call_gfx);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP4_NV(jump_table, v1ptr, a0ptr, call_gfx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         jump_table = (void **)((s32)jump_table * 4);
         jump_table = (void **)((u8 *)call_gfx + (u32)jump_table);
-        ASM_KEEP_DEP_NV(jump_table, call_gfx);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_DEP_NV(jump_table, call_gfx);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         a0ptr = (void *)((s32)a0ptr * 4);
         call_gfx = (u8 *)call_gfx + (u32)a0ptr;
         v1ptr = (void *)(u32)U16(jump_table, 0);
@@ -267,7 +267,7 @@ state_1:
         U16(arg0, 0x74) = (u32)jump_table;
         jump_table = (void **)(u32)U8(arg0, 0x7B);
         v1ptr = (void *)(u32)U16(call_gfx, 2);
-        ASM_KEEP4_NV(jump_table, v1ptr, call_gfx, arg0);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP4_NV(jump_table, v1ptr, call_gfx, arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         jump_table = (void **)((u32)jump_table << 24);
         jump_table = (void **)((s32)jump_table >> 24);
         U16(arg0, 0x76) = U16(arg1, 6) +
@@ -280,7 +280,7 @@ state_1:
     S32(arg1, 0x14) = ((S16(arg0, 0x78) << 16) - S32(arg1, 8)) / S8(arg0, 0x7B);
     next_state = U16(arg0, 0xA);
     U16(arg0, 0x82) = 0;
-    ASM_KEEP_NV(next_state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto advance_state;
 
 state_2:
@@ -295,7 +295,7 @@ state2_loop:
         func_8004491C(base, func_80045340);
 
         a3ptr = PTR(base, 0xC);
-           /* MATCH pin: retail basic-block layout depends on it */
+           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         v1ptr = (void *)(u32)U16(a3ptr, 0x14);
         jump_table = (void **)0x20;
         U16(a3ptr, 0x10) = (u32)jump_table;
@@ -318,11 +318,11 @@ state2_loop:
         U8(position, 0x37) = value;
         U8(position, 0x36) = value;
         jump_table = (void **)0x80020000;
-        ASM_KEEP(jump_table);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         copy_src = (PointTable *)((u8 *)jump_table + 0x6934);
-        ASM_KEEP_NV(copy_src);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         memcpy((u8 *)base + 0x64, copy_src, 12);
-        ASM_USE_NV(jump_table);   /* MATCH pin: retail register colouring depends on it */
+        ASM_USE_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         PTR(a3ptr, 8) = (u8 *)base + 0x64;
         ASM_KEEP(base);
     }
@@ -394,11 +394,11 @@ state_3:
         U16(v1ptr, 0xA) = U16(arg1, 0xA);
         ASM_SCHED_BARRIER();
         jump_table = (void **)0x80020000;
-        ASM_KEEP(jump_table);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         copy_src = (PointTable *)((u8 *)jump_table + 0x6940);
-        ASM_KEEP_NV(copy_src);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         memcpy((u8 *)base + 0x64, copy_src, 12);
-        ASM_USE_NV(jump_table);   /* MATCH pin: retail register colouring depends on it */
+        ASM_USE_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         PTR(a3ptr, 8) = (u8 *)base + 0x64;
         ASM_KEEP(base);
     }
@@ -453,7 +453,7 @@ state_4:
 state4_advance:
     next_state = U16(arg0, 0xA);
     U16(arg0, 0x82) = 0;
-    ASM_KEEP_NV(next_state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto advance_state;
 
 state_5:
@@ -472,7 +472,7 @@ state_5:
     U8(arg0, 0x90) = fade_result;
 
     jump_table = (void **)0x800E0000;
-    ASM_KEEP(jump_table);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     v1ptr = PTR(owner, 0x60);
     arg1 = (u8 *)jump_table - 0x23C0;
     base = PTR(v1ptr, -0x18);
@@ -507,7 +507,7 @@ state_6:
     }
 
     jump_table = (void **)0x800E0000;
-    ASM_KEEP(jump_table);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     v1ptr = PTR(owner, 0x60);
     arg1 = (u8 *)jump_table - 0x23C0;
     base = PTR(v1ptr, -0x18);
@@ -568,7 +568,7 @@ state_7:
     U16(arg0, 0x82) = count;
     if (busy == 0) {
         jump_table = (void **)0x80080000;
-        ASM_KEEP_NV(jump_table);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         S32(jump_table, 0x346C) = 0;
         U16(arg0, -2) |= 0x8000;
         v1ptr = (void *)0x80080000;

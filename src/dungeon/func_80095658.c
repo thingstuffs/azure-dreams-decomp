@@ -36,10 +36,10 @@ extern s16 func_800BCB04(s32, s32, s16);
 
 s32 func_8009ADB8(S_8009ADB8_0 *arg0, S_8009ADB8_1 *arg1, s32 arg2, s32 arg3, volatile s32 arg4)
 {
-    register MapCell *map ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register MapCell *map ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *map_state;
     s16 height;
-    register s32 next_height ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 next_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 z;
     s32 direction;
     s32 x;

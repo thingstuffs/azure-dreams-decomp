@@ -8,7 +8,7 @@ extern s32 D_80025BF4[];
 void func_80025FFC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     u8 *p = arg0;
-    register s32 value2 ASM_REG("$18") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 value2 ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 value3 = arg3;
 
     func_80025CD8(*(s32 *)(p + 0x74));
@@ -18,7 +18,7 @@ void func_80025FFC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     *(s32 *)(p + 0x18) = arg1 + 0x20;
     *(s32 *)(p + 0x88) = value3;
     strcpy(p + 0x78, value3);
-    ASM_KEEP(value2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(value2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     *(s32 **)(p - 0x10) = D_80025BF4;
 }
 

@@ -28,7 +28,7 @@ void func_8008B818(s32 arg0, s32 *arg1, void *arg2, void *arg3)
   s32 *new_var;
   s32 *temp_table2;
   s32 *temp_index_ptr;
-  register void *temp_s3 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  register void *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   temp_s3 = arg3;
   *((M2C_UNK **) (((s8 *) arg2) + 0x10)) = &D_8008B9D8;
   func_8004491C(arg2, &D_80033D54);
@@ -58,12 +58,12 @@ void func_8008B818(s32 arg0, s32 *arg1, void *arg2, void *arg3)
     *((M2C_UNK **) (((s8 *) temp_s0) + 8)) = &D_80037714;
     func_800375C0(temp_s0, temp_a1);
     page = 0x00800000;
-    ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_8008B8DC();
     return;
   }
   *((M2C_UNK **) (((s8 *) temp_s0) + 8)) = 0;
-  ASM_KEEP(temp_s0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   *((s16 *) (((s8 *) temp_s0) + 0x60)) = 0;
   *((s32 *) (((s8 *) temp_s2) + 0xC)) = 0x808080;
   if (((u32) (arg0 - 9)) < 2U)
@@ -73,7 +73,7 @@ void func_8008B818(s32 arg0, s32 *arg1, void *arg2, void *arg3)
     return;
   }
   *((s32 *) (((s8 *) temp_s2) + 8)) = 0;
-  ASM_CLOBBER("$0");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  ASM_CLOBBER("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   if (arg0 == 0)
   {
     *((s16 *) (((s8 *) temp_s4) + 2)) = 0x20;
@@ -94,5 +94,5 @@ void func_8008B818(s32 arg0, s32 *arg1, void *arg2, void *arg3)
   {
     func_80033D08(temp_s0);
   }
-  ASM_KEEP(temp_s3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP(temp_s3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

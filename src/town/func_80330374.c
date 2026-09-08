@@ -12,7 +12,7 @@ s32 func_8001AB74(s32 arg0, s32 arg1, s32 arg2) {
     s32 entry;
     s32 context;
     s32 count;
-    register s32 best_entry ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s32 best_entry ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 best_value;
     s32 index;
     s32 value;
@@ -21,11 +21,11 @@ s32 func_8001AB74(s32 arg0, s32 arg1, s32 arg2) {
     TownCopyFn copy_fn;
     TownSetFn set_fn;
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entry = arg0;
     context = arg1;
     count = arg2;
-    ASM_USE2(context, count);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_USE2(context, count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     best_value = 0x7FFFFFFF;
     index = 0;
     best_entry = index;
@@ -45,7 +45,7 @@ s32 func_8001AB74(s32 arg0, s32 arg1, s32 arg2) {
         object = *(void **)D_80016000;
         dispatch = *(void **)((s8 *)object + 0x20);
         copy_fn = *(TownCopyFn *)((s8 *)dispatch + 0x168);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         copy_fn(D_80016130, D_80016158, 0x40);
 
         object = *(void **)D_80016000;

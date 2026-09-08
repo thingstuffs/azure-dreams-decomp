@@ -68,7 +68,7 @@ void func_800190C0(const Copy4 *input)
         TownCall3 report = report_root->service->report;
         TownRoot *fatal_root;
 
-        ASM_KEEP_NV(report_base);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(report_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (report != 0)
             report_data = report_base + 0x6034;
         else

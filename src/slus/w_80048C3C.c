@@ -33,15 +33,15 @@ extern s8 D_80080A89[9];
 
 void *func_80048C3C(s32 arg0) {
     void *temp_s0;
-    register void *temp_s1 ASM_REG("$17");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *temp_s2;
     s32 six;
     s32 one;
-    register void *call0 ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register void *call0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     temp_s1 = (void *)(arg0 * 8);
     six = 6;
-    ASM_KEEP(six);   /* MATCH pin: slus-diff */
+    ASM_KEEP(six);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     temp_s1 = (u8 *)temp_s1 + (u32)D_80071210;
     func_8003E4FC(six, ((S_80048C3C_0 *)temp_s1)->unk_00, 0);
     func_8003F320();
@@ -51,13 +51,13 @@ void *func_80048C3C(s32 arg0) {
     DrawSync(0);
     call0 = temp_s0;
     one = 1;
-    ASM_KEEP(one);   /* MATCH pin: slus-diff */
+    ASM_KEEP(one);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     func_80047200(call0, one, one);
     func_8003F80C(temp_s0, 0x7980, ((S_80048C3C_1 *)temp_s2)->unk_20, 2);
     func_80046F88(temp_s2);
     func_80048B8C(temp_s2);
     temp_s1 = (u8 *)temp_s1 + 4;
-    ASM_KEEP(temp_s1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(temp_s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     D_80080A89[0] = 0;
     return temp_s1;
 }

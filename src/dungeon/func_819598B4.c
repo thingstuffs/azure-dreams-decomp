@@ -120,7 +120,7 @@ state_0:
         u32 tailslot;
 
         tailslot = ((S_819598B4_0 *)arg0)->unk_2C.u + 1;
-        ASM_TAILSLOT_PIN(tailslot);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_TAILSLOT_PIN(tailslot);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_8002527C();
     }
 

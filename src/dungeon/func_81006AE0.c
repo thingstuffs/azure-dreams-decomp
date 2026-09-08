@@ -39,9 +39,9 @@ extern u8 D_80174880[9];
 
 #line 1 "a"
 void func_801722E0(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register void *call_arg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 pass_value ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register s32 saved_value ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 pass_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 saved_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 result;
     u8 *state = D_80083460;
 

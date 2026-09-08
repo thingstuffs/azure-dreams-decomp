@@ -18,7 +18,7 @@ void func_80174B20(void *arg0, s32 arg1, void *arg2)
         return;
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     *(s32 *)((u8 *)arg2 + 0xC) = 0x808080;
     value = *(u16 *)((u8 *)arg0 + 0x96) - 1;
     *(s16 *)((u8 *)arg0 + 0x96) = value;

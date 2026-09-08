@@ -10,7 +10,7 @@ void func_8008B4B0(void) {
     s32 i;
     u8 *flags;
     void **objects;
-    register u8 *address ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *address ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     i = 0;
     flags = D_800CF828;
@@ -19,7 +19,7 @@ void func_8008B4B0(void) {
         u8 object_id;
 
         address = (u8 *)((unsigned long)i + (unsigned long)flags);
-        ASM_KEEP(address);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(address);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         object_id = *address;
 
         if (object_id != 0) {

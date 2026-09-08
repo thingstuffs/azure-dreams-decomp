@@ -33,7 +33,7 @@ void func_80020360(void *arg0)
     u16 value;
     u16 flags;
     u16 count;
-    register u32 page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     state = ((S_80020360_0 *)arg0)->unk_00.s;
     data = ((S_80020360_0 *)arg0)->unk_04;
@@ -62,7 +62,7 @@ state_zero:
 state_one:
     if (data->unk_2A & 1) {
         page = 0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_80020360_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;
     }

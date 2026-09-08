@@ -14,13 +14,13 @@ extern s32 *D_800DD6B8[];
 void func_80091A38(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 *sp;
     u8 state;
-    register s32 **table ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 **table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 *row;
     u32 idx1;
     u32 idx0;
     u32 val;
     u32 bank;
-    register u32 mask ASM_REG("$5");   /* MATCH pin: retail basic-block layout depends on it */
+    register u32 mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     s32 (*fn)(s32, void *, s32, s32);
 
     state = *((u8 *)arg0 + 0x9B);

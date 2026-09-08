@@ -14,14 +14,14 @@ typedef struct {
 s32 func_800589B8(S_800589B8 *arg)
 {
     S_800589B8 *p = arg;
-    register u32 limit_page ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u32 limit_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *base;
     s32 idx;
     s32 val;
     s32 limit;
 
     base = (u8 *)D_80085FA4[0];
-    ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     idx = p->unk00;
     limit_page = 0x80080000;
     val = base[idx];
@@ -32,6 +32,6 @@ s32 func_800589B8(S_800589B8 *arg)
         p->unk2C = 1;
         return -1;
     }
-    ASM_USE(limit_page);   /* MATCH pin: slus-diff */
+    ASM_USE(limit_page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     return val;
 }

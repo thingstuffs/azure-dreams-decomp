@@ -118,7 +118,7 @@ s32 func_800AD058(u8 *arg0, s32 *arg1, u8 *arg2, u8 *arg3) {
     return func_800AD4AC();
 
 phase_0:
-    ASM_KEEP(dispatch_zero);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(dispatch_zero);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (*D_8008346A != 0) {
         return 0;
     }
@@ -160,16 +160,16 @@ block_15:
                 goto block_35;
             }
             {
-                register void *cleanup_arg ASM_REG("$4") = arg3_local;   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register void *cleanup_arg ASM_REG("$4") = arg3_local;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 if (((S_800AD058_2 *)arg3_local)->unk_4B & 0x20) {
                     goto block_35;
                 }
                 func_800B8228(((S_800AD058_3 *)arg1)->unk_00.at02.v, ((S_800AD058_3 *)arg1)->unk_04.at02.v, ((S_800AD058_2 *)arg3_local)->unk_88, arg3_local + 0x48);
                 {
-                    register void *tail_reload ASM_REG("$4") = arg3_local;   /* MATCH pin: keeps a statement from moving across a call/branch */
+                    register void *tail_reload ASM_REG("$4") = arg3_local;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-                    ASM_TAILSLOT_PIN(tail_reload);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_TAILSLOT_PIN(tail_reload);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 }
                 return func_800AD44C(cleanup_arg);
             }
@@ -199,7 +199,7 @@ block_15:
     return var_v0;
 
 phase_3:
-    ASM_KEEP(dispatch_zero);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(dispatch_zero);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     temp_value = (((S_800AD058_0 *)arg0)->unk_96 * func_80064584(((S_800AD058_1 *)arg2)->unk_27 << 7)) << 5;
     ((S_800AD058_3 *)arg1)->unk_00.at00.v += (s32) ((((Rec_D_800E3D7C *)D_80083780)->unk_00.at00_s32.v + temp_value - ((S_800AD058_3 *)arg1)->unk_00.at00.v) >> 2);
     temp_value = (((S_800AD058_0 *)arg0)->unk_96 * func_800644B8(((S_800AD058_1 *)arg2)->unk_27 << 7)) << 5;
@@ -220,7 +220,7 @@ phase_3:
     ((S_800AD058_0 *)arg0)->unk_96 = temp_v0;
     var_v0 = 0;
     if ((temp_v0 << 0x10) <= 0) {
-        register s32 *base ASM_REG("$2") = D_80083460;   /* MATCH pin: retail register colouring depends on it */
+        register s32 *base ASM_REG("$2") = D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         ((S_800AD058_5 *)base)->unk_0A = (u16) (((S_800AD058_5 *)base)->unk_0A - 1);
         func_800A2FE0(arg3_local);

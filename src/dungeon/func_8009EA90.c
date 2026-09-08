@@ -12,7 +12,7 @@ extern s32 func_8009A350(s32 arg0, s32 arg1, s32 arg2, u16 *arg3);
 s32 func_800A41F0(void *arg0) {
     u16 sp10;
     void *v1;
-    s32 result;   /* MATCH pin: retail register colouring depends on it */
+    s32 result;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if ((*(u8 *)((u8 *)arg0 + 0x28) + *(s16 *)((u8 *)arg0 + 0x64)) > 0) {
         if (*(s32 *)((u8 *)arg0 + 0x1C) & 0x2000) {

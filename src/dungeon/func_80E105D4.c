@@ -76,8 +76,8 @@ extern u8 D_80176478[];
 
 void func_80173DD4(void *arg0, void *in_arg1, void *in_arg2, void *arg3)
 {
-    register void *arg1 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
-    register void *arg2 ASM_REG("$18");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *arg1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 flags;
     u16 current_value;
     u16 old_value;
@@ -203,7 +203,7 @@ state_two:
         goto repeat_calls;
     }
     {
-        register u8 *counter_base ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         counter_base = (u8 *)&D_80083460;
         ((S_80173DD4_3 *)counter_base)->unk_0A--;
@@ -220,7 +220,7 @@ repeat_calls:
     func_80175060(arg0, arg1);
 
 done:
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

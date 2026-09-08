@@ -60,7 +60,7 @@ void func_800C9F34(S_800C9F34_1 *arg0, M2C_UNK arg1, S_800C9F34_3 *arg2, void *a
     if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
         goto call_aa94;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if ((D_80013714 & 8) == 0) {
         goto path_a1c58;
     }

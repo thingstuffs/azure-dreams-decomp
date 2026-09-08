@@ -48,11 +48,11 @@ extern u8 D_80080B2C[16];
 
 void func_80049F68(S_80049F68_Obj *arg0_)
 {
-    register S_80049F68_Obj *arg0 ASM_REG("$4") = arg0_;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 i ASM_REG("$7");   /* MATCH pin: slus-diff */
-    register s32 off ASM_REG("$6");   /* MATCH pin: slus-diff */
-    register u8 *walk ASM_REG("$5");   /* MATCH pin: slus-diff */
-    register S_8002E5D8 *src ASM_REG("$8");   /* MATCH pin: slus-diff */
+    register S_80049F68_Obj *arg0 ASM_REG("$4") = arg0_;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 i ASM_REG("$7");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 off ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u8 *walk ASM_REG("$5");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register S_8002E5D8 *src ASM_REG("$8");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     void *parent;
     s32 new_var3;
     void *selfp;
@@ -65,7 +65,7 @@ void func_80049F68(S_80049F68_Obj *arg0_)
     src = &D_8002E5D8;
     parent = &arg0->unkA0;
     arg0->unkA0 = D_8002E5E8.f0;
-    ASM_KEEP(src);   /* MATCH pin: slus-diff */
+    ASM_KEEP(src);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     arg0->unkA4 = D_8002E5E8.f4;
     arg0->unkA8 = D_8002E5E8.f8;
     off = 0x20;
@@ -88,7 +88,7 @@ void func_80049F68(S_80049F68_Obj *arg0_)
     term = 4;
     if (D_80080B30 != term) {
         s32 expected;
-        register u8 *p ASM_REG("$5");   /* MATCH pin: slus-diff */
+        register u8 *p ASM_REG("$5");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
         expected = term;
         p = &D_80080B2C[4];

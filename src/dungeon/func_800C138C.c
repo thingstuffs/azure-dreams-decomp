@@ -17,7 +17,7 @@ extern s32 func_800C6B00(void *arg0, void *arg1, void *arg2);
 
 s32 func_800C6AEC(void *arg0, void *arg1, void *arg2) {
     void *next = arg0;
-    register void *data ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register void *data ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     KEEP_REG(next);
     func_800C6B40(next, arg1, arg2, 0);

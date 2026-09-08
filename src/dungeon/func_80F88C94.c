@@ -116,19 +116,19 @@ extern u8 D_80174AE4[];
 void func_80172494(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 sp10;
     s32 temp_s0;
-    register s32 temp_s6 ASM_REG("$22");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 temp_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_3;
     s32 temp_v0_4;
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_s2;
     s32 state;
     void *temp_s0_2;
     void *temp_s1;
     void *temp_v0_2;
     u8 *temp_fp;
-    register void *arg3_reg ASM_REG("$23");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *arg3_reg ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *table0;
     u8 *table6;
 
@@ -204,14 +204,14 @@ void func_80172494(void *arg0, void *arg1, void *arg2, void *arg3) {
         ((S_80172494_3 *)arg1)->unk_0C = (temp_s0 << 18) + (temp_s0 << 17);
         ((S_80172494_3 *)arg1)->unk_10 = (temp_s6 << 18) + (temp_s6 << 17);
         func_800A56E0(0x80E);
-        ASM_USE(temp_s6);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE(temp_s6);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         goto L_inc_load;
 
     case 3:
         ((S_80172494_1 *)arg0)->unk_90 += 0x80000;
         ((S_80172494_3 *)arg1)->unk_0C += temp_s0 << 18;
         ((S_80172494_3 *)arg1)->unk_10 += temp_s6 << 18;
-        ASM_USE(temp_s6);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE(temp_s6);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (((S_80172494_1 *)arg0)->unk_96.u > 0) {
             goto L_end;
         }
@@ -243,7 +243,7 @@ L_inc_after_load:
         temp_v0 -= temp_v1;
         temp_v0 = (temp_v0 << 15) >> 1;
         ((S_80172494_3 *)arg1)->unk_0C = temp_v0;
-        ASM_USE(temp_v0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE(temp_v0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_25 << 6;
         temp_v1 = ((S_80172494_3 *)arg1)->unk_06.s - 0x20;
         temp_v0 -= temp_v1;

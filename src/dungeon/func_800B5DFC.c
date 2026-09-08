@@ -72,23 +72,23 @@ void func_800BB55C(void *arg0, S_800BB55C_2 *arg1, s32 arg2) {
     s16 temp_v0;
     s16 temp_v0_2;
     s16 temp_v0_3;
-    register s32 var_s2_angle ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 var_s2_angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 var_s5;
     s32 temp_a0_2;
-    register s32 temp_s0 ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 saved_arg2;
     s32 var_s1;
     s32 var_s3;
     u16 temp_a3;
     u16 temp_v0_4;
     u16 temp_v1_4;
-    register u16 temp_decay ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 temp_decay ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 temp_v1;
     u8 temp_v1_2;
     u8 temp_v1_3;
     u8 *global_ptr;
     S_800BB55C_3 *temp_a0;
-    register DungeonWork *var_s3_2 ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register DungeonWork *var_s3_2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     DungeonWork *var_s6_ptr;
 
     sp20[0] = 0x01000340;
@@ -119,8 +119,8 @@ void func_800BB55C(void *arg0, S_800BB55C_2 *arg1, s32 arg2) {
         var_s2_angle += 2;
     } while (var_s3 < 5);
     var_s5 = -0x400;
-    ASM_KEEP_NV(var_s5);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP_NV(arg0);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(var_s5);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     var_s3_2 = arg0;
     temp_s0 = var_s5 << 0x10;
     do {
@@ -134,7 +134,7 @@ void func_800BB55C(void *arg0, S_800BB55C_2 *arg1, s32 arg2) {
             temp_s0 = var_s2_angle + 0x19;
             do {
                 var_s2_angle = temp_s0;
-                ASM_KEEP_NV(temp_s0);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP_NV(temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 sp30[0] = (func_80064584((s16)temp_s0) >> 7) + 0x362;
                 sp30[1] = (func_800644B8((s16)temp_s0) >> 7) + 0x122;
                 func_800BB2E4(sp28, sp30, sp20, 0, NULL);

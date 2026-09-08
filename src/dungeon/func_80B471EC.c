@@ -204,8 +204,8 @@ void func_801749EC(void *arg0, void *arg1, void *arg2) {
     s16 temp_v1;
     s16 var_s2;
     s16 var_s2_2;
-    register s16 var_s3 ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
-    register s16 var_s3_3 ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s16 var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 var_s3_3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 var_s3_4;
     s16 var_s4;
     s16 var_v0_4;
@@ -228,13 +228,13 @@ void func_801749EC(void *arg0, void *arg1, void *arg2) {
     void *temp_a0_2;
     void *temp_a0_4;
     void *temp_a0_5;
-    register void *temp_a0_6 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register void *temp_s1_3 ASM_REG("$17");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register void *temp_s1_4 ASM_REG("$17");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register void *temp_a0_6 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *temp_s1_3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register void *temp_s1_4 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     void *temp_s2;
     void *temp_s2_2;
     void *temp_s4;
-    register void *color ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register void *color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *temp_v0_12;
     void *temp_v0_13;
     void *temp_v0_14;
@@ -253,10 +253,10 @@ void func_801749EC(void *arg0, void *arg1, void *arg2) {
         var_s2 = 0;
         if (temp_v1 < 2) {
             if (temp_v1 == 0) {
-                register s32 scale ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+                register s32 scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s16 *prep_base;
                 s32 prep_clamp;
-                register s32 state ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+                register s32 state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 scale = 0x1E;
                 var_s4 = 1;
                 state = (s32) *(void *volatile *)&arg0;
@@ -294,7 +294,7 @@ loop_9:
                     temp_trig = (temp_s1 * 6) + (temp_outer * 0x24);
                     temp_s2 = (s8 *)sp28 + temp_trig;
                     {
-                        register s32 trig_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                        register s32 trig_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         trig_v0 = state >> 0xC;
                         ((S_801749EC_3 *)temp_s2)->unk_04 = (s16) trig_v0;
                     }
@@ -308,7 +308,7 @@ loop_9:
                     temp_s1 = state >> 0xC;
                     state = (s16) temp_s1 * func_80064584(temp_s0);
                     {
-                        register s32 trig_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                        register s32 trig_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         trig_v0 = state >> 0xC;
                         ((S_801749EC_3 *)temp_s2)->unk_00 = (s16) trig_v0;
                     }
@@ -316,7 +316,7 @@ loop_9:
                     var_s3 = temp_v0_4;
                     state = (s16) temp_s1 * func_800644B8(temp_s0);
                     {
-                        register s32 trig_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                        register s32 trig_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         trig_v1 = state >> 0xC;
                         ((S_801749EC_3 *)temp_s2)->unk_02 = (s16) trig_v1;
                     }
@@ -349,10 +349,10 @@ loop_9:
         goto block_26;
     }
     {
-    register s32 scale ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *prep_base;
     s32 prep_clamp;
-    register s32 state ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register s32 state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     scale = 0x1E;
     var_s4 = 8;
     state = (s32) *(void *volatile *)&arg0;
@@ -390,7 +390,7 @@ loop_22:
         temp_trig = (temp_s1_2 * 6) + (temp_outer * 0x24);
         temp_s2_2 = (s8 *)sp28 + temp_trig;
         {
-            register s32 trig_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 trig_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             trig_v0 = state >> 0xC;
             ((S_801749EC_5 *)temp_s2_2)->unk_04 = (s16) trig_v0;
         }
@@ -404,7 +404,7 @@ loop_22:
         temp_s1_2 = state >> 0xC;
         state = (s16) temp_s1_2 * func_80064584(temp_s0_2);
         {
-            register s32 trig_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 trig_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             trig_v0 = state >> 0xC;
             ((S_801749EC_5 *)temp_s2_2)->unk_00 = (s16) trig_v0;
         }
@@ -412,7 +412,7 @@ loop_22:
         var_s3 = temp_v0_9;
         state = (s16) temp_s1_2 * func_800644B8(temp_s0_2);
         {
-            register s32 trig_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 trig_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             trig_v1 = state >> 0xC;
             ((S_801749EC_5 *)temp_s2_2)->unk_02 = (s16) trig_v1;
         }
@@ -434,7 +434,7 @@ block_26:
     var_v0 = &D_801749A8;
 block_27:
     temp_s5 = (s32)sp28;
-    ASM_USE_NV(temp_s5);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE_NV(temp_s5);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     var_s3_3 = 0;
     do {
         {
@@ -447,7 +447,7 @@ loop_29:
         if (temp_v0_12 == NULL) {
             goto next_29;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         temp_s1_3 = temp_v0_12 + 0x20;
         ((S_801749EC_6 *)temp_s1_3)->unk_1A = 1;
         ((S_801749EC_6 *)temp_s1_3)->unk_1C = 1;
@@ -506,7 +506,7 @@ loop_35:
     if (temp_v0_14 == NULL) {
         goto next_35;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     temp_s1_4 = temp_v0_14 + 0x20;
     ((S_801749EC_14 *)temp_s1_4)->unk_1A = 1;
     ((S_801749EC_14 *)temp_s1_4)->unk_1C = 1;
@@ -515,7 +515,7 @@ loop_35:
     temp_a0_5 = ((S_801749EC_15 *)temp_v0_14)->unk_0C;
     {
         u16 object_flags;
-        register s32 object_width ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 object_width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         object_flags = ((S_801749EC_16 *)temp_a0_5)->unk_14;
         object_width = 0x20;
         ((S_801749EC_16 *)temp_a0_5)->unk_10 = object_width;
@@ -560,7 +560,7 @@ next_35:
         goto loop_34;
     }
     {
-        register void *state ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+        register void *state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         state = *(void *volatile *)&arg0;
         temp_v0_18 = (u16) ((S_801749EC_1 *)state)->unk_08 - 1;
         ((S_801749EC_1 *)state)->unk_08 = temp_v0_18;

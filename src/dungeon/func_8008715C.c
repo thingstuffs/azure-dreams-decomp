@@ -79,25 +79,25 @@ typedef struct S_8008C8BC_5 {
 } S_8008C8BC_5;   /* state in func_8008C8BC */
 
 s32 func_8008C8BC(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register void *held0 ASM_REG("$18") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    void *held2 = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *held3 ASM_REG("$16") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    s32 temp_s1;   /* MATCH pin: retail register colouring depends on it */
+    register void *held0 ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *held2 = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *held3 ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 temp_s1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *r4;
     s32 temp_v1;
     u8 *state;
 
-    ASM_KEEP(held0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s1 = ((u16) ((S_8008C8BC_0 *)held3)->unk_2A >> 9) & 7;
     if ((func_8009A540(temp_s1, ((S_8008C8BC_1 *)held2)->unk_24, ((S_8008C8BC_1 *)held2)->unk_25, (s16) (((S_8008C8BC_0 *)held3)->unk_88 - 0x20)) << 0x10) != 0) {
         temp_v1 = func_8009B25C(held3, (((S_8008C8BC_1 *)held2)->unk_24 + D_8006CCD8[temp_s1]) & 0xFFFF, (((S_8008C8BC_1 *)held2)->unk_25 + D_8006CCE8[temp_s1]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)held3)->unk_88);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         r4 = (u8 *)0x80010000;
         ((S_8008C8BC_0 *)held3)->unk_60.i = temp_v1;
         if (!(((S_8008C8BC_2 *)r4)->unk_3714 & 1) && (temp_v1 != 0) && (((S_8008C8BC_3 *)temp_v1)->unk_14 & 0x4000)
             && (((S_8008C8BC_2 *)r4)->unk_3186 & 1) && !(((S_8008C8BC_0 *)held3)->unk_1C & 0x410)) {
             ((S_8008C8BC_0 *)held3)->unk_60.p = NULL;
-            ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
             func_8008CA80();
 #else
@@ -106,13 +106,13 @@ s32 func_8008C8BC(void *arg0, void *arg1, void *arg2, void *arg3) {
             return 0;
         }
         r4 = (u8 *)held3;
-        ASM_KEEP(r4);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(r4);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_8009C93C(r4, held2, (s16) ((S_8008C8BC_0 *)held3)->unk_2A, 1, 0);
         func_8008C9F4();
         return 0x11;
     }
     ((S_8008C8BC_0 *)held3)->unk_60.p = NULL;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_8008C8BC_4 *)held0)->unk_9A = 0x11;
     state = D_80083460;
     ((S_8008C8BC_4 *)held0)->unk_9B = 0;

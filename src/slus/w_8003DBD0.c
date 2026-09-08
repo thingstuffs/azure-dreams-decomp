@@ -20,7 +20,7 @@ extern void *D_80083160[3];
 
 void func_8003DBD0(void *arg0, void *arg1, void *arg2)
 {
-    register u8 *out ASM_REG("$19");   /* MATCH pin: slus-diff */
+    register u8 *out ASM_REG("$19");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u8 *g;
     u8 *scratch;
     s32 c4;
@@ -73,24 +73,24 @@ void func_8003DBD0(void *arg0, void *arg1, void *arg2)
     if ((U8_AT(arg1, 0) ^ U16_AT(scratch, 0x24)) & 1) {
         s32 raw = U8_AT(arg1, 2);
         dx = U16_AT(scratch, 0x108);
-        ASM_KEEP_DEP_NV(raw, dx);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_DEP_NV(raw, dx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         S16_AT(scratch, 0x70) = -((raw << 24) >> 24) - dx;
     } else {
         s32 raw = U8_AT(arg1, 2);
         dx = U16_AT(scratch, 0x108);
-        ASM_KEEP_DEP_NV(raw, dx);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_DEP_NV(raw, dx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         S16_AT(scratch, 0x70) = ((raw << 24) >> 24) - dx;
     }
 
     if ((U8_AT(arg1, 0) ^ U16_AT(scratch, 0x24)) & 2) {
         s32 raw = U8_AT(arg1, 3);
         dy = U16_AT(scratch, 0x10A);
-        ASM_KEEP_DEP_NV(raw, dy);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_DEP_NV(raw, dy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         S16_AT(scratch, 0x74) = -((raw << 24) >> 24) - dy;
     } else {
         s32 raw = U8_AT(arg1, 3);
         dy = U16_AT(scratch, 0x10A);
-        ASM_KEEP_DEP_NV(raw, dy);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_DEP_NV(raw, dy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         S16_AT(scratch, 0x74) = ((raw << 24) >> 24) - dy;
     }
     S16_AT(scratch, 0x72) = 0;
