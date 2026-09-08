@@ -26,18 +26,19 @@ extern u8 D_801710EC[9];
 extern u8 D_80175E40[9];
 extern u8 D_80175EA0[9];
 
-void func_80174574(Actor *arg0, s32 arg1, Entity *arg2, MapObject *arg3)
+/* Update actor and entity state after checking the map object. */
+void func_80174574(Actor *actor, s32 action, Entity *entity, MapObject *map_object)
 {
-    if (func_800AC82C(arg0, arg1, arg2, arg3) != 0) {
-        if ((func_800AD9B4(arg2, arg3) << 16) > 0) {
-            arg0->unk_8C = D_801710EC;
+    if (func_800AC82C(actor, action, entity, map_object) != 0) {
+        if ((func_800AD9B4(entity, map_object) << 16) > 0) {
+            actor->unk_8C = D_801710EC;
             return;
         }
-    } else if (arg2->unk_2C == D_80175EA0 &&
-               !(arg3->unk_1C & 0x208)) {
-        arg2->unk_2C = D_80175E40;
-        func_80047784(arg2,
-                     D_80175E40[((D_80083228[0] + arg3->unk_2A + 0x100) >> 9) & 7],
+    } else if (entity->unk_2C == D_80175EA0 &&
+               !(map_object->unk_1C & 0x208)) {
+        entity->unk_2C = D_80175E40;
+        func_80047784(entity,
+                     D_80175E40[((D_80083228[0] + map_object->unk_2A + 0x100) >> 9) & 7],
                      0);
     }
 }

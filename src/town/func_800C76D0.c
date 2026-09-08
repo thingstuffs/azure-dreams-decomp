@@ -18,29 +18,30 @@ typedef struct S_800C4E30_1 {
 
 
 extern void func_800C4174(S_800C4E30_0 *, void *, S_800C4E30_1 *);
-void func_800C4E30(S_800C4E30_0 *arg0, void *arg1, S_800C4E30_1 *arg2) {
-    s16 temp_v0;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v1;
+/* Advance the scale animation countdown and restore normal scale when it ends. */
+void func_800C4E30(S_800C4E30_0 *state, void *context, S_800C4E30_1 *scale) {
+    s16 frames_left;
+    s32 shrink_value;
+    s32 grow_value;
+    s32 shrink_amount;
 
-    temp_v0 = (u16) arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if (temp_v0 <= 0) {
-        arg2->unk_1E = 0x1000;
-        arg2->unk_1C = 0x1000;
-        func_800C4174(arg0, arg1, arg2);
+    frames_left = (u16) state->unk_6C - 1;
+    state->unk_6C = frames_left;
+    if (frames_left <= 0) {
+        scale->unk_1E = 0x1000;
+        scale->unk_1C = 0x1000;
+        func_800C4174(state, context, scale);
         return;
     }
-    var_v0 = func_800644B8(temp_v0 * 0x199);
-    if (var_v0 < 0) {
-        var_v0 += 3;
+    shrink_value = func_800644B8(frames_left * 0x199);
+    if (shrink_value < 0) {
+        shrink_value += 3;
     }
-    var_v1 = var_v0 >> 2;
-    arg2->unk_1C = (s16) (0x1000 - var_v1);
-    var_v0_2 = func_800644B8(arg0->unk_6C * 0x199);
-    if (var_v0_2 < 0) {
-        var_v0_2 += 3;
+    shrink_amount = shrink_value >> 2;
+    scale->unk_1C = (s16) (0x1000 - shrink_amount);
+    grow_value = func_800644B8(state->unk_6C * 0x199);
+    if (grow_value < 0) {
+        grow_value += 3;
     }
-    arg2->unk_1E = (s16) ((var_v0_2 >> 2) + 0x1000);
+    scale->unk_1E = (s16) ((grow_value >> 2) + 0x1000);
 }

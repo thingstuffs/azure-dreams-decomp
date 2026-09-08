@@ -17,27 +17,28 @@ typedef struct {
 
 
 extern void func_800A4C10(UnkStruct_800A7434 *);
-void func_800A4B94(UnkStruct_800A7434 *arg0) {
-    s32 *v1;
-    s32 *v1_2;
-    s32 v0;
+/* Reset state when the value source changes; otherwise copy its three values. */
+void func_800A4B94(UnkStruct_800A7434 *state) {
+    s32 *values;
+    s32 *current_values;
+    s32 value;
 
-    v1 = arg0->unk00;
-    if (v1 != arg0->unk04) {
-        arg0->unk20 = 9;
-        arg0->unk28 = func_800A4C10;
-        arg0->unk14 = 0;
-        arg0->unk18 = 0;
-        arg0->unk1C = 0;
-        arg0->unk04 = v1;
-        func_800A4C10(arg0);
+    values = state->unk00;
+    if (values != state->unk04) {
+        state->unk20 = 9;
+        state->unk28 = func_800A4C10;
+        state->unk14 = 0;
+        state->unk18 = 0;
+        state->unk1C = 0;
+        state->unk04 = values;
+        func_800A4C10(state);
         return;
     }
     __asm__ __volatile__("" ::: "memory");
-    v1_2 = arg0->unk00;
-    arg0->unk08 = v1[0];
-    v0 = v1_2[1];
-    arg0->unk0C = v0;
-    v0 = v1_2[2];
-    arg0->unk10 = v0;
+    current_values = state->unk00;
+    state->unk08 = values[0];
+    value = current_values[1];
+    state->unk0C = value;
+    value = current_values[2];
+    state->unk10 = value;
 }

@@ -7,33 +7,34 @@ extern void _card_wait(s32);
 extern void format(s32);
 extern s32 D_80027F18[];
 
-s32 func_80021A84(s32 arg0) {
-    s32 *var_v0;
-    s32 var_v1;
-    s32 ret_val;
+/* Format the selected memory card and return its completion status. */
+s32 func_80021A84(s32 card_slot) {
+    s32 *card_device;
+    s32 status;
+    s32 result;
 
     _card_wait(0);
     _card_wait(1);
     func_80021538();
-    var_v0 = &D_80027F18[0];
-    if (arg0 != 0) {
-        var_v0 = &D_80027F18[1];
+    card_device = &D_80027F18[0];
+    if (card_slot != 0) {
+        card_device = &D_80027F18[1];
     }
-    format(*var_v0);
+    format(*card_device);
     do {
-        var_v1 = func_800214FC();
-        if (var_v1 == 0) {
+        status = func_800214FC();
+        if (status == 0) {
             func_8005FE18(0);
         }
-    } while (var_v1 == 0);
-    if (var_v1 != 1) {
-        if (var_v1 == 3) {
-            var_v1 = 4;
+    } while (status == 0);
+    if (status != 1) {
+        if (status == 3) {
+            status = 4;
         } else {
-            var_v1 = 5;
+            status = 5;
         }
     }
-    ret_val = var_v1;
-    ASM_KEEP(ret_val);
-    return ret_val;
+    result = status;
+    ASM_KEEP(result);
+    return result;
 }

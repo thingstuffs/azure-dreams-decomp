@@ -10,26 +10,25 @@ M2C_UNK func_800C321C();    /* extern */
 extern M2C_UNK D_800C3960;
 
 
+/* Update the object motion or clear its state and clean it up when the position check fails. */
+void func_800C3174(Rec_func_80094268_arg0 *object, M2C_UNK position, M2C_UNK motion) {
+    s32 check_result;
+    s8 *state_flag;
 
-void func_800C3174(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    s32 temp_v0;
-    s8 *temp_v0_2;
-
-    temp_v0 = func_8009CFE0(arg0, arg1);
-    if (temp_v0 != 0) {
-        if ((temp_v0 != 2) || (arg0->unk_50.as_s32 != &D_800C3960)) {
-            func_8008F134(arg0);
-            temp_v0_2 = arg0->unk_98;
-            if (temp_v0_2 != NULL) {
-                *temp_v0_2 = 0;
+    check_result = func_8009CFE0(object, position);
+    if (check_result != 0) {
+        if ((check_result != 2) || (object->unk_50.as_s32 != &D_800C3960)) {
+            func_8008F134(object);
+            state_flag = object->unk_98;
+            if (state_flag != NULL) {
+                *state_flag = 0;
             }
-            func_80033D08(arg0);
-            func_800C30A4(arg0);
+            func_80033D08(object);
+            func_800C30A4(object);
             return;
         }
-        /* Duplicate return node #8. Try simplifying control flow for better match */
-        func_800C321C(arg0, arg1, arg2);
+        func_800C321C(object, position, motion);
         return;
     }
-    func_800C321C(arg0, arg1, arg2);
+    func_800C321C(object, position, motion);
 }

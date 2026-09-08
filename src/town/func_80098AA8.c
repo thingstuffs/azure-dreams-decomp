@@ -7,27 +7,28 @@ M2C_UNK func_800966C8();                  /* extern */
 M2C_UNK func_800966F8();                  /* extern */
 extern s32 D_800FE5CC;
 
-void func_80096208(s32 *arg0) {
-    s32 temp_a1;
-    s32 temp_a1_2;
-    s32 temp_a1_3;
+/* Applies fixed-point boundary corrections according to D_800FE5CC. */
+void func_80096208(s32 *value) {
+    s32 upper_bound;
+    s32 neutral_upper_bound;
+    s32 lower_bound;
 
     if (D_800FE5CC > 0) {
-        temp_a1 = func_80096368(arg0) << 0x10;
-        if (*arg0 >= temp_a1) {
-            func_800966C8(arg0, temp_a1);
+        upper_bound = func_80096368(value) << 0x10;
+        if (*value >= upper_bound) {
+            func_800966C8(value, upper_bound);
             return;
         }
     } else {
         if (D_800FE5CC >= 0) {
-            temp_a1_2 = func_80096368(arg0) << 0x10;
-            if (*arg0 >= temp_a1_2) {
-                func_800966C8(arg0, temp_a1_2);
+            neutral_upper_bound = func_80096368(value) << 0x10;
+            if (*value >= neutral_upper_bound) {
+                func_800966C8(value, neutral_upper_bound);
             }
         }
-        temp_a1_3 = (func_80096440(arg0) << 0x10) - 1;
-        if (temp_a1_3 >= *arg0) {
-            func_800966F8(arg0, temp_a1_3);
+        lower_bound = (func_80096440(value) << 0x10) - 1;
+        if (lower_bound >= *value) {
+            func_800966F8(value, lower_bound);
         }
     }
 }

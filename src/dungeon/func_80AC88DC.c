@@ -49,23 +49,18 @@ typedef struct S_801740DC_6 {
     u16 unk_0A;
 } S_801740DC_6;   /* counter_base2 in func_801740DC */
 
-void func_801740DC(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Updates actor state, directional animation, and the shared transition counter. */
+void func_801740DC(void *actor_in, s32 actor_index_in, void *target_in, void *entity_in)
 {
-    register void *actor ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 actor_index ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *target ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *entity ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$18") = actor_in;
+    register s32 actor_index ASM_REG("$19") = actor_index_in;
+    register void *target ASM_REG("$17") = target_in;
+    register void *entity ASM_REG("$16") = entity_in;
     s32 state;
-    s32 flags;
-    s32 index;
-    u8 *global_base;
-
-#define arg0 actor
-#define arg1 actor_index
-#define arg2 target
-#define arg3 entity
-
-    state = ((S_801740DC_0 *)arg0)->unk_9B;
+    s32 entity_flags;
+    s32 direction;
+    u8 *shared_state;
+    state = ((S_801740DC_0 *)actor)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -81,98 +76,92 @@ void func_801740DC(void *arg0, s32 arg1, void *arg2, void *arg3)
     goto done;
 
 state_zero:
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)target)->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
     {
-        u8 *counter_base;
+        u8 *shared_counter;
 
-        counter_base = (u8 *)&D_80083460;
-        ((S_801740DC_2 *)counter_base)->unk_0A--;
+        shared_counter = (u8 *)&D_80083460;
+        ((S_801740DC_2 *)shared_counter)->unk_0A--;
     }
-    (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174E4C;
-    index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(arg2, D_80174E4C[index & 7], 0);
+    (*(void * *)((u8 *)target + 0x2C)) = D_80174E4C;
+    direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    func_80047784(target, D_80174E4C[direction & 7], 0);
     goto increment_state;
 
 state_one:
-    if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {
-        u8 *counter_base;
+    if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v != 0) {
+        u8 *shared_counter;
 
-        (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174E54;
-        index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-        func_80047784(arg2, D_80174E54[index & 7], 0);
-        counter_base = (u8 *)&D_80083460;
-        ((S_801740DC_2 *)counter_base)->unk_0A++;
+        (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
+        direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+        func_80047784(target, D_80174E54[direction & 7], 0);
+        shared_counter = (u8 *)&D_80083460;
+        ((S_801740DC_2 *)shared_counter)->unk_0A++;
         goto increment_state;
     }
 
-    global_base = (u8 *)&D_80083460;
-    if (((S_801740DC_4 *)global_base)->unk_02 & 0x1000) {
+    shared_state = (u8 *)&D_80083460;
+    if (((S_801740DC_4 *)shared_state)->unk_02 & 0x1000) {
         goto done;
     }
-    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
-        if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
+    ASM_CLOBBER("$4");
+    ASM_CLOBBER("$5");
+    ASM_CLOBBER("$6");
+    if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) {
+        if (func_800AA6B4(actor, actor_index, target, 0) != 0) {
             goto done;
         }
     }
-    if ((func_800A2C34(arg3) << 16) != 0) {
+    if ((func_800A2C34(entity) << 16) != 0) {
         goto done;
     }
-    flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
-    if (flags & 0x100) {
-        func_800AA258(arg0, arg1, arg2, arg3);
+    entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32;
+    if (entity_flags & 0x100) {
+        func_800AA258(actor, actor_index, target, entity);
         goto done;
     }
-    if (flags & 0x80000) {
-        func_800AA888(arg0, arg1, arg2, arg3);
-        func_801743E8(arg0, arg1, arg2, arg3);
+    if (entity_flags & 0x80000) {
+        func_800AA888(actor, actor_index, target, entity);
+        func_801743E8(actor, actor_index, target, entity);
         goto done;
     }
-    if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
+    if (((Rec_D_800E3D7C *)entity)->unk_6D.as_s8 == 0) {
         goto done;
     }
-    if ((func_800A2C34(arg3) << 16) != 0) {
-        if ((func_8009A180(arg3,
+    if ((func_800A2C34(entity) << 16) != 0) {
+        if ((func_8009A180(entity,
                 (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
             goto done;
         }
     }
-    func_800A9A0C(arg3);
-    func_800A9A04(arg3);
-    if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
+    func_800A9A0C(entity);
+    func_800A9A04(entity);
+    if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
         goto done;
     }
-    (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174E54;
-    index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(arg2, D_80174E54[index & 7], 0);
-    ((S_801740DC_4 *)global_base)->unk_0A++;
+    (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
+    direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    func_80047784(target, D_80174E54[direction & 7], 0);
+    ((S_801740DC_4 *)shared_state)->unk_0A++;
 
 increment_state:
-    ((S_801740DC_0 *)arg0)->unk_9B++;
+    ((S_801740DC_0 *)actor)->unk_9B++;
     goto done;
 
 state_two:
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)target)->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
     {
-        u8 *counter_base2;
+        u8 *shared_counter;
 
-        counter_base2 = (u8 *)&D_80083460;
-        ((S_801740DC_6 *)counter_base2)->unk_0A--;
+        shared_counter = (u8 *)&D_80083460;
+        ((S_801740DC_6 *)shared_counter)->unk_0A--;
     }
-    ((S_801740DC_0 *)arg0)->unk_8C = &D_80171728;
+    ((S_801740DC_0 *)actor)->unk_8C = &D_80171728;
 
 done:
-    if (0) {
-    }
     return;
 }
-
-/* MECHANISM: Four pinned parameter locals, declared in retail emission order, produce the
-   0x28 frame and s2/a0, s3/a1, s1/a2 saves while delaying s0/a3 into the branch slot.
-   Clobbering incoming a0-a2 at the call-group dominator forces retail's three ABI reload moves. */

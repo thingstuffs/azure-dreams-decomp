@@ -50,102 +50,102 @@ s32 func_80064710(s32);
 s32 func_80069EF8(void);
 extern M2C_UNK D_800814A0;
 
-void func_800D81D4(void *arg0, void *arg1, void *arg2) {
+/* Updates a rotating effect's motion, color, and lifetime. */
+void func_800D81D4(S_800D81D4_0 *effect, void *motion_data, void *primitive_data) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
-    s32 temp_v1;
-    M2C_UNK temp_v0;
+    s32 phase_index;
+    M2C_UNK height_offset;
     register u16 phase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    S_800D81D4_1 *p1 = arg1;
-    register S_800D81D4_2 *p2 ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    S_800D81D4_1 *motion = motion_data;
+    register S_800D81D4_2 *primitive ASM_REG("$17") = primitive_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    ((S_800D81D4_0 *)arg0)->unk_48.s = (s16) (((S_800D81D4_0 *)arg0)->unk_48.s - 1);
-    func_800478B8(p2);
-    temp_v1 = ((S_800D81D4_0 *)arg0)->unk_4C.s;
-    if ((u32) temp_v1 >= 7U) {
-        goto block_15;
+    effect->unk_48.s = (s16) (effect->unk_48.s - 1);
+    func_800478B8(primitive);
+    phase_index = effect->unk_4C.s;
+    if ((u32) phase_index >= 7U) {
+        goto update_position;
     }
-    (void)jt_keep; goto *D_80089474[temp_v1];
+    (void)jt_keep; goto *D_80089474[phase_index];
 jt_c0:
-    ((S_800D81D4_0 *)arg0)->unk_48.s = 0x10U;
-    temp_v0 = (func_80069EF8() % 96) - 0x30;
-    p1->unk_14.at00.v = (s32) ((s32) (temp_v0 << 0x10) / (s16) ((S_800D81D4_0 *)arg0)->unk_48.s);
-    ((S_800D81D4_0 *)arg0)->unk_28 = (s32) ((s32) (func_80064710(0x900 - (temp_v0 * temp_v0)) << 0x10) / (s16) ((S_800D81D4_0 *)arg0)->unk_48.s);
-    ((S_800D81D4_0 *)arg0)->unk_18 = func_80069EF8();
-    ((S_800D81D4_0 *)arg0)->unk_4C.s = (s16) ((u16) ((S_800D81D4_0 *)arg0)->unk_4C.s + 1);
+    effect->unk_48.s = 0x10U;
+    height_offset = (func_80069EF8() % 96) - 0x30;
+    motion->unk_14.at00.v = (s32) ((s32) (height_offset << 0x10) / (s16) effect->unk_48.s);
+    effect->unk_28 = (s32) ((s32) (func_80064710(0x900 - (height_offset * height_offset)) << 0x10) / (s16) effect->unk_48.s);
+    effect->unk_18 = func_80069EF8();
+    effect->unk_4C.s = (s16) ((u16) effect->unk_4C.s + 1);
 jt_c1: {
-    register s32 pos ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 speed;
-    register s32 color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 motion_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 motion_step;
+    register s32 color_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    p1->unk_08 = (s32) (p1->unk_08 + p1->unk_14.at00.v);
-    pos = ((S_800D81D4_0 *)arg0)->unk_1C.at00.v;
-    speed = ((S_800D81D4_0 *)arg0)->unk_28;
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    color = 0x40000;
-    ((S_800D81D4_0 *)arg0)->unk_1C.at00.v = pos + speed;
-    pos = p2->unk_0C;
-    color |= 0x404;
-    p2->unk_0C = pos + color;
-    speed = ((S_800D81D4_0 *)arg0)->unk_48.u;
-    pos = 0x20 - speed;
-    speed = ((S_800D81D4_0 *)arg0)->unk_4A;
-    pos <<= 3;
-    ((S_800D81D4_0 *)arg0)->unk_18 = (u16) (((S_800D81D4_0 *)arg0)->unk_18 + (pos * speed));
-    if ((s16) ((S_800D81D4_0 *)arg0)->unk_48.s >= 0) {
-        goto block_15;
+    motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14.at00.v);
+    motion_value = effect->unk_1C.at00.v;
+    motion_step = effect->unk_28;
+    color_step = 0x40000;
+    effect->unk_1C.at00.v = motion_value + motion_step;
+    motion_value = primitive->unk_0C;
+    color_step |= 0x404;
+    primitive->unk_0C = motion_value + color_step;
+    motion_step = effect->unk_48.u;
+    motion_value = 0x20 - motion_step;
+    motion_step = effect->unk_4A;
+    motion_value <<= 3;
+    effect->unk_18 = (u16) (effect->unk_18 + (motion_value * motion_step));
+    if ((s16) effect->unk_48.s >= 0) {
+        goto update_position;
     }
 }
-    phase = ((S_800D81D4_0 *)arg0)->unk_4C.u;
-    ((S_800D81D4_0 *)arg0)->unk_48.s = 0x14U;
-    goto block_13;
+    phase = effect->unk_4C.u;
+    effect->unk_48.s = 0x14U;
+    goto advance_phase;
 jt_c2:
-    ((S_800D81D4_0 *)arg0)->unk_18 = (u16) (((S_800D81D4_0 *)arg0)->unk_18 + (((S_800D81D4_0 *)arg0)->unk_4A * 0x140));
-    if ((s16) ((S_800D81D4_0 *)arg0)->unk_48.s > 0) {
-        goto block_15;
+    effect->unk_18 = (u16) (effect->unk_18 + (effect->unk_4A * 0x140));
+    if ((s16) effect->unk_48.s > 0) {
+        goto update_position;
     }
-    phase = ((S_800D81D4_0 *)arg0)->unk_4C.u;
-    ((S_800D81D4_0 *)arg0)->unk_48.s = 0x1CU;
-    goto block_13;
+    phase = effect->unk_4C.u;
+    effect->unk_48.s = 0x1CU;
+    goto advance_phase;
 jt_c3:
-    p1->unk_08 = (s32) (p1->unk_08 - ((s32) p1->unk_14.at00.v >> 1));
-    ((S_800D81D4_0 *)arg0)->unk_1C.at00.v = (s32) (((S_800D81D4_0 *)arg0)->unk_1C.at00.v - ((s32) ((S_800D81D4_0 *)arg0)->unk_28 >> 1));
-    p2->unk_0C = (s32) (p2->unk_0C + 0x30303);
-    ((S_800D81D4_0 *)arg0)->unk_18 = (u16) (((S_800D81D4_0 *)arg0)->unk_18 + ((((0x1C - (s16) ((S_800D81D4_0 *)arg0)->unk_48.s) * 8) + 0x140) * ((S_800D81D4_0 *)arg0)->unk_4A));
-    if ((s16) ((S_800D81D4_0 *)arg0)->unk_48.s > 0) {
-        goto block_15;
+    motion->unk_08 = (s32) (motion->unk_08 - ((s32) motion->unk_14.at00.v >> 1));
+    effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - ((s32) effect->unk_28 >> 1));
+    primitive->unk_0C = (s32) (primitive->unk_0C + 0x30303);
+    effect->unk_18 = (u16) (effect->unk_18 + ((((0x1C - (s16) effect->unk_48.s) * 8) + 0x140) * effect->unk_4A));
+    if ((s16) effect->unk_48.s > 0) {
+        goto update_position;
     }
-    phase = ((S_800D81D4_0 *)arg0)->unk_4C.u;
-    ((S_800D81D4_0 *)arg0)->unk_48.s = 0U;
-    goto block_13;
+    phase = effect->unk_4C.u;
+    effect->unk_48.s = 0U;
+    goto advance_phase;
 jt_c4:
-    ((S_800D81D4_0 *)arg0)->unk_18 = (u16) (((S_800D81D4_0 *)arg0)->unk_18 + ((((0 - (s16) ((S_800D81D4_0 *)arg0)->unk_48.s) * 0x10) + 0x1E0) * ((S_800D81D4_0 *)arg0)->unk_4A));
-    p2->unk_0C = (s32) (p2->unk_0C + 0x40404);
-    if ((u8) p2->unk_0C < 0xF1U) {
-        goto block_15;
+    effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
+    primitive->unk_0C = (s32) (primitive->unk_0C + 0x40404);
+    if ((u8) primitive->unk_0C < 0xF1U) {
+        goto update_position;
     }
-    p2->unk_10 = 0x60;
-    p1->unk_14.at02.v = (s16) (0 - (func_80069EF8() & 3));
-    goto block_12;
+    primitive->unk_10 = 0x60;
+    motion->unk_14.at02.v = (s16) (0 - (func_80069EF8() & 3));
+    goto load_phase;
 jt_c5:
-    p1->unk_08 = (s32) (p1->unk_08 + p1->unk_14.at00.v);
-    p1->unk_14.at00.v = (s32) (p1->unk_14.at00.v - ((func_80069EF8() & 0xFFF) << 6));
-    ((S_800D81D4_0 *)arg0)->unk_1C.at00.v = (s32) (((S_800D81D4_0 *)arg0)->unk_1C.at00.v - 0x8000);
-    ((S_800D81D4_0 *)arg0)->unk_18 = (u16) (((S_800D81D4_0 *)arg0)->unk_18 + ((((0 - (s16) ((S_800D81D4_0 *)arg0)->unk_48.s) * 0x10) + 0x1E0) * ((S_800D81D4_0 *)arg0)->unk_4A));
-    p2->unk_0C = (s32) (p2->unk_0C + 0xFFE7E7E8);
-    if ((u8) p2->unk_0C >= 0x18U) {
-        goto block_15;
+    motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14.at00.v);
+    motion->unk_14.at00.v = (s32) (motion->unk_14.at00.v - ((func_80069EF8() & 0xFFF) << 6));
+    effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - 0x8000);
+    effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
+    primitive->unk_0C = (s32) (primitive->unk_0C + 0xFFE7E7E8);
+    if ((u8) primitive->unk_0C >= 0x18U) {
+        goto update_position;
     }
-block_12:
-    phase = ((S_800D81D4_0 *)arg0)->unk_4C.u;
-block_13:
-    ((S_800D81D4_0 *)arg0)->unk_4C.s = (s16) (phase + 1);
-    goto block_15;
+load_phase:
+    phase = effect->unk_4C.u;
+advance_phase:
+    effect->unk_4C.s = (s16) (phase + 1);
+    goto update_position;
 jt_c6:
-    ((S_800D81D4_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);
     (*(s32 *)&D_800814A0) = (s32) (((S_800D81D4_3 *)(&D_800814A0))->unk_00 | 0x8000);
-block_15:
-    p1->unk_02 = (s16) (((S_800D81D4_0 *)arg0)->unk_0C + ((s32) (func_800644B8((s16) ((S_800D81D4_0 *)arg0)->unk_18) * ((S_800D81D4_0 *)arg0)->unk_1C.at02.v) >> 0xC));
-    p1->unk_06 = (s16) (((S_800D81D4_0 *)arg0)->unk_0E + ((s32) (func_80064584((s16) ((S_800D81D4_0 *)arg0)->unk_18) * ((S_800D81D4_0 *)arg0)->unk_1C.at02.v) >> 0xC));
+update_position:
+    motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC));
+    motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC));
     return;
 }

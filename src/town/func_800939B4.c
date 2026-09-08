@@ -19,23 +19,24 @@ typedef struct S_80091114_1 {
 
 
 extern void func_80091000(s32 *, S_80091114_1 *, s32);
-void func_80091114(s32 *arg0, S_80091114_1 *arg1, s32 arg2) {
-    register s32 saved_arg2 ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 previous;
+/* Updates the value and dispatches follow-up handling if it remains unchanged. */
+void func_80091114(s32 *value, S_80091114_1 *context, s32 update_arg) {
+    register s32 saved_update_arg ASM_REG("$19") = update_arg;   /* Required for the retail saved-register set and frame layout. */
+    s32 previous_value;
     register u8 *state = D_80083160;
 
-    previous = *arg0;
-    func_80091000(arg0, arg1, arg2);
+    previous_value = *value;
+    func_80091000(value, context, update_arg);
 
-    if (previous == *arg0) {
+    if (previous_value == *value) {
         if (!(((S_80091114_0 *)state)->unk_08 & 0x20)) {
-            func_80093D48(arg0, arg1, saved_arg2);
+            func_80093D48(value, context, saved_update_arg);
             return;
         }
 
-        if ((arg1->unk_0C == 0) &&
-            (arg1->unk_10 == 0)) {
-            func_80093E98(arg0, arg1, saved_arg2);
+        if ((context->unk_0C == 0) &&
+            (context->unk_10 == 0)) {
+            func_80093E98(value, context, saved_update_arg);
         }
     }
 }

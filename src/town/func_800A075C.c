@@ -11,23 +11,24 @@ extern M2C_UNK D_8009DF84[];
 
 #define FIELD(base, type, offset) (*(type)((s8 *)(base) + (offset)))
 
-void func_8009DEBC(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    u8 saved;
+/* Dispatches an object callback or switches the object to its alternate state. */
+void func_8009DEBC(void *object, M2C_UNK source, M2C_UNK context) {
+    u8 saved_state;
 
-    if (func_8009D20C(arg0, arg1) == 2) {
-        func_80033D08(arg0);
-        saved = FIELD(arg0, u8 *, 0x15);
-        FIELD(arg0, u8 *, 0x15) = 0;
-        FIELD(arg0, M2C_UNK **, -0x10) = D_8009DF84;
-        FIELD(arg0, u8 *, 0xAC) = saved;
+    if (func_8009D20C(object, source) == 2) {
+        func_80033D08(object);
+        saved_state = FIELD(object, u8 *, 0x15);
+        FIELD(object, u8 *, 0x15) = 0;
+        FIELD(object, M2C_UNK **, -0x10) = D_8009DF84;
+        FIELD(object, u8 *, 0xAC) = saved_state;
         return;
     }
 
-    FIELD(arg0, M2C_UNK (**)(void *, void *, M2C_UNK, M2C_UNK), 0x50)(arg0, arg0, arg1, arg2);
-    if (!(FIELD(arg0, u16 *, -2) & 0x8000)) {
-        func_800970AC(func_8009706C(arg1), arg0);
-        if (FIELD(arg0, u8 *, 0x4D) == 0x13) {
-            func_800478B8(arg2);
+    FIELD(object, M2C_UNK (**)(void *, void *, M2C_UNK, M2C_UNK), 0x50)(object, object, source, context);
+    if (!(FIELD(object, u16 *, -2) & 0x8000)) {
+        func_800970AC(func_8009706C(source), object);
+        if (FIELD(object, u8 *, 0x4D) == 0x13) {
+            func_800478B8(context);
         }
     }
 }

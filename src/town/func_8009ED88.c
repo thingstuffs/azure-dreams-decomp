@@ -34,32 +34,33 @@ typedef struct S_8009C4E8_2 {
     u16 unk_14;
 } S_8009C4E8_2;   /* arg2 in func_8009C4E8 */
 
-void func_8009C4E8(void *arg0, Rec_D_800E3D7C *arg1, S_8009C4E8_2 *arg2) {
-    s16 value;
+/* Updates a timed object, expiring it or stopping its motion at the height limit. */
+void func_8009C4E8(void *object, Rec_D_800E3D7C *motion, S_8009C4E8_2 *appearance) {
+    s16 height_limit;
     u16 timer;
 
-    timer = ((S_8009C4E8_0 *)arg0)->unk_6C - 1;
-    ((S_8009C4E8_0 *)arg0)->unk_6C = timer;
+    timer = ((S_8009C4E8_0 *)object)->unk_6C - 1;
+    ((S_8009C4E8_0 *)object)->unk_6C = timer;
     if ((s16)(timer) < 0) {
-        func_80033D08(arg0, arg1);
-        ((S_8009C4E8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        func_80033D08(object, motion);
+        ((S_8009C4E8_0_pre *)object)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
         return;
     }
 
-    func_80095388(arg1);
-    func_8009539C(arg1);
-    value = func_800C2AE8(arg1);
-    if (arg1->unk_08.at02_s16.v > value) {
-        arg1->unk_08.at02_s16.v = value;
-        arg1->unk_0C.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_14.as_s32 = 0;
-        arg2->unk_0E = 0x40;
-        arg2->unk_0D = 0x40;
-        arg2->unk_0C = 0x40;
-        arg2->unk_10 = 0x20;
-        arg2->unk_14 |= 0x1C;
-        ((S_8009C4E8_0 *)arg0)->unk_50 = D_8009C5D8;
+    func_80095388(motion);
+    func_8009539C(motion);
+    height_limit = func_800C2AE8(motion);
+    if (motion->unk_08.at02_s16.v > height_limit) {
+        motion->unk_08.at02_s16.v = height_limit;
+        motion->unk_0C.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_14.as_s32 = 0;
+        appearance->unk_0E = 0x40;
+        appearance->unk_0D = 0x40;
+        appearance->unk_0C = 0x40;
+        appearance->unk_10 = 0x20;
+        appearance->unk_14 |= 0x1C;
+        ((S_8009C4E8_0 *)object)->unk_50 = D_8009C5D8;
     }
 }
