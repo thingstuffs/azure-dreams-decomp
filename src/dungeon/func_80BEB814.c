@@ -23,7 +23,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern s32 func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171554(void) __attribute__((noreturn));
 extern void func_80171574(void);
 extern void func_80171784(void *, void *, void *, void *);
 extern s32 func_80171ECC(void *, void *, void *, void *);
@@ -99,7 +98,6 @@ void func_80171014(void *arg0, void *arg1, void *arg2, void *arg3)
     if (D_80083462 & 0x1000) {
         ((S_80171014_0 *)arg0)->unk_9A = 0xE;
         func_80171574();
-        func_80171554();
         return;
     }
     if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
@@ -114,7 +112,6 @@ void func_80171014(void *arg0, void *arg1, void *arg2, void *arg3)
         func_80047784(arg2,
             ((u8 *)table)[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        func_80171554();
         return;
     }
 
@@ -124,7 +121,6 @@ void func_80171014(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_80171014_0 *)arg0)->unk_9B = 1;
             ((S_80171014_0 *)arg0)->unk_8C = 0;
             ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= 0xFFFBFFFF;
-            func_80171554();
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_80174254) != 0) {
@@ -135,7 +131,6 @@ void func_80171014(void *arg0, void *arg1, void *arg2, void *arg3)
     if (!(D_80083462 & 0x2000)) {
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            func_80171554();
             return;
         }
 
@@ -182,14 +177,12 @@ void func_80171014(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_80171014_0 *)arg0)->unk_9E = 0;
             ((S_80171014_0 *)arg0)->unk_92.s = delta;
             func_80173468(arg0, arg1, arg2, arg3);
-            func_80171554();
             return;
         }
 
         if ((func_800A1C58(arg3) << 16) != 0) {
             if ((func_800AAB10(arg0, arg1, arg2, arg3) << 16) != 0) {
                 func_80173AE8(arg0, arg1, arg2, arg3);
-                func_80171554();
                 return;
             }
         }
@@ -235,7 +228,6 @@ jt_c9:
             return;
         }
         func_80172090(arg0, arg1, arg2, arg3);
-        func_80171554();
         return;
 
 jt_c5:
@@ -262,7 +254,6 @@ jt_c7:
 jt_c12:
 case_12:
         func_800A9A0C(arg3);
-        func_80171554();
         return;
 
 jt_c1:
@@ -270,7 +261,6 @@ jt_c2:
 jt_c3:
 case_123:
         func_800AAF00(arg0, arg1, arg2, D_8017424C, D_80171014);
-        func_80171554();
         return;
 
 jt_c4:
@@ -278,7 +268,6 @@ jt_c10:
 jt_c11:
 generic:
         func_80171784(arg0, arg1, arg2, arg3);
-        func_80171554();
         return;
     }
 

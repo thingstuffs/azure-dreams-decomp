@@ -12,10 +12,8 @@ extern u8 D_8001D244[];
  * page base (lui v0,0x8002) fills the preceding bnez delay slot and whose low
  * half (addiu v0,-14487) fills the converted j delay slot, while the taken arm
  * returns &D_8001D244 as its own self-contained lui/addiu. */
-extern void func_80016CD4(void) __attribute__((noreturn));
 register u8 *dispatch_result ASM_REG("$2");
 #else
-extern void *func_80016CD4(void);
 #endif
 
 void *func_80016CAC(void) {
@@ -24,12 +22,12 @@ void *func_80016CAC(void) {
         dispatch_result = (u8 *)0x80020000;
         __asm__ __volatile__("" : "=r"(dispatch_result) : "0"(dispatch_result));
         dispatch_result -= 0x3897;
-        func_80016CD4();
+        return;
     }
     return D_8001D244;
 #else
     if (func_800162F8() == 0) {
-        return func_80016CD4();
+        return;
     }
     return D_8001D244;
 #endif

@@ -19,7 +19,6 @@ typedef struct S_80016844_3 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_80016904(void) __attribute__((noreturn));
 extern s32 func_800176B8();
 extern M2C_UNK func_800177CC();
 extern M2C_UNK func_80018594();
@@ -47,8 +46,7 @@ s32 func_80016844(S_80016844_0 *arg0, M2C_UNK arg1) {
         func_80018594(arg0->unk_18);
         ((S_80016844_2 *)(((((S_80016844_1 *)(D_80016000[0]))->unk_08 * 8) +
                    ((S_80016844_1 *)(D_80016000[0]))->unk_40)))->unk_04 = 0;
-        func_800177CC(arg0, arg1);
-        func_80016904();
+        return func_800177CC(arg0, arg1);
     }
     if (func_8001868C(0x1458) != 0) {
         func_80018594(arg0->unk_18);

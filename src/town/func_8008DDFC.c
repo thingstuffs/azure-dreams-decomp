@@ -7,7 +7,6 @@ extern s32 D_800CF874[203];
 
 extern void func_80067014(s32 arg0);
 extern s32 func_80047E78(s32 arg0);
-extern void func_8008B5C4(void) __attribute__((noreturn));
 
 void func_8008B55C(void)
 {
@@ -21,7 +20,7 @@ void func_8008B55C(void)
         D_80081458[0] = value;
         if (D_800CF874[0] == 1) {
             D_800CF874[0] = 0;
-            func_8008B5C4();
+            return;
         }
         D_800CF874[0] = 1;
     }

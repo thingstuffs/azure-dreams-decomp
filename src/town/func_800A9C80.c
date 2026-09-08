@@ -3,7 +3,6 @@
 extern s16 func_800C2AE8();
 extern void func_80033D08(void *arg0);
 extern void func_800A7308(void *arg0, void *arg1, s32 arg2);
-extern void func_800A74BC(void);
 extern void func_80095388(void *arg0);
 
 typedef void (*S_800A9C80_Callback)(void *, void *, s32);
@@ -32,11 +31,9 @@ void func_800A73E0(void *arg0, void *arg1, s32 arg2) {
             func_80033D08(arg0);
             callback = *(S_800A9C80_Callback *)((u8 *)arg0 + 0x54);
             callback(arg0, arg1, arg2);
-            func_800A74BC();
             return;
         }
         func_800A7308(arg0, arg1, arg2);
-        func_800A74BC();
         return;
     }
     func_80095388(arg1);

@@ -9,7 +9,6 @@ struct CallbackEntry {
 };
 
 extern s32 func_8009CFE0(void);
-extern void func_800C2108(void) __attribute__((noreturn));
 extern s32 D_800814A0[3];
 extern CallbackEntry D_800D4710[];
 
@@ -25,7 +24,7 @@ void func_800C2074(void *arg0)
         }
         *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800C2108();
+        return;
     }
 
     while (entry->callback != 0) {

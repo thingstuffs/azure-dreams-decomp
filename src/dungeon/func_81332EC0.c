@@ -23,7 +23,6 @@ extern void func_8016A1E8() __attribute__((noreturn));
 extern void func_8016A280() __attribute__((noreturn));
 extern void func_8016A298() __attribute__((noreturn));
 extern void func_8016A318() __attribute__((noreturn));
-extern void func_8016A348() __attribute__((noreturn));
 extern void D_8016A36C();
 
 extern u16 D_80013714;
@@ -144,11 +143,9 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
         callback = (*(Callback *)((u8 *)owner + (0x8C)));
         if (callback == (Callback)D_8016A36C) {
             callback(owner, motion, data, actor);
-            func_8016A348();
             return;
         } else {
             ((S_80169EC0_3 *)actor)->unk_71 &= 0x7F;
-            func_8016A348();
             return;
         }
     }

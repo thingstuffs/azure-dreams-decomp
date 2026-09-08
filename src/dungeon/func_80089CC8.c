@@ -8,7 +8,6 @@ extern s32 rand();
 extern M2C_UNK func_8008F610();
 extern M2C_UNK func_8008F684();
 extern M2C_UNK func_8008F694();
-extern M2C_UNK func_8008F6CC();
 extern s32 func_800990FC();
 extern s32 func_80099194();
 extern M2C_UNK func_80099290();
@@ -182,7 +181,6 @@ use_effect:
 start_wait:
         ((S_8008F428_0 *)arg0)->unk_96 = 0x10;
         ((S_8008F428_0 *)arg0)->unk_9B = ((S_8008F428_0 *)arg0)->unk_9B + 1;
-        func_8008F6CC();
         return;
     }
 

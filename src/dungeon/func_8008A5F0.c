@@ -15,7 +15,6 @@ typedef struct {
 
 extern void func_80048A44(void *, s16, s16, s32);
 extern void func_8008D94C(void *, void *, void *, void *);
-extern void func_8008FEF8(void);
 extern s32 func_80094F74(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 
@@ -44,7 +43,6 @@ void func_8008FD50(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
     if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x100) && (state->timer == 6)) {
         func_8008D94C(arg0, arg1, arg2, arg3);
-        func_8008FEF8();
         return;
     }
     if (!(((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x10)) {

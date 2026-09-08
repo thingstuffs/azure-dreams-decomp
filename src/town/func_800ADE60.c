@@ -5,7 +5,6 @@
 extern s32 func_800AAE98(void *);
 extern void func_800AAFE0(void *, s32);
 extern s32 func_800AB030(void *);
-extern void func_800AB6EC(void);
 extern u8 D_800AB408[];
 extern u8 D_800AB708[];
 
@@ -45,7 +44,6 @@ void func_800AB5C0(Rec_func_800AB030_arg0 *arg0, S_800AB5C0_1 *arg1) {
         arg1->unk_16 = arg1->unk_0A.u = buf[5];
         arg0->unk_50 = D_800AB408;
         arg0->unk_6C = 150;
-        func_800AB6EC();
         return;
     }
     arg1->unk_02.s = (arg1->unk_02.s + buf[1]) / 2;

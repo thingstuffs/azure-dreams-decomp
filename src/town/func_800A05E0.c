@@ -14,7 +14,6 @@ M2C_UNK func_8008F134();                      /* extern */
 s32 func_80096FF4();                         /* extern */
 M2C_UNK func_800970AC();                 /* extern */
 s32 func_8009D20C();                                /* extern */
-M2C_UNK func_8009DE0C();                            /* extern */
 extern s32 D_800814A0[];
 
 void func_8009DD40(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
@@ -29,7 +28,7 @@ void func_8009DD40(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
         func_80033D08(arg0);
         ((S_8009DD40_0_pre *)arg0)[-1].unk_00 = (u16) (((S_8009DD40_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
-        return func_8009DE0C();
+        return;
     }
     ((Rec_D_80082D58 *)arg0)->unk_50.as_x151a23(arg0, arg0, arg1, arg2);
     if (!(((S_8009DD40_0_pre *)arg0)[-1].unk_00 & 0x8000)) {

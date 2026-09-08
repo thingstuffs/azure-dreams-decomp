@@ -6,7 +6,6 @@
 extern s32 func_800352FC(void);
 extern M2C_UNK func_800C337C();
 extern M2C_UNK func_800C3A50();
-extern M2C_UNK func_800C3A7C();
 extern u8 D_80082660[9];
 extern M2C_UNK D_800CFCB4[5];
 extern volatile M2C_UNK D_800D5084[20];
@@ -30,7 +29,7 @@ void func_800C3988(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
         state = D_800CFCB4;
         if (arg0 == state[4]) {
             state[4] = 0;
-            func_800C3A7C();
+            return;
         }
     } else {
         temp_v0 = arg0->unk_60 * 8;
@@ -45,7 +44,6 @@ void func_800C3988(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
         }
         if ((s8) temp_v1 >= 0x16) {
             ((S_800C3988_1_pre *)((((s8) temp_v1 * 4) + arg0->unk_5C)))[-1].unk_00(arg0, arg1, arg2);
-            func_800C3A7C();
             return;
         }
         if ((s8) temp_v1 < 0) {

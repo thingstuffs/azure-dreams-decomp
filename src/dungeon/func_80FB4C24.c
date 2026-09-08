@@ -28,7 +28,6 @@ extern void func_80067014(s32 arg0);
 extern void func_800672D8(void *arg0, void *arg1);
 extern void func_8006733C(void *arg0, void *arg1);
 extern void func_801744DC(void) __attribute__((noreturn));
-extern void func_80174650(void) __attribute__((noreturn));
 
 void func_80174424(void *arg0)
 {
@@ -57,7 +56,7 @@ void func_80174424(void *arg0)
         global_page = (s32 *)(u32)0x80080000;
         ((S_80174424_0_pre *)arg0)[-1].unk_00 = ((S_80174424_0_pre *)arg0)[-1].unk_00 | 0x8000;
         global_page[0x14A0 / 4] |= 0x8000;
-        return func_80174650();
+        return;
     }
 
     global_page = (s32 *)(u32)0x80080000;

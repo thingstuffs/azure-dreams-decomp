@@ -41,7 +41,6 @@ extern void func_800A56E0();
 extern s32 func_800ADC4C();
 extern void func_800C77D0();
 extern void func_80174E78();
-extern void func_801757D8() __attribute__((noreturn));
 
 
 typedef struct S_80175270_0_pre {
@@ -146,7 +145,7 @@ void func_80175270(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void 
 
 case_0:
     ((S_80175270_0 *)arg0)->unk_9B++;
-    func_801757D8();
+    return;
 
 case_1:
   {
@@ -168,7 +167,7 @@ case_1:
             return;
         }
         ((S_80175270_1 *)arg3)->unk_2A.u = angle + 0x200;
-        func_801757D8();
+        return;
     }
     func_80041588((u8 *)D_80175904 - 8, (u8 *)D_80175924 - 4, 1);
     func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
@@ -195,7 +194,7 @@ case_2:
         if (flag != 0) {
             ((S_80175270_0 *)arg0)->unk_9B++;
             func_800A56E0(0x300);
-            func_801757D8();
+            return;
         }
         return;
     }
@@ -203,7 +202,7 @@ case_2:
     work->unk_A8 += (((S_80175270_3 *)vec)->unk_00 - work->unk_A8) / ((S_80175270_0 *)arg0)->unk_96.s;
     work->unk_A9 += (((S_80175270_3 *)vec)->unk_01 - work->unk_A9) / ((S_80175270_0 *)arg0)->unk_96.s;
     work->unk_AA += (((S_80175270_3 *)vec)->unk_02 - work->unk_AA) / ((S_80175270_0 *)arg0)->unk_96.s;
-    func_801757D8();
+    return;
   }
 
 case_3:
@@ -244,7 +243,7 @@ case_3:
     ((S_80175270_0 *)arg0)->unk_96.s = 0;
     ((S_80175270_0 *)arg0)->unk_9B++;
     func_80174E78(arg0, arg1, arg2);
-    func_801757D8();
+    return;
   }
 
 case_4:
@@ -277,7 +276,7 @@ case_6:
     func_8009A028(arg3);
     work = (u8 *)arg3 - 0x20;
     work->unk_10.i |= 0x80000000;
-    func_801757D8();
+    return;
   }
 
 case_7:

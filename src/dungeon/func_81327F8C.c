@@ -11,7 +11,6 @@ M2C_UNK func_800A9A0C();                      /* extern */
 M2C_UNK func_800AA258(); /* extern */
 s32 func_800AA6B4(); /* extern */
 M2C_UNK func_800AA888(); /* extern */
-void func_8016FA60(void) __attribute__((noreturn));
 M2C_UNK func_8016FA84();                            /* extern */
 M2C_UNK func_8016FCE4(); /* extern */
 s32 func_80170224(); /* extern */
@@ -44,13 +43,11 @@ void func_8016F78C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     if (D_80083462 & 0x1000) {
         ((S_8016F78C_0 *)arg0)->unk_9A.n = 0xEU;
         func_8016FA84();
-        func_8016FA60();
         return;
     }
     if (!(D_80083462 & 0x2000)) {
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            func_8016FA60();
             return;
         }
         state = ((S_8016F78C_0 *)arg0)->unk_9A.v;
@@ -70,7 +67,6 @@ void func_8016F78C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
                 (*(u8 **)((u8 *)arg2 + (0x2C))) = D_80174A2C;
                 func_80047784(arg2, D_80174A2C[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
                 ((S_8016F78C_0 *)arg0)->unk_90 = 0;
-                func_8016FA60();
                 return;
             }
             goto block_16;
@@ -81,7 +77,6 @@ block_16:
         if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) {
             if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x20) {
                 func_800A9A0C(arg3);
-                func_8016FA60();
                 return;
             }
             if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000)) {
@@ -91,7 +86,6 @@ block_16:
                         ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
                         func_800A9A0C(arg3);
                         ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = (u16) (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x7FFF);
-                        func_8016FA60();
                         return;
                     }
                     if ((func_80170224(arg0, arg1, arg2, 0) << 0x10) != 0) {

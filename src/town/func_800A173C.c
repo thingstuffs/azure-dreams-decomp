@@ -5,7 +5,6 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_800644B8();
-M2C_UNK func_8009EF64();
 M2C_UNK func_8009F1C0();
 M2C_UNK func_8009F48C();
 extern s32 D_800834B8[3];
@@ -32,7 +31,6 @@ void func_8009EE9C(Rec_func_8009EE9C_arg0 *arg0, s32 arg1, S_8009EE9C_0 *arg2, M
     if (D_800CFCC4[0] == arg1) {
         if (D_800834B8[0] == &D_80093328) {
             func_8009F1C0(arg0, D_800CFCC4[0], arg2, arg3);
-            func_8009EF64();
             return;
         }
         if (D_800834B8[0] == D_80093524) {

@@ -17,7 +17,6 @@ void func_801727E8();  /* LEAD 29: NOT noreturn -- expose LEAD-22 SHAPE-B shared
 void func_8017281C() __attribute__((noreturn));
 void func_80172820() __attribute__((noreturn));
 void func_801728AC() __attribute__((noreturn));
-void func_8017291C() __attribute__((noreturn));
 extern u8 D_8006CCD8;
 extern u8 D_8006CCE8;
 extern s16 D_80083228;
@@ -64,7 +63,6 @@ jt_c0:
     ((S_80172524_0 *)arg0)->unk_96.u = 0U;
     ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x6000);
     func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
-    func_8017291C();
     return;
 block_5:
     /* LEAD 29: keep block_5's D_8006CCD8 base lui out of the beqz delay slot
@@ -123,7 +121,6 @@ block_17:
     func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
     ((S_80172524_0 *)arg0)->unk_9B.n = 5U;
     ((S_80172524_0 *)arg0)->unk_96.u = 0;
-    func_8017291C();
     return;
 jt_c4:
     temp_v0 = ((S_80172524_0 *)arg0)->unk_96.u - 1;
@@ -153,7 +150,6 @@ block_23:
     (*(M2C_UNK **)((u8 *)arg2 + (0x2C))) = &D_80174F40;
     func_80047784(arg2, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_80174F40), 0);
     ((S_80172524_0 *)arg0)->unk_9B.n++;
-    func_8017291C();
     return;
 jt_c5:
     temp_v0_2 = ((S_80172524_0 *)arg0)->unk_96.u - 1;

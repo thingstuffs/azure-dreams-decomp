@@ -23,7 +23,6 @@ extern void *D_800E3D7C[];
 
 extern void func_80094E34(void);
 extern void func_80098AA0(void);
-extern void func_80098B10(void);
 extern s16 func_80098C80(void *);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
@@ -44,7 +43,6 @@ s32 func_80098920(void *arg0, void *arg1, s16 arg2, s32 arg3) {
     if (*((u8 *)arg1 + 1) == 0x12) {
         if ((s16)arg2 != 0x15) {
             func_800B7B60(arg0, arg1, arg2);
-            func_80098B10();
             return;
         }
     }
@@ -54,11 +52,9 @@ s32 func_80098920(void *arg0, void *arg1, s16 arg2, s32 arg3) {
         o = *(void **)((u8 *)arg0 - 0x14);
         r = func_800B500C(*((u8 *)o + 0x24), *((u8 *)o + 0x25), *((s16 *)((u8 *)arg0 + 0x88)));
         if (r < 0) {
-            func_80098B10();
             return -1;
         }
         func_800B627C(D_800E3648[r * 4], arg0, r, 1);
-        func_80098B10();
         return;
     }
     D_80083460.fieldA += 1;

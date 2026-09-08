@@ -10,7 +10,6 @@ extern u8 D_80083E98;
 extern void func_80024390(void);
 extern void func_80024818(void);
 extern void func_800249B4(void);
-extern void func_80024ABC(void) __attribute__((noreturn));
 
 void func_80024A50(S_80011A50 *arg0)
 {
@@ -20,13 +19,11 @@ void func_80024A50(S_80011A50 *arg0)
     base = &D_80083E98;
     if (*(s32 *)(base + (arg0->unk7C << 7)) != 0) {
         func_80024390();
-        func_80024ABC();
         return;
     }
     unk80 = arg0->unk80;
     if ((unk80 != 0) && (unk80 != 2)) {
         func_80024818();
-        func_80024ABC();
         return;
     }
     func_800249B4();

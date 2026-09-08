@@ -31,7 +31,6 @@ extern void *func_8004A784(s32 category, s32 index);
 extern void *func_8004A83C(s32 category, s32 index);
 extern char *strncpy(char *dst, const char *src, u32 count);
 extern void func_8002517C(void) __attribute__((noreturn));
-extern void func_80025180(void) __attribute__((noreturn));
 
 void func_800250B4(ItemResult *result, ItemId *item, void *data)
 {
@@ -39,7 +38,7 @@ void func_800250B4(ItemResult *result, ItemId *item, void *data)
 
     if (data != 0) {
         result->data = data;
-        func_80025180();
+        return;
     }
 
     if (item->category == 19) {
@@ -55,7 +54,7 @@ void func_800250B4(ItemResult *result, ItemId *item, void *data)
             new_data = func_8004A83C(item->category, item->index);
             result->data = new_data;
             strncpy(new_data, result->text, 12);
-            func_80025180();
+            return;
         }
     }
 

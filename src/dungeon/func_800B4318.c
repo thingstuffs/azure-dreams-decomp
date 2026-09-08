@@ -84,7 +84,6 @@ extern void func_800B9CB0();
 extern void func_800B9EE4();
 extern void func_800B9F18() __attribute__((noreturn));
 extern void func_800B9F60();
-extern void func_800BA050();
 
 void func_800B9A78(Work *w, Out *out, Render *render_arg)
 {
@@ -308,7 +307,6 @@ finish:
             ((u16 *)w)[-1] = work_flags | 0x8000;
             *(u32 *)(flags_page + 0x14A0) |= 0x8000;
         }
-        func_800BA050();
         return;
     }
 

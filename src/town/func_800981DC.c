@@ -1,7 +1,5 @@
 #include "common.h"
 
-extern void func_80095970(void);
-
 typedef struct {
     u8 pad0[0x10];
     void *field10;
@@ -20,7 +18,6 @@ s32 func_8009593C(FuncArg *arg0) {
         return 0;
     }
     if ((data->field14 == 1) || (data->field14 == 3)) {
-        func_80095970();
         return 1;
     }
     return 0;

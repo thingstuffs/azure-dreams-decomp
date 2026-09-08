@@ -4,7 +4,6 @@
 extern void func_8004E994();
 extern void func_800B0EF4(void);
 extern void func_800B0EF8(void);
-extern void func_800B0F3C(void);
 
 extern s32 D_800814A0;
 extern u8 D_800DDC40[];
@@ -176,7 +175,6 @@ mode_one:
     }
     (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;
-    func_800B0F3C();
     return;
 
 finish:

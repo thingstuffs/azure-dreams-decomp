@@ -3,7 +3,6 @@
 
 extern s32 func_800374F4(u32);
 extern void *func_8003FC64(s32);
-extern s32 func_800A2674(void);
 extern u8 D_800A2690[9];
 
 
@@ -47,7 +46,6 @@ void *func_800A25CC(s32 arg0)
     temp_s1->unk_0A = func_800374F4(0x40);
     temp_s1->unk_0C = func_800374F4(0x40);
     ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
-    func_800A2674();
     return temp_s2;
 }
 

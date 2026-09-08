@@ -11,7 +11,6 @@ extern u8 D_800CFCEF;
 extern u8 D_800FE488[9];
 
 extern void func_800932EC(void *);
-extern void func_80093308(void);
 extern void func_80093D48(void *, TownObject *, void *);
 extern void func_80094C1C(void *);
 extern void func_80094C74(TownObject *);
@@ -42,7 +41,6 @@ void func_80093250(void *arg0, TownObject *arg1, void *arg2)
         arg1->field_14 = 0;
         func_800954F4(arg1);
         func_80093D48(arg0, arg1, arg2);
-        func_80093308();
         return;
     }
 

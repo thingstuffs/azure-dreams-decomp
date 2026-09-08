@@ -9,7 +9,6 @@
 extern s32 func_8009539C(void *);
 extern s32 func_8009EB9C();
 extern s32 func_8009F0E8();
-extern s32 func_8009F124();
 extern s32 func_8009F148();
 extern s32 func_800C0C88();
 extern s32 D_80083780[];
@@ -72,7 +71,6 @@ void func_8009EF88(void *arg0, s32 arg1, void *arg2, s32 arg3) {
                 *temp_a0_2 = 0;
             }
             func_800C0C88(temp_a0_2);
-            func_8009F124();
             return;
         }
         ((S_8009EF88_0 *)arg2)->unk_00.at00.v = 0;

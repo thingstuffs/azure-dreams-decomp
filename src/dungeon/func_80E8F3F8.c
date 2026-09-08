@@ -13,7 +13,6 @@ extern void func_80047784(void *, s32, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_80174D28(void) __attribute__((noreturn));
 extern void func_80174D48(void *, void *, void *);
 
 extern s16 D_80083228[];
@@ -54,7 +53,7 @@ void func_80174BF8(S_80174BF8_0 *arg0, void *arg1, S_80174BF8_2 *arg2, Rec_D_800
     state = arg0->unk_9B;
     if (state != 0) {
         if (state != 1) {
-            func_80174D28();
+            return;
         }
         goto active;
     }

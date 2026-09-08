@@ -10,7 +10,6 @@ typedef struct {
     u16 unk2;
 } Func8009AA20Arg1;
 
-extern void func_800981C4(void);
 extern void func_80098D60(void);
 
 void func_80098180(Func8009AA20Arg0 *arg0, Func8009AA20Arg1 *arg1) {
@@ -20,7 +19,6 @@ void func_80098180(Func8009AA20Arg0 *arg0, Func8009AA20Arg1 *arg1) {
     arg0->unkA = value;
     if ((s16)value < 0) {
         func_80098D60();
-        func_800981C4();
         return;
     }
     arg1->unk2 += 4;

@@ -12,7 +12,6 @@ extern u8 D_800E1035[];
 extern void func_800A6480(void *arg0);
 extern s32 func_800AD6FC(void *arg0, s32 arg1, s32 arg2);
 extern void func_800A5F38(void *arg0, s32 arg1);
-extern s32 func_800BE590(void);
 extern void func_80098B38(s32 arg0);
 extern s32 func_800BE57C(void *arg0);
 extern void func_800997FC(void *arg0);
@@ -25,7 +24,6 @@ s32 func_800BE4E8(void *arg0, s32 arg1) {
         val = D_800DDE84[((u8 *) arg0)[0x13]];
         if (func_800AD6FC(arg0, (val >> 2) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
-            func_800BE590();
             return 1;
         }
         func_80098B38(arg1);

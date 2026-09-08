@@ -1,7 +1,6 @@
 #include "common.h"
 
 s32 func_80033B2C();                         /* extern */
-void func_800A99C8();                               /* extern */
 extern s16 D_800D1054[];
 
 s32 func_800A9970(s32 arg0) {
@@ -13,7 +12,6 @@ s32 func_800A9970(s32 arg0) {
     index = indices[arg0];
     page = (u8 *) 0x80010000;
     if (page[(index * 4) + 0x35C4] >= 3U) {
-        func_800A99C8();
         return 1;
     }
     if (arg0 == 3) {

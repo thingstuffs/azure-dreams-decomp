@@ -8,7 +8,6 @@
 extern void *D_800E3D7C[];
 
 extern void func_800A2D68(void *, s32);
-extern void func_800A2FBC(void);
 extern void func_800B4C7C(s32, void *, s16, s32);
 
 
@@ -152,7 +151,6 @@ s32 func_800A2DB8(S_800A2DB8_0 *arg0)
         }
         func_800A2D68(global_member, amount & 0xFFFF);
         func_800B4C7C(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)amount, 1);
-        func_800A2FBC();
         return amount;
     }
 

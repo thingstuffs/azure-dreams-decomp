@@ -7,7 +7,6 @@
 
 M2C_UNK func_80033CD8();
 M2C_UNK func_8009BFD8();
-M2C_UNK func_8009B29C();
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_8009B148;
 extern M2C_UNK D_8009B2BC;
@@ -31,7 +30,6 @@ void func_8009B218(void *arg0, M2C_UNK arg1, Rec_D_80082E80 *arg2, s32 arg3) {
     if (arg3 != 0) {
         ((Rec_func_80094268_arg0 *)arg0)->unk_58 = arg3;
         func_8009BFD8(arg0, arg0, arg1, arg2);
-        func_8009B29C();
         return;
     }
     ((Rec_func_80094268_arg0 *)arg0)->unk_50.as_pm = &D_8009B2BC;

@@ -8,7 +8,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80172958(void) __attribute__((noreturn));
-extern void func_80172A30(void) __attribute__((noreturn));
 
 extern s16 D_80083228[5];
 extern s32 D_8008346C[5];
@@ -80,7 +79,7 @@ state_1:
     ((S_80172864_0 *)s0)->unk_A2 = 0;
     ((S_80172864_0 *)s0)->unk_9E = 0;
     ((S_80172864_0 *)s0)->unk_9B.n = state + 1;
-    func_80172A30();
+    return;
 
 state_2:
     timer = ((S_80172864_0 *)s0)->unk_96.u + 1;
@@ -94,7 +93,7 @@ state_2:
         goto done;
     }
     func_800A56E0(0x808);
-    func_80172A30();
+    return;
 
 state_3:
 state_4:

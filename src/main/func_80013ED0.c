@@ -3,7 +3,6 @@
 extern s32 func_8004B4A8(void *arg0);
 extern void *func_8003FE78(s32 arg0, void *arg1, s32 arg2);
 extern void func_8004491C(void *arg0, void *arg1);
-extern void func_80026F58(void *arg0);
 extern void func_80026FB4(void *arg0);
 extern void bzero(void *arg0, s32 arg1);
 extern void func_80026DF0(void *arg0, s32 arg1);
@@ -25,12 +24,11 @@ void *func_80026ED0(s32 arg0, s32 arg1)
         base = func_8003FE78(0, base, 0x45);
         ASM_KEEP(base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
         func_8004491C(base, D_80027DD0);
-        func_80026F58(temp_s1);
-        return;
+    } else {
+        func_80026FB4(base);
+        *(u16 *)((u8 *)base + 0x1E) &= 0x7FFF;
+        bzero(temp_s1, 0xF0);
     }
-    func_80026FB4(base);
-    *(u16 *)((u8 *)base + 0x1E) &= 0x7FFF;
-    bzero(temp_s1, 0xF0);
     func_80026DF0(temp_s1, 4);
     {
         register void *body ASM_REG("$17") = temp_s1;   /* MATCH pin: retail keeps a computation the compiler would drop */

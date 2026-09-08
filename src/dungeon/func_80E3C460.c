@@ -24,7 +24,6 @@ typedef struct S_80175C60_2 {
 } S_80175C60_2;   /* arg2 in func_80175C60 */
 
 
-extern void func_80175D6C() __attribute__((noreturn));
 extern s32 D_800814A0;
 extern s16 D_80083228;
 
@@ -57,7 +56,7 @@ void func_80175C60(void *arg0, void *arg1, void *arg2)
     if ((temp_v0 << 0x10) <= 0) {
         (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
-        func_80175D6C(temp_a0, arg1_pinned, temp_a2, arg2);
+        return;
     }
     ((S_80175C60_2 *)arg2)->unk_1C += 0x80;
     ((S_80175C60_2 *)arg2)->unk_1E += 0x80;

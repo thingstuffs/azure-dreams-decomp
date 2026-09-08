@@ -29,7 +29,6 @@ extern TownState D_80083498;
 
 extern void func_800CA774(Object *, Position *, void *, GameState *);
 extern void func_80053DA8(s32);
-extern void func_800CA2F8(void);
 
 void func_800CA214(Object *object, Position *position, void *arg2)
 {
@@ -45,7 +44,6 @@ void func_800CA214(Object *object, Position *position, void *arg2)
     if (timer <= 0) {
         func_800CA774(object, position, arg2, game);
         func_80053DA8(0x605);
-        func_800CA2F8();
         return;
     }
 

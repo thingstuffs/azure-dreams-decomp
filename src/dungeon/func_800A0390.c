@@ -2,7 +2,6 @@
 
 
 extern void func_800A5BC4(void) __attribute__((noreturn));
-extern void func_800A5C68(void) __attribute__((noreturn));
 extern s32 D_800814A0[3];
 extern s32 D_80083170[3];
 
@@ -73,7 +72,7 @@ void func_800A5AF0(void *arg0, S_800A5AF0_1 *arg1, S_800A5AF0_2 *arg2) {
 
             ((S_800A5AF0_0 *)arg0)->unk_06 = 0x20;
             ((S_800A5AF0_0 *)arg0)->unk_04.u = next_state + 1;
-            func_800A5C68();
+            return;
         }
     } else {
         arg2->unk_0E = (u8)(

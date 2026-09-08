@@ -25,7 +25,6 @@ extern void func_800B13D4(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 
 extern void func_8004491C(void *a0, void *a1);
 extern void func_8004CAA0(void);
 extern void func_8004B248(u16 **a0);
-extern void *func_800B1590(void);
 
 extern int D_800814A0;
 
@@ -41,7 +40,6 @@ void *func_800B14B0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, 
             sub->result = func_800B091C(sub->input);
             func_800B13D4(sub, arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             func_8004491C(node, (void *)func_8004CAA0);
-            func_800B1590();
             return node;
         }
         func_8004B248((u16 **)((u8 *)node + 0xF0));

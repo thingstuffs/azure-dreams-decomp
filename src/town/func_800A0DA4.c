@@ -19,7 +19,6 @@ extern void func_8009E588();
 extern void func_8009E634();
 extern void func_8009E654();
 extern void func_8009E6F4();
-extern void func_8009E6F8();
 extern void func_8009F148();
 extern s32 func_8009FF50();
 
@@ -105,7 +104,6 @@ void func_8009E504(void *arg0, s32 arg1, void *arg2)
             *(s32 *)&base[
                 ((base[BU(arg0, 0x95) * 4 + 0x983] & 0x3F) * 0x54)
                     + 0xA94]);
-        func_8009E6F8();
         return;
     }
 

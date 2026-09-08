@@ -6,7 +6,6 @@ extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
 extern s16 func_800A0818();
 extern void func_80171B5C() __attribute__((noreturn));
-extern void func_80171BBC() __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern u16 D_80083462;
@@ -127,7 +126,6 @@ void func_801719C0(void *arg0, s32 arg1, void *arg2, void *arg3)
 
     if (D_80083462 & 0x80) {
         ((S_801719C0_2 *)arg0)->unk_96 = 0;
-        func_80171BBC();
         return;
     }
 

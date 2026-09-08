@@ -17,7 +17,6 @@ typedef struct S_80098544_1 {
 } S_80098544_1;   /* out in func_80098544 */
 
 
-M2C_UNK func_800985F4();
 M2C_UNK func_80099754();
 extern M2C_UNK D_800984AC;
 
@@ -39,7 +38,6 @@ void func_80098544(S_80098544_0 *arg0, void *arg1) {
         temp_v1 = out->unk_04;
         remaining = arg0->unk_0A.u;
         out->unk_04 = (s32) (temp_v1 + ((s32) ((temp_v2 << 0x10) - temp_v1) / remaining));
-        func_800985F4(remaining);
         return;
     }
     out->unk_00 = (s32) (arg0->unk_36 << 0x10);

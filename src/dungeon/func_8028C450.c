@@ -17,7 +17,7 @@ void func_8001F450(void)
     s32 mode;
     register s16 x ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
     s32 y;
-    register u8 sentinel ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
+    s32 sentinel;
     u8 value;
     special = 0;
     if (*(s32 *)0x80012090 != 2) {

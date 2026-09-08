@@ -6,7 +6,6 @@ s32 func_80042900(void *, s32);
 s32 func_800A1C58(void *);
 void func_800A1D4C(void *, s32);
 void func_800A56E0(s32);
-s32 func_800AAC8C(void);
 void func_800C77D0(void *, s32, s32, s32);
 extern u16 D_80013714;
 extern s32 D_8007359C;
@@ -73,7 +72,6 @@ s32 func_800AAB10(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, Rec_D_800E3D7C *arg3) {
     }
     goto return_result;
 tail_call:
-    func_800AAC8C();
     return 0;
 clear_state:
     ((S_800AAB10_3 *)(&D_80083460))->unk_0C = 0;

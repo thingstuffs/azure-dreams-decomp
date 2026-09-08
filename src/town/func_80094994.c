@@ -4,7 +4,6 @@
 #include "records/Rec_D_800E3D7C.h"
 
 M2C_UNK func_800921DC();                            /* extern */
-M2C_UNK func_800921F8();                            /* extern */
 M2C_UNK func_80094330();     /* extern */
 M2C_UNK func_80094910();                            /* extern */
 M2C_UNK func_80094984();           /* extern */
@@ -48,7 +47,6 @@ void func_800920F4(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK a
         arg1->unk_14.as_s32 = 0;
         func_800954F4(arg1);
         func_80094330(arg0, arg1, arg2);
-        func_800921F8();
         return;
     }
     func_80095388(arg1);

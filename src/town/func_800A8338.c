@@ -59,7 +59,6 @@ extern void func_80097844();
 extern s32 func_800A5894();
 extern void func_800A5BFC();
 extern void func_800A5CF0();
-extern void func_800A5DD8();
 extern s32 func_800C1D44();
 
 
@@ -189,7 +188,7 @@ after_second_update:
         state->callback = &D_800A5DF8;
         state->timer = 8;
         state->mode = 1;
-        return func_800A5DD8();
+        return;
     }
 
     if (((S_800A5A98_0 *)input)->unk_10 & 0x100) {

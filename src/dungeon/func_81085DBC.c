@@ -10,7 +10,6 @@ extern void func_800A2B04(void *, u8, u8);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80173768(void) __attribute__((noreturn));
-extern void func_80173894(void) __attribute__((noreturn));
 extern s32 func_8017589C(void *, void *, void *);
 
 extern s16 D_80083228;
@@ -85,7 +84,6 @@ L1:
             return;
         }
         func_8009C12C(actor, arg2, ((S_801735BC_1 *)actor)->unk_2A, 1);
-        func_80173894();
         return;
     }
     if (((Rec_D_80082E80 *)arg2)->unk_04.as_s8 != 2) {
@@ -97,7 +95,6 @@ L1:
     func_800A56E0(0x808);
     ((S_801735BC_0 *)arg0)->unk_B0 = func_8017589C(arg0, arg1, arg2);
     ((S_801735BC_0 *)arg0)->unk_9B++;
-    func_80173894();
     return;
 
 L2:
@@ -110,7 +107,6 @@ L2:
         0);
     ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
     ((S_801735BC_0 *)arg0)->unk_9B++;
-    func_80173894();
     return;
 
 L3:
@@ -121,7 +117,6 @@ L3:
             D_80175F68[((D_80083228 + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
-        func_80173894();
         return;
     }
     gate = flags3 & 0x6000;

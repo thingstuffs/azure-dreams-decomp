@@ -17,7 +17,6 @@ typedef struct S_8001ADF8_1 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_8001A6D0();
-extern s32 func_8001AE4C();
 extern Rec_D_8001E950 *D_8001E950;
 
 s32 func_8001ADF8(S_8001ADF8_1 *arg0, s32 arg1) {
@@ -26,6 +25,5 @@ s32 func_8001ADF8(S_8001ADF8_1 *arg0, s32 arg1) {
             func_8001A6D0(D_8001E950->unk_03);
         return 0;
     }
-    func_8001AE4C(D_8001E950);
     return 1;
 }

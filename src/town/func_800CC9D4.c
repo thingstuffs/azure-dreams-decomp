@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800CA204();                            /* extern */
 M2C_UNK func_800CA75C();                            /* extern */
 extern u8 D_80083498[];
 
@@ -42,7 +41,6 @@ void func_800CA134(void *arg0, void *arg1) {
     ((S_800CA134_0 *)arg0)->unk_6C = temp_v0;
     if ((temp_v0 << 0x10) <= 0) {
         func_800CA75C();
-        func_800CA204();
         return;
     }
     base = D_80083498;

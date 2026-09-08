@@ -47,7 +47,6 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
-extern void func_8002439C(void) __attribute__((noreturn));
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8004491C(void *, void *);
 extern void func_800478B8(void *);
@@ -83,7 +82,7 @@ void func_800240D8(void *arg0, void *arg1, void *arg2)
       state++;
       *((u16 *) (((u8 *) arg0) + 0x34)) = state;
       func_8004491C(((u8 *) arg0) - 0x20, &D_80045340);
-      return func_8002439C();
+      return;
 
     case 1:
       temp_s0 = 0x400;
@@ -98,7 +97,7 @@ void func_800240D8(void *arg0, void *arg1, void *arg2)
       *((u16 *) (((u8 *) arg0) + 0x36)) = 0;
       state++;
       *((u16 *) (((u8 *) arg0) + 0x34)) = state;
-      return func_8002439C();
+      return;
 
     case 2:
       random = rand();
@@ -129,7 +128,7 @@ void func_800240D8(void *arg0, void *arg1, void *arg2)
       *((u16 *) (((u8 *) arg2) + 0x1C)) = 0x1000;
       *((u16 *) (((u8 *) arg2) + 0x10)) |= 0x20;
       func_8003DB94(arg2, &D_800DECF8, 0);
-      return func_8002439C();
+      return;
 
     case 4:
       func_800478B8(arg2);

@@ -16,7 +16,6 @@ extern u16 D_80013714;
 extern s8  D_80080AA0;
 extern s8  D_80080A88;
 
-extern s32  func_8008D310();
 extern void func_800C77D0();
 extern void func_80048A44();
 extern void func_800A56E0();
@@ -24,7 +23,6 @@ extern void func_800A1D4C();
 
 s32 func_8008D1D0(void *arg0, s32 arg1, void *arg2, void *arg3) {
     if (!(D_800E296C & 0x100000) || D_80083460.field_C == 0) {
-        func_8008D310();
         return 0;
     }
     if (D_80083460.field_C == arg3 && D_80083460.field_A == 0 && !(D_80083460.field_2 & 8)) {

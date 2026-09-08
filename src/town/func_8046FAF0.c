@@ -47,7 +47,6 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
-__attribute__((noreturn)) extern M2C_UNK func_80016B58();
 extern M2C_UNK func_80018F74();
 extern s32 func_800196F4();
 extern s32 func_8001979C();
@@ -55,7 +54,7 @@ extern void *D_80016000;
 void func_80016AF0(void)
 {
   s32 temp_v0;
- do { if (func_800196F4(0xD, 3) != 0) { (*((M2C_UNK (**)(M2C_UNK)) (((s8 *) (*((void **) (((s8 *) D_80016000) + 0x20)))) + 0x78)))(0); func_80016B58(); } } while (0);
+ do { if (func_800196F4(0xD, 3) != 0) { (*((M2C_UNK (**)(M2C_UNK)) (((s8 *) (*((void **) (((s8 *) D_80016000) + 0x20)))) + 0x78)))(0); return; } } while (0);
   temp_v0 = func_8001979C(0xD, 3);
   if (temp_v0 != (-1))
   {

@@ -19,7 +19,6 @@ extern s32 func_800352FC(void);
 extern s32 func_800C2AB4(S0 *);
 extern void func_8003DB94(S1 *, s32, s32);
 extern void func_800BE1BC(S1 *, s32); /* j-only sibcall dispatcher */
-extern void func_800BE1FC(void);      /* j-only sibcall dispatcher */
 
 /* Pre-existing rodata jump table in the retail overlay blob. */
 extern void *D_80089670[];
@@ -57,7 +56,6 @@ L1After:
     return;
 L2:
     if (func_800352FC() && func_800C2AB4(obj)) {
-        func_800BE1FC();
         return;
     }
     goto Linc;
@@ -68,7 +66,6 @@ L3:
     func_8003DB94(dst, obj->fieldA0, 0);
 Linc:
     obj->state = (u16)obj->state + 1;
-    func_800BE1FC();
     return;
 L4:
     if (func_800352FC()) {

@@ -39,7 +39,6 @@ extern u8 *D_80027C98[];
 
 extern void func_800243B4(void) __attribute__((noreturn));
 extern void func_80024474(void) __attribute__((noreturn));
-extern void func_800244D0(void) __attribute__((noreturn));
 extern s32 func_80025F54(s16, s16, s16, s16);
 extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern void func_8004491C(void *, void *, void *);
@@ -86,7 +85,7 @@ void func_8002432C(Entity *entity, Position *position, Motion *motion)
         if (func_80025F54(position->x, position->y, position->z,
                           *(s16 *)(D_80027C98[0] + 0x2A)) != 0) {
             entity->state++;
-            func_800244D0();
+            return;
         }
         return;
     }

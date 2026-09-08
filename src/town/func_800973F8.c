@@ -1,7 +1,5 @@
 #include "common.h"
 
-s32 func_80094BC0(void);
-
 s32 func_80094B58(s32 arg0) {
     if (arg0 & 0x1000) {
         s32 temp_v0;
@@ -15,7 +13,6 @@ s32 func_80094B58(s32 arg0) {
         if (temp_v1 != 0) {
             return 0x600;
         }
-        func_80094BC0();
         return 0x800;
     } else {
         register s32 temp_v0 ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
@@ -24,13 +21,11 @@ s32 func_80094B58(s32 arg0) {
         if (temp_v0 != 0) {
             temp_v0 = arg0 & 0x8000;
             if (temp_v0 != 0) {
-                func_80094BC0();
                 return 0xE00;
             }
             temp_v0 = arg0 & 0x2000;
             temp_v0 = temp_v0 != 0;
             ASM_KEEP(temp_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            func_80094BC0();
             return temp_v0 << 9;
         } else {
             temp_v0 = arg0 & 0x8000;

@@ -3,7 +3,6 @@
 #define FIELD(obj, type, offset) (*(volatile type *)((u8 *)(obj) + (offset)))
 
 extern void func_800B0DBC(void);
-extern void func_800B0E10(void);
 extern s32 D_800786DC[];
 extern s32 D_800786E8[];
 
@@ -31,7 +30,6 @@ void func_800B0D7C(void *arg0) {
         FIELD(arg0, s32, 0x1C) &= mask;
         state = FIELD(arg0, void **, 0xCC);
         *FIELD(state, void **, 0x78) = D_800786E8;
-        func_800B0E10();
         return;
     }
 

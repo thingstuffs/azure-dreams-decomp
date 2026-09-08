@@ -6,7 +6,6 @@
 #define VU16_AT(p, o) (*(volatile u16 *)((u8 *)(p) + (o)))
 
 extern void func_800BC424(void *, s32);
-extern void func_800BC454(void *, s32);
 
 void func_800BC390(void *arg0)
 {
@@ -26,14 +25,14 @@ void func_800BC390(void *arg0)
     if (state == 0) {
         goto state_0;
     }
-    func_800BC454(arg0, next);
+    return;
     goto done;
 
 state_ge_2:
     if (state == 2) {
         goto state_2;
     }
-    func_800BC454(arg0, next);
+    return;
     goto done;
 
 state_0:

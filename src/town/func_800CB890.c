@@ -3,7 +3,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 M2C_UNK func_800C2E84();          /* extern */
-M2C_UNK func_800C9068();                            /* extern */
 extern M2C_UNK D_800C907C;
 extern M2C_UNK D_800D6268;
 
@@ -26,7 +25,6 @@ void func_800C8FF0(Rec_func_80094268_arg0 *arg0, S_800C8FF0_1 *arg1, M2C_UNK arg
         arg0->unk_6C.as_u16 = 3U;
         arg0->unk_50.as_pm = &D_800C907C;
         arg0->unk_72.as_s16 = 0xC00;
-        func_800C9068();
         return;
     }
     arg0->unk_72.as_s16 = 0x800;

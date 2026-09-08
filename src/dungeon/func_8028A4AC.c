@@ -8,7 +8,6 @@ M2C_UNK func_8001CEC0();                 /* extern */
 M2C_UNK func_8001CFB8();                 /* extern */
 M2C_UNK func_8001D0F4();                 /* extern */
 M2C_UNK func_8001D328();                 /* extern */
-M2C_UNK func_8001D5C0() __attribute__((noreturn));  /* extern */
 s32 func_800A6D30();                                /* extern */
 extern M2C_UNK D_8001F670;
 
@@ -30,7 +29,6 @@ void func_8001D4AC(Rec_func_8001CE44_arg0 *arg0, s16 arg1) {
     (void)jt_keep; goto *D_80016000[(u32)(temp_v1)];
 jt_c0:
     arg0->unk_0A = 2;
-    func_8001D5C0();
     return;
 jt_c1:
     if (((S_8001D4AC_1 *)(&D_8001F670))->unk_00 != 0) {
@@ -39,7 +37,6 @@ jt_c1:
     arg0->unk_0A = 3;
     D_8001F670 = 1;
     func_8001CFB8(arg0, arg1);
-    func_8001D5C0();
     return;
 jt_c2:
     if (((S_8001D4AC_1 *)(&D_8001F670))->unk_00 != 0) {
@@ -48,7 +45,6 @@ jt_c2:
     D_8001F670 = 1;
     arg0->unk_0A = 2;
     func_8001D328(arg0, arg1);
-    func_8001D5C0();
     return;
 jt_c4:
     if (((S_8001D4AC_1 *)(&D_8001F670))->unk_00 != 0) {
@@ -57,7 +53,6 @@ jt_c4:
     D_8001F670 = 1;
     arg0->unk_0A = 4;
     func_8001D0F4(arg0, arg1);
-    func_8001D5C0();
     return;
 jt_c5:
 jt_c6:

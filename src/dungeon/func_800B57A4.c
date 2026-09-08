@@ -3,7 +3,6 @@
 
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
-M2C_UNK func_800BB02C();                            /* extern */
 extern s32 D_800814A0[3];
 extern void func_800BABA8(void);
 
@@ -38,7 +37,6 @@ void func_800BAF04(void *arg0) {
     temp_v1 = ((S_800BAF04_0 *)arg0)->unk_0A;
     if (temp_v1 != 0) {
         if (temp_v1 != 1) {
-            func_800BB02C();
             return;
         }
         goto block_7;

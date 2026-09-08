@@ -14,7 +14,6 @@ M2C_UNK func_800A56E0();
 M2C_UNK func_800A5F38();
 M2C_UNK func_800A63B8();
 s32 func_800AD6FC();
-s32 func_800C3324();
 s32 func_800C8900();
 extern u8 D_80082E80[];
 extern D_80083460_t D_80083460;
@@ -28,7 +27,6 @@ s32 func_800C3238(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2) {
     if (arg0 == D_800E3D7C[0]) {
         arg0->unk_110 = arg1;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
-        func_800C3324();
         return 0;
     }
     if ((s32)arg0 <= 0x9FFFFFFFU) {
@@ -37,7 +35,6 @@ s32 func_800C3238(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2) {
                          (D_800DDE84[arg0->unk_10.at03_u8.v] >> 6) & 3,
                          0) == 0) {
             func_800A5F38(arg0, arg1);
-            func_800C3324();
             return 1;
         }
     }

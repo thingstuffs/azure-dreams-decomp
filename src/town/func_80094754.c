@@ -5,7 +5,6 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_80091F48();
 extern M2C_UNK func_80093D48();
 extern M2C_UNK func_80095C80();
 
@@ -26,7 +25,6 @@ void func_80091EB4(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK a
         arg1->unk_14.as_s32 = 0;
         arg1->unk_08.at00_s32.v = (s32) (arg0->unk_34.as_s16 << 0x10);
         func_80093D48(arg0, arg1, arg2);
-        func_80091F48();
         return;
     }
     arg1->unk_14.as_s32 =

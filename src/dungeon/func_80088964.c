@@ -10,7 +10,6 @@ extern volatile s16 D_80013714[8];
 extern u8 D_800E3CD0[9];
 extern u16 D_80082E76;
 M2C_UNK func_8008E1E4();
-M2C_UNK func_8008E250();
 M2C_UNK func_800945E8();
 M2C_UNK func_800948BC();
 M2C_UNK func_80099844();
@@ -61,7 +60,6 @@ void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, Rec_D_8
         if (temp_v1 == 0) {
             goto state_0;
         }
-        func_8008E250(arg3, global_base);
         return;
     }
     ASM_KEEP(temp_v1);   /* MATCH pin: retail delay-slot fill depends on it */
@@ -71,7 +69,6 @@ void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, Rec_D_8
     if (temp_v1 == 0x10) {
         goto state_16;
     }
-    func_8008E250(arg3, global_base);
     return;
 
 state_0:
@@ -95,7 +92,7 @@ state_1:
         if (((S_8008E0C4_2 *)D_800E3CD0)->unk_00 == 0) {
             ((S_8008E0C4_2 *)D_800E3CD0)->unk_00 = temp_v1;
             func_80040AA0(3);
-            func_8008E250();
+            return;
         }
     } else {
         func_800945E8(arg0);
@@ -103,7 +100,7 @@ state_1:
         D_80082E76 = 0xC000;
         func_80041094(6, 0, 0, 0, 0xC000);
         arg0->unk_9B.n++;
-        func_8008E250();
+        return;
     }
     return;
 

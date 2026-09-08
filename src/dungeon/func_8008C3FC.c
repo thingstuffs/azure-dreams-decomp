@@ -4,7 +4,6 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 M2C_UNK func_80048A44(); /* extern */
-M2C_UNK func_80091C44();                            /* extern */
 s16 func_800A0818();       /* extern */
 extern s16 D_80083228;
 extern M2C_UNK D_80083460;
@@ -44,7 +43,6 @@ void func_80091B5C(void *arg0, void *arg1, void *arg2, void *arg3) {
 
     if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         ((S_80091B5C_1 *)arg3)->unk_14 &= 0xFFFDFFFF;
-        func_80091C44();
         return;
     }
     base = &D_80083460;

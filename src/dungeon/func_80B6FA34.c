@@ -6,7 +6,6 @@ extern void func_800A2FE0(void *arg0);
 extern void func_800A32A4(void *arg0);
 extern void func_800A56E0(s32 arg0);
 extern void func_800ACF88(void *arg0);
-extern void func_80173354(void) __attribute__((noreturn));
 
 extern s32 D_800814A0;
 extern s32 D_80083460;
@@ -25,7 +24,7 @@ void func_80173234(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3)
     mode = arg0[0x9B];
     if (mode != 0) {
         if (mode != 1) {
-            func_80173354();
+            return;
         }
         goto active;
     }

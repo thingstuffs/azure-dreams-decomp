@@ -12,7 +12,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 extern void func_800C9CA0(void);
 extern void func_800C9D08(void);
 extern void func_800C9E68();
-extern void func_800C9F0C();
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
@@ -75,12 +74,10 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
             register void *incoming_a0 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
             ASM_KEEP(incoming_a0);   /* MATCH pin: retail register colouring depends on it */
             early_callback(incoming_a0, motion, part, incoming_a0);
-            func_800C9F0C(incoming_a0);
             return;
         } else {
             (*(u8 *)((u8 *)state + (0x71))) &= 0x7F;
         }
-        func_800C9F0C();
         return;
     }
 

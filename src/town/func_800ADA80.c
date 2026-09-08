@@ -10,7 +10,6 @@ extern void func_800AAF5C(void);
 extern void func_800AAFE0(void *, s32);
 extern void func_800AB2F4(void);
 extern void func_800AB3D0(void);
-extern void func_800AB3E8(void);
 extern void func_800C2C80(void *, void *, s32, s32);
 extern void func_800C2CB0(void *, void *, void *, s8);
 extern s32 func_800C2E1C(s16, s16);
@@ -47,7 +46,6 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
         func_80033D08();
         (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
         D_800814A0 |= 0x8000;
-        func_800AB3E8();
         return;
     }
 

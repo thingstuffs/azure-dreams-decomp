@@ -38,7 +38,6 @@ M2C_UNK func_800A90E8();
 void func_8009A180(s32 *, u8 *);
 M2C_UNK func_800B7A30();
 M2C_UNK func_800B7B18();
-M2C_UNK func_800B7B40();
 extern M2C_UNK D_800E0A42;
 extern M2C_UNK D_800E0A56;
 extern M2C_UNK D_800E0A6A;
@@ -150,7 +149,6 @@ state_0:
         func_800997FC(&D_800E0A42);
         (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_800B7774_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0 = D_800814A0 | 0x8000;
-        func_800B7B40();
         return;
     }
     held_x = sp18;

@@ -4,7 +4,6 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80080000[];
-extern void func_80024C0C(void) __attribute__((noreturn));
 
 
 typedef struct S_80024B48_0_pre {
@@ -41,7 +40,6 @@ void func_80024B48(void *arg0) {
     ((S_80024B48_0 *)arg0)->unk_48 = (u16) (((S_80024B48_0 *)arg0)->unk_48 + 1);
     if (((S_80024B48_0 *)arg0)->unk_4C != 0) {
         if (((S_80024B48_0 *)arg0)->unk_4C != 1) {
-            func_80024C0C();
             return;
         }
         goto block_5;

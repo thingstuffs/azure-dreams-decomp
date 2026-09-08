@@ -6,7 +6,6 @@ s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 func_80065F90();             /* extern */
 M2C_UNK func_80095168();                         /* extern */
-M2C_UNK func_8009519C();                         /* extern */
 extern M2C_UNK D_80000001;
 
 
@@ -78,7 +77,7 @@ block_16:
             arg0->unk_10.at00_s32.v = temp_v0_7;
             if (temp_v0_7 > 0) {
                 arg0->unk_10.at00_s32.v = 0;
-                func_8009519C(var_a0_2);
+                return;
             }
         } else {
             temp_v0_8 = temp_v0_6 - var_a0_2;

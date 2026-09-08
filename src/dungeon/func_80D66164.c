@@ -11,7 +11,6 @@ extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
 extern void func_80171C0C(void) __attribute__((noreturn));
-extern void func_80171EF4(void) __attribute__((noreturn));
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228[];
@@ -76,10 +75,10 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
 
                 first_callback(entryArg0, arg1, arg2, entryArg0);
             }
-            func_80171EF4();
+            return;
         }
         (*(u8 *)((u8 *)obj + (0x71))) &= 0x7F;
-        func_80171EF4();
+        return;
     }
 
     ASM_KEEP(obj);   /* MATCH pin: retail schedule: same instructions, different order without it */

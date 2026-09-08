@@ -9,7 +9,6 @@ extern M2C_UNK func_80099844();
 extern void func_800A6508(void);
 extern M2C_UNK func_800C5BBC();
 extern s32 func_800C8844();
-extern void func_800CD460(void);
 extern M2C_UNK func_800DC1B8();
 extern s32 D_800DCF1C;
 extern M2C_UNK D_800E1C14;
@@ -41,7 +40,6 @@ s32 func_800CD384(void *arg0) {
     if (func_800C8844(arg0, var_a1, 8) == 0) {
         if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
             func_800A6508();
-            func_800CD460();
             return 1;
         }
         return 1;

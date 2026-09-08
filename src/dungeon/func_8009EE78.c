@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 func_8009A350(s32, s32, s32, s16 *);
-extern void func_800A466C(void);
 extern s32 func_800BCB04(s32, s32, s16);
 
 s32 func_800A45D8(s32 arg0, s32 arg1, s32 arg2)
@@ -45,7 +44,6 @@ s32 func_800A45D8(s32 arg0, s32 arg1, s32 arg2)
     limit = 0x02000000;
     ASM_KEEP(result);   /* MATCH pin: retail basic-block layout depends on it */
     ASM_KEEP(limit);   /* MATCH pin: retail basic-block layout depends on it */
-    func_800A466C();
     return limit < result;
 }
 

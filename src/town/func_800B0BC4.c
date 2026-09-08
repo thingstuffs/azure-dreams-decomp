@@ -6,7 +6,6 @@ extern void *func_8003FD64(s32 arg0, s32 arg1);
 extern void func_8004DCE0(s32 arg0);
 extern void func_8004DCEC(void);
 extern s32 func_800AE360(void);
-extern s32 func_800AE3F8(void);
 extern void func_800AE414(void *arg0);
 extern s32 func_800B0214(void *arg0);
 extern s32 func_800B0718(void);
@@ -72,7 +71,6 @@ s32 func_800AE324(s32 arg0) {
         }
     }
 cleanup:
-    func_800AE3F8();
     return (s32)object;
 failure:
     func_800AE414(state);

@@ -13,7 +13,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80175DA4(void *);
 extern void func_8017614C(void) __attribute__((noreturn));
-extern void func_8017629C(void) __attribute__((noreturn));
 
 extern s32 D_800814A0;
 extern u8 D_80082E80[];
@@ -74,7 +73,6 @@ void func_80176028(void *arg0, s32 arg1, void *arg2, void *arg3)
         if (state == 0) {
             goto state_0;
         }
-        func_8017629C();
         return;
     }
     if (state == 2) {
@@ -84,7 +82,6 @@ void func_80176028(void *arg0, s32 arg1, void *arg2, void *arg3)
         goto state_3;
     }
     {
-        func_8017629C();
         return;
     }
 
@@ -129,7 +126,6 @@ state_1:
         counter = (u8 *)&D_80083460;
         ((S_80176028_3 *)counter)->unk_0A--;
         owner[0x9B]++;
-        func_8017629C();
         return;
     }
 
@@ -169,7 +165,6 @@ state_2:
         }
         owner[0xA8] = owner[0xA9] + 1;
         owner[0x9B]++;
-        func_8017629C();
         return;
     }
 

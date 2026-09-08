@@ -47,7 +47,6 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
-M2C_UNK func_80017388();
 M2C_UNK func_80019B54();
 M2C_UNK func_80019C68();
 M2C_UNK func_8001ACE8();
@@ -59,7 +58,6 @@ void func_80017318(void *arg0, M2C_UNK arg1)
     func_8001ACE8(*((s16 *) (((s8 *) arg0) + 0x18)));
     func_80019C68(arg0, arg1);
     return;
-    func_80017388();
   }
   if (func_8001ADE0(0x1458) != 0)
   {

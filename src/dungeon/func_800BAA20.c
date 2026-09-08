@@ -5,7 +5,6 @@ extern s16 D_800DCED4[];
 extern u8 *D_800E3D7C;
 
 extern s32 func_800429E4(void *);
-extern void func_800C0210(void);
 extern s32 func_800C07AC(s32 *);
 extern void func_800C542C(void *, s16, s32, s32);
 
@@ -18,7 +17,6 @@ s32 func_800C0180(void)
     u8 *table_page;
 
     if (func_800C07AC(&D_80083498) == 0) {
-        func_800C0210();
         return 0;
     }
 

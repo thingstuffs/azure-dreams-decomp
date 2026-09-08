@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8009322C();                            /* extern */
 M2C_UNK func_80093D48();     /* extern */
 M2C_UNK func_80093ED8();     /* extern */
 M2C_UNK func_800942B0();     /* extern */
@@ -62,7 +61,6 @@ void func_800930E4(void *arg0, void *arg1, M2C_UNK arg2) {
         if ((temp_v0 - ((S_800930E4_0 *)target)->unk_0A) >= 4) {
             if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
                 func_80094378(self, target, third);
-                func_8009322C();
                 return;
             }
             goto block_7;
@@ -76,12 +74,11 @@ block_7:
         if ((s16) temp_v0_2 >= 0) {
             if (((S_800930E4_3 *)state)->unk_08 & 0xF000) {
                 func_80093ED8(self, target, third);
-                func_8009322C();
                 return;
             }
             if (((S_800930E4_3 *)state)->unk_10 & 0x10) {
                 func_800942B0(self, target, third);
-                func_8009322C();
+                return;
             }
         } else {
             goto block_15;

@@ -8,7 +8,6 @@ extern void func_80099844();
 extern void func_800A5F38();
 extern void func_800A63B8();
 extern s32 func_800AD6FC();
-extern void func_800BDC80();
 extern void func_800C4AFC();
 
 typedef struct {
@@ -34,7 +33,6 @@ s32 func_800BDB74(void *arg0, s32 arg1, s16 arg2) {
     if (arg0 == D_800E3D7C) {
         ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
-        func_800BDC80();
         return 0;
     }
 
@@ -42,7 +40,6 @@ s32 func_800BDB74(void *arg0, s32 arg1, s16 arg2) {
         func_800A63B8(arg0, arg1, arg2);
         if (func_800AD6FC(arg0, (D_800DDE84[((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
-            func_800BDC80();
             return 1;
         }
     }

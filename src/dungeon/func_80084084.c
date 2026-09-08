@@ -21,7 +21,6 @@ extern void func_8008999C();
 extern void func_800899C0();
 extern void func_800899C4();
 extern void func_80089A68();
-extern void func_80089A74();
 
 extern void *D_800814A8;
 extern void *D_80083160[];
@@ -92,7 +91,6 @@ loop_first:
         if ((s32)firstCallback < (s32)(firstBase + 0x20)) {
             goto loop_first;
         }
-        func_80089A74();
         return;
     }
 
@@ -175,7 +173,6 @@ second_next:
         if ((s32)secondCallback < (s32)(secondBase + 0x20)) {
             goto loop_second;
         }
-        func_80089A74();
         return;
     }
 

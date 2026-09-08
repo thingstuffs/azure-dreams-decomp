@@ -16,7 +16,6 @@ extern u8 *D_80174704[];
 extern u8 *D_80174CC8[];
 extern u32 D_800814A0[];
 extern void func_800A56E0(s32, Position *, u16, u8 *);
-extern void func_8016E424(void) __attribute__((noreturn));
 
 void func_8016E300(Entity *entity, Position *pos)
 {
@@ -37,18 +36,18 @@ void func_8016E300(Entity *entity, Position *pos)
         if (state == 0) {
             goto state_0;
         }
-        func_8016E424();
+        return;
     }
     if (state == 2) {
         goto state_2;
     }
-    func_8016E424();
+    return;
 
 state_0:
     if (*(s16 *)(context + 0xAC) == expected) {
         entity->state = state_u + 1;
         entity->timer = 0;
-        func_8016E424();
+        return;
     }
     goto epilogue;
 
@@ -59,7 +58,7 @@ state_1:
         entity->timer = 0;
         entity->state++;
         func_800A56E0(0x516, pos, state_u, context);
-        func_8016E424();
+        return;
     }
     goto epilogue;
 

@@ -59,13 +59,27 @@ def window_rows():
 def inputs_sha(yaml_path):
     """sha over the window YAML, the row table and every src/<container>/*.c inside the window."""
     h = hashlib.sha256(yaml_path.read_bytes())
-    cont = container_of(yaml_path.stem); fam = "dungeon" if cont == "dungeon_engine" else cont
-    t = ROOT / "ledger/splits" / f"{cont}.jsonl"
-    if t.exists(): h.update(t.read_bytes())
+    cont = container_of(yaml_path.stem)
+    # the window's own split records (config, extent, verdict) rather than the whole table, so a
+    # corrected compiler cell re-gates the windows that hold that row and no other
+    for rec in split_records(cont, yaml_path.name):
+        h.update(json.dumps(rec, sort_keys=True).encode())
     for r in window_rows().get(yaml_path.name, []):
         p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
         if p.exists(): h.update(p.read_bytes())
     return h.hexdigest()
+
+_SPLITS = {}
+def split_records(cont, yaml_name):
+    """Split-table records whose extent lies inside the window's file range."""
+    if cont not in _SPLITS:
+        _SPLITS[cont] = read_jsonl(ROOT / "ledger/splits" / f"{cont}.jsonl")
+    from common import window_map
+    fam = "dungeon" if cont == "dungeon_engine" else cont
+    rng = next(((fs, fe) for n, fs, fe, _ in window_map().get(fam, []) if n == yaml_name), None)
+    if rng is None: return []
+    fs, fe = rng
+    return [r for r in _SPLITS[cont] if isinstance(r.get("foff"), int) and fs <= r["foff"] and r["foff"] + (r.get("size") or 0) <= fe]
 
 def run_window(yaml_path):
     t0 = time.time()

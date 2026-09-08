@@ -16,7 +16,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, s32);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800D8FFC(void);
-extern void func_800D9028(void);
 extern void func_800D904C(void);
 extern void func_800D92C0(void *, void *, void *, void *);
 extern void func_800DA660(void *, void *, void *, void *);
@@ -54,7 +53,6 @@ void func_800D8C64(void *arg0, void *arg1, void *arg2, void *arg3)
     if (D_80083462 & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
         func_800D904C();
-        func_800D9028();
         return;
     }
 
@@ -80,7 +78,6 @@ void func_800D8C64(void *arg0, void *arg1, void *arg2, void *arg3)
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
             ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x40000;
-            func_800D9028();
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, 0)) {
@@ -91,7 +88,6 @@ void func_800D8C64(void *arg0, void *arg1, void *arg2, void *arg3)
     if (!(D_80083462 & 0x2000)) {
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            func_800D9028();
             return;
         }
 
@@ -122,7 +118,6 @@ void func_800D8C64(void *arg0, void *arg1, void *arg2, void *arg3)
             ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
             func_800AA888(arg0, arg1, arg2, arg3);
             func_800DA660(arg0, arg1, arg2, arg3);
-            func_800D9028();
             return;
         }
 
@@ -137,11 +132,9 @@ void func_800D8C64(void *arg0, void *arg1, void *arg2, void *arg3)
     if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) {
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x20) {
             func_800A9A0C(arg3);
-            func_800D9028();
             return;
         }
         func_800D92C0(arg0, arg1, arg2, arg3);
-        func_800D9028();
         return;
     }
 

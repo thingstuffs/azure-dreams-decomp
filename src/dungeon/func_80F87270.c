@@ -14,7 +14,6 @@ extern void func_80170C0C(void) __attribute__((noreturn));
 extern void func_80170D30(void) __attribute__((noreturn));
 extern void func_80171064(void) __attribute__((noreturn));
 extern void func_80171068(void) __attribute__((noreturn));
-extern void func_8017110C(void) __attribute__((noreturn));
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
@@ -81,10 +80,10 @@ void func_80170A70(void *arg0, void *raw_arg1, void *raw_arg2)
         callback = (*(Callback *)((u8 *)arg0 + (0x8C)));
         if (callback == (Callback)D_80171138) {
             callback(arg0, raw_arg1, raw_arg2, arg0);
-            func_8017110C();
+            return;
         }
         (*(u8 *)((u8 *)arg0 + (0x71))) &= 0x7F;
-        func_8017110C();
+        return;
     }
 
     ASM_KEEP_NV(arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */

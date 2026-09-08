@@ -5,7 +5,6 @@ M2C_UNK func_80095388();                 /* extern */
 s16 func_80095978();               /* extern */
 M2C_UNK func_80095A94();      /* extern */
 M2C_UNK func_80098928();        /* extern */
-M2C_UNK func_80099BF8();                            /* extern */
 extern M2C_UNK D_800FE488;
 
 
@@ -24,7 +23,6 @@ void func_80099B70(s32 arg0, S_80099B70_0 *arg1, M2C_UNK arg2) {
     if (temp_v0 < arg1->unk_08.at02.v) {
         func_80095A94(arg1, temp_v0, &D_800FE488);
         func_80098928(arg0, arg1, arg2);
-        func_80099BF8();
         return;
     }
     func_80095388(arg1, temp_v0);

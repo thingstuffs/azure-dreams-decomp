@@ -3,7 +3,6 @@
 extern s32 func_80042900(void *, s8);
 extern s32 func_800B5E10(s32);
 extern void func_800B6D30(void);
-extern void func_800B6D40(void);
 extern s32 func_80049E88(void *);
 
 s32 func_800B6CEC(void *arg0) {
@@ -18,7 +17,6 @@ s32 func_800B6CEC(void *arg0) {
         }
         temp = func_800B5E10(temp);
         ASM_KEEP(temp);   /* MATCH pin: retail delay-slot contents depend on it */
-        func_800B6D40();
         return temp;
     }
     return func_80049E88(arg0);

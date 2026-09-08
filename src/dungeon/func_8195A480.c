@@ -5,7 +5,6 @@ M2C_UNK func_8002589C();        /* extern */
 void func_8002600C(void) __attribute__((noreturn)); /* extern */
 void func_80026270(void) __attribute__((noreturn)); /* extern */
 void func_8002633C() __attribute__((noreturn));        /* extern */
-void func_80026368(void) __attribute__((noreturn)); /* extern */
 M2C_UNK func_80026548();                 /* extern */
 M2C_UNK func_8002660C();    /* extern */
 M2C_UNK func_800266D0();                  /* extern */
@@ -410,7 +409,6 @@ linked_monster:
         ((S_80025C80_0_pre *)arg0)[-1].unk_00 = linked_flags;
         ASM_MEM_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
         *linked_global |= 0x8000;
-        func_80026368();
         return;
     }
     temp_v1_6 = temp_a0->unk_08;

@@ -16,7 +16,6 @@ M2C_UNK func_800A63B8();
 s32 func_800AD6FC();
 s32 func_800BE04C();
 s32 func_800BE088();
-s32 func_800BE0F8();
 M2C_UNK func_800D5460();
 
 typedef struct {
@@ -77,7 +76,6 @@ s32 func_800BDEB8(void *arg0, s32 arg1, s16 arg2) {
     if (var_s2 == current_entity) {
         ((S_800BDEB8_0 *)var_s2)->unk_110 = var_s5;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
-        func_800BE0F8();
         return 0;
     }
 
@@ -85,7 +83,6 @@ s32 func_800BDEB8(void *arg0, s32 arg1, s16 arg2) {
         func_800A63B8(var_s2, var_s5, arg2);
         if (func_800AD6FC(var_s2, (D_800DDE84[((S_800BDEB8_0 *)var_s2)->unk_13] >> 6) & 3, 0) == 0) {
             func_800A5F38(var_s2, var_s5);
-            func_800BE0F8();
             return 1;
         }
     }

@@ -12,7 +12,6 @@ extern void func_8004491C(void *, void *);
 extern void func_800DC988(void *);
 extern s32 func_800DCBE4(void *, s32);
 extern void func_800DCCF4(void *, s32);
-extern void func_800DCDF0(void);
 extern s32 D_800133A0[];
 extern u8 D_8004CAA0[];
 extern s32 D_800814A0;
@@ -42,7 +41,6 @@ void *func_800DCD38(void) {
             func_800DC988(object);
             *(u8 **)(object + 0x10) = D_800DC8F8;
             func_8004491C(object, D_8004CAA0);
-            func_800DCDF0();
             return object;
         }
         *(u16 *)(object + 0x1E) |= 0x8000;

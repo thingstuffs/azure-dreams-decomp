@@ -11,7 +11,6 @@ typedef struct {
 
 M2C_UNK func_80096A90();                 /* extern */
 M2C_UNK func_80096C08();                            /* extern */
-M2C_UNK func_80096C24();                            /* extern */
 extern s16 D_8006ADD6;
 extern s32 D_800FE508[4];
 extern State D_800FE520;
@@ -54,7 +53,6 @@ void func_80096B50(s32 *arg0) {
         temp_v0->unkC = 0x03B00000;
         temp_v0->unk8 = 0;
         temp_v0->unk10 = 0x80000000;
-        func_80096C24();
         return;
     }
     D_800FE520.unk0 = 0x80000000;

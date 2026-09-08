@@ -16,7 +16,6 @@ void func_800AA258(void *, s32, void *, void *);
 s32 func_800AA6B4(void *, s32, void *, void *);
 void func_800AA888(void *, s32, void *, void *);
 void func_8016DA34(void) __attribute__((noreturn));
-void func_8016DA7C(void) __attribute__((noreturn));
 void func_8016DAA4(void *, s32, void *, void *);
 
 extern u16 D_80013714;
@@ -105,14 +104,12 @@ void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg
         if (state == 0) {
             goto state_zero;
         }
-        func_8016DA7C();
         return;
     }
     ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }
-    func_8016DA7C();
     return;
 
 state_zero:
@@ -147,7 +144,6 @@ state_one:
         if (!(((S_8016D6F0_5 *)base8001)->unk_3714 & 8)) {
             if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
                 if (func_800AA6B4(arg0, arg1, arg2, D_801746C4) != 0) {
-                    func_8016DA7C();
                     return;
                 }
             }
@@ -173,13 +169,11 @@ action_body:
     call_obj = arg0;
     if (mask) {
         func_800AA258(call_obj, arg1, arg2, arg3);
-        func_8016DA7C();
         return;
     }
     if (bits & 0x80000) {
         func_800AA888(call_obj, arg1, arg2, arg3);
         func_8016DAA4(arg0, arg1, arg2, arg3);
-        func_8016DA7C();
         return;
     }
     if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
@@ -231,7 +225,6 @@ post_actions:
     update_base = D_80083460;
     ((S_8016D6F0_8 *)update_base)->unk_0A++;
     arg0->unk_9B++;
-    func_8016DA7C();
     return;
 
 state_two:

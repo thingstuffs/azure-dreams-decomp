@@ -16,7 +16,6 @@ M2C_UNK func_800A5720();
 M2C_UNK func_800A5F38();
 M2C_UNK func_800A63B8();
 s32 func_800AD6FC();
-s32 func_800BE340();
 M2C_UNK func_800D5460();
 
 typedef struct {
@@ -69,7 +68,6 @@ s32 func_800BE120(void *arg0, S_800BE120_1 *arg1, s16 arg2) {
     if (arg0 == D_800E3D7C[0]) {
         ((S_800BE120_0 *)arg0)->unk_110 = (s32)arg1;
         func_8008D330(arg0, &D_80083780, &D_80082E80, arg0);
-        func_800BE340();
         return hard_zero;
     }
 
@@ -123,7 +121,6 @@ s32 func_800BE120(void *arg0, S_800BE120_1 *arg1, s16 arg2) {
 
 block_finalize:
     func_800A5F38(arg0, arg1);
-    func_800BE340();
     return 1;
 
 block_end:

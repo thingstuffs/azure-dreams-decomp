@@ -8,7 +8,6 @@ extern s32 func_800644B8(s32);
 extern void func_80024228() __attribute__((noreturn));
 extern void func_800243F8() __attribute__((noreturn));
 extern void func_80024468() __attribute__((noreturn));
-extern void func_80024478() __attribute__((noreturn));
 
 extern s32 D_80045340;
 extern s32 D_800814A0;
@@ -223,7 +222,7 @@ state_three:
 
     (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;
-    func_80024478();
+    return;
 
 tick:
     ((S_800240F0_0 *)arg0)->unk_12 = ((S_800240F0_0 *)arg0)->unk_12 + 1;

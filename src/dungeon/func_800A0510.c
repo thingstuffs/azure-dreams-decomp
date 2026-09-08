@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-extern void func_800A5D3C(void);
 extern u16 D_80013714;
 extern u8 D_80082E80[];
 extern s32 D_800E296C[];
@@ -49,7 +48,6 @@ s32 func_800A5C70(void) {
         return 1;
     }
     if (buttons & 9) {
-        func_800A5D3C();
         return 0;
     }
     if (D_800E296C[0] & 0x200000) {

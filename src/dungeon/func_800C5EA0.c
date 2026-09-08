@@ -15,7 +15,6 @@ extern s32 D_8008346C;
 extern s32 D_800814A0[3];
 
 void func_8009A028(void *arg0);
-void func_800CB818(void);
 
 
 typedef struct S_800CB600_0_pre {
@@ -121,7 +120,6 @@ void func_800CB600(void *arg0, S_800CB600_2 *arg1, S_800CB600_1 *arg2) {
         state->fieldC = arg0;
         ((S_800CB600_0 *)arg0)->unk_98 |= 0x80;
         ((S_800CB600_0 *)arg0)->unk_9A++;
-        func_800CB818();
         return;
     }
 
@@ -135,7 +133,6 @@ void func_800CB600(void *arg0, S_800CB600_2 *arg1, S_800CB600_1 *arg2) {
         temp_a0->unk_10 |= 0x80000000;
         ((S_800CB600_0 *)arg0)->unk_96.u = 0x10;
         ((S_800CB600_0 *)arg0)->unk_9A++;
-        func_800CB818();
         return;
     }
 

@@ -22,7 +22,6 @@ typedef struct TownTransition {
 } TownTransition;
 
 extern void func_800A4D4C(void *arg0, void *arg1);
-extern void func_800A4F3C(void);
 
 void func_800A4E1C(TownTransition *state) {
     Vec3i *target;
@@ -38,7 +37,6 @@ void func_800A4E1C(TownTransition *state) {
         state->unk1C = 0;
         state->previous_target = saved_target;
         func_800A4D4C(state, state);
-        func_800A4F3C();
         return;
     }
 

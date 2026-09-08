@@ -42,7 +42,6 @@ s32 func_800ADC4C();
 M2C_UNK func_800C77D0();
 M2C_UNK func_80175180();
 void func_801757E4(void) __attribute__((noreturn));
-void func_801759B8(void) __attribute__((noreturn));
 
 
 typedef struct S_80175470_0_pre {
@@ -145,7 +144,7 @@ jt_c1:
     ((S_80175470_0 *)arg0)->unk_AC = 0;
     ((S_80175470_0 *)arg0)->unk_9B.n++;
     ((S_80175470_1 *)arg3)->unk_8A = ((S_80175470_1 *)arg3)->unk_2A.u;
-    func_801759B8();
+    return;
 
 jt_c2:
     direction = ((D_80083228 + ((S_80175470_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7;
@@ -160,7 +159,7 @@ block_non_special:
         return;
     }
     ((S_80175470_1 *)arg3)->unk_2A.u += 0x200;
-    func_801759B8();
+    return;
 
 block_special:
     func_80041588(D_80175B0C, &D_80175B24, 1);
@@ -185,14 +184,14 @@ jt_c3:
         }
         ((S_80175470_0 *)arg0)->unk_9B.n++;
         func_800A56E0(0x300);
-        func_801759B8();
+        return;
     }
     index = func_800498A0(arg3);
     target = D_800DCEEC[index];
     color[0xA8] += ((s32)target[0] - color[0xA8]) / ((S_80175470_0 *)arg0)->unk_96.s;
     color[0xA9] += ((s32)target[1] - color[0xA9]) / ((S_80175470_0 *)arg0)->unk_96.s;
     color[0xAA] += ((s32)target[2] - color[0xAA]) / ((S_80175470_0 *)arg0)->unk_96.s;
-    func_801759B8();
+    return;
 
 jt_c4:
     node = func_8003FC64(0x12);
@@ -221,7 +220,7 @@ jt_c4:
     arg2->unk_14.at00_u16.v |= 0x80;
     ((S_80175470_0 *)arg0)->unk_96.u = 0;
     ((S_80175470_0 *)arg0)->unk_9B.n++;
-    func_801759B8();
+    return;
 
 jt_c5:
     node = ((S_80175470_0 *)arg0)->unk_A8;
@@ -250,7 +249,7 @@ jt_c6:
     func_8009A028(arg3);
     node = (u8 *)arg3 - 0x20;
     node->unk_10.i |= 0x80000000;
-    func_801759B8();
+    return;
 
 jt_c7:
     ((S_80175470_1 *)arg3)->unk_60 = func_800A504C(arg2, arg3);

@@ -4,7 +4,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
-M2C_UNK func_8008B9D8();
 M2C_UNK func_8008CAA0();
 M2C_UNK func_8008CBA0();
 M2C_UNK func_8008CF6C();
@@ -33,7 +32,6 @@ void func_8008B870(Rec_func_8008ACDC_arg0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_800
     if ((temp_v1 < 0) || (arg0->unk_10C & 1)) {
         arg2->unk_14.at00_u16.v = (u16)(arg2->unk_14.at00_u16.v & 0xF7FF);
         func_8008CAA0(arg0, arg1, arg2, arg3);
-        func_8008B9D8();
         return;
     }
     if (temp_v1 > 0) {
@@ -46,7 +44,6 @@ void func_8008B870(Rec_func_8008ACDC_arg0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_800
         D_80082EB0[0] = 0;
         arg0->unk_C8 = 0;
         arg0->unk_104 = 0;
-        func_8008B9D8();
         return;
     }
     if ((arg0->unk_9A.as_u8 != 0xD) && (arg3->unk_1C.as_s32 & 0x200)) {

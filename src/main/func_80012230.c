@@ -2,7 +2,6 @@
 
 extern s32 func_80021FF0(s32, s32, s32);
 extern void func_80023004(void *);
-extern void func_80025284(void) __attribute__((noreturn));
 extern void func_8002519C(s32);
 extern void func_80020984(void);
 
@@ -12,6 +11,8 @@ extern s32 D_80024F7C;
 
 #ifndef NON_MATCHING
 register s32 *dead_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+#else
+s32 *dead_v0;
 #endif
 
 void func_80025230(s8 *arg0) {
@@ -32,18 +33,14 @@ void func_80025230(s8 *arg0) {
         dead_v0 = (s32 *)0x80020000;
         __asm__ __volatile__("" : "=r"(dead_v0) : "0"(dead_v0));
         dead_v0 = (s32 *)((u8 *)dead_v0 + 0x4F7C);
-#endif
-        func_80025284();
-        *(s32 **)(arg0 + 0x34) = &D_80024F7C;
-        return;
-    }
-    func_8002519C(0x80010000);
-#ifndef NON_MATCHING
-    dead_v0 = &D_800251A4;
-    *(s32 **)(arg0 - 0x10) = dead_v0;
 #else
-    *(s32 **)(arg0 - 0x10) = &D_800251A4;
+        dead_v0 = &D_80024F7C;
 #endif
+    } else {
+        func_8002519C(0x80010000);
+        dead_v0 = &D_800251A4;
+    }
+    *(s32 **)(arg0 - 0x10) = dead_v0;
     func_80020984();
     *(s32 *)(arg0 + 0x40) = 0;
 }

@@ -43,7 +43,6 @@ extern u8  D_80083780[];
 extern s16 D_800DCE66[5];
 
 extern void func_800C77D0(void *a0, void *a1, s32 a2, s16 a3);
-extern void func_800C7D44(void);
 
 void func_800C7B38(void *arg0) {
     Entity *p = arg0;
@@ -52,7 +51,6 @@ void func_800C7B38(void *arg0) {
 
     if (st == 0) goto case0;
     if (st == 1) goto case1;
-    func_800C7D44();
     return;
 
 case0:
@@ -80,7 +78,6 @@ case0:
     g->fB0 = 0;
     g->f98 = p->unk26;
     p->unk18 += 1;
-    func_800C7D44();
     return;
 
 case1:

@@ -4,7 +4,6 @@
 
 extern void func_80024A34();
 extern void func_80024D78() __attribute__((noreturn));
-extern void func_80024E60() __attribute__((noreturn));
 extern void func_800478B8();
 extern s32 func_800644B8();
 extern s32 func_80064584();
@@ -55,7 +54,7 @@ void func_80024C0C(void *arg0, void *arg1, void *arg2) {
     if (state == 1) {
         goto state1;
     }
-    func_80024E60();
+    return;
 
 state0:
     ((Rec_D_80082E80 *)arg2)->unk_1A.as_u16 += 0x200;
@@ -100,7 +99,7 @@ state0:
     }
     func_80024A34(arg0, arg1, arg2);
     ((S_80024C0C_0 *)arg0)->unk_04.u++;
-    func_80024E60();
+    return;
 
 state1:
     if (((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v != 0) {

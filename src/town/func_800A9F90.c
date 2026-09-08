@@ -10,7 +10,6 @@ struct S_func_800A9F90 {
 };
 
 extern void func_80033D08(void);
-extern s32 func_800A7760(void);
 extern u32 D_800814A0[3];
 
 s32 func_800A76F0(S_func_800A9F90 *self)
@@ -24,8 +23,7 @@ s32 func_800A76F0(S_func_800A9F90 *self)
         func_80033D08();
         *(u16 *)((u8 *)self - 2) =
             (u16)(*(u16 *)((u8 *)self - 2) | 0x8000);
-        D_800814A0[0] |= 0x8000;
-        return func_800A7760();
+        return (D_800814A0[0] |= 0x8000);
     }
 
     callback = self->callback;

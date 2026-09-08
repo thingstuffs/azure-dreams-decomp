@@ -6,7 +6,6 @@ extern M2C_UNK func_80033CD8();
 extern M2C_UNK func_80033D08();
 extern s32 func_8009D20C();
 extern M2C_UNK func_800A8BBC();
-extern M2C_UNK func_800A96F0();
 extern s32 D_800814A0;
 extern M2C_UNK D_800A9528;
 
@@ -25,11 +24,11 @@ void func_800A9624(void *arg0, s32 arg1, M2C_UNK arg2) {
         func_80033D08(arg0);
         FIELD(arg0, u16 *, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
-        return func_800A96F0();
+        return;
     }
     if (state == 2) {
         func_80033D08(arg0);
-        return func_800A96F0();
+        return;
     }
     func_80033CD8(arg0, &D_800A9528);
     callback = FIELD(arg0, M2C_UNK (**)(void *, s32, M2C_UNK), 0x50);

@@ -4,7 +4,6 @@ typedef s32 M2C_UNK;
 
 
 extern M2C_UNK func_800A4B94();
-extern M2C_UNK func_800A4CD8();
 extern M2C_UNK D_800A4B94;
 
 
@@ -44,7 +43,6 @@ void func_800A4C10(S_800A4C10_0 *arg0) {
         arg0->unk_1C = 0;
         arg0->unk_04 = temp_v1;
         func_800A4B94(arg0);
-        func_800A4CD8();
         return;
     }
     arg0->unk_08 +=

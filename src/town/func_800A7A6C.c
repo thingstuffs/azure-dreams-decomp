@@ -23,8 +23,6 @@ typedef struct S_800A51CC_1 {
 extern u8 D_80083160[0xB2];
 extern u8 D_800A526C[16];
 
-extern void func_800A5264(void *arg0, s32 arg1, void *arg2);
-
 void func_800A51CC(S_800A51CC_0 *arg0)
 {
     u8 *base;
@@ -39,7 +37,7 @@ void func_800A51CC(S_800A51CC_0 *arg0)
             (arg0->unk_04.s != arg0->unk_14.s)) {
             arg0->unk_18 = 9;
             arg0->unk_20 = D_800A526C;
-            return func_800A5264(arg0, value, base);
+            return;
         }
 
         component = ((S_800A51CC_1 *)base)->unk_AC.at00u.v;

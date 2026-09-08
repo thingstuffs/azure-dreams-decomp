@@ -5,7 +5,6 @@
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 
 extern s32 D_800814A0;
-extern s32 func_800CC884();
 
 void func_800CC744(void *arg0, void *arg1, void *arg2) {
     s16 temp_a1;
@@ -30,7 +29,7 @@ void func_800CC744(void *arg0, void *arg1, void *arg2) {
         if ((temp_v0_2 << 16) <= 0) {
             S16(arg0, 2) = 0x10;
             U16(arg0, 0)++;
-            func_800CC884();
+            return;
         }
     } else {
         U8(arg2, 0xC) = U8(arg2, 0xC) - (U8(arg2, 0xC) / S16(arg0, 2));

@@ -8,7 +8,6 @@ extern s32 D_80083780[3];
 extern s32 D_800D0428;
 
 extern void func_80033D08(void *arg0);
-extern void func_800A82DC(void) __attribute__((noreturn));
 
 void func_800A8248(void *arg0, s32 *arg1)
 {
@@ -19,7 +18,7 @@ void func_800A8248(void *arg0, s32 *arg1)
         func_80033D08(arg0);
         *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800A82DC();
+        return;
     }
 
     arg1[0] = D_80083780[0];

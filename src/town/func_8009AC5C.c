@@ -5,7 +5,6 @@
 extern s32 func_80098464();
 extern s32 func_80098480();
 extern s32 func_80098488();
-extern s32 func_80098490();
 extern s32 func_80098988();
 extern s16 func_800C2AE8();
 
@@ -29,7 +28,6 @@ void func_800983BC(S_800983BC_1 *arg0, Rec_D_800E3D7C *arg1, s32 arg2) {
     arg0->unk_0A = temp_v0;
     if ((s16)temp_v0 < 0) {
         func_80098988(arg0, arg1, arg2);
-        func_80098490();
         return;
     }
     temp_a0 = arg0->unk_10;
@@ -59,7 +57,6 @@ case_400:
 
 case_C00:
     arg1->unk_00.at00_s32.v -= 0x120000;
-    func_80098490();
     return;
 
 case_0:

@@ -51,7 +51,6 @@ extern void func_800AF860(TownObject *);
 extern s32 func_800AF8B0(TownObject *);
 extern void func_800AFA48(s32);
 extern void func_800AFCC4(void) __attribute__((noreturn));
-extern void func_800AFCE8(void) __attribute__((noreturn));
 
 void func_800AF9C4(TownObject *obj)
 {
@@ -83,7 +82,7 @@ void func_800AF9C4(TownObject *obj)
     if (state->flags & 0x20) {
         func_80053DA8(0x515);
         func_800AE484(obj->resource);
-        func_800AFCE8();
+        return;
     }
     if (state->flags & 0x40) {
         func_80053DA8(0x514);
@@ -93,14 +92,14 @@ void func_800AF9C4(TownObject *obj)
         }
         obj->old_state = *(s32 *)((u8 *)obj - 0x10);
         *(void **)((u8 *)obj - 0x10) = D_800AF96C;
-        func_800AFCE8();
+        return;
     } else if (state->flags & 0x10) {
         func_80053DA8(0x503);
         func_8004B08C((void *)0x8001029C);
         func_800AF860(obj);
         early_inner = obj->inner;
         func_80049490(early_inner->table[early_inner->position]);
-        func_800AFCE8();
+        return;
     }
 
     if (!(input & 0xF000)) {
@@ -121,7 +120,7 @@ void func_800AF9C4(TownObject *obj)
             obj->counter = *(volatile s32 *)&obj->counter - 1;
         } else {
             obj->counter++;
-            func_800AFCE8();
+            return;
         }
     }
 
@@ -130,7 +129,7 @@ void func_800AF9C4(TownObject *obj)
     current_inner = obj->inner;
     if (value >= current_inner->limit) {
         current_inner->position = value;
-        func_800AFCE8();
+        return;
     }
     if (value == current_inner->position) {
         return;

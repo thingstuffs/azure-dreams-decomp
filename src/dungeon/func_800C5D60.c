@@ -21,7 +21,6 @@ typedef struct S_800CB4C0_7 {
 M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */
-void *func_800CB5BC();                              /* extern */
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_800CB374;
 extern M2C_UNK D_800E02CC;
@@ -95,16 +94,16 @@ void *func_800CB4C0(void *arg0, s16 arg1) {
         temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
         if ((arg1 << 0x10) == 0) {
             ((S_800CB4C0_0 *)temp_v0)->unk_08 = ((S_800CB4C0_2 *)arg0)->unk_08;
-            return func_800CB5BC();
+        } else {
+            temp_v1 = ((S_800CB4C0_0 *)temp_v0)->unk_08;
+            temp_v1->unk_02 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)arg0)->unk_08))->unk_02;
+            temp_v1->unk_06 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)arg0)->unk_08))->unk_06;
+            temp_v1->unk_0A = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)arg0)->unk_08))->unk_0A;
+            temp_v0_3 = ((S_800CB4C0_2 *)arg0)->unk_0C;
+            temp_s32 = temp_v0_3->unk_0C;
+            temp_s0->unk_10 = 0x60;
+            temp_s0->unk_0C = temp_s32;
         }
-        temp_v1 = ((S_800CB4C0_0 *)temp_v0)->unk_08;
-        temp_v1->unk_02 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)arg0)->unk_08))->unk_02;
-        temp_v1->unk_06 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)arg0)->unk_08))->unk_06;
-        temp_v1->unk_0A = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)arg0)->unk_08))->unk_0A;
-        temp_v0_3 = ((S_800CB4C0_2 *)arg0)->unk_0C;
-        temp_s32 = temp_v0_3->unk_0C;
-        temp_s0->unk_10 = 0x60;
-        temp_s0->unk_0C = temp_s32;
         ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
         temp_s0->unk_06 = -1;
         ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */

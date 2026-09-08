@@ -2,7 +2,6 @@
 
 extern s32 func_800161D8();
 extern s32 func_80016228();
-extern s32 func_80016964(void) __attribute__((noreturn));
 typedef struct {
     s32 value;
     s32 pad[2];
@@ -15,7 +14,6 @@ void func_80016928(void) {
     D_8001967C.value = 2;
     if (3 == D_80019AFC.value) {
         func_80016228();
-        func_80016964();
         return;
     }
     func_800161D8();

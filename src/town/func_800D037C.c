@@ -5,7 +5,6 @@
 M2C_UNK func_80095388();                      /* extern */
 s16 func_800C2AE8();                          /* extern */
 s32 func_800C30E0();         /* extern */
-M2C_UNK func_800CDB9C();                            /* extern */
 M2C_UNK func_800CDF00();     /* extern */
 M2C_UNK func_800CDF94();     
 typedef struct S_800CDADC_0 {
@@ -29,12 +28,11 @@ void func_800CDADC(Rec_func_80094268_arg0 *arg0, S_800CDADC_0 *arg1, M2C_UNK arg
         if ((temp_v0 << 0x10) <= 0) {
             arg1->unk_14 = 0;
             func_800CDF94(arg0, arg1, arg2);
-            func_800CDB9C();
             return;
         }
         if (func_800C30E0(arg0, arg1, arg2) == 0) {
             func_800CDF00(arg0, arg1, arg2);
-            func_800CDB9C();
+            return;
         }
     } else {
         func_80095388(arg1);

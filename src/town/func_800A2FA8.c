@@ -6,7 +6,6 @@ typedef s32 M2C_UNK;
 
 extern void func_80033D08(void *arg0);
 extern s32 func_8009CFE0(void);
-extern void func_800A0788(void);
 extern s32 D_800814A0[3];
 
 void func_800A0708(void *arg0, M2C_UNK arg1, M2C_UNK arg2)
@@ -28,7 +27,7 @@ void func_800A0708(void *arg0, M2C_UNK arg1, M2C_UNK arg2)
             FIELD(arg0, u16 *, -2) =
                 (u16)(FIELD(arg0, u16 *, -2) | 0x8000);
             D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
-            func_800A0788();
+            return;
         } else {
             register void *self ASM_REG("$5") = callarg;   /* MATCH pin: keeps a statement from moving across a call/branch */
 

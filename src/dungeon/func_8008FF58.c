@@ -14,7 +14,6 @@ extern s32 func_80099194(void *arg0, s32 arg1);
 extern void func_80095750(void *arg0, s32 arg1);
 extern void func_80095774(void *arg0, s32 arg1);
 extern void func_80095828(void);
-extern void func_80095838(void);
 extern void func_80099290(s32 arg0);
 extern void func_800A5720(s32 arg0);
 extern void func_800ACB98(void *arg0, s32 arg1, s32 arg2, void *arg3);
@@ -96,7 +95,6 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
             func_80099290(value);
         }
         func_800A5720((s32)arg0);
-        func_80095838();
         return;
     }
 
@@ -107,7 +105,6 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
             ((S_800956B8_1 *)object)->unk_1C |= 0x10000;
             func_800ACB98(object, ((S_800956B8_1_pre *)object)[-1].unk_00,
                          ((S_800956B8_1_pre *)object)[-1].unk_04, object);
-            func_80095838();
             return;
         }
     }

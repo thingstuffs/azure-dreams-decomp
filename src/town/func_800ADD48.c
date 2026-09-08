@@ -13,7 +13,6 @@ typedef struct {
 
 extern u8 D_800AB50C[];
 extern u8 D_800AB708[];
-extern void func_800AB504(void);
 
 void func_800AB4A8(State *arg0) {
     u16 timer;
@@ -26,7 +25,6 @@ void func_800AB4A8(State *arg0) {
     if ((s16) timer < 0) {
         arg0->state = D_800AB50C;
         arg0->timer = 20;
-        func_800AB504();
         return;
     }
     arg0->unk72 += 0x200;

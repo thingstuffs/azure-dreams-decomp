@@ -9,7 +9,6 @@ extern M2C_UNK func_80033D08();
 extern M2C_UNK func_800478B8();
 extern s32 func_800644B8();
 extern s32 func_8009D20C();
-extern M2C_UNK func_8009E840();
 extern M2C_UNK D_80045340;
 extern s32 D_800814A0[3];
 
@@ -29,12 +28,10 @@ void func_8009E714(void *arg0, M2C_UNK arg1, void *arg2) {
         func_80033D08(arg0);
         FIELD(arg0, u16 *, -2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_8009E840();
         return;
     }
     if (state == 2) {
         func_80033D08(arg0);
-        func_8009E840();
         return;
     }
     func_80033CD8(arg0, &D_80045340);

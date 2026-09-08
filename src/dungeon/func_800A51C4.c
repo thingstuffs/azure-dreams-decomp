@@ -9,7 +9,6 @@ typedef struct {
 
 extern DungeonState D_80083460;
 extern s16 D_80083228[];
-extern s32 func_800AAA10(void *);
 extern void func_80047784(void *, s32, s32);
 
 s32 func_800AA924(void *arg0, s32 arg1, void *arg2, u8 *arg3)
@@ -19,7 +18,6 @@ s32 func_800AA924(void *arg0, s32 arg1, void *arg2, u8 *arg3)
     *(u8 *)((u8 *)arg0 + 0x71) &= 0x7F;
     if (state->flags & 0x2008) {
         *(volatile s8 *)((u8 *)arg0 + 0x9A) = 0xE;
-        func_800AAA10(arg2);
         return 1;
     }
     if (*(s32 *)((u8 *)arg0 + 0x1C) & 0x20) {
@@ -33,7 +31,7 @@ s32 func_800AA924(void *arg0, s32 arg1, void *arg2, u8 *arg3)
         mask = ~0x200;
         state_word &= mask;
         *(s32 *)((u8 *)arg0 + 0x1C) = state_word;
-        return func_800AAA10((void *)mask);
+        return;
     }
 
     *(s8 *)((u8 *)arg0 + 0x9A) = 0xD;

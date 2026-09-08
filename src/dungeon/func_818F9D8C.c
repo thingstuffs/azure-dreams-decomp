@@ -10,14 +10,13 @@ typedef struct {
 
 extern s16 D_800266BC[5];
 extern s32 D_800814A0[3];
-extern void func_800255F4() __attribute__((noreturn));
 
 void func_8002558C(Func818F9D8CState *state, s32 unused, u8 *out)
 {
     s32 current;
     s32 target;
     s32 limit;
-    s32 value;
+    register s32 value ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     s16 next;
 
     current = state->current;
@@ -25,13 +24,13 @@ void func_8002558C(Func818F9D8CState *state, s32 unused, u8 *out)
     D_800266BC[0] = 1;
 
     if (current < target) {
-        out[0xE] = (current * 0x60) / target;
-        func_800255F4(current, target, out);
+        value = (current * 0x60) / target;
+        out[0xE] = value;
+    } else {
+        limit = state->limit;
+        value = ((limit - current) * 0x60) / (limit - target);
+        out[0xE] = value;
     }
-
-    limit = state->limit;
-    value = ((limit - current) * 0x60) / (limit - target);
-    out[0xE] = value;
     out[0xD] = value;
     out[0xC] = value;
 

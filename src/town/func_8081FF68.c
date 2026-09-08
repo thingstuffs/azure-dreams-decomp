@@ -61,7 +61,6 @@ extern void func_80022F50(void) __attribute__((noreturn));
 extern void func_800230D0(void) __attribute__((noreturn));
 extern void func_80023280(void) __attribute__((noreturn));
 extern void func_80023284(void) __attribute__((noreturn));
-extern void func_800232C8(void) __attribute__((noreturn));
 
 
 typedef struct S_80022768_0 {
@@ -237,7 +236,7 @@ sw_0:
     (*(u16 *)((u8 *)state + (0x64))) = 1;
     (*(u16 *)((u8 *)state + (0x5E))) = 5;
     (*(s16 *)((u8 *)state + (0x5C))) = 2;
-    func_800232C8();
+    return;
 
 sw_1:
     if ((((S_80022768_2 *)global)->unk_08 & 0x5000) != 0) {
@@ -261,7 +260,7 @@ sw_1:
             }
             ((S_80022768_0 *)state)->unk_64++;
             D_80012D5C[0] -= 100;
-            func_800232C8();
+            return;
         }
     }
 
@@ -272,14 +271,14 @@ sw_1:
             func_80053DA8(0x502);
             D_80012D5C[0] += 100;
             ((S_80022768_0 *)state)->unk_64--;
-            func_800232C8();
+            return;
         }
     }
 
     if ((((S_80022768_2 *)global)->unk_10 & 0x20) != 0) {
         ((S_80022768_0 *)state)->unk_5E.u = 10;
         ((S_80022768_0 *)state)->unk_5C.s = 3;
-        func_800232C8();
+        return;
     }
     ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
     if ((((S_80022768_2 *)global)->unk_10 & 0x40) == 0 ||
@@ -289,7 +288,7 @@ sw_1:
     func_80053DA8(0x526);
     ((S_80022768_0 *)state)->unk_5E.u = 20;
     ((S_80022768_0 *)state)->unk_5C.s = 4;
-    func_800232C8();
+    return;
 
 sw_2:
     {
@@ -301,7 +300,7 @@ sw_2:
         D_80012D5C[0] += ((S_80022768_0 *)state)->unk_64 * 100;
         func_800B1DBC((void *)D_80024638[0]);
         ((S_80022768_0 *)state)->unk_5C.s = 0;
-        func_800232C8();
+        return;
     }
 
 sw_5:
@@ -324,7 +323,7 @@ sw_5:
             ((S_80022768_4 *)obj)->unk_24 = (s16)value;
         } while (i >= 0);
         ((S_80022768_0 *)state)->unk_5C.s = 5;
-        func_800232C8();
+        return;
     }
 
 sw_3:
@@ -336,7 +335,7 @@ sw_3:
         }
         ((S_80022768_0 *)state)->unk_5C.s = 6;
         ((S_80022768_0 *)state)->unk_60.u = 0;
-        func_800232C8();
+        return;
     }
 
 sw_4:
@@ -482,7 +481,7 @@ count_done:
         ((S_80022768_0 *)state)->unk_5E.u = 10;
         ((S_80022768_0 *)state)->unk_64 = 0;
         ((S_80022768_0 *)state)->unk_5C.s = 3;
-        func_800232C8();
+        return;
     }
 
     if ((((S_80022768_0 *)state)->unk_62 & 1) != 0) {
@@ -544,7 +543,7 @@ count_done:
     }
     ((S_80022768_0 *)state)->unk_5E.u = 0;
     ((S_80022768_0 *)state)->unk_5C.s = 7;
-    func_800232C8();
+    return;
     }
 
 sw_7:
@@ -566,7 +565,7 @@ sw_7:
             ((S_80022768_0 *)state)->unk_5C.s = 3;
         }
         ((S_80022768_0 *)state)->unk_62 &= (u16)~2;
-        func_800232C8();
+        return;
     }
 
     {

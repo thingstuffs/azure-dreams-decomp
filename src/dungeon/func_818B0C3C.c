@@ -43,7 +43,6 @@ typedef struct S_8002443C_3 {
 } S_8002443C_3;   /* temp_s0 in func_8002443C */
 
 
-void func_800245EC(void) __attribute__((noreturn));
 M2C_UNK func_8003DB94();
 void *func_8003FC64();
 M2C_UNK func_8004491C();
@@ -109,7 +108,7 @@ s32 func_8002443C(s32 arg0, void *arg1, s16 arg2, s32 arg3) {
         return_v0 = (s32)work_s3;
         ASM_KEEP(return_v0);   /* MATCH pin: retail keeps a computation the compiler would drop */
         ((S_8002443C_2 *)work_s2)->unk_0A.u = (s16)final_value;
-        func_800245EC();
+        return;
     }
     return_v0 = 0;
     ASM_KEEP(return_v0);   /* MATCH pin: retail keeps a computation the compiler would drop */

@@ -25,7 +25,6 @@ extern void func_800AA36C();
 extern s16 func_800BCB04();
 extern void func_801713B8(void) __attribute__((noreturn));
 extern void func_8017143C(void) __attribute__((noreturn));
-extern void func_801714F0(void) __attribute__((noreturn));
 
 extern u16 D_80013714;
 extern s16 D_80083228;
@@ -151,11 +150,9 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
         callback = (*(Callback *)((u8 *)entity + (0x8C)));
         if (callback == (Callback)&D_80171514) {
             callback(entity, motion, monster, actor);
-            func_801714F0();
             return;
         }
         ((S_8017112C_0 *)actor)->unk_71 &= 0x7F;
-        func_801714F0();
         return;
     }
 

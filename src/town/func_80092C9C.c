@@ -9,7 +9,6 @@ extern s32 func_800352FC(void);
 extern void func_8008B158(void *arg0);
 extern s32 func_8008C180(s16 arg0, s16 arg1);
 extern void func_8008F664(void *arg0, void *arg1);
-extern void func_8009063C(void);
 extern void func_8009065C(void *arg0, void *arg1, s32 arg2);
 extern void func_8009539C(void *arg0);
 extern void func_800953D0(void *arg0);
@@ -138,7 +137,6 @@ skip_update:
 
     if ((*(void * *)((u8 *)arg0 + (-0x10))) == D_800A5638) {
         func_800A573C(arg0, arg1, arg2);
-        func_8009063C();
         return;
     }
     func_8009065C(arg0, arg1, arg2);

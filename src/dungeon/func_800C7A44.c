@@ -8,7 +8,6 @@ extern void func_800A56E0(s32);
 extern void func_800A6508(void);
 extern void func_800C5BBC(s32, s32, s32, s32, s32, s32);
 extern s32 func_800C8ABC(void *, s32, s32);
-extern void func_800CD280(void);
 extern void func_800DC1B8(s32);
 extern s32 D_800DCF0C;
 extern u8 D_800E1BF3[];
@@ -40,7 +39,6 @@ s32 func_800CD1A4(void *arg0) {
     if (func_800C8ABC(arg0, var_a1, 0x10) == 0) {
         if (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v == 0) {
             func_800A6508();
-            func_800CD280();
             return 1;
         }
         return 1;

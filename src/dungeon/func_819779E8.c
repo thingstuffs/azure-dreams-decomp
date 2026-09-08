@@ -20,7 +20,6 @@ typedef struct S_800251E8_1 {
 
 extern void *D_80024008[];
 extern s32 D_800814A0[3];
-extern void func_80025338(void) __attribute__((noreturn));
 
 typedef struct LoopEntry {
     u8 pad0[0xA];
@@ -91,7 +90,7 @@ reset_state:
 jt_c4:
     ((S_800251E8_0_pre *)object)[-1].unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;
-    func_80025338();
+    return;
 
 loop_init:
     i = 0;

@@ -7,7 +7,6 @@ extern void *D_80164808[];
 extern s16 func_800BCB04(u16, u16, s16);
 extern void func_80165C3C(void) __attribute__((noreturn));
 extern void func_80165CC8(void) __attribute__((noreturn));
-extern void func_80165CF0(void) __attribute__((noreturn));
 
 
 typedef struct S_80165AB8_0 {
@@ -113,7 +112,7 @@ case_3:
 
         ((S_80165AB8_0 *)arg0)->unk_32.s = 0;
         ((S_80165AB8_0 *)arg0)->unk_17++;
-        func_80165CF0();
+        return;
 
 case_4:
         ((S_80165AB8_2 *)arg2)->unk_0C =

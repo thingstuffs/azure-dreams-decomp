@@ -9,7 +9,6 @@ extern void func_800A6508();
 extern s32 func_800A6D30();
 extern void func_800CD6AC();
 extern void func_800CD744();
-extern void func_800CD8E4();
 
 extern u8 D_80045C34[];
 extern s16 D_8006CCD8[];
@@ -128,11 +127,9 @@ s32 func_800CD6E0(void *arg0) {
         owner = ((S_800CD6E0_0_pre *)arg0)[-1].unk_00;
         if (owner->unk_14 & 0x8000) {
             func_800CD6AC(arg0, 0x10);
-            func_800CD8E4();
             return 1;
         }
         if (func_8003FA44(4) == 0) {
-            func_800CD8E4();
             return 0;
         }
 
@@ -192,7 +189,6 @@ s32 func_800CD6E0(void *arg0) {
             func_800A56E0(call_arg, spr, prim, color);
         } while (i < 4);
 
-        func_800CD8E4();
         return 1;
     }
 

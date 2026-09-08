@@ -7,7 +7,6 @@ M2C_UNK func_80024D34();      /* extern */
 void func_80025190() __attribute__((noreturn)); /* extern */
 void func_800251F4() __attribute__((noreturn)); /* extern */
 void func_800252C4() __attribute__((noreturn)); /* extern */
-void func_800255B0() __attribute__((noreturn)); /* extern */
 M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800A4778();           /* extern */
@@ -369,7 +368,7 @@ destroy:
     ((S_80024E5C_5 *)(((S_80024E5C_0 *)arg0)->unk_8C))->unk_86 = var_s0;
     (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_80024E5C_0_pre *)arg0)[-1].unk_00 | 0x8000);
     D_800814A0 |= 0x8000;
-    func_800255B0();
+    return;
 normal_return:
     func_800478B8(arg2);
 }

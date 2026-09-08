@@ -7,7 +7,6 @@ extern void func_8009A3D0(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8009A21C(s32 arg0, s32 arg1, s32 arg2);
 extern void func_800AA508(void *arg0, void *arg1, void *arg2, void *arg3);
 extern void func_800AA5E4(void *arg0, void *arg1, void *arg2, void *arg3);
-extern void func_800AA4DC(void);
 extern void *D_800814A8[4];
 
 s32 func_800AA36C(void *arg0, void *arg1, void *arg2, void *arg3) {
@@ -50,12 +49,11 @@ s32 func_800AA36C(void *arg0, void *arg1, void *arg2, void *arg3) {
 
             if (result == 1) {
                 func_800AA508(arg0, arg1, arg2, arg3);
-                func_800AA4DC();
+                return 1;
                 ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
                 return 1;
             } else {
                 func_800AA5E4(arg0, arg1, arg2, arg3);
-                func_800AA4DC();
                 return 1;
             }
         }

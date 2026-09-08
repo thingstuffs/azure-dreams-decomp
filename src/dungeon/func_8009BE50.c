@@ -1,5 +1,4 @@
 #include "common.h"
-extern void func_800A1610(void);
 extern u8 D_800E3DB0[];
 s32 func_800A15B0(s16 arg0) {
     s16 value = arg0;
@@ -14,7 +13,6 @@ s32 func_800A15B0(s16 arg0) {
             i = next;
             p += 8;
         } else {
-            func_800A1610();
             return 1;
         }
     } while (next < 6);

@@ -13,7 +13,6 @@ extern void func_800AA258(void *, void *, void *, void *);
 extern s32 func_800AA6B4(void *, void *, void *, s32);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_801744F8(void) __attribute__((noreturn));
-extern void func_80174550(void) __attribute__((noreturn));
 extern void func_80174574(void *, void *, void *, void *);
 
 extern void *D_800814A8;
@@ -66,14 +65,14 @@ void func_80174214(void *arg0, void *arg1, void *arg2, void *arg3)
     if (state == 0) {
         goto state_zero;
     }
-    func_80174550();
+    return;
 
 at_least_two:
     ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }
-    func_80174550();
+    return;
 
 state_zero:
     {
@@ -137,7 +136,7 @@ state_one:
 
         if (flags & 0x100) {
             func_800AA258(call_arg0, arg1, arg2, arg3);
-            func_80174550();
+            return;
         }
 
         ASM_KEEP(call_arg0);   /* MATCH pin: retail basic-block layout depends on it */
@@ -152,7 +151,7 @@ state_one:
             ((S_80174214_0 *)arg0)->unk_9E = 0;
             ((S_80174214_0 *)arg0)->unk_92 = old_value - amount;
             func_80174574(arg0, arg1, arg2, arg3);
-            func_80174550();
+            return;
         }
         }
 
@@ -182,7 +181,7 @@ state_one:
 
 increment_state:
     ((S_80174214_0 *)arg0)->unk_9B++;
-    func_80174550();
+    return;
 
 state_two:
     if (((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000) {

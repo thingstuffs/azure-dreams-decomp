@@ -23,7 +23,6 @@ extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern void func_800B8994(void) __attribute__((noreturn));
 extern void func_800B8BE8(void) __attribute__((noreturn));
-extern void func_800B8BF8(void) __attribute__((noreturn));
 extern void func_800B8D64(s16, s16, s16);
 extern void func_800B8EA8(void *, s16, s16, s16, ShortVec *, s32, s32, s32, s32);
 
@@ -258,7 +257,6 @@ state_two:
         ((S_800B8830_0 *)arg0)->unk_20.u = count;
         ((S_800B8830_9 *)flags_page)->unk_14A0 = final_flags;
     }
-    func_800B8BF8();
     return;
 
 done:

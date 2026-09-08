@@ -2,7 +2,6 @@
 
 extern s32 func_8009CFE0(void);
 extern void func_80033D08(void *arg0);
-extern void func_800B9D50(void) __attribute__((noreturn));
 extern s32 D_800814A0[3];
 
 void func_800B9CB8(void *arg0)
@@ -17,7 +16,7 @@ void func_800B9CB8(void *arg0)
         func_80033D08(arg0);
         *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800B9D50();
+        return;
     }
 
     *(u16 *)((u8 *)arg0 + 0x66) =

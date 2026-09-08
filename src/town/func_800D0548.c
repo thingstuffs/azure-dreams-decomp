@@ -5,7 +5,6 @@
 M2C_UNK func_80095388();                      /* extern */
 s16 func_800C2AE8();                          /* extern */
 s32 func_800C30E0();         /* extern */
-M2C_UNK func_800CDD7C();                            /* extern */
 M2C_UNK func_800CDE9C();     /* extern */
 M2C_UNK func_800CDFF8();     
 
@@ -31,12 +30,11 @@ void func_800CDCA8(Rec_func_80094268_arg0 *arg0, S_800CDCA8_1 *arg1, M2C_UNK arg
             arg1->unk_14 = 0;
             arg0->unk_72.as_u16 = (u16) arg0->unk_6E;
             func_800CDE9C(arg0, arg1, arg2);
-            func_800CDD7C();
             return;
         }
         if (func_800C30E0(arg0, arg1, arg2) == 0) {
             func_800CDFF8(arg0, arg1, arg2);
-            func_800CDD7C();
+            return;
         }
     } else {
         func_80095388(arg1);

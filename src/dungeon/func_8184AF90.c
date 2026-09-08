@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80024908() __attribute__((noreturn));  /* extern */
 M2C_UNK func_8003DB94();      /* extern */
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
@@ -127,7 +126,7 @@ s32 func_80024790(S_80024790_1 *arg0, s32 arg1) {
         final_value = temp_s3->unk_04 - (held_arg1 * 8);
         ASM_KEEP(return_value);   /* MATCH pin: retail keeps a computation the compiler would drop */
         temp_s0_2->unk_0A = (u16) final_value;
-        func_80024908(held_arg1 * 8);
+        return;
     }
     return 0;
 }

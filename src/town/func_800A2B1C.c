@@ -7,7 +7,6 @@ M2C_UNK func_8008F0D4();   /* extern */
 M2C_UNK func_8009B218(); /* extern */
 M2C_UNK func_800A022C(); /* extern */
 void func_800A0390() __attribute__((noreturn));   /* extern */
-void *func_800A03B8();                              /* extern */
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_8009DEBC;
@@ -81,7 +80,6 @@ void *func_800A027C(S_800A027C_5 *arg0, S_800A027C_2 *arg1) {
 
     temp_v0 = func_8003FD64(0x136, &D_80083498);
     if (temp_v0 == NULL) {
-        func_800A03B8();
         return NULL;
     }
     temp_s2 = ((S_800A027C_0 *)temp_v0)->unk_08;

@@ -23,7 +23,6 @@ extern void func_80172AE8(void) __attribute__((noreturn));
 extern void func_80172AF0(void) __attribute__((noreturn));
 extern void func_80172AFC(void) __attribute__((noreturn));
 extern void func_80172B9C(void) __attribute__((noreturn));
-extern void func_80172E64(void) __attribute__((noreturn));
 
 
 typedef struct S_801729D4_0 {
@@ -109,13 +108,13 @@ void func_801729D4(void *arg0, void *arg1, void *arg2, void *arg3)
         if (state == 0) {
             goto state_0;
         }
-        func_80172E64();
+        return;
     }
     ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_2;
     }
-    func_80172E64();
+    return;
 
 state_0:
     if (!(((S_801729D4_1 *)arg3)->unk_1C & 0x2000)) {
@@ -221,7 +220,7 @@ selected:
         func_800A56E0(0x703);
         func_800DA840(pos, (s16)((*anim - 1) % 3));
         ((S_801729D4_0 *)arg0)->unk_9B++;
-        func_80172E64();
+        return;
     }
     goto done;
 
@@ -238,12 +237,12 @@ empty_anim:
     ((S_801729D4_1 *)arg3)->unk_73.u = 0;
     ((S_801729D4_1 *)arg3)->unk_72.u = 0;
     ((S_801729D4_1 *)arg3)->unk_46 &= 0x7FFF;
-    func_80172E64();
+    return;
 
 state_1:
     if (func_8003F270() != 0) {
         ((S_801729D4_4 *)arg2)->unk_14 |= 0x800;
-        func_80172E64();
+        return;
     }
     ((S_801729D4_4 *)arg2)->unk_14 &= 0xF7FF;
     ((S_801729D4_0 *)arg0)->unk_9B++;

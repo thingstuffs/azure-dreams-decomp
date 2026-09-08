@@ -9,7 +9,6 @@ extern void func_800AA258(void *, s32, void *, void *);
 extern s32 func_800AA6B4(void *, s32, void *, s32);
 extern void func_800AA888(void *, s32, void *, void *);
 extern void func_800ACB98();
-extern void func_800B2C44(void);
 extern void func_800B318C(void *, s32, void *, void *);
 extern u16 D_80083460[];
 extern u16 D_80083462;
@@ -30,7 +29,6 @@ void func_800B2A60(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3)
         if (*(u8 *)(entity + 0x25) == 0) {
             *(s8 *)(obj + 0xAD) = 0;
             func_800ACB98(call_a0);
-            func_800B2C44();
             return;
         }
 
@@ -38,7 +36,6 @@ void func_800B2A60(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3)
             if (!(flags[1] & 0x2000)) {
                 if (*(s32 *)(entity + 0x1C) & 0x100) {
                     func_800AA258(obj, context, pos, entity);
-                    func_800B2C44();
                     return;
                 }
 
@@ -55,7 +52,6 @@ void func_800B2A60(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3)
                 if (*(s32 *)(entity + 0x1C) & 0x80000) {
                     func_800AA888(obj, context, pos, entity);
                     func_800B318C(obj, context, pos, entity);
-                    func_800B2C44();
                     return;
                 }
 
@@ -84,7 +80,6 @@ void func_800B2A60(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3)
 fail:
         *(s8 *)(obj + 0xAD) = 0;
         func_800ACB98(obj, context, pos, entity);
-        func_800B2C44();
         return;
 
 clear:

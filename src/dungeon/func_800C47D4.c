@@ -9,7 +9,6 @@ typedef s32 M2C_UNK;
 extern s32 func_8009A180();
 extern s8 func_8009FB34();
 extern s32 func_800A1C58();
-extern void func_800CA0B8(void) __attribute__((noreturn));
 extern M2C_UNK func_800CA0DC();
 extern M2C_UNK func_800CA93C();
 extern M2C_UNK func_800CAA94();
@@ -48,7 +47,6 @@ void func_800C9F34(S_800C9F34_1 *arg0, M2C_UNK arg1, S_800C9F34_3 *arg2, void *a
     if (((S_800C9F34_0 *)st)->unk_02 & 0x1000) {
         arg0->unk_9A = 0xE;
         func_800CA0DC(arg0);
-        func_800CA0B8();
         return;
     }
     if (((S_800C9F34_0 *)st)->unk_02 & 0x2000) {
@@ -68,7 +66,6 @@ void func_800C9F34(S_800C9F34_1 *arg0, M2C_UNK arg1, S_800C9F34_3 *arg2, void *a
     }
 call_aa94:
     func_800CAA94(arg0, arg1, arg2);
-    func_800CA0B8();
     return;
 
 path_a1c58:
@@ -80,7 +77,7 @@ path_a1c58:
         !(((S_800C9F34_0 *)st)->unk_02 & 8)) {
         ((Rec_D_800E3D7C *)arg3)->unk_18 = 0;
         ((S_800C9F34_0 *)st)->unk_0C = 0;
-        func_800CA0B8();
+        return;
     }
     return;
 

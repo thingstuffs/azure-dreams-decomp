@@ -4,7 +4,6 @@
 extern s32 func_800AB1C0(void);
 extern void func_800A4ACC(void *);
 extern void func_800CAA94(void *, s32, s32);
-extern void func_800CAB88(void);
 
 extern u16 D_80013714;
 extern u16 D_80083462;
@@ -55,7 +54,6 @@ void func_800CAAC8(void *arg0, s32 arg1, s32 arg2, void *arg3)
     }
 
     func_800CAA94(entity, value1, value2);
-    func_800CAB88();
     return;
 
 set_callback:

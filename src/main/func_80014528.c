@@ -3,7 +3,6 @@
 
 M2C_UNK func_80025C7C();                /* extern */
 M2C_UNK func_80026868();                    /* extern */
-void func_80027570() __attribute__((noreturn));                            /* extern */
 M2C_UNK func_80027C90();                         
 typedef struct S_80027528_0 {
     s32 unk_00;
@@ -20,7 +19,7 @@ void func_80027528(void *arg0) {
     temp_a1 = ((S_80027528_0 *)arg0)->unk_00;
     if (temp_a1 == 0) {
         func_80025C7C(((S_80027528_0 *)arg0)->unk_14, 0);
-        func_80027570();
+        return;
     } else {
         func_80026868(((S_80027528_0 *)arg0)->unk_14, temp_a1);
     }

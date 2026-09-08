@@ -17,7 +17,6 @@ void func_80170EC0() __attribute__((noreturn));
 void func_80171064() __attribute__((noreturn));
 void func_8017106C() __attribute__((noreturn));
 void func_801710D8() __attribute__((noreturn));
-void func_8017117C() __attribute__((noreturn));
 extern u8 D_8006CCF8[];
 extern s16 D_80083228[];
 extern u16 D_80083462[];
@@ -122,11 +121,9 @@ void func_80170B64(void *in0, void *in1, void *in2)
         if (temp_v1 == &D_801711A4) {
             ASM_KEEP(raw0);   /* MATCH pin: retail register colouring depends on it */
             temp_v1(raw0, arg1, arg2, raw0);
-            func_8017117C();
             return;
         }
         ((S_80170B64_0 *)arg0)->unk_71 &= 0x7F;
-        func_8017117C();
         return;
     }
 

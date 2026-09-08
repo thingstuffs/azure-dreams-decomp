@@ -7,7 +7,6 @@ s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 M2C_UNK func_800C30A4();                      /* extern */
 s32 func_800CB7D0();                          /* extern */
-M2C_UNK func_800CBA8C();                            
 
 typedef struct S_800CB9B8_1 {
     u8 pad_00[0x8];
@@ -57,7 +56,6 @@ void func_800CB9B8(Rec_D_80082D58 *arg0, S_800CB9B8_2 *arg1) {
     if (func_800CB7D0(temp_a0) == 0) {
         func_80033D08(arg0);
         func_800C30A4(arg0);
-        func_800CBA8C();
         return;
     }
     arg1->unk_00 = (s32) (temp_s0->unk_00 + (func_800644B8(((S_800CB9B8_5 *)(arg0->unk_9C))->unk_72) * 0x140));

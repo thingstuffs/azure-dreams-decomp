@@ -23,7 +23,6 @@ typedef struct {
 
 extern s32 func_80033B2C(s32, s32);
 extern void func_800C15C0(s32, s32);
-extern void func_800C21DC(void) __attribute__((noreturn));
 extern u8 D_80083780[8];
 extern u8 D_800C21F8[];
 
@@ -63,7 +62,7 @@ s32 func_800C2124(TownObject *arg0) {
                 ASM_KEEP(scratch);   /* MATCH pin: retail basic-block layout depends on it */
                 callback = D_800C21F8;
                 arg0->callback = callback;
-                func_800C21DC();
+                return;
             }
         }
         return 0;

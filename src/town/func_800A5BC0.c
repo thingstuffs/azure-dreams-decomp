@@ -13,7 +13,6 @@ typedef struct Obj800A5BC0 {
 
 extern s32 D_800814A0[3];
 extern void func_800A2FCC(void *ctx, s32 x, s32 y, s32 value);
-extern void func_800A33D8(void) __attribute__((noreturn));
 
 void func_800A3320(Obj800A5BC0 *obj, void *ctx)
 {
@@ -21,7 +20,7 @@ void func_800A3320(Obj800A5BC0 *obj, void *ctx)
     if (obj->timer < 0) {
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800A33D8();
+        return;
     }
 
     obj->x += obj->dx;

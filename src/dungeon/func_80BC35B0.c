@@ -8,7 +8,6 @@ extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_801732A4(void) __attribute__((noreturn));
 
 extern s8 D_8006CCD8;
 extern s8 D_8006CCE8;
@@ -66,7 +65,7 @@ L0:
         ((S_80172DB0_0 *)arg0)->unk_96.u = 0;
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
-        func_801732A4();
+        return;
     }
     ((S_80172DB0_3 *)arg1)->unk_14 = 0;
     ((S_80172DB0_3 *)arg1)->unk_10 = 0;
@@ -80,7 +79,7 @@ L0:
         0);
     ((S_80172DB0_0 *)arg0)->unk_96.u = 8;
     ((S_80172DB0_0 *)arg0)->unk_9B++;
-    func_801732A4();
+    return;
 
 L1:
     {
@@ -104,7 +103,7 @@ L1:
         -*(s16 *)(&D_8006CCD8 + (((u16)((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 >> 8) & 0xE)) << 18;
     ((S_80172DB0_3 *)arg1)->unk_10 =
         -*(s16 *)(&D_8006CCE8 + (((u16)((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 >> 8) & 0xE)) << 18;
-    func_801732A4();
+    return;
 
 L2:
     ((S_80172DB0_0 *)arg0)->unk_A4 += ((S_80172DB0_0 *)arg0)->unk_AC;
@@ -126,7 +125,7 @@ L2:
     func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
     ((S_80172DB0_0 *)arg0)->unk_9B++;
     func_800A56E0(0x804);
-    func_801732A4();
+    return;
 
 L3:
     ((S_80172DB0_0 *)arg0)->unk_A4 += ((S_80172DB0_0 *)arg0)->unk_AC;
@@ -142,7 +141,7 @@ L3:
     ((S_80172DB0_3 *)arg1)->unk_10 = 0;
     ((S_80172DB0_3 *)arg1)->unk_0C = 0;
     ((S_80172DB0_0 *)arg0)->unk_A4 = 0;
-    func_801732A4();
+    return;
 
 L4:
     if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
@@ -169,7 +168,7 @@ L4:
         ((S_80172DB0_3 *)arg1)->unk_10 = ((coord - current) << 16)
             / ((S_80172DB0_0 *)arg0)->unk_96.s;
     }
-    func_801732A4();
+    return;
 
 L5:
     {

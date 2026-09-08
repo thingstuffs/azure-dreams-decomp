@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_80173FD4(void) __attribute__((noreturn));
 extern s32 D_800814A0[3];
 
 void func_80173F38(void *arg0) {
@@ -14,7 +13,7 @@ void func_80173F38(void *arg0) {
     if (state == 1) {
         goto state_one;
     }
-    func_80173FD4();
+    return;
 
 state_zero:
     timer = *(u16 *)((u8 *)arg0 + 0xE) - 1;
@@ -23,7 +22,7 @@ state_zero:
         goto done;
     }
     *(u16 *)((u8 *)arg0 + 0xC) += 1;
-    func_80173FD4();
+    return;
 
 state_one:
     {
@@ -34,7 +33,7 @@ state_one:
         }
         *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
         *flags |= 0x8000;
-        func_80173FD4();
+        return;
     }
 
 large:

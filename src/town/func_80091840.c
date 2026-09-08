@@ -9,7 +9,6 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
-extern void func_8008EFD8(void);
 extern Node D_800CFCB4[];
 
 s32 func_8008EFA0(Node *arg0) {
@@ -25,6 +24,5 @@ s32 func_8008EFA0(Node *arg0) {
         head->next = arg0;
         return 1;
     }
-    func_8008EFD8();
     return 0;
 }

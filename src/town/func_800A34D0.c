@@ -4,7 +4,6 @@
 s32 func_800A0F10();                                /* extern */
 s32 func_8009F9A4();                                /* extern */
 M2C_UNK func_8009A8EC();                            /* extern */
-M2C_UNK func_800A0CA8();                            /* extern */
 M2C_UNK func_8009A99C();                            /* extern */
 extern M2C_UNK D_800A0CF8;
 extern M2C_UNK D_800A0CC0;
@@ -32,7 +31,6 @@ void func_800A0C30(S_800A0C30_0 *arg0, void *arg1, S_800A0C30_1 *arg2) {
             arg0->unk_90 = 6;
             arg0->unk_50 = &D_800A0CF8;
             func_8009A8EC(arg0->unk_72, arg2->unk_02, arg2->unk_06);
-            func_800A0CA8();
             return;
         }
         arg0->unk_50 = &D_800A0CC0;

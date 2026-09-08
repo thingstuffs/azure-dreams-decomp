@@ -25,7 +25,6 @@ extern Item *func_80097F84(Item *, u8 *, u8 *, s32);
 extern void func_800983C8(void *);
 extern void func_80098550(void);
 extern void func_800985E4(void);
-extern void func_800985F4(void);
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *, s32);
 extern void func_80099290(s32);
@@ -90,7 +89,6 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
             var_s1 = func_800990FC();
             func_80099290(func_80099194(D_800E081C, func_80099368(temp_s2, func_8009929C(8, var_s1))));
             func_800A5720(var_s1);
-            func_800985F4();
             return;
         }
         temp_s2->b3 = temp_v0 & 0xDF;

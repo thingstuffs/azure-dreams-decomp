@@ -24,7 +24,6 @@ extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
 extern void func_801713E0(void) __attribute__((noreturn));
-extern void func_80171414(void) __attribute__((noreturn));
 extern void func_80171438(void);
 extern void func_8017167C(void *, void *, void *, void *);
 extern s32 func_80171E28(void *, void *, void *, void *);
@@ -89,7 +88,6 @@ void func_80170EA8(void *arg0, void *arg1, void *arg2, void *arg3)
     if (initial_flags & 0x1000) {
         ((S_80170EA8_0 *)arg0)->unk_9A = 0xE;
         func_80171438();
-        func_80171414();
         return;
     }
 
@@ -112,7 +110,6 @@ void func_80170EA8(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_80170EA8_0 *)arg0)->unk_9B = 1;
             ((S_80170EA8_0 *)arg0)->unk_8C = 0;
             ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x40000;
-            func_80171414();
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_80174080)) {
@@ -123,7 +120,6 @@ void func_80170EA8(void *arg0, void *arg1, void *arg2, void *arg3)
     if (!(D_80083462 & 0x2000)) {
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            func_80171414();
             return;
         }
 
@@ -151,7 +147,6 @@ void func_80170EA8(void *arg0, void *arg1, void *arg2, void *arg3)
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             func_80173A84(arg0, arg1, arg2, arg3);
-            func_80171414();
             return;
         }
 
@@ -223,7 +218,7 @@ handler_case:
 #endif
             if ((s16)func_80171E28(arg0, arg1, arg2, arg3) == 0) {
                 func_8017208C(arg0, arg1, arg2, arg3);
-                func_80171414();
+                return;
             }
             return;
 
@@ -266,17 +261,14 @@ coords_case:
 
 special_cleanup:
         func_800A9A0C(arg3);
-        func_80171414();
         return;
 
 aaf_cleanup:
         func_800AAF00(arg0, arg1, arg2, D_80174070, &D_80170EA8);
-        func_80171414();
         return;
 
 ordinary_cleanup:
         func_8017167C(arg0, arg1, arg2, arg3);
-        func_80171414();
         return;
     } else if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x2000)) {
         s32 index = (s8)result;

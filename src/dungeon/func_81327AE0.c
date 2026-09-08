@@ -17,7 +17,6 @@ extern void func_8016F610() __attribute__((noreturn));
 extern void func_8016F6A8() __attribute__((noreturn));
 extern void func_8016F6C0() __attribute__((noreturn));
 extern void func_8016F740() __attribute__((noreturn));
-extern void func_8016F764() __attribute__((noreturn));
 
 extern u16 D_80013714;
 extern u8 D_8006CCF8[8];
@@ -131,11 +130,9 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
         callback = (*(Callback *)((u8 *)arg0 + (0x8C)));
         if (callback == (Callback)&D_8016F78C) {
             callback(arg0, arg1, arg2, actor);
-            func_8016F764();
             return;
         }
         ((S_8016F2E0_3 *)actor)->unk_71 &= 0x7F;
-        func_8016F764();
         return;
     }
 

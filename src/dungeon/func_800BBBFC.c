@@ -28,7 +28,6 @@ typedef struct {
 } Object3D7C;
 
 extern s32 func_80042640();
-extern s32 func_800C13B8();
 extern void *func_800C9850();
 extern Global82E80 D_80082E80;
 extern Object3D7C *D_800E3D7C;
@@ -51,7 +50,6 @@ s32 func_800C135C(void) {
     if (temp_v0 != 0) {
         ((S_800C135C_1 *)(((S_800C135C_0_pre *)temp_v0)[-1].unk_00))->unk_0C = 0;
         func_80042640(temp_v0, temp_v0->unk_13);
-        func_800C13B8();
         result = 1;
     } else {
         result = 0;

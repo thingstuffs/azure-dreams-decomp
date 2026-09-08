@@ -3,7 +3,6 @@
 
 
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
-extern void func_800CA1C8(void) __attribute__((noreturn));
 
 extern u16 D_80083462;
 
@@ -63,7 +62,7 @@ void func_800CA0DC(void *arg0, s32 arg1, void *arg2, void *arg3)
 
     if (D_80083462 & 0x80) {
         ((Rec_func_800C9F34_arg0 *)arg0)->unk_96 = 0;
-        func_800CA1C8();
+        return;
     }
 
     ((Rec_func_800C9F34_arg0 *)arg0)->unk_96 = 8;

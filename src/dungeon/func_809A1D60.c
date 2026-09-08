@@ -33,7 +33,6 @@ extern void func_80173624() __attribute__((noreturn));
 extern void func_80173698() __attribute__((noreturn));
 extern void func_801736FC() __attribute__((noreturn));
 extern void func_801737D4() __attribute__((noreturn));
-extern void func_80173AB0() __attribute__((noreturn));
 extern s32 func_80175814();
 extern s32 func_80175D7C();
 
@@ -227,12 +226,12 @@ item_default:
         key = (s16)func_800A9400(*(u16 *)s0 & 0x7F);
         ((S_80173560_0 *)arg0)->unk_96.s = D_80175F40[key] - 0x10;
         ((S_80173560_0 *)arg0)->unk_9B.n++;
-        func_80173AB0();
+        return;
     }
     key = ((S_80173560_0 *)arg0)->unk_9B.v;
     key += 2;
     ((S_80173560_0 *)arg0)->unk_9B.n = key;
-    func_80173AB0();
+    return;
 
 state1:
     ((S_80173560_0 *)arg0)->unk_96.u -= D_80080A84;
@@ -260,7 +259,7 @@ state1:
 state2:
     if (func_8003F270() != 0) {
         ((S_80173560_4 *)arg2)->unk_14 |= 0x800;
-        func_80173AB0();
+        return;
     }
     ((S_80173560_4 *)arg2)->unk_14 &= 0xF7FF;
     ((S_80173560_0 *)arg0)->unk_9B.n++;

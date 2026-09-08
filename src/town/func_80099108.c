@@ -9,7 +9,6 @@ extern s32 D_80097D2C[3];
 extern s32 D_800D04A4[];
 extern s32 D_800D04B8[];
 
-extern void func_80096908(void) __attribute__((noreturn));
 extern void func_80096918(Unk99108 *, s32, s32, s32 *);
 extern void func_80096924(Unk99108 *, s32, s32, s32 *);
 
@@ -32,7 +31,6 @@ void func_80096868(Unk99108 *arg0, s32 arg1, s32 arg2, s32 *arg3)
                             }
 found:
                             func_80096924(arg0, arg1, arg2, arg3);
-                            func_80096908();
                             return;
                         } while (*arg3 != 0);
                     }

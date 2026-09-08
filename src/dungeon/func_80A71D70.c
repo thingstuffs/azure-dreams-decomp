@@ -37,7 +37,6 @@ extern void func_8009A3D0(s32, s32, s32);
 extern s16 func_8009A66C(s16, void *, void *, s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
 extern void func_80171738(void) __attribute__((noreturn));
-extern void func_8017178C(void) __attribute__((noreturn));
 extern void func_80171EFC(void *, s32, void *, void *);
 
 extern s16 D_80083228;
@@ -114,7 +113,7 @@ void func_80171570(void *arg0, s32 arg1, void *arg2, void *arg3) {
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
     if (D_80083462 & 0x80) {
         ((S_80171570_2 *)arg0)->unk_96 = 0;
-        return func_8017178C();
+        return;
     }
 
     ((S_80171570_2 *)arg0)->unk_96 = 8;

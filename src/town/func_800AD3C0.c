@@ -11,7 +11,6 @@ M2C_UNK func_8008F134();
 M2C_UNK func_8009706C();
 s32 func_8009CFE0();
 M2C_UNK func_800AAC3C();
-M2C_UNK func_800AAC48();
 s32 func_800C2E1C();
 s32 func_800C2F14();
 extern s32 D_800814A0[3];
@@ -36,7 +35,6 @@ void func_800AAB20(void *arg0, M2C_UNK arg1, Rec_D_80082E80 *arg2) {
         func_80033D08(arg0);
         ((S_800AAB20_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800AAB20_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
-        func_800AAC48();
         return;
     }
     func_8009706C(arg1);

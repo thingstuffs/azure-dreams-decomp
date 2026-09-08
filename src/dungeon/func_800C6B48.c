@@ -4,7 +4,6 @@ extern u8 D_800E3D40[];
 
 extern s32 func_800C8CD8(void *arg0, s32 arg1, s32 arg2);
 extern void func_800A6508(void);
-extern void func_800CC35C(void);
 extern void func_800C5BBC(s32, s32, s32, s32, s32, s32);
 extern void func_800A56E0(s32);
 
@@ -26,7 +25,6 @@ s32 func_800CC2A8(void *arg0) {
     if (func_800C8CD8(arg0, amount, 0x10) == 0) {
         if (*(u8 *)((u8 *)arg0 + 0x13) == 0) {
             func_800A6508();
-            func_800CC35C();
             return 1;
         }
         return 1;

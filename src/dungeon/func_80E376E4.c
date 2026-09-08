@@ -25,7 +25,6 @@ extern void func_800AAF00(void *, void *, void *, void *, void *);
 
 extern void func_80171278(void) __attribute__((noreturn));
 extern void func_80171408(void) __attribute__((noreturn));
-extern void func_8017143C(void) __attribute__((noreturn));
 extern void func_80171460(void);
 extern void func_801716A4(void *, void *, void *, void *);
 extern s32 func_80171E38(void *, void *, void *, void *);
@@ -121,7 +120,7 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     if (initial_flags & 0x1000) {
         ((S_80170EE4_0 *)arg0)->unk_9A = 14;
         func_80171460();
-        func_8017143C();
+        return;
     }
 
     ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -146,7 +145,7 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
             ((S_80170EE4_0 *)arg0)->unk_9B = 1;
             ((S_80170EE4_0 *)arg0)->unk_8C = 0;
             ((S_80170EE4_1 *)arg3)->unk_1C &= ~0x40000;
-            func_8017143C();
+            return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_80176678) != 0) {
             return;
@@ -156,7 +155,7 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     if ((D_80083462 & 0x2000) == 0) {
         if (((S_80170EE4_1 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            func_8017143C();
+            return;
         }
 
         ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
@@ -185,7 +184,7 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
         if (((S_80170EE4_1 *)arg3)->unk_1C & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             func_801737B8(arg0, arg1, arg2, arg3);
-            func_8017143C();
+            return;
         }
 
         if ((s16)func_800A1C58(arg3) != 0) {
@@ -243,10 +242,10 @@ jt_c9:
 jt_c8:
         if (!(((S_80170EE4_1 *)arg3)->unk_14 & 0x20000000)) {
             func_80173C40(arg0, arg1, arg2, arg3);
-            func_8017143C();
+            return;
         }
         func_80171FFC(arg0, arg1, arg2, arg3);
-        func_8017143C();
+        return;
 
 jt_c5:
 jt_c6:
@@ -262,21 +261,21 @@ jt_c7:
 
 jt_c12:
         func_800A9A0C(arg3);
-        func_8017143C();
+        return;
 
 jt_c1:
 jt_c2:
 jt_c3:
 jt_call:
         func_800AAF00(arg0, arg1, arg2, D_80176660, D_80170EE4);
-        func_8017143C();
+        return;
 
 jt_c4:
 jt_c10:
 jt_c11:
 jt_default:
         func_801716A4(arg0, arg1, arg2, arg3);
-        func_8017143C();
+        return;
     }
 
     flags = ((S_80170EE4_1 *)arg3)->unk_1C;

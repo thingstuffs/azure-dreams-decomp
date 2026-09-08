@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern u8 *D_800E3D7C;
-extern void func_800C8070(s32, u32);
 
 s32 func_800C7FFC(u8 *arg0) {
     s32 i;
@@ -26,7 +25,6 @@ s32 func_800C7FFC(u8 *arg0) {
             i--;
             slot -= 4;
         }
-        func_800C8070(i, mask);
         return 0;
     }
 

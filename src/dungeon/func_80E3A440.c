@@ -4,7 +4,6 @@
 
 extern void func_80047784();
 extern s32 func_800A2BDC();
-extern void func_80173D20(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern u8 D_80083460[12];
@@ -34,7 +33,7 @@ void func_80173C40(void *arg0, void *arg1, void *arg2, void *arg3) {
 
     if (((S_80173C40_0 *)state)->unk_02 & 0x2000) {
         ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 &= 0x7F;
-        func_80173D20();
+        return;
     }
 
     if ((func_800A2BDC(arg3) << 16) == 0) {

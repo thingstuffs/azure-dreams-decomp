@@ -17,7 +17,6 @@ extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, s32, void *);
 
 extern void func_801718A4() __attribute__((noreturn));
-extern void func_801719A0(void) __attribute__((noreturn));
 extern void func_801719C0(void *);
 extern void func_80171BE0(void *, void *, void *, void *);
 extern s32 func_80172330(void *, void *, void *, s32);
@@ -97,7 +96,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     if (entry_status & 0x1000) {
         (*(u8 *)((u8 *)arg0 + (0x9A))) = 14;
         func_801719C0(arg0);
-        func_801719A0();
+        return;
     }
        /* MATCH pin: retail schedule: same instructions, different order without it */
 
@@ -107,7 +106,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
             (*(u8 *)((u8 *)arg0 + (0x9B))) = 1;
             (*(u32 *)((u8 *)arg0 + (0x8C))) = 0;
             ((S_80171514_0 *)arg3)->unk_1C &= ~0x40000;
-            func_801719A0();
+            return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_80173E94) != 0) {
             return;
@@ -117,7 +116,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     if ((D_80083462 & 0x2000) == 0) {
         if (((S_80171514_0 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            func_801719A0();
+            return;
         }
 
         ASM_KEEP(obj);   /* MATCH pin: keeps a statement from moving across a call/branch */
@@ -155,7 +154,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
             (*(s16 *)((u8 *)arg0 + (0x9E))) = 0;
             (*(u16 *)((u8 *)arg0 + (0x92))) = old_value - amount;
             func_801736B8(arg0, arg1, arg2, arg3);
-            func_801719A0();
+            return;
         }
 
         if ((s16)func_800A1C58(arg3) != 0) {
@@ -216,21 +215,21 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
 
 case_stop:
         func_800A9A0C(arg3);
-        func_801719A0();
+        return;
 
 case_callback:
         (*(void * volatile *)((u8 *)arg0 + (0x8C))) = &D_80171514;
         func_800A9A0C(arg3);
         ((S_80171514_0 *)arg3)->unk_46 &= 0x7FFF;
-        func_801719A0();
+        return;
 
 case_action:
         func_800AAF00(arg0, arg1, arg2, 0, &D_80171514);
-        func_801719A0();
+        return;
 
 case_default:
         func_80171BE0(arg0, arg1, arg2, arg3);
-        func_801719A0();
+        return;
     }
 
     flags = ((S_80171514_0 *)arg3)->unk_1C;
