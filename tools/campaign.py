@@ -50,9 +50,11 @@ def launch(plan, tier, n, dry_run):
     (WORK / "campaign.pid").write_text(str(p.pid))
     p.wait(); (WORK / "campaign.pid").unlink(missing_ok=True)
     text = logf.read_text(errors="replace")
-    first = text.splitlines()[0] if text.strip() else ""
     if "QUOTA" in text: return "quota"
-    if first.startswith("0 rows"): return "empty"
+    import re
+    m = re.search(r"^(\d+) rows in \d+ unit", text, re.M) or re.search(r"^(\d+) rows,", text, re.M)
+    served = text.count('"outcome"')
+    if (m and int(m.group(1)) == 0) or served == 0: return "empty"   # nothing to serve (a 'rows skipped' notice may precede the count)
     return "done"
 
 def main():
@@ -73,6 +75,10 @@ def main():
             log(f"quota: waiting {a.quota_wait}s"); time.sleep(a.quota_wait)
         elif res == "empty" or "rows_file" in tier:
             state["tier"] += 1
+        state.setdefault("same_tier", 0)
+        state["same_tier"] = 0 if res in ("empty",) or "rows_file" in tier else state["same_tier"] + 1
+        if state["same_tier"] > 12:   # a tier that keeps returning 'done' without emptying is a harness fault, not progress
+            log("stopping: the same tier relaunched 12 times without emptying"); break
         state_p.write_text(json.dumps(state))
     log("plan complete"); (WORK / "campaign_controller.pid").unlink(missing_ok=True)
 
