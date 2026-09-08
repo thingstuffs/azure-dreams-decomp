@@ -166,7 +166,7 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
             s32 reset_value;
 
             current_state = ((S_801719DC_0 *)arg0)->unk_9A;
-            ASM_KEEP(current_state);   /* MATCH pin: retail delay-slot fill depends on it */
+               /* MATCH pin: retail delay-slot fill depends on it */
             actor_state = 0xE;
             if (current_state != actor_state) {
                 current = ((S_801719DC_2 *)arg2)->unk_2C;

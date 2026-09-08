@@ -63,7 +63,7 @@ s32 func_800BC00C(void *arg0, S_800BC00C_2 *arg1, Rec_D_80082E80 *arg2) {
     return;
 
 check_ff:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+       /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     if (temp_v1 == 0xFF) {
         goto state_ff;
     }

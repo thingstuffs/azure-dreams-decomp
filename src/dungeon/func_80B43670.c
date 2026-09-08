@@ -167,7 +167,7 @@ void func_80170E70(void *in0, void *in1, void *in2, void *in3)
         }
 
         current_state = ((S_80170E70_0 *)arg0)->unk_9A;
-        ASM_KEEP(current_state);   /* MATCH pin: retail delay-slot fill depends on it */
+           /* MATCH pin: retail delay-slot fill depends on it */
         state = 14;
         if (current_state != state) {
             u8 *effect = D_80175A54;

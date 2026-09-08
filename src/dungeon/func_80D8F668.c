@@ -99,7 +99,7 @@ void func_80170E68(Rec_func_800A9E70_arg0 *arg0, void *arg1, void *arg2, Rec_D_8
         }
 
         
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+           /* MATCH pin: retail delay-slot fill depends on it */
         if (arg0->unk_9A.as_u8 != 14) {
             if ((*(u8 * *)((u8 *)arg2 + (0x2C))) != D_8017386C) {
                 (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_8017386C;

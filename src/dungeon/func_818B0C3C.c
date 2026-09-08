@@ -111,6 +111,6 @@ s32 func_8002443C(s32 arg0, void *arg1, s16 arg2, s32 arg3) {
         return;
     }
     return_v0 = 0;
-    ASM_KEEP(return_v0);   /* MATCH pin: retail keeps a computation the compiler would drop */
+       /* MATCH pin: retail keeps a computation the compiler would drop */
     return return_v0;
 }

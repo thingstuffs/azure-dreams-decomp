@@ -22,7 +22,7 @@ s32 func_800C1D44(s32 arg0) {
             goto return_zero;
         }
         {
-            register s32 dead_value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            s32 dead_value;   /* MATCH pin: retail register colouring depends on it */
             dead_value = 6;
             ASM_KEEP(dead_value);   /* MATCH pin: load-bearing for the whole function shape */
         }

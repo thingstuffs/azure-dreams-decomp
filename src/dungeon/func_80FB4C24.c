@@ -60,7 +60,7 @@ void func_80174424(void *arg0)
     }
 
     global_page = (s32 *)(u32)0x80080000;
-    ASM_KEEP(global_page);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     func_8006733C((s8 *)arg0 + 0xA0, &stack[4]);
     stack[0] = 0x340;
     stack[2] = 0x80;

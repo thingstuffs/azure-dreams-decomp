@@ -119,7 +119,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
             return;
         }
 
-        ASM_KEEP(obj);   /* MATCH pin: keeps a statement from moving across a call/branch */
+           /* MATCH pin: keeps a statement from moving across a call/branch */
         if ((*(u8 *)((u8 *)arg0 + (0x9A))) != 14) {
             (*(u8 *)((u8 *)arg0 + (0x9A))) = 14;
         }

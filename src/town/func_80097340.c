@@ -29,6 +29,6 @@ s32 func_80094AA0(s32 arg0, s32 arg1, s32 arg2) {
         }
     }
 return_arg1:
-    ASM_KEEP(arg1);   /* MATCH pin: retail basic-block layout depends on it */
+       /* MATCH pin: retail basic-block layout depends on it */
     return arg1;
 }

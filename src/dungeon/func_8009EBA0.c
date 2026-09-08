@@ -77,7 +77,7 @@ void func_800A4300(Rec_D_80082E80 *arg0, Rec_D_800E3D7C *arg1) {
         return;
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+       /* MATCH pin: retail basic-block layout depends on it */
     *(void **)D_80081470 = 0;
     ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.i = 0;
 }

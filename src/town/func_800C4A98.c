@@ -47,7 +47,7 @@ s32 func_800C21F8(S_800C21F8_0 *arg0) {
         ((s16)temp_a0 > arg0->unk_0E)) {
         func_800C170C(temp_a0);
         arg0->unk_00 = (void (*)(void))func_800C2124;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+           /* MATCH pin: retail basic-block layout depends on it */
         return 1;
     }
     return 0;

@@ -23,7 +23,7 @@ void func_8009DC8C(void *arg0, void *arg1, s32 arg2, s32 arg3) {
     if (arg3 & 2) {
         ((Rec_D_80082E80 *)arg1)->unk_12.at00_s16.v = 0x100;
         return;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+           /* MATCH pin: retail branch polarity depends on it */
         return;
     }
     if (arg3 & 4) {

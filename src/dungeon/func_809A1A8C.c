@@ -67,7 +67,7 @@ state_zero:
         func_8009C12C(arg3, arg2, S16(arg3, 0x2A), 1);
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+       /* MATCH pin: retail basic-block layout depends on it */
     if ((flags & 0x6000) == 0) {
         goto done;
     }

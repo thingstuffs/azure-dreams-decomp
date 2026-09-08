@@ -81,7 +81,7 @@ void func_8016CF30(DungeonState *state, Arg1 *arg1, Arg2 *arg2, Arg3 *arg3) {
         }
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+       /* MATCH pin: retail delay-slot fill depends on it */
     if (stage == 2) {
         goto phase2;
     }

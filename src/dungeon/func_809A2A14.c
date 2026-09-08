@@ -68,7 +68,7 @@ void func_80174214(void *arg0, void *arg1, void *arg2, void *arg3)
     return;
 
 at_least_two:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+       /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }
@@ -139,7 +139,7 @@ state_one:
             return;
         }
 
-        ASM_KEEP(call_arg0);   /* MATCH pin: retail basic-block layout depends on it */
+           /* MATCH pin: retail basic-block layout depends on it */
         if (flags & 0x80000) {
             u16 old_value;
             u16 amount;

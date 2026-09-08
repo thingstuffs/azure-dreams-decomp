@@ -319,7 +319,7 @@ code_top_high:
 code_10:
                     func_8008C7B4(arg0, arg1, arg2, arg3);
                     return;
-                    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                       /* MATCH pin: retail basic-block layout depends on it */
                     return;
 code_48:
                     if (func_80095538(arg0, ((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, ((S_8008EAC8_6 *)temp_v0)->unk_02 & 0x1F) >= 0) {
@@ -399,7 +399,7 @@ code_D8:
                     if ((func_800A4474(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25) << 0x10) != 0) {
                         func_8008CF6C(arg0, arg1, arg2, &D_800245A8);
                         return;
-                        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                           /* MATCH pin: retail basic-block layout depends on it */
                         return;
                     }
                 }

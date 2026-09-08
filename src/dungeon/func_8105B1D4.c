@@ -110,7 +110,7 @@ void func_801729D4(void *arg0, void *arg1, void *arg2, void *arg3)
         }
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+       /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_2;
     }

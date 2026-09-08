@@ -37,7 +37,7 @@ s16 func_800ADDA0(void *arg0, void *arg1, void *arg2, s16 arg3, s16 arg4,
         return;
         return returnValue;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+       /* MATCH pin: retail basic-block layout depends on it */
     return result;
 }
 

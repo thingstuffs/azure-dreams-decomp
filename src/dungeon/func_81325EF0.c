@@ -89,7 +89,7 @@ void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg
     u8 *base8001;
     u8 *clear_page;   /* MATCH pin: load-bearing for the whole function shape */
     u8 *clear_base;
-    register void *call_obj ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
+    void *call_obj;   /* MATCH pin: retail basic-block layout depends on it */
     register u8 *update_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
     s32 state;
     s32 bits;
@@ -106,7 +106,7 @@ void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg
         }
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+       /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }

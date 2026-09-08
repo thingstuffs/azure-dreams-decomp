@@ -78,7 +78,7 @@ block_7:
             if (D_800834B8 == (s32)&D_80092698) {
                 func_8009C120();
                 return 1;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                   /* MATCH pin: retail delay-slot fill depends on it */
                 return 1;
             }
             var_v0 = (TownControl *)0x800D0000;
@@ -87,7 +87,7 @@ block_7:
                 if (D_800CFCCC == 0) {
                     func_8009C148();
                     return 1;
-                    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                       /* MATCH pin: retail delay-slot fill depends on it */
                     return 1;
                 }
             }

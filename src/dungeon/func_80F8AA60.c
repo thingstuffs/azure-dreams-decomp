@@ -68,7 +68,7 @@ void func_80174260(void *arg0, void *arg1, void *arg2, void *arg3) {
         }
         return;
     }
-    ASM_KEEP(state);   /* MATCH pin: retail delay-slot fill depends on it */
+       /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }
