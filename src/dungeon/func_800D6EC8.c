@@ -30,13 +30,14 @@ typedef struct S_800DC628_1 {
     s16 unk_58;
 } S_800DC628_1;   /* temp_v0 in func_800DC628 */
 
-void func_800DC628(S_800DC628_0 *arg0, s16 arg1) {
-    S_800DC628_1 *temp_v0;
+/* Sets four fields in the object's data to a value and a fifth to its negation. */
+void func_800DC628(S_800DC628_0 *object, s16 value) {
+    S_800DC628_1 *data;
 
-    temp_v0 = arg0->unk_08;
-    temp_v0->unk_58 = arg1;
-    temp_v0->unk_34 = arg1;
-    temp_v0->unk_28 = arg1;
-    temp_v0->unk_0E = arg1;
-    ((S_800DC628_3 *)(((S_800DC628_2 *)arg0)->unk_08))->unk_1A = (s16) (0 - arg1);
+    data = object->unk_08;
+    data->unk_58 = value;
+    data->unk_34 = value;
+    data->unk_28 = value;
+    data->unk_0E = value;
+    ((S_800DC628_3 *)(((S_800DC628_2 *)object)->unk_08))->unk_1A = (s16) (0 - value);
 }

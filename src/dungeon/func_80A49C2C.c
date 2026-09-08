@@ -6,7 +6,8 @@
 s32 func_800AB538(arg0);                            /* extern */
 
 
-void func_8017342C(Rec_func_800AB538_arg0 *arg0) {
-    func_800AB538(arg0);
-    arg0->unk_B6 = 0;
+/* Calls func_800AB538 on the record, then clears unk_B6. */
+void func_8017342C(Rec_func_800AB538_arg0 *record) {
+    func_800AB538(record);
+    record->unk_B6 = 0;
 }

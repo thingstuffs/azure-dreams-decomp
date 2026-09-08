@@ -13,9 +13,10 @@ typedef struct S_80124F6C_0 {
 
 
 M2C_UNK func_801248C0(S_80124F6C_0 *);
-void func_80124F6C(S_80124F6C_0 *arg0) {
-    arg0->unk_0A = 8;
-    arg0->unk_04 = 0;
-    arg0->unk_06 = 0;
-    func_801248C0(arg0);
+/* Initialize the state fields before calling func_801248C0. */
+void func_80124F6C(S_80124F6C_0 *state) {
+    state->unk_0A = 8;
+    state->unk_04 = 0;
+    state->unk_06 = 0;
+    func_801248C0(state);
 }

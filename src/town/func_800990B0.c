@@ -7,13 +7,14 @@ M2C_UNK func_800967E0();                 /* extern */
 extern s32 D_800FE5D4;
 
 
-void func_80096810(Rec_D_800E3D7C *arg0) {
-    s32 temp_a1;
+/* Update the record to the computed upper bound when the global state permits. */
+void func_80096810(Rec_D_800E3D7C *record) {
+    s32 upper_bound;
 
     if (D_800FE5D4 < 0) {
-        temp_a1 = (func_80096788(arg0) << 0x10) - 1;
-        if (temp_a1 >= arg0->unk_08.at00_s32.v) {
-            func_800967E0(arg0, temp_a1);
+        upper_bound = (func_80096788(record) << 0x10) - 1;
+        if (upper_bound >= record->unk_08.at00_s32.v) {
+            func_800967E0(record, upper_bound);
         }
     }
 }

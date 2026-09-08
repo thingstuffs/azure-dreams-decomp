@@ -16,9 +16,10 @@ extern u8 D_80082660;
 extern M2C_UNK D_80099874;
 
 
-void func_80099E70(Rec_func_80094268_arg0 *arg0) {
-    func_80094984(((S_80099E70_2 *)(((Rec_func_80094268_arg0 *)arg0)->unk_44))->unk_14, arg0);
-    *((arg0->unk_40 * 8) + &D_80082660) = 0;
-    arg0->unk_04.as_pm = &D_80099874;
-    arg0->unk_10.as_s16 = 0;
+/* Initialize the record from linked data, clear its slot flag, and reset its handler and value. */
+void func_80099E70(Rec_func_80094268_arg0 *record) {
+    func_80094984(((S_80099E70_2 *)(((Rec_func_80094268_arg0 *)record)->unk_44))->unk_14, record);
+    *((record->unk_40 * 8) + &D_80082660) = 0;
+    record->unk_04.as_pm = &D_80099874;
+    record->unk_10.as_s16 = 0;
 }

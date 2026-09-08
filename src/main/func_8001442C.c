@@ -8,6 +8,7 @@ typedef struct S_8002742C_0 {
     s32 * unk_FC;
 } S_8002742C_0;   /* arg0 in func_8002742C */
 
-void func_8002742C(S_8002742C_0 *arg0) {
-    func_8004E994(*arg0->unk_FC);
+/* Pass the object's referenced value to func_8004E994. */
+void func_8002742C(S_8002742C_0 *object) {
+    func_8004E994(*object->unk_FC);
 }

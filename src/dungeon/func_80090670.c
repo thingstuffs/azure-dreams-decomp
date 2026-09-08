@@ -9,10 +9,11 @@ typedef struct {
 
 extern D_80083460_t D_80083460;
 
-void func_80095DD0(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    *((u8 *)arg0 + 0x9A) = 0x15;
-    *((u8 *)arg0 + 0x9B) = 0;
-    *(s32 *)((u8 *)arg0 + 0x8C) = 0;
-    D_80083460.unk0C = arg3;
+/* Set object state 0x15, clear two fields, and update the shared value and counter. */
+void func_80095DD0(void *object, s32 unused_1, s32 unused_2, s32 shared_value) {
+    *((u8 *)object + 0x9A) = 0x15;
+    *((u8 *)object + 0x9B) = 0;
+    *(s32 *)((u8 *)object + 0x8C) = 0;
+    D_80083460.unk0C = shared_value;
     D_80083460.unk14++;
 }

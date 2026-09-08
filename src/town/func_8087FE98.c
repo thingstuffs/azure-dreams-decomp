@@ -10,17 +10,18 @@ extern s32 func_807010E0();
 extern u8 D_807009B8[];
 extern u8 D_807009BA[];
 
+/* Process six pairs of 16-bit table entries starting at byte offset four. */
 void func_8087FE98(void) {
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    s32 i;
-    u16 value;
+    s32 byte_offset;
+    u16 second_entry;
 
     READ_ZERO(zero);
-    i = zero | 4;
+    byte_offset = zero | 4;
     do {
-        func_807010E0(*(u16 *)(D_807009B8 + i));
-        value = *(u16 *)(D_807009BA + i);
-        i += 4;
-        func_807010E0(value);
-    } while (i < 0x1C);
+        func_807010E0(*(u16 *)(D_807009B8 + byte_offset));
+        second_entry = *(u16 *)(D_807009BA + byte_offset);
+        byte_offset += 4;
+        func_807010E0(second_entry);
+    } while (byte_offset < 0x1C);
 }

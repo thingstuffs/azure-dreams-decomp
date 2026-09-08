@@ -49,29 +49,30 @@ typedef int s32;
 typedef s8 M2C_UNK8;
 s32 func_8001ADE0();
 extern s16 D_8001B8AA;
-s32 func_800199DC(void *arg0)
+/* Check the record flag only when the global blocking flag is clear. */
+s32 func_800199DC(void *record)
 {
-  s32 var_v0;
-  void *new_var3;
-  int new_var2;
-  void *new_var;
-  if (new_var2)
+  s32 flag_set;
+  void *record_copy;
+  int initial_result;
+  void *flag_record;
+  if (initial_result)
   {
-    new_var2 = 0;
-    var_v0 = new_var2;
-    new_var3 = arg0;
-    new_var = new_var3;
+    initial_result = 0;
+    flag_set = initial_result;
+    record_copy = record;
+    flag_record = record_copy;
   }
   else
   {
-    new_var2 = 0;
-    var_v0 = new_var2;
-    new_var3 = arg0;
-    new_var = new_var3;
+    initial_result = 0;
+    flag_set = initial_result;
+    record_copy = record;
+    flag_record = record_copy;
   }
   if (func_8001ADE0(D_8001B8AA) == 0)
   {
-    var_v0 = func_8001ADE0(*(s16 *) (((s8 *) new_var) + 0x18)) != 0;
+    flag_set = func_8001ADE0(*(s16 *) (((s8 *) flag_record) + 0x18)) != 0;
   }
-  return var_v0;
+  return flag_set;
 }

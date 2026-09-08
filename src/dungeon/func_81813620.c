@@ -11,10 +11,11 @@ typedef struct S_80028620_0 {
     s32 unk_88;
 } S_80028620_0;   /* temp_v0 in func_80028620 */
 
-void func_80028620(s32 arg0) {
-    S_80028620_0 *temp_v0;
+/* Clears the object's embedded state field and passes its stored value to func_80026CD8. */
+void func_80028620(s32 object_addr) {
+    S_80028620_0 *state;
 
-    temp_v0 = arg0 + 0x20;
-    temp_v0->unk_20 = 0;
-    func_80026CD8(temp_v0->unk_88);
+    state = object_addr + 0x20;
+    state->unk_20 = 0;
+    func_80026CD8(state->unk_88);
 }

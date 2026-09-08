@@ -1,6 +1,7 @@
 #include "common.h"
 
-void func_800B2164(void *arg0) {
+/* Clears the table byte selected by the record's five-bit index. */
+void func_800B2164(void *record) {
     u8 *page = (u8 *)0x80010000;
-    page[((((u8 *)arg0)[3] & 0x1F) * 0x54) + 0x303] = 0;
+    page[((((u8 *)record)[3] & 0x1F) * 0x54) + 0x303] = 0;
 }

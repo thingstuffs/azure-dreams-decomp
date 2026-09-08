@@ -4,7 +4,7 @@
 
 M2C_UNK func_80049490();                         /* extern */
 
-
-void func_800ADB04(Rec_func_800AD7F8_arg0 *arg0) {
-    func_80049490(arg0->unk_20 + (arg0->unk_04 * 4));
+/* Pass the record's base plus its index scaled by four to func_80049490. */
+void func_800ADB04(Rec_func_800AD7F8_arg0 *record) {
+    func_80049490(record->unk_20 + (record->unk_04 * 4));
 }

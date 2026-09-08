@@ -11,12 +11,13 @@ typedef struct S_800B1778_0 {
     s32 unk_10;
 } S_800B1778_0;   /* temp_s0 in func_800B1778 */
 
-void func_800B1778(s32 arg0, s32 arg1, s32 arg2) {
-    S_800B1778_0 *temp_s0;
+/* Set two subrecord values and run their associated update routines. */
+void func_800B1778(s32 record_address, s32 value_10, s32 value_08) {
+    S_800B1778_0 *subrecord;
 
-    temp_s0 = arg0 + 0x20;
-    temp_s0->unk_08 = arg2;
-    func_800B173C(temp_s0);
-    temp_s0->unk_10 = arg1;
-    func_800B0FD4(temp_s0);
+    subrecord = record_address + 0x20;
+    subrecord->unk_08 = value_08;
+    func_800B173C(subrecord);
+    subrecord->unk_10 = value_10;
+    func_800B0FD4(subrecord);
 }

@@ -12,6 +12,7 @@ typedef struct {
 extern TownStruct_800198A4 D_800198A4[];
 extern s32 D_80019B8C;
 
+/* Returns unk8 from the currently selected town entry. */
 s32 func_800177E0(void) {
     return D_800198A4[D_80019B8C].unk8;
 }

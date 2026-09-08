@@ -10,12 +10,13 @@ typedef struct S_80027DF4_0 {
     s32 unk_24;
 } S_80027DF4_0;   /* temp_v0 in func_80027DF4 */
 
-void func_80027DF4(s32 arg0, s32 arg1) {
-    S_80027DF4_0 *temp_v0;
+/* Sets an object's state value and passes its linked value to func_80026FD4. */
+void func_80027DF4(s32 object_addr, s32 state_value) {
+    S_80027DF4_0 *state;
 
-    if (arg0 != 0) {
-        temp_v0 = arg0 + 0x20;
-        temp_v0->unk_0C = arg1;
-        func_80026FD4(temp_v0->unk_24);
+    if (object_addr != 0) {
+        state = object_addr + 0x20;
+        state->unk_0C = state_value;
+        func_80026FD4(state->unk_24);
     }
 }

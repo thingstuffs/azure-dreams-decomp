@@ -7,20 +7,20 @@ typedef struct {
     /* 0x8 */ s32 unk8;
 } UnkStruct491CC;
 
-/* Stores arg1 into offset 0x8 of each struct pointed to by arg0[0..arg2-1]; arg0 is walked as a raw pointer (not indexed), incrementing by one 4-byte slot per iteration. */
-void func_800491CC(UnkStruct491CC **arg0, s32 arg1, s32 arg2)
+/* Sets the field at offset 0x8 in each entry of a pointer array. */
+void func_800491CC(UnkStruct491CC **entries, s32 value, s32 count)
 {
-    s32 i;
-    UnkStruct491CC **p;
+    s32 index;
+    UnkStruct491CC **slot;
 
-    p = arg0;
-    i = 0;
-    if (arg2 > 0) {
+    slot = entries;
+    index = 0;
+    if (count > 0) {
         do {
-            UnkStruct491CC *cur = *p;
-            i++;
-            cur->unk8 = arg1;
-            p++;
-        } while (i < arg2);
+            UnkStruct491CC *entry = *slot;
+            index++;
+            entry->unk8 = value;
+            slot++;
+        } while (index < count);
     }
 }

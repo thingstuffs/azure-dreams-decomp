@@ -55,9 +55,11 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
 extern int D_80016000[0x10];
+/* Scale the linked object's value at offset 8 by 64 and add 0x220. */
 void func_80016E0C(void)
 {
-  void *temp_v1;
-  temp_v1 = *((void **) (((s8 *) (*D_80016000)) + 0x1C));
-  *((s32 *) (((s8 *) temp_v1) + 8)) = (s32) (((*((s32 *) (((s8 *) temp_v1) + 8))) << 6) + 0x220);
+  void *object_data;
+  object_data = *(void **) ((s8 *) *D_80016000 + 0x1C);
+  *(s32 *) ((s8 *) object_data + 8) =
+      (*(s32 *) ((s8 *) object_data + 8) << 6) + 0x220;
 }

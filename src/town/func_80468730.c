@@ -6,11 +6,12 @@
 
 extern Rec_D_8001E950 *D_8001E950;
 
+/* Increment the record counter if it is below two. */
 void func_80019730(void) {
-    u8 temp_v1;
+    u8 counter;
 
-    temp_v1 = D_8001E950->unk_01;
-    if (temp_v1 < 2U) {
-        D_8001E950->unk_01 = (u8) (temp_v1 + 1);
+    counter = D_8001E950->unk_01;
+    if (counter < 2U) {
+        D_8001E950->unk_01 = (u8) (counter + 1);
     }
 }

@@ -14,6 +14,7 @@ typedef struct {
 extern Entry D_80016470[];
 extern Destination D_800164D0;
 
+/* Copies the indexed entry's value to the shared destination and returns it. */
 Destination *func_80017620(s32 index) {
     Destination *destination = &D_800164D0;
 

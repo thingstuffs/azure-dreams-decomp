@@ -20,6 +20,7 @@ __asm__(".globl func_8094D004\n"
 #define BODY_NAME func_8094D004
 #endif
 
+/* Point the first data slot at D_80016038. */
 void BODY_NAME(void) {
     D_80016D08[0] = D_80016038;
 }

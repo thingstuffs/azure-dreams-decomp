@@ -1,16 +1,17 @@
 #include "common.h"
 
-s32 func_800B29A4(s32 *arg0) {
-    s32 *var_a0;
-    s32 var_v1;
+/* Counts entries in a zero-terminated integer array. */
+s32 func_800B29A4(s32 *entries) {
+    s32 *entry;
+    s32 count;
 
-    var_a0 = arg0;
-    var_v1 = 0;
-    if (*var_a0 != 0) {
+    entry = entries;
+    count = 0;
+    if (*entry != 0) {
         do {
-            var_a0 += 1;
-            var_v1 += 1;
-        } while (*var_a0 != 0);
+            entry += 1;
+            count += 1;
+        } while (*entry != 0);
     }
-    return var_v1;
+    return count;
 }

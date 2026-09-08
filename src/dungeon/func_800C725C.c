@@ -8,15 +8,16 @@ typedef struct {
 extern D_80083460_t D_80083460;
 extern s32 D_800814A0[3];
 
-void func_800CC9BC(void *arg0) {
-    u8 value;
+/* Decrements the record countdown and marks completion when it reaches zero. */
+void func_800CC9BC(void *record) {
+    u8 countdown;
 
-    value = *(u8 *)((u8 *)arg0 + 7) - 1;
-    *(u8 *)((u8 *)arg0 + 7) = value;
-    if (!(value & 0xFF)) {
+    countdown = *(u8 *)((u8 *)record + 7) - 1;
+    *(u8 *)((u8 *)record + 7) = countdown;
+    if (!(countdown & 0xFF)) {
         D_80083460.fieldA = (u16)(D_80083460.fieldA - 1);
-        *(u16 *)((u8 *)arg0 - 2) =
-            (u16)(*(u16 *)((u8 *)arg0 - 2) | 0x8000);
+        *(u16 *)((u8 *)record - 2) =
+            (u16)(*(u16 *)((u8 *)record - 2) | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

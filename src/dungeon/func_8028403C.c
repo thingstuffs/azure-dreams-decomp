@@ -19,16 +19,17 @@ typedef struct S_8001703C_1 {
     s16 unk_1C;
 } S_8001703C_1;   /* temp_v0 in func_8001703C */
 
+/* Clear the stored values in D_80083CE8. */
 void func_8001703C(void) {
-    u8 *temp_v0;
+    u8 *state;
 
     ((S_8001703C_0 *)(&D_80083CE8))->unk_00 = 0;
-    temp_v0 = (u8 *)&D_80083CE8;
-    ((S_8001703C_1 *)temp_v0)->unk_04 = 0;
-    ((S_8001703C_1 *)temp_v0)->unk_08 = 0;
-    ((S_8001703C_1 *)temp_v0)->unk_0C = 0;
-    ((S_8001703C_1 *)temp_v0)->unk_10 = 0;
-    ((S_8001703C_1 *)temp_v0)->unk_14 = 0;
-    ((S_8001703C_1 *)temp_v0)->unk_18 = 0;
-    ((S_8001703C_1 *)temp_v0)->unk_1C = 0;
+    state = (u8 *)&D_80083CE8;
+    ((S_8001703C_1 *)state)->unk_04 = 0;
+    ((S_8001703C_1 *)state)->unk_08 = 0;
+    ((S_8001703C_1 *)state)->unk_0C = 0;
+    ((S_8001703C_1 *)state)->unk_10 = 0;
+    ((S_8001703C_1 *)state)->unk_14 = 0;
+    ((S_8001703C_1 *)state)->unk_18 = 0;
+    ((S_8001703C_1 *)state)->unk_1C = 0;
 }

@@ -18,6 +18,7 @@ typedef struct S_8195AED0_0 {
     s32 unk_00;
 } S_8195AED0_0;   /* arg0 in func_8195AED0 */
 
-void func_8195AED0(S_8195AED0_0 *arg0, s16 arg1) {
-    arg0->unk_00 = (s32) (((S_8195AED0_2 *)(((S_8195AED0_1 *)arg0)->unk_08))->unk_0C + (arg1 * 0x18));
+/* Sets the current entry address from the linked base and a 24-byte entry index. */
+void func_8195AED0(S_8195AED0_0 *state, s16 entry_index) {
+    state->unk_00 = (s32) (((S_8195AED0_2 *)(((S_8195AED0_1 *)state)->unk_08))->unk_0C + (entry_index * 0x18));
 }

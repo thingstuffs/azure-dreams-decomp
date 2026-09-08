@@ -5,10 +5,11 @@
 M2C_UNK func_8008FCF4(Rec_D_800FE490 *);                            /* extern */
 
 
-void func_8008FD48(Rec_D_800FE490 *arg0, s32 arg1, s32 arg2) {
-    func_8008FCF4(arg0);
-    arg0->unk_08 = arg1;
-    arg0->unk_0C = arg2;
-    arg0->unk_15 = 1;
-    arg0->unk_14 = 0;
+/* Initialize the record, store its two values, and set its state flags. */
+void func_8008FD48(Rec_D_800FE490 *record, s32 value_08, s32 value_0c) {
+    func_8008FCF4(record);
+    record->unk_08 = value_08;
+    record->unk_0C = value_0c;
+    record->unk_15 = 1;
+    record->unk_14 = 0;
 }

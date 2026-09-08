@@ -49,7 +49,8 @@ typedef int s32;
 extern void func_8003AF58(void *a0, void *a1);
 extern unsigned char D_800717D0[16];
 extern unsigned char D_800D4284[16];
+/* Passes the two global buffers to func_8003AF58. */
 void func_800C18CC(void)
 {
- do { func_8003AF58(&D_800717D0, &D_800D4284); } while (0);
+  do { func_8003AF58(&D_800717D0, &D_800D4284); } while (0);
 }

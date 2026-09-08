@@ -7,12 +7,13 @@ typedef struct TownB4C60 {
     s32 unkC;
 } TownB4C60;
 
-void func_800B23C0(TownB4C60 *arg0) {
-    s32 value = arg0->unkC;
+/* Convert the stored value to a zero-based group of ten, preserving zero. */
+void func_800B23C0(TownB4C60 *record) {
+    s32 stored_value = record->unkC;
 
-    if (value != 0) {
-        arg0->unk4 = (value - 1) / 10;
+    if (stored_value != 0) {
+        record->unk4 = (stored_value - 1) / 10;
         return;
     }
-    arg0->unk4 = 0;
+    record->unk4 = 0;
 }

@@ -9,6 +9,7 @@ typedef struct S_800A3518_0 {
     u8 unk_29;
 } S_800A3518_0;   /* arg0 in func_800A3518 */
 
-s32 func_800A3518(S_800A3518_0 *arg0) {
-    return ((s32) arg0->unk_29 / (s32) (((u8) arg0->unk_11 >> 1) + 2)) >= (s32) arg0->unk_28;
+/* Checks whether the scaled value reaches the stored threshold. */
+s32 func_800A3518(S_800A3518_0 *state) {
+    return ((s32) state->unk_29 / (s32) (((u8) state->unk_11 >> 1) + 2)) >= (s32) state->unk_28;
 }

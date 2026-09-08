@@ -7,7 +7,7 @@ typedef struct S_8008B9D8_0 {
     M2C_UNK (*unk_68)();
 } S_8008B9D8_0;   /* arg0 in func_8008B9D8 */
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-void func_8008B9D8(S_8008B9D8_0 *arg0) {
-    arg0->unk_68();
+/* Invokes the object's callback. */
+void func_8008B9D8(S_8008B9D8_0 *object) {
+    object->unk_68();
 }

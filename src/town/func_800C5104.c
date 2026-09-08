@@ -11,9 +11,10 @@ typedef struct S_800C2864_0 {
     M2C_UNK * unk_50;
 } S_800C2864_0;   /* arg0 in func_800C2864 */
 
-void func_800C2864(S_800C2864_0 *arg0) {
-    if (D_800FE4A0 != arg0) {
-        arg0->unk_14 = 1;
-        arg0->unk_50 = &D_800C283C;
+/* Set the object's flag and data pointer unless it is the excluded object. */
+void func_800C2864(S_800C2864_0 *object) {
+    if (D_800FE4A0 != object) {
+        object->unk_14 = 1;
+        object->unk_50 = &D_800C283C;
     }
 }

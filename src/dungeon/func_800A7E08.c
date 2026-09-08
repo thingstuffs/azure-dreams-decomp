@@ -1,15 +1,16 @@
 #include "common.h"
 
-s16 func_800AD568(void *arg0) {
-    s16 temp_v0;
-    u8 temp_a1;
-    u8 temp_v1;
+/* Cap and return the adjustment so the base plus adjustment stays within the limit. */
+s16 func_800AD568(void *entry) {
+    s16 adjustment;
+    u8 base;
+    u8 limit;
 
-    temp_v0 = *(s16 *)((u8 *)arg0 + 0x64);
-    temp_a1 = *((u8 *)arg0 + 0x28);
-    temp_v1 = *((u8 *)arg0 + 0x29);
-    if ((s32)temp_v1 < (temp_v0 + temp_a1)) {
-        *(s16 *)((u8 *)arg0 + 0x64) = (s16)(temp_v1 - temp_a1);
+    adjustment = *(s16 *)((u8 *)entry + 0x64);
+    base = *((u8 *)entry + 0x28);
+    limit = *((u8 *)entry + 0x29);
+    if ((s32)limit < (adjustment + base)) {
+        *(s16 *)((u8 *)entry + 0x64) = (s16)(limit - base);
     }
-    return *(s16 *)((u8 *)arg0 + 0x64);
+    return *(s16 *)((u8 *)entry + 0x64);
 }

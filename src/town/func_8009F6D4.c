@@ -13,6 +13,7 @@ typedef struct S_8009CE34_0 {
     M2C_UNK * unk_10;
 } S_8009CE34_0;   /* func_8003FE78(0x11, &D_801006D0, 0x49) in func_8009CE34 */
 
+/* Create a record, assign its handler, and run the remaining initialization routines. */
 void func_8009CE34(void) {
     ((S_8009CE34_0 *)(func_8003FE78(0x11, &D_801006D0, 0x49)))->unk_10 = &D_8009CE80;
     func_80096DC8(&D_80100900);

@@ -3,11 +3,12 @@
 extern int D_800814A0[];
 void func_80033C84(void *);
 
-void func_8008BF0C(void *arg0) {
-    int val;
-    func_80033C84(*(void **)arg0);
-    ((u16 *)arg0)[-1] |= 0x8000;
-    val = D_800814A0[0];
-    ((s32 *)arg0)[-4] = 0;
-    D_800814A0[0] = val | 0x8000;
+/* Processes the referenced object and marks the record and global state. */
+void func_8008BF0C(void *record) {
+    int global_flags;
+    func_80033C84(*(void **)record);
+    ((u16 *)record)[-1] |= 0x8000;
+    global_flags = D_800814A0[0];
+    ((s32 *)record)[-4] = 0;
+    D_800814A0[0] = global_flags | 0x8000;
 }

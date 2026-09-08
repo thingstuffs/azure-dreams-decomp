@@ -1,25 +1,26 @@
 #include "common.h"
 
-void func_800B7384(s16 *arg0) {
-    s16 *var_a0;
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s16 var_a1;
-    s16 var_v1;
+/* Clear a 128 by 128 grid of signed halfwords. */
+void func_800B7384(s16 *grid) {
+    s16 *cell;
+    s16 next_row;
+    s16 next_column;
+    s16 row;
+    s16 column;
 
-    var_a0 = arg0;
-    var_a1 = 0;
+    cell = grid;
+    row = 0;
     do {
-        var_v1 = 0;
+        column = 0;
 loop_2:
-        *var_a0 = 0;
-        temp_v0_2 = var_v1 + 1;
-        var_v1 = temp_v0_2;
-        var_a0 += 1;
-        if (temp_v0_2 < 0x80) {
+        *cell = 0;
+        next_column = column + 1;
+        column = next_column;
+        cell += 1;
+        if (next_column < 0x80) {
             goto loop_2;
         }
-        temp_v0 = var_a1 + 1;
-        var_a1 = temp_v0;
-    } while (temp_v0 < 0x80);
+        next_row = row + 1;
+        row = next_row;
+    } while (next_row < 0x80);
 }
