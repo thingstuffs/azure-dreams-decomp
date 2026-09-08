@@ -79,6 +79,8 @@
     "dungeon/func_8009C5EC",
     "dungeon/func_8009CCC4",
     "dungeon/func_8009C5EC",
+    "dungeon/func_8009CCC4",
+    "dungeon/func_8009C5EC",
     "dungeon/func_8009CCC4"
    ]
   },
@@ -118,6 +120,21 @@
    "file_offset": "0x46C14",
    "row": null,
    "rows": [
+    "town/func_800B36B8",
+    "dungeon/func_800A133C",
+    "dungeon/func_800A38C4",
+    "dungeon/func_800A3988",
+    "dungeon/func_800A3A00",
+    "dungeon/func_800B8C00",
+    "dungeon/func_800C268C",
+    "dungeon/func_8028A0F4",
+    "dungeon/func_8028B18C",
+    "dungeon/func_8028B994",
+    "dungeon/func_8028BAA4",
+    "dungeon/func_80E64DB4",
+    "dungeon/func_80E65598",
+    "dungeon/func_818108B8",
+    "dungeon/func_81934800",
     "town/func_800B36B8",
     "dungeon/func_800A133C",
     "dungeon/func_800A38C4",
@@ -418,6 +435,9 @@
     "dungeon/func_8009CCC4",
     "dungeon/func_8008B4B0",
     "dungeon/func_8009C5EC",
+    "dungeon/func_8009CCC4",
+    "dungeon/func_8008B4B0",
+    "dungeon/func_8009C5EC",
     "dungeon/func_8009CCC4"
    ]
   },
@@ -431,6 +451,7 @@
    "row": null,
    "rows": [
     "dungeon/func_80093968",
+    "dungeon/func_80093968",
     "dungeon/func_80093968"
    ]
   },
@@ -443,6 +464,7 @@
    "file_offset": "0xFAC50",
    "row": null,
    "rows": [
+    "dungeon/func_800C587C",
     "dungeon/func_800C587C",
     "dungeon/func_800C587C"
    ]
@@ -782,6 +804,8 @@
    "file_offset": "0x7A4800",
    "row": null,
    "rows": [
+    "dungeon/func_80283000",
+    "dungeon/func_804FE77C",
     "dungeon/func_80283000",
     "dungeon/func_804FE77C",
     "dungeon/func_80283000",

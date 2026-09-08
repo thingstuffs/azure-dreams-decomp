@@ -113,19 +113,19 @@ The Azure Dreams De-Randomizer (ProGrammar-R, MPL-2.0) documents where the game'
 | `ropeDescription` | `0x8002F3EC` | SLUS_006.14 @ 0x2BFC |  | — | `D_8002F3EC` → `ropeDescription` |
 | `goUpTrapDescription` | `0x80031318` | SLUS_006.14 @ 0x4B18 |  | — | `D_80031318` → `goUpTrapDescription` |
 | `anUpperFloorText` | `0x80031353` | SLUS_006.14 @ 0x4B53 |  | — | `D_80031353` → `anUpperFloorText` |
-| `initialStatsTable` | `0x8006D168` | SLUS_006.14 @ 0x40968 | 24 B/record | `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4` | `D_8006D168` → `initialStatsTable` (typed `initialStatsRecord`) |
+| `initialStatsTable` | `0x8006D168` | SLUS_006.14 @ 0x40968 | 24 B/record | `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4` | `D_8006D168` → `initialStatsTable` (typed `initialStatsRecord`) |
 | `elevatorIcon` | `0x80072CAE` | SLUS_006.14 @ 0x464AE |  | — | `D_80072CAE` → `elevatorIcon` |
 | `suspiciousElevatorDesc` | `0x80072CCC` | SLUS_006.14 @ 0x464CC |  | — | `D_80072CCC` → `suspiciousElevatorDesc` |
 | `trapTable` | `0x80072CD0` | SLUS_006.14 @ 0x464D0 | 12 B/record | — | `D_80072CD0` → `trapTable` (typed `trapRecord`) |
-| `itemCategoryTable` | `0x80073414` | SLUS_006.14 @ 0x46C14 |  | `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800`, `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800` | `D_80073414` → `itemCategoryTable` |
+| `itemCategoryTable` | `0x80073414` | SLUS_006.14 @ 0x46C14 |  | `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800`, `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800`, `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800` | `D_80073414` → `itemCategoryTable` |
 | `elevatorUseOptions` | `0x800735B4` | SLUS_006.14 @ 0x46DB4 |  | — | `D_800735B4` → `elevatorUseOptions` |
 | `itemCategoryNamesKanji` | `0x800813E0` | SLUS_006.14 @ 0x54BE0 |  | — | `D_800813E0` → `itemCategoryNamesKanji` |
 | `usedBallItemTable` | `0x800DD384` | DUNGEON/DUNGEON.BIN @ 0xF7C24 |  | — | `D_800DD384` → `usedBallItemTable` |
-| `statGrowthTable` | `0x800DDCBC` | DUNGEON/DUNGEON.BIN @ 0xF855C | 8 B/record | `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4` | `D_800DDCBC` → `statGrowthTable` (typed `statGrowthRecord`) |
-| `itemCategDamageTable` | `0x800DD704` | DUNGEON/DUNGEON.BIN @ 0xF7FA4 |  | `dungeon/func_80093968`, `dungeon/func_80093968` | `D_800DD704` → `itemCategDamageTable` |
-| `salamParticleGraphic` | `0x800E03B0` | DUNGEON/DUNGEON.BIN @ 0xFAC50 |  | `dungeon/func_800C587C`, `dungeon/func_800C587C` | `D_800E03B0` → `salamParticleGraphic` |
+| `statGrowthTable` | `0x800DDCBC` | DUNGEON/DUNGEON.BIN @ 0xF855C | 8 B/record | `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4` | `D_800DDCBC` → `statGrowthTable` (typed `statGrowthRecord`) |
+| `itemCategDamageTable` | `0x800DD704` | DUNGEON/DUNGEON.BIN @ 0xF7FA4 |  | `dungeon/func_80093968`, `dungeon/func_80093968`, `dungeon/func_80093968` | `D_800DD704` → `itemCategDamageTable` |
+| `salamParticleGraphic` | `0x800E03B0` | DUNGEON/DUNGEON.BIN @ 0xFAC50 |  | `dungeon/func_800C587C`, `dungeon/func_800C587C`, `dungeon/func_800C587C` | `D_800E03B0` → `salamParticleGraphic` |
 | `toUpstairsBattleText` | `0x800E1AF8` | DUNGEON/DUNGEON.BIN @ 0xFC398 |  | — | `D_800E1AF8` → `toUpstairsBattleText` |
-| `floorMonsterTable` | `0x800DDC7C` | DUNGEON/DUNGEON.BIN @ 0x7A4800 |  | `dungeon/func_80283000`, `dungeon/func_804FE77C`, `dungeon/func_80283000`, `dungeon/func_804FE77C` | `D_800DDC7C` → `floorMonsterTable` |
+| `floorMonsterTable` | `0x800DDC7C` | DUNGEON/DUNGEON.BIN @ 0x7A4800 |  | `dungeon/func_80283000`, `dungeon/func_804FE77C`, `dungeon/func_80283000`, `dungeon/func_804FE77C`, `dungeon/func_80283000`, `dungeon/func_804FE77C` | `D_800DDC7C` → `floorMonsterTable` |
 | `f2suspElevAppearance` | `0x800EADB0` | DUNGEON/DUNGEON.BIN @ 0x7CD91E |  | — | `D_800EADB0` → `f2suspElevAppearance` |
 | `kohsReplyToGhoshPart` | `0x800F8DFE` | DUNGEON/DUNGEON.BIN @ 0x7D15FE |  | — | `D_800F8DFE` → `kohsReplyToGhoshPart` |
 | `beldoLocation` | `0x800E604A` | DUNGEON/DUNGEON.BIN @ 0x94084A |  | — | `D_800E604A` → `beldoLocation` |
@@ -378,11 +378,13 @@ have functions but no name in the dump (the dump predates them); `FNO_func_sn_ca
 - **`mam_`** (7): `mam_first_01_talk`=23, `mam_first_02_talk`=24, `mam_first_03_talk`=25, `mam_first_04_talk`=26, `mam_first_07_talk`=27, `mam_first_08_talk`=28, `mam_first_220_talk`=29
 - **`fg_`** (5): `fg_ost_demo_home_00_end`=31, `fg_ost_demo_home_01_end`=32, `fg_ost_demo_home_02_end`=33, `fg_ost_demo_home_03_end`=34, `fg_ost_demo_home_04_end`=35
 
-The `S_` numbers 0–32 line up one-for-one with the 33-entry resident pointer table at `0x8006B01C` (a table of small
-trampolines at the start of the SLUS text, listed in `ledger/evidence/vm_tables.json`): `S_open_sell_dougu` = 0 ...
-`S_set_no_change_seq` = 32. That is a hypothesis from the counts and order, not yet a proof; reading the VM's system-call
-handler settles it, and would name those 33 trampolines and the overlay functions behind them. `S_printf` /
-`S_sprintf` / `S_getchar` / `S_exit` (34, 90–92) are the developer-console calls the port found unimplemented in retail.
+The `S_` numbers are the script system calls (`S_open_shop`, `S_flgtst`, `S_rand_sn` ...). They are **not** the VM's
+opcode numbers: the interpreter (`func_80038AB8`) dispatches `D_8006AA90[opcode]` for opcodes 0–88, and the entries
+the `S_NULL1` / `S_NULL2` placeholders would predict are real handlers. An earlier guess that they index the 33-entry
+table at `0x8006B01C` is refuted: that table holds the 33 monster names. How a script reaches `S_open_shop` (which opcode
+carries the number, and which resident or overlay routine answers it) is the open question the research workflow
+addresses; `S_printf` / `S_sprintf` / `S_getchar` / `S_exit` (34, 90–92) are the developer-console calls the port found
+unimplemented in retail.
 
 ### 5.3 The flags (`F_` and its variants, `GOODS_`, `mamonogoya_`)
 
@@ -396,7 +398,7 @@ Examples: `F_get_bike`=12, `F_get_bike_b`=13, `F_home0`=37, `F_playland`=51, `F_
 
 ## 6. Resident pointer tables (opcode numbering)
 
-The event-script VM's handler table at `0x8006AA90` has 89 entries: entry *i* is the handler for script opcode *i*. entry i = handler for opcode i; four slots share the 8-byte 'unimplemented opcode' stub; the 89th word is the default/terminator (state-transition dispatcher). Handlers therefore get names of the form `ScriptOp<NN>_<verb>` once the verb is read from the body; the numbering itself is a fact.
+The event-script VM's handler table at `0x8006AA90` has 89 entries: entry *i* is the handler for script opcode *i*. entry i = handler for opcode i (the interpreter func_80038AB8 does `D_8006AA90[opcode](context)`); four slots share the 8-byte 'unimplemented opcode' stub; the 89th word is the default/terminator (state-transition dispatcher). Handlers therefore get names of the form `ScriptOp<NN>_<verb>` once the verb is read from the body; the numbering itself is a fact.
 
 | opcode | handler | row |
 |---|---|---|
@@ -490,7 +492,13 @@ The event-script VM's handler table at `0x8006AA90` has 89 entries: entry *i* is
 | 87 | `func_80039ACC` | `slus/konami_runtime_w_80039ACC` |
 | 88 | `func_8003B470` | `slus/konami_runtime_w_8003B470` |
 
-Five more resident function-pointer tables are resolved to rows but not yet named: `0x8006AC9C` (19 entries), `0x8006AD74` (12 entries), `0x8006B01C` (33 entries), `0x8007AED8` (40 entries), `0x8008077C` (16 entries). Their roles come from reading the dispatcher that indexes them.
+The other resident pointer tables are **name tables**, i.e. data symbols with a known meaning:
+
+- `D_8006AC9C` (19 entries): town NPC name table (Shift-JIS fullwidth: Barry, Beldo, Okami, Barten, Wotta, Silver, Jorda, Dr.Hal, Tonka, Hush, Nadia, Coppe, NcsDad, Angel, Issac, Jacof, Etto, Romi, Shin)
+- `D_8006AD74` (12 entries): second NPC name table (Danser x4, Aunt, Horse x4, Shiela, Butler, Bunny2)
+- `D_8006B01C` (33 entries): monster (familiar) name table in monster-id order (ifrit, flame, grineu, griff, saber, snow, ashra, aran, battne, nyuel, death, clown, univer, unicon, metal, block, pulun, troll, noise, u-boat, baloon, dream, blume, volcan, cyclo, maneva, barong, picket, kraken, weadog, steal, viper, naplas): the id space initialStatsTable (24-byte records) is indexed by
+- `D_8007AED8` (40 entries): libcd command-name table (gCdCommandStringTable in config/slus_006.14.symbols.txt): CdlSync, CdlNop, ... DiskError
+- `D_8008077C` (16 entries): resident pointer table (targets not yet classified)
 
 ## 7. Names already applied, and the prior notes
 

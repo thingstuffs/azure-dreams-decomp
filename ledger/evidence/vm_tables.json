@@ -3,7 +3,8 @@
   "vram": "0x8006AA90",
   "file_offset": "0x3E290",
   "entries": 89,
-  "role": "event-script VM handler table: entry i = handler for opcode i; four slots share the 8-byte 'unimplemented opcode' stub; the 89th word is the default/terminator (state-transition dispatcher)",
+  "kind": "code",
+  "role": "event-script VM handler table: entry i = handler for opcode i (the interpreter func_80038AB8 does `D_8006AA90[opcode](context)`); four slots share the 8-byte 'unimplemented opcode' stub; the 89th word is the default/terminator (state-transition dispatcher)",
   "targets": [
    {
     "index": 0,
@@ -545,121 +546,103 @@
   "vram": "0x8006AC9C",
   "file_offset": "0x3E49C",
   "entries": 19,
-  "role": "resident function-pointer table (role not yet named)",
+  "kind": "text",
+  "role": "town NPC name table (Shift-JIS fullwidth: Barry, Beldo, Okami, Barten, Wotta, Silver, Jorda, Dr.Hal, Tonka, Hush, Nadia, Coppe, NcsDad, Angel, Issac, Jacof, Etto, Romi, Shin)",
   "targets": [
    {
     "index": 0,
     "target": "0x8002D2D4",
-    "row": null,
-    "symbol": null
+    "text": "\uff22\uff41\uff52\uff52\uff59"
    },
    {
     "index": 1,
     "target": "0x8002D2C8",
-    "row": null,
-    "symbol": null
+    "text": "\uff22\uff45\uff4c\uff44\uff4f"
    },
    {
     "index": 2,
     "target": "0x8002D2BC",
-    "row": null,
-    "symbol": null
+    "text": "\uff2f\uff4b\uff41\uff4d\uff49"
    },
    {
     "index": 3,
     "target": "0x8002D2AC",
-    "row": null,
-    "symbol": null
+    "text": "\uff22\uff41\uff52\uff54\uff45\uff4e"
    },
    {
     "index": 4,
     "target": "0x8002D2A0",
-    "row": null,
-    "symbol": null
+    "text": "\uff37\uff4f\uff54\uff54\uff41"
    },
    {
     "index": 5,
     "target": "0x8002D290",
-    "row": null,
-    "symbol": null
+    "text": "\uff33\uff49\uff4c\uff56\uff45\uff52"
    },
    {
     "index": 6,
     "target": "0x8002D284",
-    "row": null,
-    "symbol": null
+    "text": "\uff2a\uff4f\uff52\uff44\uff41"
    },
    {
     "index": 7,
     "target": "0x8002D274",
-    "row": null,
-    "symbol": null
+    "text": "\uff24\uff52\uff0e\uff28\uff41\uff4c"
    },
    {
     "index": 8,
     "target": "0x8002D268",
-    "row": null,
-    "symbol": null
+    "text": "\uff34\uff4f\uff4e\uff4b\uff41"
    },
    {
     "index": 9,
     "target": "0x8002D25C",
-    "row": null,
-    "symbol": null
+    "text": "\uff28\uff55\uff53\uff48"
    },
    {
     "index": 10,
     "target": "0x8002D250",
-    "row": null,
-    "symbol": null
+    "text": "\uff2e\uff41\uff44\uff49\uff41"
    },
    {
     "index": 11,
     "target": "0x8002D244",
-    "row": null,
-    "symbol": null
+    "text": "\uff23\uff4f\uff50\uff50\uff45"
    },
    {
     "index": 12,
     "target": "0x8002D234",
-    "row": null,
-    "symbol": null
+    "text": "\uff2e\uff43\uff53\uff24\uff41\uff44"
    },
    {
     "index": 13,
     "target": "0x8002D228",
-    "row": null,
-    "symbol": null
+    "text": "\uff21\uff4e\uff47\uff45\uff4c"
    },
    {
     "index": 14,
     "target": "0x8002D21C",
-    "row": null,
-    "symbol": null
+    "text": "\uff29\uff53\uff53\uff41\uff43"
    },
    {
     "index": 15,
     "target": "0x8002D210",
-    "row": null,
-    "symbol": null
+    "text": "\uff2a\uff41\uff43\uff4f\uff46"
    },
    {
     "index": 16,
     "target": "0x8002D204",
-    "row": null,
-    "symbol": null
+    "text": "\uff25\uff54\uff54\uff4f"
    },
    {
     "index": 17,
     "target": "0x8002D1F8",
-    "row": null,
-    "symbol": null
+    "text": "\uff32\uff4f\uff4d\uff49"
    },
    {
     "index": 18,
     "target": "0x8002D1EC",
-    "row": null,
-    "symbol": null
+    "text": "\uff33\uff48\uff49\uff4e"
    }
   ]
  },
@@ -667,79 +650,68 @@
   "vram": "0x8006AD74",
   "file_offset": "0x3E574",
   "entries": 12,
-  "role": "resident function-pointer table (role not yet named)",
+  "kind": "text",
+  "role": "second NPC name table (Danser x4, Aunt, Horse x4, Shiela, Butler, Bunny2)",
   "targets": [
    {
     "index": 0,
     "target": "0x8002D0B4",
-    "row": null,
-    "symbol": null
+    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
    },
    {
     "index": 1,
     "target": "0x8002D0B4",
-    "row": null,
-    "symbol": null
+    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
    },
    {
     "index": 2,
     "target": "0x8002D0B4",
-    "row": null,
-    "symbol": null
+    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
    },
    {
     "index": 3,
     "target": "0x8002D0B4",
-    "row": null,
-    "symbol": null
+    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
    },
    {
     "index": 4,
     "target": "0x8002D188",
-    "row": null,
-    "symbol": null
+    "text": "\uff21\uff55\uff4e\uff54"
    },
    {
     "index": 5,
     "target": "0x8002D0A8",
-    "row": null,
-    "symbol": null
+    "text": "\uff28\uff4f\uff52\uff53\uff45"
    },
    {
     "index": 6,
     "target": "0x8002D0A8",
-    "row": null,
-    "symbol": null
+    "text": "\uff28\uff4f\uff52\uff53\uff45"
    },
    {
     "index": 7,
     "target": "0x8002D0A8",
-    "row": null,
-    "symbol": null
+    "text": "\uff28\uff4f\uff52\uff53\uff45"
    },
    {
     "index": 8,
     "target": "0x8002D0A8",
-    "row": null,
-    "symbol": null
+    "text": "\uff28\uff4f\uff52\uff53\uff45"
    },
    {
     "index": 9,
     "target": "0x8002D098",
-    "row": null,
-    "symbol": null
+    "text": "\uff33\uff48\uff49\uff45\uff4c\uff41"
    },
    {
     "index": 10,
     "target": "0x8002D088",
-    "row": null,
-    "symbol": null
+    "text": "\uff22\uff55\uff54\uff4c\uff45\uff52"
    },
    {
     "index": 11,
     "target": "0x8002D078",
-    "row": null,
-    "symbol": null
+    "text": "\uff22\uff55\uff4e\uff4e\uff59\uff12"
    }
   ]
  },
@@ -747,205 +719,173 @@
   "vram": "0x8006B01C",
   "file_offset": "0x3E81C",
   "entries": 33,
-  "role": "resident function-pointer table (role not yet named)",
+  "kind": "text",
+  "role": "monster (familiar) name table in monster-id order (ifrit, flame, grineu, griff, saber, snow, ashra, aran, battne, nyuel, death, clown, univer, unicon, metal, block, pulun, troll, noise, u-boat, baloon, dream, blume, volcan, cyclo, maneva, barong, picket, kraken, weadog, steal, viper, naplas): the id space initialStatsTable (24-byte records) is indexed by",
   "targets": [
    {
     "index": 0,
     "target": "0x8002D560",
-    "row": null,
-    "symbol": null
+    "text": "\uff49\uff46\uff52\uff49\uff54"
    },
    {
     "index": 1,
     "target": "0x8002D554",
-    "row": null,
-    "symbol": null
+    "text": "\uff46\uff4c\uff41\uff4d\uff45"
    },
    {
     "index": 2,
     "target": "0x8002D544",
-    "row": null,
-    "symbol": null
+    "text": "\uff47\uff52\uff49\uff4e\uff45\uff55"
    },
    {
     "index": 3,
     "target": "0x8002D538",
-    "row": null,
-    "symbol": null
+    "text": "\uff47\uff52\uff49\uff46\uff46"
    },
    {
     "index": 4,
     "target": "0x8002D52C",
-    "row": null,
-    "symbol": null
+    "text": "\uff53\uff41\uff42\uff45\uff52"
    },
    {
     "index": 5,
     "target": "0x8002D520",
-    "row": null,
-    "symbol": null
+    "text": "\uff53\uff4e\uff4f\uff57"
    },
    {
     "index": 6,
     "target": "0x8002D514",
-    "row": null,
-    "symbol": null
+    "text": "\uff41\uff53\uff48\uff52\uff41"
    },
    {
     "index": 7,
     "target": "0x8002D508",
-    "row": null,
-    "symbol": null
+    "text": "\uff41\uff52\uff41\uff4e"
    },
    {
     "index": 8,
     "target": "0x8002D4F8",
-    "row": null,
-    "symbol": null
+    "text": "\uff42\uff41\uff54\uff54\uff4e\uff45"
    },
    {
     "index": 9,
     "target": "0x8002D4EC",
-    "row": null,
-    "symbol": null
+    "text": "\uff4e\uff59\uff55\uff45\uff4c"
    },
    {
     "index": 10,
     "target": "0x8002D4E0",
-    "row": null,
-    "symbol": null
+    "text": "\uff44\uff45\uff41\uff54\uff48"
    },
    {
     "index": 11,
     "target": "0x8002D4D4",
-    "row": null,
-    "symbol": null
+    "text": "\uff43\uff4c\uff4f\uff57\uff4e"
    },
    {
     "index": 12,
     "target": "0x8002D4C4",
-    "row": null,
-    "symbol": null
+    "text": "\uff55\uff4e\uff49\uff56\uff45\uff52"
    },
    {
     "index": 13,
     "target": "0x8002D4B4",
-    "row": null,
-    "symbol": null
+    "text": "\uff55\uff4e\uff49\uff43\uff4f\uff4e"
    },
    {
     "index": 14,
     "target": "0x8002D4A8",
-    "row": null,
-    "symbol": null
+    "text": "\uff4d\uff45\uff54\uff41\uff4c"
    },
    {
     "index": 15,
     "target": "0x8002D49C",
-    "row": null,
-    "symbol": null
+    "text": "\uff42\uff4c\uff4f\uff43\uff4b"
    },
    {
     "index": 16,
     "target": "0x8002D490",
-    "row": null,
-    "symbol": null
+    "text": "\uff50\uff55\uff4c\uff55\uff4e"
    },
    {
     "index": 17,
     "target": "0x8002D484",
-    "row": null,
-    "symbol": null
+    "text": "\uff54\uff52\uff4f\uff4c\uff4c"
    },
    {
     "index": 18,
     "target": "0x8002D478",
-    "row": null,
-    "symbol": null
+    "text": "\uff4e\uff4f\uff49\uff53\uff45"
    },
    {
     "index": 19,
     "target": "0x8002D468",
-    "row": null,
-    "symbol": null
+    "text": "\uff55\u2212\uff42\uff4f\uff41\uff54"
    },
    {
     "index": 20,
     "target": "0x8002D458",
-    "row": null,
-    "symbol": null
+    "text": "\uff42\uff41\uff4c\uff4f\uff4f\uff4e"
    },
    {
     "index": 21,
     "target": "0x8002D44C",
-    "row": null,
-    "symbol": null
+    "text": "\uff44\uff52\uff45\uff41\uff4d"
    },
    {
     "index": 22,
     "target": "0x8002D440",
-    "row": null,
-    "symbol": null
+    "text": "\uff42\uff4c\uff55\uff4d\uff45"
    },
    {
     "index": 23,
     "target": "0x8002D430",
-    "row": null,
-    "symbol": null
+    "text": "\uff56\uff4f\uff4c\uff43\uff41\uff4e"
    },
    {
     "index": 24,
     "target": "0x8002D424",
-    "row": null,
-    "symbol": null
+    "text": "\uff43\uff59\uff43\uff4c\uff4f"
    },
    {
     "index": 25,
     "target": "0x8002D414",
-    "row": null,
-    "symbol": null
+    "text": "\uff4d\uff41\uff4e\uff45\uff56\uff41"
    },
    {
     "index": 26,
     "target": "0x8002D404",
-    "row": null,
-    "symbol": null
+    "text": "\uff42\uff41\uff52\uff4f\uff4e\uff47"
    },
    {
     "index": 27,
     "target": "0x8002D3F4",
-    "row": null,
-    "symbol": null
+    "text": "\uff50\uff49\uff43\uff4b\uff45\uff54"
    },
    {
     "index": 28,
     "target": "0x8002D3E4",
-    "row": null,
-    "symbol": null
+    "text": "\uff4b\uff52\uff41\uff4b\uff45\uff4e"
    },
    {
     "index": 29,
     "target": "0x8002D3D4",
-    "row": null,
-    "symbol": null
+    "text": "\uff57\uff45\uff41\uff44\uff4f\uff47"
    },
    {
     "index": 30,
     "target": "0x8002D3C8",
-    "row": null,
-    "symbol": null
+    "text": "\uff53\uff54\uff45\uff41\uff4c"
    },
    {
     "index": 31,
     "target": "0x8002D3BC",
-    "row": null,
-    "symbol": null
+    "text": "\uff56\uff49\uff50\uff45\uff52"
    },
    {
     "index": 32,
     "target": "0x8002D3AC",
-    "row": null,
-    "symbol": null
+    "text": "\uff4e\uff41\uff50\uff4c\uff41\uff53"
    }
   ]
  },
@@ -953,247 +893,208 @@
   "vram": "0x8007AED8",
   "file_offset": "0x4E6D8",
   "entries": 40,
-  "role": "resident function-pointer table (role not yet named)",
+  "kind": "text",
+  "role": "libcd command-name table (gCdCommandStringTable in config/slus_006.14.symbols.txt): CdlSync, CdlNop, ... DiskError",
   "targets": [
    {
     "index": 0,
     "target": "0x80033474",
-    "row": null,
-    "symbol": null
+    "text": "CdlSync"
    },
    {
     "index": 1,
     "target": "0x8003346C",
-    "row": null,
-    "symbol": null
+    "text": "CdlNop"
    },
    {
     "index": 2,
     "target": "0x80033460",
-    "row": null,
-    "symbol": null
+    "text": "CdlSetloc"
    },
    {
     "index": 3,
     "target": "0x80033458",
-    "row": null,
-    "symbol": null
+    "text": "CdlPlay"
    },
    {
     "index": 4,
     "target": "0x8003344C",
-    "row": null,
-    "symbol": null
+    "text": "CdlForward"
    },
    {
     "index": 5,
     "target": "0x80033440",
-    "row": null,
-    "symbol": null
+    "text": "CdlBackward"
    },
    {
     "index": 6,
     "target": "0x80033434",
-    "row": null,
-    "symbol": null
+    "text": "CdlReadN"
    },
    {
     "index": 7,
     "target": "0x80033428",
-    "row": null,
-    "symbol": null
+    "text": "CdlStandby"
    },
    {
     "index": 8,
     "target": "0x80033420",
-    "row": null,
-    "symbol": null
+    "text": "CdlStop"
    },
    {
     "index": 9,
     "target": "0x80033414",
-    "row": null,
-    "symbol": null
+    "text": "CdlPause"
    },
    {
     "index": 10,
     "target": "0x80033408",
-    "row": null,
-    "symbol": null
+    "text": "CdlReset"
    },
    {
     "index": 11,
     "target": "0x80033400",
-    "row": null,
-    "symbol": null
+    "text": "CdlMute"
    },
    {
     "index": 12,
     "target": "0x800333F4",
-    "row": null,
-    "symbol": null
+    "text": "CdlDemute"
    },
    {
     "index": 13,
     "target": "0x800333E4",
-    "row": null,
-    "symbol": null
+    "text": "CdlSetfilter"
    },
    {
     "index": 14,
     "target": "0x800333D8",
-    "row": null,
-    "symbol": null
+    "text": "CdlSetmode"
    },
    {
     "index": 15,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 16,
     "target": "0x800333C8",
-    "row": null,
-    "symbol": null
+    "text": "CdlGetlocL"
    },
    {
     "index": 17,
     "target": "0x800333BC",
-    "row": null,
-    "symbol": null
+    "text": "CdlGetlocP"
    },
    {
     "index": 18,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 19,
     "target": "0x800333B0",
-    "row": null,
-    "symbol": null
+    "text": "CdlGetTN"
    },
    {
     "index": 20,
     "target": "0x800333A4",
-    "row": null,
-    "symbol": null
+    "text": "CdlGetTD"
    },
    {
     "index": 21,
     "target": "0x80033398",
-    "row": null,
-    "symbol": null
+    "text": "CdlSeekL"
    },
    {
     "index": 22,
     "target": "0x8003338C",
-    "row": null,
-    "symbol": null
+    "text": "CdlSeekP"
    },
    {
     "index": 23,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 24,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 25,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 26,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 27,
     "target": "0x80033380",
-    "row": null,
-    "symbol": null
+    "text": "CdlReadS"
    },
    {
     "index": 28,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 29,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 30,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 31,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 32,
     "target": "0x800334B4",
-    "row": null,
-    "symbol": null
+    "text": "NoIntr"
    },
    {
     "index": 33,
     "target": "0x800334A8",
-    "row": null,
-    "symbol": null
+    "text": "DataReady"
    },
    {
     "index": 34,
     "target": "0x8003349C",
-    "row": null,
-    "symbol": null
+    "text": "Complete"
    },
    {
     "index": 35,
     "target": "0x80033490",
-    "row": null,
-    "symbol": null
+    "text": "Acknowledge"
    },
    {
     "index": 36,
     "target": "0x80033488",
-    "row": null,
-    "symbol": null
+    "text": "DataEnd"
    },
    {
     "index": 37,
     "target": "0x8003347C",
-    "row": null,
-    "symbol": null
+    "text": "DiskError"
    },
    {
     "index": 38,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    },
    {
     "index": 39,
     "target": "0x800333D4",
-    "row": null,
-    "symbol": null
+    "text": "?"
    }
   ]
  },
@@ -1201,103 +1102,88 @@
   "vram": "0x8008077C",
   "file_offset": "0x53F7C",
   "entries": 16,
-  "role": "resident function-pointer table (role not yet named)",
+  "kind": "unknown",
+  "role": "resident pointer table (targets not yet classified)",
   "targets": [
    {
     "index": 0,
     "target": "0x800336FC",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 1,
     "target": "0x800690AC",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 2,
     "target": "0x800690D0",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 3,
     "target": "0x80068888",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 4,
     "target": "0x80068FA4",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 5,
     "target": "0x80068FE0",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 6,
     "target": "0x80069030",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 7,
     "target": "0x80068D20",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 8,
     "target": "0x80068AE4",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 9,
     "target": "0x800693B0",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 10,
     "target": "0x80068FCC",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 11,
     "target": "0x800687A0",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 12,
     "target": "0x8006907C",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 13,
     "target": "0x8006969C",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 14,
     "target": "0x80068788",
-    "row": null,
-    "symbol": null
+    "text": null
    },
    {
     "index": 15,
     "target": "0x800697F8",
-    "row": null,
-    "symbol": null
+    "text": null
    }
   ]
  }
