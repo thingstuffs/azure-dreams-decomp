@@ -65,8 +65,13 @@ Dashboard: http://<lan-host>:8002/ (`tools/dashboard_serve.sh`; restart it if th
    line numbers, 39 rows), the developer identifiers the debug prints kept (`OSETDT`, `ost_w`,
    `osel_w`, `cdhd_cnt`, `ov_work.kind`, `gsw->check_sum`, …; the `main.c` triple sits in all 54
    TOWN event-script modules), the randomizer address map (data tables with record layouts, 52
-   code sites), the event-script VM handler table (opcode numbering, 72 SLUS rows) and 281 prior
-   notes. The lane prompt carries the row's block; `levels.jsonl` carries `evidence: [...]`; the
+   code sites), the event-script VM handler table (opcode numbering, 72 SLUS rows), 281 prior
+   notes, and **the script symbol dump found in the TOWN.BIN devkit blob** (3,587 developer
+   constants: `FNO_` function numbers → 52 functions named through the dispatch table at
+   `0x800D3D0C`, ready in `ledger/evidence/names_proposed.tsv`; `F_` flags, `SSTP_` steps, `S_`
+   system calls, `IMG_`, `PSN_DM_*` ... in `include/script_symbols.h`; `docs/SYMBOLS.md` §5).
+   Open: the 65 stubbed function numbers 118–182 (find the per-scene implementations), the `S_`
+   ↔ `0x8006B01C` trampoline hypothesis, and which resident routine consumes the flag numbers. The lane prompt carries the row's block; `levels.jsonl` carries `evidence: [...]`; the
    L4 module gate must place a row with an assertion file in that file's module. Then call-site
    roles and the parameter classes (dungeon handler ABI). Then modules: group rows by record/dispatcher into `src/<container>/
    <module>.c` in retail order (the per-row ledger stays the unit of proof).
