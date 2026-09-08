@@ -4,12 +4,13 @@
 s32 func_80017978();                    /* extern */
 s32 func_80018604();                                /* extern */
 
-s32 func_8067F3B0(s32 arg0, M2C_UNK arg1) {
-    s32 var_v0;
+/* Check the supplied inputs only when the prerequisite value is at least 20. */
+s32 func_8067F3B0(s32 check_value, M2C_UNK check_data) {
+    s32 check_passed;
 
-    var_v0 = 0;
+    check_passed = 0;
     if (func_80018604() >= 0x14) {
-        var_v0 = func_80017978(arg0, arg1) != 0;
+        check_passed = func_80017978(check_value, check_data) != 0;
     }
-    return var_v0;
+    return check_passed;
 }

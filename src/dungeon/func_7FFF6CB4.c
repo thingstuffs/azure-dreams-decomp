@@ -8,9 +8,10 @@ M2C_UNK func_80094C1C();                  /* extern */
 extern M2C_UNK D_800924EC;
 extern M2C_UNK D_800D0110;
 
-void func_80094414(M2C_UNK **arg0, M2C_UNK arg1, M2C_UNK arg2) {
+/* Run setup 0x50B and initialize the object's state data. */
+void func_80094414(M2C_UNK **object, M2C_UNK unused, M2C_UNK context) {
     func_80053DA8(0x50B);
-    func_80094C1C(arg0);
-    func_80094984(&D_800D0110, arg0, arg2);
-    *arg0 = &D_800924EC;
+    func_80094C1C(object);
+    func_80094984(&D_800D0110, object, context);
+    *object = &D_800924EC;
 }

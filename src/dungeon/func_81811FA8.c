@@ -8,18 +8,19 @@
 #define KEEP_INDEX(value) ASM_KEEP(value)
 #endif
 
-s32 func_80026FA8(s32 arg0, s32 arg1, s32 arg2)
+/* Find the first entry matching both byte values at or after the starting index. */
+s32 func_80026FA8(s32 match_byte_2, s32 match_byte_1, s32 start_index)
 {
-    register s32 index ASM_REG("$7") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 index ASM_REG("$7") = start_index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *entry;
 
     KEEP_INDEX(index);
     if (index < 0x40) {
         entry = (void *)0x80010000;
-        entry += ((index * 4 + arg2) * 4) - arg2;
+        entry += ((index * 4 + start_index) * 4) - start_index;
 loop:
-        if ((FIELD(entry, u8 *, 0x57D2) == arg0) &&
-            (FIELD(entry, u8 *, 0x57D1) == arg1)) {
+        if ((FIELD(entry, u8 *, 0x57D2) == match_byte_2) &&
+            (FIELD(entry, u8 *, 0x57D1) == match_byte_1)) {
             return index;
         }
         index++;

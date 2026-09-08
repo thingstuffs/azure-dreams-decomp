@@ -23,15 +23,16 @@ typedef struct Func80039DBCReader {
     Func80039DBCTable *table;
 } Func80039DBCReader;
 
-void func_80039DBC(Func80039DBCReader *arg0) {
-    u8 *ptr = arg0->read_ptr;
-    Func80039DBCTable *table = arg0->table;
-    u8 index = *ptr;
+/* Calls the script-selected handler with four stored arguments and saves its result. */
+void func_80039DBC(Func80039DBCReader *state) {
+    u8 *cursor = state->read_ptr;
+    Func80039DBCTable *table = state->table;
+    u8 index = *cursor;
     Func80039DBCHandler *handlers = table->handlers;
     s32 result;
 
-    ptr++;
-    arg0->read_ptr = ptr;
+    cursor++;
+    state->read_ptr = cursor;
     result = handlers[index](table->arg0, table->arg1, table->arg2, table->arg3);
     table->result = result;
 }

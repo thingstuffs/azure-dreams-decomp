@@ -8,9 +8,10 @@ extern M2C_UNK D_80092A84;
 extern M2C_UNK D_800D0130;
 
 
-void func_8009455C(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    arg0->unk_3E.as_s16 = 6;
-    func_80094C1C(arg0);
-    func_80094984(&D_800D0130, arg0, arg2);
-    arg0->unk_00.as_pm = &D_80092A84;
+/* Set the record field to six, reset and initialize it, and assign its handler. */
+void func_8009455C(Rec_func_80094268_arg0 *record, M2C_UNK unused, M2C_UNK setup_value) {
+    record->unk_3E.as_s16 = 6;
+    func_80094C1C(record);
+    func_80094984(&D_800D0130, record, setup_value);
+    record->unk_00.as_pm = &D_80092A84;
 }

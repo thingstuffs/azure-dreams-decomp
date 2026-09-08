@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Searches a null-terminated array of 4-byte records pointed to by D_80081508 for a record whose first two bytes match the low 16 bits of a0/a1; returns 1 if found, else 0. */
 typedef struct {
     u8 a;
     u8 b;
@@ -10,18 +9,19 @@ typedef struct {
 
 extern S_80081508 *D_80081508;
 
-s32 func_800448BC(s32 a0, s32 a1) {
-    u16 w0 = (u16)a0;
-    u16 w1 = (u16)a1;
-    S_80081508 *p = D_80081508;
+/* Returns whether the terminated record array contains both input values truncated to 16 bits. */
+s32 func_800448BC(s32 first_value, s32 second_value) {
+    u16 first_key = (u16)first_value;
+    u16 second_key = (u16)second_value;
+    S_80081508 *record = D_80081508;
 
-    if (p->a != 0) {
+    if (record->a != 0) {
         do {
-            if (p->a == w0 && p->b == w1) {
+            if (record->a == first_key && record->b == second_key) {
                 return 1;
             }
-            p += 1;
-        } while (p->a != 0);
+            record += 1;
+        } while (record->a != 0);
     }
     return 0;
 }

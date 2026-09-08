@@ -6,6 +6,7 @@ extern u8 D_8001CED4;
 extern u8 D_8001CF1C;
 extern u8 *D_8001E950;
 
+/* Invoke one of two callbacks using the current state index. */
 void func_8001CF44(void)
 {
     TownCallback callbacks[2];

@@ -9,28 +9,27 @@ typedef struct {
 
 extern S_80086A40 D_80086A40[];
 
-/* Looks up D_80086A40[idx]; if unk0 == -1 the slot is invalid and returns -1,
- * otherwise copies a fixed 32-byte block from *unk4 into dst and returns 0. */
+/* Copies an entry's 32-byte block to dst and returns 0, or returns -1 for an invalid slot. */
 s32 func_8005B470(s16 idx, u8 *dst) {
-    S_80086A40 *base;
-    S_80086A40 *ent;
+    S_80086A40 *table;
+    S_80086A40 *entry;
     u8 *src;
-    u32 i;
+    u32 bytes_copied;
 
-    base = D_80086A40;
-    ent = &base[idx];
-    if (ent->unk0 == -1) {
+    table = D_80086A40;
+    entry = &table[idx];
+    if (entry->unk0 == -1) {
         return -1;
     }
 
-    src = ent->unk4;
-    i = 0;
+    src = entry->unk4;
+    bytes_copied = 0;
     do {
         *dst = *src;
         src++;
-        i++;
+        bytes_copied++;
         dst++;
-    } while (i < 0x20);
+    } while (bytes_copied < 0x20);
 
     return 0;
 }

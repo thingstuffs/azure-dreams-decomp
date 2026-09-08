@@ -17,15 +17,16 @@ typedef struct S_800C5B48_1 {
     u16 unk_6C;
 } S_800C5B48_1;   /* arg0 in func_800C5B48 */
 
-void func_800C5B48(S_800C5B48_1 *arg0, S_800C5B48_0 *arg1) {
-    s32 temp_a0;
-    u16 temp_v0;
+/* Move the motion value halfway toward the target sum and switch callbacks when the countdown expires. */
+void func_800C5B48(S_800C5B48_1 *actor, S_800C5B48_0 *motion) {
+    s32 current_value;
+    u16 ticks_left;
 
-    temp_a0 = arg1->unk_08;
-    arg1->unk_08 = (s32) (temp_a0 + ((s32) ((D_80083788 + D_800D0428) - temp_a0) / 2));
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg0->unk_54 = &D_800C5BA8;
+    current_value = motion->unk_08;
+    motion->unk_08 = (s32) (current_value + ((s32) ((D_80083788 + D_800D0428) - current_value) / 2));
+    ticks_left = actor->unk_6C - 1;
+    actor->unk_6C = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        actor->unk_54 = &D_800C5BA8;
     }
 }

@@ -13,19 +13,20 @@ typedef struct {
 extern Counter D_80026472;
 extern Flags D_800814A0;
 
-void func_8188CFAC(u16 *arg0)
+/* Increment the object and global counters and flag the object after 256 counts. */
+void func_8188CFAC(u16 *object)
 {
-    u16 value;
+    u16 object_count;
     u16 counter;
 
     counter = D_80026472.value;
     ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    value = arg0[13] + 1;
+    object_count = object[13] + 1;
     counter++;
-    arg0[13] = value;
+    object[13] = object_count;
     D_80026472.value = counter;
-    if ((s16)value >= 0x101) {
-        arg0[-1] |= 0x8000;
+    if ((s16)object_count >= 0x101) {
+        object[-1] |= 0x8000;
         D_800814A0.value |= 0x8000;
     }
 }

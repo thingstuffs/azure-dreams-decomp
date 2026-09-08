@@ -6,9 +6,10 @@ extern u8 *D_8001E950;
 
 extern void func_8001E578(s32 id);
 
-s32 func_8001AE64(s32 arg0, s32 arg1, s32 arg2)
+/* Return the indexed value from the mode-selected table, signaling mode 1. */
+s32 func_8001AE64(s32 unused_0, s32 unused_1, s32 mode)
 {
-    if (arg2 == 1) {
+    if (mode == 1) {
         func_8001E578(0x400);
         return D_80017F94[D_8001E950[3]];
     }

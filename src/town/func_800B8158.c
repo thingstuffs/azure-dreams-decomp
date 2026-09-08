@@ -5,27 +5,28 @@
 extern s32 D_800814A8;
 
 
-void func_800B58B8(s32 *arg0, Rec_D_800E3D7C *arg1) {
-    s32 *var_a0;
-    s32 temp_a1;
-    s32 temp_v0;
-    s32 temp_v0_2;
+/* Collect nonzero record values, including the extra value for the selected record. */
+void func_800B58B8(s32 *output, Rec_D_800E3D7C *record) {
+    s32 *write_ptr;
+    s32 extra_value;
+    s32 first_value;
+    s32 second_value;
 
-    var_a0 = arg0;
-    temp_v0 = arg1->unk_4C.as_s32;
-    if (temp_v0 != 0) {
-        *var_a0 = temp_v0;
-        var_a0 += 1;
+    write_ptr = output;
+    first_value = record->unk_4C.as_s32;
+    if (first_value != 0) {
+        *write_ptr = first_value;
+        write_ptr += 1;
     }
-    temp_v0_2 = arg1->unk_50.at00_s32.v;
-    if (temp_v0_2 != 0) {
-        *var_a0 = temp_v0_2;
-        var_a0 += 1;
+    second_value = record->unk_50.at00_s32.v;
+    if (second_value != 0) {
+        *write_ptr = second_value;
+        write_ptr += 1;
     }
-    if (arg1 == D_800814A8) {
-        temp_a1 = arg1->unk_D8;
-        if (temp_a1 != 0) {
-            *var_a0 = temp_a1;
+    if (record == D_800814A8) {
+        extra_value = record->unk_D8;
+        if (extra_value != 0) {
+            *write_ptr = extra_value;
         }
     }
 }

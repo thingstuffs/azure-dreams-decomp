@@ -13,9 +13,10 @@ typedef struct S_800CECC8_1 {
     s32 unk_14;
 } S_800CECC8_1;   /* arg1 in func_800CECC8 */
 
-void func_800CECC8(Rec_func_80094268_arg0 *arg0, S_800CECC8_1 *arg1, M2C_UNK arg2) {
-    func_800C2E84(arg0, arg2, &D_800D72D4);
+/* Initialize the object, clear the global flag, and set its handler and initial offset. */
+void func_800CECC8(Rec_func_80094268_arg0 *object, S_800CECC8_1 *motion, M2C_UNK init_data) {
+    func_800C2E84(object, init_data, &D_800D72D4);
     D_80082688 = 0;
-    arg0->unk_54 = &D_800CE780;
-    arg1->unk_14 = 0xFFF60000;
+    object->unk_54 = &D_800CE780;
+    motion->unk_14 = 0xFFF60000;
 }

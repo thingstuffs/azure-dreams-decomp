@@ -9,18 +9,18 @@ typedef struct S_80083D08 {
 extern S_80083D08 D_80083D08[6];
 extern void bzero(void *ptr, s32 n);
 
-/* Zeroes each 6-slot D_80083D08[] entry whose flags bit0 is set. */
+/* Clears each of the six entries whose flags have bit 0 set. */
 void func_80047C00(void) {
-    s32 i;
-    S_80083D08 *p;
+    s32 slot_index;
+    S_80083D08 *slot;
 
-    i = 0;
-    p = D_80083D08;
+    slot_index = 0;
+    slot = D_80083D08;
     do {
-        if (p->flags & 1) {
-            bzero(p, 8);
+        if (slot->flags & 1) {
+            bzero(slot, 8);
         }
-        i++;
-        p++;
-    } while (i < 6);
+        slot_index++;
+        slot++;
+    } while (slot_index < 6);
 }

@@ -12,15 +12,16 @@ typedef struct S_80027528_0 {
 
 /* extern */
 
-void func_80027528(void *arg0) {
-    s32 temp_a1;
+/* Updates the record using its current mode and stored value. */
+void func_80027528(void *record) {
+    s32 mode;
 
-    func_80027C90(arg0 - 0x20);
-    temp_a1 = ((S_80027528_0 *)arg0)->unk_00;
-    if (temp_a1 == 0) {
-        func_80025C7C(((S_80027528_0 *)arg0)->unk_14, 0);
+    func_80027C90(record - 0x20);
+    mode = ((S_80027528_0 *)record)->unk_00;
+    if (mode == 0) {
+        func_80025C7C(((S_80027528_0 *)record)->unk_14, 0);
         return;
     } else {
-        func_80026868(((S_80027528_0 *)arg0)->unk_14, temp_a1);
+        func_80026868(((S_80027528_0 *)record)->unk_14, mode);
     }
 }

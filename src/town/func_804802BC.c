@@ -4,6 +4,7 @@ extern void *D_80016000[];
 extern s32 func_80018668(s32);
 extern void func_80018570(s32);
 
+/* Triggers 0xA6 when the state callback returns zero and 0xA6 is inactive. */
 s32 func_804802BC(void)
 {
     if ((*(s32 (**)(s32))(*(void **)((u8 *)D_80016000[0] + 0x20) + 0x2D4))(0) == 0) {

@@ -20,9 +20,10 @@ typedef struct S_800C2664_0 {
     u8 unk_94;
 } S_800C2664_0;   /* arg0 in func_800C2664 */
 
-void func_800C2664(S_800C2664_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    arg0->unk_8C = 0x40;
-    arg0->unk_8E = 0x40;
-    func_8008F074(arg0, arg1, *(arg0->unk_94 + D_800D4F88));
-    arg0->unk_50 = D_800C26C0;
+/* Initialize the object values to 0x40, apply its indexed setup, and assign its table. */
+void func_800C2664(S_800C2664_0 *object, M2C_UNK setup_context, M2C_UNK unused) {
+    object->unk_8C = 0x40;
+    object->unk_8E = 0x40;
+    func_8008F074(object, setup_context, *(object->unk_94 + D_800D4F88));
+    object->unk_50 = D_800C26C0;
 }

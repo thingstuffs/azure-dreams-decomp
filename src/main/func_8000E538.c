@@ -8,6 +8,7 @@ extern s32 D_80028568;
 extern s32 D_8002856C;
 extern s32 D_800287E4;
 
+/* Clear the event status and test the four event handles. */
 void func_80021538(void) {
     D_800287E4 = 0;
     TestEvent(D_80028560);

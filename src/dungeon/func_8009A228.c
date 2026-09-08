@@ -7,31 +7,32 @@ typedef struct {
     s16 *data;
 } ScriptState;
 
+/* Return the script entry while updating its index and repeat count. */
 s32 func_8009F988(void) {
-    ScriptState *state;
-    u16 index;
-    s16 *result;
+    ScriptState *script;
+    u16 entry_index;
+    s16 *script_entry;
 
-    state = (ScriptState *)0x80013710;
-    index = state->index;
-    result = &state->data[index];
+    script = (ScriptState *)0x80013710;
+    entry_index = script->index;
+    script_entry = &script->data[entry_index];
 
-    if (state->count == 0) {
-        s8 *entry = (s8 *)--result;
+    if (script->count == 0) {
+        s8 *count_byte = (s8 *)--script_entry;
 
-        state->index = index - 1;
-        if (*entry >= 0) {
-            s32 value;
+        script->index = entry_index - 1;
+        if (*count_byte >= 0) {
+            s32 repeat_count;
 
-            value = *(volatile u8 *)entry;
-            state->count = value - 1;
+            repeat_count = *(volatile u8 *)count_byte;
+            script->count = repeat_count - 1;
         } else {
-            state->count = 0;
+            script->count = 0;
         }
     } else {
-        state->count = state->count - 1;
+        script->count = script->count - 1;
     }
-    return (s32)result;
+    return (s32)script_entry;
 }
 
 /* MECHANISM: Frameless leaf under the true-space func_8009F988 name, with both

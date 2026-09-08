@@ -22,6 +22,7 @@ extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_8001D9D4;
 
 
+/* Initialize state, process two entries, set the data pointer, and invoke the callback. */
 s32 func_8070F594(void) {
     func_80016CC4();
     func_8001A5CC(0x935);

@@ -6,22 +6,23 @@
 
 extern s32 D_800E3D7C;
 
-s32 func_800C80F0(void *arg0) {
-    s32 var_a0;
-    void *temp_v0;
-    void *var_v1;
+/* Return whether an enabled object has either linked object flagged with bit 0x10000. */
+s32 func_800C80F0(void *object) {
+    s32 slot_index;
+    void *linked_object;
+    void *slot_base;
 
-    if (*(s32 *)((u8 *)arg0 + 0x14) & 0x4000) {
-        var_a0 = 1;
-        var_v1 = D_800E3D7C + 4;
+    if (*(s32 *)((u8 *)object + 0x14) & 0x4000) {
+        slot_index = 1;
+        slot_base = D_800E3D7C + 4;
         do {
-            temp_v0 = *(void **)((u8 *)var_v1 + 0xAC);
-            if ((temp_v0 != NULL) && (*(s32 *)((u8 *)temp_v0 + 0x54) & 0x10000)) {
+            linked_object = *(void **)((u8 *)slot_base + 0xAC);
+            if ((linked_object != NULL) && (*(s32 *)((u8 *)linked_object + 0x54) & 0x10000)) {
                 return 1;
             }
-            var_a0 -= 1;
-            var_v1 -= 4;
-        } while (var_a0 >= 0);
+            slot_index -= 1;
+            slot_base -= 4;
+        } while (slot_index >= 0);
     }
     return 0;
 }

@@ -18,19 +18,20 @@ typedef struct {
 
 extern void func_80035D38(void);
 
-void func_80035CE4(FuncState *arg0, FuncValue *arg1) {
+/* Decreases value by 0x20, clamps it to 2, and updates the callback and data flag at the lower limit. */
+void func_80035CE4(FuncState *state, FuncValue *value_state) {
     u16 value;
 
-    value = arg1->value - 0x20;
-    arg1->value = value;
+    value = value_state->value - 0x20;
+    value_state->value = value;
     if ((s16)value < 2) {
         u8 *data;
         s16 offset;
 
-        arg1->value = 2;
-        arg0->callback = func_80035D38;
-        data = arg0->data;
-        offset = arg0->offset;
+        value_state->value = 2;
+        state->callback = func_80035D38;
+        data = state->data;
+        offset = state->offset;
         *(data + offset + 0x50) = 1;
     }
 }

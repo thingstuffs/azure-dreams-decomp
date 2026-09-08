@@ -14,14 +14,15 @@ typedef struct Func8003A7FCState {
     Func8003A7FCTable *table;
 } Func8003A7FCState;
 
-void func_8003A7FC(Func8003A7FCState *arg0) {
-    u8 *ptr = arg0->read_ptr;
-    Func8003A7FCTable *table = arg0->table;
-    u8 index = *ptr++;
+/* Stores a little-endian 32-bit script operand in the indexed VM table entry. */
+void func_8003A7FC(Func8003A7FCState *state) {
+    u8 *cursor = state->read_ptr;
+    Func8003A7FCTable *table = state->table;
+    u8 index = *cursor++;
 
-    arg0->read_ptr = ptr;
-    table->values[index] = ptr[0] + (ptr[1] << 8) +
-                           (ptr[2] << 16) + (ptr[3] << 24);
+    state->read_ptr = cursor;
+    table->values[index] = cursor[0] + (cursor[1] << 8) +
+                           (cursor[2] << 16) + (cursor[3] << 24);
 
-    arg0->read_ptr += 4;
+    state->read_ptr += 4;
 }

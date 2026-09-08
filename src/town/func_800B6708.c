@@ -8,16 +8,17 @@
 extern void func_800B3AE4(void *a0);
 extern void func_800B3E30(void *a0);
 
-void func_800B3E68(void *arg0)
+/* Update the sub-object, clamp its color channels to neutral, and switch callbacks at the threshold. */
+void func_800B3E68(void *sub_object)
 {
-    u8 *s0 = (u8 *)arg0;
+    u8 *sub_object_bytes = (u8 *)sub_object;
 
-    func_800B3AE4(arg0);
-    if (*(u8 *)(s0 + 0x24) >= 0x7D) {
-        *(u8 *)(s0 + 0x24) = 0x80;
-        *(u8 *)(s0 + 0x25) = 0x80;
-        *(u8 *)(s0 + 0x26) = 0x80;
-        *(void (**)(void *))(s0 - 0x10) = func_800B3E30;
+    func_800B3AE4(sub_object);
+    if (*(u8 *)(sub_object_bytes + 0x24) >= 0x7D) {
+        *(u8 *)(sub_object_bytes + 0x24) = 0x80;
+        *(u8 *)(sub_object_bytes + 0x25) = 0x80;
+        *(u8 *)(sub_object_bytes + 0x26) = 0x80;
+        *(void (**)(void *))(sub_object_bytes - 0x10) = func_800B3E30;
     }
-    func_800B3E30(arg0);
+    func_800B3E30(sub_object);
 }

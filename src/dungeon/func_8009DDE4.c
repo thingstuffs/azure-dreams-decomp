@@ -8,20 +8,21 @@ typedef struct {
 
 extern DungeonEntry D_8006DE24[];
 
-s16 func_800A3544(u8 *arg0, u8 arg1) {
-    s32 i = 0;
-    DungeonEntry *base = D_8006DE24;
+/* Return the first of three slots with a matching entry kind, or -1. */
+s16 func_800A3544(u8 *slots, u8 kind) {
+    s32 slot_index = 0;
+    DungeonEntry *entries = D_8006DE24;
 
-    for (; i < 3; i++, arg0 += 3) {
-        u8 index = arg0[8];
+    for (; slot_index < 3; slot_index++, slots += 3) {
+        u8 entry_index = slots[8];
 
-        if (index != 0) {
-            u32 offset = index * sizeof(DungeonEntry);
+        if (entry_index != 0) {
+            u32 entry_offset = entry_index * sizeof(DungeonEntry);
             register DungeonEntry *entry ASM_REG("$3") =
-                (DungeonEntry *)(offset + (u32)base);
+                (DungeonEntry *)(entry_offset + (u32)entries);
 
-            if (entry->kind == arg1) {
-                return i;
+            if (entry->kind == kind) {
+                return slot_index;
             }
         }
     }

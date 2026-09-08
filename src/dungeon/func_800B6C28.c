@@ -6,12 +6,13 @@ typedef int s32;
 
 extern s32 D_800814A0[4];
 
-void func_800BC388(void *arg0)
+/* Mark completion when the referenced object is flagged or the tracked value is zero. */
+void func_800BC388(void *context)
 {
-    void *ptr = *(void **)arg0;
-    if ((*(u16 *)((u8 *)ptr + 0x1E) & 0x8000) || (*(*(s32 **)((u8 *)arg0 + 4)) == 0))
+    void *object = *(void **)context;
+    if ((*(u16 *)((u8 *)object + 0x1E) & 0x8000) || (*(*(s32 **)((u8 *)context + 4)) == 0))
     {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+        *(u16 *)((u8 *)context - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

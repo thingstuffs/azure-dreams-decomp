@@ -12,16 +12,17 @@ typedef struct S_800A613C_0 {
     s16 unk_0C;
 } S_800A613C_0;   /* temp_v1 in func_800A613C */
 
+/* Create an object, attach its descriptor, and initialize its data fields. */
 s32 func_800A613C(void) {
-    s32 temp_v0;
-    S_800A613C_0 *temp_v1;
+    s32 object;
+    S_800A613C_0 *object_data;
 
-    temp_v0 = func_8003FC64(0);
-    if (temp_v0 != 0) {
-        func_8004491C(temp_v0, &D_800A5FC0);
-        temp_v1 = temp_v0 + 0x20;
-        temp_v1->unk_08 = 6;
-        temp_v1->unk_0C = 0x10;
+    object = func_8003FC64(0);
+    if (object != 0) {
+        func_8004491C(object, &D_800A5FC0);
+        object_data = object + 0x20;
+        object_data->unk_08 = 6;
+        object_data->unk_0C = 0x10;
     }
-    return temp_v0;
+    return object;
 }

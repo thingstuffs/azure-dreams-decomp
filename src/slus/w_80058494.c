@@ -12,9 +12,7 @@ extern S_80084960 D_80084960[];
 
 extern void func_80055E7C();
 
-/* Sets D_80084960[index].unk1C = value & 0x7F (index comes from the first
- * parameter, masked to a byte; the second parameter is unused/dead), then
- * calls the stub notifier func_80055E7C(1, index, value & 0xFF). */
+/* Stores value masked to seven bits at index and calls the notifier with the low byte of value. */
 void func_80058494(u8 index, s32 unused, s32 value) {
     D_80084960[index].unk1C = value & 0x7F;
     func_80055E7C(1, index, value & 0xFF);

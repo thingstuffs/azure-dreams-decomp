@@ -7,6 +7,7 @@ s32 func_80017990();                         /* extern */
 extern M2C_UNK D_80017AB8;
 extern M2C_UNK *D_80017B6C;
 
+/* Set the active data pointer and process entries for the two checks for index 7. */
 void func_80761DA4(void) {
     D_80017B6C = &D_80017AB8;
     if (func_80017948(7) != 0) {

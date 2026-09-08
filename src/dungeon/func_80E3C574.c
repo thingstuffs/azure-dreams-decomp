@@ -2,17 +2,18 @@
 
 extern void func_800453E0(void *arg0, s32 arg1, void *arg2, s32 arg3);
 
-s32 func_80175D74(u8 *arg0, s32 arg1, u8 *arg2) {
+/* Clears the scratchpad counter and processes each record in the linked chain. */
+s32 func_80175D74(u8 *record_data, s32 record_value, u8 *linked_data) {
     *(s32 *)0x1F80013C = 0;
     for (;;) {
-        func_800453E0(arg0, arg1, arg2, -0x10);
-        arg2 = *(u8 **)(arg0 - 8);
-        if (arg2 == 0) {
+        func_800453E0(record_data, record_value, linked_data, -0x10);
+        linked_data = *(u8 **)(record_data - 8);
+        if (linked_data == 0) {
             return 0;
         }
-        arg0 = arg2 + 0x20;
-        arg1 = *(s32 *)(arg2 + 8);
-        arg2 = *(u8 **)(arg2 + 0xC);
+        record_data = linked_data + 0x20;
+        record_value = *(s32 *)(linked_data + 8);
+        linked_data = *(u8 **)(linked_data + 0xC);
     }
 }
 

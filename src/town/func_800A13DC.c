@@ -12,11 +12,12 @@ extern void func_8009FA14(void *a0, void *a1);
 extern void func_8008F134(void *a0);
 extern void func_80033D08(void *a0);
 
-void func_8009EB3C(void *a0, void *a1)
+/* Update the object from supplied data and set its local and global flags. */
+void func_8009EB3C(void *object, void *update_data)
 {
-    func_8009FA14(a1, (u8 *)a0 + 0x4C);
-    func_8008F134(a0);
-    func_80033D08(a0);
-    *(u16 *)((u8 *)a0 - 2) |= 0x8000;
+    func_8009FA14(update_data, (u8 *)object + 0x4C);
+    func_8008F134(object);
+    func_80033D08(object);
+    *(u16 *)((u8 *)object - 2) |= 0x8000;
     D_800814A0[0] |= 0x8000;
 }

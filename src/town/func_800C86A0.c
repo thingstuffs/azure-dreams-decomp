@@ -5,7 +5,8 @@ M2C_UNK func_800C2E84();          /* extern */
 M2C_UNK func_800C58F4();       /* extern */
 extern M2C_UNK D_800D5540;
 
-void func_800C5E00(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    func_800C2E84(arg0, arg2, &D_800D5540);
-    func_800C58F4(arg0, arg1, arg2);
+/* Initialize the actor with the state table and run its follow-up handler. */
+void func_800C5E00(s32 actor, M2C_UNK context, M2C_UNK state_context) {
+    func_800C2E84(actor, state_context, &D_800D5540);
+    func_800C58F4(actor, context, state_context);
 }

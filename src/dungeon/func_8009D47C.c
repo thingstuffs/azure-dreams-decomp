@@ -15,19 +15,20 @@ typedef struct S_800A2BDC_0 {
     s32 unk_10;
 } S_800A2BDC_0;   /* p in func_800A2BDC */
 
+/* Return whether any checked global state value or flag is set. */
 s32 func_800A2BDC(void) {
-    s32 *p = D_80083460;
+    s32 *state = D_80083460;
 
-    if (((S_800A2BDC_0 *)p)->unk_0C != 0) {
+    if (((S_800A2BDC_0 *)state)->unk_0C != 0) {
         goto ret_one;
     }
-    if (((S_800A2BDC_0 *)p)->unk_10 != 0) {
+    if (((S_800A2BDC_0 *)state)->unk_10 != 0) {
         goto ret_one;
     }
-    if (((S_800A2BDC_0 *)p)->unk_08 != 0) {
+    if (((S_800A2BDC_0 *)state)->unk_08 != 0) {
         goto ret_one;
     }
-    if ((((S_800A2BDC_0 *)p)->unk_02 & 0x2008) != 0) {
+    if ((((S_800A2BDC_0 *)state)->unk_02 & 0x2008) != 0) {
         goto ret_one;
     }
     goto ret_zero;

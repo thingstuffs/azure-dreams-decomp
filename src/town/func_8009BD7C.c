@@ -14,10 +14,11 @@ typedef struct {
     s16 unk38;
 } TownObject;
 
-void func_800994DC(TownObject *arg0) {
-    func_80094984(D_800D01C0, arg0);
+/* Initialize the town object, clear its slot flags, and apply its coordinates. */
+void func_800994DC(TownObject *object) {
+    func_80094984(D_800D01C0, object);
     D_80082660[8] = 0;
-    arg0->unk4 = D_80097EA0;
+    object->unk4 = D_80097EA0;
     D_80082660[9] = 0;
-    func_800A8184(arg0->unk36, arg0->unk38);
+    func_800A8184(object->unk36, object->unk38);
 }

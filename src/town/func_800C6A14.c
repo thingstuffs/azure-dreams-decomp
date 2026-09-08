@@ -17,7 +17,8 @@ extern void func_800C41D4(void *arg0, M2C_UNK arg1, M2C_UNK arg2);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
-void func_800C4174(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    func_800C2E84(arg0, arg2, ((S_800C4174_1 *)(((Rec_func_80094268_arg0 *)arg0)->unk_80))->unk_04);
-    func_800C41D4(arg0, arg1, arg2);
+/* Apply setup from the object descriptor and then run the object update. */
+void func_800C4174(void *object, M2C_UNK update_context, M2C_UNK setup_context) {
+    func_800C2E84(object, setup_context, ((S_800C4174_1 *)(((Rec_func_80094268_arg0 *)object)->unk_80))->unk_04);
+    func_800C41D4(object, update_context, setup_context);
 }

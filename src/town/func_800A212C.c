@@ -3,14 +3,15 @@
 extern s32 func_8009F77C(s32, s32);
 extern s32 func_8009F830();
 
-s32 func_8009F88C(s32 arg0, s32 arg1) {
-    s32 var_s0;
+/* serch_item_plown: Check both player item searches for the requested kind and type. */
+s32 func_8009F88C(s32 item_kind, s32 item_type) {
+    s32 found;
 
-    var_s0 = 0;
-    if (func_8009F77C(arg0, arg1) != 0) {
-        var_s0 = 1;
-    } else if (func_8009F830(arg0, arg1) != 0) {
-        var_s0 = 1;
+    found = 0;
+    if (func_8009F77C(item_kind, item_type) != 0) {
+        found = 1;
+    } else if (func_8009F830(item_kind, item_type) != 0) {
+        found = 1;
     }
-    return var_s0;
+    return found;
 }

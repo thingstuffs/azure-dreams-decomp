@@ -15,9 +15,10 @@ typedef struct S_800CB5DC_0 {
     M2C_UNK16 unk_6C;
 } S_800CB5DC_0;   /* arg0 in func_800CB5DC */
 
-void func_800CB5DC(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    func_800C2E84(arg0, arg2, &D_800D694C);
-    D_80082660[((S_800CB5DC_0 *)arg0)->unk_60 * 8] = 0;
-    ((S_800CB5DC_0 *)arg0)->unk_54 = &D_800CB570;
-    ((S_800CB5DC_0 *)arg0)->unk_6C = 0xA;
+/* Initialize the object's state, clear its slot flag, and set its counter to ten. */
+void func_800CB5DC(void *object, M2C_UNK unused, M2C_UNK context) {
+    func_800C2E84(object, context, &D_800D694C);
+    D_80082660[((S_800CB5DC_0 *)object)->unk_60 * 8] = 0;
+    ((S_800CB5DC_0 *)object)->unk_54 = &D_800CB570;
+    ((S_800CB5DC_0 *)object)->unk_6C = 0xA;
 }

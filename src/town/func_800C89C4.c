@@ -8,7 +8,8 @@ extern M2C_UNK D_800D562C[];
 extern M2C_UNK D_800D5654[];
 extern M2C_UNK D_800D5658[];
 
-void func_800C6124(void *arg0) {
-    func_800C3050(arg0, 0xD, D_800D5654, D_800D5658, D_800D5624, D_800D562C);
-    *((s8 *)arg0 + 0x70) = 1;
+/* Configure the actor with mode 13 and its associated tables, then set its state flag. */
+void func_800C6124(void *actor) {
+    func_800C3050(actor, 0xD, D_800D5654, D_800D5658, D_800D5624, D_800D562C);
+    *((s8 *)actor + 0x70) = 1;
 }

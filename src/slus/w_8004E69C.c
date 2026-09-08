@@ -1,23 +1,23 @@
 #include "common.h"
 
-/* Walks a nul-terminated byte string in place; for each char c, if D_800714B0[c] has bit 0x10 set, rewrites that char to (c + 0x31). Returns the original pointer. */
 extern u8 D_800714B0[0x100];
 
-u8 *func_8004E69C(u8 *arg0) {
-    u8 *p = arg0;
-    u8 *base;
-    u8 c;
+/* Adds 0x31 to characters flagged 0x10 in a nul-terminated string and returns its original pointer. */
+u8 *func_8004E69C(u8 *string) {
+    u8 *cursor = string;
+    u8 *char_flags;
+    u8 character;
 
-    if (*arg0 == 0) {
-        return arg0;
+    if (*string == 0) {
+        return string;
     }
-    base = D_800714B0;
+    char_flags = D_800714B0;
     do {
-        c = *p;
-        if (base[c] & 0x10) {
-            *p = c + 0x31;
+        character = *cursor;
+        if (char_flags[character] & 0x10) {
+            *cursor = character + 0x31;
         }
-        p++;
-    } while (*p != 0);
-    return arg0;
+        cursor++;
+    } while (*cursor != 0);
+    return string;
 }

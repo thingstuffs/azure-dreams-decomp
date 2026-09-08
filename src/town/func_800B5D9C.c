@@ -21,13 +21,14 @@ typedef struct S_800B34FC_0 {
 
 extern M2C_UNK D_800B34A8;
 
-void func_800B34FC(void *arg0) {
-    s32 temp_v0;
+/* Advance the five-step fixed-point ramp and switch callbacks after the final step. */
+void func_800B34FC(void *sub_object) {
+    s32 next_step;
 
-    ((S_800B34FC_2 *)(((S_800B34FC_1 *)arg0)->unk_9C))->unk_06 = (s16) ((((S_800B34FC_0 *)((u8 *)arg0 - 0x10))->unk_18 << 0xC) / 5);
-    temp_v0 = ((S_800B34FC_0 *)((u8 *)arg0 - 0x10))->unk_18 + 1;
-    ((S_800B34FC_0 *)((u8 *)arg0 - 0x10))->unk_18 = temp_v0;
-    if (temp_v0 >= 6) {
-        ((S_800B34FC_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800B34A8;
+    ((S_800B34FC_2 *)(((S_800B34FC_1 *)sub_object)->unk_9C))->unk_06 = (s16) ((((S_800B34FC_0 *)((u8 *)sub_object - 0x10))->unk_18 << 0xC) / 5);
+    next_step = ((S_800B34FC_0 *)((u8 *)sub_object - 0x10))->unk_18 + 1;
+    ((S_800B34FC_0 *)((u8 *)sub_object - 0x10))->unk_18 = next_step;
+    if (next_step >= 6) {
+        ((S_800B34FC_0 *)((u8 *)sub_object - 0x10))->unk_00 = &D_800B34A8;
     }
 }

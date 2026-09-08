@@ -18,16 +18,13 @@ extern struct {
 
 extern int D_800814A0;
 
-/* Walks the global singly-linked list headed by D_80081498 looking for
-   every node whose field_10 equals a0; for each match, sets bit 0x8000 in
-   that node's field_1E AND in the global flags word D_800814A0 (no early
-   exit - the whole list is always walked). */
-void func_800403BC(s32 a0)
+/* Sets bit 0x8000 on every node with the matching ID and in the global flags. */
+void func_800403BC(s32 target_id)
 {
     S_80081498 *node = D_80081498.head;
 
     while (node != 0) {
-        if (node->field_10 == a0) {
+        if (node->field_10 == target_id) {
             node->field_1E |= 0x8000;
             D_800814A0 |= 0x8000;
         }

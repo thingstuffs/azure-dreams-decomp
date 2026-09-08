@@ -15,9 +15,10 @@ typedef struct {
 extern u8 *D_8001E950;
 extern s32 func_8001A86C(s32);
 
-s32 func_8001BF94(TownObject *arg0, s32 arg1) {
+/* Update the selected object record when the current state is 1. */
+s32 func_8001BF94(TownObject *object, s32 record_index) {
     if (D_8001E950[5] == 1) {
-        *(s32 *)((arg1 * 0x10) + (uptr)arg0->records + 8) =
+        *(s32 *)((record_index * 0x10) + (uptr)object->records + 8) =
             func_8001A86C(0);
         return 0;
     }

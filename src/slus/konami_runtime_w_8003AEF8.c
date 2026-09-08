@@ -18,21 +18,22 @@ typedef struct S_8003AEF8_0 {
 } S_8003AEF8_0;   /* var_v0 in func_8003AEF8 */
 
 
-void func_8003AEF8(void *arg0) {
-    M2C_UNK (*temp_v1)(s32, s32, s32, s32);
-    void *temp_s0;
-    S_8003AEF8_0 *var_v0;
+/* Walks the callback list, clearing each next link and invoking each non-null callback. */
+void func_8003AEF8(void *head) {
+    M2C_UNK (*callback)(s32, s32, s32, s32);
+    void *next_node;
+    S_8003AEF8_0 *node;
 
-    var_v0 = arg0;
-    if (var_v0 != NULL) {
+    node = head;
+    if (node != NULL) {
         do {
-            temp_s0 = var_v0->unk_14;
-            temp_v1 = ((S_8003AEF8_1 *)var_v0)->unk_00;
-            var_v0->unk_14 = NULL;
-            if (temp_v1 != NULL) {
-                temp_v1(var_v0->unk_04, var_v0->unk_08, var_v0->unk_0C, var_v0->unk_10);
+            next_node = node->unk_14;
+            callback = ((S_8003AEF8_1 *)node)->unk_00;
+            node->unk_14 = NULL;
+            if (callback != NULL) {
+                callback(node->unk_04, node->unk_08, node->unk_0C, node->unk_10);
             }
-            var_v0 = temp_s0;
-        } while (var_v0 != NULL);
+            node = next_node;
+        } while (node != NULL);
     }
 }

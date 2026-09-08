@@ -9,12 +9,13 @@ typedef struct S_80016584_0 {
     s16 unk_18;
 } S_80016584_0;   /* arg0 in func_80016584 */
 
-s32 func_80016584(S_80016584_0 *arg0) {
-    s32 var_v0;
+/* Check the record flag only when the global flag is clear. */
+s32 func_80016584(S_80016584_0 *record) {
+    s32 flag_set;
 
-    var_v0 = 0;
+    flag_set = 0;
     if (func_80016D78(D_800160B2) == 0) {
-        var_v0 = func_80016D78(arg0->unk_18) != 0;
+        flag_set = func_80016D78(record->unk_18) != 0;
     }
-    return var_v0;
+    return flag_set;
 }

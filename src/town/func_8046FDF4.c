@@ -4,14 +4,15 @@ extern void func_80019618(s32, s32);
 extern void func_80019928(s32, s32);
 extern s32 func_8001A510(s32);
 
-s32 func_80016DF4(s32 arg0, s32 arg1) {
+/* Dispatch to a handler based on condition 0x798, returning 1 when it is set. */
+s32 func_80016DF4(s32 handler_arg_a, s32 handler_arg_b) {
     if (func_8001A510(0x798) != 0) {
         goto nonzero;
     }
-    func_80019928(arg0, arg1);
+    func_80019928(handler_arg_a, handler_arg_b);
     return;
 
 nonzero:
-    func_80019618(arg0, arg1);
+    func_80019618(handler_arg_a, handler_arg_b);
     return 1;
 }

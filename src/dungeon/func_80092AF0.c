@@ -7,18 +7,19 @@ typedef struct {
     u8 unk86;
 } UnkStruct;
 
-s16 func_80098250(UnkStruct *arg0) {
-    s16 value;
+/* Return the adjusted value clamped to the range 0 through 99. */
+s16 func_80098250(UnkStruct *entity) {
+    s16 adjusted_value;
 
-    value = arg0->unk86;
-    if (arg0->unk50 != 0) {
-        value += *(s8 *)((u8 *)arg0->unk50 + 2);
+    adjusted_value = entity->unk86;
+    if (entity->unk50 != 0) {
+        adjusted_value += *(s8 *)((u8 *)entity->unk50 + 2);
     }
-    if (value < 0) {
-        value = 0;
+    if (adjusted_value < 0) {
+        adjusted_value = 0;
     }
-    if (value >= 100) {
-        value = 99;
+    if (adjusted_value >= 100) {
+        adjusted_value = 99;
     }
-    return value;
+    return adjusted_value;
 }

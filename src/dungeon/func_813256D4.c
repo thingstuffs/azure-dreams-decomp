@@ -12,9 +12,10 @@ typedef struct S_8016CED4_0 {
 
 
 s32 func_800AB378(S_8016CED4_0 *, M2C_UNK, M2C_UNK, M2C_UNK);
-void func_8016CED4(S_8016CED4_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
-    if (func_800AB378(arg0, arg1, arg2, arg3) != 0) {
-        func_800AD9B4(arg2, arg3);
-        arg0->unk_8C = &D_8016B778;
+/* Runs the follow-up handler and assigns the shared record data when the check succeeds. */
+void func_8016CED4(S_8016CED4_0 *record, M2C_UNK check_context, M2C_UNK source, M2C_UNK target) {
+    if (func_800AB378(record, check_context, source, target) != 0) {
+        func_800AD9B4(source, target);
+        record->unk_8C = &D_8016B778;
     }
 }

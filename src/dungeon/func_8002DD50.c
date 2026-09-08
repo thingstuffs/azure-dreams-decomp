@@ -7,14 +7,15 @@ extern M2C_UNK D_800CB474;
 extern M2C_UNK D_800D6938;
 
 
-void func_800CB4B0(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Decrement the object's counter and switch state with a ten-tick counter when it expires. */
+void func_800CB4B0(Rec_func_80094268_arg0 *object, M2C_UNK unused, M2C_UNK context) {
+    u16 remaining_ticks;
 
-    temp_v0 = arg0->unk_6C.as_u16 - 1;
-    arg0->unk_6C.as_u16 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800C2E84(arg0, arg2, &D_800D6938);
-        arg0->unk_54 = &D_800CB474;
-        arg0->unk_6C.as_u16 = 0xAU;
+    remaining_ticks = object->unk_6C.as_u16 - 1;
+    object->unk_6C.as_u16 = remaining_ticks;
+    if ((remaining_ticks << 0x10) <= 0) {
+        func_800C2E84(object, context, &D_800D6938);
+        object->unk_54 = &D_800CB474;
+        object->unk_6C.as_u16 = 0xAU;
     }
 }

@@ -21,19 +21,20 @@ typedef struct S_800A7C64_1 {
     s16 unk_1E;
 } S_800A7C64_1;   /* temp_s0 in func_800A7C64 */
 
+/* Create an object and initialize its render data to neutral color and unit scale. */
 void func_800A7C64(void) {
-    S_800A7C64_1 *temp_s0;
-    S_800A7C64_0 *temp_v0;
+    S_800A7C64_1 *render_data;
+    S_800A7C64_0 *object;
 
-    temp_v0 = func_8003FC64(2);
-    if (temp_v0 != NULL) {
-        temp_s0 = temp_v0->unk_0C;
-        temp_v0->unk_10 = 0;
-        func_8004491C(temp_v0, &D_800A7CC4);
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
+    object = func_8003FC64(2);
+    if (object != NULL) {
+        render_data = object->unk_0C;
+        object->unk_10 = 0;
+        func_8004491C(object, &D_800A7CC4);
+        render_data->unk_0E = 0x80;
+        render_data->unk_0D = 0x80;
+        render_data->unk_0C = 0x80;
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
     }
 }

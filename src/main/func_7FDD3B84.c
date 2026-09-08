@@ -11,12 +11,13 @@ typedef struct {
     /* 0x18 */ s32 unk18;
 } EntA;
 
-void func_7FDD3B84(EntA *a0)
+/* Load a table value divided by four and propagate the source flag. */
+void func_7FDD3B84(EntA *entry)
 {
-    unsigned short *unk10 = (unsigned short *)((char *)a0 + 0x10);
-    *(short *)unk10 = (s16)(D_8008B2F0[a0->unk18] >> 2);
-    if (*(short *)((char *)a0->unk04 + 0x16) & 0x8000) {
-        *(unsigned short *)((char *)a0 - 2) |= 0x8000;
+    unsigned short *scaled_value = (unsigned short *)((char *)entry + 0x10);
+    *(short *)scaled_value = (s16)(D_8008B2F0[entry->unk18] >> 2);
+    if (*(short *)((char *)entry->unk04 + 0x16) & 0x8000) {
+        *(unsigned short *)((char *)entry - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

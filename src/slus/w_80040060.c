@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Links node a1 into the doubly-linked list anchored at a0 (a0's "next" field, offset 0x00, may be a real node or the sentinel D_80081498), inserting a1 as a0's new immediate successor. Sets flag bit 0x4000 on a1. a1's prev field is left NULL if a0 is currently the global list head, otherwise it is set to a0. */
 typedef struct S_80040060 {
     struct S_80040060 *next;  /* 0x00 */
     struct S_80040060 *prev;  /* 0x04 */
@@ -13,24 +12,25 @@ extern struct {
     int pad[2];
 } D_80081498;
 
-void func_80040060(S_80040060 *a0, S_80040060 *a1)
+/* Inserts node after anchor, sets flag 0x4000, and leaves prev null when anchor is the global head. */
+void func_80040060(S_80040060 *anchor, S_80040060 *node)
 {
-    S_80040060 *old;
+    S_80040060 *next_node;
 
-    a1->flags |= 0x4000;
+    node->flags |= 0x4000;
 
-    old = a0->next;
-    a0->next = a1;
-    if (old != 0) {
-        old->prev = a1;
-        a1->next = old;
+    next_node = anchor->next;
+    anchor->next = node;
+    if (next_node != 0) {
+        next_node->prev = node;
+        node->next = next_node;
     } else {
-        a1->next = 0;
+        node->next = 0;
     }
 
-    if (a0 == D_80081498.head) {
-        a1->prev = 0;
+    if (anchor == D_80081498.head) {
+        node->prev = 0;
     } else {
-        a1->prev = a0;
+        node->prev = anchor;
     }
 }

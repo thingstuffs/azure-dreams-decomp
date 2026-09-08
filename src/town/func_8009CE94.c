@@ -49,24 +49,25 @@ typedef int s32;
 extern s32 func_800C2B6C(s16 arg0);
 extern u8 D_80082660;
 extern s32 D_80082A38[];
+/* player_now_ang_get: Store the current player angle when the player slot is available. */
 void func_8009A5F4(void)
 {
-  u8 *base;
-  void *object;
-  s32 *destination;
-  s32 result;
-  int new_var;
-  new_var = 8;
-  destination = D_80082A38;
-  base = (&D_80082660) + new_var;
-  if ((*((s8 *) (base + 1))) == 0)
+  u8 *player_slot;
+  void *player;
+  s32 *script_values;
+  s32 player_angle;
+  int slot_index;
+  slot_index = 8;
+  script_values = D_80082A38;
+  player_slot = (&D_80082660) + slot_index;
+  if ((*((s8 *) (player_slot + 1))) == 0)
   {
-    object = *((void **) (base + 4));
-    if (object != 0)
+    player = *((void **) (player_slot + 4));
+    if (player != 0)
     {
-      new_var = 0x12;
-      result = func_800C2B6C(*((s16 *) (((u8 *) object) + 0x30)));
-      destination[new_var] = result;
+      slot_index = 0x12;
+      player_angle = func_800C2B6C(*((s16 *) (((u8 *) player) + 0x30)));
+      script_values[slot_index] = player_angle;
     }
   }
 }

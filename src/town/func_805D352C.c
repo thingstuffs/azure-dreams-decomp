@@ -18,6 +18,7 @@ extern M2C_UNK D_80019884;
 extern s32 D_80019AF8;
 extern M2C_UNK *D_80019B90;
 
+/* Initializes data pointers and computes the selected eight-byte entry address. */
 void func_805D352C(void) {
     func_800174CC();
     D_80019B90 = &D_80019814;

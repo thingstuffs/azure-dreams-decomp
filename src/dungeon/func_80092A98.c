@@ -7,20 +7,21 @@ typedef struct {
     u8 unk85;
 } Unk80092A98;
 
-s16 func_800981F8(Unk80092A98 *arg0) {
-    s16 value;
-    u8 byte;
+/* Return the base value plus an optional signed modifier, clamped to 0 through 99. */
+s16 func_800981F8(Unk80092A98 *object) {
+    s16 adjusted_value;
+    u8 modifier_byte;
 
-    value = arg0->unk85;
-    if (arg0->unk4C != 0) {
-        byte = *((u8 *)arg0->unk4C + 2);
-        value += (s8)byte;
+    adjusted_value = object->unk85;
+    if (object->unk4C != 0) {
+        modifier_byte = *((u8 *)object->unk4C + 2);
+        adjusted_value += (s8)modifier_byte;
     }
-    if (value < 0) {
-        value = 0;
+    if (adjusted_value < 0) {
+        adjusted_value = 0;
     }
-    if (value >= 100) {
-        value = 99;
+    if (adjusted_value >= 100) {
+        adjusted_value = 99;
     }
-    return value;
+    return adjusted_value;
 }

@@ -8,18 +8,19 @@ typedef struct {
 extern Entry D_80082660[];
 extern s32 D_80082A38[64];
 
-void func_800C4D20(s32 arg0) {
-    s32 *dst = D_80082A38;
-    void *entry;
-    s16 *sub;
+/* anyone_now_pos_get: store the actor's current position in the script variables. */
+void func_800C4D20(s32 actor_id) {
+    s32 *script_vars = D_80082A38;
+    void *actor;
+    s16 *position;
 
-    if (arg0 != 0) {
-        entry = D_80082660[arg0].unk4;
-        if (entry != 0) {
-            sub = *(s16 **)((u8 *)entry + 8);
-            dst[0x13] = sub[1];
-            dst[0x14] = sub[3];
-            dst[0x15] = sub[5];
+    if (actor_id != 0) {
+        actor = D_80082660[actor_id].unk4;
+        if (actor != 0) {
+            position = *(s16 **)((u8 *)actor + 8);
+            script_vars[0x13] = position[1];
+            script_vars[0x14] = position[3];
+            script_vars[0x15] = position[5];
         }
     }
 }

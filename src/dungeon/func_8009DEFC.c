@@ -16,28 +16,29 @@ typedef struct S_800A365C_1 {
     u8 unk_25;
 } S_800A365C_1;   /* arg1 in func_800A365C */
 
-s32 func_800A365C(S_800A365C_0 *arg0, S_800A365C_1 *arg1, s32 arg2) {
-    s32 var_a0;
-    s32 var_v0;
-    s32 var_v1;
+/* Return whether two positions share a row, column, or diagonal. */
+s32 func_800A365C(S_800A365C_0 *source, S_800A365C_1 *target, s32 aligned) {
+    s32 target_y;
+    s32 y_delta;
+    s32 x_delta;
 
-    var_v1 = arg0->unk_24 - arg1->unk_24;
-    ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    var_v0 = arg0->unk_25;
-    ASM_USE2(arg0, arg2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    var_a0 = arg1->unk_25;
-    if (var_v1 < 0) {
-        var_v1 = 0 - var_v1;
+    x_delta = source->unk_24 - target->unk_24;
+    ASM_USE(source);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    y_delta = source->unk_25;
+    ASM_USE2(source, aligned);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    target_y = target->unk_25;
+    if (x_delta < 0) {
+        x_delta = 0 - x_delta;
     }
-    var_v0 = var_v0 - var_a0;
-    if (var_v0 < 0) {
-        var_v0 = 0 - var_v0;
+    y_delta = y_delta - target_y;
+    if (y_delta < 0) {
+        y_delta = 0 - y_delta;
     }
-    arg2 = 0;
-    if ((var_v1 == var_v0) || (var_v1 == 0) || (var_v0 == 0)) {
-        arg2 = 1;
+    aligned = 0;
+    if ((x_delta == y_delta) || (x_delta == 0) || (y_delta == 0)) {
+        aligned = 1;
     }
-    return arg2;
+    return aligned;
 }
 
 /* MECHANISM: The frameless leaf keeps a dead third ABI argument as the a2 result home.

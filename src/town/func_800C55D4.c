@@ -9,8 +9,9 @@ s32 func_800C2D0C();
 
 
 
-void func_800C2D34(Rec_func_80094268_arg0 *arg0, Rec_D_80082E80 *arg1, s32 *arg2) {
-    arg0->unk_78 = arg2;
-    func_800C2CB0(arg0, arg1, arg0->unk_78[func_800C2D0C(arg0->unk_72.as_s16)], 0);
-    arg1->unk_05.as_s8 = 0;
+/* Store the value table, apply the selected value to the target, and clear its status byte. */
+void func_800C2D34(Rec_func_80094268_arg0 *object, Rec_D_80082E80 *target, s32 *value_table) {
+    object->unk_78 = value_table;
+    func_800C2CB0(object, target, object->unk_78[func_800C2D0C(object->unk_72.as_s16)], 0);
+    target->unk_05.as_s8 = 0;
 }

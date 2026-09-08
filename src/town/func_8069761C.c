@@ -25,6 +25,7 @@ extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_80018AE8;
 extern s32 D_80018BE8;
 
+/* Initialize the shared data and store the mode-2 callback result. */
 void func_8069761C(void) {
     register s32 zero LOCAL_ASM_REG("$4");
 

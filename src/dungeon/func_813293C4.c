@@ -5,6 +5,7 @@ extern u8 D_80082E80[];
 extern u8 D_80083478[];
 extern void *D_800E3D7C;
 
+/* Invokes the placement helper at the tile center using the current entity value. */
 void func_80170BC4(void) {
     func_800C78A0(
         D_80083478,

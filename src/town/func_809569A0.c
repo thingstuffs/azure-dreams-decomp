@@ -47,32 +47,33 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
-void func_800239A0(void *arg0, s16 *arg1, s16 arg2)
+/* Fill negative slots when eligibility is at least four, then clear a duplicate second slot. */
+void func_800239A0(void *record, s16 *eligibility, s16 new_value)
 {
-  s32 var_a3;
-  void *var_v1;
-  var_a3 = 0;
-  var_v1 = arg0;
+  s32 slot_index;
+  void *slot_cursor;
+  slot_index = 0;
+  slot_cursor = record;
   do
   {
-    if (((*((s16 *) (((s8 *) var_v1) + 0x44))) < 0) && ((*arg1) >= 4))
+    if (((*((s16 *) (((s8 *) slot_cursor) + 0x44))) < 0) && ((*eligibility) >= 4))
     {
-      *((s16 *) (((s8 *) var_v1) + 0x44)) = arg2;
+      *((s16 *) (((s8 *) slot_cursor) + 0x44)) = new_value;
     }
-    if (arg0)
+    if (record)
     {
-      var_a3 += 1;
-      var_v1 += 2;
+      slot_index += 1;
+      slot_cursor += 2;
     }
     else
     {
-      var_a3 += 1;
-      var_v1 += 2;
+      slot_index += 1;
+      slot_cursor += 2;
     }
   }
-  while (var_a3 < 2);
-  if ((*((s16 *) (((s8 *) arg0) + 0x44))) == (*((s16 *) (((s8 *) arg0) + 0x46))))
+  while (slot_index < 2);
+  if ((*((s16 *) (((s8 *) record) + 0x44))) == (*((s16 *) (((s8 *) record) + 0x46))))
   {
-    *((s16 *) (((s8 *) arg0) + 0x46)) = -1;
+    *((s16 *) (((s8 *) record) + 0x46)) = -1;
   }
 }

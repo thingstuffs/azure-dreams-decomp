@@ -4,8 +4,9 @@ void func_800B1960(s32, s32, s32, s32, s32); /* extern */
 void func_800B19F8(s32); /* extern */
 void func_800B1B04(s32, s32); /* extern */
 
-void func_800B1B10(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    func_800B1B04(arg0, arg1);
-    func_800B1960(arg0 + 0x38, arg0 + 0x10, arg0 + 0x20, arg2, arg3);
-    func_800B19F8(arg0);
+/* Set up the object, update its embedded records, and finalize it. */
+void func_800B1B10(s32 object_addr, s32 setup_value, s32 update_value_1, s32 update_value_2) {
+    func_800B1B04(object_addr, setup_value);
+    func_800B1960(object_addr + 0x38, object_addr + 0x10, object_addr + 0x20, update_value_1, update_value_2);
+    func_800B19F8(object_addr);
 }

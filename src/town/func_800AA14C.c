@@ -13,14 +13,15 @@ typedef struct S_800A78AC_0 {
 
 M2C_UNK func_800478B8();                     /* extern */
 
-void func_800A78AC(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    M2C_UNK (*temp_v0)();
+/* Call the record handler and update its data if the record remains active. */
+void func_800A78AC(void *record, M2C_UNK unused, M2C_UNK update_data) {
+    M2C_UNK (*handler)();
 
-    temp_v0 = ((S_800A78AC_0 *)arg0)->unk_50;
-    if (temp_v0 != NULL) {
-        temp_v0();
-        if (!(((S_800A78AC_0_pre *)arg0)[-1].unk_00 & 0x8000)) {
-            func_800478B8(arg2);
+    handler = ((S_800A78AC_0 *)record)->unk_50;
+    if (handler != NULL) {
+        handler();
+        if (!(((S_800A78AC_0_pre *)record)[-1].unk_00 & 0x8000)) {
+            func_800478B8(update_data);
         }
     }
 }

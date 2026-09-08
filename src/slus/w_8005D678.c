@@ -11,11 +11,10 @@ typedef struct D_80079968_wrap {
 
 extern D_80079968_wrap D_80079968;
 
-/* Clears status-flag bits 0x70000 on *D_80079968.ptr, then ORs in 0x30000
-   (a0 != 0) or 0x50000 (a0 == 0). */
-void func_8005D678(s32 a0) {
+/* Replaces status bits 0x70000 with 0x30000 when use_status_3 is nonzero, otherwise 0x50000. */
+void func_8005D678(s32 use_status_3) {
     D_80079968.ptr->unk0 &= ~0x70000;
-    if (a0) {
+    if (use_status_3) {
         D_80079968.ptr->unk0 |= 0x30000;
     } else {
         D_80079968.ptr->unk0 |= 0x50000;

@@ -24,13 +24,14 @@ typedef struct S_81911B9C_0 {
     s32 unk_20;
 } S_81911B9C_0;   /* temp_v0 in func_81911B9C */
 
-void func_81911B9C(s32 *arg0) {
-    S_81911B9C_0 *temp_v0;
+/* Create object 0x212 and initialize its data pointer, mode, and value. */
+void func_81911B9C(s32 *initial_value) {
+    S_81911B9C_0 *object;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_8002528C;
-        ((S_81911B9C_2 *)(((S_81911B9C_1 *)temp_v0)->unk_0C))->unk_05 = 0x10;
-        temp_v0->unk_20 = (s32) *arg0;
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        object->unk_10 = &D_8002528C;
+        ((S_81911B9C_2 *)(((S_81911B9C_1 *)object)->unk_0C))->unk_05 = 0x10;
+        object->unk_20 = (s32) *initial_value;
     }
 }

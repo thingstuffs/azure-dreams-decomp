@@ -10,22 +10,23 @@ typedef struct {
 } Record;
 extern Record D_80100E40[];
 
+/* Fill eight records with the selected values from the two global arrays. */
 void func_800AAEFC(void) {
-    s32 i;
-    u16 *src0;
-    u16 *src1;
-    volatile Record *dst;
+    s32 record_index;
+    u16 *primary_values;
+    u16 *secondary_values;
+    volatile Record *record;
 
-    i = 0;
-    src0 = D_80083780;
-    src1 = D_800834B8;
-    dst = D_80100E40;
+    record_index = 0;
+    primary_values = D_80083780;
+    secondary_values = D_800834B8;
+    record = D_80100E40;
     do {
-        dst->field_0 = src0[1];
-        dst->field_2 = src0[3];
-        dst->field_4 = src0[5];
-        i++;
-        dst->field_6 = src1[8];
-        dst++;
-    } while (i < 8);
+        record->field_0 = primary_values[1];
+        record->field_2 = primary_values[3];
+        record->field_4 = primary_values[5];
+        record_index++;
+        record->field_6 = secondary_values[8];
+        record++;
+    } while (record_index < 8);
 }

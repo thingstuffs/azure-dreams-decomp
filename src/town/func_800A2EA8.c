@@ -13,6 +13,7 @@ struct TownLink {
 
 extern s32 D_800CFCB4;
 
+/* Count type 4 links whose state is not -1. */
 s32 func_800A0608(void)
 {
     TownLink *link = ((TownLink *)&D_800CFCB4)->next;

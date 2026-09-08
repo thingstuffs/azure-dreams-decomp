@@ -10,16 +10,17 @@ typedef struct S_8080E534_0 {
     s32 unk_14;
 } S_8080E534_0;   /* arg1 in func_8080E534 */
 
-void func_8080E534(s32 arg0, S_8080E534_0 *arg1) {
-    s32 temp_v0;
-    s32 temp_v0_2;
+/* Advance the accumulator and reset it when lowering the stored value. */
+void func_8080E534(s32 unused, S_8080E534_0 *object) {
+    s32 shifted_value;
+    s32 new_value;
 
-    temp_v0 = func_8025E01C(arg1) << 0x10;
-    arg1->unk_14 = (s32) (arg1->unk_14 + 0x1D000);
-    temp_v0_2 = temp_v0 >> 0x10;
-    if (temp_v0_2 < arg1->unk_0A) {
-        arg1->unk_0A = (s16) temp_v0_2;
-        arg1->unk_14 = 0;
+    shifted_value = func_8025E01C(object) << 0x10;
+    object->unk_14 = (s32) (object->unk_14 + 0x1D000);
+    new_value = shifted_value >> 0x10;
+    if (new_value < object->unk_0A) {
+        object->unk_0A = (s16) new_value;
+        object->unk_14 = 0;
     }
 }
 

@@ -26,6 +26,7 @@ typedef struct S_800166B0_0 {
     s32 unk_14;
 } S_800166B0_0;   /* arg1 in func_800166B0 */
 
-void func_800166B0(s32 arg0, S_800166B0_0 *arg1, M2C_UNK arg2) {
-    func_80016D78(((S_800166B0_2 *)(((((S_800166B0_1 *)(((func_800161EC(arg0, arg2) * 8) + arg0)))->unk_02 * 4) + arg1->unk_14)))->unk_02);
+/* Look up an entry and query its associated flag. */
+void func_800166B0(s32 entries, S_800166B0_0 *context, M2C_UNK entry_key) {
+    func_80016D78(((S_800166B0_2 *)(((((S_800166B0_1 *)(((func_800161EC(entries, entry_key) * 8) + entries)))->unk_02 * 4) + context->unk_14)))->unk_02);
 }

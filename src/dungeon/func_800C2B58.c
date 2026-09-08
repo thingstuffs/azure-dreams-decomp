@@ -13,22 +13,23 @@ typedef struct S_800C82B8_1 {
     s32 unk_54;
 } S_800C82B8_1;   /* arg0 in func_800C82B8 */
 
-s32 func_800C82B8(void *arg0) {
-    s32 var_a1;
-    s32 var_a2;
-    void *var_v1;
+/* Counts the two occupied slots when the current entity has flag 8 set. */
+s32 func_800C82B8(void *entity) {
+    s32 slot_index;
+    s32 active_count;
+    void *slot_base;
 
-    var_a2 = 0;
-    if (arg0 == D_800E3D7C) {
-        var_a1 = 1;
-        var_v1 = arg0 + 4;
+    active_count = 0;
+    if (entity == D_800E3D7C) {
+        slot_index = 1;
+        slot_base = entity + 4;
         do {
-            if ((((S_800C82B8_0 *)var_v1)->unk_AC != 0) && (((S_800C82B8_1 *)arg0)->unk_54 & 8)) {
-                var_a2 += 1;
+            if ((((S_800C82B8_0 *)slot_base)->unk_AC != 0) && (((S_800C82B8_1 *)entity)->unk_54 & 8)) {
+                active_count += 1;
             }
-            var_a1 -= 1;
-            var_v1 -= 4;
-        } while (var_a1 >= 0);
+            slot_index -= 1;
+            slot_base -= 4;
+        } while (slot_index >= 0);
     }
-    return var_a2;
+    return active_count;
 }

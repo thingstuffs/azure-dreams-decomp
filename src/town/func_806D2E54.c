@@ -2,15 +2,16 @@
 
 extern s32 func_80016D78(s16);
 
-s32 func_80016654(s16 *arg0) {
-    s16 *p = arg0;
+/* Check whether every flag in the zero-terminated list is set. */
+s32 func_80016654(s16 *flag_ids) {
+    s16 *flag_id = flag_ids;
 
-    while (*p != 0) {
-        if (func_80016D78(*(u16 *)p) == 0) {
+    while (*flag_id != 0) {
+        if (func_80016D78(*(u16 *)flag_id) == 0) {
             break;
         }
-        p++;
+        flag_id++;
     }
 
-    return *p == 0;
+    return *flag_id == 0;
 }

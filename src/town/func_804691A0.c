@@ -22,6 +22,7 @@ M2C_UNK func_8001A188();
 extern void *D_80016000[];
 
 
-void func_8001A1A0(s32 arg0, s32 *arg1) {
-    func_8001A188(arg0, *((((S_8001A1A0_1 *)(((S_8001A1A0_0 *)(D_80016000[0]))->unk_20))->unk_2D4(0)) + arg1));
+/* Pass the callback-selected table value to the destination handler. */
+void func_8001A1A0(s32 destination, s32 *values) {
+    func_8001A188(destination, *((((S_8001A1A0_1 *)(((S_8001A1A0_0 *)(D_80016000[0]))->unk_20))->unk_2D4(0)) + values));
 }

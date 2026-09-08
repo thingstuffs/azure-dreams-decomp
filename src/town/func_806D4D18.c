@@ -12,6 +12,7 @@ typedef struct {
 extern ValueTable D_80016028;
 extern s32 func_80018868(s32, s32);
 
+/* Return the selected value from a local copy of the global table. */
 s32 func_80016D18(void) {
     ValueTable table;
 

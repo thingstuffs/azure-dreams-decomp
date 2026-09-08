@@ -19,11 +19,12 @@ typedef struct S_80016BD4_1 {
 extern Rec_D_80016000 *D_80016000;
 extern s32 D_80016E40;
 
+/* Dispatch the selected state callback with the current context value. */
 void func_80016BD4(void) {
-    u8 temp_a1;
-    S_80016BD4_1 *temp_a0;
+    u8 state_index;
+    S_80016BD4_1 *state;
 
-    temp_a0 = (D_80016000->unk_14 * 0x1C) + D_80016E40;
-    temp_a1 = temp_a0->unk_00;
-    ((S_80016BD4_2 *)(((temp_a1 * 0x10) + temp_a0->unk_10)))->unk_04(temp_a0, temp_a1, D_80016000->unk_00.at00_s32.v);
+    state = (D_80016000->unk_14 * 0x1C) + D_80016E40;
+    state_index = state->unk_00;
+    ((S_80016BD4_2 *)(((state_index * 0x10) + state->unk_10)))->unk_04(state, state_index, D_80016000->unk_00.at00_s32.v);
 }

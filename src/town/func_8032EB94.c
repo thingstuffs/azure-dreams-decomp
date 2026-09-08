@@ -12,16 +12,17 @@ struct Entry {
 extern void *D_80016000;
 extern void func_8001A5E4(s32);
 
-void func_80019394(s32 arg0, s32 arg1) {
+/* Look up a value by group and entry index and pass it to the handler. */
+void func_80019394(s32 group_index, s32 entry_index) {
     void *root;
     Entry *level;
-    Entry *first;
-    Entry *second;
+    Entry *groups;
+    Entry *entries;
 
-    ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_USE(group_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     root = D_80016000;
     level = *(Entry **)((u8 *)root + 0x24);
-    first = *(Entry **)((u8 *)level + 0x6C);
-    do { second = first[arg0].next; } while (0);
-    func_8001A5E4(second[arg1].value);
+    groups = *(Entry **)((u8 *)level + 0x6C);
+    do { entries = groups[group_index].next; } while (0);
+    func_8001A5E4(entries[entry_index].value);
 }

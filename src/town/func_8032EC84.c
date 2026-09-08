@@ -1,9 +1,10 @@
 #include "common.h"
 
+/* Append the source string to the destination and return the destination start. */
 u8 *func_80019484(u8 *dst, volatile u8 *src) {
-    u8 *ret = dst;
+    u8 *dst_start = dst;
 
-    if (*ret == 0) {
+    if (*dst_start == 0) {
         goto check_src;
     }
     do {
@@ -20,7 +21,7 @@ check_src:
         goto copy_byte;
     }
     *dst = 0;
-    return ret;
+    return dst_start;
 }
 
 /* MECHANISM: Frameless leaf: ret holds the original destination in v1.

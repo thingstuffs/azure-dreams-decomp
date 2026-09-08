@@ -11,6 +11,7 @@ extern u8 D_80083160[];
 extern u8 D_80162004[];
 extern void *func_800B7420();
 
+/* Initialize the shared buffer pointer and paired parameters, then process the buffer. */
 void func_800B72B8(void)
 {
     u8 *base = D_80083160;

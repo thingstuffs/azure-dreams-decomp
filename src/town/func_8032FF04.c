@@ -20,7 +20,8 @@ typedef struct S_8001A704_2 {
     s32 unk_08;
 } S_8001A704_2;   /* position2 in func_8001A704 */
 
-void func_8001A704(s32 arg0, s32 arg1, s32 arg2)
+/* Set position coordinates to the selected entry's offsets plus scaled x and y. */
+void func_8001A704(s32 unused, s32 x, s32 y)
 {
     volatile u8 *root = D_80016000;
     void *entry_ptr;
@@ -36,21 +37,21 @@ void func_8001A704(s32 arg0, s32 arg1, s32 arg2)
     index += (s32)entry_ptr;
     position = (*(void *volatile *)((u8 *)root + 0x1C));
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    arg1 <<= 5;
+    x <<= 5;
     value = ((S_8001A704_0 *)((void *)index))->unk_0C;
     ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    arg1 += value;
-    ((S_8001A704_1 *)position)->unk_04 = arg1;
+    x += value;
+    ((S_8001A704_1 *)position)->unk_04 = x;
     {
         register void *position2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         position2 = (*(void *volatile *)((u8 *)root + 0x1C));
         ASM_KEEP(position2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        arg2 <<= 5;
+        y <<= 5;
         value = ((S_8001A704_0 *)((void *)index))->unk_0E;
         ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        arg2 += value;
-        ((S_8001A704_2 *)position2)->unk_08 = arg2;
+        y += value;
+        ((S_8001A704_2 *)position2)->unk_08 = y;
     }
 }
 

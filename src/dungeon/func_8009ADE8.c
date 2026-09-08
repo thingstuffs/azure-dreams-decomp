@@ -8,14 +8,15 @@ typedef struct {
 
 extern DungeonBounds D_8008333C;
 
-s32 func_800A0548(s16 arg0, s16 arg1)
+/* Return whether the coordinates are outside the dungeon bounds. */
+s32 func_800A0548(s16 x, s16 y)
 {
     DungeonBounds *bounds = &D_8008333C;
 
-    if (arg0 < 0 || arg0 >= (1 << bounds->field14)) {
+    if (x < 0 || x >= (1 << bounds->field14)) {
         return 1;
     }
-    if (arg1 < 0 || arg1 >= (1 << bounds->field16)) {
+    if (y < 0 || y >= (1 << bounds->field16)) {
         return 1;
     }
     return 0;

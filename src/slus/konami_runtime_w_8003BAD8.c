@@ -5,6 +5,7 @@
 
 M2C_UNK func_8003B9E8();                            /* extern */
 
+/* Calls func_8003B9E8. */
 void func_8003BAD8(void) {
     func_8003B9E8();
 }

@@ -2,44 +2,45 @@
 
 #include "common.h"
 
-void func_80048734(u8 *a0, u8 *a1)
+/* Expands six-bit values into runs of one to four bytes until the 1, 1 terminator. */
+void func_80048734(u8 *source, u8 *output)
 {
-  u32 a2;
-  s32 v0;
-  s32 v1;
+  u32 encoded_byte;
+  s32 run_limit;
+  s32 remaining;
   goto test;
   body:
-  v0 = (*a0) >> 6;
+  run_limit = (*source) >> 6;
 
   cont:
-  v1 = v0;
+  remaining = run_limit;
 
-  v0 = -1;
-  if (v1 == v0)
+  run_limit = -1;
+  if (remaining == run_limit)
   {
     goto skip;
   }
-  a2 &= 0x3F;
+  encoded_byte &= 0x3F;
   write:
-  *a1 = a2;
+  *output = encoded_byte;
 
-  v1--;
-  a1++;
-  if (v1 != v0)
+  remaining--;
+  output++;
+  if (remaining != run_limit)
   {
     goto write;
   }
   skip:
-  a0++;
+  source++;
 
   test:
-  a2 = *a0;
+  encoded_byte = *source;
 
-  if (a2 != 1)
+  if (encoded_byte != 1)
   {
     if (1)
     {
-      v0 = a2 >> 6;
+      run_limit = encoded_byte >> 6;
       goto cont;
     }
     do
@@ -47,9 +48,9 @@ void func_80048734(u8 *a0, u8 *a1)
     }
     while (0);
   }
-  v0 = a0[1];
-  v1 = v0 != a2;
-  if (v1)
+  run_limit = source[1];
+  remaining = run_limit != encoded_byte;
+  if (remaining)
   {
     goto body;
   }
