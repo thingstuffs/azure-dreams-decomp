@@ -14,9 +14,9 @@ void func_8009FCF0(s8 arg0, s8 arg1, s8 arg2, s8 arg3) {
     if (slot == -1) {
         s32 result;
 
-        ASM_KEEP(slot);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(slot);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         result = 0;
-        ASM_TAILSLOT_PIN_TIED(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8009FD48(slot, argp);
         return;
     }

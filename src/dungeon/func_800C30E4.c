@@ -12,13 +12,13 @@ extern s32 func_800C7FFC(void);
 #ifdef NON_MATCHING
 static volatile s32 dispatch_v1;
 #else
-register s32 dispatch_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+register s32 dispatch_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
 
 s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
     State *state = arg0;
-    register s16 value ASM_REG("$17") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
-    register s8 arg2 ASM_REG("$18") = arg2_in;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s16 value ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s8 arg2 ASM_REG("$18") = arg2_in;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 result;
     s32 dividend;
 
@@ -29,17 +29,17 @@ s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
     dividend = func_800A6D30() & 0xFFFF;
     dispatch_v1 = state->divisor;
     if (dispatch_v1 != 0) {
-        register s32 divreg ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register s32 divreg ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         divreg = dispatch_v1;
-        ASM_KEEP(divreg);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(divreg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         dispatch_v1 = dividend % divreg;
     } else {
         dispatch_v1 = 0;
     }
     {
-        register s32 shifted ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-        register s32 signed_value ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 signed_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         shifted = (s32)value << 16;
         signed_value = shifted >> 16;

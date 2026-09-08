@@ -79,7 +79,7 @@ extern u8 *D_800E3D7C[3];
 
 void func_80170CEC(void *arg0, void *arg1, void *arg2) {
     void *entity;
-    register void *entity_saved ASM_REG("$10");   /* MATCH pin: retail register colouring depends on it */
+    register void *entity_saved ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *copy_source;
     void *entity_base;
     void *record;
@@ -97,7 +97,7 @@ void func_80170CEC(void *arg0, void *arg1, void *arg2) {
     record = ((S_80170CEC_1 *)entity_base)->unk_0C;
     record_angle = ((S_80170CEC_2 *)record)->unk_06;
     new_angle = old_angle + 0x190;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entity_saved = entity;
     ((S_80170CEC_3 *)arg2)->unk_1A = new_angle;
     ((S_80170CEC_3 *)arg2)->unk_06 = record_angle;
@@ -115,10 +115,10 @@ void func_80170CEC(void *arg0, void *arg1, void *arg2) {
             goto state_0;
         }
         {
-            register void *tail_arg ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register void *tail_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             tail_arg = entity_saved;
-            ASM_KEEP(tail_arg);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(tail_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             func_80170F54(tail_arg);
         }
     }
@@ -129,10 +129,10 @@ void func_80170CEC(void *arg0, void *arg1, void *arg2) {
         goto state_3;
     }
     {
-        register void *tail_arg ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register void *tail_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         tail_arg = entity_saved;
-        ASM_KEEP(tail_arg);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(tail_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         func_80170F54(tail_arg);
     }
 
@@ -213,7 +213,7 @@ state_2:
     }
 }
 
-    ASM_KEEP(entity_saved);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(entity_saved);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 do_call:
     if ((func_80042900(entity_saved, 0xA) << 16) == 0) {
         return;

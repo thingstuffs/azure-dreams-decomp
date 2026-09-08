@@ -73,17 +73,17 @@ void func_8009ED30(void) {
             {
             u16 temp_a1;
             void *temp_a0;
-            register void *temp_a2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
-            register s32 temp_a3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+            register void *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             void *temp_page;
-            register void *temp_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+            register void *temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             temp_a2 = ((S_8009ED30_0 *)temp_v0)->unk_08;
             ((S_8009ED30_1 *)temp_a2)->unk_0A = -1;
             temp_v1 = ((S_8009ED30_0 *)temp_v0)->unk_0C;
             ((S_8009ED30_2 *)temp_v1)->unk_14 = 0xC;
             ((S_8009ED30_2 *)temp_v1)->unk_08 = &D_800DD7E0;
-            ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             temp_page = (void *) 0x80010000;
             ((S_8009ED30_2 *)temp_v1)->unk_1E = 0;
             ((S_8009ED30_2 *)temp_v1)->unk_1C = 0;
@@ -99,7 +99,7 @@ void func_8009ED30(void) {
             ((S_8009ED30_4 *)temp_a0)->unk_1C = 8;
             temp_a3 = 0x808080;
             ((S_8009ED30_2 *)temp_v1)->unk_0C = temp_a3;
-            ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             temp_page = (void *) D_80013630;
             ((S_8009ED30_2 *)temp_v1)->unk_18 = 0;
             ((S_8009ED30_2 *)temp_v1)->unk_16 = 0;

@@ -150,9 +150,9 @@ mode_two:
     arg2->unk_0D = temp_lo_2;
     arg2->unk_0E = temp_lo_2;
     if (((S_80172874_0 *)base)->unk_16.u <= 0) {
-        register s32 *global_base ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 *global_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         global_base = (s32 *)0x80080000;
-        ASM_KEEP(global_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(global_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_80172874_0_pre *)base)[-1].unk_00 |= 0x8000;
         ((S_80172874_7 *)global_base)->unk_14A0 |= 0x8000;
     }

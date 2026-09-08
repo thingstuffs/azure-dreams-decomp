@@ -51,15 +51,15 @@ extern u8 D_800E116E[];
 extern u8 *D_800E3D7C[];
 
 s32 func_800BEB30(u32 arg0, u8 *arg1, s16 arg2, s32 arg3) {
-    register u8 *held_arg1 ASM_REG("$20") = arg1;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *held_arg1 ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *global;
     u8 *temp_s2;
-    register s32 temp_s3 ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 temp_s1 ASM_REG("$17");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u32 temp_s0;
-    register s32 temp_a1 ASM_REG("$5") = arg3;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_a1 ASM_REG("$5") = arg3;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 temp_call_a1;
-    register u8 *temp_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *decrement_base;
     s32 temp_v0;
     u8 temp_v1;
@@ -130,13 +130,13 @@ other:
         temp_v0 = func_80099368(temp_a0, temp_call_a1);
         temp_a0 = D_800E1156;
         temp_call_a1 = temp_v0;
-        ASM_KEEP(temp_call_a1);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(temp_call_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         temp_s1 = func_80099194(temp_a0, temp_call_a1);
         func_80099290(temp_s1);
-        ASM_KEEP(temp_s1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800A5720(temp_s3);
         decrement_base = (u8 *)0x80080000;
-        ASM_TAILSLOT_PIN(decrement_base);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(decrement_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         return func_800BEDAC();
     }
 
@@ -144,7 +144,7 @@ other:
 
 decrement:
     decrement_base = (u8 *)&D_80083460;
-    ASM_KEEP(decrement_base);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(decrement_base);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     ((S_800BEB30_2 *)decrement_base)->unk_0A--;
     func_80098B38(held_arg1);
     return 1;

@@ -102,7 +102,7 @@ s16 func_8005C2C0(s16 arg0, s32 arg1, s16 arg2, unsigned short arg3, u16 arg4, u
       req.field_00 = *ptr;
       req.field_1C = new_var[arg0].field_10;
       k7f = 0x7F;
-      ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       slot = &slot_base[arg1];
       slot->field_06 = 0x11;
       slot->field_16 = 0x40;

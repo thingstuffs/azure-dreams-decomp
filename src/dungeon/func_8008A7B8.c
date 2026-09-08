@@ -19,8 +19,8 @@ void func_8008FF18(u8 *a0, s32 *a1, u16 *a2, s32 *a3) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     u8 *arg0 = a0;
     s32 *arg1 = a1;
-    register u16 *arg2 ASM_REG("$18") = a2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 *arg3 ASM_REG("$19") = a3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u16 *arg2 ASM_REG("$18") = a2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 *arg3 ASM_REG("$19") = a3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 *var_s4;
     s32 var_v0;
     u8 temp_v1;

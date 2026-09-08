@@ -55,7 +55,7 @@ s32 func_80099A1C(void *arg0, S_80099A1C_1 *arg1, S_80099A1C_2 *arg2)
     s32 value;
 
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP(scratch);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
 loop:
     ((S_80099A1C_0 *)scratch)->unk_00 = arg1->unk_02;
@@ -76,7 +76,7 @@ loop:
         delta = ((S_80099A1C_3 *)arg0)->unk_00;
         accum = ((S_80099A1C_0 *)scratch)->unk_B8;
         delta = (delta << 16) >> 17;
-        ASM_KEEP(delta);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         accum -= delta;
         ((S_80099A1C_0 *)scratch)->unk_B8 = accum;
     }

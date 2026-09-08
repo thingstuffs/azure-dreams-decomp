@@ -101,7 +101,7 @@ after_second_update:
         {
             u32 page;
             page = 0x80080000;
-            ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_800A5BFC();
         }
     }
@@ -112,7 +112,7 @@ after_second_update:
         {
             u32 page;
             page = 0x80080000;
-            ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_800A5BFC();
         }
     }
@@ -131,7 +131,7 @@ after_second_update:
             if (delta < 0) {
                 delta = -delta;
             }
-            ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             temp = ((delta * 7) / D_80100E20) + 2;
         }
         {

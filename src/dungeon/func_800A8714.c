@@ -101,8 +101,8 @@ extern void func_800AFA10(void) __attribute__((noreturn));
 
 s32 func_800ADE74(s32 arg0, u8 *pArg, u8 *cArg, s32 arg3, u16 arg4, volatile s32 arg5)
 {
-    register u8 *p ASM_REG("$23");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *c ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *p ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *c ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 a3keep;
     s16 sp18;
     s16 sp1A;
@@ -135,7 +135,7 @@ s32 func_800ADE74(s32 arg0, u8 *pArg, u8 *cArg, s32 arg3, u16 arg4, volatile s32
     u8 *t0;
 
     p = pArg;
-    ASM_USE_NV(p);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE_NV(p);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     c = cArg;
     var_fp = 2;
     a3keep = arg3;
@@ -231,13 +231,13 @@ Lcase0: /* 0x800A89A8 */
                 if ((ta << 16) < (ua << 16)) {
                     if ((func_800A3518(D_800E3D7C[0]) << 16) != 0) {
                         s32 rv_;
-                        register void *hv_ ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                        register void *hv_ ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         *(u16 *)(c + 0x46) = (*(u16 *)&sp1C + 1) | 0x8000;
                         *(u16 *)(c + 0x2A) = func_800A0818(p[0x24], p[0x25], eA[0x24], eA[0x25], &sp1C);
                         hv_ = D_800814A8[0];
-                        ASM_KEEP(hv_);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                        ASM_KEEP(hv_);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         rv_ = 4;
-                        ASM_TAILSLOT_PIN_TIED(rv_);   /* MATCH pin: retail delay-slot contents depend on it */
+                        ASM_TAILSLOT_PIN_TIED(rv_);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                         func_800AE690();
                         return rv_;
                     }
@@ -286,12 +286,12 @@ Lc0loop:
     }
     {
         s32 ret_;
-        register s32 car_ ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 car_ ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 rv_;
         ret_ = func_800A384C(c, tv, &sp1E, 0);
         sp20 = ret_;
         *(u16 *)(c + 0x2A) = *(u16 *)&sp1E;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         car_ = ret_;
         if ((car_ << 16) < 0) {
             goto Laa190;
@@ -319,7 +319,7 @@ Lcase1: /* 0x800A8B80 */
                         *(u16 *)(c + 0x46) = (*(u16 *)&sp1C + 1) | 0x8000;
                         r0818 = func_800A0818(p[0x24], p[0x25], eB[0x24], eB[0x25], &sp1C);
                         hv_ = D_800814A8[0];
-                        ASM_KEEP(hv_);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                        ASM_KEEP(hv_);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         *(u16 *)(c + 0x2A) = r0818;
                         func_800AE68C();
                     }
@@ -368,12 +368,12 @@ Lc1loop:
     }
     {
         s32 ret_;
-        register s32 car_ ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 car_ ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 rv_;
         ret_ = func_800A384C(c, tv, &sp1E, 0);
         sp20 = ret_;
         *(u16 *)(c + 0x2A) = *(u16 *)&sp1E;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         car_ = ret_;
         if ((s16)car_ < 4) {
             goto Laa190;
@@ -404,7 +404,7 @@ Lcase2: /* 0x800A8D58 */
                         *(u16 *)(c + 0x46) = (*(u16 *)&sp1C + 1) | 0x8000;
                         r0818 = func_800A0818(p[0x24], p[0x25], eC[0x24], eC[0x25], &sp1C);
                         hv_ = D_800814A8[0];
-                        ASM_KEEP(hv_);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                        ASM_KEEP(hv_);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         *(u16 *)(c + 0x2A) = r0818;
                         func_800AE68C();
                     }
@@ -460,7 +460,7 @@ L8f48:
                     if (!(*(s32 *)(h + 0x14) & 0x2000)) {
                         {
                             s32 ret_;
-                            register s32 car_ ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                            register s32 car_ ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                             ret_ = func_800A40AC(c, (u16)func_8009CD58(h, 7, 0));
                             sp20 = ret_;
                             car_ = ret_;
@@ -493,7 +493,7 @@ Lcase4: /* 0x800A9028 */
     if (tv == NULL) {
         goto L9094;
     }
-    ASM_KEEP(var_fp);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(var_fp);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     {
         s32 r384c_;
         u16 t1e;
@@ -849,7 +849,7 @@ Lcase36: /* 0x800A99D0 */
             s32 dx, av, dxs;
             *(u16 *)(c + 0x2A) = r;
             f2 |= 0x8000;
-            ASM_KEEP_NV(f2);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(f2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             *(u16 *)(c + 0xA8) = xa;
             xa <<= 16;
             xa >>= 16;
@@ -859,19 +859,19 @@ Lcase36: /* 0x800A99D0 */
             *(u16 *)(c + 0x98) = f2;
             dx = p[0x24];
             dx -= xa;
-            ASM_KEEP_NV(dx);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(dx);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             if (dx < 0) {
                 dx = -dx;
             }
-            ASM_KEEP_NV(dx);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(dx);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             sp18 = dx;
             th = dx;
-            ASM_KEEP_NV(th);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(th);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dxs = dx << 16;
             tr = p[0x25] - ya;
             av = tr;
             if (tr < 0) {
-                ASM_SET(av);   /* MATCH pin: retail register colouring depends on it */
+                ASM_SET(av);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 av = -av;
             }
             sp1A = av;
@@ -936,7 +936,7 @@ Lcase42: /* 0x800A9BA4 */
                 goto Ldef;
             }
             th = func_8009FD40(e2, p);
-            ASM_KEEP_NV(th);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(th);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if ((u32)((th - 2) & 0xFFFF) >= 7) {
                 goto Ldef;
             }
@@ -1095,7 +1095,7 @@ Lcase29: /* 0x800A9FD8 */
         {
             s32 cv_;
             cv_ = tn[0x13];
-            ASM_TAILSLOT_PIN_TIED(cv_);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_TAILSLOT_PIN_TIED(cv_);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             func_800AEEFC();
             return cv_;
         }
@@ -1204,6 +1204,6 @@ Laa30c:
 
 Lret_fp:
     tr = var_fp << 16;
-    ASM_KEEP(tr);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(tr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     return (u32)tr >> 16;
 }

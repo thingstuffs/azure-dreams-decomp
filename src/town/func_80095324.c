@@ -111,11 +111,11 @@ void func_80092A84(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK a
         result = func_800A9D74(base->unk_10,
                                arg0->unk_2C);
         if (result != 0) {
-            register u32 page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             func_80035208(result);
             page = 0x80100000;
-            ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80092C48();
             return;
         }

@@ -31,13 +31,13 @@ void func_80094C74(Func97514Object *arg0) {
     global_base = D_80083160;
     angle = func_80094BC8(((S_80094C74_0 *)global_base)->unk_08, ((S_80094C74_0 *)global_base)->unk_C8);
     if (angle != -1) {
-        register s32 rounded_new ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-        register s32 adjusted_new ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 rounded_old ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 rounded_new ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 adjusted_new ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 rounded_old ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 divisor;
         s32 dividend;
-        register s32 quotient ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 second_quotient ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 quotient ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 second_quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 scaled_value;
 
         delta_x = func_800644B8(angle) << 6;

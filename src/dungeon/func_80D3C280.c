@@ -313,9 +313,9 @@ jt_c3:
             func_800AAF00(arg0, arg1, arg2, D_800E2418, D_80171A80);
             return;
         } else {
-            register s32 fifth ASM_REG("$2") = 1;   /* MATCH pin: retail register colouring depends on it */
+            register s32 fifth ASM_REG("$2") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            ASM_KEEP(fifth);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(fifth);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_80175F44(arg0, arg1, arg2,
                 ({  1; }), fifth);
             return;

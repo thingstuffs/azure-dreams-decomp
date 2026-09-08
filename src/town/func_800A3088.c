@@ -22,8 +22,8 @@ extern void func_8009A674(s32 arg0, s32 arg1, s32 arg2);
 extern u8 D_800A0884[16];
 
 void func_800A07E8(S800A3088Arg0 *arg0, s32 arg1, S800A3088Arg2 *arg2) {
-    register s32 t1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
-    register S800A3088Arg2 *t2 ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register s32 t1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register S800A3088Arg2 *t2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     t1 = arg1;
     t2 = arg2;

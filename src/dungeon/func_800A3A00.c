@@ -35,7 +35,7 @@ extern DungeonGroup D_80073414[];
 void func_800A9160(void)
 {
     DungeonGroup *var_t2;
-    register DungeonGroup *var_t0 ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+    register DungeonGroup *var_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_t1;
     s32 var_a0;
     s32 var_a1;
@@ -55,8 +55,8 @@ void func_800A9160(void)
         if (var_t2->count != 0) {
             temp_t1 = var_t3 * 8;
             var_t0 = var_t2;
-            ASM_KEEP(temp_t1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-            ASM_KEEP(var_t0);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(temp_t1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(var_t0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             var_a3 = 0;
             do {
                 if (!(var_a2 & 7)) {
@@ -73,9 +73,9 @@ void func_800A9160(void)
                     }
                     temp_a0 = temp_t1 + (var_a0 >> 3) + (s32)ram;
                     var_a1 = var_a2 & 7;
-                    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     one = 1;
-                    ASM_KEEP(one);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     temp_a0->unk_5720 =
                         temp_a0->unk_5720 |
                         (one << var_a1);

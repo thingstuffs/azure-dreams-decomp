@@ -243,7 +243,7 @@ block_26:
     func_80099F04(((S_80092018_2 *)arg3)->unk_5C);
     {
         void *rmw_base = &D_80083460;
-        register u16 rmw_value ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u16 rmw_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         rmw_value = ((S_80092018_6 *)rmw_base)->unk_02;
         rmw_value = (u16) (rmw_value | 0x812);
         ((S_80092018_6 *)rmw_base)->unk_02 = rmw_value;

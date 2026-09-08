@@ -8,8 +8,8 @@ extern s8 D_8006CCE8;
 
 s32 func_80018304(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    register s32 raw_x ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 raw_y ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 raw_x ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 raw_y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 flags;
     s16 x;
     s16 y;

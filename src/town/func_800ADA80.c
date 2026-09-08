@@ -63,7 +63,7 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     (*(s16 *)((u8 *)arg0 + (0x90))) = (*(s16 *)((u8 *)arg0 + (0x90))) + 1;
     if ((*(s16 *)((u8 *)arg0 + (0x90))) > 100) {
         (*(s16 *)((u8 *)arg0 + (0x90))) = 100;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
     (*(Callback *)((u8 *)arg0 + (0x50)))(arg0, arg1, arg2);
     if (((*(u16 *)((u8 *)arg0 + (-2))) & 0x8000) != 0) {
@@ -82,7 +82,7 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
                                (*(s16 *)((u8 *)arg0 + (0x64)))) == 0) {
             u16 cleared;
             cleared = arg2->unk_14.at00_u16.v & 0xFFFE;
-            ASM_TAILSLOT_PIN(cleared);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(cleared);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800AB3D0();
             return;
         }
@@ -91,13 +91,13 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
                                (*(s16 *)((u8 *)arg0 + (0x64)))) != 0) {
             u16 cleared;
             cleared = arg2->unk_14.at00_u16.v & 0xFFFE;
-            ASM_TAILSLOT_PIN(cleared);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(cleared);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800AB3D0();
             return;
         }
     }
 
     arg2->unk_14.at00_u16.v |= 1;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     func_800C2C80(arg0, arg2, 0, 0);
 }

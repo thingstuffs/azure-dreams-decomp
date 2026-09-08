@@ -136,7 +136,7 @@ item_ready:
             s32 special_test;
 
             special_test = special;
-            ASM_KEEP(special_test);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (special_test) {
                 node = D_800814A8;
                 (*(void * *)((u8 *)arg3 + 0x60)) = node;
@@ -153,7 +153,7 @@ item_ready:
                 if (node != 0) {
 copy_existing:
                     {
-                        register u8 *owner ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                        register u8 *owner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                         owner = ((S_80172CE8_1_pre *)node)[-1].unk_00;
                         (*(u8 *)((u8 *)arg3 + 0x72)) = ((S_80172CE8_2 *)owner)->unk_24;
@@ -172,7 +172,7 @@ copy_existing:
                     (*(s16 *)((u8 *)arg3 + 0x2A)),
                     0x10);
                 (*(void * volatile *)((u8 *)arg3 + 0x60)) = node;
-                ASM_KEEP(node);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 x = (*(s8 *)((u8 *)arg3 + 0x72));
                 y = (*(s8 *)((u8 *)arg3 + 0x73));
                 if (x < 0) {

@@ -114,9 +114,9 @@ void func_819112CC(void *arg0_in, S_819112CC_1 *arg1, s16 arg2_in, s16 arg3_in)
     void *arg0 = arg0_in;
     s32 arg2 = arg2_in;
     s32 arg3 = arg3_in;
-    register u32 low_mask ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 low_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *prim;
-    register s32 s0_value ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 s0_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 sp28;
     s32 sp2C;
     s32 c2;
@@ -127,8 +127,8 @@ void func_819112CC(void *arg0_in, S_819112CC_1 *arg1, s16 arg2_in, s16 arg3_in)
     s16 temp_v0_6;
     s16 temp_v1_2;
     s16 temp_v1_3;
-    register u32 *link ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s32 call_coord ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u32 *link ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 call_coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 projected_x;
     s32 temp_v0;
     s32 temp_v0_11;
@@ -143,10 +143,10 @@ void func_819112CC(void *arg0_in, S_819112CC_1 *arg1, s16 arg2_in, s16 arg3_in)
     u16 temp_v0_3;
     u16 temp_v0_7;
     u16 temp_v0_8;
-    register u32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *temp_a3;
-    register s32 idx4 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *scratch ASM_REG("$18");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 idx4 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *new_var;
     EmptyArg empty_arg;
     u8 *global = *(u8 **)GFX_ROOT_SLOT;
@@ -168,7 +168,7 @@ void func_819112CC(void *arg0_in, S_819112CC_1 *arg1, s16 arg2_in, s16 arg3_in)
         s0_value = arg1->unk_00;
         s0_value += (((projected_x >> 4) *
                      ((S_819112CC_0 *)arg0)->unk_0E) << 8);
-        ASM_KEEP_NV(s0_value);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP_NV(s0_value);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         idx4 = func_80064584(call_coord);
         sp28 = s0_value;
         idx4 >>= 4;
@@ -284,7 +284,7 @@ void func_819112CC(void *arg0_in, S_819112CC_1 *arg1, s16 arg2_in, s16 arg3_in)
         idx4 = var_s5 % 5;
         idx4 *= 4;
         temp_a3 = (u8 *)arg0 + idx4;
-        ASM_KEEP_NV(var_s5);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP_NV(var_s5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         temp_v0_8 = ((S_819112CC_3 *)temp_a3)->unk_18.at02.v;
         SP16(0x74) = temp_v0_8;
         SP16(0x64) = temp_v0_8;

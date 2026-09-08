@@ -5,12 +5,12 @@ extern void func_80022F14(void *a, void *b);
 extern s32 D_8002765C[];
 
 #ifndef NON_MATCHING
-register u8 *dispatch_result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 void func_80027684(void *arg0) {
 #ifndef NON_MATCHING
-    register u8 *condition_v0 ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+    register u8 *condition_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     condition_v0 = (u8 *)(u32)*(s32 *)((s8 *)arg0 + 0x3C);
     if (condition_v0 != 0) {

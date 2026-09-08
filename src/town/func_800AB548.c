@@ -52,10 +52,10 @@ typedef struct S_800A8CA8_2 {
 } S_800A8CA8_2;   /* arg3 in func_800A8CA8 */
 
 void func_800A8CA8(void *arg0, s32 arg1, void *arg2, S_800A8CA8_2 *arg3) {
-    register S_800A8CA8_1 *temp_src ASM_REG("$18");   /* MATCH pin: load-bearing for the whole function shape */
+    register S_800A8CA8_1 *temp_src ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 temp_arg1;
     s32 temp_a1;
-    register s32 temp_s0 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_s1;
     s32 temp_s4;
     void *temp_s0_2;
@@ -66,7 +66,7 @@ void func_800A8CA8(void *arg0, s32 arg1, void *arg2, S_800A8CA8_2 *arg3) {
     u16 temp_v0_6;
 
     temp_src = arg2;
-    ASM_DEP(temp_src);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_DEP(temp_src);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_arg1 = (u32) arg1 + 0x800;
     temp_arg1 <<= 16;
     temp_a1 = (s32) temp_arg1 >> 16;

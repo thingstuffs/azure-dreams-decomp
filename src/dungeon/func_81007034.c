@@ -77,7 +77,7 @@ void func_80172834(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 special;
     s32 kind;
     void *object;
-    register s32 x ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 y;
     u16 position[3];
 
@@ -164,7 +164,7 @@ have_choice:
             }
 copy_existing:
             {
-                register void *record ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register void *record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 record = ((S_80172834_2_pre *)object)[-1].unk_00;
                 ((S_80172834_1 *)arg3)->unk_72.s = ((S_80172834_3 *)record)->unk_24;

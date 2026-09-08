@@ -76,7 +76,7 @@ void func_8016D754(DungeonState *state, DungeonWork *work,
 case1:
     {
         s32 mode;
-        register u8 *base ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 index;
 
         mode = state->mode;

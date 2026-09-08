@@ -91,8 +91,8 @@ void func_801734B0(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
     s32 flags;
     u16 current_value;
     u16 old_value;
-    register u8 *page_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *global_base ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *page_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *global_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state;
 
     state = ((S_801734B0_0 *)arg0)->unk_9B;
@@ -146,7 +146,7 @@ state_one:
     goto assign_callback;
 
 state_one_active:
-    ASM_KEEP(page_base);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     global_base = page_base + 0x3460;
     {
         if (((S_801734B0_4 *)global_base)->unk_02 & 0x1000) {
@@ -177,7 +177,7 @@ state_one_active:
 
             func_800AA888(arg0, arg1, arg2, arg3);
             copy_arg0 = arg0;
-            ASM_KEEP(copy_arg0);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(copy_arg0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             current_value = ((S_801734B0_5 *)copy_arg0)->unk_92;
             old_value = ((S_801734B0_5 *)copy_arg0)->unk_B6;
             ((S_801734B0_5 *)copy_arg0)->unk_B6 = 0;
@@ -233,7 +233,7 @@ state_one_active:
 increment_counter:
     {
         u8 *counter_base = (u8 *)&D_80083460;
-        register u16 counter_value ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+        register u16 counter_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         counter_value = ((S_801734B0_3 *)counter_base)->unk_0A;
         counter_value++;
@@ -261,9 +261,9 @@ assign_callback:
     ((S_801734B0_0 *)arg0)->unk_8C = D_8017140C;
 
 done:
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    ASM_KEEP(arg3);   /* MATCH pin: retail branch polarity depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     return;
 }

@@ -85,8 +85,8 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
     Primitive *prim;
     u8 *list;
     s32 i;
-    register s32 firstConst ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register Primitive *firstCallArg ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 firstConst ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register Primitive *firstCallArg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     firstConst = 0x01800340;
     stack.field18 = firstConst;
@@ -100,12 +100,12 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
     firstCallArg = prim;
     state->nextPrim = (u8 *)prim + 0xC;
     stateDiff = (u32)state ^ (u32)D_801C9E40;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     callState = *(RenderState *volatile *)&D_80083160;
     useAlt = stateDiff != 0;
     func_80067E2C(firstCallArg, callState, state);
     func_8006658C(list, prim);
-    ASM_USE_NV(list);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_USE_NV(list);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     if (obj->count > 0) {
         i = 0;
@@ -120,7 +120,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                 s32 r = func_80069EF8() & 0x3F;
                 s32 edge;
                 prim->fieldA = 0x180 - r;
-                ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 edge = 0x1BF - r;
                 prim->fieldE = edge;
                 if (useAlt) {
@@ -128,7 +128,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                     prim->fieldE = edge;
                     prim->fieldA -= 0xE0;
                 }
-                ASM_USE_NV(useAlt);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_USE_NV(useAlt);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             }
             prim->field4 = 0;
             func_800667BC(prim);

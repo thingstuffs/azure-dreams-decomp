@@ -46,8 +46,8 @@ extern u8 D_800DCFB8[];
 extern u8 D_800DD018[];
 
 void func_8008CD4C(Rec_func_8008ACDC_arg0 *arg0, M2C_UNK arg1, S_8008CD4C_0 *arg2, void *arg3, s32 arg4) {
-    register S_8008CD4C_2 *actor ASM_REG("$20") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 state ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register S_8008CD4C_2 *actor ASM_REG("$20") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 offset;
     s32 x;
     s32 y;
@@ -102,5 +102,5 @@ void func_8008CD4C(Rec_func_8008ACDC_arg0 *arg0, M2C_UNK arg1, S_8008CD4C_0 *arg
         arg2->unk_2C
             [((D_80083228[0] + actor->unk_2A.u + 0x100) >> 9) & 7],
         0, 1);
-    ASM_KEEP(actor);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

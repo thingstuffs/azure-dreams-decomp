@@ -28,9 +28,9 @@ extern u8 D_80174F58[];
 void func_80174234(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 temp_s2;
     s32 temp_v0;
-    register s32 temp_field ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_field ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *temp_v0_2;
-    register void *temp_a0 ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
+    register void *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *end_base;
 
     M2C_FIELD(arg3, u8 *, 0x71) = (u8) (M2C_FIELD(arg3, u8 *, 0x71) & 0x7F);

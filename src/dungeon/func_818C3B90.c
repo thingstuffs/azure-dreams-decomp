@@ -106,9 +106,9 @@ void func_818C3B90(State *arg0, Motion *raw1, Motion *raw2)
     static void *const jt_keep[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6
     };
-    register Motion *arg1 ASM_REG("$20") = raw1;   /* MATCH pin: keeps a constant in a register as retail does */
+    register Motion *arg1 ASM_REG("$20") = raw1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     Motion *arg2 = raw2;
-    register OwnerPrefix *prefix ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register OwnerPrefix *prefix ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Owner *owner;
     s32 state;
     s32 i;
@@ -149,24 +149,24 @@ jt_c1:
             s32 tail;
             arg1->x.h.hi += diffs[0];
             arg1->y.h.hi += diffs[1];
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             tail = (u16)arg1->z.h.hi;
             tail += (u16)diffs[2];
-            ASM_TAILSLOT_PIN_TIED(tail);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN_TIED(tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800254EC();
         }
-        ASM_KEEP(position_z);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(position_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg1->z.h.hi = position_z - 64;
     }
 
     if (*(u16 *)arg0->field4 & 0x80) {
         i = 1;
         if (owner->target != 0) {
-            register Motion *target ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
-            register s32 xdiff ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register Motion *target ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 xdiff ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 other_diff;
             s32 rhs;
-            register u8 *iter ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+            register u8 *iter ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             target = *(Motion **)((u8 *)owner->target - 24);
             other_diff = arg1->x.h.hi;
@@ -185,7 +185,7 @@ jt_c1:
             iter = (u8 *)&local + 2;
             rhs = arg1->z.h.hi;
             other_diff = *(s16 *)((u8 *)owner->target + 0x88) - rhs;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             if (other_diff < 0) {
                 other_diff = -other_diff;
             }
@@ -215,38 +215,38 @@ jt_c1:
             {
                 s32 tail;
                 tail = (u16)arg0->state + 1;
-                ASM_TAILSLOT_PIN_TIED(tail);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN_TIED(tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_80025A50();
             }
         } else {
-            register s32 x ASM_REG("$21");   /* MATCH pin: retail register colouring depends on it */
+            register s32 x ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 y;
             s32 saved_x;
             Motion *local_ptr;
-            register s32 next_x ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 next_y;
-            register s32 work_x ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-            register s16 *table ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-            register u8 *iter ASM_REG("$6");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-            register s32 temp_t0 ASM_REG("$8");   /* MATCH pin: keeps a constant in a register as retail does */
+            register s32 work_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s16 *table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register u8 *iter ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            register s32 temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             s16 *table_x_entry;
             s16 *table_y_entry;
             u16 *update_x_entry;
             u16 *update_y_entry;
-            register s32 loop_owner_z ASM_REG("$6");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            register s32 loop_owner_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             s32 table_offset;
-            register s32 update_offset ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 update_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s16 probe_result;
 
             i = 0;
             table = (s16 *)prefix->lookup;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             next_y = 0x80070000;
-            ASM_KEEP(next_y);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(next_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             x = ((Lookup *)table)->x;
             y = ((Lookup *)table)->y;
             saved_x = x;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             accum_y = y;
 
             for (; i < 8;) {
@@ -266,17 +266,17 @@ jt_c1:
                 }
 
                 LOAD_TABLE_X_BASE(temp_t0);
-                ASM_KEEP(temp_t0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP(temp_t0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 table_offset = (s16)arg0->angle;
                 loop_owner_z = (u16)owner->z;
                 table_offset *= 2;
                 table_x_entry = (s16 *)(table_offset + temp_t0);
-                ASM_KEEP(table_x_entry);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(table_x_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 loop_owner_z -= 32;
                 loop_owner_z = (s16)loop_owner_z;
                 LOAD_TABLE_Y_BASE(temp_t0);
                 table_y_entry = (s16 *)(table_offset + temp_t0);
-                ASM_KEEP(table_y_entry);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_KEEP(table_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 probe_result = func_800BCB04(
                     ((sx + *table_x_entry) * 64 + 32) & 0xFFE0,
                     ((sy + *table_y_entry) * 64 + 32) & 0xFFE0,
@@ -293,20 +293,20 @@ jt_c1:
                 update_x_entry = (u16 *)(update_offset + temp_t0);
                 LOAD_TABLE_Y_BASE(temp_t0);
                 update_y_entry = (u16 *)(update_offset + temp_t0);
-                ASM_KEEP(update_y_entry);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP(update_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 next_x = x + *update_x_entry;
                 x = next_x;
                 next_y = y + *update_y_entry;
                 y = next_y;
                 accum_y = next_y;
-                ASM_KEEP4_NV(next_x, next_y, x, y);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP4_NV(next_x, next_y, x, y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 saved_x = next_x;
             }
 
             local_ptr = &local;
-            ASM_KEEP_NV(local_ptr);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP_NV(local_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             i = 1;
-            ASM_KEEP_NV(i);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(i);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             work_x = (u32)saved_x << 16;
             table = D_8006CCD8;
             work_x = (s32)work_x >> 10;
@@ -326,9 +326,9 @@ jt_c1:
                 s32 rhs;
 
                 rhs = arg1->x.h.hi;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 next_x = (s32)next_x >> 16;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 work_x -= rhs;
                 if (work_x < 0) {
                     work_x = -work_x;
@@ -336,9 +336,9 @@ jt_c1:
                 diffs[0] = work_x;
 
                 rhs = arg1->y.h.hi;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 next_y = (u32)next_y << 16;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 next_x -= rhs;
                 if (next_x < 0) {
                     next_x = -next_x;
@@ -376,7 +376,7 @@ jt_c1:
             {
                 s32 tail;
                 tail = 6;
-                ASM_TAILSLOT_PIN_TIED(tail);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN_TIED(tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_80025A50();
             }
         }

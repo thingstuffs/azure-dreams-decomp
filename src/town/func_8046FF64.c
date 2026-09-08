@@ -12,7 +12,7 @@ extern s32 D_8001F690;
 extern s8 D_8001FB7F;
 
 s32 func_80016F64(void *arg0, s32 arg1, s32 arg2) {
-    register s32 *var_s0 ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register s32 *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_s1;
     s32 var_v0;
 
@@ -21,7 +21,7 @@ s32 func_80016F64(void *arg0, s32 arg1, s32 arg2) {
     if (var_v0 != 0) {
         if (func_8001A510(*(s16 *)((s8 *)arg0 + 0x18)) == 0) {
             var_v0 = 0x80020000;
-            ASM_KEEP(var_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             return var_v0 - 0x4930;
         }
     }
@@ -31,13 +31,13 @@ s32 func_80016F64(void *arg0, s32 arg1, s32 arg2) {
     if (func_80019A04(var_s0, arg0, arg2) != 0) {
         var_v0 = func_8001A510(*(s16 *)((s8 *)arg0 + 0x18));
         if (var_v0 == 0) {
-            ASM_CLOBBER("$2");   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             var_v0 = 0x80020000;
-            ASM_KEEP(var_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             temp_s1 = var_v0 - 0x970;
         } else {
             var_v0 = 0x80020000;
-            ASM_KEEP(var_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             temp_s1 = var_v0 - 0x481;
         }
     }

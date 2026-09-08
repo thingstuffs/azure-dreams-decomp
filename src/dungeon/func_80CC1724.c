@@ -55,8 +55,8 @@ extern u8 D_80176340[];
 
 void func_80174F24(void *arg0, void *in_arg1, void *in_arg2, void *arg3)
 {
-    register void *arg1 ASM_REG("$18") = in_arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg2 ASM_REG("$19") = in_arg2;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *arg1 ASM_REG("$18") = in_arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$19") = in_arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 scratch;
     u8 state;
 
@@ -190,7 +190,7 @@ update_actor:
             ((S_80174F24_0 *)arg0)->unk_8C = &D_80173B98;
             func_800A9A04(arg3);
         }
-        ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }

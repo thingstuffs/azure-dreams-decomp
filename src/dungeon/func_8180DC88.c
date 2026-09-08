@@ -82,13 +82,13 @@ void *func_80026C88(u16 arg0, u16 arg1, s32 arg2, void *arg3)
     s32 *callback;
     TableEntry *var_s2;
     s32 var_s1;
-    register S_80026C88_4 *temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register S_80026C88_4 *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_80026C88_3 *temp_a2;
     void *temp_v0;
-    register void *var_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    S_80026C88_0 *callee_arg;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *var_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_80026C88_0 *callee_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 *position_arg;
-    register s32 held_arg2 ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 held_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *var_s6;
 
     held_arg2 = arg2;
@@ -146,7 +146,7 @@ void *func_80026C88(u16 arg0, u16 arg1, s32 arg2, void *arg3)
         var_s1 += 1;
         var_s2 += 1;
     } while (var_s1 < 6);
-    ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return temp_v0;
 }
 

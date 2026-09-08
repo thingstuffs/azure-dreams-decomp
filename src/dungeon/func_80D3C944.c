@@ -64,8 +64,8 @@ typedef struct S_80172144_4 {
 } S_80172144_4;   /* (u8 *)state + ((S_80172144_0 *)state)->unk_8A in func_80172144 */
 
 void func_80172144(void *arg0, s32 arg1, void *arg2, void *arg3) {
-    register void *state ASM_REG("$17") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *entity ASM_REG("$18") = arg2;   /* MATCH pin: retail register colouring depends on it */
+    register void *state ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *entity ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_a2_2;
     s16 temp_v0_3;
     s16 temp_v0_4;
@@ -91,8 +91,8 @@ void func_80172144(void *arg0, s32 arg1, void *arg2, void *arg3) {
         temp_s3 = ((S_80172144_2 *)entity)->unk_25;
         temp_v0 = func_80042900(state, 0x1B);
         if ((temp_v0 << 0x10) == 0) {
-            register s32 call_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-            register s32 call_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 flags;
             s32 mode;
 

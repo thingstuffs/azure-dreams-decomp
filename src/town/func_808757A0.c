@@ -1,7 +1,7 @@
 #include "common.h"
 
 #ifndef NON_MATCHING
-register s32 zero ASM_REG("$0");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #else
 #define zero 0
 #endif

@@ -11,7 +11,7 @@ extern u8 D_80025238[];
 extern u8 D_80045340[];
 
 #ifndef NON_MATCHING
-register u32 match_v0 ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register u32 match_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 void *func_818A4948(s32 arg0, void *arg1) {
@@ -34,10 +34,10 @@ void *func_818A4948(s32 arg0, void *arg1) {
         func_80024210();
     }
 #ifndef NON_MATCHING
-    ASM_KEEP(call_data);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     call_data += 0x5238;
     match_v0 = 0x80020000;
-    ASM_KEEP(match_v0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(match_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     match_v0 += 0x40C4;
 #else
     match_v0 = (u32)D_800240C4;
@@ -53,9 +53,9 @@ void *func_818A4948(s32 arg0, void *arg1) {
     {
         void *call_obj = obj;
 
-        ASM_KEEP(call_obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         call_data = D_80045340;
-        ASM_KEEP(call_data);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         match_v0 = 0x800;
         FIELD(sub, s16 *, 0x1E) = (s16)match_v0;
         FIELD(sub, s16 *, 0x1C) = (s16)match_v0;

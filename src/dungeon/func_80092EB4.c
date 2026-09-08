@@ -93,14 +93,14 @@ void func_80098614(S_80098614_0 *arg0, u8 *arg1)
             func_800A5720(state);
         }
 
-        ASM_KEEP(id);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         current[3] |= 0x20;
         func_80098804();
         return;
     }
 
-    ASM_KEEP(check);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(current);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(check);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     id = 0;
     if (check != 0) {
         state = func_800990FC();
@@ -117,9 +117,9 @@ void func_80098614(S_80098614_0 *arg0, u8 *arg1)
         s32 call_id;
 
         call_id = id;
-        ASM_KEEP(call_id);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(call_id);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         table = D_800DD2EC;
-        ASM_KEEP(table);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         arg0->unk_86 = *(u8 *)((u32)call_id + (u32)table);
         if (call_id != 0) {
             func_800485B8(call_id);

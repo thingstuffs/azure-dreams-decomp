@@ -20,24 +20,24 @@ extern u8 D_800EA000[];
 void func_8001DE2C(void) {
     DungeonArea *area;
     u32 area_page;
-    register u32 shift_base ASM_REG("$8");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 shift_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *tile;
     s32 area_index;
     s32 x;
     s32 y;
-    register s32 start_x ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 width ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 height ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 x_end ASM_REG("$22");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 y_end ASM_REG("$23");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 amount_small ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 amount_large ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 start_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 x_end ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 y_end ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 amount_small ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 amount_large ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     area_index = 0;
     amount_small = 0x20;
     amount_large = 0x100;
     area_page = 0x800E0000;
-    ASM_KEEP_NV(area_page);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP_NV(area_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     area = (DungeonArea *)(area_page + 0x2970);
 
 outer_loop:
@@ -54,9 +54,9 @@ y_loop:
             if (x < x_end) {
 x_loop:
                 shift_base = 0x80080000;
-                ASM_KEEP(shift_base);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(shift_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 shift_base += 0x333C;
-                ASM_KEEP_NV(shift_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP_NV(shift_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 tile = (s16 *)&D_800EA000[((y << *(s16 *)(shift_base + 0x14)) + x) * 6];
                 if (func_8001CE14(*tile, 0x13, 0x1C) != 0) {
                     func_8001E108(x, y, tile, 0x13, amount_small);

@@ -32,7 +32,7 @@ void func_8195EE48(S_8195EE48_0 *arg0, S_8195EE48_1 *arg1)
     s32 temp_a0;
     s16 temp_a1;
     s16 temp_v0;
-    register u16 counter ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 counter ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     counter = D_80027330[0];
     temp_a0 = arg0->unk_48;

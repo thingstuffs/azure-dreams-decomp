@@ -17,7 +17,7 @@ M2C_UNK func_800B61C0();            /* extern */
 void func_800B62A4(void *arg0, s32 arg1) {
     void *sp10[3];
     s32 var_s0;
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_s3;
     s32 var_v0;
     void *temp_a0;
@@ -60,7 +60,7 @@ void func_800B62A4(void *arg0, s32 arg1) {
     if ((var_v0 != 0) && (((Rec_D_800E3D7C *)arg0)->unk_48.at01_u8.v != 0)) {
         func_800B61C0(arg0 + 0x48, arg1, var_s1);
         var_s1 += 1;
-        ASM_KEEP(var_s1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         var_s0 = var_s1;
     }
     if (var_s0 < 3) {
@@ -69,7 +69,7 @@ void func_800B62A4(void *arg0, s32 arg1) {
             temp_v0 = (*(s32 * volatile *)((u8 *)var_a1 + 0x38));
             var_s0 += 1;
             *temp_v0 = 0;
-            ASM_KEEP(temp_v0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             var_a1 += 4;
         } while (var_s0 < 3);
     }

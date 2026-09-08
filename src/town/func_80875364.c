@@ -26,7 +26,7 @@ extern void func_80701404(void);
 extern void func_807013E8(void) __attribute__((noreturn));
 
 s32 func_80875364(s32 arg0) {
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     READ_ZERO(zero);
     if ((func_80700C9C(zero | 1) != 0) && (*D_80701988[0]->value >= 3)) {

@@ -3,7 +3,7 @@
 extern s32 func_800A9B24();
 
 s32 func_800A9ADC(s32 arg0, u8 *arg1) {
-    register s32 result ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 kind;
 
     kind = arg1[1];
@@ -17,7 +17,7 @@ s32 func_800A9ADC(s32 arg0, u8 *arg1) {
             return func_800A9B24(value == 3);
 #else
             result = value == 3;
-            ASM_TAILSLOT_PIN_TIED(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN_TIED(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             return func_800A9B24();
 #endif
         }

@@ -66,7 +66,7 @@ s32 func_800AC480(S_800AC480_0 *arg0, Rec_D_800E3D7C *arg1, S_800AC480_1 *arg2, 
             arg3->unk_88 = (u16) temp_v0_2;
         }
         global_base = D_80083460;
-        ASM_KEEP(global_base);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(global_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_800AC480_4 *)global_base)->unk_0A = (u16) (((S_800AC480_4 *)global_base)->unk_0A - 1);
         return 1;
     }

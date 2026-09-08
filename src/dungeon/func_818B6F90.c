@@ -108,7 +108,7 @@ s32 func_818B6F90(s32 arg0, u8 *arg1)
     u8 *scratch;
     s32 xpos;
     s32 shade;
-    register s16 tpage ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s16 tpage ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u32 *ot;
     u32 *ot2;
     u32 index;
@@ -142,7 +142,7 @@ s32 func_818B6F90(s32 arg0, u8 *arg1)
     ((S_818B6F90_2 *)packet)->unk_1A = tpage;
     tpage = 0x7DCF;
     shade = 0x40;
-    ASM_KEEP_NV(shade);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(shade);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_818B6F90_2 *)packet)->unk_0E = tpage;
     ((S_818B6F90_2 *)packet)->unk_18 = xpos | 7;
     ((S_818B6F90_2 *)packet)->unk_24 = xpos | 7;

@@ -39,23 +39,23 @@ void func_818C28C0(Obj *arg0)
         s32 ret;
 
         ret = *(volatile u8 *)&arg0->timer * 8;
-        ASM_TAILSLOT_PIN_TIED(ret);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024154();
         return;
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (timer < 0x20) {
         s32 ret;
 
         ret = 0x80;
-        ASM_TAILSLOT_PIN_TIED(ret);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024154();
         return;
     }
 
     arg0->intensity = -0x80 - ((timer - 0x20) * 8);
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     rem = (s16)arg0->timer % 4;
     if (rem == 1) {
@@ -83,7 +83,7 @@ rem_one:
         s32 ret;
 
         ret = 0x7E00;
-        ASM_TAILSLOT_PIN_TIED(ret);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800241C8();
     }
 

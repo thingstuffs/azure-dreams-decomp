@@ -105,7 +105,7 @@ void func_8059E540(void) {
     func_800168E0();
     {
         u8 *page = (u8 *)0x80010000;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         state = ((S_8059E540_0 *)page)->unk_6000;
     }
     new_value = (M2C_UNK *)&D_80010000[0xD07C];

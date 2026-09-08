@@ -8,7 +8,7 @@ extern void *D_80017508;
 void func_8079A1EC(void)
 {
     void *state = D_80016000;
-    register void *callback_base ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+    register void *callback_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     *(void **)(*(void **)((u8 *)state + 0x1C) + 0x40) = &D_8001601C;
     callback_base = *(void **)((u8 *)state + 0x20);

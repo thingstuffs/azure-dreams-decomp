@@ -54,8 +54,8 @@ L_case18:
 
 L_case52:
     {
-        register s32 call_arg ASM_REG("$6") = arg2;   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_KEEP(call_arg);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 call_arg ASM_REG("$6") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         return func_80016E48(call_arg);
     }
 

@@ -56,8 +56,8 @@ s32 func_800BE120(void *arg0, S_800BE120_1 *arg1, s16 arg2) {
     s32 state;
     s32 state_test;
     void *call_arg;
-    register s32 pass_result ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register s32 hard_zero ASM_REG("$0");   /* MATCH pin: retail register colouring depends on it */
+    register s32 pass_result ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 raw_result;
     s32 result;
 
@@ -98,7 +98,7 @@ s32 func_800BE120(void *arg0, S_800BE120_1 *arg1, s16 arg2) {
     }
 
     state_test = state;
-    ASM_KEEP(state_test);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(state_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (state_test != 0) {
         goto block_end;
     }
@@ -107,9 +107,9 @@ s32 func_800BE120(void *arg0, S_800BE120_1 *arg1, s16 arg2) {
         (((S_800BE120_0 *)arg0)->unk_48.at01.v != 0)) {
         raw_result = func_800990FC();
         call_arg = arg0;
-        ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         pass_result = raw_result;
-        ASM_KEEP(pass_result);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(pass_result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         result = pass_result;
         func_80099290(func_80099194(D_8008935C,
             func_80099368(arg1, func_80099194(D_800E100F,

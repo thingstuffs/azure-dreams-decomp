@@ -108,13 +108,13 @@ void func_8008FA7C(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3) {
     s32 index;
     s16 state;
 #ifndef NON_MATCHING
-    register s32 saved ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 saved ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 result;
     u8 *dead_v0;
-    register u8 *state3_arg2 ASM_REG("$18");   /* MATCH pin: retail basic-block layout depends on it */
+    register u8 *state3_arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u32 state1_a1;
     u32 state1_v1;
-    register u8 *state0_call_arg ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *state0_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #else
     s32 saved;
     s16 result;
@@ -136,7 +136,7 @@ void func_8008FA7C(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3) {
         func_8008FD34(state0_call_arg);
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }
@@ -192,7 +192,7 @@ state_1:
             u8 *table_a1;
             u8 *lookup_v0;
 #ifndef NON_MATCHING
-            register s32 state1_angle ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 state1_angle ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #else
             s32 state1_angle;
 #endif
@@ -202,21 +202,21 @@ state_1:
 
 #ifndef NON_MATCHING
             state1_a1 = 0xFFEF0000;
-            ASM_KEEP(state1_a1);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(state1_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #else
             clear_mask = 0xFFEF0000;
 #endif
             object = ((S_8008FA7C_3 *)arg0)->unk_124.p;
 #ifndef NON_MATCHING
-            ASM_KEEP(object);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
             set_mask = 0x200000;
 #ifndef NON_MATCHING
-            ASM_KEEP(set_mask);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(set_mask);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #endif
             object_flags = ((S_8008FA7C_4 *)object)->unk_1C;
 #ifndef NON_MATCHING
-            ASM_KEEP(object_flags);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
 #ifndef NON_MATCHING
             state1_a1 |= 0xFFFF;
@@ -227,17 +227,17 @@ state_1:
             ((S_8008FA7C_4 *)object)->unk_1C = object_flags;
             object2 = ((S_8008FA7C_3 *)arg0)->unk_124.p;
 #ifndef NON_MATCHING
-            ASM_KEEP(object2);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(object2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
             call_arg = arg2;
 #ifndef NON_MATCHING
-            ASM_KEEP(call_arg);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #endif
             ((S_8008FA7C_5 *)object2)->unk_8A = result;
 #ifndef NON_MATCHING
             state1_byte = 0x78;
             state1_v1 = ((S_8008FA7C_3 *)arg0)->unk_124.i;
-            ASM_KEEP(state1_v1);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(state1_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_84 = state1_byte;
             state1_v1 = ((S_8008FA7C_3 *)arg0)->unk_124.i;
             ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_85 = 2;
@@ -247,16 +247,16 @@ state_1:
 #endif
 #ifndef NON_MATCHING
             masked_flags = ((S_8008FA7C_2 *)arg3)->unk_1C;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state1_v1 = 0x80080000;
-            ASM_KEEP(state1_v1);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(state1_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             masked_flags &= state1_a1;
             state1_a1 = 0x80080000;
             saved = ((S_8008FA7C_7 *)((u8 *)state1_a1))->unk_1484;
             state1_v1 += 0x3460;
             ((S_8008FA7C_7 *)((u8 *)state1_a1))->unk_1484 = 0;
             state1_a1 = 0x800E0000;
-            ASM_KEEP(state1_a1);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(state1_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_8008FA7C_2 *)arg3)->unk_1C = masked_flags;
             countdown = ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_0A;
             state1_a1 -= 0x3030;
@@ -265,9 +265,9 @@ state_1:
             ((S_8008FA7C_8 *)call_arg)->unk_2C = (u8 *)state1_a1;
             state1_index = D_80083228[0];
             state1_angle = ((S_8008FA7C_2 *)arg3)->unk_2A;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state1_v1 = 0x800E0000;
-            ASM_KEEP(state1_v1);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(state1_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_3540 = saved;
             state1_index += state1_angle;
             state1_index += 0x100;
@@ -304,7 +304,7 @@ state_2:
         if (((S_8008FA7C_2 *)arg3)->unk_1C & 0x100000) {
             goto increment_state;
         }
-        ASM_KEEP(state2_call_arg);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(state2_call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         ((S_8008FA7C_9 *)state2_call_arg)->unk_2C = D_800DD060;
         {
 #ifndef NON_MATCHING
@@ -334,12 +334,12 @@ state_3:
         if (((S_8008FA7C_2 *)arg3)->unk_1C & 0x100000) {
 #ifndef NON_MATCHING
             dead_v0 = (u8 *)0x80090000;
-            ASM_KEEP(dead_v0);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             ((S_8008FA7C_3 *)arg0)->unk_8C.p = dead_v0 - 0x1538;
             dead_v0 = (u8 *)0x800E0000;
-            ASM_KEEP(dead_v0);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             dead_v0 -= 0x2F48;
-            ASM_TAILSLOT_PIN(dead_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 #else
             ((S_8008FA7C_3 *)arg0)->unk_8C.p = D_8008EAC8;
 #endif
@@ -352,7 +352,7 @@ state_3:
         ((S_8008FA7C_3 *)arg0)->unk_8C.p2 = &D_8008ACDC;
         (*(u8 * *)((u8 *)state3_arg2 + (0x2C))) = D_800DCFB0;
 #ifndef NON_MATCHING
-        ASM_KEEP(state3_arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(state3_arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #endif
         index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
         func_80048A44(state3_arg2, (*(u8 * volatile *)((u8 *)state3_arg2 + (0x2C)))[index], 0, 1);

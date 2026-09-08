@@ -37,7 +37,7 @@ void func_800BDDD0(s32 arg0, s16 arg1) {
             while (var_a3 < (arg1 + 4)) {
                 temp_a0 = (var_t0 - raw_arg0) + 1;
                 temp_a0 += (var_a3 - arg1) * 4;
-                ASM_KEEP(temp_a0);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(temp_a0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 temp_v1_2 = var_a3 & ((S_800BDDD0_0 *)temp_t3)->unk_1A;
                 var_a3 += 1;
                 *((s16 *) (((s32) (((((S_800BDDD0_0 *)temp_t3)->unk_18 & var_t0) + (temp_v1_2 << ((S_800BDDD0_0 *)temp_t3)->unk_14)) << 0x10) >> 0xF) + temp_t4)) = temp_a0;

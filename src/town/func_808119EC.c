@@ -28,9 +28,9 @@ extern void *D_8052671C[];
 void func_808119EC(void) {
     void *object;
     s8 *parent;
-    register s8 *slot ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register s8 *slot ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 *primitive;
-    register s8 *state ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s8 *state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 i;
     s32 case_value;
     s16 rect[4];
@@ -116,11 +116,11 @@ void func_808119EC(void) {
             goto **(void **)slot;
 case_0:
             case_value = 1;
-            ASM_TAILSLOT_PIN_TIED(case_value);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(case_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8052C7C0();
 case_1_2:
             case_value = 2;
-            ASM_TAILSLOT_PIN_TIED(case_value);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(case_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8052C7C0();
 case_3_4:
             case_value = 3;

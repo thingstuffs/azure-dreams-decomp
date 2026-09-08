@@ -15,9 +15,9 @@ void func_800945B8(M2C_UNK **arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
      * $a3 is never read here, so m2c gave the row no name for it; the pinned
      * forwarder locals below are that name (section 22).  `need` is a
      * positional SET, so the call carries positions 0..3 (section 21). */
-    register M2C_UNK _a0 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register M2C_UNK _a1 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register M2C_UNK _a2 ASM_REG("$6");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register M2C_UNK _a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK _a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK _a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     M2C_UNK _a3;
     func_800948DC(_a0, _a1, _a2, _a3);
     arg1->unk_14.as_s32 = 0xFFEF0000;

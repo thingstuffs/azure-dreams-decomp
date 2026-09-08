@@ -81,7 +81,7 @@ void func_80172F14(S_80172F14_1 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
             s32 magnitude = velocity;
 
             if (magnitude < 0) {
-                ASM_KEEP(magnitude);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 magnitude = 0 - magnitude;
             }
             if (limit < magnitude) {
@@ -94,7 +94,7 @@ void func_80172F14(S_80172F14_1 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
             s32 magnitude = velocity;
 
             if (magnitude < 0) {
-                ASM_KEEP(magnitude);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 magnitude = 0 - magnitude;
             }
             if (limit < magnitude) {
@@ -102,7 +102,7 @@ void func_80172F14(S_80172F14_1 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
                     (*(s16 *)((u8 *)&D_8006CCE8 + direction * 2) << 15);
             }
         }
-        ASM_KEEP(direction);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
         if (arg0->unk_96.s > 0) {
             arg0->unk_96.s = arg0->unk_96.u - 1;

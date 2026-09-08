@@ -23,7 +23,7 @@ void func_80170AEC(void)
     s16 *effect;
     u32 *dst;
     u32 *src;
-    register void *partC ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *partC ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     node = func_8003FC64(0x212);
     if (node != 0) {

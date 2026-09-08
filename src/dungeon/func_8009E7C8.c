@@ -32,15 +32,15 @@ void *func_800A3F28(s32 x, s32 y, void *end, void *owner)
     s32 y_hold;
     void *end_hold;
     void *current;
-    register s32 lookup ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 lookup ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 x_coord;
-    register s32 shifted ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *data;
     s32 dx;
     s32 dy;
 
     x_hold = x;
-       /* MATCH pin: keeps a statement from moving across a call/branch */
+       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     y_hold = y;
     end_hold = end;
     current = owner;

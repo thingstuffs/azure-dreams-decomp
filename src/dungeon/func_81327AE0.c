@@ -82,10 +82,10 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
 {
     void *arg0 = a0;
     void *arg1 = a1;
-    register void *arg2 ASM_REG("$19") = a2;   /* MATCH pin: load-bearing for the whole function shape */
-    register void *actor ASM_REG("$17") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg2 ASM_REG("$19") = a2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 old_direction;
-    register s32 direction_copy ASM_REG("$21");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     Callback callback;
     s32 floor;
     s16 actor_height;
@@ -93,7 +93,7 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     s32 direction_check;
     s32 direction_value;
     u8 *tile_slot;
-    register u8 *direction_slot ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *direction_slot ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 return_flags;
     u16 flags;
     u16 new_flags;
@@ -150,7 +150,7 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     }
     D_80174AD4[(*(u8 *)((u8 *)arg0 + (0x9A)))](arg0, arg1, arg2, actor);
 
-    ASM_KEEP(old_direction);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(old_direction);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     direction_check = (s16)old_direction;
     if (direction_check != ((S_8016F2E0_3 *)actor)->unk_6D.n) {
         func_800AA36C(arg0, arg1, arg2, actor);
@@ -161,9 +161,9 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     if (new_flags == 0) {
         old_direction = ((D_80083228 + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)arg0 + (0x94)));
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         direction_value = old_direction;
-        ASM_KEEP(old_direction);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(old_direction);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         direction_copy = old_direction;
         if (previous_direction != direction_value) {
             tile_map = ((S_8016F2E0_4 *)arg2)->unk_2C;
@@ -177,11 +177,11 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
         }
 
         direction_slot = D_8006CCF8 + direction_copy;
-        ASM_KEEP(direction_slot);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(direction_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (*direction_slot != 0) {
             return_flags = ((S_8016F2E0_4 *)arg2)->unk_14.n;
             return_flags |= 1;
-            ASM_TAILSLOT_PIN(return_flags);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(return_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8016F534();
             return;
         }
@@ -265,7 +265,7 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
 finish:
     ((S_8016F2E0_5 *)arg1)->unk_0A = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)arg0 + (0x92)));
     ((S_8016F2E0_4 *)arg2)->unk_14.n |= 0x40;
-       /* MATCH pin: retail schedule: same instructions, different order without it */
-       /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(direction_copy);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 }

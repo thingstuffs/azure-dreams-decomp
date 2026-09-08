@@ -42,20 +42,20 @@ s32 func_80053A88(S_80053A88_Node *a0)
     S_80053A88_TILE *tile;
     S_80053A88_DRTPAGE *drtp;
     s32 tp;
-    register void *next ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register void *next ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 low_mask;
     u32 high_mask;
     s1 = a0;
     parr = &D_80083160[0];
-    ASM_KEEP_NV(parr);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(parr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     low_mask = 0x00FFFFFF;
     high_mask = 0xFF000000;
-    ASM_USE_NV(low_mask);   /* MATCH pin: slus-diff */
-    ASM_USE_NV(low_mask);   /* MATCH pin: slus-diff */
-    ASM_USE_NV(low_mask);   /* MATCH pin: slus-diff */
-    ASM_USE_NV(low_mask);   /* MATCH pin: slus-diff */
-    ASM_USE_NV(low_mask);   /* MATCH pin: slus-diff */
-    ASM_USE_NV(low_mask);   /* MATCH pin: slus-diff */
+    ASM_USE_NV(low_mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_USE_NV(low_mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_USE_NV(low_mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_USE_NV(low_mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_USE_NV(low_mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_USE_NV(low_mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     do {
         base = (*parr);
         tile = (S_80053A88_TILE *)base->unk8D0;
@@ -85,6 +85,6 @@ s32 func_80053A88(S_80053A88_Node *a0)
         next = *((void **)(((u8 *)s1) - 8));
         s1 = (S_80053A88_Node *)(((u8 *)next) + 0x20);
     } while (next != 0);
-    ASM_KEEP(next);   /* MATCH pin: slus-diff */
+    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     return 0;
 }

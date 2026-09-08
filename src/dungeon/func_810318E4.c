@@ -122,7 +122,7 @@ void func_801730E4(void *arg0, void *arg1, void *arg2, void *arg3)
     u16 delta[3];
     s32 special;
     void *active;
-    register u8 *linked ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *linked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 linked_x;
     u8 linked_y;
     u8 *selection;
@@ -208,7 +208,7 @@ selection_ready:
     {
         s32 special_test = special;
 
-        ASM_KEEP(special_test);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_test != 0) {
             active = D_800814A8;
             (*(void * *)((u8 *)arg3 + 0x60)) = active;
@@ -237,7 +237,7 @@ create_active:
             arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
             (*(s16 *)((u8 *)arg3 + 0x2A)), 0x10);
         (*(void * volatile *)((u8 *)arg3 + 0x60)) = active;
-        ASM_KEEP(active);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         x = (*(s8 *)((u8 *)arg3 + 0x72));
         y = (*(s8 *)((u8 *)arg3 + 0x73));
         if (x < 0) {

@@ -91,9 +91,9 @@ typedef struct S_80170BF8_3 {
 
 void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
     u16 initial_flags = D_80083462[0];
-    register void *actor ASM_REG("$17") = arg0_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *motion ASM_REG("$21") = arg1_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *object ASM_REG("$20") = arg2_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *actor ASM_REG("$17") = arg0_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *motion ASM_REG("$21") = arg1_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *object ASM_REG("$20") = arg2_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 var_s6 = 0;
     void *actor2 = actor;
 #define arg0 actor
@@ -125,7 +125,7 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
     s32 temp_final;
     u32 address_1;
     u32 page_base;
-    register u32 tail_value ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
+    register u32 tail_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u32 temp_dead;
     u16 temp_v0_3;
     u16 temp_v1_2;
@@ -144,9 +144,9 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
         ((S_80170BF8_0 *)arg0)->unk_71 = (u8) (((S_80170BF8_0 *)arg0)->unk_71 & 0x7F);
         return;
     }
-    ASM_KEEP_NV(actor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP_NV(motion);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP_NV(object);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(motion);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_s0 = (s8) ((S_80170BF8_0 *)arg0)->unk_6D;
     if (func_800A9E70(arg0, arg1, arg2, arg0) == 0) {
         temp_v0 = ((S_80170BF8_0 *)arg0)->unk_8C;
@@ -166,7 +166,7 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
             return;
         }
         ((S_80170BF8_0 *)arg0)->unk_9D.s = 0;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_80170BF8_0 *)arg0)->unk_90.at00.v = (s32) (((S_80170BF8_0 *)arg0)->unk_90.at00.v + ((S_80170BF8_1 *)arg1)->unk_14);
         temp_v1_2 = ((S_80170BF8_2 *)arg2)->unk_14;
         if (!(temp_v1_2 & 0x8000)) {
@@ -179,7 +179,7 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
             if (D_8006CCF8[temp_s0] != 0) {
                 temp_dead = ((S_80170BF8_2 *)arg2)->unk_14;
                 temp_dead |= 1;
-                ASM_TAILSLOT_PIN(temp_dead);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN(temp_dead);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_80170E3C();
                 return;
             }
@@ -191,7 +191,7 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
                 if (!(((S_80170BF8_2 *)arg2)->unk_14 & 0x40)) {
                     func_800478B8(arg2);
                     page_base = 0xF7FF0000;
-                    ASM_PAGEBASE_PIN(page_base);   /* MATCH pin: retail delay-slot contents depend on it */
+                    ASM_PAGEBASE_PIN(page_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                     func_80170EB8();
                     return;
                 }
@@ -211,7 +211,7 @@ block_28:
                         var_a1 = D_80175148;
                         if (temp_v1_5 == D_80175148) {
                             tail_value = (u32) D_80175140;
-                            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                             func_80170F54();
                             return;
                         }
@@ -219,7 +219,7 @@ block_28:
                             var_a1 = D_80175170;
                             if (temp_v1_5 == D_80175170) {
                                 tail_value = (u32) D_80175178;
-                                ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                                 func_80170F54();
                                 return;
                             }
@@ -255,7 +255,7 @@ block_44:
                         func_80171330();
                         return;
                     }
-                    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     if (((S_80170BF8_0 *)arg0)->unk_90.at02.v < (temp_v0_2 - 0x2A)) {
                         ((S_80170BF8_0 *)arg0)->unk_90.at02.v = (s16) (temp_v1_9 + 8);
                         func_80171330();
@@ -315,7 +315,7 @@ block_44:
                 var_a1_2 = D_80175148;
                 if (temp_v1_8 == D_80175148) {
                     tail_value = (u32) D_80175140;
-                    ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     func_80171210();
                     return;
                 }
@@ -323,7 +323,7 @@ block_44:
                     var_a1_2 = D_80175170;
                     if (temp_v1_8 == D_80175170) {
                         tail_value = (u32) D_80175178;
-                        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         func_80171210();
                         return;
                     }

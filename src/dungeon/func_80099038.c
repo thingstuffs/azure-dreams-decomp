@@ -151,15 +151,15 @@ extern u8 D_801C9E40[16];
 
 s32 func_8009E798(void *arg0, void *arg1, void *arg2)
 {
-    register u8 *var_s4 ASM_REG("$20") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *var_s2 ASM_REG("$18") = arg2;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *var_s4 ASM_REG("$20") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *var_s2 ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 **global = (u8 **)D_80083160;
     u8 *state = *global;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet = ((S_8009E798_0 *)state)->unk_8D0;
-    register u8 *var_s1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *temp ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u8 *ret_state ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *temp ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *ret_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 shifted = state != D_801C9E40;
     s16 value;
     s16 value2;
@@ -301,7 +301,7 @@ s32 func_8009E798(void *arg0, void *arg1, void *arg2)
     var_s1 = var_s2 + 0x58;
     func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)arg1)->unk_0A * 4,
                   temp);
-    ASM_KEEP(var_s4);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_80064A40();
     ret_state = *global;
     ((S_8009E798_8 *)ret_state)->unk_8D0 = var_s1;

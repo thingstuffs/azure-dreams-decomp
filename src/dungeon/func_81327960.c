@@ -65,9 +65,9 @@ void *func_8016F160(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_8016F160_3 *part_b;
     void *work;
     s16 mode_copy;
-    register s8 saved_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *actor;
     void *tail_ptr;
 
@@ -102,7 +102,7 @@ void *func_8016F160(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         }
 
         func_800A9C18(obj, part_a, part_b, mode_copy);
-        ASM_USE_NV(actor);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_USE_NV(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         tail_ptr = actor;
         ((S_8016F160_4 *)tail_ptr)->unk_9A = 0xFF;
         ((S_8016F160_4 *)tail_ptr)->unk_9C = -1;

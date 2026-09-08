@@ -73,7 +73,7 @@ void *func_80024D90(void *arg0, s16 arg1) {
     register s32 angle;
     s32 work;
     register void *component;
-    register void *temp_a0 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 const_400;
 
     do {
@@ -95,7 +95,7 @@ void *func_80024D90(void *arg0, s16 arg1) {
             ((S_80024D90_3 *)component)->unk_0C = 0;
             func_8003DB94(component, D_80025854, 0);
             const_400 = 0x400;
-            ASM_KEEP(const_400);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(const_400);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             work = counter_page[0x57CC / 2];
             temp_a0 = (u8 *)temp_v0 + 0x20;
             ((S_80024D90_3 *)component)->unk_16 = const_400;

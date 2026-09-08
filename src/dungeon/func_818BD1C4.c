@@ -53,14 +53,14 @@ s32 func_818BD1C4(s32 *arg0, void *arg1, s16 arg2, s32 arg3) {
     u16 tail_y;
     s32 temp_v1;
     s32 var_v0;
-    register void *tail_a0 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
-    register u32 tail_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register s32 tail_result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *tail_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register u32 tail_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 tail_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *temp_a0_2;
     S_818BD1C4_2 *temp_s0;
     void *temp_v0;
     S_818BD1C4_1 *temp_v0_2;
-    register s32 s3_arg ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 s3_arg ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     s3_arg = arg3;
     temp_v0 = func_8003FC64(0x212);
@@ -83,8 +83,8 @@ s32 func_818BD1C4(s32 *arg0, void *arg1, s16 arg2, s32 arg3) {
         }
         tail_a0 = temp_s0;
         tail_page = 0x80020000;
-        ASM_KEEP(tail_a0);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_PAGEBASE_PIN(tail_page);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(tail_a0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_PAGEBASE_PIN(tail_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024AC8();
 
 check_2:
@@ -93,7 +93,7 @@ check_2:
         }
         tail_a0 = temp_s0;
         tail_page = 0x80020000;
-        ASM_PAGEBASE_PIN(tail_page);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(tail_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024AC8();
 
 case_0:
@@ -109,11 +109,11 @@ case_1:
 
 case_2:
         tail_a0 = temp_s0;
-        ASM_KEEP(tail_a0);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(tail_a0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         temp_s0->unk_0E = 0x80;
         temp_s0->unk_0D = 0;
         temp_s0->unk_0C = 0;
-        ASM_CLOBBER("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         tail_a0 = temp_s0;
         temp_s0->unk_12 = 0x7DCF;
         temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
@@ -135,7 +135,7 @@ case_2:
         tail_y = (*(u16 *)((u8 *)tail_a0 + 0xA));
         tail_result = (s32) temp_v0;
         tail_y -= s3_arg;
-        ASM_KEEP(tail_result);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(tail_result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         (*(u16 *)((u8 *)tail_a0 + 0xA)) = tail_y;
         func_80024B8C();
     }

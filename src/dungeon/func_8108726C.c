@@ -87,16 +87,16 @@ s32 func_80174A6C(void *arg0, S_80174A6C_3 *arg1, Rec_D_80082E80 *arg2)
         {
             S_80174A6C_5 *query_arg = arg2;
             u16 *query_out;
-            register s32 w0 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-            register s32 w1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 w0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 w1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 w2;
             s32 w3;
 
-            ASM_KEEP(query_arg);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(query_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             dst = obj->unk_08;
-            ASM_KEEP(dst);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             query_out = query_result;
-            ASM_KEEP(query_out);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(query_out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             w0 = arg1->unk_00;
             w1 = arg1->unk_04;

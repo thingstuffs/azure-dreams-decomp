@@ -81,7 +81,7 @@ void *func_800C542C(void *arg0, s16 arg1, s32 arg2, s16 arg3)
     S_800C542C_5 *record;
     void *callback;
     void *call_object;
-    register s16 stored_arg3 ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s16 stored_arg3 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 mode;
     s32 scaled;
     s32 parent;
@@ -90,9 +90,9 @@ void *func_800C542C(void *arg0, s16 arg1, s32 arg2, s16 arg3)
     stored_arg3 = arg3;
     if (object != NULL) {
         call_object = object;
-        ASM_KEEP(call_object);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         callback = D_800C4F20;
-        ASM_KEEP(callback);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800C542C_0 *)object)->unk_10 = callback;
         func_8004491C(call_object, D_800C55A0);
 

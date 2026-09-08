@@ -9,7 +9,7 @@ void func_80043568(void) {
     u32 v;
     s32 c13;
     s32 c39;
-    register s32 c2 ASM_REG("$6");   /* MATCH pin: slus-diff */
+    register s32 c2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 idx;
 
     i = 0x3F;

@@ -58,7 +58,7 @@ void func_8190AEB4(void *arg0, s32 *arg1, void *arg2)
     s16 timer;
     u16 newX;
     u16 newY;
-    register s32 i ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *array;
     u8 *slot;
     u8 saved;
@@ -111,16 +111,16 @@ void func_8190AEB4(void *arg0, s32 *arg1, void *arg2)
         arg1[2] -= 0x100000;
         newY = ((S_8190AEB4_1 *)arg2)->unk_1E - 0x200;
         newX = ((S_8190AEB4_1 *)arg2)->unk_1C + 0x200;
-        ASM_KEEP(newY);   /* MATCH pin: retail keeps a computation the compiler would drop */
-        ASM_TAILSLOT_PIN(newX);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(newY);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(newX);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_800248E8();
 
     case 3:
         arg1[2] += 0x180000;
         newY = ((S_8190AEB4_1 *)arg2)->unk_1E + 0x300;
         newX = ((S_8190AEB4_1 *)arg2)->unk_1C - 0x300;
-        ASM_KEEP(newY);   /* MATCH pin: retail keeps a computation the compiler would drop */
-        ASM_TAILSLOT_PIN(newX);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(newY);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(newX);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_800248E8();
 
     case 4:
@@ -187,7 +187,7 @@ void func_8190AEB4(void *arg0, s32 *arg1, void *arg2)
 
     case 6:
     {
-        register Rect *drawPtr ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register Rect *drawPtr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 *drawState;
 
         i = 0;
@@ -199,7 +199,7 @@ void func_8190AEB4(void *arg0, s32 *arg1, void *arg2)
                 index -= 0x2C;
             }
             drawState = D_80025638;
-            ASM_KEEP(drawState);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(drawState);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             drawRect.y = D_80025678[index] * 2 + 0x100;
             i++;
             func_800672D8(drawPtr, drawState);

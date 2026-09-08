@@ -24,7 +24,7 @@ u8 *func_80099734(void *arg0, u8 *out)
     u8 *src;
     s32 index;
     s32 offset;
-    register u8 *table_page ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *table_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 ch;
 
     if ((((Rec_D_800E3D7C *)D_800E3D7C)->unk_1C.as_s32 & 0x10) &&
@@ -46,7 +46,7 @@ u8 *func_80099734(void *arg0, u8 *out)
         }
     }
     table_page = (u8 *)0x80070000;
-    ASM_KEEP_NV(table_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     offset = index * 5;
     src = ((S_80099734_3 *)((u8 *)((S_80099734_2 *)table_page)->unk_359C + offset * 4))->unk_04;
 

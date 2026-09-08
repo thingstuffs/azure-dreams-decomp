@@ -20,8 +20,8 @@ extern s16 D_80080B00[8];
 void func_8004713C(s32 arg0, s32 arg1, s32 arg2) {
     s32 ptr;
     s32 i;
-    register s32 n ASM_REG("$19");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 tile ASM_REG("$18");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 n ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 tile ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 tile4;
     RECT *rect;
 

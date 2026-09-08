@@ -65,31 +65,31 @@ void func_80024700(void *arg0)
     void *source = arg0;
     void *object;
     S_80024700_0 *data;
-    register void *primitive ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
-    register s32 allocType ASM_REG("$4") = 0x212;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u8 *texture ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *primitive ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 allocType ASM_REG("$4") = 0x212;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *texture ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 zero;
     u32 linkPage;
 
     object = func_8003FC64(allocType);
     if (object != NULL) {
         linkPage = 0x80020000;
-        ASM_KEEP(linkPage);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(linkPage);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         link = (M2C_UNK *)(linkPage + 0x455C);
         texture = D_800DE938;
         (*(M2C_UNK * *)((u8 *)object + 0x10)) = link;
         value = (*(s32 *)((u8 *)source + 0));
-        ASM_KEEP(value);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         data = (u8 *)object + 0x20;
-        ASM_KEEP(data);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         (*(s32 *)((u8 *)object + 0x20)) = value;
         (*(WordQuad *)((u8 *)object + 0x24)) = (*(WordQuad *)((u8 *)source + 0x4C));
         (*(WordQuad *)((u8 *)object + 0x34)) = (*(WordQuad *)((u8 *)source + 0x5C));
 
         firstAngle = (*(u16 *)((u8 *)source + 0x78));
-        ASM_KEEP(firstAngle);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(firstAngle);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         zero = 0;
-        ASM_KEEP(zero);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         data->unk_2C.u = firstAngle;
         secondAngle = (*(u16 *)((u8 *)source + 0x76));
         data->unk_30 = 1;
@@ -104,7 +104,7 @@ void func_80024700(void *arg0)
         value = 0x2000;
         allocType = (s32)object;
         texture = (u8 *)0x80040000;
-        ASM_KEEP(texture);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(texture);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_80024700_1 *)primitive)->unk_1E = value;
         ((S_80024700_1 *)primitive)->unk_1C = value;
         temp_s16 = data->unk_24;
@@ -137,7 +137,7 @@ void func_80024700(void *arg0)
             data->unk_2C.s) >> 8;
         rotation[2] = 0;
         func_800649A0();
-        ASM_KEEP(object);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_80064B30((u8 *)object + 0x24, rotation, delta);
         func_80064A40();
 

@@ -49,10 +49,10 @@ s32 func_818E6F98(void *arg0, void *arg1)
     u16 input[4];
     s16 output0[4];
     WorkOutput output1;
-    register u8 *uv_source ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *uv_source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     DungeonState **state_address;
-    register s16 *output_base ASM_REG("$23");   /* MATCH pin: load-bearing for the whole function shape */
-    register WorkOutput *output1_base ASM_REG("$20");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s16 *output_base ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register WorkOutput *output1_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *output_cursor;
     s32 i;
     u32 ordering_index;
@@ -63,7 +63,7 @@ s32 func_818E6F98(void *arg0, void *arg1)
     s32 uv;
     s32 uv_low;
     s32 uv_high;
-    register s32 node ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 node ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 half_width;
     u16 left_x;
     u32 table_offset;
@@ -122,13 +122,13 @@ s32 func_818E6F98(void *arg0, void *arg1)
         primitive->tag = (primitive->tag & 0xFF000000) |
                          (*(u32 *)((u8 *)table_state + 0xB0 + table_offset) &
                           0x00FFFFFF);
-        ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         table_state = *(DungeonState *volatile *)state_address;
         *(u32 *)((u8 *)table_state + 0xB0 + table_offset) =
             (*(u32 *)((u8 *)table_state + 0xB0 + table_offset) & 0xFF000000) |
             ((u32)primitive & 0x00FFFFFF);
     }
-    ASM_KEEP(output_base);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(output_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     node = *(s32 *)((u8 *)arg0 - 8);
     if (node != 0) {
@@ -136,12 +136,12 @@ s32 func_818E6F98(void *arg0, void *arg1)
 
         arg0 = (u8 *)node + 0x20;
         callback_state = *(s32 *)(node + 8);
-        ASM_USE2(arg0, callback_state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_USE2(arg0, callback_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800247D4();
     }
-    ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     {
-        register s32 zero ASM_REG("$0");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         return zero;
     }

@@ -40,12 +40,12 @@ __asm__(".set D_800257CE, 0x800257CE");
 
 void func_800250E8(void *arg0, S_800250E8_0 *arg1, void *arg2)
 {
-    register void *tail_arg ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *tail_arg ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 temp_v0;
     s32 temp_a0;
     s32 temp_a0_2;
     s32 temp_v0_8;
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 temp_lo;
     s32 random_value;
     s32 temp_s0;
@@ -57,7 +57,7 @@ void func_800250E8(void *arg0, S_800250E8_0 *arg1, void *arg2)
     u16 *counter_ptr;
 
     tail_arg = arg2;
-    ASM_KEEP_NV(tail_arg);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     counter_ptr = D_800257CE;
     call_arg0 = arg1->unk_00.at02.v;
     counter = counter_ptr[0];
@@ -93,7 +93,7 @@ void func_800250E8(void *arg0, S_800250E8_0 *arg1, void *arg2)
                   ((S_800250E8_1 *)arg0)->unk_1C.s;
         temp_a0_2 = arg1->unk_14;
         temp_v1 = temp_a0_2;
-        ASM_KEEP_NV(temp_v1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_v0_8 = arg1->unk_08.at00.v;
         arg1->unk_14 = temp_v1 + 0x6000;
         arg1->unk_08.at00.v = (s32)(temp_v0_8 + temp_a0_2);

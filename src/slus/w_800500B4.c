@@ -127,8 +127,8 @@ typedef struct S_800500B4_3 {
 
 void func_800500B4(S_800500B4_1 *arg0, void *arg1) {
     S_800500B4_0 *pArg1;
-    register s32 var_t1 ASM_REG("$9");   /* MATCH pin: slus-diff */
-    register u8 *var_addr_a4 ASM_REG("$8");   /* MATCH pin: slus-diff */
+    register s32 var_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u8 *var_addr_a4 ASM_REG("$8");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 temp_a1;
     s32 temp_a1_2;
     s32 temp_v1_3;

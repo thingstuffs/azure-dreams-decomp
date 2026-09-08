@@ -70,20 +70,20 @@ extern u8 D_80173738;
 void func_80173904(
     s32 arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5)
 {
-    register s32 product ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 dispatch_result ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 factor ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 normalized ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 work ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 product ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 factor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 normalized ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 work ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 held_arg4;
     register void *held_arg1;
-    register u16 held_arg5 ASM_REG("$23");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u16 held_arg5 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     S_80173904_2 *display;
     S_80173904_0 *state;
     void *object;
-    register void *transform ASM_REG("$20");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *transform ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *texture;
-    register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     void *call_a1;
     s32 call_a2;
 
@@ -94,13 +94,13 @@ void func_80173904(
     held_arg1 = arg1;
     call_a0 = (void *)0x212;
     held_arg5 = arg5;
-    ASM_KEEP_NV(held_arg4);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP_NV(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object = func_8003FC64((s32)call_a0);
     if (object != NULL) {
         work = held_arg4;
-        ASM_KEEP(work);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         call_a0 = object;
         call_a1 = &D_80045340;
         state = (u8 *)object + 0x20;
@@ -122,11 +122,11 @@ void func_80173904(
         dispatch_result = ((S_80173904_3 *)held_arg1)->unk_04;
         state->unk_44 = dispatch_result;
         dispatch_result = held_arg4 << 16;
-        ASM_TAILSLOT_PIN(dispatch_result);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         dispatch_result = func_801739E0();
         do {
             work = dispatch_result;
-            ASM_KEEP_NV(dispatch_result);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             dispatch_result = (s16)dispatch_result;
             if (dispatch_result < 0x1001) {
                 break;
@@ -155,11 +155,11 @@ void func_80173904(
         display = ((S_80173904_1 *)object)->unk_0C;
         display->unk_1E = 0x1000;
         display->unk_1C = 0x1000;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         dispatch_result = 0x40;
-        ASM_KEEP(dispatch_result);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(dispatch_result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         display->unk_0C = dispatch_result;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         factor = dispatch_result;
         display->unk_0E = dispatch_result;
         dispatch_result = 0xC0;
@@ -167,10 +167,10 @@ void func_80173904(
         state->unk_00 = factor;
         dispatch_result = display->unk_0D;
         call_a2 = 0;
-        ASM_KEEP_NV(call_a2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_NV(call_a2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         state->unk_01 = dispatch_result;
         dispatch_result = display->unk_0E;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         call_a0 = display;
         state->unk_02 = dispatch_result;
         func_8003DB94(call_a0, texture, call_a2);

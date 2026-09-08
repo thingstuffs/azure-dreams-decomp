@@ -62,7 +62,7 @@ void *func_800242EC(s32 arg0, void *arg1, S_800242EC_2 *arg2)
     void *temp_v0;
     S_800242EC_1 *temp_v1;
     Copy6 *temp_v1_2;
-    register void *var_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_8003FC64(0x212);
     var_v0 = NULL;

@@ -69,7 +69,7 @@ s32 func_800D112C(s16 arg0, s32 arg1, s32 arg2) {
         }
 
         {
-            register u16 *loop_x_step ASM_REG("$10");   /* MATCH pin: load-bearing for the whole function shape */
+            register u16 *loop_x_step ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             loop_x_step = work.x_step;
             x_acc += *loop_x_step;
@@ -80,8 +80,8 @@ s32 func_800D112C(s16 arg0, s32 arg1, s32 arg2) {
         }
 
         {
-            register u8 *loop_y_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-            register s32 loop_byte_offset ASM_REG("$10");   /* MATCH pin: load-bearing for the whole function shape */
+            register u8 *loop_y_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 loop_byte_offset ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u16 *loop_y_step;
 
             loop_y_base = (u8 *)D_8006CCE8;

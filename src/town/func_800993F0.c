@@ -28,7 +28,7 @@ void func_80096B50(s32 *arg0) {
     if (*var_s0 != 0) {
         do {
             func_80096A90(D_800FE508, *var_s0);
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             var_s0++;
         } while (*var_s0 != 0);
     }
@@ -37,11 +37,11 @@ void func_80096B50(s32 *arg0) {
         D_800FE520.unk0 = 0x03000000;
         D_800FE520.unk4 = 0x04000000;
         {
-            register s32 tail_value ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 tail_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             tail_value = 0x02A00000;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80096C08();
         }
         return;

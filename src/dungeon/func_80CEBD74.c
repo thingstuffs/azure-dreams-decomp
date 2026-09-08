@@ -73,18 +73,18 @@ extern u8 D_80175E7C[];
 
 void func_80175574(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
 {
-    register Obj0 *p0 ASM_REG("$18");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register Obj0 *p0 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *p1;
     Obj2 *p2;
-    register Obj3 *p3 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register Obj3 *p3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 kind;
     unsigned long table_index;
-    register u8 *counter_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     p0 = arg0;
     p1 = arg1;
     p2 = arg2;
-    ASM_KEEP_NV(p2);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(p2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     p3 = arg3;
 #ifndef __mips__
 #endif
@@ -104,7 +104,7 @@ void func_80175574(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
             ((S_80175574_2 *)counter_base)->unk_0A--;
         }
         {
-            register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             switch (((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v) {
             default:
@@ -163,7 +163,7 @@ check_first_table:
 
         if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {
             {
-                register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+                register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 kind = ((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v;
                 if (kind == 14) {
@@ -234,7 +234,7 @@ second_table_call:
 select_second_table:
         kind = ((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v;
         {
-            register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             if (kind == 14) {
                 goto second_table_14;

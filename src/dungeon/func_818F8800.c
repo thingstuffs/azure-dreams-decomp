@@ -317,7 +317,7 @@ void func_8002405C(void *arg0, u8 *arg1, void *arg2, s32 *arg3, s32 arg4)
         *((s8 *) (((s8 *) var_s3) + 0x3)) = 9;
         *((Quad40 *) var_s3) = sp28;
         *((u16 *) (((s8 *) var_s3) + 0x8)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x8))) + (((s32) (func_800644B8(var_s1) * (*((u8 *) (((s8 *) (temp_s2 = arg1 + var_s5_reg)) + 0x38))))) >> 0x10));
-        ASM_USE_G_NV(temp_s7);   /* MATCH pin: retail register colouring depends on it */
+        ASM_USE_G_NV(temp_s7);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         *((u16 *) (((s8 *) var_s3) + 0x10)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x10))) + (((s32) (func_800644B8(var_s1) * (*((u8 *) (((s8 *) temp_s2) + 0x38))))) >> 0x10));
         var_s1_2 = var_s1 + (*((s16 *) (((s8 *) arg1) + 0x9A)));
         if (var_s1_2 >= 0x1001)
@@ -368,8 +368,8 @@ void func_8002405C(void *arg0, u8 *arg1, void *arg2, s32 *arg3, s32 arg4)
       *((s8 *) (((s8 *) var_s3) + 0x3)) = 9;
       *((Quad40 *) var_s3) = sp28;
       *((u16 *) (((s8 *) var_s3) + 0xA)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0xA))) + (((s32) (func_800644B8(var_s1) * (*((u8 *) (((s8 *) (temp_s2_2 = arg1 + var_s5_reg)) + 0x38))))) >> 0x10));
-      ASM_KEEP_NV(temp_s2_2);   /* MATCH pin: retail register colouring depends on it */
-      ASM_USE_G_NV(temp_s7);   /* MATCH pin: retail register colouring depends on it */
+      ASM_KEEP_NV(temp_s2_2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+      ASM_USE_G_NV(temp_s7);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       *((u16 *) (((s8 *) var_s3) + 0x1A)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x1A))) + (((s32) (func_800644B8(var_s1) * (*((u8 *) (((s8 *) temp_s2_2) + 0x38))))) >> 0x10));
       var_s1_3 = var_s1 + (*((s16 *) (((s8 *) arg1) + 0x9A)));
       if (var_s1_3 >= 0x1001)

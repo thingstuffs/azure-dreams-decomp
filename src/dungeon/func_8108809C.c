@@ -92,7 +92,7 @@ void *func_8017589C(s32 arg0, Copy24 *arg1, Rec_D_80082E80 *arg2)
 
     var_v0 = rand();
     temp_v1 = var_v0;
-    ASM_KEEP(var_v0);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     var_v0 >>= 0xC;
     if (temp_v1 < 0) {
         var_v0 = (s32)(temp_v1 + 0xFFF) >> 0xC;

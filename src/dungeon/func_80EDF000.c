@@ -130,27 +130,27 @@ block_18:
 
         countdown_raw = (u16)FIELD(arg0, s16, 0x36) - 1;
         FIELD(arg0, s16, 0x36) = countdown_raw;
-        ASM_KEEP(countdown_raw);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(countdown_raw);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         shifted_countdown = (s32)(countdown_raw << 16);
         countdown = shifted_countdown >> 16;
         if (countdown == 0)
             goto block_20;
         {
-            register s32 interp_goal ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+            register s32 interp_goal ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 interp_current;
 
             interp_goal = FIELD(arg1, s16, 0x0E);
-            ASM_KEEP(interp_goal);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             interp_current = FIELD(arg1, s16, 2) - 32;
             interp_goal =
                 (interp_goal * 64 - interp_current) / countdown;
             FIELD(arg1, s16, 2) += interp_goal;
 
             interp_goal = FIELD(arg1, s16, 0x12);
-            ASM_KEEP(interp_goal);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             interp_current = FIELD(arg1, s16, 6);
             countdown = FIELD(arg0, s16, 0x36);
-            ASM_KEEP(countdown);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(countdown);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             interp_goal = interp_goal * 64;
             interp_current -= 32;
             interp_goal -= interp_current;
@@ -218,17 +218,17 @@ loop_30:
     FIELD(arg1, s32, 4) += FIELD(arg0, s32, 0x70);
     {
         s32 coord;
-        register s32 map_sum ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+        register s32 map_sum ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 rounded;
         GridPoint *point;
 
         coord = FIELD(arg0, s32, 0x70);
         map_sum = FIELD(arg0, s16, 0x34);
-        ASM_KEEP(map_sum);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(map_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         rounded = FIELD(arg0, s32, 0x7C);
-        ASM_KEEP(rounded);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(rounded);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         point = &grid_base[map_sum];
-        ASM_KEEP(point);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(point);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         map_sum = FIELD(arg0, s8, 0x5C);
         coord += rounded;
         FIELD(arg0, s32, 0x70) = coord;
@@ -245,7 +245,7 @@ loop_30:
         coord = FIELD(point, u16, 2);
         rounded = FIELD(arg1, s16, 6);
         map_sum = FIELD(arg0, s8, 0x5D);
-        ASM_KEEP(map_sum);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(map_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord = (s16)coord;
         map_sum += coord;
         if (rounded < 0)

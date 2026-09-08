@@ -17,9 +17,9 @@ extern u8 D_800E1D01[9];
  * (u32) cast makes the >>2 a logical srl (matches retail), not sra.
  */
 void func_800262B8(s32 arg0, s32 arg1) {
-    register s32 b ASM_REG("$16") = arg1;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 b ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     if (func_8009D218(arg0, 2) == 0) {
-        register s32 c ASM_REG("$6") = (u32)(b & 0xFF) >> 2;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 c ASM_REG("$6") = (u32)(b & 0xFF) >> 2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if ((func_800A48F0(arg0, 0x16, c + 4) << 16) != 0) {
             func_80099844(arg0, D_800E1D01);
         }

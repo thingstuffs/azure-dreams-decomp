@@ -15,26 +15,26 @@ void func_8196048C(void)
 {
     s8 *base;
     DungeonMap *map;
-    register s16 row ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
+    register s16 row ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 column;
     s32 outer;
     s32 inner;
     u16 *source;
     u16 *cursor;
     u16 value;
-    register u8 row_byte ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 row_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 column_byte;
 
     base = D_80083160;
     map = (DungeonMap *)(base + 0x1DC);
-    ASM_KEEP(map);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(map);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     outer = 0;
     source = D_800273CC;
     row_byte = D_8002744D[0];
     column_byte = D_8002744C[0];
     row = row_byte - 3;
     column = column_byte - 3;
-    ASM_KEEP(row_byte);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(row_byte);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     do {
         s16 x;
         s32 signed_row;

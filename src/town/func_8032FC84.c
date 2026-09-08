@@ -33,16 +33,16 @@ void func_8001A484(void) {
     } while (0);
     func_80019860(D_8001B8A8[0], position[1], position[2]);
     page = (u8 *)0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     func_80016748();
     do {
         resource = D_8001C370;
     } while (0);
-    ASM_KEEP(resource);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(resource);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     callback = page - 0x3B80;
     data = &D_8001DA10;
     func_8001A044(resource, callback, data);
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     do {
         runtime = *(TownRuntime **)D_80016000;

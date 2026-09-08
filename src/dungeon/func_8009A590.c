@@ -13,7 +13,7 @@ s16 func_8009FCF0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (arg3 < 0) {
         arg3 = -arg3;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (arg2 < arg3) {
         return arg3;
     }

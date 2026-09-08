@@ -29,7 +29,7 @@ extern void func_800AD594(void *, s32);
 void func_80172700(void *input0, void *input1, void *input2, void *input3)
 {
     void *arg0;
-    register void *arg1 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *arg1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *arg2;
     void *arg3;
     s32 step_x;
@@ -37,19 +37,19 @@ void func_80172700(void *input0, void *input1, void *input2, void *input3)
     s32 four;
     s32 state;
     s32 table_index;
-    register s32 value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 value2 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 value2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *call_a0;
     u16 flags;
-    register u8 *effect ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *dir_x ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u8 *dir_y ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *effect ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *dir_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *dir_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     arg0 = input0;
     arg1 = input1;
     arg2 = input2;
     arg3 = input3;
-    ASM_KEEP4_NV(arg0, arg1, arg2, arg3);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP4_NV(arg0, arg1, arg2, arg3);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     dir_x = D_8006CCD8;
     dir_y = D_8006CCE8;
     table_index = (F16(arg3, 0x2A) >> 8) & 0xE;
@@ -127,7 +127,7 @@ state_2:
     value = step_x << 18;
     value2 = step_x << 17;
     F32(arg1, 0xC) = value + value2;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     value = step_y << 18;
     value2 = step_y << 17;
     value += value2;

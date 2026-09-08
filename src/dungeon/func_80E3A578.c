@@ -93,7 +93,7 @@ void func_80173D78(void *arg0, void *arg1, S_80173D78_1 *arg2, S_80173D78_2 *arg
     s32 temp_s0;
     s32 call_ret;
     void *call_obj;
-    register s32 call_arg ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 call_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 chain;
     s32 mode;
     s32 map_flags;
@@ -154,9 +154,9 @@ jt_c1:
             if (((u32)(state - 1) >= 0x2DU) || (state == 0x1E)) {
                 call_ret = func_800990FC();
                 call_obj = arg3;
-                ASM_KEEP(call_obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 call_arg = call_ret;
-                ASM_KEEP(call_arg);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 chain = func_80099734(call_obj, temp_s0 = call_arg);
                 func_80099290(
                     func_80099194(&D_80170898,
@@ -247,7 +247,7 @@ jt_c2:
         func_8017424C();
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     base = (s8 *)arg0 - 0x20;
     func_80044A50(base);
     func_800BC318(base);

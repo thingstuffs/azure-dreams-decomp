@@ -75,11 +75,11 @@ void func_8016CC70(void *arg0, s32 arg1, void *arg2, void *arg3) {
     void *obj = arg0;
     s32 middle = arg1;
     void *target = arg2;
-    register void *actor ASM_REG("$17") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *actor ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *held_base;
     void *callback;
     void *room_base;
-    register u8 *counter_base ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+    register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 kind;
     s32 bits;
@@ -159,7 +159,7 @@ call_check:
 
 action_body:
     counter_base = (u8 *)0x80080000;
-    ASM_KEEP(counter_base);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(counter_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     held_base = counter_base + 0x3460;
     if (((S_8016CC70_4 *)held_base)->unk_02 & 0x1000) {
         goto done;
@@ -257,8 +257,8 @@ set_callback:
     ((S_8016CC70_0 *)obj)->unk_8C = callback;
 
 done:
-    ASM_KEEP(obj);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(middle);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(target);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(middle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return;
 }

@@ -19,17 +19,17 @@ extern s32 func_80098928();
 extern u8 D_80082660;
 
 void func_8009A3A4(Rec_func_80094268_arg0 *arg0, s32 arg1, s32 arg2) {
-    register s32 arg1_save ASM_REG("$18") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 arg1_save ASM_REG("$18") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(arg1_save);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(arg1_save);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80094984(((S_8009A3A4_2 *)(arg0->unk_44))->unk_14, arg0);
     {
-        register void *call_arg0 ASM_REG("$4") = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register void *call_arg0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 call_arg1 = arg1_save;
         s32 call_arg2 = arg2;
 
-        ASM_KEEP(call_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(call_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(call_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         *(&D_80082660 + (((S_8009A3A4_1 *)call_arg0)->unk_40 * 8)) = 0;
         func_80098928(call_arg0, call_arg1, call_arg2);
     }

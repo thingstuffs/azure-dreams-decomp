@@ -54,7 +54,7 @@ extern s32 D_800D0DF0;
 
 s32 func_800A71F0(void *arg0, s32 arg1, M2C_UNK arg2) {
     void *temp_v0;
-    register void *temp_s0 ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *temp_a1;
     void *temp_s1;
 

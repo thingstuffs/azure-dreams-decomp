@@ -69,19 +69,19 @@ void *func_8195AB84(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     void *objects[18];
     s32 i;
-    register void **objects_base ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register void **objects_base ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void **slot;
     S_8195AB84_2 *header;
     S_8195AB84_3 *node;
     S_8195AB84_4 *tail;
     u8 *table_base;
     u8 *global_page;
-    register s32 constant ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 constant ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 held_arg0;
-    register s16 held_arg1 ASM_REG("$22");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s16 held_arg2 ASM_REG("$23");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s16 held_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s16 held_arg2 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 held_arg3;
-    register void *global_addr ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+    register void *global_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 flags;
     void **cleanup;
     u16 cleanup_flags;
@@ -97,7 +97,7 @@ void *func_8195AB84(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     i = 0;
     if (constant != 0) {
         constant = (s32)0x80030000;
-        ASM_KEEP(constant);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(constant);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table_base = (u8 *)constant - 0x7D98;
         global_page = (u8 *)0x80080000;
         objects_base = objects;
@@ -106,11 +106,11 @@ void *func_8195AB84(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             constant = (s32)0x80080000;
             if (i != 0) {
                 call_arg = objects[0];
-                ASM_KEEP(call_arg);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_800263FC();
             }
             call_arg = (void *)(constant + 0x3498);
-            ASM_KEEP_NV(call_arg);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP_NV(call_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             constant = (s32)func_8003FD64(18, call_arg);
             *slot = (void *)constant;
             if (constant != 0) {
@@ -134,7 +134,7 @@ void *func_8195AB84(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
                 constant = (s32)*slot;
                 tail = (u8 *)constant + 0x20;
                 if (i != 0) {
-                    ASM_KEEP(tail);   /* MATCH pin: keeps a constant in a register as retail does */
+                    ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     tail->unk_20 = objects[0];
                 }
                 tail->unk_30 = 0x10;
@@ -160,7 +160,7 @@ void *func_8195AB84(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
                 }
 call_26514:
                 constant = 0;
-                ASM_TAILSLOT_PIN_TIED(constant);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN_TIED(constant);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_80026514();
                 goto loop_continue;
             }

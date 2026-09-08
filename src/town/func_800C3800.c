@@ -8,7 +8,7 @@ s32 func_800C0F60(s32 arg0) {
     s32 count;
 
     entry = D_800D0000;
-    ASM_KEEP(entry);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     count = 0;
     if (*(s16 *)(entry + 0x4094) != 0) {
         entry += 0x4094;

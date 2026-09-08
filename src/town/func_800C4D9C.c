@@ -7,7 +7,7 @@ extern s16 D_800D4770[];
 
 void func_800C24FC(void) {
     s16 *current;
-    register s16 *value ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s16 *value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     current = D_800D4770;
     if (*current != -1) {

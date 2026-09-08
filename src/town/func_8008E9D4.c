@@ -25,8 +25,8 @@ s32 func_8008C134(s32 arg0, s32 arg1) {
     u8 *temp_a2;
 
     temp_a3 = (u8 *)&D_80083160;
-    ASM_KEEP(temp_a3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     temp_a2 = temp_a3 + 0x1DC;
-    ASM_KEEP(temp_a2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(temp_a2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     return *(u16 *)(((s32) (((((S_8008C134_0 *)temp_a2)->unk_18 & arg0) + ((s16) (((S_8008C134_0 *)temp_a2)->unk_1A & arg1) << ((S_8008C134_0 *)temp_a2)->unk_14)) << 0x10) >> 0xF) + ((S_8008C134_1 *)temp_a3)->unk_1DC) & 0x3FFF;
 }

@@ -27,8 +27,8 @@ s32 func_800ADBCC(void *arg0, s32 arg1, Entry *arg2)
     Scratchpad *scratch =
         (Scratchpad *)0x1F800000;
 
-    ASM_KEEP(state);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(scratch);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     scratch->flag = *(s16 *)((u8 *)state + 8);
     if (!(arg2->unk14 & 0x80)) {
         func_800453E0(state, arg1, arg2, arg2->unk06);
@@ -39,10 +39,10 @@ s32 func_800ADBCC(void *arg0, s32 arg1, Entry *arg2)
         state = (u8 *)arg2 + 0x20;
         arg1 = (s32)arg2->unk08;
         arg2 = arg2->unk0C;
-        ASM_USE(state);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_USE(arg1);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_USE(arg2);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_USE(scratch);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_USE(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_USE(arg1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_USE(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_USE(scratch);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_800ADBE4();
     }
     return 0;

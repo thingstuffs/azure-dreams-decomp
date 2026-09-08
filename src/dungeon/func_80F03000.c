@@ -122,17 +122,17 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2)
     s32 target_y;
     s32 distance;
 #ifdef __mips__
-    register s32 velocity_y ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 velocity_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 point_index;
     s32 point_accel;
-    register s32 point_old_x ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 point_old_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 point_x;
     s32 grid_x;
     s32 grid_x_div;
-    register s16 point_y ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 point_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 point_old_y;
-    register s32 grid_y ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s32 grid_y_div ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 grid_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 grid_y_div ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 update_index_x;
     u8 *update_x;
     u8 *update_y;
@@ -213,7 +213,7 @@ switch_case0:
 #ifdef __mips__
     {
         s32 call_value = 4;
-        ASM_TAILSLOT_PIN(call_value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(call_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8014CA0C();
     }
 #else
@@ -224,7 +224,7 @@ switch_case1:
 #ifdef __mips__
     {
         s32 call_value = 8;
-        ASM_TAILSLOT_PIN(call_value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(call_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8014CA0C();
     }
 #else
@@ -235,7 +235,7 @@ switch_case2:
 #ifdef __mips__
     {
         s32 call_value = 12;
-        ASM_TAILSLOT_PIN(call_value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(call_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8014CA0C();
     }
 #else
@@ -246,7 +246,7 @@ switch_case3:
 #ifdef __mips__
     {
         s32 call_value = 14;
-        ASM_TAILSLOT_PIN(call_value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(call_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8014CA0C();
     }
 #else
@@ -264,7 +264,7 @@ countdown:
     ((S_80F03000_0 *)arg0)->unk_36.s = timer;
     if (timer != 0) {
 #ifdef __mips__
-        register s32 step_x ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register s32 step_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 next_x;
 #else
         s32 step_x;
@@ -279,7 +279,7 @@ countdown:
         next_x = ((S_80F03000_1 *)arg1)->unk_00.at02u.v + step_x;
         step_x = ((S_80F03000_1 *)arg1)->unk_12;
         ((S_80F03000_1 *)arg1)->unk_00.at02.v = next_x;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         step_x *= 64;
         target_y_step = ((S_80F03000_1 *)arg1)->unk_04.at02.v - 32;
         step_x -= target_y_step;
@@ -353,7 +353,7 @@ state_zero_check:
     point_index = ((S_80F03000_0 *)arg0)->unk_34;
     point_accel = ((S_80F03000_0 *)arg0)->unk_7C;
     point = points_base + point_index * 2;
-    ASM_USE2(point, point_accel);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE2(point, point_accel);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     point_old_x = ((S_80F03000_0 *)arg0)->unk_5C.s;
     velocity_y += point_accel;
     ((S_80F03000_0 *)arg0)->unk_70 = velocity_y;

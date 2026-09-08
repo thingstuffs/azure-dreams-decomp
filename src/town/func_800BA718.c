@@ -30,9 +30,9 @@ void func_800B7E78(u16 *arg0) {
 L0:
     {
 #ifndef NON_MATCHING
-        register s32 page ASM_REG("$3") = (s32)0x80110000;   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 page ASM_REG("$3") = (s32)0x80110000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         void *rect;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         rect = (void *)(page + 0x1FA8);
 #else
         void *rect = D_80111FA8;
@@ -44,9 +44,9 @@ L0:
 L4:
     {
 #ifndef NON_MATCHING
-        register s32 page ASM_REG("$3") = (s32)0x80110000;   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 page ASM_REG("$3") = (s32)0x80110000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         void *rect;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         rect = (void *)(page + 0x1FA8);
 #else
         void *rect = D_80111FA8;
@@ -58,9 +58,9 @@ L4:
 L8:
     {
 #ifndef NON_MATCHING
-        register s32 page ASM_REG("$3") = (s32)0x80110000;   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 page ASM_REG("$3") = (s32)0x80110000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         void *rect;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         rect = (void *)(page + 0x1FA8);
 #else
         void *rect = D_80111FA8;

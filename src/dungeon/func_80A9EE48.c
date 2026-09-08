@@ -163,7 +163,7 @@ case_1:
     ((S_80174648_0 *)arg0)->unk_9B++;
     copied_angle = ((S_80174648_1 *)arg3)->unk_2A.u;
     ((S_80174648_1 *)arg3)->unk_8A = copied_angle;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     index = ((D_80083228 + ((S_80174648_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7;
     mode = ((u8 *)D_80174D1C)[-4];
     angle = ((S_80174648_1 *)arg3)->unk_2A.u;

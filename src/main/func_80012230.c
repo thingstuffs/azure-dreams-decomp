@@ -10,7 +10,7 @@ extern s32 D_800251A4;
 extern s32 D_80024F7C;
 
 #ifndef NON_MATCHING
-register s32 *dead_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+register s32 *dead_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #else
 s32 *dead_v0;
 #endif

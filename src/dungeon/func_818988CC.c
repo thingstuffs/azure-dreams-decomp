@@ -50,8 +50,8 @@ void *func_800240CC(void *arg0, Copy24 *arg1, s16 arg2)
     s32 copy_a2;
     s32 copy_a3;
     s32 random_value;
-    register Object *result ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register Object *call_obj ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register Object *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register Object *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
@@ -75,7 +75,7 @@ void *func_800240CC(void *arg0, Copy24 *arg1, s16 arg2)
         func_8004491C(call_obj, D_80045340);
         do { dst = obj->dst; } while (0);
         result = obj;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         copy_a0 = arg1->word[0];
         copy_a1 = arg1->word[1];
         copy_a2 = arg1->word[2];

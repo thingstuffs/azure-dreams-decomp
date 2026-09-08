@@ -104,10 +104,10 @@ void func_8196BA5C(void *arg0) {
             dst += sizeof(PackedBlock);
         } while (src != end);
         {
-            register u32 page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             page = 0x80020000;
-            ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80025320();
         }
     } else {

@@ -59,7 +59,7 @@ s32 func_8009AF18(u32 arg0, FuncArg1 *arg1, S_8009AF18_0 *arg2, u16 arg3) {
     s32 temp_ret;
     s32 temp_bound;
     s32 temp_s1;
-    register s32 var_s5 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 var_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 var_s6;
     s32 var_s7;
     s32 var_v0;
@@ -68,7 +68,7 @@ s32 func_8009AF18(u32 arg0, FuncArg1 *arg1, S_8009AF18_0 *arg2, u16 arg3) {
     S_8009AF18_2 *temp_v0;
 
     var_s5 = 1;
-    ASM_KEEP_NV(var_s5);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(var_s5);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     D_800DD7DC = 0;
     var_s3 = arg2->unk_24;
     var_s4 = arg2->unk_25;
@@ -90,20 +90,20 @@ loop_2:
             goto call_fail;
         }
         {
-            register u16 *reload_sp20 ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+            register u16 *reload_sp20 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             reload_sp20 = sp20;
-            ASM_KEEP_NV(reload_sp20);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(reload_sp20);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             var_s3 += *reload_sp20;
         }
             var_s4 += *(u16 *)((u8 *)D_8006CCE8 + temp_s2);
             if (sp10[0] & 0x3300) {
                 {
-                    register u8 *page ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+                    register u8 *page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     S_8009AF18_1 *world;
 
                     page = (u8 *)0x800E0000;
-                    ASM_KEEP_NV(page);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     world = *(void **)(page + 0x3D7C);
                     temp_v0 = func_8009B25C(world, var_s3 & 0xFFFF, var_s4 & 0xFFFF, world->unk_88);
                 }
@@ -111,11 +111,11 @@ loop_2:
                     if (temp_v0->unk_13 == 0x1F) {
                         if (!(temp_v0->unk_1C & 0x228)) {
                             {
-                                register u8 *page ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+                                register u8 *page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                                 do { } while (0);
                                 page = (u8 *)0x800E0000;
-                                ASM_KEEP_NV(page);   /* MATCH pin: load-bearing for the whole function shape */
+                                ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                                 if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)(page + 0x3D7C)))->unk_124))->unk_13 < 0) {
                                 D_800DD7DC = 1;
                                 temp_v0->unk_14 |= 0x800000;
@@ -132,10 +132,10 @@ loop_2:
             var_s7 += *(u16 *)((u8 *)D_800DCEAC + temp_s2);
             var_s6 += *(u16 *)((u8 *)D_800DCEBC + temp_s2);
             {
-                register FuncArg1 *reload_arg1 ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+                register FuncArg1 *reload_arg1 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 reload_arg1 = arg1;
-                ASM_KEEP(reload_arg1);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(reload_arg1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 temp_ret = func_800BCB04(var_s7 & 0xFFFF, var_s6 & 0xFFFF, reload_arg1->height);
             }
             temp_v1 = var_s5 + 1;
@@ -149,14 +149,14 @@ loop_increment:
             var_s5 = temp_v1;
             do { } while (0);
             {
-                register s32 temp_bound_raw ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 temp_bound_raw ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 shifted_increment;
 
                 temp_bound_raw = sp10[4];
                 shifted_increment = temp_v1 << 0x10;
-                ASM_KEEP_NV(shifted_increment);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(shifted_increment);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 temp_bound = temp_bound_raw << 0x10;
-                ASM_KEEP_DEP_NV(temp_bound, temp_bound_raw);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_DEP_NV(temp_bound, temp_bound_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (shifted_increment <= temp_bound) {
                     goto loop_2;
                 }

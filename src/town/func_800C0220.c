@@ -84,7 +84,7 @@ s32 func_800BD980(void *arg0) {
             (*(M2C_UNK **)((u8 *)temp_v0 + 0x10)) = bd898;
             *(void **)var_s3 = temp_a3;
             temp_a0 = (*(void **)((u8 *)temp_v0 + 0xC));
-            ASM_KEEP(temp_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(temp_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             first = (*(u16 *)((u8 *)src + 2));
             temp_v1 = temp_v0 + 0x20;
             temp_v1->unk_0C = first;
@@ -101,7 +101,7 @@ s32 func_800BD980(void *arg0) {
             }
             offset8 = (var_s1 << 0x13) + 0xFF800000;
             temp_a3->unk_08 = (s32) ((*(s32 *)((u8 *)src + 8)) + offset8);
-            ASM_KEEP_NV(xoff);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP_NV(xoff);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             temp_a3->unk_0C = (s32) (xoff - (var_s1 << 0x10));
             temp_a0->unk_1E = 0x1000;
             temp_a0->unk_1C = 0x1000;

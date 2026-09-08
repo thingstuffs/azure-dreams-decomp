@@ -29,7 +29,7 @@ loop:
     }
 
     if (i == 20) {
-        register TownRecord *base ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register TownRecord *base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         i = 0;
         base = D_80100AA0;

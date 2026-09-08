@@ -79,7 +79,7 @@ mode_one:
     goto dispatch_done;
 
 mode_two:
-    ASM_USE2_NV(var_s0, var_s0);   /* MATCH pin: retail register colouring depends on it */
+    ASM_USE2_NV(var_s0, var_s0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     var_s0 = func_80099194(D_800E0D1B, func_80099734(arg0, var_s0));
     if ((arg2 != 0) && (arg2[1] == 0xC) && (arg2[0] == 6)) {
         var_s1 += 0xA00;
@@ -93,7 +93,7 @@ mode_three:
     var_s1 += 0x6400;
 
 dispatch_done:
-    ASM_USE2_NV(var_s0, var_s0);   /* MATCH pin: retail register colouring depends on it */
+    ASM_USE2_NV(var_s0, var_s0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if ((arg2 != 0) || (arg1 == 0)) {
         func_80099290(var_s0);
         func_800A5720(var_s5);

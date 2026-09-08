@@ -40,7 +40,7 @@ void func_8004878C(void *a0, S_8004878C_hdr *a1)
     }
     func_8004068C(a0, (void *)(D_80081480 + half));
     {
-        register s32 t ASM_REG("$5") = D_80081480;   /* MATCH pin: slus-diff */
+        register s32 t ASM_REG("$5") = D_80081480;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         func_80048734((void *)(t + half));
     }
     LoadImage(a1, (void *)D_80081480);

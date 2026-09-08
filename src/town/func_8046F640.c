@@ -23,7 +23,7 @@ M2C_UNK *func_80016640(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
         return &D_8001B63C;
 #else
         page_v0 = (u8 *)0x80020000;
-        ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         return (M2C_UNK *)(page_v0 - 0x49C4);
 #endif
     }
@@ -34,7 +34,7 @@ M2C_UNK *func_80016640(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
         var_s0 = &D_80020E5C;
 #else
         page_v0 = (u8 *)0x80020000;
-        ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s0 = (M2C_UNK *)(page_v0 + 0xE5C);
 #endif
     }

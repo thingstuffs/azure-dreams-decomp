@@ -43,13 +43,13 @@ typedef struct S_8009D3B0_2 {
 void func_8009D3B0(void) {
     UA64 sp10;
     s16 temp_a1;
-    register s32 temp_t6 ASM_REG("$14");   /* MATCH pin: retail register colouring depends on it */
-    register s32 bound_shifted ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_t6 ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 bound_shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 temp_v0_2;
     s32 var_a0;
     s16 var_a1;
     s16 var_a3;
-    register s16 var_t2 ASM_REG("$10");   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 var_t2 ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 var_v0_3;
     s32 temp_v0;
     s32 temp_v0_3;
@@ -68,13 +68,13 @@ void func_8009D3B0(void) {
     u16 temp_v1_3;
     u16 temp_v1_5;
     s16 clamped_level;
-    register s16 outer_end ASM_REG("$15");   /* MATCH pin: retail register colouring depends on it */
+    register s16 outer_end ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *var_a2;
     u8 temp_a0_2;
     u8 map_value;
     u8 *temp_t8;
-    register s32 v1_role ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *status ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 v1_role ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *status ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s8 status_value;
 
     var_a2 = &D_80088CB0;
@@ -84,7 +84,7 @@ void func_8009D3B0(void) {
     status = D_80082E80;
     status_value = ((s8 *)status)[0x26];
     if (status_value >= 0) {
-        register u8 *temp_t3 ASM_REG("$11");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *temp_t3 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *grid;
         u8 *map;
         s32 signed_row;
@@ -95,7 +95,7 @@ void func_8009D3B0(void) {
         s32 row_value;
         s32 signed_raw;
         s32 three;
-        register s32 store_val ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 store_val ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         v1_role = status_value * 0x14;
         status = (u8 *)D_800E2970;
         temp_t3 = v1_role + status;
@@ -103,7 +103,7 @@ void func_8009D3B0(void) {
         var_t2 = v1_role;
         x_sum = ((S_8009D3B0_0 *)temp_t3)->unk_00 + ((S_8009D3B0_0 *)temp_t3)->unk_04;
         var_a0 = x_sum + 1;
-        ASM_KEEP(x_sum);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(x_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_v0 = ((S_8009D3B0_0 *)temp_t3)->unk_06 + v1_role + 2;
         outer_end = temp_v0;
         if ((v1_role << 0x10) < (temp_v0 << 0x10)) {
@@ -116,7 +116,7 @@ loop_3:
             temp_v0_2 = ((S_8009D3B0_0 *)temp_t3)->unk_00 - 1;
             var_a1 = temp_v0_2;
             if (temp_v0_2 < temp_t6) {
-                ASM_KEEP(var_t2);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                ASM_KEEP(var_t2);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 var_v0_2 = var_a1 << 0x10;
                 signed_raw = var_t2 << 0x10;
                 signed_row = signed_raw >> 0x10;
@@ -129,17 +129,17 @@ loop_5:
                 var_a2 = (u8 *)((v1_role * 6) + (s32)grid);
                 var_a0 = ((S_8009D3B0_2 *)var_a2)->unk_00;
                 if (var_a0 != 0) {
-                    ASM_KEEP(var_a1);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                    ASM_KEEP(var_a1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                     three = 3;
                     if (var_a0 != three) {
-                        ASM_KEEP(v1_role);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                        ASM_KEEP(v1_role);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                         var_v0_5 = v1_role / 2;
-                        ASM_KEEP(v1_role);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                        ASM_KEEP(v1_role);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                         v1_role = ((S_8009D3B0_2 *)var_a2)->unk_02;
                         var_a2 = (u8 *)(var_v0_5 + (s32)map);
                         status = (u8 *)((s16)(v1_role + 0x200) / 64);
                         var_a0 = (s32)status;
-                        ASM_KEEP(status);   /* MATCH pin: retail register colouring depends on it */
+                        ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                         v1_role = (s32)status;
                         if (v1_role >= 0x10) {
                             var_a0 = 15;
@@ -181,7 +181,7 @@ block_18:
         }
     } else {
     u8 *negative_status;
-    register s32 neg_store ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 neg_store ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 neg_three;
     s16 var_v0_6;
     s32 neg_a0;
@@ -202,17 +202,17 @@ loop_22:
     var_a2 = (u8 *)((v1_role * 6) + (s32)grid);
     neg_a0 = ((S_8009D3B0_2 *)var_a2)->unk_00;
     if (neg_a0 != 0) {
-        ASM_KEEP(temp_a1);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         neg_three = 3;
         if (neg_a0 != neg_three) {
-            ASM_KEEP(v1_role);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP(v1_role);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             var_v0_5 = v1_role / 2;
-            ASM_KEEP(v1_role);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP(v1_role);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             v1_role = ((S_8009D3B0_2 *)var_a2)->unk_02;
             var_a2 = (u8 *)(var_v0_5 + (s32)map);
             status = (u8 *)((s16)(v1_role + 0x200) / 64);
             neg_a0 = (s32)status;
-            ASM_KEEP(status);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             v1_role = (s32)status;
             if (v1_role >= 0x10) {
                 neg_a0 = 15;

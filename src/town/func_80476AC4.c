@@ -10,7 +10,7 @@ typedef struct {
 extern D_80019BB0_t D_80019BB0;
 
 s32 func_80017AC4(void) {
-    register s32 result ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 ret;
 
     D_80019BB0.value = 4;
@@ -18,7 +18,7 @@ s32 func_80017AC4(void) {
         goto return_one;
     }
     result = func_800198D0(0x3FF);
-    ASM_KEEP(result);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ret = 0;
     if (result == 0) {
         goto done;

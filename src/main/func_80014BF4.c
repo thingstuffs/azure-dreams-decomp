@@ -11,7 +11,7 @@ extern void func_80053DA8(s32 arg0);
 extern void func_80027C40(void) __attribute__((noreturn));
 
 #ifndef NON_MATCHING
-register s32 match_v1 ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+register s32 match_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #endif
 
 void func_80027BF4(void) {
@@ -29,7 +29,7 @@ void func_80027BF4(void) {
         D_80080A88[0] = 0;
         do { } while (0);
         match_v1 = (s32)0x80080000;
-        ASM_KEEP(match_v1);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(match_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         match_v1 += 0x2E60;
         ((u8 *)match_v1)[0xF] &= 0x7F;
     }

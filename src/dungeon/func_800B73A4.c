@@ -140,7 +140,7 @@ process_primitive:
         work->p3.word = *(u32 *)&vertices[primitive->v2];
         p3_x = work->p3.half.x - work_x;
         p3_y = work->p3.half.y - work_y;
-        ASM_KEEP(work_x);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(work_x);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         work->p3.half.x = p3_x;
         work->p3.half.y = p3_y;
         if (func_800BCE7C((Work *)work) != 0) {

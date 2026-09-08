@@ -85,7 +85,7 @@ case_4:
         goto clear_58;
     }
     next_state = 0x80170000;
-    ASM_KEEP(next_state);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     *(void **)(next_state + 0x5D5C) = 0;
     goto finish;
 
@@ -94,7 +94,7 @@ case_10:
     next_timer = 0x14;
 advance_state:
     ((S_8016F99C_0 *)arg0)->unk_18 = next_timer;
-    ASM_KEEP(next_state);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     ((S_8016F99C_0 *)arg0)->unk_12.u = next_state + 1;
     goto done;
 
@@ -110,17 +110,17 @@ case_11:
     }
 clear_58:
     next_state = 0x80170000;
-    ASM_KEEP(next_state);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     *(void **)(next_state + 0x5D58) = 0;
     goto finish;
 clear_5C:
     next_state = 0x80170000;
-    ASM_KEEP(next_state);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     *(void **)(next_state + 0x5D5C) = 0;
 finish:
     ((S_8016F99C_0_pre *)arg0)[-1].unk_00 |= 0x8000;
     next_timer = 0x80080000;
-    ASM_KEEP(next_timer);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(next_timer);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *(s32 *)(next_timer + 0x14A0) |= 0x8000;
 done:
     return;

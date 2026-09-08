@@ -74,7 +74,7 @@ s32 func_818C370C(S_818C370C_2 *arg0, void *arg1) {
     S_818C370C_1 *temp_s2;
     void *temp_v0;
     void *temp_v1;
-    register s32 tail_ret ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 tail_ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != 0) {
@@ -98,7 +98,7 @@ s32 func_818C370C(S_818C370C_2 *arg0, void *arg1) {
         func_8003DB94(temp_s0, &D_80025AF0, 0);
         temp_v0_2 = func_80069EF8();
         temp_v1_2 = temp_v0_2;
-        ASM_KEEP(temp_v0_2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_v0 = temp_v0_2 >> 0xC;
         if (temp_v1_2 < 0) {
             var_v0 = (temp_v1_2 + 0xFFF) >> 0xC;
@@ -111,7 +111,7 @@ s32 func_818C370C(S_818C370C_2 *arg0, void *arg1) {
         temp_v1 = ((S_818C370C_0 *)temp_v0)->unk_08;
         tail_ret = (s32)temp_v0;
         *(Copy16 *)temp_v1 = *(Copy16 *)arg1;
-        ASM_KEEP(tail_ret);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(tail_ret);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         word4 = ((Copy24 *)arg1)->words[4];
         word5 = ((Copy24 *)arg1)->words[5];
         ((Copy24 *)temp_v1)->words[4] = word4;

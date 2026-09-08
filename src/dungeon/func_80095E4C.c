@@ -54,12 +54,12 @@ void *func_8009B5AC(Source *arg0, s32 arg1, s32 arg2) {
     s32 v1;
     s32 probe_result;
     s32 index;
-    register s32 tail34 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 tail34 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 tail3c;
     s32 elem_value;
-    register u8 *dead_state ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 tx ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 ty ASM_REG("$17");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u8 *dead_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 tx ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 ty ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     index = (arg0->index_field >> 9) & 7;
 
@@ -88,12 +88,12 @@ void *func_8009B5AC(Source *arg0, s32 arg1, s32 arg2) {
                     v1 = 0x14;
                 }
             }
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             dead_state = D_80081484;
             dead_state[3] = (u8)v1;
             dead_state[2] = 0;
             dead_state = (u8 *)obj;
-            ASM_TAILSLOT_PIN(dead_state);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN(dead_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             return func_8009B7B8();
         }
         return obj;
@@ -127,7 +127,7 @@ void *func_8009B5AC(Source *arg0, s32 arg1, s32 arg2) {
     tail3c = obj->value3c;
     tail34 |= 0x80000;
     tail3c |= 0x2000;
-    ASM_USE_NV(dead_state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE_NV(dead_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     obj->value34 = tail34;
     obj->value3c = tail3c;
     return func_8009B7B8();

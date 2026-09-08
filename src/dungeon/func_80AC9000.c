@@ -45,8 +45,8 @@ extern s32 func_8009C93C();
 
 void func_80174800(void *arg0, s32 arg1, s32 arg2, s16 arg3)
 {
-    register s32 match_x ASM_REG("$22") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 match_y ASM_REG("$21") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 match_x ASM_REG("$22") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 match_y ASM_REG("$21") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *head = arg0;
     S_80174800_4 *actor = head;
     void *owner;

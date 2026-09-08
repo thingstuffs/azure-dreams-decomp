@@ -68,39 +68,39 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2, s16 arg3) {
     u32 temp_v0_6;
     u32 temp_scaled;
     register u32 coord_addend;
-    register u32 temp_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register u32 temp_v1_2 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register u32 adjust_value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register u32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 adjust_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u32 mask_value;
     u32 temp_a0_3;
-    register u8 temp_a0_2 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u8 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 temp_v1_3;
     u8 temp_v1_4;
-    register u8 var_v0 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register u8 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *(*temp_v0_12)(void *, void *, void *, void *, void *);
     void *temp_s0;
     void *temp_s3;
-    register void *temp_s7 ASM_REG("$23");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u32 mask;
-    register void *initial_ptr ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *initial_ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 page_color;
     void *var_s2;
     void *p_arg0 = arg0;
     register void *p_arg1 = arg1;
-    register void *p_arg2 ASM_REG("$20") = arg2;   /* MATCH pin: retail register colouring depends on it */
-    register s16 p_arg3 ASM_REG("$16") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *call_a0 ASM_REG("$4") = (u8 *)0x1F800004;   /* MATCH pin: retail register colouring depends on it */
-    register u8 *call_a1 ASM_REG("$5") = (u8 *)0x1F8000F8;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register u8 *scratch_seed ASM_REG("$6") = (u8 *)0x1F800000;   /* MATCH pin: retail immediate-load split depends on it */
-    register u8 *page_base ASM_REG("$8") = (u8 *)0x80080000;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *p_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 p_arg3 ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *call_a0 ASM_REG("$4") = (u8 *)0x1F800004;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *call_a1 ASM_REG("$5") = (u8 *)0x1F8000F8;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register u8 *scratch_seed ASM_REG("$6") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u8 *page_base ASM_REG("$8") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *scratch_page;
     register u8 *call_a3;
-    ASM_KEEP_MEMDEP_NV(p_arg1, page_color, M2C_FIELD(&D_80083160, void **, 0));   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_MEMDEP_NV(p_arg1, page_color, M2C_FIELD(&D_80083160, void **, 0));   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch_page = (u8 *)0x1F800000;
-    ASM_KEEP_NV(scratch_seed);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP_NV(p_arg0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP_NV(p_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(p_arg3);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(scratch_seed);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(p_arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(p_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(p_arg3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #define arg0 p_arg0
 #define arg1 p_arg1
 #define arg2 p_arg2
@@ -116,9 +116,9 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2, s16 arg3) {
     M2C_FIELD(scratch, u32 *, 0x24) = initial_ptr + 0xB0;
     M2C_FIELD(scratch, u16 *, 4) = M2C_FIELD(arg1, u16 *, 2);
     call_a3 = scratch_page;
-    ASM_KEEP_MEMDEP_NV(scratch_page, page_color, M2C_FIELD(&D_80083160, void **, 0));   /* MATCH pin: retail keeps a computation the compiler would drop */
-    ASM_SET(page_base);   /* MATCH pin: retail immediate-load split depends on it */
-    ASM_KEEP_NV(call_a3);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP_MEMDEP_NV(scratch_page, page_color, M2C_FIELD(&D_80083160, void **, 0));   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    ASM_SET(page_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(call_a3);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     M2C_FIELD(scratch, u16 *, 6) = M2C_FIELD(arg1, u16 *, 6);
     M2C_FIELD(scratch, u16 *, 8) = M2C_FIELD(arg1, u16 *, 0xA);
     call_a3 = (u8 *)((u32)call_a3 | 0xD4);
@@ -137,7 +137,7 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2, s16 arg3) {
         mask = 0x00FF0000;
         func_800649A0();
         call_a0 = scratch_page;
-        ASM_KEEP_NV(call_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_a0 = (u8 *)((u32)call_a0 | 0xA4);
         adjust_value = M2C_FIELD(scratch, u16 *, 0xF8);
         call_a1 = scratch_page;
@@ -152,11 +152,11 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2, s16 arg3) {
         M2C_FIELD(scratch, u32 *, 0x34) = temp_c4;
         M2C_FIELD(scratch, u32 *, 0x38) = temp_c6;
         M2C_FIELD(scratch, u32 *, 0x3C) = temp_a3;
-        ASM_CLOBBER("$6");   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         temp_v0_3 = M2C_FIELD(arg2, u16 *, 0x16);
         temp_a2 = M2C_FIELD(scratch, u16 *, 0x38);
         call_a1 = (u8 *)((u32)call_a1 | 0x74);
-        ASM_KEEP_NV(call_a1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         M2C_FIELD(scratch, u16 *, 0xA4) = temp_v0_3;
         coord_addend = M2C_FIELD(arg2, u16 *, 0x1A);
         mask_value = M2C_FIELD(temp_s7, u16 *, 0xB8);
@@ -173,17 +173,17 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2, s16 arg3) {
         M2C_FIELD(scratch, u32 *, 0x88) = temp_v0_3;
         M2C_FIELD(scratch, u16 *, 0xAC) = temp_v0_3;
         mask_value = M2C_FIELD(arg2, u16 *, 0x22);
-        ASM_KEEP_DEP_NV(mask, mask_value);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_DEP_NV(mask, mask_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         mask |= 0xFFFF;
-        ASM_KEEP_NV(mask);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         M2C_FIELD(scratch, u32 *, 0x8C) = mask_value;
         M2C_FIELD(scratch, u16 *, 0xAE) = mask_value;
         func_80065820(call_a0, call_a1, temp_a2, temp_a3);
         call_a0 = scratch_page;
-        ASM_KEEP_NV(call_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_a0 = (u8 *)((u32)call_a0 | 0x74);
         call_a1 = scratch_page;
-        ASM_KEEP_NV(call_a1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_a1 = (u8 *)((u32)call_a1 | 0x34);
         M2C_FIELD(scratch, u32 *, 0x34) = M2C_FIELD(arg2, u16 *, 0x1C);
         temp_v0_4 = M2C_FIELD(arg2, u16 *, 0x1E);
@@ -191,20 +191,20 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2, s16 arg3) {
         M2C_FIELD(scratch, u32 *, 0x38) = temp_v0_4;
         func_80064BC0(call_a0, call_a1);
         call_a0 = temp_s3;
-        ASM_KEEP_NV(call_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_a1 = scratch_page;
-        ASM_KEEP_NV(call_a1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_a1 = (u8 *)((u32)call_a1 | 0x74);
         scratch_seed = scratch_page;
-        ASM_KEEP_NV(scratch_seed);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_NV(scratch_seed);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         scratch_seed = (u8 *)((u32)scratch_seed | 0x54);
         func_80064840(call_a0, call_a1, scratch_seed);
         call_a0 = scratch_page;
-        ASM_KEEP_NV(call_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_a0 = (u8 *)((u32)call_a0 | 0x54);
         func_80064D80(call_a0);
         call_a0 = scratch_page;
-        ASM_KEEP_NV(call_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_a0 = (u8 *)((u32)call_a0 | 0x54);
         func_80064CF0(call_a0);
         temp_s3 = M2C_FIELD(arg2, void **, 8);
@@ -247,7 +247,7 @@ block_80170B40:
 block_80170BAC:
             M2C_FIELD(scratch, u16 *, 0xCA) = temp_v0_11;
             M2C_FIELD(scratch, u16 *, 0xC2) = temp_v0_11;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_800654B0(scratch + 0xB0, scratch + 0xB8, scratch + 0xC0, scratch + 0xC8, scratch + 0x94, scratch + 0x98, scratch + 0x9C, scratch + 0xA0, scratch + 0xD0, scratch + 0xD4);
             M2C_FIELD(var_s2, u16 *, 8) = M2C_FIELD(scratch, u16 *, 0x94) + M2C_FIELD(scratch, u16 *, 0xF8);
             M2C_FIELD(var_s2, u16 *, 0xA) = M2C_FIELD(scratch, u16 *, 0x96) + M2C_FIELD(scratch, u16 *, 0xFA);
@@ -291,7 +291,7 @@ block_80170BAC:
                 }
                 M2C_FIELD(scratch, u32 *, 0x14) = temp_v1;
                 if (temp_v1 & 0x100) {
-                    register u32 adjusted ASM_REG("$2") = temp_v1 - 1;   /* MATCH pin: retail register colouring depends on it */
+                    register u32 adjusted ASM_REG("$2") = temp_v1 - 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     M2C_FIELD(scratch, u32 *, 0x14) = adjusted;
                 }
                 {
@@ -302,7 +302,7 @@ block_80170BAC:
                 }
                 M2C_FIELD(scratch, u32 *, 0x18) = temp_v1_2;
                 if (temp_v1_2 & 0x100) {
-                    register u32 adjusted ASM_REG("$2") = temp_v1_2 - 1;   /* MATCH pin: retail register colouring depends on it */
+                    register u32 adjusted ASM_REG("$2") = temp_v1_2 - 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     M2C_FIELD(scratch, u32 *, 0x18) = adjusted;
                 }
                 M2C_FIELD(scratch, u32 *, 0x18) <<= 8;

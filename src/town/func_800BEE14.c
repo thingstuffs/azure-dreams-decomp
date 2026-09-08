@@ -75,7 +75,7 @@ s32 func_800BC574(void *arg0, s32 arg1) {
     S_800BC574_2 *held_arg0 = arg0;
     u8 *held_base = (u8 *) &D_80083160;
     S_800BC574_1 *copy_dst;
-    register s32 held_arg1 ASM_REG("$19") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg1 ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_8003FD64(0x312, &D_80083498);
     if (temp_v0 != NULL) {
@@ -89,17 +89,17 @@ s32 func_800BC574(void *arg0, s32 arg1) {
         copy_dst = temp_v0->unk_08;
         copy_value = held_arg0->unk_08;
         {
-            register s32 narrowed_arg1 ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            register s32 narrowed_arg1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-            ASM_KEEP(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             narrowed_arg1 = (s16) held_arg1;
             copy_dst->unk_08 = copy_value;
             ((S_800BC574_7 *)(((S_800BC574_6 *)temp_v0)->unk_08))->unk_0C = (s32) (func_80064584(narrowed_arg1 + ((S_800BC574_3 *)held_base)->unk_C8) * 0x30);
             ((S_800BC574_7 *)(((S_800BC574_6 *)temp_v0)->unk_08))->unk_10 = (s32) (func_800644B8(narrowed_arg1 + ((S_800BC574_3 *)held_base)->unk_C8) * 0x30);
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         }
         {
-            register s32 tail_v0 ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
             tail_v0 = 0x1000;
             temp_s2->unk_1E = tail_v0;

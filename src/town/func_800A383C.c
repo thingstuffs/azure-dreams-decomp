@@ -26,12 +26,12 @@ extern void *func_800A1C94(TownObject *, s32, void *);
 s32 func_800A0F9C(TownObject *arg0, void *arg1, s32 arg2) {
     void **item;
     void **items;
-    s32 count;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    s32 count;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     count = arg2;
     items = arg0->items;
     if (count > 0) {
-        ASM_KEEP(count);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         item = (void **)((unsigned long)(count * sizeof(*items)) +
                         (unsigned long)items);
         item--;
@@ -44,7 +44,7 @@ s32 func_800A0F9C(TownObject *arg0, void *arg1, s32 arg2) {
             item--;
         } while (count > 0);
         item++;
-        ASM_USE(item);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_USE(item);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
 
     arg0->field_00 = 0;

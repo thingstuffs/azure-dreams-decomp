@@ -111,7 +111,7 @@ void func_80091430(void *arg0, M2C_UNK arg1, M2C_UNK arg2, void *arg3) {
     } else {
         s32 dispatch_v0;
 
-        ASM_USE(arg0);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         dispatch_v0 = 2;
         if (temp_v1 == dispatch_v0) {
             goto block_case_2;
@@ -127,19 +127,19 @@ void func_80091430(void *arg0, M2C_UNK arg1, M2C_UNK arg2, void *arg3) {
             func_8004DCEC();
             if ((*(s16 *)((u8 *)arg0 + 0x120)) == 0) {
                 if (D_80012D6D == 0) {
-                    ASM_USE(arg0);   /* MATCH pin: retail delay-slot fill depends on it */
+                    ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     func_80091500(&D_80088904);
                     return;
                 }
-                ASM_USE(arg0);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 func_80091500(&D_80088934);
                 return;
             }
             {
-                register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+                register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 call_a0 = &D_80088970;
-                ASM_KEEP(call_a0);   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 func_8004DD2C();
             }
             (*(u8 *)((u8 *)arg0 + 0x9B)) = (u8) ((*(u8 *)((u8 *)arg0 + 0x9B)) + 1);
@@ -180,44 +180,44 @@ block_16:
                     }
                 } else {
                     if (((S_80091430_0 *)dungeon_state)->unk_10 & 0x10) {
-                        register void *internal_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-                        register M2C_UNK internal_a1 ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
-                        register M2C_UNK internal_a2 ASM_REG("$6");   /* MATCH pin: retail immediate-load split depends on it */
+                        register void *internal_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        register M2C_UNK internal_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                        register M2C_UNK internal_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                         void *internal_a3;
-                        register void *internal_v0 ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-                        register void *internal_v1 ASM_REG("$3");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                        register void *internal_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                        register void *internal_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
                         func_800C77D0(temp_t0 - 0x20, ((S_80091430_2_pre *)temp_t0)[-1].unk_00, 8, *D_800DCE66);
                         internal_a0 = arg0;
                         internal_a1 = arg1;
                         internal_a2 = arg2;
                         internal_a3 = (void *) 0x80020000;
-                        ASM_KEEP4(internal_a0, internal_a1, internal_a2, internal_a3);   /* MATCH pin: keeps a constant in a register as retail does */
+                        ASM_KEEP4(internal_a0, internal_a1, internal_a2, internal_a3);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                         internal_v0 = (*(void **)((u8 *)arg0 + 0x104));
                         internal_v1 = (*(void **)((u8 *)arg0 + 0xAC));
-                        ASM_USE2(internal_v0, internal_v1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                        ASM_USE2(internal_v0, internal_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         internal_a3 = (u8 *) internal_a3 - 0x10D4;
-                        ASM_TAILSLOT_PIN(internal_a3);   /* MATCH pin: load-bearing for the whole function shape */
+                        ASM_TAILSLOT_PIN(internal_a3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         func_80091708();
                         return;
                     }
                     if (((S_80091430_0 *)dungeon_state)->unk_10 & 0x20) {
-                        register void *internal_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-                        register M2C_UNK internal_a1 ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
-                        register M2C_UNK internal_a2 ASM_REG("$6");   /* MATCH pin: retail immediate-load split depends on it */
-                        register void *internal_a3 ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+                        register void *internal_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        register M2C_UNK internal_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                        register M2C_UNK internal_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                        register void *internal_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         s32 internal_v0;
-                        register void *internal_v1 ASM_REG("$3");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                        register void *internal_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
                         internal_a0 = arg0;
                         internal_a1 = arg1;
                         internal_a2 = arg2;
                         internal_a3 = &D_80023C58;
-                        ASM_KEEP4(internal_a0, internal_a1, internal_a2, internal_a3);   /* MATCH pin: keeps a constant in a register as retail does */
+                        ASM_KEEP4(internal_a0, internal_a1, internal_a2, internal_a3);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                         internal_v0 = (s32) temp_t0 != (*(s32 *)((u8 *)arg0 + 0xAC));
                         internal_v1 = (void *) 0x800E0000;
-                        ASM_USE(internal_v1);   /* MATCH pin: load-bearing for the whole function shape */
-                        ASM_TAILSLOT_PIN(internal_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                        ASM_USE(internal_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        ASM_TAILSLOT_PIN(internal_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         func_80091714();
                         return;
                     }
@@ -243,7 +243,7 @@ block_37:
                     s32 internal_v0;
 
                     internal_v0 = ((S_80091430_0 *)dungeon_state)->unk_08 & 2;
-                    ASM_TAILSLOT_PIN(internal_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_TAILSLOT_PIN(internal_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     func_80091778();
                     return;
                 }
@@ -290,7 +290,7 @@ block_37:
                     void *callback;
 
                     callback = D_8008EAC8;
-                    ASM_TAILSLOT_PIN(callback);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_TAILSLOT_PIN(callback);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     func_800918A0();
                     return;
                 } else {
@@ -310,7 +310,7 @@ block_case_2:
         void *callback;
 
         callback = D_8008EAC8;
-        ASM_TAILSLOT_PIN(callback);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(callback);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800918F8();
         return;
     } else {

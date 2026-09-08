@@ -139,10 +139,10 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2)
 {
     s16 pos[3];
     void *root = arg0;
-    register void *out ASM_REG("$17") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *out ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_81251000_3 *dst = arg2;
     S_81251000_1 *owner;
-    register void *part ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *part ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_81251000_5 *copy;
     S_81251000_6 *callee_part;
     s8 value;
@@ -184,11 +184,11 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2)
         if (value < 8) {
             s32 tail_value = value * 7;
 
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80170A38(value);
             return;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         {
             register s32 color ASM_REG("$2") =
                 ((15 - value) * 14) + 0x20;
@@ -206,13 +206,13 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2)
     if (((S_81251000_0 *)root)->unk_B6 == 2) {
         value = ((S_81251000_2 *)part)->unk_04.s8;
         if (value < 8) {
-            register s32 tail_value ASM_REG("$3") = 7 - value;   /* MATCH pin: retail register colouring depends on it */
+            register s32 tail_value ASM_REG("$3") = 7 - value;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80170AA8(value);
             return;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         {
             register s32 color ASM_REG("$2") =
                 ((value - 8) * 14) + 0x20;

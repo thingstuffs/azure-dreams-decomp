@@ -7,9 +7,9 @@ extern s32 D_8001925C;
 extern void func_800181C8();
 
 void func_80016D00(s32 arg0, s32 arg1, s32 arg2) {
-    register s32 index ASM_REG("$2") = D_80018FB4 % 3;   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 doubled ASM_REG("$3") = index << 1;   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 tripled ASM_REG("$4") = index + doubled;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 index ASM_REG("$2") = D_80018FB4 % 3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 doubled ASM_REG("$3") = index << 1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 tripled ASM_REG("$4") = index + doubled;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (0) {
     }

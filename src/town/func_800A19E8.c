@@ -4,7 +4,7 @@ extern s16 func_800374F4(s32 arg0);
 extern u8 D_8009EE9C[];
 void func_8009F148(void *arg0, void *arg1, void *arg2)
 {
-  register s32 var_v0 ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+  register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   u8 *s0 = arg0;
   *(((s8 *) arg1) + 0x14) = 1;
   *(((s8 *) arg1) + 0x15) = 1;

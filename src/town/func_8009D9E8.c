@@ -20,7 +20,7 @@ typedef struct S_8009B148_0_pre {
 void func_8009B148(void *arg0, M2C_UNK arg1, M2C_UNK arg2)
 {
     M2C_UNK held_arg1 = arg1;
-    register M2C_UNK held_arg2 ASM_REG("$18") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register M2C_UNK held_arg2 ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s8 *temp_v0;
 
     if (func_8009CFE0() != 0) {

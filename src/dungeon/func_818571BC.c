@@ -46,27 +46,27 @@ s32 func_800249BC(void *arg0)
     u16 points[5][2];
     s32 spread;
     void *next;
-    register DungeonShape *shape ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register DungeonShape *shape ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #ifdef __mips__
     u8 *draw_state_page = (u8 *)0x80080000;
     DungeonDrawState **draw_state_p = ({
-        ASM_KEEP_NV(draw_state_page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP_NV(draw_state_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         (DungeonDrawState **)(draw_state_page + 0x3160);
     });
 #else
     DungeonDrawState **draw_state_p = D_80083160;
 #endif
-    register u16 (*points_base)[2] ASM_REG("$22") = points;   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 (*points_base)[2] ASM_REG("$22") = points;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *spread_p = &spread;
-    register u32 low_mask ASM_REG("$21") = 0x00FFFFFF;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 low_mask ASM_REG("$21") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 total;
     s32 distance;
     s32 divisor;
-    register s32 i ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #ifdef __mips__
     DungeonSignedProduct product;
     s32 sign;
-    register s32 high_shift ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 high_shift ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #endif
 
 loop:
@@ -117,19 +117,19 @@ loop:
                 do {
                 DungeonDrawState *draw_state = *draw_state_p;
                 u8 *primitive = draw_state->next_primitive;
-                register s32 next_index ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-                register u16 *current_point ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-                register u16 *next_point ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 next_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register u16 *current_point ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register u16 *next_point ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 u16 shape_coord;
                 u16 x0;
                 u16 spread_u;
                 u16 y0;
                 u16 y1;
-                register u8 c0 ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-                register u8 color_delta ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 c0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                register u8 color_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 u32 *ordering_entry;
                 DungeonDrawState *ordering_state;
-                register u32 primitive_word ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                register u32 primitive_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 u32 ordering_word;
                 u32 next_ordering_word;
 
@@ -139,24 +139,24 @@ loop:
                 func_80066640(primitive, 1);
 
                 current_point = points_base[i];
-                ASM_KEEP_NV(current_point);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_NV(current_point);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 shape_coord = shape->unk40;
-                ASM_KEEP_NV(shape_coord);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP_NV(shape_coord);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 next_index = i + 1;
-                ASM_KEEP_NV(next_index);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(next_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 PRIM_U16(primitive, 0x16) = shape_coord;
                 shape_coord = shape->unk42;
-                ASM_KEEP_NV(shape_coord);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP_NV(shape_coord);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 next_point = (u16 *)(next_index * 4);
                 PRIM_U16(primitive, 0x0E) = shape_coord;
 
                 x0 = current_point[0];
-                ASM_KEEP_NV(x0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_NV(x0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 spread_u = *(u16 *)(void *)&spread;
-                ASM_KEEP_NV(spread_u);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_NV(spread_u);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 next_point =
                     (u16 *)((u8 *)points_base + (u32)next_point);
-                ASM_KEEP_NV(next_point);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(next_point);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 PRIM_U16(primitive, 0x08) = x0 - spread_u;
                 PRIM_U16(primitive, 0x10) = next_point[0] - spread_u;
                 PRIM_U16(primitive, 0x18) = current_point[0] + spread_u;

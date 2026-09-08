@@ -53,14 +53,14 @@ s32 func_80175E6C(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 var_v0;
     void *temp_v0;
     void *temp_v0_2;
-    register void *var_s2 ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
-    register void *arg2p ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *arg2p ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *base;
 
     arg2p = arg2;
-    ASM_KEEP_NV(arg2p);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(arg2p);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     var_s2 = NULL;
-    ASM_KEEP_NV(var_s2);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(var_s2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     if ((D_80083462 & 0x2008) ||
         (var_s1 = (s32) var_s2, ((func_800A2C34(arg3) << 0x10) != 0))) {
@@ -69,7 +69,7 @@ s32 func_80175E6C(void *arg0, void *arg1, void *arg2, void *arg3) {
     var_s0 = 0;
     goto after_minus_1;
 return_minus_1:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     var_v0 = -1;
     goto return_label;
 after_minus_1:
@@ -93,7 +93,7 @@ block_12:
     if (var_s0 >= 8) {
         if ((var_s2 != NULL) && (var_s1 & 0xFFFF)) {
             base = D_80083460;
-            ASM_KEEP(var_s1);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_80175E6C_3 *)base)->unk_0A = (u16) (((S_80175E6C_3 *)base)->unk_0A + 1);
             ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv = var_s2;
             func_800A9A0C(var_s2);

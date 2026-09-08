@@ -48,7 +48,7 @@ void func_8182D698(Object *arg0, Motion *arg1, Effect *arg2) {
         s32 dy;
 
         {
-            register s32 x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 dx0;
 
             x = arg1->x;
@@ -59,7 +59,7 @@ void func_8182D698(Object *arg0, Motion *arg1, Effect *arg2) {
             arg1->x = x;
         }
         {
-            register s32 z ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 dz;
             s32 dx;
             volatile s32 *dx_addr = &arg1->dx;
@@ -72,17 +72,17 @@ void func_8182D698(Object *arg0, Motion *arg1, Effect *arg2) {
             dz = arg1->dz;
             y += dy;
             arg1->y = y;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             dx = *dx_addr;
             z += dz;
             dx_step = dx >> 3;
             arg1->z = z;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             {
-                register s32 dy_copy ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 dy_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 dy_copy = dy;
-                ASM_KEEP(dy_copy);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP(dy_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 arg1->dx = dx - dx_step;
                 arg1->dy = dy_copy - (dy_copy >> 3);
             }

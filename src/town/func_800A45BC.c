@@ -74,8 +74,8 @@ void func_800A1D1C(void *arg0, S_800A1D1C_5 *arg1, void *arg2) {
     s32 var_v0_2;
     s32 var_v0_3;
     u8 *global_page;
-    register void *arg2_local ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *scratch ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register void *arg2_local ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *scratch ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *temp_a0;
     void *temp_s0_2;
     void *temp_s1;
@@ -86,12 +86,12 @@ void func_800A1D1C(void *arg0, S_800A1D1C_5 *arg1, void *arg2) {
     if (((S_800A1D1C_1 *)temp_s1)->unk_0A != 0) {
         ((S_800A1D1C_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800A1D1C_0_pre *)arg0)[-1].unk_00 | 0x8000);
         global_page = (u8 *)0x80080000;
-        ASM_KEEP(global_page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         ((S_800A1D1C_2 *)global_page)->unk_14A0 |= 0x8000;
         return;
     }
-    ASM_KEEP(arg2_local);   /* MATCH pin: retail keeps a computation the compiler would drop */
-    ASM_KEEP(scratch);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(arg2_local);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     ((S_800A1D1C_0 *)arg0)->unk_00(arg0, arg1, arg2_local);
     if (((S_800A1D1C_0 *)arg0)->unk_3C != 0) {
         ((S_800A1D1C_3 *)arg2_local)->unk_0C.u = ((S_800A1D1C_1 *)temp_s1)->unk_10.u8;

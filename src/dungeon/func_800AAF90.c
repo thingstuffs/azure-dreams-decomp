@@ -133,31 +133,31 @@ s32 func_800B06F0(u8 *arg0, s32 arg1, u8 *arg2)
     u8 *manager;
     u8 *initial_manager;
     u8 *object;
-    register u8 **list ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 **list ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *aux;
     u8 *current;
     u32 screen_x;
     u32 global_value;
-    register s32 flip ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register s32 flip ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 x;
     s16 y;
     s32 signed_flags;
-    register u8 flags ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *current_check;
     u8 **current_arg;
     u8 *next_manager;
-    register s32 result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 scaled_x;
     s32 coord_offset;
 #ifdef NON_MATCHING
     s32 hard_zero = 0;
 #else
-    register s32 hard_zero ASM_REG("$0");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #endif
 
     global_value = *(volatile u32 *)&global_addr->value;
     initial_manager = D_80083160[0].manager;
-    ASM_SET(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_SET(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     scratch = (u8 *)0x1F800000;
     ((S_800B06F0_0 *)scratch)->unk_EC = global_value;
     object = ((S_800B06F0_1 *)initial_manager)->unk_8D0;
@@ -236,7 +236,7 @@ store_x:
 store_y:
             ((S_800B06F0_0 *)scratch)->unk_8A = y;
             ((S_800B06F0_0 *)scratch)->unk_82 = y;
-            ASM_KEEP(y);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
             func_800654B0(
                 scratch + 0x70, scratch + 0x78,
@@ -299,10 +299,10 @@ fallback:
                 u32 call_x;
 
                 call_x = ((S_800B06F0_0 *)scratch)->unk_C0.i;
-                ASM_KEEP_NV(call_x);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP_NV(call_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 object = func_8004CD28(call_x, arg2_r, current_arg, object);
             }
-            ASM_KEEP(object);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if (current != 0) {
                 goto loop;
             }

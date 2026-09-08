@@ -199,10 +199,10 @@ typedef struct S_800A871C_26 {
 
 void func_800A871C(void *arg0, void *arg1, void *arg2) {
     void *r_arg0 = arg0;
-    register void *r_arg1 ASM_REG("$19") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
-    register void *incoming_arg2 ASM_REG("$6") = arg2;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *r_arg1 ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *incoming_arg2 ASM_REG("$6") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *r_arg2;
-    register void *temp_s0 ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 sp18[3];
     s16 temp_a0;
     s32 temp_a0_4;
@@ -212,20 +212,20 @@ void func_800A871C(void *arg0, void *arg1, void *arg2) {
     s16 var_a2_2;
     s32 *temp_v1;
     s32 temp_a0_2;
-    register s32 temp_a0_5 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_a0_5 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_a0_8;
     s32 temp_axis_adjusted;
     s32 temp_axis_scaled;
-    register s32 temp_v1_3 ASM_REG("$20");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 temp_v1_3 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 temp_v1_4;
     u16 temp_a0_7;
     u16 temp_v0_3;
     u16 temp_v0_4;
     u8 *temp_a0_3;
     u8 *temp_a0_6;
-    register u8 *temp_table_x_2 ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+    register u8 *temp_table_x_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *temp_table_x_3;
-    register u8 *temp_table_x_4 ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+    register u8 *temp_table_x_4 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     S_800A871C_5 *temp_a1;
     S_800A871C_9 *temp_a1_2;
     void *temp_a1_3;
@@ -241,7 +241,7 @@ void func_800A871C(void *arg0, void *arg1, void *arg2) {
     s32 temp_global_flags;
     s32 temp_height;
 
-    ASM_KEEP4_NV(r_arg0, r_arg1, r_arg2, incoming_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP4_NV(r_arg0, r_arg1, r_arg2, incoming_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s0 = r_arg0;
     r_arg2 = incoming_arg2;
     temp_v1 = (*(s32 **)((u8 *)temp_s0 + (0x9C)));
@@ -283,7 +283,7 @@ void func_800A871C(void *arg0, void *arg1, void *arg2) {
                 temp_tail_result = func_800BCB04((((((S_800A871C_4 *)r_arg2)->unk_24.n + (*(s16 *)((u8 *)temp_table_x + temp_v1_4) * temp_a0_4)) << 6) + 0x20) & 0xFFE0, (((((S_800A871C_4 *)r_arg2)->unk_25.n + (((S_800A871C_6 *)temp_table_y_derived)->unk_00 * temp_a0_4)) << 6) + 0x20) & 0xFFE0, ((S_800A871C_3 *)r_arg1)->unk_08.at02.v);
                 if (temp_tail_result < 0x200) {
                     temp_tail_delta = temp_tail_result - ((S_800A871C_3 *)r_arg1)->unk_08.at02.v;
-                    ASM_TAILSLOT_PIN(temp_tail_delta);   /* MATCH pin: retail delay-slot fill depends on it */
+                    ASM_TAILSLOT_PIN(temp_tail_delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     func_800A891C();
                     return;
                 }
@@ -336,7 +336,7 @@ void func_800A871C(void *arg0, void *arg1, void *arg2) {
                 func_800B66C8(r_arg1);
                 func_8009A028(temp_s0);
                 return;
-                   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 return;
             }
 block_A8B54:
@@ -344,7 +344,7 @@ block_A8B54:
 block_A8B58:
             if (((S_800A871C_22 *)(((S_800A871C_15 *)temp_e_page)->unk_3D7C))->unk_124 == 0) {
                 void *temp_call_arg = temp_s0;
-                register s8 *temp_flags_page ASM_REG("$3") = DUNGEON_FLAGS_PAGE;   /* MATCH pin: retail immediate-load split depends on it */
+                register s8 *temp_flags_page ASM_REG("$3") = DUNGEON_FLAGS_PAGE;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 ((S_800A871C_1_pre *)r_arg0)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)r_arg0)[-1].unk_00 | 0x8000);
                 temp_global_flags = ((S_800A871C_16 *)temp_flags_page)->unk_14A0;
                 temp_global_flags |= 0x8000;
@@ -383,7 +383,7 @@ block_type1:
             return;
         }
         if (func_80098920(temp_v0_2, ((S_800A871C_1 *)r_arg0)->unk_9C, 0xD, temp_s0) != 0) {
-            ASM_KEEP(temp_s0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ((S_800A871C_1_pre *)r_arg0)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)r_arg0)[-1].unk_00 | 0x8000);
             D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
             func_8009A028(temp_s0);

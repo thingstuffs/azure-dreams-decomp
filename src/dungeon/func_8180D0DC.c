@@ -22,8 +22,8 @@ extern HeightData D_80083780;
 
 void func_800260DC(u8 *obj, u8 *dst, u8 *rgb)
 {
-    register u8 *other ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u8 *other_data ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *other ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *other_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *room;
     u8 *iter_src;
     u8 *iter_dst;
@@ -31,14 +31,14 @@ void func_800260DC(u8 *obj, u8 *dst, u8 *rgb)
     s16 *y_adjust;
     s32 i;
     s32 offset;
-    register s32 phase ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 phase ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 duration;
     s32 shade;
-    register u8 *shade_ptr ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *shade_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 shade_raw;
-    register s32 pointer_shade ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 pointer_shade ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 final_coord;
-    register s32 final_adjust ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 final_adjust ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 final_state;
     u16 final_z;
     s32 compare_lhs;
@@ -67,7 +67,7 @@ copy_history:
     z = U16_AT(obj, 0x16);
     U16_AT(obj, 0x24) = U16_AT(obj, 0x0E);
     other = PTR_AT(obj, 8);
-    ASM_KEEP(y);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     U16_AT(obj, 0x26) = y;
     U16_AT(obj, 0x28) = z;
 
@@ -93,7 +93,7 @@ interpolate:
 
         x_target = room[0x24] + *x_adjust;
         duration = S16_AT(obj, 0x66);
-        ASM_KEEP(x_target);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(x_target);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         x_current = S16_AT(obj, 0x0E);
         U16_AT(obj, 0x0E) += ((x_target << 6) -
                               ((x_current -= 0x20), x_current)) / duration;
@@ -105,7 +105,7 @@ interpolate:
 
         y_target = room[0x25];
         y_target += *y_adjust;
-        ASM_KEEP(y_target);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(y_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         y_current = S16_AT(obj, 0x12);
         U16_AT(obj, 0x12) += ((y_target << 6) -
                               ((y_current -= 0x20), y_current)) / duration;
@@ -141,7 +141,7 @@ interpolate:
     final_coord <<= 6;
     final_coord += 0x20;
     U16_AT(obj, 0x12) = final_coord;
-       /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     final_state = U16_AT(obj, 0x64);
     final_z = U16_AT(&D_80083780, 0x0A);
     U16_AT(obj, 0x64) = final_state + 1;
@@ -173,7 +173,7 @@ have_other:
     shade_ptr = PTR_AT(PTR_AT(obj, 8), 0x0C);
     shade_raw = U8_AT(shade_ptr, 0x0C) - S16_AT(obj, 0x6E) * 8;
     pointer_shade = shade_raw;
-    ASM_KEEP(pointer_shade);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(pointer_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if ((s16)shade_raw < 0) {
         pointer_shade = 0;
     }

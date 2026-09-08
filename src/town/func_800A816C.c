@@ -66,18 +66,18 @@ void func_800A58CC(S_800A58CC_2 *arg0, void *arg1) {
         u32 dead_page;
         func_80095A94((void *) shared_s0, temp_v0, &D_800FE488);
         dead_page = 0x80080000;
-        ASM_PAGEBASE_PIN(dead_page);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(dead_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800A596C();
         return;
     }
     flag_page = (u8 *)0x800D0000;
-    ASM_KEEP(flag_page);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (flag_page[-0x311] != 0) {
         u32 dead_page;
         ((S_800A58CC_0 *)((void *) shared_s0))->unk_14 = 0;
         func_800954F4((void *) shared_s0, temp_v0);
         dead_page = 0x80080000;
-        ASM_PAGEBASE_PIN(dead_page);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(dead_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800A596C();
         return;
     }
@@ -91,7 +91,7 @@ void func_800A58CC(S_800A58CC_2 *arg0, void *arg1) {
     shared_s0 = (arg0->unk_10 - 0x800) & 0xFFF;
     temp_v0_2 = func_80094AA0(((S_800A58CC_3 *)town)->unk_C8, shared_s0, 0x80);
     ((S_800A58CC_3 *)town)->unk_C8 = temp_v0_2;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     var_v0 = (temp_v0_2 & 0xFFF) - shared_s0;
     if (var_v0 < 0) {
         var_v0 = 0 - var_v0;
@@ -101,11 +101,11 @@ void func_800A58CC(S_800A58CC_2 *arg0, void *arg1) {
     }
     temp_v0_3 = arg0->unk_0A.s - 1;
     arg0->unk_0A.s = temp_v0_3;
-       /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     {
         s32 sign_v0;
         s32 count_a0;
-        register s32 quotient_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 quotient_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         sign_v0 = (s32) temp_v0_3 << 16;
         count_a0 = sign_v0 >> 16;
         quotient_v1 = -0x2B0;

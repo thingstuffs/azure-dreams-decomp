@@ -40,7 +40,7 @@ s32 func_80095840(void *arg0, void *arg1)
 {
     S_80095840_0 *out;
     void *in;
-    register s32 work ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 value;
     u8 kind;
 
@@ -64,39 +64,39 @@ s32 func_80095840(void *arg0, void *arg1)
 
     work = ((S_80095840_1 *)in)->unk_3A;
     if (work != 0) {
-        register void *entry ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+        register void *entry ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         work = ((S_80095840_1 *)in)->unk_1C;
         ((S_80095840_1 *)in)->unk_18 = 0;
         ((S_80095840_1 *)in)->unk_10 = work;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         entry = (void *)work;
-        ASM_KEEP(entry);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         kind = ((S_80095840_2 *)((void *)work))->unk_14;
         if ((kind == 1) || (kind == 3)) {
             goto none;
         }
         work = 2;
-        ASM_KEEP(work);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         out->unk_2C.s = entry;
         func_80095908();
     }
 
     work = (s32)in + value;
     if (((S_80095840_2 *)((void *)work))->unk_3A != 0) {
-        register void *entry ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+        register void *entry ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         work = value * 4;
         work += (s32)in;
         work = ((S_80095840_2 *)((void *)work))->unk_1C;
         ((S_80095840_1 *)in)->unk_18 = value;
         ((S_80095840_1 *)in)->unk_10 = work;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         entry = (void *)work;
         kind = ((S_80095840_3 *)entry)->unk_14;
         if ((kind != 1) && (kind != 3)) {
             work = 1;
-            ASM_KEEP(work);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             out->unk_2C.s = entry;
             func_80095908();
         }

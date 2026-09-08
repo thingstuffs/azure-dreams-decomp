@@ -14,12 +14,12 @@ void func_808B2E74(void)
     s32 i = 1;
     s32 one = 1;
     s16 *p = (s16 *)(D_A0700000 + 0xF26);
-    register s32 index ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     do {
         s32 value;
-        register s32 n ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-        register u8 *q ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 n ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 *q ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register u8 *bitmap_base;
 
         value = *p;
@@ -36,7 +36,7 @@ void func_808B2E74(void)
         *q &= ~n;
     {
         s32 value2;
-        register s32 n2 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 n2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *q2;
         register u8 *bitmap_base2;
         value2 = ((S_808B2E74_0 *)((u32)D_A0700000 + index))->unk_F1C;

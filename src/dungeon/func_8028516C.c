@@ -28,32 +28,32 @@ s16 func_800BCB04(s32, s32, s32);
 s32 func_8001816C(s16 arg0, s16 *arg1, s16 *arg2)
 {
     s8 *initial_record;
-    register s8 *initial_base ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
+    register s8 *initial_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     DungeonRecord *loop_record;
     DungeonState *state;
-    register s8 *initial_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 initial_index ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s8 *initial_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 initial_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 initial_offset;
     s32 loop_index;
     DungeonCell *cell;
-    register s16 inner_count ASM_REG("$18");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s16 inner_count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 loaded_x;
     s32 loaded_count;
-    register s32 row_bits ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 row ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 row_offset ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 scaled ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 row_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 row ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 row_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 scaled ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x;
-    register s32 scan_bits ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 scan_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 next_count;
     s16 result;
     u16 y;
-    register s32 scan_y ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 scan_y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 outer_count;
     u16 flags;
 
     initial_page = (s8 *)0x800E0000;
-    ASM_KEEP_NV(initial_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(initial_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     initial_base = initial_page + 0x2970;
     initial_index = arg0;
     initial_offset = initial_index * 20;
@@ -68,13 +68,13 @@ s32 func_8001816C(s16 arg0, s16 *arg1, s16 *arg2)
     outer_loop:
         {
             s32 record_offset;
-            register DungeonRecord *record_base ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+            register DungeonRecord *record_base ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             record_offset = loop_index << 2;
             record_offset += loop_index;
             record_offset <<= 2;
             record_base = (DungeonRecord *)0x800E0000;
-            ASM_KEEP_NV(record_base);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(record_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             record_base = (DungeonRecord *)((s8 *)record_base + 0x2970);
             loop_record = (DungeonRecord *)(record_offset + (s32)record_base);
         }
@@ -82,10 +82,10 @@ s32 func_8001816C(s16 arg0, s16 *arg1, s16 *arg2)
         row = row_bits >> 16;
         loaded_x = loop_record->x;
         row_offset = state->shift;
-        ASM_KEEP_DEP_NV(loop_record, row_offset);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_DEP_NV(loop_record, row_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         loaded_count = loop_record->count;
         x = loaded_x;
-        ASM_KEEP_NV(loaded_x);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(loaded_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         row_offset = row << row_offset;
         scaled = row_offset * sizeof(DungeonCell);
         row_offset = (s32)state->cells;
@@ -96,9 +96,9 @@ s32 func_8001816C(s16 arg0, s16 *arg1, s16 *arg2)
 
         if (loaded_count > 0) {
             scan_bits = row << 6;
-            ASM_KEEP_NV(scan_bits);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(scan_bits);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             scan_y = scan_bits + 0x20;
-            ASM_KEEP_NV(scan_y);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(scan_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 inner_loop:
             flags = cell->flags;
             if (!(flags & 0x8400)) {
@@ -108,7 +108,7 @@ inner_loop:
                         (u16)scan_y,
                         -0x400);
                     if (result < 0x200) {
-                        register s16 *final_ptr ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+                        register s16 *final_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         *arg1 = x;
                         final_ptr = *(s16 **)&arg2;

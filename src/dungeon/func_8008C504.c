@@ -60,11 +60,11 @@ void func_80091C64(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 temp_a0;
     u8 temp_v1;
     u8 temp_state;
-    register u16 temp_duration ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 temp_duration ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_byte;
     s32 temp_coord;
     s32 temp_y_work;
-    register s32 temp_y_num ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_y_num ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     u16 temp_v0_2;
     u16 temp_v0_3;
@@ -127,7 +127,7 @@ jt_c3:
     temp_y_num = ((Rec_D_80082E80 *)arg2)->unk_25;
     temp_y_work = ((S_80091C64_2 *)arg1)->unk_04.at02.v;
     temp_y_num <<= 6;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     temp_y_work -= 0x20;
     temp_y_num = (temp_y_num - temp_y_work) << 0x10;
     temp_y_work = ((S_80091C64_0 *)arg0)->unk_96.u;

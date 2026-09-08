@@ -62,8 +62,8 @@ void func_80171590(void *p0, s32 p1, void *p2, void *p3) {
     s32 y;
     s32 nx;
     s32 ny;
-    register s16 pos ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
-    register s16 result ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 pos ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (((S_80171590_0 *)state)->unk_71.s <= 0) {
         return;

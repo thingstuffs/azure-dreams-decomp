@@ -51,9 +51,9 @@ void func_80172458(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 var_v1;
     s16 *global_base;
     u8 *map_base;
-    register s32 temp_result ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 temp_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 mask_a0;
-    register s32 temp_diff ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_diff ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 temp_v0_2;
     s32 temp_v1;
 

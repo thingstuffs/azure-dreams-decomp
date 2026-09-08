@@ -285,20 +285,20 @@ void func_80175594(S_80175594_0 *arg0, Rec_func_800D6DC0_arg1 *arg1, Rec_func_80
                     arg0->unk_2C;
             ((S_80175594_1 *)scratch)->unk_82 = value >> 12;
             {
-                register void *call_y ASM_REG("$5") = scratch + 0x78;   /* MATCH pin: retail schedule: same instructions, different order without it */
-                register void *call_z ASM_REG("$6") = scratch + 0x80;   /* MATCH pin: retail schedule: same instructions, different order without it */
-                register void *call_w ASM_REG("$7") = scratch + 0x88;   /* MATCH pin: retail schedule: same instructions, different order without it */
-                register void *call_out0 ASM_REG("$8");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                register void *call_y ASM_REG("$5") = scratch + 0x78;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                register void *call_z ASM_REG("$6") = scratch + 0x80;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                register void *call_w ASM_REG("$7") = scratch + 0x88;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                register void *call_out0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 s32 final_partial;
-                register s32 final_coeff ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+                register s32 final_coeff ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                 final_partial = ((S_80175594_1 *)scratch)->unk_72.u;
-                ASM_KEEP(final_partial);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP(final_partial);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 call_out0 = scratch + 0xF0;
-                ASM_KEEP_DEP_NV(final_partial, call_out0);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP_DEP_NV(final_partial, call_out0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 final_partial = (s16)final_partial +
                                 ((S_80175594_1 *)scratch)->unk_14.s32;
-                ASM_KEEP(final_partial);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP(final_partial);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 final_coeff = arg0->unk_30;
                 value = final_partial * final_coeff;
                 ((S_80175594_1 *)scratch)->unk_8A = value >> 12;

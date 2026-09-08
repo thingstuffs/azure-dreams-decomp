@@ -41,7 +41,7 @@ s32 func_800AD9B4(Rec_D_80082E80 *arg0, void *arg1)
     u8 *base;
     u8 *state;
     DungeonEntry *table;
-    register u8 *page ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 index;
     s32 result;
     s8 amount;
@@ -50,9 +50,9 @@ s32 func_800AD9B4(Rec_D_80082E80 *arg0, void *arg1)
         goto tail;
     }
     page = (u8 *)0x80080000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     base = page + 0x2E80;
-    ASM_KEEP(base);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (((S_800AD9B4_1 *)base)->unk_26 == arg0->unk_26.as_s8) {
         goto body;
     }
@@ -71,19 +71,19 @@ body:
     index = func_800B500C(arg0->unk_24,
                           arg0->unk_25,
                           ((Rec_D_800E3D7C *)arg1)->unk_88.as_s16);
-    ASM_KEEP(index);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     result = 1;
     if (index >= 0) {
         table = D_800E3648;
-        ASM_KEEP(table);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (!(table[index].flags & 0x80)) {
             goto tail;
         }
 
         page = (u8 *)0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         state = page + 0x3460;
-        ASM_KEEP(state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (((S_800AD9B4_3 *)state)->unk_02 & 0x1000) {
             amount = ((Rec_D_800E3D7C *)arg1)->unk_71.as_s8;
             if (amount > 0) {

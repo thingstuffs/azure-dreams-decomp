@@ -108,12 +108,12 @@ void func_8017256C(void *in0, void *in1, void *in2, void *in3)
         &&kind8_special, &&kind11_special, &&kind14_special,
         &&kind8_special
     };
-    register void *arg0 ASM_REG("$18") = in0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *arg0 ASM_REG("$18") = in0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *arg1 = in1;
     void *arg2 = in2;
     void *arg3 = in3;
-    register s32 special ASM_REG("$21");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *kind_ptr ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 special ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *kind_ptr ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 state;
     u32 increment_state_value;
     s32 kind;
@@ -121,15 +121,15 @@ void func_8017256C(void *in0, void *in1, void *in2, void *in3)
     u16 count;
     u16 next_count;
 
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     state = ((S_8017256C_0 *)arg0)->unk_9B;
     if (state >= 9) {
         return;
     }
     special = 0;
-    ASM_KEEP(special);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(special);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     (void)state_labels;
     goto *D_80170838[state];
 
@@ -146,15 +146,15 @@ state0:
 
 kind14_special:
     special = 1;
-    ASM_TAILSLOT_PIN(special);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80172670();
 kind11_special:
     special = 1;
-    ASM_TAILSLOT_PIN(special);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80172678();
 kind8_special:
     special = 1;
-    ASM_TAILSLOT_PIN(special);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80172680();
 
 kind_normal:
@@ -167,7 +167,7 @@ kind_normal:
             goto kind1;
         }
         kind_ptr = 0;
-        ASM_KEEP(kind_ptr);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(kind_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_8017268C();
     }
     if (kind != 3) {
@@ -177,15 +177,15 @@ kind_normal:
 
 kind3:
     kind_ptr = (u8 *)arg3 + 0xE;
-    ASM_TAILSLOT_PIN(kind_ptr);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_TAILSLOT_PIN(kind_ptr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_8017268C();
 kind2:
     kind_ptr = (u8 *)arg3 + 0xB;
-    ASM_TAILSLOT_PIN(kind_ptr);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_TAILSLOT_PIN(kind_ptr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_8017268C();
 kind1:
     kind_ptr = (u8 *)arg3 + 8;
-    ASM_TAILSLOT_PIN(kind_ptr);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_TAILSLOT_PIN(kind_ptr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_8017268C();
 
 kind_default:
@@ -199,25 +199,25 @@ kind_chosen:
     {
         s32 special_copy = special;
 
-        ASM_KEEP(special_copy);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(special_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (special_copy) {
             ((S_8017256C_1 *)arg3)->unk_60.p = D_800814A8;
             func_80172700();
         }
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (D_8006DE24[*kind_ptr * 20 + 0x12] == 2) {
         u8 *linked = ((S_8017256C_1 *)arg3)->unk_60.p2;
         if (linked != 0) {
-            register u8 *src ASM_REG("$3") = ((S_8017256C_2_pre *)linked)[-1].unk_00;   /* MATCH pin: load-bearing for the whole function shape */
+            register u8 *src ASM_REG("$3") = ((S_8017256C_2_pre *)linked)[-1].unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             ((S_8017256C_1 *)arg3)->unk_72.u = ((S_8017256C_3 *)src)->unk_24;
             ((S_8017256C_1 *)arg3)->unk_73.u = ((S_8017256C_3 *)src)->unk_25;
             func_80172764();
         }
     } else {
-        register s32 x ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 y;
 
         ((S_8017256C_1 *)arg3)->unk_60.p = func_800A05A4(
@@ -274,13 +274,13 @@ state1:
     func_800A56E0(0x703);
     count = ((S_8017256C_0 *)arg0)->unk_96;
     next_count = count + 1;
-    ASM_KEEP(next_count);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(next_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_8017256C_0 *)arg0)->unk_96 = next_count;
     if ((s16)count < 8 && !(((S_8017256C_4 *)arg2)->unk_14 & 0x8000)) {
         return;
     }
     increment_state_value = ((S_8017256C_0 *)arg0)->unk_9B;
-    ASM_KEEP(increment_state_value);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(increment_state_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     ((S_8017256C_0 *)arg0)->unk_96 = 0;
     func_80172998();
 
@@ -288,7 +288,7 @@ state2:
     if (((S_8017256C_0 *)arg0)->unk_A2 != 0) {
         count = ((S_8017256C_0 *)arg0)->unk_96;
         next_count = count + 1;
-        ASM_KEEP(next_count);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(next_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_8017256C_0 *)arg0)->unk_96 = next_count;
         if ((s16)count < 15 && !(((S_8017256C_4 *)arg2)->unk_14 & 0x8000)) {
             return;
@@ -308,7 +308,7 @@ state3:
     func_80170E18(arg0, arg1, arg2, arg3);
     count = ((S_8017256C_0 *)arg0)->unk_96;
     next_count = count + 1;
-    ASM_KEEP(next_count);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(next_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_8017256C_0 *)arg0)->unk_96 = next_count;
     if ((s16)count < 3 && !(((S_8017256C_4 *)arg2)->unk_14 & 0xE000)) {
         return;
@@ -323,7 +323,7 @@ state4:
     ((S_8017256C_4 *)arg2)->unk_14 |= 0x800;
     count = ((S_8017256C_0 *)arg0)->unk_96;
     next_count = count + 1;
-    ASM_KEEP(next_count);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(next_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_8017256C_0 *)arg0)->unk_96 = next_count;
     if ((s16)count < 10 && !(((S_8017256C_4 *)arg2)->unk_14 & 0x8000)) {
         return;

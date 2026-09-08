@@ -102,14 +102,14 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
 
     do {
         s32 outer_index;
-        register s32 inner ASM_REG("$21");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 inner ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         {
-            register s32 outer_raw ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-            register s32 outer_extended ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 outer_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 outer_extended ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             outer_raw = outer;
-            ASM_KEEP_NV(outer_raw);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(outer_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             inner = 0;
             outer_extended = outer_raw << 16;
             outer_index = outer_extended >> 16;
@@ -119,7 +119,7 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
         do {
             s32 var_s7 = 0;
             s32 var_s3 = 0;
-            register s32 outer_one ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 outer_one ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 outer_two;
             void *obj;
 
@@ -139,12 +139,12 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
 
             obj = func_8003FC64(0x12);
             if (obj != 0) {
-                register void *obj_call_arg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+                register void *obj_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 void *state;
-                register void *work ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+                register void *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 void *arg0_reload;
                 S_80C96F24_5 *position;
-                register s32 work_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 work_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s16 value;
                 s32 angle0;
                 s32 angle1;
@@ -157,9 +157,9 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
                 work_value = 0x17;
                 ((S_80C96F24_1 *)work)->unk_26 = 0;
                 ((S_80C96F24_1 *)work)->unk_2A = inner;
-                ASM_SET(arg0_reload);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_SET(arg0_reload);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 arg0_reload = arg0;
-                ASM_KEEP_NV(arg0_reload);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_NV(arg0_reload);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 ((S_80C96F24_1 *)work)->unk_2C =
                     work_value - ((S_80C96F24_2 *)arg0_reload)->unk_A4;
                 ((S_80C96F24_3 *)obj)->unk_10 = D_80174374;
@@ -170,11 +170,11 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
                 ((S_80C96F24_4 *)state)->unk_14 |= 0x0C;
 
                 {
-                    register void *arg1_reload ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+                    register void *arg1_reload ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                    ASM_SET(arg1_reload);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_SET(arg1_reload);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     arg1_reload = arg1;
-                    ASM_KEEP_NV(arg1_reload);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP_NV(arg1_reload);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     position = ((S_80C96F24_3 *)obj)->unk_08;
                     position->unk_00 =
                         ((S_80C96F24_6 *)arg1_reload)->unk_00;
@@ -199,10 +199,10 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
                     (func_80069EF8() & 0x1F) + 0x10 + row_offset;
 
                 {
-                    register s32 inner_one ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+                    register s32 inner_one ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     s32 inner_value = (s16)inner;
 
-                    ASM_SET(inner_one);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_SET(inner_one);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     inner_one = 1;
                     if ((inner_value == inner_one) || (inner_value == 6)) {
                         ((S_80C96F24_3 *)obj)->unk_20 += 0x0A;
@@ -228,7 +228,7 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
                 }
 
                 {
-                    register s32 product ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+                    register s32 product ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     s32 factor_s2;
                     void *copy_dest;
                     s32 call_angle;
@@ -238,7 +238,7 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
                     value = (s16)inner;
                     angle1 = (value + 1) << 9;
                     call_angle = angle1;
-                    ASM_KEEP_DEP_NV(work, call_angle);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP_DEP_NV(work, call_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     copy_dest = work + 0x7A;
                     ((S_80C96F24_4 *)state)->unk_08 = copy_dest;
 
@@ -251,7 +251,7 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
                     ((S_80C96F24_1 *)work)->unk_4A = shifted;
                     trig = func_80064584(angle1);
                     factor_s2 = var_s7;
-                    ASM_KEEP_NV(factor_s2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_KEEP_NV(factor_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     product = factor_s2 * trig;
                     shifted = product >> 12;
                     ((S_80C96F24_1 *)work)->unk_50 = shifted;
@@ -269,12 +269,12 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
                     ((S_80C96F24_1 *)work)->unk_52 = shifted;
                     product = factor_s2 * func_800644B8(angle0);
                     shifted = product >> 12;
-                    ASM_USE2_NV(product, shifted);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_USE2_NV(product, shifted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     ((S_80C96F24_1 *)work)->unk_58 = shifted;
                 }
 
                 {
-                    register s32 outer_one_end ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+                    register s32 outer_one_end ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     s32 outer_two_end;
                     s16 right = 0;
                     s16 left = right;
@@ -301,7 +301,7 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
 
             {
                 s32 loop_value;
-                register void *arg0_counter ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+                register void *arg0_counter ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 u16 counter_value;
 
                 loop_value = inner + 1;
@@ -321,12 +321,12 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
         } while (1);
 
         {
-            register s32 outer_next_raw ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 outer_next_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s16 next_outer;
 
             outer_next_raw = outer;
             next_outer = (s16)(outer_next_raw + 1);
-            ASM_USE2_NV(outer_next_raw, next_outer);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_USE2_NV(outer_next_raw, next_outer);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             outer = (u16)next_outer;
             if (next_outer >= 3) {
                 break;

@@ -109,9 +109,9 @@ extern s8 D_800E2970[];
 
 void func_80171C34(void *arg0_, void *arg1, void *arg2_, void *arg3_)
 {
-    register void *arg0 ASM_REG("$21") = arg0_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg2 ASM_REG("$19") = arg2_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg3 ASM_REG("$18") = arg3_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg0 ASM_REG("$21") = arg0_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$19") = arg2_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg3 ASM_REG("$18") = arg3_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *global = (u8 *)&D_80083460;
     u16 global_flags = ((S_80171C34_0 *)global)->unk_02;
     s32 special_path = 0;
@@ -119,7 +119,7 @@ void func_80171C34(void *arg0_, void *arg1, void *arg2_, void *arg3_)
     s32 flags;
     void *other;
     s32 trial;
-    register s32 current_angle ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 current_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 turn_flags;
     s16 i;
     s16 *turn_table;
@@ -133,9 +133,9 @@ void func_80171C34(void *arg0_, void *arg1, void *arg2_, void *arg3_)
     }
 
 process_state:
-    ASM_KEEP(arg0);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP(arg3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (((S_80171C34_1 *)arg3)->unk_12 >= 2) {
         goto reject_state;
     }
@@ -171,7 +171,7 @@ active:
                     ((S_80171C34_7 *)(((S_80171C34_3_pre *)other)[-1].unk_00))->unk_24,
                     ((S_80171C34_7 *)(((S_80171C34_3_pre *)other)[-1].unk_00))->unk_25,
                     (u8 *)arg0 + 0x98);
-                ASM_KEEP(arg0);   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 ((S_80171C34_1 *)arg3)->unk_2A.s = result;
                 ((S_80171C34_1 *)arg3)->unk_71.u &= 0x7F;
                 return;
@@ -294,9 +294,9 @@ init_loop:
 
 loop_body:
     turn_flags = ((S_80171C34_5 *)arg0)->unk_98;
-    ASM_KEEP(turn_flags);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(turn_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     current_angle = ((S_80171C34_1 *)arg3)->unk_2A.s;
-    ASM_KEEP_NV(current_angle);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(current_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (turn_flags & 2) {
         trial = current_angle - turn_table[i];
     } else {
@@ -306,7 +306,7 @@ loop_body:
     if (func_8009A8C0(trial, arg2, arg3, 0x20) > 0) {
         if (i >= 3) {
             special_test = special_path;
-            ASM_KEEP_NV(special_test);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(special_test);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (special_test != 0) {
                 goto success;
             }
@@ -325,7 +325,7 @@ loop_body:
 
         {
             u8 *x_step;
-            register s32 old_x ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+            register s32 old_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
             dx = (((S_80171C34_1 *)arg3)->unk_2A.u >> 8) & 0xE;
             x_step = (u8 *)&D_8006CCD8 + dx;
@@ -342,7 +342,7 @@ loop_body:
 
     if (i == 0 &&
         *(u16 *)&D_80082EA4 != ((S_80171C34_2 *)arg2)->unk_24.at00u.v) {
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if (func_8009A180(arg3,
                 (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
             return;

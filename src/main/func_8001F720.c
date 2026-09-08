@@ -18,7 +18,7 @@ __asm__(".set D_8008DAB4_2, 0x8008DAB4");
 
 void func_8001F720(void *arg0) {
     /* Pin walker to $s0 — pure C assigns it $s1/$s2 under 2.7.2. */
-    register s32 *var_s0 ASM_REG("$16");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 var_s1;
     s32 temp_a0;
     u16 temp_v0;

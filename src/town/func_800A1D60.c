@@ -70,7 +70,7 @@ void func_8009F4C0(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C
     void *temp_v0;
     S_8009F4C0_2 *temp_v1;
     S_8009F4C0_1 *temp_v2;
-    register void *baseD ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *baseD ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     temp_s5 = arg0->unk_95;
     func_80033CD8(arg0, &D_80045340);

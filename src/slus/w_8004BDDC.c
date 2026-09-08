@@ -52,7 +52,7 @@ typedef struct S_8004BDDC_2 {
 M2C_UNK func_8004C010();                 /* extern */
 
 void *func_8004BDDC(s32 arg0, s32 arg1, void *arg2, void *arg3, void *arg4) {
-    register void *temp_s3 ASM_REG("$19");   /* MATCH pin: slus-diff */
+    register void *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s8 temp_v0;
     s8 temp_v1_3;
     u8 temp_v1;

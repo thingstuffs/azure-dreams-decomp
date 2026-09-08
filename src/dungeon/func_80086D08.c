@@ -21,13 +21,13 @@ void func_8008C468(void *arg0, void *arg1, void *arg2, void *arg3) {
         ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 &= 0xFFFE;
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x100000) {
 #ifndef NON_MATCHING
-            register u8 *page_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register u8 *page_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #endif
             u8 *dead_v1;
 
 #ifndef NON_MATCHING
             page_v0 = (u8 *)0x800E0000;
-            ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #endif
             dead_v1 = (*(u8 * volatile *)((u8 *)arg2 + 0x2C));
 #ifndef NON_MATCHING
@@ -37,7 +37,7 @@ void func_8008C468(void *arg0, void *arg1, void *arg2, void *arg3) {
 #endif
         }
         if ((*(u8 * *)((u8 *)arg2 + 0x2C)) != D_800DD050) {
-            register void *call_arg ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             call_arg = arg2;
             (*(u8 * *)((u8 *)call_arg + 0x2C)) = D_800DD050;

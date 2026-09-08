@@ -83,13 +83,13 @@ case_0:
             condition = ((S_80165AB8_0 *)arg0)->unk_32.u;
             next_counter = condition + 1;
             condition = (s16)condition < 60;
-            ASM_KEEP(next_counter);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            ASM_TAILSLOT_PIN(condition);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(next_counter);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(condition);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80165CC8();
         }
 
 case_1: {
-        register s32 tripled ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 tripled ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         tripled = ((S_80165AB8_2 *)arg2)->unk_1E * 3;
         ((S_80165AB8_2 *)arg2)->unk_1E = tripled;

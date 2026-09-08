@@ -37,7 +37,7 @@ state_ge_2:
 
 state_0:
 {
-    register s16 marker ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s16 marker ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if ((next << 16) > 0) {
         goto done;
@@ -63,10 +63,10 @@ state_1:
 
 state_2:
 {
-    register u32 pagebase ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u32 pagebase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     pagebase = 0x80080000;
-    ASM_KEEP(pagebase);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(pagebase);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     U16_AT(arg0, -2) = U16_AT(arg0, -2) | 0x8000;
     S32_AT((void *)pagebase, 0x14A0) |= 0x8000;
 }

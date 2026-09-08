@@ -54,11 +54,11 @@ extern u8 *D_800E3D7C;
 
 void *func_800D8590(void *arg0)
 {
-    register u8 *child ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *child ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *map;
-    register u8 map_index ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 flags ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register void *result ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 map_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *root;
     s32 *global;
     u8 *parent;
@@ -111,9 +111,9 @@ void *func_800D8590(void *arg0)
     flags = ((S_800D8590_3 *)child)->unk_14;
     ((S_800D8590_3 *)child)->unk_12 = 0;
     flags |= 0x8000;
-    ASM_KEEP(flags);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_800D8590_3 *)child)->unk_14 = flags;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     masked_flags = flags;
     result = root;
     *(volatile u16 *)(child + 0x14) = masked_flags & 0xFFF3;

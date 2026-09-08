@@ -42,8 +42,8 @@ void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_
     s16 state;
     s32 value;
     s32 transition_value;
-    s32 one;   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 transition ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    s32 one;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 transition ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 flags;
     S_80021E88_1 *object;
 
@@ -55,7 +55,7 @@ void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_
     if (D_80012D5C >= 100U) {
         if (func_800A2A18(D_800243F0, arg1) != 0) {
             transition = 1;
-            ASM_TAILSLOT_PIN(transition);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(transition);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80021F18();
         }
         arg2->unk_08 = D_80024438[arg0->unk_54.s];
@@ -72,7 +72,7 @@ void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_
         }
         return;
     }
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }
@@ -93,7 +93,7 @@ state_0:
 
 state_1:
     transition_value = transition;
-    ASM_KEEP(transition_value);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(transition_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (transition_value) {
         if (((S_80021E88_4 *)(arg0->unk_04))->unk_22 == 3) {
             object->unk_20 |= 1;

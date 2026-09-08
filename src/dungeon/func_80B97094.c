@@ -63,12 +63,12 @@ void *func_80170894(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
     s16 saved_arg3;
     s32 saved_arg0;
     void *obj;
-    register s8 saved_arg2 ASM_REG("$20");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s8 saved_arg1 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s8 saved_arg2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s8 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *part_a;
     s16 original_arg0;
-    s32 call_id;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    const void *call_target;   /* MATCH pin: retail immediate-load split depends on it */
+    s32 call_id;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    const void *call_target;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     saved_arg0 = arg0;
     work = 0;
@@ -84,7 +84,7 @@ void *func_80170894(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
         void *actor;
 
         work = (u8 *)obj + 0x20;
-        ASM_KEEP_NV(work);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_80170894_0 *)work)->unk_13 = 0xE;
         func_8004491C(obj, &D_80045340);
 

@@ -65,7 +65,7 @@ void func_800D8C64(void *arg0, void *arg1, void *arg2, void *arg3)
         table = D_800E262C;
         if (current != table) {
             globalPage = 0x80080000;
-            ASM_KEEP(globalPage);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(globalPage);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv = table;
             func_800D8FFC();
         }

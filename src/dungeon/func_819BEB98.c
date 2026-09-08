@@ -58,8 +58,8 @@ void func_80024398(void *arg0)
 
         x = node->unk_1C + 0x88;
         y = node->unk_1E + 0x88;
-        ASM_KEEP(x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_TAILSLOT_PIN(y);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_8002440C();
         return;
     }
@@ -79,8 +79,8 @@ below_31:
 
         x = node->unk_1C + 0x88;
         y = node->unk_1E + 0x88;
-        ASM_KEEP(x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_TAILSLOT_PIN(y);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_8002440C();
         return;
     }

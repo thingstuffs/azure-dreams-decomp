@@ -65,7 +65,7 @@ void func_80172CE0(S_80172CE0_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
             *(s16 *)(&D_8006CCD8 +
                 (((u16)((Rec_D_800E3D7C *)arg3)->unk_6A.as_s16 >> 8) & 0xE)) << 10;
         {
-            register s32 offset ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             offset = ((u16)((Rec_D_800E3D7C *)arg3)->unk_6A.as_s16 >> 8) & 0xE;
             arg1->unk_10.at00_s32.v +=

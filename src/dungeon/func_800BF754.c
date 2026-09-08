@@ -8,7 +8,7 @@ void *func_800C4EB4(s32 arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4) {
     void *temp_v0;
     void *temp_v0_2;
     s16 saved_arg3 = arg3;
-    register s32 saved_arg4 ASM_REG("$17") = arg4;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 saved_arg4 ASM_REG("$17") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_8003FD64(0, &D_80083498[0]);
     if (temp_v0 != 0) {

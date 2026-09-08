@@ -75,11 +75,11 @@ case_0:
         func_80048568(5);
         func_8009AC0C();
         state_zero->state = 1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         target = -0x80;
         *(s16 *)(global + 0xAC) +=
             (target - *(s16 *)(global + 0xAC)) >> 1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         first = state_zero->objects[0];
         if (first->state != 1) {
             goto cleanup;
@@ -95,7 +95,7 @@ case_0:
 
 case_1:
     D_800834C8 = 0x400;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     {
         u16 flags = state->flags;
 
@@ -206,7 +206,7 @@ case_4:
         func_8009AC8C();
         progress = D_800135BE;
         threshold = state->threshold;
-        ASM_KEEP(progress);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(progress);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if ((s16)progress < threshold) {
             func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
             func_80053DA8(0x300);

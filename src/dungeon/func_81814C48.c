@@ -37,7 +37,7 @@ void func_81814C48(void *arg0, void *arg1, void *arg2)
     s32 call_a0;
     s32 call_a1;
     s32 call_a2;
-    register s32 tail_offset ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 tail_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     call_a2 = (*(u16 *)((u8 *)arg1 + 0xA));
     call_a0 = ((S_81814C48_0 *)arg1)->unk_00.at02.v;

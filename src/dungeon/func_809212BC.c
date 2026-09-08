@@ -29,7 +29,7 @@ extern u8 D_80173AF8;
 void func_800F62BC(void *arg0, s32 arg1, void *arg2) {
     s16 temp_v0_2;
     s32 temp_v0;
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 temp_v1_2;
     void *state = arg0;
     void *actor = arg2;

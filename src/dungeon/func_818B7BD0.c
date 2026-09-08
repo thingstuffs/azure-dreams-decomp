@@ -76,12 +76,12 @@ s32 func_818B7BD0(S_818B7BD0_2 *arg0, S_818B7BD0_3 *arg1) {
     s32 temp_a2;
     s32 temp_a3;
     s32 temp_div_v1;
-    register s32 temp_hi ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 temp_quot ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_hi ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_quot ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_ret;
     s32 temp_v1;
     s32 var_v0;
-    register s32 result ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     void *temp_model;
     void *temp_tag;
     S_818B7BD0_1 *temp_s0;
@@ -92,7 +92,7 @@ s32 func_818B7BD0(S_818B7BD0_2 *arg0, S_818B7BD0_3 *arg1) {
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != NULL) {
         temp_tag = &D_800250E8;
-        ASM_KEEP(temp_tag);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_tag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_s0 = temp_v0 + 0x20;
         ((S_818B7BD0_0 *)temp_v0)->unk_10 = temp_tag;
         ((S_818B7BD0_0 *)temp_v0)->unk_20 = arg0;
@@ -104,7 +104,7 @@ s32 func_818B7BD0(S_818B7BD0_2 *arg0, S_818B7BD0_3 *arg1) {
         temp_div_v1 = temp_ret >> 31;
         temp_model = &D_80025EE4;
         temp_hi = M2C_HIGH_WORD(temp_product);
-        ASM_KEEP(temp_hi);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(temp_hi);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         temp_quot = ((temp_hi + temp_ret) >> 2) - temp_div_v1;
         temp_s0->unk_12 = (s16) (temp_ret - ((temp_quot << 3) - temp_quot));
         temp_s0->unk_14 = (u16) arg0->unk_12;
@@ -126,9 +126,9 @@ s32 func_818B7BD0(S_818B7BD0_2 *arg0, S_818B7BD0_3 *arg1) {
         temp_s0->unk_1C = 0x400;
         func_8004491C(temp_v0, &D_80045C34);
         temp_v1_2 = ((S_818B7BD0_0 *)temp_v0)->unk_08;
-        ASM_KEEP(temp_v1_2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         result = (s32) temp_v0;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         temp_a0 = arg1->unk_00;
         temp_a1 = arg1->unk_04;
         temp_a2 = arg1->unk_08;

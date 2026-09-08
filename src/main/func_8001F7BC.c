@@ -11,7 +11,7 @@ extern void func_8040680C(void);
 
 void func_8001F7BC(void *arg0) {
     void *var_s0;
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     var_s1 = 0;
     var_s0 = arg0;

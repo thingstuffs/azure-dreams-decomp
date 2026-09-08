@@ -40,14 +40,14 @@ u8 *func_8004CECC(u32 hue, s32 saturation, s32 value, u8 *out)
     s32 sat;
     u32 sector;
     s32 frac;
-    register s32 val ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 val ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     static void *const keepalive[] = {
         &&L_case_0, &&L_case_1, &&L_case_2,
         &&L_case_3, &&L_case_4, &&L_case_5
     };
     (void)keepalive;
 
-    ASM_KEEP(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     val = value;
 
     if ((saturation << 16) == 0) {
@@ -101,7 +101,7 @@ L_case_5:
     dst[1] = p;
     dst[2] = q;
 after_switch:
-    ASM_KEEP(sector);   /* MATCH pin: slus-diff */
+    ASM_KEEP(sector);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 done:
     return dst;
 }

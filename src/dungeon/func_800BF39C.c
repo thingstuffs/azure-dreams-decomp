@@ -56,7 +56,7 @@ void func_800C4AFC(S_800C4AFC_2 *arg0, s32 arg1, s32 arg2)
 {
     s32 init[2];
     void *object;
-    register unsigned long temp ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register unsigned long temp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *state;
     u8 *effect;
     u16 value;

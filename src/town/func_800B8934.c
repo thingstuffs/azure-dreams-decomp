@@ -58,27 +58,27 @@ typedef struct S_800B6094_3 {
 } S_800B6094_3;   /* temp_v1 in func_800B6094 */
 
 void func_800B6094(void *arg0, s32 arg1, s32 arg2) {
-    register S_800B6094_0 *held_arg0 ASM_REG("$19") = arg0;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register S_800B6094_0 *held_arg0 ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 held_arg1 = arg1;
     s32 held_arg2 = arg2;
-    register s32 first_zero ASM_REG("$6") = 0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 first_zero ASM_REG("$6") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     M2C_UNK sp18[3];
     s32 *temp_s1_2;
     s32 temp_s0_2;
     s32 temp_s2;
     s32 branch_result;
     S_800B6094_2 *temp_s0;
-    register void *temp_s1 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_800B6094_3 *temp_v1;
 
     temp_s2 = (held_arg2 * 0x10) + 0xD8;
     temp_s1 = (void *) (held_arg2 * 4);
-    ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s0 = (held_arg0->unk_00 * 0x14) + D_8006DE24;
     temp_s1 = (void *) ((s8 *)temp_s1 + (s32)held_arg1);
     func_800B5264(((S_800B6094_1 *)temp_s1)->unk_20, temp_s0->unk_00, first_zero, 0x58, temp_s2);
     func_800B53BC(((S_800B6094_1 *)temp_s1)->unk_2C, func_800B6030(held_arg0->unk_01, sp18), 0, 0xA0, temp_s2);
-    ASM_KEEP(held_arg0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     temp_s0_2 = func_80049944(temp_s0->unk_10);
     temp_s1_2 = ((S_800B6094_1 *)temp_s1)->unk_38;
     if (func_800439BC(held_arg0->unk_00) != 0) {
@@ -87,9 +87,9 @@ void func_800B6094(void *arg0, s32 arg1, s32 arg2) {
         branch_result = func_80049918(temp_s0_2);
     }
     temp_v1 = (held_arg2 * 4) + held_arg1;
-    ASM_KEEP(branch_result);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(held_arg1);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(branch_result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     *temp_s1_2 = branch_result;
     ((S_800B6094_6 *)(((S_800B6094_5 *)(((S_800B6094_4 *)temp_v1)->unk_38))->unk_04))->unk_08 = -0x30;
     temp_v1 = temp_v1->unk_38;

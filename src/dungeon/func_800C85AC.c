@@ -21,8 +21,8 @@ extern void func_800CDD58(void);
 s32 func_800CDD0C(void *arg0)
 {
     s32 result;
-    register s32 remainder ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 random ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 random ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 range;
     s32 amount;
     Entry *entry;
@@ -36,15 +36,15 @@ s32 func_800CDD0C(void *arg0)
         goto main_path;
     }
     result = range;
-    ASM_USE(range);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_USE(range);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     remainder = random % result;
-    ASM_USE(remainder);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE(remainder);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_800CDD58();
     return remainder;
 
 main_path:
     result = 0;
-    ASM_KEEP(result);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     if (result < 0x30) {
         amount = 0x20;

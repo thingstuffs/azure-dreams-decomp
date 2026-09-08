@@ -23,8 +23,8 @@ s32 func_8008B654(s32 arg0, s32 arg1) {
     s32 temp_v0;
     s32 temp_v0_2;
     s32 var_s2;
-    register s32 var_v0 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register s32 hard_zero ASM_REG("$0");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s8 *var_s0_2;
     s8 temp_v0_3;
     s8 *temp_v0_4;
@@ -37,7 +37,7 @@ loop_1:
     var_v0 = var_s2 < 0xB;
     if (temp_v0 != 0) {
         temp_v0_2 = func_80033BE4();
-        ASM_KEEP_NV(temp_v0_2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         if ((temp_v0_2 == 0) || (func_80033C1C(temp_v0_2, 0), *var_s1 = temp_v0, var_s1 += 1, *var_s3 = temp_v0_2, ({ ASM_KEEP(temp_v0_2); 0; }), var_s2 += 1, var_s3 += 1, ((var_s2 < 0xB) == 0))) {
             var_v0 = var_s2 < 0xB;
         } else {

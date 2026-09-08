@@ -15,7 +15,7 @@ void func_800B0D7C(void *arg0) {
         *FIELD(state, void **, 0x74) = D_800786DC;
         flags = FIELD(arg0, s32, 0x1C);
         flags &= ~2;
-        ASM_TAILSLOT_PIN(flags);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800B0DBC();
         return;
     }
@@ -26,7 +26,7 @@ void func_800B0D7C(void *arg0) {
         void **state;
 
         mask = ~1;
-        ASM_KEEP(mask);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         FIELD(arg0, s32, 0x1C) &= mask;
         state = FIELD(arg0, void **, 0xCC);
         *FIELD(state, void **, 0x78) = D_800786E8;

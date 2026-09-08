@@ -29,7 +29,7 @@ void func_8002614C(void *in0, void *in1, void *in2)
     u8 *arg0 = in0;
     s32 *arg1 = in1;
     u8 *arg2 = in2;
-    register u8 *obj ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *obj ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *owner;
     s32 i;
     s32 x1;
@@ -46,7 +46,7 @@ void func_8002614C(void *in0, void *in1, void *in2)
     u8 *part;
     u8 *global;
 
-    ASM_KEEP_NV(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     obj = PTR(arg0, 0);
     U16(obj, 0x58) |= 1;
     owner = PTR(obj, 0);
@@ -112,7 +112,7 @@ void func_8002614C(void *in0, void *in1, void *in2)
         if (r1 < 0) {
             r1 = -r1;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (r1 > 0x200000 || x1 > 0x43FFFFF || (U16(arg0, 0x10) & 4)) {
             break;
         }
@@ -149,7 +149,7 @@ void func_8002614C(void *in0, void *in1, void *in2)
                 S32(vec, 8) = arg1[2];
                 node = p + 0x20;
                 S32(node, 4) = S32(arg0, 4);
-                ASM_KEEP(node);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 PTR(p, 0x20) = obj;
                 S16(part, 0x1E) = 0x1000;
                 S16(part, 0x1C) = 0x1000;

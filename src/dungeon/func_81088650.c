@@ -5,7 +5,7 @@ extern s32 rand(void);
 s32 func_81088650(s32 arg0)
 {
     s32 random;
-    register s32 work ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 work ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 value;
 
     work = arg0;

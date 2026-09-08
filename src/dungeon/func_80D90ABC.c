@@ -111,10 +111,10 @@ block_12:
         ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
             (((((Rec_D_80082E80 *)arg2)->unk_25 << 6) - temp_delta_y) << 16) /
             (s16)((S_801722BC_0 *)arg0)->unk_A4.s;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_timer = ((S_801722BC_0 *)arg0)->unk_A4.s;
         temp_velocity = ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32;
-        ASM_KEEP(temp_timer);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(temp_timer);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         temp_acceleration =
             (temp_timer << 15) + (temp_timer << 13);
         temp_velocity += temp_acceleration;

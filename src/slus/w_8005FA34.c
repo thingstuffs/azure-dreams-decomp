@@ -52,7 +52,7 @@ void func_8005FA34(S_8005FA34 *arg0)
   s32 i;
   S_8005FA34_ent *ent;
   S_8005FA34_ent *entp;
-  register s32 off ASM_REG("$3");   /* MATCH pin: slus-diff */
+  register s32 off ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   u16 *p;
   u16 *p2;
   s32 va;
@@ -81,7 +81,7 @@ void func_8005FA34(S_8005FA34 *arg0)
   ca = 0;
   off = idx * 16;
   ent = D_80079958.ptr;
-  ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   h = idx * 2;
   e = idx * 8;
   entp = (S_8005FA34_ent *)(off + (u32)ent);

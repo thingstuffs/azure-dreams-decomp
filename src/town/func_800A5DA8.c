@@ -32,8 +32,8 @@ void func_800A3508(void *arg0, void *arg1, Rec_D_80082E80 *arg2)
 {
     u8 *obj = arg0;
     s32 *vec = arg1;
-    register s32 color ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 r3 ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s32 color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 r3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 scale;
     s32 r1;
     s32 held;
@@ -68,8 +68,8 @@ void func_800A3508(void *arg0, void *arg1, Rec_D_80082E80 *arg2)
         value = func_800374F4(0x1000);
         r3 = 0x400;
         r1 = D_800D0B18[((S_800A3508_1 *)obj)->unk_22] + (value & 0xFFFF);
-        ASM_KEEP(r3);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_TAILSLOT_PIN(r1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(r3);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(r1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         func_800A360C(D_800D0B18);
         return;
     }

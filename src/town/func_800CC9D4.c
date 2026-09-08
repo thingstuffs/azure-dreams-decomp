@@ -56,16 +56,16 @@ void func_800CA134(void *arg0, void *arg1) {
     (*(s16 *)((u8 *)arg1 + (6))) = (s16) ((u16) ((S_800CA134_1 *)arg1)->unk_06 + (var_v0_2 >> 2));
     {
         void *target;
-        register s32 current ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 current ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 target_value;
-        register u32 current_u ASM_REG("$3");   /* MATCH pin: retail delay-slot contents depend on it */
+        register u32 current_u ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
         target = (*(void * volatile *)((u8 *)base + (8)));
         current = ((S_800CA134_1 *)arg1)->unk_0A.n;
         target_value = ((S_800CA134_2 *)target)->unk_0A;
         current += 0xD0;
         current = target_value - current;
-        ASM_KEEP(current);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         current_u = ((S_800CA134_1 *)arg1)->unk_0A.v;
         if (current < 0) {
             current += 3;

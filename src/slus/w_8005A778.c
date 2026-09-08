@@ -38,7 +38,7 @@ s32 func_8005A778(S_8005A778_Arg0 *arg0, s32 arg1, void *arg2)
 {
     s16 idx;
     s32 result;
-    register s32 raw ASM_REG("$3");   /* MATCH pin: slus-diff */
+    register s32 raw ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 base;
     S_8005A778_D80086A40 *entry;
     S_8005A778_Arg0 *reader;
@@ -46,9 +46,9 @@ s32 func_8005A778(S_8005A778_Arg0 *arg0, s32 arg1, void *arg2)
     idx = 0;
     D_8007382C.unk00 = 0;
     raw = arg1;
-    ASM_KEEP_NV(raw);   /* MATCH pin: slus-diff */
+    ASM_KEEP_NV(raw);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     reader = arg0;
-    ASM_KEEP_NV(reader);   /* MATCH pin: slus-diff */
+    ASM_KEEP_NV(reader);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     arg1 <<= 16;
     arg1 >>= 16;
 

@@ -182,7 +182,7 @@ extern u8 D_8014A000[];
 
 s32 func_800A504C(s32 unused, void *arg1)
 {
-    register u8 *entity ASM_REG("$19") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *entity ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *base = (u8 *)&D_80083460;
     s32 count = ((S_800A504C_0 *)base)->unk_0A.s;
     s32 offset;
@@ -193,23 +193,23 @@ s32 func_800A504C(s32 unused, void *arg1)
     u16 role_flags;
     u16 remaining_count;
     u32 call_index;
-    register s32 mask ASM_REG("$7");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 first_value ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 tail_zero ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 mask ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 first_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 tail_zero ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *global_page;
-    register u8 *mode_page ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *first_mask_call_arg ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *mode_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *first_mask_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 first_mask_call_zero;
     s32 first_store_value;
-    register u8 *second_mask_call_arg ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s32 second_mask_call_zero ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 second_zero_delay ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *second_mask_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 second_mask_call_zero ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 second_zero_delay ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 second_zero_kind;
-    register s32 first_zero_delay ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 first_zero_delay ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 first_two_delay;
-    register s32 second_two_delay ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 second_two_delay ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *spawned;
-    register u8 *role1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *role1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *record;
     u8 *record_data;
     u8 *tail_dst;
@@ -245,7 +245,7 @@ s32 func_800A504C(s32 unused, void *arg1)
 
 first_zero:
     first_zero_delay = 0;
-    ASM_KEEP(first_zero_delay);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(first_zero_delay);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     if (func_80053EF0(4) != 0) {
         return 0;
     }
@@ -255,7 +255,7 @@ first_zero:
     }
     call_index = ((S_800A504C_1 *)entity)->unk_13;
     func_80047DB8(call_index);
-    ASM_SET(call_index);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SET(call_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     return func_800A53E0(call_index, spawned);
 
 first_equal:
@@ -267,7 +267,7 @@ first_equal:
 
 first_two:
     first_two_delay = 0;
-    ASM_KEEP(first_two_delay);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(first_two_delay);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
     if (spawned == NULL) {
         goto done;
@@ -281,7 +281,7 @@ first_two:
     }
     base = entity;
     tail_dst = spawned;
-    ASM_KEEP4_NV(base, tail_dst, entity, spawned);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP4_NV(base, tail_dst, entity, spawned);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     saved5c = ((S_800A504C_3 *)tail_dst)->unk_5C;
     saved58 = ((S_800A504C_3 *)tail_dst)->unk_58;
     copy_dst = tail_dst;
@@ -305,7 +305,7 @@ first_two:
     ASM_KEEP4_NV(first_mask_call_arg, first_mask_call_zero,
                  first_store_value, spawned);
     role1 = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
-    ASM_SET(mask);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SET(mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_800A504C_2 *)role1)->unk_1C = first_store_value;
     ((S_800A504C_2 *)role1)->unk_1E = first_store_value;
     mask = -8;
@@ -340,13 +340,13 @@ first_two:
     global_page = (u8 *)0x80080000;
     ((S_800A504C_4 *)spawned)->unk_10.at00.v = tail_zero | first_value;
     first_value = ((S_800A504C_1_pre *)entity)[-1].unk_12;
-    ASM_SET(mode_page);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SET(mode_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     mode_page = (u8 *)0x800E0000;
     ((S_800A504C_1_pre *)entity)[-1].unk_12 = first_value | 0x8000;
     first_value = ((S_800A504C_6 *)global_page)->unk_14A0;
-    ASM_SET(tail_zero);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SET(tail_zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     tail_zero = 0;
-    ASM_KEEP(tail_zero);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(tail_zero);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     ((S_800A504C_7_pre *)mode_page)[-1].unk_00 = 0;
     ((S_800A504C_6 *)global_page)->unk_14A0 = first_value | 0x8000;
     return func_800A566C();
@@ -368,7 +368,7 @@ second_dispatch:
     return func_800A566C();
 
 second_zero:
-    ASM_KEEP(second_zero_delay);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(second_zero_delay);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     second_zero_kind = 3;
     spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13 - 1,
                                    second_zero_kind);
@@ -398,7 +398,7 @@ increment_mode:
 
 second_two:
     second_two_delay = 0;
-    ASM_KEEP(second_two_delay);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(second_two_delay);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 3);
     if (spawned == NULL) {
         goto done;

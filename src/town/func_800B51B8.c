@@ -8,17 +8,17 @@ u8 func_800B2918(void) {
 #ifdef NON_MATCHING
     s8 *global = D_80089268;
 #else
-    register s8 *page ASM_REG("$2") = (s8 *) 0x80090000;   /* MATCH pin: load-bearing for the whole function shape */
+    register s8 *page ASM_REG("$2") = (s8 *) 0x80090000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s8 *global;
 #endif
-    register s32 first ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 first ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 second;
     s32 third;
 
 #ifndef NON_MATCHING
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     global = page - 0x6D98;
-    ASM_KEEP(global);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(global);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #endif
     first = global[0];
     second = global[1];

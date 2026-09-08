@@ -89,9 +89,9 @@ void BODY_NAME(void *arg0_in, void *arg1_in, void *arg2_in)
 {
 #ifdef __mips__
     void *arg0 = arg0_in;
-    register void *arg1 ASM_REG("$17") = arg1_in;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *arg1 ASM_REG("$17") = arg1_in;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *arg2 = arg2_in;
-    register void *state_object ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *state_object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *base;
     void *copy;
 #else
@@ -165,13 +165,13 @@ case_0:
             s32 tail_value;
 #endif
             tail_value = FIELD(copy, u16, 0xA) - 64;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             func_800241E8();
         }
     }
     FIELD(arg1, u16, 0xA) = FIELD(copy, u16, 0xA) + result[2];
     FIELD(arg0, u16, 0x2E) = FIELD(arg1, u16, 0xA);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     {
         void *holder = FIELD(arg0, void *, 4);
@@ -238,7 +238,7 @@ case_0:
             {
 #ifdef __mips__
                 s32 left;
-                register s32 right ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 right ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #else
                 s32 left;
                 s32 right;
@@ -267,7 +267,7 @@ case_0_no_object:
     FIELD(arg0, u16, 0xC) = FIELD(arg1, u16, 2);
     FIELD(arg0, u16, 0xE) = FIELD(arg1, u16, 6);
     FIELD(arg0, u16, 0x10) = FIELD(state_object, u16, 0x88) - 80;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     {
         u8 *table0 = D_8006CCD8;
         s16 index = FIELD(arg0, s16, 0x16);
@@ -286,7 +286,7 @@ case_1:
     {
         #ifdef __mips__
         s32 delta;
-        register s32 value ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+        register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         #else
         s32 delta;
         s32 value;
@@ -294,7 +294,7 @@ case_1:
         delta = FIELD(arg1, s32, 0xC);
         value = delta;
         FIELD(arg1, s32, 0) += delta;
-        ASM_KEEP(delta);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         value += value >> 4;
         FIELD(arg1, s32, 0xC) = value;
         if ((value < 0 ? -value : value) > 0x200000) {
@@ -305,7 +305,7 @@ case_1:
     {
         #ifdef __mips__
         s32 delta;
-        register s32 value ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+        register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         #else
         s32 delta;
         s32 value;
@@ -313,7 +313,7 @@ case_1:
         delta = FIELD(arg1, s32, 0x10);
         value = delta;
         FIELD(arg1, s32, 4) += delta;
-        ASM_KEEP(delta);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         value += value >> 4;
         FIELD(arg1, s32, 0x10) = value;
         if ((value < 0 ? -value : value) > 0x200000) {
@@ -419,7 +419,7 @@ case_2:
     func_80065F90(FIELD(arg1, s16, 0xE), FIELD(arg1, s16, 0x12));
     {
 #ifdef __mips__
-    register void *map_pointer ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register void *map_pointer ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #else
     void *map_pointer;
 #endif
@@ -447,7 +447,7 @@ case_2:
 case_3:
     {
 #ifdef __mips__
-    register void *work ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register void *work ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #else
     void *work;
 #endif

@@ -70,14 +70,14 @@ typedef struct
 extern void func_80041E70(S_80042710 *a0);
 void func_80042710(S_80042710 *a0, S_80042710 *a1)
 {
-  register S_80042710 *src ASM_REG("$10") = a1;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-  register s32 i ASM_REG("$6");   /* MATCH pin: slus-diff */
+  register S_80042710 *src ASM_REG("$10") = a1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   u8 first;
   PIN_KEEP(src);
   first = src->f00;
   PIN_BARRIER(first);
   {
-  register S_80042710 *dest ASM_REG("$9") = a0;   /* MATCH pin: slus-diff */
+  register S_80042710 *dest ASM_REG("$9") = a0;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   PIN_KEEP(dest);
   dest->f00 = first;
   dest->f01 = src->f01;
@@ -88,8 +88,8 @@ void func_80042710(S_80042710 *a0, S_80042710 *a1)
   dest->f06 = src->f06;
   i = 2;
   {
-    register u8 *sp ASM_REG("$4") = (u8 *)src + 6;   /* MATCH pin: slus-diff */
-    register u8 *dp ASM_REG("$3") = (u8 *)dest + 6;   /* MATCH pin: slus-diff */
+    register u8 *sp ASM_REG("$4") = (u8 *)src + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u8 *dp ASM_REG("$3") = (u8 *)dest + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     do
     {
       dp[8] = sp[8];
@@ -115,9 +115,9 @@ void func_80042710(S_80042710 *a0, S_80042710 *a1)
   dest->f2a = src->f2a;
   i = 3;
   {
-    register s8 *sp2 ASM_REG("$8") = (s8 *)src + 6;   /* MATCH pin: slus-diff */
-    register s8 *dp2 ASM_REG("$7") = (s8 *)dest + 6;   /* MATCH pin: slus-diff */
-    register s32 x ASM_REG("$2");   /* MATCH pin: slus-diff */
+    register s8 *sp2 ASM_REG("$8") = (s8 *)src + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s8 *dp2 ASM_REG("$7") = (s8 *)dest + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     register s32 y;
     do
     {

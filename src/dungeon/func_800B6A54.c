@@ -12,18 +12,18 @@ void func_800BC1B4(void *arg0) {
     s16 sp10[4];
 
     {
-        register void *pa0 ASM_REG("$4");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register void *pa0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         s32 pa1;
         s32 pa2;
-        register s32 v0 ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 v1;
 
         pa0 = sp10;
         pa1 = 0x270;
-           /* MATCH pin: retail schedule: same instructions, different order without it */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         v0 = *(u16 *)((unsigned char *)arg0 + 2);
         v1 = *(u16 *)((unsigned char *)arg0 + 0xC);
-           /* MATCH pin: retail schedule: same instructions, different order without it */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         pa2 = 0x100;
         v0 = (v0 - v1) & 0x1F;
         *(u16 *)((unsigned char *)arg0 + 2) = (u16)v0;

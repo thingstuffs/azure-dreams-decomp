@@ -140,7 +140,7 @@ state_one:
         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) {
         ret = func_8003FD64(0x112, D_80083498);
         created = ret;
-        ASM_KEEP(ret);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ((S_80172620_0 *)arg0)->unk_A4.s = ret;
         if (created != 0) {
             s32 linked_field;

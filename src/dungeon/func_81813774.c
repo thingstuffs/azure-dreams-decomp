@@ -11,9 +11,9 @@ typedef struct {
 extern UnalignedBlock24 D_80029550;
 
 void func_80028774(UnalignedBlock12 *arg0) {
-    register UnalignedBlock12 *dst ASM_REG("$2") = arg0;   /* MATCH pin: retail register colouring depends on it */
+    register UnalignedBlock12 *dst ASM_REG("$2") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(dst);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     dst[0] = D_80029550.chunks[0];
     dst[1] = D_80029550.chunks[1];
 }

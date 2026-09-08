@@ -18,8 +18,8 @@ extern u8 D_80175660[];
 
 void func_80174FE4(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-    register u8 *base ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *base ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *table;
     s32 index;
 
@@ -30,7 +30,7 @@ void func_80174FE4(void *arg0, void *arg1, void *arg2, void *arg3)
 
     if (*(s8 *)(base + 0x6D) != 0) {
         *(u8 *)((u8 *)arg3 + 0x71) &= 0x7F;
-        ASM_USE(base);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_USE(base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         page = (u8 *)0x80080000;
         LEGACY_ASM_KEEP(page);
         base = page + 0x3460;

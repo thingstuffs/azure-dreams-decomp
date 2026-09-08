@@ -16,9 +16,9 @@ void func_80026680(void *arg0, void *arg1, void *arg2)
 {
     s32 i;
     s32 color;
-    register s32 color_temp ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 color_byte ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 color_sub ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 color_temp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 color_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 color_sub ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s16 mode;
     s16 timer;
     u16 fade;
@@ -29,7 +29,7 @@ void func_80026680(void *arg0, void *arg1, void *arg2)
     void *dst;
     void *link;
     void *color_outer;
-    register void *color_inner ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *color_inner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     i = 6;
     do {
@@ -125,7 +125,7 @@ attached:
     color_sub = U16_AT(arg0, 0x6E);
     color_temp = color_byte - color_sub;
     color = color_temp;
-    ASM_KEEP(color_temp);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(color_temp);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if ((s16)color_temp < 0x20) {
         color = 0;
     }

@@ -127,14 +127,14 @@ void func_800251F4(s32 unused, s32 center, s16 coord2, s16 coord3)
     } stack;
     void *object;
     u8 *work;
-    register void *sub ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register void *sub ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *preset;
     s32 copy0;
     s32 copy4;
     s32 copy1;
     s32 copy2;
-    register s32 copy3 ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 copy5 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 copy3 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 copy5 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 random_x;
     s32 random_y;
     s32 span;
@@ -144,22 +144,22 @@ void func_800251F4(s32 unused, s32 center, s16 coord2, s16 coord3)
     s32 low_y;
     s32 high_y;
     s32 factor;
-    register s32 scratch ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 edge_product ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
-    register s32 edge ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 scratch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 edge_product ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 edge ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 inner;
     s32 coord3_value;
     u32 call_center;
-    register u32 call_coord2 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u32 coord_raw ASM_REG("$8");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 coord_scratch ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u32 call_coord2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u32 coord_raw ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 coord_scratch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *data_first;
     void *data_second;
     s32 color;
     s32 random_pos;
     s32 center_base;
-    register u32 iteration_raw ASM_REG("$8");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 iteration_next ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 iteration_raw ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 iteration_next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     stack.coord2 = coord2;
     stack.coord3 = coord3;
@@ -185,12 +185,12 @@ void func_800251F4(s32 unused, s32 center, s16 coord2, s16 coord3)
                 center_base + (random_pos & 0x3F);
             random_pos = func_80069EF8();
             call_center = (u16)held_center;
-            ASM_KEEP(call_center);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(call_center);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             random_pos &= 0x3F;
             call_coord2 = (u16)stack.coord2;
             coord_raw = (u16)stack.coord2;
             data_first = ((S_800251F4_1 *)object)->unk_08;
-            ASM_KEEP(data_first);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(data_first);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             coord_scratch = coord_raw - 0x20;
             coord_scratch += random_pos;
             ((S_800251F4_3 *)data_first)->unk_06 = coord_scratch;
@@ -311,7 +311,7 @@ void func_800251F4(s32 unused, s32 center, s16 coord2, s16 coord3)
             func_8003DB94(sub, &D_800DE870, 0);
         }
         iteration_raw = (u16)stack.iteration;
-        ASM_KEEP(iteration_raw);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(iteration_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         iteration_next = iteration_raw + 1;
         stack.iteration = iteration_next;
     } while ((s16)iteration_next < 4);

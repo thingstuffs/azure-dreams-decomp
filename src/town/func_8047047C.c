@@ -23,7 +23,7 @@ s32 func_8001747C(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
 
     if (func_80017E98(arg0, arg1) != 0) {
         page_v0 = (u8 *)0x80020000;
-        ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         return (s32)(page_v0 - 0x49C4);
     }
     temp_s1 = func_80019ABC(&D_8001A9AC, &D_8001B1F8, arg0, arg2);
@@ -33,7 +33,7 @@ s32 func_8001747C(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
             var_v0 = func_8001628C(arg0, arg1, arg2);
         } else {
             page_v0 = (u8 *)0x80020000;
-            ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             var_v0 = (s32)(page_v0 - 0x304C);
         }
     }

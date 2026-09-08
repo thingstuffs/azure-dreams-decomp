@@ -70,12 +70,12 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
 
             tail_value = arg2->unk_14;
             tail_value |= 1;
-            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             func_800A9F58();
         }
-        ASM_KEEP(held_arg1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         arg2->unk_14 &= 0xFFFE;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_800478B8(arg2);
         return 1;
     }
@@ -96,7 +96,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
         if (arg0->unk_98 & 0x400) {
             direction = ((D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7;
             if (func_800A9E38(arg3) != 0) {
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 func_8003DB94(arg2, arg2->unk_2C.p[direction],
                               arg2->unk_04);
                 return func_800AA048();
@@ -108,7 +108,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
 
                 tail_value = arg0->unk_98;
                 tail_value &= 0xFBFF;
-                ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             }
             func_800AA060();
         }
@@ -122,9 +122,9 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
             if (arg3->unk_6D.as_s8 == 0) {
                 if (D_800DCE68 == 0) {
                     if ((func_800A2BDC(arg3) << 0x10) != 0) {
-                        register s32 tail_zero ASM_REG("$2") = 0;   /* MATCH pin: load-bearing for the whole function shape */
+                        register s32 tail_zero ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                        ASM_KEEP(tail_zero);   /* MATCH pin: retail delay-slot contents depend on it */
+                        ASM_KEEP(tail_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                         return;
                     }
                     goto block_16;

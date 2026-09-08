@@ -32,13 +32,13 @@ void func_8001D048(void) {
     long work_s0;
     unsigned long temp_v0;
     s32 mode;
-    register s32 outer ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s32 outer ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 row_offset;
     s32 check_offset;
-    register s32 mode_offset ASM_REG("$22");   /* MATCH pin: retail register colouring depends on it */
-    register u8 value ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register s32 mode_offset ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 value ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 *row;
-    register s8 *check_base ASM_REG("$7");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s8 *check_base ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *bounds;
     S_8001D048_2 *global_base;
     S_8001D048_3 *callback_base;
@@ -57,22 +57,22 @@ void func_8001D048(void) {
     }
     mode = 1;
 mode_done:
-    ASM_KEEP(mode);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     outer = 0;
-    ASM_KEEP(outer);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(outer);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     row_offset = outer;
-    ASM_KEEP(row_offset);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(row_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     row = (s8 *)work_s0;
-    ASM_KEEP(row);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(row);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     check_offset = mode * 8;
     do {
         check_base = (s8 *)D_8001902C;
         temp_v0 = (unsigned long)check_offset + (unsigned long)check_base;
-        ASM_KEEP(temp_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         work_s0 = 0;
         if (*(s16 *)temp_v0 > 0) {
             temp_v0 = 0x80020000UL;
-            ASM_KEEP(temp_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             bounds = (s16 *)(temp_v0 - 0x6FD4);
             mode_offset = mode * 8;
 loop_6:
@@ -80,9 +80,9 @@ loop_6:
             if (value != 0) {
                 call_result = func_8001D280(outer, work_s0, mode);
                 global_base = D_80016000;
-                ASM_USE(global_base);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_USE(global_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 arg0 = call_result;
-                ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 callback_base = global_base->unk_20;
                 callback = callback_base->unk_2D0;
                 callback(arg0, value, mode);

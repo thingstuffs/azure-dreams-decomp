@@ -124,19 +124,19 @@ state_one:
                 ((S_800240F0_2 *)arg1)->unk_00.at02.v += vec[0];
                 ((S_800240F0_2 *)arg1)->unk_04.at02.v += vec[1];
                 w = ((S_800240F0_2 *)arg1)->unk_08.at02.v + vec[2];
-                ASM_TAILSLOT_PIN(w);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN(w);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_80024228();
             }
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ((S_800240F0_2 *)arg1)->unk_08.at02.v = z - 0x20;
         }
     }
 
     if (((S_800240F0_7 *)(((S_800240F0_0 *)arg0)->unk_08))->unk_00 & 0x80) {
-        register u16 ten ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register u16 ten ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         ten = 10;
-        ASM_KEEP_NV(ten);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(ten);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         stv = ((S_800240F0_0 *)arg0)->unk_0C.v;
         ((S_800240F0_0 *)arg0)->unk_10.u = ten;
         func_800243F8();

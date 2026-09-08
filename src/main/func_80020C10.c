@@ -50,7 +50,7 @@ s32 func_80020C10(s32 arg0) {
         return func_80407CC4(sub);
     }
     func_80403D24(obj);
-    ASM_KEEP_NV(obj);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(obj);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     {
         u16 flags = D_8040C420.flags;
         flags &= 0x7FFF;
@@ -62,7 +62,7 @@ s32 func_80020C10(s32 arg0) {
     value = func_80407AEC((u8 *)sub + 0xF0);
     {
         Sub *tail = sub;
-        ASM_KEEP_NV(tail);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(tail);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         tail->field_EC = value;
         func_80407BD0(tail, arg0);
     }

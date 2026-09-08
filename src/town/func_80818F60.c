@@ -132,16 +132,16 @@ extern M2C_UNK D_800D0138;
 extern M2C_UNK D_800F9B40;
 
 void func_80022F60(void *arg0) {
-    register u8 *arg ASM_REG("$21") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *arg ASM_REG("$21") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *secondary = NULL;
     u8 *main_state = D_800834B8;
     s32 state;
     u16 timer;
-    register s32 two ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 two ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *obj;
-    register u8 *sprite ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(arg);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(arg);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     state = ((S_80022F60_0 *)arg)->unk_00.s;
     timer = ((S_80022F60_0 *)arg)->unk_02.s - 1;
@@ -190,8 +190,8 @@ void func_80022F60(void *arg0) {
 
     case 2:
         {
-            register u16 angle ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
-            register s32 raw ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register u16 angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            register s32 raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             raw = ((S_80022F60_1 *)main_state)->unk_10.u + 0x200;
             angle = raw & 0xFFF;
@@ -212,8 +212,8 @@ void func_80022F60(void *arg0) {
         {
             u8 *motion = (u8 *)&D_80083780;
             u8 *loop_asset;
-            register s32 *table_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-            register s32 one ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
+            register s32 *table_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 one ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             s32 flag_one;
             u8 *alloc_page;
 
@@ -283,8 +283,8 @@ void func_80022F60(void *arg0) {
 
                     obj = func_8003FC64(0x136);
                     if (obj != NULL) {
-                        register u8 *image ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
-                        register s32 *position ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+                        register u8 *image ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                        register s32 *position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         sprite = (u8 *)obj + 0x20;
 
@@ -351,7 +351,7 @@ void func_80022F60(void *arg0) {
                 obj = func_8003FC64(0x136);
 
                 if (obj != NULL) {
-                    register u8 *image ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
+                    register u8 *image ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                     s32 *position;
                     s32 random;
 
@@ -405,7 +405,7 @@ void func_80022F60(void *arg0) {
                 obj = func_8003FC64(0x136);
 
                 if (obj != NULL) {
-                    register u8 *image ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
+                    register u8 *image ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                     s32 *position;
 
                     sprite = (u8 *)obj + 0x20;

@@ -17,9 +17,9 @@ void func_80875404(void)
     Packed8 local;
     CallbackTable callbacks;
     s32 offset;
-    register s16 *base ASM_REG("$17");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s16 *base ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s16 *base_after;
-    register s32 index ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s32 index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *value_ptr;
     s32 dispatch_offset;
 

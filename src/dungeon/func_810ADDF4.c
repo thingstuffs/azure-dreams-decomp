@@ -114,7 +114,7 @@ extern s8 D_800E2970[];
 
 void func_801715F4(void *arg0, void *arg1, void *arg2_p, void *arg3_p) {
     void *arg3;
-    register void *arg2 ASM_REG("$18");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 sp18;
     s16 sp1A;
     s16 var_s3;
@@ -136,8 +136,8 @@ void func_801715F4(void *arg0, void *arg1, void *arg2_p, void *arg3_p) {
 
     arg2 = arg2_p;
     arg3 = arg3_p;
-    ASM_KEEP(arg2);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     var_s6 = 0;
     flags = ((S_801715F4_0 *)global)->unk_02;
     if ((flags & 0x4000) || (((S_801715F4_1 *)arg3)->unk_71.s >= 0)) {
@@ -174,7 +174,7 @@ void func_801715F4(void *arg0, void *arg1, void *arg2_p, void *arg3_p) {
             }
             {
                 s32 m = 0x80000000;
-                register s32 t14 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+                register s32 t14 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 t14 = ((S_801715F4_1 *)arg3)->unk_14;
                 if (t14 >= 0) {
@@ -224,7 +224,7 @@ void func_801715F4(void *arg0, void *arg1, void *arg2_p, void *arg3_p) {
                 goto clear_history;
             }
 
-            ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ((S_801715F4_1 *)arg3)->unk_2A.u = func_800A0818(
                 ((S_801715F4_2 *)arg2)->unk_24.at00.v, ((S_801715F4_2 *)arg2)->unk_24.at01.v, sp18, sp1A,
                 ctx_a = (u8 *)arg0 + 0x98);
@@ -241,7 +241,7 @@ void func_801715F4(void *arg0, void *arg1, void *arg2_p, void *arg3_p) {
                                              D_80082E80_b[0x24],
                                              D_80082E80_b[0x25]);
 
-                ASM_UNDEF(var_s3);   /* MATCH pin: keeps a constant in a register as retail does */
+                ASM_UNDEF(var_s3);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 var_s3 = 0;
                 if (path_ok == 0) {
                     goto loop_setup;
@@ -316,7 +316,7 @@ void func_801715F4(void *arg0, void *arg1, void *arg2_p, void *arg3_p) {
             s32 yv;
 
             yv = ((S_801715F4_2 *)arg2)->unk_24.at01.v;
-            ASM_KEEP(yv);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(yv);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dy = yv - (u16)sp1A;
         }
         if (dy < 0) {
@@ -348,7 +348,7 @@ call_path_held:
         s32 yv;
 
         yv = ((S_801715F4_2 *)arg2)->unk_24.at01.v;
-        ASM_KEEP(yv);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(yv);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         dy = yv - (u16)sp1A;
     }
     if (dy < 0) {
@@ -389,7 +389,7 @@ loop:
         } else {
             next_angle = angle + turn_table[var_s3];
         }
-        ASM_KEEP(angle);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     }
 
     if (func_8009A66C((s16)next_angle, arg2, arg3, 0x20) > 0) {
@@ -397,7 +397,7 @@ loop:
             s32 c;
 
             c = var_s6;
-            ASM_KEEP(c);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(c);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (c != 0) {
                 goto clear_history;
             }
@@ -415,10 +415,10 @@ loop:
 
         table_offset = (((S_801715F4_1 *)arg3)->unk_2A.u >> 8) & 0xE;
         {
-            register u8 *tp ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+            register u8 *tp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
             tp = (u8 *)&D_8006CCD8 + table_offset;
-            ASM_KEEP_NV(tp);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP_NV(tp);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             ((S_801715F4_2 *)arg2)->unk_24.at00.v += *tp;
         }
         ((S_801715F4_2 *)arg2)->unk_24.at01.v +=
@@ -431,7 +431,7 @@ loop:
 
     if (var_s3 == 0) {
         if (*(u16 *)&D_80082EA4 != ((S_801715F4_2 *)arg2)->unk_24.at00u.v) {
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             if ((s16)func_8009A180(
                     arg3,
                     (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {

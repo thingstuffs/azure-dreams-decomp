@@ -59,14 +59,14 @@ void func_80024A5C(volatile s32 arg0, S_80024A5C_5 *arg1, void *arg2, u16 arg3, 
     s32 y;
     s32 y2;
     u8 *packet;
-    register u8 *pbase ASM_REG("$18");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 arg4p ASM_REG("$23");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *pbase ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 arg4p ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u32 hi_mask;
     u8 *work;
     u8 *ot;
     void *ctx;
     S_80024A5C_3 *ctx2;
-    register s32 shifted ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 shifted ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *call_pos;
     s32 call_arg0;
     void *call_ot;
@@ -98,7 +98,7 @@ void func_80024A5C(volatile s32 arg0, S_80024A5C_5 *arg1, void *arg2, u16 arg3, 
     call_pos = pos;
     call_arg4 = (s32)((u32)arg4p << 16);
     call_ot = ot;
-    ASM_KEEP_NV(call_pos);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(call_pos);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_arg0 = arg0;
     call_arg4 >>= 16;
     pos[1] = y;

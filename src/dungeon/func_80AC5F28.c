@@ -81,7 +81,7 @@ void func_80171728(void *arg0, void *arg1, void *arg2, void *arg3)
     void *p0;
     void *p1;
     void *p2;
-    register void *p3 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *p3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *table;
     s32 scratch;
     s8 result;
@@ -103,10 +103,10 @@ void func_80171728(void *arg0, void *arg1, void *arg2, void *arg3)
         return;
     }
 
-    ASM_KEEP(p0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
@@ -114,10 +114,10 @@ void func_80171728(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
         {
-            register u8 *early_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register u8 *early_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             early_page = (u8 *)0x80170000;
-            ASM_KEEP(early_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(early_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             table = early_page + 0x4E44;
         }
         goto set_table;

@@ -71,20 +71,20 @@ void func_801750E4(u16 arg0, u16 arg1, u16 arg2, u16 arg3,
     s32 m21;
     s32 m00;
     s32 m01;
-    register s32 angle ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 angle ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 sin0;
     s32 cos0;
     s32 old_sin;
     s32 old_cos;
     u8 *blk;
     u8 *anchor;
-    register u8 *q ASM_REG("$18");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *q ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     GraphicsState **pp;
-    register GraphicsState *root ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u16 nc ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register GraphicsState *root ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u16 nc ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 y;
-    register s32 start ASM_REG("$18");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 start ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     start = (s16)arg9;
     angle = start << 7;
@@ -106,9 +106,9 @@ void func_801750E4(u16 arg0, u16 arg1, u16 arg2, u16 arg3,
         m00 = values.arg0;
         m01 = values.arg1;
         q = blk + 0x1A;
-        ASM_USE2(q, m01);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE2(q, m01);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         do {
-               ASM_USE_NV(angle);   /* MATCH pin: retail register colouring depends on it */
+               ASM_USE_NV(angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);

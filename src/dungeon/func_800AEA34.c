@@ -66,15 +66,15 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   s16 range;
   u8 *event;
   s16 value;
-  ASM_KEEP_NV(entityp);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP_NV(entityp);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   contextp = context;
-  ASM_KEEP_NV(contextp);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP_NV(contextp);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   code = func_800A9400(arg0);
   total = entityp->value28 + entityp->value64;
   flag = total < 1;
-  ASM_KEEP_NV(flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  ASM_KEEP_NV(flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   blocked = flag;
-  ASM_KEEP_NV(blocked);   /* MATCH pin: load-bearing for the whole function shape */
+  ASM_KEEP_NV(blocked);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   if (code == 0)
   {
     goto common;
@@ -104,7 +104,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   mode16:
   {
     s32 modeTest = blocked;
-    ASM_KEEP_NV(modeTest);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(modeTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (modeTest)
     {
       goto common;
@@ -116,7 +116,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
       goto common;
     }
     saved = func_800990FC();
-    ASM_KEEP_NV(saved);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(saved);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     text = func_80099194(D_800E0BC7, saved);
     text = func_80099734(entityp, text);
     return func_800B4328(D_800892C4);
@@ -127,7 +127,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   mode21:
   {
     s32 modeTest = blocked;
-    ASM_KEEP_NV(modeTest);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(modeTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (modeTest || (entityp->flags1C & 0x20))
     {
       goto common;
@@ -183,7 +183,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   event3:
   {
   s32 eventZero = 0;
-  ASM_KEEP(eventZero);   /* MATCH pin: retail delay-slot contents depend on it */
+  ASM_KEEP(eventZero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
   delta = -(((s16) (*((u16 *) (((u8 *) entityp) + 0x64)))) >> 3);
 
   amount = delta;
@@ -199,7 +199,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   event4:
   {
     s32 eventTest = blocked;
-    ASM_KEEP_NV(eventTest);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(eventTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (eventTest || (entityp->flags1C & 0x20))
     {
       return 0;
@@ -210,7 +210,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     }
     func_800A56E0(0x700);
     saved = func_800990FC();
-    ASM_KEEP_NV(saved);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(saved);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     text = func_80099194(D_800E0BF3, saved);
     text = func_80099734(entityp, text);
     return func_800B45A4(D_800892C4);
@@ -219,7 +219,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   event5:
   {
     s32 eventTest = blocked;
-    ASM_KEEP_NV(eventTest);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(eventTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (!eventTest)
     {
       return 0;
@@ -236,19 +236,19 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     saved[1] = 0xE;
     if ((D_80012090[0] != 2) && (D_8008146C[0] < 0xC))
     {
-      register s32 low ASM_REG("$4") = 0x10;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+      register s32 low ASM_REG("$4") = 0x10;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
       s32 high = 0x18;
-      ASM_KEEP_NV(low);   /* MATCH pin: retail schedule: same instructions, different order without it */
-      ASM_KEEP_NV(high);   /* MATCH pin: retail schedule: same instructions, different order without it */
+      ASM_KEEP_NV(low);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+      ASM_KEEP_NV(high);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
       saved[0] = 1;
       return func_800B44E0(low, high);
     }
     if ((D_80012090[0] != 2) && (D_8008146C[0] < 0x16))
     {
-      register s32 low ASM_REG("$4") = 0x50;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-      register s32 high ASM_REG("$5") = 0x78;   /* MATCH pin: retail delay-slot fill depends on it */
+      register s32 low ASM_REG("$4") = 0x50;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+      register s32 high ASM_REG("$5") = 0x78;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
       saved[0] = 2;
-      ASM_USE(saved);   /* MATCH pin: retail delay-slot fill depends on it */
+      ASM_USE(saved);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
       saved[2] = func_800A6DA4(low, high);
       saved[3] = 0;
       return func_800B45BC();
@@ -263,9 +263,9 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   {
   s32 eventZero = 0;
   s32 eventTest;
-  ASM_KEEP(eventZero);   /* MATCH pin: retail delay-slot contents depend on it */
+  ASM_KEEP(eventZero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
   eventTest = blocked;
-  ASM_KEEP_NV(eventTest);   /* MATCH pin: retail delay-slot fill depends on it */
+  ASM_KEEP_NV(eventTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
   if (eventTest)
   {

@@ -54,9 +54,9 @@ void *func_800243E0(S_800243E0_3 *arg0) {
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 == 0) {
-        register void *zero ASM_REG("$2") = 0;   /* MATCH pin: retail delay-slot contents depend on it */
+        register void *zero ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
-        ASM_TAILSLOT_PIN(zero);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024488();
     }
     temp_v0->unk_10 = &D_80024374;

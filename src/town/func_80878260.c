@@ -10,21 +10,21 @@ extern s32 func_80702714(u16 value);
 
 void func_80702260(void) {
 #ifndef NON_MATCHING
-    register s32 hard_zero ASM_REG("$0");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
     s32 index = 0;
 #ifdef NON_MATCHING
     s32 offset = 0;
 #else
-    register s32 offset ASM_REG("$16") = hard_zero;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 offset ASM_REG("$16") = hard_zero;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 #endif
     s32 result;
 
-    ASM_KEEP(index);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     result = func_80702714(*(u16 *)&D_80701DFC[offset]);
     if (result != 0) {
         offset += 4;
-        ASM_KEEP(offset);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         index += 1;
         func_80702278();
     }

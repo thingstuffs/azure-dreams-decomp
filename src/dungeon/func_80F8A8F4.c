@@ -37,9 +37,9 @@ extern M2C_UNK D_80170854;
 extern u8 D_80174B0C[];
 
 void func_801740F4(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register s32 temp_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *call_arg;
-    register s32 pass_result ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 pass_result ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 raw_result;
     s32 temp_v0_2;
     s32 field_60;
@@ -66,9 +66,9 @@ void func_801740F4(void *arg0, void *arg1, void *arg2, void *arg3) {
         D_80083460.value = (u16)(D_80083460.value + 1);
         raw_result = func_800990FC();
         call_arg = arg3;
-        ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         pass_result = raw_result;
-        ASM_KEEP(pass_result);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(pass_result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_v0_2 = pass_result;
         func_80099290(func_80099194(&D_80170854, func_80099734(call_arg, pass_result)));
         func_800A5720(temp_v0_2);

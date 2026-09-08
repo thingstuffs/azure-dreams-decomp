@@ -61,7 +61,7 @@ s32 func_818B1484(S_818B1484_1 *arg0, S_818B1484_3 *arg1, M2C_UNK arg2) {
         temp_s0 = (var_s1 - ((var_s0 >> 4) * 0x10)) << 8;
         ((S_818B1484_0 *)var_s2)->unk_00 = (u32) (func_800644B8(temp_s0) >> 4);
         ((S_818B1484_0 *)var_s2)->unk_44 = (s32) (func_80064584(temp_s0) >> 4);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         var_s1 -= 1;
         var_s2--;
     } while (var_s1 >= 0);
@@ -77,7 +77,7 @@ s32 func_818B1484(S_818B1484_1 *arg0, S_818B1484_3 *arg1, M2C_UNK arg2) {
             temp_s0_2 = (func_800644B8((temp_v0 - ((var_a0 >> 4) * 0x10)) << 9) >> 9) + 0x20;
             func_80064584(var_s1_2 << 9);
             call_a0 = arg0;
-            ASM_KEEP(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_a2 = ((S_818B1484_2 *)var_s2_2)->unk_1A;
             var_s2_2 += 2;
             temp_a1 = var_s1_2 << 0x11;

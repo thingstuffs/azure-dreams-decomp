@@ -27,7 +27,7 @@ s32 func_800B6E3C(void *arg0) {
     s32 temp_v0;
     s32 temp_idx;
     S_800B6E3C_1 *temp_a0;
-    register s32 tail_value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     ((Rec_func_800B683C_arg0 *)arg0)->unk_0A = func_800B6CEC(((Rec_func_800B683C_arg0 *)arg0)->unk_04);
     temp_v0 = func_80049984(((Rec_func_800B683C_arg0 *)arg0)->unk_04);
@@ -51,7 +51,7 @@ s32 func_800B6E3C(void *arg0) {
         ((Rec_func_800B683C_arg0 *)arg0)->unk_D0 = func_8003E4FC(6, arg0 + 0xD8, NULL);
         ((Rec_func_800B683C_arg0 *)arg0)->unk_D4 = func_8003E4FC(0xFF, &D_800B5B20, arg0);
         tail_value = 1;
-        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         return func_800B6F40();
     }
     return 0;

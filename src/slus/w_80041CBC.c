@@ -30,11 +30,11 @@ extern u8 D_801C9E40;
 
 void func_80041CBC(void)
 {
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 copied;
     void *current;
     u8 *page;
-    register u8 *mode_addr ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 *mode_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *next;
     void *ot;
     s32 timer;
@@ -52,7 +52,7 @@ void func_80041CBC(void)
     D_80081480 = copied;
 #else
     {
-        register s32 *copy_out ASM_REG("$1");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 *copy_out ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         copy_out = (s32 *)0x80080000;
         copy_out[0x520] = copied;
     }
@@ -66,9 +66,9 @@ void func_80041CBC(void)
 #else
     page = (u8 *)0x801D0000;
     current = D_80083160;
-    ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     next = page - 0x61C0;
-    ASM_KEEP(next);   /* MATCH pin: slus-diff */
+    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 #endif
     ot = next + 0x70;
     if (current == next) {
@@ -99,7 +99,7 @@ void func_80041CBC(void)
     }
 #endif
     if (!(sync_flags & 2)) {
-        ASM_KEEP(zero);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (D_80080A85 == 0) {
 #ifdef NON_MATCHING
             VSync((D_80080A84 != 1) * 2);

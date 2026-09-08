@@ -111,7 +111,7 @@ void func_818C8A70(void *arg0, S_818C8A70_4 *arg1) {
     u16 temp_v0_6;
     S_818C8A70_3 *temp_s0;
     S_818C8A70_5 *temp_s2;
-    register S_818C8A70_1 *temp_s4 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register S_818C8A70_1 *temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_818C8A70_6 *temp_s7;
     void *temp_v0;
 
@@ -164,7 +164,7 @@ void func_818C8A70(void *arg0, S_818C8A70_4 *arg1) {
                 func_80024414();
                 return;
             }
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_818C8A70_0_pre *)arg0)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)arg0)[-1].unk_00 | 0x8000);
             D_800814A0[0] = D_800814A0[0] | 0x8000;
             goto block_8;
@@ -187,7 +187,7 @@ block_10:
             temp_v0 = func_8003FC64(0x212);
             temp_s4 = temp_v0 + 0x20;
             if (temp_v0 != NULL) {
-                register s16 temp_z ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register s16 temp_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 temp_s4->unk_02 = 0x1A;
                 ((S_818C8A70_2 *)temp_v0)->unk_10 = &D_80024124;
                 func_8004491C(temp_v0, D_80045340);
@@ -230,7 +230,7 @@ block_10:
             temp_v0 = func_8003FC64(0x212);
             temp_s4 = temp_v0 + 0x20;
             if (temp_v0 != NULL) {
-                register s16 temp_z ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register s16 temp_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 temp_s4->unk_02 = 0x14;
                 ((S_818C8A70_2 *)temp_v0)->unk_10 = &D_80024024;
                 func_8004491C(temp_v0, D_80045340);
@@ -276,7 +276,7 @@ block_10:
                 final_random = func_800A6D30();
                 final_random &= 3;
                 final_field = ((S_818C8A70_0 *)arg0)->unk_15;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 final_random += 2;
                 final_field >>= 2;
                 temp_a2 = final_field + final_random;

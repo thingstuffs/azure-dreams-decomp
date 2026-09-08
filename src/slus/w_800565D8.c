@@ -11,7 +11,7 @@ s32 func_800565D8(S_800565D8 *arg0, u32 arg1)
     s32 ret;
 
     if (arg1 < 0x40) {
-        register s32 delta ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 doubled;
         s32 product;
 
@@ -36,7 +36,7 @@ zero:
 
 positive:
     {
-        register s32 delta ASM_REG("$3");   /* MATCH pin: slus-diff */
+        register s32 delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
         delta = arg1 - 0x40;
         if (arg0->unk20 == 0) {

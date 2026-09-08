@@ -28,7 +28,7 @@ extern u8 D_80175258[];
 
 s32 func_80172314(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
-    register s32 actor ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 actor ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 result;
     u16 *status;
 
@@ -38,7 +38,7 @@ s32 func_80172314(void *arg0, s32 arg1, void *arg2, void *arg3)
     if (status[1] & 0x2000) {
         goto abort_transition;
     }
-    ASM_KEEP(actor);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     result = func_800A04F0(arg3, ((Rec_D_80082E80 *)arg2)->unk_24,
                            ((Rec_D_80082E80 *)arg2)->unk_25, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16);
     if ((func_800A2CB8(arg3, result) << 16) == 0) {

@@ -60,9 +60,9 @@ void func_80024BBC(
     Rec_D_800E3D7C *arg0, s16 arg1, void *arg2, s16 arg3,
     s32 arg4, s32 arg5, s32 arg6)
 {
-    register s32 held_arg4 ASM_REG("$18") = arg4;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 held_arg5 ASM_REG("$19") = arg5;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 held_arg6 ASM_REG("$20") = arg6;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg4 ASM_REG("$18") = arg4;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 held_arg5 ASM_REG("$19") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 held_arg6 ASM_REG("$20") = arg6;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *object;
     S_80024BBC_5 *base;
 
@@ -111,9 +111,9 @@ void func_80024BBC(
         func_8004491C(object, func_800248EC);
         base->unk_50 = -0x2000;
         base->unk_08 = arg2;
-        ASM_KEEP(held_arg4);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        ASM_KEEP(held_arg5);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP(held_arg6);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg6);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     }
 }
 

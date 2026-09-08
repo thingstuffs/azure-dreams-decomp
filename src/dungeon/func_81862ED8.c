@@ -91,13 +91,13 @@ s32 func_800246D8(void *arg0)
     PackedDelta delta;
 #endif
 #ifdef __mips__
-    register s32 high_mask ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 high_mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #else
     s32 high_mask;
 #endif
     s32 index;
 #ifdef __mips__
-    register s32 x ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 multiplier;
     u8 *input = arg0;
 #else
@@ -106,8 +106,8 @@ s32 func_800246D8(void *arg0)
     u8 *input = arg0;
 #endif
 #ifdef __mips__
-    register s32 y ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 increment ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register s32 y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 increment ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 end;
 #else
     s32 y;
@@ -172,7 +172,7 @@ s32 func_800246D8(void *arg0)
 case_early:
     end = ((S_800246D8_0 *)scratch)->unk_6C;
 #ifdef __mips__
-    ASM_KEEP(end);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
     x = ((S_800246D8_0 *)scratch)->unk_64;
     end -= x;
@@ -240,7 +240,7 @@ case_middle:
 case_late:
     end = ((S_800246D8_0 *)scratch)->unk_6C;
 #ifdef __mips__
-    ASM_KEEP(end);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
     x = ((S_800246D8_0 *)scratch)->unk_64;
     end -= x;
@@ -282,16 +282,16 @@ case_late:
     arg = (u8 *)(high_mask * x);
     multiplier = 23;
 #ifdef __mips__
-    ASM_KEEP(multiplier);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(multiplier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
     high_mask *= multiplier;
     ((S_800246D8_2 *)packet)->unk_0D = 0;
 #ifdef __mips__
-    ASM_KEEP_NV(packet);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
     ((S_800246D8_2 *)packet)->unk_05 = (x - y) * 8;
 #ifdef __mips__
-    ASM_KEEP_NV(packet);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
     multiplier = 0x7F;
     ((S_800246D8_2 *)packet)->unk_0C = multiplier;
@@ -335,7 +335,7 @@ shared:
 #endif
         entry_word = average << 2;
 #ifdef __mips__
-           /* MATCH pin: load-bearing for the whole function shape */
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #endif
         table_base = ((S_800246D8_0 *)scratch)->unk_18;
 #ifdef __mips__
@@ -359,7 +359,7 @@ shared:
 
     result = 0;
 #ifdef __mips__
-    ASM_KEEP(result);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
     return result;
 }

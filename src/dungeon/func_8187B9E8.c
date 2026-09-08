@@ -61,19 +61,19 @@ extern u8 D_800249F4[];
 extern u8 D_80024D40[];
 
 void func_8187B9E8(s32 arg0, s32 arg1, s16 arg2, u16 arg3, U16Arg arg4, U16Arg arg5) {
-    register s32 held_arg0 ASM_REG("$23") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg0 ASM_REG("$23") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 saved[3];
     s32 i;
     s32 a;
     s32 b;
     s32 x;
-    register s32 result ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 scratch ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 scratch ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *p;
     S_8187B9E8_4 *q;
     S_8187B9E8_2 *r0;
     S_8187B9E8_3 *r1;
-    register u8 *v ASM_REG("$19");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *v ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     scratch = arg4.value;
     saved[1] = scratch;
@@ -109,7 +109,7 @@ void func_8187B9E8(s32 arg0, s32 arg1, s16 arg2, u16 arg3, U16Arg arg4, U16Arg a
         r0->unk_06 = scratch;
         scratch = saved[2];
         r0->unk_0A = scratch;
-        ASM_KEEP(r0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(r0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         r1 = ((S_8187B9E8_1 *)p)->unk_0C;
         r1->unk_1E = 0x1000;
         r1->unk_1C = 0x1000;
@@ -120,7 +120,7 @@ void func_8187B9E8(s32 arg0, s32 arg1, s16 arg2, u16 arg3, U16Arg arg4, U16Arg a
         q->unk_12 = arg2;
         func_8004491C(p, D_800249F4);
         scratch = *(volatile s32 *)&arg1;
-        ASM_KEEP(scratch);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         q->unk_00 = scratch;
     }
 }

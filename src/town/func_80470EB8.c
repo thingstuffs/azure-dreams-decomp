@@ -37,7 +37,7 @@ typedef struct S_80017EB8_0 {
 s32 func_80017EB8(S_80017EB8_0 *arg0) {
     s32 temp_s0;
     s32 var_v0;
-    register s32 var_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 temp_a0;
     u8 temp_a1;
 

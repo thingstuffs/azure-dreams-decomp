@@ -45,7 +45,7 @@ void *func_800A25CC(s32 arg0)
     temp_s1->unk_08 = temp_s0 + func_800374F4(0x40) - 0x40;
     temp_s1->unk_0A = func_800374F4(0x40);
     temp_s1->unk_0C = func_800374F4(0x40);
-       /* MATCH pin: retail basic-block layout depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return temp_s2;
 }
 

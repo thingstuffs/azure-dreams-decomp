@@ -55,8 +55,8 @@ extern u8 D_80044BB0[];
 void func_80956E6C(s32 arg0, s32 arg1, S_80956E6C_4 *arg2, s32 arg3)
 {
     Palette palette;
-    register s32 *palette_ptr ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u16 value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 *palette_ptr ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u16 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 color;
     s32 palette_value;
     void *object;
@@ -75,7 +75,7 @@ void func_80956E6C(s32 arg0, s32 arg1, S_80956E6C_4 *arg2, s32 arg3)
         value = arg0;
         position = ((S_80956E6C_0 *)object)->unk_08.p32;
         if (arg0 < 0) {
-            ASM_KEEP(value);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             value = -value;
         }
         position->unk_02 = value;

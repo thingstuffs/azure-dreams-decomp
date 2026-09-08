@@ -77,7 +77,7 @@ typedef struct S_800243D8_3 {
 void func_800243D8(State8081A3D8 *arg0)
 {
     u8 *object;
-    register u8 *inner ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *inner ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *spawn_list;
     u8 *callback;
     s16 interval;
@@ -162,9 +162,9 @@ tick:
     }
 
 case_1:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     spawn_kind = 1;
-    ASM_KEEP(spawn_kind);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(spawn_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     spawn_list = D_80083498;
     object = func_8003FD64(spawn_kind, spawn_list);
     if (object != 0) {
@@ -199,7 +199,7 @@ case_1:
 
 case_2:
     spawn_kind = 1;
-    ASM_KEEP(spawn_kind);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(spawn_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     spawn_list = D_80083498;
     object = func_8003FD64(spawn_kind, spawn_list);
     if (object != 0) {
@@ -254,7 +254,7 @@ case_4:
     func_80033B78(0xA4);
     highscore = D_800135BC[0];
     score_threshold = arg0->threshold;
-    ASM_KEEP(highscore);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(highscore);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     dialog_zero = 0;
     if ((s16)highscore < score_threshold) {
         s32 dialog_id_true;
@@ -268,7 +268,7 @@ case_4:
 
     {
         s32 dialog_id_false;
-        ASM_KEEP(dialog_zero);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(dialog_zero);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         dialog_id_false = 0x2C3D;
         func_8003F540(dialog_zero, dialog_id_false, dialog_zero, 0x01000290);
     }

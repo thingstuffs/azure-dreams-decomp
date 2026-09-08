@@ -32,7 +32,7 @@ void func_800A8ADC(s32 arg0, s32 *arg1) {
     Pair *source;
     s32 x;
     s32 z;
-    register s32 y ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *shared = arg1;
     void *old_arg;
 
@@ -41,20 +41,20 @@ void func_800A8ADC(s32 arg0, s32 *arg1) {
 #else
     page = (u8 *)0x80090000;
 #endif
-    ASM_KEEP_NV(page);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     source = (Pair *)(page - 0x6ED8);
-    ASM_KEEP_NV(source);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     memcpy(&local.first, &source->first, sizeof(Vec3));
     x = source->second.x;
-    ASM_USE2_NV(page, x);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE2_NV(page, x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     y = source->second.y;
     z = source->second.z;
     local.second.x = x;
     local.second.y = y;
     local.second.z = z;
-    ASM_USE_NV(y);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_USE_NV(shared);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE_NV(y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_USE_NV(shared);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     work.x = ((s32 *)shared)[0];
     work.y = ((s32 *)shared)[1];
     work.z = ((s32 *)shared)[2] + 0x100000;

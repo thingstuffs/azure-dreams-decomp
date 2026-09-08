@@ -57,9 +57,9 @@ extern M2C_UNK D_80024F74;
 extern M2C_UNK D_80045C34;
 
 s32 func_8191CBCC(void *arg0, void *arg1) {
-    register S_8191CBCC_2 *held_arg0 ASM_REG("$19") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register S_8191CBCC_2 *held_arg0 ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *held_arg1 = arg1;
-    register void *tail_obj ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *tail_obj ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 temp_a0;
     s32 temp_v0_3;
     s32 temp_ret;
@@ -71,8 +71,8 @@ s32 func_8191CBCC(void *arg0, void *arg1) {
     void *temp_v0;
 
     temp_v0 = func_8003FC64(0x212);
-    ASM_KEEP(held_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (temp_v0 != NULL) {
         temp_s2 = temp_v0 + 0x20;
         ((S_8191CBCC_0 *)temp_v0)->unk_10 = &D_80024288;
@@ -111,7 +111,7 @@ s32 func_8191CBCC(void *arg0, void *arg1) {
             tail_value = ((copy_dst->unk_14 * temp_a0) -
                           (held_arg0->unk_10.u << 0x13)) / temp_a0;
             tail_obj = temp_v0;
-            ASM_KEEP(tail_obj);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP(tail_obj);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             copy_dst->unk_14 = tail_value;
             func_80024554();
         }

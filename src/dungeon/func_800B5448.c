@@ -121,9 +121,9 @@ s32 func_800BABA8(DungeonObject *object, u16 *input) {
             s8 level = *(s8 *)((u8 *)object + index + 0x12);
             if (level >= 33) {
                 s32 dead_value = value;
-                register s32 dead_level ASM_REG("$2") = level - 32;   /* MATCH pin: load-bearing for the whole function shape */
-                ASM_KEEP(dead_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-                ASM_TAILSLOT_PIN(dead_level);   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 dead_level ASM_REG("$2") = level - 32;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(dead_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                ASM_TAILSLOT_PIN(dead_level);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 return func_800BAD40(level);
             }
             if (level < 16) {
@@ -149,7 +149,7 @@ s32 func_800BABA8(DungeonObject *object, u16 *input) {
         ((S_800BABA8_0_pre *)dst)[-1].unk_00 = 8;
         ((S_800BABA8_0 *)dst)->unk_00 = 58;
         dst = (void *)((s8 *)dst + 36);
-        ASM_KEEP_NV(dst);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP_NV(dst);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         dst = (void *)((s8 *)dst + 12);
         func_8006658C((void *)(scratch->base + scratch->length * 4),
             (void *)cursor);
@@ -161,7 +161,7 @@ s32 func_800BABA8(DungeonObject *object, u16 *input) {
             u8 count = object->count;
             cursor += 12;
             object->count = count + 1;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
         {
             s16 next_i = i + 1;

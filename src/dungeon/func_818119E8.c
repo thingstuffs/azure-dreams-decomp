@@ -20,9 +20,9 @@ s32 func_800269E8(void *arg0)
     temp_v0 = func_80048EE4((s8 *)arg0 + 0x74, 4);
     *(s32 *)((s8 *)arg0 + 0x70) = temp_v0;
     if (temp_v0 != 0) {
-        register s32 call_arg ASM_REG("$4") = temp_v0;   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 call_arg ASM_REG("$4") = temp_v0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        ASM_KEEP(call_arg);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_v1 = &D_8002E5E8;
         *(s32 *)((s8 *)arg0 + 0x54) = temp_v1->x;
         *(s32 *)((s8 *)arg0 + 0x58) = temp_v1->y;

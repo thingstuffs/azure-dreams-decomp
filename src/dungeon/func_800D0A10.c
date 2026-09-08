@@ -99,7 +99,7 @@ void func_800D6170(void *arg0, S_800D6170_1 *arg1, S_800D6170_2 *arg2, s16 arg3)
     u8 **global = (u8 **)D_80083160;
     u8 *packet;
     s32 index;
-    register s32 delta ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 i;
     u32 lowMask;
     u32 highMask;

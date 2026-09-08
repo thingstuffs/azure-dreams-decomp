@@ -27,8 +27,8 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
     u16 timer1;
     u16 state1;
     u16 h1;
-    register s32 i ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 cond ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 i ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 cond ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 color;
     s32 r0;
     s32 r1;
@@ -54,7 +54,7 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
 
 jt_c0:
         h0 = *(u16 *)(p + 0x1A);
-        ASM_KEEP(h0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(h0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         old = p[0x34];
         *(u16 *)(p + 0x68) = 0;
         *(u16 *)(p + 0x6A) = h0;
@@ -69,7 +69,7 @@ jt_c0:
         }
         limit0 = 0x800;
         state0 = *(u16 *)p;
-        ASM_KEEP(state0);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(state0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         *(u16 *)(p + 0xE) = limit0;
         func_800257A8();
 
@@ -133,7 +133,7 @@ jt_c4:
         *(s16 *)(*(u8 **)(p + 0x40) + 0x88) = 1;
 
         i = 0;
-        ASM_KEEP(i);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         r0 = (func_80069EF8() & 0xFF) | 0x80;
         i++;
         r1 = (s16)((func_80069EF8() & 0x7F) - 0x40);

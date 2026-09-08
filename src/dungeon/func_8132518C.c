@@ -27,26 +27,26 @@ s32 func_8016C98C(Rec_func_800A9E70_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3)
     void *base = arg0;
     s16 var_v1;
     s32 var_v0;
-    register void *case2_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *case2_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((S_8016C98C_0 *)base)->unk_AE != 0) {
         var_v1 = func_800ADDA0(arg1, arg2, base, 3, 6,
                               (u8 *)base + 0x9C);
         if ((s16)var_v1 < 0) {
             s32 tail_result = 0;
-            ASM_TAILSLOT_PIN(tail_result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8016CAE8();
             return tail_result;
         }
         if ((arg3 << 16) != 0) {
-            register void *call_a0 ASM_REG("$4") = base;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            register s32 call_a1 ASM_REG("$5") = arg1;   /* MATCH pin: retail keeps a computation the compiler would drop */
-            register s32 call_a2 ASM_REG("$6") = arg2;   /* MATCH pin: retail basic-block layout depends on it */
-            register void *call_a3 ASM_REG("$7") = base;   /* MATCH pin: retail delay-slot contents depend on it */
-            ASM_KEEP(call_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            ASM_KEEP(call_a1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-            ASM_KEEP(call_a2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-            ASM_TAILSLOT_PIN(call_a3);   /* MATCH pin: retail delay-slot contents depend on it */
+            register void *call_a0 ASM_REG("$4") = base;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            register s32 call_a1 ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            register s32 call_a2 ASM_REG("$6") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            register void *call_a3 ASM_REG("$7") = base;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(call_a2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(call_a3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8016CA80();
         }
         goto block_8;
@@ -54,7 +54,7 @@ s32 func_8016C98C(Rec_func_800A9E70_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3)
     var_v1 = 0;
 
 block_8:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (var_v1 == 1) {
         goto case_1;
     }
@@ -65,7 +65,7 @@ block_8:
         }
         func_8016CAB0();
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     case2_a0 = arg0;
     if (var_v1 == 2) {
         goto case_2;
@@ -73,24 +73,24 @@ block_8:
     func_8016CAB0();
 
 case_0: {
-        register s32 tail_result ASM_REG("$2") = 0;   /* MATCH pin: retail keeps a computation the compiler would drop */
+        register s32 tail_result ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         arg0->unk_9A.as_s8 = var_v0;
         func_800A9A0C(base);
         tail_result = 0;
-        ASM_TAILSLOT_PIN(tail_result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8016CAE8();
         return tail_result;
     }
 
 case_2: {
-        register s32 tail_result ASM_REG("$2") = 0;   /* MATCH pin: retail keeps a computation the compiler would drop */
-        register s32 call_a1 ASM_REG("$5") = arg1;   /* MATCH pin: retail keeps a computation the compiler would drop */
-        register s32 call_a2 ASM_REG("$6") = arg2;   /* MATCH pin: retail basic-block layout depends on it */
+        register s32 tail_result ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        register s32 call_a1 ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        register s32 call_a2 ASM_REG("$6") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         void *call_a3 = base;
-        ASM_KEEP(call_a3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(call_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8016BF74(case2_a0, call_a1, call_a2, call_a3);
         tail_result = 0;
-        ASM_TAILSLOT_PIN(tail_result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8016CAE8();
         return tail_result;
     }

@@ -3,7 +3,7 @@
 s32 func_8008B2E4(s32 arg0) {
     s32 *p = (s32 *)0x800D0000;
 
-    ASM_KEEP(p);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(p);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (p[-0x1E9] != 0) {
         p += -0x1E9;
         do {

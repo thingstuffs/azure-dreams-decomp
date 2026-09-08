@@ -24,7 +24,7 @@ void func_80173AD8(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 first_adjusted;
     s32 second_adjusted;
     s32 byte_value;
-    register s32 delta ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *global;
     s16 motion_count;
     s32 state_2_count;
@@ -40,7 +40,7 @@ void func_80173AD8(void *arg0, void *arg1, void *arg2, void *arg3) {
         }
         return;
     }
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (initial_state == 2) {
         goto state_2;
     }
@@ -116,7 +116,7 @@ state_2:
             byte_value = FIELD_U8(arg2, 0x24);
         } while (0);
         delta = FIELD_S16(arg1, 2);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         FIELD_S32(arg1, 0xC) = (((byte_value << 6) - (delta -= 0x20)) << 15) /
                                state_2_count;
         delta = FIELD_S16(arg1, 6) - 0x20;

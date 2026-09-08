@@ -91,10 +91,10 @@ void func_800AB7FC(void) {
     temp_s0->unk_68 = 0;
     func_80064D50(temp_s1 + 0x70);
     temp_call_a0 = temp_s1 + 0x50;
-    ASM_KEEP(temp_call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(temp_call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v1 = -0x800;
     temp_v0 = 0x800;
-    ASM_KEEP(temp_v0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     temp_s0->unk_38 = temp_v1;
     temp_s0->unk_3C = temp_v1;
     temp_v1 = 0x800;
@@ -134,7 +134,7 @@ void func_800AB7FC(void) {
     temp_s0->unk_90 = 0x80;
     temp_s0->unk_91 = 0x80;
     temp_s0->unk_92 = 0x80;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     tail_base = D_801C9E40;
     tail_base[0x19] = 0;
     tail_base[0x1A] = 0;

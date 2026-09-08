@@ -36,9 +36,9 @@ extern s16 D_800DCEBC[];
 extern FuncMonster D_800E2970[];
 
 s32 func_8009A66C(u32 arg0, FuncArg1 *arg1, FuncArg2 *arg2, s16 arg3) {
-    register s32 temp_s2 ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 call_index ASM_REG("$6");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 *x_table ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 call_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 *x_table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u16 flags;
     u16 *flags_out;
     s32 index;
@@ -48,10 +48,10 @@ s32 func_8009A66C(u32 arg0, FuncArg1 *arg1, FuncArg2 *arg2, s16 arg3) {
     s32 y_base;
     s32 x_pos;
     s32 y_pos;
-    register u16 height ASM_REG("$21");   /* MATCH pin: retail register colouring depends on it */
+    register u16 height ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 monster;
     s32 result;
-    register s32 signed_height ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 signed_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 ret;
 
     index = (arg0 >> 9) & 7;
@@ -66,7 +66,7 @@ s32 func_8009A66C(u32 arg0, FuncArg1 *arg1, FuncArg2 *arg2, s16 arg3) {
 
     call_index = index;
     flags_out = &flags;
-    ASM_KEEP(flags_out);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(flags_out);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     x_table = D_800DCEAC;
     temp_s2 = call_index << 1;
     x_pos = *(u16 *)((u8 *)x_table + temp_s2) + x_base;
@@ -87,7 +87,7 @@ s32 func_8009A66C(u32 arg0, FuncArg1 *arg1, FuncArg2 *arg2, s16 arg3) {
             return 0;
         }
     }
-    ASM_KEEP(temp_s2);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (flags & 0x8402) {
         return 0;

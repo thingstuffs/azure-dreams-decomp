@@ -8,7 +8,7 @@ extern u8 D_8001E259[];
 extern u8 D_8001E405[];
 
 #ifndef NON_MATCHING
-register u8 *dispatch_result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 void *func_800170B8(void) {

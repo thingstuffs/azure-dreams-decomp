@@ -104,9 +104,9 @@ extern u8 D_8015C1CC[];
 void *func_8015886C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
 {
     s32 kind;
-    register void *work ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s8 saved_arg1 ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s8 saved_arg2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *work ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s8 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s8 saved_arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *obj;
     S_8015886C_2 *part_a;
     S_8015886C_3 *part_b;
@@ -120,14 +120,14 @@ void *func_8015886C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_8015886C_7 *elem;
     s32 count;
     register s32 i;
-    register s32 elem_offset ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 elem_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 child_arg;
     u16 flags;
     u16 child_flags;
     u16 elem_flags;
-    register s32 call_code ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 call_zero ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register u32 color ASM_REG("$8");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 call_code ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 call_zero ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u32 color ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     work = 0;
     saved_arg2 = arg2;
@@ -197,7 +197,7 @@ call_actor_setup:
             child_obj = func_8003FD64(0x112, D_80083498);
             ((S_8015886C_5 *)current)->unk_A4 = child_obj;
             if (child_obj != 0) {
-                register void *child ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                register void *child ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
                 child = (u8 *)child_obj + 0x20;
 
@@ -208,12 +208,12 @@ call_actor_setup:
                 while (i < ((S_8015886C_6 *)child)->unk_02) {
                     color = 0x00C0C0C0;
                     elem = (u8 *)child + elem_offset;
-                    ASM_KEEP(elem);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP(elem);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     call_code = 39;
                     child_flags = ((S_8015886C_6 *)child)->unk_04;
-                    ASM_KEEP(child_flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP(child_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     call_zero = 0;
-                    ASM_KEEP_NV(call_zero);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP_NV(call_zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     ((S_8015886C_6 *)child)->unk_04 = child_flags | 0x8000;
                     child_arg = part_b->unk_28;
                     elem_flags = elem->unk_14;

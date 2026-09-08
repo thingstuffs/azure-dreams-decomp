@@ -47,18 +47,18 @@ extern s32 func_800644B8();
 void func_80024B20(void *arg0) {
     u16 state;
     {
-        register s32 i ASM_REG("$5") = 0;   /* MATCH pin: retail register colouring depends on it */
+        register s32 i ASM_REG("$5") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 scaled;
         do {
-            register s32 next ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register s32 next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             s32 index, src_offset, dst_offset;
             u8 *src;
             u8 *dst;
             scaled = i * 2;
             index = scaled + i;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             next = i + 1;
-            ASM_KEEP(next);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             i = next;
             dst_offset = index * 2;
             src_offset = i * 6;
@@ -110,7 +110,7 @@ mode_one:
         ((S_80024B20_2 *)arg0)->unk_0C = accum;
         ((S_80024B20_2 *)arg0)->unk_3A = func_800644B8(call_arg << 9) >> 7;
         if (((S_80024B20_2 *)arg0)->unk_0C > 0x60605F) {
-            register u16 timer ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u16 timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             state = ((S_80024B20_2 *)arg0)->unk_40.u;
             timer = 0x38;
             ((S_80024B20_2 *)arg0)->unk_42.u = timer;
@@ -125,21 +125,21 @@ mode_two:
         s32 y = 0xD0;
         u8 *p = (u8 *)arg0 + 0x2A;
         do {
-            register s32 square ASM_REG("$8") = i * i;   /* MATCH pin: retail register colouring depends on it */
+            register s32 square ASM_REG("$8") = i * i;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 value;
             i--;
             value = y - ((S_80024B20_2 *)arg0)->unk_42.u;
             y -= 0x18;
             ((S_80024B20_3 *)p)->unk_14 = value + ((square >> 2) * 0x14);
-            ASM_KEEP(square);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(square);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             p -= 6;
         } while (i >= 0);
     }
     {
         s32 i = 6;
-        register s32 limit ASM_REG("$4") = 0x160;   /* MATCH pin: retail delay-slot fill depends on it */
-        register u8 *p ASM_REG("$6") = (u8 *)arg0 + 0x24;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        register s32 offset ASM_REG("$7") = 0x2A;   /* MATCH pin: retail register colouring depends on it */
+        register s32 limit ASM_REG("$4") = 0x160;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        register u8 *p ASM_REG("$6") = (u8 *)arg0 + 0x24;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register s32 offset ASM_REG("$7") = 0x2A;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
             u16 current = ((S_80024B20_3 *)p)->unk_12.v;
             if (limit < (((S_80024B20_4 *)((u8 *)arg0 + offset))->unk_12 - ((S_80024B20_3 *)p)->unk_12.n)) {
@@ -165,8 +165,8 @@ increment_state:
 
 mode_three:
     {
-        register u32 page ASM_REG("$3") = 0x80080000;   /* MATCH pin: retail register colouring depends on it */
-        ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register u32 page ASM_REG("$3") = 0x80080000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_80024B20_2_pre *)arg0)[-1].unk_00 |= 0x8000;
         ((S_80024B20_5 *)page)->unk_14A0 |= 0x8000;
     }

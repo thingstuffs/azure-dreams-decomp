@@ -76,7 +76,7 @@ void *func_8009792C(S_8009792C_2 *arg0, u32 arg1) {
     s32 var_v0_2;
     u32 temp_s4_idx;
     u8 *temp_page;
-    register void *temp_call ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *temp_call ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *temp_a1;
     S_8009792C_3 *temp_s0;
     S_8009792C_1 *temp_s2;
@@ -88,13 +88,13 @@ void *func_8009792C(S_8009792C_2 *arg0, u32 arg1) {
     if (temp_v0 != NULL) {
         temp_call = temp_v0;
         temp_a1 = &D_80045340;
-        ASM_KEEP_NV(temp_a1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(temp_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
         temp_page = (u8 *)&D_800ABB20 + 0x44E0;
 #else
         temp_page = (u8 *)0x800B0000;
 #endif
-        ASM_KEEP_NV(temp_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(temp_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_s2 = ((S_8009792C_0 *)temp_v0)->unk_08;
         temp_s0 = ((S_8009792C_0 *)temp_v0)->unk_0C;
         ((S_8009792C_0 *)temp_v0)->unk_10 =
@@ -102,7 +102,7 @@ void *func_8009792C(S_8009792C_2 *arg0, u32 arg1) {
         func_8004491C(temp_call, temp_a1);
         temp_a0 = temp_s4_idx * 2;
         table_x = (s16 *)&D_8006CCD8;
-        ASM_KEEP(table_x);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(table_x);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         temp_a0_2 = (s16 *)((u8 *)&D_8006CCE8 + temp_a0);
         temp_s2->unk_02 =
             (s16)(arg0->unk_02 -
@@ -118,7 +118,7 @@ void *func_8009792C(S_8009792C_2 *arg0, u32 arg1) {
             var_v0 += 0xF;
         }
         temp_s4 = (s16 *)((s8 *)temp_v0 + 0x20);
-        ASM_KEEP(temp_s4);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(temp_s4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_s2->unk_0C = (s32)(var_v0 >> 4);
         var_v0_2 = 0 -
                    (arg0->unk_10 *

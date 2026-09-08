@@ -67,10 +67,10 @@ s32 func_80033D54(u8 *arg0, u8 *arg1, u8 *arg2) {
     context = arg2;
 
     guard = D_8008099C;
-    ASM_KEEP_NV(guard);   /* MATCH pin: slus-diff */
+    ASM_KEEP_NV(guard);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     state_p = D_80083160_init;
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP_NV(scratch);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (guard != 0) {
         return 0;
     }
@@ -146,7 +146,7 @@ outer_loop:
     RotMatrix(D_80080994, work_matrix);
     CompMatrix(matrix, work_matrix, matrix);
     SetRotMatrix(matrix);
-    ASM_USE_NV(work_matrix);   /* MATCH pin: slus-diff */
+    ASM_USE_NV(work_matrix);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     SetTransMatrix(matrix);
 
     if (source != 0) {
@@ -327,7 +327,7 @@ inner_loop:
     if (callback != 0) {
         callback(node);
     }
-    ASM_USE_NV(callback);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE_NV(callback);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     SCR_S32(0x1C) = S32_AT(state_p[0], 0x8D0);
 
     next = PTR_AT(node, -8);

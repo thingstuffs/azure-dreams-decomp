@@ -64,7 +64,7 @@ extern u8 D_80045C34[9];
 
 s32 func_818C32F4(s32 *arg0, S_818C32F4_4 *arg1, void *arg2) {
     S_818C32F4_3 *template_arg = arg2;
-    register s32 result ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 temp_a0;
     s32 temp_a1;
     s32 temp_a2;
@@ -77,7 +77,7 @@ s32 func_818C32F4(s32 *arg0, S_818C32F4_4 *arg1, void *arg2) {
     S_818C32F4_5 *temp_v1;
 
     temp_v0 = func_8003FC64(0x212);
-    ASM_KEEP(template_arg);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(template_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     if (temp_v0 != 0) {
         ((S_818C32F4_0 *)temp_v0)->unk_10 = D_80024A08;
         ((S_818C32F4_0 *)temp_v0)->unk_20 = *arg0;
@@ -105,9 +105,9 @@ s32 func_818C32F4(s32 *arg0, S_818C32F4_4 *arg1, void *arg2) {
         temp_s0->unk_1A = temp_angle;
         func_8004491C(temp_v0, temp_init);
         temp_v1 = ((S_818C32F4_0 *)temp_v0)->unk_08;
-        ASM_KEEP(temp_v1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         result = (s32)temp_v0;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         temp_a0 = arg1->unk_00;
         temp_a1 = arg1->unk_04;
         temp_a2 = arg1->unk_08;

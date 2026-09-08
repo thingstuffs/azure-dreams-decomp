@@ -103,7 +103,7 @@ void *func_800BA074(u8 *arg0) {
     D_80083780_t *data;
     Obj **slot;
     s32 i;
-    register u8 *page ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *page ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 two;
 
     input = arg0;
@@ -166,7 +166,7 @@ loop:
             aux->f12 = i;
             aux->f16 = subA->f2;
             aux->f1A = subA->f6;
-            ASM_USE_G_NV(subA);   /* MATCH pin: retail register colouring depends on it */
+            ASM_USE_G_NV(subA);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if (i != 0) {
                 aux->f28 = objects[0];
             } else {

@@ -6,7 +6,7 @@ extern s32 read(s32 arg0, s32 arg1, s32 arg2);
 extern void close(s32 arg0);
 
 s32 func_80021B98(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    register s32 ret ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 ret ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 fd;
 
     ret = 0;

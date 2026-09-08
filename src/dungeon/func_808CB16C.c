@@ -41,9 +41,9 @@ __asm__(".set D_80120000, 0x80120000");
 
 void func_80123604(void) {
     SlotTable *slot_base;
-    register u8 *record_base ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *record_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     Slot **slot;
-    register Record *record ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register Record *record ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 count;
     s32 value_6;
     s32 value_8;
@@ -51,13 +51,13 @@ void func_80123604(void) {
     count = 0;
     value_6 = 0x10;
     value_8 = 0xE0;
-    ASM_KEEP(value_6);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(value_8);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(value_6);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(value_8);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     slot_base = &D_80129728;
-    ASM_KEEP(slot_base);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(slot_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     slot = slot_base->slots;
     record_base = D_80120000;
-    ASM_KEEP(record_base);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(record_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     record = (Record *)(record_base + 0x6A18);
     do {
         (*slot)->part_0 = 0;
@@ -72,16 +72,16 @@ void func_80123604(void) {
 
     {
         SlotTable *slots;
-        register u8 *records ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *records ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         Slot *current;
 
         slots = &D_80129728;
         records = D_80120000;
-        ASM_KEEP(slots);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(slots);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         current = slots->slots[12];
-        ASM_USE(current);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_USE(current);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         records += 0x6A18;
-        ASM_KEEP(records);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(records);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         current->part_8->value_6 = ((RecordTable *)records)->records[12].value_4;
         slots->slots[12]->part_8->value_8 = ((RecordTable *)records)->records[12].value_6;
         slots->slots[13]->part_8->value_6 = ((RecordTable *)records)->records[13].value_4;

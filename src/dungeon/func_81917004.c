@@ -60,28 +60,28 @@ typedef struct S_80024804_3 {
 
 void *func_80024804(void *arg0, Copy24 *arg1, s16 arg2)
 {
-    register void *result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *held_arg0 = arg0;
     Copy24 *held_arg1 = arg1;
-    register s16 held_arg2 ASM_REG("$16") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s16 held_arg2 ASM_REG("$16") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *obj;
     S_80024804_2 *part;
     Copy24 *position;
     u8 *work;
-    register s32 angle ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register s32 angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 first;
-    register s32 scaled_first ASM_REG("$16");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 scaled_first ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 delta;
     s16 height;
     s32 alloc_kind;
     void *alloc_source;
-    register s32 sign_word ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 sign_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     alloc_kind = 0x212;
     alloc_source = (u8 *)held_arg0 - 0x20;
-    ASM_KEEP_NV(alloc_kind);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(held_arg0);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP_NV(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(alloc_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(alloc_kind, alloc_source);
     if (obj == NULL) {
         goto null_result;
@@ -89,7 +89,7 @@ void *func_80024804(void *arg0, Copy24 *arg1, s16 arg2)
 
     ((S_80024804_0 *)obj)->unk_10 = &D_80024710;
     ((S_80024804_0 *)obj)->unk_20 = ((S_80024804_1 *)held_arg0)->unk_00;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     sign_word = (s32)held_arg2 << 16;
     angle = sign_word >> 16;

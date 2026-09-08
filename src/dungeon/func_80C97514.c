@@ -215,7 +215,7 @@ jt_c4:
 {
     void *case_a0;
     s32 case_v0;
-    register s32 case_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 case_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     temp_v0_2 = func_8003FC64(0x12);
     if (temp_v0_2 == NULL) {
@@ -233,7 +233,7 @@ jt_c4:
     temp_s0->unk_0C.s = 0x808080;
     case_v0 = func_800498A0(arg3) - 1;
     case_v1 = case_v0;
-    ASM_KEEP(case_v0);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(case_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     case_a0 = temp_s0;
     if ((case_v0 << 0x10) >= 0) {
         goto block_16;

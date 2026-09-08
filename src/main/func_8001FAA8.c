@@ -27,17 +27,17 @@ void func_80406AA8(void *arg0)
         FIELD(arg0, void (**)(void), 0x34) = func_80406DA0;
         func_80403144(call_arg);
         callback = func_804069FC;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     } else {
         func_80405A00(FIELD(arg0, s32 *, 4), FIELD(arg0, s32 *, 0x2C));
         func_80404688(FIELD(arg0, s32 *,
                             0xC + FIELD(arg0, s32 *, 0x2C) * 4));
         if (D_80010208 != 0) {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             callback = func_80406A74;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         } else {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             callback = func_80406DA0;
         }
     }

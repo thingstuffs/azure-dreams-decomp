@@ -16,11 +16,11 @@ void func_80E12B30(s32 arg0, void *arg1) {
 
     result = func_800990FC();
     if (arg0 << 16) {
-        register void *dispatch_arg ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register void *dispatch_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         func_80099734(arg1, result);
         dispatch_arg = D_800E1F7B;
-        ASM_TAILSLOT_PIN(dispatch_arg);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(dispatch_arg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80176398();
         return;
     }

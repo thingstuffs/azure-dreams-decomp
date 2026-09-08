@@ -48,7 +48,7 @@ void func_80019560(void) {
         {
             u32 tail_page;
             tail_page = 0x80020000;
-            ASM_PAGEBASE_PIN(tail_page);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(tail_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80019618();
         }
         return;
@@ -59,7 +59,7 @@ void func_80019560(void) {
 block_11:
     func_8001E5F0(0x40A);
     page_value = 0x80020000;
-    ASM_KEEP(page_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(page_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     page = (u8 *)page_value;
     callback_table = D_800178E8;
     *(u8 **)(page - 0x16B0) = ((S_80019560_0 *)(*(void **)D_80016000))->unk_40 + 8;

@@ -40,7 +40,7 @@ void func_80024CD4(s32 arg0, s32 arg1, Position *arg2, Position *arg3,
     DungeonState **state_ptr;
     u8 *packet;
     u32 *ordering_table;
-    register s32 shifted ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 shifted ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 y;
     s32 call_arg5 = arg5;
 

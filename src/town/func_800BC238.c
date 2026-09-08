@@ -39,7 +39,7 @@ extern void func_80033D08(void *);
 extern s32 func_8009CFE0(void *, void *);
 
 void func_800B9998(void *arg0, void *arg1, void *arg2) {
-    register u8 *p1 ASM_REG("$17") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *p1 ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *p2 = arg2;
     s8 *byte_ptr;
     u8 *town;
@@ -47,7 +47,7 @@ void func_800B9998(void *arg0, void *arg1, void *arg2) {
     s32 dy;
     s32 dx_ok;
     s32 sum;
-    register s32 arg1_x ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 arg1_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 arg1_y;
     s32 angle;
     s32 raw_angle;
@@ -88,7 +88,7 @@ void func_800B9998(void *arg0, void *arg1, void *arg2) {
     dx = (s16)dx;
     dy = ((S_800B9998_1 *)town)->unk_06;
     dx_ok = dx < 0x81;
-    ASM_USE(dx_ok);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE(dx_ok);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dy -= arg1_y;
     if (dy < 0) {
         dy = -dy;

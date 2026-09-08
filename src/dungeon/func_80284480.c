@@ -12,12 +12,12 @@ extern DungeonCell D_800EA000[];
 void func_80017480(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
 {
     s32 y;
-    s32 height;   /* MATCH pin: load-bearing for the whole function shape */
-    s32 y_test;   /* MATCH pin: retail delay-slot fill depends on it */
+    s32 height;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 y_test;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 y_end;
     s32 x;
     s32 x_end;
-    s32 width;   /* MATCH pin: retail register colouring depends on it */
+    s32 width;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *config;
     DungeonCell *cells;
 
@@ -33,7 +33,7 @@ void func_80017480(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
         y_end = y_test;
         do {
             x = arg0 >> 16;
-            ASM_KEEP_NV(arg2);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if (x < x + width) {
                 x_end = x + (arg2 >> 16);
                 do {

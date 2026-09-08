@@ -117,7 +117,7 @@ s32 func_80171E28(Arg0 *arg0, s32 arg1, Arg2 *arg2, Arg3 *arg3) {
         arg3->field_84 = 0x7C;
     }
     arg3->field_85 = 8;
-    ASM_KEEP(arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     table = D_80174038;
     arg2->field_2c = table;

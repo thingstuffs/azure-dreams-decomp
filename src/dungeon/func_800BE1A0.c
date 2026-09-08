@@ -34,7 +34,7 @@ typedef struct S_800C3900_2 {
 } S_800C3900_2;   /* counter_base in func_800C3900 */
 
 s32 func_800C3900(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2) {
-    register M2C_UNK *var_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register M2C_UNK *var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     M2C_UNK *counter_base;
     s32 temp_s1;
     s32 temp_v0;

@@ -150,7 +150,7 @@ s32 func_80026864(void *arg0, void *arg1, void *arg2)
             if (sel != 0) {
                 rec = ((Face **) PTR(gd, 4))[sel];
                 for (;;) {
-                    ASM_SET(aC);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                    ASM_SET(aC);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     aA = rec->i0 * 8 + (u32)base;
                     p0 = ((Vert *)aA)->x;
                     p0 = p0 + x;
@@ -170,25 +170,25 @@ s32 func_80026864(void *arg0, void *arg1, void *arg2)
                     nC = nC + (u32)base;
                     nD = nD << 3;
                     nD = nD + (u32)base;
-                    ASM_USE2_NV(nD, nD);   /* MATCH pin: retail register colouring depends on it */
-                    ASM_USE_NV(nD);   /* MATCH pin: retail register colouring depends on it */
+                    ASM_USE2_NV(nD, nD);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ASM_USE_NV(nD);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     q0 = q0 << 3;
                     q0 = q0 + (u32)base;
                     p1 = p1 + x;
                     p1 = p1 & 0xFFFF;
-                    ASM_USE2_NV(p1, p1);   /* MATCH pin: retail register colouring depends on it */
-                    ASM_USE2_NV(p1, p1);   /* MATCH pin: retail register colouring depends on it */
+                    ASM_USE2_NV(p1, p1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ASM_USE2_NV(p1, p1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     zB = (y + aB) << 0x10;
                     p1 = p1 | zB;
                     p2 = U16((u8 *)nC, 0);
                     aC = S16((u8 *)nC, 2);
                     p3 = U16((u8 *)nD, 0);
-                    ASM_KEEP_NV(q0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                    ASM_KEEP_NV(q0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     w0 = U16((u8 *)q0, 4);
                     b0 = ((Cell *)((u8 *)&D_80027120[0] + k * 6))->bias;
                     w0 = w0 - b0;
-                    ASM_USE2_NV(w0, w0);   /* MATCH pin: load-bearing for the whole function shape */
-                    ASM_USE2_NV(w0, w0);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_USE2_NV(w0, w0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    ASM_USE2_NV(w0, w0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     nD = S16((u8 *)nD, 2);
                     p2 = p2 + x;
                     p2 = p2 & 0xFFFF;
@@ -197,11 +197,11 @@ s32 func_80026864(void *arg0, void *arg1, void *arg2)
                     p2 = p2 | zC;
                     p3 = p3 + x;
                     p3 = p3 & 0xFFFF;
-                    ASM_USE_NV(zC);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_USE_NV(zC);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     S16(scratch, 0x74) = w0;
                     q1 = U16((u8 *)rec, 2);
                     e1 = q1 * 8 + (u32)base;
-                    ASM_KEEP_DEP_NV(e1, zB);   /* MATCH pin: keeps a constant in a register as retail does */
+                    ASM_KEEP_DEP_NV(e1, zB);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     zD = (y + nD) << 0x10;
                     w1 = U16((u8 *)e1, 4);
                     S32(scratch, 0x78) = p1;
@@ -283,9 +283,9 @@ s32 func_80026864(void *arg0, void *arg1, void *arg2)
     }
     idx2 = 0;
     cur = arg0;
-    ASM_USE_NV(base);   /* MATCH pin: retail register colouring depends on it */
+    ASM_USE_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     do {
-        ASM_KEEP_NV(cur);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP_NV(cur);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         if (PTR(cur, 0xC) != 0) {
             S32(scratch, 0x13C) = 0;
             obj2 = PTR(cur, 0xC);

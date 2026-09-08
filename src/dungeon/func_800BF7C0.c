@@ -116,7 +116,7 @@ extern M2C_UNK D_80083780;
 
 void func_800C4F20(void *arg0, S_800C4F20_5 *arg1, void *arg2_in) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17 };
-    register S_800C4F20_1 *arg2 ASM_REG("$20") = arg2_in;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register S_800C4F20_1 *arg2 ASM_REG("$20") = arg2_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 temp_a0_4;
     s16 temp_a0_5;
     s16 temp_a0_6;
@@ -187,12 +187,12 @@ block_4:
     }
     {
         u16 tail_v0;
-        register u32 tail_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         tail_v0 = ((S_800C4F20_0 *)arg0)->unk_28.u;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         tail_v1 = 0x20;
-        ASM_KEEP(tail_v1);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_KEEP(tail_v0);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(tail_v1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_800C4F20_0 *)arg0)->unk_32 = 0;
         func_800C5254();
     }
@@ -254,7 +254,7 @@ jt_c2:
     {
         s32 c2_v0;
         s32 c2_v1;
-        register s32 c2_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register s32 c2_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         c2_v0 = (s32) ((S_800C4F20_0 *)arg0)->unk_20;
         c2_a0 = ((S_800C4F20_0 *)arg0)->unk_2A;

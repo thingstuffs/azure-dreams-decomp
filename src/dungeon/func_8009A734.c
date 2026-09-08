@@ -5,12 +5,12 @@ extern s32 func_8009FB34(s32, s32, ...);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
 
 s32 func_8009FE94(s32 x0, s32 y0, s32 arg2, s32 x1, volatile s32 y1) {
-    register s32 raw_x0 ASM_REG("$6") = x0;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 raw_y0 ASM_REG("$8") = y0;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 raw_x0 ASM_REG("$6") = x0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 raw_y0 ASM_REG("$8") = y0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 dx_raw;
-    register s32 held_x1 ASM_REG("$16");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 held_x1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 loaded_y1;
-    register s32 held_y1 ASM_REG("$21");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 held_y1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 dx;
     s32 dy;
     s32 dx_small;
@@ -20,10 +20,10 @@ s32 func_8009FE94(s32 x0, s32 y0, s32 arg2, s32 x1, volatile s32 y1) {
     s32 second;
     s32 scratch;
 
-    ASM_KEEP_NV(raw_x0);   /* MATCH pin: retail register colouring depends on it */
-    ASM_KEEP_NV(raw_y0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(raw_x0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(raw_y0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     held_x1 = x1;
-    ASM_KEEP_NV(held_x1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(held_x1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     x1_short = (s16)x1;
     dx_raw = x1_short - (s16)x0;
     dx = __builtin_abs(dx_raw);

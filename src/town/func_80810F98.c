@@ -20,7 +20,7 @@ typedef struct S_80810F98_1 {
 s32 func_80810F98(void *arg0)
 {
     s16 state;
-    register s32 call_arg ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *object;
 
     state = ((S_80810F98_0 *)arg0)->unk_00;
@@ -36,7 +36,7 @@ s32 func_80810F98(void *arg0)
     return func_8052BC28(call_arg, arg0);
 
 state_0: {
-        ASM_KEEP(call_arg);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         if (((S_80810F98_1 *)object)->unk_0C & 2) {
             s32 result;
             result = call_arg + 1;
@@ -46,7 +46,7 @@ state_0: {
         return call_arg + 1;
     }
 state_1: {
-        register s32 result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         call_arg |= 0xF7F8;
         result = ((S_80810F98_0 *)arg0)->unk_08 + call_arg;
         ((S_80810F98_0 *)arg0)->unk_08 = result;

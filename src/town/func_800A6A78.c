@@ -115,14 +115,14 @@ void *func_800A41D8(void *arg0, void *arg1, void *arg2_in, void *arg3, u16 arg4)
     u16 sp40;
     u16 temp_bound;
     s16 temp_a1;
-    register s32 var_a0_3 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_a0_3 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 var_v1_3;
-    register s32 temp_a0_2 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 var_copy;
     s32 temp_a0_4;
     s32 temp_a0_5;
-    register s32 temp_a1_2 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register s32 temp_a2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_a1_2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_3;
     s32 temp_v0_4;
     s32 temp_v0_5;
@@ -135,7 +135,7 @@ void *func_800A41D8(void *arg0, void *arg1, void *arg2_in, void *arg3, u16 arg4)
     u16 tv14;
     s32 tmp7;
     u16 tv10;
-    register s32 temp_dec ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_dec ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 tsum;
     u16 temp_v0_2;
     u16 temp_v1;
@@ -145,10 +145,10 @@ void *func_800A41D8(void *arg0, void *arg1, void *arg2_in, void *arg3, u16 arg4)
     void *temp_v0_7;
     void *var_a0;
     void *var_v0;
-    register void *var_s0 ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *state;
-    register void *var_s2 ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *var_s3 ASM_REG("$19");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 var_s4;
     s32 var_s5;
     s32 var_s6;
@@ -163,7 +163,7 @@ void *func_800A41D8(void *arg0, void *arg1, void *arg2_in, void *arg3, u16 arg4)
     var_s6 = 0;
     sp38 = arg4;
     var_s7 = sp30;
-    ASM_KEEP(state);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v0 = ((S_800A41D8_0 *)arg0)->unk_08;
     temp_v1 = temp_v0 - 0x6200;
     temp_v0_2 = temp_v0 - 0x5400;
@@ -262,7 +262,7 @@ void *func_800A41D8(void *arg0, void *arg1, void *arg2_in, void *arg3, u16 arg4)
                     ((S_800A41D8_1 *)state)->unk_14.n = var_copy;
                     ((S_800A41D8_1 *)state)->unk_10 = (s32) (((S_800A41D8_1 *)state)->unk_10 + temp_a1_2);
                     var_copy = temp_a1_2;
-                    ASM_KEEP_NV(var_copy);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_KEEP_NV(var_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     (*(s32 *)((u8 *)var_s0 + -0x19)) = (s32) ((temp_a0_2 + var_copy) | (((S_800A41D8_7 *)var_s2)->unk_02 << 0x10));
                     (*(s32 *)((u8 *)var_s0 + -0x11)) = (s32) ((((S_800A41D8_1 *)state)->unk_0C.n + ((S_800A41D8_1 *)state)->unk_10) | (((S_800A41D8_7 *)var_s2)->unk_00 << 0x10));
                     (*(s16 *)((u8 *)var_s0 + -9)) = (s16) ((u16) ((S_800A41D8_1 *)state)->unk_14.n + (u16) ((S_800A41D8_1 *)state)->unk_08.n);

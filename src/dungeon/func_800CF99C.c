@@ -54,8 +54,8 @@ void func_800D50FC(void *arg0, S_800D50FC_1 *arg1, S_800D50FC_2 *arg2) {
     case 4:
         arg1->unk_0C = (s32) (((rand() & 0x3FFF) - 0x2000) << 5);
         temp_s0 = (s32) (((rand() & 0x3FFF) - 0x2000) << 5);
-        ASM_KEEP(arg0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-        ASM_KEEP(arg2);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         arg1->unk_10 = temp_s0;
         func_800D5188();
     case 3:
@@ -73,10 +73,10 @@ void func_800D50FC(void *arg0, S_800D50FC_1 *arg1, S_800D50FC_2 *arg2) {
     temp_v0 = ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_20 - 1;
     ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_20 = temp_v0;
     if ((temp_v0 << 0x10) <= 0) {
-        register u32 page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         page = 0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
         ((S_800D50FC_3 *)page)->unk_14A0 = ((S_800D50FC_3 *)page)->unk_14A0 | 0x8000;
     }

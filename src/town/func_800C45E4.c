@@ -22,9 +22,9 @@ s32 func_800C1D44(s32 arg0) {
             goto return_zero;
         }
         {
-            s32 dead_value;   /* MATCH pin: retail register colouring depends on it */
+            s32 dead_value;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             dead_value = 6;
-            ASM_KEEP(dead_value);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(dead_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         }
         return;
     }

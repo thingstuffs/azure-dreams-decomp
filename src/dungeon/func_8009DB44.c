@@ -65,31 +65,31 @@ extern s32 func_800A3418();
 extern s32 func_800A347C(void *);
 
 s32 func_800A32A4(void *arg0) {
-    register M2C_UNK var_s1 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register M2C_UNK var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *temp_a0_2;
     s32 temp_a1_2;
     s32 temp_v1;
     s32 temp_v1_2;
-    register s32 flag_value ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 flag_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 tail_w0;
     s32 tail_w4;
     s32 tail_w8;
     volatile s32 *tail_src;
     s32 var_v1;
-    register S_800A32A4_4 *computed_dest ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register S_800A32A4_4 *computed_dest ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     S_800A32A4_2 *temp_a0;
     S_800A32A4_3 *temp_s2;
     void *var_a2;
     void *var_a3;
     u8 *page_base;
     u8 *status_page;
-    register s32 flags_mask ASM_REG("$7");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 flags_mask ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     S_800E3E48 *copy_base;
     s32 *registry;
     void *copy_end;
 
     var_s1 = 0;
-    ASM_KEEP_NV(var_s1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_s2 = 0;
     func_80042B68(arg0, 0x1A);
     func_80042B68(arg0, 0x1C);
@@ -121,7 +121,7 @@ loop_2:
             var_s1 = 3;
             var_a3 = arg0;
             temp_v1 = temp_s2->unk_03 & 0x1F;
-            ASM_USE(var_s1);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_USE(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             computed_dest = (void *)((temp_v1 * sizeof(*copy_base)) + (s32)copy_base);
             var_a2 = computed_dest;
             registry[temp_v1] = (s32)var_a2;
@@ -152,17 +152,17 @@ block_8:
             status_page = (u8 *)(temp_v1_2 & 0x2000);
             if (status_page) {
                 status_page = (u8 *)0x80080000;
-                ASM_KEEP_NV(status_page);   /* MATCH pin: retail immediate-load split depends on it */
+                ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 temp_a0_2 = (s32 *)(status_page + 0x3460);
                 if (((S_800A32A4_6 *)temp_a0_2)->unk_1C.s != 0) {
                     ((S_800A32A4_6 *)temp_a0_2)->unk_1C.s = (s16)(((S_800A32A4_6 *)temp_a0_2)->unk_1C.u - 1);
                 }
                 var_s1 = 2;
-                ASM_TAILSLOT_PIN(var_s1);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(var_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 return func_800A347C(temp_a0_2);
             }
             status_page = (u8 *)0x80080000;
-            ASM_KEEP_NV(status_page);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             temp_a0_2 = (s32 *)(status_page + 0x3460);
             if (((S_800A32A4_6 *)temp_a0_2)->unk_1C.s != 0) {
                 ((S_800A32A4_6 *)temp_a0_2)->unk_1C.s = (s16)(((S_800A32A4_6 *)temp_a0_2)->unk_1C.u - 1);

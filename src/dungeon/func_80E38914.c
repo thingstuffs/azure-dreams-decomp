@@ -20,15 +20,15 @@ s32 func_80172114(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
     M2C_UNK held_arg1;
     M2C_UNK held_arg2;
     void *held_arg0;
-    register s32 call_result ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 call_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 state;
 
     held_arg1 = arg1;
     held_arg2 = arg2;
     held_arg0 = arg0;
     call_result = func_800ADDA0(held_arg1, held_arg2, held_arg0, 2, 4, held_arg0 + 0x9C);
-    ASM_KEEP(held_arg1);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_result <<= 16;
     state = call_result >> 16;
     call_result = 0;

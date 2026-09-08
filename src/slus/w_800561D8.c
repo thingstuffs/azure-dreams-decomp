@@ -55,7 +55,7 @@ void func_800561D8(S_800561D8_Arg0 *arg0, S_800561D8_Arg1 *arg1)
     S_800561D8_Arg0 *t0 = arg0;
     S_800561D8_D80086A40 *baseA = D_80086A40;
     S_800561D8_D80086A40 *entryA;
-    register s32 a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 prod;
     s32 a2;
     s32 a3;
@@ -65,7 +65,7 @@ void func_800561D8(S_800561D8_Arg0 *arg0, S_800561D8_Arg1 *arg1)
     a0 = D_80086D50[0];
     entryA = &baseA[a0];
     sum = entryA->unk1B + t0->unk16;
-    ASM_KEEP(sum);   /* MATCH pin: slus-diff */
+    ASM_KEEP(sum);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     sum += t0->unk17;
     a0 = arg1->unk4;
     sum += a0;
@@ -88,7 +88,7 @@ void func_800561D8(S_800561D8_Arg0 *arg0, S_800561D8_Arg1 *arg1)
     prod *= t0->unk14;
     scale = prod * t0->unk15;
     {
-        register s32 shifted ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 shifted ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         shifted = scale >> 0xE;
         a2 = shifted;
         if (a0 >= 0x40) {

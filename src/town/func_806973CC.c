@@ -25,12 +25,12 @@ M2C_UNK *func_806973CC(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
         if (func_800187D8(8) != 0) {
 #ifndef NON_MATCHING
             dead_page = (u8 *)0x80020000;
-            ASM_KEEP(dead_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(dead_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             var_v0 = (M2C_UNK *)(dead_page - 0x5F5F);
 #else
             var_v0 = &D_8001A0A1;
 #endif
-            ASM_TAILSLOT_PIN(var_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(var_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80016450();
             var_v0 = &D_8001A0A1;
         } else {

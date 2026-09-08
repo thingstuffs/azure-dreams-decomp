@@ -172,5 +172,5 @@ state_one:
         ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= ~0x200;
         ((S_80173254_0 *)arg0)->unk_8C = D_80170E5C;
     }
-    ASM_KEEP(p2);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

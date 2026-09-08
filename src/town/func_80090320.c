@@ -108,7 +108,7 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
     scratch->origin_z = arg2;
     base = D_80083160;
     grid = (Grid80090320 *)(base + 0x1DC);
-    ASM_USE(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     scratch->result = (arg0 &= 0x3F);
     scratch->saved_y = arg1 & 0x3F;
     scratch->height_data = grid->height_data;

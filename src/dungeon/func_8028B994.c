@@ -29,27 +29,27 @@ void func_8001E994(void)
     u16 temp_v1;
     s16 *var_t3;
     u8 *var_a3;
-    u8 *var_t2;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    u8 *var_v0_ptr;   /* MATCH pin: retail register colouring depends on it */
+    u8 *var_t2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *var_v0_ptr;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     var_t0 = 0;
     var_t1 = 1;
     var_t4 = 2;
-    ASM_KEEP(var_t0);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(var_t0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     var_v0_ptr = (u8 *)D_8001F6F8;
-    ASM_KEEP(var_v0_ptr);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(var_v0_ptr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     var_t3 = (s16 *)(var_v0_ptr + 2);
     var_v0_ptr = (u8 *)D_80073414;
-    ASM_KEEP(var_v0_ptr);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(var_v0_ptr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     var_a3 = var_v0_ptr + 0x14;
     do {
-        ASM_KEEP(var_a3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         var_a2 = 1;
         if (var_a2 < (s32)*(u8 *)(var_a3 + 2)) {
             var_t2 = var_a3;
             var_a1 = 0x14;
             do {
-                ASM_KEEP(var_a1);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(var_a1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 temp_v1 =
                     *(u16 *)(var_a1 + *(volatile s32 *)(var_a3 + 0xC));
                 if (temp_v1 & 0x10) {
@@ -75,7 +75,7 @@ add_item:
                     }
                     var_v0 >>= 0xC;
                     {
-                        register s32 temp_v1_2 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+                        register s32 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         temp_v1_2 = var_v0 & 3;
                         var_a0 = 0x80;
@@ -83,7 +83,7 @@ add_item:
                             s32 one;
 
                             one = 1;
-                            ASM_KEEP(one);   /* MATCH pin: load-bearing for the whole function shape */
+                            ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                             var_a0 = 0x55;
                             if (temp_v1_2 != one) {
                                 var_a0 = one;
@@ -97,7 +97,7 @@ add_item:
 next_item:
                 var_a1 += 0x14;
             } while (++var_a2 < (s32)*(u8 *)(var_a3 + 2));
-            ASM_KEEP(var_a2);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(var_a2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         }
         *var_t3 = var_t0;
         var_t3++;
@@ -109,7 +109,7 @@ next_item:
         s32 tail_offset;
 
         var_v1_ptr = D_8001F6F8;
-        ASM_KEEP(var_v1_ptr);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(var_v1_ptr);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         tail_offset = var_t1 << 1;
         *(s16 *)(tail_offset + (s32)var_v1_ptr) = var_t0;
     }

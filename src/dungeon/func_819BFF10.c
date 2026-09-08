@@ -13,17 +13,17 @@ void func_80025710(void *arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4) {
     u16 temp_v1_2;
     void *temp_a1;
     void *temp_a2;
-    register void *temp_next ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *temp_next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *var_a0;
     void *var_s0;
-    register void *var_s1 ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     var_s0 = arg0;
     var_s1 = var_s0;
     temp_next = FIELD(var_s0, s32 *, 0x5C);
     var_s0 = temp_next + 0x20;
     if (var_s0 != var_s1) {
-        ASM_KEEP(var_s0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         match_lo = (s16)arg3;
         match_hi = (s16)arg4;
         var_a0 = var_s0 - 0x20;
@@ -43,7 +43,7 @@ void func_80025710(void *arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4) {
             }
             temp_next = FIELD(var_s0, s32 *, 0x5C);
             var_s0 = temp_next + 0x20;
-            ASM_KEEP(var_s0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             var_a0 = var_s0 - 0x20;
         } while (var_s0 != var_s1);
     }

@@ -18,7 +18,7 @@ extern void (*D_80126B34[])();
 extern void (*D_80126B74[])(void *);
 
 void func_80126704(S_80126704_0 *arg0) {
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 temp_v0;
     u32 temp_v1;
     u32 temp_test;
@@ -40,7 +40,7 @@ void func_80126704(S_80126704_0 *arg0) {
     temp_v0 += temp_v1;
     temp_v1 = temp_v0 & 0xFF;
     arg0->unk_13.s = temp_v0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_test = temp_v1 < 0x38U;
     if (temp_test == 0) {
         arg0->unk_13.u = 0x31;

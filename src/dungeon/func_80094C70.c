@@ -28,20 +28,20 @@ void func_8009A3D0(s32 arg0, s32 arg1, s32 arg2)
     flags = arg2;
     cells = D_80083160.cells;
     config = (s8 *)&D_80083160.cells;
-    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     test = flags & 0x8832;
     if (test) {
         test = flags & 0x800;
         if (test) {
             s32 call_arg0;
-            register s32 shifted_y ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 shifted_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             call_x = (s16)arg0;
-            ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             call_y = (s16)arg1;
             call_arg0 = call_x;
-            ASM_KEEP(call_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             if ((s16)func_800A6E10(call_arg0, call_y) >= 2) {
                 goto done;
             }
@@ -49,7 +49,7 @@ void func_8009A3D0(s32 arg0, s32 arg1, s32 arg2)
             shifted_y = call_y << shifted_y;
             index = call_x + shifted_y;
         } else {
-            ASM_CLOBBER("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             index = (s16)arg0 +
                     ((s16)arg1 << *(s16 *)(config + 0x14));
         }
@@ -60,10 +60,10 @@ void func_8009A3D0(s32 arg0, s32 arg1, s32 arg2)
 
     {
         u32 raw_value;
-        register s32 value ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 value ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 row_index;
-        register DungeonCell *cell ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register u16 old_flags ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register DungeonCell *cell ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u16 old_flags ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         row_x = (s16)arg0;
         row_y = (s16)arg1;
@@ -87,7 +87,7 @@ void func_8009A3D0(s32 arg0, s32 arg1, s32 arg2)
     }
 
 done:
-    ASM_KEEP(flags);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: Recover the true-space internal joins as one CFG, not phantom calls.

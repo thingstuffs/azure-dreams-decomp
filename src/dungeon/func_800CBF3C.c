@@ -14,8 +14,8 @@ extern void func_800D1720(Record *record);
 
 void func_800D169C(s32 x, s32 y, s32 value, s32 commit)
 {
-    register s32 held_x ASM_REG("$16") = x;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 held_y ASM_REG("$17") = y;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 held_x ASM_REG("$16") = x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 held_y ASM_REG("$17") = y;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     Record *record;
     volatile u16 *counter_page;
 
@@ -30,7 +30,7 @@ void func_800D169C(s32 x, s32 y, s32 value, s32 commit)
                 return;
             }
             record->value = (s16)0x8000;
-            ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             counter_page = (volatile u16 *)0x80080000;
             counter_page[0x582]++;
             record[1].x = 0;

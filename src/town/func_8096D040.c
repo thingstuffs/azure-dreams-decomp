@@ -85,7 +85,7 @@ state_ready:
 
     {
         u32 value = ((S_801254D8_0 *)arg0)->unk_13;
-        register u32 rhs ASM_REG("$3") = ((S_801254D8_0 *)arg0)->unk_14;   /* MATCH pin: load-bearing for the whole function shape */
+        register u32 rhs ASM_REG("$3") = ((S_801254D8_0 *)arg0)->unk_14;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         value = value < rhs;
         if (value == 0) {

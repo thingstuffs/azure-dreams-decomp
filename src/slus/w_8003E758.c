@@ -302,8 +302,8 @@ loop:
         goto *jtbl_8002D5C0[sel];
         {
         L_s1_00: {
-            register u8 *hp ASM_REG("$4");   /* MATCH pin: slus-diff */
-            register int ff ASM_REG("$2");   /* MATCH pin: slus-diff */
+            register u8 *hp ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            register int ff ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             int nh;
             ff = 0xFF;
             D_800814D3_14[0] = ff;
@@ -393,18 +393,18 @@ loop:
             if (st & 0x40) goto tail;
             if (st & 0x20) {
                 u8 *hp2 = &D_800814D2_P[0];
-                register S_80083968 *q2 ASM_REG("$3");   /* MATCH pin: slus-diff */
-                register int ff2 ASM_REG("$2");   /* MATCH pin: slus-diff */
+                register S_80083968 *q2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                register int ff2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 S_80083968 *ep;
                 int hi2;
                 ff2 = 0xFF;
                 q2 = D_80083968;
-                ASM_KEEP_NV(hp2);   /* MATCH pin: slus-diff */
+                ASM_KEEP_NV(hp2);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 D_800814D2[0] = 0;
                 D_800814D3[0] = ff2;
                 hi2 = hp2[-2];
                 ep = &q2[hi2];
-                ASM_SET(q2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_SET(q2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 if (ep->unk17 != 0xFF) {
                     D_80083958.unk4 = 4;
                     D_80080AD4 = 1;

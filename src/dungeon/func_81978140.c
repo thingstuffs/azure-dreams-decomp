@@ -84,7 +84,7 @@ L5:
     func_800257B8();
 L6:
     dead = (s16)arg0->timer < 4;
-    ASM_TAILSLOT_PIN_TIED(dead);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_TAILSLOT_PIN_TIED(dead);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80025A4C();
 
 L7:

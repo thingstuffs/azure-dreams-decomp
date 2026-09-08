@@ -83,14 +83,14 @@ extern u8 D_80175988[];
 void func_80173280(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     s16 i;
-    register void *tile ASM_REG("$20") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *tile ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 ry;
     s32 rx;
     void *obj;
     u8 *kindp;
     s32 state;
     s32 flag;
-    register s32 save_nudge ASM_REG("$18");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 save_nudge ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     static void *const keepalive[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
         &&kind_7, &&kind_6, &&kind_5
@@ -99,10 +99,10 @@ void func_80173280(void *arg0, void *arg1, void *arg2, void *arg3)
 #ifdef NON_MATCHING
     save_nudge = 0;
 #endif
-    ASM_KEEP_DEP_NV(save_nudge, arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_USE(save_nudge);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_DEP_NV(save_nudge, arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_USE(save_nudge);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state = ((S_80173280_0 *)arg0)->unk_9B;
-    ASM_KEEP(tile);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(tile);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     flag = 0;
     if (state != 1) {
         if ((s32)state < 2) {
@@ -177,7 +177,7 @@ use_kind:
             ((S_80173280_0 *)arg0)->unk_98 & 0xFF7F;
         {
             s32 use_flag = flag;
-            ASM_KEEP(use_flag);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(use_flag);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if (use_flag) {
                 obj = D_800814A8;
                 ((S_80173280_1 *)arg3)->unk_60 = obj;
@@ -190,11 +190,11 @@ use_kind:
             u8 *entry;
 
             base = (u8 *)0x80070000;
-            ASM_KEEP(base);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             kind = *kindp;
             base -= 0x21DC;
             entry = (u8 *)((u32)(kind * 20) + (u32)base);
-            ASM_KEEP(entry);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             if (entry[0x12] == 2) {
                 obj = ((S_80173280_1 *)arg3)->unk_60;
@@ -216,7 +216,7 @@ copy_existing:
         *(void * volatile *)((u8 *)arg3 + 0x60) =
             func_800A05A4(arg3, ((S_80173280_3 *)tile)->unk_24, ((S_80173280_3 *)tile)->unk_25,
                           ((S_80173280_1 *)arg3)->unk_2A, 0x10);
-        ASM_KEEP(flag);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(flag);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
             s32 x = ((S_80173280_1 *)arg3)->unk_72.u;
             s32 y = ((S_80173280_1 *)arg3)->unk_73.u;

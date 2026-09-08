@@ -50,12 +50,12 @@ void func_81008664(void *_arg0, void *_arg1, void *_arg2, void *volatile arg3) {
     s32 temp_a0;
     s32 temp_a0_3;
     s32 temp_s3;
-    register s32 temp_t0 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_10;
     s32 temp_v0_6;
     s32 temp_v0_7;
     s32 temp_selector_v0;
-    register s32 var_s6 ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 var_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 temp_v0_5;
     u32 temp_v1;
     u32 temp_angle;
@@ -70,10 +70,10 @@ void func_81008664(void *_arg0, void *_arg1, void *_arg2, void *volatile arg3) {
     u32 call2_x;
     u32 call2_y;
     s32 temp_divisor;
-    s32 temp_numer1;   /* MATCH pin: keeps a constant in a register as retail does */
+    s32 temp_numer1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 temp_numer2;
     u8 *temp_table_c0a;
-    u8 *temp_table_c0b;   /* MATCH pin: keeps a constant in a register as retail does */
+    u8 *temp_table_c0b;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *temp_ptr_c0b;
     u32 case4_x;
     u32 case4_y;
@@ -83,60 +83,60 @@ void func_81008664(void *_arg0, void *_arg1, void *_arg2, void *volatile arg3) {
     M2C_UNK *case4_handler;
     u8 *case4_global;
     u32 case4_count;
-    register u32 case1_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 case1_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 case1_v1;
-    register u32 case1_t0 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 case1_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 case1_a0;
-    register u32 temp_stack14 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u32 temp_stack16 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 temp_stack14 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u32 temp_stack16 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *case2_state_table;
     u32 case2_state_idx;
-    register u32 case2_y ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 case2_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *case2_step_table;
-    register u8 *case2_obj_table ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u8 *case2_sp1c ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *case2_obj_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *case2_sp1c ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 case2_cce8;
-    register u32 case2_sp18 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 case2_sp18 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 case2_v1_y;
     u32 case2_a0_x;
-    register void *block_sp10 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *block_sp10 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 block_v0;
     u8 next_state;
     u8 *temp_table;
     u8 *temp_table2;
-    register u8 *temp_callback ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *temp_callback ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 temp_cb_idx1;
     u32 temp_cb_idx2;
     u32 temp_cb_idx3;
     u32 temp_cb_idx4;
     s16 *temp_global16;
     void *temp_a0_2;
-    register void *temp_sp10 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_1 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_2 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_3 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *temp_sp10 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_1 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_2 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *temp_arg3_4;
-    register void *temp_arg3_5 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_6 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_7 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_8 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_9 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_10 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_11 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_12 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *temp_arg3_13 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *temp_arg3_5 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_6 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_7 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_8 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_9 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_10 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_11 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_12 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *temp_arg3_13 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *temp_s1;
-    register void *temp_s4 ASM_REG("$20");   /* MATCH pin: keeps a constant in a register as retail does */
-    register void *temp_s5 ASM_REG("$21");   /* MATCH pin: keeps a constant in a register as retail does */
-    register void *arg0 ASM_REG("$18") = _arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *temp_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *arg0 ASM_REG("$18") = _arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *arg1 = _arg1;
     register void *arg2 = _arg2;
 
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s4 = M2C_FIELD(arg0, void **, 0xA8);
-    ASM_KEEP(temp_s4);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(temp_s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v1 = M2C_FIELD(arg0, u8 *, 0x9B);
-    ASM_KEEP_NV(temp_v1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(temp_v1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s5 = temp_s4;
     temp_s1 = M2C_FIELD(temp_s4, void **, -0x14);
     temp_sp10 = M2C_FIELD(temp_s4, void **, -0x18);
@@ -165,9 +165,9 @@ jt_c0:
     }
     M2C_FIELD(temp_s5, s32 *, 0x8C) = 0;
     temp_flags1 = M2C_FIELD(temp_s4, s32 *, 0x1C);
-    ASM_KEEP_NV(temp_flags1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(temp_flags1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_s1 = M2C_FIELD(temp_s4, void **, -0x14);
-    ASM_KEEP(temp_s1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(temp_s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     temp_flags1 &= 0x2000;
     call1_x = M2C_FIELD(temp_s1, u8 *, 0x24);
     call1_y = M2C_FIELD(temp_s1, u8 *, 0x25);
@@ -179,13 +179,13 @@ jt_c0:
 block_13:
     func_8009A3D0(call1_x, call1_y, var_a2);
     temp_arg3_1 = arg3;
-    ASM_KEEP_NV(temp_arg3_1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(temp_arg3_1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     call2_x = M2C_FIELD(arg2, u8 *, 0x24);
-    ASM_KEEP_NV(call2_x);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(call2_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_flags2 = M2C_FIELD(temp_arg3_1, s32 *, 0x1C);
-    ASM_KEEP_NV(temp_flags2);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP_NV(temp_flags2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     call2_y = M2C_FIELD(arg2, u8 *, 0x25);
-    ASM_KEEP_NV(call2_y);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(call2_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_flags2 &= 0x2000;
     var_a2_2 = 0x3000;
     if (!temp_flags2) {
@@ -195,16 +195,16 @@ block_13:
 block_15:
     func_8009A3D0(call2_x, call2_y, var_a2_2);
     temp_arg3_2 = arg3;
-    ASM_KEEP_NV(temp_arg3_2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(temp_arg3_2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     temp_mask = 0xFFFB0000;
-    ASM_KEEP_NV(temp_mask);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(temp_mask);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_rm = M2C_FIELD(temp_arg3_2, s32 *, 0x1C);
-    ASM_KEEP_NV(temp_rm);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP_NV(temp_rm);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     temp_mask |= 0xFFFF;
     temp_rm &= temp_mask;
     M2C_FIELD(temp_arg3_2, s32 *, 0x1C) = temp_rm;
     temp_flags16 = M2C_FIELD(arg0, u16 *, 0x98);
-    ASM_KEEP(temp_flags16);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_flags16);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_angle = M2C_FIELD(temp_arg3_2, u16 *, 0x2A);
     ASM_KEEP_NV(temp_angle);
     temp_flags16 |= 0xC;
@@ -474,10 +474,10 @@ block_50:
     M2C_FIELD(temp_arg3_10, s32 *, 0x1C) = (s32) (M2C_FIELD(temp_arg3_10, s32 *, 0x1C) | 0x40000000);
     M2C_FIELD(temp_s4, s32 *, 0x1C) = (s32) (M2C_FIELD(temp_s4, s32 *, 0x1C) | 0x40000000);
     {
-        register s32 case3_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 case3_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         register u32 case3_v1 ASM_REG("$3");
         s32 case3_a0;
-        register u32 case3_t0 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register u32 case3_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         case3_v1 = M2C_FIELD(temp_arg3_10, u16 *, 0x2A);
         case3_v0 = 8;
@@ -539,7 +539,7 @@ block_54:
     func_800A4ACC(case4_a0b);
     M2C_FIELD(arg0, u16 *, 0x98) = (u16) (M2C_FIELD(arg0, u16 *, 0x98) & 0xFFF3);
     temp_arg3_11 = arg3;
-    ASM_KEEP_NV(temp_arg3_11);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(temp_arg3_11);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     {
         u32 case4_flags;
         u32 case4_mask;

@@ -198,7 +198,7 @@ void func_8002191C(void *arg0)
     case 2: {
         u8 *motion = D_80083780;
         s32 h2;
-        register u16 rmw ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register u16 rmw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         rmw = ((S_8002191C_3 *)global)->unk_10.u;
         h2 = ((S_8002191C_2 *)motion)->unk_02.u;
@@ -392,7 +392,7 @@ void func_8002191C(void *arg0)
                 s32 y1;
 
                 x0 = ((S_8002191C_8 *)node_pos)->unk_02;
-                ASM_KEEP(x0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(x0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 y0 = ((S_8002191C_9 *)compare)->unk_02;
                 delta0 = x0 - y0;
                 y0 = ((S_8002191C_8 *)node_pos)->unk_06;

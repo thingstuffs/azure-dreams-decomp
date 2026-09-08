@@ -24,7 +24,7 @@ void func_800241E4(void *arg0, void *arg1, M2C_UNK arg2)
   {
     *((u16 *) (((s8 *) new_var) + (-2))) = (u16) ((*((u16 *) (((s8 *) new_var) + (-2)))) | 0x8000);
     page = (void *) 0x80080000;
-    ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *((s32 *) (((s8 *) page) + 0x14A0)) = (s32) ((*((s32 *) (((s8 *) page) + 0x14A0))) | 0x8000);
   }
 }

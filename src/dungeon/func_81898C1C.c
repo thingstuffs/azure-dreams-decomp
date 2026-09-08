@@ -63,10 +63,10 @@ void *func_8002441C(s32 arg0, S_8002441C_3 *arg1) {
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 == 0) {
-        register s32 tail_v0 ASM_REG("$2");   /* MATCH pin: retail delay-slot contents depend on it */
+        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
         tail_v0 = 0;
-        ASM_TAILSLOT_PIN(tail_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024530();
     }
     temp_v0->unk_10 = &D_80024370;

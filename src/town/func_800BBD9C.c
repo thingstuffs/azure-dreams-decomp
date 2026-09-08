@@ -25,12 +25,12 @@ extern u8 D_800D3814[];
 
 void func_800B94FC(void) {
     s32 count;
-    register s32 i ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 kind;
     s32 sub;
-    register s32 test ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void **table;
-    register void **slot ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void **slot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *value;
     u8 *map_head;
     u8 *map_base;
@@ -72,7 +72,7 @@ void func_800B94FC(void) {
 
 kind_5_prep:
     test = 0xC;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 kind_5:
     sub = D_800136B8;
     if (sub == test) {
@@ -90,7 +90,7 @@ kind_5:
 
 kind_5_default:
     rebase = D_800718E4;
-    ASM_KEEP(count);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     slot = &rebase[count];
     value = D_800D1D54;
     goto store_value;
@@ -111,10 +111,10 @@ kind_5_13:
     goto store_value;
 
 kind_15_prep:
-    ASM_UNDEF(test);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_UNDEF(test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 kind_15:
     sub = D_800136B8;
-    ASM_KEEP(test);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(test);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if (sub == 0xC) {
         goto kind_15_12;
     }
@@ -130,7 +130,7 @@ kind_15:
 
 kind_15_default:
     rebase = D_800718E4;
-    ASM_KEEP(count);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     slot = &rebase[count];
     value = D_800D1DB4;
     goto store_value;
@@ -152,7 +152,7 @@ kind_15_13:
 
 kind_16_prep:
     test = 0xC;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 kind_16:
     sub = D_800136B8;
     if (sub == test) {
@@ -170,7 +170,7 @@ kind_16:
 
 kind_16_default:
     rebase = D_800718E4;
-    ASM_KEEP(count);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     slot = &rebase[count];
     value = D_800D1DD4;
     goto store_value;
@@ -191,13 +191,13 @@ kind_16_13:
 
 store_value:
     *slot = value;
-    ASM_KEEP(value);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     count++;
     rebase = D_800718E4;
     slot = &rebase[count];
     value = D_800D1E7C;
     *slot = value;
-    ASM_KEEP(slot);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(slot);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     count++;
     goto finish;
 
@@ -221,7 +221,7 @@ fallback:
     } while (i < 2);
 
 finish:
-    ASM_KEEP(count);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     slot = D_800718E4;
     test = count << 2;
     *(void **)((unsigned long)test + (unsigned long)slot) = 0;

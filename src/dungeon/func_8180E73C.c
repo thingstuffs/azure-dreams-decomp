@@ -5,7 +5,7 @@ extern u8 initialStatsTable[24];
 s32 func_8002773C(u8 *arg0) {
     s32 outer;
     s32 value;
-    register s32 inner ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register s32 inner ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 group;
     u8 *stats;
     u8 *entry;

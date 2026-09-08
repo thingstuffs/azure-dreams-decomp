@@ -52,11 +52,11 @@ u32 func_800C857C(void *arg0, void *arg1) {
                 }
                 {
                     s32 ret = func_800990FC();
-                    register void *p ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-                    register s32 a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-                    register s32 s0 ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+                    register void *p ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    register s32 a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    register s32 s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     p = &D_800E1987;
-                    ASM_KEEP_NV(p);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP_NV(p);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     a1 = ret;
                     s0 = a1;
                     func_80099290(func_80099194(&D_8008942C, func_80099734(arg1, func_80099194(p, a1))));

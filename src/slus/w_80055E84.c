@@ -80,7 +80,7 @@ void func_80055E84(S_80055E84 *arg0)
       n = arg0->unk43;
       if (n < 0)
       {
-        register s32 a ASM_REG("$4");   /* MATCH pin: slus-diff */
+        register s32 a ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         s32 b;
         s32 x = -n;
         a = x << 1;
@@ -97,7 +97,7 @@ void func_80055E84(S_80055E84 *arg0)
       }
       else
       {
-        register s32 a ASM_REG("$4");   /* MATCH pin: slus-diff */
+        register s32 a ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         s32 b;
         s32 x = n;
         a = x << 1;

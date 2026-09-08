@@ -22,7 +22,7 @@ void func_800B833C(void)
     do {
         id = page[(i * 2) + 0x33A4];
         if (id != 0) {
-            register s32 one ASM_REG("$3");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register s32 one ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             s16 *slot;
 
             func_800B7B48(record[0], record[1],

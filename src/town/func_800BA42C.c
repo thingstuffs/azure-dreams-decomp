@@ -24,7 +24,7 @@ void func_800B7B8C(u16 *arg0, s32 arg1, s32 arg2) {
     s32 page3;
     s32 page;
     s16 *rect;
-    register u8 *pixels ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
+    register u8 *pixels ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 eight;
     static void *const keepalive[] = { &&L0, &&L4, &&L8, &&L12 };
 
@@ -43,28 +43,28 @@ void func_800B7B8C(u16 *arg0, s32 arg1, s32 arg2) {
 
 L0:
     page = 0x80110000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page + 0x1FA8);
     pixels = D_80110EC8;
     goto Lfirst_common;
 
 L4:
     page = 0x80110000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page + 0x1FA8);
     pixels = D_801110C8;
     goto Lfirst_common;
 
 L8:
     page = 0x80110000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page + 0x1FA8);
     pixels = D_801112C8;
     goto Lfirst_common;
 
 L12:
     page = 0x80110000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page + 0x1FA8);
     pixels = D_801114C8;
 
@@ -97,7 +97,7 @@ Lafter_first:
 
 Lsecond_0:
     page = 0x80110000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page + 0x1FA8);
     pixels = D_801116C8;
     *(volatile s16 *)(page + 0x1FA8) = 0x330;
@@ -107,29 +107,29 @@ Lsecond_0:
 
 Lsecond_4:
     pixels = (u8 *)0x80110000;
-    ASM_KEEP(pixels);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(pixels);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     page = 0x80110000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page + 0x1FA8);
     pixels += 0x18C8;
     *(s16 *)(page + 0x1FA8) = 0x330;
     rect[1] = 0x80;
     rect[2] = 8;
-    ASM_KEEP(rect);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(rect);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto Lsecond_tail;
 
 Lsecond_8:
     pixels = (u8 *)0x80110000;
-    ASM_KEEP(pixels);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(pixels);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     page = 0x80110000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page + 0x1FA8);
     pixels += 0x1AC8;
     goto Lsecond_common;
 
 Lsecond_12:
     page = 0x80110000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page + 0x1FA8);
     pixels = D_80111CC8;
 
@@ -170,28 +170,28 @@ Lafter_second:
 
 Lthird_0:
     page3 = 0x80110000;
-    ASM_KEEP(page3);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page3 + 0x1FA8);
     pixels = D_80111EC8;
     goto Lthird_common;
 
 Lthird_2:
     page3 = 0x80110000;
-    ASM_KEEP(page3);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page3 + 0x1FA8);
     pixels = D_80111EE8;
     goto Lthird_common;
 
 Lthird_4:
     page3 = 0x80110000;
-    ASM_KEEP(page3);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page3 + 0x1FA8);
     pixels = D_80111F08;
     goto Lthird_common;
 
 Lthird_6:
     page3 = 0x80110000;
-    ASM_KEEP(page3);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (s16 *)(page3 + 0x1FA8);
     pixels = D_80111F28;
 

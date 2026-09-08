@@ -78,7 +78,7 @@ extern void func_80026730(void) __attribute__((noreturn));
 void func_81905FD0(void *in0, void *in1, void *in2)
 {
     void *arg0 = in0;
-    register void *arg1 ASM_REG("$18") = in1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg1 ASM_REG("$18") = in1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *arg2 = in2;
     void *part;
     u8 local[56];
@@ -87,13 +87,13 @@ void func_81905FD0(void *in0, void *in1, void *in2)
     s32 random;
     s32 state;
     u8 level;
-    register u8 *rect_ptr ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *rect_ptr ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *copy_base = D_80024004;
 
     void *owner;
     void *base;
     void *initial_source;
-    ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     owner = FIELD(arg0, void *, 0);
     *(Copy8 *)(local + 8) = *(Copy8 *)copy_base;
     *(Copy32 *)(local + 24) = *(Copy32 *)D_80024014;
@@ -135,10 +135,10 @@ void func_81905FD0(void *in0, void *in1, void *in2)
                 FIELD(arg1, u16, 2) += FIELD(local, u16, 0);
                 FIELD(arg1, u16, 6) += FIELD(local, u16, 2);
                 tail_y = FIELD(arg1, u16, 0xA) + FIELD(local, u16, 4);
-                ASM_TAILSLOT_PIN(tail_y);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN(tail_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_80025A14();
             } else {
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 FIELD(arg1, u16, 0xA) = keep - 0x40;
             }
         }
@@ -159,9 +159,9 @@ void func_81905FD0(void *in0, void *in1, void *in2)
         {
             void *source = FIELD(owner, void *, 0x60);
             if (source != 0) {
-                register void *coords ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register void *coords ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 void *info;
-                register s32 difference ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 difference ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 s32 source_height;
 
@@ -227,17 +227,17 @@ void func_81905FD0(void *in0, void *in1, void *in2)
     case 2:
         i = 0;
         do {
-            register void *a0v ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-            register s32 a2v ASM_REG("$6");   /* MATCH pin: retail basic-block layout depends on it */
-            register s32 a3v ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register void *a0v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            register s32 a2v ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            register s32 a3v ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             i++;
             random = func_80069EF8();
             a0v = (u8 *)arg0 - 0x20;
             a2v = 0xE02020;
-            ASM_KEEP_NV(a2v);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(a2v);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             a3v = (random & 0xFF) | 0x80;
-            ASM_KEEP_NV(a3v);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(a3v);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_80025080(a0v, FIELD(arg0, s16, 0x7E), a2v, a3v, 0, 0, 0);
         } while (i < 4);
         result = func_800A4778(FIELD(arg1, u16, 2), FIELD(arg1, u16, 6),
@@ -258,7 +258,7 @@ void func_81905FD0(void *in0, void *in1, void *in2)
 
             FIELD(arg2, u16, 0x1C) += FIELD(arg0, u16, 0x96);
             tail_w = FIELD(arg2, u16, 0x1E) + FIELD(arg0, u16, 0x96);
-            ASM_TAILSLOT_PIN(tail_w);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_w);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80025D08();
         } else {
             FIELD(arg2, u16, 0x1C) -= FIELD(arg0, u16, 0x96);
@@ -292,7 +292,7 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             }
         }
         {
-            register void *source_coords ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register void *source_coords ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             source_coords = FIELD(FIELD(owner, void *, 0x60), void *, -0x18);
             FIELD(arg1, u16, 2) = FIELD(source_coords, u16, 2);
@@ -329,7 +329,7 @@ void func_81905FD0(void *in0, void *in1, void *in2)
 
             FIELD(arg2, u16, 0x1C) += FIELD(arg0, u16, 0x96);
             tail_w = FIELD(arg2, u16, 0x1E) + FIELD(arg0, u16, 0x96);
-            ASM_TAILSLOT_PIN(tail_w);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_w);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80025EC4();
         } else {
             FIELD(arg2, u16, 0x1C) -= FIELD(arg0, u16, 0x96);
@@ -345,14 +345,14 @@ void func_81905FD0(void *in0, void *in1, void *in2)
         }
         {
             s16 phase;
-            register u8 *scratch_source ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            register u8 *scratch_source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
             FIELD(arg0, u16, 0x82) = FIELD(arg0, u16, 0x82) + 1;
             phase = (s16)FIELD(arg0, u16, 0x82);
             if (phase == 1) {
                 s32 mid;
-                register void *carry_rect ASM_REG("$5");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-                register void *carry_scratch ASM_REG("$6");   /* MATCH pin: retail basic-block layout depends on it */
+                register void *carry_rect ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                register void *carry_scratch ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 s32 c880;
                 s32 c84;
                 s32 c832;
@@ -361,14 +361,14 @@ void func_81905FD0(void *in0, void *in1, void *in2)
                 carry_rect = rect_ptr;
                 scratch_source = local + 16;
                 carry_scratch = scratch_source;
-                ASM_SET(c832);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_SET(c832);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 c832 = 832;
                 mid = 340;
                 FIELD(local, s16, 10) = mid;
                 mid = 96;
-                ASM_SET(c84);   /* MATCH pin: retail register colouring depends on it */
+                ASM_SET(c84);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 c84 = 84;
-                ASM_SET(c880);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_SET(c880);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 c880 = 880;
                 FIELD(local, s16, 12) = mid;
                 mid = 410;
@@ -379,9 +379,9 @@ void func_81905FD0(void *in0, void *in1, void *in2)
                 func_800B8FC8(FIELD(owner, void *, 0x60), carry_rect,
                               carry_scratch, 1, phase);
                 carry_rect = rect_ptr;
-                ASM_KEEP_NV(carry_rect);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP_NV(carry_rect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 carry_scratch = scratch_source;
-                ASM_KEEP_NV(carry_scratch);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP_NV(carry_scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 mid = 424;
                 FIELD(local, s16, 10) = mid;
                 mid = 96;
@@ -399,12 +399,12 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             }
         }
         {
-        register void *node1 ASM_REG("$22");   /* MATCH pin: load-bearing for the whole function shape */
+        register void *node1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         void *node2;
         void *node3;
-        register void *node4 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register void *node4 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         void *subnode;
-        register void *obj_part ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register void *obj_part ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         void *obj_coords;
 
         node1 = func_8003FC64(0x212);
@@ -416,14 +416,14 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             obj_part = FIELD(node1, void *, 0xC);
             FIELD(obj_part, u16, 6) = 0;
             {
-                register u16 tmpf ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-                register u16 flags ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+                register u16 tmpf ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register u16 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                 tmpf = FIELD(obj_part, u16, 0x14) | 0xC;
                 FIELD(obj_part, u16, 0x14) = tmpf;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 flags = tmpf;
-                ASM_KEEP(flags);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 FIELD(obj_part, u16, 0x10) = 64;
                 FIELD(obj_part, u16, 0x14) = flags | 0x80;
             }
@@ -431,7 +431,7 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             FIELD(subnode, u16, 0xA) = 0;
             FIELD(subnode, u16, 0xC) = 0;
             {
-                register void *src ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register void *src ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 src = FIELD(FIELD(owner, void *, 0x60), void *, -0x18);
                 FIELD(obj_coords, u32, 0) = FIELD(src, u32, 0);
@@ -472,7 +472,7 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             FIELD(subnode, u16, 0xA) = 0;
             FIELD(subnode, u16, 0xC) = 0;
             {
-                register void *src ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register void *src ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 src = FIELD(FIELD(owner, void *, 0x60), void *, -0x18);
                 FIELD(obj_coords, u32, 0) = FIELD(src, u32, 0);
@@ -499,14 +499,14 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             obj_part = FIELD(node3, void *, 0xC);
             FIELD(obj_part, u16, 6) = 0;
             {
-                register u16 tmpf ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-                register u16 flags ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+                register u16 tmpf ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register u16 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                 tmpf = FIELD(obj_part, u16, 0x14) & 0xFFF3;
                 FIELD(obj_part, u16, 0x14) = tmpf;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 flags = tmpf;
-                ASM_KEEP(flags);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 FIELD(obj_part, s16, 0x10) = 32;
                 FIELD(obj_part, u16, 0x14) = flags | 0x80;
             }
@@ -515,7 +515,7 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             FIELD(subnode, u16, 0xC) = 0;
             i = 0;
             {
-                register void *src ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register void *src ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 src = FIELD(FIELD(owner, void *, 0x60), void *, -0x18);
                 FIELD(obj_coords, u32, 0) = FIELD(src, u32, 0);
@@ -554,7 +554,7 @@ void func_81905FD0(void *in0, void *in1, void *in2)
         }
         node4 = func_8003FC64(0x212);
         if (node4 != 0) {
-            register void *a0v ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register void *a0v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             void *a1v;
             void *d408;
             void *own60;
@@ -562,13 +562,13 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             subnode = (u8 *)node4 + 0x20;
             a0v = node4;
             a1v = D_80045340;
-            ASM_KEEP_NV(a1v);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(a1v);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             FIELD(subnode, void *, 0x38) = owner;
             own60 = FIELD(owner, void *, 0x60);
             FIELD(subnode, void *, 0x44) = (u8 *)node1 + 0x20;
             FIELD(subnode, void *, 0x48) = (u8 *)node3 + 0x20;
             FIELD(subnode, void *, 0x4C) = (u8 *)node2 + 0x20;
-            ASM_KEEP(node1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(node1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             d408 = D_80025408;
             FIELD(subnode, void *, 0x40) = arg0;
             FIELD(subnode, void *, 0x3C) = own60;
@@ -577,14 +577,14 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             obj_part = FIELD(node4, void *, 0xC);
             FIELD(obj_part, u16, 6) = 0;
             {
-                register u16 tmpf ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-                register u16 flags ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+                register u16 tmpf ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register u16 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                 tmpf = FIELD(obj_part, u16, 0x14) | 0xC;
                 FIELD(obj_part, u16, 0x14) = tmpf;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 flags = tmpf;
-                ASM_KEEP(flags);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 FIELD(obj_part, s16, 0x10) = 32;
                 FIELD(obj_part, u16, 0x14) = flags | 0x80;
             }
@@ -592,7 +592,7 @@ void func_81905FD0(void *in0, void *in1, void *in2)
             FIELD(subnode, u16, 0xA) = 0;
             FIELD(subnode, u16, 0xC) = 0;
             {
-                register void *src ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register void *src ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 src = FIELD(FIELD(owner, void *, 0x60), void *, -0x18);
                 FIELD(obj_coords, u32, 0) = FIELD(src, u32, 0);
@@ -639,7 +639,7 @@ void func_81905FD0(void *in0, void *in1, void *in2)
 
             FIELD(arg2, u16, 0x1C) += FIELD(arg0, u16, 0x96);
             tail_w = FIELD(arg2, u16, 0x1E) + FIELD(arg0, u16, 0x96);
-            ASM_TAILSLOT_PIN(tail_w);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_w);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8002652C();
         } else {
             FIELD(arg2, u16, 0x1C) -= FIELD(arg0, u16, 0x96);

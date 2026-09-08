@@ -80,8 +80,8 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
 
     case 2: {
         s32 value;
-        register s32 total ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        register s32 bump ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 total ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 bump ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u32 index;
         u32 shifted;
         u8 *xbase;
@@ -131,7 +131,7 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         bump = (((S_80173A20_3 *)creature)->unk_11 * 2) + (func_800A6D30() & 3);
         total = ((S_80173A20_4 *)object)->unk_29 + bump;
         value = total;
-        ASM_KEEP(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (total >= 0x100) {
             value = 0xFF;
         }

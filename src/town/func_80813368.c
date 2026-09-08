@@ -65,11 +65,11 @@ state_zero:
 
 init_case0:
         value = -0x60;
-        ASM_TAILSLOT_PIN_TIED(value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8052E00C();
 init_case1:
         value = -0x98;
-        ASM_TAILSLOT_PIN_TIED(value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8052E00C();
 init_case2:
         value = -0x30;
@@ -81,7 +81,7 @@ init_case3:
         value = -0xB0;
         S16_AT(arg0, 0x1C) = value;
         value = -0x10;
-        ASM_TAILSLOT_PIN_TIED(value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8052E034();
 init_case4:
         value = -0x10;
@@ -126,37 +126,37 @@ state_done:
     }
 
     if (U16_AT(PTR_AT(arg0, 0), 0x64) >= U16_AT(arg0, 0x20)) {
-        register s32 target_x ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 target_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 target_y;
         s32 current_x;
-        register s32 current_y ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register s32 current_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u16 upper_flag;
 
         target_x = S16_AT(arg0, 0x1C);
         current_x = S16_AT(arg0, 8);
         target_y = S16_AT(arg0, 0x1E);
-        ASM_KEEP(target_y);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(target_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         current_y = S16_AT(arg0, 0x10);
         current_x += (target_x - current_x) >> 1;
         current_y += (target_y - current_y) >> 1;
         upper_flag = U16_AT(arg0, 0x24) & ~1;
         S16_AT(arg0, 8) = current_x;
         S16_AT(arg0, 0x10) = current_y;
-        ASM_TAILSLOT_PIN_TIED(upper_flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(upper_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8052E1B8();
     } else {
-        register s32 target_const ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 target_const ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 retreat_x;
-        register s32 retreat_y ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 retreat_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 delta_x;
-        register s32 motion_value ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 motion_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         target_const = -0x60;
         retreat_x = S16_AT(arg0, 8);
         retreat_y = S16_AT(arg0, 0x10);
         delta_x = target_const - retreat_x;
         retreat_x += delta_x >> 1;
-        ASM_KEEP(retreat_x);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(retreat_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         target_const -= retreat_y;
         target_const >>= 1;
         retreat_y += target_const;
@@ -165,7 +165,7 @@ state_done:
         if (motion_value < 0) {
             motion_value = -motion_value;
         }
-        ASM_KEEP(motion_value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(motion_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         S16_AT(arg0, 8) = retreat_x;
         if (motion_value < 2) {
             flag_value = U16_AT(arg0, 0x24) | 1;

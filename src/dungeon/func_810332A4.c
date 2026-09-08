@@ -36,8 +36,8 @@ void func_80174AA4(void *arg0, void *arg1, void *arg2)
     void *root;
     void *object;
     void *new_object;
-    register void *display ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
-    register void *transform ASM_REG("$18");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *display ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *transform ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 blocked;
     s32 mask;
     s32 xshift;
@@ -45,8 +45,8 @@ void func_80174AA4(void *arg0, void *arg1, void *arg2)
     s32 mask1;
     s32 nsum;
     s32 early_blocked;
-    register s32 axt ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
-    register void *work ASM_REG("$20");   /* MATCH pin: retail register colouring depends on it */
+    register s32 axt ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 i;
     s32 y1;
@@ -61,14 +61,14 @@ void func_80174AA4(void *arg0, void *arg1, void *arg2)
     s32 cx;
     s32 ax;
     s32 ay;
-    register s32 x1 ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 sound ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 x1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 sound ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 value0;
     s32 value11;
     u16 timer;
     void *held_arg0;
     void *held_arg1;
-    register void *held_arg2 ASM_REG("$17");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *held_arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *root_load;
 
     held_arg0 = arg0;
@@ -131,7 +131,7 @@ state_2:
     }
     axt = (s32)D_8017610C;
     xwork = FIELD(arg0, s16, 0x1C);
-    ASM_KEEP_NV(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     nsum = FIELD(arg0, u8, 0x4C);
     xwork <<= 2;
     xwork += (s32)axt;
@@ -141,23 +141,23 @@ state_2:
     early_blocked = FIELD(arg0, s16, 0x1C);
     early_blocked <<= 2;
     early_blocked += (s32)axt;
-    ASM_KEEP_NV(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     xshift = FIELD(arg0, s8, 0x4C);
     nsum = FIELD(arg0, u8, 0x4D);
     early_blocked = FIELD((void *)early_blocked, u8, 2);
-    ASM_KEEP_DEP_NV(xshift, nsum);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_DEP_NV(xshift, early_blocked);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_DEP_NV(xshift, nsum);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_DEP_NV(xshift, early_blocked);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     nsum += early_blocked;
     FIELD(arg0, u8, 0x4D) = nsum;
     xshift <<= 6;
-    ASM_KEEP_NV(xshift);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(xshift);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     x1 = xshift + 0x20;
     y1 = (FIELD(arg0, s8, 0x4D) << 6) + 0x20;
     early_blocked = FIELD(arg0, s16, 0x26);
     if (early_blocked != 0) {
         goto checks_done;
     }
-    ASM_KEEP_NV(y1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(y1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ux1 = (u16)x1;
     uy1 = (u16)y1;
     if ((func_800A45D8(ux1, uy1,
@@ -194,7 +194,7 @@ checks_done:
         display = FIELD(object, void *, 0xC);
         transform = FIELD(object, void *, 8);
         mask1 = 0xFFEFFFFF;
-        ASM_KEEP4_NV(mask1, mask1, mask1, mask1);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP4_NV(mask1, mask1, mask1, mask1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         FIELD(work, u32, 0x14) &= mask1;
         goto cleanup_object;
     }
@@ -252,9 +252,9 @@ object_common:
     xshift <<= 2;
     xshift += axt;
     xshift = FIELD((void *)xshift, u8, 2);
-    ASM_KEEP_DEP_NV(early_blocked, xshift);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP_DEP_NV(early_blocked, xshift);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     early_blocked <<= 6;
-    ASM_KEEP_NV(early_blocked);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(early_blocked);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     sound += xshift;
     FIELD(display, u8, 0x25) = sound;
     axt = early_blocked + 0x20;
@@ -374,7 +374,7 @@ secondary_object:
         (FIELD(arg0, s8, 0x4D) - D_8017610C[FIELD(arg0, s16, 0x1C)].y) * 64 + 0x20 !=
             FIELD(arg1, s16, 6)) {
         sh = cx << 6;
-        ASM_KEEP_NV(sh);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(sh);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         axt = sh + 0x20;
         ax = axt & 0xFFE0;
         sh = FIELD(arg0, s8, 0x4D) << 6;

@@ -44,7 +44,7 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
     void *obj = arg0;
     void *pos = arg1;
     void *ent = arg2;
-    register void *work ASM_REG("$16") = obj;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *work ASM_REG("$16") = obj;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     DungeonCallback callback;
     s32 x;
     s32 y;
@@ -62,10 +62,10 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
         return;
     }
 
-    ASM_KEEP(obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(pos);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(ent);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(work);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(pos);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(ent);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     callback = (*(DungeonCallback *)((u8 *)work + (0x8C)));
     if (callback != 0) {
@@ -109,7 +109,7 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
     height = (*(s16 *)((u8 *)work + (0x88)));
     if (((S_800D2664_1 *)obj)->unk_90.at02.v + height < result) {
         u16 tail_flags = ((S_800D2664_1 *)obj)->unk_98;
-        ASM_KEEP(tail_flags);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_800D2810();
         return;
     }

@@ -23,7 +23,7 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
     s16 x;
     s16 y;
     s32 attempts;
-    register s32 result ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     DungeonArea *area;
     s16 *limits;
     DungeonArea *areas;
@@ -72,7 +72,7 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
     return result;
 
 found:
-    ASM_KEEP(result);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     *arg0 = x;
     *arg1 = y;
     func_800A5018();

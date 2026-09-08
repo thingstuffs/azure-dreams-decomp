@@ -34,7 +34,7 @@ void func_800400AC(void) {
     s32 movie_flag;
     s32 e4_value;
     u8 *resident_hi = (u8 *) 0x80080000;
-    register u8 *e4_hi ASM_REG("$20");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u8 *e4_hi ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     D_80082E60 &= ~1;
     if (D_80080A88 == 0) {

@@ -21,12 +21,12 @@ s32 func_800AA924(void *arg0, s32 arg1, void *arg2, u8 *arg3)
         return 1;
     }
     if (*(s32 *)((u8 *)arg0 + 0x1C) & 0x20) {
-        register s32 dispatch_id ASM_REG("$2") = 0;   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 dispatch_id ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         s32 state_word = 0xE;
-        register s32 mask ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         *(s8 *)((u8 *)arg0 + 0x9A) = state_word;
-        ASM_KEEP(dispatch_id);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(dispatch_id);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         state_word = *(volatile s32 *)((u8 *)arg0 + 0x1C);
         mask = ~0x200;
         state_word &= mask;

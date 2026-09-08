@@ -58,7 +58,7 @@ void func_80170E94(void *arg0, void *arg1, void *arg2, void *arg3) {
     u32 state25;
     u32 state_work;
     u8 *seq;
-    register u8 *seq10 ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *seq10 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *effect_ptr;
     u8 *map;
     static void *const sw_keep[] = {
@@ -222,10 +222,10 @@ case_9:
 
     if (F(arg0, u8, 0xAE) != 0) {
         if (F(arg3, u32, 0x1C) & 0x400) {
-            register s32 value ASM_REG("$2") = F(arg3, s32, 0x14);   /* MATCH pin: retail register colouring depends on it */
+            register s32 value ASM_REG("$2") = F(arg3, s32, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if (value >= 0) {
-                register void *random_arg0 ASM_REG("$4") = arg0;   /* MATCH pin: retail basic-block layout depends on it */
-                register void *random_arg1 ASM_REG("$5") = arg1;   /* MATCH pin: keeps a constant in a register as retail does */
+                register void *random_arg0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                register void *random_arg1 ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 value = (u32)value | 0x80000000;
                 F(arg3, u32, 0x14) = value;
                 F(arg3, u16, 0x2A) +=

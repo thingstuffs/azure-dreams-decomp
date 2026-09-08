@@ -180,7 +180,7 @@ s32 func_80813AB0(void)
             y = (s32)(obj + 0x20);
             if (i != 0) {
                 if (i != 1) {
-                    ASM_KEEP(y);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                    ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     ((S_80813AB0_2 *)((u8 *)y))->unk_0C = base;
                     return func_8052E968();
                 }
@@ -196,7 +196,7 @@ s32 func_80813AB0(void)
 
     obj = func_800374FC(1, D_801328C8);
     if (obj != 0) {
-        register s32 final_dim ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register s32 final_dim ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 final_color;
 
         ((S_80813AB0_0 *)obj)->unk_10 = D_8052FDF8;

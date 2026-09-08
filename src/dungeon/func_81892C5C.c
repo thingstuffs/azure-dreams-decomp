@@ -94,7 +94,7 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 s32 func_81892C5C(void *arg0, S_81892C5C_2 *arg1)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    register u32 mask ASM_REG("$23");   /* MATCH pin: retail immediate-load split depends on it */
+    register u32 mask ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     void *initial_context;
     s32 base_height;
     s32 scale;
@@ -126,9 +126,9 @@ loop:
         s32 angle1;
         s32 angle2;
         s32 height;
-        register s32 prim_mode ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register s32 prim_mode ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 trig_result;
-        register s32 last_prod ASM_REG("$9");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 last_prod ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         context = *ot_ctx;
         prim = ((S_81892C5C_3 *)context)->unk_8D0;
@@ -138,7 +138,7 @@ loop:
         ((S_81892C5C_4 *)prim)->unk_00.at03.v = prim_mode;
         prim_mode = 0x48;
         ((S_81892C5C_4 *)prim)->unk_07 = prim_mode;
-        ASM_KEEP_NV(prim_mode);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(prim_mode);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_81892C5C_4 *)prim)->unk_14 = 0x55555555;
         prim_mode |= 2;
         ((S_81892C5C_4 *)prim)->unk_07 = prim_mode;
@@ -151,7 +151,7 @@ loop:
             (s8)(-0x80 - (height << 4));
 
         trig_result = func_800644B8(angle0);
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         angle_base = i * 2;
         angle1 = angle_base + 1;
@@ -159,7 +159,7 @@ loop:
         ((S_81892C5C_0 *)scratch)->unk_64 = (s16)(arg1->unk_02 +
             (((trig_result >> 4) * scale) >> 8));
         trig_result = func_800644B8(angle1);
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         angle2 = angle_base + 2;
         angle2 *= step;
@@ -172,7 +172,7 @@ loop:
         ((S_81892C5C_0 *)scratch)->unk_6E = (s16)(arg1->unk_06 +
             (((func_80064584(angle1) >> 4) * scale) >> 8));
         {
-            register s32 last_sh ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register s32 last_sh ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             last_prod = (func_80064584(angle2) >> 4) * scale;
             last_sh = last_prod >> 8;
@@ -184,8 +184,8 @@ loop:
             u8 *p1 = scratch + 0x6C;
             u8 *p2 = scratch + 0x74;
             u8 *p3 = scratch + 0xD8;
-            ASM_KEEP_DEP_NV(p2, last_prod);   /* MATCH pin: retail schedule: same instructions, different order without it */
-            ASM_KEEP4_NV(p0, p1, p2, p3);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP_DEP_NV(p2, last_prod);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP4_NV(p0, p1, p2, p3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             ((S_81892C5C_0 *)scratch)->unk_B4.s = func_80065530(
                 p0, p1, p2, p3, scratch + 0xDC, scratch + 0xE0,
                 scratch + 0x84, scratch + 0x88);
@@ -206,7 +206,7 @@ loop:
 
                 {
                     u32 newv;
-                    register u32 pv ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+                    register u32 pv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     u32 *otb = ((S_81892C5C_0 *)scratch)->unk_18.u;
                     pv = ((S_81892C5C_4 *)prim)->unk_00.at00.v & high_mask;
                     ((S_81892C5C_4 *)prim)->unk_00.at00.v = pv | (otb[otz] & mask);
@@ -242,16 +242,16 @@ loop:
         void *next = ((S_81892C5C_1_pre *)arg0)[-1].unk_00;
         if (next != 0) {
             arg0 = (u8 *)next + 0x20;
-            ASM_USE(arg0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             arg1 = ((S_81892C5C_7 *)next)->unk_08;
-            ASM_KEEP(arg1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             func_800244AC();
         }
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     {
-        register s32 rv ASM_REG("$2") = 0;   /* MATCH pin: retail register colouring depends on it */
-        ASM_KEEP(rv);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 rv ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(rv);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         return rv;
     }
 }

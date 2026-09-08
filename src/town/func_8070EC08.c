@@ -16,7 +16,7 @@ extern char *func_80016E48(void);
 
 char *func_80017C08(s32 arg0, s32 arg1, s32 arg2)
 {
-    register s32 selector ASM_REG("$4") = arg2;   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 selector ASM_REG("$4") = arg2;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u32 index;
     void **table;
     u32 page;
@@ -29,20 +29,20 @@ char *func_80017C08(s32 arg0, s32 arg1, s32 arg2)
     if (index >= 43) {
         goto Ldefault;
     }
-    ASM_KEEP(selector);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     table = D_80016650;
-    ASM_KEEP(table);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     target = table[index];
     goto *target;
 
 L0:
     page = 0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     return (char *)(page - 0x3FE8);
 
 L1:
     page = 0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     return (char *)(page + 0x2694);
 
 L2:
@@ -92,7 +92,7 @@ L10:
 L6:
     func_8001A554(0x948);
     page = 0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     return (char *)(page - 0x3000);
 
 L7:
@@ -107,12 +107,12 @@ L7tail:
     func_8001A554(0x94A);
     func_8001A554(0x12C7);
     page = 0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     return (char *)(page - 0x2C34);
 
 L8:
     page = 0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     return (char *)(page - 0x3930);
 
 L12:
@@ -120,6 +120,6 @@ L12:
 
 Ldefault:
     page = 0x80020000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     return (char *)(page - 0x4EB4);
 }

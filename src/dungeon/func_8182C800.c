@@ -279,10 +279,10 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2) {
     s32 sp6C;
     s32 sp70;
     s32 byte_x;
-    register s32 shift_x ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 shift_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 shift_y;
     s32 h2a_x;
-    register s32 sub_x ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 sub_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 sub_y;
     u8 *page_a;
     s32 prod3;
@@ -317,7 +317,7 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2) {
     s32 temp_a1_5;
     s32 temp_a2;
     M2C_UNK temp_lo;
-    register s32 temp_s1_2 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_s1_2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_s2;
     s32 temp_v0;
     s32 quotient_y;
@@ -326,19 +326,19 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2) {
     s32 var_s1;
     s32 var_s1_2;
     s32 var_s3;
-    register s32 var_s3_2 ASM_REG("$19");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_s3_2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_s3_3;
     s32 var_v1_2;
     s32 var_v1_3;
     s32 var_v1_4;
-    register s32 move_count ASM_REG("$19");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 move_count ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 work_s5;
     s32 move_y;
     u8 *state1_tex;
     u16 temp_a0_8;
     s32 ysum;
     s32 temp_s0;
-    register u16 temp_s1 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 temp_v1_2;
     S_8182C800_18 *temp_a0_11;
     S_8182C800_19 *temp_a0_12;
@@ -347,8 +347,8 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2) {
     S_8182C800_10 *temp_a1_3;
     S_8182C800_11 *temp_a1_4;
     S_8182C800_4 *temp_fp;
-    register S_8182C800_9 *temp_s0_2 ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
-    register S_8182C800_13 *temp_s0_3 ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register S_8182C800_9 *temp_s0_2 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register S_8182C800_13 *temp_s0_3 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_8182C800_20 *temp_s0_4;
     S_8182C800_15 *temp_s3;
     void *temp_s4;
@@ -401,7 +401,7 @@ jt_c0:
             ((S_8182C800_6 *)work_s5)->unk_00 = page_a;
             page_v = ((S_8182C800_7 *)page_a)->unk_04;
             page_c = 0x808080;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             ((S_8182C800_6 *)work_s5)->unk_0C = page_c;
             ((S_8182C800_6 *)work_s5)->unk_04 = 0;
             ((S_8182C800_6 *)work_s5)->unk_05 = 0;
@@ -416,7 +416,7 @@ jt_c0:
                 work_s5 = 0;
                 while (move_count < func_800A3820(5)) {
                     shift_x = (temp_fp->unk_24 + work_s5) << 6;
-                    ASM_KEEP_NV(shift_x);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP_NV(shift_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     temp_s1 = shift_x + 0x20;
                     shift_y = (temp_fp->unk_25 + move_y) << 6;
                     ysum = shift_y + 0x20;
@@ -425,7 +425,7 @@ jt_c0:
                         break;
                     }
                     move_y += sp70;
-                    ASM_KEEP(ysum);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                    ASM_KEEP(ysum);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     move_count += 1;
                     work_s5 += sp6C;
                 }
@@ -464,7 +464,7 @@ jt_c0:
             sub_y = ((S_8182C800_5 *)arg1)->unk_04.at02.v;
             temp_s1_2 = a1v - sub_x;
             temp_s2 = a0v - sub_y;
-            ASM_SET(a1v);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SET(a1v);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             var_s3_2 = temp_s1_2;
             if (temp_s1_2 < 0) {
                 var_s3_2 = 0 - var_s3_2;
@@ -484,14 +484,14 @@ jt_c0:
                     ((Rec_D_800E3D7C *)arg0)->unk_50.at00_u16.v = (u16) (((Rec_D_800E3D7C *)arg0)->unk_50.at00_u16.v + 1);
                 } while (var_v1_3 < temp_a0_3);
             }
-            ASM_USE_NV(var_s3_2);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_USE_NV(var_s3_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             var_s3_2 = 0;
             temp_v0_3 = (s16) ((Rec_D_800E3D7C *)arg0)->unk_50.at00_u16.v;
             var_v1_4 = 1;
             if (temp_v0_3 > 0) {
                 bound_x = temp_v0_3;
-                ASM_KEEP_NV(var_s3_2);   /* MATCH pin: load-bearing for the whole function shape */
-                ASM_KEEP_NV(var_v1_4);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(var_s3_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(var_v1_4);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 var_s3_3 = var_s3_2 + var_v1_4;
                 do {
                     var_v1_4 += 1;

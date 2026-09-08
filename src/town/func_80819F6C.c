@@ -45,7 +45,7 @@ void func_80023F6C(void *arg0) {
         break;
     }
 
-    ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: This is a frameless leaf: both apparent func_80023FF0 jumps are

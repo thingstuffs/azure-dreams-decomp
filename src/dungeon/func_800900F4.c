@@ -47,17 +47,17 @@ s32 func_80095854(void *arg0_in, s32 arg1, void *arg2_in, s32 arg3_in) {
     void *arg0 = arg0_in;
     void *arg2 = arg2_in;
     s32 arg3 = arg3_in;
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 temp_cmp ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 temp_cmp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 temp_a2;
     s32 temp_shift;
-    register s32 temp_s1 ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s8 temp_v0;
     void *temp_v1;
 
     var_s1 = 0;
-    ASM_KEEP(arg2);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v1 = ((S_80095854_0 *)arg0)->unk_124;
     ((S_80095854_0 *)arg0)->unk_9A = 0x31;
     ((S_80095854_0 *)arg0)->unk_9B = 0;
@@ -65,7 +65,7 @@ s32 func_80095854(void *arg0_in, s32 arg1, void *arg2_in, s32 arg3_in) {
     if (temp_v1 != NULL) {
         temp_cmp = ((S_80095854_1 *)temp_v1)->unk_13;
         temp_cmp = temp_cmp > 0;
-        ASM_KEEP(temp_cmp);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_cmp);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         var_s1 = temp_cmp;
     }
     func_80094E34();
@@ -83,7 +83,7 @@ s32 func_80095854(void *arg0_in, s32 arg1, void *arg2_in, s32 arg3_in) {
             temp_s1 = func_8009B88C(0, ((S_80095854_0 *)arg0)->unk_72, ((S_80095854_0 *)arg0)->unk_73, &sp1C, &sp1E);
             func_8009A3D0(sp18, sp1A, 0x8000);
             temp_shift = temp_s1 << 0x10;
-            ASM_CLOBBER("$17");   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_CLOBBER("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (temp_shift != 0) {
                 ((S_80095854_0 *)arg0)->unk_72 = (s8) (u8) sp1C;
                 ((S_80095854_0 *)arg0)->unk_73 = (s8) (u8) sp1E;

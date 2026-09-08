@@ -24,15 +24,15 @@ s32 func_8001EAA4(s8 *arg0, s8 *arg1) {
     u8 *var_a3;
     s32 var_t0;
     s32 var_v0;
-    register u16 *var_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 *var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 temp_v1;
-    register s32 var_t1 ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 result_index;
     u32 rng_result;
-    register u32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     unsigned long var_t2;
-    register u8 *group_saved ASM_REG("$11");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *temp_a3 ASM_REG("$13");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *group_saved ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *temp_a3 ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     rng_result = func_800A6D30();
     var_v1 = (u16 *)D_8001F6F8;
@@ -48,7 +48,7 @@ loop_1:
         var_a2 += 1;
         var_v1 += 1;
         if (var_a2 >= 0x13) {
-            ASM_UNDEF(var_t0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_UNDEF(var_t0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             var_t0 = 1;
         } else {
             goto loop_1;
@@ -67,14 +67,14 @@ loop_1:
         group_saved = (u8 *)var_t2;
         var_t2 = 2;
         temp_a3 = var_a3;
-        ASM_KEEP_NV(temp_a3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(temp_a3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         result_index = var_v0 >> 16;
         var_a3 = (u8 *)0x14;
 loop_6:
         temp_v1 = *(u16 *)(var_a3 + ((S_8001EAA4_0 *)(group_saved + ((var_a1 + var_a2) * 4)))->unk_0C);
         if (!(temp_v1 & 0x10)) {
             if (temp_v1 & 0x40) {
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 var_a1 = var_a2 * 4;
                 if (D_80012090[0] != (s32)var_t2) {
                     goto block_19;

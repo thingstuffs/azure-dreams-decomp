@@ -47,7 +47,7 @@ void func_800DBC20(s32 arg0, s32 arg1, u16 width, s16 y, u16 x, s16 mode)
                 }
             }
             record.first = first_value;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             record.second = 0x1C0;
             record.third = 4;
             record.fourth = 8;

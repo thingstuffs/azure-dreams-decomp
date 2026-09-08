@@ -35,7 +35,7 @@ s32 func_80016740(UnkStruct *arg0) {
         func_80018A64(0x5BC);
         func_80018A64(0x5BE);
         func_80018A64(0x5C5);
-        ASM_KEEP(status);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         result = status;
     }
     return result;

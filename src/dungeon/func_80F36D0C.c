@@ -99,32 +99,32 @@ void func_80F36D0C(Entity *arg0, Motion *arg1, Effect *arg2, Object *arg3)
     Entity *entity = arg0;
     Motion *motion = arg1;
     Effect *effect = arg2;
-    register Object *object ASM_REG("$22") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 direction ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register Object *object ASM_REG("$22") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 direction ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     PackedRecord *record;
-    register TileRecord *tile ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *animation ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register TileRecord *tile ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *animation ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *animation_entry;
-    register u32 shifted ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 animation_angle;
-    register s32 zero_arg ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register PackedRecord *record_base ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 record_offset ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u16 saved_half ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register TileRecord *tile_base ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 tile_offset ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 zero_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register PackedRecord *record_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 record_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u16 saved_half ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register TileRecord *tile_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 tile_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *spawn_parent;
-    register unsigned long table_address ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register s16 *velocity_base ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 velocity ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register unsigned long table_address ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s16 *velocity_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 velocity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 velocity_result;
-    register u32 angle_bits ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register unsigned long state2_address ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 angle_bits ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register unsigned long state2_address ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 raw_y;
-    register s32 raw_x ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 raw_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 current_x;
     s32 other_delta;
-    register u8 *global_page ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *global_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *data_page;
     void *detached;
     s32 index;
@@ -135,12 +135,12 @@ void func_80F36D0C(Entity *arg0, Motion *arg1, Effect *arg2, Object *arg3)
         shifted = object->angle >> 9;
         direction = shifted & 7;
         velocity_base = (s16 *)0x80070000;
-        ASM_KEEP_NV(velocity_base);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP_NV(velocity_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         entity->saved_x = motion->x.half.hi;
         saved_half = motion->y.half.hi;
-        ASM_KEEP_NV(saved_half);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(saved_half);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         velocity_base = (s16 *)((u8 *)velocity_base - 0x3328);
-        ASM_KEEP_NV(velocity_base);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP_NV(velocity_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         entity->saved_y = saved_half;
         record_offset = direction << 1;
 
@@ -156,13 +156,13 @@ void func_80F36D0C(Entity *arg0, Motion *arg1, Effect *arg2, Object *arg3)
 
         if (record->bytes[1] == 0x12) {
             object->copy = *record;
-            ASM_KEEP(record);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             spawn_parent = (u8 *)entity - 0x20;
-            ASM_KEEP_NV(spawn_parent);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(spawn_parent);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             tile_base = D_800E36C8;
             tile_offset = index * 12;
             tile = (TileRecord *)(tile_offset + (unsigned long)tile_base);
-            ASM_KEEP_NV(tile);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP_NV(tile);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             spawned = func_800A8608(
                 spawn_parent,
                 record,
@@ -188,28 +188,28 @@ void func_80F36D0C(Entity *arg0, Motion *arg1, Effect *arg2, Object *arg3)
         table_address = direction << 1;
         velocity_base = (s16 *)(table_address + (unsigned long)velocity_base);
         velocity = *velocity_base;
-        ASM_KEEP_NV(velocity);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP_NV(velocity);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         animation = (u8 *)0x80170000;
-        ASM_KEEP_NV(animation);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(animation);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         velocity_result = (velocity << 16) + (velocity << 15);
         velocity_base = D_8006CCE8;
         table_address += (unsigned long)velocity_base;
-        ASM_KEEP_NV(table_address);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(table_address);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         motion->velocity_x = velocity_result;
         velocity = *(s16 *)table_address;
-        ASM_KEEP_NV(velocity);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP_NV(velocity);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         animation += 0x4AE4;
         velocity_result = (velocity << 16) + (velocity << 15);
         motion->velocity_y = velocity_result;
         effect->callback = (void (*)(void))animation;
         global_page = (u8 *)0x80080000;
-        ASM_KEEP_NV(global_page);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(global_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         shifted = *(s16 *)(global_page + 0x3228);
-        ASM_KEEP_NV(shifted);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP_NV(shifted);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         animation_angle = (s16)object->angle;
-        ASM_KEEP_NV(animation_angle);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(animation_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         zero_arg = 0;
-        ASM_KEEP_NV(zero_arg);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(zero_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         shifted = (((s32)shifted + animation_angle + 0x100) >> 9) & 7;
         animation_entry = (u8 *)(shifted + (unsigned long)animation);
         func_80047784(effect, *animation_entry, zero_arg);
@@ -231,7 +231,7 @@ void func_80F36D0C(Entity *arg0, Motion *arg1, Effect *arg2, Object *arg3)
         animation = D_80174AEC;
         effect->callback = (void (*)(void))animation;
         global_page = (u8 *)0x80080000;
-        ASM_KEEP_NV(global_page);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(global_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         shifted = ((*(s16 *)(global_page + 0x3228) + (s16)object->angle + 0x100) >> 9) & 7;
         animation_entry = (u8 *)(shifted + (unsigned long)animation);
         func_80047784(effect, *animation_entry, 0);
@@ -259,16 +259,16 @@ void func_80F36D0C(Entity *arg0, Motion *arg1, Effect *arg2, Object *arg3)
         motion->velocity_x = velocity;
         velocity_base = D_8006CCE8;
         state2_address += (unsigned long)velocity_base;
-        ASM_KEEP_NV(state2_address);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(state2_address);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         velocity = *(s16 *)state2_address;
-        ASM_KEEP_DEP_NV(animation, velocity);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_DEP_NV(animation, velocity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         animation += 0x4A74;
         velocity = -velocity;
         velocity <<= 16;
         motion->velocity_y = velocity;
         effect->callback = (void (*)(void))animation;
         global_page = (u8 *)0x80080000;
-        ASM_KEEP_NV(global_page);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(global_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         shifted = ((*(s16 *)(global_page + 0x3228) + (s16)object->angle + 0x100) >> 9) & 7;
         animation_entry = (u8 *)(shifted + (unsigned long)animation);
         func_80047784(effect, *animation_entry, 0);
@@ -312,12 +312,12 @@ void func_80F36D0C(Entity *arg0, Motion *arg1, Effect *arg2, Object *arg3)
             object->flags &= 0x7FFF;
         } else {
             data_page = (u8 *)0x800E0000;
-            ASM_KEEP_NV(data_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             detached = (u8 *)object - 0x20;
-            ASM_KEEP_NV(detached);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(detached);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             *(void **)(data_page + 0x3DE8) = detached;
         }
         break;
     }
-    ASM_KEEP4(entity, motion, effect, object);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP4(entity, motion, effect, object);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 }

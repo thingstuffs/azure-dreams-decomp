@@ -20,7 +20,7 @@ void func_80025FF4(void *arg0, void *arg1) {
     var_s1 = 0x40;
     local[1] = 0x100;
     val = var_s1;
-    ASM_KEEP_NV(val);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(val);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     local[2] = val;
     local[3] = 0x80;
     local[5] = 0x13C;

@@ -57,10 +57,10 @@ typedef struct S_80171104_2 {
 
 void func_80171104(void *arg0, void *arg1, void *arg2)
 {
-    register u8 *actor ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *actor_copy ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *motion ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *object ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *actor ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *actor_copy ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *motion ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ActorCallback callback;
     s32 old_direction;
     s16 timer;
@@ -68,7 +68,7 @@ void func_80171104(void *arg0, void *arg1, void *arg2)
     s16 direction;
     s16 height;
     s16 actor_height;
-    register s32 index_copy ASM_REG("$20");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 index_copy ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *animation;
     s32 shifted_direction;
 
@@ -84,7 +84,7 @@ void func_80171104(void *arg0, void *arg1, void *arg2)
         early_actor = arg0;
         early_callback = (*(ActorCallback *)((u8 *)actor + 0x8C));
         if (early_callback == (ActorCallback)&D_801717F4) {
-            ASM_KEEP(early_actor);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(early_actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             early_callback(early_actor, arg1, arg2, early_actor);
             goto function_return;
         }
@@ -92,9 +92,9 @@ void func_80171104(void *arg0, void *arg1, void *arg2)
         goto function_return;
     }
 
-    ASM_KEEP(actor);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(motion);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(object);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     old_direction = (s8)(*(volatile u8 *)((u8 *)actor + 0x6D));
     if (func_800A9E70(actor, motion, object, actor) != 0) {
@@ -215,7 +215,7 @@ compare_direction:
             object_flags = ((S_80171104_0 *)object)->unk_14.n | 1;
             goto store_object_flags;
         }
-        ASM_KEEP(index_copy);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(index_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         object_flags = ((S_80171104_0 *)object)->unk_14.n & 0xFFFE;
 store_object_flags:

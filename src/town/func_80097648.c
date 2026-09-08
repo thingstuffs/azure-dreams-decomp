@@ -17,20 +17,20 @@ void func_80094DA8(TownObject *arg0) {
     s32 input_y;
     s32 result_x;
     s32 scaled_x;
-    register s32 magnitude_x ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 magnitude_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 value_x;
     s32 sign_value_x;
     s32 delta_x;
-    register s32 clamp_value_x ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register s32 clamp_magnitude_x ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 clamp_value_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 clamp_magnitude_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 result_y;
     s32 scaled_y;
-    register s32 magnitude_y ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 magnitude_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 value_y;
     s32 sign_value_y;
     s32 delta_y;
     s32 clamp_value_y;
-    register s32 clamp_magnitude_y ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 clamp_magnitude_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     base = D_80083160;
     first = func_80094BC8(*(s32 *)(base + 8), *(s16 *)(base + 0xC8));

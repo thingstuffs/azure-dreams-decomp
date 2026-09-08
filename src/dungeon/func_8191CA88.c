@@ -46,10 +46,10 @@ extern void func_800243C4() __attribute__((noreturn));
 void func_8191CA88(void *arg0, void *arg1, S_8191CA88_2 *arg2) {
     void *object = arg0;
     S_8191CA88_3 *motion;
-    register s32 state ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 state_u ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 state_u ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 timer;
-    register s32 old_timer ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 old_timer ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 compare_left;
     s32 compare_right;
     s32 compare_result;
@@ -68,15 +68,15 @@ void func_8191CA88(void *arg0, void *arg1, S_8191CA88_2 *arg2) {
     inner = ((S_8191CA88_0 *)object)->unk_00;
     inner->unk_14 = inner->unk_14 + 1;
     arg2_field = arg2->unk_1A;
-    ASM_USE(arg2_field);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE(arg2_field);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     motion = arg1;
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     arg2->unk_1A = arg2_field + 0x300;
     old_timer = ((S_8191CA88_0 *)object)->unk_10.s;
     state = ((S_8191CA88_0 *)object)->unk_0E.s;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state_u = ((S_8191CA88_0 *)object)->unk_0E.u;
-    ASM_USE(old_timer);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE(old_timer);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     timer = old_timer + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = timer;
 
@@ -108,7 +108,7 @@ state_0:
     compare_left = ((S_8191CA88_0 *)object)->unk_10.p;
     compare_right = ((S_8191CA88_0 *)object)->unk_14;
     compare_result = compare_left < compare_right;
-    ASM_TAILSLOT_PIN_TIED(compare_result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_TAILSLOT_PIN_TIED(compare_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80024388(x_velocity, y_velocity, arg2, object);
 
 state_1:
@@ -136,7 +136,7 @@ state_2:
 state_3:
     ((S_8191CA88_0_pre *)object)[-1].unk_00 |= 0x8000;
     global_base = (u8 *)0x80080000;
-    ASM_KEEP(global_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(global_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_8191CA88_4 *)global_base)->unk_14A0 |= 0x8000;
 
 done:

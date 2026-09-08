@@ -45,10 +45,10 @@ void func_80023B14(TownObject *obj_arg, TownMotion *motion)
     TownObject *obj = obj_arg;
     TownChild *child;
     s16 timer;
-    register u16 state ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u16 state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP_NV(obj);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    ASM_KEEP_NV(motion);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(obj);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(motion);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     child = obj->child;
     motion->x += motion->dx;
@@ -114,7 +114,7 @@ void func_80023B14(TownObject *obj_arg, TownMotion *motion)
         }
 store_timer:
         obj->timer = next_timer;
-        ASM_KEEP(next_timer);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(next_timer);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         func_80093CEC(D_800D0138);
         motion->dz = 0;
         motion->dy = 0;
@@ -170,9 +170,9 @@ store_timer:
         if ((timer << 16) > 0) {
             break;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         score_ptr = (s16 *)D_800135C2;
-        ASM_CLOBBER("$2");   /* MATCH pin: retail register colouring depends on it */
+        ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if (*score_ptr == child->count) {
             func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
         } else {

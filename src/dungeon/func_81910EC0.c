@@ -34,7 +34,7 @@ void func_81910EC0(void *arg0, void *arg1, s16 arg2, s16 arg3)
     s32 xscale = arg2;
     s32 divisor = arg3;
     s32 scaled = xscale < divisor;
-    register u32 lowmask ASM_REG("$20") = 0x00FFFFFF;   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 lowmask ASM_REG("$20") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 highmask = 0xFF000000;
     u8 *iter = obj;
     u8 *scratch = (u8 *)0x1F800000;

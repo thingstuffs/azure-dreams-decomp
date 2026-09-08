@@ -30,9 +30,9 @@ extern s32 D_800814A0[3];
 
 void func_818D4A94(void *arg0, S_818D4A94_0 *arg1)
 {
-    register s32 x ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 a ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 aux ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 a ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 aux ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 one;
     s32 z;
 
@@ -58,14 +58,14 @@ void func_818D4A94(void *arg0, S_818D4A94_0 *arg1)
     z += aux;
     ((S_818D4A94_1 *)arg0)->unk_40 = x;
     x = ((S_818D4A94_1 *)arg0)->unk_34;
-    ASM_USE(x);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_MEM_NV(a, D_80025118[0]);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_USE2_NV(a, x);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE(x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_MEM_NV(a, D_80025118[0]);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_USE2_NV(a, x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_818D4A94_1 *)arg0)->unk_44 = z;
     a = arg1->unk_00.at02.v;
-    ASM_USE(a);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE(a);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     one = 1;
-    ASM_USE2_NV(a, one);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE2_NV(a, one);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     x -= a;
     if (x < 0) {
         x = -x;

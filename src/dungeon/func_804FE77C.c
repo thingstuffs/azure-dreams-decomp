@@ -92,8 +92,8 @@ void func_8001677C(void) ROW_ATTR;
 void func_8001677C(void)
 {
 #ifdef __mips__
-    register u32 *stack ASM_REG("$29");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register u32 return_address ASM_REG("$31");   /* MATCH pin: retail register colouring depends on it */
+    register u32 *stack ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u32 return_address ASM_REG("$31");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #endif
 
     if (func_80018964(0x601) != 0) {
@@ -113,7 +113,7 @@ void func_8001677C(void)
 #ifdef __mips__
     return_address = stack[4];
     stack = (u32 *)((u8 *)stack + 24);
-    ASM_KEEP(return_address);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(return_address);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     __asm__(".end func_8001677C\n.if 0");
 #endif
 }
@@ -185,10 +185,10 @@ static void func_804FE87C(void)
     func_80064D50(base + 0x70);
 
     call_arg = base + 0x50;
-    ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     c1 = -0x800;
     c2 = 0x800;
-    ASM_KEEP(c2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(c2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ((S_804FE87C_0 *)state)->unk_38 = c1;
     ((S_804FE87C_0 *)state)->unk_3C = c1;
     c1 = 0x800;

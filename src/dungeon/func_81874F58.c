@@ -24,7 +24,7 @@ void func_80024758(void *arg0, void *arg1, void *arg2, u16 arg3) {
     u8 *sp50;
     s32 sp54;
     s32 sp58;
-    register u8 *scratch ASM_REG("$21") = (u8 *)0x1F800000;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *scratch ASM_REG("$21") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *page;
     u8 *page0;
     u32 page_color;
@@ -55,7 +55,7 @@ void func_80024758(void *arg0, void *arg1, void *arg2, u16 arg3) {
     u8 nflg;
 
     page0 = D_80083160;
-    ASM_KEEP_MEMDEP(page0, page_color, D_80083160);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_MEMDEP(page0, page_color, D_80083160);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     *(u8 **)(scratch + 0x24) = page0 + 0xB0;
     *(s32 *)(scratch + 0x88) = *(s16 *)((u8 *)arg1 + 2);
     *(s32 *)(scratch + 0x8C) = *(s16 *)((u8 *)arg1 + 6);
@@ -75,7 +75,7 @@ void func_80024758(void *arg0, void *arg1, void *arg2, u16 arg3) {
     func_80064BC0((u8 *)((u32)scratch | 0x54), (u8 *)((u32)scratch | 0x34));
     func_80064D80((u8 *)((u32)scratch | 0x54));
     func_80064CF0((u8 *)((u32)scratch | 0x54));
-    ASM_KEEP_NV(scratch);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     sp50 = *(u8 **)((u8 *)arg2 + 8);
     *(u16 *)(scratch + 0x28) = *(u16 *)((u8 *)arg2 + 0x14);
     for (;;) {
@@ -222,8 +222,8 @@ void func_80024758(void *arg0, void *arg1, void *arg2, u16 arg3) {
                             }
                         }
                         {
-                            register u32 mask ASM_REG("$4") = 0x00FFFFFF;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-                            register u32 mask2 ASM_REG("$5") = 0xFF000000;   /* MATCH pin: retail register colouring depends on it */
+                            register u32 mask ASM_REG("$4") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                            register u32 mask2 ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                             s32 *slot;
                             *(s32 *)(node + 4) = *(s32 *)((u8 *)arg2 + 0xC);
                             *(s32 *)node = (*(s32 *)node & mask2)

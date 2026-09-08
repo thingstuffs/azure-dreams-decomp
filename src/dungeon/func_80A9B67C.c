@@ -144,10 +144,10 @@ void func_80170E7C(void *arg0, void *arg1, void *arg2, void *arg3)
         }
 #ifdef __mips__
         {
-            register void *next_state ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register void *next_state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             next_state = D_80174C84;
-            ASM_TAILSLOT_PIN(next_state);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         }
 #endif
         func_80171088();
@@ -177,7 +177,7 @@ void func_80170E7C(void *arg0, void *arg1, void *arg2, void *arg3)
             u32 current_state = ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8;
             u32 actor_state;
 
-               /* MATCH pin: retail delay-slot fill depends on it */
+               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             actor_state = 0xE;
 #ifndef __mips__
 #endif
@@ -356,7 +356,7 @@ generic:
                 void *next_state;
 
                 next_state = D_80174C3C;
-                ASM_TAILSLOT_PIN(next_state);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             }
 #endif
             func_80171474();

@@ -40,8 +40,8 @@ void func_8001D0F4(DungeonRect *arg0)
 {
     u16 tile;
     s32 count_calc;
-    register s32 count_value ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 value ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 count_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 stored_value;
     s32 first_random;
     s32 count;
@@ -50,7 +50,7 @@ void func_8001D0F4(DungeonRect *arg0)
     DungeonGroup *groups;
     u8 *base;
     s32 off;
-    register DungeonSpot *entry ASM_REG("$19");   /* MATCH pin: load-bearing for the whole function shape */
+    register DungeonSpot *entry ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 xoff;
     u32 yoff;
 
@@ -58,7 +58,7 @@ void func_8001D0F4(DungeonRect *arg0)
     count_calc = ((arg0->height * arg0->width) >> 3) +
                  (func_800A6D30() & 7);
     count_value = count_calc;
-    ASM_KEEP(count_value);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(count_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if ((s16)count_calc >= 29) {
         count_value = 28;
     }
@@ -66,11 +66,11 @@ void func_8001D0F4(DungeonRect *arg0)
 
     if (count >= 0) {
         groups = D_80073414;
-        ASM_USE2(groups, first_random);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_USE2(groups, first_random);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         base = (u8 *)D_800E39C8;
         off = count * 24;
         entry = (DungeonSpot *)(base + off);
-        ASM_USE2(off, base);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_USE2(off, base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         do {
             xoff = func_800A6DA4(0, (arg0->width - 1) & 0xFFFF) & 0xFFFF;
             yoff = func_800A6DA4(0, (arg0->height - 1) & 0xFFFF) & 0xFFFF;
@@ -86,13 +86,13 @@ void func_8001D0F4(DungeonRect *arg0)
 
                 random_value = func_800A6D30() & 0xFFFF;
                 value = (random_value % 19) + 1;
-                ASM_KEEP(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 table_flags = *(u16 *)(groups[21].entries +
                                        ((s16)value * 12));
                 stored_value = value;
                 if ((table_flags & 0x3000) != 0x3000) {
                     D_800E3648[count].kind = stored_value;
-                    ASM_KEEP(stored_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_KEEP(stored_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     D_800E3648[count].f1 = 0x15;
                     D_800E3648[count].f3 = 0x80;
                     D_800E3648[count].f2 = 0;

@@ -34,7 +34,7 @@ typedef struct S_80024C0C_3 {
 } S_80024C0C_3;   /* arg1 in func_80024C0C */
 
 void func_80024C0C(void *arg0, void *arg1, void *arg2) {
-    register s32 x ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register s32 x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 a0;
     s32 a1;
     s32 a2;
@@ -75,19 +75,19 @@ state0:
 
         a0 = ((S_80024C0C_3 *)arg1)->unk_0C;
         cmp = a0 < a1;
-        ASM_TAILSLOT_PIN(cmp);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_TAILSLOT_PIN(cmp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_80024D78(a0, a1, a2);
         return;
     }
     a0 = ((S_80024C0C_3 *)arg1)->unk_0C;
     if (a1 < a0) {
-        register s32 d1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 d1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         d1 = a1 - a0;
         if (d1 < 0) {
             d1 = -d1;
         }
-        ASM_KEEP(d1);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(d1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         d0 = a2 - a0;
         if (d0 < 0) {
             d0 = -d0;
@@ -95,7 +95,7 @@ state0:
         if (d0 < d1) {
             goto done;
         }
-        ASM_KEEP(d1);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(d1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
     func_80024A34(arg0, arg1, arg2);
     ((S_80024C0C_0 *)arg0)->unk_04.u++;

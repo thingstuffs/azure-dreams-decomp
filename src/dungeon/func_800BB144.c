@@ -115,16 +115,16 @@ main_path:
             node = func_80099978(temp_v0_2);
             captured = func_80099194(&D_80089378, node);
             offset = node - 2;
-            ASM_KEEP_DEP_NV(offset, node);   /* MATCH pin: retail register colouring depends on it */
-            ASM_KEEP(captured);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_DEP_NV(offset, node);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(captured);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             node = captured;
             result = func_80099368(arg1, node);
             {
-                register s32 pass ASM_REG("$5");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                register s32 pass ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
                 pass = node;
                 node = result;
-                ASM_KEEP(node);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 func_800998C0(offset, pass);
             }
             func_80099290(func_80099194(&D_8008937C, node));
@@ -145,16 +145,16 @@ main_path:
         node = func_80099978(temp_v0_5);
         captured = func_80099194(&D_80089378, node);
         offset = node - 2;
-        ASM_KEEP_DEP_NV(offset, node);   /* MATCH pin: retail register colouring depends on it */
-        ASM_KEEP(captured);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_DEP_NV(offset, node);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(captured);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         node = captured;
         result = func_80099368(arg1, node);
         {
-            register s32 pass ASM_REG("$5");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            register s32 pass ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
             pass = node;
             node = result;
-            ASM_KEEP(node);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             func_800998C0(offset, pass);
         }
         func_80099290(func_80099194(&D_8008937C, node));

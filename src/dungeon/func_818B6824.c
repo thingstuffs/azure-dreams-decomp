@@ -10,7 +10,7 @@ extern M2C_UNK func_800B4C7C(s32, void *, s32, s32);
 
 
 void func_818B6824(Rec_D_800E3D7C *arg0, s32 arg1) {
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register s32 var_a1;
 
     if (func_8009D218(arg0, 1) == 0) {

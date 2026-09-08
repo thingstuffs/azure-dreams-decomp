@@ -23,11 +23,11 @@ typedef struct S_80050550_Outer {
  * divides each by a2, and writes the results into two output structs via pointers
  * held at offset 4 and offset 8 of the input struct. */
 void func_80050550(S_80050550_Outer *a0, s32 a1, s32 a2) {
-    register s32 v0 ASM_REG("v0") = (a1 * 80) / a2;   /* MATCH pin: slus-diff */
+    register s32 v0 ASM_REG("v0") = (a1 * 80) / a2;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 a3 = (-(a1 * 128)) / a2;
     s32 a1v = (a1 * 1024) / a2;
 
-    register S_80050550_A *p ASM_REG("v1");   /* MATCH pin: slus-diff */
+    register S_80050550_A *p ASM_REG("v1");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     v0 = v0 + 0x30;
     p = a0->fieldA;

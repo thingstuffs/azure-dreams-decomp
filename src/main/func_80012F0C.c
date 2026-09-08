@@ -33,7 +33,7 @@ void func_80025F0C(s32 arg0, s32 arg1) {
     } else {
         selected = settings[2];
     }
-    ASM_KEEP(saved_arg1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     strcat(call_context, selected);
 
     temp_s0 = arg0 + 4;

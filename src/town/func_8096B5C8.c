@@ -42,10 +42,10 @@ void func_80123A60(void *arg0) {
     temp_v1 = object->unk_0F;
     var_s1 = 0;
     if (temp_v1 == 3) {
-        ASM_KEEP(temp_v1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         var_s1 = temp_v1;
         temp_s0 = var_s1 * 0x10;
-        ASM_KEEP(temp_s0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (func_80123200(temp_s0 & 0xF0) & 0xFF) {
             u8 *image_base = (u8 *)D_80126E98;
             void **image_ptr;
@@ -59,11 +59,11 @@ void func_80123A60(void *arg0) {
         }
         goto done;
     }
-    ASM_MEM_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_v0 = object->unk_0F;
-    ASM_KEEP(temp_v0);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     loop_image_base = (u8 *)D_80126E98;
-    ASM_KEEP(loop_image_base);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(loop_image_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     var_s0 = temp_v0 * 0x10;
     var_s2 = (ImageEntry *)(((((temp_v0 << 5) + var_s0) << 2)) +
                             (u32)loop_image_base);

@@ -56,11 +56,11 @@ extern s32 func_800A41F0(void *);
 
 void *func_800A3D18(void *arg0, void *arg1, s32 arg2)
 {
-    register void *owner ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *owner ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *cur;
     S_800A3D18_4 *base;
-    register void *best ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *special ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *best ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *special ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 special_value;
     s16 best_value;
     u8 *global_page;
@@ -71,7 +71,7 @@ void *func_800A3D18(void *arg0, void *arg1, s32 arg2)
     s32 best_cmp;
 
     owner = arg0;
-    ASM_KEEP_NV(owner);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     cur = arg1;
     best = 0;
     special = best;
@@ -144,7 +144,7 @@ loop:
 
 advance:
     next = ((S_800A3D18_1 *)cur)->unk_5C;
-    ASM_KEEP(cur);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(cur);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     cur = (u8 *)next + 0x20;
     if (cur != base) {
         goto loop;

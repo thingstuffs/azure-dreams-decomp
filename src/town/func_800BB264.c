@@ -5,11 +5,11 @@ extern s8 D_800133E7[9];
 void func_800B89C4(s32 arg0, s32 arg1)
 {
     s32 raw = arg1;
-    register s32 value ASM_REG("$5") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 value ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 common_index;
     s32 small_index;
 
-    ASM_KEEP(value);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     value = (s16)value;
     common_index = arg0;
     if (value <= 0) {
@@ -27,10 +27,10 @@ void func_800B89C4(s32 arg0, s32 arg1)
 
 common:
     {
-        register u8 *base ASM_REG("$2") = (u8 *)0x80010000;   /* MATCH pin: keeps a constant in a register as retail does */
+        register u8 *base ASM_REG("$2") = (u8 *)0x80010000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         u8 previous;
 
-        ASM_KEEP(base);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         common_index = (s16)common_index * 2;
         base[0x33A5 + common_index] = (u8)raw;
         previous = base[0x360A];
@@ -44,14 +44,14 @@ small:
         u8 *base = (u8 *)0x80010000;
 
         small_index = arg0 << 16;
-        ASM_KEEP(base);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         small_index >>= 15;
         base[0x33A5 + small_index] = (u8)raw;
         return;
     }
 
 special:
-    ASM_KEEP(value);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     D_800133E7[0] = (u8)raw;
 }
 

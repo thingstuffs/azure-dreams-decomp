@@ -227,7 +227,7 @@ s32 func_800DB660(Item *item)
             tag = (primitive->tag & 0xFF000000) | (dungeon->ordering[ordering_index] & mask);
             primitive->tag = tag;
             new_var = *context_p;
-            ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             next_dungeon = new_var;
             next_dungeon->ordering[ordering_index] = (next_dungeon->ordering[ordering_index] & 0xFF000000) | (((u32) primitive) & mask);
           }

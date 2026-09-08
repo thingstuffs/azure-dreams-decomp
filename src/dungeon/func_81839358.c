@@ -64,7 +64,7 @@ void func_81839358(void *arg0, void *arg1, void *arg2) {
     s32 var_v0;
     s32 var_v0_2;
     s32 temp_a0_2;
-    register s32 temp_a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 init_pos;
     s32 init_vel;
     s32 sprite_word;
@@ -115,7 +115,7 @@ void func_81839358(void *arg0, void *arg1, void *arg2) {
     func_80024DCC();
     return;
 state_ge_2:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (temp_v1_2 == 2) {
         goto block_27;
     }
@@ -137,7 +137,7 @@ state_1:
             ((S_81839358_3 *)arg2)->unk_05 = 0;
         }
         actor_count = ((S_81839358_3 *)arg2)->unk_0C.at00.v;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if (((S_81839358_1 *)arg0)->unk_4A >= (s32) actor_count) {
             temp_a0_2 = ((S_81839358_0 *)arg1)->unk_10.n;
             ((S_81839358_0 *)arg1)->unk_0C.n = (s32) (((S_81839358_0 *)arg1)->unk_0C.n * 5);
@@ -149,11 +149,11 @@ state_1:
             if (((S_81839358_1 *)arg0)->unk_48 & 1) {
                 u8 *dispatch_ptr;
                 dispatch_ptr = D_800DEC70;
-                ASM_TAILSLOT_PIN(dispatch_ptr);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_80024D24();
                 return;
             }
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_81839358_3 *)arg2)->unk_00 = &D_800DED28;
             sprite_word = ((S_81839358_4 *)(&D_800DED28))->unk_04;
             ((S_81839358_3 *)arg2)->unk_04 = 0;

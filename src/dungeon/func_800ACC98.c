@@ -51,11 +51,11 @@ void *func_800B23F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
                     volatile s32 arg4)
 {
     s32 saved_arg0;
-    register s32 saved_arg1 ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     long reg_s2;
     long reg_s3;
-    register s32 call_a0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 kind;
     s32 test_v0;
     s32 left;
@@ -72,13 +72,13 @@ void *func_800B23F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
     call_a1 = &D_80083498;
     reg_s2 = arg3;
     reg_s3 = arg2;
-    ASM_KEEP_NV(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_NV(call_a1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(call_a0, call_a1);
     if (obj != 0) {
         call_arg3 = saved_arg0;
         work = (u8 *)obj + 0x20;
-        ASM_KEEP(work);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_800B23F8_0 *)obj)->unk_10 = &D_800B274C;
         ((S_800B23F8_1 *)work)->unk_13 = 0x1E;
         func_8004491C(obj, &D_80045340);
@@ -86,7 +86,7 @@ void *func_800B23F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
         part_a = ((S_800B23F8_0 *)obj)->unk_08;
         kind = saved_arg0 & 3;
         ((S_800B23F8_2 *)part_a)->unk_0A = (s16)reg_s2;
-        ASM_KEEP(kind);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(kind);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         reg_s2 = (long)((S_800B23F8_0 *)obj)->unk_0C;
         test_v0 = 1;
         ((S_800B23F8_3 *)((void *)reg_s2))->unk_25 = (s8)reg_s3;

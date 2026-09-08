@@ -8,7 +8,7 @@ extern s32 D_8002593C;
 extern s32 D_80024FAC;
 
 #ifndef NON_MATCHING
-register u8 *match_v0 ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register u8 *match_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 void func_8002570C(void *arg0) {
@@ -35,7 +35,7 @@ void func_8002570C(void *arg0) {
         return;
     }
     call_arg = (u8 *)arg0 - 0x20;
-    ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     match_v0 = (u8 *)0x80020000;
     __asm__ __volatile__("" : "=r"(match_v0) : "0"(match_v0));
     match_v0 += 0x593C;

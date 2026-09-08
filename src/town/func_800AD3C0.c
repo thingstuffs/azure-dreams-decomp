@@ -49,12 +49,12 @@ void func_800AAB20(void *arg0, M2C_UNK arg1, Rec_D_80082E80 *arg2) {
             s32 tail_v0;
 
             tail_v0 = arg2->unk_14.at00_u16.v | 1;
-            ASM_TAILSLOT_PIN(tail_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800AAC3C();
             return;
         }
         arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v & 0xFFFE);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800478B8(arg2);
     }
 }

@@ -14,9 +14,9 @@ extern void func_800C41D4(void *);
 void func_800C4A88(void *arg0)
 {
     TownSlot *slot;
-    register void *child ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register void *child ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 raw_variant;
-    register u8 variant ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 variant ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     slot = &D_80082660[*(s32 *)((u8 *)arg0 + 0x60)];
     raw_variant = slot->variant;
@@ -26,7 +26,7 @@ void func_800C4A88(void *arg0)
     } while (0);
     variant = raw_variant & 3;
     if (child != 0) {
-        ASM_USE(raw_variant);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE(raw_variant);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         *(u8 *)((u8 *)child + 4) = variant;
     }
     *(u16 *)((u8 *)arg0 + 0x6E) = D_800D5070[variant];

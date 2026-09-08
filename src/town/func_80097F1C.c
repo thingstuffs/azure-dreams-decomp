@@ -60,7 +60,7 @@ loop:
                 ((Rec_D_800CFCB4 *)arg0)->unk_18 = temp_v1;
                 ((Rec_D_800CFCB4 *)arg0)->unk_10 = temp_v0_2;
                 temp_v1_2 = temp_v0_2->unk_14;
-                ASM_USE(temp_v0_2);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_USE(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (temp_v1_2 != temp_t0) {
                     func_8009574C(var_a0, var_a1, var_a2, temp_a3);
                     return 1;

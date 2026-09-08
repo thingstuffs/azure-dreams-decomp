@@ -58,7 +58,7 @@ s32 func_800A5C70(void) {
     start = cursor;
     do {
         if (!(((S_800A5C70_0 *)cursor)->unk_1C & 0x2208)) {
-            register s32 delta ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             other = ((S_800A5C70_0_pre *)cursor)[-1].unk_00;
             delta = ((S_800A5C70_1 *)coords)->unk_24;

@@ -74,7 +74,7 @@ void func_80172FE4(S_80172FE4_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
 
             table_base = (u8 *)&D_8006CCE8;
             table_offset = (((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE;
-            ASM_KEEP(table_offset);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(table_offset);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             arg1->unk_10.at00_s32.v +=
                 *(s16 *)(table_base + table_offset) << 14;
         }

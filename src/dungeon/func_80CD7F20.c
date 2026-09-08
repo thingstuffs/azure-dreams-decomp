@@ -15,9 +15,9 @@ extern u8 D_8015E360[];
 void func_8015B720(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *obj0 = arg0;
     void *obj2 = arg2;
-    register void *obj3 ASM_REG("$18") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *obj3 ASM_REG("$18") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *kind;
-    register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *entry;
     void *call_obj;
     s32 index;

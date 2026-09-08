@@ -57,16 +57,16 @@ void func_80025360(void *arg0, void *arg1, void *arg2)
     void *obj;
     void *dest;
     s32 one;
-    register s16 rect_x ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u16 mask ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s16 rect_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u16 mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     Rect *data;
 
     obj = arg0;
     dest = arg2;
     data = &D_80024048;
     sp18.rect = *data;
-    ASM_KEEP(obj);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(dest);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(dest);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     D_80026428 = 1;
     temp_v1 = ((S_80025360_0 *)obj)->unk_00;
     if (temp_v1 != 0) {
@@ -82,7 +82,7 @@ void func_80025360(void *arg0, void *arg1, void *arg2)
     mask &= 0xFF7F;
     ((S_80025360_1 *)dest)->unk_14 = mask;
     rect_x = 0x340;
-    ASM_KEEP(rect_x);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(rect_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 block_5:
     sp18.rect.x = rect_x;
     sp18.rect.y = 0x100;

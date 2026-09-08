@@ -182,13 +182,13 @@ block_5:
     }
     if (!(temp_v1_3 & 0x100000)) {
         void *call_arg = arg2;
-        ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         {
             void *callback = &D_8008ACDC;
-            ASM_KEEP(callback);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             {
                 void *data = &D_800DCFB0;
-                ASM_KEEP(data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_pv = callback;
                 func_8008F3C8(call_arg, data);
             }
@@ -198,7 +198,7 @@ block_5:
     if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_124 != 0) && (((func_800A1C58(arg3) << 0x10) == 0) || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0))) {
         if (!(((S_8008EAC8_4 *)held_D_80083460)->unk_02 & 4)) {
             if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x20) {
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 if (!(D_80013714 & 1) && (((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x80)) {
                     ((S_8008EAC8_1 *)arg3)->unk_8A = 2;
                     D_800E4940 = 2;
@@ -210,7 +210,7 @@ block_5:
                 }
                 goto code_10;
             }
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (D_80013714_second & 1) {
                 temp_v1_4 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_4 & 0xFFFE);
@@ -221,12 +221,12 @@ block_5:
                 if (temp_v0 != NULL) {
                     temp_angle = ((S_8008EAC8_6 *)temp_v0)->unk_01 & 7;
                     temp_a1 = ((S_8008EAC8_1 *)arg3)->unk_2A.u;
-                    ASM_KEEP(temp_angle);   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_KEEP(temp_angle);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     temp_angle = (u8) temp_angle;
                     temp_a0 = temp_angle << 9;
                     temp_v1_5 = temp_a1 & 0xFFF;
                     temp_angle = temp_a0;
-                    ASM_KEEP(temp_angle);   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_KEEP(temp_angle);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     ((S_8008EAC8_1 *)arg3)->unk_2A.u = temp_v1_5;
                     if (temp_v1_5 != temp_angle) {
                         s32 signed_target;
@@ -241,7 +241,7 @@ block_5:
                             ((S_8008EAC8_1 *)arg3)->unk_2A.u = normalized;
                         }
                         {
-                            register s32 normalized_target ASM_REG("$2");   /* MATCH pin: retail branch polarity depends on it */
+                            register s32 normalized_target ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
                             if (temp_a0 & 0x800) {
                                 normalized_target = temp_a0 | 0xF800;
                             } else {
@@ -319,7 +319,7 @@ code_top_high:
 code_10:
                     func_8008C7B4(arg0, arg1, arg2, arg3);
                     return;
-                       /* MATCH pin: retail basic-block layout depends on it */
+                       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     return;
 code_48:
                     if (func_80095538(arg0, ((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, ((S_8008EAC8_6 *)temp_v0)->unk_02 & 0x1F) >= 0) {
@@ -340,16 +340,16 @@ code_50:
 code_68:
                     temp_v0_2 = func_8009FADC(((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, temp_a1);
                     {
-                        register void *call0 ASM_REG("$4") = arg0;   /* MATCH pin: retail delay-slot fill depends on it */
-                        register void *call1 ASM_REG("$5") = arg1;   /* MATCH pin: retail keeps a computation the compiler would drop */
+                        register void *call0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        register void *call1 ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                         void *call2 = arg2;
-                        register void *call3 ASM_REG("$2") = temp_v0_2;   /* MATCH pin: retail branch polarity depends on it */
+                        register void *call3 ASM_REG("$2") = temp_v0_2;   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
                         u32 mode;
-                        ASM_KEEP(call2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_KEEP(call2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         mode = ((S_8008EAC8_6 *)temp_v0)->unk_00;
                         mode &= 0x60;
                         mode >>= 5;
-                        ASM_TAILSLOT_PIN(mode);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                        ASM_TAILSLOT_PIN(mode);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                         func_8008F05C(call0, call1, call2, call3);
                     }
                     return;
@@ -399,7 +399,7 @@ code_D8:
                     if ((func_800A4474(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25) << 0x10) != 0) {
                         func_8008CF6C(arg0, arg1, arg2, &D_800245A8);
                         return;
-                           /* MATCH pin: retail basic-block layout depends on it */
+                           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                         return;
                     }
                 }
@@ -418,7 +418,7 @@ code_D8:
                                 code8_a0 = arg0;
                                 if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x400) {
                                     ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) (((S_8008EAC8_1 *)arg3)->unk_2A.u + (func_800A6D30(code8_a0) & 0xE00));
-                                    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                                     code8_a0 = arg0;
                                 }
 code_8:
@@ -434,7 +434,7 @@ code_8:
                         return;
                     }
                     {
-                        register s32 flag40 ASM_REG("$2");   /* MATCH pin: retail branch polarity depends on it */
+                        register s32 flag40 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
                         temp_v1_6 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                         flag40 = temp_v1_6 & 0x40;
@@ -444,8 +444,8 @@ code_8:
                                 void *tail_a0 = arg2;
                                 void *tail_a1 = arg1;
 
-                                ASM_SET(tail_a0);   /* MATCH pin: retail basic-block layout depends on it */
-                                ASM_SET(tail_a1);   /* MATCH pin: retail basic-block layout depends on it */
+                                ASM_SET(tail_a0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                                ASM_SET(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFBF);
                                 func_8008F3C0(tail_a0, tail_a1);
                                 return;
@@ -453,7 +453,7 @@ code_8:
                             goto block_153;
                         }
                         flag40 = tail_data_flags & 0x40;
-                        ASM_KEEP_NV(flag40);   /* MATCH pin: load-bearing for the whole function shape */
+                        ASM_KEEP_NV(flag40);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         temp_v0_4 = flag40;
                     }
                     if (temp_v0_4 != 0) {

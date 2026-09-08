@@ -16,14 +16,14 @@ void func_800A2AF8(s32 arg0, s32 arg1)
     s32 arg1r = arg1;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *base;
-    register u32 *prim ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 *prim ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 *packet;
-    register s32 random ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 random ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 result;
     u32 rgb_mask = 0x00FFFFFF;
     u32 code_mask;
-    register s32 z0 ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register s32 z3 ASM_REG("$7");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 z0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register s32 z3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     base = *(u8 **)D_80083160;
     *(u8 **)(scratch + 0x24) = base + 0xB0;
@@ -46,7 +46,7 @@ void func_800A2AF8(s32 arg0, s32 arg1)
         scratch + 0x7C, scratch + 0xEC, scratch + 0x94, scratch + 0x98);
 
     {
-        register u16 first ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u16 first ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         result = *(s32 *)(scratch + 0xC4);
         first = *(u16 *)(scratch + 0xE8);
         result -= 0x30;
@@ -71,7 +71,7 @@ void func_800A2AF8(s32 arg0, s32 arg1)
     func_80067F20(packet, 1, 0, (u16)result, 0);
 
     code_mask = 0xFF000000;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     z0 = 0;
     z3 = 0;
     {
@@ -89,18 +89,18 @@ void func_800A2AF8(s32 arg0, s32 arg1)
 
     {
         u32 value;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         value = ((u32 *)*(u32 **)(scratch + 0x24))[*(s32 *)(scratch + 0xC4)];
         prim[0] = (prim[0] & code_mask) | (value & rgb_mask);
     }
     {
-        register s32 index ASM_REG("$6") = *(s32 *)(scratch + 0xC4);   /* MATCH pin: retail register colouring depends on it */
+        register s32 index ASM_REG("$6") = *(s32 *)(scratch + 0xC4);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 value = ((u32 *)*(u32 **)(scratch + 0x24))[index];
         ((u32 *)*(u32 **)(scratch + 0x24))[index] =
             (value & code_mask) | ((u32)prim & rgb_mask);
     }
 
-    ASM_KEEP(prim);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(prim);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     base = *(u8 **)D_80083160;
     packet = *(u32 **)(base + 0x8D0);
     *(u8 **)(base + 0x8D0) = (u8 *)packet + 0xC;

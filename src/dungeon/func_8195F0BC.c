@@ -48,25 +48,25 @@ extern void func_8009CE1C(void *, s32, s32, s32, s32, s32, s32);
 extern void *func_8009B4B0();
 
 void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
-    register FadeColor *var_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register FadeColor *var_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_s1;
-    register s32 var_s3 ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 temp_s4;
     s32 temp_s5;
     s32 var_s1_2;
     s32 var_s2_2;
-    register s32 var_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 *var_s2;
-    register u16 *var_s6 ASM_REG("$22");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 *var_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *temp_v0;
     s32 temp_a3;
     u16 timer;
-    register s32 arg_x ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 arg_y ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 arg_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 arg_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *page;
     u8 *row;
     u8 cell;
-    register s32 hard_zero ASM_REG("$0");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
 #ifdef NON_MATCHING
     hard_zero = 0;
@@ -105,7 +105,7 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
                 page = (void *)0x800e0000;
                 var_v0 &= 7;
                 cell = *row;
-                ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 page = *(void **)((u8 *)page + 0x3D7C);
                 temp_a3 = *var_s2;
                 temp_a3 += (s8)cell - var_v0;
@@ -144,7 +144,7 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
                     arg_x = (((u32)arg_x >> 6) + var_v0) & 0xFFFF;
                     arg_y >>= 6;
                     var_v0 = var_s3 - 3;
-                    ASM_KEEP(var_v0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     arg_y += var_v0;
                     arg_y &= 0xFFFF;
                     temp_v0 = func_8009B4B0(page, arg_x, arg_y);

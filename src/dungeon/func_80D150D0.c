@@ -155,9 +155,9 @@ void func_801748D0(void *arg0, Rec_D_800E3D7C *arg1, void *arg2, Rec_D_800E3D7C 
 {
     LocalFrame local;
     void *obj;
-    register void *body ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *body ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_801748D0_7 *mesh;
-    register void *anchor ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *anchor ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_801748D0_11 *link;
     void *link_value;
     void *body_link;
@@ -165,20 +165,20 @@ void func_801748D0(void *arg0, Rec_D_800E3D7C *arg1, void *arg2, Rec_D_800E3D7C 
     void *dst;
     void *src_end;
     void *resultp;
-    register void *scratch ASM_REG("$9");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 height ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *scratch ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 height ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 second_height;
     u16 state;
     u16 timer;
     u16 z;
     u16 flags;
-    register void *call_a0 ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *call_a1;
     s32 call_a2;
     void *tex_base;
     u16 mesh_flags;
     s32 calc_a0;
-    register s32 calc_v1 ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 calc_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 loop_mode;
     s32 mode;
 
@@ -229,7 +229,7 @@ state1:
     resultp = &local.out2;
     local.count = 0;
     local.p[2] = scratch;
-    ASM_KEEP(scratch);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 state1_loop:
     call_a0 = (void *)0x112;
 state1_call:
@@ -238,14 +238,14 @@ state1_call:
 #else
     call_a1 = (u8 *)&D_80083498 - 0x3498;
 #endif
-    ASM_KEEP(call_a1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     call_a1 = (u8 *)call_a1 + 0x3498;
     obj = func_8003FD64((s32)call_a0, call_a1);
     body = (u8 *)obj + 0x20;
     if (obj == 0) {
         goto state1_next;
     }
-    ASM_KEEP(body);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(body);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ((S_801748D0_3 *)body)->unk_96 = 0x2D;
     ((S_801748D0_3 *)body)->unk_9E = 0x2D;
     ((S_801748D0_4 *)obj)->unk_10 = D_80170AD0;
@@ -279,16 +279,16 @@ state1_call:
     mesh->unk_0C = 0x80;
     mesh->unk_10 = 0x20;
     mesh->unk_12 = 0xFF80;
-    ASM_KEEP(mesh);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(mesh);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     mesh_flags |= 0xC;
     mesh->unk_14 = mesh_flags;
     func_8004491C(call_a0, call_a1);
     call_a0 = mesh;
     call_a2 = 0;
-    ASM_KEEP(call_a2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #ifdef __mips__
     tex_base = (void *)0x80170000;
-    ASM_KEEP(tex_base);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(tex_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
     tex_base = D_80170000;
 #endif
@@ -319,9 +319,9 @@ state1_call:
         call_a2 = (s32)local.p[2];
         local.pos[0] = mesh_flags;
         mesh_flags = ((S_801748D0_9 *)anchor)->unk_06;
-        ASM_KEEP(mesh_flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(mesh_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         src = resultp;
-        ASM_KEEP(src);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(src);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         local.pos[1] = mesh_flags;
         mesh_flags = ((S_801748D0_9 *)anchor)->unk_0A;
         height = (s32)body_link;
@@ -332,7 +332,7 @@ state1_call:
 #else
         calc_v1 = (s32)((u8 *)&D_80083228 - 0x3228);
 #endif
-        ASM_KEEP(calc_v1);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(calc_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         calc_a0 = ((S_801748D0_12 *)((void *)calc_v1))->unk_3228;
         calc_v1 = (s16)((S_801748D0_3 *)body)->unk_94;
         calc_a0 += calc_v1;
@@ -341,7 +341,7 @@ state1_call:
         calc_a0 &= 7;
         calc_v1 = (s32)D_800DCECC;
         calc_a0 += calc_v1;
-        ASM_KEEP(calc_a0);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(calc_a0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         calc_v1 = ((S_801748D0_13 *)((void *)calc_a0))->unk_00;
         height -= second_height;
         calc_v1 <<= 1;
@@ -369,7 +369,7 @@ state2:
     if (((S_801748D0_2 *)arg2)->unk_14 & 0xE000) {
 #ifdef __mips__
         tex_base = (void *)0x80170000;
-        ASM_KEEP(tex_base);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(tex_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
         tex_base = D_80170000;
 #endif
@@ -405,7 +405,7 @@ state2:
     func_800A2B04(arg1, ((S_801748D0_2 *)arg2)->unk_24, ((S_801748D0_2 *)arg2)->unk_25);
 #ifdef __mips__
     tex_base = (void *)0x80170000;
-    ASM_KEEP(tex_base);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(tex_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
     tex_base = D_80170000;
 #endif
@@ -446,7 +446,7 @@ state3:
 #else
     body_link = (u8 *)&D_8008346C - 0x346C;
 #endif
-    ASM_KEEP(body_link);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(body_link);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ((S_801748D0_6 *)body_link)->unk_346C = 0;
     arg3->unk_44.at02_u16.v &= 0x7FFF;
 

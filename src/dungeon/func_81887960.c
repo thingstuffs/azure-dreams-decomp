@@ -115,13 +115,13 @@ state_0:
         angle = ((S_80025160_0 *)arg0)->unk_1C.s;
         call_a1 = ((S_80025160_0 *)arg0)->unk_16;
         next = next - ((s32)(next << 16) >> 19);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         angle = angle + 0x80;
         call_arg5 = (u8 *)arg0 - 0x20;
         ((S_80025160_0 *)arg0)->unk_1C.u = angle;
         signed_angle = angle << 16;
         ((S_80025160_0 *)arg0)->unk_18.u = next;
-        ASM_MEM_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_8002569C(arg1, call_a1, ((S_80025160_0 *)arg0)->unk_18.p,
                      signed_angle >> 16, call_arg5);
     }
@@ -160,7 +160,7 @@ state_3:
     }
 
 state_1_zero:
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 set_colors:
     arg2->unk_0C = 0x20;
     arg2->unk_0D = 0x40;

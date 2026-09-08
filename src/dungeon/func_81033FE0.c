@@ -192,7 +192,7 @@ state_1:
     for (index = 0; index < 2; index++) {
         object = func_8003FC64(0x212);
         if (object != 0) {
-            register Pair16 *state1_directions ASM_REG("$8");   /* MATCH pin: retail immediate-load split depends on it */
+            register Pair16 *state1_directions ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
             work = (u8 *)object + 0x20;
             ((S_801757E0_3 *)work)->unk_1E = 0x28;
@@ -234,10 +234,10 @@ state_1:
             {
                 u16 state1_angle_y = ((S_801757E0_8 *)arg3)->unk_2A.u;
 
-                ASM_KEEP_DEP_NV(state1_directions, state1_angle_y);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_DEP_NV(state1_directions, state1_angle_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 state1_directions =
                     (Pair16 *)((u8 *)state1_directions + 0x610C);
-                ASM_USE(state1_directions);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_USE(state1_directions);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 ((S_801757E0_3 *)work)->unk_54.n = ((S_801757E0_3 *)work)->unk_54.v +
                     (state1_directions[(state1_angle_y >> 9) & 7].y << 16);
             }
@@ -370,10 +370,10 @@ state_3:
 
         ((S_801757E0_0 *)arg0)->unk_96.u = state3_timer;
         if ((state3_timer & 3) == 0) {
-            register s32 state3_angle ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 state3_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             state3_angle = ((S_801757E0_8 *)arg3)->unk_2A.s + 0x200;
-            ASM_KEEP(state3_angle);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(state3_angle);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             if (state3_angle >= 0x1000) {
                 state3_angle -= 0x1000;
@@ -440,10 +440,10 @@ state_7:
 
         ((S_801757E0_0 *)arg0)->unk_96.u = state7_timer;
         if ((state7_timer & 3) == 0) {
-            register s32 state7_angle ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register s32 state7_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             state7_angle = ((S_801757E0_8 *)arg3)->unk_2A.s + 0x200;
-            ASM_KEEP(state7_angle);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(state7_angle);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             if (state7_angle >= 0x1000) {
                 state7_angle -= 0x1000;
@@ -478,7 +478,7 @@ state_9:
     case 9:
 #endif
     func_800AD594(arg3, 0x800);
-    ASM_CLOBBER("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_801757E0_0 *)arg0)->unk_8C = &D_801714B8;
     D_8008346C = 0;
     (*(u16 *)((u8 *)arg3 + 0x46)) &= 0x7FFF;
@@ -503,6 +503,6 @@ state_16:
 #endif
 
 end:
-    ASM_KEEP(held_arg1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return;
 }

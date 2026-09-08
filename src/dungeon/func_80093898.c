@@ -16,7 +16,7 @@ s32 func_80098FF8(void) {
     }
     if (index >= 0) {
         base = (s32 *)0x80010000;
-        ASM_KEEP(base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         base[index + 0xA8] = 0;
     }
     return (s16)index;

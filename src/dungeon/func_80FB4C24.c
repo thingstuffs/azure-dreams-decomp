@@ -32,7 +32,7 @@ extern void func_801744DC(void) __attribute__((noreturn));
 void func_80174424(void *arg0)
 {
     s16 stack[270];
-    register s16 *base ASM_REG("$9");   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 *base ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 *pixel;
     register s16 *out;
     register s16 delta;
@@ -60,7 +60,7 @@ void func_80174424(void *arg0)
     }
 
     global_page = (s32 *)(u32)0x80080000;
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_8006733C((s8 *)arg0 + 0xA0, &stack[4]);
     stack[0] = 0x340;
     stack[2] = 0x80;
@@ -68,7 +68,7 @@ void func_80174424(void *arg0)
     if (((S_80174424_0 *)arg0)->unk_9E == 0) {
         stack[1] = 0x100;
         delta = ((S_80174424_0 *)arg0)->unk_96;
-        ASM_KEEP(delta);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_801744DC();
         return;
     }
@@ -77,14 +77,14 @@ void func_80174424(void *arg0)
     high = ((S_80174424_0 *)arg0)->unk_A8.u;
     low = ((S_80174424_0 *)arg0)->unk_96;
     delta = high - low;
-    ASM_KEEP(delta);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80067014(0);
 
     row = 12;
     base = stack;
-    ASM_KEEP(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scale = delta;
-    ASM_KEEP(scale);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(scale);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     inner = 15;
     do {
         index = (row << 4) + 15;
@@ -125,7 +125,7 @@ loop_pair:
             *(u16 *)((s8 *)pixel + 8) = preserve;
             {
                 s32 red;
-                register s32 green ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+                register s32 green ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 blue;
 
                 blue = (u16)stack[0x10C];

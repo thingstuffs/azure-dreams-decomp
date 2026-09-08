@@ -83,9 +83,9 @@ void func_80040CBC(s16 arg0)
      * ranks the D_80080A86 high FIRST, since its live range is strictly inside
      * this one's.  The pin needs ASM_KEEP_NV or cse make_regs_eqv deletes the
      * copy and the pin with it. */
-    ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     page = PAGE_8008;
-    ASM_KEEP_NV(page);   /* MATCH pin: slus-diff */
+    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     D_80080A86[0] = 0;
     *(s32 *)(page + OFF_333C) = 0;
   }
@@ -141,7 +141,7 @@ void func_80040CBC(s16 arg0)
       func_800418B4();
       p = node->field8;
       q = p;
-      ASM_KEEP_NV(q);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+      ASM_KEEP_NV(q);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       second = *p->f0;
       first = q->f1;
       D_80189394[0] = first;
@@ -164,6 +164,6 @@ void func_80040CBC(s16 arg0)
     D_8008148C[0] = address;
     D_80080A7C[0] = value;
   }
-  ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
+  ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   D_80082E60.field_4 = D_8006CE44[s5].field0;
 }

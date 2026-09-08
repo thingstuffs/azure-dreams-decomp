@@ -37,14 +37,14 @@ __asm__(".set D_800814A0_load, 0x800814A0");
 S_8004A330_Entity *func_8004A330(s32 p0, s32 p1, s32 p2, s32 p3,
                                   s32 p4, s32 p5, s32 p6, s32 p7) {
     S_8004A330_Entity *entity;
-    register S_8004A330_Sub20 *sub20 ASM_REG("$17");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register S_8004A330_Sub20 *sub20 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 resptr;
     s32 saved_p0 = p0;
-    register s32 saved_p1 ASM_REG("$22") = p1;   /* MATCH pin: slus-diff */
-    register s32 saved_p2 ASM_REG("$20") = p2;   /* MATCH pin: slus-diff */
-    register s32 saved_p3 ASM_REG("$18") = p3;   /* MATCH pin: slus-diff */
-    register s32 saved_p4 ASM_REG("$19") = p4;   /* MATCH pin: slus-diff */
-    register s32 saved_p5 ASM_REG("$21") = p5;   /* MATCH pin: slus-diff */
+    register s32 saved_p1 ASM_REG("$22") = p1;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 saved_p2 ASM_REG("$20") = p2;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 saved_p3 ASM_REG("$18") = p3;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 saved_p4 ASM_REG("$19") = p4;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 saved_p5 ASM_REG("$21") = p5;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u16 entity_flags;
     s32 global_flags;
 #ifndef NON_MATCHING
@@ -63,11 +63,11 @@ S_8004A330_Entity *func_8004A330(s32 p0, s32 p1, s32 p2, s32 p3,
             func_8004A24C(sub20, saved_p0, p7, (s16)saved_p1,
                           (s16)saved_p2,
                           (s16)saved_p5);
-            ASM_KEEP(saved_p1);   /* MATCH pin: slus-diff */
-            ASM_KEEP(saved_p2);   /* MATCH pin: slus-diff */
-            ASM_KEEP(saved_p3);   /* MATCH pin: slus-diff */
-            ASM_KEEP(saved_p4);   /* MATCH pin: slus-diff */
-            ASM_KEEP(saved_p5);   /* MATCH pin: slus-diff */
+            ASM_KEEP(saved_p1);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(saved_p2);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(saved_p3);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(saved_p4);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(saved_p5);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             entity->field_c = &entity->sub50;
             func_8004491C(entity, func_8004CAA0);
             entity->update_fn = func_80049F2C;

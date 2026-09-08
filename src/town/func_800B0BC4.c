@@ -31,8 +31,8 @@ typedef struct S_800AE324_1 {
 } S_800AE324_1;   /* object in func_800AE324 */
 
 s32 func_800AE324(s32 arg0) {
-    register s32 held_arg ASM_REG("$18") = arg0;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *object ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 held_arg ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *object ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_800AE324_0 *state;
     void *initializer;
     s32 count;
@@ -40,7 +40,7 @@ s32 func_800AE324(s32 arg0) {
 
     if (held_arg != 0) {
         object = func_8003FD64(0, held_arg);
-        ASM_TAILSLOT_PIN(object);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         return func_800AE360();
     }
 
@@ -50,9 +50,9 @@ s32 func_800AE324(s32 arg0) {
         state = (u8 *)object + 0x20;
         state->unk_20 = initializer;
         state->unk_1C = func_800B0718();
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         count = state->unk_1C;
-        ASM_KEEP(count);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         state->unk_74 = held_arg;
         if (count != 0) {
             state->unk_14 = (count - 1) / 10;

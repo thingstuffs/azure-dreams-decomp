@@ -64,7 +64,7 @@ s32 func_800AC5C8(S_800AC5C8_0 *arg0, Rec_D_800E3D7C *arg1, S_800AC5C8_3 *arg2, 
         s32 rv_low;
 
         rv_low = 0;
-        ASM_KEEP(rv_low);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(rv_low);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800AC7CC();
         return rv_low;
     }
@@ -77,7 +77,7 @@ state_ge_2:
         s32 rv_high;
 
         rv_high = 0;
-        ASM_KEEP(rv_high);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(rv_high);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800AC7CC();
         return rv_high;
     }
@@ -145,12 +145,12 @@ state_2:
         }
         {
             u16 restored;
-            register s32 rv ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register s32 rv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             restored = ((Rec_D_80082E80 *)arg3)->unk_6A;
-            ASM_USE(restored);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_USE(restored);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             rv = 1;
-            ASM_USE(rv);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_USE(rv);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v = restored;
             func_800AC7CC_returning();
             return 0;

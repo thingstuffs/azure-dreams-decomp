@@ -182,21 +182,21 @@ void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
         func_801718EC();
     }
 
-    ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
-       /* MATCH pin: retail schedule: same instructions, different order without it */
-       /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (((S_80170F6C_1 *)arg3)->unk_25 == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
         {
             register void *current ASM_REG("$3") =
                 ((S_80170F6C_2 *)arg2)->unk_2C;
-            register u8 *page ASM_REG("$2") = (u8 *)0x80170000;   /* MATCH pin: keeps a constant in a register as retail does */
-            register void *table ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-            ASM_KEEP(current);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+            register u8 *page ASM_REG("$2") = (u8 *)0x80170000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register void *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             table = page + 0x5298;
-            ASM_TAILSLOT_PIN(table);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_801718B4();
         }
     }
@@ -221,9 +221,9 @@ void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
         }
 
         {
-            register u32 state ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            register u32 state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             u32 current_state = ((S_80170F6C_0 *)arg0)->unk_9A;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state = 0xE;
             if (current_state != state) {
                 if (((S_80170F6C_2 *)arg2)->unk_2C != D_80175258) {
@@ -261,7 +261,7 @@ sw1_case0:
                     u32 tail_state =
                         ((S_80170F6C_0 *)arg0)->unk_A8.u;
                     tail_state += 1;
-                    ASM_TAILSLOT_PIN_TIED(tail_state);   /* MATCH pin: retail delay-slot fill depends on it */
+                    ASM_TAILSLOT_PIN_TIED(tail_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     func_8017143C();
                 }
 
@@ -323,9 +323,9 @@ sw1_case2: {
                     ((S_80170F6C_5 *)payload)->unk_04 = ((S_80170F6C_3 *)arg1)->unk_04.at00.v;
                     payload = object->unk_08;
                     payload_word = ((S_80170F6C_3 *)arg1)->unk_08;
-                    ASM_KEEP(payload_word);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP(payload_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     color = 0x00800000;
-                    ASM_KEEP(color);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                    ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     ((S_80170F6C_5 *)payload)->unk_08 = payload_word;
                     ((S_80170F6C_6 *)part)->unk_1E = 0x1000;
                     ((S_80170F6C_6 *)part)->unk_1C = 0x1000;
@@ -346,15 +346,15 @@ sw1_case2: {
                     ((S_80170F6C_0 *)arg0)->unk_A6 = old_timer + 1;
                     if ((s16)old_timer >= 3) {
                     ((S_80170F6C_2 *)arg2)->unk_14 &= 0xF7FF;
-                    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     ((S_80170F6C_3 *)arg1)->unk_10 = 0;
                     ((S_80170F6C_3 *)arg1)->unk_0C = 0;
                     {
                         u32 tail_value =
                             ((S_80170F6C_0 *)arg0)->unk_A8.u;
                         u32 tail_code = 4;
-                        ASM_KEEP(tail_value);   /* MATCH pin: retail delay-slot fill depends on it */
-                        ASM_TAILSLOT_PIN_TIED(tail_code);   /* MATCH pin: retail delay-slot contents depend on it */
+                        ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        ASM_TAILSLOT_PIN_TIED(tail_code);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                         func_80171434();
                     }
                 }
@@ -386,7 +386,7 @@ sw1_case4: {
 
                 coord = ((S_80170F6C_2 *)arg2)->unk_24.at00.v << 6;
                 delta = ((S_80170F6C_3 *)arg1)->unk_00.at02.v - 0x20;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 x = coord - delta;
                 ((S_80170F6C_3 *)arg1)->unk_0C = (s32)((u32)x << 15) >> 1;
                 coord = ((S_80170F6C_2 *)arg2)->unk_24.at01.v << 6;
@@ -474,11 +474,11 @@ sw_case89:
 
             case_flags = ((S_80170F6C_0 *)arg0)->unk_98;
             case_flags |= 0x8000;
-            ASM_TAILSLOT_PIN_TIED(case_flags);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN_TIED(case_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80171704();
         }
         ((S_80170F6C_0 *)arg0)->unk_98 &= 0x7FFF;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if ((func_80172314(arg0, arg1, arg2, arg3) << 16) != 0) {
             return;
         }
@@ -543,7 +543,7 @@ sw_generic:
             ((S_80170F6C_2 *)arg2)->unk_2C;
         u8 *post_page = (u8 *)0x80170000;
         u8 *post_table;
-        ASM_KEEP(post_page);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(post_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         post_table = post_page + 0x5258;
         if (post_current != post_table) {
             u32 post_index;

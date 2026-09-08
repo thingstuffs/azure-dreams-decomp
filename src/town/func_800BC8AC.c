@@ -90,20 +90,20 @@ void func_800BA00C(void *arg0, void *arg1)
     void *texture2;
     s32 color;
     s32 initial_angle;
-    register s32 quotient ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 remtemp;
     s32 parent_value;
-    register u32 page ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 temp_v0;
     s32 temp_v1;
     void *init_data;
     void *temp_ptr;
-    register void *call_obj ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 rand1;
     s32 rand2;
     s32 angle;
     s32 blue;
-    register s32 quadrant ASM_REG("$23");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 quadrant ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 i;
     void **params;
     u8 *sprite;
@@ -126,13 +126,13 @@ void func_800BA00C(void *arg0, void *arg1)
 
     i = 0;
     page = 0x800C0000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     callback = (void *)(page - 0x629C);
     page = 0x80080000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     palette = (Palette *)(page + 0x3160);
     page = 0x800D0000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     params = (void **)(page + 0x1BCC);
     do {
         obj = func_8003FD64(0x136, (u8 *)arg0 - 0x20);
@@ -140,9 +140,9 @@ void func_800BA00C(void *arg0, void *arg1)
             ((S_800BA00C_1 *)obj)->unk_10 = callback;
             func_8004491C(obj, D_80046398);
             parent_value = ((S_800BA00C_0 *)arg0)->unk_98;
-            ASM_KEEP(parent_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(parent_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             entity = obj + 0x20;
-            ASM_KEEP(entity);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             (*(void * *)((u8 *)entity + 0x9C)) = arg0;
             (*(s16 *)((u8 *)entity + 0x66)) = 0;
             (*(s8 *)((u8 *)entity + 0x97)) = i;
@@ -174,10 +174,10 @@ void func_800BA00C(void *arg0, void *arg1)
 
     i = 0;
     page = 0x800C0000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     callback2 = (void *)(page - 0x6124);
     page = 0x80100000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     texture2 = (void *)(page - 0x75E4);
     color = 0x80;
     do {
@@ -186,9 +186,9 @@ void func_800BA00C(void *arg0, void *arg1)
             ((S_800BA00C_1 *)obj)->unk_10 = callback2;
             func_8004491C(obj, D_80045C34);
             parent_value = ((S_800BA00C_0 *)arg0)->unk_98;
-            ASM_KEEP(parent_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(parent_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             entity = obj + 0x20;
-            ASM_KEEP(entity);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             (*(void * *)((u8 *)entity + 0x9C)) = arg0;
             (*(s8 *)((u8 *)entity + 0x97)) = i;
             (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
@@ -223,18 +223,18 @@ void func_800BA00C(void *arg0, void *arg1)
     if (obj != 0) {
         call_obj = obj;
         init_data = D_80045C34;
-        ASM_KEEP_NV(init_data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_ptr = D_800B9EDC;
         ((S_800BA00C_1 *)obj)->unk_10 = temp_ptr;
         func_8004491C(call_obj, init_data);
         parent_value = ((S_800BA00C_0 *)arg0)->unk_98;
-        ASM_KEEP(parent_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(parent_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         entity = obj + 0x20;
-        ASM_KEEP(entity);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         (*(void * volatile *)((u8 *)entity + 0x9C)) = arg0;
         (*(volatile s32 *)((u8 *)entity + 0x98)) = parent_value;
         page = 0x80100000;
-        ASM_KEEP_NV(page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
         page -= 0x75D8;
         ((S_800BA00C_2 *)sprite)->unk_08.p = (void *)page;
@@ -262,14 +262,14 @@ void func_800BA00C(void *arg0, void *arg1)
     if (obj != 0) {
         call_obj = obj;
         init_data = D_80046398;
-        ASM_KEEP_NV(init_data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_ptr = D_800B9F74;
         ((S_800BA00C_1 *)obj)->unk_10 = temp_ptr;
         func_8004491C(call_obj, init_data);
         parent_value = ((S_800BA00C_0 *)arg0)->unk_98;
-        ASM_KEEP(parent_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(parent_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         entity = obj + 0x20;
-        ASM_KEEP(entity);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         (*(void * *)((u8 *)entity + 0x9C)) = arg0;
         (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
@@ -278,7 +278,7 @@ void func_800BA00C(void *arg0, void *arg1)
         ((S_800BA00C_2 *)sprite)->unk_20 = 0x1000;
         ((S_800BA00C_2 *)sprite)->unk_1A.u = ((S_800BA00C_0 *)arg0)->unk_66.u;
         page = 0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         page += 0x3160;
         temp_v1 = ((S_800BA00C_4 *)((u8 *)page))->unk_A8;
         ((S_800BA00C_2 *)sprite)->unk_0C.u = temp_v1;

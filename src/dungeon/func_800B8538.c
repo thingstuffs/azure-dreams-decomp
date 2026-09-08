@@ -80,12 +80,12 @@ s32 func_800BDC98(void *arg0, s32 arg1, s16 arg2) {
                 return func_800BDE34(D_800E0F2D);
             }
             if (state != 0) { /* state>=0 here, so !=0 <=> >0; matches retail beqz */
-                ASM_CLOBBER("$4");   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 func_80099734(arg0, value);
                 return func_800BDE34(D_800E0F44);
             }
 
-            ASM_CLOBBER("$4");   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             func_80099290(func_80099194(D_800E0F65,
                                         func_80099734(arg0, value)));
             func_800A5720(value);

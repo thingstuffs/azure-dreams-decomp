@@ -34,7 +34,7 @@ void func_81984AF4(void *arg0, s16 *arg1, s32 arg2, s32 arg3) {
     step = *arg1;
     if (step > 0) {
         next = obj->unk_04.u + 1;
-        ASM_TAILSLOT_PIN_TIED(next);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(next);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80026350();
     }
     if (step < 0) {
@@ -46,13 +46,13 @@ void func_81984AF4(void *arg0, s16 *arg1, s32 arg2, s32 arg3) {
     if ((s8)index < (s16)arg2) {
         flag = obj->unk_14.s | 0x4000;
         obj->unk_04.s = arg2;
-        ASM_TAILSLOT_PIN_TIED(flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800263B8();
     }
     if ((s8)index > (s16)arg3) {
         flag = obj->unk_14.s | 0x4000;
         obj->unk_04.s = arg3;
-        ASM_TAILSLOT_PIN_TIED(flag);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800263B8();
     }
     obj->unk_14.u &= 0xBFFF;

@@ -45,7 +45,7 @@ void func_80173738(void *arg0, FuncArg1 *arg1, Rec_D_80082E80 *arg2) {
     s32 temp_lo;
     s32 temp_base;
     s32 temp_delta;
-    register void *dst ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *dst ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     ((S_80173738_0 *)arg0)->unk_1E = (u16) (((S_80173738_0 *)arg0)->unk_1E - 0x12C);
     ((S_80173738_0 *)arg0)->unk_20 = (u16) (((S_80173738_0 *)arg0)->unk_20 + 2);
@@ -53,7 +53,7 @@ void func_80173738(void *arg0, FuncArg1 *arg1, Rec_D_80082E80 *arg2) {
     temp_lo = (s16) ((S_80173738_0 *)arg0)->unk_20 * func_800644B8((s16) ((S_80173738_0 *)arg0)->unk_1E);
     dst = arg2;
     temp_delta = 0xFFF40000U;
-    ASM_KEEP_NV(temp_delta);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(temp_delta);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_base = ((S_80173738_0 *)arg0)->unk_44;
     arg1->unk08 = (s32) (arg1->unk08 + temp_delta);
     arg1->unk04 = (s32) (temp_base + (temp_lo * 0x10));

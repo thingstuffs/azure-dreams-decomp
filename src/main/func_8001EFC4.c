@@ -65,7 +65,7 @@ void func_8001EFC4(u8 *root)
                     goto negative_tail;
                 }
                 side = flags10 & 0x4000;
-                ASM_KEEP(side);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_KEEP(side);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 return func_804060C4();
             }
             value = ((S_8001EFC4_0 *)root)->unk_30;
@@ -78,15 +78,15 @@ void func_8001EFC4(u8 *root)
             flags8 = D_801379A8;
             if (flags8 & 0x1000) {
 negative_tail:
-                ASM_KEEP(action);   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 action = -1;
-                ASM_TAILSLOT_PIN_TIED(action);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN_TIED(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 return func_804060D8();
             }
             side = flags8 & 0x4000;
             if (side) {
                 action = 1;
-                ASM_TAILSLOT_PIN_TIED(action);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN_TIED(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 return func_804060D8();
             }
         }

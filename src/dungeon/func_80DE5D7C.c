@@ -91,7 +91,7 @@ state_one:
         }
 
         {
-        register void *callArg0 ASM_REG("$4") = arg0;   /* MATCH pin: retail delay-slot fill depends on it */
+        register void *callArg0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(callArg0, arg1, arg2, arg3);

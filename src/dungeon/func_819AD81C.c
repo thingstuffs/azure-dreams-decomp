@@ -147,7 +147,7 @@ void func_819AD81C(void *arg0_in, void *arg1_in, void *arg2_in) {
     s16 temp_v1_8;
     s32 temp_a1;
     s32 temp_v1_6;
-    register s32 temp_v1_7 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v1_7 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_v0_2;
     s8 temp_a0_2;
     s8 temp_v1_10;
@@ -163,7 +163,7 @@ void func_819AD81C(void *arg0_in, void *arg1_in, void *arg2_in) {
     void *list_root;
     void *temp_v1_9;
     void *arg0 = arg0_in;
-    register void *arg1 ASM_REG("$19") = arg1_in;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *arg1 ASM_REG("$19") = arg1_in;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *arg2 = arg2_in;
 
     temp_v1_9 = ((S_819AD81C_0 *)arg0)->unk_20;
@@ -234,7 +234,7 @@ block_10:
                         func_80025594();
                         return;
                     }
-                    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     var_s0 = (void *) D_800814A8[0];
                     list_root = var_s0;
                     temp_v1_9 = ((S_819AD81C_3 *)var_s0)->unk_5C.p;
@@ -281,7 +281,7 @@ cleanup:
     } else {
         temp_a0 = (void *) ((s32) temp_v1_9 | 0x80000000);
         if (((S_819AD81C_5 *)temp_a0)->unk_1E & 0x8000) {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_819AD81C_0_pre *)arg0)[-1].unk_00 | 0x8000);
             D_800814A0 |= 0x8000;
             func_80025594();

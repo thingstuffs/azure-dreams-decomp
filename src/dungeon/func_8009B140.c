@@ -30,17 +30,17 @@ void func_800A08A0(s32 arg0) {
     s32 type;
     s32 kind;
     s32 variant;
-    register u8 raw_variant ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 raw_variant ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 attempt;
-    register s32 distance ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 distance ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *map;
     s32 table_index;
     s32 value;
-    register s32 dx ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 dy ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 dx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 dy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 x;
     u8 y;
-    register u32 *limits ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 *limits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     SpawnFunc spawn;
 
     distance = 0x100;
@@ -65,7 +65,7 @@ void func_800A08A0(s32 arg0) {
         if (kind == 0) {
             s32 y_value;
             {
-                register s32 x_value ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                register s32 x_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 dx = map[0x24];
                 x_value = x;
                 y_value = y;
@@ -79,7 +79,7 @@ void func_800A08A0(s32 arg0) {
             if (dy < 0) {
                 dy = -dy;
             }
-            ASM_USE_NV(dy);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_USE_NV(dy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             distance = dx + dy;
         }
         if ((s16)distance < 0x21) {
@@ -112,7 +112,7 @@ void func_800A08A0(s32 arg0) {
             continue;
         }
 
-        ASM_CLOBBER("$6");   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         value = func_800BCB04((x << 6) | 0x20, (y << 6) | 0x20, -0x400);
         spawn = func_800A0B94(type, object, 1);
         object = spawn(0, x, y, (s16)value);

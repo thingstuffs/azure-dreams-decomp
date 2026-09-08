@@ -44,16 +44,16 @@ extern s16 D_8006ADD4;
 
 void func_8009DA50(u8 *arg0, void *arg1, s32 arg2, s32 arg3)
 {
-    register s32 temp_t0 ASM_REG("$8");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 temp_s2;
-    register s32 temp_s3 ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *var_s0;
-    register u8 *var_s1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
-    register void *var_s4 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 var_s5;
     s32 var_s6;
-    register s32 var_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     var_s1 = arg0;
     var_s4 = arg1;

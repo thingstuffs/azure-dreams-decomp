@@ -69,7 +69,7 @@ s32 func_800198AC(void) {
         }
         {
             s8 *pv0 = D_8001E950;
-            ASM_KEEP(pv0);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP(pv0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             pv0[4] = var_a0;
         }
         TAIL_AE8(2);

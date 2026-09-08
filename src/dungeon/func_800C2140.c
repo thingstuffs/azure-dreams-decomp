@@ -11,7 +11,7 @@ void func_800C78A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
 
     call_arg = arg4;
     distance = D_80083780[1] - arg1;
-    ASM_KEEP(call_arg);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (distance < 0) {
         distance = -distance;
     }

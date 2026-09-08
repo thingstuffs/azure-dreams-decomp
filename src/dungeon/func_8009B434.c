@@ -21,16 +21,16 @@ s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
     u8 *data;
     u8 *scratch;
     s32 magnitude;
-    register s32 raw_magnitude ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 first_value ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 shifted_value ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 raw_magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 first_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 shifted_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 signed_value;
     s32 block_size;
-    register s32 tile ASM_REG("$4") = arg0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 tile ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 delta;
-    register s32 term ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 index ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP_NV(entry);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     if (entry[0] != 2) {
         raw_magnitude = D_800E3DA0[entry[3]];
@@ -51,28 +51,28 @@ s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
             s32 call_tag;
             data = D_80164800;
             call_tag = 0x56B1;
-            ASM_KEEP(data);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_KEEP(call_tag);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(call_tag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             return func_800A0CA4(tile, first_value, 0x24, call_tag);
         }
         if (first_value == 0x31) {
             s32 call_tag;
             data = D_8016A800;
             call_tag = 0x569C;
-            ASM_KEEP(data);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_KEEP(call_tag);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(call_tag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             return func_800A0CA4(tile, first_value, 0x18, call_tag);
         }
 
         index = entry[3];
-        ASM_KEEP(index);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         block_size = 0xC;
-        ASM_KEEP(block_size);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(block_size);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile = index * 3;
         data = D_80170800 - (tile << 13);
         delta = first_value - 1;
         term = delta * 0x54;
-        ASM_KEEP(first_value);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(first_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile = (tile << 2) + 0x4340;
         scratch = D_800E58A8;
         func_8003F6D4(block_size, data, scratch, term + tile);
@@ -101,12 +101,12 @@ s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
     signed_value = (s16)value;
     if (signed_value == 0x38) {
         data = D_80164800;
-        ASM_TAILSLOT_PIN(data);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800A0DA4();
     }
     if (signed_value == 0x31) {
         data = D_8016A800;
-        ASM_TAILSLOT_PIN(data);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800A0DA4();
     }
     data = D_80170800 - (entry[3] * 0x6000);

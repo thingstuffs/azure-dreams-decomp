@@ -65,12 +65,12 @@ extern void func_800DAE18();
 void func_800DAB50(void *arg0) {
     WorkBlock work;
     void *var_s2 = arg0;
-    register s32 var_s0 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 var_a0_2 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 var_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 var_a1_2;
     s32 temp_shifted;
-    register s32 temp_v0_2 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v0_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
 
     work.unk28 = 0;
@@ -100,7 +100,7 @@ void func_800DAB50(void *arg0) {
         work.unk4 = (s16 *)((s8 *)var_s2 + var_s1);
         func_800DBA90(&work);
         temp_v0_2 = work.unkC;
-        ASM_KEEP(temp_v0_2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         var_s0 += 1;
         work.unkC = temp_v0_2 + 0x200;
         var_s1 += 0x10;
@@ -108,7 +108,7 @@ void func_800DAB50(void *arg0) {
 
     var_s0 = 3;
     {
-        register s16 *p ASM_REG("$4") = (s16 *)((s8 *)var_s2 + 0x18);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s16 *p ASM_REG("$4") = (s16 *)((s8 *)var_s2 + 0x18);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         do {
             ((S_800DAB50_1 *)p)->unk_28 = (u16)(((S_800DAB50_1 *)p)->unk_28 + ((S_800DAB50_0 *)var_s2)->unk_20);
             ((S_800DAB50_1 *)p)->unk_2A = (u16)(((S_800DAB50_1 *)p)->unk_2A + ((S_800DAB50_0 *)var_s2)->unk_22);
@@ -165,7 +165,7 @@ state_2:
         temp_v1 = ((S_800DAB50_0 *)var_s2)->unk_00.u;
         ((S_800DAB50_0 *)var_s2)->unk_04 = temp_v0_2;
         ((S_800DAB50_0 *)var_s2)->unk_10.at00.v = var_a1_2;
-        ASM_KEEP(var_a1_2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(var_a1_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_800DAB50_0 *)var_s2)->unk_0C = var_a0_2;
         temp_v1 += 1;
         ((S_800DAB50_0 *)var_s2)->unk_00.s = temp_v1;
@@ -198,12 +198,12 @@ block_27:
     temp_shifted = ((S_800DAB50_0 *)var_s2)->unk_0A.u;
     if (temp_v0_2 == 0) {
         temp_shifted -= var_s0;
-        ASM_TAILSLOT_PIN(temp_shifted);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(temp_shifted);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800DAE18(var_a0_2);
         return;
     }
     temp_shifted += var_s0;
-    ASM_KEEP(temp_shifted);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(temp_shifted);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_02.u;
     ((S_800DAB50_0 *)var_s2)->unk_0A.s = temp_shifted;
     ((S_800DAB50_0 *)var_s2)->unk_02.s = temp_v0_2 - 1;

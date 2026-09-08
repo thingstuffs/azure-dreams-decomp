@@ -167,7 +167,7 @@ void func_800C2824(void *arg0, void *arg1, void *arg2) {
     s32 var_v1;
     s32 temp_v1_9;
     s32 temp_v0_9;
-    register s32 bba_flags ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 bba_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v1_4;
     u16 temp_v0;
     u16 temp_v0_2;
@@ -177,13 +177,13 @@ void func_800C2824(void *arg0, void *arg1, void *arg2) {
     void *temp_a1_2;
     void *temp_a1_3;
     void *temp_s0;
-    register void *temp_v0_7 ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *temp_v0_7 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *temp_v1_2;
     void *temp_v1_5;
     void *temp_v1_6;
     void *temp_v1_7;
     void *temp_v1_8;
-    register u8 *temp_a1_4 ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *temp_a1_4 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *c2_object;
     u32 c2_coord;
     s32 c2_status;
@@ -250,7 +250,7 @@ jt_c1:
         return;
     }
     var_v0 = (u16) ((S_800C2824_0 *)arg0)->unk_04 + 1;
-    ASM_TAILSLOT_PIN(var_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_TAILSLOT_PIN(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     return func_800C2B8C();
 jt_c2:
     temp_v0_5 = func_800A32A4(((S_800C2824_0 *)arg0)->unk_00);
@@ -285,16 +285,16 @@ block_14:
     func_8009A028(((S_800C2824_0 *)arg0)->unk_00);
     func_80099844(((S_800C2824_0 *)arg0)->unk_00, &D_800E1640);
     var_v0 = (u16) ((S_800C2824_0 *)arg0)->unk_04 + 1;
-    ASM_TAILSLOT_PIN(var_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_TAILSLOT_PIN(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     return func_800C2B8C();
 jt_c3: {
-    register u8 *c3_page ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *c3_82_page ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register void *c3_object ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 c3_flags ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *c3_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *c3_82_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register void *c3_object ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 c3_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     c3_82_page = (u8 *)0x80080000;
-    ASM_KEEP(c3_82_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(c3_82_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_a1_4 = c3_82_page + 0x2E80;
     temp_t0 = D_800E3D7C;
     D_800DF55C = temp_t0;

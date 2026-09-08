@@ -61,7 +61,7 @@ case_0:
             *(u8 **)(arg2 + 0x2C) = D_800DD048;
         }
         call_arg0 = arg2;
-        ASM_KEEP(call_arg0);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         index = ((D_80083228[0] + *(s16 *)(arg3 + 0x2A) + 0x100) >> 9) & 7;
         func_8008E85C(call_arg0, (*(u8 **)(call_arg0 + 0x2C))[index], 0);
     }
@@ -74,7 +74,7 @@ case_1:
         u8 *call_arg0;
         u8 *table;
         s32 angle;
-        register s32 slot ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+        register s32 slot ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         *(s32 *)(arg1 + 0x14) = 0;
         if (*(s32 *)(arg3 + 0x1C) & 0x100000) {
@@ -94,7 +94,7 @@ case_1:
     }
 
     if ((*(s32 *)(arg3 + 0x1C) & 0x300000) == 0x100000) {
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (!(D_80013714[0] & 1)) {
             result = func_8009AF18(*(s16 *)(arg3 + 0x2A), arg1, arg2, 8);
             if ((result << 16) != 0) {
@@ -107,28 +107,28 @@ case_1:
             func_8009F644(arg3, 0x30, *(s16 *)(arg0 + 0x96), 0);
 
             {
-                register s32 mask ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+                register s32 mask ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 u8 *call_arg0;
                 u8 *table;
                 s32 call_arg2;
                 s32 angle;
                 s32 saved;
-                register s32 work ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+                register s32 work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 D_80083460_t *state;
 
                 mask = 0xFFEFFFFF;
                 call_arg0 = arg2;
-                ASM_KEEP(call_arg0);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 work = *(s32 *)(arg3 + 0x1C);
                 saved = D_80081484[0];
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 call_arg2 = 5;
-                ASM_KEEP(call_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(call_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 D_80081484[0] = 0;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
                 table = (u8 *)0x800E0000;
-                ASM_KEEP_NV(table);   /* MATCH pin: retail immediate-load split depends on it */
+                ASM_KEEP_NV(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
                 table = D_800DCFD0;
 #endif
@@ -136,10 +136,10 @@ case_1:
                 state = &D_80083460;
                 *(s32 *)(arg3 + 0x1C) = work;
                 work = *(u16 *)&state->fieldA;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
                 table -= 0x3030;
-                ASM_USE_NV(table);   /* MATCH pin: retail register colouring depends on it */
+                ASM_USE_NV(table);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #endif
                 work++;
                 *(u16 *)&state->fieldA = work;

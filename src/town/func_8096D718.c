@@ -37,7 +37,7 @@ extern u8 D_80127B64[];
 
 void func_80125BB0(TownObject *obj)
 {
-    register TownObject *object ASM_REG("$18") = obj;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register TownObject *object ASM_REG("$18") = obj;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 offset;
     s32 value;
     s32 slot;

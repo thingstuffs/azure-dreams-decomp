@@ -19,8 +19,8 @@ typedef struct {
 s32 func_80042900(S_80042900 *a0, s32 a1)
 {
     s32 key = a1;
-    register s32 orig ASM_REG("$7") = a1;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register u8 *effect_base ASM_REG("$3") = (u8 *)a0 + 6;   /* MATCH pin: slus-diff */
+    register s32 orig ASM_REG("$7") = a1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register u8 *effect_base ASM_REG("$3") = (u8 *)a0 + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 i;
 
     key = (u32)key << 24;

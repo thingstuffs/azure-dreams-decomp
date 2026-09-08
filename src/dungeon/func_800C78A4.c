@@ -85,9 +85,9 @@ s32 func_800CD004(void *arg0)
 {
     s32 random;
     s32 numerator;
-    register s32 denominator ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 remainder ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 value ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 denominator ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 divisor;
     s32 first_coord;
     void *object;
@@ -98,7 +98,7 @@ s32 func_800CD004(void *arg0)
     void *texture;
     s32 color;
     s32 variant;
-    register s32 table_value ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 table_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 table_delta;
     s32 result;
     u8 *counter;
@@ -109,7 +109,7 @@ s32 func_800CD004(void *arg0)
         if (divisor != 0) {
             numerator = (u16)random;
             denominator = divisor;
-            ASM_KEEP(numerator);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(numerator);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             remainder = numerator % denominator;
             value = remainder;
         } else {
@@ -129,9 +129,9 @@ s32 func_800CD004(void *arg0)
 
         map = ((S_800CD004_0_pre *)arg0)[-1].unk_00;
         first_coord = map->unk_24;
-        ASM_KEEP(first_coord);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(first_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         quad = ((S_800CD004_1 *)object)->unk_08;
-        ASM_KEEP(quad);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(quad);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         quad->unk_02 = (first_coord << 6) + 0x20;
         quad->unk_06 = (map->unk_25 << 6) + 0x20;
         quad->unk_0A = ((S_800CD004_0 *)arg0)->unk_88 - 0x200;
@@ -140,7 +140,7 @@ s32 func_800CD004(void *arg0)
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         color = 0x808080;
-        ASM_KEEP(color);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         sprite->unk_0C = color;
 
         variant = func_80069EF8(color);
@@ -155,7 +155,7 @@ s32 func_800CD004(void *arg0)
         table_value = D_800DDC40[((S_800CD004_0 *)arg0)->unk_13];
         table_delta = ((S_800CD004_0 *)arg0)->unk_88 - table_value;
         tail = (u8 *)object + 0x20;
-        ASM_KEEP(tail);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         tail->unk_0A = table_delta;
         ((S_800CD004_1 *)object)->unk_20 = arg0;
         tail->unk_06 = 0xC;
@@ -173,11 +173,11 @@ s32 func_800CD004(void *arg0)
            pins name it (and the o32 positions before it) without emitting a
            byte.  decomp_issues.md sections 20-22. */
         s32 fa0;
-        register s32 fa1 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register s32 fa2 ASM_REG("$6");   /* MATCH pin: retail delay-slot contents depend on it */
-        register s32 fa3 ASM_REG("$7");   /* MATCH pin: retail delay-slot contents depend on it */
+        register s32 fa1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register s32 fa2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        register s32 fa3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
-        ASM_SET(fa0);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_SET(fa0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800A6508(fa0, fa1, fa2, fa3);
     }
     result = 1;

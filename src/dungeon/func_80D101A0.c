@@ -42,7 +42,7 @@ void func_801519A0(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
     Obj2 *obj2 = arg2;
     Obj3 *obj3 = arg3;
     u32 table;
-    register u32 new_table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u32 new_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 current;
     u8 kind;
     s32 index;

@@ -38,29 +38,29 @@ extern u8 D_80175DD8[];
 
 void func_801685CC(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4)
 {
-    register u8 *copy_src ASM_REG("$6");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *copy_dst ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *copy_dst ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register u8 *copy_end;
     register u32 copy0;
     register u32 copy1;
     register u32 copy2;
     register u32 copy3;
-    register void *held_arg0 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *held_arg0 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     LocalPositionTable positions;
     void *obj;
     u8 *part;
     void *render;
-    register void *dest ASM_REG("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *dest ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 mode;
-    register s32 neg_one ASM_REG("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 neg_one ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u32 sixty;
-    register void *callback_obj ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 table_offset ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *position_base ASM_REG("$6");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 table_index ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *callback_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 table_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *position_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 table_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *callback_data;
     s32 third_direction;
-    register void *db_render ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *db_render ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *db_data;
     u8 *copy_src_init;
     s32 src_misalignment;
@@ -69,13 +69,13 @@ void func_801685CC(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4)
     s32 var_t0;
     s32 var_t2;
     s32 var_t3;
-    register s32 var_t4 ASM_REG("$12");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_t4 ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_t5;
     u16 *var_a3_2;
     u16 temp_a1_4;
     u8 *var_t1;
     u8 *out_base;
-    register s32 out_index ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 out_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     copy_dst = (u8 *)&positions;
     copy_src_init = (u8 *)&D_8016484C;
@@ -93,14 +93,14 @@ void func_801685CC(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4)
             ((PackedCopy16 *)copy_dst)->words[1] = copy1;
             ((PackedCopy16 *)copy_dst)->words[2] = copy2;
             ((PackedCopy16 *)copy_dst)->words[3] = copy3;
-            ASM_KEEP(copy0);   /* MATCH pin: retail register colouring depends on it */
-               /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(copy0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             copy_src += 0x10;
             copy_dst += 0x10;
         } while (copy_src != copy_end);
         goto copy_done;
     }
-    ASM_KEEP_NV(copy_src_init);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(copy_src_init);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     copy_src = copy_src_init;
     copy_end = copy_src + 0x90;
     do {
@@ -112,8 +112,8 @@ void func_801685CC(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4)
         ((Copy16 *)copy_dst)->words[1] = copy1;
         ((Copy16 *)copy_dst)->words[2] = copy2;
         ((Copy16 *)copy_dst)->words[3] = copy3;
-        ASM_KEEP(copy0);   /* MATCH pin: retail register colouring depends on it */
-           /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(copy0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         copy_src += 0x10;
         copy_dst += 0x10;
     } while (copy_src != copy_end);
@@ -122,7 +122,7 @@ copy_done:
     callback_obj = obj;
     if (obj != NULL) {
         callback_data = &D_80045340;
-        ASM_KEEP(callback_data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(callback_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         part = (u8 *)obj + 0x20;
         S16_AT(part, 0x18) = 0x50;
         S16_AT(part, 0x1A) = 0x50;
@@ -189,7 +189,7 @@ copy_done:
         table_offset +=
             ((third_direction << 3) + third_direction) << 1;
         position_base += table_offset;
-        ASM_KEEP(held_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         db_data = D_800DEAE0;
         S32_AT(part, 0x64) =
             S16_AT(position_base, 4) << 19;
@@ -228,7 +228,7 @@ loop_17:
             var_t5 += 1;
             var_t3 += 0xC;
         } while (var_t5 < 8);
-        ASM_KEEP(part);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     }
 
     (void)arg2;

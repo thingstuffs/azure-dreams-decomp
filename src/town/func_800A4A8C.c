@@ -52,11 +52,11 @@ s32 func_800A21EC(void *arg0, S_800A21EC_1 *arg1, S_800A21EC_0 *arg2) {
     arg1->unk_08 = (s32) ((S_800A21EC_3 *)(((S_800A21EC_2 *)arg0)->unk_14))->unk_08;
     ((S_800A21EC_2 *)arg0)->unk_00 = &D_800A22D0;
     if (((S_800A21EC_2 *)arg0)->unk_20 == 0) {
-        register s32 dead ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register s32 dead ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         dead = 1;
         arg2->unk_08 = dead;
         dead = (u16) arg1->unk_00.at02.v;
-        ASM_KEEP(dead);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(dead);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         func_800A22AC();
         return dead + 0x90;
     }
@@ -64,7 +64,7 @@ s32 func_800A21EC(void *arg0, S_800A21EC_1 *arg1, S_800A21EC_0 *arg2) {
         s32 flags = (u16) arg2->unk_14;
         s32 one = 1;
         arg2->unk_08 = one;
-        ASM_KEEP(one);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         arg2->unk_14 = (u16) (flags | 1);
         arg1->unk_00.at02.v = (u16) (arg1->unk_00.at02.v - 0x90);
         arg2->unk_1A = 0;

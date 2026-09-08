@@ -36,7 +36,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
 {
     register u8 *globals;
     register s16 kind;
-    register s32 result ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 result ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u16 *state;
     register u16 *state2;
     register u8 *state_base;
@@ -57,7 +57,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
     U8(obj, 0x9B) = 0;
     func_8009A3D0(U8(actor, 0x24), U8(actor, 0x25), 0x300);
     {
-        register u8 *adjust_base ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *adjust_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 index;
 
         adjust_base = D_8006CCD8;
@@ -75,7 +75,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
     if (kind != 4) {
         if (D_80013714[0] & 2) {
             void *entry;
-            register void *call_actor ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+            register void *call_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
             state[1] |= 0x80;
             handler = D_800DD274;
@@ -84,7 +84,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
                 call_actor = actor;
                 n = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
                 entry = handler + (n & 0x1C);
-                ASM_TAILSLOT_PIN(entry);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN(entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 return func_80096DE4(call_actor);
             }
         } else if ((S32(globals, 8) & 0x20) && func_800A5C70()) {
@@ -99,11 +99,11 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
                 u32 page;
 
                 page = 0x80080000;
-                ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             }
             return func_80096E08();
         } else {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             do {
                 result = 5;
             } while (0);
@@ -113,7 +113,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
 
     {
         s16 kind;
-        register u8 *late_handler ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *late_handler ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         state2 = (u16 *)&D_80083460;
         kind = (s16)result;
@@ -145,7 +145,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
     }
     func_80094ED4(obj, arg1, actor, map);
     {
-        register void *call_map ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+        register void *call_map ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         call_map = map;
         D_80083464 = 8;
@@ -175,14 +175,14 @@ after_nonpositive_9701C:
     func_80094ED4(tail_obj, arg1, actor, map);
     map_flags = S32(map, 0x1C);
     {
-        register s32 map_flag_mask ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 map_flag_mask ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         map_flag_mask = 0x40000000;
         map_flags |= map_flag_mask;
     }
     state_base = (u8 *)&D_80083460;
     {
-        register u8 *final_state_base ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *final_state_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         final_state_base = state_base;
         S32(map, 0x1C) = map_flags;

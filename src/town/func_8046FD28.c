@@ -18,7 +18,7 @@ s32 func_80016D28(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
         s32 page;
 
         page = (s32) 0x80020000;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         return page - 0x49C4;
     }
     var_s1 = func_80019ABC(&D_8001A97C, &D_8001B1FC, arg0, arg2);
@@ -27,7 +27,7 @@ s32 func_80016D28(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
             s32 page;
 
             page = (s32) 0x80020000;
-            ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             var_s1 = page - 0x320E;
         } else {
             var_s1 = func_8001628C(arg0, arg1, arg2);

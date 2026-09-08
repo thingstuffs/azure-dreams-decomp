@@ -8,7 +8,7 @@ s32 func_8008B3AC(s32);
 void func_8008B49C(s32);
 
 void func_8008B408(s32 arg0) {
-    register s32 i ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     void **slot;
     u8 *table;
     u8 *entry;

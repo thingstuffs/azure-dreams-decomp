@@ -59,10 +59,10 @@ void *func_800BBA40(s32 arg0, s32 arg1, s16 arg2, M2C_UNK arg3, s32 arg4, s32 ar
     S_800BBA40_1 *temp_v1;
     S_800BBA40_2 *temp_v1_2;
     s32 held_arg0 = arg0;
-    register s32 held_arg1 ASM_REG("$20") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 held_arg2 ASM_REG("$21") = arg2;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register M2C_UNK held_arg3 ASM_REG("$22") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *setup_base ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg1 ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 held_arg2 ASM_REG("$21") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK held_arg3 ASM_REG("$22") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *setup_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
@@ -86,11 +86,11 @@ void *func_800BBA40(s32 arg0, s32 arg1, s16 arg2, M2C_UNK arg3, s32 arg4, s32 ar
         temp_v1_2->unk_0C = 0x808080;
         temp_v1_2->unk_06 = 8;
         func_8003DB94(temp_v0 + 0x2C, held_arg3, 0);
-        ASM_KEEP(held_arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        ASM_KEEP(held_arg2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        ASM_KEEP(held_arg3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         setup_base = temp_v0 + 0x20;
-        ASM_KEEP(setup_base);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(setup_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         var_v1 = setup_base;
         ((S_800BBA40_3 *)var_v1)->unk_2A = (s16) arg4;
         ((S_800BBA40_3 *)var_v1)->unk_28 = (s16) arg4;
@@ -103,10 +103,10 @@ void *func_800BBA40(s32 arg0, s32 arg1, s16 arg2, M2C_UNK arg3, s32 arg4, s32 ar
             ((S_800BBA40_3 *)var_v1)->unk_3C = var_a1;
             var_a1 += 0x999;
             var_a0 += 1;
-            ASM_KEEP(var_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(var_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             var_v1 += 2;
         } while (var_a0 < 5);
-        ASM_KEEP(var_v1);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(var_v1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         func_800C77D0(&D_80083498, &D_80083780, 8, 0x300);
     }
     return temp_v0;

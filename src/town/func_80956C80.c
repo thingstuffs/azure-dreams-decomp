@@ -89,7 +89,7 @@ case1:
     var_v0_3 = var_a1 + 3;
     if (var_a1 < 0) {
         var_a1 = 0;
-        ASM_KEEP_NV(var_a1);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP_NV(var_a1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         var_v0_3 = var_a1 + 3;
     }
     ((S_80023C80_0 *)obj)->unk_12 = var_v0_3;

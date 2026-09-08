@@ -71,8 +71,8 @@ void func_8002401C(void *arg0)
     s32 *clear_cell;
     s32 *cell;
     s16 rect[4];
-    register s32 outer ASM_REG("$20");   /* MATCH pin: retail register colouring depends on it */
-    register s32 inner ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 outer ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 inner ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 y;
     s32 cell_value;
@@ -83,8 +83,8 @@ void func_8002401C(void *arg0)
     u8 obj_byte9;
     void *created;
     void *display;
-    register void *obj0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 obj_scratch ASM_REG("$8");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *obj0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 obj_scratch ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 state;
     static void *const jt_keep[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4
@@ -103,11 +103,11 @@ jt_c0:
         D_800273BC = 1;
         obj_byte9 = ((S_8002401C_0 *)obj)->unk_09;
         D_80027328 = 0;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP_MEM_NV(obj_byte9, D_800273BE);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_MEM_NV(obj_byte9, D_800273BE);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         obj0 = ((S_8002401C_0 *)obj)->unk_00.s;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP_MEMDEP(obj_byte9, obj_scratch, D_800814A8);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_MEMDEP(obj_byte9, obj_scratch, D_800814A8);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         D_800273BE = obj_byte9;
         D_800273C0 = ((S_8002401C_0 *)obj)->unk_00.s;
         D_8002732C = obj0;
@@ -134,7 +134,7 @@ jt_zero_inner:
         }
 
         D_800273A8 = 0;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         map_data = (u16 *)D_800E3D7C;
         index = (map_data[0x15] >> 8) & 0xE;
         func_80025AD8(
@@ -195,14 +195,14 @@ dispatch_done:
          outer < 7; outer++) {
         for (inner = 0, cell = row, x = 0x340; inner < 7;) {
             rect_arg = rect;
-            ASM_KEEP(rect_arg);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP(rect_arg);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             rect[0] = x;
             rect[1] = y;
             rect[2] = unit;
             rect[3] = unit;
             cell_value = *cell++;
             x += 0x10;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             func_80026064(rect_arg, cell_value);
             inner++;
         }

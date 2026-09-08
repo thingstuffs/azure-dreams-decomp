@@ -43,7 +43,7 @@ void func_8001DC34(void *arg0)
     argp->unk_0A = 0;
     temp_v0 = argp->unk_02 - 1;
     var_a2 = temp_v0;
-    ASM_KEEP_NV(var_a2);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP_NV(var_a2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     temp_v1 = temp_v0 + argp->unk_06 + 2;
     if ((temp_v0 << 16) < (temp_v1 << 16)) {
         var_t1 = (u32)D_800E9FFA;

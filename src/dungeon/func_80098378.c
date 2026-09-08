@@ -61,15 +61,15 @@ void func_8009DAD8(s32 arg0) {
     s32 brightness;
     s32 mode;
     u8 *playerLater;
-    register long a0Value ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register long a0Value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 firstY;
     u8 *firstColour;
     s32 firstContext;
     s32 distance;
-    register long pageOrTwo ASM_REG("$20");   /* MATCH pin: retail register colouring depends on it */
-    register long callPage ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
-    register long flagsPage ASM_REG("$16");   /* MATCH pin: retail basic-block layout depends on it */
-    register long loopFlagsPage ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register long pageOrTwo ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register long callPage ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register long flagsPage ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    register long loopFlagsPage ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     system = D_80083160;
     head = D_800E3D7C;
@@ -103,11 +103,11 @@ void func_8009DAD8(s32 arg0) {
     }
 
     firstContext = arg0;
-    ASM_KEEP(firstContext);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(firstContext);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     pageOrTwo = 0x80080000;
-    ASM_KEEP(pageOrTwo);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(pageOrTwo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     playerAndIndex = pageOrTwo + 0x2e80;
-    ASM_USE_NV(pageOrTwo);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE_NV(pageOrTwo);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     a0Value = ((u8 *)playerAndIndex)[0x24];
     firstY = ((u8 *)playerAndIndex)[0x25];
     colour[3] = 0x68;
@@ -124,7 +124,7 @@ void func_8009DAD8(s32 arg0) {
 #ifdef NON_MATCHING
     flagsPage = (long)&D_800E296C - 0x296c;
 #else
-    ASM_UNDEF(flagsPage);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_UNDEF(flagsPage);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
     loopFlagsPage = flagsPage;
     playerLater = (u8 *)playerAndIndex;
@@ -137,7 +137,7 @@ void func_8009DAD8(s32 arg0) {
                     *(s8 *)(object + 0x26) != *(s8 *)(playerLater + 0x26)) {
                     a0Value = (long)object;
                     callPage = 0x80080000;
-                    ASM_KEEP(callPage);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP(callPage);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     distance = func_8009FD40((u8 *)a0Value,
                                              (u8 *)(callPage + 0x2e80));
                     if ((s16)distance >= 4) {

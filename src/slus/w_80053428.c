@@ -52,7 +52,7 @@ s32 func_80053428(Param *a0)
     D80083160_t *base;
     TPagePkt *tpage_pkt;
     PolyF4 *poly;
-    register u32 mask_lo ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register u32 mask_lo ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 mask_hi;
     Ctx *ctx2;
     u32 poly_addr;

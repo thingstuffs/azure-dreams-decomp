@@ -21,11 +21,11 @@ void func_81875B38(
     s32 arg5,
     s32 arg6)
 {
-    s32 held_arg4 = arg4;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    s32 held_arg4 = arg4;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *held_arg0 = arg0;
-    register s16 held_arg1 ASM_REG("$22") = arg1;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 held_arg2 ASM_REG("$23") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s16 held_arg3 ASM_REG("$20") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s16 held_arg1 ASM_REG("$22") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 held_arg2 ASM_REG("$23") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s16 held_arg3 ASM_REG("$20") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 held_arg5 = arg5;
     s32 held_arg6 = arg6;
     void *temp_s0;
@@ -38,7 +38,7 @@ void func_81875B38(
     s32 value1;
     s32 value2;
     s32 value3;
-    register void *call_obj ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *call_data;
     void *dest1;
     void *dest2;
@@ -66,7 +66,7 @@ void func_81875B38(
         random3 = rand();
         call_obj = temp_s0;
         call_data = &D_80025028;
-        ASM_USE2(call_obj, call_data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_USE2(call_obj, call_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         random3 &= 0x1F;
         value3 = FIELD(FIELD(held_arg0, void **, 8), u16 *, 0xA);
         temp_s0 = (u8 *)call_obj + 0x20;
@@ -75,18 +75,18 @@ void func_81875B38(
         offset3 = held_arg6 - 0x10;
         value3 += offset3;
         FIELD(dest3, s16 *, 0xA) = (s16)value3;
-        ASM_KEEP(held_arg4);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        ASM_KEEP(held_arg5);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-        ASM_KEEP(held_arg6);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg6);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         FIELD(temp_s0, s16 *, 0x14) = held_arg1;
-        ASM_KEEP(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         FIELD(temp_s0, s16 *, 0x32) = held_arg3;
         FIELD(temp_s0, s16 *, 0x34) = held_arg3;
         func_8004491C(call_obj, call_data, dest3);
-        ASM_KEEP(held_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         FIELD(temp_s0, s32 *, 0x48) = rand() + 0x10000;
         FIELD(temp_s0, s32 *, 8) = held_arg2;
-        ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }
 

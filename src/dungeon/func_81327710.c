@@ -91,11 +91,11 @@ s32 func_8016EF10(u8 *arg0, s32 arg1, u8 *arg2) {
         return 0;
 
     case 8: {
-        register s32 result ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         func_8016BF74(actor, arg1, entity, actor);
         result = 0;
-        ASM_TAILSLOT_PIN(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8016F128();
         return 0;
     }

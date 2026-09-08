@@ -81,7 +81,7 @@ void func_800F643C(s16 arg0, s16 arg1, s32 arg2) {
         }
         D_800F8A44[arg2] = temp_a0;
         ((S_800F643C_3 *)temp_a0)->unk_10 = arg2;
-        ASM_USE(arg2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_USE(arg2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     }
 }
 

@@ -41,15 +41,15 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
 {
   Arg1 *input = arg1;
   u32 high_mask = 0xFF000000;
-  register Scratch *scratch ASM_REG("$17") = (Scratch *) 0x1F800000;   /* MATCH pin: keeps a statement from moving across a call/branch */
-  register u8 **state_slot ASM_REG("$21") = (u8 **) D_80083160;   /* MATCH pin: retail immediate-load split depends on it */
+  register Scratch *scratch ASM_REG("$17") = (Scratch *) 0x1F800000;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+  register u8 **state_slot ASM_REG("$21") = (u8 **) D_80083160;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   u32 low_mask = 0x00FFFFFF;
   u8 *state = *((u8 **) D_80083160);
   u8 *initial_current;
   u16 first_coord;
   u16 second_coord;
   u16 third_coord;
-  register u8 *entry ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+  register u8 *entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   Scratch *active;
   Scratch *call_base;
   Scratch *call_arg;
@@ -58,18 +58,18 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
   u8 *entry_arg;
   u8 *previous;
   Scratch *tail_arg;
-  ASM_KEEP(state_slot);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP(state_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   initial_current = *((u8 **) (state + 0x8D0));
   scratch->current = initial_current;
   scratch->table = (u32 *) (state + 0xB0);
-  ASM_KEEP(state_slot);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP(state_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   active = scratch;
-  ASM_KEEP(active);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   call_arg = active;
-  ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   out90 = &active->unk90;
   first_coord = input->unk2;
-  ASM_KEEP(first_coord);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_KEEP(first_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   entry = *((u8 * volatile *) (&active->current));
   out94 = &active->unk94;
   active->unk0 = first_coord;
@@ -90,15 +90,15 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
     *((u8 *) (((u8 *) entry) + 7)) = 0x6A;
     *((u32 *) (((u8 *) entry) + 0)) = ((*((u32 *) (((u8 *) entry) + 0))) & high_mask) | (active->table[active->index] & low_mask);
     {
-      register u32 table_slot ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+      register u32 table_slot ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       u32 packet_bits;
-      register u32 table_word ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+      register u32 table_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       table_slot = active->index;
       table_slot = (table_slot << 2) + (u32) active->table;
       packet_bits = (u32) entry & low_mask;
       table_word = *((u32 *) table_slot);
       table_word = (table_word & high_mask) | packet_bits;
-      ASM_KEEP_DEP_NV(table_word, entry);   /* MATCH pin: load-bearing for the whole function shape */
+      ASM_KEEP_DEP_NV(table_word, entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       *((u32 *) table_slot) = table_word;
     }
     entry = active->current;
@@ -113,13 +113,13 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
   {
     arg0 = (Arg0 *) (previous + 0x20);
     input = *((Arg1 **) (previous + 8));
-    ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(input);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     tail_arg = active;
-    ASM_TAILSLOT_PIN(tail_arg);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_TAILSLOT_PIN(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_80025080(tail_arg);
   }
-  ASM_CLOBBER("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+  ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   call_base = (Scratch *) (*state_slot);
   *((u8 **) (((u8 *) call_base) + 0x8D0)) = active->current;
   return 0;

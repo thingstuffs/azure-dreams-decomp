@@ -150,11 +150,11 @@ s32 func_800212B8(void) {
         loop_i = 4;
         loop_init10 = &init10;
         do {
-            register u8 *a0v ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
-            register Init10 *a1v ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register u8 *a0v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register Init10 *a1v ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             a0v = D_800225F0;
             a1v = loop_init10;
-            ASM_KEEP_DEP_NV(a1v, a0v);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP_DEP_NV(a1v, a0v);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             init10.h16 = loop_i * 0xC + 0x14;
             init10.p4 = (void *)((s32 *)&init10)[0x16 + loop_i];
             loop_i--;
@@ -170,23 +170,23 @@ s32 func_800212B8(void) {
     AT(u16, owner, 0x38) = *(u16 *)timer;
     {
         s32 loop_i = 4;
-        register s32 copy_page ASM_REG("$20") = (s32)0x80020000;   /* MATCH pin: retail keeps a computation the compiler would drop */
-        register s32 loop_offset ASM_REG("$19") = 0x38;   /* MATCH pin: retail register colouring depends on it */
+        register s32 copy_page ASM_REG("$20") = (s32)0x80020000;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        register s32 loop_offset ASM_REG("$19") = 0x38;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s16 loop_value = 0x44;
         Packed8 *packed_v0 = D_80024310;
         Packed8 *loop_packed = packed_v0 + 4;
         s32 call_page;
         do {
-            register Packed8 *copy_src ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register Packed8 *copy_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             copy_src = (Packed8 *)(copy_page + 0x144);
-            ASM_KEEP_NV(copy_src);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             *loop_packed = *copy_src;
             AT(s8, loop_packed, 7) = 0;
             init10.h16 = loop_value;
             init10.p4 = loop_packed;
             init10.p8 = owner + loop_offset;
             call_page = (s32)0x80020000;
-            ASM_KEEP_DEP_NV(call_page, copy_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_DEP_NV(call_page, copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_8002108C((u8 *)(call_page + 0x2FD8), &init10);
             loop_offset -= 2;
             loop_value -= 0xC;
@@ -199,9 +199,9 @@ s32 func_800212B8(void) {
         s32 loop_i = 7;
         s32 asset_v0 = (s32)0x80020000;
         u8 *loop_asset;
-        register s16 loop_scale ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+        register s16 loop_scale ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *loop_sprite;
-        ASM_KEEP(asset_v0);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(asset_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         loop_asset = (u8 *)(asset_v0 + 0x3158);
         loop_scale = 0x1000;
         do {
@@ -246,20 +246,20 @@ s32 func_800212B8(void) {
 
     {
         u8 *ret_v0;
-        register u8 *obj_s0 ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
-        register s32 loop_i ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *obj_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register s32 loop_i ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *loop_state;
         s16 loop_value;
-        register u8 *loop_tablep ASM_REG("$20");   /* MATCH pin: retail keeps a computation the compiler would drop */
+        register u8 *loop_tablep ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         loop_state = D_80082E80;
         loop_i = 2;
-        ASM_KEEP_DEP_NV(loop_i, loop_state);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_DEP_NV(loop_i, loop_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         loop_value = 0xC;
         loop_tablep = owner + 8;
         do {
             ret_v0 = func_8003FD64(0x136, D_80083498);
             obj_s0 = ret_v0;
-            ASM_KEEP(obj_s0);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(obj_s0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             AT(void *, loop_tablep, 0x20) = ret_v0;
             if (obj_s0 != 0) {
                 obj = obj_s0;

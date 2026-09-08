@@ -11,7 +11,7 @@ extern void *D_800814A8[4];
 
 s32 func_800AA36C(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 result;
-    register s32 old_x ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 old_x ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 old_y;
     s32 mode;
     u32 flags;
@@ -29,18 +29,18 @@ s32 func_800AA36C(void *arg0, void *arg1, void *arg2, void *arg3) {
         result = (s16)func_8009B7E4(arg2, arg3);
         mode = 0x3000;
         if (result != 0) {
-            register u32 mask ASM_REG("$3") = 0x40000000;   /* MATCH pin: load-bearing for the whole function shape */
+            register u32 mask ASM_REG("$3") = 0x40000000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 sound_x = old_x;
             s32 sound_y;
-            ASM_KEEP(mask);   /* MATCH pin: retail schedule: same instructions, different order without it */
-            ASM_KEEP(sound_x);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP(mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(sound_x);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             flags = *(u32 *)((u8 *)arg3 + 0x1C) | mask;
             *(u32 *)((u8 *)arg3 + 0x1C) = flags;
             if (flags & 0x2000) {
                 mode = 0x300;
             }
             sound_y = old_y;
-            ASM_KEEP(sound_y);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(sound_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8009A3D0(sound_x, sound_y, mode);
             flags = *(u32 *)((u8 *)arg3 + 0x1C);
             func_8009A21C(*(u8 *)((u8 *)arg2 + 0x24),
@@ -50,7 +50,7 @@ s32 func_800AA36C(void *arg0, void *arg1, void *arg2, void *arg3) {
             if (result == 1) {
                 func_800AA508(arg0, arg1, arg2, arg3);
                 return 1;
-                   /* MATCH pin: retail delay-slot contents depend on it */
+                   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 return 1;
             } else {
                 func_800AA5E4(arg0, arg1, arg2, arg3);

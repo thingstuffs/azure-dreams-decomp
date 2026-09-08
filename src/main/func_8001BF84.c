@@ -58,11 +58,11 @@ u8 *func_8001BF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     D_80409526 &= 0x7FFF;
     func_8007BFE0(child, 0x764);
     func_80402DF0(child, 6);
-    ASM_KEEP_NV(root);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(root);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_8001BF84_0 *)root)->unk_0C = (s32)(child + 0x67C);
     result = (s32)func_80402DC8(child + 0x68C);
     store_base = child;
-    ASM_KEEP_NV(store_base);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(store_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_8001BF84_1 *)store_base)->unk_688 = result;
     func_80402EBC(store_base, arg0, arg1, arg2, arg3);
     ((S_8001BF84_0 *)root)->unk_10 = (s32)D_80402F04;

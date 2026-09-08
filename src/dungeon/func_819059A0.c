@@ -26,23 +26,23 @@ void func_800251A0(void *arg0)
 {
     s16 temp_v0;
     s32 var_s1;
-    register s32 store_value ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 initial_value ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 store_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 initial_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *global_flag;
     u16 temp_a0;
-    register u16 temp_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 delta;
     DungeonAnimSlot *var_a1;
-    register DungeonAnimSlot *var_s0 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register DungeonAnimSlot *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     var_s1 = 1;
     var_a1 = (DungeonAnimSlot *)((u8 *)arg0 + 2);
     initial_value = ((S_800251A0_0 *)arg0)->unk_02;
     global_flag = &D_800267B8;
-    ASM_KEEP(initial_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(initial_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     store_value = var_s1;
     *global_flag = (s16)store_value;
-    ASM_KEEP(store_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(store_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_800251A0_0 *)arg0)->unk_02 = (u16)(initial_value - 1);
     do {
         var_a1->field_62 = (s16)(var_s1 * 0x10);

@@ -105,10 +105,10 @@ void func_80172D1C(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 motion_x;
     s32 motion_y;
     s32 calc;
-    register s32 calc_other ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 calc_half ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 call_a2 ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 calc_other ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 calc_half ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     if (((S_80172D1C_0 *)arg0)->unk_9B == 1) {
         i = 6;
@@ -142,15 +142,15 @@ void func_80172D1C(void *arg0, void *arg1, void *arg2, void *arg3) {
                 ((S_80172D1C_8 *)(((S_80172D1C_1 *)obj)->unk_08))->unk_14 = calc_other;
 
                 calc_other = (s32)obj + 0x20;
-                ASM_KEEP(calc_other);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_KEEP(calc_other);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 ((S_80172D1C_3 *)((u8 *)calc_other))->unk_48 = 10;
                 flags = ((Rec_D_80082E80 *)arg2)->unk_28.at00_s32.v;
-                ASM_KEEP(flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 calc_other = ((S_80172D1C_5 *)part)->unk_14;
                 ((S_80172D1C_5 *)part)->unk_1E = 0x1800;
                 ((S_80172D1C_5 *)part)->unk_1C = 0x1800;
                 calc_other |= 0xC;
-                ASM_KEEP(calc_other);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_KEEP(calc_other);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 ((S_80172D1C_5 *)part)->unk_28 = flags;
                 ((S_80172D1C_5 *)part)->unk_14 = calc_other;
                 calc_other = ((Rec_D_80082E80 *)arg2)->unk_12.at00_u16.v;

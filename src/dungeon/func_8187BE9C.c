@@ -56,14 +56,14 @@ state_0:
 
         ((S_8187BE9C_0 *)arg0)->unk_42 = 1;
         tail_value = ((S_8187BE9C_0 *)arg0)->unk_4C + 24;
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800256EC();
     }
 
 state_1:
     ((S_8187BE9C_0 *)arg0)->unk_42 = 0;
     ((S_8187BE9C_0 *)arg0)->unk_4C -= 24;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     arg2->unk_0C =
         ((S_8187BE9C_0 *)arg0)->unk_36 * ((S_8187BE9C_0 *)arg0)->unk_02.u /

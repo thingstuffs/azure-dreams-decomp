@@ -26,8 +26,8 @@ typedef struct S_800C21F8_0 {
 
 s32 func_800C21F8(S_800C21F8_0 *arg0) {
     s32 temp_a0;
-    register s32 temp_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     temp_v0 = arg0->unk_04;
     temp_v1 = D_80083780.x;
@@ -47,7 +47,7 @@ s32 func_800C21F8(S_800C21F8_0 *arg0) {
         ((s16)temp_a0 > arg0->unk_0E)) {
         func_800C170C(temp_a0);
         arg0->unk_00 = (void (*)(void))func_800C2124;
-           /* MATCH pin: retail basic-block layout depends on it */
+           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         return 1;
     }
     return 0;

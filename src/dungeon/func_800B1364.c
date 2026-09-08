@@ -86,14 +86,14 @@ extern u8 D_800E3E48[];
 void func_800B6AC4(void *arg0, void *arg1, void *arg2, void *arg3) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11 };
     s16 sp18[3];
-    register u8 *var_a1 ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *var_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 temp_v0_8;
     s32 temp_v0_9;
     s32 temp_v0_rand;
     s32 temp_v1_mask;
     s32 saved_word;
     s32 var_v0;
-    register s32 var_v0_test ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 var_v0_test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 var_v0_2;
     s32 temp_v0_11;
     u8 temp_v0_4;
@@ -107,7 +107,7 @@ void func_800B6AC4(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 *temp_v1_3;
     u8 *var_v0_3;
     u8 temp_v1;
-    register u8 next_state ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *temp_a0_2;
     void *temp_a0_4;
     void *temp_a0_5;
@@ -124,9 +124,9 @@ void func_800B6AC4(void *arg0, void *arg1, void *arg2, void *arg3) {
     u32 *loop_table;
     void *temp_v1_6;
     void *temp_v1_7;
-    register void *temp_v1_8 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register void *var_a0 ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
-    register void *var_a2 ASM_REG("$6");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *temp_v1_8 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *var_a3;
     M2C_UNK *var_s0 = (M2C_UNK *)&D_80083160;
 
@@ -136,9 +136,9 @@ void func_800B6AC4(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
     (void)jt_keep; goto *D_80089310[(u32)(temp_v1)];
 jt_c0: {
-    register u8 *case0_page ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *case0_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     case0_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(case0_page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(case0_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     var_a1 = case0_page + 0x3160;
     if ((((s32) (M2C_FIELD(var_a1, s16 *, 0xC8) + M2C_FIELD(arg3, s16 *, 0x2A) + 0x100) >> 9) & 7) != 2) {
         goto block_4;
@@ -177,7 +177,7 @@ block_10: {
     void *callback;
     ptr = M2C_FIELD(arg0, u8 **, 0xBC);
     saved = ptr;
-    ASM_KEEP_NV(saved);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(saved);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     M2C_FIELD(arg0, u8 **, 0xC0) = ptr;
     saved_word = M2C_FIELD(saved, s32 *, 0);
     callback = &D_800B69DC;
@@ -201,7 +201,7 @@ block_14:
     if (D_80083462 & 4) {
         goto block_75;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     var_v0 = 0;
     if (!(M2C_FIELD(&D_80013714, u16 *, 0) & 1)) {
         goto block_20;
@@ -257,7 +257,7 @@ block_26:
     return;
 block_27:
     {
-    register s32 t27 ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 t27 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     t27 = M2C_FIELD(&D_80013714, u16 *, 0) & 1;
     if (t27) {
         goto block_75;
@@ -463,7 +463,7 @@ loop_66:
     if (var_a2 != temp_t0) {
         goto loop_66;
     }
-    ASM_KEEP_NV(var_a2);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP_NV(var_a2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     *(Copy12 *)var_a3 = *(Copy12 *)var_a2;
     temp_a0_6 = M2C_FIELD(arg3, void **, 0x60);
     M2C_FIELD(temp_a0_6, s32 *, 0x1C) = (s32) (M2C_FIELD(temp_a0_6, s32 *, 0x1C) | 0x400000);
@@ -508,7 +508,7 @@ jt_c11:
     }
     M2C_FIELD(arg2, u16 *, 0x14) = (u16) (temp_v1_9 & 0xFDFF);
     M2C_FIELD(arg0, M2C_UNK **, 0x8C) = &D_8008ACDC;
-    ASM_USE2(arg0, arg0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_USE2(arg0, arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 block_75:
     return;
 }

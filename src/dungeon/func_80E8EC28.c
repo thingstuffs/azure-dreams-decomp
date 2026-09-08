@@ -81,19 +81,19 @@ void func_80174428(void *arg0, void *arg1, void *arg2, void *arg3)
     };
     s32 ystep;
     s32 xstep;
-    register s16 *xstep_ptr ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s16 *xstep_ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 direction_offset;
-    register u32 raw_direction ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 raw_direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 result;
-    register s32 case4_result ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s32 case4_valid ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 counter ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 case4_result ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 case4_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 counter ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *world;
     s16 *level;
-    register void **jump_base ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void **jump_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 jump_offset;
     u32 state_id;
-    register u32 state_valid ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 state_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     xstep_ptr = (s16 *)&D_8006CCD8;
     raw_direction = ((S_80174428_0 *)object)->unk_2A.s;
     direction_offset = raw_direction >> 8;
@@ -190,7 +190,7 @@ case_4:
         xstep = ((S_80174428_2 *)actor)->unk_24;
         ystep = ((S_80174428_2 *)actor)->unk_25;
 
-        ASM_KEEP(counter);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         counter--;
 case_4_check:
         if (counter <= 0) {

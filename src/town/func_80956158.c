@@ -31,7 +31,7 @@ void func_80023158(S_80023158_0 *arg0, Rec_D_800E3D7C *arg1)
 
     switch (state) {
     case 0: {
-        register s16 reset_count ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s16 reset_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         if (obj->unk_2C != 3) {
             break;

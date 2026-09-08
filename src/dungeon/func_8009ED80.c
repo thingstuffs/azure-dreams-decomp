@@ -17,11 +17,11 @@ s32 func_800A44E0(u16 x, u16 y, s16 height, u32 flags)
     u16 *x_base;
     u16 *x_offset;
     u16 *y_offset;
-    s16 saved_height;   /* MATCH pin: load-bearing for the whole function shape */
+    s16 saved_height;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 cell_x;
     u32 cell_y;
     s32 layer;
-    s32 call_x;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    s32 call_x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 call_y;
 
     saved_height = height;
@@ -45,7 +45,7 @@ s32 func_800A44E0(u16 x, u16 y, s16 height, u32 flags)
     y_offset = (u16 *)((s8 *)&D_8006CCE8 + table_offset);
     x_sum = *x_offset + cell_x;
     y_sum = *y_offset + cell_y;
-    ASM_USE2(x_sum, y_sum);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_USE2(x_sum, y_sum);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     moved_height = func_800BCB04(
         ((((x_sum) & 0xFFFF) << 6) + 0x20) & 0xFFE0,
         ((((y_sum) & 0xFFFF) << 6) + 0x20) & 0xFFE0,

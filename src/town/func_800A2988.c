@@ -40,15 +40,15 @@ void func_800A00E8(s32 index) {
     TownRoot *root = D_80100900[0];
     TownEntry *entry;
     TownEntry *entries;
-    register TownOutput *output ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register TownOutput *output ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     TownEntryOwner *owner;
     u16 rootX;
     u16 rootY;
-    register u16 entryX ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register u16 entryY ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 entryX ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u16 entryY ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 offset;
-    register u32 constant ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s32 savedIndex ASM_REG("$2") = index;   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 constant ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 savedIndex ASM_REG("$2") = index;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     D_80100B68[0] = savedIndex;
 
@@ -59,8 +59,8 @@ void func_800A00E8(s32 index) {
     rootX = root->x;
     rootY = root->y;
     entries = owner->entries;
-    ASM_KEEP(savedIndex);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(root);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(savedIndex);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(root);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     D_80100B50.first.word = 0;
 #ifdef NON_MATCHING
@@ -74,7 +74,7 @@ void func_800A00E8(s32 index) {
     entryX = entry->x;
     output = &D_80100B50;
     output->second.word = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     output->first.half.y = entryX + rootX;
     entryY = entry->y;
     constant = 0xFFE00000;

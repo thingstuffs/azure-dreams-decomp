@@ -15,7 +15,7 @@ extern s32 D_800799B8[3];
 extern S_800799BC *D_800799BC[3];
 
 s32 func_8005D838(s32 a0, S_800799BC *a1) {
-    register s32 v0 ASM_REG("v0") = a0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 v0 ASM_REG("v0") = a0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (v0 <= 0) {
         v0 = 0;
     } else {

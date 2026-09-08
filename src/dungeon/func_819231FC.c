@@ -42,11 +42,11 @@ void func_800249FC(void *arg0, s32 arg1, S_800249FC_0 *arg2) {
         u32 tail_v0;
 
         tail_v0 = arg2->unk_1E + 0xC8;
-        ASM_TAILSLOT_PIN(tail_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80024A60();
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (state < 0x15) {
         value = arg2->unk_1E - 0xBE;
         arg2->unk_1E = value;

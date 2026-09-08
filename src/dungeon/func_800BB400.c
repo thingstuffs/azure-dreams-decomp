@@ -44,22 +44,22 @@ extern u8 D_80083460[];
 s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
 {
     u8 *a0keep = arg0;
-    register u8 *entity ASM_REG("$17") = a0keep;   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *entity ASM_REG("$17") = a0keep;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *event = arg1;
     s32 saved;
     u8 *message;
     s32 t;
     s32 r;
-    register s32 i ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *slot;
 
     if (entity == D_800E3D7C[0]) {
         *(u8 **)(entity + 0x110) = event;
-        ASM_KEEP_NV(a0keep);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP_NV(a0keep);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         func_8008D330(a0keep, D_80083780, D_80082E80, a0keep);
         return 0;
     }
-    ASM_CLOBBER("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     if ((u32)entity <= 0x9FFFFFFF) {
         do { } while (0);
         func_800A63B8(entity, event, (s16)value);
@@ -69,7 +69,7 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
         }
         *(s32 *)(entity + 0x14) &= -8;
         *(s32 *)(entity + 0x1C) &= -8;
-        ASM_MEM_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         {
         s32 ev0;
         ev0 = event[0];
@@ -77,7 +77,7 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
             {
                 u8 *page;
                 page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 message = page + 0x13FB;
             }
             {
@@ -91,20 +91,20 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
                 pa2 = 0x81C;
                 pv0 = *(s32 *)(entity + 0x14) | 1;
                 pv1 = *(s32 *)(entity + 0x1C) | 1;
-                ASM_USE(message);   /* MATCH pin: retail basic-block layout depends on it */
-                ASM_KEEP(pa0);   /* MATCH pin: retail keeps a computation the compiler would drop */
-                ASM_KEEP(pa1);   /* MATCH pin: retail keeps a computation the compiler would drop */
-                ASM_KEEP(pa2);   /* MATCH pin: retail basic-block layout depends on it */
-                ASM_KEEP(pv0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-                ASM_TAILSLOT_PIN(pv1);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                ASM_USE(message);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(pa1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(pa2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(pv0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                ASM_TAILSLOT_PIN(pv1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 func_800C0CBC();
             }
         } else if (ev0 == 6) {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             {
                 u8 *page;
                 page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 message = page + 0x1402;
             }
             {
@@ -118,19 +118,19 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
                 pa2 = 0x81C;
                 pv0 = *(s32 *)(entity + 0x14) | 2;
                 pv1 = *(s32 *)(entity + 0x1C) | 2;
-                ASM_USE(message);   /* MATCH pin: retail basic-block layout depends on it */
-                ASM_KEEP(pa0);   /* MATCH pin: retail keeps a computation the compiler would drop */
-                ASM_KEEP(pa1);   /* MATCH pin: retail keeps a computation the compiler would drop */
-                ASM_KEEP(pa2);   /* MATCH pin: retail basic-block layout depends on it */
-                ASM_KEEP(pv0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-                ASM_TAILSLOT_PIN(pv1);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                ASM_USE(message);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(pa1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(pa2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(pv0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                ASM_TAILSLOT_PIN(pv1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 func_800C0CBC();
             }
         } else {
             {
                 u8 *page;
                 page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 message = page + 0x140A;
             }
             *(s32 *)(entity + 0x14) |= 4;
@@ -150,17 +150,17 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
                     if (flags & 1) {
                         s32 pv1;
                         pv1 = ((item - 1) / 3) * 3 + 1;
-                        ASM_TAILSLOT_PIN(pv1);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                        ASM_TAILSLOT_PIN(pv1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                         func_800C0D9C();
                     } else {
-                        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                         if (flags & 2) {
                             s32 pv1;
                             pv1 = ((item - 1) / 3) * 3 + 2;
-                            ASM_TAILSLOT_PIN(pv1);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                            ASM_TAILSLOT_PIN(pv1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                             func_800C0D9C();
                         } else {
-                            ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+                            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                             if (flags & 4) {
                                 slot[0] = ((item - 1) / 3) * 3 + 3;
                             }
@@ -173,8 +173,8 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
         if (*(s32 *)(entity + 0x14) & 0x4000) {
             t = func_800990FC();
             {
-                register u8 *pa0 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-                register s32 ta ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+                register u8 *pa0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                register s32 ta ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 pa0 = entity;
                 ta = t;
                 saved = ta;
@@ -182,11 +182,11 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
             }
             r = func_80099194(D_800E1411, r);
             r = func_80099194(message, r);
-            ASM_USE(saved);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_USE(saved);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             {
-                register u32 page ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register u32 page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 page = 0x80090000;
-                ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_800C0E2C();
             }
         }
@@ -194,9 +194,9 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
         t = func_800990FC();
         {
             u8 *pa0;
-            register s32 ta ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register s32 ta ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             pa0 = D_800E1426;
-            ASM_KEEP(pa0);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             ta = t;
             saved = ta;
             r = func_80099194(pa0, ta);

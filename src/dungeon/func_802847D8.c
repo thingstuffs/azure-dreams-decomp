@@ -19,7 +19,7 @@ typedef struct S_800177D8_1 {
 } S_800177D8_1;   /* temp_v0_2 in func_800177D8 */
 
 void func_800177D8(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
-    register s32 temp_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     void *base_2970;
     void *base_2c40;

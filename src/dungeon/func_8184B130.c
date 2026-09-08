@@ -115,7 +115,7 @@ s32 func_80024930(void *arg0, S_80024930_1 *arg1, s32 arg2, s16 arg3,
 
     for (i = 0; i < 16; i++) {
         register u8 *prim;
-        register s32 angle1 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 angle1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 scaled;
         s32 rawAngle;
         s32 adjusted;
@@ -136,7 +136,7 @@ s32 func_80024930(void *arg0, S_80024930_1 *arg1, s32 arg2, s16 arg3,
         }
 
         {
-            register s32 flag ASM_REG("$3") = 0x3F;   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register s32 flag ASM_REG("$3") = 0x3F;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             ((S_80024930_3 *)prim)->unk_0C = 0;
             ((S_80024930_3 *)prim)->unk_18 = flag;
@@ -205,7 +205,7 @@ s32 func_80024930(void *arg0, S_80024930_1 *arg1, s32 arg2, s16 arg3,
             u32 index = ((S_80024930_0 *)scratch)->unk_B4;
 
             if (index < 0x1E0U) {
-                register u32 lowMask ASM_REG("$4") = 0x00FFFFFFU;   /* MATCH pin: retail immediate-load split depends on it */
+                register u32 lowMask ASM_REG("$4") = 0x00FFFFFFU;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 u32 offset = index * 4;
 
                 index = 0xFF000000U;

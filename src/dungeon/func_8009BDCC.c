@@ -29,10 +29,10 @@ s32 func_800A152C(s16 arg0, s16 arg1) {
     }
     entry = func_800A1618(type, arg1);
     if (entry == NULL) {
-        register s32 result ASM_REG("$2");   /* MATCH pin: retail delay-slot contents depend on it */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
         result = 0;
-        ASM_TAILSLOT_PIN(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800A159C();
     }
     entry->type = type;

@@ -22,9 +22,9 @@ extern void func_800CD00C();
 
 void func_800CCF74(TownCf814State *arg0, TownCf814Obj *arg1, s32 unused, s32 arg3, s32 arg4, s32 arg5) {
     TownCf814Obj *obj = arg1;
-    register s32 stack_arg4 ASM_REG("$5") = arg4;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 stack_arg4 ASM_REG("$5") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 state = arg0->unk6A;
-    register s32 stack_arg5 ASM_REG("$2") = arg5;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 stack_arg5 ASM_REG("$2") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 timer;
 
     if (state != 0) {
@@ -42,7 +42,7 @@ void func_800CCF74(TownCf814State *arg0, TownCf814Obj *arg1, s32 unused, s32 arg
     timer = arg0->unk6C - 1;
     arg0->unk6C = timer;
     if ((timer << 0x10) > 0) {
-        register s32 curX ASM_REG("$2") = obj->unk2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register s32 curX ASM_REG("$2") = obj->unk2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 x = obj->unkE;
         s32 curY = obj->unk6;
         s32 y = obj->unk12;

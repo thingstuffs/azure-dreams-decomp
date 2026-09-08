@@ -15,8 +15,8 @@ extern S_80173F90 D_80173F90;
 
 void func_81254430(void) {
     u8 *page = (u8 *)0x80010000;
-    register u16 flags ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register u16 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     KEEP_PAGE(page);
     flags = *(u16 *)(page + 0x3714);

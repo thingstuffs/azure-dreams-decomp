@@ -42,7 +42,7 @@ void func_807AEF8C(void *arg0) {
     u8 *object;
     u32 copy_dest;
     u16 flags;
-    register s32 mode ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 mode ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 i;
     s32 i3;
 
@@ -60,7 +60,7 @@ void func_807AEF8C(void *arg0) {
     }
     if (D_80082E80[0x24] == 0x1F) {
         mode = 2;
-        ASM_TAILSLOT_PIN_TIED(mode);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(mode);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800F6820();
     }
     if (D_80082E80[0x24] == 0x20) {
@@ -79,7 +79,7 @@ void func_807AEF8C(void *arg0) {
     *(u16 *)(mode_page + 0x3718) = 0;
     *(u16 *)(mode_page + 0x3716) = 0;
     *(u16 *)(mode_page + 0x3714) = flags | 1;
-    ASM_KEEP(mode);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     temp_v0 = (u8 *)(((0x23 << state->shift) * 6) + base + 0xBA);
     CLEAR_HIGH_BIT(temp_v0);

@@ -33,7 +33,7 @@ void func_80057948(s32 arg0, s32 arg1) {
     s32 current;
     s32 i;
     s32 masked1;
-    register s32 accumulated ASM_REG("$18");   /* MATCH pin: slus-diff */
+    register s32 accumulated ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 masked0;
 
     i = 0;

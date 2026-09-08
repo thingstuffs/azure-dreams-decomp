@@ -67,7 +67,7 @@ void func_80176084(void *arg0, void *arg1, void *arg2, void *arg3) {
         goto block_10;
     }
     ((S_80176084_0 *)arg0)->unk_B1 = one;
-    ASM_KEEP(one);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_80176084_0 *)arg0)->unk_96 = 4U;
     (*(M2C_UNK * *)((u8 *)arg2 + 0x2C)) = (M2C_UNK *)D_800E2448;
     func_80047784(arg2, D_800E2448[((s32)(D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);

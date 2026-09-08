@@ -102,11 +102,11 @@ void *func_80026A84(S_80026A84_2 *arg0, S_80026A84_7 *arg1, s32 arg2, Rec_D_8008
     s32 var_t0;
     u16 temp_v0_2;
     u16 temp_v1;
-    register void *temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_80026A84_3 *temp_a2;
     S_80026A84_5 *temp_a3;
     void *temp_v0;
-    register void *var_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *var_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *var_s4;
 
     var_s4 = NULL;

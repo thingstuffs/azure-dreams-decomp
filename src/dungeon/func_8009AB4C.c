@@ -16,12 +16,12 @@ s32 func_8009B25C(void *, u16, u16, s16);
 s32 func_800A02AC(void *arg0, u16 arg1, u16 arg2) {
     u16 *var_fp;
     u16 *var_s7;
-    register void *temp_s4 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *temp_s4 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *temp_s2;
     u16 temp_s6;
     u16 temp_s5;
     s32 temp_v0;
-    register s32 var_s3 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 var_s3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 var_s1;
 
     temp_s2 = arg0;

@@ -72,7 +72,7 @@ void func_80093C70(s32 arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2) {
         temp_flags = temp_s0->unk_14.s;
         temp_s0->unk_06 = 4;
         temp_s0->unk_14.u = (u16) (temp_flags | 0x200);
-        ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (D_80082E94 & 1) {
             temp_s0->unk_14.u = (u16) (temp_s0->unk_14.u | 1);
         }

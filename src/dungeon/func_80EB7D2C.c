@@ -98,14 +98,14 @@ extern u8 D_801741CC[];
 void func_8017352C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
 {
     void *arg0;
-    register void *arg1 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg2 ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *arg3 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg1 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *arg3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *part20;
     u8 *part28;
     u8 *global_base;
     u8 *body;
-    register u8 *counter_base ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *counter_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 flags;
     s32 state;
     u16 timer;

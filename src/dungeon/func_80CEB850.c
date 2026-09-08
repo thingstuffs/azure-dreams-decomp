@@ -90,14 +90,14 @@ extern u8 D_80175E74[];
 extern u8 D_80175E7C[];
 
 void func_80175050(M2C_UNK *arg0, M2C_UNK arg1, void *arg2_in, M2C_UNK *arg3_in) {
-    register u8 *temp_a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *state1_callback;
     u8 *old_callback;
     M2C_UNK *state0_arg0;
-    register M2C_UNK *var_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register M2C_UNK *var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     M2C_UNK *state1_base;
     M2C_UNK *arg3;
-    register void *arg2 ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 flags;
     s32 state;
     s32 kind;
@@ -105,7 +105,7 @@ void func_80175050(M2C_UNK *arg0, M2C_UNK arg1, void *arg2_in, M2C_UNK *arg3_in)
 
     arg3 = arg3_in;
     arg2 = arg2_in;
-    ASM_KEEP_NV(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state = ((S_80175050_0 *)arg0)->unk_9B;
     switch (state) {
     case 0:
@@ -236,10 +236,10 @@ state1_check:
     func_800A9A0C(arg3);
     func_800A9A04(arg3);
     if ((func_80042900(arg3, 1) << 16) != 0) {
-        register unsigned long var_a0_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-        register M2C_UNK *var_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+        register unsigned long var_a0_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register M2C_UNK *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_a0_page = 0x80080000;
-        ASM_KEEP_NV(var_a0_page);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(var_a0_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         var_a0 = (M2C_UNK *)(var_a0_page + 0x2E80);
         floor = ((S_80175050_1 *)arg2)->unk_26;
         if (!((floor == ((S_80175050_6 *)var_a0)->unk_26 && floor >= 0) || func_8009FD40(var_a0, arg2) < 2)) {

@@ -122,7 +122,7 @@ s32 func_818C29D4(S_818C29D4_6 *arg0, S_818C29D4_4 *arg1)
     u8 uv;
     s32 value;
     Poly818C29D4 *poly;
-    register u8 *packet ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *packet ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Rect818C29D4 rect;
     u32 index;
     s32 tp_x;
@@ -167,7 +167,7 @@ s32 func_818C29D4(S_818C29D4_6 *arg0, S_818C29D4_4 *arg1)
     poly->g3 = arg0->unk_0A;
     poly->b3 = arg0->unk_0A;
     uv = (arg0->unk_04 % 4) << 3;
-    ASM_KEEP(uv);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(uv);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     poly->u0 = 0; poly->v0 = uv;
     poly->u1 = 0x3F; poly->v1 = uv;
     poly->u2 = 0x3F; poly->v2 = uv + 0x3F;
@@ -193,18 +193,18 @@ s32 func_818C29D4(S_818C29D4_6 *arg0, S_818C29D4_4 *arg1)
         s32 first_w;
         s32 first_h;
         first_x = 0; first_y = 1; first_w = 0x280; first_h = 0x100;
-        ASM_KEEP4(first_x, first_y, first_w, first_h);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP4(first_x, first_y, first_w, first_h);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         lo_mask = 0x00FF0000; ASM_KEEP(lo_mask);
         rect.y = 0; rect.x = 0; rect.h = 0xFF; rect.w = 0xFF;
         packet = ((S_818C29D4_7 *)(((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8))->unk_8D0.p2;
-        ASM_KEEP(packet);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         lo_mask |= 0xFFFF; ASM_KEEP(lo_mask);
         ((S_818C29D4_7 *)(((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8))->unk_8D0.p2 = packet + 0xC;
         func_80067F20(packet, 0, 0,
                      func_80066460(first_x, first_y, first_w, first_h) & 0xFFFF,
                      &rect);
         tp_x = 0; hi_mask = 0xFF000000; tp_y = 1; tp_w = 0x280;
-        ASM_KEEP(tp_x);      /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(tp_x);      /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         { u32 *ot; u32 prim_tag; u32 ot_tag;
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
              prim_tag = *(u32 *)packet; ot_tag = *ot;

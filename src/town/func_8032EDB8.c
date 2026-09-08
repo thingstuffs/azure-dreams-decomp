@@ -57,9 +57,9 @@ block_4:
     if (((S_800195B8_2 *)(((((var_s1 * 8) - var_s1) * 4) + arg0)))->unk_08 == 0) {
         u8 *page = (u8 *)0x80010000;
         M2C_UNK (*call0)(M2C_UNK *, M2C_UNK *, M2C_UNK);
-        ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         call0 = ((S_800195B8_5 *)(((S_800195B8_4 *)(((S_800195B8_3 *)page)->unk_6000))->unk_20))->unk_168;
-        ASM_KEEP(call0);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(call0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         call0(&D_80016064, &D_8001608C, 0x37);
         ((S_800195B8_5 *)(((S_800195B8_4 *)(((S_800195B8_3 *)page)->unk_6000))->unk_20))->unk_174(1);
     }

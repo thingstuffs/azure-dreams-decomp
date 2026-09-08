@@ -13,7 +13,7 @@ typedef struct S_800CCD68_0 {
 
 void func_800CCD68(S_800CCD68_0 *arg0)
 {
-    register s32 value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
 
     state = arg0->unk_6A.s;
@@ -26,7 +26,7 @@ void func_800CCD68(S_800CCD68_0 *arg0)
         goto state_ge_2;
     }
     value = 2;
-    ASM_KEEP(value);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     value = 0xC00;
     if (state == 0) {
         goto set_value;
@@ -37,7 +37,7 @@ state_ge_2:
 #ifdef NON_MATCHING
     value = 2;
 #endif
-    ASM_UNDEF(value);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_UNDEF(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (state == value) {
         goto state_2;
     }

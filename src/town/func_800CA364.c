@@ -18,7 +18,7 @@ extern s32 D_800D5FE8;
 
 void func_800C7AC4(Rec_func_80094268_arg0 *arg0, void *arg1, s32 arg2)
 {
-    register void *bounds ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *bounds ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 context;
     s32 count;
     s32 direction;
@@ -30,7 +30,7 @@ loop:
     direction = func_800374F4(4) & 0xFFFF;
     if (direction == 0) {
         s32 total;
-        s32 position;   /* MATCH pin: retail register colouring depends on it */
+        s32 position;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 component;
 
         total = arg0->unk_84.as_s16;
@@ -44,7 +44,7 @@ loop:
         }
     } else if (direction == 1) {
         s32 total;
-        s32 position;   /* MATCH pin: retail register colouring depends on it */
+        s32 position;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 component;
 
         total = arg0->unk_86.as_s16;
@@ -64,7 +64,7 @@ loop:
         difference = arg0->unk_84.as_s16;
         component = arg0->unk_8C;
         limit = ((S_800C7AC4_1 *)bounds)->unk_02;
-           /* MATCH pin: load-bearing for the whole function shape */
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         difference -= component;
         difference = difference < limit;
         if (difference != 0) {
@@ -79,7 +79,7 @@ loop:
         difference = arg0->unk_86.as_s16;
         component = arg0->unk_8E;
         limit = ((S_800C7AC4_1 *)bounds)->unk_06;
-           /* MATCH pin: load-bearing for the whole function shape */
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         difference -= component;
         difference = difference < limit;
         if (difference != 0) {

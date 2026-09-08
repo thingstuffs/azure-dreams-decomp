@@ -7,7 +7,7 @@
 #define S32_FIELD(ptr, offset) (*(s32 *)((u8 *)(ptr) + (offset)))
 
 void func_800568B4(void *arg0) {
-    register u8 *ptr ASM_REG("$6") = arg0;   /* MATCH pin: slus-diff */
+    register u8 *ptr ASM_REG("$6") = arg0;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 temp_v0;
     s32 temp_a0;
     u16 temp_a1;

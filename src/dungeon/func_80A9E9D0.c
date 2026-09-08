@@ -65,7 +65,7 @@ extern u8 D_80174D08[12];
 void func_801741D0(s32 arg0, S_801741D0_3 *arg1, s32 arg2, s8 arg3, s32 arg4)
 {
     s32 saved_arg4 = arg4;
-    register s8 saved_arg3 ASM_REG("$20") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s8 saved_arg3 ASM_REG("$20") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *node;
     S_801741D0_1 *sub;
     S_801741D0_2 *pos;
@@ -93,7 +93,7 @@ void func_801741D0(s32 arg0, S_801741D0_3 *arg1, s32 arg2, s8 arg3, s32 arg4)
         ((S_801741D0_0 *)node)->unk_20 = 0x70;
         bytes[1] = 0x10;
         bytes[2] = 0x10;
-        ASM_KEEP(saved_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         sub->unk_0D = saved_arg3;
         sub->unk_0C = saved_arg4;
         sub->unk_0E = saved_arg4;

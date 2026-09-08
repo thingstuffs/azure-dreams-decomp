@@ -76,15 +76,15 @@ void func_801715D0(void) {
     s32 temp_a0_3;
     s32 var_v0;
     s32 var_v0_2;
-    register S_801715D0_4 *temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register S_801715D0_4 *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_801715D0_6 *temp_s1;
     S_801715D0_5 *temp_s2;
     u8 *entry;
     u8 *table;
-    register S_801715D0_3 *temp_s3 ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register S_801715D0_3 *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *temp_v0;
     S_801715D0_2 *temp_v1;
-    register S_801715D0_8 *temp_v1_2 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register S_801715D0_8 *temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     temp_s2 = ((Rec_D_80175D54 *)D_80175D54)->unk_08;
     temp_s1 = D_80175D54 + 0x20;
@@ -101,7 +101,7 @@ void func_801715D0(void) {
         temp_a0->unk_06 = (u16) temp_s2->unk_06;
         temp_a0->unk_0A = (u16) temp_s2->unk_0A;
         table = (u8 *) 0x80170000;
-        ASM_KEEP(table);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         table += 0x3AFC;
         entry = (u8 *) ((u32) (((u16) temp_s1->unk_2A >> 7) & 0x1C) + (u32) table);
         temp_a0->unk_02 = (u16) (temp_a0->unk_02 + (((S_801715D0_7 *)entry)->unk_00 * 6));

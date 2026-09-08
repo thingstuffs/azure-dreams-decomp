@@ -17,13 +17,13 @@ s32 func_8002714C(s32 arg0, s32 arg1, s32 arg2, M2C_UNK arg3) {
     s32 var_s4;
     s32 var_s5;
     s32 var_s6;
-    register s32 tail_return ASM_REG("$2");   /* MATCH pin: retail delay-slot contents depend on it */
+    register s32 tail_return ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
     var_s0 = arg1;
     var_s3 = arg2;
     var_s4 = arg3;
     var_s0 /= 72;
-    ASM_USE_NV(var_s4);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE_NV(var_s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     var_s6 = func_8004B404(0x91);
     if (var_s6 != 0) {
         var_s3 -= var_s0 * 8;
@@ -32,7 +32,7 @@ s32 func_8002714C(s32 arg0, s32 arg1, s32 arg2, M2C_UNK arg3) {
         }
         if (var_s0 == 0) {
             var_s1 = 0;
-            ASM_KEEP_NV(var_s1);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             var_s2 = var_s1;
             var_s0 = var_s6;
             do {
@@ -51,7 +51,7 @@ s32 func_8002714C(s32 arg0, s32 arg1, s32 arg2, M2C_UNK arg3) {
                     var_s2 += 0x12;
                 } while (var_s1 < var_s3);
                 tail_return = var_s6;
-                ASM_TAILSLOT_PIN_TIED(tail_return);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN_TIED(tail_return);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_800272F8();
             }
         } else {

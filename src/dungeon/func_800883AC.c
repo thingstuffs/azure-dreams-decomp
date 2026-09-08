@@ -21,7 +21,7 @@ extern u8 D_800DD130[];
 void func_8008DB0C(void *arg0, s32 arg1, void *arg2, s32 arg3, u16 arg4) {
     u8 *table = D_800DD130;
     s32 value;
-    register s32 held3 ASM_REG("$16") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held3 ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_s8 = 0x26;
     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9B.as_s8 = 0;
@@ -44,12 +44,12 @@ void func_8008DB0C(void *arg0, s32 arg1, void *arg2, s32 arg3, u16 arg4) {
 
     {
         s32 call_kind = 0x88;
-        ASM_KEEP(call_kind);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(call_kind);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         {
-            register void *call_obj ASM_REG("$4") = arg0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            register s32 call_field ASM_REG("$6") = ((S_8008DB0C_1 *)call_obj)->unk_8A;   /* MATCH pin: retail schedule: same instructions, different order without it */
-            register s32 zero_arg ASM_REG("$7") = 0;   /* MATCH pin: load-bearing for the whole function shape */
-            ASM_USE2(call_field, zero_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register void *call_obj ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            register s32 call_field ASM_REG("$6") = ((S_8008DB0C_1 *)call_obj)->unk_8A;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            register s32 zero_arg ASM_REG("$7") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_USE2(call_field, zero_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_8009F644(call_obj, call_kind, call_field, zero_arg);
         }
     }

@@ -47,7 +47,7 @@ void func_800211C4(S_800211C4_0 *arg0, void *arg1, Rec_D_80082E80 *arg2) {
     var_v0 = (u8 *)0x80070000;
 page_check:
     base_v0 = (s32)var_v0 - 0x3308;
-    ASM_KEEP(base_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(base_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     temp_v0 = (u8 *)(temp_s0 + base_v0);
     if (temp_v0[0] != 0) {
         finalVal = arg2->unk_14.at00_u16.v | 1;

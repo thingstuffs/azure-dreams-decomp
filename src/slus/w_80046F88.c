@@ -23,7 +23,7 @@ s32 func_80046F88(void *arg0)
 {
     S_80046F88 *obj = (S_80046F88 *)arg0;
     /* delta must live in $a3; counter i takes $a2. Guarded pin for PC port. */
-    register s32 delta ASM_REG("$7");   /* MATCH pin: slus-diff */
+    register s32 delta ASM_REG("$7");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 t14;
     s32 tmp;
     s32 i;

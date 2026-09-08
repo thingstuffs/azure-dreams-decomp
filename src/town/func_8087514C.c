@@ -4,19 +4,19 @@
 extern u8 D_80700000[];
 
 void func_8087514C(void) {
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 var_a2;
     s32 var_t1;
     s16 *var_t0;
 
     var_a2 = zero | 1;
-    ASM_UNDEF(zero);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_UNDEF(zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     var_t1 = zero | 1;
     var_t0 = (s16 *)(D_80700000 + 0xBAE);
     do {
-        register s32 temp_a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-        register s32 var_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-        register s32 var_a3 ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register s32 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 temp_a0_offset;
         s32 temp_word;
         s32 temp_word_2;
@@ -62,7 +62,7 @@ void func_8087514C(void) {
             temp_a0 = (s32 *)temp_a0_offset;
         }
         temp_word_2 = *temp_a0;
-        ASM_KEEP(temp_word_2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_word_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_v0 = ~var_v0;
         var_v0 = var_v0 & temp_word_2;
         *temp_a0 = var_v0;

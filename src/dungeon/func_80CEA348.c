@@ -63,18 +63,18 @@ extern u16 D_800DCEBC[];
 void func_80173B48(void *in0, s32 in1, void *in2, void *in3)
 {
     void *arg0 = in0;
-    register s32 arg1_xoff ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg2 ASM_REG("$17");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 arg1_xoff ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *arg3 = in3;
-    register s32 count ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 yoff ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 count ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 yoff ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 old_x;
     u32 old_y;
     s32 state;
     u8 end_value;
     s32 loop_x;
 
-    ASM_KEEP(arg0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     arg1_xoff = in1;
     ((S_80173B48_0 *)arg3)->unk_71 &= 0x7F;

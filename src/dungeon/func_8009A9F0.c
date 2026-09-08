@@ -4,7 +4,7 @@ extern u16 D_80083164;
 
 void func_800A0150(u8 *src, s8 *dst)
 {
-  register u8 *p ASM_REG("$8") = src;   /* MATCH pin: retail register colouring depends on it */
+  register u8 *p ASM_REG("$8") = src;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   s16 n;
   s32 a;
   s32 b;

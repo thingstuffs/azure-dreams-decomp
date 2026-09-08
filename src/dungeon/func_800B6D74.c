@@ -169,14 +169,14 @@ extern u8 D_80083160[];
 
 void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
 {
-    register u8 *scratch_init ASM_REG("$4") = (u8 *)0x1F800000;   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *scratch_b8 ASM_REG("$5") = scratch_init;   /* MATCH pin: retail immediate-load split depends on it */
+    register u8 *scratch_init ASM_REG("$4") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *scratch_b8 ASM_REG("$5") = scratch_init;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *scratch_90;
     u8 *scratch_94;
-    register u8 *scratch ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *scratch ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *global_page;
-    register u8 **global ASM_REG("$23");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register u8 *page_color ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 **global ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u8 *page_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *matrix;
     u8 *packet;
     u8 *packet_next;
@@ -203,9 +203,9 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
     u16 texture_y;
 
     scratch_b8 = (u8 *)((u32)scratch_b8 | 0xB8);
-    ASM_KEEP_MEMDEP_NV(scratch_init, page_color, *(u8 **)D_80083160);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_MEMDEP_NV(scratch_init, page_color, *(u8 **)D_80083160);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     scratch_90 = scratch_init;
-    ASM_KEEP_NV(scratch_90);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(scratch_90);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     scratch = scratch_init;
     scratch_90 = (u8 *)((u32)scratch_90 | 0x90);
     root = *(u8 **)D_80083160;
@@ -214,7 +214,7 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
 #ifdef NON_MATCHING
     global_page = D_80083160 - 0x3160;
 #else
-    ASM_SET(global_page);   /* MATCH pin: retail register colouring depends on it */
+    ASM_SET(global_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #endif
     ((S_800BC4D4_1 *)scratch)->unk_EC = 0;
     ((S_800BC4D4_1 *)scratch)->unk_E8 = 0;
@@ -226,15 +226,15 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
 
     texture = ((S_800BC4D4_2 *)arg1)->unk_08;
     texture_height = ((S_800BC4D4_2 *)arg1)->unk_14;
-    ASM_CLOBBER("$7");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch_94 = scratch_init;
-    ASM_KEEP_NV(scratch_94);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(scratch_94);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_800BC4D4_1 *)scratch)->unk_24 = texture_height;
     texture_x = ((S_800BC4D4_3 *)arg0)->unk_02;
     scratch_94 = (u8 *)((u32)scratch_94 | 0x94);
     ((S_800BC4D4_1 *)scratch)->unk_00 = texture_x;
     texture_y = ((S_800BC4D4_3 *)arg0)->unk_06;
-    ASM_CLOBBER("$23");   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_CLOBBER("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     global = (u8 **)(global_page + 0x3160);
     ((S_800BC4D4_1 *)scratch)->unk_02 = texture_y;
     ((S_800BC4D4_1 *)scratch)->unk_04 = arg2;
@@ -266,9 +266,9 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
         ((S_800BC4D4_1 *)scratch)->unk_34.s = (s32)(value + ((u32)value >> 31)) >> 1;
         func_80065820((void *)0x1F800100, (void *)0x1F8000D0);
         texture_data = texture + 4;
-        ASM_KEEP_NV(texture_data);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(texture_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         packet_field = packet + 7;
-        ASM_KEEP_NV(packet_field);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(packet_field);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_80064840(matrix, (void *)0x1F8000D0, (void *)0x1F800050);
         func_80064BC0((void *)0x1F800050, (void *)0x1F800030);
 
@@ -280,18 +280,18 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
         func_80064CF0((void *)0x1F800050);
 
         if (!(texture[0] & 0x20)) {
-            register s32 packet_zero ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
-            register s32 packet_zero2 ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-            register u8 *packet_arg ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+            register s32 packet_zero ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            register s32 packet_zero2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u8 *packet_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             u32 texture4;
             u32 texture6;
             u32 texture7;
 
             packet_zero = 0;
-            ASM_KEEP_NV(packet_zero);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(packet_zero);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             texture4 = texture_data[4];
             packet_arg = packet;
-            ASM_KEEP_NV(packet_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_NV(packet_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_800BC4D4_1 *)scratch)->unk_08.u32 = texture4;
             ((S_800BC4D4_1 *)scratch)->unk_0C.u = texture_data[5];
             texture6 = texture_data[6];
@@ -312,11 +312,11 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
                 s16 tail_value;
 
                 tail_value = -(s8)texture_data[-2];
-                ASM_KEEP_NV(tail_value);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 ((S_800BC4D4_1 *)scratch)->unk_80 = tail_value;
                 ((S_800BC4D4_1 *)scratch)->unk_70.s = tail_value;
                 tail_value -= ((S_800BC4D4_1 *)scratch)->unk_10.u16;
-                ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 func_800BC758();
                 return;
             }
@@ -332,11 +332,11 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
                 s16 tail_value;
 
                 tail_value = -(s8)texture_data[-1];
-                ASM_KEEP_NV(tail_value);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 ((S_800BC4D4_1 *)scratch)->unk_7A = tail_value;
                 ((S_800BC4D4_1 *)scratch)->unk_72 = tail_value;
                 tail_value -= ((S_800BC4D4_1 *)scratch)->unk_14.u16;
-                ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail delay-slot fill depends on it */
+                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 func_800BC7BC();
                 return;
             }
@@ -348,16 +348,16 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
             ((S_800BC4D4_1 *)scratch)->unk_8A = coord_y;
             ((S_800BC4D4_1 *)scratch)->unk_82 = coord_y;
 
-            ASM_KEEP_NV(scratch);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             {
                 s16 *call_a0 = (s16 *)(scratch + 0x70);
                 s16 *call_a1 = (s16 *)(scratch + 0x78);
-                register s16 *call_a2 ASM_REG("$6") = (s16 *)(scratch + 0x80);   /* MATCH pin: load-bearing for the whole function shape */
-                register s16 *call_a3 ASM_REG("$7") = (s16 *)(scratch + 0x88);   /* MATCH pin: load-bearing for the whole function shape */
+                register s16 *call_a2 ASM_REG("$6") = (s16 *)(scratch + 0x80);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s16 *call_a3 ASM_REG("$7") = (s16 *)(scratch + 0x88);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 u16 call_x;
                 u16 call_y;
 
-                ASM_KEEP4_NV(call_a0, call_a1, call_a2, call_a3);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP4_NV(call_a0, call_a1, call_a2, call_a3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 func_800654B0(call_a0, call_a1, call_a2, call_a3,
                               (s16 *)(scratch + 0xF0), (s16 *)(scratch + 0xF4),
                               (s16 *)(scratch + 0xF8), (s16 *)(scratch + 0xFC),
@@ -391,7 +391,7 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
 
             color_sum = ((S_800BC4D4_1 *)scratch)->unk_10.s32;
             color0 = ((S_800BC4D4_1 *)scratch)->unk_08.s32;
-            ASM_KEEP_DEP_NV(color0, color_sum);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP_DEP_NV(color0, color_sum);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             color_mix = ((S_800BC4D4_1 *)scratch)->unk_0C.s;
             color1 = ((S_800BC4D4_1 *)scratch)->unk_14.s32;
             color_sum += color0;
@@ -408,7 +408,7 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
             if (((S_800BC4D4_6 *)texture_data)->unk_00 & 0x80) {
                 u32 tail_page = 0x7F800000;
 
-                ASM_PAGEBASE_PIN(tail_page);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_PAGEBASE_PIN(tail_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_800BC914(color0, color1);
                 return;
             }
@@ -428,11 +428,11 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
                 first_y = (*(s16 *)((u8 *)packet_field + 1));
                 first_x += first_add;
                 (*(s16 *)((u8 *)packet_field + 0x15)) = first_x;
-                ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 {
                     s32 second_x;
                     s32 second_add;
-                    register s32 last_x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                    register s32 last_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                     second_x = ((S_800BC4D4_1 *)scratch)->unk_14.u16;
                     second_add = ((S_800BC4D4_1 *)scratch)->unk_10.u16;
@@ -454,7 +454,7 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
             (*(s32 *)((u8 *)packet_field + -3)) = ((S_800BC4D4_2 *)arg1)->unk_0C;
             ((S_800BC4D4_5 *)packet_field)->unk_00 = 0x2E;
             packet_field += 0x28;
-            ASM_KEEP_NV(packet_field);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(packet_field);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             packet_field += 0xC;
             func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
                               ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
@@ -469,10 +469,10 @@ void func_800BC4D4(void *arg0, void *arg1, u16 arg2, s32 arg3)
 
         texture_data += 0xC;
         if ((s8)texture[0] >= 0) {
-            ASM_KEEP(packet_field);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_KEEP(texture_data);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(packet_field);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(texture_data);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             texture += 0xC;
-            ASM_TAILSLOT_PIN(texture);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(texture);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800BC69C();
             return;
         }

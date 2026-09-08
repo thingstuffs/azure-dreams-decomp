@@ -35,7 +35,7 @@ the venv, `baserom/`, and the build roots (`build_slus/`, `build_ovl/`).
 | L2 | no raw offset access (`M2C_FIELD` / `FIELD`): typed structs with explicit `unk_XX` members and padding |
 | L3 | locals named, one-line summary; a `refine/` body exists |
 | L4 | in a module with a shared header |
-| L5 | pin-free, or every remaining pin documented (`/* MATCH pin: ... */` states the measured reason) |
+| L5 | strict: no `ASM_*` pin or marker, no noreturn tail-call spelling, no fidelity site of any audit class, no computed-goto table, no inline asm. A pin that survives is annotated `/* UNRESOLVED C shape (pin): removing it <measured effect>; … */` — a debt record, never a justification |
 
 ## Provisioning
 

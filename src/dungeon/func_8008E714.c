@@ -70,8 +70,8 @@ void func_80093E74(s32 arg0, void *arg1, void *arg2, Rec_D_800E3D7C *arg3) {
     u8 var_a0_4;
     u8 var_a1_4;
     s32 temp_s0;
-    register s32 temp_v0_3 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 temp_s3 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void **temp_base2;
     void **temp_s2;
     S_80093E74_3 *temp_a0_2;
@@ -86,8 +86,8 @@ void func_80093E74(s32 arg0, void *arg1, void *arg2, Rec_D_800E3D7C *arg3) {
 
     {
         s32 temp_v1_byte;
-        register s32 temp_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-        register S_80093E74_1 *temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register S_80093E74_1 *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         void **temp_base;
         u8 temp_s3_byte;
 
@@ -95,11 +95,11 @@ void func_80093E74(s32 arg0, void *arg1, void *arg2, Rec_D_800E3D7C *arg3) {
         temp_v0 = temp_a0->unk_03;
         temp_v1_byte = temp_v0 & 0xDF;
         temp_v0 &= 0x1F;
-        ASM_KEEP(temp_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         temp_s3_byte = (u8)temp_v0;
         temp_s3 = temp_s3_byte;
         temp_s0 = temp_s3;
-        ASM_KEEP(temp_s0);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         temp_base = D_800E3DF0;
         temp_a0->unk_03 = (u8) temp_v1_byte;
         temp_s2 = temp_base + temp_s0;
@@ -112,7 +112,7 @@ void func_80093E74(s32 arg0, void *arg1, void *arg2, Rec_D_800E3D7C *arg3) {
     *temp_s2 = temp_v0_2;
     *(Copy140 *) temp_v0_2 = *(Copy140 *) temp_s1;
     temp_base2 = D_800E3DF0;
-    ASM_KEEP(temp_base2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(temp_base2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v0_3 = temp_s3 << 2;
     temp_v0_3 += (s32)temp_base2;
     temp_a0_2 = *(void **)temp_v0_3;

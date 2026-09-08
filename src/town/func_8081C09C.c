@@ -7,7 +7,7 @@ void func_8002609C(u8 *arg0, u8 *arg1, u8 *arg2)
 {
     s32 amount;
     s32 delta;
-    register s32 new_amount ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 new_amount ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 position;
     u8 shade;
 
@@ -15,7 +15,7 @@ void func_8002609C(u8 *arg0, u8 *arg1, u8 *arg2)
     if (amount != 0) {
         delta = 0x18000;
         new_amount = amount;
-        ASM_KEEP(new_amount);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(new_amount);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         position = *(s32 *)(arg1 + 8);
         new_amount += delta;
         *(s32 *)(arg1 + 0x14) = new_amount;

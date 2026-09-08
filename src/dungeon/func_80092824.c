@@ -26,21 +26,21 @@ extern u8 *D_800E3D7C;
 void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
 {
     void *held_arg0 = arg0;
-    register void *held_arg1 ASM_REG("$20") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    void *held_arg2 = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *held_arg1 ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *held_arg2 = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 held_arg3 = arg3;
-    register s32 first ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 second ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 first ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 second ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 index;
     void *object;
     s32 found;
-    register s32 narrowed ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 narrowed ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 flags;
     u8 *entry;
     u8 *entry_base;
     void *global_object;
 
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (held_arg0 != (void *)&D_80081484 &&
         held_arg0 != (void *)D_80081470 &&
         held_arg0 != *(void **)((u8 *)D_800814A8 + 0xF0)) {
@@ -94,33 +94,33 @@ valid_index:
                               D_800E3548, 4, 0x40);
     narrowed <<= 16;
     found = narrowed >> 16;
-    ASM_KEEP4(first, second, found, narrowed);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP4(first, second, found, narrowed);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     entry_base = (u8 *)0x800E0000;
     if (found >= 0) {
-        ASM_KEEP_NV(entry_base);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         entry_base += 0x36C8;
-        ASM_KEEP(entry_base);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         entry = (u8 *)(found * 12);
         entry += (s32)entry_base;
         func_8009A3D0(entry[0], entry[1], 0x800);
     }
 
     ((void **)0x80010248)[index] = *(void **)D_80081470;
-    ASM_KEEP(index);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     narrowed = (s32)D_800814A8;
     narrowed = *(s32 *)(narrowed + 0xF0);
     *(s32 *)narrowed = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     entry_base = (u8 *)0x80010248;
-    ASM_KEEP(entry_base);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     narrowed = first << 16;
     narrowed >>= 14;
     narrowed += (s32)entry_base;
-    ASM_KEEP(narrowed);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(narrowed);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *(s32 *)held_arg0 = 0;
     held_arg0 = (void *)narrowed;
     entry_base = (u8 *)0x80010000;
-    ASM_KEEP(entry_base);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     narrowed = second << 16;
     narrowed >>= 14;
     narrowed += (s32)entry_base;

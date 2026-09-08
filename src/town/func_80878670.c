@@ -5,7 +5,7 @@ extern s32 *D_807030A4[];
 void func_80702670(s32 arg0) {
     s32 value = arg0;
     s32 temp_v1;
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 base;
 
     if (value != 0) {

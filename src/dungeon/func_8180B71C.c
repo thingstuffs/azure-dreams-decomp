@@ -11,11 +11,11 @@ extern void func_800BC4D4();
 
 void func_80026F1C(s32 arg0, s32 arg1, s16 arg2)
 {
-    register s16 *scratch ASM_REG("$8") = (s16 *)0x1F800000;   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 *scratch ASM_REG("$8") = (s16 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 x;
     u32 state;
 
-    ASM_KEEP_NV(scratch);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch[0x104 / 2] = 0;
     state = (u32)&D_80083160;
     x = *(u16 *)(state + 0xC4);

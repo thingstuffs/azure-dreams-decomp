@@ -62,7 +62,7 @@ void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, Rec_D_8
         }
         return;
     }
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (temp_v1 == 2) {
         return;
     }
@@ -87,7 +87,7 @@ state_1:
     if ((temp_v0 << 0x10) > 0) {
         return;
     }
-    ASM_KEEP(temp_v1);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if ((u16) *D_80013714 & 4) {
         if (((S_8008E0C4_2 *)D_800E3CD0)->unk_00 == 0) {
             ((S_8008E0C4_2 *)D_800E3CD0)->unk_00 = temp_v1;

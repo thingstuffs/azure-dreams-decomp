@@ -50,12 +50,12 @@ void func_80023A00(void *arg0, void *arg1, void *arg2)
 {
     u8 *caller_obj = arg0;
     u8 *dst = arg1;
-    register u8 *entity ASM_REG("$18") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *entity ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *state_base = (u8 *)&D_800834B8;
     s32 state;
     s32 case1_magnitude;
     s32 magnitude;
-    register s32 limit ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *table;
     static void *const switch_keep[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4
@@ -100,7 +100,7 @@ case_1:
 case_2:
     magnitude = ((S_80023A00_1 *)state_base)->unk_48;
     limit = 0xFFFF;
-    ASM_KEEP(limit);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(limit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (magnitude < 0) {
         magnitude = -magnitude;
     }
@@ -117,7 +117,7 @@ case_2:
 case_3:
     magnitude = ((S_80023A00_1 *)state_base)->unk_48;
     limit = 0xFFFF;
-    ASM_KEEP(limit);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(limit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (magnitude < 0) {
         magnitude = -magnitude;
     }

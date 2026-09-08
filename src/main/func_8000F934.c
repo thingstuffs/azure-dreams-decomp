@@ -29,7 +29,7 @@ void func_80022934(void *arg0)
 
     i = 0;
     table_page = (unsigned long)D_80030000;
-    ASM_USE_NV(table_page);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_USE_NV(table_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     table_base = table_page - 0x7F4C;
     record_offset = 0x114;
     if (arg0 != 0) {

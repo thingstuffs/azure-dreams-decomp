@@ -95,25 +95,25 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
     void *motion = arg1;
     void *monster = arg2;
     void *actor = entity;
-    register s16 state_direction ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 raw_state ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register void *call_entity ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *call_motion ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *call_monster ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 normalized_state ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 state_direction ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 raw_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *call_entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *call_motion ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *call_monster ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 normalized_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 current_state;
-    register s32 direction_calc ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 next_current ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 direction_calc ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 next_current ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Callback callback;
     Callback active_callback;
     s16 floor;
     s32 target;
-    register s32 current_raw ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 current_raw ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 current;
     s32 distance;
     u16 global_flags;
     u16 *flag_word;
-    register s32 delta ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 position;
     s32 division_magic;
     s32 quotient;
@@ -129,7 +129,7 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
         ((S_8017112C_0 *)actor)->unk_9B = 0;
     }
 
-    ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     flag_word = &D_80013714;
     global_flags = *flag_word;
     if (global_flags & 8) {
@@ -206,11 +206,11 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
 
     if ((*(s16 *)((u8 *)entity + (0xB8))) == 1) {
         target = ((S_8017112C_4 *)motion)->unk_14.at02.v;
-        ASM_KEEP_NV(target);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP_NV(target);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         current = ((S_8017112C_4 *)motion)->unk_08.at02.v;
-        ASM_KEEP_NV(current);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(current);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         current_raw = ((S_8017112C_4 *)motion)->unk_08.at02u.v;
-        ASM_KEEP_NV(current_raw);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(current_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (target > current) {
             distance = target - current;
             if (distance < 0) {
@@ -223,17 +223,17 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
                 func_8017143C();
                 return;
             }
-            ASM_KEEP_NV(division_magic);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP_NV(division_magic);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             delta = ((S_8017112C_4 *)motion)->unk_14.at00.v;
             position = ((S_8017112C_4 *)motion)->unk_08.at00.v;
-            ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             division_magic |= 0x6667;
-            ASM_KEEP_NV(division_magic);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP_NV(division_magic);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             delta -= position;
             if (delta < 0) {
                 delta = -delta;
             }
-            ASM_KEEP_NV(delta);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(delta);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             product.value = (long long)delta * division_magic;
             quotient = (product.word.high >> 2) - (delta >> 31);
             position += quotient;
@@ -257,7 +257,7 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
     }
 
     ((S_8017112C_5 *)monster)->unk_14 |= 0x40;
-    ASM_KEEP(entity);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(actor);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

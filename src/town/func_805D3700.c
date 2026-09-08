@@ -21,7 +21,7 @@ s32 func_805D3700(void) {
         u32 exit_value;
 
         exit_value = (u32)D_80019A6C;
-        ASM_TAILSLOT_PIN(exit_value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(exit_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80017758();
     }
 

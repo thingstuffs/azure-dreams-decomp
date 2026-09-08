@@ -107,26 +107,26 @@ void *func_8015889C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         void *copy;
         s32 outer_index;
     } stack;
-    register s32 saved_kind ASM_REG("$16");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 saved_arg3 ASM_REG("$17");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 saved_arg2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *object ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *outer ASM_REG("$20");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *stable_object ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 saved_kind ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 saved_arg3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 saved_arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *object ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *outer ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *stable_object ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 kind_copy;
-    register void *part ASM_REG("$23");   /* MATCH pin: retail register colouring depends on it */
+    register void *part ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *allocated;
-    register uptr temp_t0 ASM_REG("$8");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 allocation_size ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    void *allocation_pool;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register uptr temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 allocation_size ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *allocation_pool;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     saved_kind = arg0;
     object = 0;
     allocation_size = 0x112;
-    ASM_KEEP_NV(allocation_size);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(allocation_size);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     outer = (void *)(s32)arg1;
     allocation_pool = D_80083498;
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_arg3 = arg3;
     saved_arg2 = arg2;
     allocated = func_8003FD64(allocation_size, allocation_pool);
@@ -165,7 +165,7 @@ void *func_8015889C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     ((S_8015889C_3 *)part)->unk_25 = saved_arg2;
 
     {
-        register s32 flags0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 flags0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 flags1;
 
         if ((saved_kind & 3) == 1) {
@@ -222,11 +222,11 @@ flags_done:
         allocated = child;
         ((S_8015889C_5 *)outer)->unk_A4 = allocated;
         if (allocated != 0) {
-            register void *entry ASM_REG("$16");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register void *entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             s32 entry_offset;
             s32 inner_index;
             register void *outer_base;
-            register u8 *table ASM_REG("$22");   /* MATCH pin: load-bearing for the whole function shape */
+            register u8 *table ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 inner_more;
 
             entry = (u8 *)allocated + 0x20;
@@ -234,23 +234,23 @@ flags_done:
             ((S_8015889C_6 *)entry)->unk_02 = (s16)temp_t0;
             inner_index = 0;
             outer_base = outer;
-            ASM_KEEP(outer_base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(outer_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             {
-                register u8 *table_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 table_page = (u8 *)0x80160000;
-                ASM_KEEP(table_page);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 table = table_page - 0x3B1C;
             }
             entry_offset = 8;
             do {
                 void *item;
                 s32 table_index;
-                register s32 color ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+                register s32 color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 s32 part_value;
                 s32 call_zero;
                 void *outer_child;
-                register void *new_link ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register void *new_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 color = 0x00808080;
                 item = (u8 *)entry + entry_offset;
@@ -260,9 +260,9 @@ flags_done:
                 ((S_8015889C_7 *)item)->unk_0C = color;
                 ((S_8015889C_7 *)item)->unk_28 = part_value;
                 outer_child = ((S_8015889C_8 *)outer_base)->unk_A4;
-                ASM_KEEP(outer_child);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(outer_child);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 call_zero = 0;
-                ASM_KEEP(call_zero);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(call_zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 temp_t0 = (uptr)D_800D78C0;
                 ((S_8015889C_9 *)outer_child)->unk_10 = (void *)temp_t0;
                 (*(void * *)((u8 *)item + 0x2C)) = table;
@@ -273,14 +273,14 @@ flags_done:
                     *(u8 *)((uptr)table_index + (uptr)table), call_zero);
                 inner_index++;
                 {
-                    register void *call_part ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-                    register void *call_data ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-                    register s32 call_one ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+                    register void *call_part ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    register void *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    register s32 call_one ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                     call_part = part;
                     call_data = D_800D71A8;
                     call_one = 1;
-                    ASM_KEEP(call_one);   /* MATCH pin: keeps a constant in a register as retail does */
+                    ASM_KEEP(call_one);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     temp_t0 = (uptr)call_one;
                     ((S_8015889C_6 *)entry)->unk_06 = (s16)temp_t0;
                     func_800478E8(call_part, call_data, call_one);
@@ -294,7 +294,7 @@ flags_done:
         outer = (u8 *)outer + 4;
         {
             s32 outer_limit;
-            register s32 outer_more ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 outer_more ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             temp_t0 = (uptr)stack.outer_index;
             outer_limit = ((S_8015889C_4 *)stable_object)->unk_9E;

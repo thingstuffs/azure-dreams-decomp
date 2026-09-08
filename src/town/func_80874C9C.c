@@ -7,7 +7,7 @@ extern u8 D_80700BB4[];
 
 s32 func_80874C9C(s32 arg0) {
     volatile s32 frame_pad;
-    register s16 *base ASM_REG("$16");   /* MATCH pin: retail immediate-load split depends on it */
+    register s16 *base ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 offset;
     s32 result;
 

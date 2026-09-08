@@ -46,17 +46,17 @@ void func_80025408(void *arg0, void *arg1, void *arg2) {
     s32 row;
     s32 row_value;
     s32 column;
-    register u16 sentinel ASM_REG("$23");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u16 sentinel ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s16 value;
     s32 index;
-    register s32 one ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 width ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 one ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 *cursor;
-    register Point *center_ptr ASM_REG("$20");   /* MATCH pin: keeps a constant in a register as retail does */
+    register Point *center_ptr ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *effect;
     u8 *buffer;
     u8 *copy_page;
-    register Box *source ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register Box *source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     effect = arg2;
     source = (Box *)(void *)&D_80024004;
@@ -65,12 +65,12 @@ void func_80025408(void *arg0, void *arg1, void *arg2) {
     source = (Box *)(void *)&D_8002400C;
 #else
     copy_page = (u8 *)0x80020000;
-    ASM_KEEP_NV(copy_page);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(copy_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     source = (Box *)(copy_page + 0x400C);
-    ASM_KEEP_NV(source);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #endif
     rect1 = *source;
-    ASM_USE2_NV(source, copy_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE2_NV(source, copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     state = *(s16 *)arg0;
     D_800267B8 = 1;
     if (state != 0) {
@@ -82,7 +82,7 @@ void func_80025408(void *arg0, void *arg1, void *arg2) {
 
     outer = 0;
     buffer = (u8 *)0x80020000;
-    ASM_KEEP_NV(buffer);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP_NV(buffer);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     sentinel = -1;
     row = 0x340;
 loop_5:
@@ -119,17 +119,17 @@ loop_9:
                 *(u16 *)((u8 *)effect + 0x14) &= 0xff7f;
 block_16: {
                 Box *call_rect;
-                register Point *call_center ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+                register Point *call_center ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 call_rect = &rect1;
                 center_ptr = &center;
                 call_center = center_ptr;
                 row = 0x340;
                 buffer = (u8 *)0x100;
-                ASM_KEEP_NV(call_rect);   /* MATCH pin: keeps a statement from moving across a call/branch */
-                ASM_KEEP_NV(call_center);   /* MATCH pin: retail schedule: same instructions, different order without it */
-                ASM_KEEP_NV(row);   /* MATCH pin: keeps a constant in a register as retail does */
-                ASM_KEEP_NV(buffer);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP_NV(call_rect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(call_center);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(row);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(buffer);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 width = 0x60;
                 rect1.w = width;
                 rect1.x = row;
@@ -142,12 +142,12 @@ block_16: {
 }
 {
                 Box *call_rect;
-                register Point *call_center ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+                register Point *call_center ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 call_rect = &rect0;
                 call_center = center_ptr;
-                ASM_KEEP_NV(call_rect);   /* MATCH pin: keeps a statement from moving across a call/branch */
-                ASM_KEEP_NV(call_center);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP_NV(call_rect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(call_center);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 width = 0x60;
                 rect0.w = width;
                 rect0.x = row;

@@ -177,7 +177,7 @@ void BODY_NAME(void *arg0_param, void *arg1_param, S_818E0800_10 *arg2)
 {
     void *arg0 = arg0_param;
     void *arg1 = arg1_param;
-    register void *object ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *object ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *base;
     void *alternate;
     void *raw_alternate;
@@ -208,14 +208,14 @@ void BODY_NAME(void *arg0_param, void *arg1_param, S_818E0800_10 *arg2)
             ((S_818E0800_2 *)arg1)->unk_04.at00.v =
                 ((S_818E0800_12 *)(((S_818E0800_3 *)base)->unk_08))->unk_04.at00.v;
             raw_alternate = ((S_818E0800_3 *)base)->unk_08;
-            ASM_KEEP(raw_alternate);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+            ASM_KEEP(raw_alternate);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             return func_800240EC();
         }
         alternate = (u8 *)raw_alternate - 0x20;
         ((S_818E0800_2 *)arg1)->unk_00.at00.v = ((S_818E0800_13 *)(((S_818E0800_4 *)alternate)->unk_08))->unk_00;
         ((S_818E0800_2 *)arg1)->unk_04.at00.v = ((S_818E0800_13 *)(((S_818E0800_4 *)alternate)->unk_08))->unk_04;
         ((S_818E0800_2 *)arg1)->unk_08.at00.v = ((S_818E0800_13 *)(((S_818E0800_4 *)alternate)->unk_08))->unk_08;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         count = 5;
         page = D_800DEC28;
@@ -317,7 +317,7 @@ dispatch_case_0:
             ((S_818E0800_2 *)arg1)->unk_0C.at02.v = scaled;
         }
         ((S_818E0800_2 *)arg1)->unk_0C.at00.v /= ((S_818E0800_0 *)arg0)->unk_50.u;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         {
             s32 scaled = ((S_818E0800_1 *)object)->unk_73.u;
             s32 coord = ((S_818E0800_2 *)arg1)->unk_04.at02.v;
@@ -336,7 +336,7 @@ dispatch_case_0:
             s32 next_state;
             next_state = ((S_818E0800_0 *)arg0)->unk_0A.u;
             next_state += 1;
-            ASM_TAILSLOT_PIN(next_state);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             return func_80024430();
         }
 
@@ -359,7 +359,7 @@ dispatch_case_1: {
     }
 
 dispatch_case_2: {
-        register s32 action ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
+        register s32 action ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         void *case_alternate;
         if (((S_818E0800_0 *)arg0)->unk_50.u > 0) {
             return;
@@ -391,7 +391,7 @@ dispatch_case_f0:
         if (((S_818E0800_0 *)arg0)->unk_50.u > 0) {
             return;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ((S_818E0800_0 *)arg0)->unk_0A.u = 0xFF;
         return func_80024560();
 

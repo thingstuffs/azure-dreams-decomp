@@ -96,15 +96,15 @@ void func_80020900(TownEntity *arg0)
     s32 factor;
     s32 first_factor;
     s16 *prices;
-    register s32 quantity ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 quantity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state;
     u8 *input;
     u8 *page;
     u8 *loop_page;
-    register TownRecord30 *recp ASM_REG("$20");   /* MATCH pin: retail register colouring depends on it */
+    register TownRecord30 *recp ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *walk;
-    register void *call_page ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register TownRecord30 *call_rec ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *call_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register TownRecord30 *call_rec ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 rec_color;
 
     input = D_80083160;
@@ -161,7 +161,7 @@ state_0:
 #else
     page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     call_page = page + 0x4AC;
     call_rec = &rec30;
     rec30.x = 0xCC;
@@ -217,9 +217,9 @@ state_1:
 
         func_80053DA8(0x503);
         entity->quantity = 1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         *money -= 100;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         D_80113158 = halves.value[entity->selection];
         func_80033B9C(0x592);
         D_80024300[0] = func_800B1BEC(0, -0x48, -0x28);
@@ -253,9 +253,9 @@ state_3:
         func_80033B9C(0x592);
         func_80033B9C(0x594);
         entity->quantity = (u16)entity->quantity + 1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         D_80012D5C -= 100;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         entity->timer = 0x10;
         entity->state = (u16)entity->state - 1;
         goto exit;
@@ -268,15 +268,15 @@ state_3:
         func_80033B9C(0x592);
         func_80033B9C(0x595);
         entity->quantity = (u16)entity->quantity - 1;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         *money += 100;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         entity->timer = 0x10;
         entity->state = (u16)entity->state - 1;
         goto exit;
     }
     if (*(s32 *)(input + 0x10) & 0x40) {
-        register Pair04 *pair ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register Pair04 *pair ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         func_80053DA8(0x503);
         pair = pairs.pair;
@@ -286,7 +286,7 @@ state_3:
         quantity = entity->quantity;
         partial = quantity * first_factor;
         factor = prices[(s16)*(u16 *)((u8 *)pair + 2)];
-        ASM_MEM_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         D_80113158 = halves.value[entity->selection];
         product = partial * factor;
         D_8011315C = product * 100;
@@ -316,7 +316,7 @@ state_101:
         s32 *global_flags = &D_800814A0;
 
         ((u16 *)entity)[-1] |= 0x8000;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         *global_flags |= 0x8000;
     }
     goto exit;

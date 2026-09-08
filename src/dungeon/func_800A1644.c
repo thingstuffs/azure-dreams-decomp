@@ -11,7 +11,7 @@ extern s32 func_800A6D30(void);
 #endif
 
 s32 func_800A6DA4(u32 arg0, u32 arg1) {
-    register u32 range ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 range ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 result;
     u32 temp_v0;
     u32 var_s0;

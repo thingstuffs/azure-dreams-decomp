@@ -8,11 +8,11 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 void func_8002429C(void *arg0, void *arg1, s16 arg2, s16 arg3)
 {
   u8 *arg0p;
-  register s32 divshift ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  register s32 divshift ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   register s32 arg2r;
   u32 lomask;
-  register s32 phase ASM_REG("$23");   /* MATCH pin: retail immediate-load split depends on it */
-  register u8 *sc ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+  register s32 phase ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+  register u8 *sc ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
   u8 *new_var;
   u8 *packet;
   void *p84;
@@ -32,7 +32,7 @@ void func_8002429C(void *arg0, void *arg1, s16 arg2, s16 arg3)
   {
     void **glob = (void **) new_var;
     void *ctx = *glob;
-    register s32 value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 q0;
     s32 q1;
     s32 delta;
@@ -57,7 +57,7 @@ void func_8002429C(void *arg0, void *arg1, s16 arg2, s16 arg3)
     value = ((func_800644B8(phase + (*((s16 *) (((u8 *) arg0p) + 0xA)))) >> 4) * (*((s16 *) (((u8 *) arg0p) + 0xE)))) << 8;
     q0 = value / divshift;
     *((s32 *) (((u8 *) sc) + 0x108)) = value;
-    ASM_KEEP_NV(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     q1 = value / divshift;
     *((u16 *) (((u8 *) sc) + 0x64)) += (q0 * shift0) >> 16;
     *((u16 *) (((u8 *) sc) + 0x6C)) += (q1 * arg2r) >> 16;
@@ -68,7 +68,7 @@ void func_8002429C(void *arg0, void *arg1, s16 arg2, s16 arg3)
     value = ((func_80064584(phase + (*((s16 *) (((u8 *) arg0p) + 0xA)))) >> 4) * (*((s16 *) (((u8 *) arg0p) + 0xE)))) << 8;
     q0 = value / divshift;
     *((s32 *) (((u8 *) sc) + 0x10C)) = value;
-    ASM_KEEP_NV(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     q1 = value / divshift;
     *((u16 *) (((u8 *) sc) + 0x66)) += (q0 * shift0) >> 16;
     p84 = sc + 0x84;
@@ -108,5 +108,5 @@ void func_8002429C(void *arg0, void *arg1, s16 arg2, s16 arg3)
     i++;
   }
   while (i < 5);
-  ASM_KEEP(sc);   /* MATCH pin: load-bearing for the whole function shape */
+  ASM_KEEP(sc);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

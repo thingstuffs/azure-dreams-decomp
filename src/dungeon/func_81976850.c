@@ -105,7 +105,7 @@ void func_81976850(void *arg0, void *arg1, void *arg2)
     void *global;
     void *object;
     u8 *collision;
-    register void *incoming_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *incoming_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u16 tail_z;
     s32 random;
     s32 index;
@@ -151,14 +151,14 @@ state_one:
         if (!(((S_81976850_1 *)source)->unk_14 & 0x8000)) {
             ((S_81976850_2 *)arg1)->unk_00.at02.v += delta.x;
             ((S_81976850_2 *)arg1)->unk_04.at02.v += delta.y;
-            ASM_KEEP(arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             tail_z = ((S_81976850_2 *)arg1)->unk_08.at02.v;
             tail_z += delta.z;
-            ASM_TAILSLOT_PIN(tail_z);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(tail_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80024188();
             return;
         }
-        ASM_KEEP(arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_81976850_2 *)arg1)->unk_08.at02.v = value - 0x20;
     }
 
@@ -171,7 +171,7 @@ state_one:
     goto epilogue_work;
 
 state_two:
-    ASM_KEEP(collision);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(collision);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     collision += 0x2E80;
     color = ((S_81976850_4 *)arg2)->unk_0E + 8;
     ((S_81976850_4 *)arg2)->unk_0E = color;

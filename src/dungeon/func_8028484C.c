@@ -30,7 +30,7 @@ void func_8001784C(void) {
     s32 state;
     u8 x;
     u8 y;
-    register u8 *config ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *config ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     MapCell *map;
     s32 count;
     s32 i;
@@ -73,17 +73,17 @@ retry:
         }
 
         {
-            register u8 *page1 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register u8 *page1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 *page2;
             u8 *meta;
-            register u8 *position ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            register u8 *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
             i = 0;
             page1 = (u8 *)0x800e0000;
-            ASM_KEEP(page1);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(page1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             position = page1 + 0x39c8;
             page2 = (u8 *)0x800e0000;
-            ASM_KEEP(page2);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(page2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             meta = page2 + 0x3648;
 
             do {
@@ -104,8 +104,8 @@ retry:
             s32 store_y;
             s32 calc_x;
             s32 calc_y;
-            register s32 shift ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-            register s32 shift2 ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            register s32 shift ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            register s32 shift2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             s32 shift3;
             s32 one;
             s32 index;
@@ -117,7 +117,7 @@ retry:
             entry->kind = 2;
             entry->x = store_x;
             entry->y = store_y;
-            ASM_MEM_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
             calc_y = y;
             shift = *(s16 *)(config + 0x14);
@@ -130,9 +130,9 @@ retry:
             entry->value = map[index].value;
 
             shift3 = *(s16 *)(config + 0x14);
-            ASM_KEEP(shift3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(shift3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             one = 1;
-            ASM_KEEP(one);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             calc_y <<= shift3;
             calc_x += calc_y;
             final_cell = (MapCell *)(calc_x * 6 + (s32)map);

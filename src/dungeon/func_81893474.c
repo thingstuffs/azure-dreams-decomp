@@ -88,8 +88,8 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
     void *source;
     Scratch scratch;
     register u8 *origin;
-    register s32 work_z ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 in_range ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 work_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 in_range ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state_id;
     s32 source_z;
     s32 adjusted_z;
@@ -105,14 +105,14 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
     switch (state_id) {
     case 0:
         origin = D_80082E80_early;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         {
             register u32 work_v0 ASM_REG("$2") =
                 (u32)PTR_AT((u8 *)owner - 0x20, 0xC);
-            register s32 start_x ASM_REG("$4") = U8_AT(work_v0, 0x24);   /* MATCH pin: keeps a constant in a register as retail does */
-            register s32 start_y ASM_REG("$5") = U8_AT(work_v0, 0x25);   /* MATCH pin: keeps a constant in a register as retail does */
+            register s32 start_x ASM_REG("$4") = U8_AT(work_v0, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register s32 start_y ASM_REG("$5") = U8_AT(work_v0, 0x25);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             u32 origin_x;
-            register u32 base_x ASM_REG("$7");   /* MATCH pin: keeps a constant in a register as retail does */
+            register u32 base_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             u32 chain_x;
             u32 chain_y;
 
@@ -153,7 +153,7 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
         if (!(U16_AT(PTR_AT(meta, 0xC), 0x14) & 0x8000)) {
             U16_AT(motion, 2) += probe[0];
             U16_AT(motion, 6) += probe[1];
-            ASM_MEM_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             adjusted_z = U16_AT(motion, 0xA);
             source_z = U16_AT(probe, 4);
             adjusted_z += source_z;
@@ -169,8 +169,8 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
         if ((U16_AT(meta, 0x1E) | 0x2000) != 0) {
             u8 *position_base = D_80082E80;
             void *direction_node = D_800814A8[0];
-            register u32 direction_x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-            register u32 direction_y ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register u32 direction_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u32 direction_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             direction_x = U16_AT(direction_node, 0x2A);
             state->x = position_base[0x24] +
@@ -225,7 +225,7 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
             }
             probe[1] = delta_y;
             {
-                register s32 zbase ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+                register s32 zbase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                 delta_z = S16_AT(work, 0xA);
                 zbase = S16_AT(motion, 0xA);
@@ -277,7 +277,7 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
         }
         if (state->status != 0) {
             s32 next;
-            register s32 value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u32 id;
             s32 color;
 
@@ -290,7 +290,7 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
             next += color & 3;
             next += 16;
             value = next;
-            ASM_KEEP(next);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (next >= 256) {
                 value = 255;
             }

@@ -25,15 +25,15 @@ typedef struct {
 void func_80024C0C(void *arg0, s32 arg1, DungeonEffect *arg2) {
     u8 *entity = arg0;
     DungeonEffect *effect = arg2;
-    register u16 state ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
     u8 *activePage = (u8 *)0x80020000;
 #endif
     u16 value;
     s32 quotient;
 
-    ASM_KEEP(entity);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    ASM_KEEP(effect);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
 #endif
     do { state = *(u16 *)(entity + 0x5A); } while (0);

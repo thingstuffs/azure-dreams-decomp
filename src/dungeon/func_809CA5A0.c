@@ -31,20 +31,20 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *arg0, s32 arg1, void *arg2, void *arg3
     u16 flags;
     u8 top_flags;
     s32 held_arg1;
-    register void *held_arg2 ASM_REG("$19");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u32 status_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 *status ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register void *held_arg2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u32 status_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 *status ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     volatile s32 frame_pad[2];
 
     top_flags = ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8;
     held_arg1 = arg1;
     top_flags &= 0x7F;
     ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = top_flags;
-    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     status_page = 0x80080000U;
-    ASM_KEEP(status_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     status = (u16 *)(status_page + 0x3460);
-    ASM_KEEP(status);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (status[1] & 0x2000) {
         goto abort_transition;
     }
@@ -76,25 +76,25 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *arg0, s32 arg1, void *arg2, void *arg3
     }
 
 abort_transition:
-    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return -1;
 
 transition_ok:
     {
         s32 angle;
-        register u32 scratch ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register u32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *effect;
 
         arg0->unk_9A.as_u8 = 0x11;
-        ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         scratch = 0x7C;
         effect = &D_80173C7C;
         arg0->unk_9B.as_u8 = 0;
         arg0->unk_8C = 0;
         ((Rec_D_800E3D7C *)arg3)->unk_84.as_u8 = scratch;
-        ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         scratch = 0x80080000U;
-        ASM_KEEP(scratch);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((Rec_D_800E3D7C *)arg3)->unk_85.as_u8 = 0;
         ((S_80171DA0_1 *)held_arg2)->unk_2C = effect;
         scratch = (s32)*(s16 *)(scratch + 0x3228);

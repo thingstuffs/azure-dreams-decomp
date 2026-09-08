@@ -17,9 +17,9 @@ extern PatternSource D_80080B70;
 
 s32 func_8004E9EC(u8 *arg0, s32 arg1)
 {
-    register s32 n ASM_REG("$10");   /* MATCH pin: slus-diff */
+    register s32 n ASM_REG("$10");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 pos;
-    register s32 result ASM_REG("$5");   /* MATCH pin: slus-diff */
+    register s32 result ASM_REG("$5");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 len;
 
     n = arg1;

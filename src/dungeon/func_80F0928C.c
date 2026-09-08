@@ -36,11 +36,11 @@ static const u32 D_80F0928C[]
 
 void func_80170A8C(void *arg0, void *arg1, void *arg2)
 {
-    register void *state ASM_REG("$17") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *state ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *motion = arg1;
-    register void *part ASM_REG("$19") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *part ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *state2 = state;
-    register s32 floor_height ASM_REG("$5");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 floor_height ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 part_flags;
     u16 old_frame;
     u8 *samples;
@@ -54,9 +54,9 @@ void func_80170A8C(void *arg0, void *arg1, void *arg2)
 
         early_callback = CB_AT(state, 0x8C);
         if (early_callback == (EntityCallback)D_80170F74) {
-            register void *incoming_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+            register void *incoming_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            ASM_KEEP(incoming_a0);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(incoming_a0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             early_callback(incoming_a0, motion, part, incoming_a0);
         } else {
             U8_AT(state, 0x71) &= 0x7F;
@@ -65,20 +65,20 @@ void func_80170A8C(void *arg0, void *arg1, void *arg2)
     }
 
     {
-    register s32 saved_direction ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 saved_direction ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     EntityCallback callback;
     s16 old_mode;
     s16 direction;
     u8 direction_enabled;
 
     {
-        register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-        register void *call_a1 ASM_REG("$5");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        register void *call_a2 ASM_REG("$6");   /* MATCH pin: retail delay-slot fill depends on it */
+        register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register void *call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register void *call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         void *call_a3;
 
-        ASM_KEEP(call_a0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_KEEP(call_a2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(call_a2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_a0 = state;
         call_a1 = motion;
         call_a2 = part;
@@ -134,7 +134,7 @@ void func_80170A8C(void *arg0, void *arg1, void *arg2)
 
         saved_direction = direction;
         direction_enabled = D_8006CCF8[saved_direction];
-        ASM_KEEP(saved_direction);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(saved_direction);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         if (direction_enabled != 0) {
             U16_AT(part, 0x14) |= 1;
         } else {

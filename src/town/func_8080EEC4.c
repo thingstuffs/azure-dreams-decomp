@@ -86,30 +86,30 @@ typedef struct S_8080EEC4_3 {
 void func_8080EEC4(u8 **arg0, u8 *arg1, u8 *arg2)
 {
     LocalRecord local;
-    register u8 *work ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 dx;
     s32 dy;
     s32 dx_square;
     s32 dy_square;
-    register s32 distance ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 step ASM_REG("$5");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 distance ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 step_copy;
-    register s32 offset ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 base ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 case_value ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 case_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 case_x;
     s32 case_delta;
     s32 value;
     s32 limit;
-    register s32 shift ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
-    register s32 i ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 x ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 shift ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 old_angle;
     s32 copied;
-    register s32 farval ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 farconst ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 early_far ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 farval ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 farconst ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 early_far ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 case5_old;
     s32 case5_next;
 
@@ -134,7 +134,7 @@ void func_8080EEC4(u8 **arg0, u8 *arg1, u8 *arg2)
             goto close_range;
         }
         early_far = distance < 0xD1;
-        ASM_KEEP(early_far);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(early_far);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         return func_80529C1C();
     }
 
@@ -167,8 +167,8 @@ far_check:
     }
 
     {
-        register s32 dx_abs ASM_REG("$3") = dx;   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 dy_abs ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register s32 dx_abs ASM_REG("$3") = dx;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 dy_abs ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if (dx < 0) {
             dx_abs = -dx_abs;
         }
@@ -180,9 +180,9 @@ far_check:
         ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC;
         if (dx > 0) {
             farval = D_80132AE8;
-            ASM_KEEP(farval);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(farval);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             farconst = -0x00280000;
-            ASM_TAILSLOT_PIN_TIED(farconst);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(farconst);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_80529CC0();
         }
         ((S_8080EEC4_2 *)arg0)->unk_58 = D_80132AE8 + 0x00280000;
@@ -192,12 +192,12 @@ far_check:
         if (dy > 0) {
             farval = D_80132AEC;
             farval -= 0x00280000;
-            ASM_TAILSLOT_PIN_TIED(farval);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_TAILSLOT_PIN_TIED(farval);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             return func_80529D08();
         }
         farval = D_80132AEC;
         farval += 0x00280000;
-        ASM_TAILSLOT_PIN_TIED(farval);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_TAILSLOT_PIN_TIED(farval);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         return func_80529D08();
         }
     }
@@ -276,7 +276,7 @@ case_3:
             ((S_8080EEC4_3 *)work)->unk_24 = (i & 1) ? 1 : 2;
         }
         ((S_8080EEC4_3 *)work)->unk_1A.s = 0;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         shift = ((S_8080EEC4_3 *)work)->unk_22 == 2 ? 6 : 5;
         value = ((S_8080EEC4_2 *)arg0)->unk_72.s;
         value -= value >> shift;
@@ -307,7 +307,7 @@ case_4:
 case_5:
         ((S_8080EEC4_2 *)arg0)->unk_70 = 7;
         ((S_8080EEC4_2 *)arg0)->unk_72.s = 0;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         dx = 0;
         dy = 0x7A;
     case_5_loop:

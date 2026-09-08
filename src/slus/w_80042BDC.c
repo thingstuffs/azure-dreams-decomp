@@ -187,20 +187,20 @@ L_10: {
         if (flags14 & 0x4000) {
             a1v = 3;
         }
-        ASM_KEEP_NV(a1v);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(a1v);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         {
         S_80042BDC *r = func_800A1618(ent->x13, a1v);
         a2v = 0x3000;
         {
             u32 bit = 0x10000;
-            ASM_KEEP(bit);   /* MATCH pin: slus-diff */
+            ASM_KEEP(bit);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             ent->x1C |= bit;
         }
         s0 = r;
         }
         flag = (ent->x14 >> 14) & 1;
         {
-            register int a24 ASM_REG("$2") = s2->x24;   /* MATCH pin: slus-diff */
+            register int a24 ASM_REG("$2") = s2->x24;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             int a25 = s2->x25;
             if (ent->x1C & 0x2000) { a2v = 0x300; }
             func_8009A3D0(a24, a25, a2v);
@@ -239,11 +239,11 @@ L_10: {
         }
 
         {
-        register int f2 ASM_REG("$2") = flag2;   /* MATCH pin: slus-diff */
+        register int f2 ASM_REG("$2") = flag2;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         if (f2) {
             S_80042BDC *p4 = s0;
             u8 *w;
-            ASM_KEEP_NV(p4);   /* MATCH pin: slus-diff */
+            ASM_KEEP_NV(p4);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             w = D_800E3D7C[0];
             *(S_80042BDC **)(w + 0x124) = s0;
             s0->x60 = w;

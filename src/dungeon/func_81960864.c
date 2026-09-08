@@ -13,7 +13,7 @@ void func_81960864(void *arg0, s32 arg1)
     s32 temp_s0_2;
     s32 temp_s0_copy;
     s32 temp_s2;
-    register void *temp_s1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_a0;
     s32 var_a0_2;
     void **temp_s5;
@@ -28,22 +28,22 @@ void func_81960864(void *arg0, s32 arg1)
     temp_s2 = ctx != (void *)D_801C9E40;
     func_80067E2C(temp_s0, D_80083160[0], ctx);
     {
-        register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 call_a1;
 
         call_a0 = temp_s1;
         call_a1 = temp_s0;
-        ASM_KEEP(call_a1);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         func_8006658C(call_a0, call_a1);
     }
     temp_s0_copy = temp_s2;
-    ASM_KEEP(temp_s0_copy);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_s0_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (arg1 != 0) {
         s32 temp_v0;
 
         temp_v0 = temp_s2;
-        ASM_KEEP(temp_v0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_a0 = 0;
         if (temp_v0 != 0) {
             var_a0 = -0xE0;
@@ -55,7 +55,7 @@ void func_81960864(void *arg0, s32 arg1)
         s32 temp_v0;
 
         temp_v0 = temp_s0_copy;
-        ASM_KEEP(temp_v0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_a0_2 = 0;
         if (temp_v0 != 0) {
             var_a0_2 = -0xE0;

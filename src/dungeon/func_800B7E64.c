@@ -33,9 +33,9 @@ typedef struct S_800BD5C4_0_pre {
 
 s32 func_800BD5C4(void *arg0, s32 arg1, s16 arg2) {
     u16 *table;
-    register void *call_arg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 pass_value ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register s32 saved_value ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+    register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 pass_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 saved_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     D_80083460_t *state;
     s32 table_index;
     s32 temp_v0;
@@ -50,11 +50,11 @@ s32 func_800BD5C4(void *arg0, s32 arg1, s16 arg2) {
         func_800A63B8(arg0, arg1, arg2);
         call_arg = arg0;
         table = (u16 *)0x800E0000;
-        ASM_KEEP(table);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         table_index = ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v;
-        ASM_KEEP(table_index);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(table_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         table = (u16 *)((u8 *)table - 0x217C);
-        ASM_KEEP(table);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         if (func_800AD6FC(call_arg, (table[table_index] >> 6) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
             return 1;
@@ -66,7 +66,7 @@ block_8:
     if ((((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) && !(((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x400)) {
         temp_v0 = func_800990FC();
         call_arg = &D_800E0E82;
-        ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         pass_value = temp_v0;
         saved_value = pass_value;
         result = func_80099194(call_arg, pass_value);

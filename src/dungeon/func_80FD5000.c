@@ -231,32 +231,32 @@ typedef struct {
 void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3)
 {
     s8 arg1_role;
-    register s8 arg2_role ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 arg3_role ASM_REG("$18");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 arg2_role ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 arg3_role ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *created;
-    register u8 *work ASM_REG("$16") = 0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *work ASM_REG("$16") = 0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *position;
-    register u8 *monster ASM_REG("$18");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u8 *actor ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 call_id ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *call_definition ASM_REG("$5");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *monster ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 call_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *call_definition ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 kind;
     Rect rect;
 
     call_id = 0x112;
     arg1_role = arg1;
-    ASM_KEEP_DEP_NV(arg1_role, call_id);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_DEP_NV(arg1_role, call_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_definition = &D_80083498;
-    ASM_KEEP_DEP_NV(call_definition, arg1_role);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_DEP_NV(call_definition, arg1_role);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     arg3_role = arg3;
     arg2_role = arg2;
     created = func_8003FD64(call_id, call_definition);
     if (created != 0) {
-        register s32 arg0_copy ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register s32 arg0_copy ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 flags0;
         s32 flags1;
-        register void *call_created ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register u8 *call_position ASM_REG("$5");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register void *call_created ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register u8 *call_position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 value;
         u8 *entry;
         s32 i;
@@ -266,7 +266,7 @@ void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3)
 
         work = (u8 *)created + 0x20;
         arg0_copy = (s32)arg0;
-        ASM_KEEP(arg0_copy);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(arg0_copy);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         FIELD(created, Callback, 0x10) = (Callback)&D_8014CB40;
         FIELD(work, s8, 0x13) = 0x27;
         func_8004491C(created, &D_80045340);
@@ -307,7 +307,7 @@ finish_kind:
         value = func_800A6D30(created);
         func_800A48F0(work, 1, (value & 0x3F) | 0x20);
         FIELD(monster, Callback, 0x2C) = (Callback)&D_80151298;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
         call_created = created;
 have_call_position:
@@ -333,7 +333,7 @@ scan_entry:
         }
 
         rectp = &rect;
-        ASM_KEEP(rectp);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(rectp);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         selected = (u8 *)(doubled + i);
         selected = (u8 *)((s32)selected * 4);
         selected += (s32)FIELD(monster, u8 *, 8);

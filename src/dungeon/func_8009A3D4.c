@@ -9,7 +9,7 @@ s32 func_8009FB34(s32 arg0, s32 arg1) {
     s32 index;
     s32 initial_count;
     s32 tail_index;
-    register s32 bound ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 bound ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 count;
     u32 x;
     u32 y;
@@ -24,7 +24,7 @@ s32 func_8009FB34(s32 arg0, s32 arg1) {
         count = initial_count;
         record = D_800E2970;
         do {
-            ASM_KEEP(record);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if ((*(s16 *)(record + 10) != 0) &&
                 (x >= *(volatile u16 *)(record + 0)) &&
                 ({
@@ -39,7 +39,7 @@ s32 func_8009FB34(s32 arg0, s32 arg1) {
                     (s32)y < bound;
                 })) {
                 tail_index = (s16)index;
-                ASM_TAILSLOT_PIN(tail_index);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(tail_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 return func_8009FBE8(x, y, record, index);
             }
             index++;

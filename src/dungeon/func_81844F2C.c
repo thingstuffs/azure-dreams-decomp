@@ -44,14 +44,14 @@ extern void func_80024860(void) __attribute__((noreturn));
 
 void func_81844F2C(void *arg0) {
     u8 *base;
-    register u8 *page ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 call_a0;
-    register u32 call_a2 ASM_REG("$6");   /* MATCH pin: retail immediate-load split depends on it */
+    register u32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u32 sum;
     u32 addend;
     s32 state;
     u32 delta;
-    register u32 next_state ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_81844F2C_1 *entity;
     u8 *cursor;
 
@@ -65,13 +65,13 @@ void func_81844F2C(void *arg0) {
     call_a0 = ((S_81844F2C_0 *)base)->unk_2A.s;
     sum += addend;
     ((S_81844F2C_0 *)base)->unk_04 = (u16)sum;
-    ASM_KEEP(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     sum = ((S_81844F2C_0 *)base)->unk_06.s;
     addend = ((S_81844F2C_0 *)base)->unk_0E;
     call_a2 = ((S_81844F2C_0 *)base)->unk_2C.s;
     sum += addend;
     state = ((S_81844F2C_0 *)base)->unk_2C.u;
-    ASM_KEEP(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_a0 -= 1;
     ((S_81844F2C_0 *)base)->unk_2A.u = (u16)call_a0;
     ((S_81844F2C_0 *)base)->unk_06.u = (u16)sum;
@@ -131,7 +131,7 @@ state_1:
 
 state_2:
     page = (u8 *)0x80080000;
-    ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_81844F2C_0_pre *)base)[-1].unk_00 =
         (u16)(((S_81844F2C_0_pre *)base)[-1].unk_00 | 0x8000);
     ((S_81844F2C_4 *)page)->unk_14A0 |= 0x8000;

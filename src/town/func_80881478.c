@@ -13,7 +13,7 @@ extern void func_80700868(s32);
 extern void func_8070096C(s32, s32);
 
 s32 func_80881478(void) {
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 value;
     s32 index;
 

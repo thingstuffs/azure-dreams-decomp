@@ -25,7 +25,7 @@ void func_800BB030(void *arg0) {
     s32 state;
     s32 counter;
     s32 quotient;
-    register s32 intensity ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 intensity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     if (func_8009CFE0() != 0) {
         ptr = ((S_800BB030_0 *)arg0)->unk_98;
@@ -83,7 +83,7 @@ state_1: {
 }
 
 state_2: {
-    register s32 half ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 half ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     quotient = (s16)counter / 4;
     ((S_800BB030_0 *)arg0)->unk_66 = quotient * 3;

@@ -68,8 +68,8 @@ typedef struct S_80164ED0_1 {
 
 void func_80164ED0(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5)
 {
-    register s32 held_arg4 ASM_REG("$19") = arg4;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 held_arg5 ASM_REG("$20") = arg5;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 held_arg4 ASM_REG("$19") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 held_arg5 ASM_REG("$20") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_80164ED0_1 *temp_s0;
     void *temp_v0;
 

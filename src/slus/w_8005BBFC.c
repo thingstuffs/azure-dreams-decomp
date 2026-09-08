@@ -139,10 +139,10 @@ enum E_u16 arg7;
   s32 v0;
   s32 acc;
   s16 lim;
-  register s32 i ASM_REG("$6");   /* MATCH pin: slus-diff */
+  register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   u16 *ptr;
-  register s32 sum ASM_REG("$3");   /* MATCH pin: slus-diff */
-  register s32 tot ASM_REG("$2");   /* MATCH pin: slus-diff */
+  register s32 sum ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  register s32 tot ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   s32 a0v;
   s32 a1v;
   s32 a2v;
@@ -151,7 +151,7 @@ enum E_u16 arg7;
   s32 t2;
   u8 fd;
   s32 a4;
-  register s32 a5 ASM_REG("$9");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  register s32 a5 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   idx = (s16) arg0;
   a4 = arg4;
   a1c = arg1;
@@ -174,7 +174,7 @@ enum E_u16 arg7;
     rec = (S_8005BBFC_rec *) (buf + (((col + ((s16) arg3)) << 5) + 0x820));
     if ((((s16) a4) >= ((s32) rec->f06)) && (((s32) rec->f07) >= ((s16) a4)))
     {
-      ASM_USE_NV(a5);   /* MATCH pin: slus-diff */
+      ASM_USE_NV(a5);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       func_80056DB4(idx);
       { s32 *qb = D_80073740; q = qb + idx; }
       do
@@ -231,12 +231,12 @@ enum E_u16 arg7;
       D_80085458[idx].f0a = (s16) (s7v >> 8);
       D_80085458[idx].f06 = 0x11;
       D_80085458[idx].f08 = a3c;
-      ASM_USE_NV(a3c);   /* MATCH pin: slus-diff */
+      ASM_USE_NV(a3c);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       D_80085458[idx].f1a = 1;
       D_80085458[idx].f20 = fd;
       D_80085458[idx].f14 = s6[1];
       D_80085458[idx].f16 = s6[4];
-      ASM_USE_NV(s6);   /* MATCH pin: slus-diff */
+      ASM_USE_NV(s6);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       D_80085458[idx].f15 = rec->f02;
       D_80085458[idx].f17 = rec->f03;
       D_80085458[idx].f5c = a1c;
@@ -272,7 +272,7 @@ enum E_u16 arg7;
       req.f08 = (s16) D_80085458[idx].f10;
       req.f0a = D_80085458[idx].f12;
       req.f16 = s7v;
-      ASM_USE_NV(s7v);   /* MATCH pin: slus-diff */
+      ASM_USE_NV(s7v);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
       if (rec->f05 != 0)
       {

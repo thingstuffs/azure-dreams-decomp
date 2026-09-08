@@ -46,11 +46,11 @@ void func_800CABA8(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     s16 temp_v1_3;
     s16 temp_v1_4;
     s16 var_v1;
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 temp_a2;
     s32 temp_divisor;
     s32 temp_v0_2;
-    register s32 temp_v0_3 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_t1;
     u16 temp_v0;
     u16 temp_v0_4;
@@ -59,7 +59,7 @@ void func_800CABA8(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     s32 temp_a1_2;
     s32 temp_a3;
     s32 temp_a3_2;
-    register u8 temp_t0 ASM_REG("$8");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 temp_v1;
     void *temp_s0;
     void *temp_s2;
@@ -91,7 +91,7 @@ jt_c1:
         goto block_23;
     }
     ((S_800CABA8_0 *)arg0)->unk_A0.at02.v = 0x80U;
-    ASM_MEM_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_v0_2 = ((S_800CABA8_0 *)arg0)->unk_9B;
     var_v1 = 8;
     goto block_9;
@@ -103,11 +103,11 @@ jt_c2:
     temp_t0 = (u8) ((S_800CABA8_0 *)arg0)->unk_AC.at00.v;
     temp_a2 = (s32) (0xE0 - temp_t0) / (s16) ((S_800CABA8_0 *)arg0)->unk_96;
     temp_a3 = ((S_800CABA8_0 *)arg0)->unk_AC.at01.v;
-    ASM_MEM_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_divisor = ((S_800CABA8_0 *)arg0)->unk_96;
-    ASM_KEEP(temp_divisor);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(temp_divisor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_a0 = (s32) (8 - temp_a3) / temp_divisor;
-    ASM_MEM_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     temp_a1 = ((S_800CABA8_0 *)arg0)->unk_AC.at02.v;
     temp_v0_3 = (s32) (8 - temp_a1) / (s16) ((S_800CABA8_0 *)arg0)->unk_96;
     temp_v1_2 = (u16) ((S_800CABA8_0 *)arg0)->unk_96 - 1;
@@ -122,11 +122,11 @@ jt_c2:
     }
     func_8009C12C(temp_s2, arg2, ((S_800CABA8_2 *)temp_s2)->unk_2A, 0);
     temp_v0_2 = ((S_800CABA8_0 *)arg0)->unk_9B;
-    ASM_KEEP(temp_v0_2);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     var_v1 = 4;
 block_9:
     ((S_800CABA8_0 *)arg0)->unk_96 = var_v1;
-    ASM_MEM_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_800CABA8_0 *)arg0)->unk_9B = (u8) (temp_v0_2 + 1);
     return;
 jt_c3:

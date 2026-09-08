@@ -15,7 +15,7 @@ s32 func_808135E0(void *arg0)
     u8 *alloc_base;
     u8 *bound_base0;
     u8 *link_base0;
-    register u8 *link_base1 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *link_base1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *other_base;
     u8 *link_base2;
     u8 *object;
@@ -26,14 +26,14 @@ s32 func_808135E0(void *arg0)
     u32 *entry1;
     u32 *entry2;
     u32 *entry3;
-    register u32 low_mask ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u32 low_mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 high_mask;
     s32 coords[2];
     s32 *coord1p;
-    register s32 *call_arg2 ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 *call_arg3 ASM_REG("$7");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 *call_arg2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 *call_arg3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 raw_first;
-    register s32 first ASM_REG("$16");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 first ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 second;
     s32 index;
     s32 offset;
@@ -68,7 +68,7 @@ s32 func_808135E0(void *arg0)
             bound_base0 = object + 0xC;
             call_arg2 = &coords[0];
             call_arg3 = coord1p;
-            ASM_USE2(call_arg2, call_arg3);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_USE2(call_arg2, call_arg3);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             first = raw_first;
             second = func_8006BC50(link_base1, bound_base0, call_arg2, call_arg3);
             first = (s16)first;
@@ -90,7 +90,7 @@ s32 func_808135E0(void *arg0)
                 other = *(u8 **)(other_base + 0x8D0);
                 link_base1 = other_base;
                 if (other != 0) {
-                    register u32 limit1 ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                    register u32 limit1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                     limit1 = 0x108D4;
                     next1 = other + 0xC;
                     next1 = (u8 *)((u32)next1 & -(u32)(next1 <= link_base1 + limit1));
@@ -114,7 +114,7 @@ s32 func_808135E0(void *arg0)
         current = link_base1 + 0x20;
     } while (link_base1 != 0);
 
-    ASM_CLOBBER("$4");   /* MATCH pin: retail register colouring depends on it */
+    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }
 

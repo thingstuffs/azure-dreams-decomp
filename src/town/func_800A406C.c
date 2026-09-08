@@ -100,10 +100,10 @@ void func_800A17CC(void *arg0, s32 arg1) {
     s32 work_size;
     s32 color;
     u8 *call_packet;
-    register u8 *scratch ASM_REG("$19");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u8 *scratch ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     color = 0x800000;
-    ASM_KEEP_NV(color);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(color);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     root = D_80083160;
     work_size = 0x80;
     work[1] = 0;
@@ -128,9 +128,9 @@ void func_800A17CC(void *arg0, s32 arg1) {
         s32 rem1;
 
         x1 = ((S_800A17CC_2 *)arg0)->unk_6C;
-        ASM_KEEP_NV(x1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(x1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         scratch = (u8 *)0x1F800000;
-        ASM_KEEP(scratch);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         rem1 = (s16)(x1 % 0x80);
         rem1 /= 2;
         ((S_800A17CC_1 *)packet40)->unk_1C = rem1;

@@ -33,12 +33,12 @@ s32 func_800B85E8(s32 arg0, s8 *arg1) {
     }
 
     {
-        register u32 kind ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register u32 kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         unsigned long swi;
 
         kind = entry[3];
         swi = kind - 1;
-        ASM_KEEP_NV(swi);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(swi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (swi >= 16) {
             goto case_default;
         }
@@ -60,24 +60,24 @@ case_4_8:
         u8 *loop_entry;
         u8 *table_base;
         u8 *table_row;
-        register u32 index ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register u32 index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 i;
         u32 masked;
 
         {
-            register u8 *case_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register u8 *case_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             case_base = D_800D2EA4 - 0x860;
             index = (u8)raw_arg;
             case_entry = (u8 *)(index << 5);
             case_entry = (u8 *)((u32)case_entry + (u32)case_base);
         }
-        ASM_KEEP_NV(index);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP_NV(index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         {
             u32 value;
 
             value = case_entry[6];
-            ASM_KEEP_NV(value);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if (value == 0) {
                 goto case_default;
             }
@@ -85,12 +85,12 @@ case_4_8:
         table_base = (u8 *)0x80010000;
         i = 0;
         loop_entry = case_entry;
-        ASM_KEEP_NV(loop_entry);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP_NV(loop_entry);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         do {
             masked = i & 0xFF;
             masked *= 2;
             table_row = (u8 *)((u32)masked + (u32)table_base);
-            ASM_KEEP_NV(table_row);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(table_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if ((table_row[0x33A4] == loop_entry[6]) &&
                 (table_row[0x33A5] != index)) {
                 *out++ = (u8)i;
@@ -105,9 +105,9 @@ case_4_8:
 case_16:
     {
         u8 *case_entry;
-        register u8 *case_base ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+        register u8 *case_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         u32 index;
-        register u32 value ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register u32 value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         case_base = D_800D2EA4 - 0x860;
         index = (u8)raw_arg;
@@ -131,9 +131,9 @@ case_16:
             u32 second_value;
 
             second_base = (u8 *)0x80010000;
-            ASM_KEEP_NV(second_base);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP_NV(second_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             second_value = second_base[0x33E7];
-            ASM_KEEP_NV(second_value);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(second_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if (second_value == index) {
                 goto case_default;
             }
@@ -151,10 +151,10 @@ case_1:
         u8 *match;
         u8 *table_base;
         u8 *table_row;
-        register u32 index ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-        register s32 i ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+        register u32 index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 masked;
-        register u32 entry_offset ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+        register u32 entry_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         u32 scaled;
         u8 first;
         u32 second;
@@ -162,13 +162,13 @@ case_1:
         i = 0;
         table_base = (u8 *)0x80010000;
         base_temp = (u8 *)0x800D0000;
-        ASM_KEEP_NV(base_temp);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_NV(base_temp);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         match_base = base_temp + 0x2EA4;
         index = (u8)raw_arg;
         base_temp = D_800D2644_case1;
         entry_offset = index << 5;
         case_entry = base_temp + entry_offset;
-        ASM_KEEP_NV(match_base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(match_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         do {
             masked = i & 0xFF;
             scaled = masked * 2;
@@ -203,6 +203,6 @@ case_1_next:
 case_default:
     *out = 0;
 return_count:
-    ASM_KEEP_NV(raw_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(raw_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return (u8)count;
 }

@@ -32,7 +32,7 @@ extern s32 D_800C5100;
 void func_800A3918(S_800A3918_0 *arg0, s32 arg1) {
     s16 state;
     s32 value;
-    register u8 *base ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 tmp;
     u16 utmp;
 
@@ -57,7 +57,7 @@ state_zero:
         value %= 0x1C00;
     }
     arg0->unk_08.u = value;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     arg0->unk_00++;
     if (((S_800A3918_1 *)D_8008274C)->unk_74 == &D_800C5100) {
         arg0->unk_02 = 1;
@@ -65,7 +65,7 @@ state_zero:
     goto finish;
 
 state_one:
-    ASM_KEEP_NV(base);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     tmp = ((S_800A3918_2 *)base)->unk_D8A.s;
     utmp = ((S_800A3918_2 *)base)->unk_D8A.u;
     if (tmp < -0x1FFF) {
@@ -91,7 +91,7 @@ state_one:
         value %= 0x1C00;
     }
     arg0->unk_08.u = value;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     arg0->unk_00++;
 
 finish:

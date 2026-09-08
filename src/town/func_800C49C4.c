@@ -28,15 +28,15 @@ extern u8 D_800C21F8[];
 
 s32 func_800C2124(TownObject *arg0) {
     TownPosition *position;
-    register s32 scratch ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 dx ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 dx ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 check_id;
-    register void *callback ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register void *callback ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 abs_x;
-    register s16 abs_z ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register s16 abs_z ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     position = (TownPosition *)D_80083780;
-    ASM_KEEP(position);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     dx = arg0->x;
     scratch = position->x;
     check_id = arg0->check_id;
@@ -52,14 +52,14 @@ s32 func_800C2124(TownObject *arg0) {
     if (scratch < 0) {
         abs_z = -abs_z;
     }
-    ASM_KEEP(check_id);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(check_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (func_80033B2C(check_id, dx) != 0) {
         if (arg0->range_x >= abs_x) {
             scratch = abs_z;
             if (arg0->range_z >= scratch) {
                 func_800C15C0(arg0->effect_a, arg0->effect_b);
                 scratch = 1;
-                ASM_KEEP(scratch);   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 callback = D_800C21F8;
                 arg0->callback = callback;
                 return;

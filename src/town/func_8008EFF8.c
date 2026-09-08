@@ -44,11 +44,11 @@ loop:
             yv = cur->y;
             radius = xv;
             if (xv < 0) {
-                ASM_KEEP_NV(radius);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP_NV(radius);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 radius = -radius;
             }
             if (yv < 0) yv = -yv;
-            ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (radius < yv) radius = yv;
             local.work.z = origin->z - (radius * 2);
             func_8008CF48(&local.work, &local.item, radius);

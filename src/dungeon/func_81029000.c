@@ -88,12 +88,12 @@ void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3) {
     s32 right;
     S_81029000_1 *work = NULL;
     void *obj;
-    register S_81029000_2 *part_a ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register S_81029000_2 *part_a ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_81029000_3 *part_b;
     S_81029000_4 *actor;
-    register s8 saved_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call_a0;
     void *call_a1;
 
@@ -103,7 +103,7 @@ void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3) {
     obj = func_8003FD64(0x112, &D_80083498);
     if (obj != NULL) {
         final_arg0 = arg0;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         work = obj + 0x20;
         ((S_81029000_0 *)obj)->unk_10 = &D_8014CA78;
         work->unk_13 = 0x29;

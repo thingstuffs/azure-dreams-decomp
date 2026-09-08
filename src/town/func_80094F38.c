@@ -41,10 +41,10 @@ void func_80092698(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK a
     u16 temp_v0_2;
     State80083160 *state = &D_80083160;
     u8 *data;
-    register M2C_UNK saved_arg2 ASM_REG("$19") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register M2C_UNK saved_arg2 ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     func_80095C80(arg1);
-    ASM_KEEP(saved_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_80095094(arg1);
     data = D_800FE488;
     temp_v0 = func_80095978(arg1, data);

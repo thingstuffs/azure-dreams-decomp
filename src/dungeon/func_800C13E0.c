@@ -120,7 +120,7 @@ void func_800C6B40(s32 arg0, void *arg1, void *arg2, s16 arg3) {
     u32 temp_d14b;
     u32 temp_h14;
     s32 temp_h18;
-    register void *a0p ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
+    register void *a0p ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u32 temp_v0_3;
     u32 temp_v0_4;
     u16 temp_v1;
@@ -131,7 +131,7 @@ void func_800C6B40(s32 arg0, void *arg1, void *arg2, s16 arg3) {
     u32 temp_v0_2;
     u32 var_t7;
     u8 temp_v1_3;
-    register void *var_s0 ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *var_s3;
 
     dtail = D_80083160;
@@ -165,7 +165,7 @@ void func_800C6B40(s32 arg0, void *arg1, void *arg2, s16 arg3) {
         *(u16 *)(scratch + 0x104) = (s16)(((S_800C6B40_0 *)arg2)->unk_1A - (u16)*(u32 *)(scratch + 0x034));
         *(u16 *)(scratch + 0x102) = (s16)((((u16)*(u32 *)(scratch + 0x038) + 0x100) & 0x1FF) + (temp_h18 = (s32)((S_800C6B40_0 *)arg2)->unk_18 - 0x100));
         a0p = scratch + 0x100;
-        ASM_CLOBBER("$5");   /* MATCH pin: retail register colouring depends on it */
+        ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         temp_v0_3 = ((S_800C6B40_0 *)arg2)->unk_20;
         *(u32 *)(scratch + 0x0E4) = temp_v0_3;
         *(u16 *)(scratch + 0x108) = temp_v0_3;
@@ -219,7 +219,7 @@ void func_800C6B40(s32 arg0, void *arg1, void *arg2, s16 arg3) {
             }
             *(u16 *)(scratch + 0x08A) = temp_v0_10;
             *(u16 *)(scratch + 0x082) = temp_v0_10;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
             var_v0 = *(u32 *)(scratch + 0x010);
             if (var_v0 < 0) {
@@ -364,7 +364,7 @@ void func_800C6B40(s32 arg0, void *arg1, void *arg2, s16 arg3) {
             var_s4 += var_t6;
             var_s7 += var_t4;
             tmp_v0 = var_a2;
-            ASM_KEEP_NV(tmp_v0);   /* MATCH pin: retail keeps a computation the compiler would drop */
+            ASM_KEEP_NV(tmp_v0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             var_a3 = tmp_v0;
             var_a2 += var_t8;
         } while (var_t1 < 4);

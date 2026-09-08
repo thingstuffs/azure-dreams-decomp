@@ -33,11 +33,11 @@ void func_800A06A4(void *arg0, s32 arg1) {
     temp_v1 = ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_A4;
     ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800A0708;
     if (temp_v1 == 1) {
-        register M2C_UNK *next ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register M2C_UNK *next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_A0 = 2;
         next = &D_800A0BE4;
-        ASM_TAILSLOT_PIN(next);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(next);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800A06E8();
         return;
     }
@@ -45,17 +45,17 @@ void func_800A06A4(void *arg0, s32 arg1) {
         M2C_UNK *next;
 
         next = &D_800A0AC8;
-        ASM_TAILSLOT_PIN(next);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(next);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800A06EC();
         return;
     }
     {
         M2C_UNK *handler;
 
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         handler = &D_800A07A4;
         ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_7E = 0;
-        ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_60 = handler;
     }
     ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_18 = arg1;

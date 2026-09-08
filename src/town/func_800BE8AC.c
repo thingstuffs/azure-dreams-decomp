@@ -63,7 +63,7 @@ s32 func_800BC00C(void *arg0, S_800BC00C_2 *arg1, Rec_D_80082E80 *arg2) {
     return;
 
 check_ff:
-       /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (temp_v1 == 0xFF) {
         goto state_ff;
     }

@@ -55,12 +55,12 @@ void func_80170AE0(void *a0, void *a1, void *a2)
     void *entity = a0;
     S_80170AE0_2 *motion = a1;
     void *monster = a2;
-    register void *actor ASM_REG("$17") = entity;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 direction ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 direction_copy ASM_REG("$21");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *actor ASM_REG("$17") = entity;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 old_direction;
     u32 old_direction_raw;
-    register s32 direction_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 direction_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Callback callback;
     u16 flags;
     s16 floor;
@@ -70,7 +70,7 @@ void func_80170AE0(void *a0, void *a1, void *a2)
     if (D_80083462 & 0x2000) {
         Callback first_callback;
 
-        ASM_KEEP(actor);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         first_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (first_callback == (Callback)&D_80170F20 ||
             first_callback == (Callback)&D_80173B98) {
@@ -81,7 +81,7 @@ void func_80170AE0(void *a0, void *a1, void *a2)
         return;
     }
 
-    ASM_KEEP(actor);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     old_direction_raw = (*(volatile u8 *)((u8 *)entity + 0x6D));
     old_direction_raw = old_direction_raw << 24;
@@ -94,7 +94,7 @@ void func_80170AE0(void *a0, void *a1, void *a2)
     if (!(flags & 0x8000)) {
         direction_value = D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (direction_value >> 9) & 7;
-        ASM_KEEP(direction);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         direction_index = direction;
         direction_copy = direction;
 
@@ -198,8 +198,8 @@ finish:
         ((S_80170AE0_1 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     ((S_80170AE0_0 *)monster)->unk_14 |= 0x40;
 
-    ASM_KEEP(entity);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(monster);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(direction_copy);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(monster);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 }

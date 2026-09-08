@@ -53,18 +53,18 @@ void *func_80026ED0(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     S_80026ED0_1 *temp_v0_2;
     S_80026ED0_2 *temp_v1;
     S_80026ED0_3 *temp_v1_2;
-    register s16 p1 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 p2 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 p3 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s16 p1 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 p2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 p3 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     p1 = arg1;
     p2 = arg2;
     p3 = arg3;
 
     temp_v0 = func_8003FD64(0x12, &D_80083498);
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (temp_v0 != NULL) {
         ((S_80026ED0_0 *)temp_v0)->unk_10 = &D_80026E3C;
         func_8004491C(temp_v0, &D_80045340);

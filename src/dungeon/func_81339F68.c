@@ -39,7 +39,7 @@ void func_80170F68(void *arg0) {
     u8 *flags;
     u8 *particle_page;
     Particle *particle;
-    register s32 dead_timer ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 dead_timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *obj;
     s16 state;
     s16 timer;
@@ -60,7 +60,7 @@ void func_80170F68(void *arg0) {
     s32 count_3;
     s32 x_3;
     s32 y_3;
-    register u32 mask ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u32 mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 one;
 
     *(Copy8 *)&stack[4] = D_80164A4C;
@@ -116,7 +116,7 @@ state_1:
     }
     mask = 0x10000000;
     particle_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(particle_page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(particle_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     particle = (Particle *)(particle_page + 0x2E80);
     particle_level = particle->c;
     U32_AT(flags, 0x1C) |= mask;
@@ -145,7 +145,7 @@ state_1:
         }
     }
     dead_timer = S16_AT(arg0, 0x18);
-    ASM_KEEP(dead_timer);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(dead_timer);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (count_1 > 0) {
         do {
             count_1--;
@@ -186,7 +186,7 @@ state_2:
         } while (count_3 > 0);
     }
     particle_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(particle_page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(particle_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     particle = (Particle *)(particle_page + 0x2E80);
     if (particle->c >= 0x81) {
         shade = particle->e - 3;

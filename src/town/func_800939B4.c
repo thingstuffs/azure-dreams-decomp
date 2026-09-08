@@ -19,7 +19,7 @@ typedef struct S_80091114_1 {
 } S_80091114_1;   /* arg1 in func_80091114 */
 
 void func_80091114(s32 *arg0, S_80091114_1 *arg1, s32 arg2) {
-    register s32 saved_arg2 ASM_REG("$19") = arg2;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 saved_arg2 ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 previous;
     register u8 *state = D_80083160;
 

@@ -48,7 +48,7 @@ void func_80173514(void *arg0, void *arg1, void *arg2, void *arg3)
 
 L0:
     {
-    register void *call_a0 ASM_REG("$4") = arg3;   /* MATCH pin: retail basic-block layout depends on it */
+    register void *call_a0 ASM_REG("$4") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         ((S_80173514_0 *)arg0)->unk_9B = 4;
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;

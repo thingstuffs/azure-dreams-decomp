@@ -72,16 +72,16 @@ extern s32 func_800BCB04(s32, s32, s16);
 
 void func_80170AE8(Actor *arg0, Motion *arg1, Entity *arg2)
 {
-    register Actor *actor ASM_REG("$17") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register Actor *actor ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     Motion *motion = arg1;
     Entity *entity = arg2;
-    register Actor *subject ASM_REG("$18") = actor;   /* MATCH pin: load-bearing for the whole function shape */
-    register Actor *entryArg0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register Actor *subject ASM_REG("$18") = actor;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register Actor *entryArg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 direction;
     s16 tableIndex;
     s16 oldType;
     s32 velocity;
-    register u32 rawVelocity ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 rawVelocity ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 velocityLimit;
     ActorCallback firstCallback;
     ActorCallback dispatchCallback;
@@ -93,7 +93,7 @@ void func_80170AE8(Actor *arg0, Motion *arg1, Entity *arg2)
     if (D_80083462 & 0x2000) {
         firstCallback = actor->callback;
         if (firstCallback == (ActorCallback)&D_80171094) {
-            ASM_KEEP(entryArg0);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(entryArg0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             firstCallback(entryArg0, motion, entity, entryArg0);
             goto function_end;
         }
@@ -101,8 +101,8 @@ void func_80170AE8(Actor *arg0, Motion *arg1, Entity *arg2)
         goto function_end;
     }
 
-    ASM_KEEP(actor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     oldType = (s8)actor->type;
     if (func_800A9E70(actor, motion, entity, actor) != 0) {

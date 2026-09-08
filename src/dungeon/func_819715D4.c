@@ -80,27 +80,27 @@ void func_819715D4(u16 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) 
         {
             s32 x;
             s32 offset = arg0[62];
-            ASM_KEEP(offset);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             x = arg3;
-            ASM_KEEP(x);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             x += offset;
             temp_s0[1] = (u16)x;
         }
         {
             s32 y;
             s32 offset = arg0[63];
-            ASM_KEEP(offset);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             y = arg4;
-            ASM_KEEP(y);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             y += offset;
             temp_s0[3] = (u16)y;
         }
         {
             s32 z;
-            register s32 offset ASM_REG("$3") = arg0[64];   /* MATCH pin: retail register colouring depends on it */
-            ASM_KEEP(offset);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register s32 offset ASM_REG("$3") = arg0[64];   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             z = arg5;
-            ASM_KEEP(z);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(z);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             z += offset;
             temp_s0[5] = (u16)z;
         }

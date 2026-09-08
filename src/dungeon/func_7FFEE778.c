@@ -14,7 +14,7 @@ typedef struct S_8008BED8_0 {
 void func_8008BED8(S_8008BED8_0 *arg0) {
     M2C_UNK *var_v0;
     u32 temp_v1 = D_800FC418;
-    ASM_KEEP(temp_v1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (temp_v1 == 0xFF) {
         var_v0 = &D_8008BA00;

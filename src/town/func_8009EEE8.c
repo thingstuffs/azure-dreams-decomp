@@ -67,16 +67,16 @@ void func_8009C648(u8 *arg0, M2C_UNK arg1) {
     void *var_a0;
     s32 temp_rng;
     S_8009C648_5 *tail_s0;
-    register void *held_arg0 ASM_REG("$22") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *held_arg0 ASM_REG("$22") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     M2C_UNK held_arg1 = arg1;
 
     memcpy(sp, D_80088D78, 6);
     var_s3 = 0;
     var_s5 = 0xFFFC0000;
-    ASM_KEEP(var_s5);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(var_s5);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     var_s4 = D_800D06C8;
-    ASM_KEEP(held_arg0);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(held_arg1);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     var_a0 = (u8 *)held_arg0 - 0x20;
 loop_1:
     temp_v0 = func_8009C390(var_a0, held_arg1, ((S_8009C648_0 *)var_s4)->unk_00, ((S_8009C648_0 *)var_s4)->unk_04);

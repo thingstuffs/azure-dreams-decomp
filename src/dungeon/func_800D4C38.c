@@ -49,7 +49,7 @@ void func_800DA398(void *arg0, s32 arg1, void *arg2, void *arg3) {
     return;
 
 state_high:
-       /* MATCH pin: retail delay-slot fill depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_two;
     }

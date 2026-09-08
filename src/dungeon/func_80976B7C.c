@@ -53,7 +53,7 @@ s32 func_8017237C(void *arg0, void *arg1, void *arg2, void *arg3)
     void *p3 = arg3;
     u16 *flags;
     u8 *page;
-    register s32 state ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 raw;
     u8 masked;
 
@@ -63,11 +63,11 @@ s32 func_8017237C(void *arg0, void *arg1, void *arg2, void *arg3)
 
     masked = (u8)(masked & 0x7F);
     ((S_8017237C_0 *)p3)->unk_71 = masked;
-    ASM_KEEP(masked);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(masked);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     page = (u8 *)0x80080000;
-    ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     flags = (u16 *)(page + 0x3460);
-    ASM_KEEP(flags);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     state = 0;
 
     if (flags[1] & 0x2000) {
@@ -78,8 +78,8 @@ s32 func_8017237C(void *arg0, void *arg1, void *arg2, void *arg3)
         p3, p2->unk_24, p2->unk_25,
         ((S_8017237C_0 *)p3)->unk_2A);
     {
-    register void *first_call0 ASM_REG("$4") = p3;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 hit ASM_REG("$17") = raw;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *first_call0 ASM_REG("$4") = p3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 hit ASM_REG("$17") = raw;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     if (func_800A2CB8(first_call0, hit) == 0) {
         return state;
@@ -132,10 +132,10 @@ s32 func_8017237C(void *arg0, void *arg1, void *arg2, void *arg3)
         func_8009C93C(call0, call1, angle, 1, 0);
     }
 
-    ASM_KEEP(p0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(hit);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(hit);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return hit;
     }
     }

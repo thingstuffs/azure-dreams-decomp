@@ -29,7 +29,7 @@ void func_800ACF88(void *arg0, void *arg1) {
     if (!(flag_page[0x3714 / 2] & 1)) {
         arg1 = (void *)0x800E0000;
         arg0 = (void *)0x80080000;
-        ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         arg0 = (u8 *)arg0 + 0x3460;
         counter = ((DungeonState *)arg0)->counter;
         ((s8 *)arg1)[-0x30B1] = 1;

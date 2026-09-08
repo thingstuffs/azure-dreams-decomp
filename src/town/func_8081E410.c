@@ -27,10 +27,10 @@ void func_80020C10(void *arg0, void *arg1, void *arg2)
     s32 *close_page;
     s32 dx = (world[0] + (s32)0xFCA00000) >> 16;
     s32 dy = (world[1] + (s32)0xFCA00000) >> 16;
-    register void *state ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *other;
-    register void *effect ASM_REG("$21");   /* MATCH pin: retail register colouring depends on it */
-    register void *sub ASM_REG("$20");   /* MATCH pin: retail register colouring depends on it */
+    register void *effect ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *sub ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 old_angle;
     LocalPoint point;
     s32 distance;
@@ -39,12 +39,12 @@ void func_80020C10(void *arg0, void *arg1, void *arg2)
     s32 adx;
     s32 ady;
     s32 limit;
-    register s32 step ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 threshold;
     s32 reduced;
     s32 loop_x;
     s32 loop_mod;
-    register s32 value ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 swi;
     static void *const sw_keep[] = {
         &&case0, &&case1, &&case2, &&case3,
@@ -53,7 +53,7 @@ void func_80020C10(void *arg0, void *arg1, void *arg2)
 
     state = arg0;
     other = arg1;
-    ASM_KEEP_NV(other);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(other);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     effect = arg2;
     sub = *(void **)state;
     old_angle = U16(effect, 0x1A);
@@ -97,12 +97,12 @@ middle_range:
 
         adx = dx;
         if (adx < 0) {
-            ASM_KEEP(adx);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(adx);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             adx = -adx;
         }
         ady = dy;
         if (ady < 0) {
-            ASM_KEEP(ady);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(ady);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             ady = -ady;
         }
         if (adx > ady) {

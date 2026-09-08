@@ -90,7 +90,7 @@ void func_800BF9E4(void *arg0, S_800BF9E4_1 *arg1, M2C_UNK arg2) {
         temp_v1_2->unk_00 = 0x0FA00000;
         temp_v1_2->unk_04 = 0x02300000;
         temp_v0_2 = temp_v0 + 0x20;
-        ASM_USE(temp_v0_2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_USE(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_v1_2->unk_08 = 0;
         temp_v0_2->unk_A0 = arg0;
     }

@@ -75,7 +75,7 @@ state_0:
         u16 tail_value;
 
         tail_value = ((S_80025094_0 *)arg0)->unk_0A + 2;
-        ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80025150();
     }
     ((S_80025094_0 *)arg0)->unk_0A =

@@ -25,7 +25,7 @@ extern void func_80702B34(void) __attribute__((noreturn));
 
 void func_80878A78(s32 arg0, s32 arg1)
 {
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 sentinel;
     u8 *ptr;
     s32 first;
@@ -50,7 +50,7 @@ void func_80878A78(s32 arg0, s32 arg1)
     do { ptr = D_807030AC->data; } while (0);
     first = ptr[1];
     sentinel = zero | 0x80;
-    ASM_CLOBBER("$0");   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_CLOBBER("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (first != sentinel) {
         s32 terminator;
         terminator = zero | 0x80;

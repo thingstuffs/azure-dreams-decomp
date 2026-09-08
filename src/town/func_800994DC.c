@@ -5,7 +5,7 @@ extern s32 D_800FE508[4];
 extern s32 D_800FE520[33];
 
 void func_80096C3C(void) {
-    register s32 c30000000 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 c30000000 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 c065FFFFF;
     s32 cF0000000;
     s32 c09EFFFFF;
@@ -23,17 +23,17 @@ void func_80096C3C(void) {
     head[2] = 0x01000000;
     head[1] = 0x1DA00000;
     head[3] = 0x1DA00000;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     page = D_800FE520 + 1720;
 #else
     page = (s32 *)0x80100000;
 #endif
-    ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     cF0000000 = 0xF0000000;
     state = page - 1720;
     page[-1720] = cF0000000;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_v0 = 0x0FE00000;
     temp_v1 = 0x04000000;
     state[1] = temp_v0;
@@ -62,7 +62,7 @@ void func_80096C3C(void) {
     state[14] = 0;
     state[15] = c065FFFFF;
     state[16] = cF0000000;
-       /* MATCH pin: retail register colouring depends on it */
+       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     state[18] = temp_v1;
     state[19] = c065FFFFF;
     state[21] = c30000000;
@@ -70,7 +70,7 @@ void func_80096C3C(void) {
     state[23] = c065FFFFF;
     state[24] = temp_v0;
     state[25] = c30000000;
-    ASM_KEEP(c30000000);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(c30000000);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state[26] = 0;
     state[27] = c09EFFFFF;
 #ifdef NON_MATCHING

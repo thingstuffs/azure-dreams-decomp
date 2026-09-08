@@ -28,9 +28,9 @@ void func_80172538(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
         }
         object->unk_8C = value;
     }
-    ASM_KEEP(object);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(call_arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(call_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(call_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The true-name four-argument ABI pins arg0/arg2/arg3 to s0/s1/s2; final-use

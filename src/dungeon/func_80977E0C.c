@@ -96,13 +96,13 @@ void func_8017360C(void *arg0, void *arg1, void *arg2, void *arg3)
 state_0:
     {
         u8 *global;
-        register u8 *effect_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
         effect_page = (u8 *)0x80170000;
-        ASM_KEEP(effect_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         effect = effect_page + 0x40F8;
         (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
         index = (D_80083228 + ((S_8017360C_2 *)arg3)->unk_2A + 0x100) >> 9;
@@ -120,9 +120,9 @@ state_1:
             return;
         }
         {
-            register u8 *effect_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             effect_page = (u8 *)0x80170000;
-            ASM_KEEP(effect_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             effect = effect_page + 0x4150;
         }
         goto effect_common;
@@ -132,9 +132,9 @@ state_2:
             return;
         }
         {
-            register u8 *effect_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             effect_page = (u8 *)0x80170000;
-            ASM_KEEP(effect_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             effect = effect_page + 0x4158;
         }
         goto effect_common;
@@ -224,9 +224,9 @@ final_check:
         }
 
         {
-            register u8 *effect_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             effect_page = (u8 *)0x80170000;
-            ASM_KEEP(effect_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             effect = effect_page + 0x4160;
         }
         (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
@@ -247,16 +247,16 @@ final_check:
 state_4:
         {
         u32 phase_flag = 0x40000;
-        register u8 *effect_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 phase_flags;
 
         if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
-        ASM_KEEP(phase_flag);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(phase_flag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         effect_page = (u8 *)0x80170000;
-        ASM_KEEP(effect_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         phase_flags = ((S_8017360C_2 *)arg3)->unk_1C.u;
         effect = effect_page + 0x40F8;
         phase_flags |= phase_flag;
@@ -280,9 +280,9 @@ state_5:
         }
 
         {
-            register u8 *effect_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             effect_page = (u8 *)0x80170000;
-            ASM_KEEP(effect_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             effect = effect_page + 0x40F0;
         }
         (*(void * *)((u8 *)arg2 + 0x2C)) = effect;

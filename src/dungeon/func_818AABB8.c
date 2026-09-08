@@ -86,8 +86,8 @@ void *func_800243B8(Rec_func_800243B8_arg0 *arg0, S_800243B8_3 *arg1, S_800243B8
     S_800243B8_1 *data;
     S_800243B8_5 *sprite;
     S_800243B8_6 *position;
-    register void *ret ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register s32 tail_z ASM_REG("$4");   /* MATCH pin: build-fail */
+    register void *ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 tail_z ASM_REG("$4");   /* UNRESOLVED C shape (pin): build-fail; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0x212);
     if (obj != NULL) {
@@ -162,13 +162,13 @@ void *func_800243B8(Rec_func_800243B8_arg0 *arg0, S_800243B8_3 *arg1, S_800243B8
         position->unk_00 = arg1->unk_00;
         position->unk_04 = arg1->unk_04;
         tail_z = arg1->unk_08;
-        ASM_UNDEF(ret);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_UNDEF(ret);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ret = obj;
-        ASM_KEEP4(ret, tail_z, ret, tail_z);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP4(ret, tail_z, ret, tail_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         position->unk_08 = tail_z;
         func_80024630();
     }
     ret = NULL;
-    ASM_KEEP(ret);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return ret;
 }

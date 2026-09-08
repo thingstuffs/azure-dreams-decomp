@@ -97,10 +97,10 @@ post_init:
     if (arg0->unk18 > 0) {
         do {
             output = &u.s.sp30;
-            ASM_KEEP(output);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(output);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             offset = outer * 8;
             source = arg0->unk00;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_80065450((s8 *) source + offset, output, &sp40);
             *(u16 *) ((s8 *) arg0->unk04 + outer * 8) = *(u16 *) &u.s.sp30;
             *(u16 *) ((s8 *) arg0->unk04 + outer * 8 + 2) = *(u16 *) &u.s.sp34;

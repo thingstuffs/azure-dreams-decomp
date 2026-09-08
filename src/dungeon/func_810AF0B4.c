@@ -120,8 +120,8 @@ void func_801728B4(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 *temp_v1_4;
     void *temp_a0;
     void *temp_v0_2;
-    register void *temp_v0_4 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register void *temp_v1_3 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *temp_v0_4 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *temp_v1_3 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *var_v0;
 
     temp_v1 = ((S_801728B4_0 *)arg0)->unk_9B;
@@ -200,7 +200,7 @@ block_21:
     {
         s32 flag = var_s4;
 
-        ASM_KEEP(flag);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(flag);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (flag == 0) {
             goto block_24;
         }
@@ -223,7 +223,7 @@ block_26:
     goto block_32;
 block_27:
     ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv = func_800A05A4(arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 0x10);
-    ASM_KEEP(arg3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     var_v0_2 = ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8;
     var_v1 = ((Rec_D_800E3D7C *)arg3)->unk_73.as_s8;
     if (var_v0_2 >= 0) {

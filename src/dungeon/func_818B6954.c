@@ -49,20 +49,20 @@ extern u8 D_800DEC70[];
 
 s32 func_818B6954(s32 arg0, void *arg1, s32 arg2) {
     s16 temp_s0;
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_a1;
     s64_local temp_copy01;
     s32 temp_copy4;
     s32 temp_copy5;
-    register s32 ret ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 scale ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 scale ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_3;
     s32 temp_v1;
     s32 var_s0;
     s32 var_v0;
     S_818B6954_2 *temp_s0_2;
     void *temp_s2;
-    register void *temp_v0 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *temp_v0 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_818B6954_1 *temp_v0_2;
 
     temp_v0 = func_8003FC64(0x212);
@@ -84,7 +84,7 @@ s32 func_818B6954(s32 arg0, void *arg1, s32 arg2) {
         if (temp_v1 < 0) {
             var_v0 = temp_v1 + 0xFFF;
         }
-        ASM_KEEP(temp_v1);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         temp_s0_2->unk_1A = temp_v1 - ((var_v0 >> 0xC) << 0xC);
         temp_s0_2->unk_1E = 0xC00;
         temp_s0_2->unk_1C = 0xC00;
@@ -109,7 +109,7 @@ s32 func_818B6954(s32 arg0, void *arg1, s32 arg2) {
         (*(s32 *)((u8 *)temp_s2 + 0)) += (func_80064584(temp_s0) >> 4) * 0x1200;
         temp_a0 = func_800644B8(temp_s0) >> 4;
         ret = (s32)temp_v0;
-        ASM_KEEP(ret);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         scale = temp_a0 * 0x1200;
         temp_a0 = (*(s32 *)((u8 *)temp_s2 + 4)) + scale;
         (*(s32 *)((u8 *)temp_s2 + 4)) = temp_a0;

@@ -25,7 +25,7 @@ extern u8 D_80174214[];
 
 s32 func_80171ECC(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
-    register void *source ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register void *source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 result;
     u16 *status;
     volatile long long frame_pad;

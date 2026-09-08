@@ -52,7 +52,7 @@ s32 func_800CE4E8(s32 arg0, s32 arg1, s16 arg2, void *arg3, s32 arg4)
     u16 *temp_s1;
     u16 *var_s0;
     s32 temp_v0_2;
-    register u8 *temp_a2 ASM_REG("$6");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *temp_s3;
     DungeonObject *temp_v0;
     u8 *var_s5;
@@ -81,7 +81,7 @@ s32 func_800CE4E8(s32 arg0, s32 arg1, s16 arg2, void *arg3, s32 arg4)
                     ((var_s4 + coord_y) << 6) & 0xFFC0);
                 rand_a0 = 1;
                 rand_a1 = 3;
-                ASM_KEEP(rand_a0);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(rand_a0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 temp_a2 = temp_s6 + 4;
                 temp_s1 = (u16 *)((unsigned long)(var_s2 * 2) +
                     (unsigned long)temp_a2);

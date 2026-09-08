@@ -67,7 +67,7 @@ void func_81958F28(AnimState *arg0, void *arg1, void *arg2) {
         }
         func_80024EB8();
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (phase == 2) {
         goto fade_phase;
     }
@@ -135,7 +135,7 @@ main_phase:
     }
 
     {
-        register s32 colorValue ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 colorValue ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 currentValue;
         s32 isClose;
 
@@ -146,7 +146,7 @@ main_phase:
             diff = -diff;
         }
         isClose = diff < 0x801;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         currentValue = (u16)color.x;
         if (!isClose) {
             color.x = (U16(arg0, 0xC) & 0xF000) | (currentValue & 0xFFF);
@@ -154,7 +154,7 @@ main_phase:
     }
 
     {
-        register s32 colorValue ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 colorValue ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 currentValue;
         s32 isClose;
 
@@ -165,7 +165,7 @@ main_phase:
             diff = -diff;
         }
         isClose = diff < 0x801;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         currentValue = (u16)color.y;
         if (!isClose) {
             color.y = (U16(arg0, 0xE) & 0xF000) | (currentValue & 0xFFF);
@@ -180,7 +180,7 @@ main_phase:
             diff = -diff;
         }
         isClose = diff < 0x801;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         {
             s32 rawValue;
             s32 newValue;

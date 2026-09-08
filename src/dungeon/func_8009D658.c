@@ -78,7 +78,7 @@ s32 func_800A2DB8(S_800A2DB8_0 *arg0)
     u8 *slot;
     u8 *global_page;
     s32 count;
-    register s32 index ASM_REG("$17");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 diff;
     s32 amount;
     s32 numerator;
@@ -105,7 +105,7 @@ s32 func_800A2DB8(S_800A2DB8_0 *arg0)
         result *= 2;
     }
 
-    ASM_KEEP(count);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     index = count;
     slot = (u8 *)D_800E3D7C[0] + 4;
     do {

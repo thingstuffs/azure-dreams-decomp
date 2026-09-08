@@ -57,9 +57,9 @@ void FUNC_819A6800_BODY(void *, void *)
 void FUNC_819A6800_BODY(void *arg0, void *arg1)
 {
     u8 *self = (u8 *)arg0;
-    register u8 *owner ASM_REG("$18") = FIELD(self, u8 *, 0);   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *owner ASM_REG("$18") = FIELD(self, u8 *, 0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *record = FIELD(owner, u8 *, -0x14);
-    register u8 *base ASM_REG("$16") = owner - 0x20;   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *base ASM_REG("$16") = owner - 0x20;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 timer;
     s32 state;
     static void *const keepalive[] = {
@@ -86,7 +86,7 @@ state2:
         void *counter_object;
         s16 scratch[3];
         u8 *part;
-        register u8 *sub ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *sub ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         u8 *global_page = (u8 *)&D_800814A0[2];
         void *global_object = *(void **)global_page;
@@ -182,8 +182,8 @@ state4:
     }
     {
         u16 unused_state = FIELD(self, u16, 0x0A);
-        register u16 timer ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-        ASM_KEEP(unused_state);   /* MATCH pin: retail basic-block layout depends on it */
+        register u16 timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(unused_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         timer = 10;
         FIELD(self, u16, 0x50) = timer;
     }
@@ -229,9 +229,9 @@ state5:
     }
     {
         u16 unused_state;
-        register u16 final_state ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        register u16 final_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         unused_state = FIELD(self, u16, 0x0A);
-        ASM_KEEP(unused_state);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(unused_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         final_state = 20;
         FIELD(self, u16, 0x50) = final_state;
     }

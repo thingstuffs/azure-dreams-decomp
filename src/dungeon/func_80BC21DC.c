@@ -112,7 +112,7 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
     s8 result;
     u16 state;
     void *arg0 = in0;
-    register void *arg1 ASM_REG("$16") = in1;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *arg1 ASM_REG("$16") = in1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *arg2 = in2;
     void *arg3 = in3;
 
@@ -121,9 +121,9 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
         func_80171FC8();
         return;
     }
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (((S_801719DC_1 *)arg3)->unk_25 == 0) {
         void *table;
 
@@ -166,7 +166,7 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
             s32 reset_value;
 
             current_state = ((S_801719DC_0 *)arg0)->unk_9A;
-               /* MATCH pin: retail delay-slot fill depends on it */
+               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             actor_state = 0xE;
             if (current_state != actor_state) {
                 current = ((S_801719DC_2 *)arg2)->unk_2C;

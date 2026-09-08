@@ -68,12 +68,12 @@ state0:
 state1:
 {
     s32 state1_a0;
-    register s32 state1_v1 ASM_REG("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 state1_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 state1_v0;
 
     state1_a0 = ((S_800220A8_1 *)arg1)->unk_14;
     state1_v1 = state1_a0;
-    ASM_KEEP_NV(state1_v1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(state1_v1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     state1_v0 = ((S_800220A8_1 *)arg1)->unk_08;
     state1_v0 += state1_a0;
     state1_v1 += 0x4000;
@@ -88,7 +88,7 @@ state1:
 
 state2:
 {
-    register s32 state2_v0 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 state2_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state2_v1;
 
     state2_v0 = ((S_800220A8_1 *)arg1)->unk_08;
@@ -126,8 +126,8 @@ state_f0:
 
 state3:
 {
-    register s32 state3_v0 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register s32 state3_v1 ASM_REG("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 state3_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 state3_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     state3_v0 = ((S_800220A8_1 *)arg1)->unk_08;
     state3_v1 = (s32)0xFFF00000;

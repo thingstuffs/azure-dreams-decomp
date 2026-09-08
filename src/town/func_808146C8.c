@@ -225,19 +225,19 @@ dispatch:
 high_sum:
         {
             s32 current_y;
-            register s32 delta ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 target_y;
             s32 *target_y_addr;
 
             target_y_addr = &D_80132AEC;
             target_y = *target_y_addr;
-            ASM_KEEP(target_y);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(target_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             current_y = ((S_8052F2C8_2 *)p1)->unk_04;
             delta = target_y - current_y;
             if (delta < 0) {
                 delta = -delta;
             }
-            ASM_KEEP(delta);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (delta > 0x200000) {
                 break;
             }

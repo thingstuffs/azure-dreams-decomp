@@ -22,7 +22,7 @@ extern void *D_800E3D7C[];
 s32 func_800C4324(void *arg0, s32 arg1, s16 arg2)
 {
     void *entry_arg = arg0;
-    register void *entity ASM_REG("$17") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *entity ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 amount = arg1;
     s32 temp;
     s32 selected;
@@ -30,12 +30,12 @@ s32 func_800C4324(void *arg0, s32 arg1, s16 arg2)
 
     if (entity == D_800E3D7C[0]) {
         *(s32 *)((u8 *)entity + 0x110) = amount;
-        ASM_KEEP(entry_arg);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(entry_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         func_8008D330(entry_arg, D_80083780, D_80082E80, entry_arg);
         return 0;
     }
 
-    ASM_KEEP(entity);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if ((u32)entity <= 0x9FFFFFFF) {
         void *lookup_arg;
         u16 *table;
@@ -43,13 +43,13 @@ s32 func_800C4324(void *arg0, s32 arg1, s16 arg2)
 
         func_800A63B8(entity, amount, arg2);
         lookup_arg = entity;
-        ASM_KEEP(lookup_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(lookup_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         table = (u16 *)0x800E0000;
-        ASM_KEEP(table);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         table_index = *((u8 *)entity + 0x13);
-        ASM_KEEP(table_index);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(table_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         table = (u16 *)((u8 *)table - 0x217C);
-        ASM_KEEP(table);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         if (func_800AD6FC(lookup_arg,
                          (table[table_index] >> 6) & 3,
                          0) == 0) {
@@ -71,7 +71,7 @@ s32 func_800C4324(void *arg0, s32 arg1, s16 arg2)
     func_80042B68(entity, 3);
     func_80098B38(amount);
     counter_base = D_80083460;
-    ASM_KEEP(counter_base);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(counter_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     *(u16 *)(counter_base + 0xA) = *(u16 *)(counter_base + 0xA) - 1;
     return 1;
 }

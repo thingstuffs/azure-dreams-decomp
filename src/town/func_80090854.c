@@ -80,8 +80,8 @@ s32 func_8008DFB4(s16 arg0, u16 arg1, u16 arg2)
     s16 scan_x;
     s32 block = (s16)(arg0 & -0x40);
     Global_80090854 *global = &D_80083160;
-    register Map_80090854 *map ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u16 *tiles ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register Map_80090854 *map ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u16 *tiles ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     Vec_80090854 *vertices;
 
     scan_x = arg0;
@@ -106,7 +106,7 @@ s32 func_8008DFB4(s16 arg0, u16 arg1, u16 arg2)
         func_8008E05C();
     }
     scratch->x_step = -0x40;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if ((s16)scratch->x >= 0x20) {
         s32 z_pos;
@@ -114,7 +114,7 @@ s32 func_8008DFB4(s16 arg0, u16 arg1, u16 arg2)
         z_pos = 0x40;
         scratch->z_step = z_pos;
     } else {
-        register s32 z_neg ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+        register s32 z_neg ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
         z_neg = -0x40;
         scratch->z_step = z_neg;
@@ -158,12 +158,12 @@ inner_loop:
         scan_x = sum_x;
         if (scratch->x_step >= 0) {
             if (sum_x < D_800FE480) {
-                register s32 e164_arg ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-                register s32 e164_hi ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+                register s32 e164_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s32 e164_hi ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
                 e164_hi = (s32)((u32)(u16)scan_x << 16);
                 e164_arg = e164_hi >> 16;
-                ASM_TAILSLOT_PIN(e164_arg);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(e164_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_8008E164();
             }
             goto next_outer;
@@ -230,8 +230,8 @@ inner_loop:
                 if (func_8008CE08(scratch) != 0) {
                     u16 pi = *(u16 *)(tail - 6);
                     u16 ci = cell->v0;
-                    register Vec_80090854 *plane ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
-                    register Vec_80090854 *vertex ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+                    register Vec_80090854 *plane ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    register Vec_80090854 *vertex ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     s32 dy;
                     s32 dz;
                     s32 y_product;
@@ -256,13 +256,13 @@ inner_loop:
             }
 
             {
-            register u16 fl ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+            register u16 fl ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             fl = *(u16 *)tail & 0x80FF;
             if (fl != 0x8001) {
                 tail += 0x18;
-                ASM_KEEP(tail);   /* MATCH pin: retail keeps a computation the compiler would drop */
+                ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 cell = (Cell_80090854 *)((u8 *)cell + 0x18);
-                ASM_TAILSLOT_PIN(cell);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_TAILSLOT_PIN(cell);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 func_8008E204();
             }
             }
@@ -284,13 +284,13 @@ next_outer:
 
 finished:
     if (scratch->best == 0) {
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         return 0;
     }
     {
         s32 result;
         result = (s16)((u16)scratch->block + (u16)scratch->best);
-        ASM_TAILSLOT_PIN(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         return func_8008E4C0();
     }
 }

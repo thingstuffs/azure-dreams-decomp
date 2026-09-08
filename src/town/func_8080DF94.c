@@ -31,10 +31,10 @@ void func_8080DF94(void *arg0, void *arg1, void *arg2) {
     s16 temp_v1;
     s32 temp_ret;
     s32 *temp_s5;
-    register s32 var_s4 ASM_REG("$20");   /* MATCH pin: retail register colouring depends on it */
+    register s32 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 temp_a0;
     u16 temp_v0_3;
-    register void *tail_arg ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *tail_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *temp_s3;
     void *temp_s6;
 
@@ -112,7 +112,7 @@ case_1:
         }
         {
             s32 next_state = 0x100;
-            ASM_USE(var_s4);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_USE(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             FIELD(arg0, s16 *, 4) = (s16)next_state;
         }
         return func_80529030();
@@ -121,7 +121,7 @@ case_1:
 
 case_20: {
     s16 floor_y;
-    register s32 pos_x ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 pos_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 vel_x;
     s32 step_x;
 
@@ -144,7 +144,7 @@ case_20: {
         } else {
             var_s4 = (s32)D_80288F88;
         }
-        ASM_USE(var_s4);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_USE(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         FIELD(arg0, s16 *, 4) = (s16)((u16)FIELD(arg0, s16 *, 4) + 1);
     }
     pos_x = FIELD(arg1, s32 *, 0xC);
@@ -160,7 +160,7 @@ case_20: {
 
 case_21: {
     s16 floor_y;
-    register s32 pos_x ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 pos_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 vel_x;
     s32 step_x;
 

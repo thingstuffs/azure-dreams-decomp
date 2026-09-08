@@ -55,13 +55,13 @@ void func_8187BB80(void *arg0, s32 arg1, void *arg2) {
     register s32 one;
     s32 current;
 
-    ASM_KEEP(aux);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(aux);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     D_8002694C = 1;
     ((S_8187BB80_0 *)obj)->unk_02.u--;
 
     if (((S_8187BB80_0 *)obj)->unk_40.at00.v == 0) {
         s32 y;
-        register u32 x ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+        register u32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
         ((S_8187BB80_0 *)obj)->unk_20.s =
             (((S_8187BB80_0 *)obj)->unk_1E.s + ((S_8187BB80_0 *)obj)->unk_58) / 2;
@@ -95,8 +95,8 @@ void func_8187BB80(void *arg0, s32 arg1, void *arg2) {
         u32 x = ((S_8187BB80_0 *)obj)->unk_1E.u;
         u32 y = ((S_8187BB80_0 *)obj)->unk_2A.u;
 
-        ASM_KEEP(x);   /* MATCH pin: retail delay-slot fill depends on it */
-        ASM_KEEP(y);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_8187BB80_0 *)obj)->unk_5E = x;
         ((S_8187BB80_0 *)obj)->unk_5A = x;
         ((S_8187BB80_0 *)obj)->unk_66 = y;
@@ -125,24 +125,24 @@ jt_c0:
 jt_c1: {
             u32 value = ((S_8187BB80_0 *)obj)->unk_4C;
             s32 next = 2;
-            ASM_KEEP(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            ASM_TAILSLOT_PIN(next);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(next);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_80025560();
         }
 
 jt_c2: {
             u32 value = ((S_8187BB80_0 *)obj)->unk_4C;
             s32 next = 3;
-            ASM_KEEP(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            ASM_TAILSLOT_PIN(next);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(next);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_80025560();
         }
 
 jt_c3: {
             u32 value = ((S_8187BB80_0 *)obj)->unk_4C;
             s32 next = 4;
-            ASM_KEEP(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            ASM_TAILSLOT_PIN(next);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(next);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_80025560();
         }
 
@@ -155,8 +155,8 @@ jt_c4:
 jt_c5: {
             u32 value = ((S_8187BB80_0 *)obj)->unk_4C;
             s32 next = 6;
-            ASM_KEEP(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            ASM_TAILSLOT_PIN(next);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(next);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_80025560();
         }
 

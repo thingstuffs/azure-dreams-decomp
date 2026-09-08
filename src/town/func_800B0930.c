@@ -4,14 +4,14 @@ extern void func_800ADB30(void *arg0);
 extern s32 D_800ADD80[4];
 
 #ifndef NON_MATCHING
-register u8 *dispatch_result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
 void func_800AE090(void *arg0) {
     u8 *p = (u8 *)arg0;
 
 #ifndef NON_MATCHING
-    register s32 value_v0 ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 value_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     __asm__ __volatile__("" : "=r"(p) : "0"(p));
     value_v0 = *(s32 *)(p + 0x14);

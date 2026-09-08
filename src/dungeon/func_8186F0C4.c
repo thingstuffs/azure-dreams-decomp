@@ -44,13 +44,13 @@ void func_800248C4(u8 *arg0, u8 *arg1, u8 *arg2) {
     OffsetPair offsets[8];
     u8 *self = arg0;
     u8 *position = arg1;
-    register u8 *display ASM_REG("$17") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *display ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *owner;
     u8 *entity;
-    register u8 *source ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *copy_page ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register u8 *copy_source ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
-    register s16 *flag_base ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 *flag_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void **jump_table;
     s32 state;
     s32 state_in_range;
@@ -66,20 +66,20 @@ void func_800248C4(u8 *arg0, u8 *arg1, u8 *arg2) {
 #else
     copy_page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(copy_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     copy_source = copy_page + 0x4038;
-    ASM_KEEP(copy_source);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(copy_source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     memcpy(offsets, copy_source, 12);
     memcpy((u8 *)offsets + 12, copy_source + 12, 12);
     memcpy((u8 *)offsets + 24, copy_source + 24, 8);
-    ASM_KEEP(copy_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     state = S16_AT(self, 0x0A);
     entity = owner - 0x20;
     state_in_range = (u32)state < 9U;
     source = PTR_AT(entity, 0x08);
-    ASM_KEEP(self);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(position);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(entity);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (!state_in_range) {
         goto done;
     }
@@ -88,29 +88,29 @@ void func_800248C4(u8 *arg0, u8 *arg1, u8 *arg2) {
 #else
     jump_table = (void **)0x80020000;
 #endif
-    ASM_KEEP(jump_table);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     jump_table = (void **)((u8 *)jump_table + 0x4058);
-    ASM_KEEP(jump_table);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     goto *jump_table[state];
 
 state0:
     S32_AT(display, 0x0C) = 0x00808080;
     U16_AT(display, 0x1E) = 0x1000;
     U16_AT(display, 0x1C) = 0x1000;
-    ASM_KEEP(display);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(display);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     copy_page = D_800252FC - 0x52FC;
 #else
     copy_page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(copy_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     copy_source = copy_page + 0x52FC;
-    ASM_KEEP(copy_source);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(copy_source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     memcpy(self + 0x94, copy_source, 12);
-    ASM_USE_NV(copy_page);   /* MATCH pin: retail register colouring depends on it */
+    ASM_USE_NV(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     {
         u8 *copy_dest = self + 0x94;
-        ASM_KEEP(copy_dest);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(copy_dest);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         PTR_AT(display, 0x08) = copy_dest;
     }
     {
@@ -123,14 +123,14 @@ state0:
         flag_base = (s16 *)0x80020000;
 #endif
         owner_bits = U16_AT(owner, 0x2A);
-        ASM_KEEP(owner_bits);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(owner_bits);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         scalar = 1;
         *(s16 *)((u8 *)flag_base + 0x5308) = scalar;
         scalar = U16_AT(self, 0x0A);
-        ASM_KEEP_DEP_NV(owner_bits, scalar);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_DEP_NV(owner_bits, scalar);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         owner_bits = (owner_bits >> 9) & 7;
         scalar++;
-        ASM_KEEP(scalar);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(scalar);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         S16_AT(self, 0x7E) = owner_bits;
         S16_AT(self, 0x0A) = scalar;
     }
@@ -155,7 +155,7 @@ state1:
         if (!(U16_AT(PTR_AT(entity, 0x0C), 0x14) & 0x8000)) {
             U16_AT(position, 0x02) += (u16)found[0];
             U16_AT(position, 0x06) += (u16)found[1];
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             next_z = U16_AT(position, 0x0A);
             source_z = (u16)found[2];
             next_z += source_z;
@@ -189,7 +189,7 @@ state1:
             {
                 register u32 target ASM_REG("$3") =
                     (u32)PTR_AT(owner, 0x60);
-                register u8 *target_pos ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+                register u8 *target_pos ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 u32 table;
 
                 target_pos = PTR_AT((u8 *)target, -0x18);
@@ -224,7 +224,7 @@ state1:
 
             {
                 s32 owner_axis = S8_AT(owner, 0x72);
-                register u32 sprite_axis ASM_REG("$3") = U8_AT(sprite, 0x24);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register u32 sprite_axis ASM_REG("$3") = U8_AT(sprite, 0x24);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 if (owner_axis != sprite_axis) {
                     delta = owner_axis - sprite_axis;
@@ -249,30 +249,30 @@ state1:
         S32_AT(position, 0x14) = ((S16_AT(self, 0x78) << 16) -
             S32_AT(position, 0x08)) / S8_AT(self, 0x7B);
         {
-            register u32 raw_timer ASM_REG("$2") = U8_AT(self, 0x7B);   /* MATCH pin: retail register colouring depends on it */
-            register s32 timer ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register u32 raw_timer ASM_REG("$2") = U8_AT(self, 0x7B);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             s32 timer_copy;
             s32 square;
-            register u32 raw_reload ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+            register u32 raw_reload ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             s32 timer_reload;
             s32 next_state;
 
-            ASM_KEEP(raw_timer);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP(raw_timer);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             timer = (s32)(raw_timer << 24) >> 24;
-            ASM_KEEP(timer);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(timer);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             timer_copy = timer;
-            ASM_KEEP(timer_copy);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(timer_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             square = timer * timer_copy;
             *(volatile s16 *)(self + 0x82) = 0;
             raw_reload = *(volatile u8 *)(self + 0x7B);
             next_state = U16_AT(self, 0x0A);
-            ASM_KEEP(raw_reload);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(raw_reload);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             timer_reload = (s32)(raw_reload << 24) >> 24;
             next_state++;
             S16_AT(self, 0x0A) = next_state;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             S16_AT(self, 0x88) = timer_reload;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             S16_AT(self, 0x8A) = square;
         }
         goto done;
@@ -287,9 +287,9 @@ state2:
             s32 particle;
 
             task = self - 0x20;
-            ASM_KEEP(task);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(task);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             kind = 0x002020E0;
-            ASM_KEEP(kind);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             random &= 0xFF;
             particle = random | 0x80;
             D_80024488(task, S16_AT(self, 0x7E), kind, particle, 0, 0, 0);
@@ -333,7 +333,7 @@ state2:
         U8_AT(self, 0x7B)--;
         if (S8_AT(self, 0x7B) <= 0) {
             if (PTR_AT(owner, 0x60) != 0) {
-                register u8 *target_pos ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+                register u8 *target_pos ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 S16_AT(self, 0x0A) = 3;
                 S16_AT(self, 0x82) = 0;
@@ -372,11 +372,11 @@ state3:
 
         source = func_8003FC64(0x212);
         if (source != 0) {
-            register u8 *target_pos ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+            register u8 *target_pos ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 trig;
 
             entity = source + 0x20;
-            ASM_KEEP(entity);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             {
                 u16 spawn_count = U16_AT(self, 0x82);
             S16_AT(entity, 0x0A) = 0x80;
@@ -453,9 +453,9 @@ state4:
                 s32 particle;
 
                 task = self - 0x20;
-                ASM_KEEP(task);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(task);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 kind = 0x002020E0;
-                ASM_KEEP(kind);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 random &= 0xFF;
                 particle = random | 0x80;
                 D_80024488(task, S16_AT(self, 0x7E), kind, particle, 0, 0, 0);

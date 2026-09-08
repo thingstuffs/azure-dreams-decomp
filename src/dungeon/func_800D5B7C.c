@@ -84,10 +84,10 @@ void func_800DB2DC(void *arg0, void *arg1, void *arg2, s16 arg3) {
     s32 held_scale;
     S_800DB2DC_4 *held_arg0;
     S_800DB2DC_2 *held_arg1;
-    register S_800DB2DC_1 *held_arg2 ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register S_800DB2DC_1 *held_arg2 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 held_arg3;
     s32 var_s0;
-    register s32 var_s1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     u16 temp_u16;
     s32 temp_s32;
@@ -136,11 +136,11 @@ void func_800DB2DC(void *arg0, void *arg1, void *arg2, s16 arg3) {
             temp_a0->unk_2C =
                 (s32)held_arg1->unk_2C;
         }
-        ASM_KEEP(var_s0);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         } while (--var_s0 >= 0);
         var_s1 -= 3;
     } while (var_s1 >= 0);
-    ASM_KEEP(held_arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: A 0x38 frame follows from pinned long-lived args/bases and two nested loop counters.

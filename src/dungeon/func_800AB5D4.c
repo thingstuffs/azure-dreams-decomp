@@ -85,9 +85,9 @@ typedef struct S_800B0D34_8 {
 
 void func_800B0D34(void *arg0, void *arg1, void *arg2) {
     u16 packed;
-    register s32 base_phase ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 base_phase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 phase;
-    register s32 reflected ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 reflected ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *out;
     void *info;
     s32 mode;

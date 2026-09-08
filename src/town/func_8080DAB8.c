@@ -49,7 +49,7 @@ M2C_UNK func_8006F49C();
 extern u8 *D_8012F130;
 
 s32 func_8080DAB8(void *arg0) {
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_a1;
     s32 temp_s0;
     M2C_UNK *temp_s1;
@@ -64,18 +64,18 @@ s32 func_8080DAB8(void *arg0) {
     s32 coord0_signed;
     s32 coord1_signed;
     u32 temp_low;
-    register S_8080DAB8_3 *temp_a0_2 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register S_8080DAB8_3 *temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *temp_a1_2;
     void *var_s3;
     u8 **rootp;
     register u8 *scratch0;
     u8 *scratch1;
     u8 *scratch2;
-    register u8 *bound_base0 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *bound_base1 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register u32 mask_low ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *bound_base0 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *bound_base1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 mask_low ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 mask_high;
-    register u32 bound_const ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 bound_const ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     var_s3 = arg0;
     rootp = &D_8012F130;
@@ -87,23 +87,23 @@ s32 func_8080DAB8(void *arg0) {
     do {
         func_8006BFA0(var_s3 + 8, scratch0, scratch1, scratch2, scratch2, 2);
         var_v1 = 0;
-        ASM_KEEP_NV(var_v1);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(var_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_s0 = ((S_8080DAB8_0 *)(*rootp))->unk_8D0;
         if (temp_s0 != 0) {
             temp_v1 = temp_s0 + 0x14;
             bound_base0 = (u8 *)*rootp;
-            ASM_KEEP_NV(bound_base0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(bound_base0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             bound_const = 0x108D4;
             var_v1 = temp_v1 & (0 - ((u32)(bound_base0 + bound_const) >= temp_v1));
         }
         ((S_8080DAB8_0 *)(*rootp))->unk_8D0 = var_v1;
         var_v1_2 = 0;
-        ASM_KEEP_NV(var_v1_2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(var_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_s1 = ((S_8080DAB8_0 *)(*rootp))->unk_8D0;
         if (temp_s1 != 0) {
             temp_v1_2 = (u8 *)temp_s1 + 0xC;
             bound_base1 = (u8 *)*rootp;
-            ASM_KEEP_NV(bound_base1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(bound_base1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             bound_const = 0x108D4;
             var_v1_2 = temp_v1_2 & (0 - ((u32)(bound_base1 + bound_const) >= temp_v1_2));
         }
@@ -118,7 +118,7 @@ s32 func_8080DAB8(void *arg0) {
         temp_v0 = *(volatile u16 *)scratch1;
         coord0_shifted = temp_v0 << 0x10;
         temp_v0_2 = *((volatile u16 *)scratch1 + 1);
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         coord0_signed = (s32)coord0_shifted >> 0x10;
         coord1_shifted = temp_v0_2 << 0x10;
         coord1_signed = (s32)coord1_shifted >> 0x10;
@@ -138,6 +138,6 @@ s32 func_8080DAB8(void *arg0) {
         temp_a0 = ((S_8080DAB8_2 *)((u8 *)var_s3 - 0x8))->unk_00;
         var_s3 = temp_a0 + 0x20;
     } while (temp_a0 != 0);
-    ASM_KEEP_NV(temp_a0);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP_NV(temp_a0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }

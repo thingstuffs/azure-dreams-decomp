@@ -167,9 +167,9 @@ s32 func_80024C7C(void *arg0) {
                     object_index--;
                     row_offset -= step;
                     x_base = point_for_x->x;
-                    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     half_step = step >> 1;
-                    ASM_KEEP(half_step);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                    ASM_KEEP(half_step);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                     object_point->x = (s16)(x_base +
                                             random_value - half_step);
                     object_point--;
@@ -186,7 +186,7 @@ s32 func_80024C7C(void *arg0) {
                     s16 color_a;
                     s32 next_index;
                     void *entry;
-                    register u32 primitive_color ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
+                    register u32 primitive_color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
                     {
                         void *context = ((S_80024C7C_1 *)global_base)->unk_00;

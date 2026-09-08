@@ -29,7 +29,7 @@ extern u8 D_8001914C[];
 extern u8 *D_8001E950;
 
 void *func_8001B828(s32 arg0, void *arg1, s32 arg2) {
-    register s32 value ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 stored_value;
     s32 result;
     void *obj;
@@ -52,7 +52,7 @@ void *func_8001B828(s32 arg0, void *arg1, s32 arg2) {
         }
         final_obj = D_8001E950;
         value = final_obj->unk_04;
-        ASM_KEEP(final_obj);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(final_obj);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (value != 0) {
             return func_8001B6E4(value);
         }

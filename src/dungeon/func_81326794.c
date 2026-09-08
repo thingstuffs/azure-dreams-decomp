@@ -47,9 +47,9 @@ void func_8016DF94(void) {
     status = D_80083460;
     count = *(u16 *)(status + 0xA);
     flags = *(u16 *)(state + 0x3714);
-    ASM_MEM_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     map_base = D_80174704;
-    ASM_KEEP(map_base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(map_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     count--;
     flags |= 9;
     *(u16 *)(status + 0xA) = count;
@@ -57,7 +57,7 @@ void func_8016DF94(void) {
     flags &= 0xFFEF;
     table_value = D_801748C8[(table_index >> 9) & 7];
     *(u16 *)(state + 0x3714) = flags;
-    ASM_CLOBBER("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     *(s32 *)(state + 0x371C) = table_value;
     object = *(u8 **)(map_base + 0xC);
     D_800DCF4D = -1;
@@ -72,7 +72,7 @@ void func_8016DF94(void) {
         offset = ((s32)i << 16) >> 14;
         entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[offset + 0xAC];
         if (entry != 0) {
-            register u32 high_bit ASM_REG("$3");   /* MATCH pin: retail immediate-load split depends on it */
+            register u32 high_bit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
             func_8016A908(entry);
             func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[offset + 0xAC]);

@@ -11,7 +11,7 @@ extern Obj *D_80175D58[];
 extern Obj *D_80175D5C[];
 
 void func_8016F96C(s32 arg0, s16 arg1) {
-    register u32 page ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     Obj *obj;
 
     page = 0x80170000;

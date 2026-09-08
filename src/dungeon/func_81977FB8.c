@@ -84,7 +84,7 @@ void func_81977FB8(void)
       TargetData *temp_s0;
       void *temp_arg1;
       temp_arg1 = &D_80026180;
-      ASM_KEEP(temp_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+      ASM_KEEP(temp_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
       temp_s2->fieldA = (u16) temp_remainder;
       temp_s0 = temp_v0->fieldC;
       temp_s0->byteE = (temp_remainder = 0x80);

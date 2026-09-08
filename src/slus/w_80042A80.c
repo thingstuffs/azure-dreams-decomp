@@ -58,6 +58,6 @@ s32 func_80042A80(S_80042A80_Item *a0)
     return 0;
   }
   t = cat->records[a0->f0].f0 & 0x400;
-  ASM_KEEP(t);   /* MATCH pin: slus-diff */
+  ASM_KEEP(t);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   return t;
 }

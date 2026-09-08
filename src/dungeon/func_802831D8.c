@@ -32,11 +32,11 @@ void func_800161D8(void) {
     u32 x = 0x3F;
     u32 z = 6;
 
-    ASM_KEEP(y);   /* MATCH pin: retail immediate-load split depends on it */
-    ASM_KEEP(p);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     p->unk14 = z;
-    ASM_KEEP(z);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     p->unk16 = 6;
     p->unk1C = 0x180;
     p->unk1E = 0x180;
@@ -46,11 +46,11 @@ void func_800161D8(void) {
     g->unk1DC.unk00 = (u32)D_800EA000;
     func_80018A70(g, x, y);
     D_80080AA0[0] = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     {
         u8 *page = (u8 *)0x800E0000;
 
-        ASM_KEEP(page);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         page[0x3D20] = 0;
         func_80099188(D_800EA000 - 0x9C14);
     }

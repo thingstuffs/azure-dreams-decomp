@@ -26,28 +26,28 @@ extern u8 D_80175E70[];
 extern u8 D_80175EA8[];
 
 s32 func_80171F9C(Rec_func_800A9E70_arg0 *arg0, s32 arg1, void *arg2, void *arg3) {
-    register s32 held_arg1 ASM_REG("$22") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg1 ASM_REG("$22") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 neg;
     s32 mode;
     u16 old_value;
-    register u16 flags_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 flags_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 status;
     u16 remaining;
 
-    ASM_KEEP(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     status = *(volatile u8 *)((u8 *)arg3 + 0x71);
     {
         S_80171F9C_0 *held_arg2 = arg2;
-        register s32 obj ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
-        register u16 *flags ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
-        register u8 *page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 obj ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u16 *flags ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         *(volatile u8 *)((u8 *)arg3 + 0x71) = status & 0x7F;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         page = (u8 *)0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         flags = (u16 *)(page + 0x3460);
-        ASM_KEEP(flags);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         mode = 0;
         if (flags[1] & 0x2000) {
             return -1;
@@ -88,7 +88,7 @@ check_ready:
         }
 
         {
-            register s32 m ASM_REG("$3") = mode;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register s32 m ASM_REG("$3") = mode;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             arg0->unk_9B.as_s8 = 0;
             if (m == 1) {
                 arg0->unk_8C = 0;

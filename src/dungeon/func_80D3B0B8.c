@@ -90,7 +90,7 @@ void func_80D3B0B8(u8 *arg0, u8 *arg1, u8 *arg2) {
     u8 *saved_arg1 = arg1;
     u8 *saved_arg2 = arg2;
     u8 *temp_v0;
-    register u8 *temp_s3 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *temp_s1;
     u8 *base_80083160;
     u8 *temp_v1;
@@ -117,7 +117,7 @@ void func_80D3B0B8(u8 *arg0, u8 *arg1, u8 *arg2) {
             var_a3++;
             var_a2++;
         } while (var_a3 != var_t0);
-        ASM_KEEP(var_a2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(var_a2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         func_8004491C(temp_v0, &D_80045340);
         table_800E23F0 = D_800E23F0;
@@ -148,8 +148,8 @@ void func_80D3B0B8(u8 *arg0, u8 *arg1, u8 *arg2) {
                 ((S_80D3B0B8_2 *)saved_arg0)->unk_2A.u + 0x100) >> 9) & 7] * 4;
         ((S_80D3B0B8_2 *)saved_arg0)->unk_B0++;
         func_800BC26C(temp_v0, 0, temp_s1 + 0x2C, temp_s3 + 0x2A);
-        ASM_KEEP(saved_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(saved_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(saved_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(saved_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }

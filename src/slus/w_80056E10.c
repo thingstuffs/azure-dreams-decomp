@@ -306,9 +306,9 @@ void func_80056E10(u8 arg0, s32 arg1, u8 arg2)
                 }
                 if (ch->f50 != 0) {
                     fpt = ch->f5C & 0x7F;
-                    ASM_KEEP_NV(fpt);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_KEEP_NV(fpt);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     fp = (u8) fpt;
-                    ASM_KEEP_NV(ch);   /* MATCH pin: slus-diff */
+                    ASM_KEEP_NV(ch);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     prev = ch->f5C;
                     ch->f52 = 0;
                     if (prev < vel) {
@@ -329,9 +329,9 @@ void func_80056E10(u8 arg0, s32 arg1, u8 arg2)
             } else {
                 if (ch->f50 != 0) {
                     fpt = ch->f5C & 0x7F;
-                    ASM_KEEP_NV(fpt);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    ASM_KEEP_NV(fpt);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     fp = (u8) fpt;
-                    ASM_KEEP_NV(ch);   /* MATCH pin: slus-diff */
+                    ASM_KEEP_NV(ch);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     prev = ch->f5C;
                     ch->f52 = 0;
                     if (prev < vel) {
@@ -525,5 +525,5 @@ void func_80056E10(u8 arg0, s32 arg1, u8 arg2)
         }
         idx++;
     } while (idx < hdr->f00);
-    ASM_SET(a1c);   /* MATCH pin: slus-diff */
+    ASM_SET(a1c);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 }

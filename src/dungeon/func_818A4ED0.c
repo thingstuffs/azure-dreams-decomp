@@ -88,18 +88,18 @@ s32 func_818A4ED0(s32 arg0, S_818A4ED0_3 *arg1) {
             __asm__ __volatile__("" : : : "$2");
 #endif
             {
-                register s32 v0pin ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+                register s32 v0pin ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 v0pin = (s32) temp_v0;
-                ASM_KEEP(v0pin);   /* MATCH pin: retail basic-block layout depends on it */
+                ASM_KEEP(v0pin);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 temp_s0_2->unk_0A = final_z;
                 func_800247B8();
             }
         }
     }
     {
-        register s32 zero_v0 ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+        register s32 zero_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         zero_v0 = 0;
-        ASM_KEEP(zero_v0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(zero_v0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         return zero_v0;
     }
 }

@@ -88,11 +88,11 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
 {
     void *owner = arg0;
     void *motion = arg1;
-    register void *data ASM_REG("$19") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
-    register void *actor ASM_REG("$16") = owner;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 initialWork ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s16 work ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register u32 initialRaw ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *data ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$16") = owner;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 initialWork ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s16 work ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u32 initialRaw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Callback callback;
     Callback callback2;
     s32 result;
@@ -113,7 +113,7 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
         (*(u8 *)((u8 *)owner + (0x9B))) = 0;
     }
 
-    ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     if (D_80013714 & 8) {
         i = 1;
@@ -133,7 +133,7 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
         u32 page;
         func_800A48F0(actor, 7, 1);
         page = 0x80080000;
-        ASM_PAGEBASE_PIN(page);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80169FC0();
         return;
     }
@@ -151,13 +151,13 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
     }
 
     {
-        register void *callOwner ASM_REG("$4") = owner;   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register void *callMotion ASM_REG("$5") = motion;   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register void *callData ASM_REG("$6") = data;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register void *callOwner ASM_REG("$4") = owner;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register void *callMotion ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register void *callData ASM_REG("$6") = data;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         initialRaw = ((S_80169EC0_3 *)actor)->unk_6D.u;
         initialRaw <<= 24;
-        ASM_KEEP_NV(initialRaw);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(initialRaw);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         initialWork = (s32)initialRaw >> 24;
         if (func_800A9E70(callOwner, callMotion, callData, actor) != 0) {
             return;
@@ -175,7 +175,7 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
 
     status = ((S_80169EC0_4 *)data)->unk_14;
     if (!(status & 0x8000)) {
-        register s32 angleCalc ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 angleCalc ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u16 lowStatus;
         u16 lowCleared;
         angleCalc = D_80083228 + ((S_80169EC0_3 *)actor)->unk_2A + 0x100;
@@ -218,7 +218,7 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
 
     ((S_80169EC0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)owner + (0x9D))) * 0x14000;
     (*(u8 *)((u8 *)owner + (0x9D)))++;
-    ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(s32 *)((u8 *)owner + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
 
     if ((*(u16 *)((u8 *)owner + (0x98))) & 4) {
@@ -266,7 +266,7 @@ finish:
                               (((S_80169EC0_3 *)actor)->unk_88.u +
                                (*(u16 *)((u8 *)owner + (0x92))));
     ((S_80169EC0_4 *)data)->unk_14 |= 0x40;
-       /* MATCH pin: retail schedule: same instructions, different order without it */
-       /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(work);   /* MATCH pin: load-bearing for the whole function shape */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

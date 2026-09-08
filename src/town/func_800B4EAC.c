@@ -65,7 +65,7 @@ void func_800B260C(u8 *arg0) {
     }
         if (buttons & 0x80) {
             func_80053DA8(0x503);
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             func_800B2814();
         return;
     }
@@ -83,7 +83,7 @@ void func_800B260C(u8 *arg0) {
     }
     if (buttons & 1) {
         func_800B2394(arg0, 1);
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_800B2814();
         return;
     }
@@ -96,25 +96,25 @@ void func_800B260C(u8 *arg0) {
         buttons = ((S_800B260C_0 *)base)->unk_10.u;
         if (buttons & 0x8000) {
             action = -5;
-            ASM_TAILSLOT_PIN(action);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800B27F8();
             return;
         }
         if (buttons & 0x2000) {
             action = 5;
-            ASM_TAILSLOT_PIN(action);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800B27F8();
             return;
         }
         if (buttons & 0x1000) {
             action = -1;
-            ASM_TAILSLOT_PIN(action);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800B27F8();
             return;
         }
         if (buttons & 0x4000) {
             action = 1;
-            ASM_TAILSLOT_PIN(action);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800B27F8();
             return;
         }
@@ -125,25 +125,25 @@ void func_800B260C(u8 *arg0) {
         } else {
             if (input & 0x8000) {
                 action = -5;
-                ASM_TAILSLOT_PIN(action);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_800B27E8();
                 return;
             }
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (input & 0x2000) {
                 action = 5;
-                ASM_TAILSLOT_PIN(action);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_800B27E8();
                 return;
             }
             input2 = ((S_800B260C_0 *)base)->unk_08;
             if (input2 & 0x1000) {
                 action = -1;
-                ASM_TAILSLOT_PIN(action);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_TAILSLOT_PIN(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_800B27E8();
                 return;
             }
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (input2 & 0x4000) {
                 action = 1;
             }

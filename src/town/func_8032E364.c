@@ -13,9 +13,9 @@ UA32 *func_80018B64(UA32 *arg0)
     u8 *page;
     u8 *table;
     u32 hi;
-    register UA32 *src ASM_REG("$7");   /* MATCH pin: retail delay-slot fill depends on it */
+    register UA32 *src ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     UA32 **cursor;
-    register u8 *out ASM_REG("$7");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *out ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *list;
     u8 *root;
     u8 y;
@@ -24,15 +24,15 @@ UA32 *func_80018B64(UA32 *arg0)
 
     ret = arg0;
     page = (u8 *)0x80010000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     root = *(u8 **)(page + 0x6000);
     table = *(u8 **)(*(u8 **)(root + 0x24) + 0x6C);
     hi = 0x80020000;
-    ASM_KEEP(hi);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(hi);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     src = (UA32 *)(hi - 0x3CE4);
-    ASM_KEEP(src);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *ret = *src;
-    ASM_KEEP(hi);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(hi);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     root = *(u8 **)(page + 0x6000);
     list = *(u8 **)(root + 0x38);

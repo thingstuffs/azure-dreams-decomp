@@ -9,7 +9,7 @@
 extern u8 D_800157D2;
 
 s32 func_80026EC0(s32 arg0, s32 arg1) {
-    register s32 var_a3 ASM_REG("$7");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 var_v0;
     s32 var_v1;
     u8 *var_a2;

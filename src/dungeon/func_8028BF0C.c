@@ -93,11 +93,11 @@ void func_8001EF0C(void) {
     s32 saved_type;
     s16 height;
     u32 initial_value;
-    register u32 flag_bits ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 flag_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 flags;
     u8 type;
     u8 existing_type;
-    register u8 store_type ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 store_type ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 spawn_variant;
     u8 spawn_marker;
     S_8001EF0C_0 *object;
@@ -125,7 +125,7 @@ void func_8001EF0C(void) {
                         u8 *loop_page;
                         s32 *loop_limits;
                         loop_page = PAGE_8008;
-                        ASM_KEEP_NV(loop_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                        ASM_KEEP_NV(loop_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                         loop_limits = (s32 *)(loop_page + 0x35E8);
                         do {
                             func_800A1D4C(object, 0);
@@ -143,12 +143,12 @@ void func_8001EF0C(void) {
     {
         u8 *config_page;
         config_page = PAGE_8008;
-        ASM_KEEP_NV(config_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(config_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         config = config_page + 0x1468;
     }
     if (((S_8001EF0C_1 *)config)->unk_06 == 1) {
         spawn_limit = (func_800A6D30() & 3) + 4;
-        ASM_TAILSLOT_PIN(spawn_limit);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(spawn_limit);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8001F0AC();
         return;
     }
@@ -169,14 +169,14 @@ void func_8001EF0C(void) {
         if (meta[i].state == saved_type) {
             x = position[i].x;
             y = position[i].y;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             {
-                register s32 tail_s0 ASM_REG("$16") = meta[i].type;   /* MATCH pin: retail register colouring depends on it */
+                register s32 tail_s0 ASM_REG("$16") = meta[i].type;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 tail_v0 = meta[i].unk2;
-                register s32 tail_v1 ASM_REG("$3") = meta[i].unk3;   /* MATCH pin: load-bearing for the whole function shape */
-                register s32 tail_a2 ASM_REG("$6") = -0x400;   /* MATCH pin: retail register colouring depends on it */
-                ASM_KEEP4(tail_s0, tail_v0, tail_v1, tail_a2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-                ASM_TAILSLOT_PIN(tail_a2);   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 tail_v1 ASM_REG("$3") = meta[i].unk3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s32 tail_a2 ASM_REG("$6") = -0x400;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP4(tail_s0, tail_v0, tail_v1, tail_a2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                ASM_TAILSLOT_PIN(tail_a2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 func_8001F230();
             }
             return;
@@ -191,10 +191,10 @@ void func_8001EF0C(void) {
             flags = *(u16 *)(D_800735C4[0] + (type * 0xC));
             flag_bits = flags & 0x3000;
             if (flag_bits != 0x3000) {
-                register u32 shifted_flag_bits ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-                register u32 scaled_flag_bits ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register u32 shifted_flag_bits ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register u32 scaled_flag_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 shifted_flag_bits = flag_bits << 16;
-                ASM_KEEP_NV(shifted_flag_bits);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP_NV(shifted_flag_bits);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 scaled_flag_bits = shifted_flag_bits >> 26;
                 cost = scaled_flag_bits + 4;
                 if (budget >= cost) {
@@ -209,7 +209,7 @@ void func_8001EF0C(void) {
                         position[i].y = y;
                         spawn_variant = (func_800A6D30() & 7) | 4;
                         spawn_marker = 0x80;
-                        ASM_KEEP_DEP_NV(spawn_variant, spawn_marker);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                        ASM_KEEP_DEP_NV(spawn_variant, spawn_marker);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                         meta[i].unk2 = spawn_variant;
                         meta[i].unk3 = spawn_marker;
                         height = func_800BCB04((x << 6) | 0x20,
@@ -221,10 +221,10 @@ void func_8001EF0C(void) {
                         func_8009A21C(x, y, 0x20);
                         {
                             u32 lookup_index;
-                            register u8 *lookup_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                            register u8 *lookup_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                             lookup_index = type;
                             lookup_base = D_800DF258;
-                            ASM_KEEP_DEP_NV(lookup_index, lookup_base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                            ASM_KEEP_DEP_NV(lookup_index, lookup_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                             value = *(s32 *)(lookup_base + (lookup_index << 2));
                         }
                         if (value < 0) {

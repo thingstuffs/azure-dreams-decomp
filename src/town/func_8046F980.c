@@ -10,12 +10,12 @@ s32 func_80016980(void) {
 
     result = func_80019928();
     if (result == 0) {
-        register s32 ret ASM_REG("$2");   /* MATCH pin: retail delay-slot contents depend on it */
+        register s32 ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
         func_8001A418(0x7A0);
-        ASM_KEEP(result);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ret = result;
-        ASM_TAILSLOT_PIN(ret);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800169B8();
         return result;
     }

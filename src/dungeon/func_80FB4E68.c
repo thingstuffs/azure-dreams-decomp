@@ -235,7 +235,7 @@ state_0:
     }
     func_8004491C(alloc, D_80174B98);
     template = D_80174B20;
-    ASM_KEEP(template);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(template);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80174668_5 *)alloc)->unk_10 = template;
     prim = alloc + 0x20;
     ((S_80174668_6 *)prim)->unk_A2 = (arg2->unk_24 << 6) + 0x20;
@@ -245,7 +245,7 @@ state_0:
         s32 countdown;
         u16 arg1_value;
         color = 0x00808080;
-        ASM_KEEP(color);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         arg1_value = arg1->unk_0A;
         countdown = 0x3C;
         ((S_80174668_6 *)prim)->unk_AC = color;

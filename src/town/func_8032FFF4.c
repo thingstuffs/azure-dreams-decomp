@@ -18,17 +18,17 @@ extern s8 D_80016000[];
 
 void func_8001A7F4(s32 arg0, s32 arg1, s32 arg2)
 {
-    register void *base ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register void *dst ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register void *base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *dst ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     (void)arg0;
     base = *(void **)D_80016000;
     dst = ((S_8001A7F4_0 *)base)->unk_1C;
-    ASM_KEEP(dst);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     arg1 <<= 6;
     ((S_8001A7F4_1 *)dst)->unk_04 = arg1 / 10 + 0x220;
     base = ((S_8001A7F4_0 *)base)->unk_1C;
-    ASM_KEEP(base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     arg2 <<= 6;
     ((S_8001A7F4_0 *)base)->unk_08 = arg2 / 10 + 0x220;
 }

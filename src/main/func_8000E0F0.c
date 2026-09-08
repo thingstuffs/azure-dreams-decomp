@@ -69,7 +69,7 @@ state_three:
         result = 2;
         *value = 1;
         D_800287C8 = 0;
-        ASM_CLOBBER("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     }
 
 done:

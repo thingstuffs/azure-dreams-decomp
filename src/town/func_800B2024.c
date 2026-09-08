@@ -26,7 +26,7 @@ extern void func_800AF7E0(void);
 
 void func_800AF784(Object *obj)
 {
-    register State *state ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register State *state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 mask;
 
     if (obj->state->current > 0) {
@@ -35,7 +35,7 @@ void func_800AF784(Object *obj)
         *obj->outputs->primary = D_800786DC;
         value = obj->flags;
         value &= ~2;
-        ASM_TAILSLOT_PIN(value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800AF7E0();
         return;
     }
@@ -45,7 +45,7 @@ void func_800AF784(Object *obj)
     state = obj->state;
     if (state->current < state->limit) {
         mask = -2;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         obj->flags &= mask;
         *obj->outputs->secondary = D_800786E8;
         return;

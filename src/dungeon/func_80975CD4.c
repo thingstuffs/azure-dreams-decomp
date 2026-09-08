@@ -86,8 +86,8 @@ void func_801714D4(void *arg0, void *arg1, void *arg2, void *arg3)
     };
     void *p0 = arg0;
     void *p1 = arg1;
-    register void *p2 ASM_REG("$17") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *p3 ASM_REG("$18") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *p2 ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *p3 ASM_REG("$18") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 sp18;
     s32 flags;
     s32 kind;
@@ -108,10 +108,10 @@ void func_801714D4(void *arg0, void *arg1, void *arg2, void *arg3)
         return;
     }
 
-    ASM_KEEP(p0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p2);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(p3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);

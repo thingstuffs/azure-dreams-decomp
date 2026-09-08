@@ -51,9 +51,9 @@ void func_80174C70(void *arg0, void *arg1, void *arg2)
     LocalTable table;
     s32 cosine;
     long work_role = (long)arg2;
-    register s32 angle_raw ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 angle_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 angle_diff;
-    register s32 signed_angle ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 signed_angle ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 color;
     u32 swi;
     static void *const sw_keep[27] = {
@@ -124,8 +124,8 @@ common:
 
     {
         s32 sine_result = func_80064584(work_role);
-        register s32 sine_scale ASM_REG("$3") = ((S_80174C70_0 *)arg0)->unk_62;   /* MATCH pin: retail register colouring depends on it */
-        register s32 sine ASM_REG("$7") = sine_scale * sine_result;   /* MATCH pin: retail register colouring depends on it */
+        register s32 sine_scale ASM_REG("$3") = ((S_80174C70_0 *)arg0)->unk_62;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 sine ASM_REG("$7") = sine_scale * sine_result;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 cosine_arg = work_role;
 
         work_role = sine << 4;
@@ -135,34 +135,34 @@ common:
     {
         u8 *table_base = (u8 *)&table;
         s32 first_angle = ((S_80174C70_0 *)arg0)->unk_18;
-        register s32 scale ASM_REG("$4") = ((S_80174C70_0 *)arg0)->unk_62;   /* MATCH pin: retail register colouring depends on it */
+        register s32 scale ASM_REG("$4") = ((S_80174C70_0 *)arg0)->unk_62;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         vector.x = (*(u16 *)((u8 *)table_base + (((first_angle - 0x400) >> 7) & 0x1C)));
 
         {
-            register s32 cosine_product ASM_REG("$7") = scale * cosine;   /* MATCH pin: retail register colouring depends on it */
+            register s32 cosine_product ASM_REG("$7") = scale * cosine;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 second_angle = ((S_80174C70_0 *)arg0)->unk_18;
 
             table_base += ((second_angle - 0x400) >> 7) & 0x1C;
             vector.y = (*(u16 *)((u8 *)table_base + (2)));
 
             {
-                register s32 delta ASM_REG("$3") = cosine_product << 4;   /* MATCH pin: retail register colouring depends on it */
+                register s32 delta ASM_REG("$3") = cosine_product << 4;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 ((S_80174C70_2 *)arg1)->unk_08 += delta;
             }
         }
     }
     {
-        register s32 component ASM_REG("$2") = vector.x;   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 product ASM_REG("$7") = component * work_role;   /* MATCH pin: retail register colouring depends on it */
+        register s32 component ASM_REG("$2") = vector.x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 product ASM_REG("$7") = component * work_role;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         component = product >> 4;
         ((S_80174C70_2 *)arg1)->unk_0C = component;
     }
     {
-        register s32 component ASM_REG("$2") = vector.y;   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 product ASM_REG("$7") = component * work_role;   /* MATCH pin: retail register colouring depends on it */
+        register s32 component ASM_REG("$2") = vector.y;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 product ASM_REG("$7") = component * work_role;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         component = product >> 4;
         ((S_80174C70_2 *)arg1)->unk_10 = component;

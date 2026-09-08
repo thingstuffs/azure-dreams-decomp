@@ -18,17 +18,17 @@ s16 func_8001A768(u16 *arg0, s32 arg1, s32 arg2, s8 *arg3, s32 arg4, s32 arg5,
     u16 start_y;
     u16 depth_arg;
     u16 aux_arg;
-    register s32 auxv ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+    register s32 auxv ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 limit;
     s32 depth;
     s32 shifted;
     s32 off;
-    register u16 nsum ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 nsum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 xbase;
     s32 x;
     s32 y;
     s32 failures;
-    register s32 index ASM_REG("$16");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s8 tile;
     s32 count;
     s32 tries;

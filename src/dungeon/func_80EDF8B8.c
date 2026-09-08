@@ -69,7 +69,7 @@ void func_801710B8(void *arg0, void *arg1)
             delta = -delta;
         }
         if (delta >= 17) {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail register colouring depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             value = 0x10000;
         } else {
             value = 0x1000;
@@ -80,7 +80,7 @@ void func_801710B8(void *arg0, void *arg1)
             delta = -delta;
         }
         if (delta >= 17) {
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail register colouring depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             value = -0x10000;
         } else {
             value = -0x1000;

@@ -38,5 +38,5 @@ check_flag:
     if (D_80083462 & 0x80) {
         entity->unk_92 = -0x20;
     }
-    ASM_KEEP(value);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 }

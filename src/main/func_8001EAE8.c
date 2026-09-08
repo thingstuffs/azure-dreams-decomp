@@ -10,7 +10,7 @@ extern void func_80405B5C(void);
 void func_8001EAE8(void *arg0) {
     s32 sentinel;
     void *p;
-    register s32 i ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 i ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if (*(s32 *)((u8 *)arg0 + 0x48) == 1) {
         sentinel = 1;

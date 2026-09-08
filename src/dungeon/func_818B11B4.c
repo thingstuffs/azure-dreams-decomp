@@ -52,7 +52,7 @@ s32 func_818B11B4(S_818B11B4_0 *arg0, S_818B11B4_2 *arg1, s32 arg2) {
         trig_arg = (table_index - ((quotient >> 4) * 0x10)) << 8;
         cursor[0] = func_800644B8(trig_arg) >> 4;
         cursor[17] = func_80064584(trig_arg) >> 4;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         table_index--;
         cursor--;
     } while (table_index >= 0);
@@ -75,7 +75,7 @@ s32 func_818B11B4(S_818B11B4_0 *arg0, S_818B11B4_2 *arg1, s32 arg2) {
             angle = (func_800644B8((position - ((quotient_arg >> 4) * 0x10)) << 9) >> 9) + 0x20;
             func_80064584(index << 9);
             call_arg0 = arg0;
-            ASM_KEEP(call_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             height = ((S_818B11B4_1 *)height_cursor)->unk_1A;
             height_cursor = (u8 *)height_cursor + 2;
             shifted_index = index << 0x11;

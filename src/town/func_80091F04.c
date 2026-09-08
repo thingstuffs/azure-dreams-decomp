@@ -53,15 +53,15 @@ void func_8008F664(void *arg0, void *arg1) {
 object_loop:
     {
     void *loop_cur;
-    register void *loop_next ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *loop_next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     loop_cur = SCPTR(scratch, 4);
     loop_next = PTR_AT(VSPTR(scratch, 4), 8);
     SCPTR(scratch, 8) = loop_next;
     part = PTR_AT(loop_cur, 0xC);
-    ASM_KEEP_NV(part);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(part);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     loop_next = loop_cur;
-    ASM_KEEP_NV(loop_next);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(loop_next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     SCPTR(scratch, 0xC) = part;
     if (U8_AT(loop_next, 0x15) == 0) {
         goto next_object;
@@ -70,12 +70,12 @@ object_loop:
 
     {
     void *q0;
-    register void *q8 ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *q8 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 left;
-    register s32 q0v ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 right ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 q0v ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 right ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 pv0;
-    register s32 pvc ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 pvc ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     q0 = VSPTR(scratch, 0);
     left = S32_AT(arg1, 0);
@@ -95,14 +95,14 @@ object_loop:
     }
 
     {
-    register void *q0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *q0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *q8;
-    register void *qc ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *qc ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 left;
     s32 q0v;
     s32 extra;
     s32 right;
-    register s32 qcv ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     q0 = VSPTR(scratch, 0);
     left = S32_AT(arg1, 0);
@@ -124,13 +124,13 @@ object_loop:
 
     {
     void *q0;
-    register void *q8 ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *q8 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *qc;
     s32 left;
-    register s32 q0v ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 q0v ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 right;
-    register s32 qcv ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s32 qce ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 qce ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     q0 = VSPTR(scratch, 0);
     left = S32_AT(arg1, 4);
@@ -151,14 +151,14 @@ object_loop:
     }
 
     {
-    register void *q0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *q0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *q8;
-    register void *qc ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *qc ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 left;
     s32 q0v;
     s32 extra;
     s32 right;
-    register s32 qcv ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     q0 = VSPTR(scratch, 0);
     left = S32_AT(arg1, 4);
@@ -180,13 +180,13 @@ object_loop:
 
     {
     void *q0;
-    register void *q8 ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *q8 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *qc;
     s32 left;
-    register s32 q0v ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 q0v ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 right;
-    register s32 qcv ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s32 qce ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 qce ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     q0 = VSPTR(scratch, 0);
     left = S32_AT(arg1, 8);
@@ -207,14 +207,14 @@ object_loop:
     }
 
     {
-    register void *q0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *q0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *q8;
-    register void *qc ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register void *qc ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 left;
     s32 q0v;
     s32 extra;
     s32 right;
-    register s32 qcv ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     q0 = VSPTR(scratch, 0);
     left = S32_AT(arg1, 8);
@@ -237,8 +237,8 @@ object_loop:
     {
     s32 sx;
     s32 sy;
-    register s32 say ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 pick ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 say ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 pick ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     sx = SC32(scratch, 0x10);
     sy = SC32(scratch, 0x14);
@@ -318,10 +318,10 @@ object_loop:
 
     {
     s32 dx;
-    register s32 dax ASM_REG("$5");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 dax ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 dy;
     s32 dz;
-    register s32 daz ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 daz ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     dx = VSC32(scratch, 0x10);
     dy = VSC32(scratch, 0x18);
@@ -332,7 +332,7 @@ object_loop:
     if (dy < 0) {
         dy = -dy;
     }
-    ASM_KEEP_NV(dy);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(dy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (dax < dy) {
         dz = VSC32(scratch, 0x20);
         daz = dz;

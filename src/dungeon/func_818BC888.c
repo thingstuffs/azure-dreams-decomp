@@ -28,7 +28,7 @@ extern void func_800241C4() __attribute__((noreturn));
 extern s32 D_800814A0[3];
 
 #ifndef NON_MATCHING
-register s32 func_818BC888_product_lo ASM_REG("lo");   /* MATCH pin: retail basic-block layout depends on it */
+register s32 func_818BC888_product_lo ASM_REG("lo");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
 
 void func_818BC888(void *arg0) {
@@ -62,7 +62,7 @@ void func_818BC888(void *arg0) {
     temp_lo = (s16)temp_v0 * temp_v1_shifted;
 #endif
     temp_hi = temp_lo >> 0x10;
-    ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_818BC888_0 *)arg0)->unk_08 = temp_hi;
     temp_v1_2 = ((S_818BC888_0 *)arg0)->unk_04.s16;
     if (temp_v1_2 >= 0x40) {
@@ -75,21 +75,21 @@ void func_818BC888(void *arg0) {
         s32 tail_v0;
 
         tail_v0 = ((S_818BC888_0 *)arg0)->unk_04.u8 << 3;
-        ASM_TAILSLOT_PIN(tail_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8002414C();
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (temp_v1_2 < 0x30) {
         s32 tail_v0;
 
         tail_v0 = 0x80;
-        ASM_TAILSLOT_PIN(tail_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8002414C();
         return;
     }
     ((S_818BC888_0 *)arg0)->unk_0E = -0x80 - ((temp_v1_2 - 0x30) * 8);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v1_2 = ((S_818BC888_0 *)arg0)->unk_04.s16 % 4;
     if (temp_v1_2 == 1) {
         goto tail_c0;
@@ -116,7 +116,7 @@ void func_818BC888(void *arg0) {
 
 tail_c0:
     var_v0_2 = 0x7E00;
-    ASM_TAILSLOT_PIN(var_v0_2);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN(var_v0_2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_800241C0(arg0, (s16)temp_v0, temp_lo);
 
 case_2:

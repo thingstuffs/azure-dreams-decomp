@@ -11,7 +11,7 @@ s32 func_800A19E4(void *a, void *b, s32 lo, s32 hi, s8 *out) {
         v = F(a,s8,0x26);
         if (v >= 0) {
             u8 *page = (u8 *)0x80080000;
-            ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             if (v == F(page,s8,0x2EA6)) goto done;
         }
         if ((func_8009FD40(D_80082E80,a) << 16) >= (hi << 16)) { F(b,s8,0x73)=0; F(b,s8,0x72)=0; F(b,u32,0x1C) &= ~0x20000; *out=-1; func_800A1B14(); }
@@ -21,7 +21,7 @@ s32 func_800A19E4(void *a, void *b, s32 lo, s32 hi, s8 *out) {
         v=F(a,s8,0x26);
         if (v >= 0) {
             u8 *page = (u8 *)0x80080000;
-            ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             if (v == F(page,s8,0x2EA6)) goto set_flag;
         }
         if ((func_8009FD40(D_80082E80,a) << 16) >= (lo << 16)) goto done;

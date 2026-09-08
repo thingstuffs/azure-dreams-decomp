@@ -90,7 +90,7 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
     void *p0;
     void *p1;
     void *p2;
-    register void *p3 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *p3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *table;
     s32 result;
     s32 scratch;
@@ -111,9 +111,9 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
         return;
     }
 
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((S_80170F68_1 *)arg3)->unk_25 == 0) {
         u8 *zero_table;
@@ -150,7 +150,7 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
 
-        ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if (((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 != 0xE) {
             u8 state = 0xE;
 

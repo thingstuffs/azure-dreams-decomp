@@ -31,8 +31,8 @@ extern void *D_80083160[3];
 void func_8003CCB0(s32 arg0)
 {
     u8 *scratch;
-    register u8 *packet ASM_REG("$17");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register u8 *record ASM_REG("$19");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u8 *packet ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register u8 *record ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *prim;
     u8 *flag;
     s32 i;
@@ -45,9 +45,9 @@ void func_8003CCB0(s32 arg0)
     s32 off;
     s32 shade;
     s32 colour;
-    register u8 *in0 ASM_REG("$4");   /* MATCH pin: slus-diff */
-    register u8 *out0 ASM_REG("$5");   /* MATCH pin: slus-diff */
-    register u8 *arg2 ASM_REG("$6");   /* MATCH pin: slus-diff */
+    register u8 *in0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u8 *out0 ASM_REG("$5");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u8 *arg2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     scratch = (u8 *)0x1F800000;
     root = (u8 **)D_80083160;
@@ -63,7 +63,7 @@ void func_8003CCB0(s32 arg0)
         D_80080AAC = D_80080AAC + 1;
         buf[1] = 0;
         do {
-            register u8 *made ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register u8 *made ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             buf[0] = *(u8 *)(i + (u32)src);
             made = (u8 *)func_8004E298(ent, buf, 0);
             S8_AT(made, 3) = fill;
@@ -86,7 +86,7 @@ void func_8003CCB0(s32 arg0)
     U16_AT(scratch, 0x74) = 0;
     PushMatrix();
     {
-        register u8 *rec0 ASM_REG("$3") = (u8 *)D_80080AB0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register u8 *rec0 ASM_REG("$3") = (u8 *)D_80080AB0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         record = rec0 + 4;
     }
     U16_AT(scratch, 0x28) = 0;
@@ -133,7 +133,7 @@ void func_8003CCB0(s32 arg0)
             s32 raw = U8_AT(record, -2);
             s32 v;
             x = U16_AT(scratch, 0x10);
-            ASM_KEEP_DEP_NV(raw, x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_DEP_NV(raw, x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             v = (raw << 24) >> 24;
             S16_AT(scratch, 0x80) = v;
             S16_AT(scratch, 0x70) = v;
@@ -145,7 +145,7 @@ void func_8003CCB0(s32 arg0)
             s32 raw = U8_AT(record, -1);
             s32 v;
             y = U16_AT(scratch, 0x14);
-            ASM_KEEP_DEP_NV(raw, y);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_DEP_NV(raw, y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             v = (raw << 24) >> 24;
             S16_AT(scratch, 0x7A) = v;
             S16_AT(scratch, 0x72) = v;
@@ -161,14 +161,14 @@ void func_8003CCB0(s32 arg0)
 
         {
             s32 sum_x = U32_AT(scratch, 0x10);
-            register s32 base_x ASM_REG("$4") = U32_AT(scratch, 0x08);   /* MATCH pin: slus-diff */
-            register s32 sum_y ASM_REG("$3") = U32_AT(scratch, 0x14);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-            register s32 base_y ASM_REG("$5") = U32_AT(scratch, 0x0C);   /* MATCH pin: slus-diff */
+            register s32 base_x ASM_REG("$4") = U32_AT(scratch, 0x08);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            register s32 sum_y ASM_REG("$3") = U32_AT(scratch, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            register s32 base_y ASM_REG("$5") = U32_AT(scratch, 0x0C);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             sum_x += base_x;
             sum_y += base_y;
             U32_AT(scratch, 0x10) = sum_x;
             sum_x = base_y;
-            ASM_KEEP_NV(sum_x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_KEEP_NV(sum_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             U32_AT(scratch, 0x14) = sum_y << 8;
             U32_AT(scratch, 0x0C) = sum_x << 8;
         }

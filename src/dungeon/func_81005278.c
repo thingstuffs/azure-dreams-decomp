@@ -60,16 +60,16 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
     void *obj = arg0;
     void *motion = arg1;
     void *part = arg2;
-    register void *state ASM_REG("$18") = arg0;   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 work ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 direction ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u32 raw_work ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *state ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 work ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 direction ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u32 raw_work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Callback callback;
     s32 floor_y;
     s16 delta;
     u16 part_flags;
-    register u16 count ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register s32 flags ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 amount;
     u8 collision;
 
@@ -77,7 +77,7 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
         callback = (*(Callback *)((u8 *)arg0 + 0x8C));
         if (callback == (Callback)D_80171058) {
             void *entry_obj = arg0;
-            ASM_KEEP(entry_obj);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(entry_obj);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             callback(entry_obj, arg1, arg2, entry_obj);
             return func_80171030();
         } else {
@@ -89,7 +89,7 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
 #define arg1 motion
 #define arg2 part
 
-    ASM_KEEP(obj);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     raw_work = *(volatile u8 *)((u8 *)arg0 + 0x6D);
     raw_work <<= 24;
     work = (s32)raw_work >> 24;
@@ -125,7 +125,7 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
             return func_80170C0C();
         } else {
             (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
-            ASM_KEEP(obj);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         }
     }
 
@@ -143,10 +143,10 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
             (*(s16 *)((u8 *)arg0 + 0x94)) = direction;
         }
         collision = D_8006CCF8[work];
-        ASM_KEEP(work);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (collision != 0) {
             raw_work = *(volatile u16 *)((u8 *)arg2 + 0x14) | 1;
-            ASM_TAILSLOT_PIN(raw_work);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(raw_work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_80170CB4();
         } else {
             ((S_80170A78_1 *)arg2)->unk_14 &= 0xFFFE;
@@ -157,7 +157,7 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
             if (!(((S_80170A78_1 *)arg2)->unk_14 & 0x40)) {
                 func_800478B8(arg2);
                 raw_work = 0xF7FF0000;
-                ASM_PAGEBASE_PIN(raw_work);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_PAGEBASE_PIN(raw_work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 return func_80170D20();
             }
         } else {

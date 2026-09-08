@@ -112,16 +112,16 @@ void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, Rec_D_800E3D7C *arg
     void *call_effect;
     void *call_data;
     S_8017121C_3 *coords;
-    register u8 *base ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *base ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_8017121C_6 *source;
     S_8017121C_2 *part;
     S_8017121C_9 *tracked;
-    register s16 *table_base ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 *table_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 mask;
     u32 flags;
     u32 index1;
-    register void *owner ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *owner ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 coord1;
     s16 *entry1;
     s32 table1;
@@ -146,9 +146,9 @@ void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, Rec_D_800E3D7C *arg
     }
 
     call_effect = effect;
-    ASM_KEEP_NV(call_effect);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(call_effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_data = D_80170CEC;
-    ASM_KEEP(call_data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     base = (u8 *)effect + 0x20;
     ((S_8017121C_0 *)base)->unk_18 = 2;
     ((S_8017121C_0 *)base)->unk_1A = 2;
@@ -194,16 +194,16 @@ void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, Rec_D_800E3D7C *arg
         ((S_8017121C_0 *)base)->unk_58 = 0;
 
         index1 = arg3->unk_2A.as_u16;
-        ASM_KEEP_NV(index1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(index1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         owner = arg3->unk_60.as_pv;
-        ASM_KEEP_NV(owner);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP_NV(owner);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         coord1 = coords->unk_02.u;
-        ASM_KEEP_NV(coord1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(coord1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         index1 = (index1 >> 7) & 0x1C;
         index1 += (u32)table_base;
         entry1 = (s16 *)index1;
         tracked = ((S_8017121C_8_pre *)owner)[-1].unk_00;
-           /* MATCH pin: retail basic-block layout depends on it */
+           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         table1 = *entry1;
         tracked1 = tracked->unk_02;
         table1 <<= 4;
@@ -212,16 +212,16 @@ void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, Rec_D_800E3D7C *arg
         ((S_8017121C_0 *)base)->unk_5A = value / 2;
 
         index2 = arg3->unk_2A.as_u16;
-        ASM_KEEP_NV(index2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(index2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tracked2 = tracked->unk_06;
-        ASM_KEEP_NV(tracked2);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP_NV(tracked2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         coord2 = coords->unk_06.u;
-        ASM_KEEP_NV(coord2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(coord2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         index2 = (index2 >> 7) & 0x1C;
         index2 += (u32)table_base;
         entry2 = (s16 *)index2;
         table2 = entry2[1];
-        ASM_KEEP_NV(table2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(table2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         value2 = tracked2 - coord2;
         table2 <<= 4;
         value2 -= table2;
@@ -241,7 +241,7 @@ no_tracked:
 
     raw_y = arg3->unk_73.as_u8;
     raw_x = arg3->unk_72.as_u8;
-    ASM_KEEP(raw_y);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(raw_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     raw_y <<= 24;
     y = raw_y >> 24;
     raw_x <<= 24;
@@ -259,7 +259,7 @@ no_tracked:
 
     value = scaled_x - tail_coord;
     ((S_8017121C_0 *)base)->unk_5A = value / 2;
-    ASM_KEEP(base);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     scaled_y = y << 16;
     tail_coord = coords->unk_06.u;
     scaled_y >>= 10;

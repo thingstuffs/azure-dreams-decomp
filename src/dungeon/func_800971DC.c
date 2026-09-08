@@ -49,7 +49,7 @@ extern s32 func_800981F8(Ent *);
 extern void func_8003E188(s32, s32);
 
 Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
-    register s32 zero ASM_REG("$0");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u32 coord;
     s32 savedMult;
     s32 off;
@@ -67,7 +67,7 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     savedMult = mult;
     if (ent2 == 0) {
         if (a->flags1c & 0x400) {
-            register s32 f ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register s32 f ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             f = a->flags14;
 
@@ -86,7 +86,7 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     shifted = coord >> 8;
     tableA = D_800DCEAC;
     off = shifted & 0xE;
-    ASM_USE(coord);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_USE(coord);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_800C78A0(base,
                   (b->unk24 << 6) + ((s16)*(u16 *)((u8 *)tableA + off) >> 1) + 0x20,
                   (b->unk25 << 6) + ((s16)*(u16 *)((u8 *)D_800DCEBC + off) >> 1) + 0x20,
@@ -123,19 +123,19 @@ adjusted:
     ent2->flags14 = (ent2->flags14 | 0x20000) & ~0x1000000;
 
     {
-        register s32 dance ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 saved ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+        register s32 dance ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 saved ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         dance = a->unk84;
         saved = dance;
         {
-            register s32 r ASM_REG("$3") = func_800A6D30() & 0xFFFF;   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 r ASM_REG("$3") = func_800A6D30() & 0xFFFF;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            ASM_KEEP(dance);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(dance);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             dance = saved;
             if (a->unk3 != 0) {
                 r %= a->unk3;
-                ASM_USE_NV(r);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_USE_NV(r);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 dance = saved + r * 4;
             }
         }
@@ -153,7 +153,7 @@ adjusted:
     }
     value = func_800A6D30();
     {
-        register Ent *callArg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register Ent *callArg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         callArg = a;
         step = value & 1;
@@ -176,7 +176,7 @@ adjusted:
         a->flags1c &= ~0x1000000;
     }
     if ((ent2->flags1c & 0x238) != 0) {
-        register s32 m ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 m ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         u8 d;
 
         m = func_800A6D30() & 0xFFFF;
@@ -186,12 +186,12 @@ adjusted:
             s32 dd = d + zero; /* move v0,v1 */
 
             value = (m % dd) + zero; /* mfhi; move s1 */
-            ASM_USE_NV(dd);   /* MATCH pin: retail register colouring depends on it */
+            ASM_USE_NV(dd);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         } else {
             value = 0;
         }
         {
-            register s32 sum ASM_REG("$2") = ent2->unk70;   /* MATCH pin: retail register colouring depends on it */
+            register s32 sum ASM_REG("$2") = ent2->unk70;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             sum = value + sum;
             if (((s16)sum >> 7) > 0) {

@@ -11,7 +11,7 @@ u32 func_8005E4C4(s32 mode, u32 val, s32 i0, s32 i1)
     s32 one;
 
     {
-        register volatile u16 *p ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register volatile u16 *p ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         u32 hi;
         u32 lo;
 
@@ -22,7 +22,7 @@ u32 func_8005E4C4(s32 mode, u32 val, s32 i0, s32 i1)
         }
         hi = (p[i1] & 0xFF) << 16;
         lo = p[i0];
-        ASM_USE2_NV(one, hi);   /* MATCH pin: slus-diff */
+        ASM_USE2_NV(one, hi);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         one = 1;
         old = lo | hi;
     }

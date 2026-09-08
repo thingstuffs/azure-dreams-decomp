@@ -66,14 +66,14 @@ extern u8 D_80164DA4[];
 
 void func_80165018(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4,
                    s32 arg5) {
-    register s32 held_arg4 ASM_REG("$19") = arg4;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 held_arg5 ASM_REG("$20") = arg5;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 held_arg4 ASM_REG("$19") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 held_arg5 ASM_REG("$20") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *obj;
     S_80165018_2 *state;
     S_80165018_4 *tail;
     S_80165018_3 *pos;
-    register s32 random ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 value ASM_REG("$3");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 random ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FD64(0x211, arg0);
     if (obj != 0) {

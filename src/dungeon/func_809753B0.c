@@ -78,13 +78,13 @@ void *func_80170BB0(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
     object = func_8003FD64(0x112, D_80083498);
     if (object != 0) {
         actor = (u8 *)object + 0x20;
-        ASM_KEEP(actor);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_80170BB0_0 *)object)->unk_10 = D_80170DA8;
         actor->unk_13 = 1;
         func_8004491C(object, D_80045340);
 
         page = (void *)0x80170000;
-        ASM_KEEP(page);   /* MATCH pin: retail immediate-load split depends on it */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         do { part_a = ((S_80170BB0_0 *)object)->unk_08; } while (0);
         handler = (u8 *)page + 0x40E0;
         part_a->unk_0A = arg3;
@@ -122,7 +122,7 @@ store_flags:
 
 finish_kind:
         func_800A9C18(object, part_a, part_b, arg0);
-        ASM_KEEP(object);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         actor2->unk_9A = 0xFF;
         actor2->unk_9C = -1;
         actor2->unk_8C = D_801714D4;

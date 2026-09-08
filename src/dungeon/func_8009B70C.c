@@ -16,7 +16,7 @@ extern s32 func_800A0818(u8, u8, s8, s8, u16 *);
 extern s16 func_800BCB04(u16, u16, s32);
 
 s32 func_800A0E6C(void *arg0, s32 arg1, void *arg2, u16 *arg3) {
-    register u8 *p3 ASM_REG("$19") = (u8 *)arg0;   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *p3 ASM_REG("$19") = (u8 *)arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *p4 = (u8 *)arg2;
     u16 *fp = arg3;
     Elem *s1;
@@ -27,7 +27,7 @@ s32 func_800A0E6C(void *arg0, s32 arg1, void *arg2, u16 *arg3) {
     s16 count;
     s16 c2;
     s16 c3;
-    register s32 mod ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 mod ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 r;
     s32 dir;
     s32 zero;
@@ -36,12 +36,12 @@ s32 func_800A0E6C(void *arg0, s32 arg1, void *arg2, u16 *arg3) {
     s32 d;
     s32 s5v;
     s32 idx;
-    register s32 tail ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 tail ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     E2970 *ct2;
     E2970 *ct1;
     E2970 *table;
     s16 *offsets;
-    register u16 *x_offsets ASM_REG("$23");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u16 *x_offsets ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 scan_s0;
     s32 bitmap_idx;
     u8 *bit_next;
@@ -122,7 +122,7 @@ L_B84C:
                         zero = tail;
 L_DIR1_DONE:
                         tail = zero;
-                        ASM_KEEP(tail);   /* MATCH pin: retail delay-slot fill depends on it */
+                        ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                         if (tail) {
                             goto L_BCB8;
                         }
@@ -179,7 +179,7 @@ L_B9A8:
                         zero = tail;
 L_DIR2_DONE:
                         tail = zero;
-                        ASM_KEEP(tail);   /* MATCH pin: retail delay-slot fill depends on it */
+                        ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                         if (tail) {
                             goto L_BCB8;
                         }
@@ -195,7 +195,7 @@ L_DIR2_DONE:
 
 L_BB24: {
     s32 masked;
-    register u32 base_page ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 base_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 call_a2;
 
     tail = (s16)((((s16)*(u16 *)(p4 + 0x2A) >> 9) - 4) & 7);
@@ -203,7 +203,7 @@ L_BB24: {
     *(s32 *)&bitmap[4] = 0;
     bit_next = &bitmap[tail];
     *bit_next = 1;
-    ASM_KEEP(bit_next);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(bit_next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     idx = (tail + 1) & 7;
     bit_next = &bitmap[idx];
     tail = (tail - 1) & 7;
@@ -213,18 +213,18 @@ L_BB24: {
     i = 0;
     masked = (func_800A0818(p3[0x24], p3[0x25], *(s8 *)(p4 + 0x72), *(s8 *)(p4 + 0x73), fp) & 0xFFF) << 16;
     s5v = masked >> 16;
-    ASM_KEEP(s5v);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(s5v);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     base_page = 0x80070000;
-    ASM_KEEP_NV(base_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     offsets = (s16 *)(base_page - 0x3300);
     base_page = 0x800E0000;
-    ASM_KEEP_NV(base_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     x_offsets = (u16 *)(base_page - 0x3154);
-    ASM_KEEP_NV(x_offsets);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(x_offsets);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     tail = (s16)(((masked >> 25) - 4) & 7);
     bit_next = &bitmap[tail];
     *bit_next = 1;
-    ASM_KEEP(bit_next);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(bit_next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     idx = (tail + 1) & 7;
     bit_next = &bitmap[idx];
     tail = (tail - 1) & 7;
@@ -240,20 +240,20 @@ L_BB24: {
         scan_s0 = (tail >> 9) & 7;
         s0 = scan_s0;
         bitmap_idx = scan_s0;
-        ASM_KEEP_NV(bitmap_idx);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(bitmap_idx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (bitmap[bitmap_idx] == 0) {
             bitmap_idx <<= 1;
             bit_next = (u8 *)(bitmap_idx + (s32)x_offsets);
             masked = p3[0x24];
             zero = *(u16 *)bit_next;
             call_a2 = *(u16 *)(p4 + 0x88);
-            ASM_KEEP4_NV(masked, zero, call_a2, bit_next);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP4_NV(masked, zero, call_a2, bit_next);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             masked <<= 6;
             zero += masked;
             zero &= 0xFFFF;
-            ASM_USE(zero);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_USE(zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             masked = 0x800E0000;
-            ASM_KEEP_NV(masked);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(masked);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             masked -= 0x3144;
             bitmap_idx += masked;
             call_a2 = (s16)(call_a2 - 0x20);
@@ -287,11 +287,11 @@ L_BCB8:
     goto L_RET0;
 
 L_BD00: {
-    register s32 final_a2 ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 final_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     tail = 0xFF;
     mod = 0x80070000;
-    ASM_KEEP_NV(mod);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(mod);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     p3[0x27] = tail;
     final_a2 = *(u16 *)(p4 + 0x88);
     tail = *(s16 *)(p4 + 0x2A);

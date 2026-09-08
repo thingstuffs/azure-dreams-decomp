@@ -111,9 +111,9 @@ s32 func_80DE6AAC(S_80DE6AAC_2 *arg0, void *arg1, S_80DE6AAC_4 *arg2) {
             }
         }
         {
-            register s32 dispatch_result ASM_REG("$2") = (s32)temp_v0;   /* MATCH pin: retail delay-slot contents depend on it */
+            register s32 dispatch_result ASM_REG("$2") = (s32)temp_v0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
-            ASM_TAILSLOT_PIN(dispatch_result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80174438();
         }
         return (s32)temp_v0;

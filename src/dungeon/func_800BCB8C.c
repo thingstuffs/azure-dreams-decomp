@@ -81,7 +81,7 @@ s32 func_800C22EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
         if (temp_v1 < 0x14) {
             temp_s0 = D_800E3DF0[temp_v1];
             if ((func_80042900(temp_s0, 0xE, arg2) << 0x10) != 0) {
-                register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+                register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
                 mask = 0xFBFFFFFF;
                 call_a0 = temp_s0;

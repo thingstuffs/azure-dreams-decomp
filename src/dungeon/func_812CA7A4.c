@@ -155,16 +155,16 @@ void func_8014DFA4(void *arg0, void *arg1, void *arg2, void *arg3)
             if (current == D_80151CA8) {
                 if (((S_8014DFA4_2 *)arg2)->unk_14 & 0xE000) {
 #ifdef __mips__
-                    register void *state_table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+                    register void *state_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     state_table = D_80151C30;
-                    ASM_TAILSLOT_PIN(state_table);   /* MATCH pin: retail delay-slot contents depend on it */
+                    ASM_TAILSLOT_PIN(state_table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 #endif
                     func_8014E168();
                 }
             } else {
                 table = D_80151C30;
                 if (current != table) {
-                    ASM_KEEP(current);   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     (*(void * *)((u8 *)arg2 + 0x2C)) = table;
                     func_80047784(arg2,
                         ((u8 *)table)[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],

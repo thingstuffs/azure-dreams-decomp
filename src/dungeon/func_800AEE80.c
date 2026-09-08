@@ -75,7 +75,7 @@ void func_800B45E0(void *arg0, S_800B45E0_2 *arg1, S_800B45E0_4 *arg2) {
     u16 temp_v0_4;
     u16 temp_v0_5;
     u16 temp_v0_6;
-    register u8 temp_v1_2 ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register u8 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     u8 temp_v1_3;
     S_800B45E0_1 *temp_v0;
     S_800B45E0_3 *temp_v0_2;

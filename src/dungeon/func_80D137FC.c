@@ -141,7 +141,7 @@ void func_80172FFC(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 temp_v0_4;
     s32 random_value;
     s32 base_value;
-    register s32 final_value ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 final_value ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     u16 temp_v0_5;
     u16 temp_v1_2;
@@ -199,7 +199,7 @@ state1:
     func_80047784(arg2, D_80174EB8[((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
 
 advance:
-    ASM_KEEP_NV(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_80172FFC_0 *)arg0)->unk_96 = 0U;
     ((S_80172FFC_0 *)arg0)->unk_9B = (u8) (((S_80172FFC_0 *)arg0)->unk_9B + 1);
     goto done;

@@ -92,9 +92,9 @@ void func_8196B780(S_8196B780_5 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     LocalPoint *point_base;
     LocalPoint *point;
     s32 point_index;
-    register s32 x_arg3 ASM_REG("$21") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 x_arg4 ASM_REG("$19") = arg4;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 x_arg5 ASM_REG("$20") = arg5;   /* MATCH pin: retail immediate-load split depends on it */
+    register s32 x_arg3 ASM_REG("$21") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 x_arg4 ASM_REG("$19") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 x_arg5 ASM_REG("$20") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     points = D_80024004;
     point_base = (LocalPoint *)&points;
@@ -150,7 +150,7 @@ void func_8196B780(S_8196B780_5 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         part->unk_14 |= 0x100;
         func_8003DB94(part, D_800DECF8, 0);
     }
-    ASM_KEEP(x_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(x_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The 0x20 byte-aligned copy object preserves the 0x58 frame and lwl/lwr stack copy;

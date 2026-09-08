@@ -5,11 +5,11 @@ extern s32 func_800A3B80(void *);
 
 s32 func_800A3B1C(void *arg0) {
     u8 *state = arg0;
-    register u8 *carrier2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
-    register s32 carrier1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-    register s32 result ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *carrier2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 carrier1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     result = func_800A3B80(state);
     if ((result << 0x10) != 0) {
         return (s16)result;
@@ -17,16 +17,16 @@ s32 func_800A3B1C(void *arg0) {
 
     carrier2 = *(u8 **)(state - 8);
     if (carrier2 == 0) {
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         return (s16)result;
     }
 
     state = carrier2 + 0x20;
     carrier1 = *(s32 *)(carrier2 + 8);
     carrier2 = (u8 *)(u32)*(s32 *)(carrier2 + 0xC);
-    ASM_KEEP(state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP(carrier1);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(carrier2);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(carrier1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(carrier2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return func_800A3B2C();
 }
 

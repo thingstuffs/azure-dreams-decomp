@@ -59,7 +59,7 @@ void *func_800C07AC(EntityFields *arg0) {
     ConfigFields *cfg;
     TailFields *objTail;
     TailFields *argTail;
-    register u16 flags ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u16 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 size;
 
     obj = func_8003FD64(2, arg0);

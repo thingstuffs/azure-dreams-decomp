@@ -110,7 +110,7 @@ void func_80174618(S_80174618_4 *arg0, S_80174618_1 *arg1, void *arg2, s16 arg3)
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet2;
     u8 *context;
-    register u8 *global_page ASM_REG("$18");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *global_page ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *packet8;
     u8 *packetC;
     u8 *call_arg0;
@@ -182,18 +182,18 @@ void func_80174618(S_80174618_4 *arg0, S_80174618_1 *arg1, void *arg2, s16 arg3)
                            ((S_80174618_0 *)scratch)->unk_BC = final_value,
                            no_arg));
     index = index - arg3 - 6;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80174618_0 *)scratch)->unk_100 = index;
     flags = ((S_80174618_0 *)scratch)->unk_28;
     global_page = D_80083160 - 0x3160;
-    ASM_SET(global_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SET(global_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     packet2 = global_page + 0x3160;
 
     if (flags & 8) {
         if (flags & 4) {
             u8 tail_value;
             tail_value = *(volatile u8 *)((u8 *)arg2 + 0xF) | 2;
-            ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80174808();
             return;
         }
@@ -216,12 +216,12 @@ void func_80174618(S_80174618_4 *arg0, S_80174618_1 *arg1, void *arg2, s16 arg3)
     }
 
     {
-    register u32 low_mask ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register u32 low_mask ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 zero;
-    register u32 high_mask ASM_REG("$18");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 high_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     low_mask = 0x00FFFFFF;
     zero = 0;
-    ASM_KEEP(zero);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     high_mask = 0xFF000000;
     ((S_80174618_5 *)packet)->unk_00.at00.v = (((S_80174618_5 *)packet)->unk_00.at00.v & high_mask) |
                             (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & low_mask);

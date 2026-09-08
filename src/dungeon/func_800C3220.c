@@ -12,12 +12,12 @@ extern s32 func_800C8484(void);
 #ifdef NON_MATCHING
 static volatile s32 dispatch_v1;
 #else
-register s32 dispatch_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+register s32 dispatch_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
 
 s32 func_800C8980(State *state, s32 value, s8 arg2) {
     s32 result;
-    register s32 dividend ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 dividend ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (func_800C8484() != 0) {
         result = 0;
@@ -29,7 +29,7 @@ s32 func_800C8980(State *state, s32 value, s8 arg2) {
         s32 divreg;
 
         divreg = dispatch_v1;
-        ASM_KEEP(divreg);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(divreg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         dispatch_v1 = dividend % divreg;
         goto check;
     }

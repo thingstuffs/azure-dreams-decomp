@@ -109,7 +109,7 @@ first_loop:
         goto first_loop;
     }
 
-    ASM_USE(hits);   /* MATCH pin: slus-diff */
+    ASM_USE(hits);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     if (hits != 0) {
         angle = global->angle + 0x600;
         screen_point.x = global->base_x;

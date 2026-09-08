@@ -83,12 +83,12 @@ void func_801232DC(void)
     s32 temp_a1;
     s32 temp_v1_2;
     s32 object_offset;
-    register s32 var_a3 ASM_REG("$7");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 var_a3_2;
-    register s32 var_a3_3 ASM_REG("$7");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 var_a3_3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 var_a3_4;
     s32 final_width;
-    register s32 final_x ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 final_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 temp_v1;
     S_801232DC_1 *object;
     void **var_a0_2;
@@ -123,7 +123,7 @@ void func_801232DC(void)
     {
         void **object_base;
         object_base = D_80129728;
-        ASM_KEEP(object_base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(object_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_offset = var_s0 << 2;
         var_a2 = (void **)(object_offset + (u32)object_base);
     }
@@ -155,7 +155,7 @@ void func_801232DC(void)
     {
         void **object_base;
         object_base = D_80129728;
-        ASM_KEEP(object_base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(object_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_offset = var_s0 << 2;
         var_a1_2 = (void **)(object_offset + (u32)object_base);
     }
@@ -182,7 +182,7 @@ void func_801232DC(void)
     }
     do {
         ((S_801232DC_9 *)(((S_801232DC_5 *)(*var_a0_2))->unk_08))->unk_06 = final_width;
-        ASM_KEEP(final_width);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(final_width);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         object = *var_a0_2;
         var_a3_4 += 1;
         ((S_801232DC_10 *)(object->unk_08.at00.v))->unk_08 = final_x;

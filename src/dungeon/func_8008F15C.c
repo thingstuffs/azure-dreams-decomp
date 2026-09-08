@@ -36,7 +36,7 @@ void func_800948BC(void)
             index = record[0] & 0x1F;
             other = table[index];
             if (other != 0) {
-                register u32 base ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+                register u32 base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 base = 0x800102F0;
                 func_800422DC((DungeonSlot *)(base + index * 0x54), other);
             }

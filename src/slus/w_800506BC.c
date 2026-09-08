@@ -45,7 +45,7 @@ void func_800506BC(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
     s16 offB2;
     s16 offA;
     s16 offB;
-    register s32 k ASM_REG("$5");   /* MATCH pin: slus-diff */
+    register s32 k ASM_REG("$5");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 k2;
     S_800506BC_Mid **cursor;
     S_800506BC_Mid **cursor2;

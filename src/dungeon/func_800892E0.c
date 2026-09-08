@@ -15,7 +15,7 @@ extern u8 D_8008EAC8[];
 
 void *func_8008EA40(void *arg0, void *arg1, void *arg2, void *arg3) {
 #ifndef NON_MATCHING
-    register u8 *dead_v0 ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *dead_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #endif
     void *result;
 
@@ -25,7 +25,7 @@ void *func_8008EA40(void *arg0, void *arg1, void *arg2, void *arg3) {
     if (*(s32 *)((u8 *)arg3 + 0x1C) & 0x100000) {
 #ifndef NON_MATCHING
         dead_v0 = (u8 *)0x80090000;
-        ASM_KEEP(dead_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8008EAAC();
         result = dead_v0 - 0x1538;
 #else

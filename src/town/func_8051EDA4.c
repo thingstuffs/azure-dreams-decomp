@@ -12,8 +12,8 @@ extern void func_800165E8(s32 arg0) __attribute__((noreturn));
 #endif
 
 #ifndef NON_MATCHING
-register s32 dispatch_result ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-register s32 dispatch_arg ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
+register s32 dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+register s32 dispatch_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
 
 s32 func_8051EDA4(s32 arg0, M2C_UNK arg1) {

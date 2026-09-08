@@ -35,7 +35,7 @@ extern u8 D_8052FA64[];
 
 void func_80814D60(S_80814D60_2 *arg0) {
     u32 page;
-    register u16 flags ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u16 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 global_word;
     void *temp_s0;
     S_80814D60_1 *temp_s1;
@@ -53,14 +53,14 @@ void func_80814D60(S_80814D60_2 *arg0) {
         temp_s1->unk_0C = (s32) ((s32) arg0->unk_0C >> 1);
         temp_s1->unk_14 = (s32) (((func_80071494() & 0x1FF) - 0x100) << 0xA);
         page = 0x00800000;
-        ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         (*(volatile s16 *)((u8 *)temp_s0 + 0x1E)) = 0x800;
         (*(volatile s16 *)((u8 *)temp_s0 + 0x1C)) = 0x800;
         (*(volatile s16 *)((u8 *)temp_s0 + 0x10)) = 0x60;
         flags = (*(volatile u16 *)((u8 *)temp_s0 + 0x14));
-        ASM_KEEP(flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         (*(void * volatile *)((u8 *)temp_s0 + 0)) = D_802843E8;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         (*(volatile u16 *)((u8 *)temp_s0 + 0x14)) = flags | 0xD;
         global_word = D_802843EC[0];
         page |= 0x80F0;

@@ -71,7 +71,7 @@ jt_0:
     object = effect->object;
     object->flags |= 0x10000000;
     effect->state++;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     color = *(ColorObject **)((u8 *)effect->object - 0x14);
     value = color->r - 1;
@@ -93,13 +93,13 @@ jt_0:
         s32 dead_tick;
 
         dead_tick = ((volatile u16 *)effect)[5] + 1;
-        ASM_TAILSLOT_PIN(dead_tick);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(dead_tick);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024AA0();
     }
     goto end;
 
 jt_1: {
-    register s32 next_timer ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 next_timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *rgb0;
     u8 *rgb1;
 
@@ -160,8 +160,8 @@ jt_4: {
     s32 page_value;
     u32 flags;
     u32 mask;
-    register u8 *page2 ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register u8 *page8 ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    register u8 *page2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *page8 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     Object *fade_object;
 
     color = *(ColorObject **)((u8 *)effect->object - 0x14);

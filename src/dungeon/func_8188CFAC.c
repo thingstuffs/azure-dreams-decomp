@@ -19,7 +19,7 @@ void func_8188CFAC(u16 *arg0)
     u16 counter;
 
     counter = D_80026472.value;
-    ASM_KEEP(counter);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     value = arg0[13] + 1;
     counter++;
     arg0[13] = value;

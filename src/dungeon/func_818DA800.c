@@ -53,7 +53,7 @@ void FUNC_818DA800_BODY(void *arg0_in, void *arg1_in)
     void *arg1 = arg1_in;
 #endif
 #ifdef __mips__
-    register void *inner ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *inner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *source;
     void *image_base;
     void *resource_base;
@@ -64,7 +64,7 @@ void FUNC_818DA800_BODY(void *arg0_in, void *arg1_in)
     void *resource_base;
 #endif
 #ifdef __mips__
-    register s32 base_or_count ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 base_or_count ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #else
     s32 base_or_count;
 #endif
@@ -85,10 +85,10 @@ void FUNC_818DA800_BODY(void *arg0_in, void *arg1_in)
 
     inner = FIELD(arg0, void *, 0);
     timer = (u16)FIELD(arg0, u16, 0x50);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     timer -= 1;
     index = *(s16 *)((u8 *)arg0 + 0xA);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     source = FIELD(inner, void *, -0x14);
     FIELD(arg0, u16, 0x50) = timer;
 
@@ -97,7 +97,7 @@ void FUNC_818DA800_BODY(void *arg0_in, void *arg1_in)
     }
     base_or_count = (s32)((u8 *)inner - 0x20);
     table = jtbl_80024008;
-    ASM_KEEP(table);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     index <<= 2;
     index = (s32)((u8 *)table + index);
     target = *(void **)(u32)index;
@@ -125,7 +125,7 @@ case0:
             }
             {
 #ifdef __mips__
-                register void *new_source ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+                register void *new_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #else
                 void *new_source;
 #endif
@@ -179,10 +179,10 @@ case1:
             base_or_count = 3;
 #ifdef __mips__
             base_page = (u8 *)0x80020000;
-            ASM_KEEP(base_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             image_base = base_page + 0x4538;
             base_page = (u8 *)0x800E0000;
-            ASM_KEEP(base_page);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             resource_base = base_page - 0x1520;
 #else
             image_base = D_80024538;
@@ -191,7 +191,7 @@ case1:
             do {
                 void *obj;
 #ifdef __mips__
-                register void *prim ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+                register void *prim ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #else
                 void *prim;
 #endif
@@ -205,7 +205,7 @@ case1:
                 s32 x;
                 s32 result;
                 s32 dst_or_delta;
-                register s32 prim_color ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+                register s32 prim_color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #else
                 s32 x;
                 s32 result;
@@ -235,9 +235,9 @@ case1:
                         result = x - 16;
                     }
                     FIELD((void *)dst_or_delta, s16, 6) = result;
-                    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     prim_color = 0xC00000;
-                    ASM_KEEP(prim_color);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP(prim_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     dst_or_delta = -0x100000;
                     FIELD(FIELD(obj, void *, 8), s32, 8) =
                         FIELD(arg1, s32, 8) + dst_or_delta;
@@ -249,9 +249,9 @@ case1:
                         prim_flags = FIELD(prim, u16, 0x14);
                         prim_color |= 0xC0C0;
                         FIELD(prim, void *, 0) = resource_base;
-                        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         resource_cursor = resource_base;
-                        ASM_KEEP(resource_cursor);   /* MATCH pin: retail delay-slot fill depends on it */
+                        ASM_KEEP(resource_cursor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                         FIELD(prim, s16, 0x1C) = 0;
                         FIELD(prim, s32, 0xC) = prim_color;
                         prim_flags |= 0xC;
@@ -273,7 +273,7 @@ case1:
             obj = func_8003FD64(0x201, D_80083498);
             if (obj != 0) {
 #ifdef __mips__
-                register void *state ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+                register void *state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 u16 y;
 #else
                 void *state;

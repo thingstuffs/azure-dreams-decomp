@@ -98,7 +98,7 @@ void func_80171F1C(void *arg0, void *arg1, void *arg2, void *arg3)
     };
     void *p0;
     void *p1;
-    register void *p2 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *p2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *p3;
     s32 scratch;
     s8 result;
@@ -120,8 +120,8 @@ void func_80171F1C(void *arg0, void *arg1, void *arg2, void *arg3)
         return;
     }
 
-    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(p2);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         void *table;
@@ -157,7 +157,7 @@ void func_80171F1C(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
 
-        ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
             u8 current_state = ((S_80171F1C_0 *)arg0)->unk_9A;
             u32 actor_state = 0xE;

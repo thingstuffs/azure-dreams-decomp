@@ -92,7 +92,7 @@ void func_80024CE4(void *arg0, void *arg1, S_80024CE4_1 *arg2, s32 arg3) {
         (*(s16 *)((u8 *)arg0 + 0)) = (s16) ((u32) var_a0 + 1);
         temp_s0 = ((S_80024CE4_3_pre *)((*(void **)((u8 *)arg0 + 0x2C))))[-1].unk_00;
         (*(Block24 *)((u8 *)arg0 + 0x44)) = (*(Block24 *)((u8 *)temp_s0 + 0));
-        ASM_KEEP_NV(temp_s2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(temp_s2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         var_a0 = arg0 + 0x44;
         if ((temp_s3->unk_20 == D_80083780) && ((*(void **)((u8 *)arg0 + 0x2C)) == *D_800814A8)) {
             temp_s3->unk_20 = (u8 *) var_a0;
@@ -119,19 +119,19 @@ void func_80024CE4(void *arg0, void *arg1, S_80024CE4_1 *arg2, s32 arg3) {
     if (temp_a0 < 0x14) {
         temp_dividend = temp_a0 << 7;
         {
-            register s32 hi_pin ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 hi_pin ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
-                register s32 magic_pin ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 magic_pin ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 magic_pin = 0x66666667;
                 temp_product.value = (s64) temp_dividend * magic_pin;
-                ASM_KEEP_NV(temp_product.word.hi);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(temp_product.word.hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 hi_pin = temp_product.word.hi;
-                ASM_KEEP_NV(hi_pin);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(hi_pin);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             }
             {
-                register s32 sh_pin ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 sh_pin ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 sh_pin = (hi_pin >> 3) - (temp_dividend >> 31);
-                ASM_KEEP_NV(sh_pin);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP_NV(sh_pin);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 temp_v1_2 = sh_pin;
             }
         }

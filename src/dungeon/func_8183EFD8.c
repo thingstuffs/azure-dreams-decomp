@@ -88,7 +88,7 @@ s32 func_80069EF8();                          /* extern */
 extern u8 D_80024688[];
 
 void func_8183EFD8(void *arg0, S_8183EFD8_3 *arg1, S_8183EFD8_2 *arg2) {
-    register void *r_arg0 ASM_REG("$19") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *r_arg0 ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 color;
     s32 temp_v1_2;
     s32 temp_v0_3;
@@ -102,7 +102,7 @@ void func_8183EFD8(void *arg0, S_8183EFD8_3 *arg1, S_8183EFD8_2 *arg2) {
     S_8183EFD8_8 *temp_v1_3;
     void *global_s6;
 
-    ASM_KEEP_NV(r_arg0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(r_arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     temp_v1 = ((S_8183EFD8_0 *)r_arg0)->unk_00;
     temp_v1->unk_52 = (u16) (temp_v1->unk_52 | 0x8000);
     temp_v1_2 = *(s16 *)((s8 *)r_arg0 + 0x4C);
@@ -116,7 +116,7 @@ void func_8183EFD8(void *arg0, S_8183EFD8_3 *arg1, S_8183EFD8_2 *arg2) {
         }
         func_80024A5C();
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     var_s2 = 0x10;
     if (temp_v1_2 == 2) {
         goto case_2;
@@ -162,7 +162,7 @@ case_1:
                     ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)temp_v0_4)->unk_08))->unk_0C = (s32) (((random & 0xFFF) - 0x7FF) << 8);
                     random = func_80069EF8();
                     color = 0x800000;
-                    ASM_KEEP_NV(color);   /* MATCH pin: retail immediate-load split depends on it */
+                    ASM_KEEP_NV(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                     ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)temp_v0_4)->unk_08))->unk_10 = (s32) (((random & 0xFFF) - 0x7FF) << 8);
                     temp_s0->unk_1E = 0x1000;
                     temp_s0->unk_1C = 0x1000;

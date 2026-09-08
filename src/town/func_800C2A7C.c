@@ -48,7 +48,7 @@ void func_800C01DC(void) {
     func_8008FCE0();
     func_8008FD48(&D_800FE490, &D_80083780, &D_800D0420);
     {
-        register s8 *base ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+        register s8 *base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u16 *ptr10;
 
         base = (s8 *) &D_8006ADBC;

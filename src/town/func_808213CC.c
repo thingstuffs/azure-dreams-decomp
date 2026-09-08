@@ -69,7 +69,7 @@ void func_80023BCC(void *arg0)
         break;
     case 1:
         image = (u8 *)0x80020000;
-        ASM_KEEP(image);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(image);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         image += 0x4680;
         rect[0] = 0xE0;
         func_800672D8(rect, image);
@@ -91,7 +91,7 @@ void func_80023BCC(void *arg0)
     if ((s16)timer <= 0) {
         u8 *page = (u8 *)0x80080000;
         ((S_80023BCC_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-        ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         (*(s32 *)(page + 0x14A0)) |= 0x8000;
     }
 }

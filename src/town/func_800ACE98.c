@@ -38,7 +38,7 @@ void func_800AA5F8(void *arg0, void *arg1, s32 arg2) {
             u32 pagebase;
             func_80094378(arg0, arg1, arg2_local);
             pagebase = 0x800D0000;
-            ASM_PAGEBASE_PIN(pagebase);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_PAGEBASE_PIN(pagebase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800AA6DC();
             return;
         }

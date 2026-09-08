@@ -75,18 +75,18 @@ DungeonObject *func_800C7380(s16 arg0, s32 arg1, u16 arg2, s32 arg3, s32 arg4) {
     DungeonObject *temp_s4;
     DungeonObject *temp_v0;
     DungeonState *var_s2;
-    register DungeonCoord *temp_s3 ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register DungeonCoord *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     DungeonCoord *temp_s0;
     DungeonRender *temp_a2;
     void *temp_a0;
     s16 var_s7;
     s32 var_fp;
     s32 var_s6;
-    register u16 held_arg2 ASM_REG("$16");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u32 temp_t0 ASM_REG("$8");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u16 held_arg2 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u32 temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     held_arg2 = arg2;
-    ASM_KEEP_NV(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     homes.arg1 = arg1;
     temp_t0 = arg4;
     homes.arg4 = (s32) temp_t0;
@@ -109,7 +109,7 @@ DungeonObject *func_800C7380(s16 arg0, s32 arg1, u16 arg2, s32 arg3, s32 arg4) {
         temp_t0 = homes.arg1;
         temp_s3->z = held_arg2;
         temp_s3->y = (s16) (((s32) (temp_t0 << 0x10) >> 0xA) + 0x20);
-        ASM_USE(temp_t0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_USE(temp_t0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         temp_a2 = temp_s4->render;
         temp_a2->image = D_800777E8;
         temp_a2->limit = 0x1800;
@@ -122,9 +122,9 @@ DungeonObject *func_800C7380(s16 arg0, s32 arg1, u16 arg2, s32 arg3, s32 arg4) {
         var_s5 = 0x37;
         var_s2->mode = arg0;
         temp_t0 = (u16) homes.arg1;
-        ASM_USE(temp_t0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_USE(temp_t0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         limit_v0 = 0x14;
-        ASM_USE(limit_v0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_USE(limit_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         var_s2->value = (u16) temp_t0;
         temp_t0 = (u16) homes.arg3;
         var_s2->limit = limit_v0;
@@ -134,12 +134,12 @@ DungeonObject *func_800C7380(s16 arg0, s32 arg1, u16 arg2, s32 arg3, s32 arg4) {
         do {
             temp_v0 = func_8003FD64(0x12, temp_s4);
             if (temp_v0 != NULL) {
-                register DungeonObject *call_a0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-                register void *call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+                register DungeonObject *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                register void *call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 call_a0 = temp_v0;
                 call_a1 = D_800D0774;
                 temp_t0 = (u32) D_800BB14C;
-                ASM_KEEP(temp_t0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP(temp_t0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 temp_v0->callback = (void *) temp_t0;
                 func_8004491C(call_a0, call_a1);
                 temp_s0 = temp_v0->coord;

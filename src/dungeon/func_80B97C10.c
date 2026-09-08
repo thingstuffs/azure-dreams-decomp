@@ -43,8 +43,8 @@ extern s32 D_80083460;
 extern DungeonTileRecordLocal D_800E2970[];
 void func_80171410(u8 *object_arg, void *arg1, u8 *tile_arg, u8 *actor_arg)
 {
-  register u8 *object ASM_REG("$21") = object_arg;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-  register u8 *tile ASM_REG("$19") = tile_arg;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  register u8 *object ASM_REG("$21") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  register u8 *tile ASM_REG("$19") = tile_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   u8 *actor = actor_arg;
   u8 *state = (u8 *) (&D_80083460);
   s32 actor_flags;
@@ -55,8 +55,8 @@ void func_80171410(u8 *object_arg, void *arg1, u8 *tile_arg, u8 *actor_arg)
   void *found;
   u8 *other;
   state_flags = *((u16 *) (((u8 *) state) + 2));
-  ASM_KEEP(object);   /* MATCH pin: retail basic-block layout depends on it */
-  ASM_KEEP(tile);   /* MATCH pin: retail basic-block layout depends on it */
+  ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+  ASM_KEEP(tile);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
   special = 0;
   if (state_flags & 0x4000)
   {
@@ -112,13 +112,13 @@ void func_80171410(u8 *object_arg, void *arg1, u8 *tile_arg, u8 *actor_arg)
   *((u16 *) (((u8 *) actor) + 0x2A)) = func_800A0818(*((u8 *) (((u8 *) tile) + 0x24)), *((u8 *) (((u8 *) tile) + 0x25)), *((u8 *) (((u8 *) other) + 0x24)), *((u8 *) (((u8 *) other) + 0x25)), object + 0x98);
   {
     u8 cleared_state = (*((u8 *) (((u8 *) actor) + 0x71))) & 0x7F;
-    ASM_USE(object);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_USE(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     *((u8 *) (((u8 *) actor) + 0x71)) = cleared_state;
   }
   goto done;
   no_found_actor:
   {
-    register s32 actor_state ASM_REG("$2") = *((s32 *) (((u8 *) actor) + 0x14));   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 actor_state ASM_REG("$2") = *((s32 *) (((u8 *) actor) + 0x14));   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (actor_state < 0)
     {
       goto zero_counter;
@@ -252,7 +252,7 @@ void func_80171410(u8 *object_arg, void *arg1, u8 *tile_arg, u8 *actor_arg)
   {
     s16 counter = 0;
     s16 *angle_steps = D_8006CD00;
-    register s32 base_angle ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 base_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     loop_body:
     base_angle = *((s16 *) (((u8 *) actor) + 0x2A));
 
@@ -271,7 +271,7 @@ void func_80171410(u8 *object_arg, void *arg1, u8 *tile_arg, u8 *actor_arg)
     if (counter >= 3)
     {
       s32 special_copy = special;
-      ASM_KEEP_NV(special_copy);   /* MATCH pin: load-bearing for the whole function shape */
+      ASM_KEEP_NV(special_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       if (special_copy)
       {
         goto strip_path;
@@ -283,7 +283,7 @@ void func_80171410(u8 *object_arg, void *arg1, u8 *tile_arg, u8 *actor_arg)
     (*((u8 *) (((u8 *) actor) + 0x71)))++;
     func_8009A3D0(*((u8 *) (((u8 *) tile) + 0x24)), *((u8 *) (((u8 *) tile) + 0x25)), ((*((s32 *) (((u8 *) actor) + 0x1C))) & 0x2000) ? (0x300) : (0x3000));
     {
-      register u8 *x_table ASM_REG("$3") = &D_8006CCD8;   /* MATCH pin: retail register colouring depends on it */
+      register u8 *x_table ASM_REG("$3") = &D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       s32 direction = ((*((u16 *) (((u8 *) actor) + 0x2A))) >> 8) & 0xE;
       *((u8 *) (((u8 *) tile) + 0x24)) += *((u8 *) (((u8 *) x_table) + direction));
       *((u8 *) (((u8 *) tile) + 0x25)) += *((u8 *) (((u8 *) (&D_8006CCE8)) + direction));
@@ -295,7 +295,7 @@ void func_80171410(u8 *object_arg, void *arg1, u8 *tile_arg, u8 *actor_arg)
     {
       if ((*((u16 *) (((u8 *) (&D_80082EA4)) + 0))) != (*((u16 *) (((u8 *) tile) + 0x24))))
       {
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if ((func_8009A180(actor, (*((s32 *) (((u8 *) D_800814A8) + 0x58))) + 0x20) << 16) != 0)
         {
           goto done;
@@ -336,7 +336,7 @@ void func_80171410(u8 *object_arg, void *arg1, u8 *tile_arg, u8 *actor_arg)
   goto done;
   actor_survives:
   {
-    register s16 result ASM_REG("$17") = func_800BCB04(((*((u8 *) (((u8 *) tile) + 0x24))) << 6) | 0x20, ((*((u8 *) (((u8 *) tile) + 0x25))) << 6) | 0x20, (s16) ((*((u16 *) (((u8 *) actor) + 0x88))) - 0x20));   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s16 result ASM_REG("$17") = func_800BCB04(((*((u8 *) (((u8 *) tile) + 0x24))) << 6) | 0x20, ((*((u8 *) (((u8 *) tile) + 0x25))) << 6) | 0x20, (s16) ((*((u16 *) (((u8 *) actor) + 0x88))) - 0x20));   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (result < 0x200)
     {
       *((u16 *) (((u8 *) actor) + 0x88)) = result;

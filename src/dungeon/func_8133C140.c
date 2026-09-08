@@ -64,7 +64,7 @@ void func_80173140(void) {
     s16 temp_neg;
     s32 call2_a0;
     s32 call2_a1;
-    register void *temp_v0 ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_v0 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     M2C_UNK var_a2;
     s32 env_first;
     s32 env_second;
@@ -98,11 +98,11 @@ void func_80173140(void) {
         ((S_80173140_1 *)temp_s1)->unk_A0 = 0;
         temp_v0_2 |= flag_mask;
         ((S_80173140_1 *)temp_s1)->unk_1C = temp_v0_2;
-        ASM_KEEP(temp_v0_2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v1 = temp_v0_2;
-        ASM_KEEP(temp_v1);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         temp_neg = -0x20;
-        ASM_KEEP(temp_neg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_neg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v1 &= 0x2000;
         ((S_80173140_1 *)temp_s1)->unk_92 = temp_neg;
         call2_a0 = ((S_80173140_4 *)temp_s0)->unk_24;

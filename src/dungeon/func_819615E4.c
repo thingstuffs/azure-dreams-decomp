@@ -67,7 +67,7 @@ void func_819615E4(State *state, Target *target, u8 *color)
     s32 a;
     s16 value;
     u16 next;
-    register u32 table_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     D_80027330[0]++;
 
@@ -82,7 +82,7 @@ void func_819615E4(State *state, Target *target, u8 *color)
         return;
     }
 
-    ASM_KEEP(color);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     if (state->state == 2) {
         goto fade;
     }
@@ -167,9 +167,9 @@ update:
     }
     func_800B8D64(state->x, state->y, state->z);
     next = state->state;
-    ASM_KEEP(next);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     {
-        register u16 reset_timer ASM_REG("$3") = 5;   /* MATCH pin: retail register colouring depends on it */
+        register u16 reset_timer ASM_REG("$3") = 5;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         state->timer = reset_timer;
     }

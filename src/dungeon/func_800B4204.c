@@ -93,7 +93,7 @@ void *func_800B9964(EntityHdr **arg0) {
             flags = s0->f14;
             __asm__ __volatile__("" : : "r"(flags));
             call2 = 8;
-            ASM_KEEP(call2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(call2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             s0->fC = color;
             s0->f6 = 4;
             __asm__ __volatile__("" : : "m"(s0->f6));

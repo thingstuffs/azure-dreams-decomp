@@ -22,7 +22,7 @@ void func_800402F4(void)
 {
     Callback *callback;
     Callback fn;
-    register s32 i ASM_REG("$18");   /* MATCH pin: slus-diff */
+    register s32 i ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     Entry **entryp;
     Entry *entry;
     s32 result;
@@ -38,7 +38,7 @@ loop:
             if (!(entry->flags & 0x800)) {
                 fn(entry->data, entry->arg1, entry->arg2);
                 result = func_80045310(*(s32 *)((u8 *)D_80083160[0] + 0x8D0));
-                ASM_KEEP(result);   /* MATCH pin: slus-diff */
+                ASM_KEEP(result);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 callback++;
                 if (result == 0) {
                     i++;

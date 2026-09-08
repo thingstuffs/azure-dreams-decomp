@@ -20,22 +20,22 @@ void func_800CCA14(u8, u8, s16);
 s32 func_800CCC20(void *arg0, s16 arg1)
 {
     s32 stack_args[2];
-    register s32 value ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 remainder ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 random ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 random ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 range;
     s32 index;
-    s32 scaled_index;   /* MATCH pin: keeps a constant in a register as retail does */
+    s32 scaled_index;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 field;
-    register s32 count ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register s32 count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 flags;
-    u8 *map_base;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    u8 *map_base;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *item_base;
     u8 *entry;
-    register u8 *item ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *item ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *countp;
     s32 tail_index;
-    register u8 *tail_base ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *tail_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (arg0 == 0) {
         map_base = D_800E3648;
@@ -67,7 +67,7 @@ s32 func_800CCC20(void *arg0, s16 arg1)
         range = *((u8 *)arg0 + 3);
         if (range != 0) {
             value = range;
-            ASM_USE(range);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_USE(range);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             remainder = random % value;
             value = remainder;
         } else {

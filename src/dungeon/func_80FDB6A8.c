@@ -95,9 +95,9 @@ void func_80170EA8(void *arg0, void *arg1, void *arg2, void *arg3)
         func_800AA79C(arg0, arg1, arg2, arg3);
         if (((S_80170EA8_2 *)arg2)->unk_2C != D_80174088) {
 #ifdef __mips__
-            register void *state ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+            register void *state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             state = D_80174080;
-            ASM_TAILSLOT_PIN(state);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 #endif
             func_801713E0();
         }
@@ -123,7 +123,7 @@ void func_80170EA8(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
 
-           /* MATCH pin: retail delay-slot fill depends on it */
+           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (((S_80170EA8_0 *)arg0)->unk_9A != 0xE) {
             u8 state = 0xE;
 
@@ -305,7 +305,7 @@ ordinary_cleanup:
      * `table` launders its symbol_ref identity, and the array-index PLUS
      * then loses constant-second canonicalization, rotating the final
      * `addu $2,$2,$5` into `addu $2,$5,$2` (the wave-16 distance-1 wall). */
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(void * *)((u8 *)arg2 + (0x2C))) = table;
     func_80047784(arg2,
         table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],

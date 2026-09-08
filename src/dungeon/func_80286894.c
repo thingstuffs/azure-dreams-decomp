@@ -38,7 +38,7 @@ s32 func_80019894(s16 arg0) {
     if (*temp_s0 == temp_a1) {
         s32 zero = 0;
 
-        ASM_TAILSLOT_PIN(zero);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800199A8();
         return 0;
     }

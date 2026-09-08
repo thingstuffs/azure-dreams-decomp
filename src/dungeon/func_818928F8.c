@@ -51,7 +51,7 @@ void *func_818928F8(void *arg0, Copy24 *arg1, s16 arg2)
     s32 copy_v1;
     s32 random_value;
     Object *result;
-    register Object *call_obj ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register Object *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
@@ -75,7 +75,7 @@ void *func_818928F8(void *arg0, Copy24 *arg1, s16 arg2)
         func_8004491C(call_obj, D_80045340);
         do { dst = obj->dst; } while (0);
         result = obj;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         copy_v1 = arg1->word[0];
         call_a1 = arg1->word[1];
         call_a2 = arg1->word[2];
@@ -88,7 +88,7 @@ void *func_818928F8(void *arg0, Copy24 *arg1, s16 arg2)
         call_a1 = arg1->word[5];
         dst->word[4] = copy_v1;
         *(volatile s32 *)&dst->word[5] = call_a1;
-        ASM_USE(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_USE(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         copy_v1 = (s32)0xFFFF0000;
         dst->word[5] = copy_v1;
         func_800241EC(dst, call_a1, call_a2, call_a3);

@@ -25,12 +25,12 @@ extern u8 D_80024734[];
 void func_80024798(Object *arg0, s32 arg1, s32 arg2, s32 arg3,
                    s32 arg4, s32 arg5, s32 arg6) {
     Object *base = arg0;
-    s32 xoff = arg4;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    s32 xoff = arg4;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 yoff = arg5;
     s32 zoff = arg6;
     s32 held_arg1 = arg1;
-    register s32 held_arg2 ASM_REG("$23") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 held_arg3 ASM_REG("$22") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 held_arg2 ASM_REG("$23") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 held_arg3 ASM_REG("$22") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     Object *obj;
     Data *data;
     u8 *sub;
@@ -57,10 +57,10 @@ void func_80024798(Object *arg0, s32 arg1, s32 arg2, s32 arg3,
         *(s16 *)(sub + 0x32) = held_arg3;
         func_8004491C(obj, D_800244E4, data);
         *(s32 *)(sub + 8) = held_arg2;
-        ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(held_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(xoff);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        ASM_KEEP(yoff);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-        ASM_KEEP(zoff);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(xoff);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(yoff);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(zoff);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 }

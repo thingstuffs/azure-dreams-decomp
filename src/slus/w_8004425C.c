@@ -65,7 +65,7 @@ void func_8004425C(s16 a0)
     s32 result;
 
     {
-        register s32 off ASM_REG("$3") = (s32)a0 * sizeof(S_8006E61C);   /* MATCH pin: slus-diff */
+        register s32 off ASM_REG("$3") = (s32)a0 * sizeof(S_8006E61C);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         rec = (S_8006E61C *)((char *)D_8006E61C + off);
     }
     s3 = (s16)((u16)rec->field0 - 1);

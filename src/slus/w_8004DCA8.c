@@ -22,7 +22,7 @@ void func_8004DCA8(void *a0)
        %hi/%lo pair for D_80080B68's address through a scratch temp (colliding
        with the D_80083D98 base held in v0 and forcing a redundant re-lui),
        whereas retail computes it directly into the destination register. */
-    register void *a1 ASM_REG("$5") = a0;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *a1 ASM_REG("$5") = a0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (a1 == 0) {
         a1 = D_80080B68;
     }

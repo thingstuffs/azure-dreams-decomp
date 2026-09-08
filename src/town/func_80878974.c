@@ -34,7 +34,7 @@ extern u8 D_807028D4[];
 extern u8 D_807028E8[];
 
 void func_80878974(s32 *arg0) {
-    register u32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+    register u32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     Block *src;
     Block *end;
     Block *dst;
@@ -42,12 +42,12 @@ void func_80878974(s32 *arg0) {
     dst = (Block *)(D_807030AC - 0xC);
     src = (Block *)arg0;
     end = (Block *)((u8 *)arg0 + 0x30);
-    ASM_USE(dst);   /* MATCH pin: retail register colouring depends on it */
+    ASM_USE(dst);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     do {
         *dst++ = *src++;
     } while (src != end);
     dst->w[0] = src->w[0];
-    ASM_USE(dst);   /* MATCH pin: retail register colouring depends on it */
+    ASM_USE(dst);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     D_807030B8.value->func68(D_807028B0, D_807028BC, *(s32 *)((u8 *)arg0 + 8), dst);
     ((CallbackTable3 *)D_807030B8.value)->func68(D_807028B0, D_807028C4, D_807030A8.value);

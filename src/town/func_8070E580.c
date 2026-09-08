@@ -11,7 +11,7 @@ extern char *func_80016E48(void);
 
 char *func_80017580(s32 arg0, s32 arg1, s32 arg2)
 {
-    register s32 selector ASM_REG("$4") = arg2;   /* MATCH pin: retail delay-slot fill depends on it */
+    register s32 selector ASM_REG("$4") = arg2;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u32 index;
     static void *const keepalive[] = {
         &&L_case19, &&L_case18, &&L_case52, &&L_case12, &&L_default
@@ -21,7 +21,7 @@ char *func_80017580(s32 arg0, s32 arg1, s32 arg2)
     if (index >= 43) {
         goto L_default;
     }
-    ASM_KEEP(selector);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto *D_800162E0[index];
 
 L_case19:

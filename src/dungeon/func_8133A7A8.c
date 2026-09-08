@@ -41,15 +41,15 @@ void func_801717A8(Entity *arg0) {
     s16 slot;
     s16 n;
     s32 state = arg0->state;
-    register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register void *call_a1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 call_a2;
     u16 next_state;
-    register s32 sum ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 mode ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
-    register s16 *case0_e0 ASM_REG("$17");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s16 *case0_e8 ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
-    register s32 case0_y ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 *case0_e0 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s16 *case0_e8 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 case0_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     static void *const jt_keep[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_exit,
         &&jt_c4, &&jt_exit, &&jt_c6, &&jt_exit,
@@ -80,7 +80,7 @@ jt_c0: {
     *(volatile s16 *)&D_801760E0[0] = e0_0;
     e0_1 = D_800DCE60[1];
     e0_2 = D_800DCE60[2];
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     case0_e0 = D_801760E0;
     case0_e0[1] = e0_1;
     case0_e0[2] = e0_2 - 0x600;
@@ -113,7 +113,7 @@ jt_c2:
 
 jt_call_common:
     arg0->timer = 0;
-    ASM_KEEP(call_a2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     arg0->state = next_state + 1;
     func_8004D294(call_a0, call_a1, call_a2);
     goto jt_exit;
@@ -136,9 +136,9 @@ jt_c4: {
     case0_e0 = D_801760E0;
     height_frame = heights.values - 8;
     height = &height_frame[n];
-    ASM_KEEP_NV(height);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     mode = 1;
-    ASM_KEEP(mode);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     case0_e0[2] = height[8] * 0x200;
     camera = D_80083780;
     sum = actor->x;
@@ -177,9 +177,9 @@ jt_c6: {
     }
     height_frame = heights.values - 8;
     height = &height_frame[n];
-    ASM_KEEP_NV(height);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     mode = 1;
-    ASM_KEEP(mode);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     D_801760E0[2] = height[8] * 0x200;
     camera = D_80083780;
     sum = actor->x;
@@ -202,7 +202,7 @@ jt_c20: {
     s16 *camera;
     s16 *height_frame;
     s16 *height;
-    register s16 selected_slot ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register s16 selected_slot ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *globals;
 
     if ((arg0->timer & 0xF) == 0) {
@@ -217,9 +217,9 @@ jt_c20: {
         }
         height_frame = heights.values - 8;
         height = &height_frame[selected_slot];
-        ASM_KEEP_DEP_NV(height, selected_slot);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP_DEP_NV(height, selected_slot);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         mode = 1;
-        ASM_KEEP(mode);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         D_801760E0[2] = height[8] * 0x200;
         camera = D_80083780;
         sum = actor->x;

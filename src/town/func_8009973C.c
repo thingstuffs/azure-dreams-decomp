@@ -3,16 +3,16 @@
 s32 func_80096E9C(s32 *x, s32 *y) {
     s32 side[2];
     s32 distance[4];
-    register volatile s32 *page ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-    register volatile s32 *state ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+    register volatile s32 *page ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register volatile s32 *state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 result;
     s32 first;
     s32 vertical;
 
     page = (volatile s32 *)0x80100000;
-    ASM_KEEP(page);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     first = *(volatile s32 *)((s8 *)page - 0x1AE0);
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     result = 0;
     if (first != 0x80000000) {
         vertical = 2;

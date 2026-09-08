@@ -58,13 +58,13 @@ typedef struct S_8016BD14_5 {
 } S_8016BD14_5;   /* (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s in func_8016BD14 */
 
 void func_8016BD14(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register void *ctx ASM_REG("$17");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *ctx ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 index;
     s32 mode;
     s16 next;
     s32 result;
     s32 raw;
-    register u8 *row ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *row ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 mode2;
     s32 x;
     s32 y;
@@ -113,7 +113,7 @@ void func_8016BD14(void *arg0, void *arg1, void *arg2, void *arg3) {
     ((Rec_D_80082E80 *)arg2)->unk_24 = tmp;
     row = (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s;
     result = raw >> 16;
-    ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((Rec_D_80082E80 *)arg2)->unk_25 = ((S_8016BD14_4 *)row)->unk_7C;
     index = ((S_8016BD14_0 *)ctx)->unk_8A.u;
     mode2 = ((S_8016BD14_0 *)ctx)->unk_1C;

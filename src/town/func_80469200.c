@@ -26,17 +26,17 @@ extern u8 D_8001791C[96];
 void func_8001A200(void *arg0, s32 *arg1) {
     u8 *var_a2;
     s32 temp_a0;
-    register s32 temp_s2 ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
     void *temp_v0;
     s32 var_a1;
     s32 var_a3;
-    register u8 *var_s3 ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register u8 *var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *var_s1;
-    register void *var_s0 ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *split_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *split_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 final_status;
-    register s32 final_mask ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 final_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     var_s0 = arg0;
     temp_v0 = ((S_8001A200_0 *)(D_80016000[0]))->unk_20;
@@ -44,7 +44,7 @@ void func_8001A200(void *arg0, s32 *arg1) {
     temp_s2 = *((((S_8001A200_1 *)temp_v0)->unk_2D4(0)) + (s32 *)var_s1);
     if ((((S_8001A200_2 *)var_s0)->unk_01 & 0xC0) != 0x80) {
         split_base = (u8 *)0x80010000;
-        ASM_KEEP(split_base);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(split_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s3 = split_base + 0x791C;
         var_s1 = var_s0 + 1;
 loop_2:
@@ -58,7 +58,7 @@ loop_3:
             func_8001A188(var_s0, var_a1, var_a2, var_a3);
             func_8001A2BC();
             var_s1 += 0x14;
-            ASM_KEEP(var_s1);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return;
         }
         var_a1 += 4;

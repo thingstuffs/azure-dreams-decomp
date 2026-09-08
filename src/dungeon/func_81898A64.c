@@ -58,9 +58,9 @@ void *func_80024264(s32 arg0, Rec_func_80024264_arg1 *arg1)
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 == NULL) {
-        register void *dispatch_result ASM_REG("$2") = NULL;   /* MATCH pin: retail delay-slot contents depend on it */
+        register void *dispatch_result ASM_REG("$2") = NULL;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
-        ASM_TAILSLOT_PIN(dispatch_result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024350();
     }
     temp_v0->unk_10 = &D_800241D8;

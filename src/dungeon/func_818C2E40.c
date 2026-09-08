@@ -47,10 +47,10 @@ void *func_818C2E40(s32 arg0, void *arg1)
         void *dispatch_arg = node;
 
         if (node == 0) {
-            register void *dispatch_result ASM_REG("$2") = 0;   /* MATCH pin: retail delay-slot contents depend on it */
+            register void *dispatch_result ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
-            ASM_KEEP(dispatch_arg);   /* MATCH pin: retail basic-block layout depends on it */
-            ASM_TAILSLOT_PIN(dispatch_result);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_KEEP(dispatch_arg);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800246F4(dispatch_arg);
         }
     }

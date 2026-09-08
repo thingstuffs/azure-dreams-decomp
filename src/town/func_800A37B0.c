@@ -21,7 +21,7 @@ s32 func_800A0F10(Rec_func_800A0668_arg0 *arg0, M2C_UNK arg1) {
         s32 global_angle = ((S_800A0F10_0 *)global_base)->unk_10;
         s32 object_angle;
 
-        ASM_KEEP(global_angle);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(global_angle);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         object_angle = arg0->unk_72;
 
         if ((u32) (((object_angle & 0xFFF) - (global_angle & 0xFFF)) + 0x3FF) < 0x7FFU) {

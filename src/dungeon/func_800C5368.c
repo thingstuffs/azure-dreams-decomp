@@ -29,9 +29,9 @@ typedef struct S_800CAAC8_1 {
 void func_800CAAC8(void *arg0, s32 arg1, s32 arg2, void *arg3)
 {
     void *entity = arg0;
-    register s32 value1 ASM_REG("$18") = arg1;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 value2 ASM_REG("$19") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *actor ASM_REG("$16") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 value1 ASM_REG("$18") = arg1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 value2 ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 count;
 
     if (func_800AB1C0() == 0) {
@@ -43,7 +43,7 @@ void func_800CAAC8(void *arg0, s32 arg1, s32 arg2, void *arg3)
     ((S_800CAAC8_0 *)entity)->unk_B6 = count;
 
     if ((count << 16) > 0) {
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (!(D_80013714 & 8)) {
             goto set_callback;
         }

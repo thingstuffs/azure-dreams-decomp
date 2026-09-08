@@ -38,18 +38,18 @@ void func_80096924(void *arg0, Vec3i *arg1, void *arg2) {
         s32 base_y;
         s32 input_y;
         u8 *global_page;
-        register u8 *out_page ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-        register u8 *base_page ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register u8 *out_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 *base_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         angle = (*(u16 *)((u8 *)arg0 + 0x10) - 0xC00) & 0xFFF;
         x_offset = (record->scale * func_80064584(angle)) << 5;
         trig = func_800644B8(angle);
         global_page = (u8 *)0x80100000;
         out_page = (u8 *)0x800D0000;
-        ASM_KEEP(out_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(out_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         base_page = (u8 *)0x800D0000;
-        ASM_KEEP(global_page);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(base_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         y_offset = (-record->scale * trig) << 5;
         height = record->height;
 

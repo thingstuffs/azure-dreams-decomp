@@ -28,7 +28,7 @@ void func_800C4E00(void *arg0)
 {
     s32 temp_v0;
     s32 index;
-    register u32 offset ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register u32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (D_80083462 & 0x10) {
         temp_v0 = ((S_800C4E00_0 *)arg0)->unk_08 - 1;
@@ -41,7 +41,7 @@ void func_800C4E00(void *arg0)
                 offset += index;
                 offset <<= 2;
                 offset += (u32)D_800E2970;
-                ASM_KEEP(index);   /* MATCH pin: retail immediate-load split depends on it */
+                ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 ((S_800C4E00_1 *)((void *)offset))->unk_0C =
                     ((S_800C4E00_1 *)((void *)offset))->unk_0C & 0xFFFD;
             }

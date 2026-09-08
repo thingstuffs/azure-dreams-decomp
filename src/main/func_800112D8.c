@@ -28,7 +28,7 @@ void *func_800242D8(u8 *arg0, u32 arg1, u32 arg2) {
     s8 tag;
     s32 magicA;
     s32 magicB;
-    register u8 *tableBase ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *tableBase ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 half1;
     s32 half2;
 

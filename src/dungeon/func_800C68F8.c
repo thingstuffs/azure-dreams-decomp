@@ -12,25 +12,25 @@ s32 func_800CC058(void *p) {
  if (!D_800E3D40) {
   q=func_800A6D30()&0xffff;
   if (U8(p,3)) {
-   register s32 remainder ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+   register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
    remainder=q%U8(p,3);
-   ASM_KEEP(remainder);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+   ASM_KEEP(remainder);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
    func_800CC0AC();
    return remainder;
   }
  }
  i=0;
- ASM_KEEP(i);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+ ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
  if (i<0x30 && (func_800A48F0(p,7,-0x10)<<16)>=0) {
   x=P32(p,-0x14); if (!(U16(x,0x14)&0x8000)) { func_800C5BBC((U8(x,0x24)<<6)|0x20,(U8(x,0x25)<<6)|0x20,S16(p,0x88),0x202020,0x40,0); func_800A56E0(0x615); }
   if (U32(p,0x14)&0x4000) { func_80099844(p,D_800E1BBC); func_800CC160(); return r; }
  } else {
   i=U8(p,0x13)==0;
-  ASM_KEEP(i);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   r=i;
  }
  i=r;
- ASM_KEEP(i);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+ ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
  if (i) func_800A6508(); return 1;
 }
 /* MECHANISM: The natural p/r lifetimes produce the 0x28 frame with s0/s1/ra saves.

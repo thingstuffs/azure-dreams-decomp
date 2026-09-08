@@ -42,7 +42,7 @@ s32 func_80095978(s32 *arg0, s32 *arg1) {
         first = 64;
     }
     result = first;
-    ASM_KEEP(result);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return result;
 }
 

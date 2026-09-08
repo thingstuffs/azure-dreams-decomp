@@ -89,10 +89,10 @@ extern Data12 D_80173B4C;
 void func_8016E4E8(void *arg0, s32 *arg1, void *arg2)
 {
     s32 state_value;
-    register s32 tail_value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register u16 effect_flags ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u16 effect_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 final_value;
-    register u16 frame_count ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 frame_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 color_i;
     s32 outer_i;
     s32 j;
@@ -106,7 +106,7 @@ void func_8016E4E8(void *arg0, s32 *arg1, void *arg2)
     u8 *texture;
     u8 *src;
     u8 *dst;
-    register u8 *color_dst ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *color_dst ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *src_word;
     u8 *dst_word;
     s32 state;

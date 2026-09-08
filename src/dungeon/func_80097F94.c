@@ -29,15 +29,15 @@ void func_8009D6F4(void) {
     Copy8 sp10;
     Copy8 *copy;
     register u8 *base;
-    register u8 *cursor ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *cursor ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *state;
     u8 *temp_t1;
     register u8 *table;
     s32 var_t6;
     s32 var_t4;
     s16 temp_v0_3;
-    register s16 var_t3 ASM_REG("$11");   /* MATCH pin: retail register colouring depends on it */
-    register s32 row ASM_REG("$10");   /* MATCH pin: retail register colouring depends on it */
+    register s16 var_t3 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 row ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 temp_a0;
     u8 var_t0;
 
@@ -46,21 +46,21 @@ void func_8009D6F4(void) {
     var_t0 = 0;
     base = D_800E50A8;
     cursor = base;
-    ASM_KEEP(base);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     state = D_80083160;
     temp_t1 = state + 0x1DC;
     if ((1 << ((S_8009D6F4_0 *)temp_t1)->unk_16) > 0) {
-        register s32 var_a2 ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+        register s32 var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 var_v0_2;
-        register s32 row_wide ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 next_a2 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 row_wide ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 next_a2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         var_t3 = 0;
         var_t6 = 0;
         var_t4 = 1;
         table = D_800EA000;
 loop_2:
-        ASM_KEEP(base);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         var_a2 = 0;
         if (var_t6 < (var_t4 << ((S_8009D6F4_0 *)temp_t1)->unk_14)) {
             row_wide = var_t3 << 16;
@@ -75,9 +75,9 @@ loop_4:
                 var_v0_2 = var_t0 & 0xF0;
             }
             if (var_v0_2 != 0) {
-                register s32 temp_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 temp_v1;
-                register s32 clamp ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                register s32 clamp ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 s32 col;
                 register s16 shift;
 
@@ -85,7 +85,7 @@ loop_4:
                 shift = ((S_8009D6F4_0 *)temp_t1)->unk_14;
                 temp_v0 = (s16) (((S_8009D6F4_1 *)(((((row << shift) + col) * 6) + table)))->unk_02 + 0x200) / 64;
                 clamp = temp_v0;
-                ASM_KEEP(temp_v0);   /* MATCH pin: retail register colouring depends on it */
+                ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 temp_v1 = temp_v0;
                 if (temp_v1 >= 0x10) {
                     clamp = 15;
@@ -115,7 +115,7 @@ block_16:
                 next_a2 = var_a2 + 1;
             }
             var_a2 = next_a2;
-            ASM_KEEP_NV(next_a2);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP_NV(next_a2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if ((s16) next_a2 >= (var_t4 << ((S_8009D6F4_0 *)temp_t1)->unk_14)) {
                 goto block_19;
             }

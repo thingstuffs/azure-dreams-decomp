@@ -87,9 +87,9 @@ void func_80165F00(S_80165F00_0 *arg0)
             temp_coord + temp_v1;
         temp_rand2 = rand() & 0x3F;
         temp_base2 = arg0->unk_08;
-        ASM_MEM_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         temp_page = (s32)0x80040000;
-        ASM_KEEP(temp_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(temp_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_coord2 = temp_base2->unk_06 - 0x1A0;
         ((S_80165F00_5 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_06 =
             temp_coord2 + temp_rand2;

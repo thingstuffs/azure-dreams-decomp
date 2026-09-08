@@ -50,6 +50,6 @@ loop:
     ((Rec_D_80082E80 *)arg2)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     func_800AA53C(arg3);
     state = &D_80083460;
-    ASM_KEEP(state);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     state->counter = state->counter + 1;
 }

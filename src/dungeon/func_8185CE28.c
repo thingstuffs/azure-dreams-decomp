@@ -120,18 +120,18 @@ s32 func_8185CE28(s32 arg0, S_8185CE28_2 *arg1, s16 arg2)
             __asm__ __volatile__("" : : : "$2");
 #endif
             {
-                register s32 v0pin ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                register s32 v0pin ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 v0pin = (s32)temp_v0;
-                ASM_KEEP(v0pin);   /* MATCH pin: load-bearing for the whole function shape */
+                ASM_KEEP(v0pin);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 temp_s0->unk_0A = final_z - 8;
                 func_800247B4();
             }
         }
     }
     {
-        register s32 zero_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 zero_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         zero_v0 = 0;
-        ASM_KEEP(zero_v0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(zero_v0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         return zero_v0;
     }
 }

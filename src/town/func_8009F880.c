@@ -43,7 +43,7 @@ typedef struct S_8009CFE0_2 {
 s32 func_8009CFE0(S_8009CFE0_0 *arg0, void *arg1_)
 {
     S_8009CFE0_2 *arg1 = arg1_;
-    register s32 var_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 one;
     s32 geom_result;
     s32 temp_v0;
@@ -53,7 +53,7 @@ s32 func_8009CFE0(S_8009CFE0_0 *arg0, void *arg1_)
     if (temp_s0 != NULL) {
         if (!(temp_s0->unk_01 & 1)) {
             if (func_80033B2C(temp_s0->unk_02) == 0) {
-                register s32 delay_v0 ASM_REG("$2") = 1;   /* MATCH pin: keeps a constant in a register as retail does */
+                register s32 delay_v0 ASM_REG("$2") = 1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 KEEP_INPUT(delay_v0);
                 return 1;
             }
@@ -61,7 +61,7 @@ s32 func_8009CFE0(S_8009CFE0_0 *arg0, void *arg1_)
         }
         temp_v0 = func_80033B2C(temp_s0->unk_02);
         one = 1;
-        ASM_KEEP(one);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (temp_v0 == one) {
             var_v0 = 1;
             goto return_value;

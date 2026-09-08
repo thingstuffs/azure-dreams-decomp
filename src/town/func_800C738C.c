@@ -35,9 +35,9 @@ extern void func_800C41D4(void *, s32);
 
 void func_800C4AEC(void *arg0, s32 arg1)
 {
-    register void *temp_a3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
-    register void *temp_t0 ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
-    register s32 temp_t1 ASM_REG("$9");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 temp_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u32 temp_a0;
     u32 bit;
     u32 index;
@@ -45,7 +45,7 @@ void func_800C4AEC(void *arg0, s32 arg1)
     u32 temp_v1;
     u32 temp_v0_word;
     s32 offset_a1;
-    register s32 offset_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 offset_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     u32 store_value;
     S_800C4AEC_2 *store_ptr;
 
@@ -65,17 +65,17 @@ void func_800C4AEC(void *arg0, s32 arg1)
             }
             offset_a1 = temp_v0[0];
             temp_v1 = temp_v0[2];
-            ASM_KEEP(temp_v1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             offset_a0 = temp_v0[1];
             temp_v0_word = temp_v0[3];
-            ASM_KEEP(temp_v0_word);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(temp_v0_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             offset_a1 += temp_v1;
             offset_a0 += temp_v0_word;
             goto apply_offsets;
         }
     }
     offset_a1 = 0;
-    ASM_KEEP(offset_a1);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(offset_a1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     offset_a0 = offset_a1;
 
 apply_offsets:

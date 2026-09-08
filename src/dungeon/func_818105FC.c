@@ -44,7 +44,7 @@ loop_records:
     index = *(s32 *)0x80015C80;
     *(s32 *)0x80015C80 = index + 1;
     page = (u8 *)0x80010000;
-    ASM_KEEP(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     if (*(s32 *)(page + 0x5C80) == 64) {
         *(s32 *)(page + 0x5C80) = 0;
     }

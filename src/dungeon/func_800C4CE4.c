@@ -67,16 +67,16 @@ s32 func_800CA1E0();
 M2C_UNK func_800CA598();
 
 void func_800CA444(void *input0, s32 arg1, void *input2, void *input3) {
-    register void *arg0 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg0 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_800CA444_0 *arg2;
     void *arg3;
-    register s16 temp_s0 ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s16 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 temp_v0;
-    register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 table_value;
-    register s32 state_idx ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s16 next_s1 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s16 var_s1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 state_idx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s16 next_s1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s16 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     M2C_UNK temp_a0_2;
     s8 temp_a0;
     s16 *temp_s4;
@@ -106,7 +106,7 @@ void func_800CA444(void *input0, s32 arg1, void *input2, void *input3) {
     if (!(D_800E2970[temp_a0].flags & 2)) {
         goto scan_start;
     }
-    ASM_KEEP(tail_arg);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_KEEP(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_800CA598(tail_arg);
     goto done;
 
@@ -114,7 +114,7 @@ write_hit:
     ((S_800CA444_1 *)arg3)->unk_2A = temp_s0;
     ((S_800CA444_5 *)((arg3 + (((S_800CA444_1 *)arg3)->unk_71 & 0x7F))))->unk_74 = (u8) arg2->unk_24.at00.v;
     ((S_800CA444_5 *)((arg3 + (((S_800CA444_1 *)arg3)->unk_71 & 0x7F))))->unk_7C = (u8) arg2->unk_24.at01.v;
-    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     first_dir = (unsigned long) D_8006CCD8;
     hit_counter = ((S_800CA444_1 *)arg3)->unk_71;
     temp_a0_2 = ((u16) ((S_800CA444_1 *)arg3)->unk_2A >> 8) & 0xE;
@@ -156,7 +156,7 @@ calc_call:
         next_s1 = var_s1 + 1;
         goto scan_increment;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if ((func_8009A180(arg3, ((S_800CA444_4 *)(*D_800814A8))->unk_58 + 0x20) << 0x10) != 0) {
         goto done;
     }

@@ -69,18 +69,18 @@ void func_8009CE1C(void *arg0, s16 arg1, s16 arg2, s16 arg3, u16 arg4, s32 arg5,
     s16 var_s2;
     s16 var_v1;
     s32 temp_s2;
-    register s32 temp_s3 ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v1;
     M2C_UNK temp_v1_2;
     s32 var_s1;
-    register s16 var_s3 ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+    register s16 var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_v0_2;
     s32 var_v0_3;
     M2C_UNK var_v0_4;
-    register s32 var_v0_5 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 var_v0_5 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_8009CE1C_2 *temp_t1;
     register u16 var_s4 = arg1;
-    register s16 var_s5 ASM_REG("$21") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 var_s5 ASM_REG("$21") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_v0;
 
     var_s3 = arg2;
@@ -102,7 +102,7 @@ void func_8009CE1C(void *arg0, s16 arg1, s16 arg2, s16 arg3, u16 arg4, s32 arg5,
             default_shift = var_s4 << 0x10;
             var_v0 = default_shift;
         }
-        ASM_USE_NV(var_s3);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_USE_NV(var_s3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_s2 = ((var_v0 >> 0x10) + var_s2) * 2;
         ((S_8009CE1C_1 *)((u8 *)arg0 - 0x14))->unk_7E = arg4;
         if ((((S_8009CE1C_1 *)((u8 *)arg0 - 0x14))->unk_27 != 0) && !(((S_8009CE1C_1 *)((u8 *)arg0 - 0x14))->unk_30 & 0x238) && !(((S_8009CE1C_1 *)((u8 *)arg0 - 0x14))->unk_5A & 0x8000)) {

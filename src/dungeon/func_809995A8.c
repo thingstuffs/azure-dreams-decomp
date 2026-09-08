@@ -59,26 +59,26 @@ typedef struct S_8014CDA8_2 {
 
 void func_8014CDA8(void *arg0_, void *arg1_, void *arg2_)
 {
-    register void *arg0 ASM_REG("$17") = arg0_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg0 ASM_REG("$17") = arg0_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *arg1 = arg1_;
-    register void *arg2 ASM_REG("$20") = arg2_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *state ASM_REG("$19") = arg0;   /* MATCH pin: retail delay-slot contents depend on it */
+    register void *arg2 ASM_REG("$20") = arg2_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *state ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     u8 *tail_value;
     s32 tail_index;
     s32 tail_state;
     void *tail_arg;
-    register u8 *tail_base ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *tail_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 old_state;
     s16 direction;
     s16 direction_copy;
     s32 height;
     s32 angle;
-    register s32 call_arg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 raw_height ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 raw_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 ground;
     s16 delta;
     u16 part_flags;
-    register u16 count ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 flags;
     s32 saved_offset;
     Callback callback;
@@ -87,7 +87,7 @@ void func_8014CDA8(void *arg0_, void *arg1_, void *arg2_)
     if (D_80083462 & 0x2000) {
         callback = (*(Callback *)((u8 *)arg0 + 0x8C));
         if (callback == (Callback)D_8014D4D4) {
-            ASM_KEEP(arg0_);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(arg0_);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             callback(arg0_, arg1_, arg2_, arg0_);
             return;
         }
@@ -95,9 +95,9 @@ void func_8014CDA8(void *arg0_, void *arg1_, void *arg2_)
         return;
     }
 
-    ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     old_state = (s8)(*(u8 *)((u8 *)arg0 + 0x6D));
     if (func_800A9E70(arg0, arg1, arg2, arg0) != 0) {
@@ -124,7 +124,7 @@ void func_8014CDA8(void *arg0_, void *arg1_, void *arg2_)
     }
 
     (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     (*(s32 *)((u8 *)arg0 + 0x90)) += ((S_8014CDA8_0 *)arg1)->unk_14;
     part_flags = ((S_8014CDA8_1 *)arg2)->unk_14;
 
@@ -140,7 +140,7 @@ void func_8014CDA8(void *arg0_, void *arg1_, void *arg2_)
         if (D_8006CCF8[direction_copy] != 0) {
             u32 scratch;
             scratch = ((S_8014CDA8_1 *)arg2)->unk_14 | 1;
-            ASM_TAILSLOT_PIN(scratch);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8014CFE4();
         }
         ((S_8014CDA8_1 *)arg2)->unk_14 &= 0xFFFE;
@@ -149,7 +149,7 @@ void func_8014CDA8(void *arg0_, void *arg1_, void *arg2_)
             if (!(((S_8014CDA8_1 *)arg2)->unk_14 & 0x40)) {
                 func_800478B8(arg2);
                 tail_value = (u8 *)0xF7FF0000;
-                ASM_PAGEBASE_PIN(tail_value);   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_PAGEBASE_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_8014D050();
             }
         } else {

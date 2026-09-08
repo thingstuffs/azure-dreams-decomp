@@ -12,17 +12,17 @@ void func_8067F5C4(u8 *arg0) {
     s32 marker;
     s32 tail_offset;
     u8 *copy_page;
-    register u8 *copy_source ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *entry;
     u8 *tail_base;
-    register u8 *tail ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *tail ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     copy_page = (u8 *)0x80020000;
-    ASM_KEEP(copy_page);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     copy_source = copy_page - 0x7780;
-    ASM_KEEP(copy_source);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(copy_source);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *(PackedWord *)arg0 = *(PackedWord *)copy_source;
-    ASM_KEEP(copy_page);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     index = 1;
     marker = 0x18;
     entry = arg0 + 4;
@@ -36,10 +36,10 @@ void func_8067F5C4(u8 *arg0) {
         entry += 4;
     } while (index < 0x21);
     tail_base = arg0;
-    ASM_KEEP(tail_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(tail_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     tail_offset = index * 4;
     tail = (u8 *)((u32)tail_offset + (u32)tail_base);
-    ASM_KEEP(tail);   /* MATCH pin: retail register colouring depends on it */
+    ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     tail[1] = 0;
     tail[0] = 0;
 }

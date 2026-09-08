@@ -30,24 +30,24 @@ extern u8 D_8012F004[];
 extern u8 D_8014F004[];
 
 void func_800B70EC(void) {
-    register s32 value ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 threshold;
-    register s32 test ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 index;
     s32 offset;
     s32 one;
     s32 size;
     s32 limit;
-    register s32 seven ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 seven ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *asset;
     u8 *base;
     u8 *work;
     u8 *shared;
     u16 *config;
-    register u16 *arg0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register u16 *arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *arg1;
-    register u8 *entry ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u8 *table ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     config = D_80111FA8;
     arg0 = config;
@@ -57,9 +57,9 @@ void func_800B70EC(void) {
     seven = 7;
     limit = 0x7F;
     size = 0x2000;
-    ASM_KEEP(config);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP4(work, seven, limit, size);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(config);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP4(work, seven, limit, size);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     ((S_800B70EC_0 *)work)->unk_14 = seven;
     seven = 7;
     ((S_800B70EC_0 *)work)->unk_16 = seven;
@@ -77,11 +77,11 @@ void func_800B70EC(void) {
     func_8006733C(arg0, arg1, limit);
 
     value = D_800D2FB4[D_800D381A[0] << 5];
-    ASM_KEEP(value);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     one = 1;
     threshold = 0x21;
     if (value != threshold) {
-        ASM_KEEP(threshold);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(threshold);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if ((s32)value < 0x21) {
             goto common;
         }
@@ -118,8 +118,8 @@ common:
     index = D_800D381A[0];
     offset = index << 5;
     entry = table + offset;
-    ASM_KEEP(offset);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(entry);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     value = *entry;
     if (value != 0x29) {
         func_80046E38(value, D_8012F004);

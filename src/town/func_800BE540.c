@@ -66,9 +66,9 @@ extern u8 D_800F1654[];
 
 void func_800BBCA0(void *arg0, void *arg1)
 {
-    register void *self ASM_REG("$21") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *origin ASM_REG("$20") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u16 nextState ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register void *self ASM_REG("$21") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *origin ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u16 nextState ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
     u16 timer;
     s32 count;

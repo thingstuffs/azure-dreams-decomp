@@ -24,9 +24,9 @@ extern void func_800D36E0(void) __attribute__((noreturn));
 
 s32 func_800D36D0(void *arg0, s32 arg1, Entry *arg2)
 {
-    register void *state ASM_REG("$16") = arg0;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *state ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    ASM_CLOBBER_A0();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_CLOBBER_A0();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (!(arg2->unk14 & 0x80)) {
         func_800D3738(state, arg1, arg2, arg2->unk06);
     }
@@ -36,9 +36,9 @@ s32 func_800D36D0(void *arg0, s32 arg1, Entry *arg2)
         state = (u8 *)arg2 + 0x20;
         arg1 = (s32)arg2->unk08;
         arg2 = arg2->unk0C;
-        ASM_USE(state);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_USE(arg1);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_USE(arg2);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_USE(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_USE(arg1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_USE(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_800D36E0();
     }
     return 0;

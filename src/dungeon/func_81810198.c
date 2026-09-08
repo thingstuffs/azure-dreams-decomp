@@ -63,7 +63,7 @@ typedef struct S_80025198_5 {
 
 void *func_80025198(s32 arg0, s32 arg1, s32 arg2, void *arg3, s32 arg4) {
     s32 *temp_s0;
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 var_a0;
     void *temp_a1;
     void *temp_s2;

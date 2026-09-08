@@ -12,7 +12,7 @@ s32 func_800A5894(S_800A5894_0 *arg0) {
         goto calculate;
     }
     {
-        register s32 result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         result = 0;
         goto out;

@@ -73,9 +73,9 @@ void func_800AFF00(S_800AFF00_4 *arg0, S_800AFF00_0 *arg1, S_800AFF00_2 *arg2) {
     arg2->unk_04 = ((S_800AFF00_3 *)src2)->unk_04;
     arg2->unk_08 = ((S_800AFF00_3 *)src2)->unk_08;
     arg0->unk_04 = arg1;
-    ASM_UNDEF(dst);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_UNDEF(dst);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dst = arg1;
-    ASM_KEEP(dst);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     arg0->unk_08 = arg2;
     arg0->unk_00 = 0;
     dst->unk_08 = neg;

@@ -29,13 +29,13 @@ void func_80044A50(void *);
 void func_8004491C(void *, void *);
 
 s32 func_800ACE34(StructArg0 *arg0, s32 arg1, StructArg2 *arg2) {
-    register StructArg0 *s0 ASM_REG("$16") = arg0;   /* MATCH pin: load-bearing for the whole function shape */
+    register StructArg0 *s0 ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     StructArg2 *s1 = arg2;
     u8 v1 = s0->unk9B;
     u8 t0;
-    register s32 a1 ASM_REG("$5");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 a3;
-    register s32 a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 a2;
     s32 q_v1;
     u16 d_v1;

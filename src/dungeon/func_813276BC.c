@@ -14,7 +14,7 @@ s32 func_8016EEBC(void) {
     if (result != 0) {
         result = 1;
         flag = result;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         *(s8 *)((s8 *)status + 0xB0) = flag;
         flag = 60;
         *(s8 *)((s8 *)status + 0xB1) = flag;

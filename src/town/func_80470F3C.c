@@ -26,11 +26,11 @@ void func_80017F3C(void *arg0)
     u8 *record2;
     u8 *tail_base;
     u32 tail_page;
-    register u32 tail_offset ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register u32 tail_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 end_offset;
-    register s32 tail_tag ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 tail_tag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *tail_record;
-    register u8 *end_record ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *end_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     dst = D_8001B218;
     src = D_8001B1C0;
@@ -78,19 +78,19 @@ void func_80017F3C(void *arg0)
 #else
     tail_page = 0x80020000;
 #endif
-    ASM_KEEP_NV(tail_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(tail_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     status++;
-    ASM_KEEP_NV(status);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_NV(status);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     tail_base = (u8 *)(tail_page - 0x4DE8);
     tail_record = (u8 *)(tail_offset + (u32)tail_base);
-    ASM_KEEP_NV(tail_record);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(tail_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     tail_tag = 0x18;
     tail_record[1] = tail_tag;
     tail_tag = 0x20;
     tail_record[0] = tail_tag;
     end_offset = status * 4;
     end_record = (u8 *)(end_offset + (u32)tail_base);
-    ASM_KEEP(end_record);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(end_record);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     end_record[1] = 0;
     end_record[0] = 0;
 }

@@ -22,7 +22,7 @@ void func_800AAF5C(void)
     i = 7;
     base = (u8 *)&D_80100E40;
     do {
-        ASM_KEEP(i);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         destination_offset = i * 8;
         i--;
         source = (TownRecord *)((i * 8) + (u32)base);

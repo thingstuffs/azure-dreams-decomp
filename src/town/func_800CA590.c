@@ -26,9 +26,9 @@ typedef struct S_800C7CF0_2 {
 } S_800C7CF0_2;   /* out in func_800C7CF0 */
 
 void func_800C7CF0(void *arg0, void *arg1) {
-    register void *object ASM_REG("$7") = arg0;   /* MATCH pin: retail register colouring depends on it */
-    register void *out ASM_REG("$16") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s16 signed_frames ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *object ASM_REG("$7") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *out ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 signed_frames ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 target_x;
     u16 target_y;
     u16 frames;

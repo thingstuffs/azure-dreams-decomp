@@ -55,11 +55,11 @@ s32 func_800BE360(void *arg0, void *arg1, s16 arg2, s32 arg3) {
         val = ptr[idx0].flags;
         if (!(val & 0x8000)) {
             direct_page = (u8 *)0x800E0000;
-            ASM_KEEP(direct_page);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP(direct_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             direct_index = *((u8 *)arg0 + 0x13);
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             direct_page -= 0x217C;
-            ASM_KEEP(direct_page);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP(direct_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             val2 = ((u16 *)direct_page)[direct_index];
             selector = val2 & 3;
         } else {
@@ -74,7 +74,7 @@ s32 func_800BE360(void *arg0, void *arg1, s16 arg2, s32 arg3) {
         func_80098B38(arg1);
     } else {
         far_page = (u8 *)0x800E0000;
-        ASM_KEEP(far_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(far_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_800997FC(far_page + 0x101C, arg3, arg2);
     }
     counter_base = D_80083460;

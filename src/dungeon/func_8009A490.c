@@ -23,14 +23,14 @@ s32 func_8009FBF0(s32 arg0, s32 arg1) {
         count = initial_count;
         record = D_800E2970;
         do {
-            ASM_KEEP(record);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             if (*(s16 *)(record + 10) != 0) {
                 u16 x0 = *(u16 *)(record + 0);
                 if (x >= x0 - 1 && x0 + *(u16 *)(record + 4) >= x) {
                     u16 y0 = *(u16 *)(record + 2);
                     if (y >= y0 - 1 && y0 + *(u16 *)(record + 6) >= y) {
                         tail_index = (s16)index;
-                        ASM_TAILSLOT_PIN(tail_index);   /* MATCH pin: retail delay-slot contents depend on it */
+                        ASM_TAILSLOT_PIN(tail_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                         return func_8009FCA4(x, y, record, index);
                     }
                 }

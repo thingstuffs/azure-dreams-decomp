@@ -21,9 +21,9 @@ void func_800B7F8C(u16 *arg0)
         &&L4
     };
     s32 page;
-    register s32 page2 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 page2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *rect;
-    register void *data ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 index6;
     s32 value;
     s32 index24;
@@ -43,25 +43,25 @@ void func_800B7F8C(u16 *arg0)
 
 L0:
         page = (s32)0x80110000;
-        ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rect = (void *)(page + 0x1FA8);
         data = D_80110EC8;
         goto first_common;
 L4:
         page = (s32)0x80110000;
-        ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rect = (void *)(page + 0x1FA8);
         data = D_801110C8;
         goto first_common;
 L8:
         page = (s32)0x80110000;
-        ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rect = (void *)(page + 0x1FA8);
         data = D_801112C8;
         goto first_common;
 L12:
         page = (s32)0x80110000;
-        ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rect = (void *)(page + 0x1FA8);
         data = D_801114C8;
         goto first_common;
@@ -78,19 +78,19 @@ after_first:
     switch (index6) {
     case 0:
         page2 = (s32)0x80110000;
-        ASM_KEEP(page2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rect = (void *)(page2 + 0x1FA8);
         data = D_80111F48;
         goto second_common;
     case 2:
         page2 = (s32)0x80110000;
-        ASM_KEEP(page2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rect = (void *)(page2 + 0x1FA8);
         data = D_80111F68;
         goto second_common;
     case 4:
     page2 = (s32)0x80110000;
-    ASM_KEEP(page2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(page2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rect = (void *)(page2 + 0x1FA8);
     data = D_80111F88;
         goto second_common;

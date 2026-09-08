@@ -41,19 +41,19 @@ void *func_81984C44(void *arg0)
 {
     void *node;
     u8 *page;
-    register void *entity ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *entity ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 limit;
     u8 *page0;
     s32 limit0;
-    register void *next ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register void *tail_value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register void *next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 floor;
     S_81984C44_4 *owner;
 
     entity = arg0;
     page0 = (u8 *)0x80080000;
-    ASM_KEEP(entity);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(page0);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(page0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     node = ((S_81984C44_0 *)page0)->unk_14A8;
     limit0 = 0x100;
     if (((S_81984C44_1 *)entity)->unk_26 < 0) {
@@ -73,7 +73,7 @@ void *func_81984C44(void *arg0)
                 if (floor >= 0) {
                     if (floor == owner->unk_26) {
                         tail_value = node;
-                        ASM_KEEP(tail_value);   /* MATCH pin: retail delay-slot contents depend on it */
+                        ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                         func_8002652C();
                     }
                 } else {

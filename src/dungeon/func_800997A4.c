@@ -17,7 +17,7 @@ void func_8009EF04(void) {
 loop:
     if (record[0] == 2) {
         color = 0x208020;
-        ASM_KEEP(color);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         x = record[1];
         y = record[2];
         record += 4;

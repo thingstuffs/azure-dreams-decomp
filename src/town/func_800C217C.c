@@ -33,14 +33,14 @@ void func_800BF8DC(Rec_D_80082D58 *arg0, s32 *arg1) {
         }
 block_10:
         {
-            register s32 threshold ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-            register s32 distance ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register s32 threshold ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             distance = *(s32 *)D_80083780;
             temp_a0 = *arg1;
             distance -= temp_a0;
             threshold = 0x3FFFFF;
-            ASM_KEEP(threshold);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(threshold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             if (distance < 0) {
                 distance = -distance;
             }
@@ -51,7 +51,7 @@ block_10:
                 threshold = 0x20;
                 arg0->unk_6C.as_s16 = threshold;
                 distance++;
-                ASM_TAILSLOT_PIN_TIED(distance);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN_TIED(distance);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_800BF9CC();
             }
         }

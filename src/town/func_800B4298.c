@@ -71,7 +71,7 @@ typedef struct S_800B19F8_0 {
 
 void func_800B19F8(S_800B19F8_0 *arg0)
 {
-    register s32 v88 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 v88 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     ((S_800B19F8_2 *)(((S_800B19F8_1 *)arg0)->unk_48))->unk_00 = (s32) D_80078D6C;
     ((S_800B19F8_6 *)(((S_800B19F8_2 *)(((S_800B19F8_1 *)arg0)->unk_48))->unk_04))->unk_08 = 0;

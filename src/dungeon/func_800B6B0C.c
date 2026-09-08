@@ -31,12 +31,12 @@ void *func_800BC26C(s32 arg0, s32 arg1, s32 arg2)
 {
     void *result;
     u8 *fields;
-    register s32 store_arg1 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 store_arg1 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     result = func_8003FD64(0x110, (void *)arg0);
     if (result != NULL) {
         do { store_arg1 = arg1; } while (0);
-        ASM_KEEP(store_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(store_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800BC26C_0 *)result)->unk_10 = D_800BC388;
         func_8004491C(result, D_800BC3E4);
         fields = (u8 *)result + 0x20;

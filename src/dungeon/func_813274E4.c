@@ -107,13 +107,13 @@ void func_8016ECE4(void) {
 
     base = D_80174704[0];
     page = 0x80010000;
-    ASM_KEEP_NV(page);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     one = 1;
-    ASM_KEEP_DEP_NV(one, base);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP_DEP_NV(one, base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     mode = page;
     mode = *(u8 *)(mode + 0x3611);
-    ASM_KEEP_NV(mode);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s2 = ((S_8016ECE4_0 *)base)->unk_08;
     temp_s3 = base + 0x20;
     if (((mode & 3) == one) && !(func_80069EF8(base) & 1)) {

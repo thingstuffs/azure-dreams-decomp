@@ -83,7 +83,7 @@ void func_801738E0(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
 {
     void *arg0 = in_arg0;
     void *arg1 = in_arg1;
-    register void *arg2 ASM_REG("$18") = in_arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg2 ASM_REG("$18") = in_arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *arg3 = in_arg3;
     static void *const sw_keep[] = {
         &&state_zero, &&state_one, &&state_two, &&state_three,
@@ -93,7 +93,7 @@ void func_801738E0(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
         &&state_sixteen,
     };
     struct GlobalStruct *global_base;
-    register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 clear_mask;
     u32 flags;
     u8 state;
@@ -126,7 +126,7 @@ state_zero:
         goto done;
     }
     {
-        register s32 val ASM_REG("$2") = 0xFFF80000;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 val ASM_REG("$2") = 0xFFF80000;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         table = D_801744F4;
         ((S_801738E0_3 *)arg1)->unk_14 = val;
     }
@@ -151,7 +151,7 @@ state_one:
 
 state_to_two:
     {
-        register struct GlobalStruct *g ASM_REG("$3") = &D_80083460;   /* MATCH pin: retail register colouring depends on it */
+        register struct GlobalStruct *g ASM_REG("$3") = &D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         g->counter--;
     }
     ((S_801738E0_0 *)arg0)->unk_9B = 2;
@@ -174,9 +174,9 @@ state_two:
             goto clear_200;
         }
         {
-            register struct GlobalStruct *g ASM_REG("$2") = &D_80083460;   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register struct GlobalStruct *g ASM_REG("$2") = &D_80083460;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             register u16 c = g->counter + 1;
-            ASM_KEEP_NV(c);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP_NV(c);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             g->counter = c;
         }
         goto advance_state;
@@ -251,7 +251,7 @@ state_two:
         goto clear_200;
     }
     {
-        register struct GlobalStruct *g ASM_REG("$2") = &D_80083460;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register struct GlobalStruct *g ASM_REG("$2") = &D_80083460;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         g->counter++;
     }
     goto advance_state;

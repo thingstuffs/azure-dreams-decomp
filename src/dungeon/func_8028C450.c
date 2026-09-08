@@ -15,7 +15,7 @@ void func_8001F450(void)
     u8 *p;
     void *special;
     s32 mode;
-    register s16 x ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register s16 x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 y;
     s32 sentinel;
     u8 value;

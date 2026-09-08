@@ -113,7 +113,7 @@ void func_80171094(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     };
     void *arg0 = arg0_;
     void *arg1 = arg1_;
-    register void *arg2 ASM_REG("$18") = arg2_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *arg2 ASM_REG("$18") = arg2_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *arg3 = arg3_;
     s16 sp18;
     s8 tile;
@@ -126,9 +126,9 @@ void func_80171094(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
         return;
     }
 
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     if (((S_80171094_1 *)arg3)->unk_25 == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
@@ -262,7 +262,7 @@ jt_c9:
 
 jt_c8:
         if (((S_80171094_1 *)arg3)->unk_1C & 0x400) {
-            register s32 val ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+            register s32 val ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             val = ((S_80171094_1 *)arg3)->unk_14;
             if (val >= 0) {
                 val |= 0x80000000;

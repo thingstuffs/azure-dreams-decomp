@@ -72,8 +72,8 @@ extern s32 func_8017165C(s32);
 
 void func_80175594(void *arg0, void *arg1, void *entity_in, void *arg3)
 {
-    register void *arg2 ASM_REG("$19") = entity_in;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *object ASM_REG("$23");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *arg2 ASM_REG("$19") = entity_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *object ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 counter;
     s32 attempts;
     s32 random_x4;
@@ -88,7 +88,7 @@ void func_80175594(void *arg0, void *arg1, void *entity_in, void *arg3)
     u8 *world;
     u8 *table;
 
-    ASM_KEEP(arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     {
         static void *const sw_keep[] = {
@@ -101,7 +101,7 @@ void func_80175594(void *arg0, void *arg1, void *entity_in, void *arg3)
             goto done;
         }
         object = arg3;
-        ASM_KEEP(object);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         (void)sw_keep;
         goto *D_80170920[swi];
     }
@@ -132,7 +132,7 @@ case_1:
     func_80047784(arg2,
         D_800E23B8[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     goto next_state;
 
 case_2:
@@ -149,7 +149,7 @@ case_3:
     if (((S_80175594_0 *)arg0)->unk_96++ < 3) {
         goto done;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     goto next_state;
 
 case_4:
@@ -256,7 +256,7 @@ coordinates_ready:
     result = func_800BCB04(((S_80175594_1 *)arg1)->unk_02.u, ((S_80175594_1 *)arg1)->unk_06.u,
         -0x200);
     result -= 0x11;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     attempts = -0x20;
     ((S_80175594_1 *)arg1)->unk_0A.u = result;
     ((S_80175594_0 *)arg0)->unk_92.u = attempts;

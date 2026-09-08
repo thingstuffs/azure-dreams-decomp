@@ -43,7 +43,7 @@ extern s32 func_80042A80(S_8004AC3C_Item *);
 s32 func_8004AC3C(S_8004AC3C_Item *item, s32 *out)
 {
   s32 flags;
-  register S_8004AC3C_CategoryEntry *base ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  register S_8004AC3C_CategoryEntry *base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   S_8004AC3C_CategoryEntry *entry;
   s32 ret;
   *out = 0;

@@ -89,10 +89,10 @@ void func_80026978(S_80026978_1 *arg0)
         temp_v0_2 = rand(temp_a0_3);
         color = 0x808080;
         temp_v0_2 = ((temp_v0_2 & 0x1FF) - 0x100) << 0xA;
-        ASM_KEEP(temp_v0_2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v1 = (u8 *)temp_v0 + 0x20;
         temp_s2->unk_14 = temp_v0_2;
-        ASM_KEEP(temp_v1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_v1->unk_0E = 3;
         temp_s0->unk_1E = 0x1000;
         temp_s0->unk_1C = 0x1000;

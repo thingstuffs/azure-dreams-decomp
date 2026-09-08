@@ -29,8 +29,8 @@ void func_800945E8(void *arg0) {
         s32 counter;
         s32 index;
         u8 flags;
-        register u8 *entry ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
-        register u8 *data ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *entry ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u8 *data ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 *table;
         u8 *copy_base;
         Blob140 *copy_src;
@@ -41,10 +41,10 @@ void func_800945E8(void *arg0) {
 
         counter = 0x13;
         temp = (u8 *)0x800E0000;
-        ASM_KEEP_NV(temp);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(temp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table = (s32 *)(temp + 0x3DF0);
         temp = (u8 *)0x800E0000;
-        ASM_KEEP_NV(temp);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(temp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         copy_base = temp + 0x3E48;
         entry = (u8 *)0x8001024B;
         do {
@@ -59,8 +59,8 @@ void func_800945E8(void *arg0) {
                 offset = index * 0x8C;
                 copy_dst = (Blob140 *)(offset + (unsigned long)copy_base);
                 copy_src = (Blob140 *)data;
-                ASM_KEEP_NV(copy_dst);   /* MATCH pin: retail schedule: same instructions, different order without it */
-                ASM_KEEP_NV(copy_src);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_KEEP_NV(copy_dst);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 {
                     u32 *copy_src_cursor = copy_src->word;
                     volatile u32 *copy_dst_cursor = copy_dst->word;
@@ -76,7 +76,7 @@ void func_800945E8(void *arg0) {
                         copy_dst_cursor[1] = copy_word1;
                         copy_dst_cursor[2] = copy_word2;
                         copy_dst_cursor[3] = copy_word3;
-                        ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         copy_src_cursor += 4;
                         copy_dst_cursor += 4;
                     } while (copy_src_cursor != copy_end);
@@ -91,15 +91,15 @@ void func_800945E8(void *arg0) {
                         copy_dst_cursor[2] = copy_word2;
                     }
                 }
-                ASM_KEEP(index);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 store_slot = (s32 *)((index << 2) + (unsigned long)table);
                 offset = index * 0x8C;
-                ASM_KEEP_NV(store_slot);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_KEEP_NV(store_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 *store_slot = (s32)(offset + (unsigned long)copy_base);
             }
         }
-        ASM_KEEP(counter);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(entry);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         counter -= 1;
         entry += 4;
         } while (counter >= 0);
@@ -107,12 +107,12 @@ void func_800945E8(void *arg0) {
 
     {
         s32 counter;
-        register s32 *index_ptr ASM_REG("$21");   /* MATCH pin: retail register colouring depends on it */
+        register s32 *index_ptr ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *source;
-        register u8 *destination ASM_REG("$20");   /* MATCH pin: keeps a constant in a register as retail does */
-        register u8 *output ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
+        register u8 *destination ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register u8 *output ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         Global1004C *block;
-        register u8 *page ASM_REG("$23");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        register u8 *page ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         Blob140 *copy_src;
         Blob140 *copy_dst;
         u8 *temp;
@@ -124,20 +124,20 @@ void func_800945E8(void *arg0) {
         counter = 0x13;
         output = (u8 *)0x80010013;
         temp = (u8 *)0x800E0000;
-        ASM_KEEP_NV(temp);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(temp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp += 0x3DF0;
-        ASM_KEEP_NV(temp);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(temp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         index_ptr = (s32 *)temp + 0x13;
         page = (u8 *)0x800E0000;
-        ASM_KEEP_NV(page);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         temp = page + 0x3E48;
-        ASM_KEEP_NV(temp);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP_NV(temp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         source = temp + 0xA64;
         destination = (u8 *)0x80010A64;
         block = (Global1004C *)0x8001004C;
         do {
         block->copy_dst = block->copy_src;
-        ASM_SET(call_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_SET(call_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         call_base = (void *)0x80010248;
         call_size = 4;
         call_arg = *(s32 *)((u8 *)block + 0x29C);
@@ -145,7 +145,7 @@ void func_800945E8(void *arg0) {
         output[0x2238] = func_800422A8(call_arg, call_base, call_size, call_count);
         copy_dst = (Blob140 *)(destination + 0x2260);
         copy_src = (Blob140 *)source;
-        ASM_KEEP_NV(copy_dst);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(copy_dst);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         {
             u32 *copy_src_cursor = copy_src->word;
             volatile u32 *copy_dst_cursor = copy_dst->word;
@@ -161,7 +161,7 @@ void func_800945E8(void *arg0) {
                 copy_dst_cursor[1] = copy_word1;
                 copy_dst_cursor[2] = copy_word2;
                 copy_dst_cursor[3] = copy_word3;
-                ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 copy_src_cursor += 4;
                 copy_dst_cursor += 4;
             } while (copy_src_cursor != copy_end);
@@ -176,31 +176,31 @@ void func_800945E8(void *arg0) {
                 copy_dst_cursor[2] = copy_word2;
             }
         }
-        ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        ASM_KEEP(counter);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(index_ptr);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        ASM_KEEP(source);   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(destination);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(block);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(index_ptr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(destination);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(block);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         call_base = page + 0x3E48;
         call_size = 0x8C;
         call_count = 0x14;
         call_arg = *index_ptr;
-        ASM_KEEP4_NV(call_arg, call_base, call_size, call_count);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP4_NV(call_arg, call_base, call_size, call_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         index_ptr -= 1;
         source -= 0x8C;
         destination -= 0x8C;
         block = (Global1004C *)((u8 *)block - 4);
         counter -= 1;
         output[0x224C] = func_800422A8(call_arg, call_base, call_size, call_count);
-        ASM_KEEP(output);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(output);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         output -= 1;
         } while (counter >= 0);
     }
 
     {
-        register s32 counter ASM_REG("$18");   /* MATCH pin: load-bearing for the whole function shape */
-        register u8 *source ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 counter ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 *source ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *output;
         s32 call_arg;
         void *call_base;
@@ -209,14 +209,14 @@ void func_800945E8(void *arg0) {
 
         counter = 1;
         output = (u8 *)0x80010000;
-        ASM_KEEP(arg);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_KEEP(arg);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         source = (u8 *)arg + 4;
         do {
         call_base = (void *)0x80010248;
         call_size = 4;
         call_count = 0x14;
         call_arg = *(s32 *)(source + 0xD0);
-        ASM_KEEP4_NV(call_arg, call_base, call_size, call_count);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP4_NV(call_arg, call_base, call_size, call_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         source -= 4;
         output[counter + 0x2D52] = func_800422A8(call_arg, call_base, call_size, call_count);
         counter -= 1;

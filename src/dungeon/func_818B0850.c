@@ -11,7 +11,7 @@ extern void func_800B4C7C(s32 arg0, void *arg1, s32 arg2, s32 arg3);
 
 void func_818B0850(void *arg0, s32 arg1) {
     if (func_8009D218(arg0, 4) == 0) {
-        register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+        register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s16 temp_v0;
         s32 var_a1;
 

@@ -87,22 +87,22 @@ s32 func_818C2FAC(void *arg0, void *arg1, s32 arg2)
     uptr input = (uptr)arg0;
     uptr source = (uptr)arg1;
     s32 a0i;
-    register s32 coord ASM_REG("$17");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register uptr obj ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register uptr temp ASM_REG("$16");   /* MATCH pin: retail delay-slot fill depends on it */
-    register s32 pa0 ASM_REG("$4");   /* MATCH pin: retail delay-slot contents depend on it */
-    register u32 pg0 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 coord ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register uptr obj ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register uptr temp ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 pa0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    register u32 pg0 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 pa1;
-    register u32 pg1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u32 pg1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 prod;
     s32 magic;
     S_818C2FAC_1 *work;
 
     a0i = 0x212;
-    ASM_KEEP_NV(a0i);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(a0i);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     coord = arg2;
     obj = (uptr)func_8003FC64(a0i);
-    ASM_KEEP(source);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (obj != NULL) {
 
     ((S_818C2FAC_0 *)((void *)obj))->unk_10 = D_80024710;
@@ -136,9 +136,9 @@ s32 func_818C2FAC(void *arg0, void *arg1, s32 arg2)
     pa0 = (s32)temp;
     if (kind == 0) goto case0;
 #ifndef NON_MATCHING
-    ASM_KEEP(pa0);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     pg0 = 0x800E0000;
-    ASM_PAGEBASE_PIN(pg0);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_PAGEBASE_PIN(pg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_800248CC();
 #else
     func_800248CC((void *)temp, 0x800E0000);
@@ -148,9 +148,9 @@ tree2:
     pa1 = (s32)temp;
     if (kind == 3) goto case3;
 #ifndef NON_MATCHING
-    ASM_KEEP(pa1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(pa1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     pg1 = 0x800E0000;
-    ASM_PAGEBASE_PIN(pg1);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_PAGEBASE_PIN(pg1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_800248CC();
 #else
     func_800248CC((void *)temp, 0x800E0000);
@@ -159,26 +159,26 @@ case0:
     {
         s32 vpin0;
         vpin0 = 0x7DCF;
-        ASM_TAILSLOT_PIN(vpin0);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(vpin0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800248C0();
     }
 case1:
     {
         s32 vpin1;
         vpin1 = 0x7E00;
-        ASM_TAILSLOT_PIN(vpin1);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(vpin1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800248C0();
     }
 case2:
     {
         s32 vpin2;
         vpin2 = 0x7E01;
-        ASM_TAILSLOT_PIN(vpin2);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(vpin2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_800248C0();
     }
 case3:
     ((S_818C2FAC_2 *)((void *)temp))->unk_12 = 0x7E02;
-    ASM_CLOBBER("$4");   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     {
         s32 A0p;
         u8 *A1p;
@@ -211,11 +211,11 @@ case3:
     random = func_80069EF8();
     magic = 0x78787879;
     temp = (uptr)random;
-    ASM_USE_NV(magic);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_USE_NV(magic);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     coord = (s16)coord;
     temp = (uptr)((s32)temp % 17 + 0x20);
     h1 = func_800644B8(coord) >> 4;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp = (uptr)(s16)(s32)temp;
     {
         s32 sh1;
@@ -224,13 +224,13 @@ case3:
         (*(s32 *)((u8 *)((void *)input) + 0)) += sh1;
     }
     {
-        register s32 ret ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register s32 ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         h2 = func_80064584(coord) >> 4;
         ret = (s32)obj;
         prod = h2 * (s32)temp;
         delta = prod << 8;
         newv = (*(s32 *)((u8 *)((void *)input) + 4)) + delta;
-        ASM_KEEP(ret);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         (*(s32 *)((u8 *)((void *)input) + 4)) = newv;
         func_800249E4(delta);
     }

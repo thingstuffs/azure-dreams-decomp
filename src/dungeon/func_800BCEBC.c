@@ -60,9 +60,9 @@ s32 func_800C261C(Entity *arg0, s32 arg1, s16 arg2) {
             return 0;
         }
         {
-            register Entity *call_arg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-            register s32 pass_val ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-            register s32 saved_val ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
+            register Entity *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            register s32 pass_val ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 saved_val ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 res;
 
             res = func_800990FC();

@@ -56,12 +56,12 @@ case_789:
         count = 0x1C;
         base = (u8 *)&D_80129728;
         cursor = (void **)(base + 0x70);
-        ASM_KEEP(count);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
             entry = *cursor;
             inner = ((S_80125DDC_1 *)entry)->unk_08;
             value = ((S_80125DDC_2 *)inner)->unk_02;
-            ASM_KEEP(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             count++;
             value += 0x100;
             ((S_80125DDC_2 *)inner)->unk_02 = value;
@@ -82,7 +82,7 @@ case_10:
         cursor = (s32 **)(base + 0x78);
         do {
             entry = *cursor;
-            ASM_KEEP(entry);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             count++;
             *entry = 0;
             cursor = (s32 **)((u8 *)cursor + 4);
@@ -101,12 +101,12 @@ case_111213:
         count = 0x1C;
         base = (u8 *)&D_80129728;
         cursor = (void **)(base + 0x70);
-        ASM_KEEP(count);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
             entry = *cursor;
             inner = ((S_80125DDC_1 *)entry)->unk_08;
             value = ((S_80125DDC_2 *)inner)->unk_02;
-            ASM_KEEP(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             count++;
             value += 0x100;
             ((S_80125DDC_2 *)inner)->unk_02 = value;
@@ -127,12 +127,12 @@ case_14:
         count = 0x1C;
         base = (u8 *)&D_80129728;
         cursor = (void **)(base + 0x70);
-        ASM_KEEP(count);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
             entry = *cursor;
             inner = ((S_80125DDC_1 *)entry)->unk_08;
             value = ((S_80125DDC_2 *)inner)->unk_02;
-            ASM_KEEP(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             count++;
             value += 0x100;
             ((S_80125DDC_2 *)inner)->unk_02 = value;
@@ -150,7 +150,7 @@ case_14:
         cursor = (s32 **)(base + 0x70);
         do {
             entry = *cursor;
-            ASM_KEEP(entry);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             count++;
             *entry = 0;
             cursor = (s32 **)((u8 *)cursor + 4);

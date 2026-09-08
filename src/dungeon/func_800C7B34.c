@@ -33,10 +33,10 @@ s32 func_800CD294(void *arg0) {
     /* fidelity: retail forwards $a0..$a3 into func_800A6508 untouched (it reads
        $a3, which this row never writes).  Name them at the call site through
        ASM_REG pins so the C says what retail does without emitting a byte. */
-    register void *fwd_a0 ASM_REG("$4");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 fwd_a1 ASM_REG("$5");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 fwd_a2 ASM_REG("$6");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 fwd_a3 ASM_REG("$7");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *fwd_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 fwd_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 fwd_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 fwd_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     M2C_UNK var_a1;
     S_800CD294_1 *temp_v1;
 

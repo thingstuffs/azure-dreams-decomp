@@ -11,7 +11,7 @@ extern u8 D_8007162C[]; /* 0x8007162C -- referenced as a literal above */
 
 void func_8004E6F4(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5)
 {
-    register s32 n ASM_REG("$24") = arg5;   /* MATCH pin: slus-diff */
+    register s32 n ASM_REG("$24") = arg5;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s16 colors[16];
     s32 i;
     s32 inv;
@@ -19,24 +19,24 @@ void func_8004E6F4(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5)
     s32 red_b;
     s32 green_a;
     s32 green_b, blue_a;
-    register s32 blue_b ASM_REG("$17");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 blue_b ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 color;
     s32 t;
-    register s32 pad16 ASM_REG("$16");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 pad16 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u32 page;
     s32 four;
-    register u8 *rowbase ASM_REG("$2");   /* MATCH pin: slus-diff */
+    register u8 *rowbase ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u8 *row;
 
-    ASM_USE_NV(pad16);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE_NV(pad16);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     i = 1;
     colors[0] = 0;
     four = 4;
     page = 0x80070000;
-    ASM_KEEP_NV(page);   /* MATCH pin: slus-diff */
+    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     rowbase = (u8 *)(page + 0x162C);
     row = (u8 *)(arg4 * 8 + (u32)rowbase);
-    ASM_USE_NV(row);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     do {
         color = (i < n) << 15;
         if (i < 5) {

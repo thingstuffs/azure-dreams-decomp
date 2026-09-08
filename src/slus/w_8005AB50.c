@@ -29,7 +29,7 @@ s32 func_8005AB50(s32 arg0, u32 arg1, s16 arg2)
     S_80086A40 *base;
     S_80086A40 *entry;
     s16 marker;
-    register u32 amount ASM_REG("$17");   /* MATCH pin: slus-diff */
+    register u32 amount ASM_REG("$17");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 remaining;
 
     base = D_80086A40;
@@ -55,7 +55,7 @@ s32 func_8005AB50(s32 arg0, u32 arg1, s16 arg2)
     {
         s32 new_cursor;
         s32 end;
-        register s32 ret ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register s32 ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         new_cursor = D_8007382C.value + amount;
         end = entry->unk14;

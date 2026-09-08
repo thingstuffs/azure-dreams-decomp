@@ -23,7 +23,7 @@ extern struct {
 } D_80083460;
 
 void func_800AA258(Rec_func_800A9E70_arg0 *arg0, void *arg1, S_800AA258_2 *arg2, Rec_D_800E3D7C *arg3) {
-    register s32 temp_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 temp_a0;
     s32 temp_s0;
     s32 var_s0;

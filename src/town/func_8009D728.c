@@ -28,15 +28,15 @@ extern u8 D_8009B014[];
 void func_8009AE88(Entity *arg0, s32 arg1, s32 arg2) {
     Entity *entity = arg0;
     GlobalState *state = (GlobalState *)D_80083160;
-    register s32 dead ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
-    register s32 value ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 dead ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (state->flags & 0x40) {
         Entity *call_a1 = entity;
-        ASM_KEEP(call_a1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
             void *call_a0 = D_800D0190;
-            ASM_KEEP(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+            ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             entity->unkA = 4;
             func_80094984(call_a0, call_a1);
         }
@@ -44,25 +44,25 @@ void func_8009AE88(Entity *arg0, s32 arg1, s32 arg2) {
         dead = (s32)D_8009B0EC;
 #else
         dead = (s32)0x800A0000;
-        ASM_KEEP(dead);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(dead);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         dead += -0x4F14;
 #endif
-        ASM_TAILSLOT_PIN(dead);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(dead);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8009AF5C();
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if ((state->flags & 0x1000) && ((value = D_800D0620) >= 0)) {
-        register void *tail_a0 ASM_REG("$4") = D_800D0088;   /* MATCH pin: keeps a statement from moving across a call/branch */
-        register Entity *tail_a1 ASM_REG("$5") = entity;   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(tail_a0);   /* MATCH pin: retail basic-block layout depends on it */
-        ASM_KEEP(tail_a1);   /* MATCH pin: retail delay-slot contents depend on it */
+        register void *tail_a0 ASM_REG("$4") = D_800D0088;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register Entity *tail_a1 ASM_REG("$5") = entity;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(tail_a0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         value--;
         D_800D0620 = value;
         value = 0x800;
         entity->unk10 = value;
         dead = 4;
-        ASM_TAILSLOT_PIN(dead);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(dead);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8009AF4C();
     }
 

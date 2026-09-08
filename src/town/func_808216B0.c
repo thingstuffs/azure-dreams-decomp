@@ -21,9 +21,9 @@ void func_80023EB0(void *arg0)
         &&sw_0, &&sw_1, &&sw_2, &&sw_3, &&sw_4
     };
     u8 *state = arg0;
-    register void *obj ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *obj ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *part;
-    register u8 *work ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *object_data;
     u8 *part_data;
     s32 scale;
@@ -31,7 +31,7 @@ void func_80023EB0(void *arg0)
     s32 store_value;
     s32 mask_index;
     s32 color;
-    register s32 index ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 counter;
 
     switch (S16_AT(state, 0x18)) {
@@ -87,9 +87,9 @@ alloc_loop:
             part = PTR_AT(obj, 0xC);
             S16_AT(part, 0x14) = 0xC;
             color = 0x00808080;
-            ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             work = (u8 *)obj + 0x20;
-            ASM_KEEP(work);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+            ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             S16_AT(part, 0x1E) = scale;
             S16_AT(part, 0x1C) = scale;
             PTR_AT(part, 8) = part_data;
@@ -144,7 +144,7 @@ color_done:
         S16_AT(state, 8) = U16_AT(state, 8) + dx;
         other = U16_AT(state, 0x10) + dy;
         S16_AT(state, 0x10) = other;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         value = (s16)other + 0x60;
         if (value < 0) {
             value = -value;

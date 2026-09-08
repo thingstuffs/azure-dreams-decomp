@@ -32,7 +32,7 @@ void func_800ABD74(void *arg0) {
     S_800ABD74_0 *base;
     StackRecord sp10;
     s32 var_s0;
-    register s32 temp_s2 ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_s4;
     s32 var_s1;
 
@@ -41,7 +41,7 @@ void func_800ABD74(void *arg0) {
     temp_s4 = 0x1000 / temp_s2;
     var_s1 = 0;
     var_s0 = rand();
-    ASM_KEEP(temp_s2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     sp10.z = base->unk_0A;
     sp10.c = -4;
     if (temp_s2 != 0) {

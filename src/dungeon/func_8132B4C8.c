@@ -58,7 +58,7 @@ void func_80172CC8(S_80172CC8_1 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u16 x;
     u16 y;
     u16 z;
-    register s32 flag ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 flag ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     flag = arg4;
     temp_v0 = func_8003FC64(0x212);
@@ -91,6 +91,6 @@ void func_80172CC8(S_80172CC8_1 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         } else {
             func_8003DB94(temp_a0_2, D_800DEDB0, 0);
         }
-        ASM_KEEP(flag);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(flag);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
 }

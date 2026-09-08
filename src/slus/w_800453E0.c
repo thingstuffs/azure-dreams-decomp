@@ -150,12 +150,12 @@ void func_800453E0(void *arg0, void *arg1, Entry *entry, s16 depth_bias)
         low_mask = 0xFFFFFF;
 
         {
-        register u8 *rotation_input ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register u8 *rotation_input ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         u16 b8_value;
-        register u32 a1blk ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register u32 a1blk ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 v104;
         rotation_input = scratch;
-        ASM_KEEP_NV(rotation_input);   /* MATCH pin: slus-diff */
+        ASM_KEEP_NV(rotation_input);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         b8_value = *(volatile u16 *)(scratch + 0xB8);
         rotation_input = (u8 *)((u32)rotation_input | 0x100);
         SP16(scratch, 0xB8) = b8_value - 0xA0;
@@ -165,11 +165,11 @@ void func_800453E0(void *arg0, void *arg1, Entry *entry, s16 depth_bias)
         SP32(scratch, 0x38) = *(s16 *)((u8 *)global + 0xC8);
 
         SP16(scratch, 0x100) = E16(entry, 0x16);
-        ASM_KEEP_NV(a1blk);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(a1blk);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         v104 = *(u16 *)((u8 *)global + 0xB8) +
             (E16(entry, 0x1A) - SP16(scratch, 0x34));
         SP16(scratch, 0x104) = v104;
-        ASM_USE2_NV(a1blk, v104);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_USE2_NV(a1blk, v104);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         rotation_x = E16(entry, 0x18) - 0x100;
         rotation_x += (SP16(scratch, 0x38) + 0x100) & 0x1FF;
         SP16(scratch, 0x102) = rotation_x;

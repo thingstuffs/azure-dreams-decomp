@@ -69,17 +69,17 @@ void func_8016583C(S_8016583C_0 *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s
     S_8016583C_2 *temp_a0;
     S_8016583C_1 *temp_s0;
     void *temp_v0;
-    register s16 arg1_hold ASM_REG("$22") = arg1;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 arg2_hold ASM_REG("$21") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s16 arg1_hold ASM_REG("$22") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 arg2_hold ASM_REG("$21") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 arg4_hold = arg4;
-    register s32 arg3_hold ASM_REG("$16") = arg3;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 arg3_hold ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 arg5_hold = arg5;
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != NULL) {
         (*(M2C_UNK **)((u8 *)temp_v0 + 0x10)) = &D_801654F0;
         ((S_8016583C_3 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_02 = (s16) (((S_8016583C_4 *)(arg0->unk_08))->unk_02 + arg3_hold);
-        ASM_KEEP(arg3_hold);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(arg3_hold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_8016583C_3 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_06 = (s16) (((S_8016583C_4 *)(arg0->unk_08))->unk_06 + arg4_hold);
         ((S_8016583C_3 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_0A = (s16) (((S_8016583C_4 *)(arg0->unk_08))->unk_0A + arg5_hold);
         temp_s0 = temp_v0 + 0x20;
@@ -104,10 +104,10 @@ void func_8016583C(S_8016583C_0 *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s
         (*(Copy12 *)((u8 *)temp_v0 + 0x56)) =
             (*(Copy12 *)((u8 *)D_80173B34 + 0));
         temp_a0->unk_08 = (void *) (temp_v0 + 0x56);
-        ASM_KEEP(arg1_hold);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(arg2_hold);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(arg4_hold);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-        ASM_KEEP(arg5_hold);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(arg1_hold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(arg2_hold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(arg4_hold);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(arg5_hold);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 }
 

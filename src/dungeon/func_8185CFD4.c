@@ -79,7 +79,7 @@ s32 func_800247D4(void *arg0)
     u8 *arg = arg0;
     u8 *initial_ctx = *(u8 **)D_80083160;
     u8 *ctx;
-    register u32 t0_value ASM_REG("$8");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u32 t0_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 color_base;
     s32 high_mask;
     s32 phase;
@@ -91,7 +91,7 @@ s32 func_800247D4(void *arg0)
     s32 delta;
     s32 angle;
     s32 index;
-    register s32 v1_value ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 v1_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 target_value;
     s32 a1_value;
     s32 y;
@@ -107,21 +107,21 @@ s32 func_800247D4(void *arg0)
     };
 
     (void)jt_keep;
-    ASM_USE_NV(initial_ctx);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE_NV(initial_ctx);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     t0_value = 7;
     high_mask = 0xFFFF0000;
     color_base = 0x40;
-    ASM_USE2_NV(high_mask, color_base);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_USE2_NV(high_mask, color_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     phase = 0x15;
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP(t0_value);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(t0_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     count = (s32)t0_value;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_800247D4_0 *)scratch)->unk_18 = initial_ctx + 0xB0;
 
     do {
         t0_value = (u32)D_80083160;
-        ASM_KEEP(t0_value);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(t0_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ctx = *(u8 **)t0_value;
         packet = ((S_800247D4_1 *)ctx)->unk_8D0;
         ((S_800247D4_1 *)ctx)->unk_8D0 = packet + 0x14;
@@ -149,7 +149,7 @@ s32 func_800247D4(void *arg0)
 case_early:
     {
         target_value = ((S_800247D4_0 *)scratch)->unk_6C;
-        ASM_KEEP(target_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(target_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         v1_value = ((S_800247D4_0 *)scratch)->unk_64;
         delta &= 0xFFFF;
         delta |= (target_value - v1_value) << 16;
@@ -192,7 +192,7 @@ case_early:
             ((S_800247D4_2 *)packet)->unk_06 = color_base;
             ((S_800247D4_2 *)packet)->unk_0D = color_base - ((7 - v1_value) * 8);
             {
-                register s32 color0_out ASM_REG("$2") = 0x40 + color0;   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register s32 color0_out ASM_REG("$2") = 0x40 + color0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 ((S_800247D4_2 *)packet)->unk_0C = color0_out;
             }
@@ -217,7 +217,7 @@ case_late:
         s32 color_step;
 
         target_value = ((S_800247D4_0 *)scratch)->unk_6C;
-        ASM_KEEP(target_value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(target_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         v1_value = ((S_800247D4_0 *)scratch)->unk_64;
         delta &= 0xFFFF;
         delta |= (target_value - v1_value) << 16;
@@ -264,7 +264,7 @@ case_late:
             v1_value = (t0_value - v1_value) * 8;
             ((S_800247D4_2 *)packet)->unk_0E = (u8)color_step;
             {
-                register s32 color0_out ASM_REG("$2") = 0x40 + color0;   /* MATCH pin: keeps a statement from moving across a call/branch */
+                register s32 color0_out ASM_REG("$2") = 0x40 + color0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 ((S_800247D4_2 *)packet)->unk_04 = color0_out;
             }
@@ -279,14 +279,14 @@ shared:
         {
             u8 *src0 = scratch + 0x64;
             u8 *dst0 = scratch + 0xD8;
-            ASM_USE2_NV(src0, dst0);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_USE2_NV(src0, dst0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             first_z = func_80065420(src0, dst0, work84, work88);
         }
         ((S_800247D4_0 *)scratch)->unk_F4 = first_z;
         {
             u8 *src1 = scratch + 0x6C;
             u8 *dst1 = scratch + 0xDC;
-            ASM_USE2_NV(src1, dst1);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_USE2_NV(src1, dst1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             second_z = func_80065420(src1, dst1, work84, work88);
         }
         ((S_800247D4_0 *)scratch)->unk_F8 = second_z;
@@ -332,7 +332,7 @@ shared:
         }
 
         t0_value = (u32)count;
-        ASM_KEEP(t0_value);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(t0_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         phase -= 3;
         t0_value -= 1;
         count = (s32)t0_value;

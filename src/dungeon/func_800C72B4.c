@@ -83,14 +83,14 @@ void func_800CCA14(u16 arg0, u16 arg1, u16 arg2) {
     } while (var_s4 >= 0);
     temp_s0 = (var_s4 << 0x1A) >> 0x10;
     first_a3 = temp_s0;
-    ASM_KEEP(first_a3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(first_a3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     var_s4 = 3;
     func_800CC88C((s16) temp_v0->unk_20, (s16) temp_v0->unk_22, (s16) temp_v0->unk_24, first_a3, 0);
     func_800CC88C((s16) temp_v0->unk_20, (s16) temp_v0->unk_22, (s16) temp_v0->unk_24, temp_s0, 1);
     do {
         temp_s0_2 = (var_s4 << 0x1A) >> 0x10;
         temp_a3 = temp_s0_2;
-        ASM_KEEP(temp_a3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(temp_a3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         var_s4 -= 1;
         func_800CC5F0((s16) temp_v0->unk_20, (s16) temp_v0->unk_22, (s16) temp_v0->unk_24, temp_a3, 0, 0);
         func_800CC5F0((s16) temp_v0->unk_20, (s16) temp_v0->unk_22, (s16) temp_v0->unk_24, temp_s0_2, 1, 1);

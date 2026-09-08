@@ -115,7 +115,7 @@ void func_8008F428(void *arg0, void *arg1, void *arg2, void *arg3) {
             }
 use_effect:
             effect = D_8008EAC8;
-            ASM_KEEP(effect);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             func_8008F694(effect_arg, D_800DD0B8);
             return;
         }
@@ -133,10 +133,10 @@ use_effect:
             {
                 void *entity;
                 s32 old_value;
-                register u32 mask1 ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
-                u32 mask2;   /* MATCH pin: retail register colouring depends on it */
+                register u32 mask1 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                u32 mask2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 u8 *old_value_page;
-                register s32 flags ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+                register s32 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                 mask1 = 0xFFF7FFFF;
                 mask2 = 0xFFEF0000;
@@ -155,7 +155,7 @@ use_effect:
                 s32 next_state;
 
                 next_state = ((S_8008F428_0 *)arg0)->unk_9B + 1;
-                ASM_TAILSLOT_PIN(next_state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_8008F610();
             }
             return;
@@ -193,8 +193,8 @@ start_wait:
     func_800A56E0(0x506);
     {
         void *call_arg;
-        register s32 pass_value ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-        register s32 saved_value ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        register s32 pass_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 saved_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         value = func_800990FC();
         call_arg = ((S_8008F428_0 *)arg0)->unk_11C;

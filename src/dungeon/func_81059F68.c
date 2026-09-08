@@ -34,9 +34,9 @@ extern s8 D_800E2970[];
 
 void func_80171768(u8 *in0, void *arg1, u8 *in2, u8 *in3)
 {
-    register u8 *arg0 ASM_REG("$21") = in0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *arg2 ASM_REG("$19") = in2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register u8 *arg3 ASM_REG("$18") = in3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *arg0 ASM_REG("$21") = in0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *arg2 ASM_REG("$19") = in2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *arg3 ASM_REG("$18") = in3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 special;
     s16 counter;
     s16 *angle_steps;
@@ -45,15 +45,15 @@ void func_80171768(u8 *in0, void *arg1, u8 *in2, u8 *in3)
     u16 state_flags;
     s32 actor_flags;
     s32 call_result;
-    register s32 current_angle ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register s32 current_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 special_test;
     s32 trial;
 
     state = (u8 *)&D_80083460;
     state_flags = U16_AT(state, 2);
-    ASM_KEEP(arg0);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(arg2);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(arg3);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     special = 0;
 
     if (state_flags & 0x4000) {
@@ -100,7 +100,7 @@ negative_entry:
         goto found_actor;
     }
     {
-        register s32 field_value ASM_REG("$2") = S32_AT(arg3, 0x14);   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 field_value ASM_REG("$2") = S32_AT(arg3, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         if (field_value < 0) {
             goto zero_counter;
@@ -211,8 +211,8 @@ check_tile_kind:
 found_actor:
     {
         u8 *other = PTR_AT(found, -0x14);
-        register u8 *buffer ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-        ASM_KEEP(other);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        register u8 *buffer ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         buffer = arg0 + 0x98;
 
         U16_AT(arg3, 0x2A) = func_800A0818(
@@ -275,7 +275,7 @@ loop_setup:
     if ((func_8009A66C((s16)trial, arg2, arg3, 0x20) << 16) > 0) {
         if (counter >= 3) {
             special_test = special;
-            ASM_KEEP(special_test);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (special_test != 0) {
                 goto clear_path;
             }
@@ -299,7 +299,7 @@ loop_setup:
 
         {
             s32 move_offset = (U16_AT(arg3, 0x2A) >> 8) & 0xE;
-            register u8 *x_steps ASM_REG("$3") = (u8 *)&D_8006CCD8;   /* MATCH pin: retail register colouring depends on it */
+            register u8 *x_steps ASM_REG("$3") = (u8 *)&D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             U8_AT(arg2, 0x24) += U8_AT(x_steps, move_offset);
             U8_AT(arg2, 0x25) += U8_AT(&D_8006CCE8, move_offset);

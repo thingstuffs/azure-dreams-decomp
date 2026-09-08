@@ -15,34 +15,34 @@ extern s32 func_800C8B1C();
 s32 func_800C8ABC(void *arg0, s16 arg1, s8 arg2)
 {
     S_800C8ABC_0 *held_arg0 = arg0;
-    register s16 held_arg1 ASM_REG("$17") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 held_arg1 ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s8 held_arg2 = arg2;
-    register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 divisor ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 remainder ASM_REG("$3");   /* MATCH pin: retail basic-block layout depends on it */
+    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 divisor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u8 temp_v1;
 
     if (func_800C8408() != 0) {
         return 0;
     }
-    ASM_KEEP(held_arg0);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     temp_a0 = func_800A6D30() & 0xFFFF;
     temp_v1 = held_arg0->unk_03;
     if (temp_v1 != 0) {
         divisor = temp_v1;
-        ASM_USE(divisor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_USE(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         remainder = temp_a0 % divisor;
-        ASM_KEEP(remainder);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(remainder);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800C8B1C();
         return (u32)held_arg1 << 16;
     }
 
     remainder = 0;
     divisor = held_arg1 / 2;
-    ASM_USE(divisor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_USE(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if ((remainder < divisor) || (held_arg1 == 0xFF)) {
         if ((s16)func_800A48F0(held_arg0, 1, held_arg2) >= 0) {
             return 1;

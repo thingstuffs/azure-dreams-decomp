@@ -28,12 +28,12 @@ void func_80043458(void) {
 
     i = 0;
     mask = ~0x4000;
-    ASM_USE(mask);   /* MATCH pin: slus-diff */
+    ASM_USE(mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     word_ptr = (WordPage *)0x80010000;
     byte_ptr = (BytePage *)word_ptr;
-    ASM_KEEP(byte_ptr);   /* MATCH pin: slus-diff */
+    ASM_KEEP(byte_ptr);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     base = (u8 *)byte_ptr;
-    ASM_KEEP(base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *(volatile s32 *)(base + 0x208C) = 0;
     *(volatile s32 *)(base + 0x2090) = 0;
     base[0x2D52] = 0xFF;

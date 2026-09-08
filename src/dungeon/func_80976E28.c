@@ -18,10 +18,10 @@ typedef struct S_80172628_0 {
 
 s32 func_80172628(void *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3) {
     s16 temp_v0;
-    register s32 var_v0 ASM_REG("$2");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     M2C_UNK hold_arg1 = arg1;
     M2C_UNK hold_arg2 = arg2;
-    register s32 hold_arg3 ASM_REG("$19") = arg3;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 hold_arg3 ASM_REG("$19") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *hold_arg0 = arg0;
 
     var_v0 = func_800ADDA0(hold_arg1, hold_arg2, hold_arg0, 3, 6, hold_arg0 + 0x9C);
@@ -35,7 +35,7 @@ s32 func_80172628(void *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3) {
     if ((hold_arg3 << 0x10) != 0) {
         goto call_state;
     }
-    ASM_KEEP(hold_arg3);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(hold_arg3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     if (temp_v0 == 1) {
         goto type_one;
     }
@@ -61,8 +61,8 @@ type_zero:
 
 call_state:
     func_80171C34(hold_arg0, hold_arg1, hold_arg2, hold_arg0);
-    ASM_KEEP(hold_arg1);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(hold_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(hold_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(hold_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     var_v0 = 0;
     goto done;
 

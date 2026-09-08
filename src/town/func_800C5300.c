@@ -9,7 +9,7 @@ s32 func_800C2A60(void *arg0) {
     s32 result;
     s32 return_value;
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (D_800CFCC4 != 0) {
         result = 0;
         if (*(s32 *)((u8 *)D_800CFCC4 + 0x60) ==
@@ -17,7 +17,7 @@ s32 func_800C2A60(void *arg0) {
             result = D_800834B8 == (s32)&D_80097D2C;
         }
         return_value = result;
-        ASM_TAILSLOT_PIN(return_value);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(return_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         return func_800C2AAC(result);
     }
     return 0;

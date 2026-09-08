@@ -77,7 +77,7 @@ void func_800224E0(void)
 {
     s16 rect[4];
     s32 i;
-    register s32 value ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *obj;
     u8 *parent;
     u8 *slot;
@@ -127,11 +127,11 @@ void func_800224E0(void)
         func_8004491C(obj, D_80046398);
         color = 0x00808080;
         cbt = obj + 0x28;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800224E0_0 *)obj)->unk_10 = D_80023DE0;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         value = 0x1000;
-        ASM_KEEP(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         prim = ((S_800224E0_0 *)obj)->unk_08;
         draw = ((S_800224E0_0 *)obj)->unk_0C;
         ((S_800224E0_0 *)obj)->unk_20.at00.v = parent;

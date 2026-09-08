@@ -14,10 +14,10 @@ void func_8001CD98(void) {
     s8 *selected;
     s8 *entry;
     s16 *value;
-    register s32 initial ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 initial ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 index;
-    register s32 offset ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
-    register s32 tail_flag ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 offset ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 tail_flag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s8 **page;
     void **root_page;
     s32 result;
@@ -29,7 +29,7 @@ void func_8001CD98(void) {
     root = *(void **)D_80016000;
     initial = 0;
     index = initial;
-    ASM_KEEP(initial);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(initial);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     offset = (s32)D_80018880;
     selected = *(s8 **)(offset +
         (*(IndexFunc *)((s8 *)*(void **)((s8 *)root + 0x20) + 0x2D4))(initial)

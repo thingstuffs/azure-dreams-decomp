@@ -16,8 +16,8 @@ typedef struct S_8009CD58_1 {
 s32 func_8009CD58(Rec_D_800E3D7C *arg0, s32 arg1, s32 arg2) {
     s32 temp_a2;
     s32 temp_t0;
-    register s32 var_a3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
-    register s32 var_mask ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 var_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 var_cmp;
     u8 *temp_a0_4;
     s32 temp_a0;

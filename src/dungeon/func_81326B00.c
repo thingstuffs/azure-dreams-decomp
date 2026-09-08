@@ -21,7 +21,7 @@ void func_8016E300(Entity *entity, Position *pos)
 {
     u8 *context_base = D_80174704[0];
     s32 state = entity->state;
-    register s32 expected ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 expected ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 state_u;
     u8 *context;
 

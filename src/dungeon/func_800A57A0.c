@@ -73,8 +73,8 @@ void func_800AAF00(void *arg0, s32 arg1, void *arg2, u8 *arg3, s32 arg4) {
     s32 call_arg = arg1;
     void *other = arg2;
     void *obj;
-    register u8 *table ASM_REG("$21") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 special ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *table ASM_REG("$21") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 special ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *state;
     u8 *state2;
     u8 *slot;
@@ -116,7 +116,7 @@ void func_800AAF00(void *arg0, s32 arg1, void *arg2, u8 *arg3, s32 arg4) {
 shared_body:
                 if (!special) {
                     if (((S_800AAF00_0 *)obj)->unk_1C & 0x400) {
-                        register s32 field14 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                        register s32 field14 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         s32 high_bit;
 
                         field14 = ((S_800AAF00_0 *)obj)->unk_14;
@@ -171,9 +171,9 @@ shared_tail:
         }
     }
 
-    ASM_KEEP(owner);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(call_arg);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(other);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(obj);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(table);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

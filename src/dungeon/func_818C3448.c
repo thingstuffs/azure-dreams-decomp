@@ -41,7 +41,7 @@ typedef struct {
 void func_818C3448(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
     s16 temp_lo;
     s32 temp_a1_s16;
-    register s32 temp_s0 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 temp_v0;
     s16 temp_v1_3;
     s16 temp_v1_4;
@@ -51,7 +51,7 @@ void func_818C3448(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
     s32 temp_a0;
     s32 temp_a0_3;
     s32 temp_a1;
-    register s32 case0_scale ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 case0_scale ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 temp_v0_2;
     s32 temp_v0_3;
     s32 temp_v1_5;
@@ -93,7 +93,7 @@ void func_818C3448(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
         }
         func_80024EEC();
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (temp_v1_4 == 2) {
         goto case_2;
     }
@@ -116,7 +116,7 @@ case_0:
         tail_v0 = ((S_818C3448_0 *)arg0)->unk_10.u;
         tail_v1 = ((S_818C3448_0 *)arg0)->unk_14;
         tail_cond = tail_v0 < tail_v1;
-        ASM_TAILSLOT_PIN(tail_cond);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_TAILSLOT_PIN(tail_cond);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80024E9C(temp_a0_3, temp_a1);
         return;
 case_1:

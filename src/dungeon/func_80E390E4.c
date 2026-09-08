@@ -82,10 +82,10 @@ extern void func_800BB044(void *);
 void func_801728E4(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     u8 state;
-    register s32 special ASM_REG("$20");   /* MATCH pin: keeps a constant in a register as retail does */
+    register s32 special ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 flags;
     s32 kind;
-    register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     static void *const kind_labels[] = {
         &&K8, &&KB, &&KE, &&KNone, &&K8Special, &&KBSpecial, &&KESpecial
@@ -100,7 +100,7 @@ void func_801728E4(void *arg0, void *arg1, void *arg2, void *arg3)
 
 L0:
 {
-    register void *source ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *source ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     arg1 = 0;
     if (((S_801728E4_1 *)arg3)->unk_1C & 0x2000) {
@@ -153,7 +153,7 @@ HaveSource:
 
         ((S_801728E4_0 *)arg0)->unk_98 &= 0xFF7F;
         special_test = special;
-        ASM_KEEP(special_test);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_test) {
             source = D_800814A8;
             ((S_801728E4_1 *)arg3)->unk_60 = source;
@@ -171,10 +171,10 @@ HaveSource:
     }
 
 CopyFacing:
-    ASM_KEEP(arg3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     {
         u8 *entry = *(u8 **)((u8 *)source - 0x14);
-        ASM_KEEP(source);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_801728E4_1 *)arg3)->unk_72.s = ((S_801728E4_3 *)entry)->unk_24;
         ((S_801728E4_1 *)arg3)->unk_73.s = ((S_801728E4_3 *)entry)->unk_25;
     }
@@ -192,7 +192,7 @@ MakeSource:
                           ((S_801728E4_4 *)arg2)->unk_25,
                           ((S_801728E4_1 *)arg3)->unk_2A,
                           0x10);
-        ASM_MEM_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         x = ((S_801728E4_1 *)arg3)->unk_72.u;
         z = ((S_801728E4_1 *)arg3)->unk_73.u;
         if (x < 0) {

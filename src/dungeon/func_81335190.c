@@ -81,13 +81,13 @@ void func_8016C190(void *arg0, void *arg1, void *arg2, void *arg3)
     };
     u8 state_id;
     u8 *choice;
-    register u8 *entry ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *table;
     u8 *control;
     s32 mode;
     s32 flagged_kind;
     s32 kind;
-    register s32 v0 ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 y;
     void *object;
 

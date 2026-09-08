@@ -15,7 +15,7 @@ extern s32 D_800814A0;
 void func_81959D28(void *arg0, Motion *motion) {
     s32 xVelocity;
     s32 yVelocity;
-    register s32 speed ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 speed ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 speedPart;
     u16 timer;
     u16 counter;
@@ -30,7 +30,7 @@ void func_81959D28(void *arg0, Motion *motion) {
 
     timer = *(u16 *)((u8 *)arg0 + 0x30) - 1;
     counter = D_800281F8 + 1;
-    ASM_KEEP(counter);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     *(u16 *)((u8 *)arg0 + 0x30) = timer;
     D_800281F8 = counter;
 

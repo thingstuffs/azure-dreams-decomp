@@ -5,9 +5,9 @@ extern void func_8070276C(void) __attribute__((noreturn));
 
 s32 func_80702714(s32 arg0)
 {
-    register s32 input ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 input ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 one;
-    register s32 value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *ptr;
     s32 word;
     unsigned long offset;
@@ -28,21 +28,21 @@ s32 func_80702714(s32 arg0)
             value = one << value;
             ptr = (s32 *)offset;
             value &= *ptr;
-            ASM_TAILSLOT_PIN_TIED(value);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             func_8070276C();
         }
         {
-            register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+            register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
             zero = 0;
 #endif
             value = zero + 1;
-            ASM_TAILSLOT_PIN_TIED(value);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             func_8070276C();
         }
     }
     {
-        register s32 zero ASM_REG("$0");   /* MATCH pin: retail immediate-load split depends on it */
+        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
         zero = 0;
 #endif

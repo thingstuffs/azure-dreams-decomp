@@ -13,9 +13,9 @@ void func_800C5F70(void *arg0, s32 arg1, s32 arg2) {
     D_80082660[*((s32 *)arg0 + 0x18)][0] = 0;
     func_800C46A8(arg0);
     call_obj = arg0;
-    ASM_KEEP(call_obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_arg = arg2;
-    ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_800C2E84(call_obj, call_arg, D_800D5590);
     *((s32 **)arg0 + 0x15) = D_800C5FDC;
 }

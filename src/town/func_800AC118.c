@@ -1,16 +1,16 @@
 #include "common.h"
 
 s32 func_800A9878(s32 arg0) {
-    register u8 *base ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+    register u8 *base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 carrier;
     s32 result;
     s32 index;
 
     base = (u8 *)0x800D0000;
-    ASM_KEEP(base);   /* MATCH pin: keeps a constant in a register as retail does */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     carrier = *(s16 *)(base + 0x1054);
     result = -1;
-    ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     index = 0;
     if (carrier != result) {
         s32 sentinel = result;

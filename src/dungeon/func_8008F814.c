@@ -157,7 +157,7 @@ s32 func_80094F74(Ctx *arg0, char *arg1, Item *arg2, Unit *arg3) {
         t2 = &base1[(s16) ret];
         tb1 = t2->b1;
         if (tb1 == 12) {
-            ASM_USE2(t2, tb1);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_USE2(t2, tb1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             str = func_80099194(D_800E0ABC, func_8009929C(10, func_80099194(D_800E0AA1, func_8009929C(10, str))));
             arg0->done = 1;
             pp = (u16 *) 0x80010000;
@@ -166,7 +166,7 @@ s32 func_80094F74(Ctx *arg0, char *arg1, Item *arg2, Unit *arg3) {
             } else {
                 pp[0x104B] = 5;
             }
-            ASM_KEEP(pp);   /* MATCH pin: retail register colouring depends on it */
+            ASM_KEEP(pp);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             *(u16 *) 0x8001209A = 0;
         } else if (tb1 == 14) {
             v = func_800438E4();
@@ -199,7 +199,7 @@ s32 func_80094F74(Ctx *arg0, char *arg1, Item *arg2, Unit *arg3) {
             t3->b0 = 0;
             t3->b1 = 0;
             entpage = (u8 *) 0x800E0000;
-            ASM_KEEP_NV(entpage);   /* MATCH pin: retail immediate-load split depends on it */
+            ASM_KEEP_NV(entpage);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             entbase = (Ent *) (entpage + 0x36C8);
             func_8009A3D0(entbase[j].a, entbase[j].b, 0x800);
             arg0->link = p;

@@ -49,7 +49,7 @@ void func_800B65D8(void *arg0, s32 arg1) {
     u8 *lookup;
     void *var_s4;
     s32 temp_v0_2;
-    register s32 temp_v0 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 temp_v0 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 var_a1;
     s32 var_s0;
     S_800B65D8_1 *temp_s1;
@@ -60,9 +60,9 @@ void func_800B65D8(void *arg0, s32 arg1) {
     var_s2 = (var_s3 = 0);
     lookup = D_80089344;
     var_s4 = base;
-    ASM_KEEP(lookup);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(base);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(mode);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(lookup);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     do {
         temp_s1 = ((S_800B65D8_0 *)var_s4)->unk_50;
         var_s0 = func_80048DA0(mode, *(u8 *)((s32)var_s2 + (s32)lookup));
@@ -78,10 +78,10 @@ void func_800B65D8(void *arg0, s32 arg1) {
         }
         temp_v0_2 = var_s3 - (var_s2 * 8);
         temp_ptr = temp_s1->unk_04;
-        ASM_KEEP(temp_ptr);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(temp_ptr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         var_s3 += temp_v0;
         temp_ptr->unk_0A = temp_v0_2;
-        ASM_KEEP(temp_ptr);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(temp_ptr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         var_s2 += 1;
         var_s4 += 4;
     } while (var_s2 < 2);

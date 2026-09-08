@@ -46,7 +46,7 @@ void func_8017284C(S_8017284C_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
     s32 scaled;
     s32 state_value;
     s32 state;
-    register u8 increment_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 increment_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = arg0->unk_9B;
     if (state == 1) {

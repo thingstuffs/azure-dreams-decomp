@@ -99,7 +99,7 @@ void func_804034D8(S_804034D8_0 *arg0)
     s32 quotient;
     s32 final_current;
     u8 *slot;
-    register s32 index ASM_REG("$10");   /* MATCH pin: retail register colouring depends on it */
+    register s32 index ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 value;
     u32 next_value;
     u8 stored_value;

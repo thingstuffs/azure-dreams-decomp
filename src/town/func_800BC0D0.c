@@ -13,7 +13,7 @@ void func_800B9830(void)
 {
     s32 i;
     volatile u8 *src;
-    register u8 *page ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u8 *page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     i = 0;
     src = D_800D2EA4;

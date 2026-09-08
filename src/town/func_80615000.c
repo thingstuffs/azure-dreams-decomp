@@ -9,7 +9,7 @@ extern M2C_UNK D_80018F0C;
 extern M2C_UNK D_8001925C;
 
 void func_80016800(s32 arg0, s32 unused, M2C_UNK arg2) {
-    register void *arg ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
+    register void *arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     func_80018B58(0xFE2);
     if (func_80018C50(0xFB1) == 0) {

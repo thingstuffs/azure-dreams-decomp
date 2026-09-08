@@ -16,46 +16,46 @@ s32 func_800A7234(s32 arg0, s32 arg1, s32 arg2, s16 *arg3, s16 *arg4, s16 *arg5)
     s32 initial_shifted_x;
     s32 initial_x;
     s32 distance;
-    register s32 shifted_x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 shifted_y ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 shifted_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 shifted_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 scan_x1;
     s32 scan_y1;
     s32 scan_y2;
-    register s32 scan_x2 ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 scan_x2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 count8;
     s32 dir8;
-    register s32 count16 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 dir16 ASM_REG("$17");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 count16 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 dir16 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 call_dir;
-    register s32 call_x ASM_REG("$4");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 call_y ASM_REG("$5");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 distance_z ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 empty_arg ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u16 *sp_arg ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 call_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 call_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 distance_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 empty_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u16 *sp_arg ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 table_index8;
     s32 table_index16;
-    register u32 scratch ASM_REG("$8");   /* MATCH pin: keeps a constant in a register as retail does */
-    register s32 hard_zero ASM_REG("$0");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register u32 scratch ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 next_dir8;
-    register s32 next_dir16 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u16 dir_seed ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 base_x ASM_REG("$22");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 base_y ASM_REG("$23");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 next_dir16 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 dir_seed ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 base_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 base_y ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 base_z;
     u16 *dx;
     u16 *dy;
-    register s32 raw_arg0 ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 raw_arg1 ASM_REG("$17");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register s32 raw_arg2 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 raw_arg0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 raw_arg1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 raw_arg2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 norm_arg1;
-    register s32 found_result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 found_x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 found_y ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 found_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 found_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 found_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     raw_arg0 = arg0;
     raw_arg1 = arg1;
     raw_arg2 = arg2;
-    ASM_KEEP_NV(raw_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(raw_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     initial_x = (s16)(raw_arg0 - 1);
     norm_arg1 = (s16)raw_arg1;
     initial = func_8009A350(initial_x, norm_arg1, 0, &sp10);
@@ -68,10 +68,10 @@ s32 func_800A7234(s32 arg0, s32 arg1, s32 arg2, s16 *arg3, s16 *arg4, s16 *arg5)
             distance = func_800BCB04((((initial_shifted_x >> 0xA) + 0x20) & 0xFFE0), ((norm_arg1 << 6) + 0x20) & 0xFFE0, (s16)(raw_arg2 - 0x20));
             if ((s16)distance < 0x200) {
                 scratch = (u32)arg3;
-                ASM_KEEP_NV(scratch);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 *(s16 *)scratch = (s16)raw_arg0;
                 scratch = (u32)arg4;
-                ASM_KEEP_NV(scratch);   /* MATCH pin: keeps a statement from moving across a call/branch */
+                ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 *(s16 *)scratch = (s16)raw_arg1;
                 return func_800A7338(distance);
             }
@@ -81,21 +81,21 @@ s32 func_800A7234(s32 arg0, s32 arg1, s32 arg2, s16 *arg3, s16 *arg4, s16 *arg5)
     goto scan_start;
 found:
     found_x = *dx;
-    ASM_KEEP(found_x);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(found_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     scratch = (u32)arg3;
-    ASM_KEEP_NV(scratch);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     found_x = base_x + found_x;
     *(s16 *)scratch = found_x;
     found_y = *dy;
-    ASM_KEEP(found_y);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(found_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     scratch = (u32)arg4;
-    ASM_KEEP_NV(scratch);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     found_y = base_y + found_y;
     *(s16 *)scratch = found_y;
     scratch = (u32)arg5;
-    ASM_KEEP(scratch);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     found_result = 1;
-    ASM_LIVE_SIBCALL_PIN(found_result, 1);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    ASM_LIVE_SIBCALL_PIN(found_result, 1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     *(s16 *)scratch = distance;
     func_800A7514(distance);
     return found_result;
@@ -111,12 +111,12 @@ loop8:
     call_x = scan_x1;
     call_y = scan_y1;
     call_dir = dir8;
-    ASM_KEEP_NV(call_dir);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP_NV(call_dir);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (((func_8009A350(call_x, call_y, call_dir, &sp10) << 0x10) == 0) || (sp10 & 0x8820)) {
         goto next8;
     }
     table_index8 = call_dir << 1;
-    ASM_KEEP_NV(table_index8);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(table_index8);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch = (u32)D_8006CCD8;
     dx = (u16 *)(table_index8 + scratch);
     distance_z = (s16)(base_z - 0x20);
@@ -136,7 +136,7 @@ next8:
     count16 = 0;
     shifted_x = base_x << 0x10;
     scan_y2 = shifted_x >> 0x10;
-    ASM_KEEP(scan_y2);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(scan_y2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     dir_seed = D_8008347E[0];
     shifted_y = base_y << 0x10;
     scan_x2 = shifted_y >> 0x10;
@@ -144,17 +144,17 @@ next8:
 loop16:
     empty_arg = hard_zero;
     table_index16 = dir16 << 1;
-    ASM_KEEP_NV(table_index16);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(table_index16);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch = (u32)D_800DCE6C;
     dx = (u16 *)(table_index16 + scratch);
     sp_arg = &sp10;
-    ASM_KEEP_NV(sp_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(sp_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch = (u32)D_800DCE8C;
     dy = (u16 *)(table_index16 + scratch);
     call_x = *dx;
-    ASM_KEEP_NV(call_x);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(call_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     call_y = *dy;
-    ASM_KEEP_NV(call_y);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(call_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     call_x = (s16)(base_x + call_x - 1);
     call_y = (s16)(base_y + call_y);
     if (((func_8009A350(call_x, call_y, empty_arg, sp_arg) << 0x10) == 0) || (sp10 & 0x8820)) {

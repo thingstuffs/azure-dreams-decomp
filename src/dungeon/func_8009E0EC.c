@@ -43,9 +43,9 @@ s16 func_800A384C(Actor *arg0, Actor *arg1, u16 *arg2, s32 arg3)
   s16 sp20;
   s16 sp28;
   u16 sp30;
-  register Actor *actor0 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+  register Actor *actor0 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   Entity *entity0;
-  register Entity *entity1 ASM_REG("$16");   /* MATCH pin: retail keeps a computation the compiler would drop */
+  register Entity *entity1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   u8 *record;
   u8 record_id;
   s32 kind;
@@ -53,32 +53,32 @@ s16 func_800A384C(Actor *arg0, Actor *arg1, u16 *arg2, s32 arg3)
   s32 mask;
   s32 distance;
   s16 result;
-  register s16 rotation ASM_REG("$21");   /* MATCH pin: retail keeps a computation the compiler would drop */
+  register s16 rotation ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   s16 blocked;
-  register s32 rot_raw ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-  register s32 rot3 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+  register s32 rot_raw ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  register s32 rot3 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 rotsx;
-  register s32 recoff ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-  register s16 steps ASM_REG("$18");   /* MATCH pin: load-bearing for the whole function shape */
+  register s32 recoff ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  register s16 steps ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s16 next_steps;
   s16 x;
   s16 y;
   s32 delta;
-  register s32 c0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+  register s32 c0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 value;
   s32 new_var;
   s32 flags;
   s32 flags2;
-  register s32 index2 ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-  register s32 dirx ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+  register s32 index2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+  register s32 dirx ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s16 direction;
   u16 f2a;
-  register u16 *x_step ASM_REG("$22");   /* MATCH pin: load-bearing for the whole function shape */
+  register u16 *x_step ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   sp20 = -1;
   f2a = arg0->field2a;
-  ASM_USE_NV(f2a);   /* MATCH pin: retail schedule: same instructions, different order without it */
+  ASM_USE_NV(f2a);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   sp28 = -0x100;
-  ASM_KEEP(sp28);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+  ASM_KEEP(sp28);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   *arg2 = f2a;
   actor0 = arg0;
   entity1 = *((Entity **) (((u8 *) arg1) - 0x14));
@@ -199,18 +199,18 @@ s16 func_800A384C(Actor *arg0, Actor *arg1, u16 *arg2, s32 arg3)
       {
         goto accept;
       }
-      ASM_SET(dirx);   /* MATCH pin: load-bearing for the whole function shape */
-      ASM_CLOBBER("$3");   /* MATCH pin: retail register colouring depends on it */
-      ASM_CLOBBER("$4");   /* MATCH pin: retail register colouring depends on it */
-      ASM_CLOBBER("$5");   /* MATCH pin: retail register colouring depends on it */
+      ASM_SET(dirx);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+      ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+      ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+      ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       dirx = direction << 16;
       index2 = ((u32) dirx) >> 15;
       x_step = (u16 *) (index2 + new_var);
       inner_loop:
       func_8009A350(x, y, dirx >> 16, &sp18);
       flags = arg0->flags1c;
-      ASM_USE2_NV(distance, distance);   /* MATCH pin: retail keeps a computation the compiler would drop */
-      ASM_USE_NV(value);   /* MATCH pin: retail keeps a computation the compiler would drop */
+      ASM_USE2_NV(distance, distance);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+      ASM_USE_NV(value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
       if (!(flags & 0x410))
       {
@@ -241,7 +241,7 @@ s16 func_800A384C(Actor *arg0, Actor *arg1, u16 *arg2, s32 arg3)
       {
         goto outer_next;
       }
-      ASM_USE_NV(steps);   /* MATCH pin: load-bearing for the whole function shape */
+      ASM_USE_NV(steps);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
       accept:
       sp28 = value;

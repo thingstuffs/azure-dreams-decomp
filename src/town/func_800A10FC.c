@@ -53,10 +53,10 @@ void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
     s32 *active_base;
     s32 active;
     s32 init_flags;
-    S_8009E85C_4 *tail_self;   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register M2C_UNK (*callback)(void *, void *, void *) ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    S_8009E85C_4 *tail_self;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK (*callback)(void *, void *, void *) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *call_a0;
-    void *call_a1;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *call_a1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call_a2;
     u16 flags;
     u8 temp_v1;
@@ -86,13 +86,13 @@ void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
         return;
     }
     tail_self = arg0;
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     tail_self->unk_6C = 0;
-    ASM_MEM_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     call_a0 = tail_self;
     call_a1 = arg1;
     call_a2 = arg2;
-       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     callback = ((S_8009E85C_5_pre *)call_a0)[-1].unk_00;
     D_800D09C8[0] = 0;
     callback(call_a0, call_a1, call_a2);

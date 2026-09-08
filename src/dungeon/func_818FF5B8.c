@@ -77,11 +77,11 @@ void func_818FF5B8(void **arg0, S_818FF5B8_4 *arg1, S_818FF5B8_5 *arg2) {
     void *temp_v0;
     S_818FF5B8_0 *temp_v1;
     S_818FF5B8_3 *temp_v1_2;
-    register u8 *copy_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register Copy12 *copy_src ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
-    register u32 copy0 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register u32 copy4 ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-    register u32 copy8 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register Copy12 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 copy0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 copy4 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 copy8 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     temp_v0 = func_8003FC64(0x212);
     temp_v1 = temp_v0 + 0x20;
@@ -106,9 +106,9 @@ void func_818FF5B8(void **arg0, S_818FF5B8_4 *arg1, S_818FF5B8_5 *arg2) {
         temp_a3->unk_0D = (u8) arg2->unk_0D;
         temp_a3->unk_0E = (u8) arg2->unk_0E;
         temp_a3->unk_1A = (s16) (0x1000 - arg2->unk_1A);
-        ASM_KEEP(temp_a3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         copy_page = (u8 *) 0x80020000;
-        ASM_KEEP(copy_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         copy_src = (Copy12 *) (copy_page + 0x5E64);
         copy0 = copy_src->word0;
         copy4 = copy_src->word4;
@@ -116,7 +116,7 @@ void func_818FF5B8(void **arg0, S_818FF5B8_4 *arg1, S_818FF5B8_5 *arg2) {
         (*(Copy12 *)((u8 *)temp_v0 + 0x40)).word0 = copy0;
         (*(Copy12 *)((u8 *)temp_v0 + 0x40)).word4 = copy4;
         (*(Copy12 *)((u8 *)temp_v0 + 0x40)).word8 = copy8;
-        ASM_KEEP(copy8);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(copy8);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_a3->unk_08 = (void *) (temp_v0 + 0x40);
     }
 }

@@ -139,7 +139,7 @@ void func_80174910(S_80174910_2 *arg0, s32 arg1) {
                     var_v1 += 0xC;
                 } while (entry_flags & 0x20);
                 var_v1 -= 0xC;
-                ASM_KEEP(var_v1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                ASM_KEEP(var_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 temp_v0_6 = ((S_80174910_4 *)var_v1)->unk_06;
                 sp10[3] = 1;
                 sp10[2] = 0x10;

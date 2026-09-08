@@ -77,7 +77,7 @@ void func_80171790(void *arg0, void *arg1) {
     s32 saved_obj_angle;
     s32 saved_data_scale;
     S_80171790_0 *saved_tail;
-    register void *init_obj ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_80171790_3 *copy_dst;
     u8 byte1;
     u8 byte2;
@@ -88,7 +88,7 @@ void func_80171790(void *arg0, void *arg1) {
     if (saved_obj_angle != 0) {
         init_obj = (void *) saved_obj_angle;
         saved_tail = (void *) saved_obj_angle + 0x20;
-        ASM_KEEP(saved_tail);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(saved_tail);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         saved_tail->unk_18 = 6;
         saved_tail->unk_1A = 6;
         ((S_80171790_1 *)((void *) saved_obj_angle))->unk_10 = &D_80170E2C;

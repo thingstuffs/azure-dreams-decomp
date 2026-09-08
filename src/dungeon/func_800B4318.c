@@ -95,9 +95,9 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
     s32 r;
     u32 input;
 
-    ASM_KEEP_NV(render);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(render);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     controls_page = (u8 *)0x80080000;
-    ASM_KEEP_DEP_NV(controls_page, render);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_DEP_NV(controls_page, render);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     render = render_arg;
     controls = controls_page + 0x3160;
 
@@ -111,18 +111,18 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
         w->cur_y += (target[1] - w->cur_y) / w->timer;
         if (w->mode != 2) {
             u8 *height_base;
-            register Entity *height_entity ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            register Entity *height_entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 current_y;
             r = func_800644B8(w->timer << 8);
             height_base = (u8 *)w->node;
             current_y = w->y.whole;
             height_entity = ((Node *)height_base)->entity;
             height_base = (u8 *)0x800E0000;
-            ASM_KEEP_NV(height_base);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP_NV(height_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             height_entity = (Entity *)(u32)height_entity->kind;
             height_base -= 0x23C0;
             height_entity = (Entity *)((u8 *)height_entity + (u32)height_base);
-            ASM_KEEP_NV(height_entity);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(height_entity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             t = (target[2] - ((s32)*(u8 *)height_entity << 16) - current_y) / w->timer;
             t -= (r * w->timer) << 6;
             w->y.whole += t;
@@ -141,18 +141,18 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
         w->cur_y = target[1];
         if (w->mode != 2) {
             u8 *height_base;
-            register Entity *entity ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
-            register u8 *height_addr ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+            register Entity *entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u8 *height_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             s32 angle;
             height_base = (u8 *)w->node;
             entity = ((Node *)height_base)->entity;
             height_base = (u8 *)0x800E0000;
-            ASM_KEEP_NV(height_base);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP_NV(height_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             height_base -= 0x23C0;
             height_addr = (u8 *)(u32)entity->kind;
             angle = entity->height;
             height_addr += (u32)height_base;
-            ASM_KEEP_NV(height_addr);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP_NV(height_addr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             height_base = (u8 *)(u32)*height_addr;
             angle -= (s32)(u32)height_base;
             if (entity->flags & 0x40000) {
@@ -180,11 +180,11 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *left;
                 objects_page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(objects_page);   /* MATCH pin: keeps a constant in a register as retail does */
+                ASM_KEEP_NV(objects_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 left = (*(GlobalObj **)(objects_page + 0x3D7C))->left;
                 if (func_800BA33C(left)) {
                     status_page = (u8 *)0x80080000;
-                    ASM_KEEP_NV(status_page);   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     if ((*(GlobalObj **)(status_page + 0x14A8))->left != w->node->entity) {
                         new_timer = 8;
                         object = *(GlobalObj **)(objects_page + 0x3D7C);
@@ -203,11 +203,11 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *right;
                 objects_page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(objects_page);   /* MATCH pin: keeps a constant in a register as retail does */
+                ASM_KEEP_NV(objects_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 right = (*(GlobalObj **)(objects_page + 0x3D7C))->right;
                 if (func_800BA33C(right)) {
                     status_page = (u8 *)0x80080000;
-                    ASM_KEEP_NV(status_page);   /* MATCH pin: retail basic-block layout depends on it */
+                    ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     if ((*(GlobalObj **)(status_page + 0x14A8))->right != w->node->entity) {
                         new_timer = 8;
                         object = *(GlobalObj **)(objects_page + 0x3D7C);
@@ -223,14 +223,14 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
 
         input = *(u32 *)(controls + 0x10);
         if (input & 0x20) {
-            register u8 *tail_base ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
+            register u8 *tail_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             if (w->mode != 0) {
                 goto finish;
             }
             tail_base = (u8 *)0x80080000;
-            ASM_KEEP_NV(tail_base);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP_NV(tail_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             tail_base += 0x3460;
-            ASM_TAILSLOT_PIN_TIED(tail_base);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN_TIED(tail_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800B9EE4();
             return;
         }
@@ -240,28 +240,28 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
                 if (w->node->entity->kind == 0) {
                     u8 *objects_page;
                     s32 action;
-                    register s32 amount ASM_REG("$6");   /* MATCH pin: keeps a constant in a register as retail does */
-                    register s32 shifted ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+                    register s32 amount ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     GlobalObj *object;
                     n = func_80098C80(w->handle);
                     action = 0x48;
-                    ASM_KEEP_DEP_NV(action, n);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP_DEP_NV(action, n);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     shifted = (s32)((u32)n << 16);
                     amount = shifted >> 16;
                     objects_page = (u8 *)0x800E0000;
-                    ASM_KEEP_DEP_NV(objects_page, amount);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP_DEP_NV(objects_page, amount);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     object = *(GlobalObj **)(objects_page + 0x3D7C);
                     func_8009F644(object, action, amount, 0);
                     func_800B9F18();
                     return;
                 } else {
                     u8 *objects_page;
-                    register s32 amount ASM_REG("$7");   /* MATCH pin: keeps a constant in a register as retail does */
+                    register s32 amount ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     GlobalObj *object;
                     n = func_80098C80(w->handle);
                     amount = (s16)n;
                     objects_page = (u8 *)0x800E0000;
-                    ASM_KEEP_DEP_NV(objects_page, amount);   /* MATCH pin: load-bearing for the whole function shape */
+                    ASM_KEEP_DEP_NV(objects_page, amount);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     object = *(GlobalObj **)(objects_page + 0x3D7C);
                     func_8009F644(object, 0x50,
                                    w->node->entity == object->right, amount);
@@ -278,11 +278,11 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
             Entity *entity;
             s32 *target;
             count = 8;
-            ASM_KEEP_NV(count);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP_NV(count);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state_node = w->node;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             counter_base = (u8 *)0x800E0000;
-            ASM_KEEP_NV(counter_base);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP_NV(counter_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             entity = state_node->entity;
             target = *(s32 **)((u8 *)entity - 0x18);
             func_800C77D0((u8 *)entity - 0x20, target, count,
@@ -292,7 +292,7 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
                 goto done;
             }
             counter_base = (u8 *)0x80080000;
-            ASM_KEEP(counter_base);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP(counter_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             counter_base += 0x3460;
             (*(s16 *)(counter_base + 10))--;
         }
@@ -301,9 +301,9 @@ finish:
             u8 *flags_page;
             u16 work_flags;
             work_flags = ((u16 *)w)[-1];
-            ASM_KEEP(work_flags);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(work_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             flags_page = (u8 *)0x80080000;
-            ASM_KEEP_NV(flags_page);   /* MATCH pin: retail delay-slot fill depends on it */
+            ASM_KEEP_NV(flags_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((u16 *)w)[-1] = work_flags | 0x8000;
             *(u32 *)(flags_page + 0x14A0) |= 0x8000;
         }
@@ -319,7 +319,7 @@ finish:
 
     r = func_800644B8((s16)w->counter << 7);
     w->x += r << 5;
-    ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (w->mode == 0) {
         w->phase &= 0x1F;
         if ((s16)w->phase < 0x10) {

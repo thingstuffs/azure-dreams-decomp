@@ -90,7 +90,7 @@ void func_800C5E5C(s16 arg0, s16 arg1, s16 arg2, s32 arg3, s16 arg4) {
                 s32 temp_color;
                 temp_color = 0x808080;
                 temp_s0->unk_0C = temp_color;
-                ASM_KEEP(temp_color);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+                ASM_KEEP(temp_color);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             }
             {
                 s32 temp_1000;

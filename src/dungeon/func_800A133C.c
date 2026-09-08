@@ -48,7 +48,7 @@ void func_800A6A9C(void)
     ram = (RamPage *)0x80010000;
     var_a2 = (u8 *)D_80073414;
     do {
-        ASM_KEEP(var_a2);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(var_a2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_a1 = 0;
         if (((S_800A6A9C_0 *)var_a2)->unk_02 != 0) {
             temp_t1 = var_t0 * 8;

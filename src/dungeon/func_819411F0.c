@@ -59,15 +59,15 @@ typedef struct S_800249F0_5 {
 void *func_800249F0(void *arg0, s32 arg1, s32 arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
     u16 temp_v0_2;
     u16 temp_v1_2;
-    register s32 arg4_copy ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 arg4_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     S_800249F0_3 *temp_a0;
-    register void *temp_a3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
-    register void *temp_a3_2 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register void *temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *temp_a3_2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_800249F0_0 *temp_s0;
     void *temp_v0;
     S_800249F0_4 *temp_v1;
 #ifndef NON_MATCHING
-    register void *dispatch_result ASM_REG("$2");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register void *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *dispatch_arg;
 #endif
 
@@ -78,7 +78,7 @@ void *func_800249F0(void *arg0, s32 arg1, s32 arg2, void *arg3, s32 arg4, s32 ar
     if (temp_v0 == NULL) {
 #ifndef NON_MATCHING
         dispatch_result = NULL;
-        ASM_TAILSLOT_PIN(dispatch_result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024B18();
 #else
         return func_80024B18(temp_v0);
@@ -91,12 +91,12 @@ void *func_800249F0(void *arg0, s32 arg1, s32 arg2, void *arg3, s32 arg4, s32 ar
     temp_a3 = (*(void **)((u8 *)temp_v0 + 0xC));
     temp_v0_2 = ((S_800249F0_1 *)temp_a3)->unk_14 | 0xC;
     ((S_800249F0_1 *)temp_a3)->unk_14 = temp_v0_2;
-    ASM_CLOBBER("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v1_2 = temp_v0_2;
-    ASM_KEEP(temp_v1_2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     arg4_copy = arg4;
     ((S_800249F0_1 *)temp_a3)->unk_14 = (u16) (temp_v1_2 | 0x80);
-    ASM_KEEP(arg4_copy);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(arg4_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_800249F0_1 *)temp_a3)->unk_10 = (s16) (arg4_copy << 5);
     temp_v1 = ((S_800249F0_2_pre *)arg0)[-1].unk_00;
     temp_a0 = (*(void **)((u8 *)temp_v0 + 8));

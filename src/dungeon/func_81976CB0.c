@@ -104,7 +104,7 @@ s32 func_81976CB0(s32 arg0, s32 arg1, s32 arg2)
     out5 = (void *)((u32)scratch | 0x78);
     out6 = (void *)((u32)scratch | 8);
     out7 = scratch;
-    ASM_KEEP(out7);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(out7);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     packet->clut = 0x7DCF;
     do {
         colorC0 = 0xC0;

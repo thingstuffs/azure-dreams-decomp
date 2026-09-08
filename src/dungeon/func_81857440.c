@@ -66,9 +66,9 @@ state_zero:
         void *call_arg;
         u8 *data_page;
         call_arg = (u8 *)entity - 0x20;
-        ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         data_page = (u8 *)0x80020000;
-        ASM_KEEP(data_page);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_8004491C(call_arg, data_page + 0x49BC);
     }
     entity->value34 = 0x00C0C0C0;
@@ -76,7 +76,7 @@ state_zero:
     result = func_8006649C(0xA0, 0x1F7);
     i = 1;
     {
-        register u8 *cursor ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *cursor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         cursor = (u8 *)entity + 8;
         entity->field42 = result;
         entity->field3E = 0x1F;
@@ -94,7 +94,7 @@ state_zero:
         } while (i < 5);
     }
     state = (u16)entity->state4A + 1;
-    ASM_TAILSLOT_PIN_TIED(state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_TAILSLOT_PIN_TIED(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80024EE0();
 
 state_one:
@@ -108,10 +108,10 @@ state_one:
             i++;
         } while (i < 5);
         i = 1;
-        ASM_TAILSLOT_PIN_TIED(i);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN_TIED(i);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024E54();
     }
-    ASM_KEEP(i);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     i++;
     while (i < 5) {
         i++;
@@ -123,7 +123,7 @@ state_one:
     } while (i < 5);
     {
         s32 amount;
-        register s32 delta ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 masked;
         amount = entity->timer48;
         delta = (u16)entity->delta44;
@@ -148,9 +148,9 @@ state_one:
 
 state_two:
     {
-        register u32 *page ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+        register u32 *page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         page = (u32 *)0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         *(u16 *)((u8 *)entity - 2) |= 0x8000;
         page[0x528] |= 0x8000;
     }

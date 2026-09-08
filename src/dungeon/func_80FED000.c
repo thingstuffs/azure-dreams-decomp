@@ -138,22 +138,22 @@ void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3) {
     s32 sp24;
     s32 sp28;
     s32 temp_v1;
-    register s32 call_count ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *call_target ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register void *check_obj ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 call_count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *call_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *check_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s8 saved_arg1;
     s16 saved_arg3;
     s8 saved_arg2;
     DungeonSub2 *temp_s2;
-    register void *temp_s4 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     DungeonNode *temp_v0;
     DungeonSub1 *var_s0;
     DungeonSub1 *temp_s5;
-    register void *arg0_alias ASM_REG("$19");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *arg0_alias ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     DungeonArgBits temp_s7;
     s32 temp_flag0;
-    register s32 temp_flag1 ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register s32 temp_mask ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 temp_flag1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 temp_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     var_s0 = NULL;
     call_count = 0x112;
@@ -161,9 +161,9 @@ void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3) {
     call_target = &D_80083498;
     saved_arg3 = arg3;
     saved_arg2 = arg2;
-    ASM_KEEP_DEP_NV(saved_arg1, call_count);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP_DEP_NV(saved_arg3, call_target);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP_DEP_NV(saved_arg2, call_target);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP_DEP_NV(saved_arg1, call_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_DEP_NV(saved_arg3, call_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_DEP_NV(saved_arg2, call_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     unksp28 = (s32) *(s8 *)0xA64;
     unksp24 = (s32) *(s8 *)-0xD58;
     temp_v0 = func_8003FD64(call_count, call_target);
@@ -206,7 +206,7 @@ store_flags:
             check_obj = temp_v0;
             if (!(var_s0->field14 & 0x200)) {
                 call_target = temp_s4;
-                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 if (func_800A6D30(check_obj, call_target) & 1) {
                     var_s0->field1c |= 0x200;
                     func_800A48F0(var_s0, 1, (func_800A6D30(check_obj) & 0x3F) | 0x20);

@@ -56,7 +56,7 @@ s32 func_800AB1C0(ObjA0 *arg0, Motion *arg1, TilePos *arg2, ObjA3 *arg3) {
     temp_a1 = ((S_800AB1C0_0 *)arg0)->unk_96;
     if (temp_a1 != 0) {
         tile_x = ((Rec_D_80082E80 *)arg2)->unk_24;
-        ASM_KEEP(tile_x);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(tile_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         adjusted_x = ((S_800AB1C0_2 *)arg1)->unk_02;
         adjusted_x -= 0x20;
         scaled_x = tile_x << 6;

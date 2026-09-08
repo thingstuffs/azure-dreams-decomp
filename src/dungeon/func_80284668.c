@@ -10,9 +10,9 @@ extern u8 D_800EA000[];
 
 void func_80017668(s16 arg0, s16 arg1, s16 arg2, s32 arg3, u16 arg4) {
     s32 outer;
-    register u16 value ASM_REG("$11");   /* MATCH pin: retail register colouring depends on it */
-    register s32 inner ASM_REG("$7") = arg3;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 arg2_shift ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 value ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 inner ASM_REG("$7") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 arg2_shift ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 arg0_shift;
     s32 column;
     register s32 row;
@@ -45,7 +45,7 @@ void func_80017668(s16 arg0, s16 arg1, s16 arg2, s32 arg3, u16 arg4) {
             }
             temp = outer - 1;
             outer = temp;
-            ASM_KEEP(temp);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(temp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             arg1++;
         } while ((temp << 16) > 0);
     }

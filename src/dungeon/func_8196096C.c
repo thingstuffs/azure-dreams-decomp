@@ -102,13 +102,13 @@ void func_8196096C(s32 arg0, Input *arg1, Input *arg2, s32 arg3) {
     Scratch *scratch;
     register void *call_a0;
     register void *call_a1;
-    register s32 *mmio ASM_REG("$1");   /* MATCH pin: retail immediate-load split depends on it */
-    register s32 saved_arg0 ASM_REG("$21") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 *mmio ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 saved_arg0 ASM_REG("$21") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *config;
     u16 tail_value14;
     s32 tail_color;
     s32 shade;
-    register s32 coord ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     do { record = root->record; } while (0);
     globals = (Globals *)&D_80083160;
@@ -116,12 +116,12 @@ void func_8196096C(s32 arg0, Input *arg1, Input *arg2, s32 arg3) {
     mmio[8] = arg3;
     table = globals->table;
     func_800649A0();
-    ASM_KEEP_NV(globals);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP_NV(globals);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     call_a0 = (void *)0x1F800028;
     call_a1 = (void *)0x1F800050;
-    ASM_KEEP_NV(call_a0);   /* MATCH pin: retail immediate-load split depends on it */
-    ASM_KEEP_NV(call_a1);   /* MATCH pin: retail immediate-load split depends on it */
-    ASM_SET(scratch);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_SET(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch = (Scratch *)0x1F800000;
     scratch->w6C = 0;
     scratch->w68 = 0;
@@ -146,9 +146,9 @@ void func_8196096C(s32 arg0, Input *arg1, Input *arg2, s32 arg3) {
         record->f1C.h[0] = input->value12;
         tail_color = 0x808080;
         tail_value14 = input->value14;
-        ASM_KEEP_DEP_NV(record, tail_value14);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP_DEP_NV(record, tail_value14);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         tail_arg = record;
-        ASM_KEEP_NV(record);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP_NV(record);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         record->f4.w = tail_color;
         record->f24.h[0] = tail_value14;
         func_8002638C(tail_arg);
@@ -159,9 +159,9 @@ void func_8196096C(s32 arg0, Input *arg1, Input *arg2, s32 arg3) {
     scratch->w80 = 0x400000;
     scratch->w88 = 0x400040;
     config = D_80027374;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     record->f14.h[1] = *(u16 *)(config + 4);
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     record->fC.h[1] = *(u16 *)(config + 6);
     record->f1C.b[0] = config[8];
     record->fC.b[0] = record->f1C.b[0];
@@ -175,7 +175,7 @@ void func_8196096C(s32 arg0, Input *arg1, Input *arg2, s32 arg3) {
     *(volatile u8 *)&record->f4.b[0] = shade;
     *(volatile u8 *)&record->f4.b[2] = shade;
     *(volatile u8 *)&record->f4.b[1] = shade;
-    ASM_KEEP_NV(scratch);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     func_800666F4(record);
     func_800654B0((void *)((u32)scratch | 0x70),
                   (void *)((u32)scratch | 0x78),
@@ -199,7 +199,7 @@ void func_8196096C(s32 arg0, Input *arg1, Input *arg2, s32 arg3) {
     record->f20.h[0] = arg1->index0 + coord;
     {
         s32 coord_y;
-        ASM_SET(coord_y);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_SET(coord_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord_y = record->f8.h[1];
         coord_y -= 0x78;
         coord_y += arg1->index1 + saved_arg0;

@@ -16,7 +16,7 @@ void func_80017D24(void)
     void *choices[2];
     void *town;
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     choices[0] = &D_8001AB94;
     choices[1] = &D_8001ABE8;
     town = *(void **)((s8 *)*(void **)D_80016000 + 0x40);

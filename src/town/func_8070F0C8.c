@@ -13,7 +13,7 @@ u8 *func_800180C8(s32 arg0, s32 arg1, s32 arg2)
     s32 index;
     void *target;
     void **entry;
-    register s32 selector ASM_REG("$6") = arg2;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 selector ASM_REG("$6") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void **table;
     static void *const keepalive[] = {
         &&case_12,

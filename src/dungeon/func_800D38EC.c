@@ -53,7 +53,7 @@ typedef struct S_800D904C_4 {
 
 void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
-    register void *state ASM_REG("$17") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *state ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *current;
     s32 mode;
     s16 first_result;
@@ -72,7 +72,7 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
             (*(void * *)((u8 *)arg2 + (0x2C))) = D_800E260C;
             dispatch = D_800E260C +
                 (((D_80083228 + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
-            ASM_TAILSLOT_PIN(dispatch);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            ASM_TAILSLOT_PIN(dispatch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800D910C(arg2, D_800E260C, current);
             return;
         }

@@ -16,8 +16,8 @@ extern void func_800B9828(void) __attribute__((noreturn));
 extern void func_800B9930(void) __attribute__((noreturn));
 
 void func_800B96C4(void *p, void *out_arg, void *q_arg) {
-    register void *out ASM_REG("$18") = out_arg;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register void *q ASM_REG("$17") = q_arg;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *out ASM_REG("$18") = out_arg;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *q ASM_REG("$17") = q_arg;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *base;
     void *a1p;
 
@@ -66,16 +66,16 @@ void func_800B96C4(void *p, void *out_arg, void *q_arg) {
         void *w1 = F(F(p, void *, 0), void *, 0);
         if (w1 == 0) {
             u32 dead = 0x808080;
-            ASM_TAILSLOT_PIN(dead);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(dead);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800B9828();
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (w1 == F(D_800E3D7C[0], void *, 0xAC)) {
             u32 dead2 = 0x101080;
-            ASM_TAILSLOT_PIN(dead2);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(dead2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800B9828();
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
     F(q, s32, 0xC) = 0x801010;
     base = D_800DF364[0];

@@ -78,7 +78,7 @@ s32 func_818C3A3C(S_818C3A3C_2 *arg0, S_818C3A3C_4 *arg1) {
     s32 temp_lo;
     s32 temp_v1;
     s32 var_v0;
-    register s32 result ASM_REG("$2");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     S_818C3A3C_3 *temp_s0;
     void *temp_s2;
     void *temp_v0;
@@ -90,8 +90,8 @@ s32 func_818C3A3C(S_818C3A3C_2 *arg0, S_818C3A3C_4 *arg1) {
         temp_s2 = (u8 *)temp_v0 + 0x20;
         effect_name = D_80025AF0;
         handler = D_80025098;
-        ASM_KEEP_NV(handler);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_CLOBBER("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP_NV(handler);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         color = 0x7DCF;
         ((S_818C3A3C_0 *)temp_v0)->unk_10 = handler;
         ((S_818C3A3C_0 *)temp_v0)->unk_20 = arg0;
@@ -130,9 +130,9 @@ s32 func_818C3A3C(S_818C3A3C_2 *arg0, S_818C3A3C_4 *arg1) {
         func_8004491C(temp_v0, D_80045C34);
 
         temp_v1_ptr = ((S_818C3A3C_0 *)temp_v0)->unk_08;
-        ASM_KEEP(temp_v1_ptr);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(temp_v1_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         result = (u32)temp_v0;
-        ASM_KEEP(result);   /* MATCH pin: retail keeps a computation the compiler would drop */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         temp_a0 = arg1->unk_00;
         temp_a1 = arg1->unk_04;
         temp_a2 = arg1->unk_08;

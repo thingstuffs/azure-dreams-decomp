@@ -66,7 +66,7 @@ s32 func_818B1334(S_818B1334_1 *arg0, S_818B1334_3 *arg1, void *arg2) {
         temp_s0_2 = (func_800644B8((temp_v0 - ((var_a0 >> 4) * 0x10)) << 9) >> 9) + 0x20;
         func_80064584(var_s1_2 << 0xA);
         call_a0 = arg0;
-        ASM_KEEP(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_a2 = ((S_818B1334_2 *)var_s2_2)->unk_1A;
         var_s2_2 += 2;
         temp_a1 = var_s1_2 << 0x11;

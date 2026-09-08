@@ -22,7 +22,7 @@ extern void func_8052DF24(void) __attribute__((noreturn));
 extern void func_8052DF60(void) __attribute__((noreturn));
 
 void func_80813294(S_80813294_0 *arg0, s32 unused, S_80813294_1 *arg2) {
-    register u16 ten ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    register u16 ten ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
 
     state = arg0->unk_04.s;
@@ -44,7 +44,7 @@ void func_80813294(S_80813294_0 *arg0, s32 unused, S_80813294_1 *arg2) {
 state_0:
     if (((S_80813294_2 *)(arg0->unk_00))->unk_5C == 4) {
         ten = 10;
-        ASM_KEEP(ten);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_KEEP(ten);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         (void)arg0->unk_04.u;
         arg0->unk_06 = ten;
         func_8052DF24();

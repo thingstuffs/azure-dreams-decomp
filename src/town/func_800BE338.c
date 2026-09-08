@@ -43,8 +43,8 @@ void func_800BBA98(void *arg0, void *arg1, void *arg2) {
     State *temp_s0;
     s32 var_a0;
     void *var_a1;
-    register void *call_arg ASM_REG("$4") = arg0;   /* MATCH pin: load-bearing for the whole function shape */
-    register void *held_arg2 ASM_REG("$17") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *call_arg ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *held_arg2 ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     temp_a3 = arg0;
     temp_s0 = (State *)arg1;

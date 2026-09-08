@@ -161,12 +161,12 @@ void func_80172840(void *in0, void *in1, void *in2, void *in3)
     u8 *selector;
     s32 phase;
     register s32 special;
-    register s32 early_s1 ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    register s32 early_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 local_values[7];
     volatile s32 xbase;
     s32 ybase;
     S_80172840_10 *base;
-    register s32 x ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 y;
     S_80172840_11 *status;
     s32 i;
@@ -183,11 +183,11 @@ void func_80172840(void *in0, void *in1, void *in2, void *in3)
     u32 heading;
     u8 *xptr;
     s32 xvalue;
-    register u8 *yptr ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *yptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *yaddr;
-    register void *arg2_reg ASM_REG("$20") = in2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *arg3_reg ASM_REG("$19") = in3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP4_NV(arg2, arg3, early_s1, heading);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *arg2_reg ASM_REG("$20") = in2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *arg3_reg ASM_REG("$19") = in3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP4_NV(arg2, arg3, early_s1, heading);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     xptr = D_8006CCD8;
 
     {
@@ -196,7 +196,7 @@ void func_80172840(void *in0, void *in1, void *in2, void *in3)
         i = heading >> 8;
         index = i & 0xE;
         xptr = index + xptr;
-           /* MATCH pin: keeps a statement from moving across a call/branch */
+           /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         yptr = (u8 *)D_8006CCE8;
         xvalue = *(s16 *)xptr;
         yaddr = (u8 *)((unsigned long)index + (unsigned long)yptr);
@@ -204,7 +204,7 @@ void func_80172840(void *in0, void *in1, void *in2, void *in3)
     }
     phase = ((S_80172840_1 *)arg0)->unk_9B;
     ybase = *(s16 *)yaddr;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     special = 0;
 
     if (phase == one) {
@@ -225,7 +225,7 @@ state_0:
 {
     s32 kind;
     void *move_object;
-    register s32 special_test ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 special_test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     if (((S_80172840_0 *)arg3)->unk_1C & 0x2000) {
         u32 swi = (((S_80172840_0 *)arg3)->unk_46 & 0x3FFF) - 1;
@@ -282,7 +282,7 @@ kind_none:
 have_selector:
     if (*selector != 0) {
         ((S_80172840_1 *)arg0)->unk_98 &= 0xFF7F;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         special_test = special;
         if (special_test != 0) {
             move_object = D_800814A8[0];
@@ -375,14 +375,14 @@ state_2:
             i = 9;
             base = D_800DEA68;
             for (; i >= 0; i--) {
-                register void *data ASM_REG("$16");   /* MATCH pin: retail schedule: same instructions, different order without it */
+                register void *data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 spawn = func_8003FD64(0x312, D_80083498);
                 if (spawn != 0) {
                     func_8004491C(spawn, D_80045340);
                     data = ((S_80172840_7 *)spawn)->unk_0C;
-                    ASM_KEEP_NV(data);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                    ASM_KEEP_NV(data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
-                        register void *callback ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+                        register void *callback ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         callback = D_80173EC0;
                         ((S_80172840_7 *)spawn)->unk_10 = callback;
@@ -391,13 +391,13 @@ state_2:
                         s32 random_x;
                         s32 origin_x;
                         s32 offset_x;
-                        register s32 base_x ASM_REG("$8");   /* MATCH pin: retail register colouring depends on it */
+                        register s32 base_x ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         random_x = func_800A6D30() & 0x3F;
                         origin_x = ((S_80172840_5 *)arg1)->unk_02;
                         offset_x = local_values[4];
                         base_x = xbase;
-                        ASM_USE2_NV(base_x, random_x);   /* MATCH pin: retail schedule: same instructions, different order without it */
+                        ASM_USE2_NV(base_x, random_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         origin_x += offset_x;
                         offset_x = base_x << 6;
                         origin_x += offset_x;

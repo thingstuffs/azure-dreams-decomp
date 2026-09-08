@@ -161,7 +161,7 @@ extern s32 D_80175220;
 
 void func_80174B20(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
-    register s32 temp_a3 ASM_REG("$7");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_80174B20_7 *temp_a1_base;
     S_80174B20_12 *temp_a0_2;
     s32 temp_v0_flags;
@@ -173,9 +173,9 @@ void func_80174B20(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void 
     s32 temp_index;
     s32 temp_random;
     s32 temp_v0_3;
-    register s32 var_v1 ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 temp_v1_copy;
-    register void *temp_a0_arg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register void *temp_a0_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     u16 temp_v0_6;
     u16 temp_v1_2;
@@ -262,25 +262,25 @@ jt_c4:
     ((S_80174B20_15 *)(((S_80174B20_13 *)temp_v0_2)->unk_08))->unk_04 = (s32) arg1->unk_04.at00_s32.v;
     temp_a2 = temp_v0_2->unk_08;
     temp_a1_base = (void *)0x80170000;
-    ASM_KEEP(temp_a3);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     temp_v1_copy = arg1->unk_08.at00_s32.v;
     temp_a1_base->unk_5218 = -4;
     temp_a2->unk_08 = temp_v1_copy;
     temp_s0 = temp_v0_2->unk_0C;
     temp_s0->unk_1E = 0x1000;
     temp_s0->unk_1C = 0x1000;
-    ASM_KEEP(temp_a3);   /* MATCH pin: retail immediate-load split depends on it */
+    ASM_KEEP(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     temp_s0->unk_0C.s = temp_a3;
     temp_v0_3 = func_800498A0(temp_a0_arg, temp_a1_base, temp_a2, temp_a3) - 1;
     var_v1 = temp_v0_3;
-    ASM_KEEP_NV(temp_v0_3);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP_NV(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     temp_a0_arg = temp_s0;
     if ((temp_v0_3 << 0x10) >= 0) {
         goto block_16;
     }
     temp_random = func_80069EF8(temp_a0_arg);
     var_v1 = temp_random % 3;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     temp_a0_arg = temp_s0;
 block_16:
     func_8003DB94(temp_a0_arg, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) var_v1 * 4))], 0);

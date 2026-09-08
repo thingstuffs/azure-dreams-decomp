@@ -41,19 +41,19 @@ void func_80041588(u32 *arg0, u8 *arg1, s32 arg2)
     u8 *buffer;
     u8 *data;
     u16 *p;
-    register u32 *words ASM_REG("$8");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register u32 *words ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void **table;
     s32 i;
     s32 j;
-    register s32 flags ASM_REG("$7");   /* MATCH pin: slus-diff */
-    register s32 flagword ASM_REG("$3");   /* MATCH pin: slus-diff */
+    register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 flagword ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 limit;
     s32 index;
     s32 a0;
     s32 a1;
     s32 a2;
     s32 bufferValue;
-    register void *short_src ASM_REG("$4");   /* MATCH pin: slus-diff */
+    register void *short_src ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 *input;
     static void *const keepalive[] = {
         &&case_1, &&case_2, &&case_3, &&case_4, &&case_5,
@@ -74,10 +74,10 @@ void func_80041588(u32 *arg0, u8 *arg1, s32 arg2)
     base = (u8 *)cmd;
     DrawSync(0);
     {
-        register u8 *tblpage ASM_REG("$2") = TBL_PAGE;   /* MATCH pin: slus-diff */
-        ASM_KEEP_NV(tblpage);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        register u8 *tblpage ASM_REG("$2") = TBL_PAGE;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_NV(tblpage);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         bufferValue = D_8008148C.value;
-        ASM_KEEP_NV(bufferValue);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP_NV(bufferValue);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         table = (void **)(tblpage + TBL_OFFSET);
     }
     buffer = (u8 *)bufferValue;
@@ -158,7 +158,7 @@ masked_tile:
             flagword |= 2;
 convert_flags:
             flags = (s16)flagword;
-    ASM_KEEP(flagword);   /* MATCH pin: slus-diff */
+    ASM_KEEP(flagword);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 call_tile:
             func_8003F80C(a0, a1, a2, flags);
 sync:

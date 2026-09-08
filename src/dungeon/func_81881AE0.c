@@ -86,7 +86,7 @@ s32 func_800252E0(void *arg0, void *arg1, void *arg2) {
         ((S_800252E0_1 *)scratch)->unk_18 = cursor;
     }
     for (;;) {
-        register u16 first_coord ASM_REG("$2") = ((S_800252E0_2 *)input)->unk_02;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register u16 first_coord ASM_REG("$2") = ((S_800252E0_2 *)input)->unk_02;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800252E0_1 *)scratch)->unk_00 = first_coord;
         ((S_800252E0_1 *)scratch)->unk_02 = ((S_800252E0_2 *)input)->unk_06;
         ((S_800252E0_1 *)scratch)->unk_04 = ((S_800252E0_2 *)input)->unk_0A;
@@ -116,7 +116,7 @@ s32 func_800252E0(void *arg0, void *arg1, void *arg2) {
                 (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
                           (u32)((S_800252E0_1 *)scratch)->unk_20) & low_mask);
             {
-                register u32 tag_addr ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                register u32 tag_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 tag_addr = *(volatile u32 *)(scratch + 0xC0);
                 tag_addr = (tag_addr << 2) +
                            (u32)*(void * volatile *)(scratch + 0x20);

@@ -64,23 +64,23 @@ void func_80BC1528(
     s32 arg4, s32 arg5, s32 arg6)
 {
     S_80BC1528_1 *saved_arg0 = arg0;
-    register s16 saved_arg1 ASM_REG("$23") = arg1;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register s16 saved_arg1 ASM_REG("$23") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 saved_arg2 = arg2;
-    register s32 saved_arg3 ASM_REG("$22") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 saved_arg3 ASM_REG("$22") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 saved_arg4 = arg4;
     s32 saved_arg5 = arg5;
     s32 saved_arg6 = arg6;
-    register void *obj ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *obj ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_80BC1528_2 *tail;
     register s32 narrowed_arg3;
-    register s32 divisor ASM_REG("$3");   /* MATCH pin: retail keeps a computation the compiler would drop */
+    register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 numerator_x;
-    register s32 numerator_y ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 numerator_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 quotient_x;
-    register s32 quotient_y ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register s32 quotient_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 quotient_z;
     s32 rounded_x;
-    register s32 rounded_y ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    register s32 rounded_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 rounded_z;
 
     obj = func_8003FD64(0x211, saved_arg0);
@@ -109,16 +109,16 @@ void func_80BC1528(
 
         quotient_x = numerator_x / divisor;
         tail->unk_40 = quotient_x / 2;
-        ASM_KEEP(quotient_x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(quotient_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         numerator_y = -(saved_arg5 << 16);
         quotient_y = numerator_y / divisor;
         tail->unk_44 = quotient_y / 2;
-        ASM_KEEP(quotient_y);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(quotient_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         quotient_z = -(saved_arg6 << 16) / divisor;
         tail->unk_48 = quotient_z / 2;
 
         rounded_x = quotient_x;
-        ASM_KEEP(rounded_x);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(rounded_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (rounded_x < 0) {
             rounded_x += 3;
         }
@@ -143,10 +143,10 @@ void func_80BC1528(
         tail->unk_08 = saved_arg2;
     }
 
-    ASM_KEEP(saved_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(saved_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(saved_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(saved_arg4);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(saved_arg5);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    ASM_KEEP(saved_arg6);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_arg4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_arg5);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_arg6);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 }

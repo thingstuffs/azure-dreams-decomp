@@ -55,11 +55,11 @@ extern void func_80025578() __attribute__((noreturn));
 void func_80025398(void *arg0, void *arg1, void *arg2)
 {
     PackedVector source;
-    register PackedVector *source_ptr ASM_REG("$6");   /* MATCH pin: load-bearing for the whole function shape */
+    register PackedVector *source_ptr ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     PackedVector *render_source;
     Pair16 *derived_ptr;
     u32 source_page;
-    register void *out ASM_REG("$7") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
+    register void *out ASM_REG("$7") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Pair16 derived;
     s32 current;
     s32 limit;
@@ -78,11 +78,11 @@ void func_80025398(void *arg0, void *arg1, void *arg2)
     void *cursor;
 
     source_page = 0x80020000;
-    ASM_KEEP(source_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(source_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     source_ptr = (PackedVector *)(source_page + 0x4004);
-    ASM_KEEP(source_ptr);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(source_ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     source = *source_ptr;
-    ASM_KEEP(source_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_KEEP(source_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     current = ((S_80025398_0 *)arg0)->unk_04.s;
     limit = ((S_80025398_0 *)arg0)->unk_0A;
     D_800266BC[0] = 1;
@@ -106,7 +106,7 @@ void func_80025398(void *arg0, void *arg1, void *arg2)
     color += 0x50;
     ((S_80025398_1 *)out)->unk_1C.s = color_x;
     ((S_80025398_1 *)out)->unk_1E.s = color;
-    ASM_KEEP(color_x);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(color_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_80025398_1 *)out)->unk_0E.u = quotient2;
     ((S_80025398_1 *)out)->unk_0D.u = quotient2;
     ((S_80025398_1 *)out)->unk_0C.u = quotient2;
@@ -130,7 +130,7 @@ void func_80025398(void *arg0, void *arg1, void *arg2)
     }
 
     state = ((S_80025398_0 *)arg0)->unk_00.s;
-    ASM_KEEP(state);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80025398_0 *)arg0)->unk_9A = 0x64;
     state_next = ((S_80025398_0 *)arg0)->unk_00.u + 1;
     if (state != 0) {
@@ -144,7 +144,7 @@ void func_80025398(void *arg0, void *arg1, void *arg2)
 
     ((S_80025398_0 *)arg0)->unk_00.p = state_next;
     ((S_80025398_1 *)out)->unk_14 &= 0xFF7F;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     render_source = &source;
 
 render:
@@ -152,7 +152,7 @@ render:
     derived.x = source.x + ((s16)source.z >> 1);
     one = 1;
     derived.y = source.y + 0x3C;
-    ASM_KEEP(render_source);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(render_source);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_80024CD4(arg0, ((S_80025398_0 *)arg0)->unk_34, render_source, derived_ptr, one, one);
 
     next = ((S_80025398_0 *)arg0)->unk_04.u + 1;

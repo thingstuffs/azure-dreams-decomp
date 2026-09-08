@@ -239,7 +239,7 @@ visible:
             func_8002454C();
         }
         helper_value = adjust + (*(u16 *)((u8 *)texture + 6));
-        ASM_TAILSLOT_PIN(helper_value);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_TAILSLOT_PIN(helper_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_80024544();
     }
     (*(u16 *)((u8 *)packet + 0xE)) = (*(u16 *)((u8 *)texture + 6));
@@ -253,7 +253,7 @@ visible:
     if (adjust) {
         helper_value = adjust +
                        ((*(u16 *)((u8 *)texture + 4)) & 0xFF9F);
-        ASM_TAILSLOT_PIN(helper_value);   /* MATCH pin: retail delay-slot fill depends on it */
+        ASM_TAILSLOT_PIN(helper_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_8002459C();
     }
     (*(u16 *)((u8 *)packet + 0x16)) = (*(u16 *)((u8 *)texture + 4));

@@ -13,7 +13,7 @@ typedef struct {
 extern void func_8004B1A4(void *items);
 
 void func_800B2A38(S_800B52D8 *arg0, void *arg1) {
-    register S_800B52D8 *obj ASM_REG("$9");   /* MATCH pin: load-bearing for the whole function shape */
+    register S_800B52D8 *obj ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 scratch[64];
     UA32 *item;
     UA32 *scratch_ptr;
@@ -21,7 +21,7 @@ void func_800B2A38(S_800B52D8 *arg0, void *arg1) {
     u8 *out_ptr;
     s32 *zero_ptr;
     s32 i;
-    register s32 i2 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+    register s32 i2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     obj = arg0;
     if (obj->items != 0) {

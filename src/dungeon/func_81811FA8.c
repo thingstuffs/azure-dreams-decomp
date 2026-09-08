@@ -10,7 +10,7 @@
 
 s32 func_80026FA8(s32 arg0, s32 arg1, s32 arg2)
 {
-    register s32 index ASM_REG("$7") = arg2;   /* MATCH pin: retail register colouring depends on it */
+    register s32 index ASM_REG("$7") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *entry;
 
     KEEP_INDEX(index);

@@ -49,8 +49,8 @@ s32 func_800A794C(s32 arg0, s32 arg1, s32 arg2, s32 *arg3, s32 arg4,
     s32 payload;
     s32 last;
     u16 count;
-    register s32 result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register u8 *callback ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *callback ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     object = func_800A8608(&D_80083498, arg3, 0, 0, 0);
 #ifdef NON_MATCHING
@@ -60,7 +60,7 @@ s32 func_800A794C(s32 arg0, s32 arg1, s32 arg2, s32 *arg3, s32 arg4,
 #endif
     if (object != 0) {
 #ifndef NON_MATCHING
-        ASM_KEEP(callback);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         callback += 0x77AC;
 #endif
         ((S_800A794C_0 *)object)->unk_10 = callback;
@@ -81,12 +81,12 @@ s32 func_800A794C(s32 arg0, s32 arg1, s32 arg2, s32 *arg3, s32 arg4,
         count = ((S_800A794C_3 *)state)->unk_0A;
         result = (s32)object;
         count++;
-        ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_800A794C_3 *)state)->unk_0A = count;
         return;
     }
     result = 0;
-       /* MATCH pin: load-bearing for the whole function shape */
+       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return result;
 }
 

@@ -25,12 +25,12 @@ void func_800B66C8(void *arg0)
 {
     DungeonEffect effect;
     void *object;
-    register s32 x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 y;
     s32 angle;
     s32 count;
     s32 step;
-    register s32 i ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 i ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 field_A;
 
     object = arg0;
@@ -40,7 +40,7 @@ void func_800B66C8(void *arg0)
     }
     y = *(s16 *)((u8 *)object + 6);
     x >>= 6;
-    ASM_KEEP(x);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (y < 0) {
         y += 0x3F;
     }
@@ -52,7 +52,7 @@ void func_800B66C8(void *arg0)
 
     i = 0;
     count = (rand() & 7) | 4;
-    ASM_KEEP(count);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     step = 0x1000 / count;
     angle = rand();
     field_A = *(u16 *)((u8 *)object + 0xA);

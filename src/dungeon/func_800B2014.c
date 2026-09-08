@@ -163,13 +163,13 @@ state_0:
         ((S_800B7774_2 *)temp_v0)->unk_43 = 0xFE;
         func_800A48F0(temp_v0, 0x1B, 0);
         {
-        register s32 clamp_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-        register s32 first_call_arg ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+        register s32 clamp_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 first_call_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 first_call_mode;
         s32 raw_first_result;
         clamp_value = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_10.at01_u8.v + 0x32;
         var_v1 = clamp_value;
-        ASM_KEEP(clamp_value);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(clamp_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if (clamp_value >= 0x64) {
             var_v1 = 0x63;
         }
@@ -187,9 +187,9 @@ state_0:
         raw_first_result = func_800990FC(scan_arg);
         }
         first_call_mode = 8;
-        ASM_KEEP(first_call_mode);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(first_call_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         first_call_arg = raw_first_result;
-        ASM_KEEP(first_call_arg);   /* MATCH pin: retail register colouring depends on it */
+        ASM_KEEP(first_call_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         temp_v0_3 = first_call_arg;
         func_80099290(func_80099194(&D_800E0A6A, func_8009929C(0xA, func_80099734(temp_v0, func_80099194(&D_800E0A56, func_8009929C(first_call_mode, first_call_arg))))));
         }

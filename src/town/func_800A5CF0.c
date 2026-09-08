@@ -37,7 +37,7 @@ void *func_800A3450(S_800A3450_2 *arg0, s16 arg1)
 {
     S_800A3450_0 *object;
     S_800A3450_1 *copy;
-    register void *result ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     object = func_8003FD64(0x136, D_80083498);
     result = 0;

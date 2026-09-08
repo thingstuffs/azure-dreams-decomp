@@ -65,7 +65,7 @@ s32 func_800405E8(s32 a0)
         DrawSync(0);
     }
     {
-        register s32 b ASM_REG("$2") = ((s32 *)&D_80081480)[3];   /* MATCH pin: slus-diff */
+        register s32 b ASM_REG("$2") = ((s32 *)&D_80081480)[3];   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         t = *(s32 *)(D_80080A84 - 8);
         result = b + t;
     }

@@ -197,7 +197,7 @@ void func_80166968(S_80166968_4 *arg0, S_80166968_1 *arg1, u8 *arg2, s32 arg3)
         if (flags & 8) {
             if (flags & 4) {
                 tailValue = ((S_80166968_2 *)arg2)->unk_0F | 2;
-                ASM_TAILSLOT_PIN(tailValue);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+                ASM_TAILSLOT_PIN(tailValue);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 func_80166BD8();
             } else {
                 ((S_80166968_2 *)arg2)->unk_0F &= 0xFD;

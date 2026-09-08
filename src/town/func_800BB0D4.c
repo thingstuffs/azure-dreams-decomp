@@ -11,8 +11,8 @@ s32 func_800B8834(s32 arg0, s32 arg1)
     s32 index;
     s32 record_index;
     s32 compare_index;
-    register s32 arg0_hold ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 arg1_hold ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register s32 arg0_hold ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 arg1_hold ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 kind;
     u8 *entity_base;
     u8 *entity;
@@ -40,7 +40,7 @@ s32 func_800B8834(s32 arg0, s32 arg1)
     if (record[3] != entity[5]) {
         return 0;
     }
-    ASM_KEEP(record);   /* MATCH pin: retail branch polarity depends on it */
+    ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
     first_page = (u8 *)0x80010000;
     if (first_page[((arg0_hold & 0xFF) << 1) + 0x33A5] != 0) {
@@ -83,7 +83,7 @@ continue_loop:
     case 2:
     case 3:
         do {
-            register s32 case_result ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            register s32 case_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             s32 other_index;
             u8 *other_entity_base;
             u8 *other_entity;
@@ -94,11 +94,11 @@ continue_loop:
             case_page = (u8 *)0x80010000;
             other_index = case_page[((arg0_hold & 0xFF) << 1) + 0x33A4];
             other_entity = other_entity_base + (other_index << 5);
-            ASM_KEEP(arg0_hold);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(arg0_hold);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (other_entity[7] != (arg1_hold & 0xFF)) {
                 return case_result;
             }
-            ASM_KEEP(arg1_hold);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(arg1_hold);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             return 1;
         } while (0);
 

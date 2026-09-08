@@ -52,7 +52,7 @@ void func_81977B40(void *arg0)
     if (object != NULL) {
         do { ((S_81977B40_0 *)object)->unk_10 = D_800251E8; } while (0);
         new_base = (u8 *)object + 0x20;
-        ASM_KEEP(new_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(new_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         parent = ((S_81977B40_1 *)base)->unk_20;
         base = new_base;
         ((S_81977B40_0 *)object)->unk_20 = parent;

@@ -73,15 +73,15 @@ s32 func_818390F8(RenderRecord *arg0, PositionFields *arg1)
     SVECTOR input;
     s16 screen[4];
     GlobalState *global = &D_80083160;
-    register s16 *screen_base ASM_REG("$23") = screen;   /* MATCH pin: load-bearing for the whole function shape */
+    register s16 *screen_base ASM_REG("$23") = screen;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 p;
-    register s32 *p_ptr ASM_REG("$20") = &p;   /* MATCH pin: load-bearing for the whole function shape */
+    register s32 *p_ptr ASM_REG("$20") = &p;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     RenderRecord *record;
     u32 depth;
     s32 i;
     s32 height;
     POLY_FT4 *poly;
-    register void *next ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    register void *next ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     input.x = arg1->x;
     record = arg0;
@@ -134,16 +134,16 @@ s32 func_818390F8(RenderRecord *arg0, PositionFields *arg1)
             ((u32)poly & 0x00FFFFFF);
     }
 
-    ASM_KEEP(screen_base);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    ASM_KEEP(screen_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     next = *(void **)((u8 *)arg0 - 8);
     if (next != 0) {
         arg0 = (RenderRecord *)((u8 *)next + 0x20);
-        ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         next = *(void **)((u8 *)next + 8);
-        ASM_KEEP(next);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_80024934();
     }
-    ASM_KEEP(next);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return 0;
 }
 

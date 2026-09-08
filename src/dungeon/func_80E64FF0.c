@@ -116,28 +116,28 @@ state1:
 jt0:
     {
         s32 result = 4;
-        ASM_TAILSLOT_PIN(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_801748B8();
         return;
     }
 jt1:
     {
         s32 result = 8;
-        ASM_TAILSLOT_PIN(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_801748B8();
         return;
     }
 jt2:
     {
         s32 result = 0xC;
-        ASM_TAILSLOT_PIN(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_801748B8();
         return;
     }
 jt3:
     {
         s32 result = 0xE;
-        ASM_TAILSLOT_PIN(result);   /* MATCH pin: retail delay-slot contents depend on it */
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_801748B8();
         return;
     }
@@ -158,7 +158,7 @@ move1:
             interp_target -= interp_current;
             interp_target /= count_after;
             next_x = (u16)((S_801747F0_1 *)arg1)->unk_00.at02.v + interp_target;
-            ASM_KEEP(interp_target);   /* MATCH pin: load-bearing for the whole function shape */
+            ASM_KEEP(interp_target);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             next_target_y = ((S_801747F0_1 *)arg1)->unk_12;
             ((S_801747F0_1 *)arg1)->unk_00.at02.v = next_x;
         }
@@ -199,8 +199,8 @@ state2:
     ((S_801747F0_2 *)arg2)->unk_1E = next_z;
     ((S_801747F0_2 *)arg2)->unk_1C = next_z;
     {
-        register s32 state2_x ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register s32 state2_y ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        register s32 state2_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register s32 state2_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         state2_x = ((S_801747F0_0 *)arg0)->unk_50.s;
         state2_y = ((S_801747F0_0 *)arg0)->unk_51.s;
         z = ((S_801747F0_1 *)arg1)->unk_08.at02u.v;
@@ -230,15 +230,15 @@ state0:
     ((S_801747F0_0 *)arg0)->unk_54 += ((S_801747F0_0 *)arg0)->unk_60;
     ((S_801747F0_1 *)arg1)->unk_04.at00.v += ((S_801747F0_0 *)arg0)->unk_58;
     {
-        register s32 current_y ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+        register s32 current_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 accel_y;
         current_y = ((S_801747F0_0 *)arg0)->unk_58;
         accel_y = ((S_801747F0_0 *)arg0)->unk_64;
         current_y += accel_y;
         tile_base = D_801755E0;
-        ASM_USE(tile_base);   /* MATCH pin: keeps a constant in a register as retail does */
+        ASM_USE(tile_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         ((S_801747F0_0 *)arg0)->unk_58 = current_y;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
     tile = (((S_801747F0_0 *)arg0)->unk_24 * 4) + tile_base;
     tile_x = ((S_801747F0_0 *)arg0)->unk_50.s + ((S_801747F0_3 *)tile)->unk_00;

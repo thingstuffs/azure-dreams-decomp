@@ -39,9 +39,9 @@ extern u8 D_80027DD0[];
 extern u8 D_800287E8[];
 
 static __inline__ void set_handler(u8 *base) {
-    register u8 *out ASM_REG("$2") = base;   /* MATCH pin: retail register colouring depends on it */
+    register u8 *out ASM_REG("$2") = base;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(out);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_set_handler_0 *)out)->unk_10 = D_80022CD8;
 }
 
@@ -53,7 +53,7 @@ void func_80022D60(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     context = base + 0x20;
     if (func_8004B4A8(base) == 0) {
         base = func_8003FE78(0, base, 0x27A);
-        ASM_KEEP(base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8004491C(base, D_80027DD0);
         func_80022E08(context);
         return;
@@ -63,9 +63,9 @@ void func_80022D60(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     bzero(context, 0x9C8);
     func_80022B48(context, 7);
     {
-        register u8 *body ASM_REG("$17") = context;   /* MATCH pin: retail keeps a computation the compiler would drop */
+        register u8 *body ASM_REG("$17") = context;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
-        ASM_KEEP(body);   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_KEEP(body);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_80022D60_1 *)base)->unk_0C = body + 0x8BC;
         ((S_80022D60_2 *)body)->unk_8C8 = func_80022B20(body + 0x8CC);
         func_80022C90(body, arg0, arg1, arg2, arg3);

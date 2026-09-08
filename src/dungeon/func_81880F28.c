@@ -42,7 +42,7 @@ typedef struct S_81880F28_3_pre {
 } S_81880F28_3_pre;   /* the 0x14 bytes before ((S_81880F28_0 *)arg0)->unk_00 in func_81880F28, addressed as ((S_81880F28_0 *)arg0)->unk_00[-1] */
 
 void func_81880F28(void *arg0, void *arg1) {
-    register void *motion ASM_REG("$5") = arg1;   /* MATCH pin: retail delay-slot fill depends on it */
+    register void *motion ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *object;
     EffectColor *color;
     s16 state;

@@ -39,7 +39,7 @@ void func_800423C0(S_800423C0_Obj *a0, s16 a1, S_800423C0_Src *a2)
   int new_var;
   S_800E3E48 *s0;
   s32 dir;
-  register s32 mask ASM_REG("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+  register s32 mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   if (a2 != 0)
   {
     S_800423C0_Obj *call_arg;
@@ -56,7 +56,7 @@ void func_800423C0(S_800423C0_Obj *a0, s16 a1, S_800423C0_Src *a2)
     dir = func_800A1BD0(call_arg, mask);
     if (dir >= 0)
     {
-      register u8 *page ASM_REG("$3");   /* MATCH pin: slus-diff */
+      register u8 *page ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       u16 *other = (u16 *)0x80012094;
       s32 scaled;
 

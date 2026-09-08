@@ -75,9 +75,9 @@ void func_8016B778(Rec_func_800A9E70_arg0 *arg0, M2C_UNK arg1, S_8016B778_2 *arg
     s8 temp_v0;
     u16 temp_v0_2;
     u8 *var_v0;
-    register void *temp_v1_dispatch ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
-    register u32 temp_v0_page ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
-    register u8 *temp_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    register void *temp_v1_dispatch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 temp_v0_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *call_obj;
     s32 clear_mask_hi;
     u8 *dungeon_obj;
@@ -124,11 +124,11 @@ block_12:
     if (arg0->unk_9A.as_u8 != 0xE) {
         if (arg0->unk_B3 == 0) {
             temp_v1_dispatch = arg2->unk_2C.p2;
-            ASM_KEEP(temp_v1_dispatch);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_KEEP(temp_v1_dispatch);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             temp_v0_page = 0x80170000;
-            ASM_KEEP(temp_v0_page);   /* MATCH pin: keeps a constant in a register as retail does */
+            ASM_KEEP(temp_v0_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             temp_a1 = (u8 *)temp_v0_page + 0x467C;
-            ASM_TAILSLOT_PIN(temp_a1);   /* MATCH pin: retail delay-slot contents depend on it */
+            ASM_TAILSLOT_PIN(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8016B8AC();
             return;
         }
@@ -265,7 +265,7 @@ block_58:
     if (temp_a1_value & 0x2000) {
         goto block_65;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if ((u16) *D_80013714 & 8) {
         goto block_65;
     }

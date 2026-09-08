@@ -53,7 +53,7 @@ typedef struct S_80171CD4_4 {
 } S_80171CD4_4;   /* (u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s in func_80171CD4 */
 
 void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register void *state ASM_REG("$17") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *state ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 move_flags;
     s16 action;
     s16 result;

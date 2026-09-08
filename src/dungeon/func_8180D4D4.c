@@ -99,7 +99,7 @@ void *func_800264D4(S_800264D4_1 *arg0, s32 arg1, s16 arg2, s16 arg3) {
     u16 temp_v0_2;
     u16 temp_v0_3;
     u16 temp_v0_4;
-    register u16 temp_v0_8 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    register u16 temp_v0_8 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_800264D4_3 *temp_a0;
     S_800264D4_4 *temp_a0_2;
     S_800264D4_2 *temp_a1;

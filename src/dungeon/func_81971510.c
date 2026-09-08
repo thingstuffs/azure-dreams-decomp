@@ -14,7 +14,7 @@ void func_81971510(void *arg0, s32 arg1, void *arg2)
     u8 *arg1_ptr;
     u16 counter;
     s32 index;
-    register u8 *page ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    register u8 *page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *arg2_ptr;
     u8 *table_page;
     u8 *flags_page;
@@ -32,7 +32,7 @@ void func_81971510(void *arg0, s32 arg1, void *arg2)
 #else
     page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(page);   /* MATCH pin: retail delay-slot fill depends on it */
+    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     counter = U16_AT(arg1_ptr, 0x38);
     *(s16 *)(page + 0x5FF4) = 1;
     counter--;
@@ -47,19 +47,19 @@ void func_81971510(void *arg0, s32 arg1, void *arg2)
 
 case_0:
     temp_v0 = 0x20;
-    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024D80();
 case_1:
     temp_v0 = 0x35;
-    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024D80();
 case_2:
     temp_v0 = 0x50;
-    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024D80();
 case_3:
     temp_v0 = 0x65;
-    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* MATCH pin: retail delay-slot contents depend on it */
+    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024D80();
 case_4:
     value = 0x80;

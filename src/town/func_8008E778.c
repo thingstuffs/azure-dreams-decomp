@@ -10,9 +10,9 @@ s32 func_8008BED8(void *arg0) {
 
 #ifndef NON_MATCHING
     if (value == 0xFF) {
-        register u32 dead_v0 ASM_REG("$2") = 0x80090000;   /* MATCH pin: retail immediate-load split depends on it */
+        register u32 dead_v0 ASM_REG("$2") = 0x80090000;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
-        ASM_KEEP(dead_v0);   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_8008BF00();
         return dead_v0 - 0x4600;
     }
@@ -20,7 +20,7 @@ s32 func_8008BED8(void *arg0) {
         u32 result = 0x80090000;
 
         if (value == 0) {
-            ASM_KEEP(result);   /* MATCH pin: keeps a statement from moving across a call/branch */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             result -= 0x43A8;
             *(u32 *)((u8 *)arg0 + 0x68) = result;
         }

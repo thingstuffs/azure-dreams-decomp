@@ -36,7 +36,7 @@ void func_800C3988(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
         entry = &D_80082660[temp_v0];
         temp_v1 = *entry;
         if ((u32) (temp_v1 - 2) < 0x14U) {
-            register void *call_arg0 ASM_REG("$4") = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+            register void *call_arg0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
             (void) D_800D5084[(s8) temp_v1];
             func_800C3A50(call_arg0, arg1);

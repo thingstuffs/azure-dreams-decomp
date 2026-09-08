@@ -61,7 +61,7 @@ s32 func_800BCE7C(S_800BCE7C_0 *arg0) {
             goto block_7;
         }
 block_6:
-        ASM_KEEP(arg0);   /* MATCH pin: retail branch polarity depends on it */
+        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         return 1;
 block_7:
         temp_v0_5 = func_80065F90(arg0->unk_158.at02.v, (s16) arg0->unk_158.at00.v);

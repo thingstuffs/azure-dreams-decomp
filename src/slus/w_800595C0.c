@@ -34,11 +34,11 @@ extern void func_8005914C(Entity *, s32, s32, s32);
 
 s32 func_800595C0(Entity *arg0)
 {
-    register Entity *ent ASM_REG("$17") = arg0;   /* MATCH pin: slus-diff */
+    register Entity *ent ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 s0;
     s32 s2;
     s32 a2;
-    register s32 s3 ASM_REG("$19");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 idx;
     static void *const keepalive[] = {
         &&L_case_46, &&L_case_47, &&L_case_48, &&L_case_49,
@@ -75,15 +75,15 @@ L_case_47:
     func_80057948(ent->field_4C, ent->field_4A, 0);
     return 1;
 L_case_48: {
-    register s32 v ASM_REG("$3") = func_800589B8(ent);   /* MATCH pin: slus-diff */
+    register s32 v ASM_REG("$3") = func_800589B8(ent);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 count;
     s2 = v;
     count = D_800869B4[0];
-    ASM_KEEP(count);   /* MATCH pin: slus-diff */
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     if (count != 0) {
         u32 i = 0;
         s32 val = ((v & 0x7F) << 1) + 2;
-        ASM_KEEP(v);   /* MATCH pin: slus-diff */
+        ASM_KEEP(v);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         do {
             D_80085FA8[i].field_24 = val;
             i++;
@@ -92,23 +92,23 @@ L_case_48: {
     goto ret_bool;
 }
 L_case_49: {
-    register s32 v ASM_REG("$2") = func_800589B8(ent);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 v ASM_REG("$2") = func_800589B8(ent);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s2 = v;
-    ASM_KEEP(v);   /* MATCH pin: slus-diff */
+    ASM_KEEP(v);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     func_80058494(ent->field_4C, 0, v & 0x7F);
     goto ret_bool;
 }
 L_case_4A: {
-    register s32 v ASM_REG("$2") = func_800589B8(ent);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 v ASM_REG("$2") = func_800589B8(ent);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s2 = v;
-    ASM_KEEP(v);   /* MATCH pin: slus-diff */
+    ASM_KEEP(v);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     func_8005845C(ent->field_4C, v & 0x7F);
     goto ret_bool;
 }
 L_case_4B: {
     s32 v = func_800589B8(ent);
     s2 = v;
-    ASM_KEEP(v);   /* MATCH pin: slus-diff */
+    ASM_KEEP(v);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     ent->field_4C = v & 0xF;
     goto ret_bool;
 }
@@ -117,9 +117,9 @@ L_case_7F:
     ent->field_2C = 1;
     goto ret_bool;
 L_default: {
-    register s32 v ASM_REG("$2") = func_800589B8(ent);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register s32 v ASM_REG("$2") = func_800589B8(ent);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s2 = v;
-    ASM_KEEP(v);   /* MATCH pin: slus-diff */
+    ASM_KEEP(v);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     func_8005914C(ent, (ent->field_4C + 0xB0) & 0xFF,
                   s3 & 0x7F, v & 0x7F);
 }

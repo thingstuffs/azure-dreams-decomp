@@ -39,7 +39,7 @@ void func_8005B16C(s16 arg0)
 {
     S_8005B16C_req req;
     u8 *p;
-    register s32 i ASM_REG("$17");   /* MATCH pin: slus-diff */
+    register s32 i ASM_REG("$17");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 *q;
     S_80086C00 *base;
 

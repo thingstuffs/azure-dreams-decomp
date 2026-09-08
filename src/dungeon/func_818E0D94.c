@@ -74,13 +74,13 @@ void func_818E0D94(void *arg0, S_818E0D94_3 *arg1, Rec_D_80082E80 *arg2)
     arg2->unk_1C.at00_u16.v = temp;
 
     {
-        register s32 call_arg ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+        register s32 call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 random;
         s32 height;
 
         random = rand() & 0x3F;
         call_arg = ((S_818E0D94_0 *)arg0)->unk_48.s16 * 0x32;
-        ASM_KEEP(call_arg);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         height = ((S_818E0D94_0 *)arg0)->unk_18;
         call_arg += 0xC8;
         height += 0x200;
@@ -126,7 +126,7 @@ void func_818E0D94(void *arg0, S_818E0D94_3 *arg1, Rec_D_80082E80 *arg2)
 
         ((S_818E0D94_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         page = (u32 *)0x80080000;
-        ASM_KEEP(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         page[0x528] |= 0x8000;
     }
 }

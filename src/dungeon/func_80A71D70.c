@@ -44,7 +44,7 @@ extern u16 D_80083462;
 extern u8 D_80174138[];
 
 void func_80171570(void *arg0, s32 arg1, void *arg2, void *arg3) {
-    register void *state ASM_REG("$17") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *state ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 mode;
     s16 result;
     s16 next;

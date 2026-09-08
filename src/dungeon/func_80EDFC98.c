@@ -75,7 +75,7 @@ void func_80171498(
     void *arg0, s16 arg1, s32 arg2, s16 arg3,
     s32 arg4, s32 arg5, s32 arg6)
 {
-    s32 held_arg4 = arg4;   /* MATCH pin: load-bearing for the whole function shape */
+    s32 held_arg4 = arg4;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 held_arg5 = arg5;
     s32 held_arg6 = arg6;
     volatile u16 sp10;
@@ -98,9 +98,9 @@ void func_80171498(
             ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_06 + held_arg5;
         ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A =
             ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_0A + held_arg6;
-        ASM_KEEP(held_arg4);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ASM_KEEP(held_arg5);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-        ASM_KEEP(held_arg6);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_arg6);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         source = ((S_80171498_1 *)arg0)->unk_0C;
         if (func_8003DE58(((S_80171498_2 *)source)->unk_08, source, &sp10, 0) != 0) {

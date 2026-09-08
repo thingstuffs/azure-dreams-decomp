@@ -11,15 +11,15 @@ extern u8 D_800E9FFA[];
 void func_8001D9CC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4) {
     s16 *top;
     s16 *bottom;
-    register u8 *info_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register DungeonInfo *info ASM_REG("$25");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 value ASM_REG("$11");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 *info_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register DungeonInfo *info ASM_REG("$25");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 value ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 arg3_hold;
     s16 x;
     s16 y;
     s16 arg2_late;
     info_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(info_page);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP_NV(info_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     info = (DungeonInfo *)(info_page + 0x333c);
     arg3_hold = arg3;
     top = (s16 *)(D_800E9FFA + (((((s16)arg1 - 1) << info->shift) + arg0) * 6));
@@ -64,7 +64,7 @@ void func_8001D9CC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4) {
     y = arg1;
     top = (s16 *)(D_800E9FFA + ((((y << info->shift) + arg0) * 6)));
     bottom = (s16 *)(D_800E9FFA + 6 + ((((y << info->shift) + arg2_late) * 6)));
-    ASM_USE_NV(arg3_hold);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_USE_NV(arg3_hold);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (y < arg3_hold) {
         do {
             y++;
