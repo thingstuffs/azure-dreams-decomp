@@ -43,7 +43,6 @@ extern int D_80084130[3];
 extern short D_80084808[8];
 s32 func_8003BD84();
 M2C_UNK func_80098928();
-M2C_UNK func_8009A324();
 u16 func_800C2AE8();
 extern u8 D_80082660;
 extern M2C_UNK D_80099C18;
@@ -74,13 +73,11 @@ void func_8009A1E8(void *arg0, void *arg1, M2C_UNK arg2)
     *((u16 *) (((s8 *) arg1) + 0xA)) = (u16) ((*((u16 *) (((s8 *) arg1) + 0xA))) - 0x80);
     *((u16 *) (((s8 *) arg1) + 0xA)) = func_800C2AE8(arg1);
     func_80098928(arg0, arg1, arg2);
-    func_8009A324();
     return;
   }
   if (temp_v1 > 0)
   {
     *((s16 *) (((s8 *) arg0) + 0xA)) = (s16) ((temp_a0 << 4) / (temp_v1 + 0x10));
-    func_8009A324();
     return;
   }
   if (temp_v1 < 0)

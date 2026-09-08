@@ -9,7 +9,6 @@ typedef struct {
 
 extern DungeonState D_80083160;
 extern s32 D_800814A0[];
-extern void func_8016AC28(void) __attribute__((noreturn));
 
 s32 func_8016ABC8(u16 *arg0)
 {
@@ -21,7 +20,7 @@ s32 func_8016ABC8(u16 *arg0)
         D_80083160.unkA8 = value + 4;
         D_80083160.unkA9 += 4;
         D_80083160.unkAA += 4;
-        func_8016AC28();
+        return;
     }
 
     arg0[-1] |= 0x8000;

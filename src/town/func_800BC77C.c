@@ -13,7 +13,6 @@ typedef struct {
 
 extern s32 D_800814A0[3];
 extern void func_80033D08(void *arg0);
-extern void func_800B9F60(void);
 
 void func_800B9EDC(Obj *arg0, void *arg1, State *arg2)
 {
@@ -21,7 +20,6 @@ void func_800B9EDC(Obj *arg0, void *arg1, State *arg2)
         func_80033D08(arg0);
         *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800B9F60();
         return;
     }
 

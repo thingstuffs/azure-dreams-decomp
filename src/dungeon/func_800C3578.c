@@ -4,7 +4,6 @@ extern s32 func_800A6D30(void);
 extern s32 func_800A48F0(void *arg0, s32 arg1, s32 arg2);
 extern void func_80099844(void *arg0, const void *arg1);
 extern void func_800C8D28(void);
-extern void func_800C8D94(void);
 extern void func_800DC1B8(s32 arg0);
 
 extern s32 D_800DCF10[];
@@ -47,7 +46,6 @@ s32 func_800C8CD8(void *arg0, s32 arg1, s32 arg2) {
             if (*(u8 *)((u8 *)entity + 0x13) == 0) {
                 func_800DC1B8(D_800DCF10[0]);
             }
-            func_800C8D94();
             return 1;
         }
     }

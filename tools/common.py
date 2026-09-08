@@ -127,3 +127,30 @@ def run(cmd, cwd=None, env=None, timeout=900):
     t0 = time.time()
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd, env=env, timeout=timeout)
     return r, round(time.time() - t0, 2)
+
+def set_row_cfg(row_id: str, cfg: str, note: str = ""):
+    """Correct a row's compiler config (must be a stock cell): ledger/splits/<container>.jsonl `config`,
+    ledger/rows.jsonl cfg/cell/flags, and the exported row tables of the build roots (so the window gate
+    compiles the row with the new cell).  The caller has verified the row's text exact at `cfg`."""
+    import subprocess, sys as _sys
+    if not is_stock_cfg(cfg):
+        raise ValueError(f"{cfg!r} is not a stock config")
+    container, func = row_id.split("/", 1)
+    p = LEDGER / "splits" / f"{container}.jsonl"
+    recs = read_jsonl(p); hit = 0
+    for r in recs:
+        if r.get("func_vram") == func:
+            r["config_was"] = r.get("config"); r["config"] = cfg
+            if note: r["config_note"] = note
+            hit += 1
+    if hit != 1:
+        raise ValueError(f"{row_id}: {hit} split records")
+    write_jsonl(p, recs)
+    rs = read_jsonl(LEDGER / "rows.jsonl"); cell, flags = parse_cfg(cfg)
+    for r in rs:
+        if r["id"] == row_id:
+            r["cfg"] = cfg; r["cell"] = cell; r["flags"] = " ".join(flags); r["stock"] = True; r["cfg_corrected"] = True
+    write_jsonl(LEDGER / "rows.jsonl", rs)
+    for root in (ROOT / "build_ovl", ROOT / "build_ovl_raw"):
+        if (root / "overlays").exists():
+            subprocess.run([_sys.executable, str(ROOT / "tools/row_db.py"), "export", str(root)], check=True, stdout=subprocess.DEVNULL)

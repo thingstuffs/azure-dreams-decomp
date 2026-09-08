@@ -5,7 +5,6 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 M2C_UNK func_80095DD0(); /* extern */
-M2C_UNK func_80097188();                            /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 extern M2C_UNK D_80083460;
 extern M2C_UNK D_80096384;
@@ -49,7 +48,6 @@ void func_8009704C(Rec_func_8008ACDC_arg0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_800
         arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 0x4000);
         if (arg0->unk_100 >= 0) {
             func_80095DD0(arg0, arg1, arg2, saved_arg3);
-            func_80097188();
             return;
         }
         arg0->unk_8C.as_pm = &D_80096384;

@@ -15,7 +15,6 @@ typedef struct S_80026FB0_1 {
 
 
 
-extern void func_80027068(void) __attribute__((noreturn));
 extern s32 D_800814A0;
 
 void func_80026FB0(void *arg0, s32 arg1, void *arg2)
@@ -27,7 +26,7 @@ void func_80026FB0(void *arg0, s32 arg1, void *arg2)
     state = ((S_80026FB0_0 *)arg0)->unk_64.s;
     switch (state) {
     default:
-        func_80027068();
+        return;
 
     case 0:
         timer = (u16)((S_80026FB0_0 *)arg0)->unk_66 - 1;
@@ -35,7 +34,6 @@ void func_80026FB0(void *arg0, s32 arg1, void *arg2)
         if ((timer << 16) <= 0) {
             ((S_80026FB0_0 *)arg0)->unk_66 = 0x10;
             ((S_80026FB0_0 *)arg0)->unk_64.u += 1;
-            func_80027068();
         }
         break;
 
@@ -55,7 +53,3 @@ void func_80026FB0(void *arg0, s32 arg1, void *arg2)
 
     }
 }
-
-/* MECHANISM: The zero-argument noreturn tails keep this function frameless.
-   Lexically placing default first emits its jump inline before cases 0 and 1.
-   Direct scalar D_800814A0 access preserves retail's %hi/%lo displacement. */

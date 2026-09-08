@@ -23,7 +23,6 @@ extern int func_8004CAA0(void *a0, int a1, void *a2);
  * own -- a0 is left holding var_s0 only because it was already resident there
  * for the preceding func_8004491C call; the C call site carries no explicit
  * argument (see docs/one_to_one_program.md R6 "$v0 hidden args" class). */
-extern void func_800B02B8(void);
 extern void func_8004B248(u16 **a0);
 
 void *func_800B0214(s32 arg0)
@@ -39,7 +38,6 @@ void *func_800B0214(s32 arg0)
             *(s32 *)((u8 *)temp_s1 + 0xA4) = func_800AFE10(*(s32 *)((u8 *)temp_s1 + 0xA8));
             func_800B0158(temp_s1, arg0);
             func_8004491C(var_s0, (void *)func_8004CAA0);
-            func_800B02B8();
             return var_s0;
         }
         func_8004B248((u16 **)((u8 *)var_s0 + 0xCC));

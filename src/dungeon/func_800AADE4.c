@@ -33,7 +33,6 @@ typedef struct S_800B0544_6 {
 extern M2C_UNK func_8003E1C4();
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
-extern void *func_800B063C();
 
 extern s32 D_80012090[];
 extern s16 D_8008146C;
@@ -99,7 +98,7 @@ void func_800B0544(s16 arg0) {
         if (mode == 0) {
             if (D_8008146C == 0x28) {
                 temp_a0->unk_02 = 1;
-                func_800B063C(temp_a0);
+                return;
             }
         } else if (mode == 2) {
             temp_a0->unk_02 = (s16)mode;

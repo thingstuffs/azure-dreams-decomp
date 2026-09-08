@@ -6,7 +6,6 @@
 M2C_UNK func_800374F4();                     /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 M2C_UNK func_8009539C();                      /* extern */
-M2C_UNK func_800A388C();                            /* extern */
 extern M2C_UNK D_800A38A8;
 extern M2C_UNK D_800D0B20;
 
@@ -43,7 +42,6 @@ void func_800A378C(S_800A378C_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
         arg1->unk_10.at00_s32.v = 0;
         arg1->unk_14.as_s32 =
             ((((u16) func_800374F4(0x1000)) << 1) + 0x2000) << 4;
-        func_800A388C();
         return;
     }
     arg1->unk_0C.as_s32 = (s32) (arg1->unk_0C.as_s32 - arg0->unk_2C);

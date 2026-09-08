@@ -10,7 +10,6 @@ M2C_UNK func_80095C80();
 M2C_UNK func_80095094();
 s16 func_80095978();
 M2C_UNK func_80094378();
-extern void func_80091CC0(void) __attribute__((noreturn));
 M2C_UNK func_80095A94();
 M2C_UNK func_80094984();
 M2C_UNK func_800941D8();
@@ -32,7 +31,7 @@ void func_80091BD8(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK a
     if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
         if (D_800CFCEF == 0) {
             func_80094378(arg0, arg1, arg2);
-            func_80091CC0();
+            return;
         }
         goto block_6;
     }

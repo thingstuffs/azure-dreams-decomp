@@ -6,7 +6,6 @@
     (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_800374F4();
-M2C_UNK func_8009196C();
 M2C_UNK func_80094048();
 M2C_UNK func_80094378();
 M2C_UNK func_80094944();
@@ -56,7 +55,6 @@ void func_800917EC(Rec_func_80094268_arg0 *arg0, S_800917EC_0 *arg1, M2C_UNK arg
     if ((temp_v0 - arg1->unk_08.at02.v) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094378(arg0, arg1, arg2);
-            func_8009196C();
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
@@ -81,7 +79,6 @@ void func_800917EC(Rec_func_80094268_arg0 *arg0, S_800917EC_0 *arg1, M2C_UNK arg
         func_80094944(temp_v0_3, 8);
         func_80094C1C(arg0);
         func_8009503C(arg1);
-        func_8009196C();
         return;
     }
     func_80094048(arg0, arg1, arg2);

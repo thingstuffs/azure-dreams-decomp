@@ -10,7 +10,6 @@ extern void func_800A2B04(void *, u8, u8);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_80173DAC(void) __attribute__((noreturn));
 extern void func_8017586C(void *, void *, void *);
 
 extern s8 D_8006CCD8;
@@ -63,7 +62,7 @@ L1:
         ((S_80173930_0 *)arg0)->unk_96.u = 0x100;
         ((S_80173930_0 *)arg0)->unk_9B = 5;
         func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
-        func_80173DAC();
+        return;
     }
 
     ((Rec_D_80082E80 *)arg2)->unk_05.as_u8 -= 2;
@@ -115,7 +114,7 @@ L2:
     ((S_80173930_0 *)arg0)->unk_9B++;
     func_8017586C((u8 *)arg0 - 0x20, (u8 *)arg3 + 0x2A,
                   (u8 *)arg0 + 0x9B);
-    func_80173DAC();
+    return;
 
 L3:
     {
@@ -156,7 +155,7 @@ L3:
         ((S_80173930_0 *)arg0)->unk_AC = ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v / 6;
         ((S_80173930_0 *)arg0)->unk_96.u = 0;
         ((S_80173930_0 *)arg0)->unk_9B++;
-        func_80173DAC();
+        return;
     }
 
 L4:

@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_800478B8();                      /* extern */
-void func_800CB4A8(void);                         /* extern */
 typedef struct { s32 v; s32 pad[2]; } S_800814A0;
 extern S_800814A0 D_800814A0;
 
@@ -60,7 +59,6 @@ void func_800CB374(void *arg0, void *arg1, S_800CB374_1 *arg2) {
         temp_v0 = (u16) ((S_800CB374_0 *)arg0)->unk_96 - 1;
         ((S_800CB374_0 *)arg0)->unk_96 = temp_v0;
         if ((temp_v0 << 0x10) > 0) {
-            func_800CB4A8();
             return;
         }
         goto block_5;

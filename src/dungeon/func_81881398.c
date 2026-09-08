@@ -2,7 +2,6 @@
 
 
 extern void func_80024C90(void) __attribute__((noreturn));
-extern void func_80024D74(void) __attribute__((noreturn));
 extern void func_80024FD8();
 extern void func_800254C4();
 extern void func_800478B8();
@@ -70,7 +69,6 @@ advance:
             D_800257CC--;
             (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
             D_800814A0 |= 0x8000;
-            func_80024D74();
             return;
         }
 common:

@@ -4,7 +4,6 @@
 
 extern void func_8002436C(void) __attribute__((noreturn));
 extern void func_80024370(void) __attribute__((noreturn));
-extern void func_800243A4(void) __attribute__((noreturn));
 extern void func_800478B8(void *arg0);
 
 
@@ -40,7 +39,7 @@ void func_80024264(S_80024264_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2)
         if (state == 0) {
             goto state_0;
         }
-        func_800243A4();
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -48,7 +47,7 @@ void func_80024264(S_80024264_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2)
     if (state == 3) {
         goto state_3;
     }
-    func_800243A4();
+    return;
 
 state_0: {
     u8 value;
@@ -103,7 +102,7 @@ state_2: {
     }
     arg0->unk_02.u = 0;
     arg0->unk_00.u++;
-    func_800243A4();
+    return;
 }
 
 state_3:

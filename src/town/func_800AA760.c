@@ -6,7 +6,6 @@ extern s32 func_8009CFE0(void);
 extern void func_80033D08(void *arg0);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
-extern void func_800A7FBC(void);
 
 typedef struct {
     s32 unused;
@@ -37,7 +36,6 @@ void func_800A7EC0(void *arg0, void *arg1)
         func_80033D08(arg0);
         FIELD(arg0, u16 *, -2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800A7FBC();
         return;
     }
 

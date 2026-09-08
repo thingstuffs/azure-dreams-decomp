@@ -15,7 +15,6 @@ void func_80025EB8(void) __attribute__((noreturn));
 void func_800260F0(void) __attribute__((noreturn));
 void func_800260F4(void) __attribute__((noreturn));
 void func_8002626C(void) __attribute__((noreturn));
-void func_8002628C(void) __attribute__((noreturn));
 s32 func_800644B8(s16);
 s32 func_80064584(s16);
 void func_800B835C(void *, s32 *, s32, s32);
@@ -114,7 +113,7 @@ void func_80025E48(void *arg0, S_80025E48_1 *arg1, S_80025E48_2 *arg2)
         if (state == 0) {
             goto state_0;
         }
-        func_8002628C();
+        return;
     }
     ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
@@ -123,7 +122,7 @@ void func_80025E48(void *arg0, S_80025E48_1 *arg1, S_80025E48_2 *arg2)
     if (state == 3) {
         goto state_3;
     }
-    func_8002628C();
+    return;
 
 state_0:
     {
@@ -211,7 +210,6 @@ state_2:
         }
         ((S_80025E48_0 *)arg0)->unk_1A.u = 8;
         ((S_80025E48_0 *)arg0)->unk_0A.u++;
-        func_8002628C();
         return;
     }
 

@@ -1,4 +1,5 @@
-"""T3a: LABEL_AS_CALL epilogue sites -> `return`.
+"""T3a: LABEL_AS_CALL epilogue sites -> `return`.  RETIRED 2026-09-08: superseded by t10_epilogue
+(its in_row() knew only the rowbase address and matched 0 of 650 rows; its index() was not thread-safe).
 
 m2c renders a `j <own epilogue>` as a call to a pseudo-function declared noreturn; the
 assembler stage turns that jal into the retail `j`.  The honest C is `return;` (or `return v;`

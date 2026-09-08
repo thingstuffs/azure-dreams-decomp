@@ -2,7 +2,6 @@
 
 
 extern void func_80091000(void);
-extern void func_800911B0(void) __attribute__((noreturn));
 extern void func_80093D48(void *, void *, s32);
 extern void func_80093E98(void *, void *, s32);
 extern u8 D_80083160[];
@@ -30,7 +29,7 @@ void func_80091114(s32 *arg0, S_80091114_1 *arg1, s32 arg2) {
     if (previous == *arg0) {
         if (!(((S_80091114_0 *)state)->unk_08 & 0x20)) {
             func_80093D48(arg0, arg1, saved_arg2);
-            func_800911B0();
+            return;
         }
 
         if ((arg1->unk_0C == 0) &&

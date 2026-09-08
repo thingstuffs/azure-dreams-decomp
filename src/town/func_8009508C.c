@@ -6,7 +6,6 @@
 M2C_UNK func_80035208();                         /* extern */
 M2C_UNK func_8008B158();                         /* extern */
 M2C_UNK func_80092A30();                            /* extern */
-M2C_UNK func_80092A60();                            /* extern */
 M2C_UNK func_80093D38();     /* extern */
 M2C_UNK func_8009455C();     /* extern */
 M2C_UNK func_800945B8();     /* extern */
@@ -77,7 +76,6 @@ void func_800927EC(void *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094660(arg0, arg1, arg2);
-            func_80092A60();
             return;
         }
         goto block_6;
@@ -88,7 +86,6 @@ void func_800927EC(void *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
 block_6:
     if (((S_800927EC_1 *)state)->unk_10 & 0x10) {
         func_800945B8(arg0, arg1, arg2);
-        func_80092A60();
         return;
     }
     if (((S_800927EC_1 *)state)->unk_10 & 0x80) {
@@ -96,7 +93,6 @@ block_6:
             func_8009550C(arg1);
             func_80094774(arg0, arg1, arg2);
             D_800FE518[0] = 1;
-            func_80092A60();
             return;
         }
         func_80099754(arg1);
@@ -112,7 +108,6 @@ block_6:
     } else {
         if (((S_800927EC_1 *)state)->unk_10 & 0x40) {
             func_800946A0(arg0, arg1, arg2);
-            func_80092A60();
             return;
         }
         if ((func_80095760(&D_800CFCB4) == -1) && (func_8009FF50() == 0)) {
@@ -138,7 +133,6 @@ block_6:
             }
             func_8008B158(((S_800927EC_4 *)var_v0)->unk_10);
             D_800FE5D8 = &D_80093B00;
-            func_80092A60();
             return;
         }
         if (((S_800927EC_1 *)state)->unk_08 & 0xF000) {

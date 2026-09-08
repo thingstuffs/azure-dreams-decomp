@@ -9,7 +9,6 @@ extern s16 func_8009A66C();
 extern s16 func_800A0818();
 extern void func_80171EBC() __attribute__((noreturn));
 extern void func_80171EC0() __attribute__((noreturn));
-extern void func_80171F14() __attribute__((noreturn));
 extern s32 func_80172688();
 
 extern s16 D_80083228;
@@ -134,7 +133,6 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
     (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
     if (D_80083462 & 0x80) {
         ((S_80171CD4_1 *)arg0)->unk_96 = 0;
-        func_80171F14();
         return;
     }
 

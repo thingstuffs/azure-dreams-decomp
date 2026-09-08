@@ -3,7 +3,6 @@
 #include "records/Rec_D_80016000.h"
 
 s32 func_8004CAE8();                    /* extern */
-M2C_UNK func_8008F9F8();                            /* extern */
 M2C_UNK func_80099F04();                         /* extern */
 M2C_UNK func_80099F70();                         /* extern */
 M2C_UNK func_8009A350();          /* extern */
@@ -108,7 +107,6 @@ void func_8008F878(S_8008F878_0 *arg0, void *arg1, S_8008F878_1 *arg2, S_8008F87
         ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v = 0;
         D_800E3540 = temp_saved;
         arg0->unk_9B++;
-        func_8008F9F8();
         return;
     }
     return;

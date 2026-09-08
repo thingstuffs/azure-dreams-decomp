@@ -5,7 +5,6 @@
 M2C_UNK func_80095388();                      /* extern */
 s16 func_800C2AE8();                          /* extern */
 M2C_UNK func_800C4174();     /* extern */
-M2C_UNK func_800CE8B0();                            /* extern */
 extern M2C_UNK D_800CE8CC;
 
 
@@ -28,12 +27,10 @@ void func_800CE800(Rec_func_80094268_arg0 *arg0, S_800CE800_0 *arg1, M2C_UNK arg
         if ((temp_v0 << 0x10) <= 0) {
             arg1->unk_14 = 0;
             func_800C4174(arg0, arg1, arg2);
-            func_800CE8B0();
             return;
         }
         arg1->unk_14 = 0xFFF60000;
         arg0->unk_54 = &D_800CE8CC;
-        func_800CE8B0();
         return;
     }
     func_80095388(arg1);

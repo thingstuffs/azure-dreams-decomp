@@ -9,7 +9,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_8017373C() __attribute__((noreturn));
-extern void func_80173798(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern s32 D_8008346C;
@@ -65,7 +64,6 @@ L0:
         0);
     ((S_80173514_0 *)arg0)->unk_96.u = 0;
     ((S_80173514_0 *)arg0)->unk_9B++;
-    func_80173798();
     return;
     }
 
@@ -74,7 +72,7 @@ L1:
         ((S_80173514_0 *)arg0)->unk_96.u = 0;
         ((S_80173514_0 *)arg0)->unk_9B++;
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
-        func_80173798();
+        return;
     }
     return;
 
@@ -85,7 +83,7 @@ L2:
         ((S_80173514_0 *)arg0)->unk_9B++;
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
         func_800A56E0(0x804);
-        func_80173798();
+        return;
     }
     return;
 
@@ -103,7 +101,7 @@ L3:
     if (((S_80173514_0 *)arg0)->unk_96.s == 1 ||
         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
-        func_80173798();
+        return;
     }
     return;
 

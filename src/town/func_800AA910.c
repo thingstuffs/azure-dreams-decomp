@@ -21,7 +21,6 @@ extern s32 func_800352FC(void);
 extern void func_80033D08(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_800A8164(void);
 
 extern s32 D_800814A0[3];
 extern ObjectSlot D_80082660[];
@@ -37,7 +36,6 @@ void func_800A8070(u16 *arg0, u16 *arg1)
         func_80033D08(arg0);
         arg0[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800A8164();
         return;
     }
 

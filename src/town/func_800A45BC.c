@@ -9,7 +9,6 @@ M2C_UNK func_80065320();     /* extern */
 M2C_UNK func_800A1DD4();                            /* extern */
 M2C_UNK func_800A1E14();                            /* extern */
 M2C_UNK func_800A1E54();                            /* extern */
-M2C_UNK func_800A1EDC();                            /* extern */
 extern s32 D_800814A0;
 
 
@@ -89,7 +88,6 @@ void func_800A1D1C(void *arg0, S_800A1D1C_5 *arg1, void *arg2) {
         global_page = (u8 *)0x80080000;
         ASM_KEEP(global_page);   /* MATCH pin: retail immediate-load split depends on it */
         ((S_800A1D1C_2 *)global_page)->unk_14A0 |= 0x8000;
-        func_800A1EDC();
         return;
     }
     ASM_KEEP(arg2_local);   /* MATCH pin: retail keeps a computation the compiler would drop */

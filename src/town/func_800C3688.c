@@ -48,7 +48,6 @@ typedef int s32;
 extern u32 D_8006ADBC;
 extern s32 D_800D3824[];
 extern void func_800BC45C(s32 arg0, s16 arg1, void *state);
-extern void func_800C0E4C(void);
 void func_800C0DE8(void)
 {
   s32 *entry;
@@ -64,7 +63,6 @@ void func_800C0DE8(void)
     if (*((s16 *) (state + 0x1A)) == (*entry))
     {
       func_800BC45C(*((s32 *) (((s8 *) entry) + 4)), *((s16 *) (((s8 *) entry) + 8)), state);
-      func_800C0E4C();
       return;
     }
     entry += 3;

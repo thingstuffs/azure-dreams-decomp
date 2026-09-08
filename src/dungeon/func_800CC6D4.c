@@ -12,7 +12,6 @@ extern void func_800D1F60();
 extern void func_800D1FEC();
 extern void func_800D2004();
 extern void func_800D2084();
-extern void func_800D20B8();
 
 
 typedef struct S_800D1E34_0 {
@@ -55,7 +54,6 @@ void func_800D1E34(void *arg0, void *arg1, void *arg2)
 
     if (globalFlags & 0x2000) {
         (*(u8 *)((u8 *)work + (0x71))) &= 0x7F;
-        func_800D20B8();
         return;
     }
 

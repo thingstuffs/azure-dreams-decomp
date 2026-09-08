@@ -62,7 +62,6 @@ extern void func_8006658C(void *, void *);
 extern void func_80066640(void *, s32);
 extern void func_800666B8(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
-extern void func_800A29E4(void);
 
 void func_800A2690(void *arg0)
 {
@@ -105,70 +104,68 @@ void func_800A2690(void *arg0)
     if ((count << 16) <= 0) {
         (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
-        func_800A29E4();
-        return;
+    } else {
+        state = *(u8 **)D_80083160;
+        prim = ((S_800A2690_2 *)state)->unk_8D0;
+        ((S_800A2690_2 *)state)->unk_8D0 = prim + 0x24;
+
+        phase = func_800644B8(((s16)((S_800A2690_0 *)arg0)->unk_04 << 11) /
+                             ((S_800A2690_0 *)arg0)->unk_06);
+        intensity = phase / 16;
+
+        a = func_800644B8(sx * 2);
+        b = func_800644B8(sx * 4);
+        c = func_800644B8(sx * 8);
+        d = func_800644B8(sy * 2);
+        e = func_800644B8(sy * 4);
+        f = func_800644B8(sy * 8);
+        sum = a + b + c;
+        d2 = d + 0x2400;
+        sum += d2;
+        sum += e;
+        sum += f;
+        sum += 0x2400;
+
+        intensity = (intensity * sum) / 36864;
+        intensity =
+            (intensity * ((S_800A2690_4 *)(((S_800A2690_0 *)arg0)->unk_14))->unk_08) / 4096;
+        intensity /= 4;
+
+        ((S_800A2690_3 *)prim)->unk_0E = intensity;
+        ((S_800A2690_3 *)prim)->unk_0D = intensity;
+        ((S_800A2690_3 *)prim)->unk_0C = intensity;
+        ((S_800A2690_3 *)prim)->unk_06 = intensity;
+        ((S_800A2690_3 *)prim)->unk_05 = intensity;
+        ((S_800A2690_3 *)prim)->unk_04 = intensity;
+        ((S_800A2690_3 *)prim)->unk_16 = 0;
+        ((S_800A2690_3 *)prim)->unk_15 = 0;
+        ((S_800A2690_3 *)prim)->unk_14 = 0;
+        func_800666B8(prim);
+        func_80066640(prim, 1);
+
+        ((S_800A2690_3 *)prim)->unk_08 = center - ((S_800A2690_0 *)arg0)->unk_10 / 32;
+        ((S_800A2690_3 *)prim)->unk_0A = 0;
+        ((S_800A2690_3 *)prim)->unk_10 = center + ((S_800A2690_0 *)arg0)->unk_10 / 32;
+        ((S_800A2690_3 *)prim)->unk_12 = 0;
+        ((S_800A2690_3 *)prim)->unk_18 =
+            center - (((S_800A2690_0 *)arg0)->unk_10 * func_800644B8((s16)angle)) / 4096;
+        (*(s16 *)((u8 *)prim + 0x1A)) =
+            (((S_800A2690_0 *)arg0)->unk_10 * func_80064584((s16)angle)) / 4096;
+
+        state = *(u8 **)D_80083160;
+        packet = ((S_800A2690_2 *)state)->unk_8D0;
+        ((S_800A2690_2 *)state)->unk_8D0 = packet + 0xC;
+        value = func_80066460(0, 0, 0x140, 0);
+        func_80067F20(packet, 0, 0, value & 0xFFFF, 0);
+        func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
+
+        func_8006658C(*(u8 **)D_80083160 + 0xD8, prim);
+
+        state = *(u8 **)D_80083160;
+        packet = ((S_800A2690_2 *)state)->unk_8D0;
+        ((S_800A2690_2 *)state)->unk_8D0 = packet + 0xC;
+        value = func_80066460(0, 1, 0x140, 0);
+        func_80067F20(packet, 0, 0, value & 0xFFFF, 0);
+        func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
     }
-
-    state = *(u8 **)D_80083160;
-    prim = ((S_800A2690_2 *)state)->unk_8D0;
-    ((S_800A2690_2 *)state)->unk_8D0 = prim + 0x24;
-
-    phase = func_800644B8(((s16)((S_800A2690_0 *)arg0)->unk_04 << 11) /
-                         ((S_800A2690_0 *)arg0)->unk_06);
-    intensity = phase / 16;
-
-    a = func_800644B8(sx * 2);
-    b = func_800644B8(sx * 4);
-    c = func_800644B8(sx * 8);
-    d = func_800644B8(sy * 2);
-    e = func_800644B8(sy * 4);
-    f = func_800644B8(sy * 8);
-    sum = a + b + c;
-    d2 = d + 0x2400;
-    sum += d2;
-    sum += e;
-    sum += f;
-    sum += 0x2400;
-
-    intensity = (intensity * sum) / 36864;
-    intensity =
-        (intensity * ((S_800A2690_4 *)(((S_800A2690_0 *)arg0)->unk_14))->unk_08) / 4096;
-    intensity /= 4;
-
-    ((S_800A2690_3 *)prim)->unk_0E = intensity;
-    ((S_800A2690_3 *)prim)->unk_0D = intensity;
-    ((S_800A2690_3 *)prim)->unk_0C = intensity;
-    ((S_800A2690_3 *)prim)->unk_06 = intensity;
-    ((S_800A2690_3 *)prim)->unk_05 = intensity;
-    ((S_800A2690_3 *)prim)->unk_04 = intensity;
-    ((S_800A2690_3 *)prim)->unk_16 = 0;
-    ((S_800A2690_3 *)prim)->unk_15 = 0;
-    ((S_800A2690_3 *)prim)->unk_14 = 0;
-    func_800666B8(prim);
-    func_80066640(prim, 1);
-
-    ((S_800A2690_3 *)prim)->unk_08 = center - ((S_800A2690_0 *)arg0)->unk_10 / 32;
-    ((S_800A2690_3 *)prim)->unk_0A = 0;
-    ((S_800A2690_3 *)prim)->unk_10 = center + ((S_800A2690_0 *)arg0)->unk_10 / 32;
-    ((S_800A2690_3 *)prim)->unk_12 = 0;
-    ((S_800A2690_3 *)prim)->unk_18 =
-        center - (((S_800A2690_0 *)arg0)->unk_10 * func_800644B8((s16)angle)) / 4096;
-    (*(s16 *)((u8 *)prim + 0x1A)) =
-        (((S_800A2690_0 *)arg0)->unk_10 * func_80064584((s16)angle)) / 4096;
-
-    state = *(u8 **)D_80083160;
-    packet = ((S_800A2690_2 *)state)->unk_8D0;
-    ((S_800A2690_2 *)state)->unk_8D0 = packet + 0xC;
-    value = func_80066460(0, 0, 0x140, 0);
-    func_80067F20(packet, 0, 0, value & 0xFFFF, 0);
-    func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
-
-    func_8006658C(*(u8 **)D_80083160 + 0xD8, prim);
-
-    state = *(u8 **)D_80083160;
-    packet = ((S_800A2690_2 *)state)->unk_8D0;
-    ((S_800A2690_2 *)state)->unk_8D0 = packet + 0xC;
-    value = func_80066460(0, 1, 0x140, 0);
-    func_80067F20(packet, 0, 0, value & 0xFFFF, 0);
-    func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
 }

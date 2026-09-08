@@ -32,7 +32,6 @@ extern s32 func_800937F8(void);
 extern void func_80093974(void *arg0);
 extern void func_80093A00(void *arg0);
 extern void func_80093A28(void);
-extern void func_80093ADC(void);
 extern void func_80093D48(void *arg0, void *arg1, void *arg2);
 extern void func_8009451C(void *arg0, void *arg1, void *arg2);
 extern void func_800947BC(void *arg0, void *arg1, void *arg2);
@@ -153,7 +152,6 @@ void func_80093894(void) {
                 func_800947BC(object, arg1, arg2);
                 D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
                 D_800FE518 = 0;
-                func_80093ADC();
                 return;
             }
         }
@@ -182,11 +180,9 @@ process:
             state->unk10 = next;
             state->unk18 = 0;
             func_8009451C(object, arg1, arg2);
-            func_80093ADC();
             return;
         }
         func_80093D48(object, arg1, arg2);
-        func_80093ADC();
         return;
     }
 

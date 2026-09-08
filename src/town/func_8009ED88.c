@@ -5,7 +5,6 @@
 extern s32 func_80033D08();
 extern s32 func_80095388();
 extern s32 func_8009539C();
-extern s32 func_8009C5BC();
 extern s16 func_800C2AE8();
 
 extern s32 D_800814A0[3];
@@ -45,7 +44,6 @@ void func_8009C4E8(void *arg0, Rec_D_800E3D7C *arg1, S_8009C4E8_2 *arg2) {
         func_80033D08();
         ((S_8009C4E8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_8009C5BC();
         return;
     }
 

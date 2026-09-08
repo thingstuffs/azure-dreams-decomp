@@ -10,7 +10,6 @@ extern void func_800A5720();
 extern void func_800A5F38();
 extern void func_800A63B8();
 extern s32 func_800AD6FC();
-extern void func_800C4474();
 extern void func_800C4AFC();
 
 extern u8 D_80082E80[12];
@@ -33,7 +32,6 @@ s32 func_800C4324(void *arg0, s32 arg1, s16 arg2)
         *(s32 *)((u8 *)entity + 0x110) = amount;
         ASM_KEEP(entry_arg);   /* MATCH pin: retail register colouring depends on it */
         func_8008D330(entry_arg, D_80083780, D_80082E80, entry_arg);
-        func_800C4474();
         return 0;
     }
 
@@ -56,7 +54,6 @@ s32 func_800C4324(void *arg0, s32 arg1, s16 arg2)
                          (table[table_index] >> 6) & 3,
                          0) == 0) {
             func_800A5F38(entity, amount);
-            func_800C4474();
             return 1;
         }
     }

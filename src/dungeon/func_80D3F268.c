@@ -4,7 +4,6 @@ extern s32 func_800AC82C(void);
 extern s32 func_800AD9B4(void *, void *);
 extern void func_80047784(void *, u8, s32);
 extern void func_801708B8(void *, s32, void *);
-extern void func_80174B38(void) __attribute__((noreturn));
 
 extern s16 D_80083228[];
 extern u8 D_800E23E0[];
@@ -16,7 +15,7 @@ void func_80174A68(void *arg0, s32 arg1, void *arg2, void *arg3)
     if (func_800AC82C() != 0) {
         if ((func_800AD9B4(arg2, arg3) << 16) > 0) {
             *(void **)((u8 *)arg0 + 0x8C) = D_80171A80;
-            func_80174B38();
+            return;
         }
     } else if (*(void **)((u8 *)arg2 + 0x2C) == D_800E2428 &&
                !(*(s32 *)((u8 *)arg3 + 0x1C) & 0x208)) {

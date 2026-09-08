@@ -15,7 +15,6 @@ typedef struct Func800A75ECState {
     s32 *other;
 } Func800A75ECState;
 
-extern void func_800A4E0C(void);
 extern void func_800A4E1C(void *arg0);
 
 void func_800A4D4C(Func800A75ECState *arg0) {
@@ -30,7 +29,7 @@ void func_800A4D4C(Func800A75ECState *arg0) {
         arg0->unk1c = 0;
         arg0->previous = arg0->current;
         func_800A4E1C(arg0);
-        return func_800A4E0C();
+        return;
     }
     arg0->center_x = (current[0] + arg0->other[0]) / 2;
     arg0->center_y = (arg0->current[1] + arg0->other[1]) / 2;

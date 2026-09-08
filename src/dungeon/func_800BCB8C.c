@@ -12,7 +12,6 @@ M2C_UNK func_80099844();           /* extern */
 M2C_UNK func_800A5F38();                 /* extern */
 M2C_UNK func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
-s32 func_800C248C();                                /* extern */
 extern M2C_UNK D_80082E80;
 extern M2C_UNK D_80083460;
 extern M2C_UNK D_80083780;
@@ -53,20 +52,17 @@ s32 func_800C22EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
 
     var_s2 = 0;
     if (arg2 == 0xD) {
-        func_80098864(arg1, arg3);
-        return func_800C248C();
+        return func_80098864(arg1, arg3);
     }
     if (arg0 == D_800E3D7C) {
         arg0->unk_110 = arg1;
         func_8008D344(arg0, &D_80083780, &D_80082E80, arg0);
-        func_800C248C();
         return 0;
     }
     if ((u32) arg0 <= 0x9FFFFFFFU) {
         func_800A63B8(arg0, arg1, arg2);
         if (func_800AD6FC(arg0, ((u16 *)D_800DDE84)[arg0->unk_10.at03_u8.v] & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
-            func_800C248C();
             return 1;
         }
         /* Duplicate return node #16. Try simplifying control flow for better match */

@@ -25,7 +25,6 @@ extern s32 func_800C2AB4(S0 *);
 extern void func_80053DA8(s32);
 extern void func_800BF61C(void) __attribute__((noreturn));
 extern void func_800BF634(void) __attribute__((noreturn));
-extern void func_800BF640(void) __attribute__((noreturn));
 extern void *D_80089900[];
 
 #ifndef NON_MATCHING
@@ -110,7 +109,7 @@ L_C:
         }
     }
     obj->f68 = (obj->f68 + 1) % 6;
-    func_800BF640();
+    return;
 
 L_D:
     value = arg2->f1A + 32;

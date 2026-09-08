@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_800C768C(s16);
 extern s16 func_800BCB04(u16, u16, s16);
 extern u8 D_800DF63C[];
 extern u8 D_800E3D20[];
@@ -27,10 +26,9 @@ void func_800C75D0(void *arg0) {
     if (temp_a0 > 0) {
         *(u16 *)((char *)sp + 0x98) = (u16)*(s16 *)((char *)sp + 0x98) +
             (*(s16 *)((char *)arg0 + 0x26) - *(s16 *)((char *)sp + 0x98)) / temp_a0;
-        func_800C768C(temp_a0);
-        return;
+    } else {
+        D_800E3D20[0] = 0;
     }
-    D_800E3D20[0] = 0;
     temp_v0 = *(s16 *)((char *)arg0 + 0x24) - 1;
     *(s16 *)((char *)arg0 + 0x24) = temp_v0;
     if (temp_v0 < -0x80) {

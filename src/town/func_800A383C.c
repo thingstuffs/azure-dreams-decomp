@@ -22,7 +22,6 @@ typedef struct TownObject {
 } TownObject;
 
 extern void *func_800A1C94(TownObject *, s32, void *);
-extern void func_800A105C(void);
 
 s32 func_800A0F9C(TownObject *arg0, void *arg1, s32 arg2) {
     void **item;
@@ -40,7 +39,6 @@ s32 func_800A0F9C(TownObject *arg0, void *arg1, s32 arg2) {
             count--;
             *item = func_800A1C94(arg0, count, arg1);
             if (items == 0) {
-                func_800A105C();
                 return count + 1;
             }
             item--;

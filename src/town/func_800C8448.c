@@ -12,15 +12,16 @@ extern void func_800C5C3C(void);
 
 void func_800C5BA8(void *arg0, s32 *arg1) {
     s32 target;
-    register s32 value ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+    s32 value;
+    s32 value2;
     u16 timer;
 
     target = D_80083780[0];
     value = arg1[0];
     arg1[0] = value + ((target - value) / 2);
     target = D_80083780[1];
-    value = arg1[1];
-    arg1[1] = value + ((target - value) / 2);
+    value2 = arg1[1];
+    arg1[1] = value2 + ((target - value2) / 2);
 
     timer = *(u16 *)((u8 *)arg0 + 0x6C) - 1;
     *(u16 *)((u8 *)arg0 + 0x6C) = timer;

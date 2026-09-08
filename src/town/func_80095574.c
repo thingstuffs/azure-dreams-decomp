@@ -21,7 +21,6 @@ extern void func_80095388(TownObject *);
 extern void func_80094714(void *, TownObject *, void *);
 extern void func_80094620(void *, TownObject *, void *);
 extern void func_80092D48(void);
-extern void func_80092D88(void);
 
 void func_80092CD4(void *arg0, TownObject *arg1, void *arg2)
 {
@@ -41,7 +40,6 @@ void func_80092CD4(void *arg0, TownObject *arg1, void *arg2)
     func_80095388(arg1);
     if (input->pressed & 0x40) {
         func_80094714(arg0, arg1, arg2);
-        func_80092D88();
         return;
     }
 

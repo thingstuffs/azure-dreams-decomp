@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_80094260(void);
 extern void func_80099844(s32, void *);
 extern s32 D_80012090[];
 extern u8 D_800E0600[];
@@ -20,7 +19,6 @@ s32 func_80094208(s32 arg0) {
         ASM_KEEP(one);   /* MATCH pin: retail basic-block layout depends on it */
         if (D_80012090[0] == one) {
             func_80099844(value, D_800E0600);
-            func_80094260();
             return 1;
         }
     }

@@ -18,7 +18,6 @@ extern void func_801717E4() __attribute__((noreturn));
 extern void func_801718D4() __attribute__((noreturn));
 extern void func_801718D8() __attribute__((noreturn));
 extern void func_80171910() __attribute__((noreturn));
-extern void func_801719B4() __attribute__((noreturn));
 
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
@@ -78,11 +77,9 @@ void func_801713A8(void *arg0, S_801713A8_0 *arg1, void *arg2)
         if (entry_callback == (Callback)&D_801719DC) {
             ASM_KEEP(entry_self);   /* MATCH pin: retail register colouring depends on it */
             entry_callback(entry_self, arg1, arg2, entry_self);
-            func_801719B4();
             return;
         }
         (*(u8 *)((u8 *)arg0 + (0x71))) &= 0x7F;
-        func_801719B4();
         return;
     }
 

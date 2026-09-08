@@ -4,7 +4,6 @@
 
 extern s32 func_800644B8(s32);
 extern void func_800C4174(void);
-extern void func_800C4EF0(void);
 
 
 typedef struct S_800C4E30_0 {
@@ -30,7 +29,6 @@ void func_800C4E30(S_800C4E30_0 *arg0, void *arg1, S_800C4E30_1 *arg2) {
         arg2->unk_1E = 0x1000;
         arg2->unk_1C = 0x1000;
         func_800C4174();
-        func_800C4EF0();
         return;
     }
     var_v0 = func_800644B8(temp_v0 * 0x199);

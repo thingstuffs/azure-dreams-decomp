@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 func_8009A350(s16 arg0, s16 arg1, s32 arg2, u16 *flags);
-extern void func_8009B48C(void);
 extern s32 func_800A41F0(void *object);
 extern void *D_800E3D7C[];
 
@@ -17,7 +16,6 @@ void *func_8009B390(s16 arg0, s16 arg1, s16 arg2)
         return 0;
     }
     if (!(flags & 0x3300)) {
-        func_8009B48C();
         return 0;
     }
 

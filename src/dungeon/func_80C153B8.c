@@ -27,7 +27,6 @@ extern void func_80170EF0(void) __attribute__((noreturn));
 extern void func_801711A0(void) __attribute__((noreturn));
 extern void func_801712C8(void) __attribute__((noreturn));
 extern void func_801712D8(void) __attribute__((noreturn));
-extern void func_8017137C(void) __attribute__((noreturn));
 
 
 typedef struct S_80170BB8_0 {
@@ -92,10 +91,10 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
             register void *entry_arg0 ASM_REG("$4") = arg0;   /* MATCH pin: retail delay-slot contents depend on it */
             ASM_KEEP_NV(entry_arg0);   /* MATCH pin: retail register colouring depends on it */
             early_callback(arg0, arg1, arg2, entry_arg0);
-            func_8017137C();
+            return;
         } else {
             (*(u8 *)((u8 *)actor + (0x71))) &= 0x7F;
-            func_8017137C();
+            return;
         }
     }
 

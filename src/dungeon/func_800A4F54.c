@@ -4,7 +4,6 @@
 #include "records/Rec_func_800AA258_arg2.h"
 
 M2C_UNK func_80047784();         /* extern */
-void func_800AA744(void);        /* extern */
 M2C_UNK func_800AA754();         /* extern */
 extern s16 D_80083228[8];
 extern void *D_80083470[3];
@@ -15,7 +14,6 @@ extern void *D_80083470[3];
 s32 func_800AA6B4(void *arg0, M2C_UNK arg1, Rec_func_800AA258_arg2 *arg2, s32 arg3) {
     if (((Rec_func_800A9E70_arg0 *)arg0)->unk_64 > 0) {
         func_800AA754(arg0, arg1, arg2, arg0);
-        func_800AA744();
         return 0;
     }
     D_80083470[0] = (void *) ((s8 *) arg0 - 0x20);

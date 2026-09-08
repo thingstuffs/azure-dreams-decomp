@@ -5,7 +5,6 @@
 M2C_UNK func_80024E80();              /* extern */
 void func_80025150(void) __attribute__((noreturn)); /* extern */
 void func_800251FC(void) __attribute__((noreturn)); /* extern */
-void func_80025254(void) __attribute__((noreturn)); /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
@@ -107,7 +106,7 @@ state_2:
         (*(u16 *)((u8 *)arg0 + (-2))) =
             (u16) (((S_80025094_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
-        func_80025254();
+        return;
     }
 
 common:

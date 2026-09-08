@@ -9,7 +9,6 @@ extern void func_800419EC(s32, s32);
 extern void func_800A56E0(u32);
 extern void func_801705EC(void) __attribute__((noreturn));
 extern void func_80170690(void) __attribute__((noreturn));
-extern void func_801706E8(void) __attribute__((noreturn));
 extern void *jtbl_80164A38[];
 __asm__(".set jtbl_80164A38, 0x80164A38");
 extern s32 D_800814A0[3];
@@ -89,7 +88,7 @@ state_1:
     if ((s16) ((S_80170534_0 *)state)->unk_18 >= 0x28) {
         temp_v0 = ((S_80170534_0 *)state)->unk_12.u + 1;
         ((S_80170534_0 *)state)->unk_12.u = temp_v0;
-        func_801706E8();
+        return;
     }
     goto state_end;
 
@@ -118,7 +117,7 @@ state_2:
         ((S_80170534_1 *)input)->unk_0E.u = 0x80;
         ((S_80170534_1 *)input)->unk_0D.u = 0x80;
         ((S_80170534_1 *)input)->unk_0C = 0x80;
-        func_801706E8();
+        return;
     }
     goto state_end;
 

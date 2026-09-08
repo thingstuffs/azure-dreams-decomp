@@ -14,11 +14,10 @@ void func_8016EB68(void) {
         temp_v1 = *var_a0 + 0x20;
         temp_v0 = *(u16 *)(temp_v1 + 0x12);
         
-        var_a1 += 1;
         *(s16 *)(temp_v1 + 0x18) = 0;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
         *(u16 *)(temp_v1 + 0x12) = temp_v0 + 1;
         var_a0 += 1;
+        var_a1 += 1;
     } while (var_a1 < 0x10);
 }
 

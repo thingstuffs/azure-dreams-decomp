@@ -12,7 +12,6 @@ M2C_UNK func_80095094();       /* extern */
 M2C_UNK func_8009550C();       /* extern */
 M2C_UNK func_80095C80();       /* extern */
 M2C_UNK func_80099754();       /* extern */
-void func_800933E0(void);      /* extern */
 extern M2C_UNK D_800D0078;
 extern s32 D_800FE518;
 
@@ -31,7 +30,6 @@ void func_80093328(void *arg0, void *arg1, s32 arg2) {
         if (D_800FE518 != 0 && func_80094B0C(arg0 - 0x20) != 0) {
             func_80094984(&D_800D0078, arg0, arg2);
             func_80093D18(arg0, arg1, arg2);
-            func_800933E0();
             return;
         }
         func_80093D48(arg0, arg1, arg2);

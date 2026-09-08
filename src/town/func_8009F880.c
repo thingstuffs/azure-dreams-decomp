@@ -16,7 +16,6 @@
 
 s32 func_80033B2C();
 s32 func_8008CC90();
-s32 func_8009D1EC();
 extern s16 D_8006ADD4;
 extern u16 D_80082D08[];
 
@@ -56,7 +55,7 @@ s32 func_8009CFE0(S_8009CFE0_0 *arg0, void *arg1_)
             if (func_80033B2C(temp_s0->unk_02) == 0) {
                 register s32 delay_v0 ASM_REG("$2") = 1;   /* MATCH pin: keeps a constant in a register as retail does */
                 KEEP_INPUT(delay_v0);
-                return func_8009D1EC();
+                return 1;
             }
             goto block_6;
         }

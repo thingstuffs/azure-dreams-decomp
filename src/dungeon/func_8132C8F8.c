@@ -5,7 +5,6 @@
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern void func_800A2B04(void *, u8, u8);
-extern void func_80174300(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern u8 D_80174A7C[];
@@ -57,7 +56,7 @@ void func_801740F8(void *arg0, void *arg1, void *arg2, void *arg3)
         if (state == 0) {
             goto state_0;
         }
-        func_80174300();
+        return;
     } else {
         if (state == 2) {
             goto test_done;
@@ -65,7 +64,7 @@ void func_801740F8(void *arg0, void *arg1, void *arg2, void *arg3)
         if (state == 3) {
             goto state_3;
         }
-        func_80174300();
+        return;
     }
 
 state_0:
@@ -111,7 +110,7 @@ test_done:
     ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_801740F8_1 *)arg2)->unk_24, ((S_801740F8_1 *)arg2)->unk_25);
     ((S_801740F8_0 *)arg0)->unk_9B++;
-    func_80174300();
+    return;
 
 state_3:
     if (((S_801740F8_1 *)arg2)->unk_2C != D_80174A7C - 0x50) {

@@ -27,7 +27,6 @@ void func_80170F54(void) __attribute__((noreturn));  /* extern */
 void func_80171210(void) __attribute__((noreturn));  /* extern */
 void func_80171320(void) __attribute__((noreturn));  /* extern */
 void func_80171330(void) __attribute__((noreturn));  /* extern */
-void func_801713D4(void) __attribute__((noreturn));  /* extern */
 extern u8 D_8006CCF8[12];
 extern s16 D_80083228[5];
 extern u16 D_80083462[5];
@@ -140,11 +139,9 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
             temp_v1 = ((S_80170BF8_0 *)arg0)->unk_8C;
         if (temp_v1 == &D_80171400) {
             temp_v1(arg0_, arg1_, arg2_, KEEP_A0_EXPR(arg0_));
-            func_801713D4();
             return;
         }
         ((S_80170BF8_0 *)arg0)->unk_71 = (u8) (((S_80170BF8_0 *)arg0)->unk_71 & 0x7F);
-        func_801713D4();
         return;
     }
     ASM_KEEP_NV(actor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */

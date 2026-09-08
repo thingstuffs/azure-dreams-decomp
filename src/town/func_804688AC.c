@@ -6,7 +6,6 @@ extern s32 func_8001E670(s32 id);
 extern void func_8001E578(s32 id);
 extern void func_8001E5F0(s32 id);
 extern void func_80019AE8(void);
-extern void func_80019AEC(void);
 extern u8 func_8001A4F0(void);
 extern s32 func_8001A2F0(void);
 extern s32 func_8001A360(void);
@@ -77,7 +76,6 @@ s32 func_800198AC(void) {
     }
     if ((func_8001E670(0x145B) == 0) || (func_8001E670(0x146E) != 0)) {
         *((s8 *)D_8001E950 + 5) = 0;
-        func_80019AEC();
         return;
     }
     *((s8 *)D_8001E950 + 5) = 1;

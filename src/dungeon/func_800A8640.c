@@ -16,7 +16,6 @@ extern DungeonGateState D_80083460;
 extern DungeonOwner *D_800814A8;
 
 extern s32 func_8009A180(void *, void *);
-extern void func_800ADE5C(void) __attribute__((noreturn));
 extern s16 func_800ADE74(void *, void *, void *, s16, s16, s32);
 
 s16 func_800ADDA0(void *arg0, void *arg1, void *arg2, s16 arg3, s16 arg4,
@@ -35,7 +34,7 @@ s16 func_800ADDA0(void *arg0, void *arg1, void *arg2, s16 arg3, s16 arg4,
         entityFlags = *(u16 *)((u8 *)arg2 + 0x46);
         entityFlags &= 0x7FFF;
         *(u16 *)((u8 *)arg2 + 0x46) = entityFlags;
-        func_800ADE5C();
+        return;
         return returnValue;
     }
     ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */

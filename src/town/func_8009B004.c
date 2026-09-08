@@ -7,7 +7,6 @@
 
 extern s32 func_800644B8(s32 arg0);
 extern s32 func_80064584(s32 arg0);
-extern void func_8009881C(s32 arg0);
 extern void func_80099754(void *arg0);
 extern s32 D_80098690;
 
@@ -39,7 +38,6 @@ void func_80098764(void *arg0, Rec_D_800E3D7C *arg1) {
             ((func_80064584(((S_80098764_0 *)arg0)->unk_10) << 9)
              + (((S_80098764_0 *)arg0)->unk_32 << 0x10)
              + (old4 = arg1->unk_04.at00_s32.v)) / 2;
-        func_8009881C(old4);
         return;
     }
     func_80099754(arg1);

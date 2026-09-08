@@ -4,7 +4,6 @@
 
 #define M2C_BREAK() 0
 
-extern void func_80091B3C(void);
 extern void func_80096088(void *, void *);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
@@ -41,7 +40,7 @@ void func_80091A38(void *arg0, void *arg1, void *arg2, void *arg3) {
         if (fn((s32)arg3 | 0xA0000000, sp, 0, 0) != 0) {
             *(void **)((u8 *)arg0 + 0x110) = NULL;
             *((u8 *)arg0 + 0x9B) += 1;
-            func_80091B3C();
+            return;
         }
         return;
     }

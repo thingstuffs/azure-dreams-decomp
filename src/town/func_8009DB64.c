@@ -24,7 +24,6 @@ typedef struct {
     TownVtable *vtable;
 } TownObject;
 
-extern void func_8009B444(void);
 extern void func_8009C120(void);
 extern void func_8009C148(void);
 
@@ -71,7 +70,6 @@ s32 func_8009B2C4(TownObject *arg0, void *arg1) {
             if (((S_8009B2C4_1 *)entry)->unk_3A == 1) {
                 if (D_800834B8 == (s32)&D_800924EC) {
                     arg0->vtable->func0();
-                    func_8009B444();
                     return 1;
                 }
                 goto block_7;
@@ -79,7 +77,7 @@ s32 func_8009B2C4(TownObject *arg0, void *arg1) {
 block_7:
             if (D_800834B8 == (s32)&D_80092698) {
                 func_8009C120();
-                func_8009B444();
+                return 1;
                 ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
                 return 1;
             }
@@ -88,7 +86,7 @@ block_7:
                 var_v0 = (TownControl *)0x800D0000;
                 if (D_800CFCCC == 0) {
                     func_8009C148();
-                    func_8009B444();
+                    return 1;
                     ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
                     return 1;
                 }

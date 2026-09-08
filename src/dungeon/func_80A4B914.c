@@ -2,7 +2,6 @@
 
 extern void func_800478B8();
 extern void func_80044A50();
-extern void func_80175258(void) __attribute__((noreturn));
 
 extern u8 D_80083160[];
 extern u8 D_800814A0[];
@@ -31,7 +30,7 @@ void func_80175114(void *arg0, void *arg1, void *arg2)
         *(u16 *)(entity + 0x96) = value + 1;
         if ((value & 3) == 1) {
             D_8017591C[0]++;
-            func_80175258();
+            return;
         }
     } else {
         colors[0xA8] += (0x80 - colors[0xA8]) / *(s16 *)(entity + 0x96);

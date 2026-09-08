@@ -4,7 +4,6 @@
 M2C_UNK func_80033CD8();           /* extern */
 M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FD64();            /* extern */
-s32 func_800C8B3C();                                /* extern */
 M2C_UNK func_800C8B5C();      /* extern */
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
@@ -74,7 +73,6 @@ s32 func_800C8A68(S_800C8A68_2 *arg0) {
     temp_s1->unk_0C = 0x808080;
     func_8003DB94(temp_s1, &D_800EE344, 0);
     func_80033CD8(temp_s0, &D_80045340);
-    func_800C8B3C();
     return (s32) temp_v0;
 }
 

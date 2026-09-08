@@ -16,7 +16,6 @@ typedef struct S_8009A180_2 {
 
 
 extern void func_8009A028(void *arg0);
-extern void func_8009A204(void) __attribute__((noreturn));
 
 
 s32 func_8009A180(void *arg0, S_8009A180_0 *arg1) {
@@ -33,7 +32,7 @@ s32 func_8009A180(void *arg0, S_8009A180_0 *arg1) {
         ASM_KEEP(result);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
         carrier = 0x80000000;
         arg1->unk_1C = flags | carrier;
-        func_8009A204();
+        return;
     }
 
     mask = 0x80000000;
@@ -57,7 +56,7 @@ s32 func_8009A180(void *arg0, S_8009A180_0 *arg1) {
         carrier = (u32)((u8 *)arg0 - 0x20);
         node->unk_58 = (void *)carrier;
         arg1->unk_5C.u = (void *)carrier;
-        func_8009A204();
+        return;
     }
 
     return 0;

@@ -11,7 +11,6 @@ extern void func_800D276C(s32, s32);
 extern void func_800D27F8();
 extern void func_800D2810();
 extern void func_800D2890();
-extern void func_800D28C4();
 
 
 typedef struct S_800D2664_0 {
@@ -60,7 +59,6 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
 
     if (D_80083462 & 0x2000) {
         (*(u8 *)((u8 *)work + (0x71))) &= 0x7F;
-        func_800D28C4();
         return;
     }
 

@@ -3,7 +3,6 @@
 
 
 extern void func_800478B8(void *arg0);
-extern void func_80099C3C(void);
 typedef struct {
     s32 value;
     s32 pad[2];
@@ -43,7 +42,6 @@ void func_80099B18(void *arg0, S_80099B18_2 *arg1, Rec_D_80082E80 *arg2)
         ((S_80099B18_1_pre *)arg0)[-1].unk_00 =
             (s16)(((S_80099B18_1_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0.value |= 0x8000;
-        func_80099C3C();
         return;
     }
     temp_v0 = ((S_80099B18_1 *)arg0)->unk_10 + 1;

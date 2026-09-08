@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern void func_80099844(void *arg0, const void *arg1);
-extern s32 func_800C8830(void);
 extern s32 func_800C8844(void *arg0, s16 arg1, s16 arg2);
 extern void func_800DC1B8(s32 arg0);
 
@@ -15,7 +14,6 @@ s32 func_800C87C4(void *arg0, s16 arg1, s16 arg2) {
         if (*(u8 *)((u8 *)arg0 + 0x13) == 0) {
             func_800DC1B8(D_800DCF1C[0]);
         }
-        func_800C8830();
         return 1;
     }
 

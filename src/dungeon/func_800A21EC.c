@@ -35,7 +35,6 @@ typedef struct S_800A794C_3 {
 
 
 extern void *func_800A8608(void *, void *, s32, s32, s32);
-extern void func_800A7A18() __attribute__((noreturn));
 
 extern s32 D_80083498;
 extern s32 D_800A77AC;
@@ -84,7 +83,7 @@ s32 func_800A794C(s32 arg0, s32 arg1, s32 arg2, s32 *arg3, s32 arg4,
         count++;
         ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
         ((S_800A794C_3 *)state)->unk_0A = count;
-        func_800A7A18(state, object);
+        return;
     }
     result = 0;
     ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */

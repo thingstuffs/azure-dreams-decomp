@@ -8,7 +8,6 @@ extern void func_8003DB94(void *arg0, void *arg1, s32 arg2);
 extern void func_80042B68(void *arg0, s32 arg1);
 extern void func_8008CBD4(void *arg0, void *arg1, void *arg2, void *arg3);
 extern void func_80096384(void);
-extern void func_80097A48(void) __attribute__((noreturn));
 extern void func_800AD4D0(void *arg0);
 
 extern s16 D_80083228[5];
@@ -51,7 +50,7 @@ void func_80097934(Rec_func_8008ACDC_arg0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_800
             arg1->unk_0C.as_s32 = 0;
             func_80042B68(arg3, 10);
             func_8008CBD4(arg0, arg1, arg2, arg3);
-            func_80097A48();
+            return;
         }
 
         arg0->unk_96.as_s16 = 8;

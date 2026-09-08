@@ -5,7 +5,6 @@ typedef s32 M2C_UNK;
 
 extern M2C_UNK func_80048A44();
 extern s32 func_8008C730();
-extern void func_8008C798(void) __attribute__((noreturn));
 extern void func_8008c798(void) __attribute__((noreturn));
 extern M2C_UNK func_80099844();
 extern s32 func_8009B5AC();
@@ -110,7 +109,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, Rec_D_800E
                     tail_page -= 0x5324;
                     arg0->unk_124 = 0;
                     arg0->unk_8C.p = (void *)tail_page;
-                    func_8008C798();
+                    return;
                 }
             }
             temp_a3 = arg0->unk_124;

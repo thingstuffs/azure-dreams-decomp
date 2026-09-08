@@ -3,7 +3,6 @@
 extern s32 func_8009F6E4(void);
 extern void func_8008B5D8(void *arg0, s32 arg1);
 extern void func_800947BC(s32 arg0, s32 arg1, s32 arg2);
-extern void func_80093C24(void);
 extern void func_80094774(s32 arg0, s32 arg1, s32 arg2);
 extern s32 D_80088D44;
 extern s32 D_80093D48;
@@ -15,7 +14,6 @@ void func_80093BAC(s32 arg0, s32 arg1, s32 arg2) {
         func_8008B5D8(&D_80088D44, 0x11);
         func_800947BC(arg0, arg1, arg2);
         D_800FE5D8 = &D_80093D48;
-        func_80093C24();
         return;
     }
     func_80094774(arg0, arg1, arg2);

@@ -25,7 +25,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171CB4(void) __attribute__((noreturn));
 extern void func_80171CD8(void);
 extern void func_80171F1C(void *, void *, void *, void *);
 extern s32 func_801726D0(void *, void *, void *, void *);
@@ -89,7 +88,6 @@ void func_80171760(void *arg0, void *arg1, void *arg2, void *arg3)
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
         func_80171CD8();
-        func_80171CB4();
         return;
     }
 
@@ -111,7 +109,6 @@ void func_80171760(void *arg0, void *arg1, void *arg2, void *arg3)
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
             ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x40000;
-            func_80171CB4();
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_80174EE8)) {
@@ -122,7 +119,6 @@ void func_80171760(void *arg0, void *arg1, void *arg2, void *arg3)
     if (!(D_80083462 & 0x2000)) {
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            func_80171CB4();
             return;
         }
 
@@ -156,7 +152,6 @@ void func_80171760(void *arg0, void *arg1, void *arg2, void *arg3)
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             func_80174598(arg0, arg1, arg2, arg3);
-            func_80171CB4();
             return;
         }
 
@@ -206,12 +201,10 @@ jt_c8:
             return;
         }
         func_80172894(arg0, arg1, arg2, arg3);
-        func_80171CB4();
         return;
 
 jt_c9:
         func_8017476C(arg0, arg1, arg2, arg3);
-        func_80171CB4();
         return;
 
 jt_c5:
@@ -236,7 +229,6 @@ jt_c7:
 jt_c12:
 case_12:
         func_800A9A0C(arg3);
-        func_80171CB4();
         return;
 
 jt_c1:
@@ -244,7 +236,6 @@ jt_c2:
 jt_c3:
 case_123:
         func_800AAF00(arg0, arg1, arg2, D_80174EE0, D_80171760);
-        func_80171CB4();
         return;
 
 jt_c4:
@@ -252,7 +243,6 @@ jt_c10:
 jt_c11:
 generic:
         func_80171F1C(arg0, arg1, arg2, arg3);
-        func_80171CB4();
         return;
     } else if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x2000)) {
         s32 index = (s8)result;

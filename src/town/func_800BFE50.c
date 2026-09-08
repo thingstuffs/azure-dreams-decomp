@@ -17,7 +17,6 @@ typedef struct Func800BFE50Object {
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8004491C(void *, void *);
 extern void func_8008F074(void *, void *, void *);
-extern void func_800BD66C();
 extern u8 D_80045340[];
 extern u8 D_800BCE78[];
 extern u8 D_800D20CC[];
@@ -39,7 +38,7 @@ void func_800BD5B0(Func800BFE50Object *arg0, s32 *arg1, void *arg2) {
     default: {
         void *dispatch_arg = arg2;
         
-        return func_800BD66C();
+        return;
     }
 
     case 0:
@@ -47,7 +46,7 @@ void func_800BD5B0(Func800BFE50Object *arg0, s32 *arg1, void *arg2) {
         func_8003DB94(arg2, D_800E9E7C, 0);
         arg0->field68 = 0;
         arg0->field48 = D_800D2130;
-        return func_800BD66C();
+        return;
 
     case 1:
         func_8003DB94(arg2, D_800E9E7C, 0);

@@ -18,7 +18,6 @@ extern void func_8017268C(void) __attribute__((noreturn));
 extern void func_80172700(void) __attribute__((noreturn));
 extern void func_80172764(void) __attribute__((noreturn));
 extern void func_80172998(void) __attribute__((noreturn));
-extern void func_80172B24(void) __attribute__((noreturn));
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
@@ -248,7 +247,7 @@ state0_copy:
     ((S_8017256C_5 *)arg1)->unk_14 = 0;
     ((S_8017256C_5 *)arg1)->unk_10 = 0;
     ((S_8017256C_5 *)arg1)->unk_0C = 0;
-    func_80172B24();
+    return;
 
 state0_empty:
     ((S_8017256C_5 *)arg1)->unk_14 = 0;
@@ -263,12 +262,12 @@ state0_empty:
     ((S_8017256C_1 *)arg3)->unk_73.u = 0;
     ((S_8017256C_1 *)arg3)->unk_72.u = 0;
     ((S_8017256C_1 *)arg3)->unk_46 &= 0x7FFF;
-    func_80172B24();
+    return;
 
 state1:
     if (func_8003F270() != 0) {
         ((S_8017256C_4 *)arg2)->unk_14 |= 0x800;
-        func_80172B24();
+        return;
     }
     ((S_8017256C_4 *)arg2)->unk_14 &= 0xF7FF;
     ((S_8017256C_0 *)arg0)->unk_9B++;
@@ -303,7 +302,7 @@ state2:
         arg2,
         D_80173EDC[((D_80083228 + ((S_8017256C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
         0);
-    func_80172B24();
+    return;
 
 state3:
     func_80170E18(arg0, arg1, arg2, arg3);
@@ -318,7 +317,7 @@ state3:
     increment_state_value = ((S_8017256C_0 *)arg0)->unk_9B;
 increment_state:
     ((S_8017256C_0 *)arg0)->unk_9B = increment_state_value + 1;
-    func_80172B24();
+    return;
 
 state4:
     ((S_8017256C_4 *)arg2)->unk_14 |= 0x800;
@@ -332,14 +331,14 @@ state4:
     ((S_8017256C_0 *)arg0)->unk_96 = 0;
     ((S_8017256C_0 *)arg0)->unk_9B++;
     ((S_8017256C_4 *)arg2)->unk_14 &= 0xF7FF;
-    func_80172B24();
+    return;
 
 state5:
 state6:
     ((S_8017256C_0 *)arg0)->unk_98 |= 0x80;
     ((S_8017256C_0 *)arg0)->unk_96 = 0;
     ((S_8017256C_0 *)arg0)->unk_9B++;
-    func_80172B24();
+    return;
 
 state7:
     if (!(((S_8017256C_4 *)arg2)->unk_14 & 0xE000)) {
@@ -360,7 +359,7 @@ state7:
         0);
     ((S_8017256C_0 *)arg0)->unk_9E = 0;
     ((S_8017256C_0 *)arg0)->unk_92 = -0x20;
-    func_80172B24();
+    return;
 
 state8:
     {

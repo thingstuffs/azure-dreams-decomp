@@ -7,7 +7,6 @@ extern u8 D_800E3648[];
 extern s32 func_8003FA44(s32 arg0, void *arg1);
 extern void *func_8003FC64(s32 arg0);
 extern void func_80053DA8(s32 arg0);
-extern void func_800CEED8(void);
 
 unsigned int func_800CEE0C(void *arg0, s16 arg1)
 {
@@ -20,7 +19,7 @@ unsigned int func_800CEE0C(void *arg0, s16 arg1)
     int new_var;
 
     if (*((u8 *)arg0 + 0x13) != 0) {
-        func_800CEED8();
+        return 1;
         result = 1;
     } else {
 #ifdef NON_MATCHING

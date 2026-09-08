@@ -18,7 +18,6 @@ M2C_UNK func_8008D94C();                            /* extern */
 M2C_UNK func_8008F05C(); /* extern */
 M2C_UNK func_8008F3C0();              /* extern */
 M2C_UNK func_8008F3C8();           /* extern */
-M2C_UNK func_8008F3FC();                 /* extern */
 M2C_UNK func_8008F6EC(); /* extern */
 M2C_UNK func_8008FA14(); /* extern */
 M2C_UNK func_80090200(); /* extern */
@@ -144,7 +143,6 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 != 0xE) {
         if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x100) {
             func_8008D94C();
-            func_8008F3FC();
             return;
         }
         goto block_5;
@@ -164,7 +162,6 @@ block_5:
     temp_v1 = ((S_8008EAC8_1 *)arg3)->unk_64;
     if ((temp_v1 < 0) || (((Rec_func_8008ACDC_arg0 *)arg0)->unk_10C & 1)) {
         func_8008CAA0(arg0, arg1, arg2, arg3);
-        func_8008F3FC();
         return;
     }
     if (temp_v1 > 0) {
@@ -176,13 +173,11 @@ block_5:
     }
     if (!(((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x10)) {
         func_8008C468(arg0, arg1, arg2, arg3);
-        func_8008F3FC();
         return;
     }
     temp_v1_3 = ((S_8008EAC8_1 *)arg3)->unk_1C;
     if (temp_v1_3 & 0x200) {
         func_80090200(arg0, arg1, arg2, arg3);
-        func_8008F3FC();
         return;
     }
     if (!(temp_v1_3 & 0x100000)) {
@@ -211,7 +206,6 @@ block_5:
                     D_80082EB0 = 0;
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_104 = 0;
-                    func_8008F3FC();
                     return;
                 }
                 goto code_10;
@@ -292,21 +286,17 @@ block_5:
                     if (temp_code >= 0x11) goto code_low_mid;
                     code8_a0 = arg0;
                     if (temp_code == 8) goto code_8;
-                    func_8008F3FC();
                     return;
 code_low_mid:
                     if (temp_code == 0x28) goto code_28;
-                    func_8008F3FC();
                     return;
 code_mid:
                     if (temp_code == 0x50) goto code_50;
                     if (temp_code >= 0x51) goto code_mid_high;
                     if (temp_code == 0x48) goto code_48;
-                    func_8008F3FC();
                     return;
 code_mid_high:
                     if (temp_code == 0x68) goto code_68;
-                    func_8008F3FC();
                     return;
 code_high:
                     if (temp_code == 0x90) goto code_90;
@@ -314,35 +304,29 @@ code_high:
                     if (temp_code == 0x80) goto code_80;
                     if (temp_code >= 0x81) goto code_high_mid;
                     if (temp_code == 0x78) goto code_78;
-                    func_8008F3FC();
                     return;
 code_high_mid:
                     if (temp_code == 0x88) goto code_88;
-                    func_8008F3FC();
                     return;
 code_top:
                     if (temp_code == 0xA0) goto code_A0;
                     if (temp_code >= 0xA1) goto code_top_high;
                     if (temp_code == 0x98) goto code_98;
-                    func_8008F3FC();
                     return;
 code_top_high:
                     if (temp_code == 0xD8) goto code_D8;
-                    func_8008F3FC();
                     return;
 code_10:
                     func_8008C7B4(arg0, arg1, arg2, arg3);
-                    func_8008F3FC();
+                    return;
                     ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
                     return;
 code_48:
                     if (func_80095538(arg0, ((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, ((S_8008EAC8_6 *)temp_v0)->unk_02 & 0x1F) >= 0) {
                         func_8009FAAC();
-                        func_8008F3FC();
                         return;
                     }
                     func_8009F988();
-                    func_8008F3FC();
                     return;
 code_50:
                     temp_a0_2 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
@@ -350,7 +334,7 @@ code_50:
                     temp_v0_2 = func_8009FADC(temp_a0_2 & 0x1F, temp_a1);
                     if (func_80098920(((S_8008EAC8_7 *)(((((u32) temp_v0) * 4) + arg0)))->unk_AC, temp_v0_2, 0x15, 0) < 0) {
                         func_8009F988();
-                        func_8008F3FC();
+                        return;
                     }
                     return;
 code_68:
@@ -373,45 +357,36 @@ code_88:
                     temp_v1_7 = (u32) (((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x60) >> 5;
                     temp_v0_4 = ((S_8008EAC8_8 *)(((temp_v1_7 * 4) + arg0)))->unk_D0;
                     func_80094270(arg0, arg1, arg2, temp_v0_4, temp_v1_7);
-                    func_8008F3FC();
                     return;
 code_70:
                     temp_a1_5 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
                     func_80094548((u32) (temp_a1_5 & 0x60) >> 5, temp_a1_5 & 7);
-                    func_8008F3FC();
                     return;
 code_78:
                     temp_a1_2 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
                     func_8009458C((u32) (temp_a1_2 & 0x60) >> 5, temp_a1_2 & 0x1F);
-                    func_8008F3FC();
                     return;
 code_80:
                     temp_a1_3 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
                     func_800945C4((u32) (temp_a1_3 & 0x60) >> 5, temp_a1_3 & 0x1F);
-                    func_8008F3FC();
                     return;
 code_90:
                     temp_a1_4 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
                     func_8009456C((u32) (temp_a1_4 & 0x60) >> 5, temp_a1_4 & 7);
-                    func_8008F3FC();
                     return;
 code_98:
                     temp_v0_2 = func_8009FADC(((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, temp_a1);
                     if (((S_8008EAC8_9 *)temp_v0_2)->unk_03 & 0x20) {
                         func_800956B8(arg0, arg1, arg2, temp_v0_2);
-                        func_8008F3FC();
                         return;
                     }
                     func_80095854(arg0, arg1, arg2, temp_v0_2);
-                    func_8008F3FC();
                     return;
 code_A0:
                     func_8002534C(arg0, arg1, arg2, arg3);
-                    func_8008F3FC();
                     return;
 code_D8:
                     D_800DD830[((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x7F](temp_a0, temp_a1);
-                    func_8008F3FC();
                     return;
                 }
             } else {
@@ -423,14 +398,13 @@ code_D8:
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFDFF);
                     if ((func_800A4474(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25) << 0x10) != 0) {
                         func_8008CF6C(arg0, arg1, arg2, &D_800245A8);
-                        func_8008F3FC();
+                        return;
                         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
                         return;
                     }
                 }
                 if (((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x80) {
                     func_8008CF6C(arg0, arg1, arg2, &D_80050CAC);
-                    func_8008F3FC();
                     return;
                 }
                 if ((((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x10) || !(((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 3) || (func_8008D024(arg0, arg1, arg2, (((u32) ((S_8008EAC8_5 *)held_D_80083160)->unk_08 >> 1) ^ 1) & 1, 0) == 0)) {
@@ -449,7 +423,6 @@ code_D8:
                                 }
 code_8:
                                 func_8008C13C(code8_a0, arg1, arg2, arg3);
-                                func_8008F3FC();
                                 return;
                             }
                         }
@@ -458,7 +431,6 @@ code_8:
                     if ((tail_data_flags & 0x30) == 0x30) {
                         ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFFFE);
                         func_8008C7B4(arg0, arg1, arg2, arg3);
-                        func_8008F3FC();
                         return;
                     }
                     {
@@ -488,13 +460,11 @@ code_8:
                         if (!(tail_data_flags & 0x20)) {
 code_28:
                             func_8008F6EC(arg0, arg1, arg2, arg3);
-                            func_8008F3FC();
                             return;
                         }
 code_30:
                         ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = 6;
                         func_8008FA14(arg0, arg1, arg2, arg3);
-                        func_8008F3FC();
                         return;
                     }
                     goto block_153;

@@ -51,7 +51,6 @@ extern s32 func_800374F4(s32 arg0);
 extern s32 func_8003BD84(s32 arg0, s32 arg1);
 extern void func_8008B158(s32 arg0);
 extern void func_8009176C(void);
-extern void func_800917C8(void);
 extern void func_80093D48(void *arg0, void *arg1, s32 arg2);
 extern void func_80093E18(void *arg0, void *arg1, s32 arg2);
 extern void func_80093ED8(void *arg0, void *arg1, s32 arg2);
@@ -95,7 +94,6 @@ void func_80091528(void *arg0, void *arg1, s32 arg2)
     if (D_800CFCEF == 0)
     {
       func_80094378(arg0, arg1, arg2);
-      func_800917C8();
       return;
     }
   }
@@ -116,7 +114,6 @@ void func_80091528(void *arg0, void *arg1, s32 arg2)
   if (input & 0x10)
   {
     func_800942B0(arg0, arg1, arg2);
-    func_800917C8();
     return;
   }
   if (input & 0x40)
@@ -127,17 +124,14 @@ void func_80091528(void *arg0, void *arg1, s32 arg2)
       if (result == 2)
       {
         func_8009451C(arg0, arg1, arg2);
-        func_800917C8();
         return;
       }
       func_800944BC(arg0, arg1, arg2);
-      func_800917C8();
       return;
     }
     if (func_80033B2C(0xA4) != 0)
     {
       func_80094088(arg0, arg1, arg2);
-      func_800917C8();
       return;
     }
     return;
@@ -152,11 +146,9 @@ void func_80091528(void *arg0, void *arg1, s32 arg2)
       func_80098868(arg0, arg1, arg2);
       *((s32 *) (((u8 *) arg0) + 0x2C)) = 0;
       func_8008B158(*((s32 *) (menu_base + 0x10)));
-      func_800917C8();
       return;
     }
     func_800943B8(arg0, arg1, arg2);
-    func_800917C8();
     return;
   }
   input = *((s32 *) (state_base + 8));
@@ -173,14 +165,12 @@ void func_80091528(void *arg0, void *arg1, s32 arg2)
     func_80094944((s16) timer, 8);
     func_80094C1C(arg0);
     func_8009503C(arg1);
-    func_800917C8();
     return;
   }
   result = func_8003BD84(*((s32 *) (((u8 *) arg1) + 0xC)), *((s32 *) (((u8 *) arg1) + 0x10)));
   if (result > 0xFFFFF)
   {
     func_80093E18(arg0, arg1, arg2);
-    func_800917C8();
     return;
   }
   func_80093D48(arg0, arg1, arg2);

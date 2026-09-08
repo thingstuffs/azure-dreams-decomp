@@ -67,7 +67,6 @@ extern void func_800A56E0(s32);
 extern void func_8016A908(void *);
 extern void func_8016AD00(void);
 extern void func_8016D11C(void) __attribute__((noreturn));
-extern void func_8016D1A8(void) __attribute__((noreturn));
 
 void func_8016CF30(DungeonState *state, Arg1 *arg1, Arg2 *arg2, Arg3 *arg3) {
     s32 stage;
@@ -80,7 +79,7 @@ void func_8016CF30(DungeonState *state, Arg1 *arg1, Arg2 *arg2, Arg3 *arg3) {
         if (stage == 0) {
             goto phase0;
         }
-        func_8016D1A8();
+        return;
     }
     ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (stage == 2) {
@@ -89,7 +88,7 @@ void func_8016CF30(DungeonState *state, Arg1 *arg1, Arg2 *arg2, Arg3 *arg3) {
     if (stage == 3) {
         goto phase3;
     }
-    func_8016D1A8();
+    return;
 
 phase0:
     arg1->unk14 = 0;
@@ -116,7 +115,7 @@ phase2:
     }
     if ((s16)state->unk96 == 8) {
         func_800A56E0(0x804);
-        func_8016D1A8();
+        return;
     }
     goto done;
 

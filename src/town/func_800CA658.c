@@ -5,7 +5,6 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_800C4174();
-M2C_UNK func_800C7E58();
 
 
 
@@ -25,7 +24,6 @@ void func_800C7DB8(Rec_func_80094268_arg0 *arg0, S_800C7DB8_1 *arg1) {
         func_800C4174(arg0);
         arg1->unk_02 = (u16) arg0->unk_84.as_u16;
         arg1->unk_06 = (s16) arg0->unk_86.as_u16;
-        func_800C7E58();
         return;
     }
     arg1->unk_02 = (u16) (arg1->unk_02 + ((s32) ((s16) arg0->unk_84.as_u16 - (s16) arg1->unk_02) / (s16) temp_v0));

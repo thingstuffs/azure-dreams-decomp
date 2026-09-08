@@ -31,7 +31,6 @@ extern void func_800A63B8(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 extern s32 func_800BDE34(void *);
 extern s32 func_800BDE84(void *);
-extern void func_800BDE98(void);
 extern void func_800D5460(void *, u32, s32);
 
 s32 func_800BDC98(void *arg0, s32 arg1, s16 arg2) {
@@ -44,7 +43,6 @@ s32 func_800BDC98(void *arg0, s32 arg1, s16 arg2) {
     if (arg0 == D_800E3D7C[0]) {
         *(s32 *)((u8 *)arg0 + 0x110) = arg1;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
-        func_800BDE98();
         return 0;
     }
 
@@ -58,7 +56,6 @@ s32 func_800BDC98(void *arg0, s32 arg1, s16 arg2) {
         table_value = D_800DDE84[((u8 *)arg0)[0x13]];
         if ((func_800AD6FC(arg0, ((u32)table_value >> 8) & 3, arg1) << 16) == 0) {
             func_800A5F38(arg0, arg1);
-            func_800BDE98();
             return 1;
         }
 

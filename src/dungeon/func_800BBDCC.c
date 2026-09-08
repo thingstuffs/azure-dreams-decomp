@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 func_8003FA44(u32);
-extern void func_800C159C(void);
 extern void func_800C1A44(u8, u8, s16);
 
 extern u8 *D_800E3D7C[3];
@@ -13,7 +12,6 @@ s32 func_800C152C(void)
     u8 *linked;
 
     if (func_8003FA44(2) == 0) {
-        func_800C159C();
         return 0;
     }
 

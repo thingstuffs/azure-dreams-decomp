@@ -6,7 +6,6 @@ extern void func_80033D08(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8008F134(void);
-extern void func_800B9EC4(void);
 
 extern s32 D_800814A0;
 
@@ -34,7 +33,6 @@ void func_800B9D64(void *arg0, void *arg1)
         func_80033D08(arg0);
         (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
         D_800814A0 |= 0x8000;
-        func_800B9EC4();
         return;
     }
 
@@ -44,7 +42,6 @@ void func_800B9D64(void *arg0, void *arg1)
         value = func_800644B8((s16)(angle % 0x200) * 2);
         ((S_800B9D64_1 *)arg1)->unk_08 = -((value >> 4) * 0x1E00);
         ((Rec_D_80082D58 *)arg0)->unk_66 = 30;
-        func_800B9EC4();
         return;
     }
 
@@ -61,7 +58,7 @@ void func_800B9D64(void *arg0, void *arg1)
         ((S_800B9D64_1 *)arg1)->unk_08 = value2;
         if (value2 > 0) {
             ((S_800B9D64_1 *)arg1)->unk_08 = magnitude;
-            func_800B9EC4();
+            return;
         }
     } else {
         ((S_800B9D64_1 *)arg1)->unk_08 = 0;

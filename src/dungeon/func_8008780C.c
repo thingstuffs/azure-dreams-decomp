@@ -6,7 +6,6 @@ extern s32 D_80083170[];
 extern s32 D_800E296C[];
 extern s32 D_800E4938[];
 
-extern void func_8008D008(void);
 extern void func_800A56E0(u32);
 
 void func_8008CF6C(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
@@ -14,7 +13,7 @@ void func_8008CF6C(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
         if (D_800E296C[0] & 0x200000) {
             if (D_80083170[0] & 0x80) {
                 func_800A56E0(0x506);
-                func_8008D008();
+                return;
             }
         } else {
             *(u8 *)((u8 *)arg0 + 0x9A) = 0x19;

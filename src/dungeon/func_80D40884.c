@@ -37,7 +37,6 @@ extern M2C_UNK func_800A56E0();
 extern M2C_UNK func_800AA36C();
 extern M2C_UNK func_801708B8();
 extern void func_80176240(void) __attribute__((noreturn));
-extern void func_801762E4(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern s32 D_80083460;
@@ -55,7 +54,7 @@ void func_80176084(void *arg0, void *arg1, void *arg2, void *arg3) {
     temp_v1 = ((S_80176084_0 *)arg0)->unk_9B;
     if (temp_v1 != 0) {
         if (temp_v1 != 1) {
-            return func_801762E4();
+            return;
         }
         goto block_15;
     }

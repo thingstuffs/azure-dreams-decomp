@@ -22,7 +22,6 @@ extern void func_801713EC(void) __attribute__((noreturn));
 extern void func_80171458(void) __attribute__((noreturn));
 extern void func_801716F0(void) __attribute__((noreturn));
 extern void func_80171704(void) __attribute__((noreturn));
-extern void func_801717A8(void) __attribute__((noreturn));
 
 
 typedef struct S_801711B0_0 {
@@ -88,10 +87,10 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
 
             ASM_UNDEF(entry0);   /* MATCH pin: load-bearing for the whole function shape */
             callback_high(entry0, arg1, arg2, entry0);
-            func_801717A8();
+            return;
         }
         (*(u8 *)((u8 *)obj + (0x71))) &= 0x7F;
-        func_801717A8();
+        return;
     }
 
     ASM_KEEP(obj);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */

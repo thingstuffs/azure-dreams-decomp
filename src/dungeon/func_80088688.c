@@ -9,7 +9,6 @@ s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 M2C_UNK func_8008CAA0(); /* extern */
 M2C_UNK func_8008CBD4(); /* extern */
-M2C_UNK func_8008E0A4();                            /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 M2C_UNK func_800AD4D0();                      /* extern */
 extern s16 D_80083228;
@@ -50,7 +49,6 @@ void func_8008DDE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
     if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_10C & 1) {
         func_8008CAA0(arg0, arg1, arg2, arg3);
-        func_8008E0A4();
         return;
     }
     if ((((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 == D_800DCFE0) && (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000)) {
@@ -94,7 +92,6 @@ void func_8008DDE8(void *arg0, void *arg1, void *arg2, void *arg3) {
             }
             ((Rec_D_800E3D7C *)arg3)->unk_28 = 0U;
             func_8008CBD4(arg0, arg1, arg2, arg3);
-            func_8008E0A4();
             return;
         }
         temp_timer = 8U;

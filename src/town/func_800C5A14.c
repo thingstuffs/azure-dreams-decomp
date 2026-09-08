@@ -6,7 +6,6 @@ M2C_UNK func_80033D08();                      /* extern */
 M2C_UNK func_8008F134();                      /* extern */
 s32 func_8009CFE0();                                /* extern */
 M2C_UNK func_800C30A4();                      /* extern */
-M2C_UNK func_800C3200();                            /* extern */
 M2C_UNK func_800C321C();    /* extern */
 extern M2C_UNK D_800C3960;
 
@@ -26,7 +25,6 @@ void func_800C3174(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
             }
             func_80033D08(arg0);
             func_800C30A4(arg0);
-            func_800C3200();
             return;
         }
         /* Duplicate return node #8. Try simplifying control flow for better match */

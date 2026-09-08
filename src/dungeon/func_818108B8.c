@@ -31,7 +31,6 @@ typedef struct {
 
 extern ItemCategory D_80073414[];
 extern void func_8004A7D8();
-extern void func_8002594C(void) __attribute__((noreturn));
 extern void strcpy();
 
 
@@ -68,7 +67,7 @@ void func_800258B8(void *arg0)
             D_80073414[((S_800258B8_0 *)object)->unk_0C]
                 .records[subobject->unk_1C].value =
                 subobject->unk_08;
-            func_8002594C();
+            return;
         }
     }
     strcpy(((S_800258B8_0 *)object)->unk_88, (u8 *)object + 0x78);

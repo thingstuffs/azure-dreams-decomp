@@ -31,7 +31,6 @@ typedef struct S_8017085C_2 {
 
 extern s32 func_800644B8();
 extern void func_800A7A7C();
-extern void func_80170A44() __attribute__((noreturn));
 extern s32 D_800814A0;
 
 void func_8017085C(void *arg0, void *arg1, void *arg2) {
@@ -57,13 +56,13 @@ void func_8017085C(void *arg0, void *arg1, void *arg2) {
         if (temp_v1 == 0) {
             goto state0;
         }
-        return func_80170A44();
+        return;
     }
     ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     if (temp_v1 == 2) {
         goto state2;
     }
-    return func_80170A44();
+    return;
 
 state0:
     temp_v0 = ((S_8017085C_0 *)arg0)->unk_18;
@@ -74,7 +73,7 @@ state0:
     temp_v0_2 = ((S_8017085C_0 *)arg0)->unk_5C - 0x200000;
     ((S_8017085C_1 *)arg1)->unk_08.at00.v = ((S_8017085C_1 *)arg1)->unk_14 + temp_v0_2;
 
-    return func_80170A44();
+    return;
 
 state1:
     temp_v0 = ((S_8017085C_0 *)arg0)->unk_18;
@@ -94,7 +93,7 @@ state1:
     temp_v0_7 = ((S_8017085C_0 *)arg0)->unk_12.u;
     ((S_8017085C_0 *)arg0)->unk_18 = 0;
     ((S_8017085C_0 *)arg0)->unk_12.u = temp_v0_7 + 1;
-    return func_80170A44();
+    return;
 
 state2:
     ((S_8017085C_1 *)arg1)->unk_08.at00.v += 0x20000;

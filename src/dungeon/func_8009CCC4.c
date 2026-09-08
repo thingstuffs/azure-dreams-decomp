@@ -11,7 +11,6 @@ extern s32 func_80099254();
 extern s32 func_80099290();
 extern s32 func_8009929C();
 extern s32 func_80099734();
-extern s32 func_800A2AB8();
 extern s32 func_800A56E0();
 extern s32 func_800A5720();
 extern s32 func_800B4C7C();
@@ -47,7 +46,6 @@ s32 func_800A2424(void *arg0, s32 arg1) {
 
     s1 = (u8 *)arg0;
     if (s1[0x11] < 2U) {
-        func_800A2AB8();
         return 0;
     }
     s1[0x11] -= 1;

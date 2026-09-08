@@ -19,7 +19,6 @@ extern s32 func_80047784();
 extern u8 *func_8016D470() __attribute__((noreturn));
 extern u8 *func_8016D528() __attribute__((noreturn));
 extern u8 *func_8016D590() __attribute__((noreturn));
-extern u8 *func_8016D594() __attribute__((noreturn));
 
 u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 state;
@@ -47,7 +46,7 @@ u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
         if (state == 0) {
             goto state0_body;
         }
-        return func_8016D594();
+        return;
     }
     ASM_KEEP(state);   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
@@ -56,7 +55,7 @@ u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
     if (state == 3) {
         goto state3_body;
     }
-    return func_8016D594();
+    return;
 
 state0_body:
     func_800AD4D0(arg3);
@@ -80,7 +79,7 @@ state0_body:
     }
     FIELD(s16 *, arg0, 0x96) = 0;
     FIELD(u8 *, arg0, 0x9B) = (u32)chosen;
-    return func_8016D594();
+    return;
 
 state1_body:
         raw = FIELD(u16 *, arg0, 0x96);
@@ -93,7 +92,7 @@ state1_body:
             FIELD(s32 *, arg1, 0x10) =
                 *(s16 *)((u8 *)D_8006CCE8 + ((FIELD(u16 *, arg3, 0x6A) >> 8) & 0xE)) << 20;
             FIELD(u16 *, arg2, 0x14) |= 0x800;
-            return func_8016D594();
+            return;
         }
         if (timer >= 7) {
             x = FIELD(s32 *, arg1, 0x0C);
@@ -106,17 +105,17 @@ state1_body:
                 y += 3;
             }
             FIELD(s32 *, arg1, 0x10) = y >> 2;
-            return func_8016D594();
+            return;
         }
         below2 = timer < 2;
         if (!below2) {
             FIELD(s32 *, arg1, 0x10) = 0;
             FIELD(s32 *, arg1, 0x0C) = 0;
-            return func_8016D594();
+            return;
         }
         if (timer == state) {
             FIELD(u16 *, arg2, 0x14) &= 0xF7FF;
-            return func_8016D594();
+            return;
         }
         if (timer != 0) {
             return (u8 *)(u32)below2;
@@ -148,7 +147,7 @@ state2_body:
     FIELD(s32 *, arg1, 0x10) = 0;
     FIELD(s32 *, arg1, 0x0C) = 0;
     FIELD(u8 *, arg0, 0x9B) = (u8)(FIELD(u8 *, arg0, 0x9B) + 1);
-    return func_8016D594();
+    return;
 
 state3_body:
     FIELD(s32 *, arg1, 0x14) = 0;
@@ -167,7 +166,7 @@ state3_body:
 initialize:
     FIELD(u8 *, arg0, 0x9B) = 0;
     func_800AAA54(arg0, arg1, arg2, D_801746CC);
-    return func_8016D594();
+    return;
 
 state3_tail:
     page = (u32)D_8016B778;

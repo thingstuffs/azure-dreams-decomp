@@ -6,7 +6,6 @@ extern s32 func_8003DE58(void *, void *, void *, s32);
 extern void func_80024450(void) __attribute__((noreturn));
 extern s32 func_80024ED4(void *);
 extern void func_8004491C(void *, void *);
-extern void func_8002455C(void) __attribute__((noreturn));
 
 typedef struct CounterView {
     u16 value;
@@ -105,15 +104,15 @@ void func_800243C4(void *arg0, Rec_func_800243C4_arg1 *arg1, S_800243C4_4 *arg2)
         if (func_80024ED4(arg1) != 0) {
             func_8004491C((u8 *)arg0 - 0x20, D_80045340);
             ((S_800243C4_0 *)arg0)->unk_2C.u = ((S_800243C4_0 *)arg0)->unk_2C.u + 1;
-            func_8002455C();
+            return;
         }
     } else if (temp_v1 == 1) {
         if (arg2->unk_0C.u8 < 0xC0) {
             arg2->unk_0C.u32 += 0x202020;
-            func_8002455C();
+            return;
         }
         ((S_800243C4_0 *)arg0)->unk_2C.u = temp_a0 + 1;
-        func_8002455C();
+        return;
     } else if (temp_v1 == 2) {
         arg2->unk_0C.u32 += 0xFFFBFBFC;
         if (arg2->unk_0C.u8 == 0) {

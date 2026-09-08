@@ -7,7 +7,6 @@ typedef struct {
 
 extern S_800A1600_D80083160 D_80083160;
 extern s32 D_800DD87C[];
-extern void func_800A6D90(s32 arg0);
 
 void func_800A6D60(s32 arg0) {
     S_800A1600_D80083160 *base = &D_80083160;
@@ -15,7 +14,6 @@ void func_800A6D60(s32 arg0) {
 
     if (temp != 0) {
         D_800DD87C[0] = base->unk1FC;
-        func_800A6D90(temp);
         return;
     }
     base->unk1FC = D_800DD87C[0];

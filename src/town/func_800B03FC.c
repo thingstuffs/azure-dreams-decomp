@@ -6,7 +6,6 @@ extern void func_800AD8CC(s32 *arg0);
 extern void func_800ADA1C(s32 *arg0);
 extern void func_800ADB04(s32 *arg0);
 extern void func_800ADBD4(void) __attribute__((noreturn));
-extern void func_800ADD60(void) __attribute__((noreturn));
 extern void func_800AE30C(void *arg0);
 extern void func_800B1778(s32 arg0, s32 arg1, s32 arg2);
 extern void func_800B17C0(s32 arg0, s32 arg1);
@@ -37,11 +36,11 @@ void func_800ADB5C(s32 *arg0) {
         func_80053DA8(0x515);
         D_80082AB8 = 0;
         func_800AE30C((s8 *)arg0 - 0x20);
-        func_800ADD60();
+        return;
     }
     if (state[4] & 0x40) {
         func_800ADA1C(arg0);
-        func_800ADD60();
+        return;
     }
     if (!(input & 0xF000)) {
         return;
@@ -62,7 +61,7 @@ void func_800ADB5C(s32 *arg0) {
             arg0[5] = *(volatile s32 *)&arg0[5] - 1;
         } else {
             arg0[5]++;
-            func_800ADD60();
+            return;
         }
     }
 

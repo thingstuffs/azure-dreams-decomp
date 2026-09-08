@@ -35,7 +35,6 @@ typedef struct {
 } State1;
 
 M2C_UNK func_800478B8();                      /* extern */
-s32 func_800BC1C0();               /* extern */
 extern s32 func_800BC1C0_state0(void) __asm__("func_800BC1C0");
 extern s32 D_800814A0[3];
 
@@ -61,14 +60,14 @@ s32 func_800BC00C(void *arg0, S_800BC00C_2 *arg1, Rec_D_80082E80 *arg2) {
     if (temp_v1 == 0) {
         goto state_0;
     }
-    return func_800BC1C0();
+    return;
 
 check_ff:
     ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     if (temp_v1 == 0xFF) {
         goto state_ff;
     }
-    return func_800BC1C0();
+    return 255;
 
 state_0:
     temp_v0 = arg2->unk_1C.at02_u16.v + 0x80;
@@ -100,8 +99,7 @@ state_1:
     arg2->unk_0C.at00_s32.v = (s32) (arg2->unk_0C.at00_s32.v + 0xFFF7F7F8);
     temp_v0_2 = 0xFF;
     if ((u8) arg2->unk_0C.at00_s32.v == 0) {
-        ((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_4E = temp_v0_2;
-        return func_800BC1C0();
+        return (((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_4E = temp_v0_2);
     }
     return temp_v0_2;
 

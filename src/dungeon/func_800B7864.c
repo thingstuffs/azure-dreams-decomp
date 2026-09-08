@@ -9,7 +9,6 @@ extern s32 func_80033BC0(s32);
 extern void func_80040AA0(s32);
 extern void func_8003E4FC();
 extern void func_8003F320(void);
-extern void func_800BD060(void) __attribute__((noreturn));
 
 void func_800BCFC4(void) {
     s32 *p;
@@ -21,7 +20,7 @@ void func_800BCFC4(void) {
             p[0x823] = 1;
             func_80040AA0(0x21);
             D_800DCF4E[0] = 0;
-            func_800BD060();
+            return;
         }
     }
     func_8003E4FC(6, &D_800DF3CC, 0);

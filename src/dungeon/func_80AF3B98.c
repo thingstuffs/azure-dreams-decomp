@@ -74,7 +74,6 @@ extern s32 func_800ADC4C();
 extern s32 func_800C77D0();
 extern s32 func_80174F24();
 extern void func_801756FC() __attribute__((noreturn));
-extern void func_801758EC() __attribute__((noreturn));
 
 
 typedef struct S_80175398_0_pre {
@@ -194,7 +193,7 @@ direction_not_ready:
             goto done;
         }
         ((S_80175398_1 *)arg3)->unk_2A.u = angle + 0x200;
-        func_801758EC();
+        return;
 
 direction_ready:
         func_80041588(D_801759F8, D_80175A80, 1);
@@ -222,7 +221,7 @@ jt_c3:
             }
             ((S_80175398_0 *)arg0)->unk_9B++;
             func_800A56E0(0x300);
-            func_801758EC();
+            return;
         }
 
         target = D_800DCEEC[func_800498A0(arg3)];
@@ -235,7 +234,7 @@ jt_c3:
         ((S_80175398_2 *)var_s0)->unk_AA +=
             (((S_80175398_3 *)target)->unk_02 - ((S_80175398_2 *)var_s0)->unk_AA) /
             ((S_80175398_0 *)arg0)->unk_96.s;
-        func_801758EC();
+        return;
     }
 
 jt_c4:
@@ -271,7 +270,7 @@ jt_c4:
     arg2->unk_14.at00_u16.v |= 0x80;
     ((S_80175398_0 *)arg0)->unk_96.u = 0;
     ((S_80175398_0 *)arg0)->unk_9B++;
-    func_801758EC();
+    return;
 
 jt_c5:
     {
@@ -305,7 +304,7 @@ jt_c6:
     func_8009A028(arg3);
     var_s0 = (u8 *)arg3 - 0x20;
     ((S_80175398_2 *)var_s0)->unk_10 |= 0x80000000;
-    func_801758EC();
+    return;
 
 jt_c7:
     {

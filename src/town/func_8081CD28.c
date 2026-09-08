@@ -11,7 +11,6 @@ typedef struct S_80026D28_0 {
 } S_80026D28_0;   /* arg0 in func_80026D28 */
 
 
-extern void func_80026DB4() __attribute__((noreturn));
 extern s32 func_80053DA8();
 extern s32 D_800814A0[3];
 
@@ -24,7 +23,7 @@ void func_80026D28(void *arg0)
     state = ((S_80026D28_0 *)arg0)->unk_50.s;
     if (state != 0) {
         if (state != 1) {
-            return func_80026DB4();
+            return;
         }
         goto tick;
     }

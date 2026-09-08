@@ -20,7 +20,6 @@ extern void func_80095094(Obj800AD0E4 *);
 extern s16 func_80095978(Obj800AD0E4 *, void *);
 extern void func_80095A94(Obj800AD0E4 *, s16, void *);
 extern void func_800A9F14(Obj800AD0E4 *);
-extern void func_800AA974(void) __attribute__((noreturn));
 
 extern State80083160 D_80083160;
 extern u8 D_800CFCEF[9];
@@ -38,7 +37,7 @@ void func_800AA844(Obj800AD0E4 *arg0, Obj800AD0E4 *arg1, s32 arg2) {
     if ((value - (s16)arg1->field_A) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094378(arg0, arg1, arg2);
-            func_800AA974();
+            return;
         }
     } else if (D_800CFCEF[0] == 0) {
         func_80095A94(arg1, value, D_800FE488);
@@ -48,17 +47,17 @@ void func_800AA844(Obj800AD0E4 *arg0, Obj800AD0E4 *arg1, s32 arg2) {
     arg0->field_A = timer;
     if ((s16)timer < 0) {
         func_80093D48(arg0, arg1, arg2);
-        func_800AA974();
+        return;
     }
 
     if (state->field_8 & 0xF000) {
         func_80093ED8(arg0, arg1, arg2);
-        func_800AA974();
+        return;
     }
 
     if (state->field_10 & 0x10) {
         func_800942B0(arg0, arg1, arg2);
-        func_800AA974();
+        return;
     }
 
     func_800A9F14(arg1);

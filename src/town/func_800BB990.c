@@ -62,7 +62,6 @@ extern u8 D_80082E60[];
 extern u16 D_80082E76;
 extern volatile s8 D_800D381A;
 extern s32 func_80041094();
-extern s32 func_800B91F0();
 void func_800B90F0(void)
 {
   s32 i = 0x20;
@@ -80,7 +79,6 @@ void func_800B90F0(void)
   {
     func_80041094(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20, ((entry[1] + entry[3]) << 6) | 0x20, 0, (*((u16 *) (&shared[0x16]))) ^ 1);
     state[6] = 0;
-    func_800B91F0();
     return;
   }
   entry -= 8;

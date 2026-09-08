@@ -9,7 +9,6 @@ extern s16 func_8009A66C(s16, void *, void *, s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
 extern void func_800D910C(void *, void *, void *);
 extern void func_800D9240(void);
-extern void func_800D9298(void);
 extern void func_800D9820(void *, s32, void *, void *);
 
 extern s16 D_80083228;
@@ -130,7 +129,6 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
         (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
         if (D_80083462 & 0x80) {
             ((S_800D904C_3 *)arg0)->unk_96 = 0;
-            func_800D9298();
             return;
         }
 

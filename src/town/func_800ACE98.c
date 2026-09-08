@@ -8,7 +8,6 @@ extern void func_80095A94(void *arg1, s16 arg2, void *arg3);
 extern void func_80095C80(void *arg1);
 extern void func_800A9F14(void *arg1);
 extern void func_800AA6DC(void);
-extern void func_800AA820(void);
 extern void func_800AAA58(void *arg0, void *arg1, s32 arg2);
 
 extern u8 D_80083160[];
@@ -50,7 +49,6 @@ void func_800AA5F8(void *arg0, void *arg1, s32 arg2) {
     if ((*(s32 *)(buttons + 0x10) & 0x40) && D_80100D1C >= 0x800) {
         func_800AAA58(arg0, arg1, arg2_local);
         D_800D0B14 = 0;
-        func_800AA820();
         return;
     }
 

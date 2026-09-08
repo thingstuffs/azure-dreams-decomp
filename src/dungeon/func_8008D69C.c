@@ -3,7 +3,6 @@
 extern s8 D_80083160[];
 extern s32 D_80012090[];
 extern s32 D_8008ACDC;
-extern void func_80092E88(void *arg0, void *arg1) __attribute__((noreturn));
 
 void func_80092DFC(void *arg0) {
     s8 *data = D_80083160;
@@ -17,13 +16,13 @@ void func_80092DFC(void *arg0) {
     if (state == 1) {
         goto state_one;
     }
-    func_80092E88(arg0, data);
+    return;
 
 state_zero:
     next_state = *(volatile u8 *)((u8 *)arg0 + 0x9B);
     *(u16 *)((u8 *)arg0 + 0x96) = 0x10;
     *(u8 *)((u8 *)arg0 + 0x9B) = next_state + 1;
-    func_80092E88(arg0, data);
+    return;
 
 state_one:
     timer = *(u16 *)((u8 *)arg0 + 0x96) - 1;

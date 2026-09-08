@@ -4,7 +4,6 @@ extern void func_800483AC(s32);
 extern void func_800485B8(s32);
 extern u8 *func_80097F84(u8 *, void *, void *, s32);
 extern void func_80098804(void);
-extern void func_80098844(void);
 extern s32 func_800990FC(void);
 extern s32 func_80099194(void *, s32);
 extern void func_80099290(s32);
@@ -64,7 +63,6 @@ void func_80098614(S_80098614_0 *arg0, u8 *arg1)
             result = func_80099194(D_800E0874, result);
             func_80099290(result);
             func_800A5720(state);
-            func_80098844();
             return;
         }
         object[3] = flags & 0xDF;
@@ -125,7 +123,6 @@ void func_80098614(S_80098614_0 *arg0, u8 *arg1)
         arg0->unk_86 = *(u8 *)((u32)call_id + (u32)table);
         if (call_id != 0) {
             func_800485B8(call_id);
-            func_80098844();
             return;
         }
     }

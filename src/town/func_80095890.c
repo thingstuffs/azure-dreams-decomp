@@ -5,7 +5,6 @@ extern void func_80095094(void *arg1);
 extern s16 func_80095978(void *arg1, void *arg2);
 extern void func_80095A94(void *arg1, s16 arg2, void *arg3);
 extern void func_80094378(void *arg0, void *arg1, s32 arg2);
-extern void func_800930C4(void);
 extern void func_800946FC(void *arg0, void *arg1, s32 arg2);
 extern s32 func_8009FF50(void);
 
@@ -23,7 +22,6 @@ void func_80092FF0(void *arg0, void *arg1, s32 arg2) {
         if (v0 - *(s16 *)((u8 *)arg1 + 0xA) >= 4) {
             if (D_800CFCEF[0] == 0) {
                 func_80094378(arg0, arg1, arg2);
-                func_800930C4();
                 return;
             }
         } else {

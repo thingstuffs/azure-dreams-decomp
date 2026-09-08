@@ -11,7 +11,6 @@ typedef struct {
 extern s16 func_8009FD40(void *, void *);
 extern void func_800A9A0C(void *, void *);
 extern void func_800AAA28(void *, void *);
-extern void func_800ADACC(void);
 extern s16 func_800B500C(u8, u8, s16);
 
 extern u8 D_80082E80[];
@@ -62,7 +61,6 @@ s32 func_800AD9B4(Rec_D_80082E80 *arg0, void *arg1)
     }
 
 tail:
-    func_800ADACC();
     return 1;
 
 body:

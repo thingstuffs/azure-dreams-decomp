@@ -6,7 +6,6 @@ extern s16 func_800C2B38(void *arg0, s32 arg1, s32 arg2);
 extern void func_800C3688(void) __attribute__((noreturn));
 extern void func_800C36B0(void);
 extern void func_800C36B0_zero(void) __asm__("func_800C36B0");
-extern void func_800C3764(void) __attribute__((noreturn));
 extern void func_800C37C4(void *arg0, void *arg1, void *arg2);
 extern int abs(int);
 
@@ -128,7 +127,6 @@ case_three:
         bound_y = arg0->unk_8E.u;
         ((S_800C355C_0 *)arg1)->unk_04.at02u.v = bound_x - bound_y;
         func_800C37C4(arg0, arg1, arg2);
-        func_800C3764();
         return;
     }
 

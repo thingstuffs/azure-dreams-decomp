@@ -34,7 +34,7 @@ def main():
         cur = clean_path(r).read_text(errors="replace"); new = p.read_text(errors="replace")
         rec = {"id": r["id"], "transform": a.transform, "in_sha": sha_text(cur), "size": r["size"], "source": str(Path(a.dir).relative_to(ROOT)) if Path(a.dir).is_relative_to(ROOT) else a.dir}
         if new == cur: return dict(rec, outcome="noop")
-        v = verify(r, p, include_root=INCLUDE)
+        v = verify(r, p.resolve(), include_root=INCLUDE)   # the scorer runs in the gate root: absolute paths only
         rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs")})
         if v.get("exact"):
             if not a.dry_run:

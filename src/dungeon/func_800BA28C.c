@@ -18,7 +18,7 @@ extern u8 *D_800E3D7C;
 
 extern s32 func_80042900(void *, s32);
 extern void func_8008D344(void *, void *, void *, void *);
-extern void func_80098864(s32, s32);
+extern s32 func_80098864(s32, s32);
 extern void func_80098B38(s32);
 extern void func_800997FC(void *);
 extern void func_800A1D4C(void *, s32);
@@ -26,7 +26,6 @@ extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 extern void func_800B4C7C(s32, void *, s32, s32);
-extern s32 func_800BFBDC(void);
 extern void func_800C4D78(s32, s32);
 
 
@@ -63,14 +62,12 @@ s32 func_800BF9EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
     void *node;
 
     if (arg2 == 13) {
-        func_80098864(arg1, arg3);
-        return func_800BFBDC();
+        return func_80098864(arg1, arg3);
     }
 
     if (arg0 == D_800E3D7C) {
         arg0->unk_110 = arg1;
         func_8008D344(arg0, D_80083780, D_80082E80, arg0);
-        func_800BFBDC();
         return 0;
     }
 
@@ -78,7 +75,6 @@ s32 func_800BF9EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
         func_800A6480(arg0, arg1, arg2);
         if (func_800AD6FC(arg0, D_800DDE84[arg0->unk_10.at03_u8.v] & 3, arg1) == 0) {
             func_800A5F38(arg0, arg1);
-            func_800BFBDC();
             return 1;
         }
     } else {

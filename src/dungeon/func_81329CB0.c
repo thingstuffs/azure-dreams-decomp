@@ -20,7 +20,6 @@ extern void *D_80174CDC[3];
 
 extern void func_80047738(void *, u8, s8);
 extern void func_800478B8(void *);
-extern void func_80171570(void) __attribute__((noreturn));
 
 void func_801714B0(S_801714B0_1 *arg0, void *arg1, Rec_D_80082E80 *arg2)
 {
@@ -45,13 +44,9 @@ void func_801714B0(S_801714B0_1 *arg0, void *arg1, Rec_D_80082E80 *arg2)
 
         table = D_8006CCF8;
         if (table[direction] != 0) {
-            u32 tail_value;
-
-            tail_value = arg2->unk_14.at00_u16.v | 1;
-            ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-            func_80171570();
+            arg2->unk_14.at00_u16.v |= 1;
+        } else {
+            arg2->unk_14.at00_u16.v &= 0xFFFE;
         }
-
-        arg2->unk_14.at00_u16.v &= 0xFFFE;
     }
 }

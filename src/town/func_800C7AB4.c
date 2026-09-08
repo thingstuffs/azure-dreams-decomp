@@ -34,7 +34,6 @@ typedef struct S_800C5214_1 {
 
 extern void *func_8003FC64(s32);
 extern s32 func_8004491C();
-extern s32 func_800C52B8(s32);
 extern u8 D_800345B8[];
 extern u8 D_800C52D0[];
 extern u8 D_800F148C[];
@@ -74,7 +73,7 @@ void *func_800C5214(s32 arg0)
         value = 0x20;
         part->unk_10 = value;
         part->unk_14 = flags | 0x1C;
-        return func_800C52B8(value);
+        return;
     }
 }
 

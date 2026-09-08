@@ -6,7 +6,6 @@
 
 extern s32 func_8008C180();
 extern void func_8009BFC0();
-extern void func_8009C0A4(void) __attribute__((noreturn));
 extern s32 func_800C1D44();
 extern s16 D_800D45AA[];
 
@@ -38,11 +37,11 @@ void func_8009BFD8(Rec_func_80094268_arg0 *arg0, void *arg1, Rec_D_800E3D7C *arg
             if (delta < 0x29) {
                 arg3->unk_08 =
                     ((S_8009BFD8_3 *)(arg0->unk_7C.as_pv))->unk_04;
-                func_8009C0A4();
+                return;
             }
             arg3->unk_08 =
                 ((S_8009BFD8_3 *)(arg0->unk_7C.as_pv))->unk_08;
-            func_8009C0A4();
+            return;
         }
     }
 

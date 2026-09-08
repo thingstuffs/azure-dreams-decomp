@@ -16,7 +16,6 @@ typedef struct S_800B8CF0_1 {
 
 
 
-extern void func_800B8D5C(void);
 extern s32 D_800814A0; /* overlays/dungeon/first_pass_matched/func_800AB5D4.c */
 
 void func_800B8CF0(void *arg0, s32 arg1, void *arg2) {
@@ -27,7 +26,6 @@ void func_800B8CF0(void *arg0, s32 arg1, void *arg2) {
     if (((temp << 16) >> 16) <= 0) {
         (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_800B8CF0_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
-        func_800B8D5C();
         return;
     }
     if (temp & 1) {
@@ -35,7 +33,6 @@ void func_800B8CF0(void *arg0, s32 arg1, void *arg2) {
         ((S_800B8CF0_1 *)arg2)->unk_0C.at00.v = val;
         ((S_800B8CF0_1 *)arg2)->unk_0C.at02.v = val;
         ((S_800B8CF0_1 *)arg2)->unk_0C.at01.v = val;
-        func_800B8D5C();
         return;
     }
     ((S_800B8CF0_1 *)arg2)->unk_0C.at00u.v = 0x00101010;

@@ -7,7 +7,6 @@ extern void func_80048A44();
 extern void func_80091934();
 extern void func_80092A08();
 extern void func_80092AFC() __attribute__((noreturn));
-extern void func_80092B98() __attribute__((noreturn));
 extern s32 func_800990FC();
 extern s32 func_80099194();
 extern s32 func_80099290();
@@ -200,7 +199,6 @@ state_zero:
             nextCoord = coordUnsigned + 0x200;
             arg3->unk_2A.u = nextCoord;
         }
-        func_80092B98();
         return;
 
 state_one:
@@ -268,7 +266,6 @@ state_one:
 
         ((S_800927E4_0 *)arg0)->unk_96 = 0x1E;
         ((S_800927E4_0 *)arg0)->unk_9B++;
-        func_80092B98();
         return;
 
 state_two:
@@ -278,7 +275,6 @@ state_two:
              (s32)(timer << 16) <= 0)) {
             if (((S_800927E4_0 *)arg0)->unk_110 != 0) {
                 func_80091934(arg0, arg1, arg2, arg3);
-                func_80092B98();
                 return;
             }
             func_80099F70(arg3->unk_5C);

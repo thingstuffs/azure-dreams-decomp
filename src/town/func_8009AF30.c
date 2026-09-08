@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_80098748(s16 arg0);
 extern void func_80099754(void *arg0);
 extern void func_80098928(void *arg0, void *arg1, s32 arg2);
 
@@ -12,7 +11,6 @@ void func_80098690(u8 *arg0, u8 *arg1, s32 arg2) {
     if (count > 0) {
         *(s32 *)(arg1 + 0) += (((s32) *(s16 *)(arg0 + 0x30) << 16) - *(s32 *)(arg1 + 0)) / count;
         *(s32 *)(arg1 + 4) += (((s32) *(s16 *)(arg0 + 0x32) << 16) - *(s32 *)(arg1 + 4)) / (count2 = *(s16 *)(arg0 + 0xA));
-        func_80098748(count2);
         return;
     }
     *(u16 *)(arg1 + 2) = *(u16 *)(arg0 + 0x30);

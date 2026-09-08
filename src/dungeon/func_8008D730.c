@@ -8,7 +8,6 @@ extern s32 func_80042B68();
 extern s32 func_80048A44();
 extern s32 func_80092F30();
 extern s32 func_8009307C();
-extern void func_800930C4(void) __attribute__((noreturn));
 extern s32 func_800997FC();
 extern s32 func_800A2B04();
 
@@ -132,7 +131,7 @@ void func_80092E90(void *arg0, void *arg1, void *arg2, void *arg3)
     if (state == 1) {
         goto state1;
     }
-    func_800930C4();
+    return;
 
 state0:
         initArg = 0x10;
@@ -147,7 +146,7 @@ state0:
             0,
             1);
         ((S_80092E90_4 *)arg0)->unk_9B++;
-        func_800930C4();
+        return;
 
 state1:
         if (!(((S_80092E90_1 *)arg2)->unk_14 & 0xE000)) {

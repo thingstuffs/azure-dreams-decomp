@@ -12,7 +12,6 @@ M2C_UNK func_800A7A7C();
 M2C_UNK func_800A891C();
 M2C_UNK func_800A8CA8();
 M2C_UNK func_800A8E20();
-M2C_UNK func_800A8E50();
 M2C_UNK func_800B66C8();
 s16 func_800BCB04();
 extern s8 D_8006CCD8;
@@ -296,7 +295,6 @@ void func_800A871C(void *arg0, void *arg1, void *arg2) {
             temp_a0_6 = (u8 *)&D_8006CCE8 + temp_a0_5;
             ((S_800A871C_4 *)r_arg2)->unk_25.n = (u8) (((S_800A871C_4 *)r_arg2)->unk_25.n + ((S_800A871C_8 *)temp_a0_6)->unk_00);
             ((S_800A871C_1 *)r_arg0)->unk_A4 = 2;
-            func_800A8E50();
             return;
         }
         temp_a1_2 = ((S_800A871C_1 *)r_arg0)->unk_90;
@@ -337,7 +335,7 @@ void func_800A871C(void *arg0, void *arg1, void *arg2) {
                 ((S_800A871C_3 *)r_arg1)->unk_08.at02.v = func_800BCB04((((S_800A871C_4 *)r_arg2)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)r_arg2)->unk_25.n << 6) | 0x20, temp_height);
                 func_800B66C8(r_arg1);
                 func_8009A028(temp_s0);
-                func_800A8E50();
+                return;
                 ASM_KEEP(temp_s0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
                 return;
             }
@@ -351,7 +349,6 @@ block_A8B58:
                 temp_global_flags = ((S_800A871C_16 *)temp_flags_page)->unk_14A0;
                 temp_global_flags |= 0x8000;
                 func_8009A028((((S_800A871C_16 *)temp_flags_page)->unk_14A0 = temp_global_flags, temp_call_arg));
-                func_800A8E50();
                 return;
             }
             goto block_49;
@@ -391,7 +388,6 @@ block_type1:
             D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
             func_8009A028(temp_s0);
             D_80083460[5] = (u16) (D_80083460[5] - 1);
-            func_800A8E50();
             return;
         }
     }

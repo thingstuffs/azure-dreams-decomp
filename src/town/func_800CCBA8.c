@@ -4,7 +4,6 @@
 
 
 extern void func_800C4174(void *arg0, void *arg1, s32 arg2);
-extern void func_800CA3D4(void);
 
 
 
@@ -22,7 +21,6 @@ void func_800CA308(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, s32 arg2)
         arg1->unk_00.at02_u16.v = arg0->unk_84.as_u16;
         arg1->unk_04.at02_s16.v = arg0->unk_86.as_u16;
         arg1->unk_08.at02_s16.v = 0;
-        func_800CA3D4();
         return;
     }
 

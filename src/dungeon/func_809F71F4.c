@@ -2,7 +2,6 @@
 
 extern void func_80044A50(void *arg0);
 extern void func_800478B8();
-extern void func_80174B08(void) __attribute__((noreturn));
 
 extern s32 D_800814A0[3];
 extern u8 D_80083160[0xAB];
@@ -20,7 +19,7 @@ void func_801749F4(u8 *arg0, void *arg1, u8 *arg2)
             func_80044A50(arg0 - 0x20);
             *(s16 *)(arg0 + 0x96) = 0x10;
             arg0[0x9A]++;
-            func_80174B08();
+            return;
         }
     } else {
         state[0xA8] = (u8)(state[0xA8] +

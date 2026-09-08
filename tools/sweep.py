@@ -12,7 +12,7 @@ import argparse, json, random, sys, tempfile, time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, raw_path
+from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, raw_path, parse_cfg, is_stock_cfg, set_row_cfg
 from verify import verify
 import xform
 
@@ -21,6 +21,17 @@ INCLUDE = ROOT / "include"
 def _scrub(t):
     """Error text goes into a tracked journal: no absolute paths."""
     return (t or "").replace(str(ROOT), "<repo>").replace(str(Path.home()), "<home>")
+
+import threading
+_CFG_LOCK = threading.Lock()
+_CFG = {}
+def rows_cfg(row_id):
+    """The registry's current cfg for a row (the sweep's row copy may already carry the override)."""
+    if not _CFG:
+        for r in rows(): _CFG[r["id"]] = r["cfg"]
+    return _CFG.get(row_id)
+def rows_cfg_prev(row_id):
+    return _CFG.get(row_id)
 
 def clean_path(row):
     return ROOT / "src" / row["container"] / Path(row["c_path"]).name
@@ -39,17 +50,24 @@ def one(args):
     info = {}
     try:
         if getattr(T, "needs_verify", False):
-            def vf(cand):
+            def vf(cand, cfg=None):
+                # cfg: try the candidate at another STOCK cell (a row whose pinned cell was an artefact of
+                # its scaffolding); the plugin reports the winning cfg in info["cfg"] and the sweep records it
                 with tempfile.TemporaryDirectory() as td:
                     p = Path(td) / Path(row["c_path"]).name
                     p.write_text(cand)
-                    return verify(row, p, include_root=INCLUDE)
+                    r2 = row if not cfg else dict(row, cfg=cfg, cell=parse_cfg(cfg)[0], flags=" ".join(parse_cfg(cfg)[1]))
+                    return verify(r2, p, include_root=INCLUDE)
             new, info = T.apply_verified(text, row, cen, vf)
         else:
             new = T.apply(text, row, cen)
     except Exception as e:  # a plugin bug is a refusal, never a crash of the sweep
         return dict(rec, outcome="refused", reason=f"apply error: {e!r}"[:200])
     rec.update(info)
+    if new is not None and info.get("cfg") and info["cfg"] != row["cfg"]:
+        if not is_stock_cfg(info["cfg"]):
+            return dict(rec, outcome="refused", reason=f"non-stock cfg {info['cfg']}")
+        row = dict(row, cfg=info["cfg"], cell=parse_cfg(info["cfg"])[0], flags=" ".join(parse_cfg(info["cfg"])[1]))
     if new is None and info.get("refused"):
         return dict(rec, outcome="refused", reason="; ".join(info["refused"])[:300])
     if new is None or new == text:
@@ -61,6 +79,10 @@ def one(args):
     rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs"), "err": _scrub(v.get("err"))})
     if v.get("exact"):
         cp = clean_path(row); cp.parent.mkdir(parents=True, exist_ok=True); cp.write_text(new)
+        if info.get("cfg") and rec.get("cfg_was") is None and info["cfg"] != rows_cfg(row["id"]):
+            with _CFG_LOCK:      # the row database is read-modify-written: one correction at a time
+                set_row_cfg(row["id"], info["cfg"], note=f"{T.name}: exact at this stock cell without scaffolding")
+            rec["cfg_was"] = rows_cfg_prev(row["id"])
         return dict(rec, outcome="applied", out_sha=sha_text(new), lines_delta=new.count("\n") - text.count("\n"))
     return dict(rec, outcome="mismatch" if v.get("status") == "ok" else "build-failed")
 

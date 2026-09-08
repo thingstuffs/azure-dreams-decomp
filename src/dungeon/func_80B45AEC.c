@@ -42,7 +42,6 @@ extern void func_800A56E0(s32);
 extern void func_800ACF88(Object *);
 extern void func_80173450() __attribute__((noreturn));
 extern void func_80173514() __attribute__((noreturn));
-extern void func_801735F8() __attribute__((noreturn));
 
 extern s32 D_800814A0;
 extern s16 D_80083228;
@@ -70,7 +69,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
         if (state == 0) {
             goto state_0;
         }
-        func_801735F8(1);
+        return;
     }
     ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
     if (state == 2) {
@@ -79,7 +78,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
     if (state == 3) {
         goto state_3;
     }
-    func_801735F8();
+    return;
 
 state_0:
     if (*(s16 *)(D_80083460 + 0xA) != 0) {
@@ -115,7 +114,7 @@ state_2:
     index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
     func_80047784(entity, entity->table[index], 0);
     effect->state++;
-    func_801735F8();
+    return;
 
 state_3:
     delta = 0xFFF7F7F8;

@@ -21,6 +21,15 @@ Dashboard: http://<lan-host>:8002/ (`tools/dashboard_serve.sh`; restart it if th
 - **Levels (bytes, ovmovie parked):** see `STATUS.md` (L3 has grown with the campaign).
 - **Machine layers done corpus-wide:** T1 boilerplate hoist, T4 raw offsets → typed local structs,
   T2 dead-pin erasure, T6 pin notes. T3a retired (window gate caught it).
+- **Scaffolding debt campaign (2026-09-08, `docs/FIDELITY.md`):** measured through the shipped Psy-Q
+  toolchain, every pin, marker and noreturn tail-call spelling stands for a source shape; the plan
+  attempts removal at L1 (sweeps), in every L3 lane (Astra's prompt now tries and journals
+  `pins_in/out`, `sites_in/out`) and in a dedicated L5 pass. Landed: `t8_passthru` 109 rows,
+  `t10_epilogue` 453 rows (979 sites; 13 cells corrected via `common.set_row_cfg`), `t9_regpins`
+  8 rows, mid-row reader lanes 10 rows (Sonnet, `work/lac_lane/`, landed with
+  `tools/apply_candidates.py`, journal `t11_midrow`). Continue the mid-row lane over the remaining
+  single-site rows (`work/lac_lane/batchN/rows.tsv` + the pilot brief), then multi-site rows; the
+  census is live so STATUS shows the burn-down.
 - **Layer 2 agent campaign (Astra, gpt-6-astra high):** the 100–600-byte tier is exhausted (every
   eligible row journalled, 2,447 accepted all-time before tonight). Tonight it moved to the
   600–1000-byte tier: `tools/agent_task.py --model gpt-6-astra --effort high --all --min-size 600

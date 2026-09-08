@@ -13,7 +13,6 @@ extern void func_800A9F58(void) __attribute__((noreturn));
 extern s32 func_800AA048(void);
 extern void func_800AA060(void) __attribute__((noreturn));
 extern s32 func_800AA22C(void);
-extern s32 func_800AA234(void);
 extern void func_800ACB98(void *arg0, s32 arg1, void *arg2, void *arg3);
 extern void func_800ACD74(void *arg0, s32 arg1, void *arg2, void *arg3);
 
@@ -78,7 +77,6 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
         arg2->unk_14 &= 0xFFFE;
         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
         func_800478B8(arg2);
-        func_800AA234();
         return 1;
     }
 
@@ -127,7 +125,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
                         register s32 tail_zero ASM_REG("$2") = 0;   /* MATCH pin: load-bearing for the whole function shape */
 
                         ASM_KEEP(tail_zero);   /* MATCH pin: retail delay-slot contents depend on it */
-                        return func_800AA234();
+                        return;
                     }
                     goto block_16;
                 }
@@ -152,7 +150,6 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
                             if (flags14 & 0x20000000) {
                                 arg3->unk_14.as_s32 = flags14 | 0x400000;
                                 func_800ACB98(arg0, held_arg1, arg2, arg3);
-                                func_800AA234();
                                 return 0;
                             }
                             arg3->unk_14.as_s32 = flags14 & 0xFFBFFFFF;
@@ -165,7 +162,6 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
                             arg3->unk_1C.as_s32 &= 0xFDFFFFFF;
                             if (arg3->unk_14.as_s32 & 0x20000000) {
                                 func_800ACD74(arg0, held_arg1, arg2, arg3);
-                                func_800AA234();
                                 return 0;
                             }
                             arg0->unk_9A.as_u8 = 0;

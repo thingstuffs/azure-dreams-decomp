@@ -19,7 +19,6 @@ extern CallbackOwner *D_80016000;
 extern s32 D_80017908;
 
 extern void func_80016258(void) __attribute__((noreturn));
-extern void func_80016260(void) __attribute__((noreturn));
 extern void func_800175FC(s32);
 extern void func_80017674(s32);
 extern s32 func_800176F4(s32);
@@ -57,7 +56,7 @@ alternate:
 
 shared:
     func_800175FC(0xB0E);
-    func_80016260();
+    return;
 
 final:
     func_80017674(0xB0E);

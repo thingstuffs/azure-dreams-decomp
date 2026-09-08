@@ -21,7 +21,6 @@ extern void **D_80129758[];
 extern void **D_8012975C[];
 extern u8 D_801285FC[];
 extern u8 D_80128608[];
-extern void func_801257C0(void) __attribute__((noreturn));
 
 void func_80125730(TownObject *arg0)
 {
@@ -31,7 +30,7 @@ void func_80125730(TownObject *arg0)
         }
         if (arg0->flags & 2) {
             *D_8012975C[0] = D_80128608;
-            func_801257C0();
+            return;
         }
     } else {
         TownState *state = &D_80129728;

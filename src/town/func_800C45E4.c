@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 
 s32 func_800C1C68();                  /* extern */
-s32 func_800C1DC8();                                /* extern */
 extern M2C_UNK D_8006ADBC;
 extern M2C_UNK D_800D4640;
 extern M2C_UNK D_800D4658;
@@ -16,7 +15,7 @@ s32 func_800C1D44(s32 arg0) {
     arg0 &= 0x3FFF;
     if (*(s16 *)(base + 0x18) != 0xC) {
         func_800C1C68(arg0, &D_800D4640);
-        return func_800C1DC8();
+        return;
     }
     if (*(s16 *)(base + 0x1A) == 0xD) {
         if (func_800C1C68(arg0, &D_800D4658) == 0) {
@@ -27,7 +26,7 @@ s32 func_800C1D44(s32 arg0) {
             dead_value = 6;
             ASM_KEEP(dead_value);   /* MATCH pin: load-bearing for the whole function shape */
         }
-        return func_800C1DC8();
+        return;
     }
     if (*(s16 *)(base + 0x1A) == 0x2A) {
         if (func_800C1C68(arg0, &D_800D4660) != 0) {

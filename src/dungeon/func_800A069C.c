@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
-M2C_UNK func_800A5F1C();                            /* extern */
 M2C_UNK func_800B4C7C(); /* extern */
 M2C_UNK func_800C5BBC(); 
 typedef struct S_800A5DFC_0_pre {
@@ -51,7 +50,6 @@ void func_800A5DFC(void *arg0, S_800A5DFC_1 *arg1) {
                 func_800B4C7C(3, arg0, (s16) var_s1, 0);
                 ((Rec_D_800E3D7C *)arg0)->unk_64.as_s16 = (s16) ((u16) ((Rec_D_800E3D7C *)arg0)->unk_64.as_s16 - var_s1);
                 func_800C5BBC(arg1->unk_02, arg1->unk_06, (s16) (arg1->unk_0A - 8), 0x802080, 0x20, 1);
-                func_800A5F1C();
                 return;
             }
             ((Rec_D_800E3D7C *)arg0)->unk_28 = (u8) (((Rec_D_800E3D7C *)arg0)->unk_28 - var_s1);

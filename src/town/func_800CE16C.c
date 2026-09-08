@@ -4,7 +4,6 @@
 M2C_UNK D_800CB9B8();               /* extern (function symbol used as callback) */
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();              /* extern */
-s32 func_800CB990();                   /* extern */
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern s32 D_800D68B0[];
@@ -55,6 +54,5 @@ s32 func_800CB8CC(s32 arg0, s32 arg1) {
     temp_s0->unk_08 = D_800D68B0[arg1];
     func_8004491C(temp_v0, &D_80045340);
     ((S_800CB8CC_0 *)temp_v0)->unk_10(temp_s1, temp_s2, temp_s0);
-    func_800CB990();
     return (s32)temp_v0;
 }

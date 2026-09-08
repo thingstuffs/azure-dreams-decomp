@@ -3,7 +3,6 @@
 extern s32 *func_8008FAC0(void *arg0, void *arg1);
 extern void func_800C3780(void *arg0, void *arg1, s32 arg2);
 extern void func_800C792C(void *arg0);
-extern void func_800C79E4(void);
 extern void func_800C7C3C(void *arg0, void *arg1, s32 arg2);
 extern void func_800C7CAC(void *arg0, void *arg1, s32 arg2);
 
@@ -28,7 +27,6 @@ void func_800C78A8(void *arg0, void *arg1, s32 arg2) {
                 ((s32 *)arg1)[1] -= entry[1];
             }
             func_800C7C3C(arg0, arg1, arg2);
-            func_800C79E4();
             return;
         }
     }
@@ -39,7 +37,6 @@ void func_800C78A8(void *arg0, void *arg1, s32 arg2) {
         func_800C7CAC(arg0, arg1, arg2);
         *(u16 *)((u8 *)arg1 + 2) = *(u16 *)((u8 *)arg0 + 0x84);
         *(u16 *)((u8 *)arg1 + 6) = *(u16 *)((u8 *)arg0 + 0x86);
-        func_800C79E4();
         return;
     }
 

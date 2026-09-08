@@ -6,7 +6,6 @@ extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
-extern void func_800D7F1C();
 extern s32 D_800814A0;
 extern u16 D_80083460[];
 
@@ -59,7 +58,6 @@ void func_800D7D30(void *arg0, void *arg1, void *arg2) {
         if (state == 1) {
             goto state_one;
         }
-        func_800D7F1C(z, dz);
         return;
     }
 
@@ -105,7 +103,6 @@ void func_800D7D30(void *arg0, void *arg1, void *arg2) {
 
     if (((S_800D7D30_0 *)arg1)->unk_08.at02.v < ((S_800D7D30_1 *)arg0)->unk_10 - 0x60) {
         ((S_800D7D30_1 *)arg0)->unk_4C.u++;
-        func_800D7F1C();
         return;
     }
     return;

@@ -7,7 +7,6 @@ typedef s32 M2C_UNK;
 
 extern M2C_UNK func_800A2B04();
 extern M2C_UNK func_800A56E0();
-extern void func_80173594(void) __attribute__((noreturn));
 extern s32 D_8008346C;
 extern M2C_UNK D_80170E94;
 
@@ -43,7 +42,6 @@ void func_8017346C(S_8017346C_0 *arg0, Rec_D_800E3D7C *arg1, S_8017346C_1 *arg2,
     temp_v1 = arg0->unk_9B;
     if (temp_v1 != 0) {
         if (temp_v1 != 1) {
-            func_80173594();
             return;
         }
         goto block_8;
@@ -51,7 +49,6 @@ void func_8017346C(S_8017346C_0 *arg0, Rec_D_800E3D7C *arg1, S_8017346C_1 *arg2,
     if (arg2->unk_14 & 0x8000) {
         arg0->unk_9B = 1U;
         arg2->unk_14 |= 0x6000;
-        func_80173594();
         return;
     }
     arg1->unk_14.as_s32 = 0;

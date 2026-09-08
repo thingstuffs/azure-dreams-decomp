@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_8009867C(void);
 extern void func_80099754(void *);
 extern u8 D_80098544[8];
 
@@ -14,7 +13,6 @@ void func_80098608(void *arg0, void *arg1) {
         value = *(s32 *)((u8 *)arg1 + 8);
         value += ((s32)0xFF800000 - value) / 2;
         *(s32 *)((u8 *)arg1 + 8) = value;
-        func_8009867C();
         return;
     }
 

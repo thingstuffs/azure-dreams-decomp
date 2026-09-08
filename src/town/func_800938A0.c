@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
-M2C_UNK func_800910F0();                            /* extern */
 M2C_UNK func_800942B0();        /* extern */
 M2C_UNK func_80094378();        /* extern */
 M2C_UNK func_80094C1C();                         /* extern */
@@ -37,7 +36,6 @@ void func_80091000(s32 arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
         if (((S_80091000_1 *)(&D_800CFCEF))->unk_00 == 0) {
             func_80094378(arg0, arg1, arg2);
-            func_800910F0();
             return;
         }
         goto block_6;
@@ -48,7 +46,6 @@ void func_80091000(s32 arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
 block_6:
     if (((S_80091000_2 *)state)->unk_10 & 0x10) {
         func_800942B0(arg0, arg1, arg2);
-        func_800910F0();
         return;
     }
     if (((S_80091000_2 *)state)->unk_08 & 0xF000) {

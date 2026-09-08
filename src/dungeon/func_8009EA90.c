@@ -2,7 +2,6 @@
 
 extern s32 func_80042900(void *entity, s32 arg1);
 extern s32 func_8009A350(s32 arg0, s32 arg1, s32 arg2, u16 *arg3);
-extern s32 func_800A4284(void);
 
 #ifdef NON_MATCHING
 #define LEGACY_KEEP(var) ((void)0)
@@ -27,7 +26,6 @@ s32 func_800A41F0(void *arg0) {
         if (!(*(s32 *)((u8 *)arg0 + 0x1C) & 0x290000)) {
             result = func_80042900(arg0, 0x1B) << 16;
             LEGACY_KEEP(result);
-            func_800A4284();
             return result == 0;
         }
         return 0;

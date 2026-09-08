@@ -6,7 +6,6 @@
 extern void func_80048A44(void *, u8, s32, s32);
 extern void func_8008D94C(void *, void *, void *, void *);
 extern void func_8008DCEC(void);
-extern void func_8008DDC8(void);
 extern s32 func_80094F74(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 
@@ -76,7 +75,6 @@ void func_8008DBE8(void *arg0, void *arg1, void *arg2, void *arg3) {
         }
 
         func_8008D94C(arg0, arg1, arg2, arg3);
-        func_8008DDC8();
         return;
     }
 

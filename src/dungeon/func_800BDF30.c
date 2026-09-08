@@ -8,7 +8,6 @@ extern u8 D_800E17A1[];
 extern u16 D_80083460[];
 
 extern s32 func_8008D330();
-extern void func_800C37B0(void);
 extern void func_800A63B8();
 extern s32 func_800AD6FC();
 extern void func_800A5F38();
@@ -22,7 +21,6 @@ s32 func_800C3690(void *arg0, s32 arg1, s16 arg2)
     if (arg0 == D_800E3D7C) {
         *(s32 *)((u8 *)arg0 + 0x110) = arg1;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
-        func_800C37B0();
         return 0;
     }
 
@@ -30,7 +28,6 @@ s32 func_800C3690(void *arg0, s32 arg1, s16 arg2)
         func_800A63B8(arg0, arg1, arg2);
         if (func_800AD6FC(arg0, (D_800DDE84[*((u8 *)arg0 + 0x13)] >> 6) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
-            func_800C37B0();
             return 1;
         }
     }

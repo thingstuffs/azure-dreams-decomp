@@ -11,7 +11,6 @@ M2C_UNK func_800A2FE0();
 M2C_UNK func_800A32A4();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800ACF88();
-M2C_UNK func_80173994() __attribute__((noreturn));
 extern s8 D_8006CCD8;
 extern s8 D_8006CCE8;
 extern s32 D_800814A0[3];
@@ -136,7 +135,6 @@ jt_c3:
     }
     ((S_80173724_0 *)arg0)->unk_96 = 0x80U;
     ((S_80173724_0 *)arg0)->unk_9B = ((S_80173724_0 *)arg0)->unk_9B + 1;
-    func_80173994();
     return;
 jt_c4:
     ((S_80173724_1 *)arg3)->unk_1C.s |= 0x10000000;

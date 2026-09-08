@@ -7,7 +7,6 @@ extern void func_80099290(s32);
 extern s32 func_8009929C(s32, s32);
 extern void func_800A5720(s32);
 extern void __attribute__((noreturn)) func_8016AB64(void);
-extern void __attribute__((noreturn)) func_8016ABB4(void);
 
 extern s32 D_800814A0;
 extern u8 D_80083160[];
@@ -52,14 +51,14 @@ void func_8016A9FC(void *arg0) {
     if (state == 0) {
         goto state_0;
     }
-    func_8016ABB4();
+    return;
 
 state_ge_2:
     ASM_KEEP(state);   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_2;
     }
-    func_8016ABB4();
+    return;
 
 state_0:
     if (base[0xA8] >= 0x65) {
@@ -86,7 +85,7 @@ state_0:
     value = func_8009929C(1, value);
     func_80099290(value);
     func_800A5720(first_value);
-    func_8016ABB4();
+    return;
 
 state_1:
     counter = ((S_8016A9FC_0 *)arg0)->unk_1A;
@@ -96,7 +95,7 @@ state_1:
     }
     ((S_8016A9FC_0 *)arg0)->unk_1A = 0;
     ((S_8016A9FC_0 *)arg0)->unk_12.u++;
-    func_8016ABB4();
+    return;
 
 state_2:
     value = base[0xA8];
@@ -105,7 +104,7 @@ state_2:
         base[0xA8] = value + 4;
         base[0xA9] += 4;
         base[0xAA] += 4;
-        func_8016ABB4();
+        return;
     }
     ASM_KEEP_NV(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
     base[0xAA] = 0x80;

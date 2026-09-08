@@ -3,7 +3,6 @@
 extern s16 D_80083780[];
 extern u8 D_800C75D0[];
 extern s8 D_800E3D20[];
-extern void func_800C7898(void);
 
 s32 func_800C77D0(s32 arg0, void *arg1, s32 arg2, s16 arg3) {
     s32 d;
@@ -19,7 +18,6 @@ s32 func_800C77D0(s32 arg0, void *arg1, s32 arg2, s16 arg3) {
     d -= rhs;
     if (d < 0) d = -d;
     if (d >= 0xC1) {
-        func_800C7898();
         return 0;
     }
     arg2keep = arg2;
@@ -29,7 +27,6 @@ s32 func_800C77D0(s32 arg0, void *arg1, s32 arg2, s16 arg3) {
     d -= rhs;
     if (d < 0) d = -d;
     if (d >= 0xC1) {
-        func_800C7898();
         return 0;
     }
 

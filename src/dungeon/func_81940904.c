@@ -72,7 +72,6 @@ extern u8 D_80045340[];
 extern s32 D_800814A0;
 extern void *D_800814A8;
 
-extern void func_800241C8(void) __attribute__((noreturn));
 extern void *func_8003FC64(u32);
 extern void func_8004491C(void *, void *);
 extern void func_800B8FC8(void *, Rect16 *, void *, s32, s32);
@@ -102,9 +101,6 @@ void func_80024104(void *arg0) {
             src += sizeof(PackedBlock);
             dst += sizeof(PackedBlock);
         } while (src != end);
-        index = 0;
-        ASM_TAILSLOT_PIN(index);   /* MATCH pin: retail delay-slot contents depend on it */
-        func_800241C8();
     } else {
         end = src + sizeof(RectTable);
         do {

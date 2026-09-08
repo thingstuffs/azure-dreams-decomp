@@ -6,7 +6,6 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_80090A74();
-extern M2C_UNK func_80090D20();
 extern M2C_UNK func_80093D18();
 extern M2C_UNK func_80093DD8();
 extern s32 func_80094B0C();
@@ -36,7 +35,7 @@ void func_80090C68(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
             func_8009550C(arg1);
             if (func_80094B0C(arg0 - 0x20) != 0) {
                 func_80093D18(arg0, arg1, arg2);
-                func_80090D20();
+                return;
             }
         } else {
             temp_v0 = ((Rec_func_80090C68_arg0 *)arg0)->unk_0A - 1;

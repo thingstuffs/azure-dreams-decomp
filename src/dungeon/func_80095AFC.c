@@ -15,7 +15,6 @@ struct Node {
 };
 
 extern s32 func_8009A350(s16, s16, s32, u16 *);
-extern void *func_8009B368(void);
 extern s32 func_800A41F0(Node *);
 
 void *func_8009B25C(Node *head, s16 x, s16 y, s16 value) {
@@ -32,7 +31,6 @@ void *func_8009B25C(Node *head, s16 x, s16 y, s16 value) {
         return 0;
     }
     if (!(flags & 0x3300)) {
-        func_8009B368();
         return 0;
     }
     end = head;

@@ -15,7 +15,6 @@ extern s32 func_800A4474(u8, u8);
 extern s16 func_800B500C(u8, u8, s16);
 extern s16 func_800A70E4(u8, u8, s16);
 extern void func_800A4410(void) __attribute__((noreturn));
-extern void func_800A4414(void) __attribute__((noreturn));
 
 
 
@@ -60,10 +59,10 @@ void func_800A4300(Rec_D_80082E80 *arg0, Rec_D_800E3D7C *arg1) {
         if (!(map_entry[3] & 0x40)) {
             *(void **)D_80081470 = *(void **)map_entry;
             ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.p = map_entry;
-            func_800A4414();
+            return;
         }
         ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.i = 0;
-        func_800A4414();
+        return;
     }
 
     floor_raw = (u32)func_800A70E4(arg0->unk_24,
@@ -75,7 +74,7 @@ void func_800A4300(Rec_D_80082E80 *arg0, Rec_D_800E3D7C *arg1) {
         floor_entry = floor_base + floor_index * 4;
         *(void **)D_80081470 = *(void **)floor_entry;
         ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.p = floor_entry;
-        func_800A4414();
+        return;
     }
 
     ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */

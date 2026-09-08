@@ -23,7 +23,6 @@ typedef struct {
 extern u8 D_800786DC[];
 extern u8 D_800786E8[];
 extern void func_800AF7E0(void);
-extern void func_800AF850(void);
 
 void func_800AF784(Object *obj)
 {
@@ -49,7 +48,6 @@ void func_800AF784(Object *obj)
         ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
         obj->flags &= mask;
         *obj->outputs->secondary = D_800786E8;
-        func_800AF850();
         return;
     }
 

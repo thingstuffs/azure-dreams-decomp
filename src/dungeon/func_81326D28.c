@@ -9,7 +9,6 @@ s16 func_800BCB04();
 void func_8016E63C(void) __attribute__((noreturn));
 void func_8016E824(void) __attribute__((noreturn));
 void func_8016E9E0(void) __attribute__((noreturn));
-void func_8016EAF4(void) __attribute__((noreturn));
 extern s32 D_800814A0;
 extern u8 D_80174708;
 
@@ -205,7 +204,6 @@ block_28:
     ((S_8016E528_2 *)arg1)->unk_08.at00u.v = 0;
     (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_8016E528_0_pre *)arg0)[-1].unk_00 | 0x8000);
     D_800814A0 |= 0x8000;
-    func_8016EAF4();
     return;
 block_32:
     if (((S_8016E528_1 *)arg2)->unk_14 & 0x8000) {

@@ -6,7 +6,6 @@
 extern void func_80048A44(void *a0, s16 a1, s16 a2, s32 a3);
 extern void *func_800A8608(void *a0, void *a1, s32 a2, s32 a3, s32 a4);
 extern void func_800A56E0(s32 a0);
-extern void func_8008D928(void);
 
 extern s16 D_80083228;
 extern u8 D_800DD0B8[8];
@@ -56,7 +55,6 @@ void func_8008D7D0(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3) {
 
         *(s16 *)(temp_s0 + 0xAE) = (s16)(*(u16 *)(arg3 + 0x46) == 1);
         *(u16 *)(arg0 + 0x46) = 0;
-        func_8008D928();
         return;
     }
     *(void **)(arg0 + 0x8C) = &D_8008ACDC;

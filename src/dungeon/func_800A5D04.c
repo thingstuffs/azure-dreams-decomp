@@ -13,7 +13,6 @@ typedef struct {
 extern DungeonState D_80083460;
 extern s32 func_800A2B5C(void *);
 extern s32 func_800ADAE4(void *, void *);
-extern void func_800AB510(void) __attribute__((noreturn));
 
 s32 func_800AB464(void *arg0, s32 arg1, void *arg2, void *arg3) {
     DungeonState *state;
@@ -34,7 +33,6 @@ s32 func_800AB464(void *arg0, s32 arg1, void *arg2, void *arg3) {
             state->field_0C = 0;
             state->field_14 -= 1;
             *((u8 *)arg0 + 0x9B) = 1;
-            func_800AB510();
         }
     } else {
         result = 1;

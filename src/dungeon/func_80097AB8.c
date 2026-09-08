@@ -64,7 +64,6 @@ typedef s64 M2C_UNK64;
 
 s32 func_80042900();                 /* extern */
 s32 func_8009D34C();                                /* extern */
-void func_8009D368();                               /* extern */
 s32 func_800A6D30();                                /* extern */
 M2C_UNK func_800CB82C();         
 typedef struct S_8009D218_0 {
@@ -106,7 +105,6 @@ block_17:
                     if ((*temp_v0 == 3) && (arg2->unk_13 >= 0) && (func_800A6D30() & 3)) {
                         /* Duplicate return node #22. Try simplifying control flow for better match */
                         func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
-                        func_8009D368();
                         return 1;
                     }
                     /* Duplicate return node #25. Try simplifying control flow for better match */
@@ -118,7 +116,6 @@ block_17:
             return 0;
         }
         func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
-        func_8009D368();
         return 1;
     }
 block_24:

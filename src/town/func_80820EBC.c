@@ -38,7 +38,6 @@ typedef struct S_800236BC_3 {
 extern void func_800239BC(void) __attribute__((noreturn));
 extern void func_80023A74(void) __attribute__((noreturn));
 extern void func_80023B5C(void) __attribute__((noreturn));
-extern void func_80023BAC(void) __attribute__((noreturn));
 extern void func_800478B8(void *);
 extern void func_80053DA8(s32);
 extern s32 rand(void);
@@ -79,7 +78,7 @@ void func_800236BC(void *arg0, void *arg1, void *arg2)
         if (state == 1) {
             goto state_1;
         }
-        return func_80023BAC();
+        return;
     }
     if (state == 4) {
         goto state_4;
@@ -90,7 +89,7 @@ void func_800236BC(void *arg0, void *arg1, void *arg2)
     if (state == 255) {
         goto state_255;
     }
-    return func_80023BAC();
+    return;
 
 state_0:
         func_800478B8(arg2);
@@ -106,7 +105,7 @@ state_0:
         ((S_800236BC_0 *)arg1)->unk_10 = (rand() % 96 + 128) << 12;
         ((S_800236BC_0 *)arg1)->unk_14 = 0xFFF00000;
         ((S_800236BC_1 *)arg0)->unk_04.u++;
-        return func_80023BAC();
+        return;
 
 state_1:
         func_800478B8(arg2);
@@ -119,7 +118,7 @@ state_1:
         if (((S_800236BC_1 *)arg0)->unk_06.s > 0) {
             ((S_800236BC_0 *)arg1)->unk_08 = 0;
             ((S_800236BC_0 *)arg1)->unk_14 = -((S_800236BC_0 *)arg1)->unk_14;
-            return func_80023BAC();
+            return;
         }
         ((S_800236BC_0 *)arg1)->unk_08 = 0;
         ((S_800236BC_0 *)arg1)->unk_10 = 0;
@@ -127,7 +126,7 @@ state_1:
         ((S_800236BC_0 *)arg1)->unk_14 = ((rand() & 0xFF) << 11) - 0x150000;
         ((S_800236BC_1 *)arg0)->unk_06.s = (rand() & 0xF) + 30;
         ((S_800236BC_1 *)arg0)->unk_04.u++;
-        return func_80023BAC();
+        return;
 
 state_2:
         func_800478B8(arg2);
@@ -184,7 +183,7 @@ state_3:
         D_80012D5C[0] += amount;
         D_80024628[0] += amount;
         ((S_800236BC_1 *)arg0)->unk_04.s = 255;
-        return func_80023BAC();
+        return;
 
 state_4:
         if (func_8008FD9C(D_80024488, arg1, &D_800D0420, D_80083780) != 0) {
@@ -206,7 +205,7 @@ state_4:
             return;
         }
         ((S_800236BC_1 *)arg0)->unk_04.s = 255;
-        return func_80023BAC();
+        return;
 
 state_255:
         func_8008F134((u8 *)arg0 + 8);

@@ -9,7 +9,6 @@ typedef struct {
 } TownObject;
 
 extern void func_800C4174(void);
-extern void func_800C9FA8(void);
 
 void func_800C9F58(TownObject *obj) {
     u16 timer;
@@ -19,7 +18,6 @@ void func_800C9F58(TownObject *obj) {
     if ((timer << 16) <= 0) {
         func_800C4174();
         obj->output = obj->value;
-        func_800C9FA8();
         return;
     }
     obj->output -= 0x400;

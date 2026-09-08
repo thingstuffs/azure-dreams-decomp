@@ -22,7 +22,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern s32 func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171FA4(void) __attribute__((noreturn));
 extern void func_80171FC8(void);
 extern void func_801721D8(void *, void *, void *, void *);
 extern s32 func_80172920(void *, void *, void *, void *);
@@ -120,7 +119,6 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
     if (D_80083462 & 0x1000) {
         ((S_801719DC_0 *)arg0)->unk_9A = 0xE;
         func_80171FC8();
-        func_80171FA4();
         return;
     }
     ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -138,7 +136,6 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
         func_80047784(arg2,
             ((u8 *)table)[((D_80083228 + ((S_801719DC_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
             0);
-        func_80171FA4();
         return;
     }
 
@@ -148,7 +145,6 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
             ((S_801719DC_0 *)arg0)->unk_9B = 1;
             ((S_801719DC_0 *)arg0)->unk_8C = 0;
             ((S_801719DC_1 *)arg3)->unk_1C &= 0xFFFBFFFF;
-            func_80171FA4();
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_8017467C) != 0) {
@@ -159,7 +155,6 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
     if (!(D_80083462 & 0x2000)) {
         if (((S_801719DC_1 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            func_80171FA4();
             return;
         }
 
@@ -218,7 +213,6 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
             ((S_801719DC_0 *)arg0)->unk_92 = old_value - delta;
             ((S_801719DC_0 *)arg0)->unk_A8 = value;
             func_801743F0(arg0, arg1, arg2, arg3);
-            func_80171FA4();
             return;
         }
 
@@ -267,7 +261,6 @@ jt_c9:
             return;
         }
         func_80172AAC(arg0, arg1, arg2, arg3);
-        func_80171FA4();
         return;
 
 jt_c5:
@@ -292,7 +285,6 @@ jt_c7:
 jt_c12:
 case_12:
         func_800A9A0C(arg3);
-        func_80171FA4();
         return;
 
 jt_c1:
@@ -300,7 +292,6 @@ jt_c2:
 jt_c3:
 case_123:
         func_800AAF00(arg0, arg1, arg2, D_80174674, &D_801719DC);
-        func_80171FA4();
         return;
 
 jt_c4:
@@ -308,7 +299,6 @@ jt_c10:
 jt_c11:
 generic:
         func_801721D8(arg0, arg1, arg2, arg3);
-        func_80171FA4();
         return;
     }
 

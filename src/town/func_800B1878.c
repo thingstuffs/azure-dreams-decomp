@@ -25,7 +25,6 @@ extern void func_8004491C(void *arg0, void *arg1);
 extern void func_8004B248(void *arg0);
 extern void func_8004CAA0(void);
 extern void func_800AE630(void);
-extern void func_800AF0B4(void) __attribute__((noreturn));
 
 extern s32 D_800814A0[3];
 
@@ -45,7 +44,6 @@ void *func_800AEFD8(void *arg0, s32 arg1, s32 arg2, s32 arg3,
             func_800AEEF0(payload, arg0, arg3, arg4, arg1, arg2, arg5);
             func_8004491C(object, func_8004CAA0);
             ((S_800AEFD8_0 *)object)->unk_10 = func_800AE630;
-            func_800AF0B4();
         } else {
             func_8004B248((u8 *)object + 0xFC);
             ((S_800AEFD8_0 *)object)->unk_1E |= 0x8000;

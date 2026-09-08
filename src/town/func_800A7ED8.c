@@ -9,7 +9,6 @@ M2C_UNK func_800953D0();                      /* extern */
 M2C_UNK func_80095460();                      /* extern */
 M2C_UNK func_80095910();                   /* extern */
 M2C_UNK func_80096FF4();                      /* extern */
-M2C_UNK func_800A5720();                            /* extern */
 M2C_UNK func_800A573C();     /* extern */
 extern M2C_UNK D_800903FC;
 extern M2C_UNK D_800CFCB4;
@@ -45,7 +44,6 @@ void func_800A5638(void *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
         }
         if (((S_800A5638_0_pre *)arg0)[-1].unk_00 == &D_800903FC) {
             func_8009065C(arg0, arg1, arg2);
-            func_800A5720();
             return;
         }
         func_800A573C(arg0, arg1, arg2);

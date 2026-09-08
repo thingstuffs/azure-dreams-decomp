@@ -19,7 +19,6 @@ extern s32 func_80064584(s32);
 extern s32 rand(void);
 extern void func_8009A350(s32, s32, s32, u16 *);
 extern void func_800B653C(DungeonEffect *, s16);
-extern void func_800B67F0(void);
 extern void func_800B6814(void *);
 
 void func_800B66C8(void *arg0)
@@ -48,7 +47,6 @@ void func_800B66C8(void *arg0)
     func_8009A350(x - 1, y >> 6, 0, &effect.flags);
     if (effect.flags & 0x400) {
         func_800B6814(object);
-        func_800B67F0();
         return;
     }
 

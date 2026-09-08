@@ -63,6 +63,55 @@ journals pins/sites before and after) and in a dedicated L5 pass; `STATUS.md` ca
 new shape lines (tail-call spelling, marker pins). The end state retires maspsx's tail-jump and
 frame-elision passes.
 
+## Pins: what a shape search finds (2026-09-08, `work/exp_pins/REPORT.md`)
+
+20 rows, 29 load-bearing sites, 205 scorer probes, window-gated: **4 rows (5 sites) pin-free,
+0 pin-reduced, 16 unchanged**. The census class predicts tractability: `reg-rename` 3/4 rows,
+`length-drift` 1/4, `addressing` / `block-order` / `code-motion` / `reorder-only` 0/3 each. The
+four shapes that worked: a reassigned parameter used as a loop counter moved into a fresh local;
+one reused local split into two; an inner-block declaration hoisted to function scope; a loop
+increment sunk to the end of the loop body (a barrier). What never worked, and is dropped from
+any menu: declaration-order permutation (0/9), explicit temporaries (0/9), statement reorder
+other than the increment sink (0/13), polarity flips (0/8). Three mechanisms explain 14 of the
+16 failures — cse deleting a copy retail keeps, a dead value retail parks in a delay slot, a
+fence position no statement boundary reproduces — none reached from C within the budget. A
+transform for the tractable class, `tools/xform/t9_regpins.py`, is built from those four shapes.
+Astra's lanes now attempt removal on every refined row and journal the counts (first 16 rows:
+10 pins removed).
+
+## Lanes and transforms landed (2026-09-08, later)
+
+- **Epilogue (A1) pilot, 15/15** (`work/lac_lane/epi_pilot/`, Opus): the mechanism behind the earlier
+  2/10 is gcc ≥ 2.8.0 collapsing a jump-to-return into an inline `jr ra` when the function is
+  frameless (frame 0, no ra save); the 2.7.2 family keeps the jump in every shape. Framed rows and
+  2.7.2-family rows take `return;` / `return N;` / `return call(...)` or the deleted statement; a
+  frameless row pinned to a 2.8.x cell is byte-exact from pin-free C at a 2.7.2-family cell — its
+  pinned cell was an artefact of the label-as-call spelling (our assembler front end elided the
+  frame, so the config search never saw the contradiction). 15 rows landed (13 as-is, 2 with the
+  cell corrected: `common.set_row_cfg`, recorded in the split table as `config_was`); the sweep
+  now accepts a stock-cell correction from a plugin (`verify_fn(cand, cfg=...)`, `info["cfg"]`).
+  The audit's `v0=imm:N` is unreliable (two rows are void).
+- **`tools/xform/t10_epilogue.py`** (sweep `t10_epilogue`), built from that recipe: menu per site
+  drop-before-return → `return;` → `return N;` → `return <preceding expression>;` → fall into the
+  tail → the same C at a 2.7.2-family cell for frameless 2.8.x rows. Dry run and sweep agree:
+  **453 rows applied, 979 of 1,418 epilogue sites removed, 13 rows with the cell corrected (all to
+  2.7.2-cdk / 2.7.2-cdk-G0)**, 342 touched windows byte-identical, SLUS gate MATCH. Refusals: 133
+  rows with no exact candidate (large rows whose residue is other scaffolding — re-run after pin
+  work), 36 whose target is no longer spelled, 12 with the target outside the row, 12 inside
+  `#ifndef NON_MATCHING`. The old `t3_epilogue` plugin is retired (its in-row test used the wrong
+  address space and matched no row).
+- **Mid-row (B1) pilot, 10/15** (`work/lac_lane/pilot/`, Sonnet): the if/else rejoin, with the
+  split point found from the target address minus the row's true address. Failures: two rows
+  without a rowbase record (the gate links the new jump at the synthetic base — a data fix under
+  `config/overlays/*.rowbase.jsonl`), two where retail keeps a redundant `j` to the next
+  instruction that gcc eliminates, one delay-slot dead value. 10 rows landed through
+  `tools/apply_candidates.py` (journal `t11_midrow`).
+- **Register pins, `tools/xform/t9_regpins.py`** (sweep `t9_regpins`): the four shapes from the
+  experiment, gated on the T2 journal (the live text is what T2 left, not the census's original).
+  Live tractable class: 91 rows (every live pin colouring-only); 8 rows changed (7 pin-free, 1
+  reduced), 11 pins removed. The tractable seam is small; the bulk of the 13,600 load-bearing
+  pins needs a reader per row (the lanes now attempt it).
+
 ## Next
 
 - B1 (mid-row) rows: 362 rows carry only mid-row sites (186 with a single site), 207 mix kinds.

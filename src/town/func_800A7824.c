@@ -2,7 +2,6 @@
 
 
 extern s32 func_800352FC(void);
-extern void func_800A506C(void) __attribute__((noreturn));
 extern u8 D_80082660;
 extern s32 D_80082A38[];
 extern u8 D_800A4F4C[];
@@ -44,7 +43,7 @@ void func_800A4F84(S_800A4F84_0 *arg0) {
         value = arg0->unk_30.p;
         if (value != 0) {
             arg0->unk_00.p = value;
-            func_800A506C();
+            return;
         }
 
         index = state[1];
@@ -53,7 +52,7 @@ void func_800A4F84(S_800A4F84_0 *arg0) {
             value = ((S_800A4F84_1 *)(table + (state[1] * 8)))->unk_04;
             if (value != 0) {
                 arg0->unk_00.i = value->unk_08;
-                func_800A506C();
+                return;
             }
             goto use_default;
         }
@@ -69,7 +68,7 @@ void func_800A4F84(S_800A4F84_0 *arg0) {
 
 use_default:
         arg0->unk_00.p = D_80100D98;
-        func_800A506C();
+        return;
     } else {
         arg0->unk_00.p = D_80100D98;
         arg0->unk_24 = D_800A4F4C;

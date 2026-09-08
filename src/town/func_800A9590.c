@@ -10,7 +10,6 @@ extern int D_800814A0[3];
 extern int func_8009CFE0(void);
 extern void func_8008F134(void *arg0);
 extern void func_80033D08(void *arg0);
-extern void func_800A6D84(void);
 
 typedef void (*S_800A9590_Callback)(void *, void *, void *, void *);
 
@@ -28,7 +27,6 @@ void func_800A6CF0(void *arg0, void *arg1, void *arg2)
         func_80033D08(arg0);
         *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800A6D84();
         return;
     }
     callback = *(S_800A9590_Callback *)((u8 *)arg0 + 0x50);

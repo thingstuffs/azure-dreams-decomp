@@ -8,7 +8,6 @@
 
 typedef void (*Callback)(s32 *);
 
-extern void func_800A4A34(void);
 extern void func_800A4A58(void);
 extern s16 D_8006ADD4;
 extern s8 D_800D1554;
@@ -43,7 +42,6 @@ void func_800A496C(void)
     if (D_8006ADD4 != 0xC) {
         if (*(s16 *)(D_80100D90 + 6) < 0x600) {
             D_800D1554 = 1;
-            func_800A4A34();
             return;
         }
         D_800D1554 = 0;

@@ -30,7 +30,6 @@ extern void func_800A9A0C(void *);
 extern void func_800AA258(void *, void *, void *, void *);
 extern s32 func_800AA6B4(void *, void *, void *, s32);
 extern void func_800AA888(void *, void *, void *, void *);
-extern void func_801737BC(void) __attribute__((noreturn));
 extern void func_801737DC(void *, void *, void *, void *);
 
 extern void *D_800814A8;
@@ -55,7 +54,7 @@ void func_8017357C(void *arg0, void *arg1, void *arg2, void *arg3)
     if (state == 1) {
         goto state_one;
     }
-    return func_801737BC();
+    return;
 
 state_zero:
     {
@@ -73,7 +72,7 @@ state_zero:
     index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(arg2, stateEffect[index & 7], 0);
     ((S_8017357C_0 *)arg0)->unk_9B++;
-    return func_801737BC();
+    return;
     }
 
 state_one:
@@ -96,13 +95,13 @@ state_one:
 
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(callArg0, arg1, arg2, arg3);
-            return func_801737BC();
+            return;
         }
 
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
             func_800AA888(callArg0, arg1, arg2, arg3);
             func_801737DC(arg0, arg1, arg2, arg3);
-            return func_801737BC();
+            return;
         }
         }
 

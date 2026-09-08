@@ -4,7 +4,6 @@
 extern void *D_800834A0;
 
 extern void func_800C4174(void *);
-extern void func_800C7D9C(void);
 
 
 typedef struct S_800C7CF0_0 {
@@ -44,7 +43,6 @@ void func_800C7CF0(void *arg0, void *arg1) {
         func_800C4174(object);
         ((S_800C7CF0_2 *)out)->unk_02 = target_x;
         ((S_800C7CF0_2 *)out)->unk_06 = target_y;
-        func_800C7D9C();
         return;
     }
 
