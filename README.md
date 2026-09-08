@@ -96,6 +96,18 @@ Both config label dialects (`2.8.1 -G0 …` and `2.8.1+-G0 …`) parse identical
 was the sync recipe (refresh a mirror, re-import, re-derive, re-verify, re-gate) and stays as a
 record. It needs a checkout of that tree named in `.upstream`; nothing else does.
 
+## Licence
+
+Everything original in this repository (the tools, the ledger, the documentation, the transformed
+and refined C) is released into the public domain under [The Unlicense](LICENSE): use it, copy it,
+sell it, claim it, no attribution required. Two things are not ours to dedicate:
+
+- `tools/maspsx/` is vendored from [maspsx](https://github.com/mkst/maspsx) under its MIT licence
+  (`tools/maspsx/LICENSE`).
+- The reconstructed sources describe *Azure Dreams*, which is © Konami. They are the product of
+  decompiling the retail binaries for research and preservation; no rights in the game are claimed,
+  and the repository contains no game data.
+
 ## Credits
 
 - **Azure Dreams De-Randomizer** by ProGrammar-R (https://github.com/ProGrammar-R/ProGrammar-R.github.io, MPL-2.0).
