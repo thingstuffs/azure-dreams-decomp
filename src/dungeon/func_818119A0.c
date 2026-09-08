@@ -11,8 +11,9 @@ typedef struct S_800269A0_0 {
     s32 unk_70;
 } S_800269A0_0;   /* arg0 in func_800269A0 */
 
-void func_800269A0(void *arg0) {
+/* Initialize state using its embedded blocks and stored configuration value. */
+void func_800269A0(void *state) {
     func_8002692C();
-    func_800267D8(arg0, arg0 + 0x60, arg0 + 0x38, arg0 + 0x48);
-    func_80026878(arg0, ((S_800269A0_0 *)arg0)->unk_70);
+    func_800267D8(state, state + 0x60, state + 0x38, state + 0x48);
+    func_80026878(state, ((S_800269A0_0 *)state)->unk_70);
 }

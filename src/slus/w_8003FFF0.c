@@ -10,7 +10,7 @@ typedef struct S_8003FFF0 {
 
 extern S_8003FFF0 *D_80081498[4];
 
-/* Unlinks a node from its doubly-linked list (or the global list head), clearing a flag bit. */
+/* Unlinks a node from its doubly-linked list, clears flag 0x4000, and resets its links. */
 void func_8003FFF0(S_8003FFF0 *node) {
     S_8003FFF0 *prev = node->prev;
     S_8003FFF0 *next;

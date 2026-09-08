@@ -10,17 +10,13 @@ typedef struct {
     u8 unk3;
 } Struct800438E4;
 
-/*
- * Reads a signed "field2" byte (offset 2) and a 5-bit mask from the low bits
- * of the byte at offset 3. If the mask is zero, returns field2 unchanged;
- * otherwise returns field2 scaled by 10*mask.
- */
-s32 func_800438E4(Struct800438E4 *a0) {
-    s32 mask = a0->unk3 & 0x1F;
-    s32 field2 = a0->unk2;
+/* Returns the signed byte scaled by ten times the mask, or unchanged if the mask is zero. */
+s32 func_800438E4(Struct800438E4 *record) {
+    s32 mask = record->unk3 & 0x1F;
+    s32 value = record->unk2;
 
     if (mask != 0) {
-        field2 = field2 * (10 * mask);
+        value = value * (10 * mask);
     }
-    return field2;
+    return value;
 }

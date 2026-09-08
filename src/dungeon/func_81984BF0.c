@@ -14,6 +14,7 @@ typedef struct S_81984BF0_1 {
 extern void *D_800814A8;
 
 
+/* Clears flag 0x2000 on every object in the circular list. */
 void func_81984BF0(void)
 {
     void *link;

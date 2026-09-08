@@ -8,17 +8,18 @@ typedef struct S_80023194_0 {
     s32 * unk_8CC;
 } S_80023194_0;   /* var_s0 in func_80023194 */
 
-void func_80023194(void *arg0) {
-    s32 *temp_v0;
-    s32 var_s1;
-    void *var_s0;
+/* Processes the values referenced by five consecutive record entries. */
+void func_80023194(void *record) {
+    s32 *value_ptr;
+    s32 entry_index;
+    void *entry_cursor;
 
-    var_s1 = 0;
-    var_s0 = arg0;
+    entry_index = 0;
+    entry_cursor = record;
     do {
-        temp_v0 = ((S_80023194_0 *)var_s0)->unk_8CC;
-        var_s0 += 4;
-        var_s1 += 1;
-        func_8004E994(*temp_v0);
-    } while (var_s1 < 5);
+        value_ptr = ((S_80023194_0 *)entry_cursor)->unk_8CC;
+        entry_cursor += 4;
+        entry_index += 1;
+        func_8004E994(*value_ptr);
+    } while (entry_index < 5);
 }

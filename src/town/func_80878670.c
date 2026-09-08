@@ -2,27 +2,28 @@
 
 extern s32 *D_807030A4[];
 
-void func_80702670(s32 arg0) {
-    s32 value = arg0;
-    s32 temp_v1;
-    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 base;
+/* Set the indexed flag bit unless the index is zero. */
+void func_80702670(s32 bit_index) {
+    s32 index_or_word = bit_index;
+    s32 bit_position;
+    register s32 word_address ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 base_or_mask;
 
-    if (value != 0) {
-        temp_v1 = value;
-        if (value < 0) {
-            temp_v1 = value + 31;
+    if (index_or_word != 0) {
+        bit_position = index_or_word;
+        if (index_or_word < 0) {
+            bit_position = index_or_word + 31;
         }
-        temp_v1 >>= 5;
-        temp_a0 = temp_v1 << 2;
-        temp_v1 <<= 5;
-        temp_a0 += (base = (s32)D_807030A4[0],
-                    temp_v1 = value - temp_v1, base);
-        base = 1;
-        value = *(s32 *)temp_a0;
-        base <<= temp_v1;
-        base |= value;
-        *(s32 *)temp_a0 = base;
+        bit_position >>= 5;
+        word_address = bit_position << 2;
+        bit_position <<= 5;
+        word_address += (base_or_mask = (s32)D_807030A4[0],
+                    bit_position = index_or_word - bit_position, base_or_mask);
+        base_or_mask = 1;
+        index_or_word = *(s32 *)word_address;
+        base_or_mask <<= bit_position;
+        base_or_mask |= index_or_word;
+        *(s32 *)word_address = base_or_mask;
     }
 }
 

@@ -9,14 +9,15 @@ typedef struct S_801253EC_0 {
     s8 unk_0A;
 } S_801253EC_0;   /* arg0 in func_801253EC */
 
-void func_801253EC(S_801253EC_0 *arg0) {
-    u16 temp_v0;
+/* Advance the counter and switch to state one when the limit is reached. */
+void func_801253EC(S_801253EC_0 *controller) {
+    u16 next_count;
 
-    temp_v0 = arg0->unk_04 + 1;
-    arg0->unk_04 = temp_v0;
-    if ((s16) temp_v0 == arg0->unk_06) {
-        arg0->unk_0A = 1;
-        arg0->unk_06 = 0;
-        arg0->unk_04 = 0U;
+    next_count = controller->unk_04 + 1;
+    controller->unk_04 = next_count;
+    if ((s16) next_count == controller->unk_06) {
+        controller->unk_0A = 1;
+        controller->unk_06 = 0;
+        controller->unk_04 = 0U;
     }
 }

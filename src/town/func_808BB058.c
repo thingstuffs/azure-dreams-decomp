@@ -5,11 +5,12 @@ extern void func_80000BC8(s32);
 
 __asm__(".set D_00000F48, 0xF48");
 
-void func_808BB058(s32 arg0, s32 arg1) {
-    s32 offset;
+/* Call func_80000BC8 when the selected entry has bit 0 set. */
+void func_808BB058(s32 row, s32 column) {
+    s32 entry_offset;
 
-    offset = (arg1 * 8) + (arg0 << 4);
-    if (*(s32 *)&D_00000F48[offset] & 1) {
+    entry_offset = (column * 8) + (row << 4);
+    if (*(s32 *)&D_00000F48[entry_offset] & 1) {
         func_80000BC8(0x278);
     }
 }

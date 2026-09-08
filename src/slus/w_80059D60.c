@@ -9,14 +9,15 @@ typedef struct {
 extern s32 D_800869B4[3];
 extern Slot D_80085FA8[];
 
+/* Return 1 if any slot is active, or 3 if all slots are finished. */
 s32 func_80059D60(void) {
-    u32 count;
+    u32 slot_count;
     register u32 i ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     Slot *slot;
 
     i = 0;
     if (D_800869B4[0] != 0) {
-        count = D_800869B4[0];
+        slot_count = D_800869B4[0];
         slot = D_80085FA8;
         do {
             if (slot->field_2C == 0) {
@@ -24,7 +25,7 @@ s32 func_80059D60(void) {
             }
             i++;
             slot++;
-        } while (i < count);
+        } while (i < slot_count);
     }
     return 3;
 }

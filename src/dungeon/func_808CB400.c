@@ -7,23 +7,24 @@
 extern u8 D_80129728[];
 extern s32 D_801331A0;
 
+/* Save 12 referenced values to the backup array and clear the originals. */
 void func_80123898(void) {
-    u8 *base_v1;
-    u8 *var_v1;
-    s32 *temp_v0;
-    s32 *var_a0;
-    s32 var_a1;
+    u8 *table_base;
+    u8 *value_slot;
+    s32 *value_ptr;
+    s32 *backup_value;
+    s32 value_index;
 
-    var_a1 = 0x10;
-    var_a0 = &D_801331A0;
-    base_v1 = D_80129728;
-    var_v1 = base_v1 + 0x40;
+    value_index = 0x10;
+    backup_value = &D_801331A0;
+    table_base = D_80129728;
+    value_slot = table_base + 0x40;
     do {
-        var_a1 += 1;
-        *var_a0 = **(s32 **)var_v1;
-        temp_v0 = *(s32 **)var_v1;
-        var_v1 += 4;
-        *temp_v0 = 0;
-        var_a0 += 1;
-    } while (var_a1 < 0x1C);
+        value_index += 1;
+        *backup_value = **(s32 **)value_slot;
+        value_ptr = *(s32 **)value_slot;
+        value_slot += 4;
+        *value_ptr = 0;
+        backup_value += 1;
+    } while (value_index < 0x1C);
 }

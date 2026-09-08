@@ -18,11 +18,12 @@ typedef struct S_80173D40_1 {
 } S_80173D40_1;   /* arg2 in func_80173D40 */
 
 
-void func_80173D40(S_80173D40_0 *arg0, M2C_UNK arg1, S_80173D40_1 *arg2, Rec_D_800E3D7C *arg3) {
-    arg0->unk_9A = 0x19;
-    arg0->unk_9B = 0;
-    arg0->unk_8C = 0;
-    arg2->unk_14 = (u16) (arg2->unk_14 & 0xF7FF);
-    arg0->unk_96 = 0;
-    arg3->unk_1C.as_s32 = (s32) (arg3->unk_1C.as_s32 | 0x10000000);
+/* Resets state to code 0x19 and updates the associated record flags. */
+void func_80173D40(S_80173D40_0 *state, M2C_UNK unused, S_80173D40_1 *flag_record, Rec_D_800E3D7C *record) {
+    state->unk_9A = 0x19;
+    state->unk_9B = 0;
+    state->unk_8C = 0;
+    flag_record->unk_14 = (u16) (flag_record->unk_14 & 0xF7FF);
+    state->unk_96 = 0;
+    record->unk_1C.as_s32 = (s32) (record->unk_1C.as_s32 | 0x10000000);
 }

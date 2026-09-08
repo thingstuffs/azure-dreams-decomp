@@ -3,17 +3,18 @@
 extern s16 D_8002571C;
 extern s32 D_800814A0;
 
-void func_800249A0(void *arg0)
+/* Decrements the object counter and sets flags when it reaches zero. */
+void func_800249A0(void *object)
 {
-    u8 *ptr = arg0;
-    u16 value;
+    u8 *object_bytes = object;
+    u16 counter;
 
-    value = *(u16 *)(ptr + 42);
+    counter = *(u16 *)(object_bytes + 42);
     D_8002571C = 1;
-    value--;
-    *(u16 *)(ptr + 42) = value;
-    if ((value << 16) <= 0) {
-        *(u16 *)(ptr - 2) |= 0x8000;
+    counter--;
+    *(u16 *)(object_bytes + 42) = counter;
+    if ((counter << 16) <= 0) {
+        *(u16 *)(object_bytes - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

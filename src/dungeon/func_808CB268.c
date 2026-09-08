@@ -18,27 +18,28 @@ extern s32 D_80126A88;
 extern M2C_UNK D_80129728;
 
 
+/* Initialize 14 entries from the value table and set each linked field to 0x800. */
 void func_80123700(void) {
-    s8 *var_v0;
-    s8 *var_a1;
-    s32 temp_v0;
-    s32 *temp_v1;
-    s32 var_a2;
-    s32 var_a3;
-    void **var_a0;
+    s8 *entry_table;
+    s8 *source_record;
+    s32 source_value;
+    s32 *entry_value;
+    s32 entry_index;
+    s32 initial_value;
+    void **entry_slot;
 
-    var_a2 = 0;
-    var_a3 = 0x800;
-    var_v0 = (s8 *)&D_80129728;
-    var_a0 = (void **)(var_v0 + 0x38);
-    var_a1 = (s8 *)&D_80126A88;
+    entry_index = 0;
+    initial_value = 0x800;
+    entry_table = (s8 *)&D_80129728;
+    entry_slot = (void **)(entry_table + 0x38);
+    source_record = (s8 *)&D_80126A88;
     do {
-        temp_v1 = *(s32 **)var_a0;
-        temp_v0 = *(s32 *)var_a1;
-        var_a1 += 8;
-        *temp_v1 = temp_v0;
-        var_a2 += 1;
-        ((S_80123700_1 *)(((S_80123700_0 *)(*var_a0))->unk_08))->unk_02 = var_a3;
-        var_a0 = (void **)((s8 *)((void **)((s8 *)var_a0 + 4)));
-    } while (var_a2 < 0xE);
+        entry_value = *(s32 **)entry_slot;
+        source_value = *(s32 *)source_record;
+        source_record += 8;
+        *entry_value = source_value;
+        entry_index += 1;
+        ((S_80123700_1 *)(((S_80123700_0 *)(*entry_slot))->unk_08))->unk_02 = initial_value;
+        entry_slot = (void **)((s8 *)((void **)((s8 *)entry_slot + 4)));
+    } while (entry_index < 0xE);
 }

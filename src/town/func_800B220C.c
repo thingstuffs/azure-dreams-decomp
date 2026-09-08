@@ -20,9 +20,10 @@ typedef struct S_800AF96C_0 {
 
 s32 func_800AF8B0(void *);                                /* extern */
 
-void func_800AF96C(void *arg0) {
-    ((S_800AF96C_2 *)(((S_800AF96C_1 *)arg0)->unk_00))->unk_04 = func_800AF8B0(arg0);
-    if (((S_800AF96C_2 *)(((S_800AF96C_1 *)arg0)->unk_00))->unk_04 != 0) {
-        ((S_800AF96C_0 *)((u8 *)arg0 - 0x10))->unk_00 = (s32) ((S_800AF96C_0 *)((u8 *)arg0 - 0x10))->unk_14;
+/* Store the check result and copy the saved value to the record header on success. */
+void func_800AF96C(void *record_data) {
+    ((S_800AF96C_2 *)(((S_800AF96C_1 *)record_data)->unk_00))->unk_04 = func_800AF8B0(record_data);
+    if (((S_800AF96C_2 *)(((S_800AF96C_1 *)record_data)->unk_00))->unk_04 != 0) {
+        ((S_800AF96C_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_800AF96C_0 *)((u8 *)record_data - 0x10))->unk_14;
     }
 }

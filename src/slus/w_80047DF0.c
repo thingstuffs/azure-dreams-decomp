@@ -10,8 +10,7 @@ extern void *D_8008152C;
 
 extern void *uploadImageTiles(void *a0, unsigned short a1, int a2, int a3, void *a4);
 
-/* Calls uploadImageTiles with two fixed globals and three fixed constants, storing
-   the result into D_8008152C. */
+/* Uploads image tiles from fixed global buffers and stores the result in D_8008152C. */
 void func_80047DF0(void)
 {
     D_8008152C = uploadImageTiles(&D_80016000, 0xB, 0x7900, 0xD, &D_80023000);

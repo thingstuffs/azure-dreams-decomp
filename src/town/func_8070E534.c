@@ -16,6 +16,7 @@ M2C_UNK func_80016DBC();                            /* extern */
 extern Rec_D_80016000 *D_80016000;
 
 
+/* Run both setup routines and invoke the state callback with 0xE and 0x200. */
 s32 func_80017534(void) {
     func_80016CC4();
     func_80016DBC();

@@ -1,37 +1,38 @@
 #include "common.h"
 
-s32 func_8004E8D8(u8 *arg0)
+/* Returns whether the string contains a character other than a space or newline. */
+s32 func_8004E8D8(u8 *text)
 {
-    s32 result = 0;
-    s32 current;
+    s32 has_content = 0;
+    s32 character;
     s32 space;
     s32 newline;
-    u8 value = *arg0;
+    u8 text_byte = *text;
 
-    if (value == 0) {
+    if (text_byte == 0) {
         goto done;
     }
     space = 0x20;
     newline = 0x0A;
 
 loop:
-    current = value & 0xFF;
-    if (current == space) {
+    character = text_byte & 0xFF;
+    if (character == space) {
         goto next;
     }
-    if (current == newline) {
+    if (character == newline) {
         goto next;
     }
-    result = 1;
+    has_content = 1;
     goto done;
 
 next:
-    arg0++;
-    value = *arg0;
-    if (value != 0) {
+    text++;
+    text_byte = *text;
+    if (text_byte != 0) {
         goto loop;
     }
 
 done:
-    return result;
+    return has_content;
 }

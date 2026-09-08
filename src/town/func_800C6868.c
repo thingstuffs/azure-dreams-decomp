@@ -15,13 +15,14 @@ typedef struct S_800C3FC8_1 {
     s32 unk_14;
 } S_800C3FC8_1;   /* arg1 in func_800C3FC8 */
 
-void func_800C3FC8(S_800C3FC8_0 *arg0, S_800C3FC8_1 *arg1) {
-    s16 temp_v0;
+/* Decrements the timer and changes the handler and motion value when it becomes negative. */
+void func_800C3FC8(S_800C3FC8_0 *object, S_800C3FC8_1 *motion) {
+    s16 remaining_ticks;
 
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if (temp_v0 < 0) {
-        arg0->unk_54 = &D_800C3F44;
-        arg1->unk_14 = 0xFFF60000;
+    remaining_ticks = object->unk_6C - 1;
+    object->unk_6C = remaining_ticks;
+    if (remaining_ticks < 0) {
+        object->unk_54 = &D_800C3F44;
+        motion->unk_14 = 0xFFF60000;
     }
 }

@@ -12,19 +12,20 @@ typedef struct RuntimeState {
     ValueTable *table;
 } RuntimeState;
 
+/* Adds one event-script variable to another. */
 void func_8003A468(RuntimeState *state)
 {
-    u32 cursor;
-    u32 lhs;
-    u32 rhs;
+    u32 script_cursor;
+    u32 dest_index;
+    u32 source_index;
 
-    cursor = (u32)state->read_ptr;
-    lhs = *(u8 *)cursor;
-    cursor++;
-    state->read_ptr = (u8 *)cursor;
-    rhs = *(u8 *)cursor;
-    cursor++;
-    state->read_ptr = (u8 *)cursor;
+    script_cursor = (u32)state->read_ptr;
+    dest_index = *(u8 *)script_cursor;
+    script_cursor++;
+    state->read_ptr = (u8 *)script_cursor;
+    source_index = *(u8 *)script_cursor;
+    script_cursor++;
+    state->read_ptr = (u8 *)script_cursor;
 
-    state->table->values[lhs] += state->table->values[rhs];
+    state->table->values[dest_index] += state->table->values[source_index];
 }

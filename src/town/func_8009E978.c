@@ -12,9 +12,10 @@ typedef struct S_8009C0D8_1 {
     M2C_UNK * unk_50;
 } S_8009C0D8_1;   /* arg0 in func_8009C0D8 */
 
-void func_8009C0D8(S_8009C0D8_1 *arg0, Rec_func_80094268_arg0 *arg1) {
-    arg1->unk_15 = 1;
-    arg0->unk_50 = &D_8009BDC0;
-    func_8008F134(arg1);
-    func_8008EFE0(arg1);
+/* Set the object flag, assign the context handler, and run object setup. */
+void func_8009C0D8(S_8009C0D8_1 *context, Rec_func_80094268_arg0 *object) {
+    object->unk_15 = 1;
+    context->unk_50 = &D_8009BDC0;
+    func_8008F134(object);
+    func_8008EFE0(object);
 }

@@ -19,9 +19,10 @@ typedef struct S_8003AB14_1 {
 } S_8003AB14_1;   /* arg1 in func_8003AB14 */
 
 
-void func_8003AB14(S_8003AB14_0 *arg0, S_8003AB14_1 *arg1) {
-    arg0->unk_00 = (u16) arg1->unk_04;
-    arg0->unk_02 = (u16) arg1->unk_06;
-    arg0->unk_04 = (u16) arg1->unk_08;
-    arg0->unk_06 = (u16) arg1->unk_0A;
+/* Copies four halfwords from the source record into the destination. */
+void func_8003AB14(S_8003AB14_0 *dest, S_8003AB14_1 *source) {
+    dest->unk_00 = (u16) source->unk_04;
+    dest->unk_02 = (u16) source->unk_06;
+    dest->unk_04 = (u16) source->unk_08;
+    dest->unk_06 = (u16) source->unk_0A;
 }

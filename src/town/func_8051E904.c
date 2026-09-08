@@ -17,10 +17,11 @@ typedef struct S_8051E904_0 {
     s16 unk_18;
 } S_8051E904_0;   /* arg1 in func_8051E904 */
 
-s32 func_8051E904(s32 arg0, S_8051E904_0 *arg1, M2C_UNK arg2) {
-    s32 temp_s0;
+/* Look up an entry, apply the record code, and return the entry value. */
+s32 func_8051E904(s32 table_base, S_8051E904_0 *record, M2C_UNK lookup_key) {
+    s32 entry_index;
 
-    temp_s0 = func_80017710(arg0, arg2);
-    func_80018A64(arg1->unk_18);
-    return ((S_8051E904_1 *)(((temp_s0 * 8) + arg0)))->unk_04;
+    entry_index = func_80017710(table_base, lookup_key);
+    func_80018A64(record->unk_18);
+    return ((S_8051E904_1 *)(((entry_index * 8) + table_base)))->unk_04;
 }

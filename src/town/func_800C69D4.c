@@ -10,10 +10,11 @@ typedef struct {
 
 extern Rec8 D_80082660[2];
 
-void func_800C4134(void *arg0) {
-    *(void **) ((u8 *) arg0 + 0x50) = &D_800C3960[0];
-    *(s8 *) ((u8 *) arg0 + 0x92) = 1;
-    *(void **) ((u8 *) arg0 + 0x54) = &D_800C3988[0];
-    *(s8 *) ((u8 *) arg0 + 0x15) = 0;
-    D_80082660[*(s32 *) ((u8 *) arg0 + 0x60)].val = 0;
+/* Installs object handlers, sets its status, and clears its object and slot state bytes. */
+void func_800C4134(void *object) {
+    *(void **) ((u8 *) object + 0x50) = &D_800C3960[0];
+    *(s8 *) ((u8 *) object + 0x92) = 1;
+    *(void **) ((u8 *) object + 0x54) = &D_800C3988[0];
+    *(s8 *) ((u8 *) object + 0x15) = 0;
+    D_80082660[*(s32 *) ((u8 *) object + 0x60)].val = 0;
 }

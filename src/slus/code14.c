@@ -23,11 +23,12 @@ extern struct {
     short field_C0;
 } D_80083160;
 
-void func_8004D0E4(struct S_Src *a0)
+/* Copies the nested position into the global state. */
+void func_8004D0E4(struct S_Src *object)
 {
-    struct Vec3s *p = a0->ptr;
+    struct Vec3s *position = object->ptr;
 
-    D_80083160.field_BC = p->x;
-    D_80083160.field_BE = p->y;
-    D_80083160.field_C0 = p->z;
+    D_80083160.field_BC = position->x;
+    D_80083160.field_BE = position->y;
+    D_80083160.field_C0 = position->z;
 }

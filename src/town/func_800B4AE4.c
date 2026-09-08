@@ -8,6 +8,7 @@ extern u8 D_8001029C_B[];
 __asm__(".set D_8001029C_A, 0x8001029C");
 __asm__(".set D_8001029C_B, 0x8001029C");
 
-void func_800B2244(s32 arg0) {
-    func_800B2190(D_8001029C_A, func_800B2214(D_8001029C_B, arg0, 0x14));
+/* del_t_item_w_ptr: Find the town item pointer and delete its table entry. */
+void func_800B2244(s32 item_ptr) {
+    func_800B2190(D_8001029C_A, func_800B2214(D_8001029C_B, item_ptr, 0x14));
 }

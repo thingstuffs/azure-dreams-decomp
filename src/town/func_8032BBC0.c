@@ -14,6 +14,7 @@ typedef struct {
     void (*callback)(s32, s32);
 } CallbackData;
 
+/* Consume condition 0x3EB and invoke the callback when it is active. */
 s32 func_800163C0(void) {
     if (func_8001ADE0(0x3EB) != 0) {
         func_8001AD60(0x3EB);

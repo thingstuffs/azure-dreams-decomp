@@ -12,20 +12,21 @@ typedef struct S_8001744C_1 {
     s16 unk_02;
 } S_8001744C_1;   /* var_v1 in func_8001744C */
 
+/* Clear all three halfwords in each of the 4096 table entries. */
 void func_8001744C(void) {
-    s8 *var_v0;
-    s8 *var_v1;
-    s32 var_a0;
+    s8 *entry_start;
+    s8 *entry_tail;
+    s32 entries_left;
 
-    var_v0 = D_800EA000;
-    var_a0 = 0x1000;
-    var_v1 = var_v0 + 2;
+    entry_start = D_800EA000;
+    entries_left = 0x1000;
+    entry_tail = entry_start + 2;
     do {
-        var_a0 -= 1;
-        ((S_8001744C_0 *)var_v0)->unk_00 = 0;
-        ((S_8001744C_1 *)var_v1)->unk_02 = 0;
-        ((S_8001744C_1 *)var_v1)->unk_00 = 0;
-        var_v1 += 6;
-        var_v0 += 6;
-    } while (var_a0 > 0);
+        entries_left -= 1;
+        ((S_8001744C_0 *)entry_start)->unk_00 = 0;
+        ((S_8001744C_1 *)entry_tail)->unk_02 = 0;
+        ((S_8001744C_1 *)entry_tail)->unk_00 = 0;
+        entry_tail += 6;
+        entry_start += 6;
+    } while (entries_left > 0);
 }

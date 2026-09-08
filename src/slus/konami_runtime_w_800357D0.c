@@ -30,14 +30,15 @@ typedef struct S_800357D0_1 {
 
 extern M2C_UNK func_80035820;
 
-void func_800357D0(S_800357D0_0 *arg0) {
-    S_800357D0_1 *temp_v1;
+/* Increase the counter by 64 and advance the callback after it exceeds 1024. */
+void func_800357D0(S_800357D0_0 *state) {
+    S_800357D0_1 *counter_state;
 
-    temp_v1 = arg0->unk_00;
-    temp_v1->unk_08 = (u16) (temp_v1->unk_08 + 0x40);
-    if ((s16) ((S_800357D0_3 *)(((S_800357D0_2 *)arg0)->unk_00))->unk_08 >= 0x401) {
-        arg0->unk_4C = 0xFF;
-        arg0->unk_4D = 0xFF;
-        arg0->unk_68 = &func_80035820;
+    counter_state = state->unk_00;
+    counter_state->unk_08 = (u16) (counter_state->unk_08 + 0x40);
+    if ((s16) ((S_800357D0_3 *)(((S_800357D0_2 *)state)->unk_00))->unk_08 >= 0x401) {
+        state->unk_4C = 0xFF;
+        state->unk_4D = 0xFF;
+        state->unk_68 = &func_80035820;
     }
 }

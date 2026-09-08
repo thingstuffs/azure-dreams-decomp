@@ -9,17 +9,18 @@
 #define KEEP_INDEX(value) ASM_KEEP(value)
 #endif
 
-s32 func_80026F04(s32 arg0, s32 arg1)
+/* Find the first matching entry at or after the starting index, or return -1. */
+s32 func_80026F04(s32 target_value, s32 start_index)
 {
-    register s32 index ASM_REG("$6") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 index ASM_REG("$6") = start_index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *entry;
 
     KEEP_INDEX(index);
     if (index < 0x40) {
         entry = (void *)0x80010000;
-        entry += ((index * 4 + arg1) * 4) - arg1;
+        entry += ((index * 4 + start_index) * 4) - start_index;
 loop:
-        if (FIELD(entry, u8 *, 0x57D2) == arg0) {
+        if (FIELD(entry, u8 *, 0x57D2) == target_value) {
             return index;
         }
         index++;

@@ -2,6 +2,7 @@
 
 extern u8 D_800E3E48[];
 
+/* Return the index of the first unused entry, or -1 if all entries are occupied. */
 s32 func_80099090(void)
 {
     u8 *entry;

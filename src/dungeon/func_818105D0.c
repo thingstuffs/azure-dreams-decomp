@@ -9,7 +9,8 @@ typedef struct S_800255D0_0 {
     s32 unk_14;
 } S_800255D0_0;   /* arg0 in func_800255D0 */
 
-s32 func_800255D0(S_800255D0_0 *arg0) {
-    func_8002654C(func_8002553C(arg0->unk_14));
+/* Processes the value resolved from the record and returns success. */
+s32 func_800255D0(S_800255D0_0 *record) {
+    func_8002654C(func_8002553C(record->unk_14));
     return 1;
 }

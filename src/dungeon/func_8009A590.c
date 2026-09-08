@@ -1,21 +1,22 @@
 #include "common.h"
 
-s16 func_8009FCF0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    arg2 &= 0xFF;
-    arg0 &= 0xFF;
-    arg2 -= arg0;
-    if (arg2 < 0) {
-        arg2 = -arg2;
+/* Returns the Chebyshev distance between two byte-sized coordinate pairs. */
+s16 func_8009FCF0(s32 start_x, s32 start_y, s32 end_x, s32 end_y) {
+    end_x &= 0xFF;
+    start_x &= 0xFF;
+    end_x -= start_x;
+    if (end_x < 0) {
+        end_x = -end_x;
     }
-    arg3 &= 0xFF;
-    arg1 &= 0xFF;
-    arg3 -= arg1;
-    if (arg3 < 0) {
-        arg3 = -arg3;
+    end_y &= 0xFF;
+    start_y &= 0xFF;
+    end_y -= start_y;
+    if (end_y < 0) {
+        end_y = -end_y;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    if (arg2 < arg3) {
-        return arg3;
+    if (end_x < end_y) {
+        return end_y;
     }
-    return arg2;
+    return end_x;
 }

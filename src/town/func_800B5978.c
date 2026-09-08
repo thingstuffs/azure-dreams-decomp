@@ -14,9 +14,10 @@ typedef struct S_800B30D8_1 {
     s32 unk_3C;
 } S_800B30D8_1;   /* temp_a1 in func_800B30D8 */
 
-void func_800B30D8(S_800B30D8_0 *arg0) {
-    void *temp_a1;
+/* Update the linked data at offset 0x18 using the source record. */
+void func_800B30D8(S_800B30D8_0 *record) {
+    void *source_record;
 
-    temp_a1 = arg0->unk_00;
-    func_800B2FF8(arg0->unk_A8 + 0x18, temp_a1 + 0x1C, ((S_800B30D8_1 *)temp_a1)->unk_3C);
+    source_record = record->unk_00;
+    func_800B2FF8(record->unk_A8 + 0x18, source_record + 0x1C, ((S_800B30D8_1 *)source_record)->unk_3C);
 }

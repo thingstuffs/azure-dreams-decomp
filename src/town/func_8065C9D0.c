@@ -14,9 +14,10 @@ typedef struct S_8065C9D0_1 {
     s16 unk_0C;
 } S_8065C9D0_1;   /* temp_a1 in func_8065C9D0 */
 
-void func_8065C9D0(S_8065C9D0_0 *arg0, s32 arg1) {
-    S_8065C9D0_1 *temp_a1;
+/* Pass the indexed record and its identifier to the shared handler. */
+void func_8065C9D0(S_8065C9D0_0 *record_table, s32 record_index) {
+    S_8065C9D0_1 *record;
 
-    temp_a1 = (arg1 * 0x10) + arg0->unk_10;
-    func_80017E84(temp_a1->unk_0C, temp_a1);
+    record = (record_index * 0x10) + record_table->unk_10;
+    func_80017E84(record->unk_0C, record);
 }

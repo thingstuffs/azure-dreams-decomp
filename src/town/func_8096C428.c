@@ -11,12 +11,13 @@ typedef struct {
 
 extern State D_80129728;
 
-void func_801248C0(void *arg0) {
+/* Reset the controller fields and clear four shared state values. */
+void func_801248C0(void *controller) {
     State *state = &D_80129728;
 
-    *((u8 *)arg0 + 0xC) = 1;
-    *((s16 *)((u8 *)arg0 + 8)) = 0;
-    *((u8 *)arg0 + 0xE) = 0;
+    *((u8 *)controller + 0xC) = 1;
+    *((s16 *)((u8 *)controller + 8)) = 0;
+    *((u8 *)controller + 0xE) = 0;
     *state->unk30 = 0;
     *state->unk34 = 0;
     *state->unk68 = 0;

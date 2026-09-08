@@ -8,6 +8,7 @@ extern void func_8001ACA0(s16 *result);
 #define EMPTY_BARRIER() __asm__ __volatile__("")
 #endif
 
+/* Return zero when result[0] is below 0xF45 and result[1] is at least 0x1127. */
 s32 func_80016EE0(void) {
     s16 result[4];
     s32 second;

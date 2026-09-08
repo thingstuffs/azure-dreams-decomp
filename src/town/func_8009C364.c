@@ -2,13 +2,14 @@
 
 extern void func_8009A18C(void *);
 
-void func_80099AC4(void *arg0)
+/* Decrement the object countdown and call its handler when it becomes negative. */
+void func_80099AC4(void *object)
 {
-    u16 temp_v0;
+    u16 countdown;
 
-    temp_v0 = *(u16 *)((u8 *)arg0 + 0xA) - 1;
-    *(u16 *)((u8 *)arg0 + 0xA) = temp_v0;
-    if ((s16)temp_v0 < 0) {
-        func_8009A18C(arg0);
+    countdown = *(u16 *)((u8 *)object + 0xA) - 1;
+    *(u16 *)((u8 *)object + 0xA) = countdown;
+    if ((s16)countdown < 0) {
+        func_8009A18C(object);
     }
 }

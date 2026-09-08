@@ -11,8 +11,9 @@ typedef struct S_80098B30_0 {
 } S_80098B30_0;   /* arg0 in func_80098B30 */
 
 
-void func_80098B30(S_80098B30_0 *arg0, Rec_D_800E3D7C *arg1) {
-    arg0->unk_04 = &D_80097F9C;
-    func_80099754(arg1);
-    arg1->unk_14.as_s32 = 0xFFFC0000;
+/* Assign the state table, initialize the record, and set its secondary value to -0x40000. */
+void func_80098B30(S_80098B30_0 *state, Rec_D_800E3D7C *record) {
+    state->unk_04 = &D_80097F9C;
+    func_80099754(record);
+    record->unk_14.as_s32 = 0xFFFC0000;
 }

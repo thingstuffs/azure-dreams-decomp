@@ -4,7 +4,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_800B7384(s32);                            /* extern */
 
-void func_800B73F0(s32 arg0) {
-    func_800B7384(arg0);
-    func_800B8E08(arg0);
+/* Clear the grid and initialize its contents. */
+void func_800B73F0(s32 grid) {
+    func_800B7384(grid);
+    func_800B8E08(grid);
 }

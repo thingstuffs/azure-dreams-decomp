@@ -2,11 +2,12 @@
 
 struct Entry { short a; short b; };
 extern struct Entry D_80013564[];
-int func_8004A6C0(int a0, int a1) {
-    int i = 0;
-    struct Entry *p = D_80013564;
-    for (; i < 20; i++, p++) {
-        if (p->a == a0 && p->b == a1) break;
+/* Returns the index of the first matching value pair, or 20 if none matches. */
+int func_8004A6C0(int first_value, int second_value) {
+    int entry_index = 0;
+    struct Entry *entry = D_80013564;
+    for (; entry_index < 20; entry_index++, entry++) {
+        if (entry->a == first_value && entry->b == second_value) break;
     }
-    return i;
+    return entry_index;
 }

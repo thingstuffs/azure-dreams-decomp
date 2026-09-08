@@ -8,14 +8,14 @@ typedef struct {
 
 extern S_80083D08 D_80083D08[6];
 
-/* Sets bit 0 of the status field for each of the 6 entries whose flag is non-zero. */
+/* Sets status bit 0 for each entry with a nonzero flag. */
 void func_800481E0(void) {
-    s32 i;
+    s32 entry_index;
 
-    for (i = 0; i < 6; i++) {
-        S_80083D08 *p = &D_80083D08[i];
-        if (p->flag) {
-            p->status |= 1;
+    for (entry_index = 0; entry_index < 6; entry_index++) {
+        S_80083D08 *entry = &D_80083D08[entry_index];
+        if (entry->flag) {
+            entry->status |= 1;
         }
     }
 }

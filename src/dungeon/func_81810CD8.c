@@ -13,17 +13,18 @@ typedef struct S_80025CD8_0 {
 
 
 
-void func_80025CD8(S_80025CD8_0 *arg0) {
+/* Initialize the packet fields with a zero payload and set flag 0x80. */
+void func_80025CD8(S_80025CD8_0 *packet) {
     volatile s32 zero[1];
-    s32 saved;
+    s32 payload;
 
     zero[0] = 0;
-    arg0->unk_01 = 0x28;
-    saved = zero[0];
-    arg0->unk_02 = -0x18;
-    arg0->unk_03 = 4;
-    arg0->unk_0A = 0x30;
-    arg0->unk_0B = 0x58;
-    arg0->unk_04 = saved;
-    arg0->unk_00 |= 0x80;
+    packet->unk_01 = 0x28;
+    payload = zero[0];
+    packet->unk_02 = -0x18;
+    packet->unk_03 = 4;
+    packet->unk_0A = 0x30;
+    packet->unk_0B = 0x58;
+    packet->unk_04 = payload;
+    packet->unk_00 |= 0x80;
 }

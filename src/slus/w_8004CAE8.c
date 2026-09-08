@@ -7,19 +7,16 @@ typedef struct S_8004CAE8 {
     /* 0x8 */ u8 pad2[4];
 } S_8004CAE8; /* size 0xC (12) */
 
-/* Walk a fixed-stride (12-byte) array of flagged records looking for the first
- * one with the "active" bit (0x20) set whose id field matches a1. Stops after
- * the record flagged 0x80 (marks the last entry). Returns a pointer to the
- * matching record, or NULL if none found. */
-S_8004CAE8 *func_8004CAE8(S_8004CAE8 *a0, u32 a1) {
+/* Returns the first active record with the requested ID, or NULL at the end of the array. */
+S_8004CAE8 *func_8004CAE8(S_8004CAE8 *entry, u32 target_id) {
     for (;;) {
-        if ((a0->flags & 0x20) && a0->id == a1) {
-            return a0;
+        if ((entry->flags & 0x20) && entry->id == target_id) {
+            return entry;
         }
-        if (a0->flags & 0x80) {
+        if (entry->flags & 0x80) {
             break;
         }
-        a0 = (S_8004CAE8 *)((u8 *)a0 + 0xC);
+        entry = (S_8004CAE8 *)((u8 *)entry + 0xC);
     }
     return (S_8004CAE8 *)0;
 }

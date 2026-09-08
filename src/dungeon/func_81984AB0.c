@@ -22,12 +22,13 @@ typedef struct S_81984AB0_0 {
     u16 unk_14;
 } S_81984AB0_0;   /* arg0 in func_81984AB0 */
 
-void func_81984AB0(S_81984AB0_0 *arg0, s16 arg1) {
-    s32 base;
+/* Selects a 22-byte entry and resets the object state and flags. */
+void func_81984AB0(S_81984AB0_0 *object, s16 entry_index) {
+    s32 entry_base;
 
-    arg0->unk_04 = arg1;
-    arg0->unk_05 = 0;
-    base = ((S_81984AB0_2 *)(((S_81984AB0_1 *)arg0)->unk_08))->unk_0C;
-    arg0->unk_14 = (u16) (arg0->unk_14 & 0x9FFF);
-    arg0->unk_00 = (s32) (base + (arg1 * 0x16));
+    object->unk_04 = entry_index;
+    object->unk_05 = 0;
+    entry_base = ((S_81984AB0_2 *)(((S_81984AB0_1 *)object)->unk_08))->unk_0C;
+    object->unk_14 = (u16) (object->unk_14 & 0x9FFF);
+    object->unk_00 = (s32) (entry_base + (entry_index * 0x16));
 }

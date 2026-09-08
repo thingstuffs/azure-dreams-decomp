@@ -6,6 +6,7 @@ extern struct {
     u8 pad[8];
 } D_8001E950;
 
+/* Clear two state bytes and process five fixed identifiers. */
 void func_800196A4(void) {
     D_8001E950.ptr[1] = 0;
     D_8001E950.ptr[6] = 0;

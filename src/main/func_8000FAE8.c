@@ -4,7 +4,8 @@
 M2C_UNK func_8002290C();                         /* extern */
 M2C_UNK func_80022A30();                    /* extern */
 
-void func_80022AE8(s32 arg0) {
-    func_80022A30(arg0 + 0x24, arg0);
-    func_8002290C(arg0);
+/* Processes the embedded data and then updates the record. */
+void func_80022AE8(s32 record) {
+    func_80022A30(record + 0x24, record);
+    func_8002290C(record);
 }

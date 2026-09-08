@@ -4,10 +4,11 @@ typedef unsigned char u8;
 extern u8 D_800BB6C4[];
 extern void func_800BB57C(void *, void *, void *);
 
-void func_800BB75C(void *arg0, void *arg1, void *arg2) {
-    *(void **)((u8 *)arg0 - 0x10) = D_800BB6C4;
-    func_800BB57C(arg0, arg1, arg2);
+/* Set the object handler table, initialize its state, and set its counter to 14. */
+void func_800BB75C(void *object, void *context, void *state) {
+    *(void **)((u8 *)object - 0x10) = D_800BB6C4;
+    func_800BB57C(object, context, state);
     do {
-        ((s32 *)arg2)[2] = 14;
+        ((s32 *)state)[2] = 14;
     } while (0);
 }

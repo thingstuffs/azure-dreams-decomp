@@ -21,9 +21,10 @@ typedef struct S_800B6C94_2 {
 
 
 
-void func_800B6C94(S_800B6C94_0 *arg0, s16 arg1, s16 arg2) {
-    if (arg0 != NULL) {
-        ((S_800B6C94_2 *)(((S_800B6C94_1 *)(arg0->unk_0C))->unk_04))->unk_08 = arg1;
-        ((S_800B6C94_2 *)(((S_800B6C94_1 *)(arg0->unk_0C))->unk_04))->unk_0A = arg2;
+/* Sets the two coordinates in the nested object data when the object exists. */
+void func_800B6C94(S_800B6C94_0 *object, s16 x, s16 y) {
+    if (object != NULL) {
+        ((S_800B6C94_2 *)(((S_800B6C94_1 *)(object->unk_0C))->unk_04))->unk_08 = x;
+        ((S_800B6C94_2 *)(((S_800B6C94_1 *)(object->unk_0C))->unk_04))->unk_0A = y;
     }
 }

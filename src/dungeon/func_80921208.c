@@ -2,13 +2,14 @@
 
 extern u8 D_800E3548[];
 
-s32 func_800F6208(s32 arg0, s32 arg1) {
+/* Return whether the 64-entry table contains the combined byte key. */
+s32 func_800F6208(s32 key_high, s32 key_low) {
     s32 index;
     s32 result;
     s32 key;
     u8 *entry;
 
-    key = (arg0 << 8) | (arg1 & 0xFF);
+    key = (key_high << 8) | (key_low & 0xFF);
     index = 0;
     key &= 0xFFFF;
     entry = D_800E3548;

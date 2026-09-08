@@ -7,24 +7,25 @@ typedef struct {
 
 extern D_800E3D7C_t D_800E3D7C;
 
-s32 func_800A1BD0(s32 arg0) {
-    s32 i;
-    s32 *entry;
-    s32 value;
-    s16 index;
+/* Finds the first matching value in the four slots at offset 0xAC, or returns -1. */
+s32 func_800A1BD0(s32 target_value) {
+    s32 slot;
+    s32 *slot_ptr;
+    s32 slot_value;
+    s16 match_index;
 
-    do { i = 0; } while (0);
-    entry = (s32 *)D_800E3D7C.ptr;
+    do { slot = 0; } while (0);
+    slot_ptr = (s32 *)D_800E3D7C.ptr;
 loop:
-    value = entry[0x2B];
-    if (value != arg0) {
-        i++;
-        entry++;
-        if (i < 4) {
+    slot_value = slot_ptr[0x2B];
+    if (slot_value != target_value) {
+        slot++;
+        slot_ptr++;
+        if (slot < 4) {
             goto loop;
         }
         return -1;
     }
-    index = (s16)i;
-    return index;
+    match_index = (s16)slot;
+    return match_index;
 }

@@ -14,9 +14,10 @@ typedef struct S_8047E8B4_1 {
     s16 unk_0C;
 } S_8047E8B4_1;   /* temp_a1 in func_8047E8B4 */
 
-void func_8047E8B4(S_8047E8B4_0 *arg0, s32 arg1) {
-    S_8047E8B4_1 *temp_a1;
+/* Pass the indexed entry and its identifier to func_80017568. */
+void func_8047E8B4(S_8047E8B4_0 *entry_table, s32 entry_index) {
+    S_8047E8B4_1 *entry;
 
-    temp_a1 = (arg1 * 0x10) + arg0->unk_10;
-    func_80017568(temp_a1->unk_0C, temp_a1);
+    entry = (entry_index * 0x10) + entry_table->unk_10;
+    func_80017568(entry->unk_0C, entry);
 }

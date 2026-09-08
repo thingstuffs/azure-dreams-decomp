@@ -13,16 +13,17 @@ typedef struct {
     s8 unkB;
 } Packet;
 
-void *func_80026708(Packet *arg0, s32 arg1) {
-    s32 value;
+/* Initialize and return a packet with the shared payload and a variant-dependent field. */
+void *func_80026708(Packet *packet, s32 variant) {
+    s32 payload;
 
-    arg0->unk1 = 0x28;
-    value = D_800294FC;
-    arg0->unk2 = -0x21;
-    arg0->unk3 = 5;
-    arg0->unk4 = value;
-    arg0->unkA = (arg1 == 1) ? 0x42 : 0x5A;
-    arg0->unkB = 0x16;
-    arg0->unk0 = 0x80;
-    return arg0;
+    packet->unk1 = 0x28;
+    payload = D_800294FC;
+    packet->unk2 = -0x21;
+    packet->unk3 = 5;
+    packet->unk4 = payload;
+    packet->unkA = (variant == 1) ? 0x42 : 0x5A;
+    packet->unkB = 0x16;
+    packet->unk0 = 0x80;
+    return packet;
 }

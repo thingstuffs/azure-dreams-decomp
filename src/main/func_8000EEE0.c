@@ -1,16 +1,17 @@
 #include "common.h"
 
-s32 func_80021EE0(void *arg0) {
-    s32 *var_a1;
-    s32 var_a2;
-    s32 var_v1;
+/* Checks the stored checksum against the XOR of 6014 data words. */
+s32 func_80021EE0(void *save_data) {
+    s32 *data_word;
+    s32 checksum;
+    s32 word_index;
 
-    var_a2 = 0;
-    var_a1 = (s32 *) ((u8 *) arg0 + 0x208);
-    var_v1 = var_a2;
+    checksum = 0;
+    data_word = (s32 *) ((u8 *) save_data + 0x208);
+    word_index = checksum;
     do {
-        var_a2 ^= *var_a1++;
-        var_v1 += 1;
-    } while (var_v1 < 6014);
-    return (*(s32 *) ((u8 *) arg0 + 0x204) ^ var_a2) == 0;
+        checksum ^= *data_word++;
+        word_index += 1;
+    } while (word_index < 6014);
+    return (*(s32 *) ((u8 *) save_data + 0x204) ^ checksum) == 0;
 }

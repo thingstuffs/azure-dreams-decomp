@@ -16,13 +16,14 @@ typedef struct S_80035ABC_1 {
 
 extern M2C_UNK func_80035AF8;
 
-void func_80035ABC(S_80035ABC_1 *arg0, S_80035ABC_0 *arg1) {
-    u16 temp_v0;
+/* Decreases the entry value by 16, clamping it to 2 and switching handlers below 2. */
+void func_80035ABC(S_80035ABC_1 *state, S_80035ABC_0 *entry) {
+    u16 reduced_value;
 
-    temp_v0 = arg1->unk_02 - 0x10;
-    arg1->unk_02 = temp_v0;
-    if ((s16) temp_v0 < 2) {
-        arg1->unk_02 = 2U;
-        arg0->unk_68 = &func_80035AF8;
+    reduced_value = entry->unk_02 - 0x10;
+    entry->unk_02 = reduced_value;
+    if ((s16) reduced_value < 2) {
+        entry->unk_02 = 2U;
+        state->unk_68 = &func_80035AF8;
     }
 }

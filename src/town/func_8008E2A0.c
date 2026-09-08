@@ -10,15 +10,16 @@ typedef struct S_8008BA00_0 {
 } S_8008BA00_0;   /* arg0 in func_8008BA00 */
 
 
-void func_8008BA00(S_8008BA00_0 *arg0) {
-    M2C_UNK (*temp_v0_2)();
-    u16 temp_v0;
+/* Decrement the countdown and activate the next callback when it becomes negative. */
+void func_8008BA00(S_8008BA00_0 *state) {
+    M2C_UNK (*next_callback)();
+    u16 countdown;
 
-    temp_v0 = arg0->unk_64 - 1;
-    arg0->unk_64 = temp_v0;
-    if ((s16) temp_v0 < 0) {
-        temp_v0_2 = arg0->unk_6C;
-        arg0->unk_68 = temp_v0_2;
-        temp_v0_2();
+    countdown = state->unk_64 - 1;
+    state->unk_64 = countdown;
+    if ((s16) countdown < 0) {
+        next_callback = state->unk_6C;
+        state->unk_68 = next_callback;
+        next_callback();
     }
 }

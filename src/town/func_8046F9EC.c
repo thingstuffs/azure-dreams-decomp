@@ -3,6 +3,7 @@
 extern s32 func_800196F4();
 extern s32 func_80019778();
 
+/* Return whether either check for (13, 3) passes. */
 s32 func_800169EC(void) {
     s32 result = 0;
 

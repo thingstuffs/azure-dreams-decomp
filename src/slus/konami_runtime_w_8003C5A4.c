@@ -4,13 +4,14 @@
 
 extern s8 D_8006B1EC[];
 
+/* Returns the index of a value in the sentinel-terminated table, or -1 if absent. */
 u32 func_8003C5A4(s32 value)
 {
-    s32 i;
+    s32 index;
 
-    for (i = 0; D_8006B1EC[i] != -1; i++) {
-        if (D_8006B1EC[i] == value) {
-            return i;
+    for (index = 0; D_8006B1EC[index] != -1; index++) {
+        if (D_8006B1EC[index] == value) {
+            return index;
         }
     }
 

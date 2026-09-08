@@ -4,11 +4,12 @@
 M2C_UNK func_80025040();  /* extern */
 s32 func_8004B404();                         /* extern */
 
-void func_80026DE0(s32 arg0, M2C_UNK arg1) {
-    s32 temp_v0;
+/* Configure resource 0x91 with the supplied value and data if it is available. */
+void func_80026DE0(s32 setup_value, M2C_UNK setup_data) {
+    s32 resource;
 
-    temp_v0 = func_8004B404(0x91);
-    if (temp_v0 != 0) {
-        func_80025040(temp_v0, arg0, arg1, 0x48);
+    resource = func_8004B404(0x91);
+    if (resource != 0) {
+        func_80025040(resource, setup_value, setup_data, 0x48);
     }
 }

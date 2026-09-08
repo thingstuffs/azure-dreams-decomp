@@ -12,6 +12,7 @@ typedef struct S_800BCAD0_0 {
     s16 unk_0A;
 } S_800BCAD0_0;   /* arg0 in func_800BCAD0 */
 
-s16 func_800BCAD0(S_800BCAD0_0 *arg0) {
-    return func_800BCB04(arg0->unk_02, arg0->unk_06, arg0->unk_0A);
+/* Pass the record coordinates to func_800BCB04. */
+s16 func_800BCAD0(S_800BCAD0_0 *record) {
+    return func_800BCB04(record->unk_02, record->unk_06, record->unk_0A);
 }

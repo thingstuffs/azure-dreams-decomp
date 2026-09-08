@@ -13,8 +13,9 @@ typedef struct S_800C54D0_0 {
     s16 unk_6C;
 } S_800C54D0_0;   /* arg0 in func_800C54D0 */
 
-void func_800C54D0(S_800C54D0_0 *arg0) {
-    *((arg0->unk_60 * 8) + &D_80082660) = 0;
-    arg0->unk_54 = &D_800C53F8;
-    arg0->unk_6C = 0xA;
+/* Clear the actor table flag, install its handler, and set its counter to 10. */
+void func_800C54D0(S_800C54D0_0 *actor) {
+    *((actor->unk_60 * 8) + &D_80082660) = 0;
+    actor->unk_54 = &D_800C53F8;
+    actor->unk_6C = 0xA;
 }

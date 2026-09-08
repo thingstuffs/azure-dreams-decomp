@@ -7,13 +7,14 @@ typedef struct Entry {
 
 extern Entry D_800CF720[];
 
-s32 func_8008ACE8(s32 arg0) {
+/* Sums the b values of the requested number of entries. */
+s32 func_8008ACE8(s32 entry_count) {
     s32 sum;
-    s32 i;
+    s32 entry_index;
 
     sum = 0;
-    for (i = 0; i < arg0; i++) {
-        sum += D_800CF720[i].b;
+    for (entry_index = 0; entry_index < entry_count; entry_index++) {
+        sum += D_800CF720[entry_index].b;
     }
     return sum;
 }

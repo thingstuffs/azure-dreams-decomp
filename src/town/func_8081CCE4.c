@@ -11,12 +11,13 @@ typedef struct S_80026CE4_0 {
     s16 unk_72;
 } S_80026CE4_0;   /* temp_v0 in func_80026CE4 */
 
-void func_80026CE4(s16 arg0) {
-    S_80026CE4_0 *temp_v0;
+/* Allocate a type 2 object and initialize its data pointer and value. */
+void func_80026CE4(s16 value) {
+    S_80026CE4_0 *object;
 
-    temp_v0 = func_8003FC64(2);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_80026D28;
-        temp_v0->unk_72 = arg0;
+    object = func_8003FC64(2);
+    if (object != NULL) {
+        object->unk_10 = &D_80026D28;
+        object->unk_72 = value;
     }
 }

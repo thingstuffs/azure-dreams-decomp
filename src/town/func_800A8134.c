@@ -7,8 +7,9 @@ typedef struct S_800A5894_0 {
 
 
 
-s32 func_800A5894(S_800A5894_0 *arg0) {
-    if (arg0->unk_08.at00.v > -0x400000) {
+/* Return zero below the threshold or a scaled value from the upper halfword. */
+s32 func_800A5894(S_800A5894_0 *state) {
+    if (state->unk_08.at00.v > -0x400000) {
         goto calculate;
     }
     {
@@ -17,7 +18,7 @@ s32 func_800A5894(S_800A5894_0 *arg0) {
         result = 0;
         goto out;
     calculate:
-        result = (arg0->unk_08.at02.v * 0xC00) + 0x30000;
+        result = (state->unk_08.at02.v * 0xC00) + 0x30000;
     out:
         return result;
     }

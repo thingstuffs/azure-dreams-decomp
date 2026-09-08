@@ -12,10 +12,11 @@ typedef struct S_800AEEBC_0 {
     s32 unk_3C;
 } S_800AEEBC_0;   /* arg0 in func_800AEEBC */
 
-void func_800AEEBC(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    ((S_800AEEBC_0 *)arg0)->unk_3C = arg1;
-    ((S_800AEEBC_0 *)arg0)->unk_34 = arg2;
-    ((S_800AEEBC_0 *)arg0)->unk_28 = arg3;
-    ((S_800AEEBC_0 *)arg0)->unk_38 = arg4;
-    func_800AEE98(arg0 + 0x40);
+/* Set four record values and initialize its trailing data. */
+void func_800AEEBC(void *record, s32 value_3c, s32 value_34, s32 value_28, s32 value_38) {
+    ((S_800AEEBC_0 *)record)->unk_3C = value_3c;
+    ((S_800AEEBC_0 *)record)->unk_34 = value_34;
+    ((S_800AEEBC_0 *)record)->unk_28 = value_28;
+    ((S_800AEEBC_0 *)record)->unk_38 = value_38;
+    func_800AEE98(record + 0x40);
 }

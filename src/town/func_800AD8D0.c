@@ -5,10 +5,11 @@
 s32 func_800644B8();                             /* extern */
 
 
-s16 func_800AB030(Rec_func_800AB030_arg0 *arg0) {
-    u16 temp_v0;
+/* Advances the stored value by 0xCC and returns the helper result divided by 384. */
+s16 func_800AB030(Rec_func_800AB030_arg0 *record) {
+    u16 updated_value;
 
-    temp_v0 = arg0->unk_6A + 0xCC;
-    arg0->unk_6A = temp_v0;
-    return (s16) (func_800644B8((s16) temp_v0) / 384);
+    updated_value = record->unk_6A + 0xCC;
+    record->unk_6A = updated_value;
+    return (s16) (func_800644B8((s16) updated_value) / 384);
 }

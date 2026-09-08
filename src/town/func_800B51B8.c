@@ -3,6 +3,7 @@
 extern s8 D_80089268[];
 extern s32 func_800B2834();
 
+/* Return the selected value from the three global entries. */
 u8 func_800B2918(void) {
     volatile s8 values[3];
 #ifdef NON_MATCHING

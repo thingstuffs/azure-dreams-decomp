@@ -11,6 +11,7 @@ typedef struct {
 
 extern u8 D_8007216C[];
 
+/* Reads a stream byte into the buffer and stores its table lookup result. */
 void func_80039AF0(Func80039AF0State *state) {
     state->buffer[1] = *state->stream++;
     state->buffer[0x3C] = D_8007216C[state->buffer[1]];

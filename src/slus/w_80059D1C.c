@@ -14,21 +14,20 @@ typedef struct {
 
 extern Struct_80059D1C_80085FA8 D_80085FA8[];
 
-/* For each of the D_800869B4[0] active entries in D_80085FA8, set field_2C to 1
- * and clear field_00 (offset 0) of the entry. */
+/* Sets field_2C to 1 and clears field_00 for each active entry. */
 void func_80059D1C(void) {
     int one;
-    unsigned int i;
-    unsigned int count;
+    unsigned int entry_index;
+    unsigned int entry_count;
 
     if (D_800869B4[0] != 0) {
-        i = 0;
+        entry_index = 0;
         one = 1;
-        count = D_800869B4[0];
+        entry_count = D_800869B4[0];
         do {
-            D_80085FA8[i].field_2C = one;
-            D_80085FA8[i].field_00 = 0;
-            i++;
-        } while (i < count);
+            D_80085FA8[entry_index].field_2C = one;
+            D_80085FA8[entry_index].field_00 = 0;
+            entry_index++;
+        } while (entry_index < entry_count);
     }
 }

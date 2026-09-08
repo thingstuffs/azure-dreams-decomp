@@ -5,7 +5,8 @@
 M2C_UNK func_80402BB8();                         /* extern */
 M2C_UNK func_80402CD4();                    /* extern */
 
-void func_8001BD90(s32 arg0) {
-    func_80402CD4(arg0 + 0x24, arg0);
-    func_80402BB8(arg0);
+/* Process the embedded data at offset 0x24, then the containing object. */
+void func_8001BD90(s32 object_addr) {
+    func_80402CD4(object_addr + 0x24, object_addr);
+    func_80402BB8(object_addr);
 }

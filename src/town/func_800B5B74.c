@@ -11,10 +11,11 @@ typedef struct S_800B32D4_1 {
     s32 unk_3C;
 } S_800B32D4_1;   /* temp_a1 in func_800B32D4 */
 
-void func_800B32D4(Rec_func_800B2DA0_arg1 *arg0) {
-    void *temp_a1;
+/* Prepare the linked data and update its offset 0x40 using the source record. */
+void func_800B32D4(Rec_func_800B2DA0_arg1 *record) {
+    void *source_record;
 
-    func_800B39E4(arg0->unk_A8);
-    temp_a1 = arg0->unk_00;
-    func_800B3178(arg0->unk_A8 + 0x40, temp_a1 + 0x1C, ((S_800B32D4_1 *)temp_a1)->unk_3C);
+    func_800B39E4(record->unk_A8);
+    source_record = record->unk_00;
+    func_800B3178(record->unk_A8 + 0x40, source_record + 0x1C, ((S_800B32D4_1 *)source_record)->unk_3C);
 }

@@ -14,10 +14,11 @@ typedef struct Node {
     unsigned short field_1E; /* 0x1E */
 } Node;
 
-void func_8004B500(Node *a0)
+/* Sets bit 0x8000 in the node and global flags when the node exists. */
+void func_8004B500(Node *node)
 {
-    if (a0 != 0) {
-        a0->field_1E |= 0x8000;
+    if (node != 0) {
+        node->field_1E |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

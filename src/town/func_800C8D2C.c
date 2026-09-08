@@ -17,12 +17,13 @@ typedef struct S_800C648C_1 {
 
 extern unk32 D_800D58B8;
 
-s32 func_800C648C(S_800C648C_0 *arg0) {
-    s32 value;
+/* Check whether both actor data references match D_800D58B8. */
+s32 func_800C648C(S_800C648C_0 *actor) {
+    s32 data_addr;
 
-    value = *arg0->unk_7C;
-    if ((value == (s32)&D_800D58B8) &&
-        (((S_800C648C_1 *)(arg0->unk_80))->unk_04 == value)) {
+    data_addr = *actor->unk_7C;
+    if ((data_addr == (s32)&D_800D58B8) &&
+        (((S_800C648C_1 *)(actor->unk_80))->unk_04 == data_addr)) {
         return 1;
     }
     return 0;

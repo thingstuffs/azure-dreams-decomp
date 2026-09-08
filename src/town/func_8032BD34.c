@@ -11,10 +11,11 @@ register s32 dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): remov
 register s32 dispatch_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
 
-s32 func_80016534(s32 arg0, s32 arg1) {
+/* Dispatch the argument pair when condition 0x1463 is active. */
+s32 func_80016534(s32 dispatch_value, s32 dispatch_option) {
 #ifndef NON_MATCHING
     if (func_8001ADE0(0x1463) == 0) {
-        dispatch_arg = arg0;
+        dispatch_arg = dispatch_value;
         __asm__ __volatile__("" : "=r"(dispatch_arg) : "0"(dispatch_arg));
         __asm__ __volatile__("" : "=r"(dispatch_result) : "0"(dispatch_result));
         dispatch_result = 0;
@@ -25,6 +26,6 @@ s32 func_80016534(s32 arg0, s32 arg1) {
         return;
     }
 #endif
-    func_80019958(arg0, arg1);
+    func_80019958(dispatch_value, dispatch_option);
     return 1;
 }

@@ -1,19 +1,20 @@
 #include "common.h"
 
-void func_8008C1C4(s32 arg0, s32 arg1, s32 arg2, u8 *arg3)
+/* Write a nibble into packed data at a wrapped index. */
+void func_8008C1C4(s32 nibble, s32 index, s32 nibble_count, u8 *packed_data)
 {
-    s32 hi;
-    s32 value;
+    s32 wrapped_index;
+    s32 packed_byte;
 
-    hi = arg1 % arg2;
-    arg0 &= 0xF;
-    arg3 += hi / 2;
+    wrapped_index = index % nibble_count;
+    nibble &= 0xF;
+    packed_data += wrapped_index / 2;
 
-    if (!(hi & 1)) {
-        value = (*arg3 & 0xF0) | arg0;
+    if (!(wrapped_index & 1)) {
+        packed_byte = (*packed_data & 0xF0) | nibble;
     } else {
-        value = (*arg3 & 0xF) | (arg0 << 4);
+        packed_byte = (*packed_data & 0xF) | (nibble << 4);
     }
 
-    *arg3 = value;
+    *packed_data = packed_byte;
 }

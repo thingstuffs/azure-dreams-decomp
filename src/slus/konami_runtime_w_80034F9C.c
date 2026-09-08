@@ -4,8 +4,9 @@
 
 s32 func_80034FD0();                                /* extern */
 
-void func_80034F9C(s8 *arg0) {
+/* Sets the output flag when func_80034FD0 returns nonzero. */
+void func_80034F9C(s8 *result_flag) {
     if (func_80034FD0() != 0) {
-        *arg0 = 1;
+        *result_flag = 1;
     }
 }

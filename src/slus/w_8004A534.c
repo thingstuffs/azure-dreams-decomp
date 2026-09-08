@@ -18,8 +18,7 @@ typedef struct {
     u8 field_3;
 } S_8004A534_arg1;
 
-/* summary: adds a0 to (a0>>2) scaled by a per-entry multiplier byte looked up via
-   (a1->field_3 & 0x1F) into the 84-byte-stride fixed table at 0x800102F0 (offset 0x11). */
-s32 func_8004A534(u32 a0, S_8004A534_arg1 *a1) {
-    return a0 + ((a0 >> 2) * TBL_800102F0[a1->field_3 & 0x1F].field_11);
+/* Adds a quarter of the base value scaled by the selected table multiplier. */
+s32 func_8004A534(u32 base_value, S_8004A534_arg1 *entry_selector) {
+    return base_value + ((base_value >> 2) * TBL_800102F0[entry_selector->field_3 & 0x1F].field_11);
 }

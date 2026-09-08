@@ -3,17 +3,18 @@
 extern u8 D_80016000[0x10];
 extern s32 D_8001C368[];
 
-void func_8001897C(s32 arg0) {
-    register void *temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *temp_a1;
-    s32 val;
+/* Store the step count and advance the state counter by twice that count plus one. */
+void func_8001897C(s32 step_count) {
+    register void *root ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *state;
+    s32 counter;
 
-    temp_v0 = *(void **)D_80016000;
-    temp_a1 = *(void **)((s8 *)temp_v0 + 0x40);
-    D_8001C368[0] = arg0;
-    ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    val = *(s32 *)((s8 *)temp_a1 + 0x110);
-    val = val + 1;
-    val = val + (arg0 * 2);
-    *(s32 *)((s8 *)temp_a1 + 0x110) = val;
+    root = *(void **)D_80016000;
+    state = *(void **)((s8 *)root + 0x40);
+    D_8001C368[0] = step_count;
+    ASM_KEEP(root);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    counter = *(s32 *)((s8 *)state + 0x110);
+    counter = counter + 1;
+    counter = counter + (step_count * 2);
+    *(s32 *)((s8 *)state + 0x110) = counter;
 }

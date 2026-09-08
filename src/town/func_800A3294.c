@@ -10,14 +10,15 @@ typedef struct {
     s16 unk6C;
 } EntityStruct;
 
-void func_800A09F4(s32 arg0, s16 arg1) {
-    void *temp_v0;
-    EntityStruct *ent;
+/* door_open_demo_set_sub: Set the door opening demo handler and angle. */
+void func_800A09F4(s32 door_id, s16 demo_angle) {
+    void *door_object;
+    EntityStruct *door;
 
-    temp_v0 = func_800A0988(arg0);
-    ent = (EntityStruct *)((u8 *)temp_v0 + 0x20);
-    if (temp_v0 != 0) {
-        ent->unk50 = &D_800A08F0;
-        ent->unk6C = arg1;
+    door_object = func_800A0988(door_id);
+    door = (EntityStruct *)((u8 *)door_object + 0x20);
+    if (door_object != 0) {
+        door->unk50 = &D_800A08F0;
+        door->unk6C = demo_angle;
     }
 }

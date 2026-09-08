@@ -8,32 +8,33 @@
 
 extern u8 D_800157D2;
 
-s32 func_80026EC0(s32 arg0, s32 arg1) {
-    register s32 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s32 var_v0;
-    s32 var_v1;
-    u8 *var_a2;
+/* Return the index of the requested zero-based matching occurrence, or -1. */
+s32 func_80026EC0(s32 target_value, s32 target_occurrence) {
+    register s32 occurrence ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 result;
+    s32 index;
+    u8 *entry;
 
-    var_a3 = 0;
-    KEEP_VALUE(var_a3);
-    var_v1 = var_a3;
-    var_a2 = &D_800157D2;
+    occurrence = 0;
+    KEEP_VALUE(occurrence);
+    index = occurrence;
+    entry = &D_800157D2;
 loop_1:
-    if (*var_a2 == arg0) {
-        var_v0 = var_v1;
-        if (var_a3 != arg1) {
-            var_a3 += 1;
+    if (*entry == target_value) {
+        result = index;
+        if (occurrence != target_occurrence) {
+            occurrence += 1;
             goto block_4;
         }
     } else {
 block_4:
-        var_v1 += 1;
-        var_a2 += 0x13;
-        if (var_v1 >= 0x40) {
-            var_v0 = -1;
+        index += 1;
+        entry += 0x13;
+        if (index >= 0x40) {
+            result = -1;
         } else {
             goto loop_1;
         }
     }
-    return var_v0;
+    return result;
 }

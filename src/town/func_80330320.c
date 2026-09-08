@@ -6,21 +6,22 @@ typedef struct {
     s16 z;
 } Vec3s;
 
-s32 func_8001AB20(Vec3s *arg0, Vec3s *arg1) {
+/* Compute the squared distance between two 3D points. */
+s32 func_8001AB20(Vec3s *point_a, Vec3s *point_b) {
     s32 diff;
     s32 total;
 
-    diff = arg1->x;
-    diff -= arg0->x;
+    diff = point_b->x;
+    diff -= point_a->x;
     total = diff * diff;
     do {
-        diff = arg1->y;
-        diff -= arg0->y;
+        diff = point_b->y;
+        diff -= point_a->y;
     } while (0);
     total += diff * diff;
     do {
-        diff = arg1->z;
-        diff -= arg0->z;
+        diff = point_b->z;
+        diff -= point_a->z;
     } while (0);
     return total + diff * diff;
 }

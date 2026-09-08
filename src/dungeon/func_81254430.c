@@ -13,6 +13,7 @@ extern S_80173F90 D_80173F90;
 #define KEEP_PAGE(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
 #endif
 
+/* Resets global state fields and flags and loads the configured value. */
 void func_81254430(void) {
     u8 *page = (u8 *)0x80010000;
     register u16 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

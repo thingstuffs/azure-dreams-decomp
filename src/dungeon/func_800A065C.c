@@ -12,6 +12,7 @@ extern s32 D_800A5D5C;
 #define COMPILER_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #endif
 
+/* Set the object data pointer and increment the global state counter. */
 void func_800A5DBC(void) {
     void *base;
 

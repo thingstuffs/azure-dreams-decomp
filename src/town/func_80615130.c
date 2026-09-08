@@ -15,6 +15,7 @@ M2C_UNK func_80018BD0();                     /* extern */
 extern Rec_D_80016000 *D_80016000;
 
 
+/* Reset two flags and invoke the state callback with 0x10 and 0x200. */
 s32 func_80016930(void) {
     func_80018BD0(0xFB7);
     func_80018BD0(0xFB8);

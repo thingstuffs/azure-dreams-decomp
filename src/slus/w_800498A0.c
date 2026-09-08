@@ -12,9 +12,8 @@ typedef struct {
     u32 field_0x14;
 } S_800498A0;
 
-/* Copies an 8-byte global buffer onto the stack and returns the byte
- * selected by (a0->field_0x14 & 7). */
-u8 func_800498A0(S_800498A0 *a0) {
-    S_800498A0_Buf8 buf = D_80080B20;
-    return buf.b[a0->field_0x14 & 7];
+/* Copies the global lookup table and returns the byte selected by the low three field bits. */
+u8 func_800498A0(S_800498A0 *state) {
+    S_800498A0_Buf8 lookup_table = D_80080B20;
+    return lookup_table.b[state->field_0x14 & 7];
 }

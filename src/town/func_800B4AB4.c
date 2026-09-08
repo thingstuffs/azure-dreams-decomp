@@ -1,20 +1,21 @@
 #include "common.h"
 
-s32 func_800B2214(s32 *arg0, s32 arg1, s32 arg2) {
-    s32 *var_a0;
-    s32 var_v1;
+/* Return the first matching value index, or the number of entries searched. */
+s32 func_800B2214(s32 *values, s32 target_value, s32 count) {
+    s32 *current_value;
+    s32 index;
 
-    var_a0 = arg0;
-    var_v1 = 0;
-    if (arg2 > 0) {
+    current_value = values;
+    index = 0;
+    if (count > 0) {
 loop_1:
-        if (arg1 != *var_a0) {
-            var_v1 += 1;
-            var_a0 += 1;
-            if (var_v1 < arg2) {
+        if (target_value != *current_value) {
+            index += 1;
+            current_value += 1;
+            if (index < count) {
                 goto loop_1;
             }
         }
     }
-    return var_v1;
+    return index;
 }

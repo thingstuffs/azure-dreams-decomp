@@ -14,14 +14,15 @@ typedef struct S_800274A8_1 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_800274A8(void *arg0) {
-    u16 temp_v1;
-    S_800274A8_0 *temp_a1;
+/* Clear flag 0x2000 and restore the saved field when the flag is set. */
+void func_800274A8(void *record_part) {
+    u16 flags;
+    S_800274A8_0 *base_record;
 
-    temp_a1 = arg0 - 0x20;
-    temp_v1 = temp_a1->unk_1E;
-    if (temp_v1 & 0x2000) {
-        temp_a1->unk_1E = (u16) (temp_v1 & 0xDFFF);
-        ((S_800274A8_1 *)((u8 *)arg0 - 0x10))->unk_00 = (s32) ((S_800274A8_1 *)((u8 *)arg0 - 0x10))->unk_3C;
+    base_record = record_part - 0x20;
+    flags = base_record->unk_1E;
+    if (flags & 0x2000) {
+        base_record->unk_1E = (u16) (flags & 0xDFFF);
+        ((S_800274A8_1 *)((u8 *)record_part - 0x10))->unk_00 = (s32) ((S_800274A8_1 *)((u8 *)record_part - 0x10))->unk_3C;
     }
 }

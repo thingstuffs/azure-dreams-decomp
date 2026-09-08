@@ -3,22 +3,23 @@
 extern s8 D_80129728;
 extern s32 D_801331A0;
 
+/* Restore saved values to the entries in slots sixteen through twenty-seven. */
 void func_801238E4(void) {
-    s32 **var_a0;
-    s32 *temp_v1;
-    s32 *var_a1;
-    s32 var_a2;
-    s8 *temp_a0;
+    s32 **entry_slot;
+    s32 *entry;
+    s32 *saved_value;
+    s32 slot_index;
+    s8 *state_base;
 
-    var_a2 = 0x10;
-    var_a1 = &D_801331A0;
-    temp_a0 = &D_80129728;
-    var_a0 = (s32 **)(temp_a0 + 0x40);
+    slot_index = 0x10;
+    saved_value = &D_801331A0;
+    state_base = &D_80129728;
+    entry_slot = (s32 **)(state_base + 0x40);
     do {
-        temp_v1 = *var_a0;
-        var_a0 += 1;
-        var_a2 += 1;
-        *temp_v1 = *var_a1;
-        var_a1 += 1;
-    } while (var_a2 < 0x1C);
+        entry = *entry_slot;
+        entry_slot += 1;
+        slot_index += 1;
+        *entry = *saved_value;
+        saved_value += 1;
+    } while (slot_index < 0x1C);
 }

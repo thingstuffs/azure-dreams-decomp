@@ -19,9 +19,10 @@ M2C_UNK func_8008F104();
 extern M2C_UNK D_800A6CF0;
 extern M2C_UNK D_800D0E60;
 
-void func_800A9734(void *arg0, S_800A9734_1 *arg1) {
-    ((S_800A9734_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800A6CF0;
-    ((S_800A9734_0 *)((u8 *)arg0 - 0x10))->unk_60 = 0;
-    func_8008F104(arg0, arg1, &D_800D0E60);
-    arg1->unk_08 = 0;
+/* Initializes the record and context using the default data. */
+void func_800A9734(void *record_data, S_800A9734_1 *context) {
+    ((S_800A9734_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800A6CF0;
+    ((S_800A9734_0 *)((u8 *)record_data - 0x10))->unk_60 = 0;
+    func_8008F104(record_data, context, &D_800D0E60);
+    context->unk_08 = 0;
 }

@@ -12,13 +12,14 @@ typedef struct S_800B8170_0 {
     s16 unk_22;
 } S_800B8170_0;   /* temp_v0 in func_800B8170 */
 
+/* Allocate an object, set its data pointer, and clear its two halfword fields. */
 void func_800B8170(void) {
-    S_800B8170_0 *temp_v0;
+    S_800B8170_0 *object;
 
-    temp_v0 = func_8003FC64(0);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800B7B8C;
-        temp_v0->unk_20 = 0;
-        temp_v0->unk_22 = 0;
+    object = func_8003FC64(0);
+    if (object != NULL) {
+        object->unk_10 = &D_800B7B8C;
+        object->unk_20 = 0;
+        object->unk_22 = 0;
     }
 }

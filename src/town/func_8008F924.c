@@ -10,6 +10,7 @@ extern u8 D_80083160[0x1DC];
 extern s32 D_800FE480[];
 extern s32 D_800FE484[];
 
+/* Set the two view scales from the stored shift counts. */
 void func_8008D084(void)
 {
     TownViewState *state;

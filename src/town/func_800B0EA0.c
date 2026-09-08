@@ -8,8 +8,9 @@ typedef struct CallbackNode {
 #define NULL 0
 #endif
 
-void func_800AE600(CallbackNode *arg0) {
-    if (arg0->callback != NULL) {
-        arg0->callback(arg0);
+/* Invoke the node callback with the node itself when present. */
+void func_800AE600(CallbackNode *node) {
+    if (node->callback != NULL) {
+        node->callback(node);
     }
 }

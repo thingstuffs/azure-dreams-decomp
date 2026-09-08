@@ -10,10 +10,11 @@ typedef struct S_80026314_0 {
     s32 unk_54;
 } S_80026314_0;   /* temp_v1 in func_80026314 */
 
-void func_80026314(s32 arg0) {
-    S_80026314_0 *temp_v1;
+/* Set the embedded state field to 1 and process its linked object. */
+void func_80026314(s32 object_addr) {
+    S_80026314_0 *state;
 
-    temp_v1 = arg0 + 0x20;
-    temp_v1->unk_10 = 1;
-    func_80025C58(temp_v1->unk_54);
+    state = object_addr + 0x20;
+    state->unk_10 = 1;
+    func_80025C58(state->unk_54);
 }

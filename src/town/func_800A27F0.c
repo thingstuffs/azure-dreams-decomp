@@ -8,11 +8,12 @@ typedef struct {
 
 extern GlobalADBC D_8006ADBC;
 
+/* Check whether unk18 is 12 and unk1A is between 37 and 41. */
 s32 func_8009FF50(void) {
-    GlobalADBC *data = &D_8006ADBC;
+    GlobalADBC *global_state = &D_8006ADBC;
 
-    if (data->unk18 == 12) {
-        if ((u32)(data->unk1A - 37) < 5) {
+    if (global_state->unk18 == 12) {
+        if ((u32)(global_state->unk1A - 37) < 5) {
             return 1;
         }
     }

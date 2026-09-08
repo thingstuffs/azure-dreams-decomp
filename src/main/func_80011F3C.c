@@ -10,14 +10,15 @@ typedef struct S_80024F3C_0 {
     s32 unk_80;
 } S_80024F3C_0;   /* temp_s0 in func_80024F3C */
 
-void func_80024F3C(s32 arg0, s32 arg1, s32 arg2) {
-    S_80024F3C_0 *temp_s0;
+/* Stores two object values and runs the associated update routines. */
+void func_80024F3C(s32 object_addr, s32 value_7c, s32 value_80) {
+    S_80024F3C_0 *object_data;
 
-    if (arg0 != 0) {
-        temp_s0 = arg0 + 0x20;
-        temp_s0->unk_7C = arg1;
-        temp_s0->unk_80 = arg2;
-        func_80024E44(temp_s0);
-        func_80024A50(temp_s0);
+    if (object_addr != 0) {
+        object_data = object_addr + 0x20;
+        object_data->unk_7C = value_7c;
+        object_data->unk_80 = value_80;
+        func_80024E44(object_data);
+        func_80024A50(object_data);
     }
 }

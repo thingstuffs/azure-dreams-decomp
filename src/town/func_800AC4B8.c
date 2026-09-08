@@ -6,16 +6,17 @@ typedef struct S_800A9C18_0 {
     u8 unk_35C4;
 } S_800A9C18_0;   /* temp_a0 in func_800A9C18 */
 
-void func_800A9C18(s32 arg0) {
-    u8 temp_v0;
-    S_800A9C18_0 *temp_a0;
-    void *temp_v1;
+/* Increments the selected byte counter and clamps the result to three. */
+void func_800A9C18(s32 entry_index) {
+    u8 count;
+    S_800A9C18_0 *entry;
+    void *table_base;
 
-    temp_v1 = (void *) 0x80010000;
-    temp_a0 = (arg0 * 4) + temp_v1;
-    temp_v0 = temp_a0->unk_35C4 + 1;
-    temp_a0->unk_35C4 = temp_v0;
-    if ((u32) (temp_v0 & 0xFF) >= 4U) {
-        temp_a0->unk_35C4 = 3U;
+    table_base = (void *) 0x80010000;
+    entry = (entry_index * 4) + table_base;
+    count = entry->unk_35C4 + 1;
+    entry->unk_35C4 = count;
+    if ((u32) (count & 0xFF) >= 4U) {
+        entry->unk_35C4 = 3U;
     }
 }

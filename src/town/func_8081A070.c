@@ -13,9 +13,10 @@ typedef struct S_80024070_0 {
 
 extern s32 D_800814A0[3];
 
-void func_80024070(void *arg0) {
-    if (*((S_80024070_0 *)arg0)->unk_0C == 0) {
-        ((S_80024070_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80024070_0_pre *)arg0)[-1].unk_00 | 0x8000);
+/* Set record and global flags when the linked value is zero. */
+void func_80024070(void *record) {
+    if (*((S_80024070_0 *)record)->unk_0C == 0) {
+        ((S_80024070_0_pre *)record)[-1].unk_00 = (u16) (((S_80024070_0_pre *)record)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

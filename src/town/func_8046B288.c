@@ -3,6 +3,7 @@
 extern s32 D_8001E954[];
 extern s32 func_8001C5CC(void);
 
+/* Return 0 when inactive, or 1 or 2 according to the check result. */
 s32 func_8001C288(void) {
     s32 value;
 

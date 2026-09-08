@@ -12,8 +12,9 @@ typedef struct Func8003A9B8State {
     Func8003A9B8Table *table;
 } Func8003A9B8State;
 
-void func_8003A9B8(Func8003A9B8State *arg0) {
-    u8 index = *arg0->stream;
-    arg0->stream++;
-    arg0->stream = arg0->table->values[index];
+/* Redirects the event script stream to the table entry selected by the next byte. */
+void func_8003A9B8(Func8003A9B8State *vm) {
+    u8 index = *vm->stream;
+    vm->stream++;
+    vm->stream = vm->table->values[index];
 }

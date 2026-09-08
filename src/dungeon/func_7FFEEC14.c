@@ -15,12 +15,13 @@ extern void *func_8003FC64(u32);
 extern void func_8008C304(void);
 extern void *D_800CFCA8;
 
+/* Allocates a node, initializes its callback and field, and saves the field pointer. */
 void func_8008C374(void) {
-    Node *v = func_8003FC64(0);
-    if (v != NULL) {
-        v->cb = func_8008C304;
-        v->field_0x20 = 0;
-        v = (Node *)((u8 *)v + 0x20);
-        D_800CFCA8 = v;
+    Node *node = func_8003FC64(0);
+    if (node != NULL) {
+        node->cb = func_8008C304;
+        node->field_0x20 = 0;
+        node = (Node *)((u8 *)node + 0x20);
+        D_800CFCA8 = node;
     }
 }

@@ -3,10 +3,11 @@
 extern s32 D_800834B8;
 extern void func_8009368C(void *arg0, s32 arg1, s32 arg2);
 
+/* Run plt_carry_on_chk_ext using the global record and its context values. */
 void func_800936D0(void) {
-    s32 *p = &D_800834B8;
-    s32 *v = p - 8;
+    s32 *record = &D_800834B8;
+    s32 *context = record - 8;
 
     
-    func_8009368C(p, v[2], v[3]);
+    func_8009368C(record, context[2], context[3]);
 }

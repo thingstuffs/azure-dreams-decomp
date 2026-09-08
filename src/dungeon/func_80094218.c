@@ -2,8 +2,9 @@
 
 extern u8 D_800E045D[];
 
-void *func_80099978(void *arg0) {
-    register u8 *dst ASM_REG("$4") = (u8 *)arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+/* Append two table bytes followed by two bytes of value 7. */
+void *func_80099978(void *buffer) {
+    register u8 *dst ASM_REG("$4") = (u8 *)buffer;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     *dst = D_800E045D[0];
     dst++;

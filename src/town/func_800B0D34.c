@@ -12,9 +12,10 @@ typedef struct S_800AE494_0 {
 M2C_UNK func_800B0418();                         /* extern */
 M2C_UNK func_800B0700();                         /* extern */
 
-void func_800AE494(void *arg0) {
-    func_800B0700(((S_800AE494_0 *)((u8 *)arg0 - 0x10))->unk_14);
-    ((S_800AE494_0 *)((u8 *)arg0 - 0x10))->unk_14 = 0;
-    func_800B0418(((S_800AE494_0 *)((u8 *)arg0 - 0x10))->unk_10);
-    ((S_800AE494_0 *)((u8 *)arg0 - 0x10))->unk_00 = 0;
+/* Pass the record handles to their handlers and clear its secondary handle and status. */
+void func_800AE494(void *record_payload) {
+    func_800B0700(((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_14);
+    ((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_14 = 0;
+    func_800B0418(((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_10);
+    ((S_800AE494_0 *)((u8 *)record_payload - 0x10))->unk_00 = 0;
 }

@@ -18,9 +18,10 @@ typedef struct S_8080DD50_1 {
 
 extern s32 D_80084D5C;
 
-void func_8080DD50(void *arg0) {
-    if (((S_8080DD50_1 *)(((S_8080DD50_0 *)arg0)->unk_04))->unk_36 == 7) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_8080DD50_0_pre *)arg0)[-1].unk_00 | 0x8000);
+/* Set record and global flags when the linked object has state 7. */
+void func_8080DD50(void *record) {
+    if (((S_8080DD50_1 *)(((S_8080DD50_0 *)record)->unk_04))->unk_36 == 7) {
+        (*(u16 *)((u8 *)record + -2)) = (u16) (((S_8080DD50_0_pre *)record)[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
     }
 }

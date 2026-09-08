@@ -9,8 +9,9 @@ typedef struct S_800D491C_0 {
     M2C_UNK * unk_8C;
 } S_800D491C_0;   /* arg0 in func_800D491C */
 
-void func_800D491C(S_800D491C_0 *arg0) {
+/* Sets the object data pointer when the status check is positive. */
+void func_800D491C(S_800D491C_0 *object) {
     if (func_800AB464() > 0) {
-        arg0->unk_8C = &D_800D4494;
+        object->unk_8C = &D_800D4494;
     }
 }

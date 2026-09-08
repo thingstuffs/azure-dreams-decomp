@@ -13,17 +13,18 @@ typedef struct Func8003A500State {
     s32 result;
 } Func8003A500State;
 
-void func_8003A500(Func8003A500State *arg0) {
-    u8 *ptr = arg0->read_ptr;
-    u8 first = *ptr;
-    u8 second;
-    ptr++;
-    arg0->read_ptr = ptr;
-    second = *ptr;
-    ptr++;
-    arg0->read_ptr = ptr;
+/* Stores the difference between two event-script variables in the result field. */
+void func_8003A500(Func8003A500State *state) {
+    u8 *script_cursor = state->read_ptr;
+    u8 lhs_index = *script_cursor;
+    u8 rhs_index;
+    script_cursor++;
+    state->read_ptr = script_cursor;
+    rhs_index = *script_cursor;
+    script_cursor++;
+    state->read_ptr = script_cursor;
 
-    arg0 = arg0->table;
-    arg0->result = ((Func8003A500Entry *)((u8 *)arg0 + first * 4))->value
-                 - ((Func8003A500Entry *)((u8 *)arg0 + second * 4))->value;
+    state = state->table;
+    state->result = ((Func8003A500Entry *)((u8 *)state + lhs_index * 4))->value
+                 - ((Func8003A500Entry *)((u8 *)state + rhs_index * 4))->value;
 }

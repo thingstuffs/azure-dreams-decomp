@@ -8,16 +8,17 @@ typedef struct {
 
 extern void func_800AE854(Func800B0E58State *);
 
-void func_800AE5B8(Func800B0E58State *arg0) {
-    s32 temp_v0;
-    s32 temp_v1;
+/* Update the state and increment its counter, clearing status when the prior count reaches the limit. */
+void func_800AE5B8(Func800B0E58State *state) {
+    s32 counter;
+    s32 previous_counter;
 
-    func_800AE854(arg0);
-    temp_v0 = arg0->unk8;
-    temp_v1 = temp_v0;
-    temp_v0 = temp_v0 + 1;
-    arg0->unk8 = temp_v0;
-    if (temp_v1 >= arg0->unk4) {
-        arg0->unk0 = 0;
+    func_800AE854(state);
+    counter = state->unk8;
+    previous_counter = counter;
+    counter = counter + 1;
+    state->unk8 = counter;
+    if (previous_counter >= state->unk4) {
+        state->unk0 = 0;
     }
 }

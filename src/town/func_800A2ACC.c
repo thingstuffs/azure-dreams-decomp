@@ -16,11 +16,12 @@ typedef struct S_800A022C_2 {
     M2C_UNK * unk_50;
 } S_800A022C_2;   /* arg0 in func_800A022C */
 
-void func_800A022C(S_800A022C_2 *arg0, S_800A022C_0 *arg1, Rec_D_800E3D7C *arg2) {
-    arg1->unk_15 = 1;
-    arg2->unk_0C.as_s32 = 0;
-    arg2->unk_10.at00_s32.v = 0;
-    arg2->unk_14.as_s32 = 0xFFF20000;
-    func_8009539C(arg2);
-    arg0->unk_50 = &D_8009BC44;
+/* Initialize the record and active flag, then install the object handler. */
+void func_800A022C(S_800A022C_2 *object, S_800A022C_0 *state, Rec_D_800E3D7C *record) {
+    state->unk_15 = 1;
+    record->unk_0C.as_s32 = 0;
+    record->unk_10.at00_s32.v = 0;
+    record->unk_14.as_s32 = 0xFFF20000;
+    func_8009539C(record);
+    object->unk_50 = &D_8009BC44;
 }

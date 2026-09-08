@@ -29,12 +29,12 @@ typedef struct {
 
 extern D_80083160_t D_80083160;
 
-/* Copies three u16 fields from arg0->unk20 into the global D_80083160. */
-void func_8004D09C(InStruct *arg0)
+/* Copies three nested 16-bit fields into the global state. */
+void func_8004D09C(InStruct *object)
 {
-    SrcStruct *src = arg0->unk20;
+    SrcStruct *source = object->unk20;
 
-    D_80083160.unkBC = src->unk2;
-    D_80083160.unkBE = src->unk6;
-    D_80083160.unkC0 = src->unkA;
+    D_80083160.unkBC = source->unk2;
+    D_80083160.unkBE = source->unk6;
+    D_80083160.unkC0 = source->unkA;
 }

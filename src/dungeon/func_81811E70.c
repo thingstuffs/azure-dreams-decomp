@@ -9,24 +9,25 @@ extern u8 D_800157D2[];
 #define COPY_INDEX(dst, src) ((dst) = (src))
 #endif
 
-s32 func_80026E70(s32 arg0, s32 arg1) {
+/* Count entries matching both bytes, stopping at a zero value or 64 entries. */
+s32 func_80026E70(s32 target_value, s32 prefix_value) {
     s32 count;
-    register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *p;
+    register s32 index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *entry;
     u8 value;
 
     count = 0;
-    COPY_INDEX(i, count);
-    p = D_800157D2;
+    COPY_INDEX(index, count);
+    entry = D_800157D2;
 loop:
-    value = p[0];
+    value = entry[0];
     if (value != 0) {
-        if ((value == arg0) && (p[-1] == arg1)) {
+        if ((value == target_value) && (entry[-1] == prefix_value)) {
             count++;
         }
-        i++;
-        p += 0x13;
-        if (i < 0x40) {
+        index++;
+        entry += 0x13;
+        if (index < 0x40) {
             goto loop;
         }
     }

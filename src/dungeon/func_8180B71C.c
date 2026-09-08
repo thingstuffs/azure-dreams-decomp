@@ -9,7 +9,8 @@ typedef struct {
 extern Data83160 D_80083160;
 extern void func_800BC4D4();
 
-void func_80026F1C(s32 arg0, s32 arg1, s16 arg2)
+/* Sets the scratchpad offset to the negated global coordinates before forwarding the call. */
+void func_80026F1C(s32 call_value, s32 call_option, s16 call_mode)
 {
     register s16 *scratch ASM_REG("$8") = (s16 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 x;
@@ -22,7 +23,7 @@ void func_80026F1C(s32 arg0, s32 arg1, s16 arg2)
     state = *(u16 *)(state + 0xC6);
     scratch[0x100 / 2] = -x;
     scratch[0x102 / 2] = -state;
-    func_800BC4D4(arg0, arg1, arg2);
+    func_800BC4D4(call_value, call_option, call_mode);
 }
 
 /* MECHANISM: The three-argument call naturally gives a 0x18 frame with only the ra save.

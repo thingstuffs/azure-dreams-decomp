@@ -9,8 +9,9 @@ typedef struct S_800A2DF0_0 {
 } S_800A2DF0_0;   /* arg0 in func_800A2DF0 */
 
 
-void func_800A2DF0(S_800A2DF0_0 *arg0, Rec_D_800E3D7C *arg1) {
-    arg0->unk_00 = (u16) (arg0->unk_00 + arg1->unk_00.at02_u16.v);
-    arg0->unk_02 = (u16) (arg0->unk_02 + arg1->unk_04.at02_u16.v);
-    arg0->unk_04 = (u16) (arg0->unk_04 + arg1->unk_08.at02_u16.v);
+/* Add three record increments to the corresponding 16-bit components. */
+void func_800A2DF0(S_800A2DF0_0 *components, Rec_D_800E3D7C *increments) {
+    components->unk_00 = (u16) (components->unk_00 + increments->unk_00.at02_u16.v);
+    components->unk_02 = (u16) (components->unk_02 + increments->unk_04.at02_u16.v);
+    components->unk_04 = (u16) (components->unk_04 + increments->unk_08.at02_u16.v);
 }

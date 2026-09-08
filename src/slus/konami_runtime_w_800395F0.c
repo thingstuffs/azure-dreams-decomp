@@ -18,11 +18,12 @@ typedef struct S_800395F0_1 {
 } S_800395F0_1;   /* temp_a2 in func_800395F0 */
 
 
-void func_800395F0(S_800395F0_0 *arg0) {
-    S_800395F0_1 *temp_a2;
+/* Push the event-script return address and jump to the encoded destination. */
+void func_800395F0(S_800395F0_0 *script) {
+    S_800395F0_1 *target_bytes;
 
-    *arg0->unk_7C = arg0->unk_1C + 4;
-    temp_a2 = arg0->unk_1C;
-    arg0->unk_7C = (s32 *) (arg0->unk_7C + 1);
-    arg0->unk_1C = (void *) (temp_a2->unk_00 + (temp_a2->unk_01 << 8) + (temp_a2->unk_02 << 0x10) + (temp_a2->unk_03 << 0x18));
+    *script->unk_7C = script->unk_1C + 4;
+    target_bytes = script->unk_1C;
+    script->unk_7C = (s32 *) (script->unk_7C + 1);
+    script->unk_1C = (void *) (target_bytes->unk_00 + (target_bytes->unk_01 << 8) + (target_bytes->unk_02 << 0x10) + (target_bytes->unk_03 << 0x18));
 }

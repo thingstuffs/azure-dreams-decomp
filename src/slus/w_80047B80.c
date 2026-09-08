@@ -10,18 +10,18 @@ typedef struct {
 
 extern S_80047B80 D_80083D08[6];
 
-/* Returns the index of the first D_80083D08 slot whose first word is 0 (free slot), or -1 if none free. */
+/* Returns the first free slot index in D_80083D08, or -1 if all slots are occupied. */
 s32 func_80047B80(void)
 {
-    s32 result = -1;
-    s32 i = 0;
-    S_80047B80 *p = D_80083D08;
+    s32 free_index = -1;
+    s32 slot_index = 0;
+    S_80047B80 *slot = D_80083D08;
 
-    for (; i < 6; i++, p++) {
-        if (p->unk0 == 0) {
-            result = i;
+    for (; slot_index < 6; slot_index++, slot++) {
+        if (slot->unk0 == 0) {
+            free_index = slot_index;
             break;
         }
     }
-    return result;
+    return free_index;
 }

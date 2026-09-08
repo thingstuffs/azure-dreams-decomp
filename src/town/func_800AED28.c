@@ -2,20 +2,21 @@
 
 extern s8 D_800D1548[0x1549];
 
-void func_800AC488(s16 arg0, s16 arg1, s8 arg2, s8 arg3) {
-    s8 temp_a2;
-    s8 temp_a3;
+/* Set texture coordinates, page, and palette for a 32-by-32 quad. */
+void func_800AC488(s16 texture_page, s16 palette, s8 texture_u, s8 texture_v) {
+    s8 right_u;
+    s8 bottom_v;
 
-    D_800D1548[8] = arg2;
-    D_800D1548[0] = arg2;
-    temp_a2 = arg2 + 0x1F;
-    D_800D1548[5] = arg3;
-    D_800D1548[1] = arg3;
-    temp_a3 = arg3 + 0x1F;
-    D_800D1548[0xA] = temp_a2;
-    D_800D1548[4] = temp_a2;
-    D_800D1548[0xB] = temp_a3;
-    D_800D1548[9] = temp_a3;
-    *(s16 *)&D_800D1548[6] = arg0;
-    *(s16 *)&D_800D1548[2] = arg1;
+    D_800D1548[8] = texture_u;
+    D_800D1548[0] = texture_u;
+    right_u = texture_u + 0x1F;
+    D_800D1548[5] = texture_v;
+    D_800D1548[1] = texture_v;
+    bottom_v = texture_v + 0x1F;
+    D_800D1548[0xA] = right_u;
+    D_800D1548[4] = right_u;
+    D_800D1548[0xB] = bottom_v;
+    D_800D1548[9] = bottom_v;
+    *(s16 *)&D_800D1548[6] = texture_page;
+    *(s16 *)&D_800D1548[2] = palette;
 }

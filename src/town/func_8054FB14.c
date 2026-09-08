@@ -4,6 +4,7 @@ extern void *D_80016000;
 
 #define FIELD(expr, type, offset) (*(type)((u8 *)(expr) + (offset)))
 
+/* Adds 100 to the stored value, divides by 100, and caps the result at ten. */
 s32 func_8054FB14(void) {
     u32 value;
 

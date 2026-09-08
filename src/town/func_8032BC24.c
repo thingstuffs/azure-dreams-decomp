@@ -15,6 +15,7 @@ extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_8001BF80;
 
 
+/* Pass D_8001BF80 and 0x14 to the object callback. */
 void func_80016424(void) {
     ((S_80016424_1 *)(D_80016000->unk_20))->unk_344(&D_8001BF80, 0x14);
 }

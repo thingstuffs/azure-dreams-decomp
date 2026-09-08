@@ -20,15 +20,16 @@ typedef struct S_800B0824_2 {
 
 extern M2C_UNK D_800B07D0;
 
-void func_800B0824(void *arg0) {
-    S_800B0824_1 *temp_v0;
-    S_800B0824_2 *temp_v1;
+/* Increase the subrecord value by 0x200, clamp it to 0x1000, and switch handlers at the limit. */
+void func_800B0824(void *record_data) {
+    S_800B0824_1 *subrecord;
+    S_800B0824_2 *updated_subrecord;
 
-    temp_v0 = ((S_800B0824_0 *)((u8 *)arg0 - 0x10))->unk_D0;
-    temp_v0->unk_06 = (u16) (temp_v0->unk_06 + 0x200);
-    temp_v1 = ((S_800B0824_0 *)((u8 *)arg0 - 0x10))->unk_D0;
-    if ((s16) temp_v1->unk_06 >= 0x1000) {
-        temp_v1->unk_06 = 0x1000U;
-        ((S_800B0824_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800B07D0;
+    subrecord = ((S_800B0824_0 *)((u8 *)record_data - 0x10))->unk_D0;
+    subrecord->unk_06 = (u16) (subrecord->unk_06 + 0x200);
+    updated_subrecord = ((S_800B0824_0 *)((u8 *)record_data - 0x10))->unk_D0;
+    if ((s16) updated_subrecord->unk_06 >= 0x1000) {
+        updated_subrecord->unk_06 = 0x1000U;
+        ((S_800B0824_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800B07D0;
     }
 }

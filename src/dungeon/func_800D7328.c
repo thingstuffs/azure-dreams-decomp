@@ -17,12 +17,13 @@ typedef struct S_800DCA88_1 {
 
 
 
-void func_800DCA88(S_800DCA88_0 *arg0, s32 arg1) {
-    if (arg1 != 0) {
-        ((S_800DCA88_1 *)(arg0->unk_04))->unk_08 = -0x8C;
+/* Set the attached object position according to the alternate-position flag. */
+void func_800DCA88(S_800DCA88_0 *object, s32 alternate_position) {
+    if (alternate_position != 0) {
+        ((S_800DCA88_1 *)(object->unk_04))->unk_08 = -0x8C;
     } else {
-        ((S_800DCA88_1 *)(arg0->unk_04))->unk_08 = -0x22;
+        ((S_800DCA88_1 *)(object->unk_04))->unk_08 = -0x22;
     }
-    ((S_800DCA88_1 *)(arg0->unk_04))->unk_0A = -0x52;
-    ((S_800DCA88_1 *)(arg0->unk_04))->unk_0C = 0x200;
+    ((S_800DCA88_1 *)(object->unk_04))->unk_0A = -0x52;
+    ((S_800DCA88_1 *)(object->unk_04))->unk_0C = 0x200;
 }

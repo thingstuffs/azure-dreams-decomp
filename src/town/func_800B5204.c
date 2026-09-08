@@ -9,23 +9,24 @@ typedef struct S_800B2964_0 {
     u8 unk_01;
 } S_800B2964_0;   /* var_v1 in func_800B2964 */
 
-void func_800B2964(M2C_UNK *arg0, s32 arg1) {
-    M2C_UNK *var_a0;
-    s8 *var_v1;
-    s32 var_a2;
+/* Collect pointers to enabled entries and terminate the list with NULL. */
+void func_800B2964(M2C_UNK *entries, s32 entry_count) {
+    M2C_UNK *output;
+    s8 *entry;
+    s32 entry_index;
 
-    var_a0 = arg0;
-    var_a2 = 0;
-    if (arg1 > 0) {
-        var_v1 = D_80011F80;
+    output = entries;
+    entry_index = 0;
+    if (entry_count > 0) {
+        entry = D_80011F80;
         do {
-            if (((S_800B2964_0 *)var_v1)->unk_01 != 0) {
-                *var_a0 = (M2C_UNK) var_v1;
-                var_a0 += 1;
+            if (((S_800B2964_0 *)entry)->unk_01 != 0) {
+                *output = (M2C_UNK) entry;
+                output += 1;
             }
-            var_a2 += 1;
-            var_v1 += 4;
-        } while (var_a2 < arg1);
+            entry_index += 1;
+            entry += 4;
+        } while (entry_index < entry_count);
     }
-    *var_a0 = NULL;
+    *output = NULL;
 }

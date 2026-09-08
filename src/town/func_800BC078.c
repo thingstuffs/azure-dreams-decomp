@@ -16,6 +16,7 @@ typedef struct {
 extern ListHead D_80081498;
 extern s32 D_800814A0;
 
+/* Set flag 0x8000 on nodes with the given ID and on the list status. */
 void func_800B97D8(s32 id)
 {
     ListNode *node = D_80081498.head;

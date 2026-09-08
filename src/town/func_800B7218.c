@@ -13,9 +13,10 @@ typedef struct S_800B4978_1 {
     s32 unk_40;
 } S_800B4978_1;   /* temp_a1 in func_800B4978 */
 
-void func_800B4978(S_800B4978_0 *arg0) {
-    void *temp_a1;
+/* Passes the source data and its parameter to the destination component. */
+void func_800B4978(S_800B4978_0 *object) {
+    void *source_data;
 
-    temp_a1 = arg0->unk_00;
-    func_800B2FF8(arg0->unk_5C + 0x18, temp_a1 + 0x2C, ((S_800B4978_1 *)temp_a1)->unk_40);
+    source_data = object->unk_00;
+    func_800B2FF8(object->unk_5C + 0x18, source_data + 0x2C, ((S_800B4978_1 *)source_data)->unk_40);
 }

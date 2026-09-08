@@ -14,8 +14,9 @@ typedef struct S_800C8808_1 {
     s32 unk_14;
 } S_800C8808_1;   /* arg1 in func_800C8808 */
 
-void func_800C8808(Rec_func_80094268_arg0 *arg0, S_800C8808_1 *arg1, M2C_UNK arg2) {
-    func_800C2E84(arg0, arg2, &D_800D627C);
-    arg0->unk_54 = &D_800C8788;
-    arg1->unk_14 = 0xFFF60000;
+/* Initialize the object callback and set its state value to negative ten in fixed point. */
+void func_800C8808(Rec_func_80094268_arg0 *object, S_800C8808_1 *state, M2C_UNK init_data) {
+    func_800C2E84(object, init_data, &D_800D627C);
+    object->unk_54 = &D_800C8788;
+    state->unk_14 = 0xFFF60000;
 }

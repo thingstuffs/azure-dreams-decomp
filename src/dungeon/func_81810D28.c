@@ -6,19 +6,20 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
-void func_80025D28(Rec_func_80025D28_arg0 *arg0) {
-    volatile s32 sp0;
-    s32 value;
+/* Initialize the packet fields with payload 0xB8C8 and set flag 0x80. */
+void func_80025D28(Rec_func_80025D28_arg0 *packet) {
+    volatile s32 initial_payload;
+    s32 payload;
     u8 flags;
 
-    sp0 = 0xB8C8;
-    arg0->unk_01 = 0x28;
-    value = sp0;
-    flags = arg0->unk_00;
-    arg0->unk_02 = 2;
-    arg0->unk_03 = 2;
-    arg0->unk_0A = 0xC;
-    arg0->unk_0B = 0xC;
-    arg0->unk_04 = value;
-    arg0->unk_00 = (u8)(flags | 0x80);
+    initial_payload = 0xB8C8;
+    packet->unk_01 = 0x28;
+    payload = initial_payload;
+    flags = packet->unk_00;
+    packet->unk_02 = 2;
+    packet->unk_03 = 2;
+    packet->unk_0A = 0xC;
+    packet->unk_0B = 0xC;
+    packet->unk_04 = payload;
+    packet->unk_00 = (u8)(flags | 0x80);
 }

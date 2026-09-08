@@ -16,12 +16,13 @@ typedef struct S_80083160_View {
 
 extern S_80083160_View D_80083160;
 
-s32 func_8008C0AC(s32 arg0, s32 arg1)
+/* Compute the map entry address from masked tile coordinates. */
+s32 func_8008C0AC(s32 tile_x, s32 tile_y)
 {
-    S_80083160_View *base = &D_80083160;
-    S_8008E94C_Sub *p = &base->sub;
-    s32 sum;
+    S_80083160_View *map_state = &D_80083160;
+    S_8008E94C_Sub *map_layout = &map_state->sub;
+    s32 tile_index;
 
-    sum = (p->mask1 & arg0) + ((s16)(p->mask2 & arg1) << p->shift);
-    return base->sub.f0 + ((sum << 0x10) >> 0xF);
+    tile_index = (map_layout->mask1 & tile_x) + ((s16)(map_layout->mask2 & tile_y) << map_layout->shift);
+    return map_state->sub.f0 + ((tile_index << 0x10) >> 0xF);
 }

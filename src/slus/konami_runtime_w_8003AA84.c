@@ -13,17 +13,18 @@ typedef struct Func8003AA84State {
     u8 **table;
 } Func8003AA84State;
 
-u8 *func_8003AA84(Func8003AA84State *arg0) {
-    u8 *read_ptr = arg0->read_ptr;
-    u8 **table = arg0->table;
-    u8 **write_ptr = arg0->write_ptr;
-    u8 index = *read_ptr++;
-    u8 *next;
+/* Saves the script return address and jumps to the indexed script pointer. */
+u8 *func_8003AA84(Func8003AA84State *state) {
+    u8 *read_ptr = state->read_ptr;
+    u8 **table = state->table;
+    u8 **return_stack = state->write_ptr;
+    u8 target_index = *read_ptr++;
+    u8 *target_ptr;
 
-    arg0->read_ptr = read_ptr;
-    *write_ptr = read_ptr;
-    arg0->write_ptr += 1;
-    next = table[index + 18];
-    arg0->read_ptr = next;
-    return next;
+    state->read_ptr = read_ptr;
+    *return_stack = read_ptr;
+    state->write_ptr += 1;
+    target_ptr = table[target_index + 18];
+    state->read_ptr = target_ptr;
+    return target_ptr;
 }

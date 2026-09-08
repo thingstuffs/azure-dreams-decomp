@@ -24,9 +24,10 @@ typedef struct S_800362A0_0 {
 
 extern M2C_UNK func_80036154;
 
-void func_800362A0(S_800362A0_0 *arg0) {
-    if (arg0->unk_50 != 0) {
-        ((S_800362A0_2 *)(((S_800362A0_1 *)arg0)->unk_74))->unk_84 = 1;
-        arg0->unk_68 = &func_80036154;
+/* If the flag at offset 0x50 is set, marks the linked state and selects func_80036154. */
+void func_800362A0(S_800362A0_0 *state) {
+    if (state->unk_50 != 0) {
+        ((S_800362A0_2 *)(((S_800362A0_1 *)state)->unk_74))->unk_84 = 1;
+        state->unk_68 = &func_80036154;
     }
 }

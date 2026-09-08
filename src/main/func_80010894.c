@@ -5,8 +5,9 @@ M2C_UNK func_80023600();                         /* extern */
 M2C_UNK func_80023730();               /* extern */
 M2C_UNK func_8002388C();                            /* extern */
 
-void func_80023894(s32 arg0) {
+/* Prepares processing, processes the embedded data, and updates the record. */
+void func_80023894(s32 record) {
     func_8002388C();
-    func_80023730(arg0 + 0x190, arg0 + 0x168, arg0 + 0x178);
-    func_80023600(arg0);
+    func_80023730(record + 0x190, record + 0x168, record + 0x178);
+    func_80023600(record);
 }

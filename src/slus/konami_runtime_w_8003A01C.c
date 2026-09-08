@@ -15,15 +15,16 @@ struct Func8003A01CState {
     u32 values[256];
 };
 
-void func_8003A01C(Func8003A01CContext *arg0) {
-    u8 *cursor = arg0->cursor;
-    Func8003A01CState *state = arg0->state;
-    u8 first;
-    u8 second;
+/* Handles event-script opcode 53 by copying an indirect table value into the selected VM value slot. */
+void func_8003A01C(Func8003A01CContext *context) {
+    u8 *cursor = context->cursor;
+    Func8003A01CState *state = context->state;
+    u8 value_index;
+    u8 table_index;
 
-    first = *cursor++;
-    arg0->cursor = cursor;
-    second = *cursor++;
-    arg0->cursor = cursor;
-    state->values[first] = **(state->table + second);
+    value_index = *cursor++;
+    context->cursor = cursor;
+    table_index = *cursor++;
+    context->cursor = cursor;
+    state->values[value_index] = **(state->table + table_index);
 }

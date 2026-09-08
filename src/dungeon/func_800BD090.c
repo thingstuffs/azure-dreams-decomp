@@ -9,6 +9,7 @@ typedef struct {
 extern GlobalS32 D_800DF55C;
 extern GlobalS32 D_800DF560;
 
+/* Store the lookup result for the adjusted global value and report success. */
 s32 func_800C27F0(void) {
     s32 result;
 

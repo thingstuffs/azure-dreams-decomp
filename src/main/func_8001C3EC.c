@@ -8,17 +8,18 @@ typedef struct S_8001C3EC_0 {
     s32 * unk_68C;
 } S_8001C3EC_0;   /* var_s0 in func_8001C3EC */
 
-void func_8001C3EC(void *arg0) {
-    s32 *temp_v0;
-    s32 var_s1;
-    void *var_s0;
+/* Pass each of four referenced values to func_80051FBC. */
+void func_8001C3EC(void *object) {
+    s32 *value_ptr;
+    s32 slot_index;
+    void *slot_cursor;
 
-    var_s1 = 0;
-    var_s0 = arg0;
+    slot_index = 0;
+    slot_cursor = object;
     do {
-        temp_v0 = ((S_8001C3EC_0 *)var_s0)->unk_68C;
-        var_s0 += 4;
-        var_s1 += 1;
-        func_80051FBC(*temp_v0);
-    } while (var_s1 < 4);
+        value_ptr = ((S_8001C3EC_0 *)slot_cursor)->unk_68C;
+        slot_cursor += 4;
+        slot_index += 1;
+        func_80051FBC(*value_ptr);
+    } while (slot_index < 4);
 }

@@ -41,12 +41,13 @@ typedef struct S_8047E130_2 {
 } S_8047E130_2;   /* ((S_8047E130_0 *)p)->unk_08 * 8 +
                   (s8 *)((S_8047E130_0 *)p)->unk_40 in func_8047E130 */
 
+/* Assign the global, child, and current entry table pointers. */
 void func_8047E130(void) {
     do { D_8001794C._0 = &D_80017720[0]; } while (0);
     {
-        S_8047E130_0 *p = D_80016000._0;
-        ((S_8047E130_1 *)(p->unk_1C))->unk_40 = &D_80017B88[0];
-        ((S_8047E130_2 *)(p->unk_08 * 8 +
-                  (s8 *)p->unk_40))->unk_00 = (M2C_ENTRY *)&D_80016178[0];
+        S_8047E130_0 *context = D_80016000._0;
+        ((S_8047E130_1 *)(context->unk_1C))->unk_40 = &D_80017B88[0];
+        ((S_8047E130_2 *)(context->unk_08 * 8 +
+                  (s8 *)context->unk_40))->unk_00 = (M2C_ENTRY *)&D_80016178[0];
     }
 }

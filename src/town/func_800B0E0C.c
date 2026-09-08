@@ -12,7 +12,8 @@ typedef struct S_800AE56C_0 {
     s32 unk_38;
 } S_800AE56C_0;   /* arg0 in func_800AE56C */
 
-void func_800AE56C(S_800AE56C_0 *arg0, M2C_UNK arg1) {
-    D_800D157C[*(u8 *)(arg0->unk_38 +
-                       arg0->unk_1C)](arg1);
+/* Dispatch the callback selected by the byte at the current state offset. */
+void func_800AE56C(S_800AE56C_0 *state, M2C_UNK callback_arg) {
+    D_800D157C[*(u8 *)(state->unk_38 +
+                       state->unk_1C)](callback_arg);
 }

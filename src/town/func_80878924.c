@@ -13,7 +13,8 @@ extern SceneEntry D_80702BA8[];
 extern u8 D_80702C00[];
 extern RuntimeMethods *D_807030B8;
 
-void func_80878924(s32 arg0)
+/* Invoke runtime operation 6 for the scene entry mapped from the index. */
+void func_80878924(s32 scene_index)
 {
-    D_807030B8->invoke(6, &D_80702BA8[D_80702C00[arg0]], 0);
+    D_807030B8->invoke(6, &D_80702BA8[D_80702C00[scene_index]], 0);
 }

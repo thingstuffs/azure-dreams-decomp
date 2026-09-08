@@ -33,11 +33,12 @@ typedef struct S_8001ACA0_1 {
     u16 unk_0A;
 } S_8001ACA0_1;   /* temp_v1 in func_8001ACA0 */
 
-void func_8001ACA0(S_8001ACA0_0 *arg0) {
-    S_8001ACA0_1 *temp_v1;
+/* Copy three 16-bit components from the current nested record to the output. */
+void func_8001ACA0(S_8001ACA0_0 *components) {
+    S_8001ACA0_1 *source_record;
 
-    temp_v1 = ((S_8001ACA0_4 *)(((S_8001ACA0_3 *)(((Rec_D_80016000 *)D_80016000)->unk_24))->unk_68))->unk_08;
-    arg0->unk_00 = (u16) temp_v1->unk_02;
-    arg0->unk_02 = (u16) temp_v1->unk_06;
-    arg0->unk_04 = (u16) temp_v1->unk_0A;
+    source_record = ((S_8001ACA0_4 *)(((S_8001ACA0_3 *)(((Rec_D_80016000 *)D_80016000)->unk_24))->unk_68))->unk_08;
+    components->unk_00 = (u16) source_record->unk_02;
+    components->unk_02 = (u16) source_record->unk_06;
+    components->unk_04 = (u16) source_record->unk_0A;
 }

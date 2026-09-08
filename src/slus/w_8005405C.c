@@ -8,13 +8,12 @@ typedef struct {
 
 extern S_800847D0 D_800847D0;
 
-/* Tests bit (16+n) of D_800847D0.avail unless the corresponding bit (24+n)
-   of D_800847D0.locked is set. */
-s32 func_8005405C(s16 n) {
-    S_800847D0 *p = &D_800847D0;
-    if (p->locked & (0x1000000 << n))
+/* Returns whether the indexed availability bit is set and its lock bit is clear. */
+s32 func_8005405C(s16 bit_index) {
+    S_800847D0 *flags = &D_800847D0;
+    if (flags->locked & (0x1000000 << bit_index))
         goto ret0;
-    if (D_800847D0.avail & (0x10000 << n))
+    if (D_800847D0.avail & (0x10000 << bit_index))
         return 1;
 ret0:
     return 0;

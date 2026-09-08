@@ -9,13 +9,14 @@ typedef struct {
     u8 field_88;
 } Func80039EF4State;
 
-void func_80039EF4(Func80039EF4State *arg0) {
-    u8 value = arg0->field_88;
+/* Decrements the script loop counter and rewinds the script while it remains nonnegative. */
+void func_80039EF4(Func80039EF4State *vm) {
+    u8 loop_count = vm->field_88;
 
-    value--;
-    arg0->field_88 = value;
-    if ((s8)value >= 0) {
-        arg0->field_10 = 0;
-        arg0->field_1C--;
+    loop_count--;
+    vm->field_88 = loop_count;
+    if ((s8)loop_count >= 0) {
+        vm->field_10 = 0;
+        vm->field_1C--;
     }
 }

@@ -17,11 +17,12 @@ extern s16 func_8008C984();
 extern s32 D_800D040C[];
 extern s32 D_800FE5D4[];
 
-s16 func_80096788(Vec3i *arg0) {
+/* Query the position after subtracting the global Z offset. */
+s16 func_80096788(Vec3i *position) {
     LocalVec pos;
 
-    pos.x = arg0->x;
-    pos.y = arg0->y;
-    pos.z = arg0->z - D_800FE5D4[0];
+    pos.x = position->x;
+    pos.y = position->y;
+    pos.z = position->z - D_800FE5D4[0];
     return func_8008C984(&pos, D_800D040C[0], 4);
 }

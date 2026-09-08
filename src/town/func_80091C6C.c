@@ -10,11 +10,12 @@ typedef struct {
     s32 unused[3];
 } StackRecord;
 
-s16 func_8008F3CC(void *arg0) {
+/* Evaluate a position after subtracting its stored offset from the first component. */
+s16 func_8008F3CC(void *position) {
     StackRecord record;
 
-    record.sp10 = *(s32 *)arg0 - *(s32 *)((u8 *)arg0 + 0xC);
-    record.sp14 = *(s32 *)((u8 *)arg0 + 4);
-    record.sp18 = *(s32 *)((u8 *)arg0 + 8);
+    record.sp10 = *(s32 *)position - *(s32 *)((u8 *)position + 0xC);
+    record.sp14 = *(s32 *)((u8 *)position + 4);
+    record.sp18 = *(s32 *)((u8 *)position + 8);
     return func_8008CA20(&record.sp10, &D_800CFD58, 2);
 }

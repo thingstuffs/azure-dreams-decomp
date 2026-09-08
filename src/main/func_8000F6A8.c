@@ -8,8 +8,9 @@ typedef struct S_800226A8_0 {
     s32 * unk_20;
 } S_800226A8_0;   /* arg0 in func_800226A8 */
 
-void func_800226A8(S_800226A8_0 *arg0) {
-    if (*arg0->unk_20 == 0) {
+/* Calls the handler when the referenced record value is zero. */
+void func_800226A8(S_800226A8_0 *record) {
+    if (*record->unk_20 == 0) {
         func_800231E4(0);
     }
 }

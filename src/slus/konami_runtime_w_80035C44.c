@@ -16,13 +16,14 @@ typedef struct S_80035C44_1 {
 
 extern M2C_UNK func_80035C80;
 
-void func_80035C44(S_80035C44_1 *arg0, S_80035C44_0 *arg1) {
-    u16 temp_v0;
+/* Advance progress by 16, clamp it to 64, and switch handlers when it exceeds 64. */
+void func_80035C44(S_80035C44_1 *state, S_80035C44_0 *progress) {
+    u16 next_value;
 
-    temp_v0 = arg1->unk_02 + 0x10;
-    arg1->unk_02 = temp_v0;
-    if ((s16) temp_v0 >= 0x41) {
-        arg1->unk_02 = 0x40U;
-        arg0->unk_68 = &func_80035C80;
+    next_value = progress->unk_02 + 0x10;
+    progress->unk_02 = next_value;
+    if ((s16) next_value >= 0x41) {
+        progress->unk_02 = 0x40U;
+        state->unk_68 = &func_80035C80;
     }
 }

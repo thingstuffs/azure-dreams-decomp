@@ -1,16 +1,17 @@
 #include "common.h"
 
+/* Count nonzero words in the fixed table until its zero terminator. */
 s32 func_800AD968(void) {
-    volatile s32 *var_v1;
-    s32 var_a0;
+    volatile s32 *entry;
+    s32 count;
 
-    var_v1 = (volatile s32 *)0x8001029C;
-    var_a0 = 0;
-    if (var_v1[0] != 0) {
+    entry = (volatile s32 *)0x8001029C;
+    count = 0;
+    if (entry[0] != 0) {
         do {
-            var_v1 = var_v1 + 1;
-            var_a0++;
-        } while (var_v1[0] != 0);
+            entry = entry + 1;
+            count++;
+        } while (entry[0] != 0);
     }
-    return var_a0;
+    return count;
 }

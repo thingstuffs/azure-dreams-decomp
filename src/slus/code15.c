@@ -16,13 +16,9 @@ typedef struct {
 
 extern D_80079958_t D_80079958;
 
-/* Read two u16 entries from the table pointed to by D_80079958.ptr:
- * the low byte of table[a1] shifted into bits 16-23, ORed with the
- * zero-extended table[a0] in the low 16 bits. `volatile` on the table
- * pointer's pointee stops gcc from folding the "& 0xFF" mask into a
- * narrower `lbu` load (retail keeps the full `lhu` + `andi`). */
-s32 func_8005E7B0(s32 a0, s32 a1)
+/* Packs one table entry into the low halfword and another entry's low byte into bits 16-23. */
+s32 func_8005E7B0(s32 low_index, s32 high_index)
 {
     volatile u16 *table = (volatile u16 *)D_80079958.ptr;
-    return ((table[a1] & 0xFF) << 16) | table[a0];
+    return ((table[high_index] & 0xFF) << 16) | table[low_index];
 }

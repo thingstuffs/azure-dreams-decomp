@@ -4,8 +4,9 @@
 M2C_UNK func_80701858();                         /* extern */
 extern u8 D_80700BB4[];
 
-void func_80874D24(s32 arg0) {
-    func_80701858(*(s16 *)(D_80700BB4 + (arg0 * 2)));
+/* Pass the indexed table value to func_80701858. */
+void func_80874D24(s32 index) {
+    func_80701858(*(s16 *)(D_80700BB4 + (index * 2)));
 }
 
 /* MECHANISM: Preserve the seed's 0x18 RA-only frame and direct call shape.

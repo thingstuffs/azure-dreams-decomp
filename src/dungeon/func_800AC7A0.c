@@ -10,11 +10,12 @@ typedef struct S_800B1F00_0 {
     M2C_UNK * unk_10;
 } S_800B1F00_0;   /* temp_v0 in func_800B1F00 */
 
+/* Create an object and assign D_800B1E80 to its data pointer. */
 void func_800B1F00(void) {
-    S_800B1F00_0 *temp_v0;
+    S_800B1F00_0 *object;
 
-    temp_v0 = func_8003FC64(0);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800B1E80;
+    object = func_8003FC64(0);
+    if (object != NULL) {
+        object->unk_10 = &D_800B1E80;
     }
 }

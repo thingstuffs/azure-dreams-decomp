@@ -12,10 +12,11 @@ M2C_UNK func_80027A20();                      /* extern */
 s32 func_8004CB2C();                             /* extern */
 extern M2C_UNK D_80027A68;
 
-void func_80027A88(void *arg0) {
-    if (func_8004CB2C(arg0 + 0x2C) != 0) {
-        ((S_80027A88_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_80027A68;
-        ((S_80027A88_0 *)((u8 *)arg0 - 0x10))->unk_10 = 0;
+/* Reset the handler and state when the record check succeeds, then dispatch its callback. */
+void func_80027A88(void *record) {
+    if (func_8004CB2C(record + 0x2C) != 0) {
+        ((S_80027A88_0 *)((u8 *)record - 0x10))->unk_00 = &D_80027A68;
+        ((S_80027A88_0 *)((u8 *)record - 0x10))->unk_10 = 0;
     }
-    func_80027A20(arg0);
+    func_80027A20(record);
 }

@@ -12,8 +12,9 @@ typedef struct S_80094A60_0 {
     s16 unk_16;
 } S_80094A60_0;   /* arg1 in func_80094A60 */
 
-void func_80094A60(s32 *arg0, S_80094A60_0 *arg1) {
-    s32 value = arg0[arg1->unk_16];
+/* Passes the selected nonzero table value to func_80094A38. */
+void func_80094A60(s32 *values, S_80094A60_0 *selector) {
+    s32 value = values[selector->unk_16];
     if (value != 0) {
         func_80094A38(value);
     }

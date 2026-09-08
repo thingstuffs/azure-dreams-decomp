@@ -24,10 +24,11 @@ typedef struct {
     u16 flags;
 } UnkStruct1E;
 
-void func_8004F52C(UnkStruct1E *a0)
+/* Sets bit 0x8000 in the object and global flags when the object exists. */
+void func_8004F52C(UnkStruct1E *object)
 {
-    if (a0 != 0) {
-        a0->flags |= 0x8000;
+    if (object != 0) {
+        object->flags |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

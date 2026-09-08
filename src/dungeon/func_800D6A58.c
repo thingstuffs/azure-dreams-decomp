@@ -10,17 +10,18 @@ typedef struct S_800DC1B8_0 {
     s32 unk_2C;
 } S_800DC1B8_0;   /* temp_a1 in func_800DC1B8 */
 
-void func_800DC1B8(s32 arg0) {
-    s32 temp_v1;
-    s32 var_v0;
-    S_800DC1B8_0 *temp_a1;
+/* Wraps the position by signed remainder modulo 32 plus 32 and stores the supplied value. */
+void func_800DC1B8(s32 state_value) {
+    s32 position;
+    s32 adjusted_position;
+    S_800DC1B8_0 *state;
 
-    temp_a1 = D_800E5910 + 0x20;
-    temp_v1 = temp_a1->unk_18;
-    var_v0 = temp_v1;
-    if (temp_v1 < 0) {
-        var_v0 = temp_v1 + 0x1F;
+    state = D_800E5910 + 0x20;
+    position = state->unk_18;
+    adjusted_position = position;
+    if (position < 0) {
+        adjusted_position = position + 0x1F;
     }
-    temp_a1->unk_18 = (s32) ((temp_v1 - ((var_v0 >> 5) << 5)) + 0x20);
-    temp_a1->unk_2C = arg0;
+    state->unk_18 = (s32) ((position - ((adjusted_position >> 5) << 5)) + 0x20);
+    state->unk_2C = state_value;
 }

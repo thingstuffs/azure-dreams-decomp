@@ -6,17 +6,18 @@ typedef struct S_800A4A9C_0 {
     s8 unk_2C;
 } S_800A4A9C_0;   /* var_a0 in func_800A4A9C */
 
-s32 func_800A4A9C(s32 arg0) {
-    s32 var_v1;
-    void *var_a0;
+/* Return whether any of the four spaced status bytes is zero. */
+s32 func_800A4A9C(s32 record_addr) {
+    s32 status_index;
+    void *status_cursor;
 
-    var_v1 = 3;
-    var_a0 = arg0 + 6;
+    status_index = 3;
+    status_cursor = record_addr + 6;
 loop_1:
-    if (((S_800A4A9C_0 *)var_a0)->unk_2C != 0) {
-        var_v1 -= 1;
-        var_a0 -= 2;
-        if (var_v1 < 0) {
+    if (((S_800A4A9C_0 *)status_cursor)->unk_2C != 0) {
+        status_index -= 1;
+        status_cursor -= 2;
+        if (status_index < 0) {
             return 0;
         } else {
             goto loop_1;

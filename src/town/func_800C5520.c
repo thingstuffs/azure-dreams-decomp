@@ -5,8 +5,9 @@
 M2C_UNK func_800478B8();                     /* extern */
 
 
-void func_800C2C80(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1) {
-    if (arg0->unk_92 == 0) {
-        func_800478B8(arg1);
+/* Calls the handler when the object status is zero. */
+void func_800C2C80(Rec_func_80094268_arg0 *object, M2C_UNK callback_arg) {
+    if (object->unk_92 == 0) {
+        func_800478B8(callback_arg);
     }
 }

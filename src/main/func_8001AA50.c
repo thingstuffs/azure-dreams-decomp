@@ -8,29 +8,30 @@ typedef struct {
 
 extern Entry D_80409290[];
 
-s32 func_8001AA50(s32 arg0) {
-    s32 sp0[2];
+/* Return 15 minus the entry sum divided by 8192, rounding the quotient toward zero. */
+s32 func_8001AA50(s32 entry_count) {
+    s32 unused_stack[2];
     s32 i;   /* a2 */
     register s32 sum ASM_REG("$3"); /* v1 */
-    register Entry *p ASM_REG("$5"); /* a1 */
-    s32 t;   /* v0 */
-    register s32 val ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register Entry *entry ASM_REG("$5"); /* a1 */
+    s32 rounded_sum;   /* v0 */
+    register s32 entry_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     i = 0;
     ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     sum = 0;
-    if (arg0 > 0) {
-        p = D_80409290;
+    if (entry_count > 0) {
+        entry = D_80409290;
         do {
-            val = p->field18;
+            entry_value = entry->field18;
             i += 1;
-            sum += val;
-            p += 1;
-        } while (i < arg0);
+            sum += entry_value;
+            entry += 1;
+        } while (i < entry_count);
     }
-    t = sum;
+    rounded_sum = sum;
     if (sum < 0) {
-        t = sum + 0x1FFF;
+        rounded_sum = sum + 0x1FFF;
     }
-    return 0xF - (t >> 0xD);
+    return 0xF - (rounded_sum >> 0xD);
 }

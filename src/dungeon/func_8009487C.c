@@ -25,18 +25,19 @@ typedef struct S_80099FDC_3 {
 
 extern void *D_800814A8[3];
 
-void func_80099FDC(void *arg0)
+/* Clear the entry flag and link the entry into the current owner list. */
+void func_80099FDC(void *entry)
 {
-    S_80099FDC_2 *temp_a1;
-    S_80099FDC_3 *temp_v1;
+    S_80099FDC_2 *entry_links;
+    S_80099FDC_3 *neighbor_links;
     S_80099FDC_1 *owner;
 
     owner = D_800814A8[0];
-    ((S_80099FDC_0 *)arg0)->unk_10 = ((S_80099FDC_0 *)arg0)->unk_10 & 0x7FFFFFFF;
-    temp_v1 = (u8 *)owner->unk_58 + 0x20;
-    temp_a1 = (u8 *)arg0 + 0x20;
-    temp_a1->unk_5C = temp_v1->unk_5C;
-    temp_a1->unk_58 = owner->unk_58;
-    owner->unk_58 = arg0;
-    temp_v1->unk_5C = arg0;
+    ((S_80099FDC_0 *)entry)->unk_10 = ((S_80099FDC_0 *)entry)->unk_10 & 0x7FFFFFFF;
+    neighbor_links = (u8 *)owner->unk_58 + 0x20;
+    entry_links = (u8 *)entry + 0x20;
+    entry_links->unk_5C = neighbor_links->unk_5C;
+    entry_links->unk_58 = owner->unk_58;
+    owner->unk_58 = entry;
+    neighbor_links->unk_5C = entry;
 }

@@ -15,9 +15,10 @@ M2C_UNK func_80025598();                         /* extern */
 M2C_UNK func_80028620();                      /* extern */
 extern M2C_UNK D_80027E10;
 
-void func_800274A8(void *arg0) {
-    ((S_800274A8_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_80027E10;
-    ((S_800274A8_0 *)((u8 *)arg0 - 0x10))->unk_10 = (s32) ((S_800274A8_0 *)((u8 *)arg0 - 0x10))->unk_14;
-    func_80025598(((S_800274A8_0 *)((u8 *)arg0 - 0x10))->unk_54);
-    func_80028620(arg0 - 0x20);
+/* Reset the record handler, restore its saved state, and run cleanup helpers. */
+void func_800274A8(void *record) {
+    ((S_800274A8_0 *)((u8 *)record - 0x10))->unk_00 = &D_80027E10;
+    ((S_800274A8_0 *)((u8 *)record - 0x10))->unk_10 = (s32) ((S_800274A8_0 *)((u8 *)record - 0x10))->unk_14;
+    func_80025598(((S_800274A8_0 *)((u8 *)record - 0x10))->unk_54);
+    func_80028620(record - 0x20);
 }

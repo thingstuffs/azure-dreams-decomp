@@ -17,13 +17,14 @@ void func_804014E4(void);
 void func_80408654(s32);
 void func_804013F8(s32);
 
+/* Run setup for both indices and replace the stored value with 16 minus itself. */
 void func_80019948(void) {
-    s32 temp_a0;
+    s32 next_value;
 
     func_804014E4();
     func_80408654(0);
     func_80408654(1);
-    temp_a0 = 0x10 - D_804094EC[0];
-    D_804094EC_2[0] = temp_a0;
-    func_804013F8(temp_a0);
+    next_value = 0x10 - D_804094EC[0];
+    D_804094EC_2[0] = next_value;
+    func_804013F8(next_value);
 }

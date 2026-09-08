@@ -15,9 +15,10 @@ typedef struct S_800C8928_0 {
     M2C_UNK * unk_80;
 } S_800C8928_0;   /* arg0 in func_800C8928 */
 
-void func_800C8928(S_800C8928_0 *arg0) {
-    arg0->unk_58 = &D_800D6360;
-    arg0->unk_5C = &D_800D6364;
-    arg0->unk_7C = &D_800D6330;
-    arg0->unk_80 = &D_800D6338;
+/* Assign the four object data pointers. */
+void func_800C8928(S_800C8928_0 *object) {
+    object->unk_58 = &D_800D6360;
+    object->unk_5C = &D_800D6364;
+    object->unk_7C = &D_800D6330;
+    object->unk_80 = &D_800D6338;
 }

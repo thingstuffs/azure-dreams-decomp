@@ -4,9 +4,10 @@
 M2C_UNK func_8005FFFC();                            /* extern */
 M2C_UNK func_801779A0();                         /* extern */
 
-void func_80040ED8(s32 arg0) {
-    if (arg0 == 0) {
+/* Apply the requested mode, performing setup when it is zero. */
+void func_80040ED8(s32 mode) {
+    if (mode == 0) {
         func_8005FFFC();
     }
-    func_801779A0(arg0);
+    func_801779A0(mode);
 }

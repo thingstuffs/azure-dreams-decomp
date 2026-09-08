@@ -22,15 +22,16 @@ typedef struct S_8003571C_2 {
 
 extern M2C_UNK func_80035760;
 
-void func_8003571C(S_8003571C_0 *arg0) {
-    S_8003571C_1 *temp_v0;
-    S_8003571C_2 *temp_v1;
+/* Decreases the state field at offset 0x08 by 0xA0, clamping below zero and advancing the handler. */
+void func_8003571C(S_8003571C_0 *object) {
+    S_8003571C_1 *state;
+    S_8003571C_2 *updated_state;
 
-    temp_v0 = arg0->unk_00;
-    temp_v0->unk_08 = (u16) (temp_v0->unk_08 - 0xA0);
-    temp_v1 = arg0->unk_00;
-    if ((s16) temp_v1->unk_08 < 0) {
-        temp_v1->unk_08 = 0U;
-        arg0->unk_68 = &func_80035760;
+    state = object->unk_00;
+    state->unk_08 = (u16) (state->unk_08 - 0xA0);
+    updated_state = object->unk_00;
+    if ((s16) updated_state->unk_08 < 0) {
+        updated_state->unk_08 = 0U;
+        object->unk_68 = &func_80035760;
     }
 }

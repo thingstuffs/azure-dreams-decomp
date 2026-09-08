@@ -8,11 +8,12 @@ typedef struct S_800A0A54_0 {
     s16 unk_88;
 } S_800A0A54_0;   /* temp_v0 in func_800A0A54 */
 
-void func_800A0A54(M2C_UNK arg0, s16 arg1) {
-    S_800A0A54_0 *temp_v0;
+/* door_atari_on_off: Set the collision flag for the selected door. */
+void func_800A0A54(M2C_UNK door_id, s16 collision_enabled) {
+    S_800A0A54_0 *door;
 
-    temp_v0 = func_800A0988(arg0);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_88 = arg1;
+    door = func_800A0988(door_id);
+    if (door != NULL) {
+        door->unk_88 = collision_enabled;
     }
 }

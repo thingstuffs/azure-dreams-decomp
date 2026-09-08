@@ -18,14 +18,15 @@ extern struct {
     int pad[2];
 } D_80081498;
 
+/* Clear flag bits 0xC00 in every node of the global list. */
 void func_80040454(void)
 {
-    S_80040454 *v1 = D_80081498.head;
+    S_80040454 *node = D_80081498.head;
 
-    if (v1 != 0) {
+    if (node != 0) {
         do {
-            v1->field_1E &= 0xF3FF;
-            v1 = v1->next;
-        } while (v1 != 0);
+            node->field_1E &= 0xF3FF;
+            node = node->next;
+        } while (node != 0);
     }
 }

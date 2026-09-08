@@ -8,13 +8,14 @@ typedef struct {
 
 extern Struct_D_80083460 D_80083460;
 
+/* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
 s32 func_800A2C78(void) {
-    Struct_D_80083460 *a0 = &D_80083460;
-    s32 var_v1;
+    Struct_D_80083460 *state = &D_80083460;
+    s32 has_value;
 
-    var_v1 = 0;
-    if ((a0->unk0C != 0) || (a0->unk0A != 0)) {
-        var_v1 = 1;
+    has_value = 0;
+    if ((state->unk0C != 0) || (state->unk0A != 0)) {
+        has_value = 1;
     }
-    return var_v1;
+    return has_value;
 }

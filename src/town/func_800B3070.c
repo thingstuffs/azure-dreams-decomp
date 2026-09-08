@@ -23,8 +23,9 @@ typedef struct S_800B07D0_0 {
     s32 unk_1C;
 } S_800B07D0_0;   /* arg0 in func_800B07D0 */
 
-void func_800B07D0(void *arg0) {
-    func_8004CB2C(arg0 + 0x28);
-    func_800497F4(((S_800B07D0_2 *)(((S_800B07D0_1 *)arg0)->unk_CC))->unk_74, ((S_800B07D0_0 *)arg0)->unk_1C & 2);
-    func_800497F4(((S_800B07D0_2 *)(((S_800B07D0_1 *)arg0)->unk_CC))->unk_78, ((S_800B07D0_0 *)arg0)->unk_1C & 1);
+/* Process the embedded data and pass the record flag bits to its two linked handles. */
+void func_800B07D0(void *record) {
+    func_8004CB2C(record + 0x28);
+    func_800497F4(((S_800B07D0_2 *)(((S_800B07D0_1 *)record)->unk_CC))->unk_74, ((S_800B07D0_0 *)record)->unk_1C & 2);
+    func_800497F4(((S_800B07D0_2 *)(((S_800B07D0_1 *)record)->unk_CC))->unk_78, ((S_800B07D0_0 *)record)->unk_1C & 1);
 }

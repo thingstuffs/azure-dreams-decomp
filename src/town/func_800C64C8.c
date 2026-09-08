@@ -8,8 +8,9 @@ typedef struct S_800C3C28_0 {
     u16 unk_14;
 } S_800C3C28_0;   /* arg2 in func_800C3C28 */
 
-void func_800C3C28(M2C_UNK arg0, M2C_UNK arg1, S_800C3C28_0 *arg2) {
-    if (arg2->unk_14 & 0x6000) {
-        func_800C41D4(arg0);
+/* Calls the object handler when either monitored status flag is set. */
+void func_800C3C28(M2C_UNK object, M2C_UNK unused, S_800C3C28_0 *status) {
+    if (status->unk_14 & 0x6000) {
+        func_800C41D4(object);
     }
 }

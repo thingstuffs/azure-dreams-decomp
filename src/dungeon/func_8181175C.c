@@ -1,17 +1,18 @@
 #include "common.h"
 
-void func_8002675C(void *arg0)
+/* Initialize descriptor fields and set its high flag bit. */
+void func_8002675C(void *descriptor)
 {
-    volatile s32 sp0;
-    s32 value;
+    volatile s32 saved_settings;
+    s32 settings;
 
-    sp0 = 0x8040F0;
-    *(s8 *)((u8 *)arg0 + 1) = 0x28;
-    value = sp0;
-    *(s8 *)((u8 *)arg0 + 3) = 0x18;
-    *(s8 *)((u8 *)arg0 + 0xA) = 7;
-    *(s8 *)((u8 *)arg0 + 2) = 0;
-    *(s8 *)((u8 *)arg0 + 0xB) = 2;
-    *(s32 *)((u8 *)arg0 + 4) = value;
-    *(u8 *)arg0 |= 0x80;
+    saved_settings = 0x8040F0;
+    *(s8 *)((u8 *)descriptor + 1) = 0x28;
+    settings = saved_settings;
+    *(s8 *)((u8 *)descriptor + 3) = 0x18;
+    *(s8 *)((u8 *)descriptor + 0xA) = 7;
+    *(s8 *)((u8 *)descriptor + 2) = 0;
+    *(s8 *)((u8 *)descriptor + 0xB) = 2;
+    *(s32 *)((u8 *)descriptor + 4) = settings;
+    *(u8 *)descriptor |= 0x80;
 }

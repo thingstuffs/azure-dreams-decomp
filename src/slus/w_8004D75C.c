@@ -9,9 +9,7 @@ typedef struct S_8004D75C {
     S_8004D75C_sub sub;
 } S_8004D75C;
 
-/* Copies a 0x44-byte struct from src to dst (first word, then the remaining
-   0x40 bytes via an unrolled 4-word loop), then zeroes out src's first word
-   (marks the source slot as consumed/empty after the transfer). */
+/* Copies the 0x44-byte source struct to the destination and clears the source first word. */
 void func_8004D75C(S_8004D75C *dst, S_8004D75C *src) {
     dst->unk0 = src->unk0;
     dst->sub = src->sub;

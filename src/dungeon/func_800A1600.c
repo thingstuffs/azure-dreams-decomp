@@ -8,13 +8,14 @@ typedef struct {
 extern S_800A1600_D80083160 D_80083160;
 extern s32 D_800DD87C[];
 
-void func_800A6D60(s32 arg0) {
-    S_800A1600_D80083160 *base = &D_80083160;
-    s32 temp = arg0 << 16;
+/* Saves or restores the random seed according to the low 16 bits of save_seed. */
+void func_800A6D60(s32 save_seed) {
+    S_800A1600_D80083160 *rng_state = &D_80083160;
+    s32 save_flag = save_seed << 16;
 
-    if (temp != 0) {
-        D_800DD87C[0] = base->unk1FC;
+    if (save_flag != 0) {
+        D_800DD87C[0] = rng_state->unk1FC;
         return;
     }
-    base->unk1FC = D_800DD87C[0];
+    rng_state->unk1FC = D_800DD87C[0];
 }

@@ -10,10 +10,11 @@ typedef struct S_80026340_0 {
     s32 unk_54;
 } S_80026340_0;   /* temp_a0 in func_80026340 */
 
-void func_80026340(s32 arg0) {
-    S_80026340_0 *temp_a0;
+/* Set the embedded state field to 4 and apply it to the linked object. */
+void func_80026340(s32 object_addr) {
+    S_80026340_0 *state;
 
-    temp_a0 = arg0 + 0x20;
-    temp_a0->unk_08 = 4;
-    func_80025888(temp_a0->unk_54, 4);
+    state = object_addr + 0x20;
+    state->unk_08 = 4;
+    func_80025888(state->unk_54, 4);
 }

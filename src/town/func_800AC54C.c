@@ -16,38 +16,36 @@ extern struct {
     int pad[2];
 } D_80081498;
 
-/* Walks the global singly-linked list headed by D_80081498 looking for a
-   node whose field_10 is negative, does not have flag bit 0x400 set, and
-   whose field_10 equals a0. Returns that node, or NULL if none matches. */
-void *func_800A9CAC(s32 a0)
+/* Returns the node matching a negative key with flag 0x400 clear, or NULL. */
+void *func_800A9CAC(s32 target_key)
 {
-    S_80081498 *v1;
+    S_80081498 *node;
     S_80081498 *next;
     s32 key;
-    void *v0;
+    void *result;
 
-    v1 = D_80081498.head;
-    v0 = 0;
-    if (v1 == 0) {
-        return v0;
+    node = D_80081498.head;
+    result = 0;
+    if (node == 0) {
+        return result;
     }
 loop:
-    key = v1->field_10;
-    next = v1->next;
+    key = node->field_10;
+    next = node->next;
     if (key >= 0) {
         goto cont;
     }
-    if (v1->field_1E & 0x400) {
+    if (node->field_1E & 0x400) {
         goto cont;
     }
-    if (key == a0) {
-        return v1;
+    if (key == target_key) {
+        return node;
     }
 cont:
-    v1 = next;
-    v0 = 0;
-    if (v1 != 0) {
+    node = next;
+    result = 0;
+    if (node != 0) {
         goto loop;
     }
-    return v0;
+    return result;
 }

@@ -9,6 +9,7 @@ typedef struct S_800CCC34_0 {
     s16 unk_68;
 } S_800CCC34_0;   /* arg0 in func_800CCC34 */
 
-void func_800CCC34(S_800CCC34_0 *arg0) {
-    ((void (*)()) (*(M2C_UNK *)((u8 *)&D_800D6FBC + ((arg0->unk_68) * 4))))();
+/* Invoke the callback selected by the object state. */
+void func_800CCC34(S_800CCC34_0 *object) {
+    ((void (*)()) (*(M2C_UNK *)((u8 *)&D_800D6FBC + ((object->unk_68) * 4))))();
 }

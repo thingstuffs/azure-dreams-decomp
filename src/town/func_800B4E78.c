@@ -9,6 +9,7 @@ typedef struct S_800B25D8_0 {
 
 M2C_UNK func_8004B08C();                         /* extern */
 
-void func_800B25D8(void *arg0) {
-    func_8004B08C(((S_800B25D8_0 *)((((*(s32 *)((u8 *)arg0 + 0x14)) * 4) + arg0)))->unk_3C);
+/* Pass the indexed record value to func_8004B08C. */
+void func_800B25D8(void *record) {
+    func_8004B08C(((S_800B25D8_0 *)((((*(s32 *)((u8 *)record + 0x14)) * 4) + record)))->unk_3C);
 }

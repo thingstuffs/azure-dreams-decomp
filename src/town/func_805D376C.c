@@ -2,6 +2,7 @@
 
 extern s32 func_800194D8();
 
+/* Return whether all checks from 0x147B through 0x1489 are nonzero. */
 s32 func_805D376C(void) {
     s32 index;
     index = 1;

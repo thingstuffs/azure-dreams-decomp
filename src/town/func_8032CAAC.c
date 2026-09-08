@@ -13,10 +13,11 @@ typedef struct {
 extern TownSystemScratch D_80016000;
 extern void func_800190C0(void *);
 
+/* Pass a four-byte copy of the system scratch data to func_800190C0. */
 void func_800172AC(void)
 {
-    s8 sp10[4];
+    s8 copied_bytes[4];
 
-    memcpy(sp10, D_80016000.copy_source, sizeof(sp10));
-    func_800190C0(sp10);
+    memcpy(copied_bytes, D_80016000.copy_source, sizeof(copied_bytes));
+    func_800190C0(copied_bytes);
 }

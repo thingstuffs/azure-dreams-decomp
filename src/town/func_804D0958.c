@@ -14,6 +14,7 @@ extern State *D_80016000;
 extern M2C_UNK D_800174BC;
 extern M2C_UNK *D_8001758C;
 
+/* Select D_800174BC and invoke the state callback with zero. */
 void func_804D0958(void) {
     D_8001758C = &D_800174BC;
     ((CallTable *)D_80016000->ptr)->func(0);

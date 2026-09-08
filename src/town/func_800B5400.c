@@ -11,8 +11,9 @@ typedef struct S_800B2B60_0 {
     u32 unk_3C;
 } S_800B2B60_0;   /* arg0 in func_800B2B60 */
 
-void func_800B2B60(void *arg0) {
-    ((S_800B2B60_0 *)arg0)->unk_3C = (u32 *)0x8001029C;
-    ((S_800B2B60_0 *)arg0)->unk_28 = func_800B0718();
-    func_800B23C0(arg0 + 0x1C);
+/* Initialize the record table pointer, stored value, and group index. */
+void func_800B2B60(void *record) {
+    ((S_800B2B60_0 *)record)->unk_3C = (u32 *)0x8001029C;
+    ((S_800B2B60_0 *)record)->unk_28 = func_800B0718();
+    func_800B23C0(record + 0x1C);
 }

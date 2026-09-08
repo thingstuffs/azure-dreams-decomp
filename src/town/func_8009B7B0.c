@@ -9,7 +9,8 @@ typedef struct S_80098F10_0 {
     M2C_UNK * unk_04;
 } S_80098F10_0;   /* arg0 in func_80098F10 */
 
-void func_80098F10(S_80098F10_0 *arg0, M2C_UNK arg1) {
-    func_80099754(arg1);
-    arg0->unk_04 = &D_800982EC;
+/* Run object setup and assign its next handler. */
+void func_80098F10(S_80098F10_0 *object, M2C_UNK setup_arg) {
+    func_80099754(setup_arg);
+    object->unk_04 = &D_800982EC;
 }

@@ -9,8 +9,9 @@ typedef struct {
     void **unk4;
 } Struct8009B228;
 
-void func_80098988(Struct8009B228 *arg0, s32 arg1) {
-    func_80099754(arg1);
-    arg0->unk4 = D_80097DE8;
+/* Initialize the target, assign the state table, and clear the global flag. */
+void func_80098988(Struct8009B228 *state, s32 target) {
+    func_80099754(target);
+    state->unk4 = D_80097DE8;
     D_80082669 = 0;
 }

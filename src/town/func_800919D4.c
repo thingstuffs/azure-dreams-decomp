@@ -8,14 +8,15 @@ typedef struct S_8008F134_1 {
     void ** unk_04;
 } S_8008F134_1;   /* temp_v1 in func_8008F134 */
 
-void func_8008F134(Rec_func_80094268_arg0 *arg0) {
-    S_8008F134_1 *temp_v1;
+/* Unlink a linked node and clear its neighbor pointers. */
+void func_8008F134(Rec_func_80094268_arg0 *node) {
+    S_8008F134_1 *prev_node;
 
-    temp_v1 = arg0->unk_00.as_pv;
-    if (temp_v1 != NULL) {
-        temp_v1->unk_04 = (void **) arg0->unk_04.as_ppv;
-        *arg0->unk_04.as_ppv = arg0->unk_00.as_pv;
-        arg0->unk_00.as_pv = NULL;
-        arg0->unk_04.as_ppv = NULL;
+    prev_node = node->unk_00.as_pv;
+    if (prev_node != NULL) {
+        prev_node->unk_04 = (void **) node->unk_04.as_ppv;
+        *node->unk_04.as_ppv = node->unk_00.as_pv;
+        node->unk_00.as_pv = NULL;
+        node->unk_04.as_ppv = NULL;
     }
 }

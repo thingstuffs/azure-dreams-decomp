@@ -10,6 +10,7 @@ typedef struct S_800CBAAC_0 {
 
 
 
-void func_800CBAAC(S_800CBAAC_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    arg0->unk_50(arg0, arg0, arg1, arg2);
+/* Invoke the object handler with the object and forwarded arguments. */
+void func_800CBAAC(S_800CBAAC_0 *object, M2C_UNK callback_arg1, M2C_UNK callback_arg2) {
+    object->unk_50(object, object, callback_arg1, callback_arg2);
 }

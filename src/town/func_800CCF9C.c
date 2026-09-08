@@ -8,8 +8,9 @@ extern M2C_UNK D_800CA114;
 extern M2C_UNK D_800D6540;
 
 
-void func_800CA6FC(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    func_800C2E84(arg0, arg2, &D_800D6540);
+/* Initialize the object, clear the shared flag, and set its callback. */
+void func_800CA6FC(Rec_func_80094268_arg0 *object, M2C_UNK unused, M2C_UNK context) {
+    func_800C2E84(object, context, &D_800D6540);
     D_800826B8 = 0;
-    arg0->unk_54 = &D_800CA114;
+    object->unk_54 = &D_800CA114;
 }

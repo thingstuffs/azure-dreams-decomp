@@ -7,18 +7,19 @@ typedef struct Decoder {
     s32 *table;
 } Decoder;
 
-void func_8003A9E4(Decoder *ctx) {
-    u8 *ptr = ctx->read_ptr;
-    u8 left_index = *ptr;
+/* Multiply the first event-script variable by the second and store the result in the first. */
+void func_8003A9E4(Decoder *script) {
+    u8 *read_ptr = script->read_ptr;
+    u8 left_index = *read_ptr;
     u8 right_index;
-    s32 *table;
+    s32 *variables;
 
-    ptr++;
-    ctx->read_ptr = ptr;
-    right_index = *ptr;
-    ptr++;
-    ctx->read_ptr = ptr;
+    read_ptr++;
+    script->read_ptr = read_ptr;
+    right_index = *read_ptr;
+    read_ptr++;
+    script->read_ptr = read_ptr;
 
-    table = ctx->table;
-    table[left_index + 18] *= table[right_index + 18];
+    variables = script->table;
+    variables[left_index + 18] *= variables[right_index + 18];
 }

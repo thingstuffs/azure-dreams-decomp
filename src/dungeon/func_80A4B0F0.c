@@ -10,13 +10,14 @@ typedef struct S_801748F0_0 {
 
 extern s32 D_800814A0[3];
 
-void func_801748F0(void *arg0) {
-    u16 temp_v0;
+/* Decrement the record counter and set completion flags when it reaches zero or becomes negative. */
+void func_801748F0(void *record_data) {
+    u16 remaining_count;
 
-    temp_v0 = ((S_801748F0_0 *)((u8 *)arg0 - 0x2))->unk_1C - 1;
-    ((S_801748F0_0 *)((u8 *)arg0 - 0x2))->unk_1C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((S_801748F0_0 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_801748F0_0 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
+    remaining_count = ((S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_1C - 1;
+    ((S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_1C = remaining_count;
+    if ((remaining_count << 0x10) <= 0) {
+        ((S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

@@ -11,27 +11,28 @@ typedef struct {
     s32 unk2C;
 } S_800589B8;
 
-s32 func_800589B8(S_800589B8 *arg)
+/* Read the next byte and mark the reader finished if its position exceeds the limit. */
+s32 func_800589B8(S_800589B8 *reader)
 {
-    S_800589B8 *p = arg;
+    S_800589B8 *read_state = reader;
     register u32 limit_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u8 *base;
-    s32 idx;
-    s32 val;
-    s32 limit;
+    u8 *data;
+    s32 position;
+    s32 byte_value;
+    s32 byte_count;
 
-    base = (u8 *)D_80085FA4[0];
+    data = (u8 *)D_80085FA4[0];
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    idx = p->unk00;
+    position = read_state->unk00;
     limit_page = 0x80080000;
-    val = base[idx];
-    limit = *(s32 *)(limit_page + 0x69B0);
-    idx = idx + 1;
-    p->unk00 = idx;
-    if ((u32)limit < (u32)idx) {
-        p->unk2C = 1;
+    byte_value = data[position];
+    byte_count = *(s32 *)(limit_page + 0x69B0);
+    position = position + 1;
+    read_state->unk00 = position;
+    if ((u32)byte_count < (u32)position) {
+        read_state->unk2C = 1;
         return -1;
     }
     ASM_USE(limit_page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    return val;
+    return byte_value;
 }

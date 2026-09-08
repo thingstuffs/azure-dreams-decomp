@@ -9,17 +9,18 @@ typedef struct {
 
 extern s32 D_800814A0[3];
 
-void func_80174180(u16 *arg0, s32 arg1, Object *arg2) {
+/* Advance the object angle and height and set completion flags at height 0x2000. */
+void func_80174180(u16 *record_data, s32 unused, Object *object) {
     u16 angle;
     u16 height;
 
-    angle = arg2->field_1A + 0x320;
-    height = arg2->field_1E + 0x200;
-    do { arg2->field_1E = height; } while (0);
-    arg2->field_1C = height;
-    arg2->field_1A = angle;
+    angle = object->field_1A + 0x320;
+    height = object->field_1E + 0x200;
+    do { object->field_1E = height; } while (0);
+    object->field_1C = height;
+    object->field_1A = angle;
     if (height >= 0x2000) {
-        arg0[-1] |= 0x8000;
+        record_data[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

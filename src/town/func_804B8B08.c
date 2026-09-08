@@ -14,6 +14,7 @@ typedef struct S_80017308_1 {
 extern s32 func_80018854();
 extern Rec_D_80016000 *D_80016000;
 
+/* Invoke operation 0x514 and set the current entry counter to two. */
 void func_80017308(void) {
     func_80018854(0x514);
     ((S_80017308_1 *)(((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32)))->unk_02 = 2;

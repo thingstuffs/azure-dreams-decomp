@@ -18,19 +18,17 @@ typedef struct S_800489F4_Obj {
     /* 0x28 */ S_800489F4_Frame ****unk28;
 } S_800489F4_Obj;
 
-/* Selects Frame table[a1][a2] via a 4-level pointer chain rooted at a0->unk28,
- * installs the frame pointer and its secondary pointer field into a0, and
- * updates a0's animation-state flags. */
-void func_800489F4(S_800489F4_Obj *a0, s16 a1, s16 a2) {
-    S_800489F4_Frame ***p2 = *a0->unk28;
-    S_800489F4_Frame **p3 = *p2;
-    S_800489F4_Frame *elemBase = p3[a1];
-    S_800489F4_Frame *elem = &elemBase[a2];
-    void *tmp;
+/* Installs the selected animation frame and its secondary pointer, then updates the animation flags. */
+void func_800489F4(S_800489F4_Obj *object, s16 animation_index, s16 frame_index) {
+    S_800489F4_Frame ***frame_table_ref = *object->unk28;
+    S_800489F4_Frame **frame_table = *frame_table_ref;
+    S_800489F4_Frame *frame_base = frame_table[animation_index];
+    S_800489F4_Frame *frame = &frame_base[frame_index];
+    void *frame_data;
 
-    a0->unk0 = elem;
-    tmp = elem->unk4;
-    a0->unk4 = (u8)a2;
-    a0->unk14 = (a0->unk14 & ~0x40) | 0x20;
-    a0->unk8 = tmp;
+    object->unk0 = frame;
+    frame_data = frame->unk4;
+    object->unk4 = (u8)frame_index;
+    object->unk14 = (object->unk14 & ~0x40) | 0x20;
+    object->unk8 = frame_data;
 }

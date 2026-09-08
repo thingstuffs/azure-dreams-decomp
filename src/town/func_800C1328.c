@@ -52,6 +52,7 @@ extern void func_800673A0(void *arg0, s32 arg1, s32 arg2);
 extern u8 D_800D231C[];
 extern u8 D_800D2324[];
 extern u8 D_80113138[];
+/* pool_clut_store: Store the pool CLUT and update its transfer region. */
 void func_800BEA88(void)
 {
  do { func_8006733C(D_800D231C, D_80113138); func_80067014(0); func_800673A0(D_800D2324, 0x60, 0x1FA); } while (0);

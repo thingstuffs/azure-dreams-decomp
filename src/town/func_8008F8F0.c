@@ -11,6 +11,7 @@ typedef struct S_8008D050_0 {
     s16 unk_0A;
 } S_8008D050_0;   /* arg0 in func_8008D050 */
 
-s16 func_8008D050(S_8008D050_0 *arg0) {
-    return func_8008EA20(arg0->unk_02, arg0->unk_06, arg0->unk_0A);
+/* Evaluate the three signed components stored in the input record. */
+s16 func_8008D050(S_8008D050_0 *components) {
+    return func_8008EA20(components->unk_02, components->unk_06, components->unk_0A);
 }

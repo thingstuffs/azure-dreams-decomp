@@ -12,10 +12,11 @@ typedef struct S_800A24C4_0 {
     s16 unk_2C;
 } S_800A24C4_0;   /* temp_v0 in func_800A24C4 */
 
+/* Create an object, install its handler, and clear its state. */
 void func_800A24C4(void) {
-    S_800A24C4_0 *temp_v0;
+    S_800A24C4_0 *object;
 
-    temp_v0 = func_8003FE78(0x136, &D_80100BF0, 0x49);
-    temp_v0->unk_10 = &D_800A24FC;
-    temp_v0->unk_2C = 0;
+    object = func_8003FE78(0x136, &D_80100BF0, 0x49);
+    object->unk_10 = &D_800A24FC;
+    object->unk_2C = 0;
 }

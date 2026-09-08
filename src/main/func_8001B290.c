@@ -9,17 +9,18 @@ __asm__(".set D_8009DDD8, 0x8009DDD8");
  * Shape: load → increment offset → maybe count++. The increment is free of
  * the loaded value, so it fills the beqz delay slot (retail schedule). A
  * for-loop that increments after the if leaves that delay as nop. */
+/* Count nonzero heads in the five 0x80-byte slots. */
 s32 func_8001B290(void) {
     s32 count;
     s32 offset;
-    s32 val;
+    s32 slot_head;
 
     count = 0;
     offset = 0;
     do {
-        val = *(s32 *)(D_8009DDD8 + offset);
+        slot_head = *(s32 *)(D_8009DDD8 + offset);
         offset += 0x80;
-        if (val != 0) {
+        if (slot_head != 0) {
             count++;
         }
     } while (offset < 0x280);

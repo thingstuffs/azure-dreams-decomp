@@ -13,13 +13,14 @@ typedef struct S_80811034_0 {
 
 extern s32 D_80084D5C;
 
-void func_80811034(void *arg0) {
-    u16 temp_v0;
+/* Decrement the countdown and set record and global flags when it expires. */
+void func_80811034(void *record) {
+    u16 countdown;
 
-    temp_v0 = ((S_80811034_0 *)arg0)->unk_02 - 1;
-    ((S_80811034_0 *)arg0)->unk_02 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_80811034_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    countdown = ((S_80811034_0 *)record)->unk_02 - 1;
+    ((S_80811034_0 *)record)->unk_02 = countdown;
+    if ((countdown << 0x10) <= 0) {
+        (*(u16 *)((u8 *)record + -2)) = (u16) (((S_80811034_0_pre *)record)[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
     }
 }

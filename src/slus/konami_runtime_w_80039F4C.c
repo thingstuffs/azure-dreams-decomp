@@ -1,19 +1,20 @@
 #include "common.h"
 
-void func_80039F4C(void *arg0) {
-    u32 src = *(u32 *)((u8 *)arg0 + 0x1C);
-    u32 dst = *(u32 *)((u8 *)arg0 + 0x80);
-    u32 value = *(u8 *)src;
-    s32 count;
+/* Reads a script byte and fills sixteen words in the target state with its value. */
+void func_80039F4C(void *vm) {
+    u32 script_ptr = *(u32 *)((u8 *)vm + 0x1C);
+    u32 entry_ptr = *(u32 *)((u8 *)vm + 0x80);
+    u32 fill_value = *(u8 *)script_ptr;
+    s32 entry_index;
 
-    src++;
-    dst += 0x3C;
-    *(u32 *)((u8 *)arg0 + 0x1C) = src;
+    script_ptr++;
+    entry_ptr += 0x3C;
+    *(u32 *)((u8 *)vm + 0x1C) = script_ptr;
 
-    count = 15;
+    entry_index = 15;
     do {
-        *(u32 *)(dst + 0x48) = value;
-        count--;
-        dst -= 4;
-    } while (count >= 0);
+        *(u32 *)(entry_ptr + 0x48) = fill_value;
+        entry_index--;
+        entry_ptr -= 4;
+    } while (entry_index >= 0);
 }

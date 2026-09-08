@@ -12,6 +12,7 @@ typedef struct S_8059E664_1 {
 
 extern Rec_D_80016000 *D_80016000;
 
+/* Invokes the callback with values 2 and 13 and two zero arguments. */
 void func_8059E664(void) {
     ((S_8059E664_1 *)(D_80016000->unk_20))->unk_220(2, 0xD, 0, 0);
 }

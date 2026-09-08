@@ -1,30 +1,31 @@
 #include "common.h"
 
-s32 func_80049E1C(s32 arg0, s32 arg1, s32 arg2)
+/* Moves an index by a step, clamps in the step direction, and returns zero for an empty range. */
+s32 func_80049E1C(s32 index, s32 step, s32 count)
 {
-    s32 ret;
-    s32 temp;
+    s32 result;
+    s32 clamped_index;
 
-    ret = arg0;
-    if (arg2 != 0) {
-        ret += arg1;
-        if (arg1 >= 0) {
-            arg0 = ret;
-            arg2 -= 1;
-            if (arg0 >= arg2) {
-                arg0 = arg2;
+    result = index;
+    if (count != 0) {
+        result += step;
+        if (step >= 0) {
+            index = result;
+            count -= 1;
+            if (index >= count) {
+                index = count;
             }
-            ret = arg0;
+            result = index;
         } else {
-            temp = ret;
-            if (ret < 0) {
-                temp = 0;
+            clamped_index = result;
+            if (result < 0) {
+                clamped_index = 0;
             }
-            ret = temp;
+            result = clamped_index;
         }
     } else {
-        ret = 0;
+        result = 0;
     }
 
-    return ret;
+    return result;
 }

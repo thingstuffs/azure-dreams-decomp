@@ -11,12 +11,13 @@ typedef struct S_800BC228_0 {
     s16 unk_2C;
 } S_800BC228_0;   /* temp_v0 in func_800BC228 */
 
-void func_800BC228(s16 arg0) {
-    S_800BC228_0 *temp_v0;
+/* Create an object with D_800BC1B4 as its data pointer and store the supplied value. */
+void func_800BC228(s16 value) {
+    S_800BC228_0 *object;
 
-    temp_v0 = func_8003FC64(0);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800BC1B4;
-        temp_v0->unk_2C = arg0;
+    object = func_8003FC64(0);
+    if (object != NULL) {
+        object->unk_10 = &D_800BC1B4;
+        object->unk_2C = value;
     }
 }

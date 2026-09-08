@@ -5,8 +5,9 @@
 M2C_UNK func_800B3D84(s32);                            /* extern */
 M2C_UNK func_800B3DC4();                         /* extern */
 
-void func_800B3E30(s32 arg0) {
-    func_800B3D84(arg0);
-    func_800B3C74(arg0);
-    func_800B3DC4(arg0);
+/* Runs the three update steps for an entry. */
+void func_800B3E30(s32 entry_id) {
+    func_800B3D84(entry_id);
+    func_800B3C74(entry_id);
+    func_800B3DC4(entry_id);
 }

@@ -1,24 +1,25 @@
 typedef unsigned char u8;
 typedef int s32;
-void *func_800F6DFC(void *arg0)
+/* Return the base of the next type 0x15 entity in the ring, or null if absent. */
+void *func_800F6DFC(void *entity)
 {
-  void *base;
-  void *original;
-  void *new_var;
-  new_var = *((void **) (((u8 *) arg0) + 0x5C));
-  original = arg0;
-  arg0 = (u8 *) new_var + 0x20;
-  if (arg0 != original)
+  void *entity_base;
+  void *first_entity;
+  void *next_base;
+  next_base = *((void **) (((u8 *) entity) + 0x5C));
+  first_entity = entity;
+  entity = (u8 *) next_base + 0x20;
+  if (entity != first_entity)
   {
-    s32 key = 0x15;
+    s32 target_type = 0x15;
     loop:
-    base = (u8 *) arg0 - 0x20;
-    if ((*((u8 *) (((u8 *) arg0) - -0x13))) == key)
+    entity_base = (u8 *) entity - 0x20;
+    if ((*((u8 *) (((u8 *) entity) - -0x13))) == target_type)
     {
-      return base;
+      return entity_base;
     }
-    arg0 = (*((void **) (((u8 *) arg0) + 0x5C))) + 0x20;
-    if (arg0 == original)
+    entity = (*((void **) (((u8 *) entity) + 0x5C))) + 0x20;
+    if (entity == first_entity)
     {
       return 0;
     }

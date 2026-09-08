@@ -7,7 +7,8 @@ typedef struct {
 
 extern void func_80035068(void *arg0, void *arg1);
 
-void func_800350B0(void *arg0, Struct800350B0 *arg1) {
-    arg1->unk_54 = arg1;
-    func_80035068(arg0, &arg1->unk_54);
+/* Store a self-reference and pass its address to func_80035068. */
+void func_800350B0(void *context, Struct800350B0 *object) {
+    object->unk_54 = object;
+    func_80035068(context, &object->unk_54);
 }

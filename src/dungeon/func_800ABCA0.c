@@ -1,11 +1,12 @@
 #include "common.h"
 
-void func_800B1400(u8 *arg0, s32 arg1) {
+/* Set flags in the second byte of each record through the end marker. */
+void func_800B1400(u8 *record, s32 flags) {
     for (;;) {
-        arg0[1] = arg0[1] | arg1;
-        if ((s8)arg0[0] < 0) {
+        record[1] = record[1] | flags;
+        if ((s8)record[0] < 0) {
             return;
         }
-        arg0 += 12;
+        record += 12;
     }
 }

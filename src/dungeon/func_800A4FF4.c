@@ -2,15 +2,16 @@
 
 extern void func_800AD4D0(void *arg);
 
-void func_800AA754(s32 arg0, s32 arg1, s32 arg2, u8 *arg3) {
-    u8 value;
+/* Updates the record and clamps the byte at 0x28 to the limit at 0x29. */
+void func_800AA754(s32 unused_0, s32 unused_1, s32 unused_2, u8 *record) {
+    u8 limit;
 
-    (void)arg0;
-    (void)arg1;
-    (void)arg2;
-    func_800AD4D0(arg3);
-    value = arg3[0x29];
-    if (value < arg3[0x28]) {
-        arg3[0x28] = value;
+    (void)unused_0;
+    (void)unused_1;
+    (void)unused_2;
+    func_800AD4D0(record);
+    limit = record[0x29];
+    if (limit < record[0x28]) {
+        record[0x28] = limit;
     }
 }

@@ -18,9 +18,10 @@ typedef struct S_80039760_1 {
 } S_80039760_1;   /* temp_v1 in func_80039760 */
 
 
-void func_80039760(S_80039760_0 *arg0) {
-    S_80039760_1 *temp_v1;
+/* Set the event-script VM pointer from the selected little-endian table entry. */
+void func_80039760(S_80039760_0 *vm) {
+    S_80039760_1 *jump_entry;
 
-    temp_v1 = (arg0->unk_27 * 4) + arg0->unk_1C;
-    arg0->unk_1C = (s32) (temp_v1->unk_00 + (temp_v1->unk_01 << 8) + (temp_v1->unk_02 << 0x10) + (temp_v1->unk_03 << 0x18));
+    jump_entry = (vm->unk_27 * 4) + vm->unk_1C;
+    vm->unk_1C = (s32) (jump_entry->unk_00 + (jump_entry->unk_01 << 8) + (jump_entry->unk_02 << 0x10) + (jump_entry->unk_03 << 0x18));
 }

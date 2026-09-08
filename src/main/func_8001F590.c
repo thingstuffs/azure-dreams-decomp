@@ -10,8 +10,9 @@ M2C_UNK func_80405AE8();                            /* extern */
 M2C_UNK func_80400908();                            /* extern */
 extern M2C_UNK D_80406368;
 
-void func_8001F590(void *arg0) {
-    func_80405AE8(arg0);
+/* Process the record data, run the follow-up routine, and set its header pointer. */
+void func_8001F590(void *record_data) {
+    func_80405AE8(record_data);
     func_80400908();
-    ((S_8001F590_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_80406368;
+    ((S_8001F590_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_80406368;
 }

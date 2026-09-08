@@ -10,11 +10,12 @@ typedef struct S_800DBF5C_0 {
     s32 unk_5C;
 } S_800DBF5C_0;   /* temp_v1 in func_800DBF5C */
 
+/* Sets the low flag bit when the state check field is zero. */
 void func_800DBF5C(void) {
-    S_800DBF5C_0 *temp_v1;
+    S_800DBF5C_0 *state;
 
-    temp_v1 = D_800E5910 + 0x20;
-    if (temp_v1->unk_5C == 0) {
-        temp_v1->unk_54 = (s32) (temp_v1->unk_54 | 1);
+    state = D_800E5910 + 0x20;
+    if (state->unk_5C == 0) {
+        state->unk_54 = (s32) (state->unk_54 | 1);
     }
 }

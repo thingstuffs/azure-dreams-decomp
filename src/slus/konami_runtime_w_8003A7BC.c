@@ -9,17 +9,18 @@ typedef struct Func8003A7BCState {
     s32 *table;
 } Func8003A7BCState;
 
+/* Copies an event-script table value using destination and source indices read from the script. */
 void func_8003A7BC(Func8003A7BCState *state)
 {
-    u8 *input = state->input;
-    u8 first = *input;
+    u8 *script_ptr = state->input;
+    u8 destination = *script_ptr;
 
-    state->input = input + 1;
-    input = state->input;
+    state->input = script_ptr + 1;
+    script_ptr = state->input;
 
     {
-        u8 second = *input;
-        state->input = input + 1;
-        state->table[first + 0x12] = state->table[second + 0x12];
+        u8 source = *script_ptr;
+        state->input = script_ptr + 1;
+        state->table[destination + 0x12] = state->table[source + 0x12];
     }
 }

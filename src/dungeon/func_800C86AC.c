@@ -10,14 +10,15 @@ typedef struct S_800CDE0C_0 {
     s32 unk_5C;
 } S_800CDE0C_0;   /* var_a0 in func_800CDE0C */
 
+/* Set flag 0x40000000 on every record in the circular list. */
 void func_800CDE0C(void) {
-    void *temp_a1;
-    S_800CDE0C_0 *var_a0;
+    void *first_record;
+    S_800CDE0C_0 *record;
 
-    var_a0 = D_800E3D7C;
-    temp_a1 = var_a0;
+    record = D_800E3D7C;
+    first_record = record;
     do {
-        var_a0->unk_1C = (s32) (var_a0->unk_1C | 0x40000000);
-        var_a0 = var_a0->unk_5C + 0x20;
-    } while (var_a0 != temp_a1);
+        record->unk_1C = (s32) (record->unk_1C | 0x40000000);
+        record = record->unk_5C + 0x20;
+    } while (record != first_record);
 }

@@ -8,7 +8,8 @@ typedef struct S_80026250_0 {
     s32 * unk_14;
 } S_80026250_0;   /* arg0 in func_80026250 */
 
-void func_80026250(S_80026250_0 *arg0) {
-    func_8004E99C(*arg0->unk_14);
-    *arg0->unk_14 = 0;
+/* Pass the referenced handle to func_8004E99C, then clear it. */
+void func_80026250(S_80026250_0 *context) {
+    func_8004E99C(*context->unk_14);
+    *context->unk_14 = 0;
 }

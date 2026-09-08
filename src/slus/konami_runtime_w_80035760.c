@@ -18,15 +18,16 @@ typedef struct S_80035760_0 {
 
 extern M2C_UNK func_800357B0;
 
-void func_80035760(S_80035760_0 *arg0) {
-    u8 *temp_a1;
+/* Reset the state bytes and advance the callback when the shared flag or state requests it. */
+void func_80035760(S_80035760_0 *state) {
+    u8 *shared_flag;
 
-    temp_a1 = arg0->unk_74;
-    if ((*temp_a1 == 1) || (arg0->unk_51 == 0xFF)) {
-        *temp_a1 = 1;
-        arg0->unk_4C = 0xFE;
-        arg0->unk_4D = 0xFE;
-        arg0->unk_51 = 0U;
-        arg0->unk_68 = &func_800357B0;
+    shared_flag = state->unk_74;
+    if ((*shared_flag == 1) || (state->unk_51 == 0xFF)) {
+        *shared_flag = 1;
+        state->unk_4C = 0xFE;
+        state->unk_4D = 0xFE;
+        state->unk_51 = 0U;
+        state->unk_68 = &func_800357B0;
     }
 }

@@ -10,13 +10,14 @@ __asm__(".set D_80081470, 0x80081470");
 extern u8 D_80081470[];
 extern void *D_800814A8;
 
+/* Return the stored pointer when available, otherwise the fallback data buffer. */
 u8 *func_800A442C(void) {
-    u8 *result;
+    u8 *stored_data;
 
     if (D_80081470[1] < 0x14U) {
-        result = *(u8 **)((u8 *)D_800814A8 + 0xF0);
-        if (result != NULL) {
-            return result;
+        stored_data = *(u8 **)((u8 *)D_800814A8 + 0xF0);
+        if (stored_data != NULL) {
+            return stored_data;
         }
         *(s32 *)D_80081470 = 0;
     }

@@ -11,10 +11,11 @@ typedef struct {
     s16 y;          /* 0x2A */
 } S_80049F2C;
 
-void func_80049F2C(S_80049F2C *a0) {
-    s32 dx, dy;
-    dx = a0->target_x - a0->x;
-    a0->x = *(volatile s16 *)&a0->x + (dx >> 1);
-    dy = a0->target_y - a0->y;
-    a0->y = *(volatile s16 *)&a0->y + (dy >> 1);
+/* Move the current position halfway toward the target position. */
+void func_80049F2C(S_80049F2C *position) {
+    s32 delta_x, delta_y;
+    delta_x = position->target_x - position->x;
+    position->x = *(volatile s16 *)&position->x + (delta_x >> 1);
+    delta_y = position->target_y - position->y;
+    position->y = *(volatile s16 *)&position->y + (delta_y >> 1);
 }

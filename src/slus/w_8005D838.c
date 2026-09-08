@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* If a0 <= 0, returns 0 (no side effects). Otherwise initializes the
- * record *a1 (field0 = 0x40001010, field4 = (0x10000 << D_80079980[0]) - 0x1010),
- * publishes a1 as the global record-list head D_800799BC, clears D_800799B8,
- * stores a0 into D_800799B4, and returns a0. */
 typedef struct S_800799BC {
     u32 field0;
     s32 field4;
@@ -14,17 +10,18 @@ extern s32 D_800799B4[3];
 extern s32 D_800799B8[3];
 extern S_800799BC *D_800799BC[3];
 
-s32 func_8005D838(s32 a0, S_800799BC *a1) {
-    register s32 v0 ASM_REG("v0") = a0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (v0 <= 0) {
-        v0 = 0;
+/* Initializes and publishes the record-list head for a positive count, returning the count or zero. */
+s32 func_8005D838(s32 count, S_800799BC *record) {
+    register s32 result ASM_REG("v0") = count;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    if (result <= 0) {
+        result = 0;
     } else {
         s32 shift = D_80079980[0];
-        a1->field0 = 0x40001010;
-        D_800799BC[0] = a1;
+        record->field0 = 0x40001010;
+        D_800799BC[0] = record;
         D_800799B8[0] = 0;
-        D_800799B4[0] = v0;
-        a1->field4 = (0x10000 << shift) - 0x1010;
+        D_800799B4[0] = result;
+        record->field4 = (0x10000 << shift) - 0x1010;
     }
-    return v0;
+    return result;
 }

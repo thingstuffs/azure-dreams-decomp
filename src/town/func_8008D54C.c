@@ -1,26 +1,27 @@
 #include "common.h"
 
-void func_8008ACAC(s32 arg0, s32 arg1, s32 arg2) {
-    s32 *var_a0;
-    s32 *var_a1;
-    s32 temp_v0;
-    s32 var_a2;
-    s32 var_a2_2;
+/* Copy words backward from the supplied byte offset in the source and destination. */
+void func_8008ACAC(s32 dest_addr, s32 src_addr, s32 byte_count) {
+    s32 *dest_word;
+    s32 *src_word;
+    s32 word;
+    s32 adjusted_bytes;
+    s32 words_left;
 
-    var_a2 = arg2;
-    var_a0 = arg0 + var_a2;
-    var_a1 = arg1 + var_a2;
-    if (var_a2 < 0) {
-        var_a2 += 3;
+    adjusted_bytes = byte_count;
+    dest_word = dest_addr + adjusted_bytes;
+    src_word = src_addr + adjusted_bytes;
+    if (adjusted_bytes < 0) {
+        adjusted_bytes += 3;
     }
-    var_a2_2 = var_a2 >> 2;
-    if (var_a2_2 > 0) {
+    words_left = adjusted_bytes >> 2;
+    if (words_left > 0) {
         do {
-            temp_v0 = *var_a1;
-            var_a1 -= 1;
-            var_a2_2 -= 1;
-            *var_a0 = temp_v0;
-            var_a0 -= 1;
-        } while (var_a2_2 > 0);
+            word = *src_word;
+            src_word -= 1;
+            words_left -= 1;
+            *dest_word = word;
+            dest_word -= 1;
+        } while (words_left > 0);
     }
 }

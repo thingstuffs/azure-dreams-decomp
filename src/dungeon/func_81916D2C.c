@@ -24,13 +24,14 @@ typedef struct S_8002452C_0 {
     s32 unk_20;
 } S_8002452C_0;   /* temp_v0 in func_8002452C */
 
-void func_8002452C(s32 arg0) {
-    S_8002452C_0 *temp_v0;
+/* Creates a type 0x212 object and initializes its handler, mode, and value. */
+void func_8002452C(s32 initial_value) {
+    S_8002452C_0 *object;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_8002441C;
-        ((S_8002452C_2 *)(((S_8002452C_1 *)temp_v0)->unk_0C))->unk_05 = 4;
-        temp_v0->unk_20 = arg0;
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        object->unk_10 = &D_8002441C;
+        ((S_8002452C_2 *)(((S_8002452C_1 *)object)->unk_0C))->unk_05 = 4;
+        object->unk_20 = initial_value;
     }
 }

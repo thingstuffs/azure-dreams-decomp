@@ -5,6 +5,7 @@ extern void func_8003E4FC(s32, void *, void *);
 extern s32 D_8003E140[];
 extern s8 D_8017397C;
 
+/* Clears the status flag and registers the callback and status handlers. */
 void func_8016F8A4(void) {
     void *callback;
 

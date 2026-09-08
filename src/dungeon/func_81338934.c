@@ -10,8 +10,9 @@ typedef struct DungeonState {
 extern DungeonState *D_80175D58[];
 extern DungeonState *D_80175D5C[];
 
-void func_8016F934(s32 arg0) {
-    if (arg0 == 0) {
+/* Increments the selected state counter and clears its timer. */
+void func_8016F934(s32 state_selector) {
+    if (state_selector == 0) {
         DungeonState *state_zero;
 
         state_zero = (DungeonState *)((u8 *)D_80175D58[0] + 0x20);

@@ -1,23 +1,24 @@
 #include "common.h"
 
-void func_80027B6C(s32 arg0, s32 arg1, s32 arg2) {
-    s32 quotient;
-    s32 count;
-    s32 numerator;
-    s32 offset;
-    void **entry;
+/* Set eight object fields to a scaled value with successive 0x10 offsets. */
+void func_80027B6C(s32 object_table, s32 scale_numerator, s32 scale_denominator) {
+    s32 scaled_value;
+    s32 entry_index;
+    s32 scaled_numerator;
+    s32 entry_offset;
+    void **object_entry;
     void *object;
 
-    count = 6;
-    numerator = arg1 * 0x90;
-    offset = -0x90;
-    entry = (void **)(arg0 + 0x18);
+    entry_index = 6;
+    scaled_numerator = scale_numerator * 0x90;
+    entry_offset = -0x90;
+    object_entry = (void **)(object_table + 0x18);
     do {
-        quotient = numerator / arg2;
-        object = *entry++;
-        count++;
+        scaled_value = scaled_numerator / scale_denominator;
+        object = *object_entry++;
+        entry_index++;
         *(s16 *)((u8 *)*(void **)((u8 *)object + 4) + 0xA) =
-            quotient + offset + 0x90;
-        offset += 0x10;
-    } while (count < 0xE);
+            scaled_value + entry_offset + 0x90;
+        entry_offset += 0x10;
+    } while (entry_index < 0xE);
 }

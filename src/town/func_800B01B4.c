@@ -11,22 +11,23 @@ typedef struct S_800AD914_1 {
     u8 unk_02;
 } S_800AD914_1;   /* var_a0 in func_800AD914 */
 
-s32 func_800AD914(void *arg0) {
-    s32 var_a1;
-    u8 *var_a0;
-    u8 var_v1;
+/* Count entries with flag 0x20, excluding IDs 0x17 and 0x18. */
+s32 func_800AD914(void *entries) {
+    s32 count;
+    u8 *entry_id_ptr;
+    u8 entry_id;
 
-    var_v1 = ((S_800AD914_0 *)arg0)->unk_01;
-    var_a1 = 0;
-    if (var_v1 != 0) {
-        var_a0 = arg0 + 1;
+    entry_id = ((S_800AD914_0 *)entries)->unk_01;
+    count = 0;
+    if (entry_id != 0) {
+        entry_id_ptr = entries + 1;
         do {
-            if ((((S_800AD914_1 *)var_a0)->unk_02 & 0x20) && ((u32) (var_v1 - 0x17) >= 2U)) {
-                var_a1 += 1;
+            if ((((S_800AD914_1 *)entry_id_ptr)->unk_02 & 0x20) && ((u32) (entry_id - 0x17) >= 2U)) {
+                count += 1;
             }
-            var_a0 += 4;
-            var_v1 = *var_a0;
-        } while (var_v1 != 0);
+            entry_id_ptr += 4;
+            entry_id = *entry_id_ptr;
+        } while (entry_id != 0);
     }
-    return var_a1;
+    return count;
 }

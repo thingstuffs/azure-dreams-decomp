@@ -7,12 +7,13 @@ extern s32 D_80136140[];
 extern s32 D_8009EB58[];
 extern s32 D_804094EC[];
 
+/* Store the entry ID and its associated value in the selected slot. */
 void func_8001B214(void) {
-    s32 temp_s0;
-    s32 temp_v0;
+    s32 slot_index;
+    s32 entry_id;
 
-    temp_s0 = D_804094EC[0] != 0;
-    temp_v0 = func_804019B4();
-    D_80136140[temp_s0] = temp_v0;
-    D_8009EB58[temp_s0] = func_80401A50(temp_v0);
+    slot_index = D_804094EC[0] != 0;
+    entry_id = func_804019B4();
+    D_80136140[slot_index] = entry_id;
+    D_8009EB58[slot_index] = func_80401A50(entry_id);
 }

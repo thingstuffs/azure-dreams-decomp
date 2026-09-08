@@ -8,18 +8,18 @@ typedef struct {
 
 extern S_80047BC0 D_80083D08[6];
 
-/* Linear search D_80083D08[0..5] for an entry whose unk6 field == arg0; return its index, or -1 if not found */
-s32 func_80047BC0(s32 arg0) {
-    S_80047BC0 *p;
-    s32 result = -1;
-    s32 i = 0;
-    p = D_80083D08;
+/* Returns the first slot index with the requested ID in D_80083D08, or -1 if absent. */
+s32 func_80047BC0(s32 slot_id) {
+    S_80047BC0 *slot;
+    s32 match_index = -1;
+    s32 slot_index = 0;
+    slot = D_80083D08;
 
-    for (; i < 6; i++, p++) {
-        if (p->unk6 == arg0) {
-            result = i;
+    for (; slot_index < 6; slot_index++, slot++) {
+        if (slot->unk6 == slot_id) {
+            match_index = slot_index;
             break;
         }
     }
-    return result;
+    return match_index;
 }

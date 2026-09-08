@@ -13,19 +13,20 @@ typedef struct S_800B173C_1 {
     s32 * unk_04;
 } S_800B173C_1;   /* *var_v0 in func_800B173C */
 
-void func_800B173C(S_800B173C_0 *arg0, s32 arg1) {
-    s32 temp_a0;
-    s32 temp_v0;
-    void **var_v0;
+/* Set the decrease or increase indicator color when the current and target values differ. */
+void func_800B173C(S_800B173C_0 *record, s32 target_value) {
+    s32 indicators_address;
+    s32 current_value;
+    void **indicator_entry;
 
-    temp_v0 = arg0->unk_10;
-    if (temp_v0 != arg1) {
-        temp_a0 = arg0->unk_CC;
-        if (temp_v0 >= arg1) {
-            var_v0 = temp_a0 + 0x74;
+    current_value = record->unk_10;
+    if (current_value != target_value) {
+        indicators_address = record->unk_CC;
+        if (current_value >= target_value) {
+            indicator_entry = indicators_address + 0x74;
         } else {
-            var_v0 = temp_a0 + 0x78;
+            indicator_entry = indicators_address + 0x78;
         }
-        *((S_800B173C_1 *)(*var_v0))->unk_04 = 0xE0E0E0;
+        *((S_800B173C_1 *)(*indicator_entry))->unk_04 = 0xE0E0E0;
     }
 }

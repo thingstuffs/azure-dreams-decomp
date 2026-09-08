@@ -1,17 +1,18 @@
 #include "common.h"
 
-void func_800B1320(u8 *arg0, s32 arg1, s32 arg2) {
-    u8 *temp_a3;
+/* Offset the two coordinate bytes in each record through the end marker. */
+void func_800B1320(u8 *record, s32 x_offset, s32 y_offset) {
+    u8 *record_y;
 
-    temp_a3 = arg0 + 3;
+    record_y = record + 3;
 loop:
-        temp_a3[-1] += arg1;
-        temp_a3[0] += arg2;
-        if (*(s8 *)arg0 < 0) {
+        record_y[-1] += x_offset;
+        record_y[0] += y_offset;
+        if (*(s8 *)record < 0) {
             goto done;
         }
-        temp_a3 += 0xC;
-        arg0 += 0xC;
+        record_y += 0xC;
+        record += 0xC;
         goto loop;
 done:
     ;

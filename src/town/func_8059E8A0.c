@@ -2,6 +2,7 @@
 
 extern s32 func_80018964(s32);
 
+/* Return whether both checks for 0x1200 and 0x1201 return zero. */
 s32 func_800168A0(void) {
     s32 result;
     register s32 return_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */

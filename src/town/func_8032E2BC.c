@@ -17,10 +17,11 @@ typedef struct TownRoot {
 
 extern TownRoot *D_80016000[3];
 
-s32 func_80018ABC(TownInput *arg0)
+/* Check whether the low six input bits match the town state value. */
+s32 func_80018ABC(TownInput *input)
 {
     TownState *state = D_80016000[0]->state;
-    s32 value = arg0->value;
+    s32 value = input->value;
 
     value &= 0x3F;
     return state->value == value;

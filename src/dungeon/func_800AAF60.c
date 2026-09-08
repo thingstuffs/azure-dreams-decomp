@@ -23,8 +23,9 @@ typedef struct S_800B06C0_2 {
     s8 unk_04;
 } S_800B06C0_2;   /* arg1 in func_800B06C0 */
 
-void func_800B06C0(S_800B06C0_1 *arg0, S_800B06C0_2 *arg1, S_800B06C0_0 *arg2) {
-    arg2->unk_B8 = (u16) arg0->unk_02;
-    arg2->unk_BA = (u16) arg0->unk_06;
-    arg2->unk_C0 = (s32) (arg0->unk_0A + arg1->unk_04);
+/* Copy two base values and combine the base and offset into the output. */
+void func_800B06C0(S_800B06C0_1 *base_values, S_800B06C0_2 *offset_values, S_800B06C0_0 *output) {
+    output->unk_B8 = (u16) base_values->unk_02;
+    output->unk_BA = (u16) base_values->unk_06;
+    output->unk_C0 = (s32) (base_values->unk_0A + offset_values->unk_04);
 }

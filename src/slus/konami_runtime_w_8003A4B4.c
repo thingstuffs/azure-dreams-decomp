@@ -12,20 +12,21 @@ typedef struct Func8003A4B4State {
     Func8003A4B4Entry *table;
 } Func8003A4B4State;
 
-void func_8003A4B4(Func8003A4B4State *arg0) {
-    u8 *ptr;
-    s32 first;
-    s32 second;
+/* Subtracts one event-script variable from another. */
+void func_8003A4B4(Func8003A4B4State *state) {
+    u8 *script_cursor;
+    s32 dest_index;
+    s32 source_index;
     Func8003A4B4Entry *table;
 
-    ptr = arg0->read_ptr;
-    first = *ptr;
-    ptr++;
-    arg0->read_ptr = ptr;
-    second = *ptr;
-    ptr++;
-    arg0->read_ptr = ptr;
+    script_cursor = state->read_ptr;
+    dest_index = *script_cursor;
+    script_cursor++;
+    state->read_ptr = script_cursor;
+    source_index = *script_cursor;
+    script_cursor++;
+    state->read_ptr = script_cursor;
 
-    table = arg0->table;
-    table->value[first] = table->value[first] - table->value[second];
+    table = state->table;
+    table->value[dest_index] = table->value[dest_index] - table->value[source_index];
 }

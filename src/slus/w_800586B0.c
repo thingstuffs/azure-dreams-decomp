@@ -17,10 +17,7 @@ extern s32 EnterCriticalSection(void);
 extern s32 ExitCriticalSection(void);
 extern void StopRCnt(s32 a0);
 
-/* Sets the D_800737C0 busy/lock flag, enters a critical section, invokes
- * the RCnt-mask-clear helper StopRCnt() on hardware timer 2
- * (0xF2000002), leaves the critical section, then clears the
- * D_80085F98 mode flag and the D_800737C0 lock flag. */
+/* Stops hardware timer 2 in a critical section, then clears the mode and lock flags. */
 void func_800586B0(void)
 {
     D_800737C0.v = 1;

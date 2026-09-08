@@ -12,14 +12,15 @@ typedef struct S_80016824_1 {
 M2C_UNK func_8001886C();                     /* extern */
 extern Rec_D_80016000 *D_80016000;
 
+/* Decrement the countdown and invoke handler 0x5FF when it reaches zero. */
 void func_80016824(void) {
-    u8 temp_v0;
-    S_80016824_1 *temp_v1;
+    u8 countdown;
+    S_80016824_1 *countdown_record;
 
-    temp_v1 = D_80016000->unk_40.as_s32 + 0x68;
-    temp_v0 = temp_v1->unk_07 - 1;
-    temp_v1->unk_07 = temp_v0;
-    if (!(temp_v0 & 0xFF)) {
+    countdown_record = D_80016000->unk_40.as_s32 + 0x68;
+    countdown = countdown_record->unk_07 - 1;
+    countdown_record->unk_07 = countdown;
+    if (!(countdown & 0xFF)) {
         func_8001886C(0x5FF);
     }
 }

@@ -5,6 +5,7 @@ typedef s32 (*Callback)(s8 *);
 extern void *D_80016000[];
 extern s32 D_80017FB8[];
 
+/* Invoke the current object callback with bytes 0x10, 0x17, 0, 0 and save its result. */
 void func_80601228(void)
 {
     s8 args[4];

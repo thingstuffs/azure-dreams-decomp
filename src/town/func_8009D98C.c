@@ -10,13 +10,14 @@ typedef struct S_8009B0EC_0 {
     u16 unk_0A;
 } S_8009B0EC_0;   /* arg0 in func_8009B0EC */
 
-void func_8009B0EC(S_8009B0EC_0 *arg0) {
-    u16 temp_v0;
+/* Decrement the countdown, then reset it and switch handlers when it expires. */
+void func_8009B0EC(S_8009B0EC_0 *object) {
+    u16 countdown;
 
-    temp_v0 = arg0->unk_0A - 1;
-    arg0->unk_0A = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg0->unk_0A = 3U;
-        arg0->unk_04 = &D_8009AF74;
+    countdown = object->unk_0A - 1;
+    object->unk_0A = countdown;
+    if ((countdown << 0x10) <= 0) {
+        object->unk_0A = 3U;
+        object->unk_04 = &D_8009AF74;
     }
 }

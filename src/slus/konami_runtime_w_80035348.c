@@ -11,12 +11,13 @@ typedef struct {
 
 extern State80082A38 D_80082A38;
 
+/* Clears the state field and entries 10 through 14. */
 void func_80035348(void)
 {
-    s32 i;
+    s32 entry_index;
 
     D_80082A38.field_38 = 0;
-    for (i = 10; i < 15; i++) {
-        D_80082A38.entries[i] = 0;
+    for (entry_index = 10; entry_index < 15; entry_index++) {
+        D_80082A38.entries[entry_index] = 0;
     }
 }

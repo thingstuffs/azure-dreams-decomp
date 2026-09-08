@@ -16,9 +16,10 @@ typedef struct S_8003965C_1 {
 } S_8003965C_1;   /* temp_a2 in func_8003965C */
 
 
-void func_8003965C(S_8003965C_0 *arg0) {
-    S_8003965C_1 *temp_a2;
+/* Sets the event-script instruction pointer to the little-endian address at its current position. */
+void func_8003965C(S_8003965C_0 *vm) {
+    S_8003965C_1 *jump_address;
 
-    temp_a2 = arg0->unk_1C;
-    arg0->unk_1C = (void *) (temp_a2->unk_00 + (temp_a2->unk_01 << 8) + (temp_a2->unk_02 << 0x10) + (temp_a2->unk_03 << 0x18));
+    jump_address = vm->unk_1C;
+    vm->unk_1C = (void *) (jump_address->unk_00 + (jump_address->unk_01 << 8) + (jump_address->unk_02 << 0x10) + (jump_address->unk_03 << 0x18));
 }

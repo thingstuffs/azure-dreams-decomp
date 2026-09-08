@@ -8,12 +8,13 @@ typedef struct S_80026B44_0 {
     s32 * unk_0C;
 } S_80026B44_0;   /* arg0 in func_80026B44 */
 
-void func_80026B44(S_80026B44_0 *arg0) {
-    s32 temp_a0;
+/* Release the stored handle if present and clear its slot. */
+void func_80026B44(S_80026B44_0 *owner) {
+    s32 handle;
 
-    temp_a0 = *arg0->unk_0C;
-    if (temp_a0 != 0) {
-        func_8004E99C(temp_a0);
-        *arg0->unk_0C = 0;
+    handle = *owner->unk_0C;
+    if (handle != 0) {
+        func_8004E99C(handle);
+        *owner->unk_0C = 0;
     }
 }

@@ -5,6 +5,7 @@ extern void func_800188E4(s32);
 extern void *D_80016000[];
 extern void *D_800190C0[];
 
+/* Conditionally updates flag 0x619, then dispatches D_800190C0 to the callback. */
 void func_8059E728(void) {
     if (func_80018964(0x11FE) != 0) {
         func_800188E4(0x619);

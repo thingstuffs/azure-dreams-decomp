@@ -5,6 +5,7 @@ extern s32 D_8001601C;
 extern s32 D_80016084;
 extern void *D_80017508;
 
+/* Attach the global data pointers and invoke the state callback with mode 2. */
 void func_8079A1EC(void)
 {
     void *state = D_80016000;

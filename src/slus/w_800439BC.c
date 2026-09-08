@@ -11,7 +11,8 @@ typedef struct {
 
 extern S_8006DE24_Entry D_8006DE24[];
 
-s32 func_800439BC(s16 arg0) {
-    u32 v = D_8006DE24[arg0].unk10;
-    return ((v ^ (v >> 4)) & 3) == 0;
+/* Test whether the table byte XOR its upper nibble has its lowest two bits clear. */
+s32 func_800439BC(s16 entry_id) {
+    u32 value = D_8006DE24[entry_id].unk10;
+    return ((value ^ (value >> 4)) & 3) == 0;
 }

@@ -14,12 +14,13 @@ typedef struct S_800259CC_2 {
 s32 func_80026C20();                    /* extern */
 
 
-s32 func_800259CC(Rec_func_80025850_arg0 *arg0) {
-    s32 var_a1;
+/* Check whether a type-4 context passes the linked object check. */
+s32 func_800259CC(Rec_func_80025850_arg0 *context) {
+    s32 check_passed;
 
-    var_a1 = 0;
-    if (arg0->unk_08 == 4) {
-        var_a1 = func_80026C20(((S_800259CC_2 *)(((Rec_func_80025850_arg0 *)arg0)->unk_18))->unk_28, 0) == 0;
+    check_passed = 0;
+    if (context->unk_08 == 4) {
+        check_passed = func_80026C20(((S_800259CC_2 *)(((Rec_func_80025850_arg0 *)context)->unk_18))->unk_28, 0) == 0;
     }
-    return var_a1;
+    return check_passed;
 }

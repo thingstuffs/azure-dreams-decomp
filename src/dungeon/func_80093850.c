@@ -11,30 +11,31 @@ typedef struct S_80098FB0_0 {
     u8 unk_249;
 } S_80098FB0_0;   /* var_a0 in func_80098FB0 */
 
+/* Find the start of the last contiguous run of zero entries. */
 s32 func_80098FB0(void) {
-    s8 *var_a0;
-    s32 var_a1;
-    s32 var_v0;
-    s32 var_v1;
+    s8 *entry_address;
+    s32 run_start;
+    s32 shifted_index;
+    s32 entry_index;
 
-    var_a1 = -1;
-    var_v1 = 0x13;
-    var_a0 = (s8 *)0x8001004C;
+    run_start = -1;
+    entry_index = 0x13;
+    entry_address = (s8 *)0x8001004C;
 for (;;) {
 loop_1:
-    if (((S_80098FB0_0 *)var_a0)->unk_249 == 0) {
-        var_a1 = var_v1;
-    } else if (var_a1 >= 0) {
+    if (((S_80098FB0_0 *)entry_address)->unk_249 == 0) {
+        run_start = entry_index;
+    } else if (run_start >= 0) {
         break;
     }
-    var_v1 -= 1;
-    var_a0 -= 4;
-    if (var_v1 < 0) {
+    entry_index -= 1;
+    entry_address -= 4;
+    if (entry_index < 0) {
         break;
     }
     goto loop_1;
 }
 done:
-    var_v0 = var_a1 << 0x10;
-    return var_v0 >> 0x10;
+    shifted_index = run_start << 0x10;
+    return shifted_index >> 0x10;
 }

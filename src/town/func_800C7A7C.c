@@ -17,9 +17,10 @@ typedef struct S_800C51DC_1 {
     s32 unk_14;
 } S_800C51DC_1;   /* arg1 in func_800C51DC */
 
-void func_800C51DC(S_800C51DC_0 *arg0, S_800C51DC_1 *arg1) {
-    *((arg0->unk_60 * 8) + &D_80082660) = 0;
-    arg0->unk_54 = &D_800C5100;
-    arg1->unk_10 = 0x80000;
-    arg1->unk_14 = 0x40000;
+/* Clear the actor table flag, install its handler, and initialize state values. */
+void func_800C51DC(S_800C51DC_0 *actor, S_800C51DC_1 *state) {
+    *((actor->unk_60 * 8) + &D_80082660) = 0;
+    actor->unk_54 = &D_800C5100;
+    state->unk_10 = 0x80000;
+    state->unk_14 = 0x40000;
 }

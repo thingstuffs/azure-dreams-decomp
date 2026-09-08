@@ -9,7 +9,8 @@ typedef struct S_801257C8_0 {
 
 
 extern void func_80124188(S_801257C8_0 *);
-void func_801257C8(S_801257C8_0 *arg0) {
-    func_80124188(arg0);
-    arg0->unk_0A = 1;
+/* Update the controller and set its state to one. */
+void func_801257C8(S_801257C8_0 *controller) {
+    func_80124188(controller);
+    controller->unk_0A = 1;
 }

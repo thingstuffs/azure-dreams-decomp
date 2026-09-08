@@ -3,14 +3,15 @@
 extern s32 func_800B28A0(void);
 extern u16 D_800D4244[];
 
-void func_800C0FE4(void *arg0) {
-    s32 index;
-    u16 *base;
-    u16 *p;
+/* Copy the selected table pair into output halfwords 2 and 3. */
+void func_800C0FE4(void *output) {
+    s32 pair_index;
+    u16 *pair_table;
+    u16 *pair;
 
-    index = func_800B28A0();
-    base = D_800D4244;
-    p = base + (index * 2);
-    ((u16 *)arg0)[2] = p[0];
-    ((u16 *)arg0)[3] = p[1];
+    pair_index = func_800B28A0();
+    pair_table = D_800D4244;
+    pair = pair_table + (pair_index * 2);
+    ((u16 *)output)[2] = pair[0];
+    ((u16 *)output)[3] = pair[1];
 }

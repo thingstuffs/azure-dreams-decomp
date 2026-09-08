@@ -9,7 +9,8 @@
 
 extern u8 D_800157D2[9];
 
-s32 func_80026F54(s32 arg0, s32 arg1, s32 arg2)
+/* Return the index of the requested zero-based occurrence matching both bytes, or -1. */
+s32 func_80026F54(s32 target_value, s32 prefix_value, s32 target_occurrence)
 {
     u8 *entry;
     register s32 occurrence ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -22,9 +23,9 @@ s32 func_80026F54(s32 arg0, s32 arg1, s32 arg2)
     entry = D_800157D2;
 
 loop:
-    if ((entry[0] == arg0) && (entry[-1] == arg1)) {
+    if ((entry[0] == target_value) && (entry[-1] == prefix_value)) {
         result = index;
-        if (occurrence == arg2) {
+        if (occurrence == target_occurrence) {
             return result;
         }
         occurrence++;

@@ -15,13 +15,14 @@ typedef struct S_800A6104_1 {
     s16 unk_0C;
 } S_800A6104_1;   /* temp_v1 in func_800A6104 */
 
+/* Initialize the optional object settings to their default values. */
 void func_800A6104(void) {
-    S_800A6104_1 *temp_v1;
+    S_800A6104_1 *settings;
 
     if (D_800DCF64 != NULL) {
         ((S_800A6104_0 *)D_800DCF64)->unk_20 = 0xFFFFFF;
-        temp_v1 = D_800DCF64 + 0x20;
-        temp_v1->unk_04 = 0x40;
-        temp_v1->unk_0C = 1;
+        settings = D_800DCF64 + 0x20;
+        settings->unk_04 = 0x40;
+        settings->unk_0C = 1;
     }
 }

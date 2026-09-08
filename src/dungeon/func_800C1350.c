@@ -10,6 +10,7 @@ extern s32 D_80083498[];
 extern s32 D_800C5FA8[];
 extern s32 D_800E58B8[];
 
+/* Create a record and assign D_800C5FA8 to its field10 pointer. */
 void func_800C6AB0(void) {
     func_8003FF2C(0, D_800E58B8, 0x10, D_80083498)->field10 = D_800C5FA8;
 }

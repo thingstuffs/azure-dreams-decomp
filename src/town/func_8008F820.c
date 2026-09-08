@@ -12,6 +12,7 @@ typedef struct S_8008CF80_0 {
     s16 unk_0A;
 } S_8008CF80_0;   /* arg0 in func_8008CF80 */
 
-s16 func_8008CF80(S_8008CF80_0 *arg0) {
-    return func_8008D5C4(arg0->unk_02, arg0->unk_06, arg0->unk_0A);
+/* Pass three signed record components to func_8008D5C4. */
+s16 func_8008CF80(S_8008CF80_0 *record) {
+    return func_8008D5C4(record->unk_02, record->unk_06, record->unk_0A);
 }

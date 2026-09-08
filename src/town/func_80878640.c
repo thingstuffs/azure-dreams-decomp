@@ -7,6 +7,7 @@ typedef struct S_80702640_0 {
 } S_80702640_0;   /* *(void **)0x807030B8 in func_80702640 */
 
 
+/* Invoke the runtime callback at offset 0x60 with zero. */
 void func_80702640(void) {
     ((S_80702640_0 *)(*(void **)0x807030B8))->unk_60(0);
 }

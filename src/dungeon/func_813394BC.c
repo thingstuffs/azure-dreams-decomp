@@ -4,6 +4,7 @@ extern s32 func_800A0818(u8, u8, u8, u8, s32 *);
 extern u8 *D_80175D50;
 extern u8 D_80082E80[];
 
+/* Returns the signed coordinate calculation result scaled down by nine bits. */
 s32 func_801704BC(void) {
     s32 value;
     u8 *state;

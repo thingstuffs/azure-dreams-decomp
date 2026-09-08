@@ -7,12 +7,13 @@
 extern void *func_800373DC();
 extern u8 D_8052FEDC[];
 
-void func_80815294(s16 arg0) {
-    void *temp_v0;
+/* Create an object and assign its data pointer and supplied value. */
+void func_80815294(s16 object_value) {
+    void *object;
 
-    temp_v0 = func_800373DC(2);
-    if (temp_v0 != NULL) {
-        *(s32 *)((s8 *)temp_v0 + 0x10) = (s32)D_8052FEDC;
-        *(s16 *)((s8 *)temp_v0 + 0x72) = arg0;
+    object = func_800373DC(2);
+    if (object != NULL) {
+        *(s32 *)((s8 *)object + 0x10) = (s32)D_8052FEDC;
+        *(s16 *)((s8 *)object + 0x72) = object_value;
     }
 }

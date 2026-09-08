@@ -8,21 +8,22 @@
 #define KEEP_COMPILER(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
 #endif
 
-void func_800B3AE4(u8 *arg0) {
-    s32 temp1;
-    s32 temp0;
-    s32 var;
+/* Moves the first color channel toward neutral gray and copies it to the other two. */
+void func_800B3AE4(u8 *object) {
+    s32 channel_value;
+    s32 blended_value;
+    s32 target_delta;
 
-    temp1 = arg0[0x24];
-    var = 0x80 - temp1;
-    if (var < 0) {
-        var += 3;
+    channel_value = object[0x24];
+    target_delta = 0x80 - channel_value;
+    if (target_delta < 0) {
+        target_delta += 3;
     }
-    temp0 = temp1 + (var >> 2);
-    arg0[0x24] = temp0;
+    blended_value = channel_value + (target_delta >> 2);
+    object[0x24] = blended_value;
     COMPILER_BARRIER();
-    temp1 = temp0;
-    KEEP_COMPILER(temp1);
-    arg0[0x25] = temp0;
-    arg0[0x26] = temp1;
+    channel_value = blended_value;
+    KEEP_COMPILER(channel_value);
+    object[0x25] = blended_value;
+    object[0x26] = channel_value;
 }

@@ -16,6 +16,7 @@ extern U16Global D_80013714;
 extern void func_800A69E4(void);
 extern void func_8009FAC4(void);
 
+/* Clears global flag bits and calls func_800A69E4 and func_8009FAC4. */
 void func_81254374(void) {
     D_800E296C.value = (s32)(D_800E296C.value & 0xEFFFFFFF);
     func_800A69E4();

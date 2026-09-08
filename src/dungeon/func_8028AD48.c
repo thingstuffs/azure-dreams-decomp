@@ -46,12 +46,13 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-void func_8001DD48(void *arg0)
+/* Decrease the paired values and step count while the count is positive. */
+void func_8001DD48(void *step_state)
 {
-  if (((s16 *) arg0)[2] > 0)
+  if (((s16 *) step_state)[2] > 0)
   {
-    ((u16 *) arg0)[0] = (u16) (((u16 *) arg0)[0] - 1);
-    ((u16 *) arg0)[1] = (u16) (((u16 *) arg0)[1] - 0x20);
-    ((u16 *) arg0)[2] = (u16) (((u16 *) arg0)[2] - 1);
+    ((u16 *) step_state)[0] = (u16) (((u16 *) step_state)[0] - 1);
+    ((u16 *) step_state)[1] = (u16) (((u16 *) step_state)[1] - 0x20);
+    ((u16 *) step_state)[2] = (u16) (((u16 *) step_state)[2] - 1);
   }
 }

@@ -19,9 +19,10 @@ typedef struct S_80022454_0 {
 
 extern s32 D_800814A0[3];
 
-void func_80022454(void *arg0) {
-    if (((S_80022454_2 *)(((S_80022454_1 *)arg0)->unk_04))->unk_36 == 8) {
-        ((S_80022454_0 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_80022454_0 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
+/* Set record and global flags when the linked object has state 8. */
+void func_80022454(void *record) {
+    if (((S_80022454_2 *)(((S_80022454_1 *)record)->unk_04))->unk_36 == 8) {
+        ((S_80022454_0 *)((u8 *)record - 0x2))->unk_00 = (u16) (((S_80022454_0 *)((u8 *)record - 0x2))->unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

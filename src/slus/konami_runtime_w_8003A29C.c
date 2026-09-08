@@ -13,15 +13,16 @@ typedef struct Func8003A29CState {
     Func8003A29CTable *table;
 } Func8003A29CState;
 
-void func_8003A29C(Func8003A29CState *arg0) {
-    u8 *cursor = arg0->cursor;
-    u8 first;
-    u8 second;
-    Func8003A29CTable *table = arg0->table;
+/* Copies a script-selected table value to a script-selected target. */
+void func_8003A29C(Func8003A29CState *state) {
+    u8 *cursor = state->cursor;
+    u8 value_index;
+    u8 target_index;
+    Func8003A29CTable *table = state->table;
 
-    first = *cursor++;
-    arg0->cursor = cursor;
-    second = *cursor++;
-    arg0->cursor = cursor;
-    table->targets[second][0] = table->values[first];
+    value_index = *cursor++;
+    state->cursor = cursor;
+    target_index = *cursor++;
+    state->cursor = cursor;
+    table->targets[target_index][0] = table->values[value_index];
 }

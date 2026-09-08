@@ -3,17 +3,18 @@
 extern s16 D_80025924;
 extern s32 D_800814A0;
 
-void func_818CED78(void *arg0)
+/* Decrement the record counter and set completion flags when it reaches zero. */
+void func_818CED78(void *record)
 {
-    u8 *ptr = arg0;
-    u16 value;
+    u8 *record_bytes = record;
+    u16 counter;
 
-    value = *(u16 *)(ptr + 2);
+    counter = *(u16 *)(record_bytes + 2);
     D_80025924 = 1;
-    value--;
-    *(u16 *)(ptr + 2) = value;
-    if ((value << 16) <= 0) {
-        *(u16 *)(ptr - 2) |= 0x8000;
+    counter--;
+    *(u16 *)(record_bytes + 2) = counter;
+    if ((counter << 16) <= 0) {
+        *(u16 *)(record_bytes - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

@@ -9,13 +9,14 @@ typedef struct S_8001EA00_0 {
     s32 unk_9C;
 } S_8001EA00_0;   /* arg0 in func_8001EA00 */
 
-void func_8001EA00(void *arg0, s32 arg1) {
-    void *temp_s0;
+/* Store the value and process embedded data when the object exists. */
+void func_8001EA00(void *object, s32 value) {
+    void *embedded_data;
 
-    if (arg0 != NULL) {
-        ((S_8001EA00_0 *)arg0)->unk_9C = arg1;
-        temp_s0 = arg0 + 0x20;
-        func_80405900(temp_s0);
-        func_804054E8(temp_s0);
+    if (object != NULL) {
+        ((S_8001EA00_0 *)object)->unk_9C = value;
+        embedded_data = object + 0x20;
+        func_80405900(embedded_data);
+        func_804054E8(embedded_data);
     }
 }

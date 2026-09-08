@@ -14,16 +14,17 @@ typedef struct S_80124F20_0 {
 
 
 M2C_UNK func_801248C0(S_80124F20_0 *);
-void func_80124F20(S_80124F20_0 *arg0) {
-    u16 temp_v0;
+/* Advance the counter and initialize state eight when the limit is reached. */
+void func_80124F20(S_80124F20_0 *controller) {
+    u16 next_count;
 
-    temp_v0 = arg0->unk_04 + 1;
-    arg0->unk_04 = temp_v0;
-    if ((s16) temp_v0 == arg0->unk_06) {
-        arg0->unk_0B = 0;
-        arg0->unk_0A = 8;
-        arg0->unk_06 = 0;
-        arg0->unk_04 = 0U;
-        func_801248C0(arg0);
+    next_count = controller->unk_04 + 1;
+    controller->unk_04 = next_count;
+    if ((s16) next_count == controller->unk_06) {
+        controller->unk_0B = 0;
+        controller->unk_0A = 8;
+        controller->unk_06 = 0;
+        controller->unk_04 = 0U;
+        func_801248C0(controller);
     }
 }

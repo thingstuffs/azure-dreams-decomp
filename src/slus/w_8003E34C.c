@@ -16,6 +16,7 @@ extern s32 D_80080ADC;
 extern s8 D_800814D0;
 extern S_80083958 D_80083958;
 
+/* Reset the global state fields and initialize the status bytes to 2 and 255. */
 void func_8003E34C(void) {
     *(u8 *)0x800814D2 = 2;
     *(u8 *)0x800814D3 = 0xFF;

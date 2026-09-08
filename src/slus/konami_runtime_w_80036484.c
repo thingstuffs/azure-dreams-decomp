@@ -17,14 +17,15 @@ typedef struct S_80036484_0 {
 
 extern M2C_UNK func_800364BC;
 
-void func_80036484(S_80036484_0 *arg0) {
-    u16 temp_v0;
+/* Decrements the countdown and resets state before switching handlers when it expires. */
+void func_80036484(S_80036484_0 *state) {
+    u16 countdown;
 
-    temp_v0 = arg0->unk_64 - 1;
-    arg0->unk_64 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg0->unk_4D = 0xFF;
-        arg0->unk_51 = 0;
-        arg0->unk_68 = &func_800364BC;
+    countdown = state->unk_64 - 1;
+    state->unk_64 = countdown;
+    if ((countdown << 0x10) <= 0) {
+        state->unk_4D = 0xFF;
+        state->unk_51 = 0;
+        state->unk_68 = &func_800364BC;
     }
 }

@@ -10,8 +10,9 @@ typedef struct {
     s32 y;
 } Object;
 
-void func_800AADB0(void *arg0, void *arg1, Object *arg2) {
-    arg2->x += D_80100D80 << 6;
-    arg2->y += D_80100D82 << 6;
-    func_8009539C(arg2);
+/* Applies the global offsets scaled by 64 to the object and updates it. */
+void func_800AADB0(void *unused_first, void *unused_second, Object *object) {
+    object->x += D_80100D80 << 6;
+    object->y += D_80100D82 << 6;
+    func_8009539C(object);
 }

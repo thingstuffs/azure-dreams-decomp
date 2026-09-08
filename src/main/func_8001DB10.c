@@ -7,10 +7,11 @@ M2C_UNK func_80404888();                         /* extern */
 M2C_UNK func_804048F8();                         /* extern */
 M2C_UNK func_80404A3C();                         /* extern */
 
-void func_8001DB10(s32 arg0) {
-    func_804047B0(arg0 + 8);
-    func_80404818(arg0 + 0x80);
-    func_80404888(arg0 + 0xF8);
-    func_80404A3C(arg0 + 0x170);
-    func_804048F8(arg0);
+/* Process four embedded components, then the containing object. */
+void func_8001DB10(s32 object_addr) {
+    func_804047B0(object_addr + 8);
+    func_80404818(object_addr + 0x80);
+    func_80404888(object_addr + 0xF8);
+    func_80404A3C(object_addr + 0x170);
+    func_804048F8(object_addr);
 }

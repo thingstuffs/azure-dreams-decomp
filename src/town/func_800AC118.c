@@ -1,6 +1,7 @@
 #include "common.h"
 
-s32 func_800A9878(s32 arg0) {
+/* Returns the matching index in the sentinel-terminated table, or -1. */
+s32 func_800A9878(s32 target_value) {
     register u8 *base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 carrier;
     s32 result;
@@ -16,7 +17,7 @@ s32 func_800A9878(s32 arg0) {
         s32 sentinel = result;
         carrier = (s32)(base + 0x1054);
 loop:
-        if (*(s16 *)carrier == arg0) {
+        if (*(s16 *)carrier == target_value) {
             result = index;
         } else {
             carrier += 2;

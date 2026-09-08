@@ -12,16 +12,17 @@ typedef struct {
     Table *table;
 } Reader;
 
+/* Copies an event-script table value from the source slot to the destination slot. */
 void func_80039F80(Reader *reader) {
-    u8 *ptr = reader->read_ptr;
-    u8 first;
-    u8 second;
+    u8 *script_ptr = reader->read_ptr;
+    u8 destination;
+    u8 source;
 
-    first = *ptr;
-    ptr += 1;
-    reader->read_ptr = ptr;
-    second = *ptr;
-    ptr += 1;
-    reader->read_ptr = ptr;
-    reader->table->values[first] = reader->table->values[second];
+    destination = *script_ptr;
+    script_ptr += 1;
+    reader->read_ptr = script_ptr;
+    source = *script_ptr;
+    script_ptr += 1;
+    reader->read_ptr = script_ptr;
+    reader->table->values[destination] = reader->table->values[source];
 }

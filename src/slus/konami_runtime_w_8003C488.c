@@ -9,11 +9,12 @@ typedef struct {
 
 extern void func_8003C4C0(void);
 
-void func_8003C488(Callback *arg0, void *arg1, State *arg2) {
-    arg2->value += 0x200;
-    if (arg2->value < 0x1000) {
+/* Increases the state value by 0x200, clamps it to 0x1000, and switches callbacks at the limit. */
+void func_8003C488(Callback *callback, void *unused, State *state) {
+    state->value += 0x200;
+    if (state->value < 0x1000) {
         return;
     }
-    arg2->value = 0x1000;
-    *arg0 = func_8003C4C0;
+    state->value = 0x1000;
+    *callback = func_8003C4C0;
 }

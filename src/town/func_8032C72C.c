@@ -7,9 +7,10 @@ M2C_UNK func_8001ACE8();                         /* extern */
 s32 func_8001ADE0();                         /* extern */
 
 
-void func_80016F2C(Rec_func_800165F4_arg0 *arg0, M2C_UNK arg1) {
+/* Apply the record field when the query for 0x1451 succeeds, then process the record. */
+void func_80016F2C(Rec_func_800165F4_arg0 *record, M2C_UNK context) {
     if (func_8001ADE0(0x1451) != 0) {
-        func_8001ACE8(arg0->unk_18);
+        func_8001ACE8(record->unk_18);
     }
-    func_80019B54(arg0, arg1);
+    func_80019B54(record, context);
 }

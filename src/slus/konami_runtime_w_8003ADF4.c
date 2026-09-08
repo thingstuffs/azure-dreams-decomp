@@ -16,10 +16,11 @@ M2C_UNK LoadImage();                      /* extern */
 #define PVAL(p)     ((u32)(p))
 
 /* port body: port/hal/resident_gap2.c:632 */
-void func_8003ADF4(s16 x, s16 y, s16 w, s16 h, const void *data)
+/* Uploads pixel data to the specified VRAM rectangle. */
+void func_8003ADF4(s16 x, s16 y, s16 width, s16 height, const void *pixels)
 {
     s16 rect[4];
 
-    rect[0] = x; rect[1] = y; rect[2] = w; rect[3] = h;
-    LoadImage(rect, data);
+    rect[0] = x; rect[1] = y; rect[2] = width; rect[3] = height;
+    LoadImage(rect, pixels);
 }

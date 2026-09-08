@@ -13,12 +13,13 @@ typedef struct {
 
 extern int D_800814A0[];
 
-void func_80026B78(S_8081CB78 *arg0) {
-    s16 state = arg0->state;
-    S_8081CB78_sub *sub = arg0->sub;
+/* Set object and global flags when the state is zero and subobject bit 3 is set. */
+void func_80026B78(S_8081CB78 *object) {
+    s16 state = object->state;
+    S_8081CB78_sub *sub = object->sub;
 
     if (state == 0 && (sub->flags & 8)) {
-        ((u16 *)arg0)[-1] |= 0x8000;
+        ((u16 *)object)[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

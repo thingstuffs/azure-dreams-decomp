@@ -46,12 +46,13 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-void func_8001DD08(void *arg0)
+/* Advance the paired values and step count while the count is below nine. */
+void func_8001DD08(void *step_state)
 {
-  if ((*((u16 *) (((u8 *) arg0) + 4))) < 9)
+  if ((*((u16 *) (((u8 *) step_state) + 4))) < 9)
   {
-    *((u16 *) (((u8 *) arg0) + 0)) = (*((u16 *) (((u8 *) arg0) + 0))) + 1;
-    *((u16 *) (((u8 *) arg0) + 2)) = (*((u16 *) (((u8 *) arg0) + 2))) + 0x20;
-    *((u16 *) (((u8 *) arg0) + 4)) = (*((u16 *) (((u8 *) arg0) + 4))) + 1;
+    *((u16 *) (((u8 *) step_state) + 0)) = (*((u16 *) (((u8 *) step_state) + 0))) + 1;
+    *((u16 *) (((u8 *) step_state) + 2)) = (*((u16 *) (((u8 *) step_state) + 2))) + 0x20;
+    *((u16 *) (((u8 *) step_state) + 4)) = (*((u16 *) (((u8 *) step_state) + 4))) + 1;
   }
 }

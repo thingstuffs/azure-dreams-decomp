@@ -11,16 +11,17 @@ typedef struct {
     s32 unk14;
 } Unk800C5388;
 
-s16 func_800C2AE8(void *arg0) {
-    Unk800C5388 sp10;
-    long long sp28;
-    long long *sp30;
+/* Queries the position after lowering its third coordinate by eight fixed-point units. */
+s16 func_800C2AE8(void *position) {
+    Unk800C5388 adjusted_position;
+    long long result_storage;
+    long long *result_ptr;
 
-    sp10.unk0 = *(s32 *)((s8 *)arg0 + 0);
-    sp10.unk4 = *(s32 *)((s8 *)arg0 + 4);
-    sp30 = &sp28;
-    sp10.unk8 = *(s32 *)((s8 *)arg0 + 8) + 0xFFF80000;
-    return func_8008CF48(&sp10, &sp30);
+    adjusted_position.unk0 = *(s32 *)((s8 *)position + 0);
+    adjusted_position.unk4 = *(s32 *)((s8 *)position + 4);
+    result_ptr = &result_storage;
+    adjusted_position.unk8 = *(s32 *)((s8 *)position + 8) + 0xFFF80000;
+    return func_8008CF48(&adjusted_position, &result_ptr);
 }
 
 /* MECHANISM: A 24-byte escaped record plus an 8-byte pointee force the retail 0x40 frame.

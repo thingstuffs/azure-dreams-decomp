@@ -14,8 +14,9 @@ extern u8 D_80700670[];
     })
 #endif
 
-void func_8088116C(s32 arg0, s32 arg1) {
-    s32 offset = (arg1 * 8) + (arg0 * 16);
+/* Call func_80700CD0 with 0x278 when the selected entry has bit zero set. */
+void func_8088116C(s32 row, s32 column) {
+    s32 offset = (column * 8) + (row * 16);
 
     if (*(s32 *)(D_80700670 + offset) & 1) {
         func_80700CD0(OR_ZERO(0x278));

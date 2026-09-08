@@ -15,20 +15,21 @@ typedef struct Node {
 
 extern Node *D_800E3DE8;
 
-void func_8009A028(Node *arg0) {
+/* Unlink a node and advance the global cursor if it references that node. */
+void func_8009A028(Node *node) {
     Node *prev;
     Node *next;
 
-    if (D_800E3DE8 == (Node *)((s8 *)arg0 - 0x20)) {
-        D_800E3DE8 = arg0->next;
+    if (D_800E3DE8 == (Node *)((s8 *)node - 0x20)) {
+        D_800E3DE8 = node->next;
     }
 
-    prev = arg0->prev;
-    next = arg0->next;
+    prev = node->prev;
+    next = node->next;
     if ((prev != NULL) && (next != NULL)) {
         prev->unk7C = next;
         next->unk78 = prev;
-        arg0->next = NULL;
-        arg0->prev = NULL;
+        node->next = NULL;
+        node->prev = NULL;
     }
 }

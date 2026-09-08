@@ -8,17 +8,18 @@ typedef struct S_80026270_0 {
     s32 unk_0C;
 } S_80026270_0;   /* var_s0 in func_80026270 */
 
-void func_80026270(void *arg0) {
-    s32 temp_a0;
-    s32 var_s1;
-    void *var_s0;
+/* Runs func_80024298 on each of five stored object addresses. */
+void func_80026270(void *object_list) {
+    s32 object_addr;
+    s32 object_index;
+    void *entry_cursor;
 
-    var_s1 = 0;
-    var_s0 = arg0;
+    object_index = 0;
+    entry_cursor = object_list;
     do {
-        temp_a0 = ((S_80026270_0 *)var_s0)->unk_0C;
-        var_s0 += 4;
-        var_s1 += 1;
-        func_80024298(temp_a0);
-    } while (var_s1 < 5);
+        object_addr = ((S_80026270_0 *)entry_cursor)->unk_0C;
+        entry_cursor += 4;
+        object_index += 1;
+        func_80024298(object_addr);
+    } while (object_index < 5);
 }

@@ -13,12 +13,13 @@ typedef struct S_80026508_0 {
     s32 unk_70;
 } S_80026508_0;   /* temp_s0 in func_80026508 */
 
-void func_80026508(s32 arg0) {
-    s32 temp_v0;
-    S_80026508_0 *temp_s0;
+/* Update the embedded state value through a table lookup and propagate the result. */
+void func_80026508(s32 object_addr) {
+    s32 updated_value;
+    S_80026508_0 *state;
 
-    temp_s0 = arg0 + 0x20;
-    temp_v0 = func_80026388(-1, temp_s0->unk_08, temp_s0->unk_10);
-    temp_s0->unk_08 = temp_v0;
-    func_80026370(temp_s0->unk_70, temp_v0);
+    state = object_addr + 0x20;
+    updated_value = func_80026388(-1, state->unk_08, state->unk_10);
+    state->unk_08 = updated_value;
+    func_80026370(state->unk_70, updated_value);
 }

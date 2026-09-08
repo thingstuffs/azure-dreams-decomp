@@ -20,7 +20,8 @@ extern M2C_UNK D_80071244;
 extern M2C_UNK D_800792DC;
 
 
-void func_800B2F38(void *arg0) {
-    func_8004CBFC(arg0 + 0x1C, &D_800792DC, ((S_800B2F38_1 *)(((S_800B2F38_0 *)arg0)->unk_A8))->unk_10);
-    *((S_800B2F38_1 *)(((S_800B2F38_0 *)arg0)->unk_A8))->unk_14 = &D_80071244;
+/* Apply D_800792DC using the linked value and set the linked target to D_80071244. */
+void func_800B2F38(void *record) {
+    func_8004CBFC(record + 0x1C, &D_800792DC, ((S_800B2F38_1 *)(((S_800B2F38_0 *)record)->unk_A8))->unk_10);
+    *((S_800B2F38_1 *)(((S_800B2F38_0 *)record)->unk_A8))->unk_14 = &D_80071244;
 }

@@ -16,6 +16,7 @@ extern Entity *D_800FBE1C;
 extern DungeonState D_80083460;
 extern u16 D_80013714;
 
+/* Set the current entity state to three, decrement the counter, and clear the global and entity flags. */
 void func_807B03C0(void) {
     Entity *entity;
 

@@ -1,20 +1,21 @@
 #include "common.h"
 
-u8 *func_80019448(u8 *arg0, u8 *arg1) {
-    u8 *temp_v1;
-    u8 *var_a0;
-    u8 *var_a1;
+/* Copy a zero-terminated string and return the destination. */
+u8 *func_80019448(u8 *destination, u8 *source) {
+    u8 *destination_start;
+    u8 *write_ptr;
+    u8 *read_ptr;
 
-    var_a0 = arg0;
-    var_a1 = arg1;
-    temp_v1 = var_a0;
-    if (*var_a1 != 0) {
+    write_ptr = destination;
+    read_ptr = source;
+    destination_start = write_ptr;
+    if (*read_ptr != 0) {
         do {
-            do { *var_a0 = *var_a1; } while (0);
-            var_a1 += 1;
-            var_a0 += 1;
-        } while (*var_a1 != 0);
+            do { *write_ptr = *read_ptr; } while (0);
+            read_ptr += 1;
+            write_ptr += 1;
+        } while (*read_ptr != 0);
     }
-    *var_a0 = 0;
-    return temp_v1;
+    *write_ptr = 0;
+    return destination_start;
 }

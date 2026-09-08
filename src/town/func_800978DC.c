@@ -15,11 +15,12 @@ extern struct S_800978DC_D80083160 D_80083160;
 extern s32 func_80094BC8(s32 arg0, s16 arg1);
 extern void func_80094F58(s16 arg0, s32 arg1, s32 arg2);
 
-void func_8009503C(s32 arg0)
+/* Passes the valid shared angle, fixed value 0x120000, and context to func_80094F58. */
+void func_8009503C(s32 context)
 {
-    s16 temp_v0 = func_80094BC8(D_80083160.field_8, D_80083160.field_C8);
+    s16 angle = func_80094BC8(D_80083160.field_8, D_80083160.field_C8);
 
-    if (temp_v0 != -1) {
-        func_80094F58(temp_v0, 0x120000, arg0);
+    if (angle != -1) {
+        func_80094F58(angle, 0x120000, context);
     }
 }

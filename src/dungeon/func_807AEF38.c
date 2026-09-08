@@ -12,17 +12,18 @@ typedef struct S_800F6738_0 {
     s32 unk_5C;
 } S_800F6738_0;   /* var_v1 in func_800F6738 */
 
+/* Set flag 0x800000 on type 0x32 entities in the ring and set the global state to 0x1F. */
 void func_800F6738(void) {
-    void *temp_a0;
-    S_800F6738_0 *var_v1;
+    void *first_entity;
+    S_800F6738_0 *entity;
 
-    var_v1 = D_800E3D7C;
-    temp_a0 = var_v1;
+    entity = D_800E3D7C;
+    first_entity = entity;
     do {
-        if (var_v1->unk_13 == 0x32) {
-            var_v1->unk_14 = (s32) (var_v1->unk_14 | 0x800000);
+        if (entity->unk_13 == 0x32) {
+            entity->unk_14 = (s32) (entity->unk_14 | 0x800000);
         }
-        var_v1 = var_v1->unk_5C + 0x20;
-    } while (var_v1 != temp_a0);
+        entity = entity->unk_5C + 0x20;
+    } while (entity != first_entity);
     D_80082EA4 = 0x1F;
 }

@@ -8,7 +8,8 @@ extern u8 D_800157D2;
 #define COPY_REGISTER(dst, src) __asm__ __volatile__("" : "=r"(dst) : "0"(src))
 #endif
 
-s32 func_80026E30(s32 arg0) {
+/* Count matching entry values, stopping at a zero value or 64 entries. */
+s32 func_80026E30(s32 target_value) {
     s32 index;
     register s32 count ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *entry;
@@ -20,7 +21,7 @@ s32 func_80026E30(s32 arg0) {
 loop:
     value = *entry;
     if (value != 0) {
-        if (value == arg0) {
+        if (value == target_value) {
             count++;
         }
         index++;

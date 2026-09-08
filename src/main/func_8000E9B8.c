@@ -8,28 +8,29 @@ typedef struct {
 
 extern EntryT D_80028570[];
 
-s32 func_800219B8(s32 arg0) {
-    EntryT *var_v1;
-    s32 var_a1;
-    s32 var_a2;
-    s32 var_v0;
+/* Returns the blocks remaining after summing the entry sizes in 8192-byte units. */
+s32 func_800219B8(s32 entry_count) {
+    EntryT *entry;
+    s32 total_size;
+    s32 entry_index;
+    s32 size_value;
 
-    var_a2 = 0;
-    var_a1 = var_a2;
-    var_v0 = (s32)&D_80028570[0];
-    if (arg0 > 0) {
-        var_v1 = (EntryT *)var_v0;
+    entry_index = 0;
+    total_size = entry_index;
+    size_value = (s32)&D_80028570[0];
+    if (entry_count > 0) {
+        entry = (EntryT *)size_value;
         do {
-            var_v0 = var_v1->field18;
-            var_a2 += 1;
-            var_a1 += var_v0;
-            var_v1 += 1;
-        } while (var_a2 < arg0);
+            size_value = entry->field18;
+            entry_index += 1;
+            total_size += size_value;
+            entry += 1;
+        } while (entry_index < entry_count);
     }
-    var_v0 = var_a1;
-    if (var_a1 < 0) {
-        var_v0 = var_a1 + 0x1FFF;
+    size_value = total_size;
+    if (total_size < 0) {
+        size_value = total_size + 0x1FFF;
     }
-    var_a1 = var_v0 >> 0xD;
-    return 0xF - var_a1;
+    total_size = size_value >> 0xD;
+    return 0xF - total_size;
 }

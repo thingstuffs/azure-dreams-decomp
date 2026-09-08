@@ -6,12 +6,13 @@
 M2C_UNK func_800C4174(void *);                            /* extern */
 
 
-void func_800CB474(Rec_func_80094268_arg0 *arg0) {
-    u16 temp_v0;
+/* Decrement the object counter and call its handler when it reaches zero. */
+void func_800CB474(Rec_func_80094268_arg0 *object) {
+    u16 remaining_count;
 
-    temp_v0 = arg0->unk_6C.as_u16 - 1;
-    arg0->unk_6C.as_u16 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800C4174(arg0);
+    remaining_count = object->unk_6C.as_u16 - 1;
+    object->unk_6C.as_u16 = remaining_count;
+    if ((remaining_count << 0x10) <= 0) {
+        func_800C4174(object);
     }
 }

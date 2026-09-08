@@ -11,12 +11,13 @@ extern D_80079958_t_8005D63C D_80079958;
 
 extern s32 D_80079980[3]; /* index 0 only used; array padding forces hi/lo codegen */
 
-s32 func_8005D63C(s32 a0, s32 a1)
+/* Read a table value and apply the global left shift unless shift mode is -1. */
+s32 func_8005D63C(s32 index, s32 shift_mode)
 {
-    u16 v = D_80079958.ptr[a0];
+    u16 value = D_80079958.ptr[index];
 
-    if (a1 == -1) {
-        return (s32)v;
+    if (shift_mode == -1) {
+        return (s32)value;
     }
-    return (s32)v << D_80079980[0];
+    return (s32)value << D_80079980[0];
 }

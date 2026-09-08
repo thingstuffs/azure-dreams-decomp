@@ -12,9 +12,10 @@ typedef struct S_80098C04_0 {
     s16 unk_0A;
 } S_80098C04_0;   /* arg0 in func_80098C04 */
 
-void func_80098C04(S_80098C04_0 *arg0, M2C_UNK arg1) {
-    arg0->unk_04 = &D_80098104;
+/* Assign the state table, clear the global flag, set the counter to 12, and initialize the target. */
+void func_80098C04(S_80098C04_0 *state, M2C_UNK target) {
+    state->unk_04 = &D_80098104;
     D_80082668 = 0;
-    arg0->unk_0A = 0xC;
-    func_80099754(arg1);
+    state->unk_0A = 0xC;
+    func_80099754(target);
 }

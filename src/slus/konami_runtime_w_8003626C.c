@@ -16,10 +16,11 @@ typedef struct S_8003626C_0 {
 extern s32 D_80083170;
 extern M2C_UNK func_800362A0;
 
-void func_8003626C(S_8003626C_0 *arg0) {
+/* Resets state fields and selects the next handler when either trigger bit is set. */
+void func_8003626C(S_8003626C_0 *state) {
     if (D_80083170 & 0x60) {
-        arg0->unk_4C = 0xFF;
-        arg0->unk_50 = 0;
-        arg0->unk_68 = &func_800362A0;
+        state->unk_4C = 0xFF;
+        state->unk_50 = 0;
+        state->unk_68 = &func_800362A0;
     }
 }

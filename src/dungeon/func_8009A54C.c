@@ -2,15 +2,16 @@
 
 extern s8 D_800E2970[0x14];
 
-s32 func_8009FCAC(s16 arg0) {
+/* Return the indexed entry value when its condition is nonzero, or zero otherwise. */
+s32 func_8009FCAC(s16 entry_index) {
     s32 value;
 
     value = 0;
-    if (arg0 >= 0) {
+    if (entry_index >= 0) {
         register s8 *entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
         value = (s32)&D_800E2970;
-        entry = (s8 *)value + arg0 * 0x14;
+        entry = (s8 *)value + entry_index * 0x14;
         value = *(s16 *)(entry + 0xA);
         if (value == 0) {
             return 0;

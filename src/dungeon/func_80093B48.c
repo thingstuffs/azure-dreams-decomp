@@ -2,15 +2,16 @@
 
 extern u8 *D_800DD71C[];
 
-void *func_800992A8(s32 arg0, u8 *arg1) {
+/* Append two bytes selected by the sign of the value, or nothing for zero. */
+void *func_800992A8(s32 value, u8 *buffer) {
     u8 *dst;
 
-    dst = arg1;
-    if (arg0 != 0) {
+    dst = buffer;
+    if (value != 0) {
         u8 *src;
 
         src = D_800DD71C[0];
-        if (arg0 <= 0) {
+        if (value <= 0) {
             src += 2;
         }
 

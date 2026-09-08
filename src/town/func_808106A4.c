@@ -3,12 +3,13 @@
 extern u8 D_80526650[];
 extern s32 func_8003B0B8();
 
-void func_808106A4(void *arg0) {
-    u16 value;
+/* Increment the record counter and pass it to the resource handler. */
+void func_808106A4(void *record) {
+    u16 counter;
 
-    value = *(u16 *)((u8 *)arg0 + 2) + 1;
-    *(u16 *)((u8 *)arg0 + 2) = value;
-    func_8003B0B8(D_80526650, (s16)value);
+    counter = *(u16 *)((u8 *)record + 2) + 1;
+    *(u16 *)((u8 *)record + 2) = counter;
+    func_8003B0B8(D_80526650, (s16)counter);
 }
 
 /* MECHANISM: Declaring D_80526650 as an extern array keeps its address relocatable,

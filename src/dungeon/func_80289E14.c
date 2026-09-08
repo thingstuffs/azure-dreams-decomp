@@ -47,15 +47,16 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
-s32 func_8001CE14(s16 arg0, s32 arg1, s16 arg2)
+/* Test whether the value lies within the inclusive lower and upper bounds. */
+s32 func_8001CE14(s16 value, s32 lower_bound, s16 upper_bound)
 {
-  s32 var_v0;
-  s32 new_var;
-  var_v0 = 0;
-  new_var = arg1 << 0x10;
-  if ((arg0 << 0x10) >= new_var)
+  s32 in_range;
+  s32 scaled_lower_bound;
+  in_range = 0;
+  scaled_lower_bound = lower_bound << 0x10;
+  if ((value << 0x10) >= scaled_lower_bound)
   {
-    var_v0 = arg2 >= arg0;
+    in_range = upper_bound >= value;
   }
-  return var_v0;
+  return in_range;
 }

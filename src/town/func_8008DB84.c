@@ -16,14 +16,15 @@
  * moves no bytes — the body has no self-address or local-jump word — and the
  * production scorer still reports MATCH size=68 words_off=0.
  */
-s32 func_8008B2E4(s32 arg0) {
+/* Return whether the zero-terminated table contains the target value. */
+s32 func_8008B2E4(s32 target_value) {
     s32 *p = (s32 *)0x800D0000;
 
     ASM_KEEP(p);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (p[-0x1E9] != 0) {
         p += -0x1E9;
         do {
-            if (arg0 == *p) {
+            if (target_value == *p) {
                 return 1;
             }
             p++;

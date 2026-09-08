@@ -4,29 +4,30 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800E3548;
 
+/* Return whether the 64-entry table lacks the byte pair 1, 0x12. */
 s32 func_8092185C(void) {
-    s32 var_a0;
-    s32 var_a1;
-    s32 var_a2;
-    u8 *var_v0;
-    u8 *var_v1;
+    s32 entry_index;
+    s32 key_low;
+    s32 key_high;
+    u8 *table_or_result;
+    u8 *entry;
 
-    var_a0 = 0x3F;
-    var_a2 = 0x12;
-    var_a1 = 1;
-    var_v0 = (u8 *)&D_800E3548;
-    var_v1 = var_v0 + 0xFC;
+    entry_index = 0x3F;
+    key_high = 0x12;
+    key_low = 1;
+    table_or_result = (u8 *)&D_800E3548;
+    entry = table_or_result + 0xFC;
 loop_1:
-    if ((var_v1[1] != var_a2) || (var_v1[0] != var_a1)) {
-        var_a0 -= 1;
-        var_v1 -= 4;
-        if (var_a0 < 0) {
-            var_v0 = (u8 *)1;
+    if ((entry[1] != key_high) || (entry[0] != key_low)) {
+        entry_index -= 1;
+        entry -= 4;
+        if (entry_index < 0) {
+            table_or_result = (u8 *)1;
         } else {
             goto loop_1;
         }
     } else {
-        var_v0 = (u8 *)0;
+        table_or_result = (u8 *)0;
     }
-    return (s32)var_v0;
+    return (s32)table_or_result;
 }

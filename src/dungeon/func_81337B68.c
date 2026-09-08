@@ -2,23 +2,24 @@
 
 extern s32 D_80175D78[];
 
+/* Clear one state field and increment the counter for each of sixteen objects. */
 void func_8016EB68(void) {
-    s32 *var_a0;
-    s32 var_a1;
-    void *temp_v1;
-    u16 temp_v0;
+    s32 *object_entry;
+    s32 object_index;
+    void *state;
+    u16 count;
 
-    var_a1 = 0;
-    var_a0 = D_80175D78;
+    object_index = 0;
+    object_entry = D_80175D78;
     do {
-        temp_v1 = *var_a0 + 0x20;
-        temp_v0 = *(u16 *)(temp_v1 + 0x12);
+        state = *object_entry + 0x20;
+        count = *(u16 *)(state + 0x12);
         
-        *(s16 *)(temp_v1 + 0x18) = 0;
-        *(u16 *)(temp_v1 + 0x12) = temp_v0 + 1;
-        var_a0 += 1;
-        var_a1 += 1;
-    } while (var_a1 < 0x10);
+        *(s16 *)(state + 0x18) = 0;
+        *(u16 *)(state + 0x12) = count + 1;
+        object_entry += 1;
+        object_index += 1;
+    } while (object_index < 0x10);
 }
 
 /* MECHANISM: Frameless leaf loop retained; an explicit u16 temp exposes the retail RMW lifetime.

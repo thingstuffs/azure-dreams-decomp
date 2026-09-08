@@ -15,13 +15,14 @@ extern u8 D_800E2968[16];
 /* summary: if entity's field_0x13 == 0x16 (some "type" tag), inspect field_0x48
    (a sub-state/mode byte) and record a resulting code into D_800E2968:
    0xD -> 0xF, 0xF -> 0xA, otherwise leave D_800E2968 unchanged. */
-void func_8004397C(S_8004397C_Entity *a0)
+/* Maps modes 0xD and 0xF of type 0x16 entities to global codes 0xF and 0xA. */
+void func_8004397C(S_8004397C_Entity *entity)
 {
-    if (a0->field_0x13 == 0x16) {
-        u8 v = a0->field_0x48;
-        if (v == 0xD) {
+    if (entity->field_0x13 == 0x16) {
+        u8 mode = entity->field_0x48;
+        if (mode == 0xD) {
             D_800E2968[0] = 0xF;
-        } else if (v == 0xF) {
+        } else if (mode == 0xF) {
             D_800E2968[0] = 0xA;
         }
     }

@@ -17,16 +17,14 @@ typedef struct S_80047738 {
     /* 0x28 */ EntryS_80047738 ****unk28;
 } S_80047738;
 
-/* Selects table entry [a1][a2] via a quadruply-indirected table pointer,
- * caches the entry pointer + its second word into a0, records the index,
- * and clears flag bit 0x40 on a0. */
-void func_80047738(S_80047738 *a0, s16 a1, s16 a2)
+/* Selects and caches a table entry and its value, records its index, and clears flag 0x40. */
+void func_80047738(S_80047738 *state, s16 table_index, s16 entry_index)
 {
-    EntryS_80047738 **p = **a0->unk28;
-    EntryS_80047738 *e = p[a1] + a2;
+    EntryS_80047738 **entry_tables = **state->unk28;
+    EntryS_80047738 *entry = entry_tables[table_index] + entry_index;
 
-    a0->unk00 = e;
-    a0->unk08 = e->unk04;
-    a0->unk04 = (u8)a2;
-    a0->unk14 &= 0xFFBF;
+    state->unk00 = entry;
+    state->unk08 = entry->unk04;
+    state->unk04 = (u8)entry_index;
+    state->unk14 &= 0xFFBF;
 }

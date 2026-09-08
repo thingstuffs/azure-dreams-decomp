@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Adjusts a0 by (unsigned)(a0/10) * a1->field_2, optionally x5 if a1->field_3 bit 0x40 is set, clamped to >=1. */
 typedef struct S_8004A4E4 {
     u8 pad0;
     u8 pad1;
@@ -8,10 +7,11 @@ typedef struct S_8004A4E4 {
     u8 field_3;
 } S_8004A4E4;
 
-s32 func_8004A4E4(s32 a0, S_8004A4E4 *a1) {
-    s32 result = a0 + ((u32)a0 / 10) * a1->field_2;
+/* Applies a signed correction and optional fivefold multiplier to the base value, with a minimum of one. */
+s32 func_8004A4E4(s32 base_value, S_8004A4E4 *modifier) {
+    s32 result = base_value + ((u32)base_value / 10) * modifier->field_2;
 
-    if (a1->field_3 & 0x40) {
+    if (modifier->field_3 & 0x40) {
         result = result * 5;
     }
 

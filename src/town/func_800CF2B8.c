@@ -9,11 +9,12 @@ typedef struct {
 extern ObjectSlot D_80082660[];
 extern void func_800C4174(void *arg0, s32 arg1, s32 arg2);
 
-void func_800CCA18(void *arg0, s32 arg1, s32 arg2) {
-    s32 index;
+/* Store the object in its slot, mark the slot inactive, and call the next handler. */
+void func_800CCA18(void *object, s32 callback_arg1, s32 callback_arg2) {
+    s32 slot_index;
 
-    index = *(s32 *)((u8 *)arg0 + 0x60);
-    D_80082660[index].object = (u8 *)arg0 - 0x20;
-    D_80082660[*(s32 *)((u8 *)arg0 + 0x60)].active = 0;
-    func_800C4174(arg0, arg1, arg2);
+    slot_index = *(s32 *)((u8 *)object + 0x60);
+    D_80082660[slot_index].object = (u8 *)object - 0x20;
+    D_80082660[*(s32 *)((u8 *)object + 0x60)].active = 0;
+    func_800C4174(object, callback_arg1, callback_arg2);
 }

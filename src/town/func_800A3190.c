@@ -10,13 +10,14 @@ typedef struct S_800A08F0_0 {
     u16 unk_6E;
 } S_800A08F0_0;   /* arg0 in func_800A08F0 */
 
-void func_800A08F0(S_800A08F0_0 *arg0) {
-    u16 temp_v0;
+/* Increase the door opening angle and switch handlers when fully open. */
+void func_800A08F0(S_800A08F0_0 *door) {
+    u16 opening_angle;
 
-    temp_v0 = arg0->unk_6E + 0x40;
-    arg0->unk_6E = temp_v0;
-    if ((s16) temp_v0 >= 0x400) {
-        arg0->unk_6E = 0x400U;
-        arg0->unk_50 = &D_800A092C;
+    opening_angle = door->unk_6E + 0x40;
+    door->unk_6E = opening_angle;
+    if ((s16) opening_angle >= 0x400) {
+        door->unk_6E = 0x400U;
+        door->unk_50 = &D_800A092C;
     }
 }

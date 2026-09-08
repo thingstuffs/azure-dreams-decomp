@@ -14,8 +14,9 @@ extern s32 D_807009E4[];
     })
 #endif
 
-void func_8087FD58(s32 arg0, s32 arg1) {
-    if (D_807009E4[((arg0 * 7) + arg1) * 2] & 1) {
+/* Call func_80701090 with 0x152 when the selected grid entry has bit zero set. */
+void func_8087FD58(s32 row, s32 column) {
+    if (D_807009E4[((row * 7) + column) * 2] & 1) {
         func_80701090(OR_ZERO(0x152));
     }
 }

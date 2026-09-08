@@ -10,6 +10,7 @@ extern s8 D_800DCF4D;
 extern DungeonState D_80083460;
 extern u16 D_80013714;
 
+/* Set the current entity state to one, reset the global status, increment the counter, and set flag 8. */
 void func_807B035C(void) {
     *((s8 *)D_800FBE1C + 0xD8) = 1;
     D_800DCF4D = -1;

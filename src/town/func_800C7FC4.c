@@ -8,9 +8,10 @@ extern M2C_UNK D_800C5620;
 extern M2C_UNK D_800D5360;
 
 
-void func_800C5724(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    func_800C2E84(arg0, arg2, &D_800D5360);
+/* Initialize the actor, clear the shared flag, and set its handler and counter. */
+void func_800C5724(Rec_func_80094268_arg0 *actor, M2C_UNK unused, M2C_UNK init_param) {
+    func_800C2E84(actor, init_param, &D_800D5360);
     D_80082710 = 0;
-    arg0->unk_54 = &D_800C5620;
-    arg0->unk_6C.as_s16 = 0x15;
+    actor->unk_54 = &D_800C5620;
+    actor->unk_6C.as_s16 = 0x15;
 }

@@ -10,14 +10,15 @@ typedef struct {
     u8 field14;
 } FuncData;
 
-s32 func_8009593C(FuncArg *arg0) {
-    FuncData *data;
+/* Returns whether the record has attached state with type 1 or 3. */
+s32 func_8009593C(FuncArg *record) {
+    FuncData *state;
 
-    data = arg0->field10;
-    if (data == 0) {
+    state = record->field10;
+    if (state == 0) {
         return 0;
     }
-    if ((data->field14 == 1) || (data->field14 == 3)) {
+    if ((state->field14 == 1) || (state->field14 == 3)) {
         return 1;
     }
     return 0;

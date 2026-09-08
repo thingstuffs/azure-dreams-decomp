@@ -1,20 +1,21 @@
 #include "common.h"
 
-void func_800B135C(u8 *arg0, s32 arg1) {
-    s32 temp_a2 = arg1;
-    u8 *arg2;
-    arg1 &= 4;
-    arg2 = arg0 + 2;
+/* Set record flags and negate each x coordinate when flag 4 is set. */
+void func_800B135C(u8 *record, s32 flags) {
+    s32 record_flags = flags;
+    u8 *record_x;
+    flags &= 4;
+    record_x = record + 2;
 
     for (;;) {
-        arg0[0] = (u8)(arg0[0] | temp_a2);
-        if (arg1 != 0) {
-            arg2[0] = (u8)(0 - arg2[0]);
+        record[0] = (u8)(record[0] | record_flags);
+        if (flags != 0) {
+            record_x[0] = (u8)(0 - record_x[0]);
         }
-        if ((s8)arg0[0] < 0) {
+        if ((s8)record[0] < 0) {
             return;
         }
-        arg2 += 0xc;
-        arg0 += 0xc;
+        record_x += 0xc;
+        record += 0xc;
     }
 }

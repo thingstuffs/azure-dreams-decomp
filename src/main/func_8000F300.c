@@ -10,17 +10,18 @@ typedef struct {
     /* 0x0B */ s8 unkB;
 } Struct_8000F300;
 
-void *func_80022300(s32 unused, Struct_8000F300 *arg1, s32 arg2) {
-    s32 v0 = 0xA04010;
-    u8 v1 = arg1->unk0;
-    void *ret;
+/* Initializes a packet for the selected slot and returns the next packet. */
+void *func_80022300(s32 unused, Struct_8000F300 *packet, s32 slot_index) {
+    s32 command = 0xA04010;
+    u8 flags = packet->unk0;
+    void *next_packet;
 
-    arg1->unk1 = 0x28;
-    arg1->unkA = (s8)(arg2 * 8 + 4);
-    arg1->unkB = 0x13;
-    ret = arg1 + 1;
-    arg1->unk4 = v0;
-    v1 |= 0x80;
-    arg1->unk0 = v1;
-    return ret;
+    packet->unk1 = 0x28;
+    packet->unkA = (s8)(slot_index * 8 + 4);
+    packet->unkB = 0x13;
+    next_packet = packet + 1;
+    packet->unk4 = command;
+    flags |= 0x80;
+    packet->unk0 = flags;
+    return next_packet;
 }

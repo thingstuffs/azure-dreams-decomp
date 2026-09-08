@@ -12,16 +12,17 @@ typedef struct {
 extern u8 D_800AB55C[];
 extern u8 D_800AB708[];
 
-void func_800AB50C(State *arg0) {
+/* Updates the state from the value and countdown, resetting an expired timer to ten. */
+void func_800AB50C(State *record) {
     u16 timer;
 
-    if (arg0->value < 100) {
-        arg0->state = D_800AB708;
+    if (record->value < 100) {
+        record->state = D_800AB708;
     }
-    timer = arg0->timer - 1;
-    arg0->timer = timer;
+    timer = record->timer - 1;
+    record->timer = timer;
     if ((s16) timer < 0) {
-        arg0->state = D_800AB55C;
-        arg0->timer = 10;
+        record->state = D_800AB55C;
+        record->timer = 10;
     }
 }

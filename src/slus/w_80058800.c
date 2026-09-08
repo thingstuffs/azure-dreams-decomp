@@ -1,7 +1,6 @@
 #include "common.h"
 
-/* memcmp-like byte comparison: returns -1 if n==0, else (int)p1[k]-(int)p2[k] at
-   first mismatch (or last byte if all equal, unconditionally re-tested). */
+/* Compares n bytes at p1 and p2, returning their first difference or -1 when n is zero. */
 s32 func_80058800(u8 *p1, u8 *p2, s32 n) {
     s32 result;
 

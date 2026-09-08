@@ -2,18 +2,18 @@
 
 #include "common.h"
 
-/* Reverses the first `len` bytes of `buf` in place; returns the original buf pointer. */
-void *func_8003ACC0(u8 *buf, u16 len)
+/* Reverse the buffer bytes in place and return the original buffer pointer. */
+void *func_8003ACC0(u8 *buffer, u16 length)
 {
-    u8 *orig = buf;
-    u8 *end = orig + (len - 1);
-    while (buf < end) {
-        u8 t = *buf;
-        u8 t2 = *end;
-        *end = t;
-        end--;
-        *buf = t2;
-        buf++;
+    u8 *buffer_start = buffer;
+    u8 *last_byte = buffer_start + (length - 1);
+    while (buffer < last_byte) {
+        u8 front_byte = *buffer;
+        u8 back_byte = *last_byte;
+        *last_byte = front_byte;
+        last_byte--;
+        *buffer = back_byte;
+        buffer++;
     }
-    return orig;
+    return buffer_start;
 }

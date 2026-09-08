@@ -2,8 +2,9 @@
 
 extern void * volatile D_80016000;
 
-void func_80016CCC(s32 arg0) {
-    s32 value = arg0;
+/* Sets the indexed bit in the current object bitmap unless the index is zero. */
+void func_80016CCC(s32 bit_index) {
+    s32 value = bit_index;
     register s32 quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 mask;
     s32 *word;

@@ -10,7 +10,8 @@ typedef struct S_80026784_0 {
     s32 unk_24;
 } S_80026784_0;   /* arg0 in func_80026784 */
 
-void func_80026784(void *arg0) {
-    func_80026920(arg0 - 0x20);
-    func_80027AFC(((S_80026784_0 *)arg0)->unk_20, ((S_80026784_0 *)arg0)->unk_24);
+/* Update the base record and pass its paired fields to the next helper. */
+void func_80026784(void *record_part) {
+    func_80026920(record_part - 0x20);
+    func_80027AFC(((S_80026784_0 *)record_part)->unk_20, ((S_80026784_0 *)record_part)->unk_24);
 }

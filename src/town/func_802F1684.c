@@ -3,9 +3,10 @@
 extern void func_804086CC(void);
 extern void func_804086BC(s32, s32, s32);
 
-void func_802F1684(s32 arg0) {
-    s32 value = arg0;
+/* Prepare state and process the target with fixed parameters 63 and 0. */
+void func_802F1684(s32 target) {
+    s32 saved_target = target;
 
     func_804086CC();
-    func_804086BC(value, 63, 0);
+    func_804086BC(saved_target, 63, 0);
 }

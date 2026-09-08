@@ -3,10 +3,11 @@
 extern void func_80018614(s32, s32, s32);
 extern void func_80018674(void);
 
-void func_800186AC(s32 arg0, s32 arg1, s32 arg2) {
-    if (arg2 != 0x1E) {
+/* Forward values for code 0x1E, otherwise call the fallback handler. */
+void func_800186AC(s32 first_value, s32 second_value, s32 code) {
+    if (code != 0x1E) {
         func_80018674();
         return;
     }
-    func_80018614(arg0, arg1, 0x1E);
+    func_80018614(first_value, second_value, 0x1E);
 }

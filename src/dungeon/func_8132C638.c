@@ -1,34 +1,35 @@
 #include "common.h"
 
-s32 func_80173E38(s32 arg0) {
-    register u32 hi;
-    register u32 lo;
+/* Return the stored count and optionally increment it up to 9999. */
+s32 func_80173E38(s32 read_only) {
+    register u32 high_byte;
+    register u32 low_byte;
     register u32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 value;
+    register u32 count;
 
     {
         register u8 *addr ASM_REG("$2") = (u8 *)0x80010000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        hi = addr[0x3610];
-        lo = addr[0x3611];
+        high_byte = addr[0x3610];
+        low_byte = addr[0x3611];
     }
-    shifted = hi << 8;
-    value = lo | shifted;
+    shifted = high_byte << 8;
+    count = low_byte | shifted;
 
-    if (arg0 == 0) {
-        if (value < 9999U) {
-            if (lo < 255U) {
-                lo++;
+    if (read_only == 0) {
+        if (count < 9999U) {
+            if (low_byte < 255U) {
+                low_byte++;
             } else {
-                lo = 0;
-                hi++;
+                low_byte = 0;
+                high_byte++;
             }
         }
         {
             u8 *addr = (u8 *)0x80010000;
-            addr[0x3611] = lo;
-            addr[0x3610] = hi;
+            addr[0x3611] = low_byte;
+            addr[0x3610] = high_byte;
         }
     }
 
-    return value & 0xFFFF;
+    return count & 0xFFFF;
 }

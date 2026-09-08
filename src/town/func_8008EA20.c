@@ -2,8 +2,9 @@
 
 extern s32 func_8008C134(s32, s32);
 
-s32 func_8008C180(s16 arg0, s16 arg1) {
-    return func_8008C134(arg0 / 0x40, arg1 / 0x40) & 0xFFFF;
+/* Read the map entry value at world coordinates converted to tiles. */
+s32 func_8008C180(s16 world_x, s16 world_y) {
+    return func_8008C134(world_x / 0x40, world_y / 0x40) & 0xFFFF;
 }
 
 /* MECHANISM: Signed s16 arguments divided by 0x40 produce GCC's bgez/addiu/sra

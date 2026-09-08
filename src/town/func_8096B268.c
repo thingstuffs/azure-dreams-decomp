@@ -3,23 +3,24 @@
 extern s32 D_80126A88[];
 extern u8 D_80129728[];
 
+/* Initialize 14 entries from alternating source values and set their linked halfwords to 0x800. */
 void func_80123700(void) {
-    s32 i;
-    s32 *src;
-    void **entry;
-    u8 *base;
-    s16 fill;
+    s32 entry_index;
+    s32 *source_values;
+    void **entry_slot;
+    u8 *entry_table;
+    s16 initial_value;
 
-    i = 0;
-    fill = 0x800;
-    base = D_80129728;
-    entry = (void **)(base + 0x38);
-    src = D_80126A88;
+    entry_index = 0;
+    initial_value = 0x800;
+    entry_table = D_80129728;
+    entry_slot = (void **)(entry_table + 0x38);
+    source_values = D_80126A88;
     do {
-        *(s32 *)*entry = *src;
-        src += 2;
-        i++;
-        *((s16 *)*(void **)((u8 *)*entry + 8) + 1) = fill;
-        entry++;
-    } while (i < 14);
+        *(s32 *)*entry_slot = *source_values;
+        source_values += 2;
+        entry_index++;
+        *((s16 *)*(void **)((u8 *)*entry_slot + 8) + 1) = initial_value;
+        entry_slot++;
+    } while (entry_index < 14);
 }

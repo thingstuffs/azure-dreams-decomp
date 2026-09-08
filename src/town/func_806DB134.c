@@ -16,10 +16,11 @@ typedef struct S_806DB134_1 {
 extern Rec_D_80016000 *D_80016000;
 
 
+/* Pass the two-byte command 0x0A, 0x17 to the state callback. */
 void func_806DB134(void) {
-    s8 sp10[2];
+    s8 command[2];
 
-    sp10[1] = 0x17;
-    sp10[0] = 0xA;
-    ((S_806DB134_1 *)(D_80016000->unk_20))->unk_50(sp10);
+    command[1] = 0x17;
+    command[0] = 0xA;
+    ((S_806DB134_1 *)(D_80016000->unk_20))->unk_50(command);
 }

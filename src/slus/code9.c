@@ -10,10 +10,11 @@ typedef struct {
 } S_800814A0;
 extern S_800814A0 D_800814A0;
 
-void func_8004EE90(unsigned short *a0)
+/* Sets bit 0x8000 in the object and global flags when the object exists. */
+void func_8004EE90(unsigned short *object_fields)
 {
-    if (a0 != 0) {
-        a0[0xF] |= 0x8000;
+    if (object_fields != 0) {
+        object_fields[0xF] |= 0x8000;
         D_800814A0.val |= 0x8000;
     }
 }

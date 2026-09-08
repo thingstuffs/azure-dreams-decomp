@@ -7,16 +7,17 @@ typedef struct {
     s32 words[0x800];
 } MemoryPage;
 
-void func_80033AA8(s32 arg0) {
-    u32 value = arg0;
-    u32 index = value & 0xFFFF;
+/* Set the bitmap bit selected by the low 16 bits of the ID, skipping IDs 0 and 1. */
+void func_80033AA8(s32 bit_id) {
+    u32 bit_value = bit_id;
+    u32 bit_index = bit_value & 0xFFFF;
 
-    if (index == 0) {
+    if (bit_index == 0) {
         return;
     }
-    if (index == 1) {
+    if (bit_index == 1) {
         return;
     }
-    ((volatile MemoryPage *)0x80010000)->words[index >> 5] |=
-        1U << (value & 0x1F);
+    ((volatile MemoryPage *)0x80010000)->words[bit_index >> 5] |=
+        1U << (bit_value & 0x1F);
 }

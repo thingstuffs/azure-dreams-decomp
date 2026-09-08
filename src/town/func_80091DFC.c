@@ -46,17 +46,18 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-void func_8008F55C(s32 arg0, void *arg1, void *arg2)
+/* Apply the entry adjustment, increment its slot count, and store its slot value. */
+void func_8008F55C(s32 state_base, void *value_record, void *entry)
 {
-  int new_var;
-  void *temp_v1;
-  if ((*((u8 *) (((s8 *) arg2) + 0x28))) == 0)
+  int adjusted_value;
+  void *slot_base;
+  if ((*((u8 *) (((s8 *) entry) + 0x28))) == 0)
   {
-    new_var = (*((s32 *) (((s8 *) arg1) + 0))) - (*((s32 *) (((s8 *) arg2) + 0x10)));
-    *((s32 *) (((s8 *) arg1) + 0xC)) = 0;
-    *((s32 *) (((s8 *) arg1) + 0)) = (s32) new_var;
+    adjusted_value = (*((s32 *) (((s8 *) value_record) + 0))) - (*((s32 *) (((s8 *) entry) + 0x10)));
+    *((s32 *) (((s8 *) value_record) + 0xC)) = 0;
+    *((s32 *) (((s8 *) value_record) + 0)) = (s32) adjusted_value;
   }
-  temp_v1 = arg0 + (*((s32 *) (((s8 *) arg2) + 0x2C)));
-  *((u8 *) (((s8 *) temp_v1) + 0x3A)) = (u8) ((*((u8 *) (((s8 *) temp_v1) + 0x3A))) + 1);
-  *((s32 *) (((s8 *) (((*((s32 *) (((s8 *) arg2) + 0x2C))) * 4) + arg0)) + 0x1C)) = (s32) (*((s32 *) (((s8 *) arg2) + 4)));
+  slot_base = state_base + (*((s32 *) (((s8 *) entry) + 0x2C)));
+  *((u8 *) (((s8 *) slot_base) + 0x3A)) = (u8) ((*((u8 *) (((s8 *) slot_base) + 0x3A))) + 1);
+  *((s32 *) (((s8 *) (((*((s32 *) (((s8 *) entry) + 0x2C))) * 4) + state_base)) + 0x1C)) = (s32) (*((s32 *) (((s8 *) entry) + 4)));
 }

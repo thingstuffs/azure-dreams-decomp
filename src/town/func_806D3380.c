@@ -1,17 +1,18 @@
 #include "common.h"
 
-void func_80016B80(s32 arg0, u8 *arg1) {
-    s32 *temp_v0;
-    s32 temp_v1;
-    u8 *var_a1;
+/* Sets flag 0x8000 on each indexed record until the 0xFF terminator. */
+void func_80016B80(s32 records_base, u8 *indices) {
+    s32 *record_flags;
+    s32 flags;
+    u8 *index_cursor;
 
-    var_a1 = arg1;
-    if (*var_a1 != 0xFF) {
+    index_cursor = indices;
+    if (*index_cursor != 0xFF) {
         do {
-            temp_v0 = (*var_a1 * 0x1C) + arg0;
-            temp_v1 = *temp_v0;
-            var_a1 += 1;
-            *temp_v0 = temp_v1 | 0x8000;
-        } while (*var_a1 != 0xFF);
+            record_flags = (*index_cursor * 0x1C) + records_base;
+            flags = *record_flags;
+            index_cursor += 1;
+            *record_flags = flags | 0x8000;
+        } while (*index_cursor != 0xFF);
     }
 }

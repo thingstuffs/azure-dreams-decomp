@@ -16,9 +16,10 @@ typedef struct S_800CB708_0 {
     M2C_UNK * unk_80;
 } S_800CB708_0;   /* arg0 in func_800CB708 */
 
-void func_800CB708(S_800CB708_0 *arg0) {
-    arg0->unk_58 = &D_800D6A0C;
-    arg0->unk_5C = &D_800D6A10;
-    arg0->unk_7C = &D_800D69DC;
-    arg0->unk_80 = &D_800D69E4;
+/* Assign the four data pointers used by the object. */
+void func_800CB708(S_800CB708_0 *object) {
+    object->unk_58 = &D_800D6A0C;
+    object->unk_5C = &D_800D6A10;
+    object->unk_7C = &D_800D69DC;
+    object->unk_80 = &D_800D69E4;
 }

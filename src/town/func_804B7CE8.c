@@ -10,8 +10,9 @@ typedef struct S_800164E8_0 {
     s16 unk_18;
 } S_800164E8_0;   /* arg0 in func_800164E8 */
 
-void func_800164E8(S_800164E8_0 *arg0, M2C_UNK arg1) {
-    func_80018854(arg0->unk_18);
+/* Process the object identifier and 0x50C before forwarding the object and value. */
+void func_800164E8(S_800164E8_0 *object, M2C_UNK value) {
+    func_80018854(object->unk_18);
     func_800188CC(0x50C);
-    func_80017D9C(arg0, arg1);
+    func_80017D9C(object, value);
 }

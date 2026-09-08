@@ -14,7 +14,8 @@ typedef struct {
 
 extern u8 D_800713E4[256];
 
-s32 func_8004AE68(S_8004AE68_Outer *a0, S_8004AE68_Outer *a1)
+/* Compares two records by subtracting their key-indexed table values. */
+s32 func_8004AE68(S_8004AE68_Outer *left, S_8004AE68_Outer *right)
 {
-    return D_800713E4[a0->rec->key] - D_800713E4[a1->rec->key];
+    return D_800713E4[left->rec->key] - D_800713E4[right->rec->key];
 }

@@ -10,11 +10,12 @@ typedef struct S_800B93FC_0 {
     M2C_UNK * unk_10;
 } S_800B93FC_0;   /* temp_v0 in func_800B93FC */
 
+/* Allocate an object and set its data pointer. */
 void func_800B93FC(void) {
-    S_800B93FC_0 *temp_v0;
+    S_800B93FC_0 *object;
 
-    temp_v0 = func_8003FC64(0);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800B93F4;
+    object = func_8003FC64(0);
+    if (object != NULL) {
+        object->unk_10 = &D_800B93F4;
     }
 }

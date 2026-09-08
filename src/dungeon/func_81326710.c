@@ -5,12 +5,13 @@ extern s32 *D_80174704;
 extern s32 D_80174CCC;
 extern s16 D_80174CD0;
 
-void func_8016DF10(s32 arg0) {
-    s8 *temp_a1;
+/* Select a table entry, reset its counter, and mark the object state active. */
+void func_8016DF10(s32 table_index) {
+    s8 *state;
 
     D_80174CD0 = 0;
-    temp_a1 = (s8 *)D_80174704 + 0x20;
-    D_80174CCC = D_801749BC[arg0];
-    temp_a1[0xB2] = 1;
-    *(s16 *)(temp_a1 + 0xAC) = arg0;
+    state = (s8 *)D_80174704 + 0x20;
+    D_80174CCC = D_801749BC[table_index];
+    state[0xB2] = 1;
+    *(s16 *)(state + 0xAC) = table_index;
 }

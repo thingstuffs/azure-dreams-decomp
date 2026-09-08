@@ -11,6 +11,7 @@ typedef struct {
 extern State D_80082E60;
 extern s32 D_800E296C[];
 
+/* Set the state values to 0x20 and 0x31 and enable the associated flags. */
 void func_800F6284(void) {
     D_80082E60.field_10 = 0x20;
     D_80082E60.field_12 = 0x31;

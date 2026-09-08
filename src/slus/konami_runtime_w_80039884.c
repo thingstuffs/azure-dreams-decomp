@@ -14,12 +14,13 @@ typedef struct {
 
 extern S_80039884_Global D_80083160;
 
-s32 func_80039884(S_80039884_Arg *arg0)
+/* Returns whether the state flag is set or global flag bits 0x60 are clear. */
+s32 func_80039884(S_80039884_Arg *state)
 {
     s32 result = 0;
     S_80039884_Global *global = &D_80083160;
 
-    if (arg0->field87 == 0) {
+    if (state->field87 == 0) {
         if ((global->field8 & 0x60) != 0) {
             goto done;
         }

@@ -10,11 +10,12 @@ extern M2C_UNK D_800C78A8;
 extern M2C_UNK D_800D5FE8;
 extern Timer D_80113220;
 
-void func_800C7BF0(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
+/* Initialize the object callback and set the shared timer to 16. */
+void func_800C7BF0(void *object, M2C_UNK unused, M2C_UNK init_data) {
     Timer *timer;
 
-    func_800C2E84(arg0, arg2, &D_800D5FE8);
-    *(M2C_UNK **)((u8 *)arg0 + 0x50) = &D_800C78A8;
+    func_800C2E84(object, init_data, &D_800D5FE8);
+    *(M2C_UNK **)((u8 *)object + 0x50) = &D_800C78A8;
     timer = &D_80113220;
     do {
         timer->value = 0x10;

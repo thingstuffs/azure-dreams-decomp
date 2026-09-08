@@ -14,6 +14,7 @@ typedef struct S_800187F0_1 {
 extern Rec_D_80016000 *D_80016000;
 
 
+/* Invoke the callback at offset 0x1E8 with code 7. */
 void func_800187F0(void) {
     ((S_800187F0_1 *)(D_80016000->unk_20))->unk_1E8(7);
 }

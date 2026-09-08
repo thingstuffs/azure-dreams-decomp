@@ -14,9 +14,10 @@ typedef struct S_80477B24_1 {
     s16 unk_0C;
 } S_80477B24_1;   /* temp_a1 in func_80477B24 */
 
-void func_80477B24(S_80477B24_0 *arg0, s32 arg1) {
-    S_80477B24_1 *temp_a1;
+/* Pass the indexed 16-byte entry and its stored value to func_800197D8. */
+void func_80477B24(S_80477B24_0 *entry_table, s32 entry_index) {
+    S_80477B24_1 *entry;
 
-    temp_a1 = (arg1 * 0x10) + arg0->unk_10;
-    func_800197D8(temp_a1->unk_0C, temp_a1);
+    entry = (entry_index * 0x10) + entry_table->unk_10;
+    func_800197D8(entry->unk_0C, entry);
 }

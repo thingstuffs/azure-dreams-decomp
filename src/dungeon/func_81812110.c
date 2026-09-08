@@ -2,13 +2,14 @@
 
 extern u8 D_800287EC[];
 
-void *func_80027110(s32 arg0, s32 arg1)
+/* Return a table entry, mapping row 0x39 to row 2. */
+void *func_80027110(s32 row_id, s32 entry_index)
 {
     s32 row;
 
     row = 2;
-    if (arg0 != 0x39) {
-        row = arg0;
+    if (row_id != 0x39) {
+        row = row_id;
     }
-    return D_800287EC + (row * 0x41) + (arg1 * 0xD);
+    return D_800287EC + (row * 0x41) + (entry_index * 0xD);
 }

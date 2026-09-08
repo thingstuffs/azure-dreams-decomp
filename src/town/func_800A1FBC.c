@@ -1,16 +1,17 @@
 #include "common.h"
 
-s32 func_8009F71C(void *arg0, s32 arg1) {
-    s32 i = 0;
+/* Return the first free four-byte entry index, or -1 if none is available. */
+s32 func_8009F71C(void *entry, s32 entry_count) {
+    s32 entry_index = 0;
 
-    if (arg1 > 0) {
+    if (entry_count > 0) {
         do {
-            if (((u8 *)arg0)[1] == 0) {
-                return i;
+            if (((u8 *)entry)[1] == 0) {
+                return entry_index;
             }
-            i++;
-            arg0 += 4;
-        } while (i < arg1);
+            entry_index++;
+            entry += 4;
+        } while (entry_index < entry_count);
     }
     return -1;
 }

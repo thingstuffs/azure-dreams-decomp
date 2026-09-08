@@ -12,8 +12,9 @@ M2C_UNK func_80022FB4();                         /* extern */
 extern M2C_UNK D_800261F0;
 extern M2C_UNK D_800265B8;
 
-void func_80026494(void *arg0) {
-    ((S_80026494_0 *)((u8 *)arg0 - 0x10))->unk_44 = &D_800265B8;
-    func_80022FB4(arg0 - 0x20);
-    ((S_80026494_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800261F0;
+/* Set record pointers around an update of its base record. */
+void func_80026494(void *record_part) {
+    ((S_80026494_0 *)((u8 *)record_part - 0x10))->unk_44 = &D_800265B8;
+    func_80022FB4(record_part - 0x20);
+    ((S_80026494_0 *)((u8 *)record_part - 0x10))->unk_00 = &D_800261F0;
 }

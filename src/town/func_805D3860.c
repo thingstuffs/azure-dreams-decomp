@@ -14,11 +14,12 @@ extern void *D_80016000;
 extern s32 D_80019B00;
 extern s32 D_80019B8C;
 
+/* Cache the selected record's index and value, then return its value. */
 s32 func_805D3860(void) {
-    void *temp_v1;
+    void *selected_record;
 
-    temp_v1 = ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32 + (((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8);
-    D_80019B8C = (s32) ((S_805D3860_1 *)temp_v1)->unk_06;
-    D_80019B00 = (*(s32 *)((u8 *)temp_v1 + 0));
-    return ((S_805D3860_1 *)temp_v1)->unk_00;
+    selected_record = ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32 + (((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8);
+    D_80019B8C = (s32) ((S_805D3860_1 *)selected_record)->unk_06;
+    D_80019B00 = (*(s32 *)((u8 *)selected_record + 0));
+    return ((S_805D3860_1 *)selected_record)->unk_00;
 }

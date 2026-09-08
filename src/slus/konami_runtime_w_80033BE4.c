@@ -16,13 +16,14 @@ extern u8 D_800816C0[];
 #define PVAL(p)     ((u32)(p))
 
 /* port body: port/hal/resident_gap2.c:201 */
+/* Returns the first unused slot in the twenty-entry pool, or NULL if full. */
 void *func_80033BE4(void)
 {
-    u8 *p = D_800816C0;
-    s32 i;
+    u8 *slot = D_800816C0;
+    s32 slot_index;
 
-    for (i = 0; i < 20; i++, p += 100) {
-        if (*p == 0) return p;
+    for (slot_index = 0; slot_index < 20; slot_index++, slot += 100) {
+        if (*slot == 0) return slot;
     }
     return NULL;
 }

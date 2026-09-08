@@ -17,11 +17,12 @@ typedef struct {
     u16 unk14;
 } Object;
 
-void func_8195ADD0(Object *arg0, s16 arg1) {
-    s32 base;
-    arg0->unk4 = (s8)arg1;
-    arg0->unk5 = 0;
-    base = arg0->unk8->unkC;
-    arg0->unk14 &= 0x9FFF;
-    arg0->unk0 = base + arg1 * 0x18;
+/* Selects a 24-byte entry and resets the object state and flags. */
+void func_8195ADD0(Object *object, s16 entry_index) {
+    s32 entry_base;
+    object->unk4 = (s8)entry_index;
+    object->unk5 = 0;
+    entry_base = object->unk8->unkC;
+    object->unk14 &= 0x9FFF;
+    object->unk0 = entry_base + entry_index * 0x18;
 }

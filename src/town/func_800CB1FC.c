@@ -21,10 +21,11 @@ typedef struct S_800C895C_1 {
     M2C_UNK * unk_04;
 } S_800C895C_1;   /* &D_800D62E0 in func_800C895C */
 
-void func_800C895C(S_800C895C_0 *arg0) {
-    arg0->unk_58 = &D_800D6308;
-    arg0->unk_5C = &D_800D630C;
-    arg0->unk_7C = &D_800D62D8;
-    arg0->unk_80 = &D_800D62E0;
+/* Assign the object data pointers and link the shared data entry. */
+void func_800C895C(S_800C895C_0 *object) {
+    object->unk_58 = &D_800D6308;
+    object->unk_5C = &D_800D630C;
+    object->unk_7C = &D_800D62D8;
+    object->unk_80 = &D_800D62E0;
     ((S_800C895C_1 *)(&D_800D62E0))->unk_04 = &D_800D6220;
 }

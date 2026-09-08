@@ -14,7 +14,8 @@ typedef struct S_80038708_0 {
 extern M2C_UNK D_800DCF54;
 extern M2C_UNK func_80038A10;
 
-void func_80038708(S_80038708_0 *arg0) {
-    ((s32 (*)())(*(s32 *)((u8 *)(&D_800DCF54) + ((arg0->unk_32) * 4))))();
-    arg0->unk_10 = &func_80038A10;
+/* Calls the record's indexed handler, then sets its next handler to func_80038A10. */
+void func_80038708(S_80038708_0 *record) {
+    ((s32 (*)())(*(s32 *)((u8 *)(&D_800DCF54) + ((record->unk_32) * 4))))();
+    record->unk_10 = &func_80038A10;
 }

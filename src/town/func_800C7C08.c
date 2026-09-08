@@ -7,6 +7,7 @@ extern u8 D_800D5184[];
 extern u8 D_800D51AC[];
 extern u8 D_800D51B0[];
 
-void func_800C5368(void *arg0) {
-    func_800C3050(arg0, 0x30, D_800D51AC, D_800D51B0, D_800D517C, D_800D5184);
+/* Configure the actor with type 0x30 and its data tables. */
+void func_800C5368(void *actor) {
+    func_800C3050(actor, 0x30, D_800D51AC, D_800D51B0, D_800D517C, D_800D5184);
 }

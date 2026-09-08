@@ -1,14 +1,13 @@
 #include "common.h"
 
-/* Checks pad key state 1 (e.g. select/pause) then key state 4; returns 1 only
- * when key-1 status is 0 and key-4 status is also 0. */
+/* Returns 1 when pad key states 1 and 4 are both zero. */
 s32 func_8004EBDC(void) {
-    s32 ret = 0;
+    s32 keys_clear = 0;
 
     if (func_80053EF0(1) == 0) {
         if (func_80053EF0(4) == 0) {
-            ret = 1;
+            keys_clear = 1;
         }
     }
-    return ret;
+    return keys_clear;
 }

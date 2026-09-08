@@ -11,9 +11,10 @@ typedef struct S_800A6EA4_0 {
     s16 unk_90;
 } S_800A6EA4_0;   /* arg0 in func_800A6EA4 */
 
-void func_800A6EA4(S_800A6EA4_0 *arg0) {
+/* Reset the object counter and select its next state when check 0x99 succeeds. */
+void func_800A6EA4(S_800A6EA4_0 *object) {
     if (func_80033B2C(0x99) != 0) {
-        arg0->unk_90 = 0;
-        arg0->unk_50 = &D_800A6EE4;
+        object->unk_90 = 0;
+        object->unk_50 = &D_800A6EE4;
     }
 }

@@ -9,11 +9,12 @@ typedef struct S_7FDD19D0_0 {
     M2C_UNK * unk_10;
 } S_7FDD19D0_0;   /* temp_s0 in func_7FDD19D0 */
 
-void func_7FDD19D0(s32 arg0) {
-    S_7FDD19D0_0 *temp_s0;
+/* Assigns the object descriptor when the object check succeeds. */
+void func_7FDD19D0(s32 object_data_addr) {
+    S_7FDD19D0_0 *object;
 
-    temp_s0 = arg0 - 0x20;
-    if (func_7004EE30(temp_s0) != 0) {
-        temp_s0->unk_10 = &D_800888D0;
+    object = object_data_addr - 0x20;
+    if (func_7004EE30(object) != 0) {
+        object->unk_10 = &D_800888D0;
     }
 }

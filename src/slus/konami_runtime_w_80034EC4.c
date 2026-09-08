@@ -21,12 +21,13 @@ typedef struct {
 
 extern GlobalADBC D_8006ADBC;
 
-void func_80034EC4(FuncState *arg0) {
-    GlobalADBC *data = &D_8006ADBC;
+/* Initializes state pointers and copies the global default values. */
+void func_80034EC4(FuncState *state) {
+    GlobalADBC *defaults = &D_8006ADBC;
 
-    arg0->unk2 = 2;
-    arg0->unk10 = (u8 *)arg0 + 8;
-    arg0->unkC = (u8 *)arg0 + 8;
-    arg0->unk44 = data->unk20;
-    arg0->unk40 = data->unk1c;
+    state->unk2 = 2;
+    state->unk10 = (u8 *)state + 8;
+    state->unkC = (u8 *)state + 8;
+    state->unk44 = defaults->unk20;
+    state->unk40 = defaults->unk1c;
 }

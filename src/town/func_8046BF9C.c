@@ -22,11 +22,12 @@ typedef struct S_8001CF9C_0 {
     s32 unk_10;
 } S_8001CF9C_0;   /* arg0 in func_8001CF9C */
 
-s32 func_8001CF9C(S_8001CF9C_0 *arg0, s32 arg1) {
-    M2C_UNK *sp[2];
+/* Store the state-selected pointer in the indexed entry. */
+s32 func_8001CF9C(S_8001CF9C_0 *table, s32 entry_index) {
+    M2C_UNK *state_pointers[2];
 
-    do { sp[0] = &D_8001F0D8; } while (0);
-    sp[1] = &D_8001F18C;
-    ((S_8001CF9C_1 *)(((arg1 * 0x10) + arg0->unk_10)))->unk_08 = sp[D_8001E950.ptr[1]];
+    do { state_pointers[0] = &D_8001F0D8; } while (0);
+    state_pointers[1] = &D_8001F18C;
+    ((S_8001CF9C_1 *)(((entry_index * 0x10) + table->unk_10)))->unk_08 = state_pointers[D_8001E950.ptr[1]];
     return 0;
 }

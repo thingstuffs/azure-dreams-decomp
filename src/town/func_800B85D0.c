@@ -13,6 +13,7 @@ extern volatile s32 D_800D1790[2];
 
 extern s32 func_800A652C(void);
 
+/* Reads the volatile global in mode 1 or calls the default handler. */
 s32 func_800B5D30(void) {
     if (D_80082E6A.field_0 == 1) {
         D_800D1790[0];

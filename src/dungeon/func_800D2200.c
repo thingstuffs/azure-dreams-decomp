@@ -15,11 +15,12 @@ typedef struct {
 extern int D_800814A0; /* global 32-bit "used"/flags word */
 extern void func_800478B8(void *arg0);
 
-void func_800D7960(S_800D2200_a0 *a0, s32 arg1, void *arg2)
+/* Marks the record and global flags for a sentinel byte, then processes the target. */
+void func_800D7960(S_800D2200_a0 *record, s32 unused, void *target)
 {
-    if (a0->pad[0x9B] == 0xFF) {
-        *(u16 *)((u8 *)a0 - 2) |= 0x8000;
+    if (record->pad[0x9B] == 0xFF) {
+        *(u16 *)((u8 *)record - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
-    func_800478B8(arg2);
+    func_800478B8(target);
 }

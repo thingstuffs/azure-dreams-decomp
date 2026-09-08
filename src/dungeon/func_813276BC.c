@@ -3,6 +3,7 @@
 extern s32 D_80174704;
 extern s32 func_800C07AC(s32);
 
+/* Store the object query result and set an active flag and countdown when nonzero. */
 s32 func_8016EEBC(void) {
     s32 result;
     s32 flag;

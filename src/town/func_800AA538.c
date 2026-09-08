@@ -21,9 +21,10 @@ extern M2C_UNK D_80045340;
 extern M2C_UNK D_800A7DF8;
 extern M2C_UNK D_800F8F68;
 
-void func_800A7C98(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    ((S_800A7C98_0_pre *)arg0)[-1].unk_00 = &D_800A7DF8;
-    ((S_800A7C98_0 *)arg0)->unk_50 = 0;
-    func_800C2CB0(arg0, arg2, &D_800F8F68, 0);
-    func_80033CD8(arg0, &D_80045340);
+/* Clear the object state field and initialize its resource data and callback. */
+void func_800A7C98(void *object, M2C_UNK unused, M2C_UNK context) {
+    ((S_800A7C98_0_pre *)object)[-1].unk_00 = &D_800A7DF8;
+    ((S_800A7C98_0 *)object)->unk_50 = 0;
+    func_800C2CB0(object, context, &D_800F8F68, 0);
+    func_80033CD8(object, &D_80045340);
 }

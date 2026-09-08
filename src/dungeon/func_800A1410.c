@@ -15,14 +15,15 @@ typedef struct S_800A6B70_1 {
     s8 unk_0E;
 } S_800A6B70_1;   /* arg2 in func_800A6B70 */
 
-void func_800A6B70(S_800A6B70_0 *arg0, M2C_UNK arg1, S_800A6B70_1 *arg2) {
-    s32 temp_v0;
-    s8 temp_v0_2;
+/* Advances the phase and sets all three color channels to the same intensity. */
+void func_800A6B70(S_800A6B70_0 *phase_state, M2C_UNK unused, S_800A6B70_1 *color) {
+    s32 phase;
+    s8 intensity;
 
-    temp_v0 = arg0->unk_0C + 1;
-    arg0->unk_0C = temp_v0;
-    temp_v0_2 = (func_800644B8(temp_v0 << 6) >> 7) + 0x60;
-    arg2->unk_0E = temp_v0_2;
-    arg2->unk_0D = temp_v0_2;
-    arg2->unk_0C = temp_v0_2;
+    phase = phase_state->unk_0C + 1;
+    phase_state->unk_0C = phase;
+    intensity = (func_800644B8(phase << 6) >> 7) + 0x60;
+    color->unk_0E = intensity;
+    color->unk_0D = intensity;
+    color->unk_0C = intensity;
 }

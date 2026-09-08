@@ -12,19 +12,20 @@ typedef struct {
     Table *table;
 } Reader;
 
-s32 func_8003AA34(Reader *reader) {
-    u8 *ptr = reader->read_ptr;
-    u8 first;
-    u8 second;
-    s32 value;
+/* Divide the first event-script variable by the second, store the quotient, and return it. */
+s32 func_8003AA34(Reader *script) {
+    u8 *read_ptr = script->read_ptr;
+    u8 left_index;
+    u8 right_index;
+    s32 quotient;
 
-    first = *ptr;
-    ptr += 1;
-    reader->read_ptr = ptr;
-    second = *ptr;
-    ptr += 1;
-    reader->read_ptr = ptr;
-    value = reader->table->values[first] / reader->table->values[second];
-    reader->table->values[first] = value;
-    return value;
+    left_index = *read_ptr;
+    read_ptr += 1;
+    script->read_ptr = read_ptr;
+    right_index = *read_ptr;
+    read_ptr += 1;
+    script->read_ptr = read_ptr;
+    quotient = script->table->values[left_index] / script->table->values[right_index];
+    script->table->values[left_index] = quotient;
+    return quotient;
 }

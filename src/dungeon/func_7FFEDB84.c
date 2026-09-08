@@ -1,17 +1,18 @@
 #include "common.h"
 
-s32 func_8008B2E4(s32 arg0) {
-    s32 *p = (s32 *)0x800D0000;
+/* Checks whether a value appears in the zero-terminated table. */
+s32 func_8008B2E4(s32 value) {
+    s32 *entry = (s32 *)0x800D0000;
 
-    ASM_KEEP(p);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    if (p[-0x1E9] != 0) {
-        p += -0x1E9;
+    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    if (entry[-0x1E9] != 0) {
+        entry += -0x1E9;
         do {
-            if (arg0 == *p) {
+            if (value == *entry) {
                 return 1;
             }
-            p++;
-        } while (*p != 0);
+            entry++;
+        } while (*entry != 0);
     }
     return 0;
 }
