@@ -4,6 +4,10 @@ Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from 
 2026-09-08, the old URL redirects), local `~/azure-clean`, branch `master`.
 Dashboard: served on the LAN by `tools/dashboard_serve.sh` (port 8002; restart it if the box rebooted).
 
+Efficiency follow-up: [Astra and Claude usage advice](AGENT_EFFICIENCY_HANDOVER.md) records the
+2026-09-08 live-lane review and a proposed batching/context/verification pilot. Recommendations
+are not yet implemented; the standing campaign instructions below still apply.
+
 ## Where things stand
 
 - **Goal:** readable, better-structured C for all of Azure Dreams that still rebuilds byte-exact.
