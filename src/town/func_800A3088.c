@@ -17,27 +17,28 @@ typedef struct {
 } S800A3088Arg2;
 
 extern s32 func_800A0668(S800A3088Arg0 *);
-extern void func_800A083C(S800A3088Arg0 *arg0);
 extern s32 func_800A0F10(S800A3088Arg0 *arg0, s32 arg1);
 extern void func_8009A674(s32 arg0, s32 arg1, s32 arg2);
 extern u8 D_800A0884[16];
 
 void func_800A07E8(S800A3088Arg0 *arg0, s32 arg1, S800A3088Arg2 *arg2) {
+    register s32 t1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    register S800A3088Arg2 *t2 ASM_REG("$18");   /* MATCH pin: retail register colouring depends on it */
+
+    t1 = arg1;
+    t2 = arg2;
     if (arg0->unk68 == 0) {
-        register S800A3088Arg0 *callArg ASM_REG("$4");   /* MATCH pin: retail delay-slot contents depend on it */
         s32 result;
 
         result = func_800A0668(arg0);
-        callArg = arg0;
         if (result == 0) {
-            func_800A083C(callArg);
+            if (func_800A0F10(arg0, t1) != 0) {
+                arg0->unk50 = D_800A0884;
+                func_8009A674(arg0->unk72, t2->unk2, t2->unk6);
+            }
         }
-    } else if ((func_800A0668(arg0) != 0) && (func_800A0F10(arg0, arg1) != 0)) {
+    } else if ((func_800A0668(arg0) != 0) && (func_800A0F10(arg0, t1) != 0)) {
         arg0->unk50 = D_800A0884;
-        func_8009A674(arg0->unk72, arg2->unk2, arg2->unk6);
+        func_8009A674(arg0->unk72, t2->unk2, t2->unk6);
     }
 }
-
-/* MECHANISM: The seed already induced retail's 0x20 frame and s0/s1/s2 save order.
-   A guarded $a0 call-argument pin kept after the tail call moves arg0 into the
-   preceding bnez delay slot while LEAD 22 leaves nop in the converted j slot. */

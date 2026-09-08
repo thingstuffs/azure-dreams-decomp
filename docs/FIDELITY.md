@@ -126,8 +126,17 @@ a pilot of its own).
 
 ## Next
 
-- B1 (mid-row) rows: 362 rows carry only mid-row sites (186 with a single site), 207 mix kinds.
-  The rewrite needs a reader; a Sonnet pilot over 15 single-site rows is measuring yield
-  (`work/lac_lane/pilot/`); candidates land through `tools/apply_candidates.py` (verify, copy,
-  journal) and the touched windows through the gate.
-- A1 (epilogue) stays as spelled unless a per-row reader finds the fall-through form.
+- **Mid-row rows:** the reader lane (Sonnet, `work/lac_lane/<batch>/rows.tsv` + the brief in the
+  pilot report) runs at 10–13 of 15 per batch; three batches landed 36 rows (journal
+  `t11_midrow`). Left: ~105 single-site rows with a proven rowbase region, 15 without one
+  (add the `config/overlays/*.rowbase.jsonl` record first — the gate links a new jump at the
+  synthetic base otherwise), then the multi-site and mixed rows (about 380). Dead ends the lane
+  should skip: a retail `j` to the next instruction; a dead value retail parks in the jump's
+  delay slot (needs the marker shape).
+- **Epilogue rows:** 133 refusals are large rows whose residue is other scaffolding; re-run
+  `t10_epilogue` after each pin pass. 36 rows spell the target some other way (asm alias): a
+  small extension of the plugin.
+- **Pins and markers:** `t9_regpins` covers the colouring-only seam; everything else is a reader
+  per row — the L3 lanes attempt it on every refined row (journal `pins_in/out`), and a dedicated
+  L5 pass with a marker pilot (the delay-slot shape) is the next experiment.
+- `INCLUDE_ASM` plumbing cleanup after the above (no C row uses it).

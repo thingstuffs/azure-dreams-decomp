@@ -6,7 +6,6 @@
 #define M2C_SYNC() ((void)0)
 
 void func_800B3B18(u8 *arg0);                    /* extern */
-void func_800B3CDC(void);                        /* extern */
 
 typedef struct S_800B3C74_0 {
     u8 pad_00[0xC];
@@ -49,10 +48,8 @@ loop_1:
     func_800B3B18(((S_800B3C74_2 *)((s32 *)temp_v0))->unk_04);
     ASM_USE(var_s0);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     ASM_USE(var_s2);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    func_800B3CDC();
     var_s1 += 1;
-    ASM_USE(var_s1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    return;
+    goto check_done;
 
 nonzero_count:
     ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -61,6 +58,7 @@ nonzero_count:
     var_s0 += 4;
     ASM_KEEP(var_s0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     var_s1 += 1;
+check_done:
     if (var_s1 >= 5) {
         return;
     }
