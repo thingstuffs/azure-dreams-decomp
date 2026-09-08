@@ -225,361 +225,362 @@ extern void func_8002468C(void) __attribute__((noreturn));
 void FUNC_8197C800_BODY(void *input, void *output)
     __attribute__((section(".text.func_8197C800")));
 
+/* Updates a timed effect, spawns particles, and completes its owner's action. */
 void FUNC_8197C800_BODY(void *input, void *output)
 {
-    s16 coords[3];
+    s16 offsets[3];
     s32 state;
-    void *arg0 = input;
-    void *arg1 = output;
-    void *base;
-    register void *root ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *anchor;
-    void **dispatch;
-    u8 *entry;
-    S_FUNC_8197C800_BODY_4 *segment;
-    void *obj;
-    S_FUNC_8197C800_BODY_8 *node;
+    void *effect = input;
+    void *effect_position = output;
+    void *owner_data;
+    register void *owner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *particle_script;
+    void **state_table;
+    u8 *state_entry;
+    S_FUNC_8197C800_BODY_4 *scene;
+    void *particle;
+    S_FUNC_8197C800_BODY_8 *sprite;
     S_FUNC_8197C800_BODY_6 *src_position;
     S_FUNC_8197C800_BODY_7 *dst_position;
     S_FUNC_8197C800_BODY_19 *status;
-    void *tail;
-    s32 i;
-    register s32 r ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 v ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 random ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s16 *table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *particle_data;
+    s32 remaining;
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 height ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 offset_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 random_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 *direction_offsets ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 angle;
     u16 tail_state;
     register u16 tail_timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *page ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *page2;
-    u8 *image;
-    register u8 *image0 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *scene_page ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *debris_scene_page;
+    u8 *debris_origin;
+    register u8 *burst_origin ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 timer;
-    static void *const keepalive[] = {
+    static void *const state_labels[] = {
         &&case_zero, &&case_one, &&case_two, &&case_three, &&case_four
     };
 
-    timer = ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_50.s;
-    base = ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_00;
-    state = ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_0A.s;
+    timer = ((S_FUNC_8197C800_BODY_0 *)effect)->unk_50.s;
+    owner_data = ((S_FUNC_8197C800_BODY_0 *)effect)->unk_00;
+    state = ((S_FUNC_8197C800_BODY_0 *)effect)->unk_0A.s;
     timer -= 1;
-    ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_50.s = timer;
-    root = (u8 *)base - 0x20;
+    ((S_FUNC_8197C800_BODY_0 *)effect)->unk_50.s = timer;
+    owner = (u8 *)owner_data - 0x20;
 
-    (void)keepalive;
+    (void)state_labels;
     if ((u32)state < 5) {
-        dispatch = D_80024008;
-        entry = (u8 *)(((u32)state << 2) + (u32)dispatch);
-        goto *((void *)*(void **)entry);
+        state_table = D_80024008;
+        state_entry = (u8 *)(((u32)state << 2) + (u32)state_table);
+        goto *((void *)*(void **)state_entry);
     }
     return;
 
 case_zero:
     ((S_FUNC_8197C800_BODY_1 *)(D_800814A8[0]))->unk_F4 = 0;
-    ((S_FUNC_8197C800_BODY_2 *)arg1)->unk_00 = ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)root)->unk_08))->unk_00;
-    ((S_FUNC_8197C800_BODY_2 *)arg1)->unk_04 = ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)root)->unk_08))->unk_04;
-    ((S_FUNC_8197C800_BODY_2 *)arg1)->unk_08 = ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)root)->unk_08))->unk_08;
-    ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_0A.u += 1;
+    ((S_FUNC_8197C800_BODY_2 *)effect_position)->unk_00 = ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_00;
+    ((S_FUNC_8197C800_BODY_2 *)effect_position)->unk_04 = ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_04;
+    ((S_FUNC_8197C800_BODY_2 *)effect_position)->unk_08 = ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_08;
+    ((S_FUNC_8197C800_BODY_0 *)effect)->unk_0A.u += 1;
 
 case_one:
-    if (!(((S_FUNC_8197C800_BODY_21 *)(((S_FUNC_8197C800_BODY_0 *)arg0)->unk_04))->unk_00 & 0x80)) {
+    if (!(((S_FUNC_8197C800_BODY_21 *)(((S_FUNC_8197C800_BODY_0 *)effect)->unk_04))->unk_00 & 0x80)) {
         return;
     }
 
-    segment = D_800814A8[0];
-    ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_50.s = 10;
-    segment->unk_A6 -= 1;
-    segment->unk_A8 = ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_08;
-    obj = func_8003FD64(0x312, D_80083498);
-    if (obj == 0) {
+    scene = D_800814A8[0];
+    ((S_FUNC_8197C800_BODY_0 *)effect)->unk_50.s = 10;
+    scene->unk_A6 -= 1;
+    scene->unk_A8 = ((S_FUNC_8197C800_BODY_0 *)effect)->unk_08;
+    particle = func_8003FD64(0x312, D_80083498);
+    if (particle == 0) {
         goto case_one_tail;
     }
-    if (func_8003DE58(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)root)->unk_0C))->unk_08,
-                      ((S_FUNC_8197C800_BODY_3 *)root)->unk_0C, coords, 0) == 0) {
-        coords[2] = 0;
-        coords[1] = 0;
-        coords[0] = 0;
+    if (func_8003DE58(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
+                      ((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C, offsets, 0) == 0) {
+        offsets[2] = 0;
+        offsets[1] = 0;
+        offsets[0] = 0;
     }
-    tail = (u8 *)obj + 0x20;
-    ((S_FUNC_8197C800_BODY_5 *)obj)->unk_10 = D_800246C0;
-    func_8004491C(obj, D_80045340);
-    random = 0x00800000u;
-    node = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_0C;
-    index = coords[0];
-    src_position = ((S_FUNC_8197C800_BODY_3 *)root)->unk_08;
-    dst_position = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08;
-    r = src_position->unk_00 + (index << 16);
-    ((S_FUNC_8197C800_BODY_2 *)arg1)->unk_00 = r;
-    dst_position->unk_00 = r;
-    index = coords[1];
-    src_position = ((S_FUNC_8197C800_BODY_3 *)root)->unk_08;
-    dst_position = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08;
-    r = src_position->unk_04 + (index << 16);
-    ((S_FUNC_8197C800_BODY_2 *)arg1)->unk_04 = r;
-    dst_position->unk_04 = r;
-    index = coords[2];
-    src_position = ((S_FUNC_8197C800_BODY_3 *)root)->unk_08;
-    dst_position = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08;
-    r = src_position->unk_08 + (index << 16);
-    ((S_FUNC_8197C800_BODY_2 *)arg1)->unk_08 = r;
-    dst_position->unk_08 = r;
-    node->unk_1E = 0x800;
-    node->unk_1C = 0x800;
-    node->unk_10 = 0x20;
-    node->unk_00 = D_800DEDB0;
-    node->unk_14 |= 0xC;
-    node->unk_08 = ((S_FUNC_8197C800_BODY_9 *)D_800DEDB0)->unk_04;
-    random |= 0x8080u;
-    node->unk_04 = 0;
-    node->unk_05 = 0;
-    node->unk_0C = (void *)random;
-    ((S_FUNC_8197C800_BODY_5 *)obj)->unk_20 = arg0;
-    ((S_FUNC_8197C800_BODY_10 *)tail)->unk_4C = 0;
+    particle_data = (u8 *)particle + 0x20;
+    ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = D_800246C0;
+    func_8004491C(particle, D_80045340);
+    random_value = 0x00800000u;
+    sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
+    offset_index = offsets[0];
+    src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
+    dst_position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+    result = src_position->unk_00 + (offset_index << 16);
+    ((S_FUNC_8197C800_BODY_2 *)effect_position)->unk_00 = result;
+    dst_position->unk_00 = result;
+    offset_index = offsets[1];
+    src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
+    dst_position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+    result = src_position->unk_04 + (offset_index << 16);
+    ((S_FUNC_8197C800_BODY_2 *)effect_position)->unk_04 = result;
+    dst_position->unk_04 = result;
+    offset_index = offsets[2];
+    src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
+    dst_position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+    result = src_position->unk_08 + (offset_index << 16);
+    ((S_FUNC_8197C800_BODY_2 *)effect_position)->unk_08 = result;
+    dst_position->unk_08 = result;
+    sprite->unk_1E = 0x800;
+    sprite->unk_1C = 0x800;
+    sprite->unk_10 = 0x20;
+    sprite->unk_00 = D_800DEDB0;
+    sprite->unk_14 |= 0xC;
+    sprite->unk_08 = ((S_FUNC_8197C800_BODY_9 *)D_800DEDB0)->unk_04;
+    random_value |= 0x8080u;
+    sprite->unk_04 = 0;
+    sprite->unk_05 = 0;
+    sprite->unk_0C = (void *)random_value;
+    ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = effect;
+    ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
     goto case_one_tail;
 
 case_one_tail:
-    tail_state = ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_0A.u + 1;
+    tail_state = ((S_FUNC_8197C800_BODY_0 *)effect)->unk_0A.u + 1;
     ASM_TAILSLOT_PIN(tail_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_800245D8();
 
 case_two:
-    if (((S_FUNC_8197C800_BODY_0 *)arg0)->unk_50.u > 0) {
+    if (((S_FUNC_8197C800_BODY_0 *)effect)->unk_50.u > 0) {
         return;
     }
-    r = func_80053EF0(4);
-    if (r != 2) {
+    result = func_80053EF0(4);
+    if (result != 2) {
         func_800A56E0(0x300);
     } else {
         func_800A56E0(0x4300);
     }
-    tail_state = ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_0A.u;
+    tail_state = ((S_FUNC_8197C800_BODY_0 *)effect)->unk_0A.u;
     ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     tail_timer = 16;
     ASM_TAILSLOT_PIN(tail_timer);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_800245D0();
 
 case_three:
-    if (((S_FUNC_8197C800_BODY_0 *)arg0)->unk_50.u >= 3) {
+    if (((S_FUNC_8197C800_BODY_0 *)effect)->unk_50.u >= 3) {
         goto two_finish;
     }
-    i = 1;
-    page = (u8 *)0x80080000;
+    remaining = 1;
+    scene_page = (u8 *)0x80080000;
     {
-        S_FUNC_8197C800_BODY_11 *p;
-        p = D_80083780;
-        r = func_800BCB04(p->unk_02, p->unk_06,
-                          (s16)(p->unk_0A - 0x80));
-        v = (s16)((r << 16) >> 16);
+        S_FUNC_8197C800_BODY_11 *reference_position;
+        reference_position = D_80083780;
+        result = func_800BCB04(reference_position->unk_02, reference_position->unk_06,
+                          (s16)(reference_position->unk_0A - 0x80));
+        height = (s16)((result << 16) >> 16);
     }
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    anchor = D_80024BB8;
-    r = (s32)0x80080000;
-    ASM_KEEP(r);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    image0 = (u8 *)r + 0x2E80;
+    ASM_KEEP(scene_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    particle_script = D_80024BB8;
+    result = (s32)0x80080000;
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    burst_origin = (u8 *)result + 0x2E80;
     do {
-        obj = func_8003FD64(0x312, D_80083498);
-        if (obj != 0) {
-            ((S_FUNC_8197C800_BODY_5 *)obj)->unk_10 = anchor;
-            func_8004491C(obj, D_80045340);
-            node = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_0C;
-            tail = (u8 *)obj + 0x20;
-            random = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_23 *)(((S_FUNC_8197C800_BODY_12 *)page)->unk_14A8))->unk_2A;
-            index = (s16)angle >> 9;
-            table = D_8006CCD8;
+        particle = func_8003FD64(0x312, D_80083498);
+        if (particle != 0) {
+            ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
+            func_8004491C(particle, D_80045340);
+            sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
+            particle_data = (u8 *)particle + 0x20;
+            random_value = func_80069EF8();
+            angle = ((S_FUNC_8197C800_BODY_23 *)(((S_FUNC_8197C800_BODY_12 *)scene_page)->unk_14A8))->unk_2A;
+            offset_index = (s16)angle >> 9;
+            direction_offsets = D_8006CCD8;
             {
-                s32 sum;
-                s32 shifted;
-                s32 adjusted;
-                s32 remainder;
+                s32 grid_coord;
+                s32 scaled_coord;
+                s32 rounded_random;
+                s32 jitter;
                 void *position;
-                sum = ((S_FUNC_8197C800_BODY_13 *)image0)->unk_24 + table[index];
-                adjusted = random;
-                position = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08;
+                grid_coord = ((S_FUNC_8197C800_BODY_13 *)burst_origin)->unk_24 + direction_offsets[offset_index];
+                rounded_random = random_value;
+                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                shifted = sum << 6;
-                if (random < 0) {
-                    adjusted = random + 31;
+                scaled_coord = grid_coord << 6;
+                if (random_value < 0) {
+                    rounded_random = random_value + 31;
                 }
-                remainder = random - ((adjusted >> 5) << 5) + 16;
-                r = shifted + remainder;
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = r;
+                jitter = random_value - ((rounded_random >> 5) << 5) + 16;
+                result = scaled_coord + jitter;
+                ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
             }
-            random = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_23 *)(((S_FUNC_8197C800_BODY_12 *)page)->unk_14A8))->unk_2A;
-            index = (s16)angle >> 9;
-            table = D_8006CCE8;
+            random_value = func_80069EF8();
+            angle = ((S_FUNC_8197C800_BODY_23 *)(((S_FUNC_8197C800_BODY_12 *)scene_page)->unk_14A8))->unk_2A;
+            offset_index = (s16)angle >> 9;
+            direction_offsets = D_8006CCE8;
             {
-                s32 sum;
-                s32 shifted;
-                s32 adjusted;
-                s32 remainder;
+                s32 grid_coord;
+                s32 scaled_coord;
+                s32 rounded_random;
+                s32 jitter;
                 void *position;
-                sum = ((S_FUNC_8197C800_BODY_13 *)image0)->unk_25 + table[index];
-                adjusted = random;
-                position = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08;
+                grid_coord = ((S_FUNC_8197C800_BODY_13 *)burst_origin)->unk_25 + direction_offsets[offset_index];
+                rounded_random = random_value;
+                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                shifted = sum << 6;
-                if (random < 0) {
-                    adjusted = random + 31;
+                scaled_coord = grid_coord << 6;
+                if (random_value < 0) {
+                    rounded_random = random_value + 31;
                 }
-                remainder = random - ((adjusted >> 5) << 5) + 16;
-                r = shifted + remainder;
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = r;
+                jitter = random_value - ((rounded_random >> 5) << 5) + 16;
+                result = scaled_coord + jitter;
+                ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
             }
             {
                 u32 color;
-                void *template;
+                void *sprite_template;
                 void *position;
                 color = 0x00600000u;
                 ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                position = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08;
+                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                template = (void *)0x800E0000;
-                ASM_KEEP(template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_0A = v;
-                node->unk_1C = 0x1800;
-                node->unk_1E = 0x2000;
-                node->unk_10 = 0x60;
+                sprite_template = (void *)0x800E0000;
+                ASM_KEEP(sprite_template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                ((S_FUNC_8197C800_BODY_14 *)position)->unk_0A = height;
+                sprite->unk_1C = 0x1800;
+                sprite->unk_1E = 0x2000;
+                sprite->unk_10 = 0x60;
                 {
                     u16 flags;
-                    flags = node->unk_14;
+                    flags = sprite->unk_14;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    template = (u8 *)template - 0x1630;
-                    node->unk_00 = template;
+                    sprite_template = (u8 *)sprite_template - 0x1630;
+                    sprite->unk_00 = sprite_template;
                     flags |= 0xC;
-                    node->unk_14 = flags;
-                    node->unk_08 = ((S_FUNC_8197C800_BODY_15 *)template)->unk_04;
+                    sprite->unk_14 = flags;
+                    sprite->unk_08 = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
                 }
-                node->unk_04 = 0;
-                node->unk_05 = 0;
-                node->unk_0C = (void *)(color | 0x6060u);
-                ((S_FUNC_8197C800_BODY_5 *)obj)->unk_20 = arg0;
-                ((S_FUNC_8197C800_BODY_10 *)tail)->unk_4C = 0;
+                sprite->unk_04 = 0;
+                sprite->unk_05 = 0;
+                sprite->unk_0C = (void *)(color | 0x6060u);
+                ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = effect;
+                ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
             }
         }
-        i -= 1;
-    } while (i >= 0);
+        remaining -= 1;
+    } while (remaining >= 0);
 
-    i = 9;
-    anchor = D_80024C68;
-    image = D_80082E80;
-    page2 = (u8 *)0x80080000;
+    remaining = 9;
+    particle_script = D_80024C68;
+    debris_origin = D_80082E80;
+    debris_scene_page = (u8 *)0x80080000;
     do {
-        obj = func_8003FD64(0x312, D_80083498);
-        if (obj != 0) {
-            ((S_FUNC_8197C800_BODY_5 *)obj)->unk_10 = anchor;
-            func_8004491C(obj, D_80045340);
-            node = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_0C;
-            tail = (u8 *)obj + 0x20;
-            random = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_24 *)(((S_FUNC_8197C800_BODY_16 *)page2)->unk_14A8))->unk_2A;
-            index = (s16)angle >> 9;
-            table = D_8006CCD8;
+        particle = func_8003FD64(0x312, D_80083498);
+        if (particle != 0) {
+            ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
+            func_8004491C(particle, D_80045340);
+            sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
+            particle_data = (u8 *)particle + 0x20;
+            random_value = func_80069EF8();
+            angle = ((S_FUNC_8197C800_BODY_24 *)(((S_FUNC_8197C800_BODY_16 *)debris_scene_page)->unk_14A8))->unk_2A;
+            offset_index = (s16)angle >> 9;
+            direction_offsets = D_8006CCD8;
             {
-                s32 sum;
-                s32 shifted;
-                s32 adjusted;
-                s32 remainder;
+                s32 grid_coord;
+                s32 scaled_coord;
+                s32 rounded_random;
+                s32 jitter;
                 void *position;
-                sum = ((S_FUNC_8197C800_BODY_17 *)image)->unk_24 + table[index];
-                adjusted = random;
-                position = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08;
+                grid_coord = ((S_FUNC_8197C800_BODY_17 *)debris_origin)->unk_24 + direction_offsets[offset_index];
+                rounded_random = random_value;
+                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                shifted = sum << 6;
-                if (random < 0) {
-                    adjusted = random + 63;
+                scaled_coord = grid_coord << 6;
+                if (random_value < 0) {
+                    rounded_random = random_value + 63;
                 }
-                remainder = random - ((adjusted >> 6) << 6);
-                r = shifted + remainder;
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = r;
+                jitter = random_value - ((rounded_random >> 6) << 6);
+                result = scaled_coord + jitter;
+                ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
             }
-            random = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_24 *)(((S_FUNC_8197C800_BODY_16 *)page2)->unk_14A8))->unk_2A;
-            index = (s16)angle >> 9;
-            table = D_8006CCE8;
+            random_value = func_80069EF8();
+            angle = ((S_FUNC_8197C800_BODY_24 *)(((S_FUNC_8197C800_BODY_16 *)debris_scene_page)->unk_14A8))->unk_2A;
+            offset_index = (s16)angle >> 9;
+            direction_offsets = D_8006CCE8;
             {
-                s32 sum;
-                s32 shifted;
-                s32 adjusted;
-                s32 remainder;
+                s32 grid_coord;
+                s32 scaled_coord;
+                s32 rounded_random;
+                s32 jitter;
                 void *position;
-                sum = ((S_FUNC_8197C800_BODY_17 *)image)->unk_25 + table[index];
-                adjusted = random;
-                position = ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08;
+                grid_coord = ((S_FUNC_8197C800_BODY_17 *)debris_origin)->unk_25 + direction_offsets[offset_index];
+                rounded_random = random_value;
+                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                shifted = sum << 6;
-                if (random < 0) {
-                    adjusted = random + 63;
+                scaled_coord = grid_coord << 6;
+                if (random_value < 0) {
+                    rounded_random = random_value + 63;
                 }
-                remainder = random - ((adjusted >> 6) << 6);
-                r = shifted + remainder;
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = r;
+                jitter = random_value - ((rounded_random >> 6) << 6);
+                result = scaled_coord + jitter;
+                ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
             }
-            r = func_80069EF8();
-            ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)obj)->unk_08))->unk_0A = v - (r & 0x1F);
-            r = func_80069EF8();
+            result = func_80069EF8();
+            ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_0A = height - (result & 0x1F);
+            result = func_80069EF8();
             {
                 u32 color;
-                register s32 size ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                void *template;
+                register s32 sprite_size ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                void *sprite_template;
                 color = 0x00100000u;
                 ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)obj)->unk_08))->unk_14 =
-                    (s32)0xFFE60000 - (r << 2);
-                node->unk_1E = 0x800;
-                node->unk_1C = 0x800;
+                ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_14 =
+                    (s32)0xFFE60000 - (result << 2);
+                sprite->unk_1E = 0x800;
+                sprite->unk_1C = 0x800;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                size = 0x20;
-                template = (void *)0x800E0000;
-                ASM_KEEP(template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                node->unk_10 = size;
+                sprite_size = 0x20;
+                sprite_template = (void *)0x800E0000;
+                ASM_KEEP(sprite_template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                sprite->unk_10 = sprite_size;
                 {
                     u16 flags;
-                    flags = node->unk_14;
+                    flags = sprite->unk_14;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    template = (u8 *)template - 0x1400;
-                    node->unk_00 = template;
+                    sprite_template = (u8 *)sprite_template - 0x1400;
+                    sprite->unk_00 = sprite_template;
                     flags |= 0xC;
-                    node->unk_14 = flags;
-                    node->unk_08 = ((S_FUNC_8197C800_BODY_15 *)template)->unk_04;
+                    sprite->unk_14 = flags;
+                    sprite->unk_08 = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
                 }
-                node->unk_04 = 0;
-                node->unk_05 = 0;
-                node->unk_0C = (void *)(color | 0x1010u);
-                ((S_FUNC_8197C800_BODY_5 *)obj)->unk_20 = arg0;
-                ((S_FUNC_8197C800_BODY_10 *)tail)->unk_4C = 0;
+                sprite->unk_04 = 0;
+                sprite->unk_05 = 0;
+                sprite->unk_0C = (void *)(color | 0x1010u);
+                ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = effect;
+                ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
             }
         }
-        i -= 1;
-    } while (i >= 0);
+        remaining -= 1;
+    } while (remaining >= 0);
 
 two_finish:
-    if (((S_FUNC_8197C800_BODY_0 *)arg0)->unk_50.u > 0) {
+    if (((S_FUNC_8197C800_BODY_0 *)effect)->unk_50.u > 0) {
         return;
     }
-    ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_50.s = 32;
-    ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_0A.u += 1;
+    ((S_FUNC_8197C800_BODY_0 *)effect)->unk_50.s = 32;
+    ((S_FUNC_8197C800_BODY_0 *)effect)->unk_0A.u += 1;
     func_8002468C();
 
 case_four:
-    if (!(D_80082E94[0] & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_50.u >= 0) {
+    if (!(D_80082E94[0] & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)effect)->unk_50.u >= 0) {
         return;
     }
-    if (((S_FUNC_8197C800_BODY_0 *)arg0)->unk_52.s & 0x8000) {
-        ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_52.u &= 0x7FFF;
+    if (((S_FUNC_8197C800_BODY_0 *)effect)->unk_52.s & 0x8000) {
+        ((S_FUNC_8197C800_BODY_0 *)effect)->unk_52.u &= 0x7FFF;
         func_8002468C();
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_8009CE1C(((S_FUNC_8197C800_BODY_1 *)(D_800814A8[0]))->unk_60, 8,
-                  ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_09, 10,
-                  ((S_FUNC_8197C800_BODY_18 *)base)->unk_2A, base, 2);
+                  ((S_FUNC_8197C800_BODY_0 *)effect)->unk_09, 10,
+                  ((S_FUNC_8197C800_BODY_18 *)owner_data)->unk_2A, owner_data, 2);
     status = D_80083460;
     status->unk_0C = 0;
     status->unk_0A -= 1;
-    ((S_FUNC_8197C800_BODY_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    ((S_FUNC_8197C800_BODY_0_pre *)effect)[-1].unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;
 }
 

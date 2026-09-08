@@ -44,486 +44,484 @@ extern void func_80024FC4() __attribute__((noreturn));
 extern void func_80025228() __attribute__((noreturn));
 extern void func_8002555C() __attribute__((noreturn));
 
-void func_81941338(void *arg0, void *arg1, void *arg2)
+/* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
+void func_81941338(void *effect, void *effect_pos, void *effect_data)
 {
-    register void *base ASM_REG("$21") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *dest = arg1;
-    register void *ctx ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    static void *const keepalive[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
-    s32 one;
-    void *s0;
-    void *s3;
-    u8 *s6;
-    u8 *s7;
-    u8 *ptr2492c;
-    s32 s4;
-    s32 t0;
+    register void *effect_base ASM_REG("$21") = effect;
+    void *position = effect_pos;
+    register void *effect_context ASM_REG("$18") = effect_data;
+    static void *const state_labels[] = { &&init, &&wait_ready, &&emit_trail, &&emit_burst, &&finish };
+    s32 enabled;
+    void *sprite;
+    void *particle;
+    u8 *world_offset;
+    u8 *spawn_data;
+    u8 *particle_script;
+    s32 particle_index;
+    s32 initial_color;
     s32 particle_color;
     s32 particle_alpha;
-    register void *special_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *special_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *init_object ASM_REG("$4");
+    register void *init_data ASM_REG("$5");
     s32 state;
     s16 timer;
-    u16 oldtimer;
-    u16 tail0;
-    u16 tail1;
-    u16 tail2;
+    u16 old_state;
     s32 particle_level;
     s32 particle_x;
-    s16 buf[6];
-    s32 i;
-    register u32 r ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s16 texture_rect[6];
+    s32 component;
+    register u32 bits ASM_REG("$2");
 
-    ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(effect_base);
 
-    F(base, u16, 0x2A) = (u16)(F(base, u16, 0x2A) + 1);
-    state = F(base, s16, 0xA);
-    ctx = arg2;
+    F(effect_base, u16, 0x2A) = (u16)(F(effect_base, u16, 0x2A) + 1);
+    state = F(effect_base, s16, 0xA);
+    effect_context = effect_data;
     if ((u32)state >= 5) {
         return;
     }
-    (void)keepalive;
+    (void)state_labels;
     goto *jtbl_80024048[(u32)state];
 
-L0:
-    one = 1;
-    t0 = 0x00808080;
+init:
+    enabled = 1;
+    initial_color = 0x00808080;
     F(D_800814A8[0], s32, 0xF4) = 0;
     F(D_80082E80, u16, 6) = 6;
-    F(base, void *, 0x64) = func_800249F0(base, dest, ctx, D_80025704,
-                                            one, 0x1000, 0x1000, t0);
-    F(base, void *, 0x68) = func_800249F0(base, dest, ctx, D_80025710,
-                                            2, 0xE00, 0xE00, 0x00E0E0E0);
-    oldtimer = F(base, u16, 0xA);
-    F(D_8002571C, u16, 0) = (u16)one;
-    F(base, u16, 0xA) = (u16)(oldtimer + 1);
+    F(effect_base, void *, 0x64) = func_800249F0(effect_base, position, effect_context, D_80025704,
+                                                enabled, 0x1000, 0x1000, initial_color);
+    F(effect_base, void *, 0x68) = func_800249F0(effect_base, position, effect_context, D_80025710,
+                                                2, 0xE00, 0xE00, 0x00E0E0E0);
+    old_state = F(effect_base, u16, 0xA);
+    F(D_8002571C, u16, 0) = (u16)enabled;
+    F(effect_base, u16, 0xA) = (u16)(old_state + 1);
 
-L1:
-    if ((F(F(base, void *, 4), u16, 0) & 0x80) == 0) {
+wait_ready:
+    if ((F(F(effect_base, void *, 4), u16, 0) & 0x80) == 0) {
         return;
     }
-    special_obj = base;
+    init_object = effect_base;
     {
-        void *global = D_800814A8[0];
-        r = 0x14;
-        F(base, u16, 0x20) = (u16)r;
-        F(global, u16, 0xA6) = (u16)(F(global, u16, 0xA6) - 1);
-        F(global, u8, 0xA8) = F(base, u8, 8);
+        void *actor = D_800814A8[0];
+        bits = 0x14;
+        F(effect_base, u16, 0x20) = (u16)bits;
+        F(actor, u16, 0xA6) = (u16)(F(actor, u16, 0xA6) - 1);
+        F(actor, u8, 0xA8) = F(effect_base, u8, 8);
     }
-    i = F(D_800814A8[0], u16, 0x2A);
-    F(base, u16, 0xA) = (u16)(F(base, u16, 0xA) + 1);
-    F(base, u16, 0x26) = (u16)i;
-    func_800243D8(special_obj, dest, ctx);
-    if (F(base, void *, 0x68) != 0) {
-        buf[0] = 0x340;
-        buf[1] = 0x100;
-        buf[2] = 0x40;
-        buf[3] = 0x40;
-        buf[4] = 0x360;
-        buf[5] = 0x120;
-        func_800B8FC8(F(base, void *, 0x68), buf, &buf[4], 0, 1);
+    component = F(D_800814A8[0], u16, 0x2A);
+    F(effect_base, u16, 0xA) = (u16)(F(effect_base, u16, 0xA) + 1);
+    F(effect_base, u16, 0x26) = (u16)component;
+    func_800243D8(init_object, position, effect_context);
+    if (F(effect_base, void *, 0x68) != 0) {
+        texture_rect[0] = 0x340;
+        texture_rect[1] = 0x100;
+        texture_rect[2] = 0x40;
+        texture_rect[3] = 0x40;
+        texture_rect[4] = 0x360;
+        texture_rect[5] = 0x120;
+        func_800B8FC8(F(effect_base, void *, 0x68), texture_rect, &texture_rect[4], 0, 1);
     }
-    if (F(base, void *, 0x64) == 0) {
+    if (F(effect_base, void *, 0x64) == 0) {
         return;
     }
     {
-        buf[0] = 0x340;
-        buf[1] = 0x100;
-        buf[2] = 0x40;
-        buf[3] = 0x40;
-        buf[4] = 0x360;
-        buf[5] = 0x120;
-        func_800B8FC8(F(base, void *, 0x64), buf, &buf[4], 1, 1);
+        texture_rect[0] = 0x340;
+        texture_rect[1] = 0x100;
+        texture_rect[2] = 0x40;
+        texture_rect[3] = 0x40;
+        texture_rect[4] = 0x360;
+        texture_rect[5] = 0x120;
+        func_800B8FC8(F(effect_base, void *, 0x64), texture_rect, &texture_rect[4], 1, 1);
     }
     func_800256AC();
 
-L2:
-    timer = (s16)((u16)F(base, u16, 0x20) - 1);
-    F(base, u16, 0x20) = (u16)timer;
+emit_trail:
+    timer = (s16)((u16)F(effect_base, u16, 0x20) - 1);
+    F(effect_base, u16, 0x20) = (u16)timer;
     if (timer <= 0) {
-        F(base, u16, 0x20) = 0x10;
-        F(base, u16, 0xA) = (u16)(F(base, u16, 0xA) + 1);
+        F(effect_base, u16, 0x20) = 0x10;
+        F(effect_base, u16, 0xA) = (u16)(F(effect_base, u16, 0xA) + 1);
     }
-    if (F(base, s16, 0x20) == 0x13) {
+    if (F(effect_base, s16, 0x20) == 0x13) {
         if (func_80053EF0(4) != 2) {
             func_800A56E0(0x300);
         } else {
             func_800A56E0(0x4300);
         }
     }
-    if (F(base, s16, 0x20) >= 11) {
-        goto L2_post_short;
-    }
-        {
-            u8 *dungeon = D_80082E80;
-            if (func_8003DF74(F(dungeon, void *, 8), dungeon,
-                              (u8 *)base + 0xC, 0) == 0) {
-                goto L2_post_short;
-            }
-        }
-        s4 = 0;
-        do {
-            r = (u32)func_80069EF8();
-            particle_color = 0x200000;
-            ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            r &= 0x7F;
-            particle_alpha = (s32)(r | 0x60);
-            particle_level = F(base, s16, 0x26);
-            particle_x = F(base, s16, 0xC);
-            particle_color |= 0x20F0;
-            func_80024798((u8 *)D_800814A8[0] - 0x20,
-                          particle_level, particle_color,
-                          particle_alpha,
-                          particle_x, F(base, s16, 0xE),
-                          F(base, s16, 0x10));
-            s4++;
-        } while (s4 < 4);
-        s4 = 0;
-        s7 = D_8002492C;
-        s6 = D_80083780;
-        ctx = 0x80;
-        do {
-            s3 = func_8003FC64(0x212);
-            if (s3 != 0) {
-                F(s3, s16, 0x4A) = 8;
-                F(s3, void *, 0x10) = s7;
-                func_8004491C(s3, D_80045340);
-                s0 = F(s3, void *, 0xC);
-                F(s0, u16, 0x14) = (u16)(F(s0, u16, 0x14) | 0xC);
-                dest = F(s3, void *, 8);
-                if ((func_80069EF8() & 1) == 0) {
-                    F(s0, u16, 0x14) = (u16)(F(s0, u16, 0x14) | 1);
-                }
-                F(dest, u16, 2) = F(base, u16, 0xC);
-                F(dest, u16, 6) = F(base, u16, 0xE);
-                F(dest, u16, 0xA) = F(base, u16, 0x10);
-                F(dest, u16, 2) = (u16)(F(dest, u16, 2) + F(s6, u16, 2));
-                F(dest, u16, 6) = (u16)(F(dest, u16, 6) + F(s6, u16, 6));
-                F(dest, u16, 0xA) = (u16)(F(dest, u16, 0xA) + F(s6, u16, 0xA));
-                if (s4 != 0) {
-                    r = (u32)func_80069EF8() & 0x1F;
-                    i = F(dest, u16, 2);
-                    i -= 0x10;
-                    i += r;
-                    F(dest, u16, 2) = (u16)i;
-                    r = (u32)func_80069EF8() & 0x1F;
-                    i = F(dest, u16, 6);
-                    i -= 0x10;
-                    i += r;
-                    F(dest, u16, 6) = (u16)i;
-                    r = (u32)func_80069EF8() & 0x1F;
-                    i = F(dest, u16, 0xA);
-                    i -= 0x10;
-                    i += r;
-                    F(dest, u16, 0xA) = (u16)i;
-                }
-                s0 = F(s3, void *, 0xC);
-                {
-                    register void *tail_obj ASM_REG("$4") = s0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    if (s4 != 0) {
-                        register void *tail_a1 ASM_REG("$5") = D_800DED28;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        register void *tail_a2 ASM_REG("$6") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                        ASM_USE2(tail_a1, tail_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        r = 0x20;
-                        F(s0, u16, 0x10) = (u16)r;
-                        F(s0, u16, 0x1E) = 0x1000;
-                        F(s0, u16, 0x1C) = 0x1000;
-                        return func_80024FC4(tail_obj, tail_a1, tail_a2);
-                    } else {
-                        register void *tail_a1 ASM_REG("$5") = D_800DEB28;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        register void *tail_a2 ASM_REG("$6") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                        ASM_USE2(tail_a1, tail_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        F(s0, u16, 0x1E) = 0x2000;
-                        F(s0, u16, 0x1C) = 0x2000;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                        r = 0x20;
-                        F(s0, u16, 0x10) = (u16)r;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                        func_8003DB94(tail_obj, tail_a1, tail_a2);
-                    }
-                }
-                    F(s0, u8, 0xE) = (u8)ctx;
-                    F(s0, u8, 0xD) = (u8)ctx;
-                    F(s0, u8, 0xC) = (u8)ctx;
-            }
-            s4++;
-        } while (s4 < 4);
-    if (F(base, s16, 0x20) < 6) {
-        F(base, s16, 0x18) =
-            (F(base, s16, 0xC) + F(base, s16, 0x12)) / 2;
-        F(base, s16, 0x1A) =
-            (F(base, s16, 0xE) + F(base, s16, 0x14)) / 2;
-        F(base, s16, 0x1C) =
-            (F(base, s16, 0x10) + F(base, s16, 0x16)) / 2;
-        s4 = 0;
-        do {
-            r = (u32)func_80069EF8();
-            particle_color = 0x200000;
-            ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            r &= 0x7F;
-            particle_alpha = (s32)(r | 0x60);
-            particle_level = F(base, s16, 0x26);
-            particle_x = F(base, s16, 0x18);
-            particle_color |= 0x20F0;
-            func_80024798((u8 *)D_800814A8[0] - 0x20,
-                          particle_level, particle_color,
-                          particle_alpha,
-                          particle_x, F(base, s16, 0x1A),
-                          F(base, s16, 0x1C));
-            s4++;
-        } while (s4 < 4);
-        s4 = 0;
-        s7 = D_8002492C;
-        s6 = D_80083780;
-        ctx = 0x80;
-        do {
-            s3 = func_8003FC64(0x212);
-            if (s3 != 0) {
-                F(s3, s16, 0x4A) = 8;
-                F(s3, void *, 0x10) = s7;
-                func_8004491C(s3, D_80045340);
-                s0 = F(s3, void *, 0xC);
-                F(s0, u16, 0x14) = (u16)(F(s0, u16, 0x14) | 0xC);
-                dest = F(s3, void *, 8);
-                if ((func_80069EF8() & 1) == 0) {
-                    F(s0, u16, 0x14) = (u16)(F(s0, u16, 0x14) | 1);
-                }
-                F(dest, u16, 2) = F(base, u16, 0x18);
-                F(dest, u16, 6) = F(base, u16, 0x1A);
-                F(dest, u16, 0xA) = F(base, u16, 0x1C);
-                F(dest, u16, 2) = (u16)(F(dest, u16, 2) + F(s6, u16, 2));
-                F(dest, u16, 6) = (u16)(F(dest, u16, 6) + F(s6, u16, 6));
-                F(dest, u16, 0xA) = (u16)(F(dest, u16, 0xA) + F(s6, u16, 0xA));
-                if (s4 != 0) {
-                    r = (u32)func_80069EF8() & 0xF;
-                    i = F(dest, u16, 2);
-                    i -= 8;
-                    i += r;
-                    F(dest, u16, 2) = (u16)i;
-                    r = (u32)func_80069EF8() & 0xF;
-                    i = F(dest, u16, 6);
-                    i -= 8;
-                    i += r;
-                    F(dest, u16, 6) = (u16)i;
-                    r = (u32)func_80069EF8() & 0x1F;
-                    i = F(dest, u16, 0xA);
-                    i -= 0x10;
-                    i += r;
-                    F(dest, u16, 0xA) = (u16)i;
-                }
-                s0 = F(s3, void *, 0xC);
-                ASM_KEEP_NV(s0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                {
-                    register void *tail_obj ASM_REG("$4") = s0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    if (s4 != 0) {
-                        register void *tail_a1 ASM_REG("$5") = D_800DED28;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        register void *tail_a2 ASM_REG("$6") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                        ASM_USE2(tail_a1, tail_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        r = 0x20;
-                        F(tail_obj, u16, 0x10) = (u16)r;
-                        F(tail_obj, u16, 0x1E) = 0x1000;
-                        F(tail_obj, u16, 0x1C) = 0x1000;
-                        return func_80025228(tail_obj, tail_a1, tail_a2);
-                    } else {
-                        register void *tail_a1 ASM_REG("$5") = D_800DEB28;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        register void *tail_a2 ASM_REG("$6") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                        ASM_USE2(tail_a1, tail_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        F(tail_obj, u16, 0x1E) = 0x2000;
-                        F(tail_obj, u16, 0x1C) = 0x2000;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                        r = 0x20;
-                        F(tail_obj, u16, 0x10) = (u16)r;
-                        F(tail_obj, u8, 0xE) = (u8)ctx;
-                        F(tail_obj, u8, 0xD) = (u8)ctx;
-                        F(tail_obj, u8, 0xC) = (u8)ctx;
-                        func_8003DB94(tail_obj, tail_a1, tail_a2);
-                    }
-                }
-            }
-            s4++;
-        } while (s4 < 4);
-    }
-    {
-        register u32 tail_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        r = F(base, u16, 0xC);
-        i = F(base, u16, 0xE);
-        tail_a0 = F(base, u16, 0x10);
-        F(base, u16, 0x12) = (u16)r;
-        F(base, u16, 0x14) = (u16)i;
-        F(base, u16, 0x16) = (u16)tail_a0;
-    }
-L2_post_short:
-    if (F(base, s16, 0x20) != 11) {
-        return;
-    }
-    s3 = func_8003FC64(0x212);
-    if (s3 == 0) {
-        return;
-    }
-    special_obj = s3;
-    special_data = D_80045340;
-    ASM_KEEP_NV(special_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    F(s3, s16, 0x4A) = 6;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    r = (u32)0x80020000;
-    ASM_KEEP_NV(r);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    r += 0x48B8;
-    F(s3, void *, 0x10) = (void *)r;
-    func_8004491C(special_obj, special_data);
-    r = 0x20;
-    s0 = F(s3, void *, 0xC);
-    {
-        void *p;
-        F(s0, u16, 0x10) = (u16)r;
-        F(s0, u16, 6) = 8;
-        p = D_800814A8[0];
-        F(s0, u16, 0x14) = (u16)(F(s0, u16, 0x14) | 0xC);
-        dest = F(s3, void *, 8);
-        p = F(p, void *, -24);
-        F(dest, u32, 0) = F(p, u32, 0);
-        F(dest, u32, 4) = F(p, u32, 4);
-        F(dest, u32, 8) = F(p, u32, 8);
+    if (F(effect_base, s16, 0x20) >= 11) {
+        goto emit_flash;
     }
     {
         u8 *dungeon = D_80082E80;
         if (func_8003DF74(F(dungeon, void *, 8), dungeon,
-                          (u8 *)base + 0xC, 0) != 0) {
-        F(dest, u32, 0) += (u32)(F(base, s16, 0xC) << 16);
-        F(dest, u32, 4) += (u32)(F(base, s16, 0xE) << 16);
-        F(dest, u32, 8) += (u32)(F(base, s16, 0x10) << 16);
+                          (u8 *)effect_base + 0xC, 0) == 0) {
+            goto emit_flash;
         }
     }
-    s0 = F(s3, void *, 0xC);
-    F(s0, u16, 0x1E) = 0x80;
-    F(s0, u16, 0x1C) = 0x80;
-    F(s0, u8, 0xE) = 0x80;
-    F(s0, u8, 0xD) = 0x80;
-    F(s0, u8, 0xC) = 0x80;
-    *(Packed12 *)((u8 *)s3 + 146) = *(Packed12 *)D_800256EC;
-    F(s0, void *, 8) = (u8 *)s3 + 146;
+    particle_index = 0;
+    do {
+        bits = (u32)func_80069EF8();
+        particle_color = 0x200000;
+        ASM_KEEP_NV(particle_color);
+        bits &= 0x7F;
+        particle_alpha = (s32)(bits | 0x60);
+        particle_level = F(effect_base, s16, 0x26);
+        particle_x = F(effect_base, s16, 0xC);
+        particle_color |= 0x20F0;
+        func_80024798((u8 *)D_800814A8[0] - 0x20,
+                      particle_level, particle_color,
+                      particle_alpha,
+                      particle_x, F(effect_base, s16, 0xE),
+                      F(effect_base, s16, 0x10));
+        particle_index++;
+    } while (particle_index < 4);
+    particle_index = 0;
+    spawn_data = D_8002492C;
+    world_offset = D_80083780;
+    effect_context = 0x80;
+    do {
+        particle = func_8003FC64(0x212);
+        if (particle != 0) {
+            F(particle, s16, 0x4A) = 8;
+            F(particle, void *, 0x10) = spawn_data;
+            func_8004491C(particle, D_80045340);
+            sprite = F(particle, void *, 0xC);
+            F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
+            position = F(particle, void *, 8);
+            if ((func_80069EF8() & 1) == 0) {
+                F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
+            }
+            F(position, u16, 2) = F(effect_base, u16, 0xC);
+            F(position, u16, 6) = F(effect_base, u16, 0xE);
+            F(position, u16, 0xA) = F(effect_base, u16, 0x10);
+            F(position, u16, 2) = (u16)(F(position, u16, 2) + F(world_offset, u16, 2));
+            F(position, u16, 6) = (u16)(F(position, u16, 6) + F(world_offset, u16, 6));
+            F(position, u16, 0xA) = (u16)(F(position, u16, 0xA) + F(world_offset, u16, 0xA));
+            if (particle_index != 0) {
+                bits = (u32)func_80069EF8() & 0x1F;
+                component = F(position, u16, 2);
+                component -= 0x10;
+                component += bits;
+                F(position, u16, 2) = (u16)component;
+                bits = (u32)func_80069EF8() & 0x1F;
+                component = F(position, u16, 6);
+                component -= 0x10;
+                component += bits;
+                F(position, u16, 6) = (u16)component;
+                bits = (u32)func_80069EF8() & 0x1F;
+                component = F(position, u16, 0xA);
+                component -= 0x10;
+                component += bits;
+                F(position, u16, 0xA) = (u16)component;
+            }
+            sprite = F(particle, void *, 0xC);
+            {
+                register void *anim_sprite ASM_REG("$4") = sprite;
+                if (particle_index != 0) {
+                    register void *animation ASM_REG("$5") = D_800DED28;
+                    register void *anim_context ASM_REG("$6") = 0;
+                    ASM_USE2(animation, anim_context);
+                    bits = 0x20;
+                    F(sprite, u16, 0x10) = (u16)bits;
+                    F(sprite, u16, 0x1E) = 0x1000;
+                    F(sprite, u16, 0x1C) = 0x1000;
+                    return func_80024FC4(anim_sprite, animation, anim_context);
+                } else {
+                    register void *animation ASM_REG("$5") = D_800DEB28;
+                    register void *anim_context ASM_REG("$6") = 0;
+                    ASM_USE2(animation, anim_context);
+                    F(sprite, u16, 0x1E) = 0x2000;
+                    F(sprite, u16, 0x1C) = 0x2000;
+                    ASM_SCHED_BARRIER();
+                    bits = 0x20;
+                    F(sprite, u16, 0x10) = (u16)bits;
+                    ASM_SCHED_BARRIER();
+                    func_8003DB94(anim_sprite, animation, anim_context);
+                }
+            }
+            F(sprite, u8, 0xE) = (u8)effect_context;
+            F(sprite, u8, 0xD) = (u8)effect_context;
+            F(sprite, u8, 0xC) = (u8)effect_context;
+        }
+        particle_index++;
+    } while (particle_index < 4);
+    if (F(effect_base, s16, 0x20) < 6) {
+        F(effect_base, s16, 0x18) =
+            (F(effect_base, s16, 0xC) + F(effect_base, s16, 0x12)) / 2;
+        F(effect_base, s16, 0x1A) =
+            (F(effect_base, s16, 0xE) + F(effect_base, s16, 0x14)) / 2;
+        F(effect_base, s16, 0x1C) =
+            (F(effect_base, s16, 0x10) + F(effect_base, s16, 0x16)) / 2;
+        particle_index = 0;
+        do {
+            bits = (u32)func_80069EF8();
+            particle_color = 0x200000;
+            ASM_KEEP_NV(particle_color);
+            bits &= 0x7F;
+            particle_alpha = (s32)(bits | 0x60);
+            particle_level = F(effect_base, s16, 0x26);
+            particle_x = F(effect_base, s16, 0x18);
+            particle_color |= 0x20F0;
+            func_80024798((u8 *)D_800814A8[0] - 0x20,
+                          particle_level, particle_color,
+                          particle_alpha,
+                          particle_x, F(effect_base, s16, 0x1A),
+                          F(effect_base, s16, 0x1C));
+            particle_index++;
+        } while (particle_index < 4);
+        particle_index = 0;
+        spawn_data = D_8002492C;
+        world_offset = D_80083780;
+        effect_context = 0x80;
+        do {
+            particle = func_8003FC64(0x212);
+            if (particle != 0) {
+                F(particle, s16, 0x4A) = 8;
+                F(particle, void *, 0x10) = spawn_data;
+                func_8004491C(particle, D_80045340);
+                sprite = F(particle, void *, 0xC);
+                F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
+                position = F(particle, void *, 8);
+                if ((func_80069EF8() & 1) == 0) {
+                    F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
+                }
+                F(position, u16, 2) = F(effect_base, u16, 0x18);
+                F(position, u16, 6) = F(effect_base, u16, 0x1A);
+                F(position, u16, 0xA) = F(effect_base, u16, 0x1C);
+                F(position, u16, 2) = (u16)(F(position, u16, 2) + F(world_offset, u16, 2));
+                F(position, u16, 6) = (u16)(F(position, u16, 6) + F(world_offset, u16, 6));
+                F(position, u16, 0xA) = (u16)(F(position, u16, 0xA) + F(world_offset, u16, 0xA));
+                if (particle_index != 0) {
+                    bits = (u32)func_80069EF8() & 0xF;
+                    component = F(position, u16, 2);
+                    component -= 8;
+                    component += bits;
+                    F(position, u16, 2) = (u16)component;
+                    bits = (u32)func_80069EF8() & 0xF;
+                    component = F(position, u16, 6);
+                    component -= 8;
+                    component += bits;
+                    F(position, u16, 6) = (u16)component;
+                    bits = (u32)func_80069EF8() & 0x1F;
+                    component = F(position, u16, 0xA);
+                    component -= 0x10;
+                    component += bits;
+                    F(position, u16, 0xA) = (u16)component;
+                }
+                sprite = F(particle, void *, 0xC);
+                ASM_KEEP_NV(sprite);
+                {
+                    register void *anim_sprite ASM_REG("$4") = sprite;
+                    if (particle_index != 0) {
+                        register void *animation ASM_REG("$5") = D_800DED28;
+                        register void *anim_context ASM_REG("$6") = 0;
+                        ASM_USE2(animation, anim_context);
+                        bits = 0x20;
+                        F(anim_sprite, u16, 0x10) = (u16)bits;
+                        F(anim_sprite, u16, 0x1E) = 0x1000;
+                        F(anim_sprite, u16, 0x1C) = 0x1000;
+                        return func_80025228(anim_sprite, animation, anim_context);
+                    } else {
+                        register void *animation ASM_REG("$5") = D_800DEB28;
+                        register void *anim_context ASM_REG("$6") = 0;
+                        ASM_USE2(animation, anim_context);
+                        F(anim_sprite, u16, 0x1E) = 0x2000;
+                        F(anim_sprite, u16, 0x1C) = 0x2000;
+                        ASM_SCHED_BARRIER();
+                        bits = 0x20;
+                        F(anim_sprite, u16, 0x10) = (u16)bits;
+                        F(anim_sprite, u8, 0xE) = (u8)effect_context;
+                        F(anim_sprite, u8, 0xD) = (u8)effect_context;
+                        F(anim_sprite, u8, 0xC) = (u8)effect_context;
+                        func_8003DB94(anim_sprite, animation, anim_context);
+                    }
+                }
+            }
+            particle_index++;
+        } while (particle_index < 4);
+    }
+    {
+        register u32 saved_z ASM_REG("$4");
+        bits = F(effect_base, u16, 0xC);
+        component = F(effect_base, u16, 0xE);
+        saved_z = F(effect_base, u16, 0x10);
+        F(effect_base, u16, 0x12) = (u16)bits;
+        F(effect_base, u16, 0x14) = (u16)component;
+        F(effect_base, u16, 0x16) = (u16)saved_z;
+    }
+emit_flash:
+    if (F(effect_base, s16, 0x20) != 11) {
+        return;
+    }
+    particle = func_8003FC64(0x212);
+    if (particle == 0) {
+        return;
+    }
+    init_object = particle;
+    init_data = D_80045340;
+    ASM_KEEP_NV(init_data);
+    F(particle, s16, 0x4A) = 6;
+    ASM_SCHED_BARRIER();
+    bits = (u32)0x80020000;
+    ASM_KEEP_NV(bits);
+    bits += 0x48B8;
+    F(particle, void *, 0x10) = (void *)bits;
+    func_8004491C(init_object, init_data);
+    bits = 0x20;
+    sprite = F(particle, void *, 0xC);
+    {
+        void *actor_position;
+        F(sprite, u16, 0x10) = (u16)bits;
+        F(sprite, u16, 6) = 8;
+        actor_position = D_800814A8[0];
+        F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
+        position = F(particle, void *, 8);
+        actor_position = F(actor_position, void *, -24);
+        F(position, u32, 0) = F(actor_position, u32, 0);
+        F(position, u32, 4) = F(actor_position, u32, 4);
+        F(position, u32, 8) = F(actor_position, u32, 8);
+    }
+    {
+        u8 *dungeon = D_80082E80;
+        if (func_8003DF74(F(dungeon, void *, 8), dungeon,
+                          (u8 *)effect_base + 0xC, 0) != 0) {
+            F(position, u32, 0) += (u32)(F(effect_base, s16, 0xC) << 16);
+            F(position, u32, 4) += (u32)(F(effect_base, s16, 0xE) << 16);
+            F(position, u32, 8) += (u32)(F(effect_base, s16, 0x10) << 16);
+        }
+    }
+    sprite = F(particle, void *, 0xC);
+    F(sprite, u16, 0x1E) = 0x80;
+    F(sprite, u16, 0x1C) = 0x80;
+    F(sprite, u8, 0xE) = 0x80;
+    F(sprite, u8, 0xD) = 0x80;
+    F(sprite, u8, 0xC) = 0x80;
+    *(Packed12 *)((u8 *)particle + 146) = *(Packed12 *)D_800256EC;
+    F(sprite, void *, 8) = (u8 *)particle + 146;
     func_800256AC();
 
-L3:
-    if (F(base, s16, 0x20) < 13) {
-        goto L3_tail;
+emit_burst:
+    if (F(effect_base, s16, 0x20) < 13) {
+        goto fade_model;
     }
-    s4 = 0;
-    ptr2492c = D_8002492C;
-    s7 = D_80082E80;
-    s6 = D_80083780;
-    ctx = 0x80;
+    particle_index = 0;
+    particle_script = D_8002492C;
+    spawn_data = D_80082E80;
+    world_offset = D_80083780;
+    effect_context = 0x80;
     do {
-        s3 = func_8003FC64(0x212);
-        if (s3 != 0) {
-            special_obj = s3;
-            special_data = D_80045340;
-            ASM_KEEP_NV(special_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ctx = (u8 *)s3 + 0x20;
-            F(ctx, s16, 0x2A) = 12;
-            F(s3, void *, 0x10) = ptr2492c;
-            func_8004491C(special_obj, special_data);
-            s0 = F(s3, void *, 0xC);
-            F(s0, u16, 0x14) = (u16)(F(s0, u16, 0x14) | 0xC);
-            F(s0, u16, 0x10) = 0x60;
+        particle = func_8003FC64(0x212);
+        if (particle != 0) {
+            init_object = particle;
+            init_data = D_80045340;
+            ASM_KEEP_NV(init_data);
+            effect_context = (u8 *)particle + 0x20;
+            F(effect_context, s16, 0x2A) = 12;
+            F(particle, void *, 0x10) = particle_script;
+            func_8004491C(init_object, init_data);
+            sprite = F(particle, void *, 0xC);
+            F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
+            F(sprite, u16, 0x10) = 0x60;
             if ((func_80069EF8() & 1) == 0) {
-                F(s0, u16, 0x14) = (u16)(F(s0, u16, 0x14) | 1);
+                F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
             }
-            dest = F(s3, void *, 8);
-            if (func_8003DF74(F(s7, void *, 8), s7, (u8 *)base + 0xC, 0) != 0) {
-                F(base, u16, 0xC) = (u16)(F(base, u16, 0xC) + F(s6, u16, 2));
-                F(base, u16, 0xE) = (u16)(F(base, u16, 0xE) + F(s6, u16, 6));
-                F(base, u16, 0x10) = (u16)(F(base, u16, 0x10) + F(s6, u16, 0xA));
-                if (s4 != 0) {
-                    F(ctx, s16, 0x2A) = 8;
-                    F(s0, u16, 0x10) = 0x20;
-                    r = (u32)func_80069EF8() & 0x3F;
-                    i = F(base, u16, 0xC);
-                    i -= 0x20;
-                    i += r;
-                    F(base, u16, 0xC) = (u16)i;
-                    r = (u32)func_80069EF8() & 0x3F;
-                    i = F(base, u16, 0xE);
-                    i -= 0x20;
-                    i += r;
-                    F(base, u16, 0xE) = (u16)i;
-                    r = (u32)func_80069EF8() & 0x3F;
-                    i = F(base, u16, 0x10);
-                    i -= 0x20;
-                    i += r;
-                    F(base, u16, 0x10) = (u16)i;
+            position = F(particle, void *, 8);
+            if (func_8003DF74(F(spawn_data, void *, 8), spawn_data, (u8 *)effect_base + 0xC, 0) != 0) {
+                F(effect_base, u16, 0xC) = (u16)(F(effect_base, u16, 0xC) + F(world_offset, u16, 2));
+                F(effect_base, u16, 0xE) = (u16)(F(effect_base, u16, 0xE) + F(world_offset, u16, 6));
+                F(effect_base, u16, 0x10) = (u16)(F(effect_base, u16, 0x10) + F(world_offset, u16, 0xA));
+                if (particle_index != 0) {
+                    F(effect_context, s16, 0x2A) = 8;
+                    F(sprite, u16, 0x10) = 0x20;
+                    bits = (u32)func_80069EF8() & 0x3F;
+                    component = F(effect_base, u16, 0xC);
+                    component -= 0x20;
+                    component += bits;
+                    F(effect_base, u16, 0xC) = (u16)component;
+                    bits = (u32)func_80069EF8() & 0x3F;
+                    component = F(effect_base, u16, 0xE);
+                    component -= 0x20;
+                    component += bits;
+                    F(effect_base, u16, 0xE) = (u16)component;
+                    bits = (u32)func_80069EF8() & 0x3F;
+                    component = F(effect_base, u16, 0x10);
+                    component -= 0x20;
+                    component += bits;
+                    F(effect_base, u16, 0x10) = (u16)component;
                 }
             }
-            F(dest, u16, 2) = F(base, u16, 0xC);
-            F(dest, u16, 6) = F(base, u16, 0xE);
-            F(dest, u16, 0xA) = F(base, u16, 0x10);
-            s0 = F(s3, void *, 0xC);
-            F(s0, u16, 0x1E) = 0x1000;
-            F(s0, u16, 0x1C) = 0x1000;
-            F(s0, u8, 0xE) = 0x80;
-            F(s0, u8, 0xD) = 0x80;
-            F(s0, u8, 0xC) = 0x80;
-            if (s4 != 0) {
-                register void *tail_obj ASM_REG("$4") = s0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                void *tail_a1 = D_800DEB28;
-                ASM_TAILSLOT_PIN(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                return func_8002555C(tail_obj, tail_a1);
+            F(position, u16, 2) = F(effect_base, u16, 0xC);
+            F(position, u16, 6) = F(effect_base, u16, 0xE);
+            F(position, u16, 0xA) = F(effect_base, u16, 0x10);
+            sprite = F(particle, void *, 0xC);
+            F(sprite, u16, 0x1E) = 0x1000;
+            F(sprite, u16, 0x1C) = 0x1000;
+            F(sprite, u8, 0xE) = 0x80;
+            F(sprite, u8, 0xD) = 0x80;
+            F(sprite, u8, 0xC) = 0x80;
+            if (particle_index != 0) {
+                register void *anim_sprite ASM_REG("$4") = sprite;
+                void *animation = D_800DEB28;
+                ASM_TAILSLOT_PIN(animation);
+                return func_8002555C(anim_sprite, animation);
             } else {
-                func_8003DB94(s0, D_800DE870, 0);
+                func_8003DB94(sprite, D_800DE870, 0);
             }
         }
-        s4++;
-    } while (s4 < 4);
+        particle_index++;
+    } while (particle_index < 4);
 
-L3_tail:
+fade_model:
     {
-        register void *obj ASM_REG("$5") = F(D_800814A8[0], void *, 0x60);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 v;
-        if (obj != 0) {
-            F(obj, u32, 0x1C) |= 0x10000000;
+        register void *actor_model ASM_REG("$5") = F(D_800814A8[0], void *, 0x60);
+        s32 fade;
+        if (actor_model != 0) {
+            F(actor_model, u32, 0x1C) |= 0x10000000;
             {
-                register void *sub ASM_REG("$6") = F(obj, void *, -20);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                v = F(base, s16, 0x20) * 0x7F;
-                if (v < 0) {
-                    v += 15;
+                register void *model_color ASM_REG("$6") = F(actor_model, void *, -20);
+                fade = F(effect_base, s16, 0x20) * 0x7F;
+                if (fade < 0) {
+                    fade += 15;
                 }
-                F(sub, s8, 0xC) = (s8)((v >> 4) - 0x80);
-                v = (16 - F(base, s16, 0x20)) << 3;
-                F(sub, s8, 0xE) = (s8)v;
-                F(sub, s8, 0xD) = (s8)v;
+                F(model_color, s8, 0xC) = (s8)((fade >> 4) - 0x80);
+                fade = (16 - F(effect_base, s16, 0x20)) << 3;
+                F(model_color, s8, 0xE) = (s8)fade;
+                F(model_color, s8, 0xD) = (s8)fade;
             }
         }
     }
     if ((F(D_80082E80, u16, 0x14) & 0x8000) == 0) {
-        F(base, u16, 0x20) = (u16)(F(base, u16, 0x20) - 1);
-        if (F(base, s16, 0x20) >= 0) {
+        F(effect_base, u16, 0x20) = (u16)(F(effect_base, u16, 0x20) - 1);
+        if (F(effect_base, s16, 0x20) >= 0) {
             return;
         }
     }
-    F(base, u16, 0xA) = 4;
+    F(effect_base, u16, 0xA) = 4;
     func_800256AC();
 
-L4:
+finish:
     if (F(D_8002571C, s16, 0) == 0) {
-        void *l4_obj =
+        void *actor_model =
             F(D_800814A8[0], void *, 0x60);
-        register s32 l4_color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        if (l4_obj != 0) {
-            r = (u32)0xEFFFFFFF;
-            l4_color = 0x00808080;
-            i = (s32)F(l4_obj, u32, 0x1C);
-            particle_color = (s32)F(l4_obj, void *, -20);
-            i &= (s32)r;
-            F(l4_obj, u32, 0x1C) = (u32)i;
-            F((void *)particle_color, u32, 0xC) = (u32)l4_color;
+        register s32 neutral_color ASM_REG("$4");
+        if (actor_model != 0) {
+            bits = (u32)0xEFFFFFFF;
+            neutral_color = 0x00808080;
+            component = (s32)F(actor_model, u32, 0x1C);
+            particle_color = (s32)F(actor_model, void *, -20);
+            component &= (s32)bits;
+            F(actor_model, u32, 0x1C) = (u32)component;
+            F((void *)particle_color, u32, 0xC) = (u32)neutral_color;
         }
         {
-            D_80083460_t *dstate = &D_80083460;
-            r = dstate->fieldA;
-            F(dstate, u32, 0xC) = 0;
+            D_80083460_t *dungeon_state = &D_80083460;
+            bits = dungeon_state->fieldA;
+            F(dungeon_state, u32, 0xC) = 0;
             F(D_80082E80, u16, 6) = 0;
-            dstate->fieldA = (u16)(r - 1);
+            dungeon_state->fieldA = (u16)(bits - 1);
         }
-        F(base, u16, -2) = (u16)(F(base, u16, -2) | 0x8000);
+        F(effect_base, u16, -2) = (u16)(F(effect_base, u16, -2) | 0x8000);
         D_800814A0[0] |= 0x8000;
         func_800256AC();
     }

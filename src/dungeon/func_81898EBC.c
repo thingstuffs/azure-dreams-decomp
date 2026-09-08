@@ -92,58 +92,59 @@ extern void func_80024AE4(void) __attribute__((noreturn));
 extern void func_80024D54(void) __attribute__((noreturn));
 extern void func_80024DE0(void) __attribute__((noreturn));
 
-void func_81898EBC(EffectState *arg0, Motion *arg1, ColorPart *arg2)
+/* Update the effect's launch, movement, impact, and cleanup phases. */
+void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *color_part)
 {
-    EffectState *state = arg0;
-    Motion *motion = arg1;
+    EffectState *state = effect_state;
+    Motion *motion = effect_motion;
     ColorPart *part;
-    register void *owner ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *meta;
-    void *node;
-    void *source;
+    register void *owner ASM_REG("$17");
+    void *owner_data;
+    void *owner_node;
+    void *source_pos;
     register u8 *origin;
     Scratch scratch;
     u8 *global_page;
     s32 state_id;
     s32 source_z;
     s32 adjusted_z;
-    s32 i;
-    u8 *scan;
+    s32 axis;
+    u8 *delta_ptr;
 
     state->timer++;
     state_id = state->state;
     owner = state->owner;
 
-    part = arg2;
+    part = color_part;
     switch (state_id) {
     case 0:
 
         origin = D_80082E80_early;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        ASM_SCHED_BARRIER();
 
         {
-            register u32 work_v0 ASM_REG("$2") =
+            register u32 lookup_addr ASM_REG("$2") =
                 (u32)PTR_AT((u8 *)owner - 0x20, 0xC);
-            register s32 start_x ASM_REG("$4") = U8_AT(work_v0, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register s32 start_y ASM_REG("$5") = U8_AT(work_v0, 0x25);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register s32 start_x ASM_REG("$4") = U8_AT(lookup_addr, 0x24);
+            register s32 start_y ASM_REG("$5") = U8_AT(lookup_addr, 0x25);
             u32 origin_x;
-            register u32 base_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            u32 chain_x;
-            u32 chain_y;
+            register u32 x_table ASM_REG("$7");
+            u32 x_offset;
+            u32 y_offset;
 
-            base_x = (u32)D_8006CCD8_early;
-            work_v0 = (u32)D_800814A8_early[0];
-            chain_y = U16_AT(work_v0, 0x2A);
+            x_table = (u32)D_8006CCD8_early;
+            lookup_addr = (u32)D_800814A8_early[0];
+            y_offset = U16_AT(lookup_addr, 0x2A);
             origin_x = origin[0x24];
-            chain_y = (chain_y >> 8) & 0xE;
-            chain_x = chain_y + base_x;
-            work_v0 = (u32)D_8006CCE8_early;
-            chain_y += work_v0;
-            chain_x = U16_AT(chain_x, 0);
-            chain_y = U16_AT(chain_y, 0);
+            y_offset = (y_offset >> 8) & 0xE;
+            x_offset = y_offset + x_table;
+            lookup_addr = (u32)D_8006CCE8_early;
+            y_offset += lookup_addr;
+            x_offset = U16_AT(x_offset, 0);
+            y_offset = U16_AT(y_offset, 0);
 
             U16_AT(owner, 0x2A) = func_800A0818(
-                start_x, start_y, origin_x + chain_x, origin[0x25] + chain_y, &result);
+                start_x, start_y, origin_x + x_offset, origin[0x25] + y_offset, &result);
         }
         state->timer = 0;
         state->state++;
@@ -152,43 +153,42 @@ void func_81898EBC(EffectState *arg0, Motion *arg1, ColorPart *arg2)
         part->color = 0x00808080;
 
     case 1:
-        meta = (u8 *)owner - 0x20;
-        node = PTR_AT(meta, 0xC);
-        if (func_8003DE58(PTR_AT(node, 8), node, probe, 0) == 0) {
-            if (!(U16_AT(PTR_AT(meta, 0xC), 0x14) & 0x8000)) {
+        owner_data = (u8 *)owner - 0x20;
+        owner_node = PTR_AT(owner_data, 0xC);
+        if (func_8003DE58(PTR_AT(owner_node, 8), owner_node, probe, 0) == 0) {
+            if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
                 goto done;
             }
         }
 
-        source = PTR_AT(meta, 8);
-        U16_AT(motion, 2) = U16_AT(source, 2);
-        U16_AT(motion, 6) = U16_AT(source, 6);
-        source_z = U16_AT(source, 0xA);
+        source_pos = PTR_AT(owner_data, 8);
+        U16_AT(motion, 2) = U16_AT(source_pos, 2);
+        U16_AT(motion, 6) = U16_AT(source_pos, 6);
+        source_z = U16_AT(source_pos, 0xA);
         U16_AT(motion, 0xA) = source_z;
-        if (!(U16_AT(PTR_AT(meta, 0xC), 0x14) & 0x8000)) {
+        if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
             U16_AT(motion, 2) += probe[0];
             U16_AT(motion, 6) += probe[1];
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            ASM_MEM_BARRIER();
             adjusted_z = U16_AT(motion, 0xA);
             source_z = U16_AT(probe, 4);
             adjusted_z += source_z;
-            ASM_TAILSLOT_PIN(adjusted_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(adjusted_z);
             func_80024888();
         }
 
-        ASM_KEEP(source_z);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(source_z);
         adjusted_z = source_z - 0x40;
         U16_AT(motion, 0xA) = adjusted_z;
         if (!(U16_AT(state->image, 0) & 0x80)) {
             goto done;
         }
 
-        /* This expression is intentionally kept in its retail form. */
-        if ((U16_AT(meta, 0x1E) | 0x2000) != 0) {
+        if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             u8 *position_base = D_80082E80;
             void *direction_node = D_800814A8[0];
-            register u32 direction_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            register u32 direction_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            register u32 direction_x ASM_REG("$2");
+            register u32 direction_y ASM_REG("$2");
 
             direction_x = U16_AT(direction_node, 0x2A);
             state->x = position_base[0x24] +
@@ -202,150 +202,150 @@ void func_81898EBC(EffectState *arg0, Motion *arg1, ColorPart *arg2)
         }
 
         {
-        s16 *work = scratch.work;
+            s16 *target_pos = scratch.work;
 
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        state->x = D_80082E80[0x24] + D_8006CCD8[state->direction];
-        state->y = D_80082E80[0x25] + D_8006CCE8[state->direction];
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        {
-            void *height_node;
-            s32 work_coord;
+            ASM_SCHED_BARRIER();
+            state->x = D_80082E80[0x24] + D_8006CCD8[state->direction];
+            state->y = D_80082E80[0x25] + D_8006CCE8[state->direction];
+            ASM_SCHED_BARRIER();
+            {
+                void *height_node;
+                s32 tile_coord;
 
-            work_coord = state->x;
-            global_page = (u8 *)0x80080000;
-            S16_AT(work, 2) = work_coord * 64 + 0x20;
-            work_coord = state->y;
-            height_node = PTR_AT(global_page, 0x14A8);
-            S16_AT(work, 6) = work_coord * 64 + 0x20;
-            S16_AT(work, 0xA) = ((s16 *)height_node)[0x44] - 0x20;
-        }
-        S16_AT(work, 0xA) = func_800BCAD0(work);
-        state->z = S16_AT(work, 0xA);
-        func_8009A350(state->x - 1, state->y, 0, &map_flags);
-        if (map_flags & 0x3300) {
-            s32 tail_value;
+                tile_coord = state->x;
+                global_page = (u8 *)0x80080000;
+                S16_AT(target_pos, 2) = tile_coord * 64 + 0x20;
+                tile_coord = state->y;
+                height_node = PTR_AT(global_page, 0x14A8);
+                S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
+                S16_AT(target_pos, 0xA) = ((s16 *)height_node)[0x44] - 0x20;
+            }
+            S16_AT(target_pos, 0xA) = func_800BCAD0(target_pos);
+            state->z = S16_AT(target_pos, 0xA);
+            func_8009A350(state->x - 1, state->y, 0, &map_flags);
+            if (map_flags & 0x3300) {
+                s32 fallback_value;
 
-            tail_value =
-                ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
-            S32_AT((u8 *)work, 8) = tail_value;
-            tail_value = 6;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_80024AE4();
-        }
-        {
-            register s32 work_z ASM_REG("$6") = S16_AT(work, 0xA);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 in_range ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-
-            in_range = work_z < 0x201;
-            if (!in_range) {
-                s32 tail_value;
-
-                tail_value =
+                fallback_value =
                     ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
-                S32_AT((u8 *)work, 8) = tail_value;
-                tail_value = 6;
-                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                S32_AT((u8 *)target_pos, 8) = fallback_value;
+                fallback_value = 6;
+                ASM_TAILSLOT_PIN(fallback_value);
                 func_80024AE4();
             }
-        }
-        if ((func_800A45D8(U16_AT(work, 2), U16_AT(work, 6)) << 16) != 0) {
-            s32 tail_value;
+            {
+                register s32 target_z ASM_REG("$6") = S16_AT(target_pos, 0xA);
+                register s32 in_range ASM_REG("$2");
 
-            tail_value =
-                ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
-            S32_AT((u8 *)work, 8) = tail_value;
-            tail_value = 6;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_80024AE4();
-        }
-        if ((func_800A5690() << 16) == 0) {
-            s32 tail_value;
+                in_range = target_z < 0x201;
+                if (!in_range) {
+                    s32 fallback_value;
 
-            tail_value =
-                ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
-            S32_AT((u8 *)work, 8) = tail_value;
-            tail_value = 6;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_80024AE4();
-        }
-        if ((U16_AT(meta, 0x1E) | 0x2000) != 0) {
-            state->status = 1;
-        } else {
-            state->status = 2;
-        }
-        state->state++;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-
-        {
-            register s32 delta_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register s32 zbase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s32 delta_y;
-            s32 delta_z;
-
-            i = 1;
-            scan = (u8 *)&scratch + 2;
-            ASM_KEEP(scan);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            delta_x = S16_AT(work, 2) - S16_AT(motion, 2);
-            if (delta_x < 0) {
-                delta_x = -delta_x;
+                    fallback_value =
+                        ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
+                    S32_AT((u8 *)target_pos, 8) = fallback_value;
+                    fallback_value = 6;
+                    ASM_TAILSLOT_PIN(fallback_value);
+                    func_80024AE4();
+                }
             }
-            probe[0] = delta_x;
-            delta_y = S16_AT(work, 6) - S16_AT(motion, 6);
-            if (delta_y < 0) {
-                delta_y = -delta_y;
-            }
-            probe[1] = delta_y;
-            zbase = S16_AT(motion, 0xA) + 160;
-            delta_z = S16_AT(work, 0xA) - zbase;
-            if (delta_z < 0) {
-                delta_z = -delta_z;
-            }
-            probe[2] = delta_z;
-            state->duration = delta_x;
-        }
-        do {
-            s32 scan_value;
+            if ((func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6)) << 16) != 0) {
+                s32 fallback_value;
 
-            scan_value = S16_AT(scan, 24);
-            if (state->duration < scan_value) {
-                state->duration = U16_AT(scan, 24);
+                fallback_value =
+                    ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
+                S32_AT((u8 *)target_pos, 8) = fallback_value;
+                fallback_value = 6;
+                ASM_TAILSLOT_PIN(fallback_value);
+                func_80024AE4();
             }
-            i++;
-            scan += 2;
-        } while (i < 3);
-        state->duration =
-            (state->duration >> 4) + (state->duration >> 5);
-        if (state->duration == 0) {
-            state->duration = 1;
-        }
-        S32_AT(motion, 0xC) =
-            (S32_AT(work, 0) - S32_AT(motion, 0)) / state->duration;
-        {
-            s32 ybase;
-            s32 yvalue;
-            s32 yduration;
+            if ((func_800A5690() << 16) == 0) {
+                s32 fallback_value;
 
-            ybase = S32_AT(motion, 4);
-            yvalue = S32_AT(work, 4) - ybase;
-            yduration = state->duration;
-            yvalue /= yduration;
-            S32_AT(motion, 0x10) = yvalue;
-        }
-        {
-            s32 zbase;
-            s32 zoff;
+                fallback_value =
+                    ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
+                S32_AT((u8 *)target_pos, 8) = fallback_value;
+                fallback_value = 6;
+                ASM_TAILSLOT_PIN(fallback_value);
+                func_80024AE4();
+            }
+            if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
+                state->status = 1;
+            } else {
+                state->status = 2;
+            }
+            state->state++;
+            ASM_SCHED_BARRIER();
 
-            zoff = 0x00A00000;
-            zbase = S32_AT(motion, 8) + zoff;
-            S32_AT(motion, 0x14) =
-                (S32_AT(work, 8) - zbase) / state->duration;
-        }
-        func_800240CC(state, motion, state->duration);
-        func_800240CC(state, motion, state->duration);
-        func_800240CC(state, motion, state->duration);
-        state->timer = 0;
-        func_80024DE0();
+            {
+                register s32 delta_x ASM_REG("$4");
+                register s32 raised_z ASM_REG("$3");
+                s32 delta_y;
+                s32 delta_z;
+
+                axis = 1;
+                delta_ptr = (u8 *)&scratch + 2;
+                ASM_KEEP(delta_ptr);
+                delta_x = S16_AT(target_pos, 2) - S16_AT(motion, 2);
+                if (delta_x < 0) {
+                    delta_x = -delta_x;
+                }
+                probe[0] = delta_x;
+                delta_y = S16_AT(target_pos, 6) - S16_AT(motion, 6);
+                if (delta_y < 0) {
+                    delta_y = -delta_y;
+                }
+                probe[1] = delta_y;
+                raised_z = S16_AT(motion, 0xA) + 160;
+                delta_z = S16_AT(target_pos, 0xA) - raised_z;
+                if (delta_z < 0) {
+                    delta_z = -delta_z;
+                }
+                probe[2] = delta_z;
+                state->duration = delta_x;
+            }
+            do {
+                s32 axis_delta;
+
+                axis_delta = S16_AT(delta_ptr, 24);
+                if (state->duration < axis_delta) {
+                    state->duration = U16_AT(delta_ptr, 24);
+                }
+                axis++;
+                delta_ptr += 2;
+            } while (axis < 3);
+            state->duration =
+                (state->duration >> 4) + (state->duration >> 5);
+            if (state->duration == 0) {
+                state->duration = 1;
+            }
+            S32_AT(motion, 0xC) =
+                (S32_AT(target_pos, 0) - S32_AT(motion, 0)) / state->duration;
+            {
+                s32 current_y;
+                s32 y_step;
+                s32 move_frames;
+
+                current_y = S32_AT(motion, 4);
+                y_step = S32_AT(target_pos, 4) - current_y;
+                move_frames = state->duration;
+                y_step /= move_frames;
+                S32_AT(motion, 0x10) = y_step;
+            }
+            {
+                s32 raised_z;
+                s32 z_offset;
+
+                z_offset = 0x00A00000;
+                raised_z = S32_AT(motion, 8) + z_offset;
+                S32_AT(motion, 0x14) =
+                    (S32_AT(target_pos, 8) - raised_z) / state->duration;
+            }
+            func_800240CC(state, motion, state->duration);
+            func_800240CC(state, motion, state->duration);
+            func_800240CC(state, motion, state->duration);
+            state->timer = 0;
+            func_80024DE0();
         }
 
     case 2:
@@ -372,26 +372,26 @@ void func_81898EBC(EffectState *arg0, Motion *arg1, ColorPart *arg2)
         }
         if (state->status != 0) {
             void *effect = func_800D24A8(state->status, state->x, state->y,
-                                         state->z);
-            register s32 next ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            s32 value;
-            s32 id;
-            s32 color;
+                                        state->z);
+            register s32 intensity ASM_REG("$4");
+            s32 clamped_intensity;
+            s32 effect_id;
+            s32 random_bits;
 
             func_80042640(effect, 52);
-            color = func_800A6D30();
-            id = U8_AT(state, 9);
-            next = id >> 1;
-            next += id << 1;
-            next += color & 3;
-            next += 16;
-            value = next;
-            ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            if (next >= 256) {
-                value = 255;
+            random_bits = func_800A6D30();
+            effect_id = U8_AT(state, 9);
+            intensity = effect_id >> 1;
+            intensity += effect_id << 1;
+            intensity += random_bits & 3;
+            intensity += 16;
+            clamped_intensity = intensity;
+            ASM_KEEP(intensity);
+            if (intensity >= 256) {
+                clamped_intensity = 255;
             }
-            U8_AT(effect, 0x28) = value;
-            U8_AT(effect, 0x29) = value;
+            U8_AT(effect, 0x28) = clamped_intensity;
+            U8_AT(effect, 0x29) = clamped_intensity;
         }
         state->timer = 0;
         state->state++;

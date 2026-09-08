@@ -158,124 +158,125 @@ extern void func_80024E18(void) __attribute__((noreturn));
 extern void func_80025064(void) __attribute__((noreturn));
 extern void func_800250D4(void) __attribute__((noreturn));
 
-void func_818D4E68(Actor *arg0, Motion *arg1, Render *arg2)
+/* Updates the actor effect through movement, particle emission, fading, and cleanup. */
+void func_818D4E68(Actor *actor, Motion *position, Render *sprite)
 {
-    s16 delta[4];
+    s16 position_delta[4];
     PackedOffsets offsets;
-    Actor *self = arg0;
-    register Motion *motion ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    Render *render = arg2;
+    Actor *actor_data = actor;
+    register Motion *motion ASM_REG("$17") = position;
+    Render *render = sprite;
     Entity *entity;
-    register Owner *owner ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register Motion *source ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register Owner *owner ASM_REG("$16");
+    register Motion *owner_motion ASM_REG("$18");
     s32 state;
     u16 timer;
     void **jump_table;
 
-    static void *const keepalive[] = {
+    static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state3, &&state4, &&state5, &&state6
     };
     {
         u8 *copy_page;
-        register PackedOffsets *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register PackedOffsets *copy_src ASM_REG("$6");
         copy_page = (u8 *)0x80020000;
-        ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(render);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        entity = self->entity;
-        ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(copy_page);
+        ASM_KEEP(actor_data);
+        ASM_KEEP(render);
+        entity = actor_data->entity;
+        ASM_KEEP(entity);
         copy_src = (PackedOffsets *)(copy_page + 0x4004);
-        ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(copy_src);
         offsets.copy.first = copy_src->copy.first;
         offsets.copy.second = copy_src->copy.second;
         offsets.copy.third = copy_src->copy.third;
-        ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(copy_page);
     }
-    timer = self->timer82;
-    state = self->state;
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    timer = actor_data->timer82;
+    state = actor_data->state;
+    ASM_KEEP(state);
     owner = (Owner *)((u8 *)entity - 0x20);
-    ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    source = owner->position;
+    ASM_KEEP(owner);
+    owner_motion = owner->position;
     timer++;
-    self->timer82 = timer;
+    actor_data->timer82 = timer;
 
     if ((u32)state >= 7U) {
         return;
     }
     jump_table = (void **)0x80020000;
-    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(jump_table);
     jump_table = (void **)((u8 *)jump_table + 0x4028);
-    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(jump_table);
     goto *jump_table[state];
 
 state0:
     *(u32 *)&render->color0 = 0x00808080;
     render->scale_y = 0x1000;
     render->scale_x = 0x1000;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_SCHED_BARRIER();
     {
         u8 *copy_page;
-        register Packed12 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register Packed12 *copy_src ASM_REG("$6");
         copy_page = (u8 *)0x80020000;
-        ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(copy_page);
         copy_src = (Packed12 *)(copy_page + 0x510C);
-        ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        self->image_data = *copy_src;
-        ASM_USE_NV(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(copy_src);
+        actor_data->image_data = *copy_src;
+        ASM_USE_NV(copy_page);
     }
     {
-        u8 *copy_dest = (u8 *)self + 0x94;
-        ASM_KEEP(copy_dest);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        u8 *copy_dest = (u8 *)actor_data + 0x94;
+        ASM_KEEP(copy_dest);
         render->image = copy_dest;
     }
     {
-        u32 entity_bits;
-        u16 scalar;
-        register s16 *flag_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        u32 direction_bits;
+        u16 next_state;
+        register s16 *flag_base ASM_REG("$4");
 
         flag_base = (s16 *)0x80020000;
-        ASM_KEEP(flag_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        entity_bits = entity->flags2A;
-        scalar = 1;
-        *(volatile s16 *)((u8 *)flag_base + 0x5118) = scalar;
-        scalar = self->state;
-        entity_bits = (entity_bits >> 9) & 7;
-        scalar++;
-        self->direction = entity_bits;
-        self->state = scalar;
+        ASM_KEEP(flag_base);
+        direction_bits = entity->flags2A;
+        next_state = 1;
+        *(volatile s16 *)((u8 *)flag_base + 0x5118) = next_state;
+        next_state = actor_data->state;
+        direction_bits = (direction_bits >> 9) & 7;
+        next_state++;
+        actor_data->direction = direction_bits;
+        actor_data->state = next_state;
     }
-    if (func_8003DF74(owner->aux->field08, owner->aux, delta, 0) == 0 &&
+    if (func_8003DF74(owner->aux->field08, owner->aux, position_delta, 0) == 0 &&
         !(owner->aux->flags14 & 0x8000)) {
         return;
     }
     {
         u16 motion_z;
         u16 delta_z;
-        motion->x.half.hi = source->x.half.hi;
-        motion->y.half.hi = source->y.half.hi;
-        motion->z.half.hi = source->z.half.hi;
+        motion->x.half.hi = owner_motion->x.half.hi;
+        motion->y.half.hi = owner_motion->y.half.hi;
+        motion->z.half.hi = owner_motion->z.half.hi;
         if (!(owner->aux->flags14 & 0x8000)) {
-            motion->x.half.hi += (u16)delta[0];
-            motion->y.half.hi += (u16)delta[1];
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            motion->x.half.hi += (u16)position_delta[0];
+            motion->y.half.hi += (u16)position_delta[1];
+            ASM_SCHED_BARRIER();
             motion_z = motion->z.half.hi;
-            delta_z = (u16)delta[2];
+            delta_z = (u16)position_delta[2];
             motion_z += delta_z;
-            ASM_TAILSLOT_PIN_TIED(motion_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN_TIED(motion_z);
             func_80024898();
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_SCHED_BARRIER();
         motion->z.half.hi -= 0x40;
     }
-    if (!(*(u16 *)self->field04 & 0x80)) {
+    if (!(*(u16 *)actor_data->field04 & 0x80)) {
         return;
     }
     {
         void *callback_owner;
-        if (!(self->flags7A & 4)) {
-            callback_owner = (u8 *)self - 0x20;
-            ASM_KEEP_NV(callback_owner);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        if (!(actor_data->flags7A & 4)) {
+            callback_owner = (u8 *)actor_data - 0x20;
+            ASM_KEEP_NV(callback_owner);
             func_8004491C(callback_owner, func_80045340);
             render->field10 = 0x40;
             render->color2 = 0x80;
@@ -284,56 +285,56 @@ state0:
             render->scale_y = 0x800;
             render->scale_x = 0x800;
             render->flags |= 0xC;
-            self->flags7A |= 4;
+            actor_data->flags7A |= 4;
         }
     }
     if (entity->link60 != 0) {
         void *link;
-        register u8 *linked_pos ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u8 *linked_pos ASM_REG("$6");
         u16 linked_z;
         link = entity->link60;
         linked_pos = *(u8 **)((u8 *)link - 0x18);
         linked_z = *(u16 *)(linked_pos + 0xA) - 0x40;
-        ASM_TAILSLOT_PIN_TIED(linked_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN_TIED(linked_z);
         func_80024948();
     }
-    self->target_y = (s16)(entity->height88 - 0x50);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    actor_data->target_y = (s16)(entity->height88 - 0x50);
+    ASM_SCHED_BARRIER();
     {
         Aux *aux;
         s32 entity_coord;
-        register s32 aux_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 aux_coord ASM_REG("$3");
         s32 distance;
 
         {
             u8 *lookup_base;
             u32 lookup;
-            register u32 tile ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            register u32 tile ASM_REG("$2");
             lookup_base = D_8006CCD8;
-            lookup = (u32)self->direction << 1;
+            lookup = (u32)actor_data->direction << 1;
             aux = *(Aux **)((u8 *)entity - 0x14);
             lookup += (u32)lookup_base;
-            ASM_KEEP(lookup);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(lookup);
             tile = aux->tile_x;
             lookup = *(u8 *)lookup;
             tile += lookup;
-            self->target_x = (s8)tile;
+            actor_data->target_x = (s8)tile;
         }
         {
-            register u8 *lookup_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            register u8 *lookup_page ASM_REG("$2");
             u8 *lookup_base;
             u32 lookup;
             u32 tile;
             lookup_page = (u8 *)0x80070000;
-            ASM_KEEP(lookup_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            lookup = (u32)self->direction << 1;
+            ASM_KEEP(lookup_page);
+            lookup = (u32)actor_data->direction << 1;
             lookup_base = lookup_page - 0x3318;
             lookup += (u32)lookup_base;
-            ASM_KEEP(lookup);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(lookup);
             tile = aux->tile_y;
             lookup = *(u8 *)lookup;
             tile += lookup;
-            self->target_z = (s8)tile;
+            actor_data->target_z = (s8)tile;
         }
 
         entity_coord = entity->tile_x72;
@@ -346,29 +347,29 @@ state0:
         if (distance < 0) {
             distance = -distance;
         }
-        self->countdown = (s8)(distance * 4 - 3);
+        actor_data->countdown = (s8)(distance * 4 - 3);
     }
     {
         AlignedOffsetPair *offset_base;
-        register s32 direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        direction = self->direction;
+        register s32 direction ASM_REG("$2");
+        ASM_SCHED_BARRIER();
+        direction = actor_data->direction;
         offset_base = (AlignedOffsetPair *)(void *)offsets.bytes;
         direction <<= 2;
         direction = (u32)offset_base + direction;
         motion->dx = ((AlignedOffsetPair *)(u32)direction)->x << 16;
-        direction = self->direction;
+        direction = actor_data->direction;
         direction <<= 2;
         offset_base = (AlignedOffsetPair *)((u8 *)offset_base + direction);
         motion->dy = offset_base->y << 16;
     }
-    motion->dz = ((self->target_y << 16) - motion->z.word) / self->countdown;
+    motion->dz = ((actor_data->target_y << 16) - motion->z.word) / actor_data->countdown;
     {
-        u16 dead_state;
-        dead_state = self->state;
-        ASM_KEEP(dead_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        u16 current_state;
+        current_state = actor_data->state;
+        ASM_KEEP(current_state);
     }
-    self->timer82 = 0;
+    actor_data->timer82 = 0;
     func_80025064();
 
 state1:
@@ -378,7 +379,7 @@ state1:
     }
     {
         u16 angle;
-        register Task *task ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        register Task *task ASM_REG("$16");
         angle = render->angle;
         render->angle = angle + 0x300;
         if ((u16)(angle + 0x300) >= 0x1001) {
@@ -387,7 +388,7 @@ state1:
         task = func_8003FC64(0x212);
         if (task != 0) {
             Motion *task_motion;
-            register Render *task_render ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register Render *task_render ASM_REG("$7");
             task->field22 = 0x10;
             task->update = func_80024548;
             func_8004491C(task, func_80045340);
@@ -404,27 +405,27 @@ state1:
             task_render->color2 = 0x78;
             task_render->color1 = 0x78;
             task_render->color0 = 0x78;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_SCHED_BARRIER();
             {
                 u8 *copy_page;
-                register Packed12 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                register Packed12 *copy_src ASM_REG("$6");
                 copy_page = (u8 *)0x80020000;
-                ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(copy_page);
                 copy_src = (Packed12 *)(copy_page + 0x510C);
-                ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(copy_src);
                 task->image_data = *copy_src;
-                ASM_USE_NV(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                ASM_USE_NV(copy_page);
             }
             {
                 u8 *task_image = (u8 *)task + 0x40;
                 task_render->image = task_image;
             }
         }
-        self->countdown--;
-        if (self->countdown <= 0) {
+        actor_data->countdown--;
+        if (actor_data->countdown <= 0) {
             if (entity->link60 != 0) {
-                register void *link ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                register Motion *linked_motion ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                register void *link ASM_REG("$6");
+                register Motion *linked_motion ASM_REG("$6");
                 s32 sound_id;
                 link = entity->link60;
                 sound_id = 0x300;
@@ -432,7 +433,7 @@ state1:
                 linked_motion = *(Motion **)((u8 *)link - 0x18);
                 motion->x.half.hi = linked_motion->x.half.hi;
                 motion->y.half.hi = linked_motion->y.half.hi;
-                motion->z.half.hi = self->target_y;
+                motion->z.half.hi = actor_data->target_y;
                 render->image = D_80025100;
                 render->scale_y = 0x400;
                 render->scale_x = 0x400;
@@ -441,20 +442,20 @@ state1:
                 render->color0 = 0x20;
                 render->color1 = 0x20;
                 render->color2 = 0x20;
-                self->step88 = 600;
-                self->color_step = 2;
-                self->accel = 400;
-                self->timer84 = 0;
-                self->state++;
+                actor_data->step88 = 600;
+                actor_data->color_step = 2;
+                actor_data->accel = 400;
+                actor_data->timer84 = 0;
+                actor_data->state++;
                 render->field06 = 100;
                 func_800A56E0(sound_id);
                 func_800250D4();
             }
 state1_cleanup:
-            func_80044A50((u8 *)self - 0x20);
-            self->state = 6;
-            self->timer84 = 0;
-            self->timer82 = 0;
+            func_80044A50((u8 *)actor_data - 0x20);
+            actor_data->state = 6;
+            actor_data->timer84 = 0;
+            actor_data->timer82 = 0;
             func_800250D4();
         }
         motion->x.word += motion->dx;
@@ -464,15 +465,15 @@ state1_cleanup:
     }
 
 state2:
-    self->timer84++;
-    if (self->timer84 < 5) {
+    actor_data->timer84++;
+    if (actor_data->timer84 < 5) {
         render->scale_y += 3000;
         render->scale_x = render->scale_y;
         func_80024D6C();
     }
     if (render->scale_x >= 0x1001) {
         if (render->scale_x >= 0x2EE1) {
-            self->step88 = 700;
+            actor_data->step88 = 700;
         }
         if (render->scale_x >= 0x2711) {
             s32 step = 500;
@@ -495,58 +496,58 @@ state2:
             func_80024D40();
         }
         if (render->scale_x >= 0x801) {
-            self->step88 = 40;
+            actor_data->step88 = 40;
         }
-        render->scale_x -= self->step88;
-        render->scale_y -= self->step88;
+        render->scale_x -= actor_data->step88;
+        render->scale_y -= actor_data->step88;
     }
-    render->angle += self->accel;
-    self->accel += 20;
+    render->angle += actor_data->accel;
+    actor_data->accel += 20;
     if (render->color0 < 120) {
         u32 color;
-        s32 below_60;
+        s32 is_dim;
         color = render->color0;
-        below_60 = color < 60;
-        if (below_60) {
-            self->color_step = 4;
+        is_dim = color < 60;
+        if (is_dim) {
+            actor_data->color_step = 4;
         } else {
-            self->color_step = 1;
+            actor_data->color_step = 1;
         }
-        render->color0 += (u8)self->color_step;
-        render->color1 += (u8)self->color_step;
-        render->color2 += (u8)self->color_step;
+        render->color0 += (u8)actor_data->color_step;
+        render->color1 += (u8)actor_data->color_step;
+        render->color2 += (u8)actor_data->color_step;
     }
     {
-        s32 i;
-        register s32 color ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s32 x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s32 y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        s32 loop_test;
-        s32 z;
-        i = 0;
-        if (self->timer84 >= 81) {
-            self->timer84 = 0;
-            self->timer82 = 0;
-            self->state++;
+        s32 particle_count;
+        register s32 color ASM_REG("$18");
+        register s32 offset_x ASM_REG("$17");
+        register s32 offset_y ASM_REG("$16");
+        s32 more_particles;
+        s32 offset_z;
+        particle_count = 0;
+        if (actor_data->timer84 >= 81) {
+            actor_data->timer84 = 0;
+            actor_data->timer82 = 0;
+            actor_data->state++;
         }
-        ASM_KEEP(i);
-        i++;
+        ASM_KEEP(particle_count);
+        particle_count++;
         color = func_80069EF8();
         color &= 0xFF;
         color |= 0x80;
-        x = func_80069EF8();
-        x &= 0x7F;
-        x -= 0x40;
-        x = (s16)x;
-        y = func_80069EF8();
-        y &= 0x7F;
-        y -= 0x40;
-        y = (s16)y;
-        z = (s16)((func_80069EF8() & 0x7F) - 0x40);
-        func_80024394((u8 *)self - 0x20, self->direction, 0xC0C0C0,
-                      color, x, y, z);
-        loop_test = i < 2;
-        if (!loop_test) {
+        offset_x = func_80069EF8();
+        offset_x &= 0x7F;
+        offset_x -= 0x40;
+        offset_x = (s16)offset_x;
+        offset_y = func_80069EF8();
+        offset_y &= 0x7F;
+        offset_y -= 0x40;
+        offset_y = (s16)offset_y;
+        offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
+        func_80024394((u8 *)actor_data - 0x20, actor_data->direction, 0xC0C0C0,
+                      color, offset_x, offset_y, offset_z);
+        more_particles = particle_count < 2;
+        if (!more_particles) {
             return;
         }
     }
@@ -554,63 +555,63 @@ state2:
 
 state3:
     {
-        register s32 i ASM_REG("$19");
-        for (i = 0; i < 2; i++) {
-            register s32 color ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            register s32 x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            register s32 y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            s32 z;
+        register s32 particle_count ASM_REG("$19");
+        for (particle_count = 0; particle_count < 2; particle_count++) {
+            register s32 color ASM_REG("$18");
+            register s32 offset_x ASM_REG("$17");
+            register s32 offset_y ASM_REG("$16");
+            s32 offset_z;
             color = func_80069EF8();
             color &= 0xFF;
             color |= 0x80;
-            x = func_80069EF8();
-            x &= 0x7F;
-            x -= 0x40;
-            x = (s16)x;
-            y = func_80069EF8();
-            y &= 0x7F;
-            y -= 0x40;
-            y = (s16)y;
-            z = (s16)((func_80069EF8() & 0x7F) - 0x40);
-            func_80024394((u8 *)self - 0x20, self->direction, 0xC0C0C0,
-                          color, x, y, z);
+            offset_x = func_80069EF8();
+            offset_x &= 0x7F;
+            offset_x -= 0x40;
+            offset_x = (s16)offset_x;
+            offset_y = func_80069EF8();
+            offset_y &= 0x7F;
+            offset_y -= 0x40;
+            offset_y = (s16)offset_y;
+            offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
+            func_80024394((u8 *)actor_data - 0x20, actor_data->direction, 0xC0C0C0,
+                          color, offset_x, offset_y, offset_z);
         }
     }
 
 state4:
-    render->angle += self->accel;
-    self->timer84 += 2;
-    if (self->timer84 >= 61) {
-        s32 kind;
-        s32 room;
-        self->timer84 = 40;
-        self->state++;
+    render->angle += actor_data->accel;
+    actor_data->timer84 += 2;
+    if (actor_data->timer84 >= 61) {
+        s32 effect_type;
+        s32 room_id;
+        actor_data->timer84 = 40;
+        actor_data->state++;
         if (func_8009D218(entity->link60, 4, entity) == 0) {
-            register s32 roll ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            register s32 field ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 call_kind;
-            register u8 *room_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            register s32 roll ASM_REG("$2");
+            register s32 room_value ASM_REG("$3");
+            s32 effect_kind;
+            register u8 *room_table ASM_REG("$2");
             roll = func_800A6D30();
             roll &= 3;
             ASM_KEEP_NV(roll);
-            field = self->field09;
+            room_value = actor_data->field09;
             roll += 4;
-            field >>= 2;
-            call_kind = field + roll;
+            room_value >>= 2;
+            effect_kind = room_value + roll;
             room_table = (u8 *)0x800E0000;
             ASM_KEEP(room_table);
-            field = room_table[0x3D68];
+            room_value = room_table[0x3D68];
             {
-                register s32 selected ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                selected = 0xFF;
-                room = 0x10;
-                if (field == selected) {
+                register s32 no_room ASM_REG("$2");
+                no_room = 0xFF;
+                room_id = 0x10;
+                if (room_value == no_room) {
                     ASM_CLOBBER("$3");
-                    room = selected;
+                    room_id = no_room;
                 }
             }
-            kind = call_kind;
-            func_800C8B84(entity->link60, room, kind);
+            effect_type = effect_kind;
+            func_800C8B84(entity->link60, room_id, effect_type);
             func_800250D4();
         }
     }
@@ -618,20 +619,20 @@ state4:
 
 state5:
     if (render->scale_x >= 51) {
-        render->scale_x -= self->step88 * 2;
-        render->scale_y -= self->step88 * 2;
+        render->scale_x -= actor_data->step88 * 2;
+        render->scale_y -= actor_data->step88 * 2;
     }
-    render->angle += self->accel;
+    render->angle += actor_data->accel;
     if (render->color0 >= 7) {
         render->color0 -= 4;
         render->color1 -= 4;
         render->color2 -= 4;
     }
-    self->timer84 -= 2;
-    if (self->timer84 <= 0) {
-        self->timer84 = 0;
-        self->timer82 = 0;
-        self->state++;
+    actor_data->timer84 -= 2;
+    if (actor_data->timer84 <= 0) {
+        actor_data->timer84 = 0;
+        actor_data->timer82 = 0;
+        actor_data->state++;
         func_800250D4();
     }
     return;
@@ -639,22 +640,22 @@ state5:
 state6:
     {
         u16 old_timer;
-        old_timer = self->timer82;
-        self->timer82 = old_timer + 1;
+        old_timer = actor_data->timer82;
+        actor_data->timer82 = old_timer + 1;
         if ((s16)(old_timer + 1) >= 21) {
-            register volatile s16 *flag_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            s32 flag;
+            register volatile s16 *flag_page ASM_REG("$4");
+            s32 active_flag;
             flag_page = (volatile s16 *)0x80020000;
             ASM_KEEP_NV(flag_page);
-            flag = *(s16 *)((u8 *)flag_page + 0x5118);
-            self->timer82 = old_timer;
-            if (flag == 0) {
+            active_flag = *(s16 *)((u8 *)flag_page + 0x5118);
+            actor_data->timer82 = old_timer;
+            if (active_flag == 0) {
                 s32 *clear_page;
                 s32 *flag_word_page;
                 clear_page = (s32 *)0x80080000;
                 ASM_KEEP(clear_page);
                 clear_page[0x346C / 4] = 0;
-                *(u16 *)((u8 *)self - 2) |= 0x8000;
+                *(u16 *)((u8 *)actor_data - 2) |= 0x8000;
                 flag_word_page = (s32 *)0x80080000;
                 ASM_KEEP(flag_word_page);
                 flag_word_page[0x14A0 / 4] |= 0x8000;

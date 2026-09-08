@@ -150,40 +150,37 @@ extern void func_80024CA4(Work *, s32, s32, s32, s32, s32);
 extern void func_80024F80(Work *, s32, s32, s32, s32, s32);
 extern u32 func_80069EF8(void);
 
-void func_8196C568(Work *work, s32 arg1, s32 arg2)
+/* Update the staged particle effect and clear its actor state when it finishes. */
+void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
 {
     OffsetTable offsets;
     Effect *effect;
     Sprite *sprite;
     Motion *motion;
-    register s32 i;
+    register s32 particle_index;
     Position *pos;
-    register Position *base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    Work *active;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register DungeonState *dungeon ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register Position *origin ASM_REG("$4");
+    register DungeonState *dungeon ASM_REG("$3");
     void **state_table;
-    u8 *page_v0;
-    register u8 *page_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *page_a0;
-    u8 *page_a3;
-    u8 *copy_hold;
-    register SearchContext *search ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *dungeon_page;
+    register u8 *search_page ASM_REG("$3");
+    u8 *effect_page;
+    u8 *active_page;
+    register SearchContext *search ASM_REG("$5");
     void *object;
-    register u16 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u16 table_value;
-    s32 call_arg1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 call_arg2;
+    register u16 next_state ASM_REG("$2");
+    u16 direction_index;
     u16 dungeon_count;
     u8 object_kind;
     s16 init_timer;
+    s32 spawn_timer;
     register s32 state;
     register u32 random;
-    u16 coord_y;
-    static void *const keepalive[] = {
+    u16 local_y;
+    static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state2, &&state4
     };
 
-    copy_hold = (u8 *)0x80020000;
     offsets = D_80024004;
     work->counter++;
     state = work->state;
@@ -194,43 +191,40 @@ void func_8196C568(Work *work, s32 arg1, s32 arg2)
     goto *state_table[state];
 
 state0:
-    page_v0 = (u8 *)0x80080000;
-    ASM_KEEP_NV(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    dungeon = *(DungeonState **)(page_v0 + 0x14A8);
+    dungeon_page = (u8 *)0x80080000;
+    ASM_KEEP_NV(dungeon_page);
+    dungeon = *(DungeonState **)(dungeon_page + 0x14A8);
     init_timer = 33;
-    page_a0 = (u8 *)0x80020000;
+    effect_page = (u8 *)0x80020000;
     *(s32 *)&dungeon->pad0[0xF4] = 0;
-    ASM_KEEP(dungeon);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(dungeon);
     *(s16 *)&dungeon->pad0[0x96] = init_timer;
-    page_v1 = (u8 *)0x80080000;
-    ASM_KEEP_NV(page_v1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    *(s16 *)(page_v1 + 0x2E86) = 6;
+    search_page = (u8 *)0x80080000;
+    ASM_KEEP_NV(search_page);
+    *(s16 *)(search_page + 0x2E86) = 6;
     next_state = (u16)work->state;
-    *(s16 *)(page_a0 + 0x69B4) = 1;
+    *(s16 *)(effect_page + 0x69B4) = 1;
     next_state++;
     work->state = next_state;
-    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(next_state);
     object = work->object;
     if ((*(u16 *)object & 0x80) == 0) {
         return;
     }
-    active = work;
-    page_a3 = (u8 *)0x80080000;
-    dungeon = *(DungeonState **)(page_a3 + 0x14A8);
-    active->timer = 45;
+    active_page = (u8 *)0x80080000;
+    dungeon = *(DungeonState **)(active_page + 0x14A8);
+    work->timer = 45;
     dungeon_count = *(u16 *)&dungeon->pad0[0xA6];
-    call_arg1 = arg1;
     dungeon_count--;
     *(u16 *)&dungeon->pad0[0xA6] = dungeon_count;
-    object_kind = active->kind;
-    call_arg2 = arg2;
+    object_kind = work->kind;
     dungeon->pad0[0xA8] = object_kind;
-    dungeon = *(DungeonState **)(page_a3 + 0x14A8);
-    table_value = ((*(u16 *)&dungeon->pad0[0x2A]) >> 9) & 7;
-    active->state++;
-    active->counter = 0;
-    active->table_index = table_value;
-    func_8002553C(active, call_arg1, call_arg2);
+    dungeon = *(DungeonState **)(active_page + 0x14A8);
+    direction_index = ((*(u16 *)&dungeon->pad0[0x2A]) >> 9) & 7;
+    work->state++;
+    work->counter = 0;
+    work->table_index = direction_index;
+    func_8002553C(work, position_arg, sprite_arg);
     func_800A56E0(0x300);
     func_800542BC();
     func_8002694C();
@@ -240,82 +234,82 @@ state1:
     if (work->timer < 39) {
         search = &D_80082E80;
         if (func_8003DF74(search->field8, search, &work->x, 0)) {
-        if (work->timer == 38) {
-            effect = func_8003FC64(0x212);
-            if (effect != 0) {
-                *(s16 *)&effect->motion.pad0[0x2C] = 33;
-                effect->update = func_80025648;
-                func_8004491C(effect, func_80045340);
-                sprite = effect->sprite;
-                sprite->unk10 = 32;
-                sprite->flags |= 0xC;
-                sprite->unk6 = -4;
-                pos = effect->pos;
-                pos->x = work->x;
-                coord_y = work->y;
-                pos->y = coord_y;
-                pos->z = work->z;
-                base = &D_80083780;
-                pos->x += base->x;
-                pos->y += base->y;
-                pos->z += base->z;
-                sprite->scale_x = 0x900;
-                sprite->scale_y = 0x604;
-                sprite->b = 0x80;
-                sprite->g = 0x80;
-                sprite->r = 0x80;
-                *(Template12 *)&effect->motion.pad0[0x38] = D_80026990;
-                sprite->image = &effect->motion.pad0[0x38];
+            if (work->timer == 38) {
+                effect = func_8003FC64(0x212);
+                if (effect != 0) {
+                    *(s16 *)&effect->motion.pad0[0x2C] = 33;
+                    effect->update = func_80025648;
+                    func_8004491C(effect, func_80045340);
+                    sprite = effect->sprite;
+                    sprite->unk10 = 32;
+                    sprite->flags |= 0xC;
+                    sprite->unk6 = -4;
+                    pos = effect->pos;
+                    pos->x = work->x;
+                    local_y = work->y;
+                    pos->y = local_y;
+                    pos->z = work->z;
+                    origin = &D_80083780;
+                    pos->x += origin->x;
+                    pos->y += origin->y;
+                    pos->z += origin->z;
+                    sprite->scale_x = 0x900;
+                    sprite->scale_y = 0x604;
+                    sprite->b = 0x80;
+                    sprite->g = 0x80;
+                    sprite->r = 0x80;
+                    *(Template12 *)&effect->motion.pad0[0x38] = D_80026990;
+                    sprite->image = &effect->motion.pad0[0x38];
+                }
             }
-        }
 
-        if (work->timer < 6) {
-        effect = func_8003FC64(0x212);
-        if (effect != 0) {
-            *(s16 *)&effect->motion.pad0[0x2C] = 1;
-            effect->update = func_80024A5C;
-            func_8004491C(effect, func_80045340);
-            sprite = effect->sprite;
-            sprite->unk10 = 32;
-            sprite->flags |= 0xC;
-            sprite->unk6 = -4;
-            pos = effect->pos;
-            pos->x = work->x;
-            coord_y = work->y;
-            pos->y = coord_y;
-            pos->z = work->z;
-            base = &D_80083780;
-            pos->x += base->x;
-            pos->y += base->y;
-            pos->z += base->z;
-            sprite->scale_x = 0x1800;
-            sprite->scale_y = 0x1000;
-            sprite->b = 0x80;
-            sprite->g = 0x80;
-            sprite->r = 0x80;
-            *(Template12 *)&effect->motion.pad0[0x38] = D_8002699C;
-            sprite->image = &effect->motion.pad0[0x38];
-        }
-        }
+            if (work->timer < 6) {
+                effect = func_8003FC64(0x212);
+                if (effect != 0) {
+                    *(s16 *)&effect->motion.pad0[0x2C] = 1;
+                    effect->update = func_80024A5C;
+                    func_8004491C(effect, func_80045340);
+                    sprite = effect->sprite;
+                    sprite->unk10 = 32;
+                    sprite->flags |= 0xC;
+                    sprite->unk6 = -4;
+                    pos = effect->pos;
+                    pos->x = work->x;
+                    local_y = work->y;
+                    pos->y = local_y;
+                    pos->z = work->z;
+                    origin = &D_80083780;
+                    pos->x += origin->x;
+                    pos->y += origin->y;
+                    pos->z += origin->z;
+                    sprite->scale_x = 0x1800;
+                    sprite->scale_y = 0x1000;
+                    sprite->b = 0x80;
+                    sprite->g = 0x80;
+                    sprite->r = 0x80;
+                    *(Template12 *)&effect->motion.pad0[0x38] = D_8002699C;
+                    sprite->image = &effect->motion.pad0[0x38];
+                }
+            }
 
-        if (work->timer < 7) {
-            for (i = 0; i < 2; i++) {
-                func_80024AF8(work, arg1, arg2, work->x, work->y, work->z);
+            if (work->timer < 7) {
+                for (particle_index = 0; particle_index < 2; particle_index++) {
+                    func_80024AF8(work, position_arg, sprite_arg, work->x, work->y, work->z);
+                }
             }
-        }
-        if (work->timer < 3) {
-            i = 0;
-            work->mid_x = (work->x + work->old_x) / 2;
-            work->mid_y = (work->y + work->old_y) / 2;
-            work->mid_z = (work->z + work->old_z) / 2;
-            for (; i < 2; i++) {
-                func_80024AF8(work, arg1, arg2,
-                              work->mid_x, work->mid_y, work->mid_z);
+            if (work->timer < 3) {
+                particle_index = 0;
+                work->mid_x = (work->x + work->old_x) / 2;
+                work->mid_y = (work->y + work->old_y) / 2;
+                work->mid_z = (work->z + work->old_z) / 2;
+                for (; particle_index < 2; particle_index++) {
+                    func_80024AF8(work, position_arg, sprite_arg,
+                        work->mid_x, work->mid_y, work->mid_z);
+                }
             }
-        }
-        work->old_x = work->x;
-        work->old_y = work->y;
-        work->old_z = work->z;
+            work->old_x = work->x;
+            work->old_y = work->y;
+            work->old_z = work->z;
         }
     }
     work->timer--;
@@ -332,97 +326,93 @@ state2:
         if (work->timer >= 13) {
             search = &D_80082E80;
             if (func_8003DF74(search->field8, search, &work->x, 0)) {
-            for (i = 0; i < 4; i++) {
-                func_80024CA4(work, arg1, arg2, work->x, work->y, work->z);
-            }
-            for (i = 0; i < 4; i++) {
-                func_80024F80(work, arg1, arg2, work->x, work->y, work->z);
-            }
-            arg1 = work->timer;
-            if (arg1 == 16) {
-                effect = func_8003FC64(0x212);
-                if (effect != 0) {
-                    motion = &effect->motion;
-                    *(s16 *)&motion->pad0[0x2C] = 30;
-                    *(s16 *)&motion->pad0[0x2E] = 30;
-                    effect->update = func_800257B0;
-                    func_8004491C(effect, func_80045340);
-                    sprite = effect->sprite;
-                    sprite->unk10 = 32;
-                    sprite->flags |= 0xC;
-                    motion->vel_z = (s32)0xFFF20000;
-                    motion->accel_z = 0x00020000;
-                    motion->vel_x = (s32)offsets.p[work->table_index].x << 19;
-                    motion->vel_y = (u16)offsets.p[work->table_index].y << 19;
-                    random = func_80069EF8();
-                    motion->vel_x += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
-                    random = func_80069EF8();
-                    motion->vel_y += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
-                    random = func_80069EF8();
-                    motion->vel_z += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
-                    pos = effect->pos;
-                    pos->x = work->x;
-                    coord_y = work->y;
-                    pos->y = coord_y;
-                    pos->z = work->z - 16;
-                    base = &D_80083780;
-                    pos->x += base->x;
-                    pos->y += base->y;
-                    pos->z += base->z;
-                    sprite->scale_y = 0x1000;
-                    sprite->scale_x = 0x1000;
-                    sprite->b = 0x80;
-                    sprite->g = 0x80;
-                    sprite->r = 0x80;
-                    *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
-                    sprite->image = &effect->motion.pad0[0x38];
+                for (particle_index = 0; particle_index < 4; particle_index++) {
+                    func_80024CA4(work, position_arg, sprite_arg, work->x, work->y, work->z);
                 }
-            if (work->timer == arg1) {
-                effect = func_8003FC64(0x212);
-                if (effect != 0) {
-                    motion = &effect->motion;
-                    *(s16 *)&motion->pad0[0x2C] = 30;
-                    *(s16 *)&motion->pad0[0x2E] = 30;
-                    effect->update = func_80025A80;
-                    func_8004491C(effect, func_80045340);
-                    sprite = effect->sprite;
-                    sprite->unk10 = 32;
-                    sprite->flags |= 0xC;
-                    motion->vel_z = (s32)0xFFF20000;
-                    motion->accel_z = 0x00020000;
-                    motion->vel_x = (s32)offsets.p[work->table_index].x << 18;
-                    motion->vel_y = (u16)offsets.p[work->table_index].y << 18;
-                    random = func_80069EF8();
-                    motion->vel_x += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
-                    random = func_80069EF8();
-                    motion->vel_y += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
-                    random = func_80069EF8();
-                    motion->vel_z += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
-                    pos = effect->pos;
-                    pos->x = work->x;
-                    coord_y = work->y;
-                    pos->y = coord_y;
-                    pos->z = work->z - 16;
-                    base = &D_80083780;
-                    pos->x += base->x;
-                    pos->y += base->y;
-                    pos->z += base->z;
-                    sprite->scale_y = 0x1000;
-                    sprite->scale_x = 0x1000;
-                    sprite->b = 0x80;
-                    sprite->g = 0x80;
-                    sprite->r = 0x80;
-                    *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
-                    {
-                        void *image;
-                        image = &effect->motion.pad0[0x38];
-                        sprite->image = image;
+                for (particle_index = 0; particle_index < 4; particle_index++) {
+                    func_80024F80(work, position_arg, sprite_arg, work->x, work->y, work->z);
+                }
+                spawn_timer = work->timer;
+                if (spawn_timer == 16) {
+                    effect = func_8003FC64(0x212);
+                    if (effect != 0) {
+                        motion = &effect->motion;
+                        *(s16 *)&motion->pad0[0x2C] = 30;
+                        *(s16 *)&motion->pad0[0x2E] = 30;
+                        effect->update = func_800257B0;
+                        func_8004491C(effect, func_80045340);
+                        sprite = effect->sprite;
+                        sprite->unk10 = 32;
+                        sprite->flags |= 0xC;
+                        motion->vel_z = (s32)0xFFF20000;
+                        motion->accel_z = 0x00020000;
+                        motion->vel_x = (s32)offsets.p[work->table_index].x << 19;
+                        motion->vel_y = (u16)offsets.p[work->table_index].y << 19;
+                        random = func_80069EF8();
+                        motion->vel_x += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
+                        random = func_80069EF8();
+                        motion->vel_y += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
+                        random = func_80069EF8();
+                        motion->vel_z += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
+                        pos = effect->pos;
+                        pos->x = work->x;
+                        local_y = work->y;
+                        pos->y = local_y;
+                        pos->z = work->z - 16;
+                        origin = &D_80083780;
+                        pos->x += origin->x;
+                        pos->y += origin->y;
+                        pos->z += origin->z;
+                        sprite->scale_y = 0x1000;
+                        sprite->scale_x = 0x1000;
+                        sprite->b = 0x80;
+                        sprite->g = 0x80;
+                        sprite->r = 0x80;
+                        *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
+                        sprite->image = &effect->motion.pad0[0x38];
                     }
-                    func_800268B8();
-                    return;
+                    if (work->timer == spawn_timer) {
+                        effect = func_8003FC64(0x212);
+                        if (effect != 0) {
+                            motion = &effect->motion;
+                            *(s16 *)&motion->pad0[0x2C] = 30;
+                            *(s16 *)&motion->pad0[0x2E] = 30;
+                            effect->update = func_80025A80;
+                            func_8004491C(effect, func_80045340);
+                            sprite = effect->sprite;
+                            sprite->unk10 = 32;
+                            sprite->flags |= 0xC;
+                            motion->vel_z = (s32)0xFFF20000;
+                            motion->accel_z = 0x00020000;
+                            motion->vel_x = (s32)offsets.p[work->table_index].x << 18;
+                            motion->vel_y = (u16)offsets.p[work->table_index].y << 18;
+                            random = func_80069EF8();
+                            motion->vel_x += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
+                            random = func_80069EF8();
+                            motion->vel_y += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
+                            random = func_80069EF8();
+                            motion->vel_z += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
+                            pos = effect->pos;
+                            pos->x = work->x;
+                            local_y = work->y;
+                            pos->y = local_y;
+                            pos->z = work->z - 16;
+                            origin = &D_80083780;
+                            pos->x += origin->x;
+                            pos->y += origin->y;
+                            pos->z += origin->z;
+                            sprite->scale_y = 0x1000;
+                            sprite->scale_x = 0x1000;
+                            sprite->b = 0x80;
+                            sprite->g = 0x80;
+                            sprite->r = 0x80;
+                            *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
+                            sprite->image = &effect->motion.pad0[0x38];
+                            func_800268B8();
+                            return;
+                        }
+                    }
                 }
-            }
-            }
             }
         }
     } else {
@@ -439,13 +429,13 @@ state2:
                 sprite->flags |= 0xC;
                 pos = effect->pos;
                 pos->x = work->x;
-                coord_y = work->y;
-                pos->y = coord_y;
+                local_y = work->y;
+                pos->y = local_y;
                 pos->z = work->z;
-                base = &D_80083780;
-                pos->x += base->x;
-                pos->y += base->y;
-                pos->z += base->z;
+                origin = &D_80083780;
+                pos->x += origin->x;
+                pos->y += origin->y;
+                pos->z += origin->z;
                 sprite->scale_x = 0x1800;
                 sprite->scale_y = 0x1000;
                 sprite->b = 0x80;
@@ -456,9 +446,9 @@ state2:
             }
         }
         if (work->timer >= 13) {
-            for (i = 0; i < 2; i++) {
-                func_80024AF8(work, arg1, arg2,
-                              work->x, work->y, (s16)(work->z - 8));
+            for (particle_index = 0; particle_index < 2; particle_index++) {
+                func_80024AF8(work, position_arg, sprite_arg,
+                    work->x, work->y, (s16)(work->z - 8));
             }
         }
     }

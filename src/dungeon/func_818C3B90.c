@@ -97,286 +97,284 @@ extern void func_80025A58(void) __attribute__((noreturn));
     do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0)
 #endif
 
-#define local stack.local
-#define diffs stack.diffs
-#define accum_y stack.accum_y
 
-void func_818C3B90(State *arg0, Motion *raw1, Motion *raw2)
+/* Updates an owner-directed movement sequence and its timed action states. */
+void func_818C3B90(State *action, Motion *motion_arg, Motion *aux_arg)
 {
-    static void *const jt_keep[] = {
+    static void *const state_labels[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6
     };
-    register Motion *arg1 ASM_REG("$20") = raw1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    Motion *arg2 = raw2;
-    register OwnerPrefix *prefix ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register Motion *motion ASM_REG("$20") = motion_arg;
+    Motion *aux_motion = aux_arg;
+    register OwnerPrefix *prefix ASM_REG("$18");
     Owner *owner;
-    s32 state;
-    s32 i;
+    s32 dispatch_state;
+    s32 index;
     StackLocals stack;
-    state = arg0->state;
-    owner = arg0->owner;
-    arg0->timer++;
-    if ((u32)state >= 7) {
+    dispatch_state = action->state;
+    owner = action->owner;
+    action->timer++;
+    if ((u32)dispatch_state >= 7) {
         goto done;
     }
-    (void)jt_keep;
-    goto *D_80024008[(u32)state];
+    (void)state_labels;
+    goto *D_80024008[(u32)dispatch_state];
 
 jt_c0:
     {
         Motion *position;
         u16 position_z;
 
-        arg0->timer = 0;
-        arg0->state++;
-        arg0->angle = (owner->flags >> 9) & 7;
-        arg2->dx.val = 0x00808080;
+        action->timer = 0;
+        action->state++;
+        action->angle = (owner->flags >> 9) & 7;
+        aux_motion->dx.val = 0x00808080;
 
 jt_c1:
         prefix = (OwnerPrefix *)((u8 *)owner - 0x20);
-        if (func_8003DE58(prefix->lookup->field8, prefix->lookup, diffs, 0) == 0 &&
+        if (func_8003DE58(prefix->lookup->field8, prefix->lookup, stack.diffs, 0) == 0 &&
             !(prefix->lookup->flags & 0x8000)) {
             goto done;
         }
 
         position = prefix->position;
-        arg1->x.h.hi = position->x.h.hi;
-        arg1->y.h.hi = position->y.h.hi;
+        motion->x.h.hi = position->x.h.hi;
+        motion->y.h.hi = position->y.h.hi;
         position_z = position->z.h.hi;
-        arg1->z.h.hi = position_z;
+        motion->z.h.hi = position_z;
 
         if (!(prefix->lookup->flags & 0x8000)) {
-            s32 tail;
-            arg1->x.h.hi += diffs[0];
-            arg1->y.h.hi += diffs[1];
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            tail = (u16)arg1->z.h.hi;
-            tail += (u16)diffs[2];
-            ASM_TAILSLOT_PIN_TIED(tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 adjusted_z;
+            motion->x.h.hi += stack.diffs[0];
+            motion->y.h.hi += stack.diffs[1];
+            ASM_SCHED_BARRIER();
+            adjusted_z = (u16)motion->z.h.hi;
+            adjusted_z += (u16)stack.diffs[2];
+            ASM_TAILSLOT_PIN_TIED(adjusted_z);
             func_800254EC();
         }
-        ASM_KEEP(position_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        arg1->z.h.hi = position_z - 64;
+        ASM_KEEP(position_z);
+        motion->z.h.hi = position_z - 64;
     }
 
-    if (*(u16 *)arg0->field4 & 0x80) {
-        i = 1;
+    if (*(u16 *)action->field4 & 0x80) {
+        index = 1;
         if (owner->target != 0) {
-            register Motion *target ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 xdiff ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 other_diff;
-            s32 rhs;
-            register u8 *iter ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register Motion *target ASM_REG("$7");
+            register s32 x_delta ASM_REG("$4");
+            s32 axis_delta;
+            s32 coord;
+            register u8 *delta_iter ASM_REG("$5");
 
             target = *(Motion **)((u8 *)owner->target - 24);
-            other_diff = arg1->x.h.hi;
-            xdiff = target->x.h.hi - other_diff;
-            if (xdiff < 0) {
-                xdiff = -xdiff;
+            axis_delta = motion->x.h.hi;
+            x_delta = target->x.h.hi - axis_delta;
+            if (x_delta < 0) {
+                x_delta = -x_delta;
             }
-            diffs[0] = xdiff;
-            other_diff = target->y.h.hi;
-            rhs = arg1->y.h.hi;
-            other_diff -= rhs;
-            if (other_diff < 0) {
-                other_diff = -other_diff;
+            stack.diffs[0] = x_delta;
+            axis_delta = target->y.h.hi;
+            coord = motion->y.h.hi;
+            axis_delta -= coord;
+            if (axis_delta < 0) {
+                axis_delta = -axis_delta;
             }
-            diffs[1] = other_diff;
-            iter = (u8 *)&local + 2;
-            rhs = arg1->z.h.hi;
-            other_diff = *(s16 *)((u8 *)owner->target + 0x88) - rhs;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            if (other_diff < 0) {
-                other_diff = -other_diff;
+            stack.diffs[1] = axis_delta;
+            delta_iter = (u8 *)&stack.local + 2;
+            coord = motion->z.h.hi;
+            axis_delta = *(s16 *)((u8 *)owner->target + 0x88) - coord;
+            ASM_SCHED_BARRIER();
+            if (axis_delta < 0) {
+                axis_delta = -axis_delta;
             }
-            diffs[2] = other_diff;
+            stack.diffs[2] = axis_delta;
 
-            arg0->duration = xdiff;
+            action->duration = x_delta;
             do {
-                s32 test = *(s16 *)(iter + 24);
-                u32 value = *(u16 *)(iter + 24);
-                if (test > arg0->duration) {
-                    arg0->duration = value;
+                s32 signed_delta = *(s16 *)(delta_iter + 24);
+                u32 delta_bits = *(u16 *)(delta_iter + 24);
+                if (signed_delta > action->duration) {
+                    action->duration = delta_bits;
                 }
-                i++;
-                iter += 2;
-            } while (i < 3);
-            arg0->duration = arg0->duration >> 4;
-            if (arg0->duration == 0) {
-                arg0->duration = 1;
+                index++;
+                delta_iter += 2;
+            } while (index < 3);
+            action->duration = action->duration >> 4;
+            if (action->duration == 0) {
+                action->duration = 1;
             }
 
-            arg1->dx.val = (target->x.val - arg1->x.val) / arg0->duration;
-            arg1->dy.val = (target->y.val - arg1->y.val) / arg0->duration;
-            arg1->dz.val =
-                ((*(s16 *)((u8 *)owner->target + 0x88) << 16) - arg1->z.val) /
-                arg0->duration;
-            func_80024F0C(arg0, arg1);
+            motion->dx.val = (target->x.val - motion->x.val) / action->duration;
+            motion->dy.val = (target->y.val - motion->y.val) / action->duration;
+            motion->dz.val =
+                ((*(s16 *)((u8 *)owner->target + 0x88) << 16) - motion->z.val) /
+                action->duration;
+            func_80024F0C(action, motion);
             {
-                s32 tail;
-                tail = (u16)arg0->state + 1;
-                ASM_TAILSLOT_PIN_TIED(tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                s32 next_state;
+                next_state = (u16)action->state + 1;
+                ASM_TAILSLOT_PIN_TIED(next_state);
                 func_80025A50();
             }
         } else {
-            register s32 x ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s32 y;
+            register s32 grid_x ASM_REG("$21");
+            s32 grid_y;
             s32 saved_x;
-            Motion *local_ptr;
-            register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 next_y;
-            register s32 work_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s16 *table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register u8 *iter ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            register s32 temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            Motion *destination;
+            register s32 coord_work ASM_REG("$4");
+            s32 coord_aux;
+            register s32 x_work ASM_REG("$5");
+            register s16 *table ASM_REG("$3");
+            register u8 *delta_iter ASM_REG("$6");
+            register s32 table_work ASM_REG("$8");
             s16 *table_x_entry;
             s16 *table_y_entry;
             u16 *update_x_entry;
             u16 *update_y_entry;
-            register s32 loop_owner_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            register s32 probe_z ASM_REG("$6");
             s32 table_offset;
-            register s32 update_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 update_offset ASM_REG("$3");
             s16 probe_result;
 
-            i = 0;
+            index = 0;
             table = (s16 *)prefix->lookup;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            next_y = 0x80070000;
-            ASM_KEEP(next_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            x = ((Lookup *)table)->x;
-            y = ((Lookup *)table)->y;
-            saved_x = x;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            accum_y = y;
+            ASM_SCHED_BARRIER();
+            coord_aux = 0x80070000;
+            ASM_KEEP(coord_aux);
+            grid_x = ((Lookup *)table)->x;
+            grid_y = ((Lookup *)table)->y;
+            saved_x = grid_x;
+            ASM_SCHED_BARRIER();
+            stack.accum_y = grid_y;
 
-            for (; i < 8;) {
-                s16 sx;
-                s16 sy;
+            for (; index < 8;) {
+                s16 tile_x;
+                s16 tile_y;
                 s32 probe;
 
-                sx = x;
-                sy = y;
+                tile_x = grid_x;
+                tile_y = grid_y;
                 probe = func_800A44E0(
-                    (sx << 6) & 0xFFC0,
-                    (sy << 6) & 0xFFC0,
+                    (tile_x << 6) & 0xFFC0,
+                    (tile_y << 6) & 0xFFC0,
                     owner->z,
-                    (s32)((u32)(u16)arg0->angle << 25) >> 16);
+                    (s32)((u32)(u16)action->angle << 25) >> 16);
                 if ((s16)probe != 0) {
                     break;
                 }
 
-                LOAD_TABLE_X_BASE(temp_t0);
-                ASM_KEEP(temp_t0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                table_offset = (s16)arg0->angle;
-                loop_owner_z = (u16)owner->z;
+                LOAD_TABLE_X_BASE(table_work);
+                ASM_KEEP(table_work);
+                table_offset = (s16)action->angle;
+                probe_z = (u16)owner->z;
                 table_offset *= 2;
-                table_x_entry = (s16 *)(table_offset + temp_t0);
-                ASM_KEEP(table_x_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                loop_owner_z -= 32;
-                loop_owner_z = (s16)loop_owner_z;
-                LOAD_TABLE_Y_BASE(temp_t0);
-                table_y_entry = (s16 *)(table_offset + temp_t0);
-                ASM_KEEP(table_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                table_x_entry = (s16 *)(table_offset + table_work);
+                ASM_KEEP(table_x_entry);
+                probe_z -= 32;
+                probe_z = (s16)probe_z;
+                LOAD_TABLE_Y_BASE(table_work);
+                table_y_entry = (s16 *)(table_offset + table_work);
+                ASM_KEEP(table_y_entry);
                 probe_result = func_800BCB04(
-                    ((sx + *table_x_entry) * 64 + 32) & 0xFFE0,
-                    ((sy + *table_y_entry) * 64 + 32) & 0xFFE0,
-                    loop_owner_z);
+                    ((tile_x + *table_x_entry) * 64 + 32) & 0xFFE0,
+                    ((tile_y + *table_y_entry) * 64 + 32) & 0xFFE0,
+                    probe_z);
                 if (probe_result >= 513 ||
                     (s16)(probe_result - (u16)owner->z) < -63) {
                     break;
                 }
 
-                LOAD_TABLE_X_BASE(temp_t0);
-                update_offset = (s16)arg0->angle;
-                i++;
+                LOAD_TABLE_X_BASE(table_work);
+                update_offset = (s16)action->angle;
+                index++;
                 update_offset *= 2;
-                update_x_entry = (u16 *)(update_offset + temp_t0);
-                LOAD_TABLE_Y_BASE(temp_t0);
-                update_y_entry = (u16 *)(update_offset + temp_t0);
-                ASM_KEEP(update_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                next_x = x + *update_x_entry;
-                x = next_x;
-                next_y = y + *update_y_entry;
-                y = next_y;
-                accum_y = next_y;
-                ASM_KEEP4_NV(next_x, next_y, x, y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                saved_x = next_x;
+                update_x_entry = (u16 *)(update_offset + table_work);
+                LOAD_TABLE_Y_BASE(table_work);
+                update_y_entry = (u16 *)(update_offset + table_work);
+                ASM_KEEP(update_y_entry);
+                coord_work = grid_x + *update_x_entry;
+                grid_x = coord_work;
+                coord_aux = grid_y + *update_y_entry;
+                grid_y = coord_aux;
+                stack.accum_y = coord_aux;
+                ASM_KEEP4_NV(coord_work, coord_aux, grid_x, grid_y);
+                saved_x = coord_work;
             }
 
-            local_ptr = &local;
-            ASM_KEEP_NV(local_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            i = 1;
-            ASM_KEEP_NV(i);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            work_x = (u32)saved_x << 16;
+            destination = &stack.local;
+            ASM_KEEP_NV(destination);
+            index = 1;
+            ASM_KEEP_NV(index);
+            x_work = (u32)saved_x << 16;
             table = D_8006CCD8;
-            work_x = (s32)work_x >> 10;
-            iter = (u8 *)&local + 2;
-            work_x += (table[arg0->angle] + 1) << 5;
-            local_ptr->x.h.hi = work_x;
-            work_x = (s16)work_x;
-            next_x = (s32)((u32)(u16)(temp_t0 = accum_y) << 16) >> 10;
+            x_work = (s32)x_work >> 10;
+            delta_iter = (u8 *)&stack.local + 2;
+            x_work += (table[action->angle] + 1) << 5;
+            destination->x.h.hi = x_work;
+            x_work = (s16)x_work;
+            coord_work = (s32)((u32)(u16)(table_work = stack.accum_y) << 16) >> 10;
             table = D_8006CCE8;
-            next_x += (table[arg0->angle] + 1) << 5;
-            local_ptr->y.h.hi = next_x;
-            next_x = (u32)next_x << 16;
-            next_y = (u16)arg1->z.h.hi + 32;
-            local_ptr->z.h.hi = next_y;
+            coord_work += (table[action->angle] + 1) << 5;
+            destination->y.h.hi = coord_work;
+            coord_work = (u32)coord_work << 16;
+            coord_aux = (u16)motion->z.h.hi + 32;
+            destination->z.h.hi = coord_aux;
 
             {
-                s32 rhs;
+                s32 coord;
 
-                rhs = arg1->x.h.hi;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                next_x = (s32)next_x >> 16;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                work_x -= rhs;
-                if (work_x < 0) {
-                    work_x = -work_x;
+                coord = motion->x.h.hi;
+                ASM_SCHED_BARRIER();
+                coord_work = (s32)coord_work >> 16;
+                ASM_SCHED_BARRIER();
+                x_work -= coord;
+                if (x_work < 0) {
+                    x_work = -x_work;
                 }
-                diffs[0] = work_x;
+                stack.diffs[0] = x_work;
 
-                rhs = arg1->y.h.hi;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                next_y = (u32)next_y << 16;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                next_x -= rhs;
-                if (next_x < 0) {
-                    next_x = -next_x;
+                coord = motion->y.h.hi;
+                ASM_SCHED_BARRIER();
+                coord_aux = (u32)coord_aux << 16;
+                ASM_SCHED_BARRIER();
+                coord_work -= coord;
+                if (coord_work < 0) {
+                    coord_work = -coord_work;
                 }
-                diffs[1] = next_x;
+                stack.diffs[1] = coord_work;
 
-                rhs = arg1->z.h.hi;
-                next_y = (s32)next_y >> 16;
-                next_y -= rhs;
-                if (next_y < 0) {
-                    next_y = -next_y;
+                coord = motion->z.h.hi;
+                coord_aux = (s32)coord_aux >> 16;
+                coord_aux -= coord;
+                if (coord_aux < 0) {
+                    coord_aux = -coord_aux;
                 }
-                diffs[2] = next_y;
+                stack.diffs[2] = coord_aux;
             }
 
-            arg0->duration = work_x;
+            action->duration = x_work;
             do {
-                s32 test = *(s16 *)(iter + 24);
-                u32 value = *(u16 *)(iter + 24);
-                if (test > arg0->duration) {
-                    arg0->duration = value;
+                s32 signed_delta = *(s16 *)(delta_iter + 24);
+                u32 delta_bits = *(u16 *)(delta_iter + 24);
+                if (signed_delta > action->duration) {
+                    action->duration = delta_bits;
                 }
-                i++;
-                iter += 2;
-            } while (i < 3);
-            arg0->duration = arg0->duration >> 4;
-            if (arg0->duration == 0) {
-                arg0->duration = 1;
+                index++;
+                delta_iter += 2;
+            } while (index < 3);
+            action->duration = action->duration >> 4;
+            if (action->duration == 0) {
+                action->duration = 1;
             }
 
-            arg1->dx.val = (local_ptr->x.val - arg1->x.val) / arg0->duration;
-            arg1->dy.val = (local_ptr->y.val - arg1->y.val) / arg0->duration;
-            arg1->dz.val = (local_ptr->z.val - arg1->z.val) / arg0->duration;
-            func_8002523C(arg0, arg1);
+            motion->dx.val = (destination->x.val - motion->x.val) / action->duration;
+            motion->dy.val = (destination->y.val - motion->y.val) / action->duration;
+            motion->dz.val = (destination->z.val - motion->z.val) / action->duration;
+            func_8002523C(action, motion);
             {
-                s32 tail;
-                tail = 6;
-                ASM_TAILSLOT_PIN_TIED(tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                s32 next_state;
+                next_state = 6;
+                ASM_TAILSLOT_PIN_TIED(next_state);
                 func_80025A50();
             }
         }
@@ -384,54 +382,51 @@ jt_c1:
     goto done;
 
 jt_c2:
-    arg1->x.val += arg1->dx.val;
-    arg1->y.val += arg1->dy.val;
-    arg1->z.val += arg1->dz.val;
-    if (arg0->timer >= arg0->duration) {
+    motion->x.val += motion->dx.val;
+    motion->y.val += motion->dy.val;
+    motion->z.val += motion->dz.val;
+    if (action->timer >= action->duration) {
         func_800A56E0(0x300);
         func_800259BC();
     }
     goto done;
 
 jt_c3:
-    if (arg0->timer >= 12) {
-        func_80024640(arg0, arg1);
+    if (action->timer >= 12) {
+        func_80024640(action, motion);
         func_800259BC();
     }
     goto done;
 
 jt_c4:
-    if (arg0->timer >= 49) {
-        func_80024024(owner->target, arg0->byte9, owner);
-        arg0->timer = 0;
-        arg0->state++;
+    if (action->timer >= 49) {
+        func_80024024(owner->target, action->byte9, owner);
+        action->timer = 0;
+        action->state++;
         func_80025A58();
     }
     goto done;
 
 jt_c5:
-    if (arg0->fieldC == 0) {
+    if (action->fieldC == 0) {
         D_8008346C[0] = 0;
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+        *(u16 *)((u8 *)action - 2) |= 0x8000;
         D_800814A0.value |= 0x8000;
         func_80025A58();
     }
     goto done;
 
 jt_c6:
-    arg1->x.val += arg1->dx.val;
-    arg1->y.val += arg1->dy.val;
-    arg1->z.val += arg1->dz.val;
-    if (arg0->timer >= arg0->duration) {
-        arg0->state = 5;
-        arg0->timer = 0;
+    motion->x.val += motion->dx.val;
+    motion->y.val += motion->dy.val;
+    motion->z.val += motion->dz.val;
+    if (action->timer >= action->duration) {
+        action->state = 5;
+        action->timer = 0;
     }
 done:
-    arg0->fieldC = 0;
+    action->fieldC = 0;
 }
 
-#undef local
-#undef diffs
-#undef accum_y
 #undef LOAD_TABLE_X_BASE
 #undef LOAD_TABLE_Y_BASE

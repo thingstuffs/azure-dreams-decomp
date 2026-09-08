@@ -44,198 +44,199 @@ extern void func_80051CA4(void *);
 extern void func_80051F38(void *);
 extern void func_80041094(s32, s32, s32, s32, s32);
 
-void func_80052144(Controller *s)
+/* Advances the timed child sequence and retires the controller when all children finish. */
+void func_80052144(Controller *controller)
 {
-    s32 idx;
-    void **tbl;
-    register u8 *page ASM_REG("$3") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register Shared83160 *g ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    static void *const keepalive[] = {
+    s32 state;
+    void **jump_table;
+    register u8 *event_page ASM_REG("$3") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register Shared83160 *event_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    static void *const case_labels[] = {
         &&L_case_0, &&L_case_1, &&L_case_2, &&L_case_3,
         &&L_case_4, &&L_default
     };
-    (void)keepalive;
+    (void)case_labels;
 
-    s->timer++;
+    controller->timer++;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    g = (Shared83160 *)(page + 0x3160);
+    ASM_KEEP_NV(event_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    event_state = (Shared83160 *)(event_page + 0x3160);
 
-    if (s->state < 4 && (g->flags10 & 0x40)) {
-        if (s->child0 != 0) {
-            s->child0->flags |= 0x8000;
-            s->child0 = 0;
+    if (controller->state < 4 && (event_state->flags10 & 0x40)) {
+        if (controller->child0 != 0) {
+            controller->child0->flags |= 0x8000;
+            controller->child0 = 0;
             D_800814A0 |= 0x8000;
-            s->finished++;
+            controller->finished++;
         }
-        if (s->child1 != 0) {
-            s->child1->flags |= 0x8000;
-            s->child1 = 0;
+        if (controller->child1 != 0) {
+            controller->child1->flags |= 0x8000;
+            controller->child1 = 0;
             D_800814A0 |= 0x8000;
-            s->finished++;
+            controller->finished++;
         }
-        if (s->child2 != 0) {
-            s->child2->flags |= 0x8000;
-            s->child2 = 0;
+        if (controller->child2 != 0) {
+            controller->child2->flags |= 0x8000;
+            controller->child2 = 0;
             D_800814A0 |= 0x8000;
-            s->finished++;
+            controller->finished++;
         }
-        if (s->child3 != 0) {
-            s->child3->flags |= 0x8000;
-            s->child3 = 0;
+        if (controller->child3 != 0) {
+            controller->child3->flags |= 0x8000;
+            controller->child3 = 0;
             D_800814A0 |= 0x8000;
-            s->finished++;
+            controller->finished++;
         }
-        if (s->group != 0) {
-            func_800530C4(s->group);
+        if (controller->group != 0) {
+            func_800530C4(controller->group);
         }
         func_80053DA8(0xB4);
-        s->timer = 0;
-        s->state = 4;
+        controller->timer = 0;
+        controller->state = 4;
     }
 
-    idx = s->state;
-    if ((u32)idx >= 5) {
+    state = controller->state;
+    if ((u32)state >= 5) {
         goto L_default;
     }
     {
-        u8 *pgt = (u8 *)0x80030000;
-        ASM_KEEP_NV(pgt);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        tbl = (void **)(pgt - 0x1024);
-        ASM_KEEP_NV(tbl);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        u8 *jump_page = (u8 *)0x80030000;
+        ASM_KEEP_NV(jump_page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        jump_table = (void **)(jump_page - 0x1024);
+        ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     }
-    goto *tbl[idx];
+    goto *jump_table[state];
 
 L_case_0:
         if (func_80053EF0(4) != 1) {
             return;
         }
-        func_80051528(s->child0);
-        func_800517AC(s->child1);
-        func_800530A4(s->group);
-        s->timer = 0;
-        s->state++;
+        func_80051528(controller->child0);
+        func_800517AC(controller->child1);
+        func_800530A4(controller->group);
+        controller->timer = 0;
+        controller->state++;
         return;
 
 L_case_1:
-        if (s->child2 != 0) {
-            if (s->script[0] != s->timer) {
+        if (controller->child2 != 0) {
+            if (controller->script[0] != controller->timer) {
                 return;
             }
-            func_80051CA4(s->child2);
-            s->script = (s16 *)((u8 *)s->script + 0x10);
-            if (s->script[0] != 0) {
+            func_80051CA4(controller->child2);
+            controller->script = (s16 *)((u8 *)controller->script + 0x10);
+            if (controller->script[0] != 0) {
                 return;
             }
-            s->state++;
+            controller->state++;
             return;
         }
-        s->state++;
+        controller->state++;
         return;
 
 L_case_2:
-        if (s->timer != 0x1C09) {
+        if (controller->timer != 0x1C09) {
             return;
         }
-        func_80051528(s->child0);
-        func_800517AC(s->child1);
-        s->state++;
+        func_80051528(controller->child0);
+        func_800517AC(controller->child1);
+        controller->state++;
         return;
 
 L_case_3:
-        if (s->timer != 0x1CCF) {
+        if (controller->timer != 0x1CCF) {
             return;
         }
-        func_80051F38(s->child3);
-        s->timer = 0;
-        s->state++;
+        func_80051F38(controller->child3);
+        controller->timer = 0;
+        controller->state++;
         return;
 
 L_case_4:
-        if (s->attached != s->finished) {
+        if (controller->attached != controller->finished) {
             return;
         }
 #line 900 "x"
         {
-            register u8 *pg2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            Shared82E60 *g2;
-            s32 z;
-            s32 six;
-            register s32 z2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            six = 6;
-            z = 0;
-            ASM_KEEP_NV(six);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            z2 = z;
-            ASM_KEEP_NV(z2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            pg2 = (u8 *)0x80080000;
-            ASM_KEEP_NV(pg2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            g2 = (Shared82E60 *)(pg2 + 0x2E60);
-            ASM_KEEP_NV(g2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            g2->flags16 |= 0x8000;
-            func_80041094(six, z, z2, z, g2->flags16 ^ 1);
+            register u8 *state_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            Shared82E60 *shared_state;
+            s32 zero;
+            s32 notify_id;
+            register s32 third_zero ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            notify_id = 6;
+            zero = 0;
+            ASM_KEEP_NV(notify_id);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(zero);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            third_zero = zero;
+            ASM_KEEP_NV(third_zero);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            state_page = (u8 *)0x80080000;
+            ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            shared_state = (Shared82E60 *)(state_page + 0x2E60);
+            ASM_KEEP_NV(shared_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            shared_state->flags16 |= 0x8000;
+            func_80041094(notify_id, zero, third_zero, zero, shared_state->flags16 ^ 1);
         }
 #line 1000 "x"
-        ((u16 *)s)[-1] |= 0x8000;
+        ((u16 *)controller)[-1] |= 0x8000;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         D_800814A0 |= 0x8000;
         return;
 
 L_default:
-        if (s->child0 != 0) {
-            s->child0->flags |= 0x8000;
-            s->child0 = 0;
+        if (controller->child0 != 0) {
+            controller->child0->flags |= 0x8000;
+            controller->child0 = 0;
             D_800814A0 |= 0x8000;
-            s->finished++;
+            controller->finished++;
         }
-        if (s->child1 != 0) {
-            s->child1->flags |= 0x8000;
-            s->child1 = 0;
+        if (controller->child1 != 0) {
+            controller->child1->flags |= 0x8000;
+            controller->child1 = 0;
             D_800814A0 |= 0x8000;
-            s->finished++;
+            controller->finished++;
         }
-        if (s->child2 != 0) {
-            s->child2->flags |= 0x8000;
-            s->child2 = 0;
+        if (controller->child2 != 0) {
+            controller->child2->flags |= 0x8000;
+            controller->child2 = 0;
             D_800814A0 |= 0x8000;
-            s->finished++;
+            controller->finished++;
         }
-        if (s->child3 != 0) {
-            s->child3->flags |= 0x8000;
-            s->child3 = 0;
+        if (controller->child3 != 0) {
+            controller->child3->flags |= 0x8000;
+            controller->child3 = 0;
             D_800814A0 |= 0x8000;
-            s->finished++;
+            controller->finished++;
         }
-        if (s->group != 0) {
-            func_800530C4(s->group);
+        if (controller->group != 0) {
+            func_800530C4(controller->group);
         }
-        if (s->attached != s->finished) {
+        if (controller->attached != controller->finished) {
             return;
         }
         func_80053DA8(0xB4);
 #line 900 "x"
         {
-            register u8 *pg2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            Shared82E60 *g2;
-            s32 z;
-            s32 six;
-            register s32 z2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            six = 6;
-            z = 0; ASM_USE_NV(z); /* cross-jump boundary; MUST stay on this line -- see NOTES.md */
-            ASM_KEEP_NV(six);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            z2 = z;
-            ASM_KEEP_NV(z2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            pg2 = (u8 *)0x80080000;
-            ASM_KEEP_NV(pg2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            g2 = (Shared82E60 *)(pg2 + 0x2E60);
-            ASM_KEEP_NV(g2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            g2->flags16 |= 0x8000;
-            func_80041094(six, z, z2, z, g2->flags16 ^ 1);
+            register u8 *state_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            Shared82E60 *shared_state;
+            s32 zero;
+            s32 notify_id;
+            register s32 third_zero ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            notify_id = 6;
+            zero = 0; ASM_USE_NV(zero); /* cross-jump boundary; MUST stay on this line -- see NOTES.md */
+            ASM_KEEP_NV(notify_id);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(zero);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            third_zero = zero;
+            ASM_KEEP_NV(third_zero);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            state_page = (u8 *)0x80080000;
+            ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            shared_state = (Shared82E60 *)(state_page + 0x2E60);
+            ASM_KEEP_NV(shared_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            shared_state->flags16 |= 0x8000;
+            func_80041094(notify_id, zero, third_zero, zero, shared_state->flags16 ^ 1);
         }
 #line 1000 "x"
-        ((u16 *)s)[-1] |= 0x8000;
+        ((u16 *)controller)[-1] |= 0x8000;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         D_800814A0 |= 0x8000;
         return;

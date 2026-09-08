@@ -233,73 +233,71 @@ extern void func_80024F60(void *, void *, void *, s32, s32, s32);
 extern void func_80025F9C(void) __attribute__((noreturn));
 extern void func_80025DAC(void) __attribute__((noreturn));
 
-void func_8197192C(void *arg0, void *arg1, void *arg2)
+/* Advance the effect sequence, spawning sprites and particles along its sampled path. */
+void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
 {
-    static void *const keep_cases[] __attribute__((used)) = {
+    static void *const state_labels[] __attribute__((used)) = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&cleanup, &&done
     };
     u32 state;
-    void *base2 = arg0;
-    register void *base3 ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *base5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 color0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u32 color1;
+    void *effect = effect_arg;
+    register void *owner ASM_REG("$19") = owner_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *context ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 light_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 dark_color;
 
-    (void)keep_cases;
-    ASM_KEEP4_NV(base2, base3, base5, base5);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-#define arg0 base2
-#define arg1 base3
-    ((S_8197192C_0 *)arg0)->unk_38 = ((S_8197192C_0 *)arg0)->unk_38 + 1;
-    state = ((S_8197192C_0 *)arg0)->unk_0A.s;
+    (void)state_labels;
+    ASM_KEEP4_NV(effect, owner, context, context);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ((S_8197192C_0 *)effect)->unk_38 = ((S_8197192C_0 *)effect)->unk_38 + 1;
+    state = ((S_8197192C_0 *)effect)->unk_0A.s;
     if (state >= 5) {
         goto done;
     }
-    base5 = arg2;
-    ASM_KEEP_NV(base5);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-#define arg2 base5
+    context = context_arg;
+    ASM_KEEP_NV(context);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto *D_80024058[state];
 
 case_0:
 {
-    register void *obj ASM_REG("$3") = D_800814A8_case0[0];   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *gbase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *player ASM_REG("$3") = D_800814A8_case0[0];   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *world_pos ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 coord_z;
     u16 heading;
-    ((S_8197192C_1 *)obj)->unk_F4 = 0;
-    ((S_8197192C_1 *)obj)->unk_96 = 20;
+    ((S_8197192C_1 *)player)->unk_F4 = 0;
+    ((S_8197192C_1 *)player)->unk_96 = 20;
     ((S_8197192C_2 *)D_80082E86)->unk_00 = 6;
-    gbase = D_80083780;
-    ((S_8197192C_0 *)arg0)->unk_0A.u = ((S_8197192C_0 *)arg0)->unk_0A.u + 1;
-    ((S_8197192C_0 *)arg0)->unk_7C.s = ((S_8197192C_3 *)gbase)->unk_02;
-    ((S_8197192C_0 *)arg0)->unk_7E.s = ((S_8197192C_3 *)gbase)->unk_06;
-    coord_z = ((S_8197192C_3 *)gbase)->unk_0A;
+    world_pos = D_80083780;
+    ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
+    ((S_8197192C_0 *)effect)->unk_7C.s = ((S_8197192C_3 *)world_pos)->unk_02;
+    ((S_8197192C_0 *)effect)->unk_7E.s = ((S_8197192C_3 *)world_pos)->unk_06;
+    coord_z = ((S_8197192C_3 *)world_pos)->unk_0A;
     ((S_8197192C_4 *)D_80025FF4)->unk_00 = 1;
-    ((S_8197192C_0 *)arg0)->unk_80.s = coord_z;
+    ((S_8197192C_0 *)effect)->unk_80.s = coord_z;
     ASM_KEEP(coord_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if ((((S_8197192C_14 *)(((S_8197192C_0 *)arg0)->unk_04))->unk_00 & 0x80) == 0) {
+    if ((((S_8197192C_14 *)(((S_8197192C_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
         goto done;
     }
-    obj = D_800814A8[0];
-    ((S_8197192C_0 *)arg0)->unk_2C.s = 33;
-    ((S_8197192C_1 *)obj)->unk_A6 = ((S_8197192C_1 *)obj)->unk_A6 - 1;
-    ((S_8197192C_1 *)obj)->unk_A8 = ((S_8197192C_0 *)arg0)->unk_08;
-    obj = D_800814A8[0];
-    heading = ((S_8197192C_1 *)obj)->unk_2A;
-    ((S_8197192C_0 *)arg0)->unk_0A.u = ((S_8197192C_0 *)arg0)->unk_0A.u + 1;
-    ((S_8197192C_0 *)arg0)->unk_38 = 0;
-    ((S_8197192C_0 *)arg0)->unk_34 = (heading >> 9) & 7;
+    player = D_800814A8[0];
+    ((S_8197192C_0 *)effect)->unk_2C.s = 33;
+    ((S_8197192C_1 *)player)->unk_A6 = ((S_8197192C_1 *)player)->unk_A6 - 1;
+    ((S_8197192C_1 *)player)->unk_A8 = ((S_8197192C_0 *)effect)->unk_08;
+    player = D_800814A8[0];
+    heading = ((S_8197192C_1 *)player)->unk_2A;
+    ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
+    ((S_8197192C_0 *)effect)->unk_38 = 0;
+    ((S_8197192C_0 *)effect)->unk_34 = (heading >> 9) & 7;
     func_80025F9C();
 }
 
 case_1:
 {
-    ((S_8197192C_0 *)arg0)->unk_2C.s = ((S_8197192C_0 *)arg0)->unk_2C.s - 1;
-    if ((s16)((S_8197192C_0 *)arg0)->unk_2C.s <= 0) {
-        ((S_8197192C_0 *)arg0)->unk_2C.s = 16;
-        ((S_8197192C_0 *)arg0)->unk_0A.u = ((S_8197192C_0 *)arg0)->unk_0A.u + 1;
+    ((S_8197192C_0 *)effect)->unk_2C.s = ((S_8197192C_0 *)effect)->unk_2C.s - 1;
+    if ((s16)((S_8197192C_0 *)effect)->unk_2C.s <= 0) {
+        ((S_8197192C_0 *)effect)->unk_2C.s = 16;
+        ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
         func_80025F9C();
     }
-    if ((s16)((S_8197192C_0 *)arg0)->unk_2C.s == 26) {
+    if ((s16)((S_8197192C_0 *)effect)->unk_2C.s == 26) {
         if (func_80053EF0(4) != 2) {
             func_800A56E0(0x300);
         } else {
@@ -311,60 +309,60 @@ case_1:
 
 case_2:
 {
-    s32 i;
-    if ((u16)(((S_8197192C_0 *)arg0)->unk_2C.s - 5) < 19) {
+    s32 step;
+    if ((u16)(((S_8197192C_0 *)effect)->unk_2C.s - 5) < 19) {
         void *map_base = (void *)D_80082E80;
         if (func_8003DF74(
             ((S_8197192C_5 *)map_base)->unk_08, map_base,
-            (u8 *)arg0 + 0x2E, 0) != 0) {
-            i = 0;
+            (u8 *)effect + 0x2E, 0) != 0) {
+            step = 0;
             do {
                 func_800248A8((u8 *)((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_pv - 0x20, 0,
                               0xE04040, (func_80069EF8() & 0x3F) | 0x40,
-                              ((S_8197192C_0 *)arg0)->unk_2E.s,
-                              ((S_8197192C_0 *)arg0)->unk_30.s,
-                              ((S_8197192C_0 *)arg0)->unk_32.s);
-                i++;
-            } while (i < 2);
+                              ((S_8197192C_0 *)effect)->unk_2E.s,
+                              ((S_8197192C_0 *)effect)->unk_30.s,
+                              ((S_8197192C_0 *)effect)->unk_32.s);
+                step++;
+            } while (step < 2);
         }
     }
 
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 24) {
+    if (((S_8197192C_0 *)effect)->unk_2C.u == 24) {
         void *map_base = (void *)D_80082E80;
         if (func_8003DF74(((S_8197192C_5 *)map_base)->unk_08, map_base,
-                          (u8 *)arg0 + 0x2E, 0) != 0) {
-            void *obj;
-            register u8 *work ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            u8 *part;
-            u8 *dst;
-            u8 *gbase;
+                          (u8 *)effect + 0x2E, 0) != 0) {
+            void *effect_obj;
+            register u8 *effect_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            u8 *sprite;
+            u8 *position;
+            u8 *world_pos;
 
-            obj = func_8003FC64(0x212);
-            if (obj != 0) {
-                work = (u8 *)obj + 0x20;
-                ((S_8197192C_7 *)work)->unk_38 = 20;
-                ((S_8197192C_7 *)work)->unk_3A = 20;
-                ((S_8197192C_1 *)obj)->unk_10.at00.v = (void *)&D_80024D10;
-                func_8004491C(obj, D_80045340);
-                part = ((S_8197192C_1 *)obj)->unk_0C;
-                gbase = D_80083780;
-                ((S_8197192C_8 *)part)->unk_10 = 0x60;
-                ((S_8197192C_8 *)part)->unk_14 = ((S_8197192C_8 *)part)->unk_14 | 0x0C;
-                dst = ((S_8197192C_1 *)obj)->unk_08;
-                ((S_8197192C_9 *)dst)->unk_02 = ((S_8197192C_0 *)arg0)->unk_2E.u +
-                                      ((S_8197192C_3 *)gbase)->unk_02;
-                ((S_8197192C_9 *)dst)->unk_06 = ((S_8197192C_0 *)arg0)->unk_30.u +
-                                      ((S_8197192C_3 *)gbase)->unk_06;
-                ((S_8197192C_9 *)dst)->unk_0A = ((S_8197192C_0 *)arg0)->unk_32.u +
-                                       ((S_8197192C_3 *)gbase)->unk_0A;
-                part = ((S_8197192C_1 *)obj)->unk_0C;
-                ((S_8197192C_8 *)part)->unk_1E = 0x1000;
-                ((S_8197192C_8 *)part)->unk_1C = 0x1000;
-                ((S_8197192C_8 *)part)->unk_0E = 0x20;
-                ((S_8197192C_8 *)part)->unk_0D = 0x20;
-                ((S_8197192C_8 *)part)->unk_0C = 0x20;
-                *(Data12 *)((u8 *)obj + 0xA2) = D_80025FD0;
-                ((S_8197192C_8 *)part)->unk_08 = (u8 *)obj + 0xA2;
+            effect_obj = func_8003FC64(0x212);
+            if (effect_obj != 0) {
+                effect_data = (u8 *)effect_obj + 0x20;
+                ((S_8197192C_7 *)effect_data)->unk_38 = 20;
+                ((S_8197192C_7 *)effect_data)->unk_3A = 20;
+                ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024D10;
+                func_8004491C(effect_obj, D_80045340);
+                sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
+                world_pos = D_80083780;
+                ((S_8197192C_8 *)sprite)->unk_10 = 0x60;
+                ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
+                position = ((S_8197192C_1 *)effect_obj)->unk_08;
+                ((S_8197192C_9 *)position)->unk_02 = ((S_8197192C_0 *)effect)->unk_2E.u +
+                                      ((S_8197192C_3 *)world_pos)->unk_02;
+                ((S_8197192C_9 *)position)->unk_06 = ((S_8197192C_0 *)effect)->unk_30.u +
+                                      ((S_8197192C_3 *)world_pos)->unk_06;
+                ((S_8197192C_9 *)position)->unk_0A = ((S_8197192C_0 *)effect)->unk_32.u +
+                                       ((S_8197192C_3 *)world_pos)->unk_0A;
+                sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
+                ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
+                ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
+                ((S_8197192C_8 *)sprite)->unk_0E = 0x20;
+                ((S_8197192C_8 *)sprite)->unk_0D = 0x20;
+                ((S_8197192C_8 *)sprite)->unk_0C = 0x20;
+                *(Data12 *)((u8 *)effect_obj + 0xA2) = D_80025FD0;
+                ((S_8197192C_8 *)sprite)->unk_08 = (u8 *)effect_obj + 0xA2;
             }
         }
     }
@@ -372,333 +370,333 @@ case_2:
 
 case_3:
 {
-    s32 index;
-    s32 index2;
-    s32 i;
-    u8 *gbase3;
-    if (((S_8197192C_0 *)arg0)->unk_2C.u >= 10) {
+    s32 segment;
+    s32 point_index;
+    s32 step;
+    u8 *world_pos;
+    if (((S_8197192C_0 *)effect)->unk_2C.u >= 10) {
         goto done;
     }
-    if (((S_8197192C_0 *)arg0)->unk_2C.u >= 6) {
+    if (((S_8197192C_0 *)effect)->unk_2C.u >= 6) {
         goto done;
     }
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 3) {
+    if (((S_8197192C_0 *)effect)->unk_2C.u == 3) {
         goto done;
     }
-    index = (((S_8197192C_0 *)arg0)->unk_2C.u == 4);
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 2) {
-        index = 2;
+    segment = (((S_8197192C_0 *)effect)->unk_2C.u == 4);
+    if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
+        segment = 2;
     }
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 1) {
-        index = 3;
+    if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
+        segment = 3;
     }
     {
         void *map_base = (void *)D_80082E80;
-    if (func_8003DF74(((S_8197192C_5 *)map_base)->unk_08, map_base,
-                      (u8 *)arg0 + 0x2E, 0) == 0) {
-        goto after_coords;
+        if (func_8003DF74(((S_8197192C_5 *)map_base)->unk_08, map_base,
+                          (u8 *)effect + 0x2E, 0) == 0) {
+            goto after_coords;
+        }
+        if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
+            ((S_8197192C_0 *)effect)->unk_32.s = -12;
+        }
     }
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 1) {
-        ((S_8197192C_0 *)arg0)->unk_32.s = -12;
-    }
-    }
-    index2 = index << 1;
+    point_index = segment << 1;
     {
-    register u8 *dst ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    dst = (u8 *)arg0 + ((index2 + index) << 2);
-    index2++;
-    {
-        u32 raw_x;
-        s32 origin_x;
-        s32 half;
-        u32 coord_page;
-        raw_x = ((S_8197192C_0 *)arg0)->unk_2E.u;
-        origin_x = ((S_8197192C_0 *)arg0)->unk_7C.u;
-        raw_x <<= 16;
-        half = (s32)raw_x >> 16;
-        half += raw_x >> 31;
-        ASM_KEEP(half);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        coord_page = 0x80080000;
-        ASM_KEEP(coord_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        gbase3 = (u8 *)(coord_page + 0x3780);
-        ASM_KEEP_NV(gbase3);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        half >>= 1;
-        ((S_8197192C_9 *)dst)->unk_4C = (s16)(half +
-            (((S_8197192C_10 *)gbase3)->unk_02 - origin_x) / 2);
-    }
-    ((S_8197192C_9 *)dst)->unk_4E = (s16)(((s16)((S_8197192C_0 *)arg0)->unk_30.u) / 2 +
-        (((S_8197192C_10 *)gbase3)->unk_06 - ((S_8197192C_0 *)arg0)->unk_7E.u) / 2);
-    ((S_8197192C_9 *)dst)->unk_50 = (s16)(((s16)((S_8197192C_0 *)arg0)->unk_32.u) / 2 +
-        (((S_8197192C_10 *)gbase3)->unk_0A - ((S_8197192C_0 *)arg0)->unk_80.u) / 2);
+        register u8 *outer_point ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        outer_point = (u8 *)effect + ((point_index + segment) << 2);
+        point_index++;
+        {
+            u32 shifted_x;
+            s32 origin_x;
+            s32 half_x;
+            u32 coord_page;
+            shifted_x = ((S_8197192C_0 *)effect)->unk_2E.u;
+            origin_x = ((S_8197192C_0 *)effect)->unk_7C.u;
+            shifted_x <<= 16;
+            half_x = (s32)shifted_x >> 16;
+            half_x += shifted_x >> 31;
+            ASM_KEEP(half_x);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            coord_page = 0x80080000;
+            ASM_KEEP(coord_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            world_pos = (u8 *)(coord_page + 0x3780);
+            ASM_KEEP_NV(world_pos);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            half_x >>= 1;
+            ((S_8197192C_9 *)outer_point)->unk_4C = (s16)(half_x +
+                (((S_8197192C_10 *)world_pos)->unk_02 - origin_x) / 2);
+        }
+        ((S_8197192C_9 *)outer_point)->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 2 +
+            (((S_8197192C_10 *)world_pos)->unk_06 - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
+        ((S_8197192C_9 *)outer_point)->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 2 +
+            (((S_8197192C_10 *)world_pos)->unk_0A - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
     }
 
     {
-    u8 *dst2 = (u8 *)arg0 + (((index2 << 1) + index2) << 1);
-    ((S_8197192C_11 *)dst2)->unk_4C = (s16)(((s16)((S_8197192C_0 *)arg0)->unk_2E.u) / 4 +
-        (((S_8197192C_10 *)gbase3)->unk_02 - ((S_8197192C_0 *)arg0)->unk_7C.u) / 2);
-    ((S_8197192C_11 *)dst2)->unk_4E = (s16)(((s16)((S_8197192C_0 *)arg0)->unk_30.u) / 4 +
-        (((S_8197192C_10 *)gbase3)->unk_06 - ((S_8197192C_0 *)arg0)->unk_7E.u) / 2);
-    ((S_8197192C_11 *)dst2)->unk_50 = (s16)(((s16)((S_8197192C_0 *)arg0)->unk_32.u) / 4 +
-        (((S_8197192C_10 *)gbase3)->unk_0A - ((S_8197192C_0 *)arg0)->unk_80.u) / 2);
+        u8 *inner_point = (u8 *)effect + (((point_index << 1) + point_index) << 1);
+        ((S_8197192C_11 *)inner_point)->unk_4C = (s16)(((s16)((S_8197192C_0 *)effect)->unk_2E.u) / 4 +
+            (((S_8197192C_10 *)world_pos)->unk_02 - ((S_8197192C_0 *)effect)->unk_7C.u) / 2);
+        ((S_8197192C_11 *)inner_point)->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 4 +
+            (((S_8197192C_10 *)world_pos)->unk_06 - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
+        ((S_8197192C_11 *)inner_point)->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 4 +
+            (((S_8197192C_10 *)world_pos)->unk_0A - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
     }
 
 after_coords:
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 4) {
-        void *obj = func_8003FC64(0x212);
-        if (obj != 0) {
-            u8 *work = (u8 *)obj + 0x20;
-            u8 *part;
-            register u8 *dst ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            u32 color0_saved;
-            register u32 color0_copy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            u32 color1_a3;
-            u32 color1_t0;
-            register void *cb_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            void *cb_arg;
-            ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            color0 = 0x00E0E0E0;
-            color1 = 0x00804020;
-            cb_obj = obj;
-            cb_arg = (void *)&D_80024544;
-            ((S_8197192C_7 *)work)->unk_1C = color0;
-            ((S_8197192C_7 *)work)->unk_24 = color1;
-            ((S_8197192C_7 *)work)->unk_28 = color1;
-            ASM_KEEP(color0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            color0_saved = color0;
-            ASM_KEEP(color0_saved);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            ((S_8197192C_7 *)work)->unk_20 = color0;
-            ASM_KEEP(color0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            color0_copy = color0;
-            ASM_KEEP(color0_copy);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            ((S_8197192C_7 *)work)->unk_38 = 20;
-            ((S_8197192C_7 *)work)->unk_3A = 20;
-            ((S_8197192C_7 *)work)->unk_0C = color0_saved;
-            ((S_8197192C_7 *)work)->unk_10 = color0_copy;
-            color1_a3 = ((S_8197192C_7 *)work)->unk_24;
-            color1_t0 = ((S_8197192C_7 *)work)->unk_28;
-            ((S_8197192C_7 *)work)->unk_14 = color1_a3;
-            ((S_8197192C_7 *)work)->unk_18 = color1_t0;
-            ((S_8197192C_1 *)obj)->unk_10.at00.v = (void *)&D_80024B98;
-            func_8004491C(cb_obj, cb_arg);
-            part = ((S_8197192C_1 *)obj)->unk_0C;
-            ((S_8197192C_8 *)part)->unk_10 = 0x20;
-            ((S_8197192C_8 *)part)->unk_14 = ((S_8197192C_8 *)part)->unk_14 | 0x0C;
-            ((S_8197192C_7 *)work)->unk_4C = ((S_8197192C_0 *)arg0)->unk_58.s;
-            ((S_8197192C_7 *)work)->unk_4E = ((S_8197192C_0 *)arg0)->unk_5A.s;
-            ((S_8197192C_7 *)work)->unk_50 = ((S_8197192C_0 *)arg0)->unk_5C.s;
-            ((S_8197192C_7 *)work)->unk_52 = ((S_8197192C_0 *)arg0)->unk_4C.s;
-            ((S_8197192C_7 *)work)->unk_54 = ((S_8197192C_0 *)arg0)->unk_4E.s;
-            ((S_8197192C_7 *)work)->unk_56 = ((S_8197192C_0 *)arg0)->unk_50.s;
-            ((S_8197192C_7 *)work)->unk_58 = ((S_8197192C_0 *)arg0)->unk_5E;
-            ((S_8197192C_7 *)work)->unk_5A = ((S_8197192C_0 *)arg0)->unk_60;
-            ((S_8197192C_7 *)work)->unk_5C = ((S_8197192C_0 *)arg0)->unk_62;
-            ((S_8197192C_7 *)work)->unk_5E = ((S_8197192C_0 *)arg0)->unk_52;
-            ((S_8197192C_7 *)work)->unk_60 = ((S_8197192C_0 *)arg0)->unk_54;
-            ((S_8197192C_7 *)work)->unk_62 = ((S_8197192C_0 *)arg0)->unk_56;
-            dst = ((S_8197192C_1 *)obj)->unk_08;
-            ((S_8197192C_9 *)dst)->unk_02 = ((S_8197192C_0 *)arg0)->unk_7C.s;
-            ((S_8197192C_9 *)dst)->unk_06 = ((S_8197192C_0 *)arg0)->unk_7E.s;
-            ((S_8197192C_9 *)dst)->unk_0A = ((S_8197192C_0 *)arg0)->unk_80.s;
-            part = ((S_8197192C_1 *)obj)->unk_0C;
-            ((S_8197192C_8 *)part)->unk_1E = 0x1000;
-            ((S_8197192C_8 *)part)->unk_1C = 0x1000;
-            ((S_8197192C_8 *)part)->unk_0E = 0x80;
-            ((S_8197192C_8 *)part)->unk_0D = 0x80;
-            ((S_8197192C_8 *)part)->unk_0C = 0x80;
-            *(Data12 *)((u8 *)obj + 0xA2) = D_80025FDC;
-            ((S_8197192C_8 *)part)->unk_08 = (u8 *)obj + 0xA2;
+    if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
+        void *effect_obj = func_8003FC64(0x212);
+        if (effect_obj != 0) {
+            u8 *effect_data = (u8 *)effect_obj + 0x20;
+            u8 *sprite;
+            register u8 *position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            u32 light_saved;
+            register u32 light_copy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            u32 dark_left;
+            u32 dark_right;
+            register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            void *init_data;
+            ASM_KEEP(effect_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            light_color = 0x00E0E0E0;
+            dark_color = 0x00804020;
+            init_obj = effect_obj;
+            init_data = (void *)&D_80024544;
+            ((S_8197192C_7 *)effect_data)->unk_1C = light_color;
+            ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
+            ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
+            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            light_saved = light_color;
+            ASM_KEEP(light_saved);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ((S_8197192C_7 *)effect_data)->unk_20 = light_color;
+            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            light_copy = light_color;
+            ASM_KEEP(light_copy);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ((S_8197192C_7 *)effect_data)->unk_38 = 20;
+            ((S_8197192C_7 *)effect_data)->unk_3A = 20;
+            ((S_8197192C_7 *)effect_data)->unk_0C = light_saved;
+            ((S_8197192C_7 *)effect_data)->unk_10 = light_copy;
+            dark_left = ((S_8197192C_7 *)effect_data)->unk_24;
+            dark_right = ((S_8197192C_7 *)effect_data)->unk_28;
+            ((S_8197192C_7 *)effect_data)->unk_14 = dark_left;
+            ((S_8197192C_7 *)effect_data)->unk_18 = dark_right;
+            ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024B98;
+            func_8004491C(init_obj, init_data);
+            sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
+            ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
+            ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
+            ((S_8197192C_7 *)effect_data)->unk_4C = ((S_8197192C_0 *)effect)->unk_58.s;
+            ((S_8197192C_7 *)effect_data)->unk_4E = ((S_8197192C_0 *)effect)->unk_5A.s;
+            ((S_8197192C_7 *)effect_data)->unk_50 = ((S_8197192C_0 *)effect)->unk_5C.s;
+            ((S_8197192C_7 *)effect_data)->unk_52 = ((S_8197192C_0 *)effect)->unk_4C.s;
+            ((S_8197192C_7 *)effect_data)->unk_54 = ((S_8197192C_0 *)effect)->unk_4E.s;
+            ((S_8197192C_7 *)effect_data)->unk_56 = ((S_8197192C_0 *)effect)->unk_50.s;
+            ((S_8197192C_7 *)effect_data)->unk_58 = ((S_8197192C_0 *)effect)->unk_5E;
+            ((S_8197192C_7 *)effect_data)->unk_5A = ((S_8197192C_0 *)effect)->unk_60;
+            ((S_8197192C_7 *)effect_data)->unk_5C = ((S_8197192C_0 *)effect)->unk_62;
+            ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_52;
+            ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_54;
+            ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_56;
+            position = ((S_8197192C_1 *)effect_obj)->unk_08;
+            ((S_8197192C_9 *)position)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
+            ((S_8197192C_9 *)position)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
+            ((S_8197192C_9 *)position)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
+            sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
+            ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
+            ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
+            ((S_8197192C_8 *)sprite)->unk_0E = 0x80;
+            ((S_8197192C_8 *)sprite)->unk_0D = 0x80;
+            ((S_8197192C_8 *)sprite)->unk_0C = 0x80;
+            *(Data12 *)((u8 *)effect_obj + 0xA2) = D_80025FDC;
+            ((S_8197192C_8 *)sprite)->unk_08 = (u8 *)effect_obj + 0xA2;
         }
     }
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 2) {
-        void *obj = func_8003FC64(0x212);
-        if (obj != 0) {
-            u8 *work = (u8 *)obj + 0x20;
-            u8 *part;
-            register u8 *dst ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            u32 color0_saved;
-            register u32 color0_copy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            u32 color1_a3;
-            u32 color1_t0;
-            register void *cb_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            void *cb_arg;
-            ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            color0 = 0x00E0E0E0;
-            color1 = 0x00804020;
-            cb_obj = obj;
-            cb_arg = (void *)&D_80024544;
-            ((S_8197192C_7 *)work)->unk_1C = color0;
-            ((S_8197192C_7 *)work)->unk_24 = color1;
-            ((S_8197192C_7 *)work)->unk_28 = color1;
-            ASM_KEEP(color0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            color0_saved = color0;
-            ASM_KEEP(color0_saved);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            ((S_8197192C_7 *)work)->unk_20 = color0;
-            ASM_KEEP(color0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            color0_copy = color0;
-            ASM_KEEP(color0_copy);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            ((S_8197192C_7 *)work)->unk_38 = 20;
-            ((S_8197192C_7 *)work)->unk_3A = 20;
-            ((S_8197192C_7 *)work)->unk_0C = color0_saved;
-            ((S_8197192C_7 *)work)->unk_10 = color0_copy;
-            color1_a3 = ((S_8197192C_7 *)work)->unk_24;
-            color1_t0 = ((S_8197192C_7 *)work)->unk_28;
-            ((S_8197192C_7 *)work)->unk_14 = color1_a3;
-            ((S_8197192C_7 *)work)->unk_18 = color1_t0;
-            ((S_8197192C_1 *)obj)->unk_10.at00.v = (void *)&D_80024B98;
-            func_8004491C(cb_obj, cb_arg);
-            part = ((S_8197192C_1 *)obj)->unk_0C;
-            ((S_8197192C_8 *)part)->unk_10 = 0x20;
-            ((S_8197192C_8 *)part)->unk_14 = ((S_8197192C_8 *)part)->unk_14 | 0x0C;
-            ((S_8197192C_7 *)work)->unk_4C = ((S_8197192C_0 *)arg0)->unk_64.s;
-            ((S_8197192C_7 *)work)->unk_4E = ((S_8197192C_0 *)arg0)->unk_66.s;
-            ((S_8197192C_7 *)work)->unk_50 = ((S_8197192C_0 *)arg0)->unk_68.s;
-            ((S_8197192C_7 *)work)->unk_52 = ((S_8197192C_0 *)arg0)->unk_58.s;
-            ((S_8197192C_7 *)work)->unk_54 = ((S_8197192C_0 *)arg0)->unk_5A.s;
-            ((S_8197192C_7 *)work)->unk_56 = ((S_8197192C_0 *)arg0)->unk_5C.s;
-            ((S_8197192C_7 *)work)->unk_58 = ((S_8197192C_0 *)arg0)->unk_6A;
-            ((S_8197192C_7 *)work)->unk_5A = ((S_8197192C_0 *)arg0)->unk_6C;
-            ((S_8197192C_7 *)work)->unk_5C = ((S_8197192C_0 *)arg0)->unk_6E;
-            ((S_8197192C_7 *)work)->unk_5E = ((S_8197192C_0 *)arg0)->unk_5E;
-            ((S_8197192C_7 *)work)->unk_60 = ((S_8197192C_0 *)arg0)->unk_60;
-            ((S_8197192C_7 *)work)->unk_62 = ((S_8197192C_0 *)arg0)->unk_62;
-            dst = ((S_8197192C_1 *)obj)->unk_08;
-            ((S_8197192C_9 *)dst)->unk_02 = ((S_8197192C_0 *)arg0)->unk_7C.s;
-            ((S_8197192C_9 *)dst)->unk_06 = ((S_8197192C_0 *)arg0)->unk_7E.s;
-            ((S_8197192C_9 *)dst)->unk_0A = ((S_8197192C_0 *)arg0)->unk_80.s;
-            part = ((S_8197192C_1 *)obj)->unk_0C;
-            ((S_8197192C_8 *)part)->unk_1E = 0x1000;
-            ((S_8197192C_8 *)part)->unk_1C = 0x1000;
-            ((S_8197192C_8 *)part)->unk_0E = 0x80;
-            ((S_8197192C_8 *)part)->unk_0D = 0x80;
-            ((S_8197192C_8 *)part)->unk_0C = 0x80;
-            *(Data12 *)((u8 *)obj + 0xA2) = D_80025FDC;
-            ((S_8197192C_8 *)part)->unk_08 = (u8 *)obj + 0xA2;
+    if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
+        void *effect_obj = func_8003FC64(0x212);
+        if (effect_obj != 0) {
+            u8 *effect_data = (u8 *)effect_obj + 0x20;
+            u8 *sprite;
+            register u8 *position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            u32 light_saved;
+            register u32 light_copy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            u32 dark_left;
+            u32 dark_right;
+            register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            void *init_data;
+            ASM_KEEP(effect_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            light_color = 0x00E0E0E0;
+            dark_color = 0x00804020;
+            init_obj = effect_obj;
+            init_data = (void *)&D_80024544;
+            ((S_8197192C_7 *)effect_data)->unk_1C = light_color;
+            ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
+            ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
+            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            light_saved = light_color;
+            ASM_KEEP(light_saved);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ((S_8197192C_7 *)effect_data)->unk_20 = light_color;
+            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            light_copy = light_color;
+            ASM_KEEP(light_copy);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ((S_8197192C_7 *)effect_data)->unk_38 = 20;
+            ((S_8197192C_7 *)effect_data)->unk_3A = 20;
+            ((S_8197192C_7 *)effect_data)->unk_0C = light_saved;
+            ((S_8197192C_7 *)effect_data)->unk_10 = light_copy;
+            dark_left = ((S_8197192C_7 *)effect_data)->unk_24;
+            dark_right = ((S_8197192C_7 *)effect_data)->unk_28;
+            ((S_8197192C_7 *)effect_data)->unk_14 = dark_left;
+            ((S_8197192C_7 *)effect_data)->unk_18 = dark_right;
+            ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024B98;
+            func_8004491C(init_obj, init_data);
+            sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
+            ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
+            ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
+            ((S_8197192C_7 *)effect_data)->unk_4C = ((S_8197192C_0 *)effect)->unk_64.s;
+            ((S_8197192C_7 *)effect_data)->unk_4E = ((S_8197192C_0 *)effect)->unk_66.s;
+            ((S_8197192C_7 *)effect_data)->unk_50 = ((S_8197192C_0 *)effect)->unk_68.s;
+            ((S_8197192C_7 *)effect_data)->unk_52 = ((S_8197192C_0 *)effect)->unk_58.s;
+            ((S_8197192C_7 *)effect_data)->unk_54 = ((S_8197192C_0 *)effect)->unk_5A.s;
+            ((S_8197192C_7 *)effect_data)->unk_56 = ((S_8197192C_0 *)effect)->unk_5C.s;
+            ((S_8197192C_7 *)effect_data)->unk_58 = ((S_8197192C_0 *)effect)->unk_6A;
+            ((S_8197192C_7 *)effect_data)->unk_5A = ((S_8197192C_0 *)effect)->unk_6C;
+            ((S_8197192C_7 *)effect_data)->unk_5C = ((S_8197192C_0 *)effect)->unk_6E;
+            ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_5E;
+            ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_60;
+            ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_62;
+            position = ((S_8197192C_1 *)effect_obj)->unk_08;
+            ((S_8197192C_9 *)position)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
+            ((S_8197192C_9 *)position)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
+            ((S_8197192C_9 *)position)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
+            sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
+            ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
+            ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
+            ((S_8197192C_8 *)sprite)->unk_0E = 0x80;
+            ((S_8197192C_8 *)sprite)->unk_0D = 0x80;
+            ((S_8197192C_8 *)sprite)->unk_0C = 0x80;
+            *(Data12 *)((u8 *)effect_obj + 0xA2) = D_80025FDC;
+            ((S_8197192C_8 *)sprite)->unk_08 = (u8 *)effect_obj + 0xA2;
         }
     }
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 1) {
-        register void *obj ASM_REG("$17") = func_8003FC64(0x212);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        if (obj != 0) {
-            register u8 *work ASM_REG("$16") = (u8 *)obj + 0x20;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            u8 *part;
-            register u8 *dst ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            u32 color0_saved;
-            register u32 color0_copy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            u32 color1_a3;
-            u32 color1_t0;
-            register void *cb_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            void *cb_arg;
-            color0 = 0x00E0E0E0;
-            color1 = 0x00804020;
-            cb_obj = obj;
-            cb_arg = (void *)&D_80024544;
-            ((S_8197192C_7 *)work)->unk_1C = color0;
-            ((S_8197192C_7 *)work)->unk_24 = color1;
-            ((S_8197192C_7 *)work)->unk_28 = color1;
-            ASM_KEEP(color0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            color0_saved = color0;
-            ASM_KEEP(color0_saved);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            ((S_8197192C_7 *)work)->unk_20 = color0;
-            ASM_KEEP(color0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            color0_copy = color0;
-            ASM_KEEP(color0_copy);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            ((S_8197192C_7 *)work)->unk_38 = 20;
-            ((S_8197192C_7 *)work)->unk_3A = 20;
-            ((S_8197192C_7 *)work)->unk_0C = color0_saved;
-            ((S_8197192C_7 *)work)->unk_10 = color0_copy;
-            color1_a3 = ((S_8197192C_7 *)work)->unk_24;
-            color1_t0 = ((S_8197192C_7 *)work)->unk_28;
-            ((S_8197192C_7 *)work)->unk_14 = color1_a3;
-            ((S_8197192C_7 *)work)->unk_18 = color1_t0;
-            ((S_8197192C_1 *)obj)->unk_10.at00.v = (void *)&D_80024B98;
-            func_8004491C(cb_obj, cb_arg);
-            part = ((S_8197192C_1 *)obj)->unk_0C;
-            ((S_8197192C_8 *)part)->unk_10 = 0x20;
-            ((S_8197192C_8 *)part)->unk_14 = ((S_8197192C_8 *)part)->unk_14 | 0x0C;
-            ((S_8197192C_7 *)work)->unk_4C = ((S_8197192C_0 *)arg0)->unk_70.s;
-            ((S_8197192C_7 *)work)->unk_4E = ((S_8197192C_0 *)arg0)->unk_72.s;
-            ((S_8197192C_7 *)work)->unk_50 = ((S_8197192C_0 *)arg0)->unk_74.s;
-            ((S_8197192C_7 *)work)->unk_52 = ((S_8197192C_0 *)arg0)->unk_64.s;
-            ((S_8197192C_7 *)work)->unk_54 = ((S_8197192C_0 *)arg0)->unk_66.s;
-            ((S_8197192C_7 *)work)->unk_56 = ((S_8197192C_0 *)arg0)->unk_68.s;
-            ((S_8197192C_7 *)work)->unk_58 = ((S_8197192C_0 *)arg0)->unk_76;
-            ((S_8197192C_7 *)work)->unk_5A = ((S_8197192C_0 *)arg0)->unk_78;
-            ((S_8197192C_7 *)work)->unk_5C = ((S_8197192C_0 *)arg0)->unk_7A;
-            ((S_8197192C_7 *)work)->unk_5E = ((S_8197192C_0 *)arg0)->unk_6A;
-            ((S_8197192C_7 *)work)->unk_60 = ((S_8197192C_0 *)arg0)->unk_6C;
-            ((S_8197192C_7 *)work)->unk_62 = ((S_8197192C_0 *)arg0)->unk_6E;
-            dst = ((S_8197192C_1 *)obj)->unk_08;
-            ((S_8197192C_9 *)dst)->unk_02 = ((S_8197192C_0 *)arg0)->unk_7C.s;
-            ((S_8197192C_9 *)dst)->unk_06 = ((S_8197192C_0 *)arg0)->unk_7E.s;
-            ((S_8197192C_9 *)dst)->unk_0A = ((S_8197192C_0 *)arg0)->unk_80.s;
-            part = ((S_8197192C_1 *)obj)->unk_0C;
-            ((S_8197192C_8 *)part)->unk_1E = 0x1000;
-            ((S_8197192C_8 *)part)->unk_1C = 0x1000;
-            ((S_8197192C_8 *)part)->unk_0E = 0x80;
-            ((S_8197192C_8 *)part)->unk_0D = 0x80;
-            ((S_8197192C_8 *)part)->unk_0C = 0x80;
-            *(Data12 *)((u8 *)obj + 0xA2) = D_80025FDC;
-            ((S_8197192C_8 *)part)->unk_08 = (u8 *)obj + 0xA2;
-            ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
+        register void *effect_obj ASM_REG("$17") = func_8003FC64(0x212);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        if (effect_obj != 0) {
+            register u8 *effect_data ASM_REG("$16") = (u8 *)effect_obj + 0x20;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            u8 *sprite;
+            register u8 *position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            u32 light_saved;
+            register u32 light_copy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            u32 dark_left;
+            u32 dark_right;
+            register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            void *init_data;
+            light_color = 0x00E0E0E0;
+            dark_color = 0x00804020;
+            init_obj = effect_obj;
+            init_data = (void *)&D_80024544;
+            ((S_8197192C_7 *)effect_data)->unk_1C = light_color;
+            ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
+            ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
+            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            light_saved = light_color;
+            ASM_KEEP(light_saved);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ((S_8197192C_7 *)effect_data)->unk_20 = light_color;
+            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            light_copy = light_color;
+            ASM_KEEP(light_copy);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ((S_8197192C_7 *)effect_data)->unk_38 = 20;
+            ((S_8197192C_7 *)effect_data)->unk_3A = 20;
+            ((S_8197192C_7 *)effect_data)->unk_0C = light_saved;
+            ((S_8197192C_7 *)effect_data)->unk_10 = light_copy;
+            dark_left = ((S_8197192C_7 *)effect_data)->unk_24;
+            dark_right = ((S_8197192C_7 *)effect_data)->unk_28;
+            ((S_8197192C_7 *)effect_data)->unk_14 = dark_left;
+            ((S_8197192C_7 *)effect_data)->unk_18 = dark_right;
+            ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024B98;
+            func_8004491C(init_obj, init_data);
+            sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
+            ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
+            ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
+            ((S_8197192C_7 *)effect_data)->unk_4C = ((S_8197192C_0 *)effect)->unk_70.s;
+            ((S_8197192C_7 *)effect_data)->unk_4E = ((S_8197192C_0 *)effect)->unk_72.s;
+            ((S_8197192C_7 *)effect_data)->unk_50 = ((S_8197192C_0 *)effect)->unk_74.s;
+            ((S_8197192C_7 *)effect_data)->unk_52 = ((S_8197192C_0 *)effect)->unk_64.s;
+            ((S_8197192C_7 *)effect_data)->unk_54 = ((S_8197192C_0 *)effect)->unk_66.s;
+            ((S_8197192C_7 *)effect_data)->unk_56 = ((S_8197192C_0 *)effect)->unk_68.s;
+            ((S_8197192C_7 *)effect_data)->unk_58 = ((S_8197192C_0 *)effect)->unk_76;
+            ((S_8197192C_7 *)effect_data)->unk_5A = ((S_8197192C_0 *)effect)->unk_78;
+            ((S_8197192C_7 *)effect_data)->unk_5C = ((S_8197192C_0 *)effect)->unk_7A;
+            ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_6A;
+            ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_6C;
+            ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_6E;
+            position = ((S_8197192C_1 *)effect_obj)->unk_08;
+            ((S_8197192C_9 *)position)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
+            ((S_8197192C_9 *)position)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
+            ((S_8197192C_9 *)position)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
+            sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
+            ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
+            ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
+            ((S_8197192C_8 *)sprite)->unk_0E = 0x80;
+            ((S_8197192C_8 *)sprite)->unk_0D = 0x80;
+            ((S_8197192C_8 *)sprite)->unk_0C = 0x80;
+            *(Data12 *)((u8 *)effect_obj + 0xA2) = D_80025FDC;
+            ((S_8197192C_8 *)sprite)->unk_08 = (u8 *)effect_obj + 0xA2;
+            ASM_KEEP(effect_obj);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         }
     }
 
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 4) {
-        i = 0;
+    if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
+        step = 0;
         do {
-            s32 call_x;
-            s32 call_y;
-            s32 call_z;
-            call_x = (s16)((((S_8197192C_0 *)arg0)->unk_58.s +
-                      (((S_8197192C_0 *)arg0)->unk_4C.u - ((S_8197192C_0 *)arg0)->unk_58.u) * i / 6) << 1);
-            call_y = (s16)((((S_8197192C_0 *)arg0)->unk_5A.s +
-                      (((S_8197192C_0 *)arg0)->unk_4E.u - ((S_8197192C_0 *)arg0)->unk_5A.u) * i / 6) << 1);
-            call_z = (s16)((((S_8197192C_0 *)arg0)->unk_5C.s +
-                      (((S_8197192C_0 *)arg0)->unk_50.u - ((S_8197192C_0 *)arg0)->unk_5C.u) * i / 6) << 1);
-            func_80024DD4(arg0, arg1, arg2,
-                call_x, call_y, call_z);
-            i++;
-        } while (i < 6);
+            s32 spawn_x;
+            s32 spawn_y;
+            s32 spawn_z;
+            spawn_x = (s16)((((S_8197192C_0 *)effect)->unk_58.s +
+                      (((S_8197192C_0 *)effect)->unk_4C.u - ((S_8197192C_0 *)effect)->unk_58.u) * step / 6) << 1);
+            spawn_y = (s16)((((S_8197192C_0 *)effect)->unk_5A.s +
+                      (((S_8197192C_0 *)effect)->unk_4E.u - ((S_8197192C_0 *)effect)->unk_5A.u) * step / 6) << 1);
+            spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_5C.s +
+                      (((S_8197192C_0 *)effect)->unk_50.u - ((S_8197192C_0 *)effect)->unk_5C.u) * step / 6) << 1);
+            func_80024DD4(effect, owner, context,
+                spawn_x, spawn_y, spawn_z);
+            step++;
+        } while (step < 6);
     }
-    if (((S_8197192C_0 *)arg0)->unk_2C.u == 2) {
-        i = 0;
+    if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
+        step = 0;
         do {
-            s32 call_x;
-            s32 call_y;
-            s32 call_z;
-            call_x = (s16)((((S_8197192C_0 *)arg0)->unk_64.s +
-                      (((S_8197192C_0 *)arg0)->unk_58.u - ((S_8197192C_0 *)arg0)->unk_64.u) * i / 12) << 1);
-            call_y = (s16)((((S_8197192C_0 *)arg0)->unk_66.s +
-                      (((S_8197192C_0 *)arg0)->unk_5A.u - ((S_8197192C_0 *)arg0)->unk_66.u) * i / 12) << 1);
-            call_z = (s16)((((S_8197192C_0 *)arg0)->unk_68.s +
-                      (((S_8197192C_0 *)arg0)->unk_5C.u - ((S_8197192C_0 *)arg0)->unk_68.u) * i / 12) << 1);
-            func_80024DD4(arg0, arg1, arg2,
-                call_x, call_y, call_z);
-            i++;
-        } while (i < 12);
+            s32 spawn_x;
+            s32 spawn_y;
+            s32 spawn_z;
+            spawn_x = (s16)((((S_8197192C_0 *)effect)->unk_64.s +
+                      (((S_8197192C_0 *)effect)->unk_58.u - ((S_8197192C_0 *)effect)->unk_64.u) * step / 12) << 1);
+            spawn_y = (s16)((((S_8197192C_0 *)effect)->unk_66.s +
+                      (((S_8197192C_0 *)effect)->unk_5A.u - ((S_8197192C_0 *)effect)->unk_66.u) * step / 12) << 1);
+            spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_68.s +
+                      (((S_8197192C_0 *)effect)->unk_5C.u - ((S_8197192C_0 *)effect)->unk_68.u) * step / 12) << 1);
+            func_80024DD4(effect, owner, context,
+                spawn_x, spawn_y, spawn_z);
+            step++;
+        } while (step < 12);
     }
-    if (((S_8197192C_0 *)arg0)->unk_2C.u != 1) {
+    if (((S_8197192C_0 *)effect)->unk_2C.u != 1) {
         goto done;
     }
-    i = 0;
-    ASM_KEEP_NV(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    step = 0;
+    ASM_KEEP_NV(step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     {
-        s32 call_x;
-        s32 call_y;
-        s32 call_z;
-        call_x = (s16)((((S_8197192C_0 *)arg0)->unk_70.s +
-                  (((S_8197192C_0 *)arg0)->unk_64.u - ((S_8197192C_0 *)arg0)->unk_70.u) * i / 2) << 1);
-        call_y = (s16)((((S_8197192C_0 *)arg0)->unk_72.s +
-                  (((S_8197192C_0 *)arg0)->unk_66.u - ((S_8197192C_0 *)arg0)->unk_72.u) * i / 2) << 1);
+        s32 spawn_x;
+        s32 spawn_y;
+        s32 spawn_z;
+        spawn_x = (s16)((((S_8197192C_0 *)effect)->unk_70.s +
+                  (((S_8197192C_0 *)effect)->unk_64.u - ((S_8197192C_0 *)effect)->unk_70.u) * step / 2) << 1);
+        spawn_y = (s16)((((S_8197192C_0 *)effect)->unk_72.s +
+                  (((S_8197192C_0 *)effect)->unk_66.u - ((S_8197192C_0 *)effect)->unk_72.u) * step / 2) << 1);
         {
-        void *call_obj = arg0;
-        ASM_KEEP_NV(call_obj);
-        call_z = (s16)((((S_8197192C_0 *)arg0)->unk_74.s +
-                  (((S_8197192C_0 *)arg0)->unk_68.u - ((S_8197192C_0 *)arg0)->unk_74.u) * i / 2) << 1);
-        func_80024DD4(call_obj, arg1, arg2,
-            call_x, call_y, call_z);
+            void *spawn_effect = effect;
+            ASM_KEEP_NV(spawn_effect);
+            spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_74.s +
+                      (((S_8197192C_0 *)effect)->unk_68.u - ((S_8197192C_0 *)effect)->unk_74.u) * step / 2) << 1);
+            func_80024DD4(spawn_effect, owner, context,
+                spawn_x, spawn_y, spawn_z);
         }
-        i++;
-        if (i >= 2) {
+        step++;
+        if (step >= 2) {
             goto done;
         }
         func_80025DAC();
@@ -708,30 +706,30 @@ after_coords:
 
 case_4:
 {
-    s32 i;
-    void *obj;
-    u8 *base;
-    u8 *lookup;
-    u8 count;
+    s32 angle;
+    void *source_obj;
+    u8 *angle_base;
+    u8 *angle_table;
+    u8 angle_count;
     u8 *status_page;
-    if (((S_8197192C_0 *)arg0)->unk_2C.u != 16) {
+    if (((S_8197192C_0 *)effect)->unk_2C.u != 16) {
         status_page = (u8 *)0x80080000;
         goto case_4_global_use;
     }
-    obj = ((S_8197192C_15 *)(((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_pv))->unk_60;
-    if (obj != 0) {
-        lookup = D_800DDC40;
-        count = lookup[((S_8197192C_1 *)obj)->unk_10.at03.v];
-        arg1 = ((S_8197192C_1_pre *)obj)[-1].unk_00;
-        i = 0;
-        if (count == 0) {
+    source_obj = ((S_8197192C_15 *)(((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_pv))->unk_60;
+    if (source_obj != 0) {
+        angle_table = D_800DDC40;
+        angle_count = angle_table[((S_8197192C_1 *)source_obj)->unk_10.at03.v];
+        owner = ((S_8197192C_1_pre *)source_obj)[-1].unk_00;
+        angle = 0;
+        if (angle_count == 0) {
             goto case_4_global;
         }
-        base = lookup;
+        angle_base = angle_table;
         do {
-            func_80024F60(arg0, arg1, arg2, 0, 0, (s16)i);
-            i -= 15;
-        } while (-*(u8 *)((u32)((S_8197192C_1 *)obj)->unk_10.at03.v + (u32)base) < i);
+            func_80024F60(effect, owner, context, 0, 0, (s16)angle);
+            angle -= 15;
+        } while (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle);
     }
 case_4_global:
     status_page = (u8 *)0x80080000;
@@ -741,12 +739,12 @@ case_4_global_use:
         if ((((S_8197192C_12 *)status_page)->unk_2E94 & 0x8000) != 0) {
             goto case_4_set_state;
         }
-        ((S_8197192C_0 *)arg0)->unk_2C.s = ((S_8197192C_0 *)arg0)->unk_2C.s - 1;
-        if ((s16)((S_8197192C_0 *)arg0)->unk_2C.s >= 0) {
+        ((S_8197192C_0 *)effect)->unk_2C.s = ((S_8197192C_0 *)effect)->unk_2C.s - 1;
+        if ((s16)((S_8197192C_0 *)effect)->unk_2C.s >= 0) {
             goto done;
         }
 case_4_set_state:
-        ((S_8197192C_0 *)arg0)->unk_0A.u = next_state;
+        ((S_8197192C_0 *)effect)->unk_0A.u = next_state;
         func_80025F9C();
     }
     goto done;
@@ -762,7 +760,7 @@ cleanup:
         ((S_8197192C_13 *)cleanup_obj)->unk_0C = 0;
         D_80082E86[0] = 0;
         ((S_8197192C_13 *)cleanup_obj)->unk_0A = cleanup_count - 1;
-        ((S_8197192C_0_pre *)arg0)[-1].unk_00 = ((S_8197192C_0_pre *)arg0)[-1].unk_00 | 0x8000;
+        ((S_8197192C_0_pre *)effect)[-1].unk_00 = ((S_8197192C_0_pre *)effect)[-1].unk_00 | 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
         func_80025F9C();
     }
@@ -773,7 +771,3 @@ cleanup:
 done:
     return;
 }
-
-#undef arg0
-#undef arg1
-#undef arg2

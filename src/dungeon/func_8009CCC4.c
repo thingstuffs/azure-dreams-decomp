@@ -29,328 +29,329 @@ extern M2C_UNK D_800E099A;
 extern M2C_UNK D_800E09B2;
 extern M2C_UNK D_800E09BB;
 
-s32 func_800A2424(void *arg0, s32 arg1) {
-    u8 flags[3];
-    u8 *s1;
-    u8 *s3;
-    u8 *s4;
-    s32 s2;
-    s32 s5;
-    s32 index;
-    s32 i;
-    s32 temp_v0;
-    s32 value;
-    s32 work;
-    s32 shared_t0;
-    volatile s32 *table;
+/* Lower an entity by one level, adjust its stats and spells, and optionally show a message. */
+s32 func_800A2424(void *entity_data, s32 show_message) {
+    u8 spell_lowered[3];
+    u8 *entity;
+    u8 *stat_growth;
+    u8 *initial_stats;
+    s32 level;
+    s32 level_offset;
+    s32 monster_id;
+    s32 spell_index;
+    s32 message_start;
+    s32 message_end;
+    s32 lower_stat;
+    s32 level_term;
+    volatile s32 *xp_table;
 
-    s1 = (u8 *)arg0;
-    if (s1[0x11] < 2U) {
+    entity = (u8 *)entity_data;
+    if (entity[0x11] < 2U) {
         return 0;
     }
-    s1[0x11] -= 1;
-    s2 = s1[0x11];
-    index = s1[0x13];
-    table = D_800835E8;
-    *(s32 *)(s1 + 0x18) = table[s2] - 1;
-    s3 = D_800DDCBC + (index * 8);
-    s5 = s2 - 1;
-    s4 = D_8006D168 + (index * 0x18);
+    entity[0x11] -= 1;
+    level = entity[0x11];
+    monster_id = entity[0x13];
+    xp_table = D_800835E8;
+    *(s32 *)(entity + 0x18) = xp_table[level] - 1;
+    stat_growth = D_800DDCBC + (monster_id * 8);
+    level_offset = level - 1;
+    initial_stats = D_8006D168 + (monster_id * 0x18);
 
     {
-        register s32 b ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        s32 call_result;
-        s32 first_left;
-        s32 first_right;
-        s32 second_left;
-        s32 second_right;
-        s32 second_partial;
-        register s32 second_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 right;
-        s32 partial;
-        s32 current;
-        call_result = func_800647A0((s5 * s3[5]) << 0xB, index);
-        b = *(volatile u8 *)(s4 + 5);
-        first_left = s3[5] * s5;
-        if (first_left < 0) {
-            first_left += 0xF;
+        register s32 base_hp ASM_REG("$6");
+        s32 hp_curve;
+        s32 lower_hp_growth;
+        s32 lower_hp_curve;
+        s32 upper_hp_growth;
+        s32 upper_hp_curve;
+        s32 upper_hp_base;
+        register s32 upper_base_hp ASM_REG("$5");
+        s32 upper_stat;
+        s32 lower_hp_base;
+        s32 stat_value;
+        hp_curve = func_800647A0((level_offset * stat_growth[5]) << 0xB, monster_id);
+        base_hp = *(volatile u8 *)(initial_stats + 5);
+        lower_hp_growth = stat_growth[5] * level_offset;
+        if (lower_hp_growth < 0) {
+            lower_hp_growth += 0xF;
         }
-        first_right = s3[5] * call_result;
-        partial = b + (first_left >> 4);
-        if (first_right < 0) {
-            first_right += 0x7FFF;
+        lower_hp_curve = stat_growth[5] * hp_curve;
+        lower_hp_base = base_hp + (lower_hp_growth >> 4);
+        if (lower_hp_curve < 0) {
+            lower_hp_curve += 0x7FFF;
         }
-        work = partial + (first_right >> 0xF);
+        lower_stat = lower_hp_base + (lower_hp_curve >> 0xF);
 
-        shared_t0 = s2 * s3[5];
-        call_result = func_800647A0(shared_t0 << 0xB, first_right, b);
-        second_base = *(volatile u8 *)(s4 + 5);
-        second_left = s3[5] * s2;
-        if (second_left < 0) {
-            second_left += 0xF;
+        level_term = level * stat_growth[5];
+        hp_curve = func_800647A0(level_term << 0xB, lower_hp_curve, base_hp);
+        upper_base_hp = *(volatile u8 *)(initial_stats + 5);
+        upper_hp_growth = stat_growth[5] * level;
+        if (upper_hp_growth < 0) {
+            upper_hp_growth += 0xF;
         }
-        second_right = s3[5] * call_result;
-        second_partial = second_base + (second_left >> 4);
-        if (second_right < 0) {
-            second_right += 0x7FFF;
+        upper_hp_curve = stat_growth[5] * hp_curve;
+        upper_hp_base = upper_base_hp + (upper_hp_growth >> 4);
+        if (upper_hp_curve < 0) {
+            upper_hp_curve += 0x7FFF;
         }
-        right = second_partial + (second_right >> 0xF);
-        ASM_KEEP(second_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        upper_stat = upper_hp_base + (upper_hp_curve >> 0xF);
+        ASM_KEEP(upper_base_hp);
 
-        current = s1[5] + (work - right);
-        if (current == 0) {
-            current = 1;
+        stat_value = entity[5] + (lower_stat - upper_stat);
+        if (stat_value == 0) {
+            stat_value = 1;
         }
-        s1[5] = current;
+        entity[5] = stat_value;
     }
 
     {
-        s32 left_product;
-        s32 right_product;
-        s32 right;
-        s32 current;
-        register s32 product ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 lower_growth;
+        s32 upper_growth;
+        s32 upper_stat;
+        s32 stat_value;
+        register s32 growth_product ASM_REG("$16");
         {
-            register s32 left_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s32 right_byte;
-            left_byte = s3[4];
-            right_byte = s4[4];
-            product = left_byte * right_byte;
-            left_product = product * s5;
+            register s32 growth_rate ASM_REG("$2");
+            s32 base_stat;
+            growth_rate = stat_growth[4];
+            base_stat = initial_stats[4];
+            growth_product = growth_rate * base_stat;
+            lower_growth = growth_product * level_offset;
         }
-        if (left_product < 0) {
-            left_product += 0x3FF;
+        if (lower_growth < 0) {
+            lower_growth += 0x3FF;
         }
-        right_product = product * s2;
-        work = s4[4] + (left_product >> 0xA);
-        if (right_product < 0) {
-            right_product += 0x3FF;
+        upper_growth = growth_product * level;
+        lower_stat = initial_stats[4] + (lower_growth >> 0xA);
+        if (upper_growth < 0) {
+            upper_growth += 0x3FF;
         }
-        ASM_KEEP_NV(work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        right = s4[4] + (right_product >> 0xA);
-        current = s1[4] + (work - right);
-        if (current == 0) {
-            current = 1;
+        ASM_KEEP_NV(lower_stat);
+        upper_stat = initial_stats[4] + (upper_growth >> 0xA);
+        stat_value = entity[4] + (lower_stat - upper_stat);
+        if (stat_value == 0) {
+            stat_value = 1;
         }
-        s1[4] = current;
+        entity[4] = stat_value;
     }
 
     {
-        register s32 left_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 right_byte;
-        register s32 product ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 left_product;
-        register s32 right_product ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s32 right ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 current;
-        left_byte = s3[0];
-        right_byte = s4[0];
-        product = left_byte * right_byte;
-        left_product = product * s5;
-        current = s1[0];
-        if (left_product < 0) {
-            left_product += 0x3F;
+        register s32 growth_rate ASM_REG("$2");
+        s32 base_stat;
+        register s32 growth_product ASM_REG("$16");
+        s32 lower_growth;
+        register s32 upper_growth ASM_REG("$4");
+        register s32 upper_stat ASM_REG("$2");
+        s32 stat_value;
+        growth_rate = stat_growth[0];
+        base_stat = initial_stats[0];
+        growth_product = growth_rate * base_stat;
+        lower_growth = growth_product * level_offset;
+        stat_value = entity[0];
+        if (lower_growth < 0) {
+            lower_growth += 0x3F;
         }
-        right_product = product * s2;
-        work = s4[0] + (left_product >> 6);
-        if (right_product < 0) {
-            right_product += 0x3F;
+        upper_growth = growth_product * level;
+        lower_stat = initial_stats[0] + (lower_growth >> 6);
+        if (upper_growth < 0) {
+            upper_growth += 0x3F;
         }
-        right = s4[0] + (right_product >> 6);
-        current += work - right;
-        if (current == 0) {
-            current = 1;
+        upper_stat = initial_stats[0] + (upper_growth >> 6);
+        stat_value += lower_stat - upper_stat;
+        if (stat_value == 0) {
+            stat_value = 1;
         }
-        s1[0] = current;
+        entity[0] = stat_value;
     }
 
     {
-        s32 decrement;
-        register s32 left_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 right_byte;
-        register s32 product ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 left_product;
-        register s32 right_product ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s32 right ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 current;
-        decrement = s2 - 1;
-        left_byte = s3[1];
-        right_byte = s4[1];
-        product = left_byte * right_byte;
-        left_product = product * decrement;
-        current = s1[1];
-        if (left_product < 0) {
-            left_product += 0x3F;
+        s32 stat_level_offset;
+        register s32 growth_rate ASM_REG("$2");
+        s32 base_stat;
+        register s32 growth_product ASM_REG("$16");
+        s32 lower_growth;
+        register s32 upper_growth ASM_REG("$4");
+        register s32 upper_stat ASM_REG("$2");
+        s32 stat_value;
+        stat_level_offset = level - 1;
+        growth_rate = stat_growth[1];
+        base_stat = initial_stats[1];
+        growth_product = growth_rate * base_stat;
+        lower_growth = growth_product * stat_level_offset;
+        stat_value = entity[1];
+        if (lower_growth < 0) {
+            lower_growth += 0x3F;
         }
-        right_product = product * s2;
-        work = right_byte + (left_product >> 6);
-        if (right_product < 0) {
-            right_product += 0x3F;
+        upper_growth = growth_product * level;
+        lower_stat = base_stat + (lower_growth >> 6);
+        if (upper_growth < 0) {
+            upper_growth += 0x3F;
         }
-        ASM_KEEP_NV(work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        right = right_byte + (right_product >> 6);
-        current += work - right;
-        if (current == 0) {
-            current = 1;
+        ASM_KEEP_NV(lower_stat);
+        upper_stat = base_stat + (upper_growth >> 6);
+        stat_value += lower_stat - upper_stat;
+        if (stat_value == 0) {
+            stat_value = 1;
         }
-        s1[1] = current;
+        entity[1] = stat_value;
 
-        left_byte = s3[2];
-        right_byte = s4[2];
-        product = left_byte * right_byte;
-        left_product = product * decrement;
-        current = s1[2];
-        if (left_product < 0) {
-            left_product += 0x3F;
+        growth_rate = stat_growth[2];
+        base_stat = initial_stats[2];
+        growth_product = growth_rate * base_stat;
+        lower_growth = growth_product * stat_level_offset;
+        stat_value = entity[2];
+        if (lower_growth < 0) {
+            lower_growth += 0x3F;
         }
-        right_product = product * s2;
-        work = right_byte + (left_product >> 6);
-        if (right_product < 0) {
-            right_product += 0x3F;
+        upper_growth = growth_product * level;
+        lower_stat = base_stat + (lower_growth >> 6);
+        if (upper_growth < 0) {
+            upper_growth += 0x3F;
         }
-        ASM_KEEP_NV(work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        right = right_byte + (right_product >> 6);
-        current += work - right;
-        if (current == 0) {
-            current = 1;
+        ASM_KEEP_NV(lower_stat);
+        upper_stat = base_stat + (upper_growth >> 6);
+        stat_value += lower_stat - upper_stat;
+        if (stat_value == 0) {
+            stat_value = 1;
         }
-        s1[2] = current;
+        entity[2] = stat_value;
 
-        left_byte = s3[3];
-        right_byte = s4[3];
-        product = left_byte * right_byte;
-        left_product = product * decrement;
-        current = s1[3];
-        if (left_product < 0) {
-            left_product += 0x3FF;
+        growth_rate = stat_growth[3];
+        base_stat = initial_stats[3];
+        growth_product = growth_rate * base_stat;
+        lower_growth = growth_product * stat_level_offset;
+        stat_value = entity[3];
+        if (lower_growth < 0) {
+            lower_growth += 0x3FF;
         }
-        right_product = product * s2;
-        work = right_byte + (left_product >> 0xA);
-        if (right_product < 0) {
-            right_product += 0x3FF;
+        upper_growth = growth_product * level;
+        lower_stat = base_stat + (lower_growth >> 0xA);
+        if (upper_growth < 0) {
+            upper_growth += 0x3FF;
         }
-        ASM_KEEP_NV(work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        right = right_byte + (right_product >> 0xA);
-        current += work - right;
-        if (current == 0) {
-            current = 1;
+        ASM_KEEP_NV(lower_stat);
+        upper_stat = base_stat + (upper_growth >> 0xA);
+        stat_value += lower_stat - upper_stat;
+        if (stat_value == 0) {
+            stat_value = 1;
         }
-        s1[3] = current;
+        entity[3] = stat_value;
     }
 
     {
-        s16 height;
-        register s32 height_product ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        s32 byte_product;
-        s32 height_base;
-        s32 product;
-        u32 result;
+        s16 base_xp;
+        register s32 linear_xp ASM_REG("$4");
+        s32 xp_growth;
+        s32 xp_factor;
+        s32 growth_product;
+        u32 xp_given;
 
-        height = *(s16 *)(s4 + 6);
-        height_product = s2 * height;
-        byte_product = s3[6] * s2;
-        ASM_KEEP(byte_product);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        shared_t0 = s2 * s2;
-        height_base = height + byte_product;
-        product = shared_t0 * height_base;
-        result = height + height_product;
-        if (product < 0) {
-            product += 0x1FF;
+        base_xp = *(s16 *)(initial_stats + 6);
+        linear_xp = level * base_xp;
+        xp_growth = stat_growth[6] * level;
+        ASM_KEEP(xp_growth);
+        level_term = level * level;
+        xp_factor = base_xp + xp_growth;
+        growth_product = level_term * xp_factor;
+        xp_given = base_xp + linear_xp;
+        if (growth_product < 0) {
+            growth_product += 0x1FF;
         }
-        result += product >> 9;
-        if (result > 0xFFFFU) {
-            result = 0xFFFF;
+        xp_given += growth_product >> 9;
+        if (xp_given > 0xFFFFU) {
+            xp_given = 0xFFFF;
         }
-        *(u16 *)(s1 + 6) = result;
+        *(u16 *)(entity + 6) = xp_given;
     }
 
-    if (s1[0x13] != 0) {
-        i = 2;
+    if (entity[0x13] != 0) {
+        spell_index = 2;
         {
-            register u8 *flags_base ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            u8 *table2;
-            register u8 *p ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            u8 *flagp;
-            flags_base = flags;
-            table2 = D_8006DE24;
-            shared_t0 = 1;
-            p = s1 + 6;
+            register u8 *spell_flags ASM_REG("$7");
+            u8 *spell_table;
+            register u8 *spell_cursor ASM_REG("$5");
+            register s32 spell_id ASM_REG("$4");
+            u8 *lowered_flag;
+            spell_flags = spell_lowered;
+            spell_table = D_8006DE24;
+            level_term = 1;
+            spell_cursor = entity + 6;
             do {
-                flagp = flags_base + i;
-                *flagp = 0;
-                id = p[8];
-                ASM_KEEP(id);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                if (id != 0 && (((table2[id * 0x14 + 0x10] >> 4) & (*(s32 *)(s1 + 0x14))) != 0)) {
-                    u8 current = p[10];
-                    if (current >= 2U) {
-                        p[10] = current - 1;
-                        *flagp = shared_t0;
+                lowered_flag = spell_flags + spell_index;
+                *lowered_flag = 0;
+                spell_id = spell_cursor[8];
+                ASM_KEEP(spell_id);
+                if (spell_id != 0 && (((spell_table[spell_id * 0x14 + 0x10] >> 4) & (*(s32 *)(entity + 0x14))) != 0)) {
+                    u8 spell_level = spell_cursor[10];
+                    if (spell_level >= 2U) {
+                        spell_cursor[10] = spell_level - 1;
+                        *lowered_flag = level_term;
                     }
                 }
-                i -= 1;
-                p -= 3;
-            } while (i >= 0);
+                spell_index -= 1;
+                spell_cursor -= 3;
+            } while (spell_index >= 0);
         }
     }
 
-    func_80041E70(s1);
+    func_80041E70(entity);
 
-    if (s1[0x29] < s1[0x28]) {
-        s1[0x28] = s1[0x29];
+    if (entity[0x29] < entity[0x28]) {
+        entity[0x28] = entity[0x29];
     }
-    if (s1[0x66] < s1[0x25]) {
-        s1[0x25] = s1[0x66];
-        s1[0x24] = (u8)0xFF;
+    if (entity[0x66] < entity[0x25]) {
+        entity[0x25] = entity[0x66];
+        entity[0x24] = (u8)0xFF;
     }
-    if (s1[0x68] < s1[0x26]) {
-        s1[0x26] = s1[0x68];
+    if (entity[0x68] < entity[0x26]) {
+        entity[0x26] = entity[0x68];
     }
-    if (s1[0x69] < s1[0x27]) {
-        s1[0x27] = s1[0x69];
+    if (entity[0x69] < entity[0x27]) {
+        entity[0x27] = entity[0x69];
     }
 
-    if ((arg1 << 0x10) == 0) {
+    if ((show_message << 0x10) == 0) {
         return 1;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_SCHED_BARRIER();
     {
         if (!(*(volatile u16 *)D_80013714 & 1)) {
             D_800DCF4F[0] = 1;
             D_80083460[5]++;
         }
-        func_800B4C7C(0x8003, s1, -3, 1);
+        func_800B4C7C(0x8003, entity, -3, 1);
         func_800A56E0(0x615);
 
-        temp_v0 = func_800990FC();
-        value = func_80099194(&D_800E098B, temp_v0);
-        value = func_8009929C(0xA, value);
-        value = func_80099734(s1, value);
-        value = func_80099194(&D_800E099A, value);
-        value = func_8003AD08(s1[0x11], value);
-        value = func_80099194(&D_80089000, value);
+        message_start = func_800990FC();
+        message_end = func_80099194(&D_800E098B, message_start);
+        message_end = func_8009929C(0xA, message_end);
+        message_end = func_80099734(entity, message_end);
+        message_end = func_80099194(&D_800E099A, message_end);
+        message_end = func_8003AD08(entity[0x11], message_end);
+        message_end = func_80099194(&D_80089000, message_end);
 
-        if (s1[0x13] != 0 && ((*(s32 *)(s1 + 0x14) & 0x4000) != 0)) {
-            i = 0;
+        if (entity[0x13] != 0 && ((*(s32 *)(entity + 0x14) & 0x4000) != 0)) {
+            spell_index = 0;
             do {
-                if (flags[i] != 0) {
-                    value = func_8009929C(0xA, value);
-                    value = func_80099194(*(s32 *)(D_8006DE24 + s1[8] * 0x14), value);
-                    value = func_80099194(&D_800E09B2, value);
-                    value = func_80099194(&D_800E09BB, value);
+                if (spell_lowered[spell_index] != 0) {
+                    message_end = func_8009929C(0xA, message_end);
+                    message_end = func_80099194(*(s32 *)(D_8006DE24 + entity[8] * 0x14), message_end);
+                    message_end = func_80099194(&D_800E09B2, message_end);
+                    message_end = func_80099194(&D_800E09BB, message_end);
                 }
-                i += 1;
-                s1 += 3;
-            } while (i < 3);
+                spell_index += 1;
+                entity += 3;
+            } while (spell_index < 3);
         }
 
         if (!(D_80013714[0] & 1)) {
-            value = func_8009929C(0x11, value);
-            value = func_8009929C(0x4C, value);
-            value = func_80099254(&D_800E0458, value);
+            message_end = func_8009929C(0x11, message_end);
+            message_end = func_8009929C(0x4C, message_end);
+            message_end = func_80099254(&D_800E0458, message_end);
         }
-        func_80099290(value, value);
-        func_800A5720(temp_v0);
+        func_80099290(message_end, message_end);
+        func_800A5720(message_start);
     }
     return 1;
 }

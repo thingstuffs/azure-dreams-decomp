@@ -1,13 +1,3 @@
-/* func_80052CE0 -- BYTE-EXACT, LINKABLE candidate (computed-goto idiom).
- * Config: tools/match.py --gcc 2.7.2-cdk --opt O2 (aspsx 2.56), no maspsx flags.
- *
- * The switch was rewritten as a computed goto through the RETAIL table
- * jtbl_8002EFF0 (an absolute in config/generated/slus_006.14.undefined_syms.txt),
- * so this TU emits NO compiler-generated jump table into .text-referenced
- * .rodata and links. Idiom copied from src/w_800595C0.c: the `keepalive` array
- * exists only to keep the case labels alive for gcc; it lands in .rodata but is
- * unreferenced from .text, so the linker discards it silently.
- */
 #include "common.h"
 
 typedef struct S_52CE0_Rect {
@@ -44,116 +34,117 @@ extern void *jtbl_8002EFF0[];
 extern void func_80052774(s16 a0, s16 a1, s16 a2, s16 a3);
 extern void MoveImage(S_52CE0_Rect *rect, s32 x, s32 y);
 
-void func_80052CE0(S_52CE0 *o, S_52CE0_Pos *pos, S_52CE0_Ent *ent)
+/* Advance the entity animation, moving its position and copying image rows in VRAM. */
+void func_80052CE0(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity)
 {
-    S_52CE0_Rect rect;
-    s16 d;
-    s32 idx;
-    static void *const keepalive[] = {
+    S_52CE0_Rect source_rect;
+    s16 row_offset;
+    s32 state_index;
+    static void *const state_labels[] = {
         &&L_state0, &&L_state1, &&L_state2, &&L_state3,
         &&L_state4, &&L_state5, &&L_state6, &&L_state7
     };
-    (void)keepalive;
+    (void)state_labels;
 
-    o->timer++;
-    idx = o->state;
-    if ((u32)idx >= 8) {
+    anim->timer++;
+    state_index = anim->state;
+    if ((u32)state_index >= 8) {
         goto L_end;
     }
-    goto *jtbl_8002EFF0[idx];
+    goto *jtbl_8002EFF0[state_index];
 
 L_state0:
-    if (o->unk6 == 1) {
-        o->timer = 0;
-        o->unk6 = 2;
-        o->state++;
-        ent->flags &= 0xFF7F;
-        pos->x = o->unkA << 16;
-        pos->y = o->unkC << 16;
-        func_80052774(o->unk10, o->unkC + 15, o->unkE, 0);
+    if (anim->unk6 == 1) {
+        anim->timer = 0;
+        anim->unk6 = 2;
+        anim->state++;
+        entity->flags &= 0xFF7F;
+        position->x = anim->unkA << 16;
+        position->y = anim->unkC << 16;
+        func_80052774(anim->unk10, anim->unkC + 15, anim->unkE, 0);
     }
     goto L_end;
 
 L_state1:
-    o->unk10 += 6;
-    if (o->timer >= 16) {
-        o->timer = 0;
-        o->state++;
+    anim->unk10 += 6;
+    if (anim->timer >= 16) {
+        anim->timer = 0;
+        anim->state++;
     }
-    func_80052774(o->unk10, o->unkC + 15, o->unkE, 0);
+    func_80052774(anim->unk10, anim->unkC + 15, anim->unkE, 0);
     goto L_end;
 
 L_state2:
-    o->unk10 += 6;
-    o->unkA += 8;
-    if (o->timer >= 0x30) {
-        o->timer = 0;
-        o->state++;
+    anim->unk10 += 6;
+    anim->unkA += 8;
+    if (anim->timer >= 0x30) {
+        anim->timer = 0;
+        anim->state++;
     }
-    pos->x = o->unkA << 16;
-    func_80052774(o->unk10, o->unkC + 15, o->unkE, 0);
+    position->x = anim->unkA << 16;
+    func_80052774(anim->unk10, anim->unkC + 15, anim->unkE, 0);
     goto L_end;
 
 L_state3:
-    if (o->timer >= 0x50) {
-        o->timer = 0;
-        o->state++;
+    if (anim->timer >= 0x50) {
+        anim->timer = 0;
+        anim->state++;
     }
-    func_80052774(o->unk10, o->unkC + 15, o->unkE, 0);
+    func_80052774(anim->unk10, anim->unkC + 15, anim->unkE, 0);
     goto L_end;
 
 L_state4:
-    o->timer++;
-    if (o->timer >= 2) {
-        o->timer = 0;
-        o->unk4++;
-        rect.x = 0x3C0;
-        rect.y = (o->unk8 + 1) * 16 - o->unk4;
-        rect.w = 0x3F;
-        rect.h = 1;
-        MoveImage(&rect, 0x380, (o->unk8 + 1) * 16 - o->unk4);
-        if (o->unk4 < 16) {
-            d = o->unk4 - 15;
-            func_80052774(o->unk10, o->unkC - d, o->unkE,
-                          o->timer + o->unk4 * 2);
+    anim->timer++;
+    if (anim->timer >= 2) {
+        anim->timer = 0;
+        anim->unk4++;
+        source_rect.x = 0x3C0;
+        source_rect.y = (anim->unk8 + 1) * 16 - anim->unk4;
+        source_rect.w = 0x3F;
+        source_rect.h = 1;
+        MoveImage(&source_rect, 0x380, (anim->unk8 + 1) * 16 - anim->unk4);
+        if (anim->unk4 < 16) {
+            row_offset = anim->unk4 - 15;
+            func_80052774(anim->unk10, anim->unkC - row_offset, anim->unkE,
+                          anim->timer + anim->unk4 * 2);
         } else {
-            o->timer = 0;
-            o->unk4 = 0;
-            o->state++;
+            anim->timer = 0;
+            anim->unk4 = 0;
+            anim->state++;
         }
     } else {
-        d = o->unk4 - 15;
-        func_80052774(o->unk10, o->unkC - d, o->unkE,
-                      o->timer + o->unk4 * 2);
+        row_offset = anim->unk4 - 15;
+        func_80052774(anim->unk10, anim->unkC - row_offset, anim->unkE,
+                      anim->timer + anim->unk4 * 2);
     }
     goto L_end;
 
 L_state5:
-    if (o->timer >= 0x50) {
-        o->timer = 0;
-        o->state++;
+    if (anim->timer >= 0x50) {
+        anim->timer = 0;
+        anim->state++;
     }
     goto L_end;
 
 L_state6:
-    o->unkA -= 8;
-    if (o->timer >= 0x30) {
-        o->timer = 0;
-        o->state++;
+    anim->unkA -= 8;
+    if (anim->timer >= 0x30) {
+        anim->timer = 0;
+        anim->state++;
     }
-    pos->x = o->unkA << 16;
+    position->x = anim->unkA << 16;
     goto L_end;
 
 L_state7:
-    ent->flags |= 0x80;
-    o->state = 0;
-    o->timer = 0;
-    o->unk4 = 0;
-    o->unk6 = 0;
-    o->unkA = 0;
-    o->unkC = 0;
-    o->unkE = 0;
-    o->unk10 = 0;
+    entity->flags |= 0x80;
+    anim->state = 0;
+    anim->timer = 0;
+    anim->unk4 = 0;
+    anim->unk6 = 0;
+    anim->unkA = 0;
+    anim->unkC = 0;
+    anim->unkE = 0;
+    anim->unk10 = 0;
 
 L_end:
     ;

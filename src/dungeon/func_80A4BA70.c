@@ -127,91 +127,92 @@ typedef struct S_80175270_10 {
     u8 unk_00;
 } S_80175270_10;   /* ((S_80175270_7 *)obj)->unk_2C + index in func_80175270 */
 
-void func_80175270(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
+/* Advances an actor's transition sequence, updating effects and restoring its child's angle. */
+void func_80175270(void *action, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity, void *actor)
 {
-    static void *const keepalive[] = {
+    static void *const state_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
         &&case_4, &&case_4, &&case_7, &&case_8
     };
     S_80175270_2 *work = D_80083160;
     u8 state;
 
-    state = ((S_80175270_0 *)arg0)->unk_9B;
+    state = ((S_80175270_0 *)action)->unk_9B;
     if (state >= 9) {
         return;
     }
-    (void)keepalive;
+    (void)state_labels;
     goto *D_80170858[state];
 
 case_0:
-    ((S_80175270_0 *)arg0)->unk_9B++;
+    ((S_80175270_0 *)action)->unk_9B++;
     return;
 
 case_1:
   {
-    s32 temp;
-    s32 index;
-    s32 raw_index;
+    s32 effect_id;
+    s32 direction;
+    s32 raw_direction;
     u16 angle;
 
     func_80041588(D_801758FC, D_80175920, 0);
-    ((S_80175270_0 *)arg0)->unk_BA = 0;
-    ((S_80175270_0 *)arg0)->unk_9B++;
-    ((S_80175270_1 *)arg3)->unk_8A = ((S_80175270_1 *)arg3)->unk_2A.u;
-    ((S_80175270_1 *)arg3)->unk_1C &= 0xFFFBFFFF;
-    do { angle = ((S_80175270_1 *)arg3)->unk_2A.u; } while (0);
-    raw_index = (D_80083228 + ((S_80175270_1 *)arg3)->unk_2A.s + 0x100) >> 9;
-    index = raw_index & 7;
-    if ((((u8 *)D_80175924)[-4] == 0) || (index != 2)) {
-        if (index == 2) {
+    ((S_80175270_0 *)action)->unk_BA = 0;
+    ((S_80175270_0 *)action)->unk_9B++;
+    ((S_80175270_1 *)actor)->unk_8A = ((S_80175270_1 *)actor)->unk_2A.u;
+    ((S_80175270_1 *)actor)->unk_1C &= 0xFFFBFFFF;
+    do { angle = ((S_80175270_1 *)actor)->unk_2A.u; } while (0);
+    raw_direction = (D_80083228 + ((S_80175270_1 *)actor)->unk_2A.s + 0x100) >> 9;
+    direction = raw_direction & 7;
+    if ((((u8 *)D_80175924)[-4] == 0) || (direction != 2)) {
+        if (direction == 2) {
             return;
         }
-        ((S_80175270_1 *)arg3)->unk_2A.u = angle + 0x200;
+        ((S_80175270_1 *)actor)->unk_2A.u = angle + 0x200;
         return;
     }
     func_80041588((u8 *)D_80175904 - 8, (u8 *)D_80175924 - 4, 1);
     func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
-    temp = func_800445E0();
-    func_8003E4FC(0x15, temp, 0);
+    effect_id = func_800445E0();
+    func_8003E4FC(0x15, effect_id, 0);
     D_80175921[0] = 0;
     func_8003E4FC(0xFF, D_8003E140, D_80175921);
-    func_800C77D0((u8 *)arg3 - 0x20, arg1, 8, 0x300);
-    ((S_80175270_0 *)arg0)->unk_96.s = 0x10;
-    ((S_80175270_0 *)arg0)->unk_9B++;
+    func_800C77D0((u8 *)actor - 0x20, position, 8, 0x300);
+    ((S_80175270_0 *)action)->unk_96.s = 0x10;
+    ((S_80175270_0 *)action)->unk_9B++;
   }
 
 case_2:
   {
-    s32 temp;
-    u8 *vec;
-    u8 flag;
+    s32 frames_left;
+    u8 *target_color;
+    u8 effect_done;
 
-    temp = ((S_80175270_0 *)arg0)->unk_96.u;
-    ((S_80175270_0 *)arg0)->unk_96.u = temp - 1;
-    if ((s16)(temp - 1) <= 0) {
-        flag = D_80175921[0];
-        ((S_80175270_0 *)arg0)->unk_96.u = temp;
-        if (flag != 0) {
-            ((S_80175270_0 *)arg0)->unk_9B++;
+    frames_left = ((S_80175270_0 *)action)->unk_96.u;
+    ((S_80175270_0 *)action)->unk_96.u = frames_left - 1;
+    if ((s16)(frames_left - 1) <= 0) {
+        effect_done = D_80175921[0];
+        ((S_80175270_0 *)action)->unk_96.u = frames_left;
+        if (effect_done != 0) {
+            ((S_80175270_0 *)action)->unk_9B++;
             func_800A56E0(0x300);
             return;
         }
         return;
     }
-    vec = D_800DCEEC[func_800498A0(arg3)];
-    work->unk_A8 += (((S_80175270_3 *)vec)->unk_00 - work->unk_A8) / ((S_80175270_0 *)arg0)->unk_96.s;
-    work->unk_A9 += (((S_80175270_3 *)vec)->unk_01 - work->unk_A9) / ((S_80175270_0 *)arg0)->unk_96.s;
-    work->unk_AA += (((S_80175270_3 *)vec)->unk_02 - work->unk_AA) / ((S_80175270_0 *)arg0)->unk_96.s;
+    target_color = D_800DCEEC[func_800498A0(actor)];
+    work->unk_A8 += (((S_80175270_3 *)target_color)->unk_00 - work->unk_A8) / ((S_80175270_0 *)action)->unk_96.s;
+    work->unk_A9 += (((S_80175270_3 *)target_color)->unk_01 - work->unk_A9) / ((S_80175270_0 *)action)->unk_96.s;
+    work->unk_AA += (((S_80175270_3 *)target_color)->unk_02 - work->unk_AA) / ((S_80175270_0 *)action)->unk_96.s;
     return;
   }
 
 case_3:
   {
-    s16 index;
-    s32 *dst1;
-    s32 *dst2;
-    s32 value1;
-    s32 value2;
+    s16 asset_index;
+    s32 *position_y_dst;
+    s32 *position_z_dst;
+    s32 position_y;
+    s32 position_z;
     s32 color;
 
     work = func_8003FC64(0x12);
@@ -221,28 +222,28 @@ case_3:
     work->unk_10.p = D_80175114;
     func_8004491C(work, D_80173E08);
     color = 0x00808080;
-    work->unk_08[0] = arg1->unk_00.at00_s32.v;
-    dst1 = work->unk_08;
-    value1 = arg1->unk_04.at00_s32.v;
+    work->unk_08[0] = position->unk_00.at00_s32.v;
+    position_y_dst = work->unk_08;
+    position_y = position->unk_04.at00_s32.v;
     D_80175924[0] = work;
-    dst1[1] = value1;
-    dst2 = work->unk_08;
-    value2 = arg1->unk_08.at00_s32.v;
+    position_y_dst[1] = position_y;
+    position_z_dst = work->unk_08;
+    position_z = position->unk_08.at00_s32.v;
     D_8017591C[0] = -12;
-    dst2[2] = value2;
+    position_z_dst[2] = position_z;
     work = work->unk_0C.p;
     work->unk_1E = 0x1000;
     work->unk_1C = 0x1000;
     work->unk_0C.i = color;
-    index = func_800498A0(arg3) - 1;
-    if (index < 0) {
-        index = func_80069EF8() % 3;
+    asset_index = func_800498A0(actor) - 1;
+    if (asset_index < 0) {
+        asset_index = func_80069EF8() % 3;
     }
-    func_8003DB94(work, D_8014A000 + D_80175904[index], 0);
-    arg2->unk_14.at00_u16.v |= 0x80;
-    ((S_80175270_0 *)arg0)->unk_96.s = 0;
-    ((S_80175270_0 *)arg0)->unk_9B++;
-    func_80174E78(arg0, arg1, arg2);
+    func_8003DB94(work, D_8014A000 + D_80175904[asset_index], 0);
+    entity->unk_14.at00_u16.v |= 0x80;
+    ((S_80175270_0 *)action)->unk_96.s = 0;
+    ((S_80175270_0 *)action)->unk_9B++;
+    func_80174E78(action, position, entity);
     return;
   }
 
@@ -251,30 +252,30 @@ case_4:
     work = D_80175924[0];
     work = work->unk_0C.p;
     if (work->unk_14 & 0xE000) {
-        ((S_80175270_0 *)arg0)->unk_96.s = 0x10;
-        ((S_80175270_0 *)arg0)->unk_9B++;
-        func_800A18E8(((S_80175270_1 *)arg3)->unk_13, 3);
-        func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-        func_8009A028(arg3);
-        work = (u8 *)arg3 - 0x20;
+        ((S_80175270_0 *)action)->unk_96.s = 0x10;
+        ((S_80175270_0 *)action)->unk_9B++;
+        func_800A18E8(((S_80175270_1 *)actor)->unk_13, 3);
+        func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+        func_8009A028(actor);
+        work = (u8 *)actor - 0x20;
         work->unk_10.i |= 0x80000000;
     }
-    if (((S_80175270_0 *)arg0)->unk_9B != 6) {
+    if (((S_80175270_0 *)action)->unk_9B != 6) {
         return;
     }
   }
 
 case_6:
   {
-    if (func_800ADC4C(arg1, D_80175928[0], (s16)D_8017591C[0], D_800DCF5C) == 0) {
+    if (func_800ADC4C(position, D_80175928[0], (s16)D_8017591C[0], D_800DCF5C) == 0) {
         return;
     }
-    ((S_80175270_0 *)arg0)->unk_96.s = 0x10;
-    ((S_80175270_0 *)arg0)->unk_9B++;
-    func_800A18E8(((S_80175270_1 *)arg3)->unk_13, 3);
-    func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-    func_8009A028(arg3);
-    work = (u8 *)arg3 - 0x20;
+    ((S_80175270_0 *)action)->unk_96.s = 0x10;
+    ((S_80175270_0 *)action)->unk_9B++;
+    func_800A18E8(((S_80175270_1 *)actor)->unk_13, 3);
+    func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+    func_8009A028(actor);
+    work = (u8 *)actor - 0x20;
     work->unk_10.i |= 0x80000000;
     return;
   }
@@ -282,37 +283,37 @@ case_6:
 case_7:
   {
     void *child;
-    S_80175270_7 *obj;
-    s32 index;
+    S_80175270_7 *child_obj;
+    s32 direction;
 
-    if ((((S_80175270_1 *)arg3)->unk_60 = func_800A504C(arg2, arg3)) == 0) {
+    if ((((S_80175270_1 *)actor)->unk_60 = func_800A504C(entity, actor)) == 0) {
         return;
     }
-    ((S_80175270_0 *)arg0)->unk_96.s = 0x10;
-    ((S_80175270_0 *)arg0)->unk_9B++;
-    ((S_80175270_9 *)(((S_80175270_1 *)arg3)->unk_60))->unk_2A = ((S_80175270_1 *)arg3)->unk_2A.u;
-    child = ((S_80175270_1 *)arg3)->unk_60;
-    obj = ((S_80175270_6_pre *)child)[-1].unk_00;
+    ((S_80175270_0 *)action)->unk_96.s = 0x10;
+    ((S_80175270_0 *)action)->unk_9B++;
+    ((S_80175270_9 *)(((S_80175270_1 *)actor)->unk_60))->unk_2A = ((S_80175270_1 *)actor)->unk_2A.u;
+    child = ((S_80175270_1 *)actor)->unk_60;
+    child_obj = ((S_80175270_6_pre *)child)[-1].unk_00;
     ASM_KEEP_NV(child);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    index = (D_80083228 + ((S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
-    index &= 7;
-    func_80047738(obj, ((S_80175270_10 *)(obj->unk_2C + index))->unk_00, obj->unk_04);
-    obj->unk_14 &= 0xFFFE;
+    direction = (D_80083228 + ((S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
+    direction &= 7;
+    func_80047738(child_obj, ((S_80175270_10 *)(child_obj->unk_2C + direction))->unk_00, child_obj->unk_04);
+    child_obj->unk_14 &= 0xFFFE;
   }
 
 case_8:
   {
-    u8 *countp;
+    u8 *counter_base;
 
-    ((S_80175270_0 *)arg0)->unk_96.u--;
-    if (((S_80175270_0 *)arg0)->unk_96.s > 0) {
+    ((S_80175270_0 *)action)->unk_96.u--;
+    if (((S_80175270_0 *)action)->unk_96.s > 0) {
         return;
     }
-    ((S_80175270_9 *)(((S_80175270_1 *)arg3)->unk_60))->unk_2A = ((S_80175270_1 *)arg3)->unk_8A;
-    ((S_80175270_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    ((S_80175270_9 *)(((S_80175270_1 *)actor)->unk_60))->unk_2A = ((S_80175270_1 *)actor)->unk_8A;
+    ((S_80175270_0_pre *)action)[-1].unk_00 |= 0x8000;
     D_800814A0 |= 0x8000;
-    countp = (u8 *)&D_80083460;
-    ((S_80175270_8 *)countp)->unk_0A--;
-    ((S_80175270_1 *)arg3)->unk_6D = 0;
+    counter_base = (u8 *)&D_80083460;
+    ((S_80175270_8 *)counter_base)->unk_0A--;
+    ((S_80175270_1 *)actor)->unk_6D = 0;
   }
 }
