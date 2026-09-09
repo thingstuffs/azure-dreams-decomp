@@ -123,6 +123,14 @@ could not type), L0 20.4 % (rows still carrying a blocking fidelity site). `STAT
   `nohup python3 tools/campaign.py --plan work/campaign_plan_v2.json > work/campaign_controller.out 2>&1 &`
   (state in `work/campaign_state.json`; delete it to start the plan from the first tier).
 - `levels.py`: a pin named only in a comment is not a pin; sweep journals without an `id` are skipped.
+- **Batched fidelity lane measured** (30 rows ≤ 200 B the per-row lane had left unchanged, batches of
+  five): 20 s and 190k cumulative input tokens per row against 80 s and 232k per row, same verdicts;
+  acceptance could not be compared on that population. Adopted for the ≤ 200 B band: `agent_task.py
+  --mode fidelity --batch 5`; `tools/campaign_rows.py` writes `work/fidelity_rows_{small,large}.txt`
+  and `work/fields_rows.txt` from the live census, and `work/campaign_plan_v3.json` is the next pass
+  (small batched → large per row → fields → size tiers). Run `campaign_rows.py`, reset
+  `work/campaign_state.json` to `{"tier": 0, "launch": <last launch>}` and launch the controller with
+  v3 once v2 prints `plan complete`.
 - **Module map drafted and accepted** (`ledger/modules.jsonl`, 5,861 rows): Astra analyses over
   `work/modules_input/*.json` (call graph + evidence per row, one file per sub-overlay group),
   validated by `tools/modules.py` (contiguity, one load base, assertion files, coverage). main 16

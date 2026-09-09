@@ -117,8 +117,18 @@ def fidelity_facts(row, text):
         lines.append("- ROWBASE: " + ("a proven rowbase region covers this row, so a new intra-function `j` links at the right address" if covered else "NO proven rowbase region covers this row: a rewrite that needs a NEW intra-function `j` cannot link correctly; only shapes that need no new jump (delete-the-call, loop forms, plain calls) can succeed"))
     return "\n".join(lines)
 
+# the batched fidelity packet reuses the single-row prompt's recipes; facts, verify command and output path are per row
+PROMPT_FIDELITY_BATCH = (PROMPT_FIDELITY.split("FACTS for this row")[0].replace("from a function of", "from several small functions of").replace("The file below already compiles", "Each file below already compiles")
+    + "RECIPES" + PROMPT_FIDELITY.split("RECIPES", 1)[1].split("Verify with:")[0]
+    + "Each file has its own verify command below (JSON; \"exact\": true is required; append --diff for the positional disasm diff against retail, free; run it ONCE MORE with --gate before you reply DONE for that file). Keep local names and the summary comment; the declaration of a removed target goes away with it; ASM_* pins only as a last resort with a one-line /* MATCH: ... */ note. Write each result to its own path (overwrite). Do not explore the repository: everything you need is in this message.\nReply with one line per file: DONE <id> <n_verify_runs> sites:<before>-><after> or GAVEUP <id> <reason>.\n")
+
 def batch_prompt(items):
     """items: [(row, out_path, verify_cmd, evidence_block, src)] -> one prompt for several small rows."""
+    if MODE == "fidelity":
+        parts = [PROMPT_FIDELITY_BATCH]
+        for row, out, vcmd, ev, src in items:
+            parts.append(f"=== ROW {row['id']}  (function {row['func']}, {row['size']} bytes)\nfile: {out}\nverify: {vcmd}\nFACTS:\n{fidelity_facts(row, src)}\n{ev}--- source ---\n{src}\n")
+        return "\n".join(parts)
     parts = [PROMPT_READABILITY]
     for row, out, vcmd, ev, src in items:
         parts.append(f"=== ROW {row['id']}  (function {row['func']}, {row['size']} bytes)\nfile: {out}\nverify: {vcmd}\n{ev}--- source ---\n{src}\n")
@@ -306,11 +316,11 @@ def main():
     ap.add_argument("--container")
     ap.add_argument("--tag", default="", help="journal name suffix")
     ap.add_argument("--mode", default="full", choices=["full", "readability", "fidelity", "fields"], help="full = the standing prompt (names + summary + removal attempts + gate step); readability = names + summary only, prepared packet, no exploration; fidelity = remove the row's LABEL_AS_CALL / PASSTHRU_NO_ARGS sites (facts + recipes in the prompt); fields = type the M2C_FIELD accesses through local structs")
-    ap.add_argument("--batch", type=int, default=0, help="rows per codex call (readability mode): related small rows share one session")
+    ap.add_argument("--batch", type=int, default=0, help="rows per codex call (readability and fidelity modes): related small rows share one session")
     ap.add_argument("--batch-bytes", type=int, default=6000, help="max summed source bytes per batch")
     ap.add_argument("--retry-all", action="store_true", help="serve rows again even after two failed attempts at the same text")
     a = ap.parse_args()
-    global COMMIT, OUT_TAG, MODE, BATCH, RETRY_ALL; COMMIT = a.commit; OUT_TAG = a.tag; MODE = a.mode; BATCH = a.batch if a.mode == "readability" else 0; RETRY_ALL = a.retry_all
+    global COMMIT, OUT_TAG, MODE, BATCH, RETRY_ALL; COMMIT = a.commit; OUT_TAG = a.tag; MODE = a.mode; BATCH = a.batch if a.mode in ("readability", "fidelity") else 0; RETRY_ALL = a.retry_all
     lv = {x["id"]: x for x in read_jsonl(LEDGER / "levels.jsonl")}
     rs = [r for r in rows() if lv.get(r["id"], {}).get("level", -1) >= 1 and a.min_size <= r["size"] <= a.max_size]
     if a.with_gotos:
