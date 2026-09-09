@@ -44,6 +44,7 @@ BAND = 12          # strip damage a row must already be within
 import os
 BUDGET = int(os.environ.get("T15_BUDGET", "45"))   # verify runs per row (T15_BUDGET to raise)
 ROUNDS = int(os.environ.get("T15_ROUNDS", "3"))    # greedy hill-climb rounds
+WIDE = os.environ.get("T15_WIDE") == "1"          # include the generators with no measured win yet
 NARROW = {"s32": ["s16", "s8"], "u32": ["u16", "u8"], "int": ["s16", "s8"],
           "unsigned": ["u16", "u8"], "s16": ["s8"], "u16": ["u8"]}
 DECL_RE = re.compile(r"^(?P<i>[ \t]+)(?P<ty>u8|s8|u16|s16|u32|s32|int|unsigned)[ \t]+(?P<n>[A-Za-z_]\w*)[ \t]*;[ \t]*$")
@@ -336,10 +337,16 @@ class T:
         best_label = "strip"
         seen = {sha_text(base)}
         for rnd in range(ROUNDS):
-            cands = (fold_temp_candidates(cur) + collapse_selfassign_candidates(cur) + maskfold_candidates(cur)
-                     + mask2cast_candidates(cur) + commute_candidates(cur)
-                     + dup_after_if_candidates(cur) + narrow_candidates(cur)
-                     + fence_candidates(cur) + empty_fence_candidates(cur))
+            # Measured menu.  Corpus-wide wins after 1,019 row-attempts: fence 63, narrow 11,
+            # fence-return 3, dup_after_if 2 - and ZERO for foldtemp, collapse, maskfold, mask2cast,
+            # commute and efence, each of which was harvested from a lane win on some other row.
+            # `commute` alone quadrupled the sweep's wall time for nothing, so the default menu is
+            # the four that have paid; T15_WIDE=1 runs the whole set when a new class is opened.
+            cands = dup_after_if_candidates(cur) + narrow_candidates(cur) + fence_candidates(cur)
+            if WIDE:
+                cands = (fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
+                         + maskfold_candidates(cur) + mask2cast_candidates(cur)
+                         + commute_candidates(cur) + cands + empty_fence_candidates(cur))
             round_best = None
             for label, cand in cands:
                 if tried >= BUDGET:
