@@ -16,6 +16,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, raw_path
 from verify import verify
+sys.path.insert(0, str(Path(__file__).resolve().parent / "xform"))
+from xform.t12_stmtorder import strip_pins   # the depin lane starts from the pin-free text
 
 INCLUDE = ROOT / "include"
 COMMIT = False
@@ -77,6 +79,52 @@ It prints JSON; "exact": true is required; --diff appended prints the disasm dif
 {src}
 """
 
+PROMPT_DEPIN = """You are removing matching scaffolding from a function of a byte-exact PlayStation decompilation (Azure Dreams, GCC 2.7.2/2.8.1 era, maspsx assembler front end).
+The source below is the row with EVERY `ASM_*` pin already erased for you. A pin is not a justification: it is an UNRESOLVED C shape. Your job is to find the C that produces retail's bytes with NO pin at all. A file that merely has fewer pins is not a result.
+RESIDUE for this row - the machine already scored the pin-free text against retail, so do not re-derive it:
+{facts}
+HOW THE RESIDUE ARISES (read before the first edit; measured over 50 rows):
+- The residue is almost never a register *preference*. Retail's build holds two live pseudos carrying the same value, and gcc-2.7/2.8's cse collapses a plain `b = a;` into one pseudo whenever both stay live - after which the allocator has no choice. That collapse is what ASM_REG / ASM_KEEP_NV stood in for. Reshaping the VARIABLE MAP does not defeat it: splitting a local, merging two, dropping it, moving or block-scoping the declaration, copies in both arms, self round-trip, dead init, operand-order flips and same-mode retyping were all byte-identical across 25+ attempts. Two handles do:
+  1. A value-preserving MODE change on one side of the copy. `u16 x = <s32 expr>` is not a REG-REG set in RTL, so cse never merges the two. Pick a narrowing the code already pays for: `(u16)(angle + 0x100) & 0xE00` hides the re-widening inside an existing mask at zero words, where `s16` costs two (sll/sra cannot fold). The same trick stops record_jump_equiv merging the two operands of an equality test.
+  2. The copy is an m2c artifact of a compiler-generated idiom. `q = x; q >>= n; if (x < 0) q = (x + m) >> n; r = x - (q << n)` IS `x % (1 << n)`. Written back as `%`, gcc's expand_divmod re-emits it with an internal copy immune to the collapse. When a residue sits inside arithmetic, look for a hand-expanded idiom BEFORE touching a variable.
+- length-drift: a local declared wider than the load that fills it with an explicit `& 0xFF` is the commonest case - the mask folds away because `lbu` already zero-extends, so declare the local `u8` and drop the mask. A "dead" store before a call is often a real argument to an under-declared callee: retype the extern and pass it. gcc's if-conversion fires on `x=1; if (c) x=0; f(x);` - writing the call out in both arms with literal arguments dodges it, and arm order sets branch polarity.
+- reorder-only / code-motion: the C order is usually already right and the SCHEDULER moved the instruction, so re-slotting a statement is a dead end (measured 0/3). Change the dependence: sink a value's computation into both arms of the `if` that produces it, or lift it into its own local assigned before the statement it must precede and read only through that local.
+- li-expansion / const-remat / addressing: `lui;ori` yours against `lui;addiu` retail's means your C materialises an integer literal where retail references a SYMBOL - reference the real `D_<addr>` instead of a `.set` page base plus an offset. It regresses when the value is later a call argument, and a local set once from an address constant gets rematerialised at each use (a second, non-folding set fixes that).
+- A residue that is branch-derived CONSTANT knowledge (`move $v0,$zero` against `move $v0,$s0`) is cse choosing between a literal and a register it proved holds the same constant. Not reachable by reshaping variables - say so and move on.
+- A mechanical sweep has ALREADY tried, on this row: narrowing every scalar local one width, folding every `& 0xFF`/`& 0xFFFF` mask into its local's type, and wrapping each single statement in `do {{ }} while (0)`. Do not repeat those alone; combine them with a real shape change or go elsewhere.
+Verify with:  {verify}
+It prints JSON; "exact": true is required. Append --regions to the SAME command for the aligned mismatch regions - that run is FREE and unlimited, so search there and spend a scored verify only to confirm. (A build failure also prints no TOTAL line: do not read that as a match.) Keep the file's includes, externs, structs, local names and the summary comment; change the C shape, not the identifiers. Never add inline `__asm__`, never add `volatile` unless the value genuinely is hardware, and do not put any `ASM_` macro back.
+Write the final file to {out} (overwrite). Reply with one line: DONE <n_verify_runs> pins:<before>->0 or GAVEUP <reason> best:<total>.
+
+{evidence}--- {name} ---
+{src}
+"""
+
+PROMPT_DEPIN_BATCH = (PROMPT_DEPIN.split("RESIDUE for this row")[0].replace("from a function of", "from several small functions of").replace("The source below is the row", "Each source below is a row")
+    + "HOW THE RESIDUE ARISES" + PROMPT_DEPIN.split("HOW THE RESIDUE ARISES", 1)[1].split("Verify with:")[0]
+    + "Each file has its own verify command and its own pre-measured RESIDUE below (JSON; \"exact\": true is required; append --regions to the same command for the free aligned view). Write each result to its own path (overwrite). Do not explore the repository: everything you need is in this message.\nReply with one line per file: DONE <id> <n_verify_runs> pins:<before>->0 or GAVEUP <id> <reason> best:<total>.\n")
+
+
+def depin_facts(row, text):
+    """The row's pin-free residue: how far the stripped text is from retail, and where."""
+    from verify import verify as _verify
+    import tempfile as _tf
+    rec = None
+    for line in (LEDGER / "pins_strip.jsonl").read_text().splitlines() if (LEDGER / "pins_strip.jsonl").exists() else []:
+        if line.strip():
+            j = json.loads(line)
+            if j["id"] == row["id"]:
+                rec = j
+    head = ""
+    if rec:
+        head = f"strip damage {rec.get('total')} words, residue class {rec.get('class')}, pins removed {rec.get('pins')}\n"
+    with _tf.TemporaryDirectory() as td:
+        f = Path(td) / Path(row["c_path"]).name
+        f.write_text(text)
+        v = _verify(row, f, include_root=INCLUDE, regions=True)
+    body = (v.get("text") or "").split("--- aligned regions")[-1]
+    return head + "aligned regions (got | tgt):\n" + body[:2000]
+
 def fidelity_facts(row, text):
     """The row's fidelity sites as facts for PROMPT_FIDELITY: class, target, whether the target lies inside
     the row (and the landing word), needed registers for pass-throughs, rowbase coverage."""
@@ -124,6 +172,11 @@ PROMPT_FIDELITY_BATCH = (PROMPT_FIDELITY.split("FACTS for this row")[0].replace(
 
 def batch_prompt(items):
     """items: [(row, out_path, verify_cmd, evidence_block, src)] -> one prompt for several small rows."""
+    if MODE == "depin":
+        parts = [PROMPT_DEPIN_BATCH]
+        for row, out, vcmd, ev, src in items:
+            parts.append(f"=== ROW {row['id']}  (function {row['func']}, {row['size']} bytes)\nfile: {out}\nverify: {vcmd}\nRESIDUE:\n{depin_facts(row, src)}\n{ev}--- source ---\n{src}\n")
+        return "\n".join(parts)
     if MODE == "fidelity":
         parts = [PROMPT_FIDELITY_BATCH]
         for row, out, vcmd, ev, src in items:
@@ -194,6 +247,8 @@ def one(row, model, effort, timeout):
     cp = ROOT / "src" / row["container"] / name
     src = (cp if cp.exists() else raw_path(row)).read_text(errors="replace")
     work = Path(tempfile.mkdtemp(prefix="agent_", dir=str(ROOT / "work")))
+    if MODE == "depin":
+        src = strip_pins(src)          # the lane starts pin-free; its job is to make that exact
     out = work / name; out.write_text(src)
     verify_cmd = f"python3 {ROOT}/tools/verify.py {row['id']} {out} --include-root {INCLUDE}"
     try:
@@ -205,6 +260,8 @@ def one(row, model, effort, timeout):
         prompt = batch_prompt([(row, out, verify_cmd, ev, src)])
     elif MODE == "fidelity":
         prompt = PROMPT_FIDELITY.format(verify=verify_cmd, out=out, name=name, src=src, evidence=ev, facts=fidelity_facts(row, src))
+    elif MODE == "depin":
+        prompt = PROMPT_DEPIN.format(verify=verify_cmd, out=out, name=name, src=src, evidence=ev, facts=depin_facts(row, src))
     elif MODE == "fields":
         prompt = PROMPT_FIELDS.format(verify=verify_cmd, out=out, name=name, src=src, evidence=ev)
     else:
@@ -285,6 +342,8 @@ def batch(rows_, model, effort, timeout):
         name = Path(row["c_path"]).name
         cp = ROOT / "src" / row["container"] / name
         src = (cp if cp.exists() else raw_path(row)).read_text(errors="replace")
+        if MODE == "depin":
+            src = strip_pins(src)      # the lane starts pin-free; its job is to make that exact
         out = work / name; out.write_text(src)
         vcmd = f"python3 {ROOT}/tools/verify.py {row['id']} {out} --include-root {INCLUDE}"
         try:
@@ -315,12 +374,12 @@ def main():
     ap.add_argument("--workers", type=int, default=1); ap.add_argument("--limit", type=int)
     ap.add_argument("--container")
     ap.add_argument("--tag", default="", help="journal name suffix")
-    ap.add_argument("--mode", default="full", choices=["full", "readability", "fidelity", "fields"], help="full = the standing prompt (names + summary + removal attempts + gate step); readability = names + summary only, prepared packet, no exploration; fidelity = remove the row's LABEL_AS_CALL / PASSTHRU_NO_ARGS sites (facts + recipes in the prompt); fields = type the M2C_FIELD accesses through local structs")
+    ap.add_argument("--mode", default="full", choices=["full", "readability", "fidelity", "fields", "depin"], help="full = the standing prompt (names + summary + removal attempts + gate step); readability = names + summary only, prepared packet, no exploration; fidelity = remove the row's LABEL_AS_CALL / PASSTHRU_NO_ARGS sites (facts + recipes in the prompt); fields = type the M2C_FIELD accesses through local structs")
     ap.add_argument("--batch", type=int, default=0, help="rows per codex call (readability and fidelity modes): related small rows share one session")
     ap.add_argument("--batch-bytes", type=int, default=6000, help="max summed source bytes per batch")
     ap.add_argument("--retry-all", action="store_true", help="serve rows again even after two failed attempts at the same text")
     a = ap.parse_args()
-    global COMMIT, OUT_TAG, MODE, BATCH, RETRY_ALL; COMMIT = a.commit; OUT_TAG = a.tag; MODE = a.mode; BATCH = a.batch if a.mode in ("readability", "fidelity") else 0; RETRY_ALL = a.retry_all
+    global COMMIT, OUT_TAG, MODE, BATCH, RETRY_ALL; COMMIT = a.commit; OUT_TAG = a.tag; MODE = a.mode; BATCH = a.batch if a.mode in ("readability", "fidelity", "depin") else 0; RETRY_ALL = a.retry_all
     lv = {x["id"]: x for x in read_jsonl(LEDGER / "levels.jsonl")}
     rs = [r for r in rows() if lv.get(r["id"], {}).get("level", -1) >= 1 and a.min_size <= r["size"] <= a.max_size]
     if a.with_gotos:

@@ -12,6 +12,10 @@ mechanical.  This plugin tries them, in cost order, against the row's fully stri
              a plain `b = a;` into one pseudo whenever both stay live, and then the allocator has
              no choice left - that collapse is what most `reg-rename` pins stand in for.  A
              narrowing assignment is not a REG-REG set in RTL, so cse never merges the two.
+  mask2cast  `E & 0xFFFF` at a use site becomes `(u16) E` - the same mode-change handle as
+             `narrow`, applied at the use rather than the declaration (harvested from an Astra
+             depin lane, which is why `maskfold`'s declaration-only rewrite had missed it).
+  dup_if     the statement after an `if (...) { }` written into both arms instead (same source).
   fence      `do { stmt; } while (0)` is a zero-byte scheduling barrier: it pins a statement's
              definition point without emitting anything.  A bare block does NOT do this - only the
              loop note does - so it is scaffolding in C clothing and `census.py` counts it.  It is
@@ -39,6 +43,7 @@ except ImportError:                       # pragma: no cover - direct import
 BAND = 12          # strip damage a row must already be within
 import os
 BUDGET = int(os.environ.get("T15_BUDGET", "45"))   # verify runs per row (T15_BUDGET to raise)
+ROUNDS = int(os.environ.get("T15_ROUNDS", "3"))    # greedy hill-climb rounds
 NARROW = {"s32": ["s16", "s8"], "u32": ["u16", "u8"], "int": ["s16", "s8"],
           "unsigned": ["u16", "u8"], "s16": ["s8"], "u16": ["u8"]}
 DECL_RE = re.compile(r"^(?P<i>[ \t]+)(?P<ty>u8|s8|u16|s16|u32|s32|int|unsigned)[ \t]+(?P<n>[A-Za-z_]\w*)[ \t]*;[ \t]*$")
@@ -132,6 +137,59 @@ def fence_candidates(text):
     return out
 
 
+USE_MASK_RE = re.compile(r"(?P<e>\b[A-Za-z_]\w*(?:\s*(?:->|\.)\s*\w+)*)\s*&\s*0x(?P<m>[Ff]{2}|[Ff]{4})\b")
+
+
+def mask2cast_candidates(text):
+    """`E & 0xFFFF` at a USE site becomes `(u16) E`.
+
+    Harvested from an Astra depin lane: the mask and the cast compute the same value, but a cast is
+    a mode change in RTL where the AND is an ordinary binary op, so cse cannot fold the two pseudos
+    together - the same handle as `narrow`, applied at the use instead of the declaration.  t15's
+    `maskfold` only ever retyped the *declaration*, which is why it missed these.
+    """
+    out = []
+    masked = mask(text)
+    for m in USE_MASK_RE.finditer(masked):
+        ty = "u8" if len(m.group("m")) == 2 else "u16"
+        expr = text[m.start("e"):m.end("e")]
+        cand = text[:m.start()] + f"({ty}) {expr}" + text[m.end():]
+        out.append(("mask2cast:%s->%s" % (expr[:20], ty), cand))
+    return out
+
+
+IF_RE = re.compile(r"^(?P<i>[ \t]*)\}[ \t]*$")
+
+
+def dup_after_if_candidates(text):
+    """The statement after an `if (...) { ... }` written into BOTH arms instead.
+
+    Also harvested from an Astra depin lane.  gcc's cross-jumping merges the duplicates back, but
+    the duplication changes which block owns the store - and a value written in both arms is what
+    fills a branch delay slot.  Only the simple shape is generated: a closing brace at some indent,
+    no `else`, followed by one movable simple statement at the same indent.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    for i, ln in enumerate(masked):
+        m = IF_RE.match(ln.rstrip("\n"))
+        if not m or i + 1 >= len(lines):
+            continue
+        if masked[i + 1].strip().startswith("else"):
+            continue
+        if not movable(masked[i + 1]) or is_decl(masked[i + 1]):
+            continue
+        ind = m.group("i")
+        if masked[i + 1][:len(ind) + 1] != ind + masked[i + 1].strip()[0]:
+            continue                       # the statement must sit at the brace's own indent
+        stmt = lines[i + 1].strip()
+        new = (f"{ind}    {stmt}\n{ind}}} else {{\n{ind}    {stmt}\n{ind}}}\n")
+        out.append(("dup_after_if:%d" % (i + 1),
+                    "".join(lines[:i] + [new] + lines[i + 2:])))
+    return out
+
+
 class T:
     name = "t15_shapes"
     level = 1
@@ -157,6 +215,14 @@ class T:
 
     @staticmethod
     def apply_verified(text, row, census, verify_fn):
+        """Greedy hill-climb over the shape menu.
+
+        The single-shot sweep left 39 rows whose residue a *single* candidate improved without
+        closing - the mechanism was right and the row needed more than one edit.  So each round
+        keeps the best improving candidate and searches again from there, up to ROUNDS rounds or
+        the budget.  A round that improves nothing stops the climb: the menu has nothing left to
+        say about that row, and its `best_label` names what came closest for the lane that follows.
+        """
         base = strip_pins(text)
         pins_in = len(sites_of(text))
         tried = 0
@@ -164,30 +230,38 @@ class T:
         tried += 1
         if v.get("exact"):
             return base, {"step": "strip", "tried": tried, "pins_in": pins_in, "pins_out": 0}
-        # A miss is a measurement too: record which family came closest and by how much, so the
-        # residue of this sweep says what to build next rather than only that it did not fire.
-        best, best_label, strip_total = v.get("total"), "strip", v.get("total")
-        # real source shapes first, the fence last
-        cands = maskfold_candidates(base) + narrow_candidates(base) + fence_candidates(base)
+        strip_total = v.get("total")
+        cur, cur_total, steps = base, strip_total, []
+        best_label = "strip"
         seen = {sha_text(base)}
-        for label, cand in cands:
-            if tried >= BUDGET:
-                return None, {"tried": tried, "stopped": "budget", "pins_in": pins_in,
-                              "pins_out": pins_in, "best_total": best, "best_label": best_label,
-                              "strip_total": strip_total,
-                              "moved": (strip_total - best) if (best is not None and strip_total is not None) else None}
-            h = sha_text(cand)
-            if h in seen:
-                continue
-            seen.add(h)
-            v = verify_fn(cand)
-            tried += 1
-            if v.get("exact"):
-                return cand, {"step": label, "tried": tried, "pins_in": pins_in, "pins_out": 0,
-                              "fence": label.startswith("fence")}
-            if v.get("total") is not None and v["total"] < (best if best is not None else 1e9):
-                best, best_label = v["total"], label
-        return None, {"tried": tried, "cands": len(cands), "pins_in": pins_in,
-                      "pins_out": pins_in, "best_total": best, "best_label": best_label,
-                      "strip_total": strip_total,
-                      "moved": (strip_total - best) if (best is not None and strip_total is not None) else None}
+        for rnd in range(ROUNDS):
+            cands = (maskfold_candidates(cur) + mask2cast_candidates(cur)
+                     + dup_after_if_candidates(cur) + narrow_candidates(cur) + fence_candidates(cur))
+            round_best = None
+            for label, cand in cands:
+                if tried >= BUDGET:
+                    break
+                h = sha_text(cand)
+                if h in seen:
+                    continue
+                seen.add(h)
+                v = verify_fn(cand)
+                tried += 1
+                if v.get("exact"):
+                    steps.append(label)
+                    return cand, {"step": "+".join(steps), "tried": tried, "rounds": rnd + 1,
+                                  "pins_in": pins_in, "pins_out": 0,
+                                  "fence": any(x.startswith("fence") for x in steps)}
+                t = v.get("total")
+                if t is not None and t < (cur_total if cur_total is not None else 1e9):
+                    if round_best is None or t < round_best[0]:
+                        round_best = (t, label, cand)
+            if round_best is None or tried >= BUDGET:
+                break
+            cur_total, best_label, cur = round_best[0], round_best[1], round_best[2]
+            steps.append(round_best[1])
+        return None, {"tried": tried, "pins_in": pins_in, "pins_out": pins_in,
+                      "best_total": cur_total, "best_label": best_label, "strip_total": strip_total,
+                      "climb": "+".join(steps) or None,
+                      "moved": (strip_total - cur_total) if (cur_total is not None and strip_total is not None) else None,
+                      "stopped": "budget" if tried >= BUDGET else "no-improvement"}
