@@ -32,7 +32,7 @@ void func_800A8184(s32 index, s32 kind) {
     S_800A8184_1 *state;
     S_800A8184_2 *data;
     void *object;
-    register s32 saved_kind ASM_REG("$18") = kind;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 saved_kind = kind;
 
     object = func_8009C390(0, 0, &D_800A8248, 0);
     state = object + 0x20;
@@ -54,5 +54,4 @@ void func_800A8184(s32 index, s32 kind) {
         func_80033CD8(state, &D_80045340);
         func_800A8248(state, object_id, data);
     }
-    ASM_KEEP(saved_kind);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 }

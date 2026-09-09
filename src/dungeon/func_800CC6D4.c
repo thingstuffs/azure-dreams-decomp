@@ -43,7 +43,7 @@ void func_800D1E34(void *object_arg, void *motion_arg, void *entity_arg)
     void *object = object_arg;
     register void *motion = motion_arg;
     void *entity = entity_arg;
-    register void *object_base ASM_REG("$16") = object;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *object_base = object;
     EntityCallback callback;
     s16 floor_height;
     u16 entity_flags;
@@ -54,10 +54,6 @@ void func_800D1E34(void *object_arg, void *motion_arg, void *entity_arg)
         return;
     }
 
-    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(object_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     callback = (*(EntityCallback *)((u8 *)object_base + (0x8C)));
     if (callback != 0) {

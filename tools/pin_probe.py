@@ -299,27 +299,41 @@ def report():
         print(f"| {k} | {v} | {near} |")
     print()
     near = [r for r in recs if not r.get("exact") and (r.get("total") or 99) <= REGION_BAND]
-    print(f"## Families among the {len(near)} rows within {REGION_BAND} words of pin-free "
+    print(f"## The near band: {len(near)} rows within {REGION_BAND} words of pin-free "
           f"({sum(r['size'] for r in near):,} B, {sum(r['pins'] for r in near)} pins)\n")
-    print("### by scorer residue class\n")
+    print("A row here is byte-exact today and one C shape away from carrying no scaffolding at\n"
+          "all.  The class is the scorer's residue class for the row with every pin erased, and it\n"
+          "names the mechanism, so a lane that solves one row of a class usually solves its\n"
+          "neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.\n")
+    print("| class | rows | pins | bytes | what the residue says |\n|---|---:|---:|---:|---|")
+    MEANING = {
+        "reg-rename": "same instructions, two registers swapped: the variable map, not the register",
+        "broad": "no single named signal; read the row's regions view",
+        "length-drift": "retail keeps or drops a word gcc does not",
+        "reorder-only": "same instructions, one moved by the scheduler",
+        "code-motion": "a statement crossed a call or a branch",
+        "slus-diff": "the SLUS object differs; check the row's TU, not its C",
+        "addressing": "%hi/%lo against base+offset: how the address is formed",
+        "li-expansion": "lui;ori against lui;addiu: an integer literal where retail has a symbol",
+        "const-remat": "retail keeps a constant in a register that gcc recomputes",
+        "slot-rotation": "a different instruction fills a delay slot",
+        "block-order": "the basic blocks are laid out in another order",
+        "hold-set": "a different callee-saved set / frame layout",
+        "polarity": "a branch is inverted",
+        "dead-code-retention": "retail keeps a computation gcc deletes",
+        "delay-slot": "retail fills a slot this build leaves as nop",
+    }
     byclass = collections.Counter(r.get("class") for r in near)
-    print("| class | rows | pins | bytes |\n|---|---:|---:|---:|")
     for k, v in byclass.most_common():
         sel = [r for r in near if r.get("class") == k]
-        print(f"| {k} | {v} | {sum(r['pins'] for r in sel)} | {sum(r['size'] for r in sel):,} |")
-    print("\n### by region shape (the mechanism key)\n")
-    fam = collections.Counter()
-    famrows = collections.defaultdict(list)
-    for r in near:
-        ops = r.get("regions") or []
-        key = (r.get("class"), tuple(sorted(
-            (o["op"], tuple(o["got"][:3]), tuple(o["tgt"][:3])) for o in ops))[:4])
-        fam[key] += 1
-        famrows[key].append(r["id"])
-    print("| # rows | class | regions (op: got -> tgt) | example rows |\n|---:|---|---|---|")
-    for k, v in fam.most_common(35):
-        shape = "; ".join(f"{op} {'/'.join(g) or '-'} -> {'/'.join(t) or '-'}" for op, g, t in k[1])
-        print(f"| {v} | {k[0]} | {shape[:110]} | {', '.join(famrows[k][:3])} |")
+        print(f"| {k} | {v} | {sum(r['pins'] for r in sel)} | {sum(r['size'] for r in sel):,} "
+              f"| {MEANING.get(k, '')} |")
+    print("\n### The closest rows (strip damage 1-2)\n")
+    print("| row | size | cfg | pins | damage | class |\n|---|---:|---|---:|---:|---|")
+    for r in sorted((x for x in near if (x.get("total") or 99) <= 2),
+                    key=lambda r: (r["total"], r["size"]))[:40]:
+        print(f"| {r['id']} | {r['size']} | {r['cfg']} | {r['pins']} | {r['total']} "
+              f"| {r.get('class')} |")
 
 
 if __name__ == "__main__":

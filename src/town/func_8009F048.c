@@ -30,11 +30,8 @@ void func_8009C7A8(Rec_D_800CFCB4 *record, M2C_UNK context, S_8009C7A8_1 *state,
         M2C_UNK *shared_data;
 
         next_record = record;
-        ASM_KEEP(next_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         next_context = context;
-           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         next_state = state;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         shared_data = &D_800D0690;
         func_8009B218(next_record, next_context, next_state, shared_data);
     }
