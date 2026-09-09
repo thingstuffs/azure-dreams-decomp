@@ -57,10 +57,9 @@ count_8:
 
 count_16:
     {
-        register s32 *global_page ASM_REG("$3");
+        s32 *global_page;
 
         global_page = (s32 *)0x80080000;
-        ASM_KEEP(global_page);
         ((S_80024370_0_pre *)entry)[-1].unk_00 |= 0x8000;
         ((S_80024370_2 *)global_page)->unk_14A0 |= 0x8000;
     }

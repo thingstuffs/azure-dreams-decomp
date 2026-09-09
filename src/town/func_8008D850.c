@@ -51,7 +51,6 @@ loop_body:
             available += entry->size;
             func_8008AC84(index);
         } while (available < alloc_size);
-        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
 
     func_8008AD90(index, alloc_size);

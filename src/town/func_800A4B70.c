@@ -25,5 +25,4 @@ void func_800A22D0(Func800A4B70Object *arg0, s32 arg1, Func800A4B70Output *arg2)
         return;
     }
     arg2->value = -inner->value;
-    ASM_SCHED_BARRIER();
 }

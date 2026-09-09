@@ -7,8 +7,8 @@ extern s32 D_8001BE60;
 
 /* Deducts the computed cost from the available balance if sufficient funds remain. */
 s32 func_80018760(void) {
-    register void *context ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *costProvider ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *context;
+    void *costProvider;
     func_80018760_fn getCost;
     u32 requiredAmount;
     void *updatedContext;

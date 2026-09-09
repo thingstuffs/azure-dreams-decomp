@@ -20,7 +20,7 @@ typedef struct S_800177D8_1 {
 
 /* Appends two bytes and a value to the selected row if it is enabled. */
 void func_800177D8(s16 row_index, s8 first_byte, s8 second_byte, s16 value) {
-    register s32 row_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 row_offset;
     u16 entry_count;
     void *rows_base;
     void *entries_base;
