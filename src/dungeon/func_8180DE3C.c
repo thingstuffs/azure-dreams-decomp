@@ -24,35 +24,36 @@ typedef struct S_80026E3C_1 {
 
 extern s32 D_800814A0[3];
 
-void func_80026E3C(void *arg0, M2C_UNK arg1, S_80026E3C_1 *arg2)
+/* Alternate the effect shade, decay its intensity, and flag expiration. */
+void func_80026E3C(void *effect, M2C_UNK unused, S_80026E3C_1 *color)
 {
-    register u16 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u16 temp_v0;
-    u16 temp_v0_3;
-    u32 temp_v0_2;
-    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u16 ticks_left ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 frame;
+    u16 intensity;
+    u32 shade;
+    s32 decay;
 
-    temp_v0 = ((S_80026E3C_0 *)arg0)->unk_68 + 1;
-    ((S_80026E3C_0 *)arg0)->unk_68 = temp_v0;
-    if (temp_v0 & 1) {
-        temp_v0_2 = ((S_80026E3C_0 *)arg0)->unk_6A.u8;
+    frame = ((S_80026E3C_0 *)effect)->unk_68 + 1;
+    ((S_80026E3C_0 *)effect)->unk_68 = frame;
+    if (frame & 1) {
+        shade = ((S_80026E3C_0 *)effect)->unk_6A.u8;
     } else {
-        temp_v0_2 = ((S_80026E3C_0 *)arg0)->unk_6A.u16 >> 3;
+        shade = ((S_80026E3C_0 *)effect)->unk_6A.u16 >> 3;
     }
-    arg2->unk_0E = (s8) temp_v0_2;
-    arg2->unk_0D = (s8) temp_v0_2;
-    arg2->unk_0C = (s8) temp_v0_2;
-    temp_v0_3 = ((S_80026E3C_0 *)arg0)->unk_6A.u16;
-    temp_v1 = (s16)temp_v0_3 >> 4;
-    temp_a0 = ((S_80026E3C_0 *)arg0)->unk_66;
-    temp_v0_3 -= temp_v1;
-    ASM_KEEP(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_a0--;
-    ((S_80026E3C_0 *)arg0)->unk_66 = temp_a0;
-    ((S_80026E3C_0 *)arg0)->unk_6A.u16 = temp_v0_3;
-    if ((temp_a0 << 0x10) <= 0) {
-        ((S_80026E3C_0_pre *)arg0)[-1].unk_00 =
-            (u16)(((S_80026E3C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    color->unk_0E = (s8) shade;
+    color->unk_0D = (s8) shade;
+    color->unk_0C = (s8) shade;
+    intensity = ((S_80026E3C_0 *)effect)->unk_6A.u16;
+    decay = (s16)intensity >> 4;
+    ticks_left = ((S_80026E3C_0 *)effect)->unk_66;
+    intensity -= decay;
+    ASM_KEEP(intensity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ticks_left--;
+    ((S_80026E3C_0 *)effect)->unk_66 = ticks_left;
+    ((S_80026E3C_0 *)effect)->unk_6A.u16 = intensity;
+    if ((ticks_left << 0x10) <= 0) {
+        ((S_80026E3C_0_pre *)effect)[-1].unk_00 =
+            (u16)(((S_80026E3C_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
     }
 }

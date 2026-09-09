@@ -14,9 +14,10 @@ extern s32 func_80017EA0();
 extern s32 D_80019BB0;
 extern s32 D_80019BB4;
 
-s32 func_80017EF0(S_80017EF0_0 *arg0, s32 arg1) {
+/* Update the indexed entry unless the current state is 3; return whether updated. */
+s32 func_80017EF0(S_80017EF0_0 *entry_table, s32 entry_index) {
     if (D_80019BB0 != 3) {
-        ((S_80017EF0_1 *)((arg1 * 0x10) + arg0->unk_10))->unk_08 =
+        ((S_80017EF0_1 *)((entry_index * 0x10) + entry_table->unk_10))->unk_08 =
             func_80017EA0(D_80019BB4);
         return 1;
     }

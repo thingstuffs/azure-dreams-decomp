@@ -18,15 +18,16 @@ typedef struct {
 extern Entry *func_800A1618(s16 arg0, s16 arg1);
 extern DungeonState D_80083460;
 
-s32 func_800A152C(s16 arg0, s16 arg1) {
+/* Normalize the entry type and increment the matching entry and dungeon counts. */
+s32 func_800A152C(s16 entry_type, s16 entry_key) {
     s16 type;
     Entry *entry;
 
-    type = arg0;
-    if (arg0 == 0x39) {
+    type = entry_type;
+    if (entry_type == 0x39) {
         type = 2;
     }
-    entry = func_800A1618(type, arg1);
+    entry = func_800A1618(type, entry_key);
     if (entry != NULL) {
         entry->type = type;
         entry->count++;

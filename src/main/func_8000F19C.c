@@ -18,24 +18,25 @@ typedef struct {
 
 extern Unk80083E98Elem D_80083E98[];
 
-s32 func_8002219C(s32 arg0) {
-    Sp10Buf sp10;
-    s32 temp_v0;
+/* Erase a memory card file, wait for completion, and clear its cached entry. */
+s32 func_8002219C(s32 file_index) {
+    Sp10Buf file_path;
+    s32 erase_status;
 
-    func_80021B18(&sp10, arg0);
+    func_80021B18(&file_path, file_index);
     _card_wait(0);
     _card_wait(1);
     func_80021538();
-    erase(&sp10);
+    erase(&file_path);
     do {
-        temp_v0 = func_800214FC();
-        if (temp_v0 == 0) {
+        erase_status = func_800214FC();
+        if (erase_status == 0) {
             func_8005FE18(0);
         }
-    } while (temp_v0 == 0);
-    if (arg0 < 5) {
-        D_80083E98[arg0].unk0[0] = 0;
+    } while (erase_status == 0);
+    if (file_index < 5) {
+        D_80083E98[file_index].unk0[0] = 0;
         func_800220DC();
     }
-    return temp_v0 == 1;
+    return erase_status == 1;
 }

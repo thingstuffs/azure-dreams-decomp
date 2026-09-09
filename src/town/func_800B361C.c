@@ -5,33 +5,34 @@
 extern s32 D_800786DC[];
 extern s32 D_800786E8[];
 
-void func_800B0D7C(void *arg0) {
-    register s32 flags ASM_REG("$2");   /* MATCH: shared store at the merge target needs flags in $v0, matching the |=2 fallthrough path's own register choice */
+/* Update status flags and state pointers from the current value and its limit. */
+void func_800B0D7C(void *object) {
+    register s32 flags ASM_REG("$2");
 
-    if (FIELD(arg0, s32, 0x10) > 0) {
+    if (FIELD(object, s32, 0x10) > 0) {
         void **state;
 
-        state = FIELD(arg0, void **, 0xCC);
+        state = FIELD(object, void **, 0xCC);
         *FIELD(state, void **, 0x74) = D_800786DC;
-        flags = FIELD(arg0, s32, 0x1C);
+        flags = FIELD(object, s32, 0x1C);
         flags &= ~2;
     } else {
-        flags = FIELD(arg0, s32, 0x1C);
+        flags = FIELD(object, s32, 0x1C);
         flags |= 2;
     }
-    FIELD(arg0, s32, 0x1C) = flags;
+    FIELD(object, s32, 0x1C) = flags;
 
-    if (FIELD(arg0, s32, 0x10) < FIELD(arg0, s32, 0x14)) {
-        s32 mask;
+    if (FIELD(object, s32, 0x10) < FIELD(object, s32, 0x14)) {
+        s32 clear_mask;
         void **state;
 
-        mask = ~1;
-        ASM_KEEP(mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        FIELD(arg0, s32, 0x1C) &= mask;
-        state = FIELD(arg0, void **, 0xCC);
+        clear_mask = ~1;
+        ASM_KEEP(clear_mask);
+        FIELD(object, s32, 0x1C) &= clear_mask;
+        state = FIELD(object, void **, 0xCC);
         *FIELD(state, void **, 0x78) = D_800786E8;
         return;
     }
 
-    FIELD(arg0, s32, 0x1C) |= 1;
+    FIELD(object, s32, 0x1C) |= 1;
 }

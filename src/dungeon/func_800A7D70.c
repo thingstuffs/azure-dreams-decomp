@@ -10,31 +10,26 @@ typedef struct {
 
 extern s32 func_80042900(void *arg0, s32 arg1);
 
-#ifndef NON_MATCHING
-register volatile s32 value_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-#endif
+/* Apply and clear the value delta, clamping the result to the byte range and state limit. */
+void func_800AD4D0(void *entity) {
+    FuncState *state = (FuncState *)entity;
+    s32 value;
 
-void func_800AD4D0(void *arg0) {
-    FuncState *state = (FuncState *)arg0;
-#ifdef NON_MATCHING
-    s32 value_v1;
-#endif
-
-    if ((state->delta < 0) && ((func_80042900(arg0, 0x1D) << 16) != 0)) {
+    if ((state->delta < 0) && ((func_80042900(entity, 0x1D) << 16) != 0)) {
         state->delta = 0;
     }
 
-    value_v1 = state->value;
-    value_v1 += state->delta;
-    if (value_v1 < 0) {
-        value_v1 = 0;
-    } else if (value_v1 >= 0x100) {
-        value_v1 = 0xFF;
+    value = state->value;
+    value += state->delta;
+    if (value < 0) {
+        value = 0;
+    } else if (value >= 0x100) {
+        value = 0xFF;
     }
-    state->value = (u8)value_v1;
-    value_v1 = state->limit;
+    state->value = (u8)value;
+    value = state->limit;
     state->delta = 0;
-    if ((u32)value_v1 < state->value) {
-        state->value = (u8)value_v1;
+    if ((u32)value < state->value) {
+        state->value = (u8)value;
     }
 }

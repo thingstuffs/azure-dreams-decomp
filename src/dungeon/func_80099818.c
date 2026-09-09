@@ -20,23 +20,24 @@ typedef struct {
 extern Unk3648 D_800E3648[0x20];
 extern Unk39C8 D_800E39C8[0x20];
 
-void func_8009EF78(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    volatile Unk3648 *var_s0;
-    volatile Unk39C8 *var_s1;
-    s32 var_s2;
+/* Create purple markers at eligible entry positions. */
+void func_8009EF78(s32 setup_arg_0, s32 setup_arg_1, s32 setup_arg_2, s32 setup_arg_3) {
+    volatile Unk3648 *entry_state;
+    volatile Unk39C8 *entry_position;
+    s32 entry_index;
 
-    func_8009EEAC(arg0, arg1, arg2, arg3);
-    var_s2 = 0;
-    var_s1 = D_800E39C8;
-    var_s0 = D_800E3648;
+    func_8009EEAC(setup_arg_0, setup_arg_1, setup_arg_2, setup_arg_3);
+    entry_index = 0;
+    entry_position = D_800E39C8;
+    entry_state = D_800E3648;
     do {
-        if ((var_s0->unk1 != 0) && (var_s0->unk0 != 0) &&
-            !(var_s0->unk3 & 0x40)) {
-            func_8009F3D4(var_s1->unk6, var_s1->unk7,
-                          0x802080, 8, var_s2);
+        if ((entry_state->unk1 != 0) && (entry_state->unk0 != 0) &&
+            !(entry_state->unk3 & 0x40)) {
+            func_8009F3D4(entry_position->unk6, entry_position->unk7,
+                          0x802080, 8, entry_index);
         }
-        var_s1++;
-        var_s2++;
-        var_s0++;
-    } while (var_s2 < 0x20);
+        entry_position++;
+        entry_index++;
+        entry_state++;
+    } while (entry_index < 0x20);
 }

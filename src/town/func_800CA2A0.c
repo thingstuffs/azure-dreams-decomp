@@ -4,10 +4,11 @@ extern s32 func_800C30E0(s32, s32, s32, s32);
 extern void func_800C7BF0(s32, s32, s32);
 extern s32 D_80113220[];
 
-void func_800C7A00(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    if (func_800C30E0(arg0, arg1, arg2, arg3) == 0) {
+/* Reset the object callback when the shared countdown expires after a zero check result. */
+void func_800C7A00(s32 object, s32 motion, s32 init_data, s32 check_arg) {
+    if (func_800C30E0(object, motion, init_data, check_arg) == 0) {
         if (--D_80113220[0] <= 0) {
-            func_800C7BF0(arg0, arg1, arg2);
+            func_800C7BF0(object, motion, init_data);
         }
     }
 }

@@ -12,55 +12,56 @@ extern s32 func_80016CE4(s32, s32);
 extern s32 func_80016D18(void);
 extern char *func_80016E48(s32);
 
-char *func_8001747C(s32 arg0, s32 arg1, s32 arg2)
+/* Select event data, using fallback data when an event handler returns null. */
+char *func_8001747C(s32 forwarded_arg, s32 forwarded_aux, s32 event_id)
 {
-    s32 temp_v0;
-    u32 index;
-    void **table;
-    register s32 selector ASM_REG("$6") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    static void *const keepalive[] = {
-        &&L_case19,
-        &&L_case18,
-        &&L_case52,
-        &&L_case12,
-        &&L_default
+    s32 result_addr;
+    u32 case_index;
+    void **dispatch_table;
+    register s32 selector ASM_REG("$6") = event_id;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    static void *const case_labels[] = {
+        &&case_19,
+        &&case_18,
+        &&case_52,
+        &&case_12,
+        &&default_case
     };
 
-    index = arg2 - 12;
-    if (index >= 43) {
-        goto L_default;
+    case_index = event_id - 12;
+    if (case_index >= 43) {
+        goto default_case;
     }
-    table = D_80016230;
-    (void)keepalive;
-    goto *table[index];
+    dispatch_table = D_80016230;
+    (void)case_labels;
+    goto *dispatch_table[case_index];
 
-L_case19:
-    temp_v0 = func_80016CE4(arg0, arg1);
-    D_8001B16C[0] = temp_v0;
-    if (temp_v0 != 0) {
-        goto L_return_temp;
+case_19:
+    result_addr = func_80016CE4(forwarded_arg, forwarded_aux);
+    D_8001B16C[0] = result_addr;
+    if (result_addr != 0) {
+        goto return_result;
     }
     return D_8001B9E0;
 
-L_case18:
-    temp_v0 = func_80016D18();
-    D_8001B16C[0] = temp_v0;
-    if (temp_v0 == 0) {
-        goto L_case18_zero;
+case_18:
+    result_addr = func_80016D18();
+    D_8001B16C[0] = result_addr;
+    if (result_addr == 0) {
+        goto case_18_zero;
     }
 
-L_return_temp:
-    return (char *)temp_v0;
+return_result:
+    return (char *)result_addr;
 
-L_case18_zero:
+case_18_zero:
     return D_80020E44;
 
-L_case52:
+case_52:
     return func_80016E48(selector);
 
-L_case12:
+case_12:
     return D_8001C6D0;
 
-L_default:
+default_case:
     return D_8001B14C;
 }

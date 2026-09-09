@@ -7,14 +7,15 @@ extern s32 D_800814A0;
 
 #define FIELD(base, type, offset) (*(type)((s8 *)(base) + (offset)))
 
-void func_800BB508(void *arg0, void *arg1) {
-    if (func_8009CFE0(arg0, arg1) != 0) {
-        func_8008F134(arg0);
-        if (FIELD(arg0, s8 **, 0x98) != 0) {
-            *FIELD(arg0, s8 **, 0x98) = 0;
+/* On a successful object check, clear its linked byte and set object and global flags. */
+void func_800BB508(void *object, void *context) {
+    if (func_8009CFE0(object, context) != 0) {
+        func_8008F134(object);
+        if (FIELD(object, s8 **, 0x98) != 0) {
+            *FIELD(object, s8 **, 0x98) = 0;
         }
-        func_80033D08(arg0);
-        FIELD(arg0, u16 *, -2) |= 0x8000;
+        func_80033D08(object);
+        FIELD(object, u16 *, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

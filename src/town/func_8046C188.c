@@ -37,17 +37,18 @@ extern s32 func_8001D414(s32, s32, s32, s32);
 extern s8 D_80016000[];
 extern s8 D_8001902C[];
 
-void func_8001D188(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_a3;
-    s32 temp_s2;
-    s32 temp_v0;
-    s32 var_a0;
-    u8 *temp_v0_2;
-    u8 *temp_a1;
-    s32 temp_v1;
-    s32 var_s1;
-    register S_8001D188_2 *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s8 *temp_a0;
+/* Advance the group counter and prepend the entry to its twelve-entry history. */
+void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup_arg3) {
+    s32 group_id;
+    s32 state_base;
+    s32 variant;
+    s32 slot_index;
+    u8 *slot;
+    u8 *history;
+    s32 old_entry;
+    s32 entry_id;
+    register S_8001D188_2 *group_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s8 *limits;
     u8 *page;
     S_8001D188_1 *cursor;
     s16 *entries;
@@ -55,34 +56,34 @@ void func_8001D188(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 count;
 
     do { page = (u8 *)0x80010000; } while (0);
-    temp_s2 = ((S_8001D188_4 *)(((S_8001D188_3 *)page)->unk_6000))->unk_38;
-    var_s1 = arg0;
-    temp_v0 = func_8001D414(arg0, arg1, arg2, arg3);
+    state_base = ((S_8001D188_4 *)(((S_8001D188_3 *)page)->unk_6000))->unk_38;
+    entry_id = entry_index;
+    variant = func_8001D414(entry_index, lookup_arg1, lookup_arg2, lookup_arg3);
     cursor = ((S_8001D188_0 *)page)->unk_6000;
     cursor = cursor->unk_24;
     cursor = cursor->unk_6C;
     entries = cursor->unk_1EC;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    temp_a3 = *(s16 *)((u8 *)entries + (var_s1 * 0x14));
-    temp_a2 = temp_s2 + temp_a3;
-    next_count = temp_a2->unk_3700.s;
+    group_id = *(s16 *)((u8 *)entries + (entry_id * 0x14));
+    group_state = state_base + group_id;
+    next_count = group_state->unk_3700.s;
     next_count += 1;
-    temp_a2->unk_3700.s = next_count;
-    count = temp_a2->unk_3700.u;
+    group_state->unk_3700.s = next_count;
+    count = group_state->unk_3700.u;
     ASM_USE(count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    var_a0 = 0;
-    temp_a0 = D_8001902C;
-    if (count >= *(s16 *)((u8 *)temp_a0 + (((temp_a3 * 3) + temp_v0) * 8))) {
-        temp_a2->unk_3700.s = 0U;
+    slot_index = 0;
+    limits = D_8001902C;
+    if (count >= *(s16 *)((u8 *)limits + (((group_id * 3) + variant) * 8))) {
+        group_state->unk_3700.s = 0U;
     }
-    ASM_KEEP_NV(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    temp_a1 = (u8 *)(temp_a3 * 0xC) + temp_s2 + 0x3640;
+    ASM_KEEP_NV(group_id);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    history = (u8 *)(group_id * 0xC) + state_base + 0x3640;
     do {
-        temp_v0_2 = temp_a1 + var_a0;
-        temp_v1 = *temp_v0_2;
-        *temp_v0_2 = var_s1;
+        slot = history + slot_index;
+        old_entry = *slot;
+        *slot = entry_id;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        var_a0 += 1;
-        var_s1 = temp_v1;
-    } while (var_a0 < 0xC);
+        slot_index += 1;
+        entry_id = old_entry;
+    } while (slot_index < 0xC);
 }

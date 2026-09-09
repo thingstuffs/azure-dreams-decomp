@@ -13,15 +13,16 @@ typedef struct S_800CD9F4_0 {
 
 
 s32 func_800C30E0(S_800CD9F4_0 *, M2C_UNK, M2C_UNK, s32);
-void func_800CD9F4(S_800CD9F4_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3) {
-    u16 temp_v0;
+/* Decrement the counter when the check returns zero and enter state 3 when it expires. */
+void func_800CD9F4(S_800CD9F4_0 *object, M2C_UNK context_a, M2C_UNK context_b, s32 check_arg) {
+    u16 remaining_count;
 
-    if (func_800C30E0(arg0, arg1, arg2, arg3) == 0) {
-        temp_v0 = arg0->unk_6C - 1;
-        arg0->unk_6C = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            arg0->unk_90 = 3;
-            func_800CDF00(arg0, arg1, arg2);
+    if (func_800C30E0(object, context_a, context_b, check_arg) == 0) {
+        remaining_count = object->unk_6C - 1;
+        object->unk_6C = remaining_count;
+        if ((remaining_count << 0x10) <= 0) {
+            object->unk_90 = 3;
+            func_800CDF00(object, context_a, context_b);
         }
     }
 }

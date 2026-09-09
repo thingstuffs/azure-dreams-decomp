@@ -14,25 +14,26 @@ extern void *func_80016E48(s32);
 extern s32 func_8001A64C(s32);
 extern void func_8001A554(s32);
 
-void *func_80016FE0(s32 arg0, s32 arg1, s32 arg2)
+/* Select event response data and set flags when using fallback responses. */
+void *func_80016FE0(s32 handler_arg_a, s32 handler_arg_b, s32 selector)
 {
-    void *result;
-    u32 index;
-    static void *const keepalive[] = {
-        &&L_case19, &&L_case18, &&L_case52, &&L_case12, &&L_default
+    void *response;
+    u32 case_index;
+    static void *const case_labels[] = {
+        &&case_19, &&case_18, &&case_52, &&case_12, &&case_default
     };
 
-    index = arg2 - 12;
-    if (index >= 43) {
-        goto L_default;
+    case_index = selector - 12;
+    if (case_index >= 43) {
+        goto case_default;
     }
-    goto *D_80016020[index];
+    goto *D_80016020[case_index];
 
-L_case19:
-    result = func_80016CE4(arg0, arg1);
-    D_8001B16C[0] = result;
-    if (result != 0) {
-        return result;
+case_19:
+    response = func_80016CE4(handler_arg_a, handler_arg_b);
+    D_8001B16C[0] = response;
+    if (response != 0) {
+        return response;
     }
     if (func_8001A64C(0x92C) == 0) {
         func_8001A554(0x92C);
@@ -40,11 +41,11 @@ L_case19:
     }
     return D_8001B9E0;
 
-L_case18:
-    result = func_80016D18();
-    D_8001B16C[0] = result;
-    if (result != 0) {
-        return result;
+case_18:
+    response = func_80016D18();
+    D_8001B16C[0] = response;
+    if (response != 0) {
+        return response;
     }
     if (func_8001A64C(0xAC) == 0) {
         func_8001A554(0xAC);
@@ -52,16 +53,16 @@ L_case18:
     func_8001A554(0x943);
     return D_800206CC;
 
-L_case52:
+case_52:
     {
-        register s32 call_arg ASM_REG("$6") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        return func_80016E48(call_arg);
+        register s32 reward_selector ASM_REG("$6") = selector;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(reward_selector);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        return func_80016E48(reward_selector);
     }
 
-L_case12:
+case_12:
     return D_8001C6D0;
 
-L_default:
+case_default:
     return D_8001B14C;
 }

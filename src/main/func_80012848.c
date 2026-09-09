@@ -9,59 +9,59 @@ extern s32 D_8002593C;
 extern s32 D_80024FAC;
 
 #ifndef NON_MATCHING
-register u8 *match_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+register u8 *data_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
-void func_80025848(void *arg0) {
+/* Sets up the object from its indexed table entry and assigns its state data. */
+void func_80025848(void *state) {
 #ifndef NON_MATCHING
-    void *temp_a0;
-    s32 idx;
+    void *object;
+    s32 table_entry;
 
-    match_v0 = (u8 *)0x80080000;
-    __asm__ __volatile__("" : "=r"(match_v0) : "0"(match_v0));
-    idx = *(s32 *)((u8 *)arg0 + 0x28);
-    match_v0 += 0x3E98;
-    idx <<= 7;
-    idx += (u32)match_v0;
-    match_v0 = (u8 *)*(u32 *)idx;
-    temp_a0 = (u8 *)arg0 - 0x20;
+    data_ptr = (u8 *)0x80080000;
+    __asm__ __volatile__("" : "=r"(data_ptr) : "0"(data_ptr));
+    table_entry = *(s32 *)((u8 *)state + 0x28);
+    data_ptr += 0x3E98;
+    table_entry <<= 7;
+    table_entry += (u32)data_ptr;
+    data_ptr = (u8 *)*(u32 *)table_entry;
+    object = (u8 *)state - 0x20;
 
-    if (match_v0 != 0) {
-        void *arg1;
+    if (data_ptr != 0) {
+        void *update_data;
 
-        match_v0 = (u8 *)0x80020000;
-        __asm__ __volatile__("" : "=r"(match_v0) : "0"(match_v0));
-        match_v0 += 0x5788;
-        arg1 = (u8 *)arg0 + 0x38;
+        data_ptr = (u8 *)0x80020000;
+        __asm__ __volatile__("" : "=r"(data_ptr) : "0"(data_ptr));
+        data_ptr += 0x5788;
+        update_data = (u8 *)state + 0x38;
         __asm__ __volatile__("" ::: "memory");
-        *(u8 **)((u8 *)arg0 + 0x34) = match_v0;
-        func_80023144(temp_a0, arg1);
-        match_v0 = (u8 *)0x80020000;
+        *(u8 **)((u8 *)state + 0x34) = data_ptr;
+        func_80023144(object, update_data);
+        data_ptr = (u8 *)0x80020000;
     } else {
-        match_v0 = (u8 *)0x80020000;
-        __asm__ __volatile__("" : "=r"(match_v0) : "0"(match_v0));
-        match_v0 += 0x593C;
-        *(u8 **)((u8 *)arg0 + 0x34) = match_v0;
-        func_800230A4(temp_a0);
-        match_v0 = (u8 *)0x80020000;
+        data_ptr = (u8 *)0x80020000;
+        __asm__ __volatile__("" : "=r"(data_ptr) : "0"(data_ptr));
+        data_ptr += 0x593C;
+        *(u8 **)((u8 *)state + 0x34) = data_ptr;
+        func_800230A4(object);
+        data_ptr = (u8 *)0x80020000;
     }
-    __asm__ __volatile__("" : "=r"(match_v0) : "0"(match_v0));
-    match_v0 += 0x4FAC;
-    *(u8 **)((u8 *)arg0 - 0x10) = match_v0;
+    data_ptr += 0x4FAC;
+    *(u8 **)((u8 *)state - 0x10) = data_ptr;
 #else
-    void *a0 = (u8 *)arg0 - 0x20;
-    s32 idx = *(s32 *)((u8 *)arg0 + 0x28);
+    void *object = (u8 *)state - 0x20;
+    s32 table_index = *(s32 *)((u8 *)state + 0x28);
 
-    if (D_80083E98[idx][0] != 0) {
-        s32 *v = &D_80025788;
-        void *a1 = (u8 *)arg0 + 0x38;
+    if (D_80083E98[table_index][0] != 0) {
+        s32 *state_data = &D_80025788;
+        void *update_data = (u8 *)state + 0x38;
         __asm__ __volatile__("" ::: "memory");
-        *(s32 **)((u8 *)arg0 + 0x34) = v;
-        func_80023144(a0, a1);
+        *(s32 **)((u8 *)state + 0x34) = state_data;
+        func_80023144(object, update_data);
     } else {
-        *(s32 **)((u8 *)arg0 + 0x34) = &D_8002593C;
-        func_800230A4(a0);
+        *(s32 **)((u8 *)state + 0x34) = &D_8002593C;
+        func_800230A4(object);
     }
-    *(s32 **)((u8 *)arg0 - 0x10) = &D_80024FAC;
+    *(s32 **)((u8 *)state - 0x10) = &D_80024FAC;
 #endif
 }

@@ -16,42 +16,43 @@ extern u8 D_80088CAC[];
 extern u8 D_800E0D51[];
 extern u8 D_800E0D6D[];
 
-void func_8009BFF8(void *arg0, void *arg1, s32 arg2, s32 arg3) {
-    int sp18;
-    s32 s0;
-    s16 s3;
-    s32 s0_2;
-    s32 temp;
-    u8 *v0;
-    void *v0_2;
-    void *v1;
+/* Randomly adds a quarter of the source value to the target and reports the change. */
+void func_8009BFF8(void *source, void *target, s32 passthru_2, s32 passthru_3) {
+    int direction_aux;
+    s32 amount;
+    s16 signed_amount;
+    s32 message_start;
+    s32 message_end;
+    u8 *type_data;
+    void *source_entity;
+    void *target_entity;
 
-    v0 = *(u8 **)((s8 *)arg0 + 0x50);
-    if (v0 != NULL && *v0 == 0xB && !(func_800A6D30(arg0, arg1, arg2, arg3) & 3)) {
-        s0 = ((s32)(*(u16 *)((s8 *)arg0 + 0x64) << 0x10)) >> 0x12;
-        s3 = s0;
-        *(u16 *)((s8 *)arg1 + 0x64) += s0;
-        if (s3 != 0) {
-            v0_2 = *(void **)((s8 *)arg0 - 0x14);
-            v1 = *(void **)((s8 *)arg1 - 0x14);
-            *(void **)((s8 *)arg1 + 0x60) = arg0;
-            *(s16 *)((s8 *)arg1 + 0x6A) = func_800A0818(
-                *(u8 *)((s8 *)v0_2 + 0x24),
-                *(u8 *)((s8 *)v0_2 + 0x25),
-                *(u8 *)((s8 *)v1 + 0x24),
-                *(u8 *)((s8 *)v1 + 0x25),
-                &sp18
+    type_data = *(u8 **)((s8 *)source + 0x50);
+    if (type_data != NULL && *type_data == 0xB && !(func_800A6D30(source, target, passthru_2, passthru_3) & 3)) {
+        amount = ((s32)(*(u16 *)((s8 *)source + 0x64) << 0x10)) >> 0x12;
+        signed_amount = amount;
+        *(u16 *)((s8 *)target + 0x64) += amount;
+        if (signed_amount != 0) {
+            source_entity = *(void **)((s8 *)source - 0x14);
+            target_entity = *(void **)((s8 *)target - 0x14);
+            *(void **)((s8 *)target + 0x60) = source;
+            *(s16 *)((s8 *)target + 0x6A) = func_800A0818(
+                *(u8 *)((s8 *)source_entity + 0x24),
+                *(u8 *)((s8 *)source_entity + 0x25),
+                *(u8 *)((s8 *)target_entity + 0x24),
+                *(u8 *)((s8 *)target_entity + 0x25),
+                &direction_aux
             );
-            func_800B4C7C(3, arg1, -s0, 0);
-            temp = func_800990FC();
-            s0_2 = temp;
-            temp = func_80099194(D_800E0D51, s0_2);
-            temp = func_8003AD08(-s3, temp);
-            temp = func_80099194(D_800E0D6D, temp);
-            temp = func_80099734(arg1, temp);
-            temp = func_80099194(D_80088CAC, temp);
-            func_80099290(temp);
-            func_800A5720(s0_2);
+            func_800B4C7C(3, target, -amount, 0);
+            message_end = func_800990FC();
+            message_start = message_end;
+            message_end = func_80099194(D_800E0D51, message_start);
+            message_end = func_8003AD08(-signed_amount, message_end);
+            message_end = func_80099194(D_800E0D6D, message_end);
+            message_end = func_80099734(target, message_end);
+            message_end = func_80099194(D_80088CAC, message_end);
+            func_80099290(message_end);
+            func_800A5720(message_start);
         }
     }
 }

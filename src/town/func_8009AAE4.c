@@ -6,26 +6,27 @@ M2C_UNK func_80033AA8();                     /* extern */
 M2C_UNK func_80098928();        /* extern */
 
 
-void func_80098244(s32 arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    s16 temp_v0;
-    s16 temp_v0_2;
-    u16 temp_v1;
+/* Move the record value toward 0x4C2 by four and invoke completion handlers on arrival. */
+void func_80098244(s32 context_id, Rec_D_800E3D7C *record, M2C_UNK context) {
+    s16 raised_value;
+    s16 lowered_value;
+    u16 current_value;
 
-    temp_v1 = (u16) arg1->unk_00.at02_s16.v;
-    if (arg1->unk_00.at02_s16.v < 0x4C2) {
-        temp_v0 = temp_v1 + 4;
-        arg1->unk_00.at02_s16.v = temp_v0;
-        if (temp_v0 >= 0x4C2) {
-            goto block_5;
+    current_value = (u16) record->unk_00.at02_s16.v;
+    if (record->unk_00.at02_s16.v < 0x4C2) {
+        raised_value = current_value + 4;
+        record->unk_00.at02_s16.v = raised_value;
+        if (raised_value >= 0x4C2) {
+            goto target_reached;
         }
         return;
     }
-    temp_v0_2 = temp_v1 - 4;
-    arg1->unk_00.at02_s16.v = temp_v0_2;
-    if (temp_v0_2 < 0x4C3) {
-block_5:
-        arg1->unk_00.at02_s16.v = 0x4C2;
+    lowered_value = current_value - 4;
+    record->unk_00.at02_s16.v = lowered_value;
+    if (lowered_value < 0x4C3) {
+target_reached:
+        record->unk_00.at02_s16.v = 0x4C2;
         func_80033AA8(0x12);
-        func_80098928(arg0, arg1, arg2);
+        func_80098928(context_id, record, context);
     }
 }

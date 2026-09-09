@@ -1,18 +1,18 @@
 #include "common.h"
 
-s32 func_800A57B4(void *arg0, s16 arg1) {
-    s32 i;
+/* Return the first of three entries matching the target's group, or -1. */
+s32 func_800A57B4(void *entry, s16 target) {
+    s32 index;
 
-    i = 0;
+    index = 0;
     do {
-        u8 value = *((u8 *)arg0 + 8);
+        u8 value = *((u8 *)entry + 8);
 
-        if (value != 0 && (arg1 - 1) / 3 == (value - 1) / 3) {
-            return (s16)i;
+        if (value != 0 && (target - 1) / 3 == (value - 1) / 3) {
+            return (s16)index;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        i++;
-        arg0 = (u8 *)arg0 + 3;
-    } while (i < 3);
+        index++;
+        entry = (u8 *)entry + 3;
+    } while (index < 3);
     return -1;
 }

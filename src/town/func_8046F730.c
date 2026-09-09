@@ -11,43 +11,40 @@ extern s32 D_8001B1F8;
 extern s32 D_8001B63C;
 extern s32 D_800211DC;
 
-s32 func_80016730(s32 arg0, s32 arg1, s32 arg2) {
-    register void *base ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 result;
+/* Selects a response from the table, applying the threshold override and fallback. */
+s32 func_80016730(s32 object, s32 check_value, s32 selection) {
+    register void *response_table ASM_REG("$19");
+    s32 response;
 
-    if (func_80017E98(arg0, arg1) != 0) {
-        s32 page;
+    if (func_80017E98(object, check_value) != 0) {
+        s32 address_page;
 
-        page = (s32)0x80020000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        return page - 0x49C4;
+        address_page = (s32)0x80020000;
+        ASM_KEEP(address_page);
+        return address_page - 0x49C4;
     }
     {
-        register s32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 address_page ASM_REG("$2");
 
-        ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        page = (s32)0x80020000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        base = (void *)(page - 0x56AC);
+        ASM_CLOBBER("$2");
+        address_page = (s32)0x80020000;
+        ASM_KEEP(address_page);
+        response_table = (void *)(address_page - 0x56AC);
     }
-    result = func_80019ABC(base, &D_8001B1F8, arg0, arg2);
+    response = func_80019ABC(response_table, &D_8001B1F8, object, selection);
     if (func_8001A7F8() >= 10) {
-        register void *call_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        s32 page;
+        register void *call_table ASM_REG("$4");
+        s32 address_page;
 
-        call_base = base;
-        ASM_KEEP(call_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80019880(call_base);
-        page = (s32)0x80020000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        result = page + 0x11DC;
+        call_table = response_table;
+        ASM_KEEP(call_table);
+        func_80019880(call_table);
+        address_page = (s32)0x80020000;
+        ASM_KEEP(address_page);
+        response = address_page + 0x11DC;
     }
-    if (func_80019A04(base, arg0, arg2) != 0) {
-        result = func_8001628C(arg0, arg1, arg2);
+    if (func_80019A04(response_table, object, selection) != 0) {
+        response = func_8001628C(object, check_value, selection);
     }
-    return result;
+    return response;
 }
-
-/* MECHANISM: The 0x28 frame falls out of arg0/arg1/arg2 held in s1/s4/s2, with result in s0.
-   Short-lived v0 page carriers plus a pinned s3 base reproduce retail's split lui/addiu forms.
-   A block-local a0 call carrier removes the duplicate call-slot move and leaves retail's nop. */

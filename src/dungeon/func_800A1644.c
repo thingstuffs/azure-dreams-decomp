@@ -3,33 +3,30 @@
 extern s32 func_800A6D30(u32, u32, s32, s32);
 
 #ifdef NON_MATCHING
-#define TF14_HOLD(var) ((void)0)
 #define TF14_KEEP(var) ((void)0)
 #else
-#define TF14_HOLD(var) __asm__ __volatile__("" : : "r"(var))
 #define TF14_KEEP(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
 #endif
 
-s32 func_800A6DA4(u32 arg0, u32 arg1, s32 arg2, s32 arg3) {
+/* Return a 16-bit random value within the inclusive bounds. */
+s32 func_800A6DA4(u32 bound_a, u32 bound_b, s32 rng_arg2, s32 rng_arg3) {
     register u32 range ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 result;
-    u32 temp_v0;
-    u32 var_s0;
-    u32 var_s1;
+    u32 swap_bound;
+    u32 upper;
+    u32 lower;
 
-    var_s1 = arg0;
-    var_s0 = arg1;
-    if (var_s0 < var_s1) {
-        TF14_KEEP(var_s0);
-        temp_v0 = var_s0;
-        var_s0 = var_s1;
-        var_s1 = temp_v0;
+    lower = bound_a;
+    upper = bound_b;
+    if (upper < lower) {
+        TF14_KEEP(upper);
+        swap_bound = upper;
+        upper = lower;
+        lower = swap_bound;
     }
-    result = func_800A6D30(arg0, arg1, arg2, arg3) & 0xFFFF;
-    range = (var_s0 - var_s1) + 1;
-    TF14_HOLD(range);
+    result = func_800A6D30(bound_a, bound_b, rng_arg2, rng_arg3) & 0xFFFF;
+    range = (upper - lower) + 1;
     result %= range;
-    TF14_HOLD(var_s0);
-    result += var_s1;
+    result += lower;
     return result & 0xFFFF;
 }

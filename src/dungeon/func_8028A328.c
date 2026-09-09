@@ -25,73 +25,71 @@ typedef struct S_8001D328_1 {
 
 
 s32 func_800A6D30(S_8001D328_0 *, s32, s32, s32);
-void func_8001D328(S_8001D328_0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 rand_v0;
-    u16 sp10;
-    s16 temp_v1;
-    s32 temp_s0;
-    s32 temp_v0;
-    s32 temp_v1_2;
-    s32 var_s2;
-    s32 var_v0;
-    void *var_s1;
-    void *var_s3;
-    void *var_s4;
-    u8 *base_3549;
+/* Choose random coordinates within a region and mark eligible tiles. */
+void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 setup_arg3) {
+    s32 random_bits;
+    u16 tile_flags;
+    s16 limit_test;
+    s32 x_offset;
+    s32 y_offset;
+    s32 coord;
+    s32 entry_index;
+    s32 last_index;
+    void *coords;
+    void *state;
+    void *state_prefix;
+    u8 *state_base;
 
-    rand_v0 = func_800A6D30(arg0, arg1, arg2, arg3);
+    random_bits = func_800A6D30(region, setup_arg1, setup_arg2, setup_arg3);
     {
-        register s32 mul_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register s32 mul_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 mul_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 calc_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 height ASM_REG("$4");
+        register s32 width ASM_REG("$3");
+        register s32 area ASM_REG("$8");
+        register s32 index_sum ASM_REG("$3");
 
-        mul_a0 = arg0->unk_06;
-        mul_v1 = arg0->unk_04;
-        mul_t0 = mul_a0 * mul_v1;
-        rand_v0 &= 7;
-        calc_v1 = (mul_t0 >> 6) + rand_v0 + 4;
-        var_v0 = calc_v1;
-        ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        temp_v1 = calc_v1;
+        height = region->unk_06;
+        width = region->unk_04;
+        area = height * width;
+        random_bits &= 7;
+        index_sum = (area >> 6) + random_bits + 4;
+        last_index = index_sum;
+        ASM_KEEP(last_index);
+        limit_test = index_sum;
     }
-    temp_v1 = temp_v1 < 0x3D;
-    if (!temp_v1) {
-        var_v0 = 0x3C;
+    limit_test = limit_test < 0x3D;
+    if (!limit_test) {
+        last_index = 0x3C;
     }
-    var_s2 = (s16) var_v0;
-    if (var_s2 >= 0) {
-        register u8 *prev_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register s32 index_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u8 *base36_v1;
-        s32 offset_v0;
+    entry_index = (s16) last_index;
+    if (entry_index >= 0) {
+        register u8 *prefix_base ASM_REG("$4");
+        register s32 state_offset ASM_REG("$3");
+        u8 *coords_base;
+        s32 coords_offset;
 
-        base_3549 = D_800E3549;
-        prev_a0 = base_3549 - 1;
-        index_v1 = var_s2 * 4;
-        var_s4 = (void *) (index_v1 + (s32) prev_a0);
-        var_s3 = index_v1 + base_3549;
-        base36_v1 = D_800E36C8;
-        offset_v0 = var_s2 * 0xC;
-        var_s1 = (void *) (offset_v0 + (s32) base36_v1);
+        state_base = D_800E3549;
+        prefix_base = state_base - 1;
+        state_offset = entry_index * 4;
+        state_prefix = (void *) (state_offset + (s32) prefix_base);
+        state = state_offset + state_base;
+        coords_base = D_800E36C8;
+        coords_offset = entry_index * 0xC;
+        coords = (void *) (coords_offset + (s32) coords_base);
         do {
-            temp_s0 = func_800A6DA4(0, (arg0->unk_04 - 1) & 0xFFFF) & 0xFFFF;
-            temp_v0 = func_800A6DA4(0, (arg0->unk_06 - 1) & 0xFFFF) & 0xFFFF;
-            temp_v1_2 = arg0->unk_00 + temp_s0;
-            ((S_8001D328_1 *)var_s1)->unk_00 = (u8) temp_v1_2;
-            temp_v1_2 = arg0->unk_02 + temp_v0;
-            ((S_8001D328_1 *)var_s1)->unk_01 = (u8) temp_v1_2;
-            if (((func_8009A350(((S_8001D328_1 *)var_s1)->unk_00 - 1, *(volatile u8 *) ((u8 *) var_s1 + 1), 0, &sp10) << 0x10) == 0) || !(sp10 & 0xFF20)) {
-                func_8009A21C(((S_8001D328_1 *)var_s1)->unk_00, ((S_8001D328_1 *)var_s1)->unk_01, 0x800);
-                func_8001E660(var_s3, var_s4, 0, 1);
+            x_offset = func_800A6DA4(0, (region->unk_04 - 1) & 0xFFFF) & 0xFFFF;
+            y_offset = func_800A6DA4(0, (region->unk_06 - 1) & 0xFFFF) & 0xFFFF;
+            coord = region->unk_00 + x_offset;
+            ((S_8001D328_1 *)coords)->unk_00 = (u8) coord;
+            coord = region->unk_02 + y_offset;
+            ((S_8001D328_1 *)coords)->unk_01 = (u8) coord;
+            if (((func_8009A350(((S_8001D328_1 *)coords)->unk_00 - 1, *(volatile u8 *) ((u8 *) coords + 1), 0, &tile_flags) << 0x10) == 0) || !(tile_flags & 0xFF20)) {
+                func_8009A21C(((S_8001D328_1 *)coords)->unk_00, ((S_8001D328_1 *)coords)->unk_01, 0x800);
+                func_8001E660(state, state_prefix, 0, 1);
             }
-            var_s4 -= 4;
-            var_s3 -= 4;
-            var_s2 -= 1;
-            var_s1 -= 0xC;
-        } while (var_s2 >= 0);
+            state_prefix -= 4;
+            state -= 4;
+            entry_index -= 1;
+            coords -= 0xC;
+        } while (entry_index >= 0);
     }
 }
-/* MECHANISM: Short-lived guarded pins encode the multiply, clamp, and held-base register roles.
-   Byte-array globals prevent fourfold pointer scaling and preserve the retail address order.
-   One reused RMW temp plus a volatile call-site reread closes the final store/load live ranges. */

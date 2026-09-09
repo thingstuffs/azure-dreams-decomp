@@ -6,14 +6,15 @@ s32 func_800C30E0(Rec_func_80094268_arg0 *, M2C_UNK, M2C_UNK, s32);             
 M2C_UNK func_800C382C();    /* extern */
 
 
-void func_800C34EC(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3) {
-    u16 temp_v0;
+/* Count down after an unhandled entity update and choose a direction when the timer expires. */
+void func_800C34EC(Rec_func_80094268_arg0 *entity, M2C_UNK motion, M2C_UNK context, s32 update_arg) {
+    u16 ticks_left;
 
-    if (func_800C30E0(arg0, arg1, arg2, arg3) == 0) {
-        temp_v0 = arg0->unk_6C.as_u16 - 1;
-        arg0->unk_6C.as_u16 = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            func_800C382C(arg0, arg1, arg2);
+    if (func_800C30E0(entity, motion, context, update_arg) == 0) {
+        ticks_left = entity->unk_6C.as_u16 - 1;
+        entity->unk_6C.as_u16 = ticks_left;
+        if ((ticks_left << 0x10) <= 0) {
+            func_800C382C(entity, motion, context);
         }
     }
 }

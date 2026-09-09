@@ -2,24 +2,25 @@
 
 extern s32 func_80065F90();
 
-s32 func_800A0818(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u16 *arg4) {
-    s32 temp_v0;
-    u16 val;
+/* Computes a rounded direction between two points and updates flag bit 1. */
+s32 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags) {
+    s32 angle;
+    u16 new_flags;
 
     {
-        s32 test_result;
-        test_result = func_80065F90(arg3 - arg1, arg2 - arg0, arg2, arg3);
-        temp_v0 = test_result;
-        ASM_KEEP_NV(test_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        if ((test_result & 0x1FF) < 0x100) {
+        s32 direction;
+        direction = func_80065F90(end_y - start_y, end_x - start_x, end_x, end_y);
+        angle = direction;
+        ASM_KEEP_NV(direction);   /* Required for byte-exact register allocation. */
+        if ((direction & 0x1FF) < 0x100) {
             goto in_range;
         }
     }
-    val = *arg4 | 2;
+    new_flags = *flags | 2;
     goto store;
 in_range:
-    val = *arg4 & 0xFFFD;
+    new_flags = *flags & 0xFFFD;
 store:
-    *arg4 = val;
-    return (temp_v0 + 0x100) & 0xE00;
+    *flags = new_flags;
+    return (angle + 0x100) & 0xE00;
 }

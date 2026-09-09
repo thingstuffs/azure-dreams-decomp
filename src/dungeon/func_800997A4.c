@@ -4,31 +4,28 @@ extern s16 D_800E3CD8[8];
 extern void func_8009EEAC(s32, s32, s32, s32);
 extern void func_8009F3D4(s16 x, s16 y, s32 color, s32 size, s32 count);
 
-void func_8009EF04(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+/* Create green markers for up to four leading type-2 entries. */
+void func_8009EF04(s32 setup_a0, s32 setup_a1, s32 setup_a2, s32 setup_a3) {
     s16 *record;
     s32 x;
     s32 y;
-    s32 count;
+    s32 entry_count;
     s32 color;
 
-    func_8009EEAC(arg0, arg1, arg2, arg3);
-    count = 0;
+    func_8009EEAC(setup_a0, setup_a1, setup_a2, setup_a3);
+    entry_count = 0;
     record = D_800E3CD8;
 loop:
     if (record[0] == 2) {
         color = 0x208020;
-        ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(color);
         x = record[1];
         y = record[2];
         record += 4;
-        count += 1;
+        entry_count += 1;
         func_8009F3D4(x, y, color, 1, 0);
-        if (count < 4) {
+        if (entry_count < 4) {
             goto loop;
         }
     }
 }
-
-/* MECHANISM: The seed already supplied retail's 0x28 frame and s0/s1 lifetimes.
-   A named color local plus ASM_KEEP makes the lui/ori pair the earliest fallthrough work,
-   filling the conditional delay slot before the halfword loads and loop increment. */

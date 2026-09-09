@@ -7,23 +7,22 @@ M2C_UNK func_80093D90();    /* extern */
 M2C_UNK func_80098988();    /* extern */
 extern M2C_UNK D_800CFFF0;
 
+/* Check the record, tick its countdown, and dispatch the appropriate handler. */
+void func_80097D54(Rec_func_80097D54_arg0 *record, M2C_UNK call_arg_1, M2C_UNK call_arg_2, s32 check_arg) {
+    u16 countdown;
 
-
-void func_80097D54(Rec_func_80097D54_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3) {
-    u16 temp_v0;
-
-    if (func_800352FC(arg0, arg1, arg2, arg3) == 0) {
-        temp_v0 = arg0->unk_0A - 1;
-        arg0->unk_0A = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            if (arg0->unk_1C == &D_800CFFF0) {
-                func_80093D90(arg0, arg1, arg2);
+    if (func_800352FC(record, call_arg_1, call_arg_2, check_arg) == 0) {
+        countdown = record->unk_0A - 1;
+        record->unk_0A = countdown;
+        if ((countdown << 0x10) <= 0) {
+            if (record->unk_1C == &D_800CFFF0) {
+                func_80093D90(record, call_arg_1, call_arg_2);
                 return;
             }
-            goto block_6;
+            goto finish;
         }
     } else {
-block_6:
-        func_80098988(arg0, arg1, arg2);
+finish:
+        func_80098988(record, call_arg_1, call_arg_2);
     }
 }

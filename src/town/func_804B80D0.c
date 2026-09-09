@@ -9,10 +9,11 @@ extern s32 func_8001894C(s32);
 extern void *D_80016000;
 extern s16 D_80018AEA;
 
-s32 func_800168D0(s32 arg0, s32 arg1) {
-    s32 ret;
+/* Update action flags from the active entry and check whether the action is allowed. */
+s32 func_800168D0(s32 object, s32 context) {
+    s32 action_allowed;
 
-    func_8001611C(arg0, arg1);
+    func_8001611C(object, context);
     if (func_8001894C(D_80018AEA) == 0) {
         func_80018854(0x511);
         if (FIELD(((FIELD(D_80016000, s32 *, 8) * 8) +
@@ -22,9 +23,9 @@ s32 func_800168D0(s32 arg0, s32 arg1) {
         }
     }
     if (func_8001894C(0x514) == 0) {
-        ret = func_8001894C(0x11FC) == 0;
+        action_allowed = func_8001894C(0x11FC) == 0;
     } else {
-        ret = 1;
+        action_allowed = 1;
     }
-    return ret;
+    return action_allowed;
 }

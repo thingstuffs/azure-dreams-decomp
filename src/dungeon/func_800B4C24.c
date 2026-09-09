@@ -2,10 +2,11 @@
 
 extern void func_800BA414(void *arg0, s32 arg1, void *arg2, s16 arg3);
 
-s32 func_800BA384(void *arg0, s32 arg1, u8 *arg2) {
+/* Initialize scratchpad quad coordinates and process each linked node. */
+s32 func_800BA384(void *node_payload, s32 node_value, u8 *node_data) {
     volatile s16 *scratch = (volatile s16 *)0x1F800000;
-    register u8 *next ASM_REG("$6");
-    register s32 value ASM_REG("$5");
+    register u8 *next_ptr;
+    register s32 next_value ASM_REG("$5");
     s32 result;
 
     scratch[0x46] = 0;
@@ -22,16 +23,16 @@ s32 func_800BA384(void *arg0, s32 arg1, u8 *arg2) {
     scratch[0x41] = 31;
 
     for (;;) {
-        func_800BA414(arg0, arg1, arg2, *(s16 *)(arg2 + 6));
-        next = *(u8 **)((u8 *)arg0 - 8);
-        arg0 = next + 32;
-        if (next == 0) {
+        func_800BA414(node_payload, node_value, node_data, *(s16 *)(node_data + 6));
+        next_ptr = *(u8 **)((u8 *)node_payload - 8);
+        node_payload = next_ptr + 32;
+        if (next_ptr == 0) {
             break;
         }
-        value = *(s32 *)(next + 8);
-        next = *(u8 **)(next + 12);
-        arg1 = value;
-        arg2 = next;
+        next_value = *(s32 *)(next_ptr + 8);
+        next_ptr = *(u8 **)(next_ptr + 12);
+        node_value = next_value;
+        node_data = next_ptr;
     }
     result = 0;
     return result;

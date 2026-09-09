@@ -13,15 +13,16 @@ typedef struct S_800CDBB8_0 {
 
 
 s32 func_800C30E0(S_800CDBB8_0 *, M2C_UNK, M2C_UNK, s32);
-void func_800CDBB8(S_800CDBB8_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3) {
-    u16 temp_v0;
+/* Decrement the object's countdown when its update returns zero and handle expiration. */
+void func_800CDBB8(S_800CDBB8_0 *object, M2C_UNK context_a, M2C_UNK context_b, s32 update_arg) {
+    u16 countdown;
 
-    if (func_800C30E0(arg0, arg1, arg2, arg3) == 0) {
-        temp_v0 = arg0->unk_6C - 1;
-        arg0->unk_6C = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            arg0->unk_90 = 0;
-            func_800CDFF8(arg0, arg1, arg2);
+    if (func_800C30E0(object, context_a, context_b, update_arg) == 0) {
+        countdown = object->unk_6C - 1;
+        object->unk_6C = countdown;
+        if ((countdown << 0x10) <= 0) {
+            object->unk_90 = 0;
+            func_800CDFF8(object, context_a, context_b);
         }
     }
 }

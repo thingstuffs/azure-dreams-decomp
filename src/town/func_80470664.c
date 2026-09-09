@@ -10,20 +10,21 @@ extern s32 D_8001B1FC;
 extern s32 D_8001B63C;
 extern s32 D_8001D270;
 
-s32 func_80017664(s32 arg0, s32 arg1, s32 arg2) {
-    s32 var_s1;
+/* Selects a result from the input checks and mode-specific lookups. */
+s32 func_80017664(s32 input, s32 context, s32 mode) {
+    s32 result;
 
-    if (func_80017E98(arg0, arg1) != 0) {
+    if (func_80017E98(input, context) != 0) {
         return (s32)&D_8001B63C;
     }
-    if (arg2 == 9) {
+    if (mode == 9) {
         func_80017CC4();
-        var_s1 = func_80019ABC(&D_8001A9BC, &D_8001B1FC, arg0, 9);
-        if (func_80019A04(&D_8001A9BC, arg0, 9) != 0) {
-            var_s1 = func_8001628C(arg0, arg1, 9);
+        result = func_80019ABC(&D_8001A9BC, &D_8001B1FC, input, 9);
+        if (func_80019A04(&D_8001A9BC, input, 9) != 0) {
+            result = func_8001628C(input, context, 9);
         }
     } else {
-        var_s1 = (s32)&D_8001D270;
+        result = (s32)&D_8001D270;
     }
-    return var_s1;
+    return result;
 }

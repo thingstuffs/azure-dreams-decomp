@@ -40,17 +40,18 @@ extern ImageEntry D_80126E98[];
 extern u8 D_80128038[16];
 extern DisplayPair *D_80129780[3];
 
-void func_80124728(TownObject *obj)
+/* Select the town object's image and update its sprite field from the image entry. */
+void func_80124728(TownObject *town_obj)
 {
-    func_80123ECC(obj);
+    func_80123ECC(town_obj);
     D_80126A0D[0] = D_80126A01[0];
 
-    if (*(volatile u8 *)&obj->index == 0x31) {
-        *obj->town->slots[21] = D_80128038;
+    if (*(volatile u8 *)&town_obj->index == 0x31) {
+        *town_obj->town->slots[21] = D_80128038;
     } else {
-        *obj->town->slots[21] = D_80126988[obj->index >> 4];
+        *town_obj->town->slots[21] = D_80126988[town_obj->index >> 4];
     }
 
     D_80129780[0]->src->f8 =
-        (s16)(((5 - D_80126E98[obj->index].value) * 6) + 0xD2);
+        (s16)(((5 - D_80126E98[town_obj->index].value) * 6) + 0xD2);
 }

@@ -36,6 +36,7 @@ extern u8 D_80128038[16];
 extern ImageEntry D_80126E98[];
 extern DisplayPair *D_80129748;
 
+/* Select the town object's digit graphic and adjust its display offset for width. */
 void func_801247F8(TownObject *obj)
 {
     func_80123C18(obj);

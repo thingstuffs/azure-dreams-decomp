@@ -9,30 +9,24 @@ typedef struct Entry {
     u16 unk14;
 } Entry;
 
-#ifdef NON_MATCHING
-#define ASM_CLOBBER_A0() ((void)0)
-#else
-#define ASM_CLOBBER_A0() ASM_CLOBBER("$4")
-#endif
-
 extern void func_800D3738(void *arg0, s32 arg1, Entry *arg2, s16 arg3);
 
-s32 func_800D36D0(void *arg0, s32 arg1, Entry *arg2)
+/* Processes unflagged entries while following the state chain. */
+s32 func_800D36D0(void *state_base, s32 entry_data, Entry *entry)
 {
-    register void *state ASM_REG("$16") = arg0;
+    void *state = state_base;
 
-    ASM_CLOBBER_A0();
     for (;;) {
-        if (!(arg2->unk14 & 0x80)) {
-            func_800D3738(state, arg1, arg2, arg2->unk06);
+        if (!(entry->unk14 & 0x80)) {
+            func_800D3738(state, entry_data, entry, entry->unk06);
         }
-        arg2 = *(Entry **)((u8 *)state - 8);
-        if (arg2 == 0) {
+        entry = *(Entry **)((u8 *)state - 8);
+        if (entry == 0) {
             break;
         }
-        state = (u8 *)arg2 + 0x20;
-        arg1 = (s32)arg2->unk08;
-        arg2 = arg2->unk0C;
+        state = (u8 *)entry + 0x20;
+        entry_data = (s32)entry->unk08;
+        entry = entry->unk0C;
     }
     return 0;
 }

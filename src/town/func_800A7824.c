@@ -28,57 +28,52 @@ typedef struct S_800A4F84_2 {
 
 
 extern s32 func_800352FC(S_800A4F84_0 *, s32, s32, s32);
-void func_800A4F84(S_800A4F84_0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+/* Select the object value from an override or state entry, falling back after nine idle calls. */
+void func_800A4F84(S_800A4F84_0 *object, s32 check_arg_1, s32 check_arg_2, s32 check_arg_3) {
     u8 *state;
-    u8 *table;
+    u8 *state_table;
     S_800A4F84_2 *value;
-    s32 count;
-    u8 index;
+    s32 idle_count;
+    u8 state_index;
 
-    if (func_800352FC(arg0, arg1, arg2, arg3) != 0) {
+    if (func_800352FC(object, check_arg_1, check_arg_2, check_arg_3) != 0) {
         state = (u8 *)D_80082A38;
         if (state[1] != 0) {
-            arg0->unk_34 = 0;
+            object->unk_34 = 0;
         }
 
-        value = arg0->unk_30.p;
+        value = object->unk_30.p;
         if (value != 0) {
-            arg0->unk_00.p = value;
+            object->unk_00.p = value;
             return;
         }
 
-        index = state[1];
-        if ((u32)(index - 2) < 0x53U) {
-            table = &D_80082660;
-            value = ((S_800A4F84_1 *)(table + (state[1] * 8)))->unk_04;
+        state_index = state[1];
+        if ((u32)(state_index - 2) < 0x53U) {
+            state_table = &D_80082660;
+            value = ((S_800A4F84_1 *)(state_table + (state[1] * 8)))->unk_04;
             if (value != 0) {
-                arg0->unk_00.i = value->unk_08;
+                object->unk_00.i = value->unk_08;
                 return;
             }
             goto use_default;
         }
 
-        if (index == 0) {
-            count = arg0->unk_34 + 1;
-            arg0->unk_34 = count;
-            if (count < 9) {
+        if (state_index == 0) {
+            idle_count = object->unk_34 + 1;
+            object->unk_34 = idle_count;
+            if (idle_count < 9) {
                 return;
             }
-            arg0->unk_34 = 9;
+            object->unk_34 = 9;
         }
 
 use_default:
-        arg0->unk_00.p = D_80100D98;
+        object->unk_00.p = D_80100D98;
         return;
     } else {
-        arg0->unk_00.p = D_80100D98;
-        arg0->unk_24 = D_800A4F4C;
-        arg0->unk_30.i = 0;
+        object->unk_00.p = D_80100D98;
+        object->unk_24 = D_800A4F4C;
+        object->unk_30.i = 0;
     }
 }
-
-/* A 24-byte frame holds arg0 in the sole saved register s0 across calls.
- * Positive outer polarity emits initialization late; noreturn dispatcher sites
- * retain three store-filled tails. Natural state allocation gives retail's
- * split v0 page carrier and a0 low-half address without a hard-register pin.
- */

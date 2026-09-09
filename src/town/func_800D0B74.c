@@ -22,17 +22,18 @@ typedef struct S_800CE2D4_1 {
 
 
 M2C_UNK func_800C4174(S_800CE2D4_0 *, S_800CE2D4_1 *, M2C_UNK);
-void func_800CE2D4(S_800CE2D4_0 *arg0, S_800CE2D4_1 *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
-    u32 temp_v1;
+/* Decrement the countdown and ease the current values toward their targets. */
+void func_800CE2D4(S_800CE2D4_0 *state, S_800CE2D4_1 *current, M2C_UNK context) {
+    u16 ticks_left;
+    u32 target_delta;
 
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800C4174(arg0, arg1, arg2);
+    ticks_left = state->unk_6C - 1;
+    state->unk_6C = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        func_800C4174(state, current, context);
     }
-    arg1->unk_02 = (s16) ((u16) arg1->unk_02 + ((s32) (arg0->unk_84 - arg1->unk_02) / 2));
-    temp_v1 = arg0->unk_86 - arg1->unk_06;
-    arg1->unk_0A = (s16) ((u16) arg1->unk_0A + ((s32) (0 - arg1->unk_0A) / 2));
-    arg1->unk_06 = (s16) ((u16) arg1->unk_06 + ((s32) (temp_v1 + (temp_v1 >> 0x1F)) >> 1));
+    current->unk_02 = (s16) ((u16) current->unk_02 + ((s32) (state->unk_84 - current->unk_02) / 2));
+    target_delta = state->unk_86 - current->unk_06;
+    current->unk_0A = (s16) ((u16) current->unk_0A + ((s32) (0 - current->unk_0A) / 2));
+    current->unk_06 = (s16) ((u16) current->unk_06 + ((s32) (target_delta + (target_delta >> 0x1F)) >> 1));
 }

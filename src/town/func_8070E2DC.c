@@ -17,10 +17,11 @@ extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 extern s32 func_80019880(s32, s32);
 
-char *func_800172DC(s32 arg0, s32 arg1, s32 arg2)
+/* Selects town text and runs the selected handler's fallback actions. */
+char *func_800172DC(s32 lookup_a, s32 lookup_b, s32 text_selector)
 {
     u32 index;
-    register s32 selector ASM_REG("$6") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 selector ASM_REG("$6") = text_selector;
     static void *const keepalive[] = {
         &&L_first, &&L_second, &&L_third, &&L_fourth, &&L_default
     };
@@ -35,20 +36,20 @@ char *func_800172DC(s32 arg0, s32 arg1, s32 arg2)
 
 L_first:
     {
-        char *result = func_80016CE4(arg0, arg1);
-    D_8001B16C[0] = result;
-        if (result != 0) {
-            return result;
+        char *text = func_80016CE4(lookup_a, lookup_b);
+        D_8001B16C[0] = text;
+        if (text != 0) {
+            return text;
         }
         return D_8001B9E0;
     }
 
 L_second:
     {
-        char *result = func_80016D18();
-        D_8001B16C[0] = result;
-        if (result != 0) {
-            return result;
+        char *text = func_80016D18();
+        D_8001B16C[0] = text;
+        if (text != 0) {
+            return text;
         }
         func_8001A554(0x943);
         if (func_8001A64C(0x941) != 0 && func_80019880(13, 6) == 0) {

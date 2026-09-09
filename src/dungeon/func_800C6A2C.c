@@ -20,61 +20,58 @@ extern s32 func_800AA5E4(void *, s32, s32, void *);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-s32 func_800CC18C(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 numerator ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Resolve a ranged random check, apply its effects, and return the outcome. */
+s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
+    register s32 roll ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 random_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 range;
     register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 var_s1;
-    s16 temp_s16;
-    s32 temp_v1;
-    s32 var_v1;
+    s16 outcome;
+    s16 final_outcome;
+    s32 feedback_kind;
+    s32 feedback_or_result;
 
-    var_s1 = 0;
+    outcome = 0;
     if (D_800E3D40[0] == 0) {
-        numerator = func_800A6D30(arg0, arg1, arg2, arg3) & 0xFFFF;
-        range = ((S_800CC18C_0 *)((u8 *)arg0 - 0x18))->unk_1B;
+        random_value = func_800A6D30(entity, forwarded_1, forwarded_2, forwarded_3) & 0xFFFF;
+        range = ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B;
         if (range != 0) {
-            value = range;
-            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            remainder = numerator % value;
-            value = remainder;
+            roll = range;
+            ASM_KEEP(roll);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            remainder = random_value % roll;
+            roll = remainder;
             goto value_ready;
         }
     }
-    value = 0;
+    roll = 0;
 value_ready:
-    if (value < 0x40) {
-        func_800AA5E4(arg0, ((S_800CC18C_0 *)((u8 *)arg0 - 0x18))->unk_00, ((S_800CC18C_0 *)((u8 *)arg0 - 0x18))->unk_04, arg0);
+    if (roll < 0x40) {
+        func_800AA5E4(entity, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_00, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_04, entity);
         func_800A56E0(0x705);
         if (D_800E3D40[0] != 0) {
-            var_s1 = -1;
+            outcome = -1;
         }
-        temp_v1 = ((S_800CC18C_0 *)((u8 *)arg0 - 0x18))->unk_2B == 0;
+        feedback_kind = ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_2B == 0;
     } else {
-        var_s1 = 1;
-        temp_v1 = (((S_800CC18C_0 *)((u8 *)arg0 - 0x18))->unk_2B == 0) * 2;
+        outcome = 1;
+        feedback_kind = (((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_2B == 0) * 2;
     }
-    var_v1 = temp_v1;
-    if (var_v1 != 0) {
-        if (var_v1 == 1) {
-            func_80099844(arg0, &D_800E1BDA);
+    feedback_or_result = feedback_kind;
+    if (feedback_or_result != 0) {
+        if (feedback_or_result == 1) {
+            func_80099844(entity, &D_800E1BDA);
         } else {
             func_800A6508();
         }
     }
-    temp_s16 = var_s1;
-    if (temp_s16 >= 0) {
-        goto nonnegative;
+    final_outcome = outcome;
+    if (final_outcome < 0) {
+        return 0;
     }
-    goto negative;
-negative:
-    return 0;
-nonnegative:
-    if (temp_s16 != 0) {
-        var_v1 = 1;
+    if (final_outcome != 0) {
+        feedback_or_result = 1;
     } else {
-        var_v1 = -1;
+        feedback_or_result = -1;
     }
-    return var_v1;
+    return feedback_or_result;
 }
