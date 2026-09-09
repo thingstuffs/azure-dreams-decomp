@@ -6,7 +6,6 @@
 
 extern s32 func_80033B2C();
 extern void *func_8009C390();
-extern void func_800A654C();
 extern s16 func_800C2AE8();
 extern void func_8008F01C();
 extern void func_8009B218();
@@ -44,23 +43,14 @@ void func_800A64C0(void) {
 
     if (func_80033B2C(0xD) != 0) {
         if (func_80033B2C(0xE) != 0) {
-            register u32 page_hi ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            u32 page;
-
             D_80100E24 = D_800D0D0C;
             D_80100E28 = D_800D0D30;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            page_hi = 0x80100000;
-            ASM_KEEP(page_hi);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            page = 0x260000;
-            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800A654C();
-            return;
+            D_80100E20 = 0x260000;
+        } else {
+            D_80100E24 = D_800D0CC4;
+            D_80100E28 = D_800D0CE8;
+            D_80100E20 = 0x1C0000;
         }
-
-        D_80100E24 = D_800D0CC4;
-        D_80100E28 = D_800D0CE8;
-        do { D_80100E20 = 0x1C0000; } while (0);
         temp_obj = func_8009C390(D_80083498, 0, D_800A6684, 0);
         if (temp_obj != NULL) {
             temp_s0 = *(s8 **)(temp_obj + 8);

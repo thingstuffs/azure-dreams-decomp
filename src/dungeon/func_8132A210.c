@@ -9,7 +9,6 @@ extern u8 D_80171704[];
 void *func_8003FD64();
 M2C_UNK func_8004491C();
 s32 func_80069EF8();
-void func_80171BE8(void) __attribute__((noreturn));
 extern DungeonTable D_8016A894;
 extern M2C_UNK D_801718E4;
 void func_80171A10(void *arg0, s32 arg1, s32 arg2, s32 unused, volatile s32 arg4)
@@ -72,12 +71,15 @@ void func_80171A10(void *arg0, s32 arg1, s32 arg2, s32 unused, volatile s32 arg4
       *((s32 *) (((s8 *) (*((void **) (((s8 *) temp_v0) + 8)))) + 0xC)) = (s32) (((func_80069EF8(temp_a0_2, temp_a1) & 0x7FFF) - 0x4000) << 7);
       temp_tail = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 7);
       temp_tail_base = *((void **) (((s8 *) temp_v0) + 8));
-      ASM_KEEP(temp_tail_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-      ASM_TAILSLOT_PIN(temp_tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      return func_80171BE8();
+      *((s32 *) (((s8 *) temp_tail_base) + 0x10)) = temp_tail;
     }
-    *((s32 *) (((s8 *) (*((void **) (((s8 *) temp_v0) + 8)))) + 0xC)) = (s32) (((func_80069EF8(temp_a0_2, temp_a1) & 0x7FFF) - 0x4000) << 6);
-    *((s32 *) (((s8 *) (*((void **) (((s8 *) temp_v0) + 8)))) + 0x10)) = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 6);
+    else
+    {
+      *((s32 *) (((s8 *) (*((void **) (((s8 *) temp_v0) + 8)))) + 0xC)) = (s32) (((func_80069EF8(temp_a0_2, temp_a1) & 0x7FFF) - 0x4000) << 6);
+      temp_tail = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 6);
+      temp_tail_base = *((void **) (((s8 *) temp_v0) + 8));
+      *((s32 *) (((s8 *) temp_tail_base) + 0x10)) = temp_tail;
+    }
     temp_value = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 5);
     {
       register u8 *tail_sp ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

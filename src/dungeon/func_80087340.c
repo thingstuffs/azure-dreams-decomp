@@ -8,7 +8,6 @@
 
 M2C_UNK func_80042B68();             /* extern */
 M2C_UNK func_80048A44(); /* extern */
-M2C_UNK func_8008CAEC();                      /* extern */
 M2C_UNK func_80094E34();                            /* extern */
 s32 func_800A6D30();                                /* extern */
 extern s16 D_80083228;
@@ -24,24 +23,22 @@ void func_8008CAA0(void *arg0, s32 arg1, void *arg2, void *arg3) {
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & mask) {
             register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
-            func_8008CAEC(arg2, D_800DCFE0);
+            table = D_800DCFE0;
 #else
             page = (u8 *) 0x800E0000;
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_8008CAEC(arg2, page - 0x3020);
+            table = page - 0x3020;
 #endif
-            return;
-        }
-    }
-    {
-        register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        } else {
+            register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
-        table = D_800DCFE8;
+            table = D_800DCFE8;
 #else
-        page = (u8 *) 0x800E0000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        table = page - 0x3018;
+            page = (u8 *) 0x800E0000;
+            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            table = page - 0x3018;
 #endif
+        }
     }
     (*(u8 **)((u8 *)arg2 + 0x2C)) = table;
     {

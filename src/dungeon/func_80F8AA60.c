@@ -23,7 +23,6 @@ extern void func_800A4ACC();
 extern void func_800A56E0();
 extern void func_800AD594();
 extern void func_800C8150();
-extern void func_80174510(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern s32 D_80083460;
@@ -51,6 +50,7 @@ void func_80174260(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *object;
     void *base;
     s32 effect;
+    s32 next_state;
 
     ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -110,12 +110,11 @@ state_zero:
         {
             register s32 end_timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            (void)*(volatile u8 *)((u8 *)p0 + 0x9B);
+            next_state = U8_AT(p0, 0x9B);
             end_timer = 0x1E;
             S16_AT(p0, 0x96) = end_timer;
         }
-        func_80174510();
-        return;
+        goto advance_state;
 state_one:
         effect = S32_AT(p3, 0x60);
         if (effect != 0) {
@@ -146,7 +145,9 @@ state_one:
         func_80047784(p2,
             D_80174B14[((D_80083228 + S16_AT(p3, 0x2A) + 0x100) >> 9) & 7],
             0);
-        U8_AT(p0, 0x9B)++;
+        next_state = U8_AT(p0, 0x9B);
+advance_state:
+        U8_AT(p0, 0x9B) = next_state + 1;
         return;
 state_two:
         if (U16_AT(p2, 0x14) & 0xE000) {

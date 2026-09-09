@@ -13,7 +13,6 @@ extern void func_800A6480(void *arg0);
 extern s32 func_800AD6FC(void *arg0, s32 arg1, s32 arg2);
 extern void func_800A5F38(void *arg0, s32 arg1);
 extern void func_80098B38(s32 arg0);
-extern s32 func_800BE57C(void *arg0);
 extern void func_800997FC(void *arg0);
 
 s32 func_800BE4E8(void *arg0, s32 arg1) {
@@ -27,10 +26,10 @@ s32 func_800BE4E8(void *arg0, s32 arg1) {
             return 1;
         }
         func_80098B38(arg1);
-        return func_800BE57C((void *)0x80080000);
+    } else {
+        func_800997FC(D_800E1035);
     }
 
-    func_800997FC(D_800E1035);
     D_80083460.unk0A -= 1;
     return 1;
 }

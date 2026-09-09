@@ -21,11 +21,8 @@ typedef struct S_800249FC_1 {
 
 
 extern s32 func_8002406C(s32 arg0);
-extern void func_80024A60(void) __attribute__((noreturn));
 extern s16 D_80025B60[5];
 extern s32 D_800814A0[3];
-
-static void *const keepalive[] = { (void *)func_80024A60 };
 
 void func_800249FC(void *arg0, s32 arg1, S_800249FC_0 *arg2) {
     s32 state;
@@ -39,18 +36,16 @@ void func_800249FC(void *arg0, s32 arg1, S_800249FC_0 *arg2) {
     D_80025B60[0] = 1;
 
     if (state >= 0x29) {
-        u32 tail_v0;
-
-        tail_v0 = arg2->unk_1E + 0xC8;
-        ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80024A60();
-    }
-
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (state < 0x15) {
-        value = arg2->unk_1E - 0xBE;
+        value = arg2->unk_1E + 0xC8;
         arg2->unk_1E = value;
         arg2->unk_1C = value;
+    } else {
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        if (state < 0x15) {
+            value = arg2->unk_1E - 0xBE;
+            arg2->unk_1E = value;
+            arg2->unk_1C = value;
+        }
     }
 
     result = func_8002406C(3);

@@ -37,7 +37,6 @@ extern s32 func_800A9A0C();
 extern s32 func_800BBA40();
 extern s32 func_8016A928();
 extern s32 func_8016BF74();
-extern void func_8016F128() __attribute__((noreturn));
 
 extern s16 D_80083228[];
 extern s32 D_80083460[];
@@ -90,15 +89,9 @@ s32 func_8016EF10(u8 *arg0, s32 arg1, u8 *arg2) {
         func_800A9A0C(actor);
         return 0;
 
-    case 8: {
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-
+    case 8:
         func_8016BF74(actor, arg1, entity, actor);
-        result = 0;
-        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8016F128();
         return 0;
-    }
 
     case 0x10:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_8017467C) {

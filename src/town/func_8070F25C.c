@@ -8,7 +8,7 @@ extern char D_8001D6B5[];
 extern char D_8001D7A5[];
 extern char D_800227FB[];
 
-extern char *func_80016E48(void);
+extern char *func_80016E48(s32);
 extern s32 func_8001A64C(u32);
 
 char *func_8001825C(s32 arg0, s32 arg1, s32 arg2)
@@ -39,7 +39,7 @@ L_case12:
     return D_8001D7A5;
 
 L_case52:
-    return func_80016E48();
+    return func_80016E48(selector);
 
 L_default:
     return D_8001B14C;

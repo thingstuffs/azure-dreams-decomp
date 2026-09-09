@@ -61,7 +61,6 @@ extern s32 rand(void);
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 extern void func_8003DB94(void *, void *, s32);
-extern s32 func_801739E0(void);
 
 extern u8 D_80045340;
 extern u8 D_800DEC70[];
@@ -121,18 +120,13 @@ void func_80173904(
         state->unk_40 = ((S_80173904_3 *)held_arg1)->unk_00;
         dispatch_result = ((S_80173904_3 *)held_arg1)->unk_04;
         state->unk_44 = dispatch_result;
-        dispatch_result = held_arg4 << 16;
-        ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        dispatch_result = func_801739E0();
-        do {
+        dispatch_result = (s16)held_arg4;
+        while (dispatch_result >= 0x1001) {
+            dispatch_result = work - 0x1000;
             work = dispatch_result;
             ASM_KEEP_NV(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             dispatch_result = (s16)dispatch_result;
-            if (dispatch_result < 0x1001) {
-                break;
-            }
-            dispatch_result = work - 0x1000;
-        } while (1);
+        }
 
         normalized = (s16)work;
         dispatch_result = func_80064584(normalized);
@@ -179,4 +173,3 @@ void func_80173904(
     }
 }
 
-extern s32 func_801739E0(void) __attribute__((noreturn));

@@ -15,7 +15,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *, s32);
 extern s32 func_8004A658(s32, s32);
 extern void func_800BC26C(void *, s32, s32, s32);
-extern void func_80174E18(void) __attribute__((noreturn));
 
 extern u8 D_80045340[9];
 extern u8 D_8006E240[9];
@@ -105,13 +104,15 @@ void func_80174D48(void *arg0, Rec_func_800AD058_arg2 *arg1, void *arg2)
         temp_s1->unk_1C = temp_half;
         temp_s2 = temp_s3;
         if ((*(u8 *)((u8 *)arg2 + 0x49)) == 0x12) {
-            tail_value = D_8006E240;
-            ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80174E18();
-        }
-        temp_s1->unk_08 =
-            func_8004A658((*(volatile u8 *)((u8 *)arg2 + 0x49)),
+            tail_value = (void *)0x80070000;
+            ASM_KEEP(tail_value); /* MATCH: Split the address so its low half fills the jump delay slot. */
+            tail_value = (u8 *)tail_value - 0x1DC0;
+        } else {
+            tail_value = (void *)func_8004A658((*(volatile u8 *)((u8 *)arg2 + 0x49)),
                           (*(u8 *)((u8 *)arg2 + 0x48)));
+        }
+        ASM_KEEP(tail_value); /* MATCH: Keep the merged value live at the shared store. */
+        temp_s1->unk_08 = (s32)tail_value;
         ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_byte = arg1->unk_24;
         ASM_KEEP(temp_byte);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */

@@ -12,7 +12,6 @@ extern u8 D_800274C0[];
 extern void func_8002590C(Entry *, s32);
 extern void func_800257D0(void *, s32);
 extern void func_800C9088(void *, s32, Entry *, s32);
-extern void func_80025AE4(void) __attribute__((noreturn));
 
 #ifndef NON_MATCHING
 register s32 volatile v0_carrier ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -36,25 +35,28 @@ s32 func_80025AAC(void *arg0, s32 arg1, Entry *arg2)
 #endif
     ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     i = 0;
-    ptr = base;
-    call_arg = entry;
-    do {
-        entry->field_8 = ptr;
-        ptr += 0x10;
-        ASM_KEEP(ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        func_8002590C((Entry *)call_arg, entry->field_4);
-        i++;
-        func_800257D0(state, entry->field_0);
-        func_800C9088(state, value, entry, entry->field_6);
+    for (;;) {
+        ptr = base;
         call_arg = entry;
+        do {
+            entry->field_8 = ptr;
+            ptr += 0x10;
+            ASM_KEEP(ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            func_8002590C((Entry *)call_arg, entry->field_4);
+            i++;
+            func_800257D0(state, entry->field_0);
+            func_800C9088(state, value, entry, entry->field_6);
+            call_arg = entry;
 #ifndef NON_MATCHING
-    } while ((v0_carrier = (i < 12)) != 0);
+        } while ((v0_carrier = (i < 12)) != 0);
 #else
-    } while (i < 12);
+        } while (i < 12);
 #endif
 
-    call_arg = *(void **)((u8 *)state - 8);
-    if (call_arg != 0) {
+        call_arg = *(void **)((u8 *)state - 8);
+        if (call_arg == 0) {
+            break;
+        }
         state = (u8 *)call_arg + 0x20;
         value = *(s32 *)((u8 *)call_arg + 8);
         entry = *(Entry **)((u8 *)call_arg + 0xC);
@@ -62,8 +64,6 @@ s32 func_80025AAC(void *arg0, s32 arg1, Entry *arg2)
         ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         i = 0;
-        ASM_TAILSLOT_PIN_TIED(i);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        func_80025AE4();
     }
     ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return 0;

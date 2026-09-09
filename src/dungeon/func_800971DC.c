@@ -41,7 +41,7 @@ extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 extern u8 *D_800E3D7C;
 
-extern s32 func_800A6D30(void);
+extern s32 func_800A6D30();
 extern void func_800C78A0(void *, s32, s32, s32, s32, s32);
 extern s32 func_8009A540(s32, s32, s32, s32);
 extern Ent *func_8009B25C(Ent *, s32, s32, s32);
@@ -64,11 +64,12 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
 #else
 #endif
     coord = coordArg + zero;
-    savedMult = mult;
+    savedMult = mult + zero;
     if (ent2 == 0) {
         if (a->flags1c & 0x400) {
             register s32 f ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
+            base = (u8 *)a - 0x20;
             f = a->flags14;
 
             if (f >= 0) {
@@ -76,7 +77,7 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
 
                 f |= 0x80000000;
                 a->flags14 = f;
-                nc = coordArg + ((func_800A6D30() & 7) << 9);
+                nc = coordArg + ((func_800A6D30(base, coord, coordArg, mult) & 7) << 9);
                 coord = nc + zero;
                 a->unk2a = nc;
             }

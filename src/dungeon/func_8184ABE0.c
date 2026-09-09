@@ -39,7 +39,6 @@ typedef struct S_800243E0_3 {
 
 
 
-extern void func_80024488(void) __attribute__((noreturn));
 extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
@@ -51,26 +50,26 @@ void *func_800243E0(S_800243E0_3 *arg0) {
     S_800243E0_1 *temp_s0;
     S_800243E0_0 *temp_v0;
     S_800243E0_2 *temp_v1;
+    register void *result ASM_REG("$2"); /* MATCH: Keep the merged return value in v0 for the shared epilogue. */
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 == 0) {
-        register void *zero ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-
-        ASM_TAILSLOT_PIN(zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80024488();
+        result = 0;
+    } else {
+        temp_v0->unk_10 = &D_80024374;
+        temp_s0 = temp_v0->unk_0C;
+        temp_s0->unk_0E = 0x80;
+        temp_s0->unk_0D = 0x80;
+        temp_s0->unk_0C = 0x80;
+        func_8003DB94(temp_s0, &D_800DE870, 0);
+        temp_s0->unk_1E = 0x2000;
+        temp_s0->unk_1C = 0x2000;
+        func_8004491C(temp_v0, &D_80045340);
+        temp_v1 = temp_v0->unk_08;
+        temp_v1->unk_02 = arg0->unk_02;
+        temp_v1->unk_06 = arg0->unk_06;
+        temp_v1->unk_0A = arg0->unk_0A;
+        result = temp_v0;
     }
-    temp_v0->unk_10 = &D_80024374;
-    temp_s0 = temp_v0->unk_0C;
-    temp_s0->unk_0E = 0x80;
-    temp_s0->unk_0D = 0x80;
-    temp_s0->unk_0C = 0x80;
-    func_8003DB94(temp_s0, &D_800DE870, 0);
-    temp_s0->unk_1E = 0x2000;
-    temp_s0->unk_1C = 0x2000;
-    func_8004491C(temp_v0, &D_80045340);
-    temp_v1 = temp_v0->unk_08;
-    temp_v1->unk_02 = arg0->unk_02;
-    temp_v1->unk_06 = arg0->unk_06;
-    temp_v1->unk_0A = arg0->unk_0A;
-    return temp_v0;
+    return result;
 }

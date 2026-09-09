@@ -5,7 +5,6 @@ extern void *func_8003FC64(s32 arg0);
 extern void *func_8003FD64(s32 arg0, s32 arg1);
 extern void func_8004DCE0(s32 arg0);
 extern void func_8004DCEC(void);
-extern s32 func_800AE360(void);
 extern void func_800AE414(void *arg0);
 extern s32 func_800B0214(void *arg0);
 extern s32 func_800B0718(void);
@@ -40,11 +39,10 @@ s32 func_800AE324(s32 arg0) {
 
     if (held_arg != 0) {
         object = func_8003FD64(0, held_arg);
-        ASM_TAILSLOT_PIN(object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_800AE360();
+    } else {
+        object = func_8003FC64(0);
     }
 
-    object = func_8003FC64(0);
     if (object != 0) {
         initializer = (void *)0x8001029C;
         state = (u8 *)object + 0x20;

@@ -4,7 +4,6 @@ extern void func_800A020C(void *, void *);
 extern void func_800478B8(void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_80042900(void *, s32);
-extern void func_800D5838(void);
 
 extern s32 D_800814A0;
 extern u8 D_80083160[];
@@ -115,7 +114,6 @@ void func_800D5594(void *arg0, void *arg1, void *arg2)
             U16(owner, -2) |= 0x8000;
             D_800814A0 |= 0x8000;
             U8(saved_effect, 0xB0)--;
-            func_800D5838();
             return;
         }
         if ((func_80042900(effect, 0xA) << 16) == 0) {

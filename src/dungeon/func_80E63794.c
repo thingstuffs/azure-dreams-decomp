@@ -8,7 +8,6 @@ extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_801730E4(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern s32 D_8008346C;
@@ -56,8 +55,7 @@ L0:
     ((S_80172F94_3 *)arg1)->unk_14 = 0;
     ((S_80172F94_3 *)arg1)->unk_10 = 0;
     ((S_80172F94_3 *)arg1)->unk_0C = 0;
-    func_801730E4();
-    return;
+    goto reset_state;
 
 L1:
     if ((s16)++((S_80172F94_0 *)arg0)->unk_96.u == 4 ||
@@ -71,6 +69,7 @@ L1:
     if (((S_80172F94_0 *)arg0)->unk_96.s == 7 ||
         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
+reset_state:
         ((S_80172F94_0 *)arg0)->unk_96.u = 0;
         ((S_80172F94_0 *)arg0)->unk_9B++;
         return;

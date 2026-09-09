@@ -9,7 +9,6 @@ extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_80173768(void) __attribute__((noreturn));
 extern s32 func_8017589C(void *, void *, void *);
 
 extern s16 D_80083228;
@@ -43,8 +42,12 @@ typedef struct S_801735BC_1 {
 
 
 
-void func_801735BC(void *arg0, void *arg1, void *arg2, void *arg3)
+void func_801735BC(void *incoming_arg0, void *incoming_arg1, void *incoming_arg2, void *arg3)
 {
+    /* MATCH: the local state join must retain arg0 in retail's s2. */
+    register void *arg0 ASM_REG("$18") = incoming_arg0;
+    void *arg1 = incoming_arg1;
+    void *arg2 = incoming_arg2;
     void *actor = arg3;
     u8 state;
     u16 flags;
@@ -72,8 +75,7 @@ L0:
     ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
     ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_80173768();
-    return;
+    goto Ladvance;
 
 L1:
     flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
@@ -106,6 +108,7 @@ L2:
         D_80175F68[((D_80083228 + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
+Ladvance:
     ((S_801735BC_0 *)arg0)->unk_9B++;
     return;
 

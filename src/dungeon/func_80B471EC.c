@@ -175,8 +175,6 @@ void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
-void func_80174DC0(void) __attribute__((noreturn));
-void func_80175094(void *) __attribute__((noreturn));
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80174954;
 extern M2C_UNK D_801749A8;
@@ -338,8 +336,7 @@ loop_9:
                     temp_tail = ((S_801749EC_1 *)state)->unk_06;
                     ((S_801749EC_1 *)state)->unk_0C = 0U;
                     ((S_801749EC_1 *)state)->unk_06 = temp_tail + 1;
-                    func_80174DC0();
-                    return;
+                    goto block_26;
                 }
                 goto block_26;
             }

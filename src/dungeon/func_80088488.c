@@ -5,7 +5,6 @@
 
 extern void func_80048A44(void *, u8, s32, s32);
 extern void func_8008D94C(void *, void *, void *, void *);
-extern void func_8008DCEC(void);
 extern s32 func_80094F74(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 
@@ -67,8 +66,8 @@ void func_8008DBE8(void *arg0, void *arg1, void *arg2, void *arg3) {
         mode = ((S_8008DBE8_0 *)status)->unk_04;
         if (D_80013714 & 8) {
             if (mode != 3) {
-                func_8008DCEC();
-                return;
+                ASM_SCHED_BARRIER(); /* MATCH: Keep the mode checks separate and jump to the shared update. */
+                goto continue_update;
             }
         } else if (mode != 6) {
             goto continue_update;

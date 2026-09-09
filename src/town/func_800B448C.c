@@ -25,7 +25,6 @@ extern void func_800B1B70(void *);
 extern void *func_800B1938(void *);
 extern void func_800B1B10(void *, s32, s32, s32);
 extern void func_8004491C(void *, void *);
-extern void func_800B1CD8(void) __attribute__((noreturn));
 extern void func_800B1890(void);
 
 extern u8 D_8004CAA0[];
@@ -53,15 +52,14 @@ void *func_800B1BEC(s32 arg0, s32 arg1, s32 arg2)
             func_800B1B10(part, arg0, arg1, arg2);
             func_8004491C(object, D_8004CAA0);
             ((S_800B1BEC_1 *)object)->unk_10 = func_800B1890;
-            func_800B1CD8();
+        } else {
+            func_8004B1A4(part->unk_08);
+            func_8004B1A4(part->unk_0C);
+            flags = ((S_800B1BEC_1 *)object)->unk_1E | 0x8000;
+            global_flags = D_800814A0 | 0x8000;
+            ((S_800B1BEC_1 *)object)->unk_1E = flags;
+            D_800814A0 = global_flags;
         }
-
-        func_8004B1A4(part->unk_08);
-        func_8004B1A4(part->unk_0C);
-        flags = ((S_800B1BEC_1 *)object)->unk_1E | 0x8000;
-        global_flags = D_800814A0 | 0x8000;
-        ((S_800B1BEC_1 *)object)->unk_1E = flags;
-        D_800814A0 = global_flags;
     }
     return object;
 }

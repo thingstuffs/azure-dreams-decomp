@@ -74,7 +74,8 @@ s32 func_800C08A4(u8 *arg0, u8 *arg1, s16 arg2, M2C_UNK arg3) {
     temp_s1 = arg0;
     if (arg2 == 0xD) {
         if (((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_2B == 0x16) {
-            if ((func_800A6D30() & 1) == 0) {
+            ASM_KEEP_NV(arg2); /* MATCH: retain the existing a2 value across the argument setup. */
+            if ((func_800A6D30(arg1, arg1, arg2, arg3) & 1) == 0) {
                 goto main_path;
             }
         }

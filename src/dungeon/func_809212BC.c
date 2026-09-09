@@ -22,7 +22,6 @@ typedef struct S_800F62BC_1 {
 
 
 s32 func_800644B8();                             /* extern */
-void func_800F6398(void) __attribute__((noreturn)); /* extern */
 extern s32 D_800814A0;
 extern u8 D_80173AF8;
 
@@ -45,7 +44,6 @@ void func_800F62BC(void *arg0, s32 arg1, void *arg2) {
         if (D_80173AF8 != 0) {
             ((S_800F62BC_0 *)state)->unk_02 = 0x20;
             ((S_800F62BC_0 *)state)->unk_00.u = (u16) (((S_800F62BC_0 *)state)->unk_00.u + 1);
-            func_800F6398();
         }
     } else {
         temp_v1_2 = ((S_800F62BC_1 *)actor)->unk_0C;

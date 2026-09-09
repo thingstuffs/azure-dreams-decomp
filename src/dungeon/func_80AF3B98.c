@@ -73,7 +73,6 @@ extern s32 func_800A56E0();
 extern s32 func_800ADC4C();
 extern s32 func_800C77D0();
 extern s32 func_80174F24();
-extern void func_801756FC() __attribute__((noreturn));
 
 
 typedef struct S_80175398_0_pre {
@@ -152,6 +151,7 @@ void func_80175398(void *arg0, void *arg1, Rec_D_80082E80 *arg2, void *arg3) {
     };
     u8 *var_s0 = D_80083160;
     u8 state;
+    u32 next_state;
 
     state = ((S_80175398_0 *)arg0)->unk_9B;
     if (state >= 9U) {
@@ -161,13 +161,8 @@ void func_80175398(void *arg0, void *arg1, Rec_D_80082E80 *arg2, void *arg3) {
     goto *D_80170908[state];
 
 jt_c0:
-    {
-        u32 next_state;
-
-        next_state = ((S_80175398_0 *)arg0)->unk_9B + 1;
-        ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    }
-    func_801756FC();
+    next_state = ((S_80175398_0 *)arg0)->unk_9B + 1;
+    goto store_next_state;
 
 jt_c1:
     func_80041588(D_801759F8, D_80175A80, 0);
@@ -269,7 +264,9 @@ jt_c4:
     }
     arg2->unk_14.at00_u16.v |= 0x80;
     ((S_80175398_0 *)arg0)->unk_96.u = 0;
-    ((S_80175398_0 *)arg0)->unk_9B++;
+    next_state = ((S_80175398_0 *)arg0)->unk_9B + 1;
+store_next_state:
+    ((S_80175398_0 *)arg0)->unk_9B = next_state;
     return;
 
 jt_c5:

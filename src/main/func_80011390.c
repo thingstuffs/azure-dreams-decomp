@@ -62,7 +62,6 @@ typedef struct S_80024390_4 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_800247B8();
 M2C_UNK func_8003AD08();
 M2C_UNK func_8004DA74();
 M2C_UNK func_8004E298();
@@ -82,7 +81,7 @@ void func_80024390(void *arg0) {
     u8 sp10[256];
     u8 sp110[16];
     s32 var_a3;
-    s32 *var_a2;
+    register s32 *var_a2 ASM_REG("$6"); /* MATCH: Keep the table cursor in retail's a2 after removing the label call. */
     s32 temp_s0_5;
     s32 temp_s4;
     s32 temp_s5;
@@ -106,7 +105,7 @@ void func_80024390(void *arg0) {
     S_80024390_2 *table_base;
     S_80024390_1 *temp_s3;
     void *temp_v0;
-    void *var_a1;
+    register void *var_a1 ASM_REG("$5"); /* MATCH: Keep the object cursor in retail's a1 so the loop count uses a0. */
     s32 *global_table;
 
     temp_s3 = ((S_80024390_0 *)arg0)->unk_B4C;
@@ -206,13 +205,11 @@ loop_7:
     temp_v0 = (void *)((u32)temp_v0 + (u32)loop_base);
     if (((S_80024390_3 *)temp_v0)->unk_30 & (one << var_a0_3)) {
         temp_v1 = *(volatile s32 *)var_a2;
-        func_800247B8(var_a0_3, var_a1, ++var_a2, var_a3);
-        return;
-    }
-    do {
+        var_a2 += 1;
+    } else {
         temp_v1 = global_table[8];
-    } while (0);
-    var_a2 += 1;
+        var_a2 += 1;
+    }
     var_a1 += 4;
     var_a0_3 += 1;
     temp_s3->unk_00.u = (s32) temp_v1;

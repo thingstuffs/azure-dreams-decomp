@@ -20,7 +20,6 @@ extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8009539C(void *);
-extern void func_800A360C(void *);
 
 extern u8 D_80045340[];
 extern u8 D_800A378C[];
@@ -30,8 +29,8 @@ extern s32 D_800D0B50[];
 
 void func_800A3508(void *arg0, void *arg1, Rec_D_80082E80 *arg2)
 {
-    u8 *obj = arg0;
-    s32 *vec = arg1;
+    register u8 *obj ASM_REG("$21") = arg0; /* MATCH: Preserve object register allocation across the shared tail. */
+    register s32 *vec ASM_REG("$20") = arg1; /* MATCH: Preserve vector register allocation across the shared tail. */
     register s32 color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 r3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 scale;
@@ -45,21 +44,26 @@ void func_800A3508(void *arg0, void *arg1, Rec_D_80082E80 *arg2)
     s32 *table1;
     s32 *table2;
 
-    table1 = D_800D0B50;
-    table2 = D_800D0B20;
-    color = 0x808080;
-    arg2->unk_0C.at00_s32.v = color;
-    fixed = 0x1000;
-    arg2->unk_1C.at02_s16.v = fixed;
-    arg2->unk_1C.at00_s16.v = fixed;
-    arg2->unk_08 = table1[((S_800A3508_1 *)obj)->unk_22];
-    arg2->unk_00 = 0;
-    arg2->unk_04.as_s8 = 0;
-    arg2->unk_05.as_s8 = 0;
+    {
+        register Rec_D_80082E80 *record ASM_REG("$4") = arg2; /* MATCH: Keep record initialization in the first call argument register. */
+        color = 0x808080;
+        fixed = 0x1000;
+        ASM_KEEP4(obj, vec, record, fixed); /* MATCH: Preserve entry register setup before initialization. */
+        table1 = D_800D0B50;
+        table2 = D_800D0B20;
+        record->unk_0C.at00_s32.v = color;
+        record->unk_1C.at02_s16.v = fixed;
+        record->unk_1C.at00_s16.v = fixed;
+        record->unk_08 = table1[((S_800A3508_1 *)obj)->unk_22];
+        record->unk_00 = 0;
+        record->unk_04.as_s8 = 0;
+        record->unk_05.as_s8 = 0;
 
-    value = table2[((S_800A3508_1 *)obj)->unk_22];
-    if (value != 0) {
-        func_8003DB94(arg2, value, 0);
+        value = table2[((S_800A3508_1 *)obj)->unk_22];
+        if (value != 0) {
+            func_8003DB94(record, value, 0);
+        }
+
     }
 
     func_8004491C(obj - 0x20, D_80045340);
@@ -68,14 +72,10 @@ void func_800A3508(void *arg0, void *arg1, Rec_D_80082E80 *arg2)
         value = func_800374F4(0x1000);
         r3 = 0x400;
         r1 = D_800D0B18[((S_800A3508_1 *)obj)->unk_22] + (value & 0xFFFF);
-        ASM_KEEP(r3);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(r1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        func_800A360C(D_800D0B18);
-        return;
+    } else {
+        r1 = func_800374F4(0x1000) & 0xFFFF;
+        r3 = func_800374F4(0x1000) & 0xFFFF;
     }
-
-    r1 = func_800374F4(0x1000) & 0xFFFF;
-    r3 = func_800374F4(0x1000) & 0xFFFF;
     angle = func_800374F4(0x1000) & 0xFFFF;
     value2 = angle + 0x1000;
     if (value2 < 0) {

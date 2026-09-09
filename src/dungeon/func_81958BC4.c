@@ -3,7 +3,6 @@
 
 
 extern s32 func_8003DE58(void *, void *, void *, s32);
-extern void func_80024450(void) __attribute__((noreturn));
 extern s32 func_80024ED4(void *);
 extern void func_8004491C(void *, void *);
 
@@ -83,9 +82,7 @@ void func_800243C4(void *arg0, Rec_func_800243C4_arg1 *arg1, S_800243C4_4 *arg2)
             if (func_8003DE58(temp_s0->unk_08, temp_s0,
                               (u8 *)arg0 + 0x24, 0) != 0) {
                 ((S_800243C4_0 *)arg0)->unk_2E = 1;
-                func_80024450();
-            }
-            if (temp_s0->unk_14 & 0x8000) {
+            } else if (temp_s0->unk_14 & 0x8000) {
                 ((S_800243C4_0 *)arg0)->unk_2E = 1;
                 ((S_800243C4_0 *)arg0)->unk_28.s = -0x40;
             }

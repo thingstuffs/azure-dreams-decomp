@@ -5,7 +5,6 @@
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 func_80065F90();             /* extern */
-M2C_UNK func_80095168();                         /* extern */
 extern M2C_UNK D_80000001;
 
 
@@ -61,16 +60,13 @@ void func_80095094(Rec_D_800E3D7C *arg0) {
             arg0->unk_0C.as_s32 = temp_v0_5;
             if (temp_v0_5 > 0) {
                 arg0->unk_0C.as_s32 = 0;
-                func_80095168(var_a0_2);
-                return;
             }
-            goto block_16;
+        } else {
+            arg0->unk_0C.as_s32 = temp_v0_4;
+            if (temp_v0_4 < 0) {
+                arg0->unk_0C.as_s32 = 0;
+            }
         }
-        arg0->unk_0C.as_s32 = temp_v0_4;
-        if (temp_v0_4 < 0) {
-            arg0->unk_0C.as_s32 = 0;
-        }
-block_16:
         temp_v0_6 = arg0->unk_10.at00_s32.v;
         if (temp_v0_6 < 0) {
             temp_v0_7 = temp_v0_6 + var_a0_2;

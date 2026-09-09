@@ -30,7 +30,6 @@ extern s32 func_80049330(ItemId *item);
 extern void *func_8004A784(s32 category, s32 index);
 extern void *func_8004A83C(s32 category, s32 index);
 extern char *strncpy(char *dst, const char *src, u32 count);
-extern void func_8002517C(void) __attribute__((noreturn));
 
 void func_800250B4(ItemResult *result, ItemId *item, void *data)
 {
@@ -45,8 +44,7 @@ void func_800250B4(ItemResult *result, ItemId *item, void *data)
         s32 tail_data;
 
         tail_data = func_80049330(item) + 52;
-        ASM_TAILSLOT_PIN(tail_data);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8002517C();
+        new_data = (void *)tail_data;
     } else {
         new_data = func_8004A784(item->category, item->index);
         if (new_data == 0) {

@@ -1,7 +1,6 @@
 #include "common.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s16 func_80042900(void *, s32);
-extern void func_800A1D34(void);
 extern s32 D_800835E8[];
 extern u8 *D_800E3D7C[];
 s32 func_800A1C58(void *a) {
@@ -13,15 +12,15 @@ s32 func_800A1C58(void *a) {
     u32 offset;
 
     if (F(a,s8,0x13) < 0) {
-        func_800A1D34();
+        ASM_SCHED_BARRIER(); /* MATCH: retain the shared early-zero return block. */
         return 0;
     }
     if (F(a,u8,0x11) >= 0x63) {
-        func_800A1D34();
+        ASM_SCHED_BARRIER(); /* MATCH: retain the shared early-zero return block. */
         return 0;
     }
     if ((func_80042900(a, 10) << 16) != 0) {
-        func_800A1D34();
+        ASM_SCHED_BARRIER(); /* MATCH: retain the shared early-zero return block. */
         return 0;
     }
     if (F(a,u32,0x1C) & 0x80000) {

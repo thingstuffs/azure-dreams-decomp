@@ -12,7 +12,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80175DA4(void *);
-extern void func_8017614C(void) __attribute__((noreturn));
 
 extern s32 D_800814A0;
 extern u8 D_80082E80[];
@@ -92,8 +91,7 @@ state_0:
             func_800A56E0(0x808);
         }
         if (((S_80176028_0 *)arg2)->unk_14 & 0xE000) {
-            func_8017614C();
-            return;
+            goto advance_state;
         }
         goto done;
     }
@@ -125,9 +123,11 @@ state_1:
         ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16 = saved_value;
         counter = (u8 *)&D_80083460;
         ((S_80176028_3 *)counter)->unk_0A--;
-        owner[0x9B]++;
-        return;
     }
+
+advance_state:
+    ((u8 *)arg0)[0x9B]++;
+    return;
 
 state_2:
     {

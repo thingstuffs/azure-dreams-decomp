@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
-void func_800199A8(void) __attribute__((noreturn)); /* extern */
 M2C_UNK Control_CD();       /* extern */
 M2C_UNK func_8003F320();                            /* extern */
 M2C_UNK func_8003F5E0();                         /* extern */
@@ -36,10 +35,6 @@ s32 func_80019894(s16 arg0) {
     temp_s0 = temp_v0 + (u8 *)&D_80080AF0;
     temp_a1 = arg0 + 1;
     if (*temp_s0 == temp_a1) {
-        s32 zero = 0;
-
-        ASM_TAILSLOT_PIN(zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800199A8();
         return 0;
     }
     SD_Call(0x72, temp_a1);

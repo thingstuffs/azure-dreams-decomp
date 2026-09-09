@@ -16,7 +16,6 @@ extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, s32, void *);
 
-extern void func_801718A4() __attribute__((noreturn));
 extern void func_801719C0(void *);
 extern void func_80171BE0(void *, void *, void *, void *);
 extern s32 func_80172330(void *, void *, void *, s32);
@@ -92,6 +91,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     u8 *entry;
     u8 *animation;
     s16 distance;
+    void *tail_arg;
 
     if (entry_status & 0x1000) {
         (*(u8 *)((u8 *)arg0 + (0x9A))) = 14;
@@ -183,7 +183,6 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
             }
 
             if (D_80013714 & 8) {
-                void *tail_arg;
                 u8 tail_flags;
 
                 func_80173D6C(arg0, arg1, arg2);
@@ -193,7 +192,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
                 ASM_KEEP(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 tail_flags &= 0x7F;
                 ((S_80171514_0 *)arg3)->unk_71 = tail_flags;
-                func_801718A4(tail_arg);
+                goto case_callback_tail;
             }
 
             if ((s16)func_80172330(arg0, arg1, arg2, 0) == 0) {
@@ -218,8 +217,10 @@ case_stop:
         return;
 
 case_callback:
+        tail_arg = arg3;
         (*(void * volatile *)((u8 *)arg0 + (0x8C))) = &D_80171514;
-        func_800A9A0C(arg3);
+case_callback_tail:
+        func_800A9A0C(tail_arg);
         ((S_80171514_0 *)arg3)->unk_46 &= 0x7FFF;
         return;
 

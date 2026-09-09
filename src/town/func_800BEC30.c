@@ -5,13 +5,12 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define VU16_AT(p, o) (*(volatile u16 *)((u8 *)(p) + (o)))
 
-extern void func_800BC424(void *, s32);
-
 void func_800BC390(void *arg0)
 {
     s32 state;
     s32 next;
     s32 value;
+    u16 increment;
 
     state = S16_AT(arg0, 0);
     next = U16_AT(arg0, 2) - 1;
@@ -43,11 +42,10 @@ state_0:
         goto done;
     }
     VU16_AT(arg0, 2) = 12;
-    (void)VU16_AT(arg0, 0);
+    increment = VU16_AT(arg0, 0);
     marker = 3;
     S16_AT(arg0, 0x14) = marker;
-    func_800BC424(arg0, next);
-    goto done;
+    goto advance_state;
 }
 
 state_1:
@@ -58,7 +56,9 @@ state_1:
     if (S16_AT(arg0, 2) > 0) {
         goto done;
     }
-    U16_AT(arg0, 0) = U16_AT(arg0, 0) + 1;
+    increment = U16_AT(arg0, 0);
+advance_state:
+    U16_AT(arg0, 0) = increment + 1;
     goto done;
 
 state_2:

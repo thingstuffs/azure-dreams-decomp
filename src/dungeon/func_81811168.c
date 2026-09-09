@@ -20,7 +20,6 @@ extern s32 func_80025D74(s32);
 extern void func_80026084(DungeonSub81811168 *, s32, s32, s32);
 extern void func_8004491C(DungeonObj81811168 *, void *);
 extern void func_80026314(DungeonObj81811168 *);
-extern void func_8002622C(void) __attribute__((noreturn));
 extern void func_8004B248(void *);
 extern u8 D_8004CAA0[9];
 extern s32 D_800814A0[3];
@@ -29,7 +28,6 @@ DungeonObj81811168 *func_80026168(s32 arg0, s32 arg1, s32 arg2)
 {
     DungeonObj81811168 *obj;
     DungeonSub81811168 *sub;
-    register DungeonObj81811168 *ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0);
     sub = &obj->sub20;
@@ -40,9 +38,6 @@ DungeonObj81811168 *func_80026168(s32 arg0, s32 arg1, s32 arg2)
             func_80026084(sub, arg0, arg1, arg2);
             func_8004491C(obj, D_8004CAA0);
             func_80026314(obj);
-            ret = obj;
-            ASM_TAILSLOT_PIN(ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8002622C();
         } else {
             func_8004B248((u8 *)obj + 0x78);
             obj->flags1E |= 0x8000;

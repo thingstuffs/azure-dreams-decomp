@@ -6,7 +6,6 @@ s32 func_8004A658();                          /* extern */
 M2C_UNK func_8008F0D4();   /* extern */
 M2C_UNK func_8009B218(); /* extern */
 M2C_UNK func_800A022C(); /* extern */
-void func_800A0390() __attribute__((noreturn));   /* extern */
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_8009DEBC;
@@ -77,6 +76,7 @@ void *func_800A027C(S_800A027C_5 *arg0, S_800A027C_2 *arg1) {
     S_800A027C_3 *temp_s1;
     S_800A027C_1 *temp_s2;
     void *temp_v0;
+    s32 tail_value;
 
     temp_v0 = func_8003FD64(0x136, &D_80083498);
     if (temp_v0 == NULL) {
@@ -104,15 +104,13 @@ void *func_800A027C(S_800A027C_5 *arg0, S_800A027C_2 *arg1) {
     if (temp_a0 == 0x12) {
         temp_s0->unk_0C = &D_800D0754;
         if (temp_a0 == temp_s0->unk_4D) {
-            void *tail_value;
-
-            tail_value = &D_8006E240;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800A0390();
-            return tail_value;
+            tail_value = (s32) &D_8006E240;
+            goto tail;
         }
     }
-    temp_s1->unk_08 = func_8004A658(temp_s0->unk_4D, temp_s0->unk_4C);
+    tail_value = func_8004A658(temp_s0->unk_4D, temp_s0->unk_4C);
+tail:
+    temp_s1->unk_08 = tail_value;
     ((S_800A027C_0 *)temp_v0)->unk_10 = &D_8009DEBC;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_800A022C(temp_s0, temp_s0, temp_s2, temp_s1);

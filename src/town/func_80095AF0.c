@@ -10,7 +10,6 @@ typedef struct {
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[9];
 
-extern void func_800932EC(void *);
 extern void func_80093D48(void *, TownObject *, void *);
 extern void func_80094C1C(void *);
 extern void func_80094C74(TownObject *);
@@ -33,7 +32,7 @@ void func_80093250(void *arg0, TownObject *arg1, void *arg2)
 
     if (arg1->field_A >= value) {
         func_80095A94(arg1, value, data);
-        func_800932EC(arg0);
+        func_80093D48(arg0, arg1, arg2);
         return;
     }
 
@@ -41,8 +40,7 @@ void func_80093250(void *arg0, TownObject *arg1, void *arg2)
         arg1->field_14 = 0;
         func_800954F4(arg1);
         func_80093D48(arg0, arg1, arg2);
-        return;
+    } else {
+        func_80095388(arg1);
     }
-
-    func_80095388(arg1);
 }

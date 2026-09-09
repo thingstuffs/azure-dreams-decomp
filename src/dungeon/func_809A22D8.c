@@ -9,7 +9,6 @@
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
-extern void func_80173C60() __attribute__((noreturn));
 extern s16 D_8006CCD8[8];
 extern s16 D_8006CCE8[8];
 extern s32 D_80083460[];
@@ -83,9 +82,7 @@ state_1:
     if (FIELD_S16(arg0, 0x96) > 0) {
         next_count = FIELD_U16(arg0, 0x96) - 1;
         FIELD_S16(arg0, 0x96) = next_count;
-        func_80173C60(second_value);
-    }
-    if (FIELD_U16(arg2, 0x14) & 0x6000) {
+    } else if (FIELD_U16(arg2, 0x14) & 0x6000) {
         FIELD_S16(arg0, 0x96) = 0;
     }
     if (FIELD_S16(arg0, 0x96) != 0) {

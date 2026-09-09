@@ -33,7 +33,6 @@ extern void func_800A5720(s32);
 extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
-extern s32 func_800BF9B0(void);
 extern void func_800C4D78(s32, s32);
 extern s32 func_800C4EB4(s32, s32, s32, s32, s32);
 
@@ -59,7 +58,6 @@ s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
     s32 value;
     u8 *message;
     register s32 call_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 index;
 
     if (arg2 == 13) {
@@ -104,11 +102,9 @@ s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
             func_80099290(func_80099194(message,
                                          value = call_value));
             func_800A5720(value);
-            page = 0x80080000;
-            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800BF9B0();
+        } else {
+            func_800997FC(D_800E1303);
         }
-        func_800997FC(D_800E1303);
     }
 
     D_80083460.field_A--;

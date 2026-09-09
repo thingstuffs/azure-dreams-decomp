@@ -8,7 +8,6 @@ extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_80173198() __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern s32 D_8008346C;
@@ -71,8 +70,7 @@ state_0:
     ((S_80173080_3 *)arg1)->unk_14 = 0;
     ((S_80173080_3 *)arg1)->unk_10 = 0;
     ((S_80173080_3 *)arg1)->unk_0C = 0;
-    func_80173198(arg3);
-    return;
+    goto advance_state;
 
 state_1:
     timer = ((S_80173080_0 *)arg0)->unk_96.u + 1;
@@ -84,6 +82,7 @@ state_1:
         func_80047784(arg2,
                      table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                      0);
+advance_state:
         ((S_80173080_0 *)arg0)->unk_96.u = 0;
         ((S_80173080_0 *)arg0)->unk_9B++;
         return;

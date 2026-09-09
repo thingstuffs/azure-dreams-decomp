@@ -24,10 +24,6 @@ extern u8 D_80027A9C[];
 
 extern Node8002BB08 *func_8004B4A8(Node8002BB08 *a0);
 extern Node8002BB08 *func_8003FE78(s32 a0, void *a1, s32 a2);
-/* Intentionally NOT noreturn: fallthrough to the shared success path keeps
- * `node = func_8003FE78(...)` live so gcc schedules `move $s0,$v0` into the
- * jal's delay slot. config/noreturn_syms.txt still drives LEAD 18 jal->j. */
-extern void func_80027B6C(void);
 extern void func_80027C90(void *a0);
 extern void bzero(void *a0, s32 a1);
 extern void func_80027A68(void *a0, s32 a1, s32 a2);
@@ -38,11 +34,11 @@ Node8002BB08 *func_80027AFC(s32 arg0, s32 arg1) {
 
     if (func_8004B4A8(node) == 0) {
         node = func_8003FE78(0, node, 25);
-        func_80027B6C();
+    } else {
+        func_80027C90(node);
+        node->field_1E &= 0x7FFF;
+        bzero(temp, 0x44);
     }
-    func_80027C90(node);
-    node->field_1E &= 0x7FFF;
-    bzero(temp, 0x44);
     D_80082E60[0xF] |= 0x80;
     func_80027A68(temp, arg0, arg1);
     node->field_10 = &D_80027A9C[0];

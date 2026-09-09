@@ -2,7 +2,6 @@
 
 extern s32 *func_8008FAC0(void *arg0, void *arg1);
 extern void func_800C3780(void *arg0, void *arg1, s32 arg2);
-extern void func_800C792C(void *arg0);
 extern void func_800C7C3C(void *arg0, void *arg1, s32 arg2);
 extern void func_800C7CAC(void *arg0, void *arg1, s32 arg2);
 
@@ -20,10 +19,7 @@ void func_800C78A8(void *arg0, void *arg1, s32 arg2) {
         if (state != 2) {
             if (state == 0) {
                 ((s32 *)arg1)[0] -= entry[1];
-                func_800C792C(entry);
-                return;
-            }
-            if (state == 1) {
+            } else if (state == 1) {
                 ((s32 *)arg1)[1] -= entry[1];
             }
             func_800C7C3C(arg0, arg1, arg2);

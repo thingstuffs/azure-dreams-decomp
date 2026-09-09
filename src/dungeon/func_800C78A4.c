@@ -71,7 +71,7 @@ extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(s32);
 extern void func_800A56E0(s32);
 extern void func_800A6508(s32, s32, s32, s32);
-extern s32 func_800A6D30(void);
+extern s32 func_800A6D30(void *, s32, s32, s32);
 
 extern u8 D_80045340;
 extern u8 D_80083460[];
@@ -81,7 +81,7 @@ extern u8 D_800DFD0C[];
 extern u8 D_800DFD30[];
 extern u8 D_800E3D40;
 
-s32 func_800CD004(void *arg0)
+s32 func_800CD004(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     s32 random;
     s32 numerator;
@@ -102,9 +102,10 @@ s32 func_800CD004(void *arg0)
     s32 table_delta;
     s32 result;
     u8 *counter;
+    register void *call_object ASM_REG("$4"); /* MATCH: Set the first argument in the allocation guard delay slot. */
 
     if (D_800E3D40 == 0) {
-        random = func_800A6D30();
+        random = func_800A6D30(arg0, arg1, arg2, arg3);
         divisor = ((S_800CD004_0 *)arg0)->unk_03;
         if (divisor != 0) {
             numerator = (u16)random;
@@ -124,8 +125,10 @@ s32 func_800CD004(void *arg0)
         if (object == NULL) {
             goto return_object;
         }
-        ((S_800CD004_1 *)object)->unk_10 = &D_800CCDA0;
-        func_8004491C(object, &D_80045340);
+        call_object = object;
+        value = (s32)&D_800CCDA0; /* MATCH: Reuse the v0 pin to preserve initializer emission order. */
+        ((S_800CD004_1 *)object)->unk_10 = (void *)value;
+        func_8004491C(call_object, &D_80045340);
 
         map = ((S_800CD004_0_pre *)arg0)[-1].unk_00;
         first_coord = map->unk_24;
@@ -167,17 +170,20 @@ s32 func_800CD004(void *arg0)
     }
 
     if (((S_800CD004_0 *)arg0)->unk_13 == 0) {
-        /* PASSTHRU (audit `need` = $a3): retail forwards this row's incoming
-           $a3 straight through the call, so the site must NOT be spelled with
-           empty parentheses.  The forwarded value lives in $a3 already; the
-           pins name it (and the o32 positions before it) without emitting a
-           byte.  decomp_issues.md sections 20-22. */
+        /* PASSTHRU (audit `need` = $a3): retail forwards the current $a3
+           through this call. The existing pins name the registers here,
+           after the earlier RNG call may have clobbered them.
+           decomp_issues.md sections 20-22. */
         s32 fa0;
         register s32 fa1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         register s32 fa2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         register s32 fa3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
         ASM_SET(fa0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        /* MATCH: Bound the existing register pins to this call after the RNG clobbers them. */
+        ASM_SET(fa1);
+        ASM_SET(fa2);
+        ASM_SET(fa3);
         func_800A6508(fa0, fa1, fa2, fa3);
     }
     result = 1;

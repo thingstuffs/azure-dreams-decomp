@@ -12,11 +12,15 @@ extern char D_80022694[];
 extern s32 func_8001A8EC(s32);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
-extern char *func_80016E48(void);
+extern char *func_80016E48(s32, s32, s32, s32);
 
-char *func_80017C08(s32 arg0, s32 arg1, s32 arg2)
+char *func_80017C08(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     register s32 selector ASM_REG("$4") = arg2;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    /* MATCH: Keep the pass-through arguments in their incoming registers across computed-goto labels. */
+    register s32 passthru1 ASM_REG("$5") = arg1;
+    register s32 passthru2 ASM_REG("$6") = arg2;
+    register s32 passthru3 ASM_REG("$7") = arg3;
     u32 index;
     void **table;
     u32 page;
@@ -116,7 +120,7 @@ L8:
     return (char *)(page - 0x3930);
 
 L12:
-    return func_80016E48();
+    return func_80016E48(selector, passthru1, passthru2, passthru3);
 
 Ldefault:
     page = 0x80020000;

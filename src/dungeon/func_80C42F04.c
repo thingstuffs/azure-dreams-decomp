@@ -45,7 +45,6 @@ extern s32 func_800A56E0();
 extern s32 func_800ADC4C();
 extern s32 func_800C77D0();
 extern void func_80174374();
-extern void func_80174A84() __attribute__((noreturn));
 
 
 typedef struct S_80174704_0_pre {
@@ -147,6 +146,7 @@ void func_80174704(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void 
     u8 *var_s0 = D_80083160;
     u32 color;
     u8 state;
+    s32 next;
 
     state = ((S_80174704_0 *)arg0)->unk_9B;
     if (state >= 9U) {
@@ -157,10 +157,8 @@ void func_80174704(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void 
 
 jt_c0:
     {
-        s32 next;
         next = ((S_80174704_0 *)arg0)->unk_9B + 1;
-        ASM_TAILSLOT_PIN(next);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80174A84();
+        goto store_next;
     }
 
 jt_c1:
@@ -265,7 +263,9 @@ jt_c4:
     }
     arg2->unk_14.at00_u16.v |= 0x80;
     ((S_80174704_0 *)arg0)->unk_96.u = 0;
-    ((S_80174704_0 *)arg0)->unk_9B++;
+    next = ((S_80174704_0 *)arg0)->unk_9B + 1;
+store_next:
+    ((S_80174704_0 *)arg0)->unk_9B = next;
     return;
 
 jt_c5:

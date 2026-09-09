@@ -10,7 +10,6 @@ extern s32 func_800A2B5C();
 extern void func_800C7930();
 extern void func_80047784();
 extern void func_8009C93C();
-extern void func_80172050(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern u16 D_80083462;
@@ -31,12 +30,11 @@ void func_80171F90(void *arg0, s32 arg1, void *arg2, void *arg3)
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0x17;
             ((Rec_D_800E3D7C *)arg3)->unk_84.as_s8 = 0x10;
             ((Rec_D_800E3D7C *)arg3)->unk_85.as_s8 = 0x10;
-            func_80172050();
+        } else {
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0x11;
+            ((Rec_D_800E3D7C *)arg3)->unk_84.as_s8 = 0x7C;
+            ((Rec_D_800E3D7C *)arg3)->unk_85.as_s8 = 0;
         }
-
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0x11;
-        ((Rec_D_800E3D7C *)arg3)->unk_84.as_s8 = 0x7C;
-        ((Rec_D_800E3D7C *)arg3)->unk_85.as_s8 = 0;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_8017386C;
         func_80047784(arg2,

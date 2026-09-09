@@ -16,7 +16,6 @@ typedef struct {
 
 extern void func_800478B8(s32 arg0);
 extern void func_8003DB94(s32 arg0, void *arg1, s32 arg2);
-extern void func_800BD92C(s32 arg0, void *arg1);
 extern s32 D_800814A0;
 extern s32 D_800E9E14[];
 extern s32 D_800E9E34[];
@@ -33,10 +32,10 @@ void func_800BD898(Actor *arg0, Motion *arg1, s32 arg2) {
     arg0->counter = temp_v0;
     if (temp_v0 == 0) {
         if (arg1->dz < 0) {
-            func_800BD92C(arg2, D_800E9E34);
-            return;
+            func_8003DB94(arg2, D_800E9E34, 0);
+        } else {
+            func_8003DB94(arg2, D_800E9E14, 0);
         }
-        func_8003DB94(arg2, D_800E9E14, 0);
     }
     if (arg1->dx == 0) {
         *(u16 *)((u8 *)arg0 - 2) |= 0x8000;

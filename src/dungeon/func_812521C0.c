@@ -5,7 +5,6 @@ extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
 extern s16 func_800A0818();
-extern void func_80171B5C() __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern u16 D_80083462;
@@ -96,30 +95,28 @@ void func_801719C0(void *arg0, s32 arg1, void *arg2, void *arg3)
         ((S_801719C0_2 *)arg0)->unk_92 += 0x20;
         ((S_801719C0_0 *)arg3)->unk_88 = v88 - 0x20;
         ((S_801719C0_0 *)arg3)->unk_8A.u++;
-        func_80171B5C(entry);
-        return;
+    } else {
+        old_x = ((S_801719C0_1 *)arg2)->unk_24;
+        old_y = ((S_801719C0_1 *)arg2)->unk_25;
+        mode = 0x3000;
+        if (((S_801719C0_0 *)arg3)->unk_1C & 0x2000) {
+            mode = 0x300;
+        }
+        func_8009A3D0(old_x, old_y, mode);
+
+        ((S_801719C0_1 *)arg2)->unk_24 =
+            ((S_801719C0_4 *)((u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s))->unk_74;
+        ((S_801719C0_1 *)arg2)->unk_25 =
+            ((S_801719C0_4 *)((u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s))->unk_7C;
+        ((S_801719C0_0 *)arg3)->unk_8A.u++;
+
+        func_8009A21C(((S_801719C0_1 *)arg2)->unk_24, ((S_801719C0_1 *)arg2)->unk_25,
+                      (((S_801719C0_0 *)arg3)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+
+        ((S_801719C0_0 *)arg3)->unk_2A =
+            func_800A0818(old_x, old_y, ((S_801719C0_1 *)arg2)->unk_24,
+                          ((S_801719C0_1 *)arg2)->unk_25, (u8 *)arg0 + 0x98);
     }
-
-    old_x = ((S_801719C0_1 *)arg2)->unk_24;
-    old_y = ((S_801719C0_1 *)arg2)->unk_25;
-    mode = 0x3000;
-    if (((S_801719C0_0 *)arg3)->unk_1C & 0x2000) {
-        mode = 0x300;
-    }
-    func_8009A3D0(old_x, old_y, mode);
-
-    ((S_801719C0_1 *)arg2)->unk_24 =
-        ((S_801719C0_4 *)((u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s))->unk_74;
-    ((S_801719C0_1 *)arg2)->unk_25 =
-        ((S_801719C0_4 *)((u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s))->unk_7C;
-    ((S_801719C0_0 *)arg3)->unk_8A.u++;
-
-    func_8009A21C(((S_801719C0_1 *)arg2)->unk_24, ((S_801719C0_1 *)arg2)->unk_25,
-                  (((S_801719C0_0 *)arg3)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-
-    ((S_801719C0_0 *)arg3)->unk_2A =
-        func_800A0818(old_x, old_y, ((S_801719C0_1 *)arg2)->unk_24,
-                      ((S_801719C0_1 *)arg2)->unk_25, (u8 *)arg0 + 0x98);
     ((S_801719C0_2 *)arg0)->unk_9A = 0xF;
     ((S_801719C0_2 *)arg0)->unk_8C = 0;
     (*(s32 *)((u8 *)arg3 + (0x1C))) |= 0x40000000;

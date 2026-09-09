@@ -13,7 +13,6 @@ typedef struct {
     s16 pad;
 } Cell;
 
-extern void func_80026264() __attribute__((noreturn));
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
@@ -134,11 +133,10 @@ void func_80026010(void) {
                 if ((i - ((rounded >> 5) << 5)) < 0x10) {
                     FIELD(dst, s32, 0x50) = D_80026470;
                     FIELD(dst, s32, 0x54) = D_80026474;
-                    func_80026264(dst);
-                    return;
+                } else {
+                    FIELD(dst, s32, 0x54) = D_80026470;
+                    FIELD(dst, s32, 0x50) = D_80026474;
                 }
-                FIELD(dst, s32, 0x54) = D_80026470;
-                FIELD(dst, s32, 0x50) = D_80026474;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 SET_COUNT_PAGE();
             }

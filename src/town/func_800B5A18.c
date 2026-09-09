@@ -17,7 +17,6 @@ typedef struct S_800B3178_4 {
 
 s32 func_8004AC3C();                   /* extern */
 s32 func_8004DC14();                        /* extern */
-M2C_UNK func_800B3290();                            /* extern */
 
 typedef struct S_800B3178_0 {
     s32 unk_00;
@@ -59,13 +58,12 @@ loop_1:
             *((S_800B3178_1 *)(*var_s0))->unk_04 = var_s5;
             ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_01 = var_s5;
             ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_02 = var_s5;
-            func_800B3290();
-            return;
+        } else {
+            *((S_800B3178_1 *)(*var_s0))->unk_04 = var_s4;
+            ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_01 = var_s4;
+            ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_02 = var_s4;
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
-        *((S_800B3178_1 *)(*var_s0))->unk_04 = var_s4;
-        ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_01 = var_s4;
-        ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_02 = var_s4;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         var_s0 = (void **)((s8 *)((void **)((s8 *)var_s0 + 4)));
         var_s3 += 1;
         var_s1 = (void **)((s8 *)((void **)((s8 *)var_s1 + 4)));

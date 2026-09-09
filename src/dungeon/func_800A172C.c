@@ -9,7 +9,6 @@ typedef struct {
 } Entity;
 
 s32 func_8009FB34();
-void func_800A6FFC();
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
@@ -47,7 +46,6 @@ u32 func_800A6E8C(Entity *arg0, s32 arg1, s16 *arg2, s16 *arg3) {
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (arg0->kind < 0) {
-        func_800A6FFC();
         return 0;
     }
     var_s5 = 0x100;

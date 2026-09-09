@@ -56,6 +56,7 @@ s32 func_80095854(void *arg0_in, s32 arg1, void *arg2_in, s32 arg3_in) {
     void *temp_v1;
 
     var_s1 = 0;
+    ASM_KEEP(arg0); /* MATCH: Keep the saved pointer distinct so the explicit argument stays in incoming a0. */
     ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v1 = ((S_80095854_0 *)arg0)->unk_124;
@@ -68,7 +69,7 @@ s32 func_80095854(void *arg0_in, s32 arg1, void *arg2_in, s32 arg3_in) {
         ASM_KEEP(temp_cmp);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         var_s1 = temp_cmp;
     }
-    func_80094E34();
+    func_80094E34(arg0_in);
     (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = &D_800DD130;
     func_80048A44(arg2, *((((s32) (D_80083228 + ((S_80095854_0 *)arg0)->unk_2A + 0x100) >> 9) & 7) + &D_800DD130), 0, 1);
     D_80082EB0 = arg3;

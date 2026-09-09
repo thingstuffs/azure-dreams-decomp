@@ -17,7 +17,6 @@ typedef struct {
 
 extern u16 func_800C2B38(void *arg0);
 extern void func_800C4174(void *arg0, void *arg1, s32 arg2);
-extern void func_800C40A4(void) __attribute__((noreturn));
 
 void func_800C3FFC(void *arg0, void *arg1, s32 arg2) {
     Position *pos;
@@ -34,23 +33,21 @@ void func_800C3FFC(void *arg0, void *arg1, s32 arg2) {
         pos->x = work->target_x << 16;
         pos->y = work->target_y << 16;
         func_800C4174(work, pos, arg2);
-        func_800C40A4();
-        return;
-    }
+    } else {
+        {
+            s32 value;
 
-    {
-        s32 value;
+            value = pos->x;
+            pos->x = value +
+                ((work->target_x << 16) - value) / remaining;
+        }
+        {
+            s32 value_y;
 
-        value = pos->x;
-        pos->x = value +
-            ((work->target_x << 16) - value) / remaining;
-    }
-    {
-        s32 value_y;
-
-        value_y = pos->y;
-        *(volatile s32 *)&pos->y = value_y +
-            ((work->target_y << 16) - value_y) / (s16)work->count;
+            value_y = pos->y;
+            *(volatile s32 *)&pos->y = value_y +
+                ((work->target_y << 16) - value_y) / (s16)work->count;
+        }
     }
 
     {

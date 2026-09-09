@@ -72,13 +72,12 @@ extern void func_800419EC(u16, u32);
 extern void func_80099C58(s16, s16, s16, s16, s32);
 extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A56E0(s32);
-extern void func_801747B8(void) __attribute__((noreturn));
 
 void func_801745BC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     register void *node ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     OffsetTable offsets = D_80170884;
-    void *head = node;
+    register void *head ASM_REG("$18") = node; /* MATCH: keep head in s2 after the shared loop tail makes it live across both arms. */
     register void *owner ASM_REG("$17") = head;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 key1 ASM_REG("$23") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register void *saved = ((S_801745BC_0_pre *)head)[-1].unk_04;
@@ -131,7 +130,6 @@ void func_801745BC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
                         (s16)(((S_801745BC_5 *)position)->unk_0A - 0x20),
                         ((S_801745BC_4 *)owner)->unk_14,
                         (s32)(s16)angle);
-                    func_801747B8();
                 } else {
                     func_8009C12C(owner, saved,
                         (s16)((S_801745BC_4 *)owner)->unk_2A, 1);

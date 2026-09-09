@@ -8,7 +8,6 @@ typedef struct {
 } Vec3s32;
 
 extern s16 func_8008CA20();
-extern void func_80096424(void) __attribute__((noreturn));
 extern void *D_800D0410[3];
 extern s32 D_800FE5CC[3];
 
@@ -35,15 +34,13 @@ s32 func_80096368(Vec3s32 *arg0) {
         magnitude = -magnitude;
     }
     if (magnitude <= limit) {
-        Vec3s32 *tail_arg = &pos;
-        s32 tail_value = (s16)first;
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80096424();
-    }
-    pos.x = arg0->x - (delta / 2);
-    second = func_8008CA20(&pos, D_800D0410[0], 6, delta);
-    if (second >= first) {
         second = first;
+    } else {
+        pos.x = arg0->x - (delta / 2);
+        second = func_8008CA20(&pos, D_800D0410[0], 6, delta);
+        if (second >= first) {
+            second = first;
+        }
     }
     return second;
 }

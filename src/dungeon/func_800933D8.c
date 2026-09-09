@@ -24,7 +24,7 @@ extern DungeonState *D_800E3D7C[];
 extern u8 D_800E3548[];
 extern DungeonRecord D_800E36C8[];
 
-extern s16 func_8009904C(void);
+extern s16 func_8009904C(s32 *);
 extern void func_800A86DC(s16);
 extern s16 func_800422A8(s32 *, u8 *, s32, s32);
 extern void func_8009A3D0(u8, u8, s32);
@@ -33,7 +33,7 @@ void func_80098B38(s32 *arg0) {
     s16 result;
     if (arg0 != 0) {
         *arg0 = 0;
-        result = func_8009904C();
+        result = func_8009904C(arg0);
         if (result >= 0) {
             func_800A86DC(result);
             return;

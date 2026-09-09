@@ -31,7 +31,6 @@ typedef struct MainObj {
     s32 arg0;
 } MainObj;
 
-extern void func_800242C0(void) __attribute__((noreturn));
 extern MainObj *func_8003FC64(u32);
 extern void func_8003DB94(SubObj *, void *, s32);
 extern void func_8004491C(MainObj *, void *);
@@ -43,36 +42,33 @@ MainObj *func_800241F8(s32 arg0, VecObj *arg1) {
     MainObj *obj = func_8003FC64(530);
     SubObj *sub;
     VecObj *vec;
+    register MainObj *rv ASM_REG("$2"); /* MATCH: keep the shared return value in v0 across both arms. */
 
     if (obj == 0) {
-        register MainObj *rv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-
         rv = 0;
-        ASM_TAILSLOT_PIN(rv);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800242C0();
-        return rv;
+    } else {
+        obj->callback = D_8002417C;
+        sub = obj->sub;
+        obj->arg0 = arg0;
+        sub->b = 128;
+        sub->g = 128;
+        sub->r = 128;
+        func_8003DB94(sub, D_800DEC70, 0);
+
+        sub->unk1E = 4096;
+        sub->unk1C = 4096;
+        sub->unk12 = 0x7E09;
+        sub->unk14 |= 0x100;
+        func_8004491C(obj, D_80045340);
+
+        vec = obj->vec;
+        vec->unk2 = arg1->unk2;
+        vec->unk6 = arg1->unk6;
+        vec->unkA = arg1->unkA;
+
+        rv = obj;
     }
-
-    obj->callback = D_8002417C;
-    sub = obj->sub;
-    obj->arg0 = arg0;
-    sub->b = 128;
-    sub->g = 128;
-    sub->r = 128;
-    func_8003DB94(sub, D_800DEC70, 0);
-
-    sub->unk1E = 4096;
-    sub->unk1C = 4096;
-    sub->unk12 = 0x7E09;
-    sub->unk14 |= 0x100;
-    func_8004491C(obj, D_80045340);
-
-    vec = obj->vec;
-    vec->unk2 = arg1->unk2;
-    vec->unk6 = arg1->unk6;
-    vec->unkA = arg1->unkA;
-
-    return obj;
+    return rv;
 }
 
 /* MECHANISM: retail parks a DEAD `move v0,zero` (the `return NULL` value of the

@@ -6,7 +6,6 @@ extern s32 func_80099194(u8 *, s32);
 extern void func_80099290(s32);
 extern s32 func_8009929C(s32, s32);
 extern void func_800A5720(s32);
-extern void __attribute__((noreturn)) func_8016AB64(void);
 
 extern s32 D_800814A0;
 extern u8 D_80083160[];
@@ -65,9 +64,7 @@ state_0:
         base[0xA8] -= 4;
         fade_a9 = base[0xA9] - 4;
         fade_aa = base[0xAA] - 4;
-        ASM_KEEP(fade_a9);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(fade_aa);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_8016AB64();
+        goto store_fades;
     }
     ((S_8016A9FC_0 *)arg0)->unk_12.u = state_arg + 1;
     ((S_8016A9FC_0 *)arg0)->unk_1A = 0;
@@ -102,8 +99,11 @@ state_2:
     ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if ((u32)(value & 0xFF) < 0x80) {
         base[0xA8] = value + 4;
-        base[0xA9] += 4;
-        base[0xAA] += 4;
+        fade_a9 = base[0xA9] + 4;
+        fade_aa = base[0xAA] + 4;
+store_fades:
+        base[0xA9] = fade_a9;
+        base[0xAA] = fade_aa;
         return;
     }
        /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

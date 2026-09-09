@@ -19,7 +19,6 @@ typedef struct S_8001A200_2 {
 
 
 M2C_UNK func_8001A188();     /* extern */
-M2C_UNK func_8001A2BC();                            /* extern */
 extern void *D_80016000[3];
 extern u8 D_8001791C[96];
 
@@ -56,25 +55,21 @@ loop_3:
         temp_a0 = (*(s32 *)((u8 *)var_s1 + 0xB));
         if ((temp_v1 == temp_a0) || ((temp_v1 == 6) && (temp_a0 == 0x64))) {
             func_8001A188(var_s0, var_a1, var_a2, var_a3);
-            func_8001A2BC();
-            var_s1 += 0x14;
-            ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return;
-        }
-        var_a1 += 4;
-        var_a3 += 1;
-        var_a2 += 0xC;
-        if (var_a3 >= 8) {
-            var_s1 += 0x14;
-            var_s0 += 0x14;
-            final_status = *var_s1;
-            final_mask = 0x80;
-            if ((final_status & 0xC0) == final_mask) {
-            } else {
-                goto loop_2;
-            }
         } else {
-            goto loop_3;
+            var_a1 += 4;
+            var_a3 += 1;
+            var_a2 += 0xC;
+            if (var_a3 < 8) {
+                goto loop_3;
+            }
+        }
+        var_s1 += 0x14;
+        var_s0 += 0x14;
+        final_status = *var_s1;
+        final_mask = 0x80;
+        if ((final_status & 0xC0) == final_mask) {
+        } else {
+            goto loop_2;
         }
     }
 }

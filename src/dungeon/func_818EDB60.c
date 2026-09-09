@@ -30,7 +30,6 @@ typedef struct S_80025360_2 {
 
 
 extern s32 func_80024A5C();
-extern void func_80025598() __attribute__((noreturn));
 typedef struct Rect {
     s16 x;
     s16 y;
@@ -71,7 +70,7 @@ void func_80025360(void *arg0, void *arg1, void *arg2)
     temp_v1 = ((S_80025360_0 *)obj)->unk_00;
     if (temp_v1 != 0) {
         if (temp_v1 != 1) {
-            func_80025598();
+            ASM_SCHED_BARRIER(); /* MATCH: keep the early exit as a jump to the shared epilogue. */
             return;
         }
         rect_x = 0x340;

@@ -24,7 +24,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171344(void) __attribute__((noreturn));
 extern void func_8017139C(void);
 extern void func_801715F4(void *, void *, void *, void *);
 extern s32 func_80171DA0(void *, void *, void *, void *);
@@ -78,6 +77,7 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
     void *p2;
     register void *p3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *table;
+    register u8 *state ASM_REG("$5"); /* MATCH: both paths supply the shared tail table in a1. */
     s32 result;
     s32 scratch;
     u32 initial_flags = D_80083462;
@@ -103,12 +103,8 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
     if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
         if (((S_80170E54_2 *)arg2)->unk_2C != D_80173CDC) {
-#ifdef __mips__
-            register void *state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             state = D_80173CD4;
-            ASM_TAILSLOT_PIN(state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-#endif
-            func_80171344();
+            goto update_table;
         }
         return;
     }
@@ -298,8 +294,11 @@ ordinary_cleanup:
         return;
     }
     ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    state = table;
+update_table:
+    table = state;
     (*(void * *)((u8 *)arg2 + (0x2C))) = table;
     func_80047784(arg2,
-        ((((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + table)[0],
+        *(u8 *)((u32)(((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)table),
         0);
 }

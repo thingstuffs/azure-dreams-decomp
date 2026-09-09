@@ -40,7 +40,6 @@ typedef struct S_80024130_3 {
 
 
 
-extern s32 func_80024204();
 extern s32 func_8003DB94();
 extern void *func_8003FC64();
 extern s32 func_8004491C();
@@ -81,13 +80,14 @@ s32 func_80024130(s32 arg0, S_80024130_3 *arg1)
         temp_v1_2->unk_02 = arg1->unk_02;
         temp_v1_2->unk_06 = arg1->unk_06;
         temp_a0 = arg1->unk_0A;
-        ASM_KEEP(temp_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_SCHED_BARRIER(); /* MATCH: keep the object-result move after the halfword loads. */
         temp_ret = temp_v0;
         ASM_KEEP(temp_ret);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         temp_v1_2->unk_0A = temp_a0;
-        return func_80024204(temp_a0);
+    } else {
+        temp_ret = 0;
     }
-    return 0;
+    return (s32)temp_ret;
 }
 
 /* MECHANISM: The 0x28 frame follows from holding arg0/arg1 and the two object bases in s3/s2/s1/s0.

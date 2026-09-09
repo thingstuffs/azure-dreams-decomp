@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80024354(void) __attribute__((noreturn));
 M2C_UNK func_8003DB94();
 void *func_8003FC64();
 M2C_UNK func_8004491C();
@@ -50,27 +49,27 @@ void *func_800242A0(s32 arg0, S_800242A0_3 *arg1) {
     S_800242A0_1 *temp_s0;
     S_800242A0_0 *temp_v0;
     S_800242A0_2 *temp_v1;
+    register void *result ASM_REG("$2"); /* MATCH: Merge both return values in retail's v0 register. */
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 == NULL) {
-        register void *zero ASM_REG("$2") = NULL;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-
-        ASM_TAILSLOT_PIN(zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80024354();
+        result = NULL;
+    } else {
+        temp_v0->unk_10 = &D_80024224;
+        temp_s0 = temp_v0->unk_0C;
+        temp_v0->unk_2C = arg0;
+        temp_s0->unk_0E = 0x80;
+        temp_s0->unk_0D = 0x80;
+        temp_s0->unk_0C = 0x80;
+        func_8003DB94(temp_s0, &D_800DE8E8, 0);
+        temp_s0->unk_1E = 0x1000;
+        temp_s0->unk_1C = 0x1000;
+        func_8004491C(temp_v0, &D_80045340);
+        temp_v1 = temp_v0->unk_08;
+        temp_v1->unk_02 = (u16)arg1->unk_02;
+        temp_v1->unk_06 = (u16)arg1->unk_06;
+        temp_v1->unk_0A = (u16)arg1->unk_0A;
+        result = temp_v0;
     }
-    temp_v0->unk_10 = &D_80024224;
-    temp_s0 = temp_v0->unk_0C;
-    temp_v0->unk_2C = arg0;
-    temp_s0->unk_0E = 0x80;
-    temp_s0->unk_0D = 0x80;
-    temp_s0->unk_0C = 0x80;
-    func_8003DB94(temp_s0, &D_800DE8E8, 0);
-    temp_s0->unk_1E = 0x1000;
-    temp_s0->unk_1C = 0x1000;
-    func_8004491C(temp_v0, &D_80045340);
-    temp_v1 = temp_v0->unk_08;
-    temp_v1->unk_02 = (u16)arg1->unk_02;
-    temp_v1->unk_06 = (u16)arg1->unk_06;
-    temp_v1->unk_0A = (u16)arg1->unk_0A;
-    return temp_v0;
+    return result;
 }

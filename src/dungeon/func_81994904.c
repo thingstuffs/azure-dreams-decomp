@@ -73,7 +73,6 @@ extern u8 D_80045340[];
 extern s32 D_800814A0;
 extern void *D_800814A8;
 
-extern void func_800241C8(void) __attribute__((noreturn));
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_800B8FC8(void *, Rect16 *, void *, s32, s32);
@@ -103,13 +102,6 @@ void func_80024104(void *arg0) {
             src += sizeof(PackedBlock);
             dst += sizeof(PackedBlock);
         } while (src != end);
-        {
-            register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            page = 0x80020000;
-            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800241C8();
-        }
     } else {
         end = src + sizeof(RectTable);
         do {

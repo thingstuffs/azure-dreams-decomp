@@ -4,8 +4,6 @@
 typedef s32 M2C_UNK;
 
 extern M2C_UNK func_80048A44();
-extern s32 func_8008C730();
-extern void func_8008c798(void) __attribute__((noreturn));
 extern M2C_UNK func_80099844();
 extern s32 func_8009B5AC();
 extern M2C_UNK func_8009F644();
@@ -85,39 +83,39 @@ s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, Rec_D_800E
             if (!(((S_8008C5C4_3 *)temp_v0)->unk_14 & 0x80000)) {
                 arg0->unk_11C = temp_v0;
                 arg0->unk_124 = 0;
-                return func_8008C730(temp_v0);
-            }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            state_value = *(s32 *)0x80012090;
-            if (state_value == 1) {
+            } else {
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                temp_v1_2 = ((S_8008C5C4_3 *)temp_v0)->unk_13;
-                if ((temp_v1_2 == 0x39) || (temp_v1_2 == 2)) {
-                    if (D_80083170[0] & 0x40) {
-                        func_800A56E0(0x506);
-                        func_80099844(arg0->unk_124, &D_800E0495);
-                        tail_result = 0;
-                    } else {
-                        tail_result = 0;
+                state_value = *(s32 *)0x80012090;
+                if (state_value == 1) {
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    temp_v1_2 = ((S_8008C5C4_3 *)temp_v0)->unk_13;
+                    if ((temp_v1_2 == 0x39) || (temp_v1_2 == 2)) {
+                        if (D_80083170[0] & 0x40) {
+                            func_800A56E0(0x506);
+                            func_80099844(arg0->unk_124, &D_800E0495);
+                            tail_result = 0;
+                        } else {
+                            tail_result = 0;
+                        }
+                        ASM_KEEP(tail_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                        tail_page = 0x80080000;
+                        ASM_KEEP(tail_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                        ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
+                        tail_page = 0x80090000;
+                        ASM_KEEP(tail_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                        tail_page -= 0x5324;
+                        arg0->unk_124 = 0;
+                        arg0->unk_8C.p = (void *)tail_page;
+                        return;
                     }
-                    ASM_KEEP(tail_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                    tail_page = 0x80080000;
-                    ASM_KEEP(tail_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
-                    tail_page = 0x80090000;
-                    ASM_KEEP(tail_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    tail_page -= 0x5324;
-                    arg0->unk_124 = 0;
-                    arg0->unk_8C.p = (void *)tail_page;
-                    return;
                 }
+                temp_a3 = arg0->unk_124;
+                ((S_8008C5C4_5 *)temp_a3)->unk_1C |= 0x80000;
+                arg3->unk_1C.as_s32 |= 0x100000;
+                ((S_8008C5C4_6 *)(arg0->unk_124))->unk_60 = arg3;
+                func_8009F644(arg3, 0x20, 0, 0);
+                func_800A56E0(0x511);
             }
-            temp_a3 = arg0->unk_124;
-            ((S_8008C5C4_5 *)temp_a3)->unk_1C |= 0x80000;
-            arg3->unk_1C.as_s32 |= 0x100000;
-            ((S_8008C5C4_6 *)(arg0->unk_124))->unk_60 = arg3;
-            func_8009F644(arg3, 0x20, 0, 0);
-            func_800A56E0(0x511);
             arg0->unk_9A = 0x1B;
             arg0->unk_9B = 0;
             arg0->unk_8C.p = 0;
@@ -130,8 +128,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, Rec_D_800E
                                  7],
                 0, 1);
             tail_result = 1;
-            ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8008c798();
+            return tail_result;
         }
         return var_v0;
     }

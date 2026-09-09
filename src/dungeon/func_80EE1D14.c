@@ -8,7 +8,6 @@ extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_8017373C() __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern s32 D_8008346C;
@@ -38,6 +37,8 @@ typedef struct S_80173514_2 {
 void func_80173514(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     u8 state;
+    void *call_a0;
+    void *call_a1;
     static void *const keepalive[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
 
     state = ((S_80173514_0 *)arg0)->unk_9B;
@@ -48,12 +49,12 @@ void func_80173514(void *arg0, void *arg1, void *arg2, void *arg3)
 
 L0:
     {
-    register void *call_a0 ASM_REG("$4") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    call_a0 = arg3;
     if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         ((S_80173514_0 *)arg0)->unk_9B = 4;
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-        func_8017373C(call_a0, arg2);
-        return;
+        call_a1 = arg2;
+        ((Rec_D_80082E80 *)call_a1)->unk_14.at00_u16.v |= 0x6000;
+        goto call_tail;
     }
     ((S_80173514_2 *)arg1)->unk_14 = 0;
     ((S_80173514_2 *)arg1)->unk_10 = 0;
@@ -98,9 +99,12 @@ L3:
         ((S_80173514_0 *)arg0)->unk_9B++;
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
     }
+    call_a0 = arg3;
     if (((S_80173514_0 *)arg0)->unk_96.s == 1 ||
         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+        call_a1 = arg2;
+call_tail:
+        func_8009C12C(call_a0, call_a1, ((Rec_D_800E3D7C *)call_a0)->unk_2A.as_s16, 1);
         return;
     }
     return;

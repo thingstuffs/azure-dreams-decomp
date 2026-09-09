@@ -1,12 +1,12 @@
 #include "common.h"
 
 extern s16 func_8009FB34(s32, s32);
-extern void func_800A0060(void) __attribute__((noreturn));
 extern u16 D_8006CCD8[];
 extern u16 D_8006CCE8[];
 
 s32 func_8009FFD4(u8 *arg0, s16 *arg1) {
     s32 i = 0;
+    s32 rv;
     u16 *x = D_8006CCE8;
     u16 *y = D_8006CCD8;
     do {
@@ -19,23 +19,16 @@ s32 func_8009FFD4(u8 *arg0, s16 *arg1) {
             goto next;
         }
         *arg1 = i << 9;
-        {
-            s32 rv;
-            rv = 1;
-            ASM_TAILSLOT_PIN(rv);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_800A0060();
-            return rv;
-        }
+        rv = 1;
+        goto done;
 next:
         i++;
         y++;
     } while (i < 8);
-    {
-        s32 rv;
-        rv = 0;
-        ASM_KEEP(rv);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        return rv;
-    }
+    rv = 0;
+done:
+    ASM_KEEP(rv); /* MATCH: merge both return values before the shared epilogue. */
+    return rv;
 }
 
 /* MECHANISM: The two symbol bases stay live as s2/s1, producing the 0x28 frame and

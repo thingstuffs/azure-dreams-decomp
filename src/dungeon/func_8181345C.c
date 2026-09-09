@@ -6,7 +6,6 @@ extern s32 func_80027FCC(s32);
 extern void func_8002823C(void *, s32, s32);
 extern void func_8004491C(void *, void *);
 extern void func_80028620(void *);
-extern void func_80028514(void) __attribute__((noreturn));
 extern void func_8004B248(void *);
 extern u8 D_8004CAA0[];
 extern s32 D_800814A0[];
@@ -29,7 +28,6 @@ void *func_8002845C(s32 arg0, s32 arg1)
 {
     Obj8181345C *obj;
     Sub8181345C *sub;
-    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0);
     sub = &obj->sub;
@@ -40,15 +38,12 @@ void *func_8002845C(s32 arg0, s32 arg1)
             func_8002823C(sub, arg0, arg1);
             func_8004491C(obj, D_8004CAA0);
             func_80028620(obj);
-            result = obj;
-            ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80028514();
-            return obj;
+        } else {
+            func_8004B248((u8 *)obj + 0xAC);
+            obj->flags |= 0x8000;
+            obj = 0;
+            D_800814A0[0] |= 0x8000;
         }
-        func_8004B248((u8 *)obj + 0xAC);
-        obj->flags |= 0x8000;
-        obj = 0;
-        D_800814A0[0] |= 0x8000;
     }
     return obj;
 }

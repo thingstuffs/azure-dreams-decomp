@@ -33,7 +33,6 @@ typedef struct Object {
 extern Object *func_8003FC64(s32);
 extern s32 rand(void);
 extern void func_8004491C(void *, void *);
-extern void func_800241B8() __attribute__((noreturn));
 
 extern u8 D_80024024[];
 extern u8 D_80024E88[];
@@ -76,19 +75,8 @@ void *func_800240CC(void *arg0, Copy24 *arg1, s16 arg2)
         do { dst = obj->dst; } while (0);
         result = obj;
         ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        copy_a0 = arg1->word[0];
-        copy_a1 = arg1->word[1];
-        copy_a2 = arg1->word[2];
-        copy_a3 = arg1->word[3];
-        dst->word[0] = copy_a0;
-        dst->word[1] = copy_a1;
-        dst->word[2] = copy_a2;
-        dst->word[3] = copy_a3;
-        copy_a0 = arg1->word[4];
-        copy_a1 = arg1->word[5];
-        dst->word[4] = copy_a0;
-        dst->word[5] = copy_a1;
-        func_800241B8(copy_a0, copy_a1, copy_a2, copy_a3);
+        *dst = *arg1;
+        return result;
     }
     return 0;
 }

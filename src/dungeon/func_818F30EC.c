@@ -72,7 +72,6 @@ extern u8 D_80083160[];
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern void func_80024944() __attribute__((noreturn));
 
 s32 func_800248EC(void *arg0, void *arg1)
 {
@@ -102,76 +101,78 @@ s32 func_800248EC(void *arg0, void *arg1)
     scratch->ot = (u32 *)(ctx + 0xB0);
     scratch->cursor = initial_next;
     ASM_KEEP(initial_next);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    packet = *(Packet800248EC *volatile *)&scratch->cursor;
-    scratch->x = ((S_800248EC_1 *)input)->unk_02;
-    scratch->y = ((S_800248EC_1 *)input)->unk_06;
-    scratch->z = ((S_800248EC_1 *)input)->unk_0A;
-    scratch->cursor = (u8 *)packet + 0xC;
-    scratch->index = func_80065420(scratch, (u8 *)packet + 8,
-                                  &scratch->xy, &scratch->depth);
+    for (;;) {
+        packet = *(Packet800248EC *volatile *)&scratch->cursor;
+        scratch->x = ((S_800248EC_1 *)input)->unk_02;
+        scratch->y = ((S_800248EC_1 *)input)->unk_06;
+        scratch->z = ((S_800248EC_1 *)input)->unk_0A;
+        scratch->cursor = (u8 *)packet + 0xC;
+        scratch->index = func_80065420(scratch, (u8 *)packet + 8,
+                                      &scratch->xy, &scratch->depth);
 
-    if (scratch->index < 0x1E0U) {
-        ((S_800248EC_2 *)packet)->unk_04.at00.v = ((S_800248EC_3 *)cur)->unk_08;
+        if (scratch->index < 0x1E0U) {
+            ((S_800248EC_2 *)packet)->unk_04.at00.v = ((S_800248EC_3 *)cur)->unk_08;
 
-        value = (s32)packet->r * ((S_800248EC_3 *)cur)->unk_32;
-        if (value < 0) {
-            value += 0x7F;
-        }
-        packet->r = value >> 7;
+            value = (s32)packet->r * ((S_800248EC_3 *)cur)->unk_32;
+            if (value < 0) {
+                value += 0x7F;
+            }
+            packet->r = value >> 7;
 
-        value = (s32)packet->g * ((S_800248EC_3 *)cur)->unk_32;
-        if (value < 0) {
-            value += 0x7F;
-        }
-        packet->g = value >> 7;
+            value = (s32)packet->g * ((S_800248EC_3 *)cur)->unk_32;
+            if (value < 0) {
+                value += 0x7F;
+            }
+            packet->g = value >> 7;
 
-        value = (s32)packet->b * ((S_800248EC_3 *)cur)->unk_32;
-        if (value < 0) {
-            value += 0x7F;
-        }
-        packet->b = value >> 7;
+            value = (s32)packet->b * ((S_800248EC_3 *)cur)->unk_32;
+            if (value < 0) {
+                value += 0x7F;
+            }
+            packet->b = value >> 7;
 
-        call_arg0 = 0;
-        call_arg1 = 1;
-        ((S_800248EC_2 *)packet)->unk_03 = 2;
-        ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        packet_code = 0x6A;
-        ASM_KEEP(packet_code);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        call_arg2 = call_arg0;
-        ((S_800248EC_2 *)packet)->unk_04.at03.v = packet_code;
-        packet->tag = (packet->tag & high_mask) |
-                      (scratch->ot[scratch->index] & low_mask);
-        {
-            u32 old_tag = scratch->ot[scratch->index];
-            register u32 packet_mask ASM_REG("$2") =
-                (u32)packet & low_mask;
+            call_arg0 = 0;
+            call_arg1 = 1;
+            ((S_800248EC_2 *)packet)->unk_03 = 2;
+            ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            packet_code = 0x6A;
+            ASM_KEEP(packet_code);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            call_arg2 = call_arg0;
+            ((S_800248EC_2 *)packet)->unk_04.at03.v = packet_code;
+            packet->tag = (packet->tag & high_mask) |
+                          (scratch->ot[scratch->index] & low_mask);
+            {
+                u32 old_tag = scratch->ot[scratch->index];
+                register u32 packet_mask ASM_REG("$2") =
+                    (u32)packet & low_mask;
 
+                scratch->ot[scratch->index] =
+                    (old_tag & high_mask) | packet_mask;
+                ASM_KEEP(packet_mask);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            }
+
+            packet2 = (Packet800248EC *)scratch->cursor;
+            scratch->cursor = (u8 *)packet2 + 0xC;
+            value = func_80066460(call_arg0, call_arg1, call_arg2, call_arg0);
+            func_80067F20(packet2, 0, 0, (u16)value, 0);
+
+            packet2->tag = (packet2->tag & high_mask) |
+                           (scratch->ot[scratch->index] & low_mask);
             scratch->ot[scratch->index] =
-                (old_tag & high_mask) | packet_mask;
-            ASM_KEEP(packet_mask);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                (scratch->ot[scratch->index] & high_mask) |
+                ((u32)packet2 & low_mask);
         }
 
-        packet2 = (Packet800248EC *)scratch->cursor;
-        scratch->cursor = (u8 *)packet2 + 0xC;
-        value = func_80066460(call_arg0, call_arg1, call_arg2, call_arg0);
-        func_80067F20(packet2, 0, 0, (u16)value, 0);
+        next = ((S_800248EC_3_pre *)cur)[-1].unk_00;
+        if (next != 0) {
+            cur = (u8 *)next + 0x20;
+            input = ((S_800248EC_4 *)next)->unk_08;
+            ASM_KEEP(cur);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            continue;
+        }
 
-        packet2->tag = (packet2->tag & high_mask) |
-                       (scratch->ot[scratch->index] & low_mask);
-        scratch->ot[scratch->index] =
-            (scratch->ot[scratch->index] & high_mask) |
-            ((u32)packet2 & low_mask);
-    }
-
-    next = ((S_800248EC_3_pre *)cur)[-1].unk_00;
-    if (next != 0) {
-        cur = (u8 *)next + 0x20;
-        input = ((S_800248EC_4 *)next)->unk_08;
-        ASM_KEEP(cur);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        final_ctx = (u8 *)scratch;
-        ASM_TAILSLOT_PIN(final_ctx);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_80024944(final_ctx);
+        break;
     }
 
     ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

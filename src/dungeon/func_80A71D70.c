@@ -36,7 +36,6 @@ extern void func_8009A21C(s32, s32, s32);
 extern void func_8009A3D0(s32, s32, s32);
 extern s16 func_8009A66C(s16, void *, void *, s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
-extern void func_80171738(void) __attribute__((noreturn));
 extern void func_80171EFC(void *, s32, void *, void *);
 
 extern s16 D_80083228;
@@ -100,16 +99,13 @@ void func_80171570(void *arg0, s32 arg1, void *arg2, void *arg3) {
     func_8009A21C(a24, a25, mode);
     ((S_80171570_0 *)state)->unk_2A = next;
 
-    if (result == 3) {
-        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-            func_80171EFC(arg0, arg1, arg2, state);
-            ((S_80171570_2 *)arg0)->unk_8C = 0;
-            return func_80171738();
-        }
+    if (result == 3 && !(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+        func_80171EFC(arg0, arg1, arg2, state);
+        ((S_80171570_2 *)arg0)->unk_8C = 0;
+    } else {
+        ((S_80171570_2 *)arg0)->unk_9A = 0x0F;
+        ((S_80171570_2 *)arg0)->unk_8C = 0;
     }
-
-    ((S_80171570_2 *)arg0)->unk_9A = 0x0F;
-    ((S_80171570_2 *)arg0)->unk_8C = 0;
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
     if (D_80083462 & 0x80) {
         ((S_80171570_2 *)arg0)->unk_96 = 0;

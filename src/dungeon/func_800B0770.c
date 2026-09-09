@@ -5,7 +5,6 @@ extern s8 D_8006CCE8;
 extern u8 D_800E3648[];
 
 extern s16 func_800B500C(s32, s32, s16);
-extern s32 func_800B5F70(void);
 
 s32 func_800B5ED0(s32 arg0, s32 arg1, u32 arg2, s16 arg3) {
     s32 index;
@@ -30,12 +29,8 @@ s32 func_800B5ED0(s32 arg0, s32 arg1, u32 arg2, s16 arg3) {
         flags = record[3];
         if (!(flags & 0x40)) {
             if (flags & 0x80) {
-                register s32 tail_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-
                 record[3] = flags & 0x7F;
-                tail_result = result;
-                ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                return func_800B5F70();
+                return result;
             }
         }
     }

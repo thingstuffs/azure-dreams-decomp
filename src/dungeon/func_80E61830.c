@@ -14,7 +14,6 @@ typedef struct {
 } Obj2;
 
 extern s32 D_800814A0[3];
-extern void func_8017106C(void) __attribute__((noreturn));
 
 void func_80171030(Obj0 *arg0, s32 unused, Obj2 *arg2)
 {
@@ -23,15 +22,11 @@ void func_80171030(Obj0 *arg0, s32 unused, Obj2 *arg2)
     value = arg0->count - 1;
     arg0->count = value;
     if ((s16)value >= 5) {
-        u32 tail_value;
-
-        tail_value = arg2->value1E + 0x200;
-        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_8017106C();
-        return;
+        value = arg2->value1E + 0x200;
+    } else {
+        value = arg2->value1E - 0x200;
     }
 
-    value = arg2->value1E - 0x200;
     arg2->value1E = value;
     arg2->value1C = value;
 

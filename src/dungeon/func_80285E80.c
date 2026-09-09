@@ -43,12 +43,6 @@ extern s32 D_800E296C[3];
 extern u8 D_800E3648[12];
 extern u8 D_800E39C8[12];
 
-extern void func_80018EF0(void) __attribute__((noreturn));
-extern void func_80019068(void) __attribute__((noreturn));
-extern void func_80019118(void) __attribute__((noreturn));
-extern void func_800193A4() __attribute__((noreturn));
-extern void func_80019490(void) __attribute__((noreturn));
-extern void func_80019494(void) __attribute__((noreturn));
 extern void func_800194C4(s16 arg0);
 extern void func_80019648(void);
 extern s32 func_80019684(s16 arg0, s32 arg1, s32 arg2);

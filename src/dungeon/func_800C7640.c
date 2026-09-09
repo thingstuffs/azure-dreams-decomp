@@ -39,7 +39,6 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8009CE1C(s32, s32, s32, s32, s32, s32, s32);
 extern void func_800A56E0(s32);
-extern void func_800CCFB4(void);
 
 extern s32 D_800814A0;
 extern u8 D_80083160[];
@@ -81,8 +80,6 @@ void func_800CCDA0(void *arg0, void *arg1, void *arg2)
             ((S_800CCDA0_3 *)arg2)->unk_14 |= 0xC;
             ((S_800CCDA0_0 *)arg0)->unk_06.s = 12;
             ((S_800CCDA0_0 *)arg0)->unk_04.u++;
-            func_800CCFB4();
-            return;
         }
     } else {
         u16 angle;

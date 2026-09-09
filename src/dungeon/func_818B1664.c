@@ -102,7 +102,7 @@ extern s16 D_8006CCE8[8];
 extern LargeScalar D_800814A0;
 extern s32 D_8008346C[3];
 
-extern void func_800240EC(void);
+extern void func_800240EC(u8 *, u8 *, DrawInfo *);
 extern s32 func_8003DE58(void *, void *, s16 *, s32);
 extern void func_8004491C(void *, void *);
 extern void func_80024DF4(void);
@@ -245,7 +245,7 @@ case_0:
         i--;
         effectCursorClear -= 4;
     } while (i >= 0);
-    func_800240EC();
+    func_800240EC(angleCursorClear, angleCursorInit, arg2);
     colorValue = 0x00808080;
     directionValue = (entity->flags2A >> 9) & 7;
     state->direction = directionValue;

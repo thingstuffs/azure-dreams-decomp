@@ -8,7 +8,6 @@
 
 extern s32 func_8009539C(void *);
 extern s32 func_8009EB9C();
-extern s32 func_8009F0E8();
 extern s32 func_8009F148();
 extern s32 func_800C0C88();
 extern s32 D_80083780[];
@@ -62,13 +61,13 @@ void func_8009EF88(void *arg0, s32 arg1, void *arg2, s32 arg3) {
                     *temp_a0 = 0;
                 }
                 D_800D09C8[0] = 0;
-                func_8009F0E8(temp_a0);
-                return;
-            }
-            (*(s32 *)((u8 *)((temp_s1 * 4)) + (0x80010980))) = 0;
-            temp_a0_2 = ((Rec_D_800CFCB4 *)arg0)->unk_98;
-            if (temp_a0_2 != NULL) {
-                *temp_a0_2 = 0;
+                temp_a0_2 = temp_a0;
+            } else {
+                (*(s32 *)((u8 *)((temp_s1 * 4)) + (0x80010980))) = 0;
+                temp_a0_2 = ((Rec_D_800CFCB4 *)arg0)->unk_98;
+                if (temp_a0_2 != NULL) {
+                    *temp_a0_2 = 0;
+                }
             }
             func_800C0C88(temp_a0_2);
             return;

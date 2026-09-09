@@ -29,7 +29,6 @@ typedef struct S_800A6994_4 {
 
 M2C_UNK func_8009BFD8();
 M2C_UNK func_800A6328();
-M2C_UNK func_800A6A6C();
 M2C_UNK func_800C2E84();
 extern u8 D_80083498[];
 extern s32 D_80083780;
@@ -56,15 +55,14 @@ void func_800A6994(void *arg0, M2C_UNK arg1, void *arg2, M2C_UNK arg3) {
         tail_value = ((Rec_func_80094268_arg0 *)arg0)->unk_72.as_u16;
         tail_value += 0x200;
         tail_value &= 0xFC00;
-        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800A6A6C();
-        return;
+    } else {
+        temp_v0_2 = &D_80083780;
+        ((Rec_D_800E3D7C *)arg2)->unk_00.at00_s32.v = D_80083780;
+        ((Rec_D_800E3D7C *)arg2)->unk_04.at00_s32.v = ((S_800A6994_4 *)temp_v0_2)->unk_04;
+        ((Rec_D_800E3D7C *)arg2)->unk_08.at00_s32.v = ((S_800A6994_4 *)temp_v0_2)->unk_08;
+        tail_value = ((S_800A6994_0 *)temp_a0)->unk_38;
     }
-    temp_v0_2 = &D_80083780;
-    ((Rec_D_800E3D7C *)arg2)->unk_00.at00_s32.v = D_80083780;
-    ((Rec_D_800E3D7C *)arg2)->unk_04.at00_s32.v = ((S_800A6994_4 *)temp_v0_2)->unk_04;
-    ((Rec_D_800E3D7C *)arg2)->unk_08.at00_s32.v = ((S_800A6994_4 *)temp_v0_2)->unk_08;
-    ((Rec_func_80094268_arg0 *)arg0)->unk_72.as_u16 = ((S_800A6994_0 *)temp_a0)->unk_38;
+    ((Rec_func_80094268_arg0 *)arg0)->unk_72.as_u16 = tail_value;
 }
 
 /* MECHANISM: A held byte-pointer base for D_80083498 forces the retail two-register la,

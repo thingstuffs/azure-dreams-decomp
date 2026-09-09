@@ -31,7 +31,6 @@ typedef struct S_80021E88_4 {
 
 
 
-extern void func_80021F18() __attribute__((noreturn));
 extern s32 func_800A2A18(void *, void *);
 extern u32 D_80012D5C;
 extern u8 D_800243F0[];
@@ -55,10 +54,9 @@ void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_
     if (D_80012D5C >= 100U) {
         if (func_800A2A18(D_800243F0, arg1) != 0) {
             transition = 1;
-            ASM_TAILSLOT_PIN(transition);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80021F18();
+        } else {
+            arg2->unk_08 = D_80024438[arg0->unk_54.s];
         }
-        arg2->unk_08 = D_80024438[arg0->unk_54.s];
     }
 
     one = 1;

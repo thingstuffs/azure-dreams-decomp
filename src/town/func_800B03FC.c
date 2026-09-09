@@ -5,7 +5,6 @@ extern void SD_Call(s32 arg0);
 extern void func_800AD8CC(s32 *arg0);
 extern void func_800ADA1C(s32 *arg0);
 extern void func_800ADB04(s32 *arg0);
-extern void func_800ADBD4(void) __attribute__((noreturn));
 extern void close_twin_shop(void *arg0);
 extern void func_800B1778(s32 arg0, s32 arg1, s32 arg2);
 extern void func_800B17C0(s32 arg0, s32 arg1);
@@ -30,11 +29,12 @@ void func_800ADB5C(s32 *arg0) {
     if (state[4] & 0x10) {
         SD_Call(0x514);
         func_800AD8CC(arg0);
-        func_800ADBD4();
+        goto close_shop;
     }
     if (state[4] & 0x20) {
         SD_Call(0x515);
         D_80082AB8 = 0;
+close_shop:
         close_twin_shop((s8 *)arg0 - 0x20);
         return;
     }

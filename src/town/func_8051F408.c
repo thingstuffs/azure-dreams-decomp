@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800162F8(void);
+extern s32 func_800162F8(void *, s32, s32);
 extern void func_80017A8C(s16, s16, s16);
 extern void func_80018A64(s32);
 extern s32 func_80018B5C(s32);
@@ -10,10 +10,10 @@ extern u8 D_8001CA40[];
 extern u8 D_8001CD7B[];
 extern u8 D_8001D244[];
 
-u8 *func_80016C08(void *arg0) {
+u8 *func_80016C08(void *arg0, s32 arg1, s32 arg2) {
     void *pos;
 
-    if (func_800162F8() != 0) {
+    if (func_800162F8(arg0, arg1, arg2) != 0) {
         return D_8001D244;
     }
 

@@ -101,7 +101,6 @@ extern s32 func_80065590();
 extern void func_80065820(void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern void func_80174808(void) __attribute__((noreturn));
 extern u8 D_80083160[];
 
 void func_80174618(S_80174618_4 *arg0, S_80174618_1 *arg1, void *arg2, s16 arg3)
@@ -190,14 +189,13 @@ void func_80174618(S_80174618_4 *arg0, S_80174618_1 *arg1, void *arg2, s16 arg3)
     packet2 = global_page + 0x3160;
 
     if (flags & 8) {
+        u8 tail_value;
         if (flags & 4) {
-            u8 tail_value;
-            tail_value = *(volatile u8 *)((u8 *)arg2 + 0xF) | 2;
-            ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80174808();
-            return;
+            tail_value = ((S_80174618_2 *)arg2)->unk_0C.at03.v | 2;
+        } else {
+            tail_value = ((S_80174618_2 *)arg2)->unk_0C.at03.v & 0xFD;
         }
-        ((S_80174618_2 *)arg2)->unk_0C.at03.v &= 0xFD;
+        ((S_80174618_2 *)arg2)->unk_0C.at03.v = tail_value;
     }
 
     packet_payload = ((S_80174618_2 *)arg2)->unk_0C.at00.v;

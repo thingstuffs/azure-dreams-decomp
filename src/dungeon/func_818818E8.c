@@ -27,7 +27,6 @@ typedef struct S_800250E8_2 {
 
 
 
-extern void func_80025270(void) __attribute__((noreturn));
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);
@@ -82,22 +81,20 @@ void func_800250E8(void *arg0, S_800250E8_0 *arg1, void *arg2)
             random_value = func_80069EF8();
             arg1->unk_08.at00.v = (s32)(arg1->unk_08.at00.v +
                 (0xFFFE0000 - (random_value & 0xFFF)));
-            func_80025270();
-            return;
+        } else {
+            arg1->unk_00.at00.v = (s32)(arg1->unk_00.at00.v +
+                func_80064584(((S_800250E8_1 *)arg0)->unk_1A) *
+                ((S_800250E8_1 *)arg0)->unk_1C.s * 8);
+            temp_lo = func_800644B8(((S_800250E8_1 *)arg0)->unk_1A) *
+                      ((S_800250E8_1 *)arg0)->unk_1C.s;
+            temp_a0_2 = arg1->unk_14;
+            temp_v1 = temp_a0_2;
+            ASM_KEEP_NV(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            temp_v0_8 = arg1->unk_08.at00.v;
+            arg1->unk_14 = temp_v1 + 0x6000;
+            arg1->unk_08.at00.v = (s32)(temp_v0_8 + temp_a0_2);
+            arg1->unk_04.at00.v = (s32)(arg1->unk_04.at00.v + temp_lo * 8);
         }
-
-        arg1->unk_00.at00.v = (s32)(arg1->unk_00.at00.v +
-            func_80064584(((S_800250E8_1 *)arg0)->unk_1A) *
-            ((S_800250E8_1 *)arg0)->unk_1C.s * 8);
-        temp_lo = func_800644B8(((S_800250E8_1 *)arg0)->unk_1A) *
-                  ((S_800250E8_1 *)arg0)->unk_1C.s;
-        temp_a0_2 = arg1->unk_14;
-        temp_v1 = temp_a0_2;
-        ASM_KEEP_NV(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        temp_v0_8 = arg1->unk_08.at00.v;
-        arg1->unk_14 = temp_v1 + 0x6000;
-        arg1->unk_08.at00.v = (s32)(temp_v0_8 + temp_a0_2);
-        arg1->unk_04.at00.v = (s32)(arg1->unk_04.at00.v + temp_lo * 8);
     }
 
     temp_v0 = ((S_800250E8_1 *)arg0)->unk_1C.u - 1;

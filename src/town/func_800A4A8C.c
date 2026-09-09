@@ -38,7 +38,6 @@ typedef struct S_800A21EC_3 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_8004491C();
-extern void func_800A22AC(void);
 extern M2C_UNK D_80046398;
 extern M2C_UNK D_800A22D0;
 
@@ -57,16 +56,14 @@ s32 func_800A21EC(void *arg0, S_800A21EC_1 *arg1, S_800A21EC_0 *arg2) {
         arg2->unk_08 = dead;
         dead = (u16) arg1->unk_00.at02.v;
         ASM_KEEP(dead);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        func_800A22AC();
-        return dead + 0x90;
-    }
-    {
+        arg1->unk_00.at02.v = (u16) (dead + 0x90);
+    } else {
         s32 flags = (u16) arg2->unk_14;
         s32 one = 1;
         arg2->unk_08 = one;
         ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         arg2->unk_14 = (u16) (flags | 1);
         arg1->unk_00.at02.v = (u16) (arg1->unk_00.at02.v - 0x90);
-        arg2->unk_1A = 0;
     }
+    arg2->unk_1A = 0;
 }

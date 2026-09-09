@@ -29,7 +29,6 @@ extern s16 D_800D0464;
 extern s32 D_800D046C;
 
 extern s16 func_80094BC8(s32, s16);
-extern void func_8009582C();
 
 s32 func_80095760(void *arg0)
 {
@@ -57,11 +56,11 @@ loop:
                 temp_v0_2 = ((S_80095760_1 *)((u8 *)arg0 + temp_v1 * 4))->unk_1C;
                 temp_v1_2 = temp_v0_2->unk_14;
                 ASM_USE(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                if (temp_v1_2 != temp_t0) {
-                    func_8009582C(var_a0, var_a1, var_a2, temp_a3);
-                    return 1;
+                ASM_USE2(var_a0, var_a1); /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
+                if (temp_v1_2 == temp_t0) {
+                    return -1;
                 }
-                return -1;
+                return 1;
             }
         }
         var_a1++;

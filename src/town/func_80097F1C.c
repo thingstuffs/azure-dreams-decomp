@@ -31,7 +31,6 @@ extern s16 D_800D0464;
 extern s32 D_800D046C;
 
 extern s16 func_80094BC8(s32, s16);
-extern void func_8009574C();
 
 s32 func_8009567C(void *arg0)
 {
@@ -61,11 +60,10 @@ loop:
                 ((Rec_D_800CFCB4 *)arg0)->unk_10 = temp_v0_2;
                 temp_v1_2 = temp_v0_2->unk_14;
                 ASM_USE(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                if (temp_v1_2 != temp_t0) {
-                    func_8009574C(var_a0, var_a1, var_a2, temp_a3);
-                    return 1;
+                if (temp_v1_2 == temp_t0) {
+                    return -1;
                 }
-                return -1;
+                return 1;
             }
         }
         var_a1++;

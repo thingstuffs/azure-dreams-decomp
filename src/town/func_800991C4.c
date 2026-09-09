@@ -17,7 +17,6 @@ extern void *func_80096A30(void *arg0, s32 arg1, s32 arg2);
 extern Record *func_8004CAE8(void *arg0, u32 arg1);
 extern s32 func_80064584(s32 angle);
 extern s32 func_800644B8(s32 angle);
-extern void func_80096A14(s32 arg0, Vec3i *arg1, Vec3i *arg2, s32 arg3);
 
 extern Vec3i D_800D0AE4;
 extern Vec3i D_800D0AFC;
@@ -29,14 +28,15 @@ void func_80096924(void *arg0, Vec3i *arg1, void *arg2) {
     s32 x_offset;
     s32 y_offset;
     s32 trig;
-    s32 height;
+    register s32 height ASM_REG("$7"); /* MATCH: Preserve the retail height register after removing the pseudo-call. */
 
     record = func_8004CAE8(
         func_80096A30(arg2, *(s32 *)((u8 *)arg0 + 0x1C), 4), 0);
     if (record != 0) {
-        Vec3i *out;
+        register Vec3i *out ASM_REG("$6"); /* MATCH: Preserve the retail output register after removing the pseudo-call. */
         s32 base_y;
         s32 input_y;
+        register s32 y_value ASM_REG("$4"); /* MATCH: Reuse the page register for the offset after forming the output pointer. */
         u8 *global_page;
         register u8 *out_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register u8 *base_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -59,9 +59,9 @@ void func_80096924(void *arg0, Vec3i *arg1, void *arg2) {
         input_y = *(volatile s32 *)&arg1->y;
         out = (Vec3i *)(out_page + 0xAFC);
         *(Vec3i * volatile *)(global_page + 0xD20) = out;
-        out->y = base_y + input_y + y_offset;
+        y_value = y_offset;
+        out->y = base_y + input_y + y_value;
         out->z = *(s32 *)(base_page + 8) + arg1->z + (height << 17);
-        func_80096A14(y_offset, (Vec3i *)base_page, out, height << 17);
         return;
     }
     D_80100D20 = 0;

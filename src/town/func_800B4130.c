@@ -4,7 +4,6 @@
 typedef void (*Callback)(void *, s32);
 
 extern void func_800B180C(void *, s32);
-extern s32 func_800B18E0();
 
 
 typedef struct S_800B1890_0 {
@@ -15,7 +14,7 @@ typedef struct S_800B1890_0 {
 void func_800B1890(void *arg0) {
     S_800B1890_0 *temp_v1;
     s32 temp_a3;
-    s16 temp_a1;
+    s32 temp_a1;
     u16 temp_a2;
     s32 temp_v0;
 
@@ -28,12 +27,11 @@ void func_800B1890(void *arg0) {
         temp_v0 = temp_a3 - temp_v0;
         temp_v0 >>= 2;
         temp_v1->unk_08.s = temp_a2 + temp_v0;
-        func_800B18E0(arg0, temp_a1, temp_a2, temp_a3);
-        return;
+    } else {
+        temp_v1->unk_08.u = (*(u16 *)((u8 *)arg0 + 4));
+        (*(volatile Callback *)((u8 *)arg0 + -0x10)) = func_800B180C;
     }
 
-    temp_v1->unk_08.u = (*(u16 *)((u8 *)arg0 + 4));
-    (*(volatile Callback *)((u8 *)arg0 + -0x10)) = func_800B180C;
     func_800B180C(arg0, temp_a1);
 }
 

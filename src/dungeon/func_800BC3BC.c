@@ -29,7 +29,6 @@ extern void func_800A5720(s32);
 extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
-extern s32 func_800C1C90(void);
 
 
 
@@ -79,7 +78,6 @@ s32 func_800C1B1C(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
             func_800A56E0(0x80F);
             if (((S_800C1B1C_2 *)(((S_800C1B1C_1 *)base)->unk_04))->unk_02.s < 99) {
                 ((S_800C1B1C_2 *)(((S_800C1B1C_1 *)base)->unk_04))->unk_02.u++;
-                return func_800C1C90();
             }
         } else {
             result = func_80099194(D_800E1514, value);

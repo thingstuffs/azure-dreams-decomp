@@ -7,7 +7,6 @@ M2C_UNK func_800671A8();
 s32 func_80123200();
 void func_80123928();
 void func_801239B8();
-void func_80123BF4(void) __attribute__((noreturn));
 extern M2C_UNK D_8011ACD8;
 extern M2C_UNK D_80126E98;
 
@@ -44,7 +43,6 @@ void func_80123A60(S_80123A60_0 *arg0) {
         if (func_80123200(var_s0 & 0xFF) & 0xFF) {
             temp_base = &D_80126E98;
             func_80123928(*((var_s0 * 3) + temp_base), 0x1A4, 0xA0);
-            func_80123BF4();
         }
         func_80067014(0);
         return;

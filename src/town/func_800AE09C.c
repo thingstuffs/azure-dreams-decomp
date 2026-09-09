@@ -8,7 +8,6 @@ M2C_UNK func_80064EC0();   /* extern */
 M2C_UNK func_80064EE0();   /* extern */
 M2C_UNK func_80064F00();            /* extern */
 M2C_UNK func_80064F20();                     /* extern */
-M2C_UNK func_800AB918();   /* extern */
 extern M2C_UNK D_8006ADBC;
 extern u8 D_80083160[];
 extern u8 D_801C9E40[16];

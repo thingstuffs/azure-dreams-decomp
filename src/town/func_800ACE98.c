@@ -7,7 +7,6 @@ extern s16 func_80095978(void *arg1, void *arg2);
 extern void func_80095A94(void *arg1, s16 arg2, void *arg3);
 extern void func_80095C80(void *arg1);
 extern void func_800A9F14(void *arg1);
-extern void func_800AA6DC(void);
 extern void func_800AAA58(void *arg0, void *arg1, s32 arg2);
 
 extern u8 D_80083160[];
@@ -35,11 +34,8 @@ void func_800AA5F8(void *arg0, void *arg1, s32 arg2) {
     angle = func_80095978(arg1, D_800FE488);
     if (angle - *(s16 *)((u8 *)arg1 + 0xA) >= 4) {
         if (D_800CFCEF == 0) {
-            u32 pagebase;
             func_80094378(arg0, arg1, arg2_local);
-            pagebase = 0x800D0000;
-            ASM_PAGEBASE_PIN(pagebase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800AA6DC();
+            D_800D0B14 = 0;
             return;
         }
     } else if (D_800CFCEF == 0) {

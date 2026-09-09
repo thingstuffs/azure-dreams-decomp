@@ -39,7 +39,6 @@ M2C_UNK func_8006658C(void *, void *);
 M2C_UNK func_80067E2C();
 M2C_UNK func_80067EF4();
 M2C_UNK func_80067F20();
-extern void func_80089654(void) __attribute__((noreturn));
 
 void func_80089588(void) {
     s32 sp18[2];
@@ -75,16 +74,16 @@ void func_80089588(void) {
     temp_s1 = (u32) &D_80083160;
     ASM_KEEP_NV(temp_s1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     temp_s3 = temp_s0;
-    if (temp_s0 != 0) {
-        s32 tail_value;
-        tail_value = 0xE0;
-        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80089654();
-        return;
-    }
     {
         register s32 first_value;
-        first_value = 0x1C0;
+        if (temp_s0 != 0) {
+            s32 tail_value;
+            ASM_SCHED_BARRIER(); /* MATCH: keep the width arms separate so the shared store has a jump. */
+            tail_value = 0xE0;
+            first_value = tail_value;
+        } else {
+            first_value = 0x1C0;
+        }
         ((S_80089588_1 *)temp_s2)->unk_0E = first_value;
         ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }

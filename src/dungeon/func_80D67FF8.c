@@ -9,7 +9,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern s16 func_800BCB04(u16, u16, s16);
-extern void func_80173AE4(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern s32 D_8008346C;
@@ -47,6 +46,7 @@ typedef struct S_801737F8_1 {
 void func_801737F8(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     u8 state;
+    register u16 tail_flags ASM_REG("$2"); /* MATCH: keep the shared flags value in retail's v0. */
     static void *const keepalive[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
 
     state = ((S_801737F8_0 *)arg0)->unk_9B;
@@ -74,13 +74,8 @@ L0:
     }
     ((S_801737F8_0 *)arg0)->unk_9B++;
     ((Rec_D_80082E80 *)arg2)->unk_10.as_s16 = 0x20;
-    {
-        u16 tail_flags;
-
-        tail_flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x000C;
-        ASM_TAILSLOT_PIN(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80173AE4();
-    }
+    tail_flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x000C;
+    goto tail;
 
 L1:
     (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_800E2380;
@@ -143,5 +138,7 @@ L4:
     ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
     ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
     ((S_801737F8_0 *)arg0)->unk_98 |= 8;
-    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFFF3;
+    tail_flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xFFF3;
+tail:
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = tail_flags;
 }

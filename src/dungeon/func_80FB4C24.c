@@ -27,7 +27,6 @@ typedef struct S_80174424_1 {
 extern void func_80067014(s32 arg0);
 extern void func_800672D8(void *arg0, void *arg1);
 extern void func_8006733C(void *arg0, void *arg1);
-extern void func_801744DC(void) __attribute__((noreturn));
 
 void func_80174424(void *arg0)
 {
@@ -69,15 +68,13 @@ void func_80174424(void *arg0)
         stack[1] = 0x100;
         delta = ((S_80174424_0 *)arg0)->unk_96;
         ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_801744DC();
-        return;
+    } else {
+        stack[1] = 0x102;
+        high = ((S_80174424_0 *)arg0)->unk_A8.u;
+        low = ((S_80174424_0 *)arg0)->unk_96;
+        delta = high - low;
+        ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     }
-
-    stack[1] = 0x102;
-    high = ((S_80174424_0 *)arg0)->unk_A8.u;
-    low = ((S_80174424_0 *)arg0)->unk_96;
-    delta = high - low;
-    ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80067014(0);
 
     row = 12;

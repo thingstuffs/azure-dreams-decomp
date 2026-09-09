@@ -3,7 +3,6 @@
 extern void func_800483AC(s32);
 extern void func_800485B8(s32);
 extern u8 *func_80097F84(u8 *, void *, void *, s32);
-extern void func_80098804(void);
 extern s32 func_800990FC(void);
 extern s32 func_80099194(void *, s32);
 extern void func_80099290(s32);
@@ -95,20 +94,19 @@ void func_80098614(S_80098614_0 *arg0, u8 *arg1)
 
         ASM_KEEP(id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         current[3] |= 0x20;
-        func_80098804();
-        return;
-    }
+    } else {
+        ASM_KEEP(check);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        id = 0;
+        if (check != 0) {
+            state = func_800990FC();
+            result = func_8009929C(8, state);
+            result = func_80099368(arg0->unk_50.p2, result);
+            result = func_80099194(D_800E08BA, result);
+            func_80099290(result);
+            func_800A5720(state);
+        }
 
-    ASM_KEEP(check);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    id = 0;
-    if (check != 0) {
-        state = func_800990FC();
-        result = func_8009929C(8, state);
-        result = func_80099368(arg0->unk_50.p2, result);
-        result = func_80099194(D_800E08BA, result);
-        func_80099290(result);
-        func_800A5720(state);
     }
 
     arg0->unk_50.p = current;

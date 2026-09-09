@@ -6,7 +6,6 @@
 extern s32 func_800A2BDC(void *arg0);
 extern void func_800ACB98(void *arg0, s32 arg1, s32 arg2, void *arg3);
 extern void func_800ACD74(void *arg0, s32 arg1, s32 arg2, void *arg3);
-extern void func_800B2728(void);
 
 extern s16 D_800DCE68;
 extern u8 D_80083460[0x14];
@@ -28,6 +27,7 @@ void func_800B253C(Rec_func_800A9E70_arg0 *arg0, s32 arg1, s32 arg2, Rec_D_800E3
     u8 *state;
     void *held;
     s32 flags14;
+    s32 nextState;
 
     if ((arg3->unk_1C.as_s32 & 0x2000) || (arg3->unk_14.as_s32 & 0x4000)) {
         if ((u32)(arg0->unk_9A.as_u8 - 0x13) >= 2U) {
@@ -63,9 +63,14 @@ void func_800B253C(Rec_func_800A9E70_arg0 *arg0, s32 arg1, s32 arg2, Rec_D_800E3
                                 return;
                             }
                             arg3->unk_14.as_s32 = flags14 & 0xFFBFFFFF;
-                            arg0->unk_9A.as_u8 = (flags14 & 0x4000) ? 1 : 2;
-                            func_800B2728();
-                            return;
+                            nextState = flags14 & 0x4000;
+                            if (!nextState) {
+                                nextState = 2;
+                            } else {
+                                nextState = 1;
+                            }
+                            arg0->unk_9A.as_u8 = nextState;
+                            goto block_17;
                         }
                         if (arg3->unk_1C.as_s32 & 0x02000000) {
                             arg0->unk_8C = 0;
@@ -76,6 +81,7 @@ void func_800B253C(Rec_func_800A9E70_arg0 *arg0, s32 arg1, s32 arg2, Rec_D_800E3
                                 return;
                             }
                             arg0->unk_9A.as_u8 = 0;
+                        block_17:
                             arg0->unk_9B.as_u8 = 0;
                         }
                     }

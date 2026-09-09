@@ -18,18 +18,19 @@ typedef struct S_800CBCA0_1 {
 extern void func_80094E34(void);
 extern void func_80099844(void *, void *);
 extern void func_800A6508(void);
-extern s32 func_800A6D30(void);
+extern s32 func_800A6D30(void *, s32, s32, s32);
 extern s32 func_800CBB98(u8, u8, s16, void *);
 extern u8 D_800E1AE6[];
 extern u8 D_800E3D40;
 
-s32 func_800CBCA0(void *arg0)
+s32 func_800CBCA0(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     S_800CBCA0_1 *parent;
     s32 result;
     s32 value;
     register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 numerator;
+    void *callArg0 = arg0;
 
     if (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v == 0) {
         goto check_global;
@@ -43,7 +44,7 @@ s32 func_800CBCA0(void *arg0)
 
 check_global:
     if (D_800E3D40 == 0) {
-        numerator = (u16)func_800A6D30();
+        numerator = (u16)func_800A6D30(callArg0, arg1, arg2, arg3);
         divisor = ((Rec_D_800E3D7C *)arg0)->unk_00.at03_u8.v;
         if (divisor != 0) {
             value = divisor;

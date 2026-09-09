@@ -8,7 +8,6 @@ typedef struct {
 } D_80083460_t;
 
 extern void func_80048A44(void *a0, u8 a1, s32 a2, s32 a3);
-extern void func_8008E85C(void *a0, u8 a1, s32 a2);
 extern void func_80099F04(s32 a0);
 extern void func_80099F70(s32 a0);
 extern s16 func_8009AF18(s16 a0, void *a1, void *a2, s32 a3);
@@ -63,7 +62,8 @@ case_0:
         call_arg0 = arg2;
         ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         index = ((D_80083228[0] + *(s16 *)(arg3 + 0x2A) + 0x100) >> 9) & 7;
-        func_8008E85C(call_arg0, (*(u8 **)(call_arg0 + 0x2C))[index], 0);
+        func_80048A44(call_arg0, (*(u8 **)(call_arg0 + 0x2C))[index], 0, 1);
+        arg0[0x9B]++;
     }
     return;
 

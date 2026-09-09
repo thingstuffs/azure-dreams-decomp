@@ -40,7 +40,6 @@ typedef struct S_800254C4_4 {
 
 
 
-extern void func_80025590(void) __attribute__((noreturn));
 extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 rand();
@@ -66,22 +65,20 @@ s32 func_800254C4(void *arg0, s16 arg1, s16 arg2, s16 arg3) {
         {
             S_800254C4_1 *payload = ((S_800254C4_0 *)node)->unk_08;
 
-            if (modeTest == 0) {
-            payload->unk_02 =
-                (u16)((((S_800254C4_2 *)source)->unk_02 + (rand() & 0x1F)) - 0x10);
-            payload->unk_06 =
-                (u16)((((S_800254C4_2 *)source)->unk_06 + (rand() & 0x1F)) - 0x10);
-            {
-                s32 tailValue =
-                    ((S_800254C4_2 *)source)->unk_0A - 0x50;
+            s32 tailValue;
 
-                ASM_TAILSLOT_PIN(tailValue);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80025590();
+            if (modeTest == 0) {
+                payload->unk_02 =
+                    (u16)((((S_800254C4_2 *)source)->unk_02 + (rand() & 0x1F)) - 0x10);
+                payload->unk_06 =
+                    (u16)((((S_800254C4_2 *)source)->unk_06 + (rand() & 0x1F)) - 0x10);
+                tailValue = ((S_800254C4_2 *)source)->unk_0A - 0x50;
+            } else {
+                payload->unk_02 = ((S_800254C4_2 *)source)->unk_02;
+                payload->unk_06 = ((S_800254C4_2 *)source)->unk_06;
+                tailValue = ((S_800254C4_2 *)source)->unk_0A;
             }
-            }
-            payload->unk_02 = ((S_800254C4_2 *)source)->unk_02;
-            payload->unk_06 = ((S_800254C4_2 *)source)->unk_06;
-            payload->unk_0A = ((S_800254C4_2 *)source)->unk_0A;
+            payload->unk_0A = tailValue;
         }
         ((S_800254C4_4 *)(((S_800254C4_0 *)node)->unk_0C))->unk_0C = 0xF0;
         {

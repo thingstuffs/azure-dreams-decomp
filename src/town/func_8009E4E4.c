@@ -8,7 +8,6 @@ extern s16 func_8008F170(void *, void *);
 extern void func_8008F27C(void *, void *, s16);
 extern void func_8008F294(void *, void *);
 extern void func_8008F664(void *, void *);
-extern void func_8009BD10(void *, void *);
 extern s32 func_8008C180(s16, s16);
 extern s32 func_800C1D44(u16);
 extern void SD_Call(s32);
@@ -32,10 +31,8 @@ void func_8009BC44(void *arg0, void *arg1, void *arg2, s32 arg3) {
     signed_result = result;
     if (*(s16 *)((u8 *)arg2 + 0xA) >= signed_result) {
         func_8008F27C(arg1, arg2, signed_result);
-        func_8009BD10(arg0, arg1);
-        return;
-    }
-    if (*(u8 *)((u8 *)arg1 + 0x3B) != 0) {
+        ((Callback *)(*(void **)((u8 *)arg0 + 0x58)))[1](arg0, arg1, arg2, arg3);
+    } else if (*(u8 *)((u8 *)arg1 + 0x3B) != 0) {
         *(s32 *)((u8 *)arg2 + 0xC) = 0;
         *(s32 *)((u8 *)arg2 + 0x10) = 0;
         *(s32 *)((u8 *)arg2 + 0x14) = 0;

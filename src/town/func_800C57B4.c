@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern u8 D_80083160[];
-void func_800C2F80();
 
 s32 func_800C2F14(s32 arg0, s16 arg1) {
     u8 *base;
@@ -26,8 +25,6 @@ s32 func_800C2F14(s32 arg0, s16 arg1) {
     distance = (*(s16 *)(base + 0xC8) + (step / 2) - arg0) & 0xFFF;
     distance /= step;
     result = (signed_arg1 / 2) < distance;
-    ASM_TAILSLOT_PIN_TIED(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800C2F80(step, shifted_arg1, signed_arg1, arg0);
     return result;
 }
 

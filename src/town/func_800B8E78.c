@@ -18,7 +18,6 @@ s32 func_80048DA0();                         /* extern */
 s32 func_80048DCC();                             /* extern */
 s32 func_80048DE8();                             /* extern */
 M2C_UNK func_800B6580();                    /* extern */
-M2C_UNK func_800B6688();                            /* extern */
 extern u8 D_80089344[];
 
 typedef struct S_800B65D8_0 {
@@ -73,15 +72,14 @@ void func_800B65D8(void *arg0, s32 arg1) {
         temp_v0 = func_80048DE8(var_s0);
         if (temp_v0 == 0x10) {
             ((S_800B65D8_5 *)(((S_800B65D8_4 *)temp_s1)->unk_04))->unk_0A = 0;
-            func_800B6688();
-            return;
+        } else {
+            temp_v0_2 = var_s3 - (var_s2 * 8);
+            temp_ptr = temp_s1->unk_04;
+            ASM_KEEP(temp_ptr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            var_s3 += temp_v0;
+            temp_ptr->unk_0A = temp_v0_2;
+            ASM_KEEP(temp_ptr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         }
-        temp_v0_2 = var_s3 - (var_s2 * 8);
-        temp_ptr = temp_s1->unk_04;
-        ASM_KEEP(temp_ptr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        var_s3 += temp_v0;
-        temp_ptr->unk_0A = temp_v0_2;
-        ASM_KEEP(temp_ptr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         var_s2 += 1;
         var_s4 += 4;
     } while (var_s2 < 2);

@@ -3,7 +3,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 
-M2C_UNK func_800921DC();                            /* extern */
 M2C_UNK func_80094330();     /* extern */
 M2C_UNK func_80094910();                            /* extern */
 M2C_UNK func_80094984();           /* extern */
@@ -39,13 +38,13 @@ void func_800920F4(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK a
         func_80094910();
         func_80095A94(arg1, temp_v0_2, &D_800FE488);
         func_800ABD74(arg1);
-        func_800921DC(arg0);
-        return;
+        goto shared_tail;
     }
     if (D_800CFCEF != 0) {
         func_80094910();
         arg1->unk_14.as_s32 = 0;
         func_800954F4(arg1);
+shared_tail:
         func_80094330(arg0, arg1, arg2);
         return;
     }

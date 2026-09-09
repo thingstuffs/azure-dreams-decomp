@@ -26,7 +26,7 @@ typedef struct S_8008C7B4_2 {
 
 extern M2C_UNK func_80048A44();
 extern M2C_UNK func_8009F644();
-extern s32 func_800A5C70(void);
+extern s32 func_800A5C70(void *arg0, s32 arg1, void *arg2, void *arg3);
 extern u16 D_80013714;
 extern M2C_UNK D_80083160;
 extern s16 D_80083228;
@@ -35,6 +35,8 @@ extern u8 D_800DCFB0;
 extern M2C_UNK D_800DD0B8;
 
 void func_8008C7B4(void *arg0, s32 arg1, void *arg2, void *arg3) {
+    void *call_arg0;
+    s32 result;
 #ifndef NON_MATCHING
     u8 *flags;
     s32 initial_state;
@@ -63,7 +65,13 @@ void func_8008C7B4(void *arg0, s32 arg1, void *arg2, void *arg3) {
     flags += 0x3160;
     ASM_KEEP_NV(flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
-    if (!(((S_8008C7B4_1 *)flags)->unk_08 & 0x20) || (func_800A5C70() == 0)) {
+    call_arg0 = arg3;
+    if (!(((S_8008C7B4_1 *)flags)->unk_08 & 0x20)) {
+        goto after_control;
+    }
+    result = func_800A5C70(call_arg0, arg1, arg2, arg3);
+    call_arg0 = arg3;
+    if (result == 0) {
         goto after_control;
     }
 set_control:
@@ -72,8 +80,10 @@ set_control:
 
         ((S_8008C7B4_2 *)control)->unk_02 = (u16)(((S_8008C7B4_2 *)control)->unk_02 | 0x80);
     }
+    ASM_SCHED_BARRIER(); /* MATCH: keep the control arm's a0 reload after its store. */
+    call_arg0 = arg3;
 after_control:
-    func_8009F644(arg3, 0x10, 0, 0);
+    func_8009F644(call_arg0, 0x10, 0, 0);
     {
 #ifndef NON_MATCHING
         u8 *lookup;

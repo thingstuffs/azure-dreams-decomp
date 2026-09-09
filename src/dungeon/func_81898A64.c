@@ -11,7 +11,6 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void *func_80024350() __attribute__((noreturn));
 M2C_UNK func_8003DB94();
 void *func_8003FC64();
 M2C_UNK func_8004491C();
@@ -55,34 +54,34 @@ void *func_80024264(s32 arg0, Rec_func_80024264_arg1 *arg1)
     S_80024264_2 *temp_a0;
     S_80024264_1 *temp_s0;
     S_80024264_0 *temp_v0;
+    register void *dispatch_result ASM_REG("$2"); /* MATCH: keep the merged return value in v0 for the shared epilogue. */
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 == NULL) {
-        register void *dispatch_result ASM_REG("$2") = NULL;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-
-        ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80024350();
+        dispatch_result = NULL;
+    } else {
+        temp_v0->unk_10 = &D_800241D8;
+        temp_s0 = temp_v0->unk_0C;
+        temp_v0->unk_20 = arg0;
+        temp_v0->unk_24 = 0;
+        temp_s0->unk_0E = 0x80;
+        temp_s0->unk_0D = 0x80;
+        temp_s0->unk_0C = 0x80;
+        func_8003DB94(temp_s0, &D_80024EF4, 0);
+        temp_s0->unk_1C = 0x2000;
+        temp_s0->unk_1E = 0x1000;
+        temp_s0->unk_1A = 0xC00;
+        func_8004491C(temp_v0, &D_80045340);
+        temp_a0 = temp_v0->unk_08;
+        temp_a0->unk_00 = arg1->unk_00.at00_s32.v;
+        temp_a0->unk_04 = arg1->unk_04.at00_s32.v;
+        temp_a0->unk_08 = arg1->unk_08.at00_s32.v + 0x500000;
+        temp_a0->unk_0C = arg1->unk_0C.at00_s32.v;
+        temp_a0->unk_10 = arg1->unk_10.at00_s32.v;
+        temp_a0->unk_14 = arg1->unk_14;
+        dispatch_result = temp_v0;
     }
-    temp_v0->unk_10 = &D_800241D8;
-    temp_s0 = temp_v0->unk_0C;
-    temp_v0->unk_20 = arg0;
-    temp_v0->unk_24 = 0;
-    temp_s0->unk_0E = 0x80;
-    temp_s0->unk_0D = 0x80;
-    temp_s0->unk_0C = 0x80;
-    func_8003DB94(temp_s0, &D_80024EF4, 0);
-    temp_s0->unk_1C = 0x2000;
-    temp_s0->unk_1E = 0x1000;
-    temp_s0->unk_1A = 0xC00;
-    func_8004491C(temp_v0, &D_80045340);
-    temp_a0 = temp_v0->unk_08;
-    temp_a0->unk_00 = arg1->unk_00.at00_s32.v;
-    temp_a0->unk_04 = arg1->unk_04.at00_s32.v;
-    temp_a0->unk_08 = arg1->unk_08.at00_s32.v + 0x500000;
-    temp_a0->unk_0C = arg1->unk_0C.at00_s32.v;
-    temp_a0->unk_10 = arg1->unk_10.at00_s32.v;
-    temp_a0->unk_14 = arg1->unk_14;
-    return temp_v0;
+    return dispatch_result;
 }
 
 /* MECHANISM: The aligned-2 seed already had the exact 0x28 frame, saved-register roles, and CFG.

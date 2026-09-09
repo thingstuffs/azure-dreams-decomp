@@ -7,10 +7,10 @@ extern char D_8001BCB4[];
 extern char D_8001C6D0[];
 extern char D_80021484[];
 
-extern char *func_80016E48(void);
+extern char *func_80016E48(s32, s32, s32, s32);
 extern void func_8001A554(s32);
 
-char *func_80017790(s32 arg0, s32 arg1, s32 arg2)
+char *func_80017790(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     register s32 selector ASM_REG("$4") = arg2;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u32 index;
@@ -33,7 +33,7 @@ L_case18:
     return D_80021484;
 
 L_case52:
-    return func_80016E48();
+    return func_80016E48(selector, arg1, arg2, arg3);
 
 L_case12:
     return D_8001C6D0;

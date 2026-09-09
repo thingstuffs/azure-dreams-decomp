@@ -12,7 +12,6 @@ typedef void (*StateFunc)(void *, void *, void *, void *);
 
 extern void func_80048A44(void *, u8, s32, s32);
 extern void func_8008ACDC(void *, void *, void *, void *);
-extern void func_80090B94(void *, void *);
 extern s32 func_80094EA4(void);
 
 extern u8 D_80083160[];
@@ -69,7 +68,7 @@ state_1:
                 }
                 func_8008ACDC(arg0, arg1, arg2, arg3);
                 if (*(u8 *)((u8 *)arg0 + 0x9A) != 0x17) {
-                    func_80090B94(arg0, arg1);
+                    D_800DD168[*(volatile u8 *)((u8 *)arg0 + 0x9A)](arg0, arg1, arg2, arg3);
                 }
             }
         }

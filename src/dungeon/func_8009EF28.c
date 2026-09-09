@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 func_8009A350(s32, s32, s32, u16 *);
-extern s32 func_800A4758();
 extern s32 func_800BCB04();
 extern u16 D_8006CCD8[];
 extern u16 D_8006CCE8[];
@@ -56,7 +55,7 @@ s32 func_800A4688(s32 arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4) {
     result = 0x02000000 < (height << 16);
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     value = height;
-    return func_800A4758(height);
+    return result;
 }
 
 /* MECHANISM: A 0x30 frame holds s1=arg2, s3=x, s2=y, and s0=sector across calls.

@@ -51,7 +51,6 @@ s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
 void *func_8014C984();
-void func_8014C9FC(void) __attribute__((noreturn));
 void *func_8014CA40();
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
@@ -179,7 +178,7 @@ void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3) {
         }
         if (temp_v1 >= 2) {
             var_s0->unk_14 = (s32) (var_s0->unk_14 | 0x2000);
-            return func_8014C9FC();
+            goto finish_kind;
         }
         if ((((s32) pin_arg0 & ~3) << 0x10) == 0) {
             if (!(var_s0->unk_14 & 0x200)) {
@@ -190,6 +189,7 @@ void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3) {
                 }
             }
         }
+finish_kind:
         func_800A9C18(temp_s1, temp_s6, temp_s2, (s16) var_s7);
         var_s0->unk_9A = 0xFF;
         var_s0->unk_9C = -1;
@@ -291,7 +291,7 @@ void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3)
 finish_kind:
             FIELD(work, s32, 0x14) = flags0;
             FIELD(work, s32, 0x1C) = flags1;
-            func_8014C9FC();
+            goto finish_kind_args;
         }
         call_created = created;
         if (((s32)arg0 & ~3) << 16 != 0)
@@ -309,6 +309,7 @@ finish_kind:
         FIELD(monster, Callback, 0x2C) = (Callback)&D_80151298;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
+finish_kind_args:
         call_created = created;
 have_call_position:
         call_position = position;

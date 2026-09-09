@@ -7,7 +7,6 @@ extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_80172958(void) __attribute__((noreturn));
 
 extern s16 D_80083228[5];
 extern s32 D_8008346C[5];
@@ -60,9 +59,9 @@ state_0:
     if ((s16)timer < 4 && !(arg2->unk_14.at00_u16.v & 0x8000)) {
         goto done;
     }
-    (void)((S_80172864_0 *)s0)->unk_9B.v;
+    state = ((S_80172864_0 *)s0)->unk_9B.v;
     ((S_80172864_0 *)s0)->unk_96.u = 0;
-    func_80172958();
+    goto increment_state;
 
 state_1:
     if (((S_80172864_0 *)s0)->unk_A2 != 0 &&
@@ -78,6 +77,7 @@ state_1:
     ((S_80172864_0 *)s0)->unk_96.u = 0;
     ((S_80172864_0 *)s0)->unk_A2 = 0;
     ((S_80172864_0 *)s0)->unk_9E = 0;
+increment_state:
     ((S_80172864_0 *)s0)->unk_9B.n = state + 1;
     return;
 

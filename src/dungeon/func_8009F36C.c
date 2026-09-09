@@ -12,7 +12,6 @@ typedef struct S_800A4ACC_1 {
 
 
 extern void func_80042BDC();
-extern s32 func_800A4B38();
 extern void func_800A5DFC();
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -35,9 +34,9 @@ loop_1:
         temp_v1_2 = ((S_800A4ACC_0 *)var_s0)->unk_2D;
         if (temp_v1_2 != 0) {
             if (temp_v1_2 > 0) {
-                return func_800A4B38() - 1;
-            }
-            if (temp_v1_2 < 0) {
+                ((S_800A4ACC_0 *)var_s0)->unk_2D =
+                    (s8)((u8)((S_800A4ACC_0 *)var_s0)->unk_2D - 1);
+            } else if (temp_v1_2 < 0) {
                 ((S_800A4ACC_0 *)var_s0)->unk_2D =
                     (s8)((u8)((S_800A4ACC_0 *)var_s0)->unk_2D + 1);
             }

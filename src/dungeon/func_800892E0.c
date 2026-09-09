@@ -6,7 +6,6 @@ typedef struct {
     u8 pad4[8];
 } D_80083460_t;
 
-extern void func_8008EAAC(void);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
 extern D_80083460_t D_80083460;
@@ -26,15 +25,13 @@ void *func_8008EA40(void *arg0, void *arg1, void *arg2, void *arg3) {
 #ifndef NON_MATCHING
         dead_v0 = (u8 *)0x80090000;
         ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8008EAAC();
         result = dead_v0 - 0x1538;
 #else
-        func_8008EAAC();
         result = D_8008EAC8;
 #endif
     } else {
         result = &D_8008ACDC;
-        *(void **)((u8 *)arg0 + 0x8C) = result;
     }
+    *(void **)((u8 *)arg0 + 0x8C) = result;
     return result;
 }

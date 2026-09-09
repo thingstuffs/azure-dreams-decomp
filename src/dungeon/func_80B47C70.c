@@ -41,7 +41,6 @@ M2C_UNK func_800A56E0();
 s32 func_800ADC4C();
 M2C_UNK func_800C77D0();
 M2C_UNK func_80175180();
-void func_801757E4(void) __attribute__((noreturn));
 
 
 typedef struct S_80175470_0_pre {
@@ -136,8 +135,7 @@ void func_80175470(void *arg0, void *arg1, Rec_D_80082E80 *arg2, void *arg3) {
 
 jt_c0:
     next_state = ((S_80175470_0 *)arg0)->unk_9B.v + 1;
-    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_801757E4();
+    goto store_next_state;
 
 jt_c1:
     func_80041588(D_80175B0C, &D_80175B24, 0);
@@ -219,7 +217,9 @@ jt_c4:
     func_8003DB94(model, D_8014A000 + D_80175B14[(s16)rem_index], 0);
     arg2->unk_14.at00_u16.v |= 0x80;
     ((S_80175470_0 *)arg0)->unk_96.u = 0;
-    ((S_80175470_0 *)arg0)->unk_9B.n++;
+    next_state = ((S_80175470_0 *)arg0)->unk_9B.n + 1;
+store_next_state:
+    ((S_80175470_0 *)arg0)->unk_9B.n = next_state;
     return;
 
 jt_c5:

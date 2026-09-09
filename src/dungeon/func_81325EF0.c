@@ -15,7 +15,6 @@ void func_800A9A0C(void *);
 void func_800AA258(void *, s32, void *, void *);
 s32 func_800AA6B4(void *, s32, void *, void *);
 void func_800AA888(void *, s32, void *, void *);
-void func_8016DA34(void) __attribute__((noreturn));
 void func_8016DAA4(void *, s32, void *, void *);
 
 extern u16 D_80013714;
@@ -127,8 +126,7 @@ state_zero:
         0);
     counter_base = D_80083460;
     ((S_8016D6F0_4 *)counter_base)->unk_0A--;
-    func_8016DA34();
-    return;
+    goto advance_state;
 
 state_one:
     if ((func_80042900(arg3, 1) << 0x10) == 0) {
@@ -224,6 +222,7 @@ post_actions:
     }
     update_base = D_80083460;
     ((S_8016D6F0_8 *)update_base)->unk_0A++;
+advance_state:
     arg0->unk_9B++;
     return;
 

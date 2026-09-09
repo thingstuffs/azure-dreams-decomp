@@ -103,7 +103,6 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
-extern void func_80166BD8(void) __attribute__((noreturn));
 extern u8 *D_80083160;
 
 void func_80166968(S_80166968_4 *arg0, S_80166968_1 *arg1, u8 *arg2, s32 arg3)
@@ -197,11 +196,10 @@ void func_80166968(S_80166968_4 *arg0, S_80166968_1 *arg1, u8 *arg2, s32 arg3)
         if (flags & 8) {
             if (flags & 4) {
                 tailValue = ((S_80166968_2 *)arg2)->unk_0F | 2;
-                ASM_TAILSLOT_PIN(tailValue);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                func_80166BD8();
             } else {
-                ((S_80166968_2 *)arg2)->unk_0F &= 0xFD;
+                tailValue = ((S_80166968_2 *)arg2)->unk_0F & 0xFD;
             }
+            ((S_80166968_2 *)arg2)->unk_0F = tailValue;
         }
 
         zero = 0;

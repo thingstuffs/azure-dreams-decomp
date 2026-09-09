@@ -69,7 +69,6 @@ extern void func_800A152C();
 extern s8 func_800A6DA4();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern void func_8016AFCC() __attribute__((noreturn));
 extern void *func_8016F160();
 
 extern s32 D_80045340;
@@ -123,13 +122,9 @@ void *func_8016AEDC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         ASM_KEEP_NV(one);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_8016AEDC_3 *)part_b)->unk_25 = held_arg2;
         if (mode == one) {
-            u32 tail_v0 = ((S_8016AEDC_1 *)work)->unk_14 | 0x6000;
-            u32 tail_v1 = ((S_8016AEDC_1 *)work)->unk_1C | 0x6000;
-            ASM_KEEP(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(tail_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            func_8016AFCC();
-        }
-        if (mode >= 2) {
+            ((S_8016AEDC_1 *)work)->unk_14 |= 0x6000;
+            ((S_8016AEDC_1 *)work)->unk_1C |= 0x6000;
+        } else if (mode >= 2) {
             ((S_8016AEDC_1 *)work)->unk_14 |= 0x2000;
             ((S_8016AEDC_1 *)work)->unk_1C |= 0x2000;
         }

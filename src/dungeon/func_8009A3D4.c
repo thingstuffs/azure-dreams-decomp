@@ -2,7 +2,6 @@
 
 extern s16 D_8008146E;
 extern u8 D_800E2970[];
-extern s32 func_8009FBE8(u32 x, u32 y, u8 *record, s32 index);
 
 s32 func_8009FB34(s32 arg0, s32 arg1) {
     volatile u8 *record;
@@ -38,9 +37,7 @@ s32 func_8009FB34(s32 arg0, s32 arg1) {
                     bound += *(volatile u16 *)(record + 6);
                     (s32)y < bound;
                 })) {
-                tail_index = (s16)index;
-                ASM_TAILSLOT_PIN(tail_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                return func_8009FBE8(x, y, record, index);
+                return (s16)index;
             }
             index++;
             record += 20;

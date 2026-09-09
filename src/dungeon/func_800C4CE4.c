@@ -64,7 +64,6 @@ M2C_UNK func_800A9A0C();
 s32 func_8009A180();
 s16 func_800BCB04();
 s32 func_800CA1E0();
-M2C_UNK func_800CA598();
 
 void func_800CA444(void *input0, s32 arg1, void *input2, void *input3) {
     register void *arg0 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -107,8 +106,7 @@ void func_800CA444(void *input0, s32 arg1, void *input2, void *input3) {
         goto scan_start;
     }
     ASM_KEEP(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_800CA598(tail_arg);
-    goto done;
+    goto scan_call;
 
 write_hit:
     ((S_800CA444_1 *)arg3)->unk_2A = temp_s0;
@@ -129,7 +127,9 @@ scan_start:
     if (((S_800CA444_1 *)arg3)->unk_46 & 0x8000) {
         var_s1 = 0;
     } else {
-        func_800A0E6C(arg2, ((S_800CA444_2 *)arg0)->unk_9C, arg3, arg0 + 0x98);
+        tail_arg = arg2;
+scan_call:
+        func_800A0E6C(tail_arg, ((S_800CA444_2 *)arg0)->unk_9C, arg3, arg0 + 0x98);
         var_s1 = 0;
     }
     temp_s4 = D_8006CD00;

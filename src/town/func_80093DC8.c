@@ -50,7 +50,6 @@ extern s32 func_80033B2C(s32 arg0);
 extern s32 func_800374F4(s32 arg0);
 extern s32 func_8003BD84(s32 arg0, s32 arg1);
 extern void func_8008B158(s32 arg0);
-extern void func_8009176C(void);
 extern void func_80093D48(void *arg0, void *arg1, s32 arg2);
 extern void func_80093E18(void *arg0, void *arg1, s32 arg2);
 extern void func_80093ED8(void *arg0, void *arg1, s32 arg2);
@@ -155,14 +154,14 @@ void func_80091528(void *arg0, void *arg1, s32 arg2)
   if (!(input & 0x20))
   {
     func_80093ED8(arg0, arg1, arg2);
-    func_8009176C();
-    return;
+    goto finish;
   }
   if (input & 0xF000)
   {
     timer = (*((u16 *) (((u8 *) arg0) + 0x3E))) - 1;
     *((u16 *) (((u8 *) arg0) + 0x3E)) = timer;
     func_80094944((s16) timer, 8);
+finish:
     func_80094C1C(arg0);
     func_8009503C(arg1);
     return;

@@ -3,7 +3,6 @@
 
 M2C_UNK func_8008F074();         /* extern */
 s32 func_800C296C();                         /* extern */
-M2C_UNK func_800C29C0();                            /* extern */
 extern s32 D_8006ADD4;
 extern M2C_UNK D_800C2A10;
 
@@ -25,14 +24,16 @@ void func_800C2988(void *arg0, void *arg1) {
     S_800C2988_1 *object = arg0;
     register S_800C2988_0 *motion ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    if (D_8006ADD4 == 0x17000C) {
-        u32 page = 0xFF600000;
+    u32 page;
 
-        ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800C29C0();
-        return;
+    if (D_8006ADD4 == 0x17000C) {
+        ASM_KEEP(object);   /* MATCH: Keep object live in each arm and preserve the shared-tail jump. */
+        page = 0xFF600000;
+    } else {
+        ASM_KEEP(object);   /* MATCH: Keep object live in each arm and preserve the shared-tail jump. */
+        page = 0xFFE00000;
     }
-    motion->unk_08 = 0xFFE00000;
+    motion->unk_08 = page;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_8008F074(object, motion, func_800C296C(0));
     object->unk_50 = &D_800C2A10;

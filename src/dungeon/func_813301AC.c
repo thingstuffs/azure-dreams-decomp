@@ -22,7 +22,6 @@ typedef struct S_801671AC_1 {
 } S_801671AC_1;   /* obj in func_801671AC */
 
 
-void func_80167354(void) __attribute__((noreturn));
 extern M2C_UNK D_800814A0;
 
 void func_801671AC(void *arg0, void *arg1, void *arg2) {
@@ -69,12 +68,12 @@ void func_801671AC(void *arg0, void *arg1, void *arg2) {
         ((S_801671AC_0 *)arg2)->unk_0C = (s8) ((var_a1 * temp_v1_2) / 20);
         ((S_801671AC_0 *)arg2)->unk_0D = (s8) ((var_t0 * (s16) ((S_801671AC_1 *)obj)->unk_18) / 20);
         ((S_801671AC_0 *)arg2)->unk_0E = (s8) ((var_t1 * (s16) ((S_801671AC_1 *)obj)->unk_18) / 20);
-        func_80167354();
+    } else {
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ((S_801671AC_0 *)arg2)->unk_0C = (s8) ((var_a1 * (0x1E - temp_v1_2)) / 10);
+        ((S_801671AC_0 *)arg2)->unk_0D = (s8) ((var_t0 * (0x1E - (s16) ((S_801671AC_1 *)obj)->unk_18)) / 10);
+        ((S_801671AC_0 *)arg2)->unk_0E = (s8) ((var_t1 * (0x1E - (s16) ((S_801671AC_1 *)obj)->unk_18)) / 10);
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_801671AC_0 *)arg2)->unk_0C = (s8) ((var_a1 * (0x1E - temp_v1_2)) / 10);
-    ((S_801671AC_0 *)arg2)->unk_0D = (s8) ((var_t0 * (0x1E - (s16) ((S_801671AC_1 *)obj)->unk_18)) / 10);
-    ((S_801671AC_0 *)arg2)->unk_0E = (s8) ((var_t1 * (0x1E - (s16) ((S_801671AC_1 *)obj)->unk_18)) / 10);
     if ((s16) ((S_801671AC_1 *)obj)->unk_18 <= 0) {
         (*(u16 *)((u8 *)obj + -2)) = (u16) (((S_801671AC_1_pre *)obj)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;

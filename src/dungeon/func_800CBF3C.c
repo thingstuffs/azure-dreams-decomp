@@ -10,7 +10,6 @@ extern s16 D_80080B04[5];
 extern Record *D_80081508[3];
 
 extern s32 func_800448BC(s32 x, s32 y);
-extern void func_800D1720(Record *record);
 
 void func_800D169C(s32 x, s32 y, s32 value, s32 commit)
 {
@@ -26,10 +25,9 @@ void func_800D169C(s32 x, s32 y, s32 value, s32 commit)
             record->y = held_y;
             if ((s16)commit != 0) {
                 record->value = value;
-                func_800D1720(record);
-                return;
+            } else {
+                record->value = (s16)0x8000;
             }
-            record->value = (s16)0x8000;
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             counter_page = (volatile u16 *)0x80080000;
             counter_page[0x582]++;

@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s16 func_800ABEEC(s16, s32, s32);
-extern s32 func_800AC348(void);
 extern s8 D_8006CCD8[9];
 extern s8 D_8006CCE8[9];
 
@@ -56,7 +55,6 @@ s32 func_800AC1B0(s16 arg0, s16 arg1, s16 arg2, s32 arg3) {
         goto block_8;
     }
 block_bad:
-    func_800AC348();
     return 0;
 block_8:
             arg0_shift = arg0 << 0x10;

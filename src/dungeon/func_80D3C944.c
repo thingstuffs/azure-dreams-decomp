@@ -8,7 +8,6 @@ extern void func_8009A3D0();
 extern s16 func_8009A66C();
 extern s16 func_800A0818();
 extern void func_801708B8();
-extern void func_80172378() __attribute__((noreturn));
 extern void func_80172B4C();
 extern s16 D_80083228[5];
 extern u16 D_80083462[5];
@@ -131,14 +130,14 @@ void func_80172144(void *arg0, s32 arg1, void *arg2, void *arg3) {
                 !(((S_80172144_2 *)entity)->unk_14 & 0x8000)) {
                 func_80172B4C(arg0, arg1, entity, state);
                 ((S_80172144_1 *)arg0)->unk_8C = 0;
-                func_80172378();
-                return;
+                goto block_22;
             }
             goto block_21;
         }
 block_21:
         ((S_80172144_1 *)arg0)->unk_9A = 0xF;
         ((S_80172144_1 *)arg0)->unk_8C = 0;
+block_22:
         ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
         if (D_80083462[0] & 0x80) {
             ((S_80172144_1 *)arg0)->unk_96 = 0;

@@ -14,7 +14,6 @@ extern void func_800A5F38(void *, s32);
 extern void func_800A63B8(void *, s32, s16);
 extern s32 func_800A6D30(void);
 extern s32 func_800AD6FC(void *, s32, s32);
-extern s32 func_800BEAF8(void);
 extern void func_800D5460(void *, s32, s32);
 
 extern u8 D_80082E80[];
@@ -49,10 +48,9 @@ s32 func_800BE9E4(void *arg0, s32 arg1, s16 arg2)
             func_80099844(arg0, D_800E10C0);
         }
         func_800D5460((u8 *)arg0 - 0x20, 0x804040, 0x612);
-        return func_800BEAF8();
+    } else {
+        func_800997FC(D_800E10F2);
     }
-
-    func_800997FC(D_800E10F2);
     func_80098B38(arg1);
     D_80083460.fieldA--;
     return 1;

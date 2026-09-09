@@ -10,7 +10,6 @@ extern void func_800A020C(s32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
-extern void func_80171C0C(void) __attribute__((noreturn));
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228[];
@@ -141,12 +140,6 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
         if (!(((S_80171964_2 *)base)->unk_1C.u & 0x20)) {
             if (!(((S_80171964_1 *)part)->unk_14 & 0x40)) {
                 func_800478B8(part);
-                {
-                    u32 dead_page = 0xF7FF0000;
-
-                    ASM_PAGEBASE_PIN(dead_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                }
-                func_80171C0C();
             }
         } else {
             ((S_80171964_1 *)part)->unk_14 |= 0x7000;

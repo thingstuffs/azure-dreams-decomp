@@ -113,7 +113,6 @@ extern s32 func_800644B8(s32);
 extern void func_800A152C(s32, s32);
 extern s32 func_800A1618(s32, s32);
 extern void *func_801708B4(s32, s16, s16, s16);
-extern void func_80174FBC(void) __attribute__((noreturn));
 
 void func_80174CCC(void *arg0, S_80174CCC_1 *arg1, Rec_D_80082E80 *arg2)
 {
@@ -250,12 +249,12 @@ state_one:
     if (source->unk_14 & 0x4000) {
         tail_arg = created;
         ((S_80174CCC_6 *)created)->unk_A4 = ((S_80174CCC_0 *)arg0)->unk_0C;
-        func_80174FBC();
-    }
-    tail_arg = created;
-    ASM_KEEP_NV(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    if (source->unk_A4 != 0) {
-        ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
+    } else {
+        tail_arg = created;
+        ASM_KEEP_NV(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        if (source->unk_A4 != 0) {
+            ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
+        }
     }
 
     parent = ((S_80174CCC_8 *)tail_arg)->unk_A4;

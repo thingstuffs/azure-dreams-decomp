@@ -16,7 +16,6 @@ typedef union Product64 {
 extern u8 D_80083780[12];
 extern int D_800814A8[4];
 extern s32 D_800814A0[3];
-void func_80024E0C() __attribute__((noreturn));
 s32 func_800644B8(s16);           /* extern */
 s16 func_800BCB04();              /* extern */
 extern s16 D_800259AC;
@@ -105,10 +104,7 @@ void func_80024CE4(void *arg0, void *arg1, S_80024CE4_1 *arg2, s32 arg3) {
     temp_v1 = (*(s16 *)((u8 *)arg0 + 2));
     if (temp_v1 >= 0x51) {
         (*(u16 *)((u8 *)arg0 + 0x38)) = (u16) ((*(u16 *)((u8 *)arg0 + 0x38)) + 4);
-        func_80024E0C();
-        return;
-    }
-    if (temp_v1 < 0x32) {
+    } else if (temp_v1 < 0x32) {
         temp_v0 = (*(u16 *)((u8 *)arg0 + 0x38)) - 5;
         (*(u16 *)((u8 *)arg0 + 0x38)) = temp_v0;
         if ((s16) temp_v0 < 0) {

@@ -38,7 +38,7 @@ typedef struct S_80173C20_3 {
 
 
 extern void func_80047784(void *, s32, s32);
-extern s32 func_800990FC(void);
+extern s32 func_800990FC(void *, void *, void *, void *);
 extern s32 func_80099194(void *, s32);
 extern void func_80099290(s32);
 extern s32 func_80099734(void *, s32);
@@ -59,114 +59,135 @@ extern u8 D_801740A0[];
 
 void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-    s32 state;
-    s32 saved;
-    s32 value;
-    s32 index;
-    u16 timer;
+    /* MATCH: Keep the incoming arguments in their retail call registers. */
+    register void *call_arg0 ASM_REG("$4") = arg0;
+    register void *call_arg1 ASM_REG("$5") = arg1;
+    register void *call_arg2 ASM_REG("$6") = arg2;
+    register void *call_arg3 ASM_REG("$7") = arg3;
+    {
+        /* MATCH: Preserve retail argument saves while exposing the pass-through call. */
+        register void *arg0 ASM_REG("$18") = call_arg0;
+        register void *arg1 ASM_REG("$20") = call_arg1;
+        register void *arg2 ASM_REG("$19") = call_arg2;
+        register void *arg3 ASM_REG("$16") = call_arg3;
+        s32 state;
+        s32 saved;
+        s32 value;
+        s32 index;
+        u16 timer;
 
-    state = ((S_80173C20_0 *)arg0)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if ((s32)state < 2) {
-        if (state == 0) {
-            goto state_zero;
+        state = ((S_80173C20_0 *)arg0)->unk_9B;
+        if (state == 1) {
+            goto state_one;
+        }
+        if ((s32)state < 2) {
+            if (state == 0) {
+                goto state_zero;
+            }
+            goto end;
+        }
+        if (state == 2) {
+            goto state_two;
+        }
+        if (state == 3) {
+            goto state_three;
         }
         goto end;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    if (state == 3) {
-        goto state_three;
-    }
-    goto end;
 
-state_zero:
-    saved = func_800990FC();
-    if ((((S_80173C20_1 *)arg3)->unk_2A.s >> 9) & 1) {
-        func_80099290(func_80099194(
-            D_80170854, func_80099734(arg3, saved)));
-    } else {
-        func_80099290(func_80099194(
-            D_80170874, func_80099734(arg3, saved)));
-    }
-    func_800A5720(saved);
+    state_zero:
+        saved = func_800990FC(call_arg0, call_arg1, call_arg2, call_arg3);
+        if ((((S_80173C20_1 *)arg3)->unk_2A.s >> 9) & 1) {
+            func_80099290(func_80099194(
+                D_80170854, func_80099734(arg3, saved)));
+        } else {
+            func_80099290(func_80099194(
+                D_80170874, func_80099734(arg3, saved)));
+        }
+        func_800A5720(saved);
 
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-        ((S_80173C20_0 *)arg0)->unk_9B = 3;
-        ((S_80173C20_0 *)arg0)->unk_96 = 0;
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
+            ((S_80173C20_0 *)arg0)->unk_9B = 3;
+            ((S_80173C20_0 *)arg0)->unk_96 = 0;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
+            func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
+            goto end;
+        }
+
+        (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174090;
+        index = (D_80083228 + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
+        func_80047784(arg2, D_80174090[index & 7], 0);
+        ((S_80173C20_0 *)arg0)->unk_90 = 0;
+        ((S_80173C20_0 *)arg0)->unk_98 |= 8;
+        ((S_80173C20_3 *)arg1)->unk_14 = 0xFFF00000;
+        goto increment_state;
+
+    state_one:
+        /* MATCH: Use the saved pointers in this state. */
+        ASM_CLOBBER("$6");
+        value = ((S_80173C20_3 *)arg1)->unk_14 + 0x20000;
+        ((S_80173C20_3 *)arg1)->unk_14 = value;
+        ((S_80173C20_0 *)arg0)->unk_90 += value;
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+            goto end;
+        }
+
+        (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174098;
+        index = (D_80083228 + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
+        func_80047784(arg2, D_80174098[index & 7], 0);
+        ((S_80173C20_0 *)arg0)->unk_96 = 8;
+        ((S_80173C20_0 *)arg0)->unk_98 &= 0xFFF7;
+        ((S_80173C20_0 *)arg0)->unk_9B++;
         goto end;
-    }
 
-    (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174090;
-    index = (D_80083228 + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
-    func_80047784(arg2, D_80174090[index & 7], 0);
-    ((S_80173C20_0 *)arg0)->unk_90 = 0;
-    ((S_80173C20_0 *)arg0)->unk_98 |= 8;
-    ((S_80173C20_3 *)arg1)->unk_14 = 0xFFF00000;
-    goto increment_state;
+    state_two:
+        /* MATCH: Use the saved pointers in this state. */
+        ASM_CLOBBER("$6");
+        ASM_CLOBBER("$7");
+        timer = ((S_80173C20_0 *)arg0)->unk_96 - 1;
+        ((S_80173C20_0 *)arg0)->unk_96 = timer;
+        if (((timer << 16) == 0) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
+        }
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+            goto end;
+        }
 
-state_one:
-    value = ((S_80173C20_3 *)arg1)->unk_14 + 0x20000;
-    ((S_80173C20_3 *)arg1)->unk_14 = value;
-    ((S_80173C20_0 *)arg0)->unk_90 += value;
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+        (*(void * *)((u8 *)arg2 + 0x2C)) = D_801740A0;
+        index = (D_80083228 + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
+        func_80047784(arg2, D_801740A0[index & 7], 0);
+
+    increment_state:
+        ((S_80173C20_0 *)arg0)->unk_9B++;
         goto end;
+
+    state_three:
+        /* MATCH: Use the saved pointers in this state. */
+        ASM_CLOBBER("$7");
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+            goto end;
+        }
+        ((S_80173C20_3 *)arg1)->unk_10 = 0;
+        ((S_80173C20_3 *)arg1)->unk_0C = 0;
+        func_800AD594(arg3, 0x1000);
+        ((S_80173C20_0 *)arg0)->unk_8C = &D_80170EA8;
+        D_8008346C = 0;
+        func_800A4ACC(arg3);
+
+        if (((S_80173C20_0 *)arg0)->unk_98 & 0x4000) {
+            ((S_80173C20_1 *)arg3)->unk_1C |= 0x1000;
+        } else {
+            ((S_80173C20_1 *)arg3)->unk_1C &= ~0x1000;
+        }
+        ((S_80173C20_1 *)arg3)->unk_03 = ((S_80173C20_0 *)arg0)->unk_AC;
+        if (((S_80173C20_1 *)arg3)->unk_6D == 0) {
+            ((S_80173C20_1 *)arg3)->unk_46 &= 0x7FFF;
+            goto end;
+        }
+        D_800E3DE8 = (u8 *)arg3 - 0x20;
+        /* MATCH: Form the adjusted pointer in a temporary register. */
+        ASM_USE_NV(arg3);
+
+    end:
+        return;
     }
-
-    (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174098;
-    index = (D_80083228 + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
-    func_80047784(arg2, D_80174098[index & 7], 0);
-    ((S_80173C20_0 *)arg0)->unk_96 = 8;
-    ((S_80173C20_0 *)arg0)->unk_98 &= 0xFFF7;
-    ((S_80173C20_0 *)arg0)->unk_9B++;
-    goto end;
-
-state_two:
-    timer = ((S_80173C20_0 *)arg0)->unk_96 - 1;
-    ((S_80173C20_0 *)arg0)->unk_96 = timer;
-    if (((timer << 16) == 0) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
-    }
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
-        goto end;
-    }
-
-    (*(void * *)((u8 *)arg2 + 0x2C)) = D_801740A0;
-    index = (D_80083228 + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
-    func_80047784(arg2, D_801740A0[index & 7], 0);
-
-increment_state:
-    ((S_80173C20_0 *)arg0)->unk_9B++;
-    goto end;
-
-state_three:
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
-        goto end;
-    }
-    ((S_80173C20_3 *)arg1)->unk_10 = 0;
-    ((S_80173C20_3 *)arg1)->unk_0C = 0;
-    func_800AD594(arg3, 0x1000);
-    ((S_80173C20_0 *)arg0)->unk_8C = &D_80170EA8;
-    D_8008346C = 0;
-    func_800A4ACC(arg3);
-
-    if (((S_80173C20_0 *)arg0)->unk_98 & 0x4000) {
-        ((S_80173C20_1 *)arg3)->unk_1C |= 0x1000;
-    } else {
-        ((S_80173C20_1 *)arg3)->unk_1C &= ~0x1000;
-    }
-    ((S_80173C20_1 *)arg3)->unk_03 = ((S_80173C20_0 *)arg0)->unk_AC;
-    if (((S_80173C20_1 *)arg3)->unk_6D == 0) {
-        ((S_80173C20_1 *)arg3)->unk_46 &= 0x7FFF;
-        goto end;
-    }
-    D_800E3DE8 = (u8 *)arg3 - 0x20;
-
-end:
-    return;
 }

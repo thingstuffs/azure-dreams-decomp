@@ -77,7 +77,6 @@ M2C_UNK func_800AA888();
 s32 func_800AA924();
 s32 func_800AAB10();
 M2C_UNK func_800AAF00();
-M2C_UNK func_801713B8() __attribute__((noreturn));
 M2C_UNK func_80171410();
 M2C_UNK func_80171B58();
 s32 func_80171E00();
@@ -104,6 +103,7 @@ void func_80170E9C(void *in0, M2C_UNK in1, void *in2, void *in3) {
     void *arg2 = in2;
     M2C_UNK sp18;
     M2C_UNK *var_v0;
+    register M2C_UNK *dead_a1 ASM_REG("$5"); /* MATCH: the merged pointer occupies a1 at the shared tail. */
     void *case_entity;
     RefPosition *case_ref;
     RefPosition *late_ref;
@@ -132,12 +132,8 @@ block_3:
     if (((S_80170E9C_2 *)arg2)->unk_2C == &D_80174F00) {
         goto block_63;
     }
-    {
-        register M2C_UNK *dead_a1 ASM_REG("$5") = &D_80174EF8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(dead_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_801713B8();
-    }
-    return;
+    dead_a1 = &D_80174EF8;
+    goto block_62;
 block_7:
     temp_v1 = ((S_80170E9C_1 *)arg3)->unk_1C;
     if (!(temp_v1 & 0x200)) {
@@ -305,12 +301,14 @@ block_59:
     if (((S_80170E9C_2 *)arg2)->unk_14 & 0x40) {
         goto block_63;
     }
-    if (((S_80170E9C_2 *)arg2)->unk_2C == D_80174EE0) {
+    if (((S_80170E9C_2 *)arg2)->unk_2C == (M2C_UNK *)D_80174EE0) {
         goto block_63;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = D_80174EE0;
-    func_80047784(arg2, D_80174EE0[((s32)(D_80083228 + ((S_80170E9C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
+    dead_a1 = (M2C_UNK *)D_80174EE0;
+block_62:
+    (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = dead_a1;
+    func_80047784(arg2, *(u8 *)((((s32)(D_80083228 + ((S_80170E9C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + (u32)dead_a1), 0);
 block_63:
     return;
 }

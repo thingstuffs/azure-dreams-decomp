@@ -27,7 +27,6 @@ extern void func_80099FDC(void *a0);
 extern void func_800CB4C0(void *a0, s32 a1, s32 a2);
 extern void func_8004491C(void *a0, void *a1);
 extern void func_800A48F0(void *a0, s32 a1, s32 a2);
-extern void *func_800C9A08(void);
 
 void *func_800C9850(u8 arg0, u8 arg1, u16 arg2) {
     register u16 arg2_s1 ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -100,13 +99,15 @@ void *func_800C9850(u8 arg0, u8 arg1, u16 arg2) {
         FLD(sub, s8, 0x71) = 0;
         idx = ((FLD(base, s16, 0xC8) + FLD(sub, s16, 0x2A) + 0x100) >> 9) & 7;
         tail = sub;
-        if (D_8006CCF8[idx] != 0) {
+        {
             u32 rv;
-            rv = FLD(eb, u16, 0x14) | 1;
-            ASM_TAILSLOT_PIN(rv);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            return func_800C9A08();
+            if (D_8006CCF8[idx] != 0) {
+                rv = FLD(eb, u16, 0x14) | 1;
+            } else {
+                rv = FLD(eb, u16, 0x14) & 0xFFFE;
+            }
+            FLD(eb, u16, 0x14) = rv;
         }
-        FLD(eb, u16, 0x14) &= 0xFFFE;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         flags = 0x404040;
         call_ent = ent;

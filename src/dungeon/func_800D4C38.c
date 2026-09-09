@@ -8,7 +8,6 @@ extern void func_800A9A0C();
 extern void func_800AA258();
 extern s32 func_800AA6B4();
 extern void func_800AA888();
-extern void func_800DA5E4();
 extern void func_800DA660();
 
 extern void *D_800814A8;
@@ -65,8 +64,7 @@ state_zero:
         *(void **)((u8 *)D_800E262C +
             (((D_80083228 + S16_AT(arg3, 0x2A) + 0x100) >> 7) & 0x1C)),
         0);
-    func_800DA5E4();
-    return;
+    goto advance_state;
 
 state_one:
     if (D_80083460.flags & 0x1000) {
@@ -114,6 +112,8 @@ permitted:
         0);
     S32_AT(arg3, 0x1C) |= 0x40000;
     D_80083460.count++;
+
+advance_state:
     U8_AT(arg0, 0x9B)++;
     return;
 

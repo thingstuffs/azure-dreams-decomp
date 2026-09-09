@@ -101,10 +101,6 @@ s32 func_80099734();
 M2C_UNK func_8009FD40();
 M2C_UNK func_800A5720();
 s16 func_800A9400();
-void func_800A96D8() __attribute__((noreturn));
-void *func_800A971C();
-void *func_800A97CC();
-void *func_800A97FC();
 s32 func_800A982C();
 M2C_UNK func_800C77D0();
 M2C_UNK func_800C78A0();
@@ -118,6 +114,7 @@ extern u8 D_800E3D68;
 
 void *func_800A94A0(void *arg0, Rec_D_800E3D7C *arg1, s16 arg2, void *arg3) {
     s32 temp_s0_2;
+    s32 tail_arg0;
     s32 temp_v0_2;
     register s32 temp_v0_5 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 temp_v0_5_result;
@@ -215,18 +212,18 @@ block_21:
             temp_s0_2 = func_80099194(&D_800E1C58, func_80099734(temp_a0_3, temp_v0_5));
             if (((u32)(u16)arg2 << 0x10) != 0) {
                 temp_v0_6 = func_800A9400(((s32)temp_s2 << 0x10) >> 0x10);
-                return func_800A97CC(D_8006DE24[temp_v0_6].unk8);
-            }
-            {
+                tail_arg0 = D_8006DE24[temp_v0_6].unk8;
+            } else {
                 register s32 entry_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 S_8006DE24_Entry *entry_base;
                 entry_index = (s32)temp_s2 << 0x10;
                 entry_base = D_8006DE24;
                 entry_index >>= 0x10;
-                temp_s0_2 = func_80099194(entry_base[entry_index].unk0, temp_s0_2);
-                func_80099290(func_80099194(&D_80089080, temp_s0_2));
-                ASM_KEEP(temp_s0_2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                tail_arg0 = entry_base[entry_index].unk0;
             }
+            temp_s0_2 = func_80099194(tail_arg0, temp_s0_2);
+            func_80099290(func_80099194(&D_80089080, temp_s0_2));
+            ASM_KEEP(temp_s0_2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             func_800A5720(temp_v0_5);
             goto block_25;
         }

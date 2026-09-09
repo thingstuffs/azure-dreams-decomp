@@ -38,7 +38,6 @@ extern s32 func_800A5690();
 extern s16 func_800BCB04();
 extern s32 func_800C77D0();
 extern s32 func_800C7930();
-extern void func_80172338(void) __attribute__((noreturn));
 
 extern u8 D_8006CCD8;
 extern u8 D_8006CCE8;
@@ -93,11 +92,7 @@ s32 func_801720EC(void *arg0, s32 arg1, void *arg2, void *arg3)
     }
 
 tail:
-    {
-        s32 tail_result = -1;
-        ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80172338();
-    }
+    return -1;
 
 body:
 

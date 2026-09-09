@@ -69,7 +69,6 @@ typedef struct S_800243B8_6 {
 
 
 
-extern void func_80024630(void) __attribute__((noreturn));
 extern void *func_8003FC64(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -166,9 +165,9 @@ void *func_800243B8(Rec_func_800243B8_arg0 *arg0, S_800243B8_3 *arg1, S_800243B8
         ret = obj;
         ASM_KEEP4(ret, tail_z, ret, tail_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         position->unk_08 = tail_z;
-        func_80024630();
+    } else {
+        ret = NULL;
     }
-    ret = NULL;
     ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return ret;
 }

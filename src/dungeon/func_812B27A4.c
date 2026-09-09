@@ -66,7 +66,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern s32 func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80166168(void) __attribute__((noreturn));
 extern void func_80166510(void);
 extern void func_801666C8(void *, void *, void *, void *);
 extern s32 func_80166E10(void *, void *, void *, void *);
@@ -144,6 +143,7 @@ void func_80165FA4(void *arg0, void *arg1, void *arg2, void *arg3)
             u32 actor_state = 0xE;
             void *current;
             void *table;
+            register void *state_table ASM_REG("$5"); /* MATCH: merge the selected table address in a1. */
 
 #ifndef __mips__
 #endif
@@ -153,28 +153,27 @@ void func_80165FA4(void *arg0, void *arg1, void *arg2, void *arg3)
             }
             current = ((S_80165FA4_2 *)arg2)->unk_2C;
             if (current == D_80169CA8) {
-                if (((S_80165FA4_2 *)arg2)->unk_14 & 0xE000) {
-#ifdef __mips__
-                    register void *state_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    state_table = D_80169C30;
-                    ASM_TAILSLOT_PIN(state_table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-#endif
-                    func_80166168();
+                if (!(((S_80165FA4_2 *)arg2)->unk_14 & 0xE000)) {
+                    goto state_done;
                 }
+                state_table = D_80169C30;
             } else {
                 table = D_80169C30;
-                if (current != table) {
-                    ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                    (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-                    func_80047784(arg2,
-                        ((u8 *)table)[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
-                        0);
-                    ((S_80165FA4_2 *)arg2)->unk_05 = 1;
-                    ((S_80165FA4_0 *)arg0)->unk_A2.s = 0;
-                    ((S_80165FA4_0 *)arg0)->unk_9E = 0;
+                if (current == table) {
+                    goto state_done;
                 }
+                state_table = table;
+                ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             }
+            (*(void * *)((u8 *)arg2 + 0x2C)) = state_table;
+            func_80047784(arg2,
+                *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)state_table),
+                0);
+            ((S_80165FA4_2 *)arg2)->unk_05 = 1;
+            ((S_80165FA4_0 *)arg0)->unk_A2.s = 0;
+            ((S_80165FA4_0 *)arg0)->unk_9E = 0;
         }
+state_done:
 
         ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
         ((S_80165FA4_0 *)arg0)->unk_98 &= 0xFFF7;

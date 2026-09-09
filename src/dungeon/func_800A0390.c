@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-extern void func_800A5BC4(void) __attribute__((noreturn));
 extern s32 D_800814A0[3];
 extern s32 D_80083170[3];
 
@@ -36,6 +35,7 @@ void func_800A5AF0(void *arg0, S_800A5AF0_1 *arg1, S_800A5AF0_2 *arg2) {
     s16 timer;
     s16 state;
     u16 value;
+    register u16 next_state ASM_REG("$2"); /* MATCH: Both arms merge the updated state in retail's $v0. */
 
     state = ((S_800A5AF0_0 *)arg0)->unk_04.s;
     if (state == 0) {
@@ -52,13 +52,10 @@ void func_800A5AF0(void *arg0, S_800A5AF0_1 *arg1, S_800A5AF0_2 *arg2) {
         timer = (u16)((S_800A5AF0_0 *)arg0)->unk_06 - 1;
         ((S_800A5AF0_0 *)arg0)->unk_06 = timer;
         if ((timer << 16) <= 0) {
-            u16 next_state;
-
             ((S_800A5AF0_0 *)arg0)->unk_06 = 0x30;
             arg2->unk_1C = 0x1000;
             next_state = ((S_800A5AF0_0 *)arg0)->unk_04.u + 1;
-            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800A5BC4();
+            goto store_state;
         }
     } else if (state == 1) {
         if (D_80083170[0] != 0) {
@@ -68,11 +65,13 @@ void func_800A5AF0(void *arg0, S_800A5AF0_1 *arg1, S_800A5AF0_2 *arg2) {
         timer = (u16)((S_800A5AF0_0 *)arg0)->unk_06 - 1;
         ((S_800A5AF0_0 *)arg0)->unk_06 = timer;
         if ((timer << 16) <= 0) {
-            u16 next_state = ((S_800A5AF0_0 *)arg0)->unk_04.u;
+            next_state = ((S_800A5AF0_0 *)arg0)->unk_04.u;
 
             ((S_800A5AF0_0 *)arg0)->unk_06 = 0x20;
-            ((S_800A5AF0_0 *)arg0)->unk_04.u = next_state + 1;
-            return;
+            next_state = next_state + 1;
+store_state:
+            ((S_800A5AF0_0 *)arg0)->unk_04.u = next_state;
+            goto end;
         }
     } else {
         arg2->unk_0E = (u8)(
@@ -92,6 +91,8 @@ void func_800A5AF0(void *arg0, S_800A5AF0_1 *arg1, S_800A5AF0_2 *arg2) {
             D_800814A0[0] |= 0x8000;
         }
     }
+end:
+    ASM_SCHED_BARRIER(); /* MATCH: Keep one shared return reached by the state-store jump. */
 }
 
 /* MECHANISM: Both callees are zero-argument noreturn continuations, allowing LEAD 19

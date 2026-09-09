@@ -13,7 +13,6 @@ extern void func_80024298(s32);
 extern void func_80024FFC(void *);
 extern void func_8002519C(s32);
 extern void func_80025358(s32, s32);
-extern void func_80025444(void) __attribute__((noreturn));
 
 extern u8 D_80024F7C[];
 
@@ -56,12 +55,13 @@ void func_80025398(void *arg0) {
         func_80024298(temp_a0);
     } while (var_s1 < 5);
     func_80024FFC(arg0);
-    func_80025444();
+    goto finish;
 
 tail:
     *(void (**)(void))((u8 *)arg0 + 0x34) = (void (*)(void))func_80024FFC;
     func_800230F4(var_a0);
     *(void * volatile *)((u8 *)arg0 - 0x10) = (void *)D_80024F7C;
+finish:
     func_80020984();
     ((S_80025398_0 *)arg0)->unk_40 = 0;
 }

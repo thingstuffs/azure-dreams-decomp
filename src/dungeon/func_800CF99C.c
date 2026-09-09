@@ -35,7 +35,6 @@ typedef struct S_800D50FC_3 {
 
 
 s32 rand();                                /* extern */
-void func_800D5188(void) __attribute__((noreturn)); /* extern */
 extern M2C_UNK D_800814A0;
 
 void func_800D50FC(void *arg0, S_800D50FC_1 *arg1, S_800D50FC_2 *arg2) {
@@ -57,7 +56,7 @@ void func_800D50FC(void *arg0, S_800D50FC_1 *arg1, S_800D50FC_2 *arg2) {
         ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         arg1->unk_10 = temp_s0;
-        func_800D5188();
+        break;
     case 3:
     case 7:
         arg1->unk_10 = 0;

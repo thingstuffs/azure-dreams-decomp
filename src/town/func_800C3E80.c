@@ -15,7 +15,6 @@ extern s32 func_800C0F60(s16 arg0);
 extern s32 func_800B28A0(void);
 extern void func_8004437C(s32 arg0, s32 arg1);
 extern void SD_Call(s32 arg0);
-extern s32 func_800C16E0(u16 arg0);
 
 /* town_sd_sq_callagain_sub: replay and record the town or fallback sequence with the supplied flags. */
 s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
@@ -29,6 +28,8 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
     u16 *fallback_entries;
     u16 *fallback_entry;
     s32 fallback_index;
+    /* MATCH: Keep the merged sequence argument in a0 through each arm. */
+    register s32 sequence ASM_REG("$4");
 
     entry_index = func_800C0F60(D_8006ADBC.index);
     if (D_8006ADBC.state == 12) {
@@ -44,19 +45,26 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         }
         town_sequence = *(u16 *)(town_entry + 8);
         current_sound[3] = town_sequence;
-        if ((s16)town_sequence != -1) {
-            return func_800C16E0(*(u16 *)(town_entry + 8) | sequence_flags);
+        if ((s16)town_sequence == -1) {
+            return 1;
         }
-        return 1;
+        sequence = *(u16 *)(town_entry + 8);
+        sequence |= sequence_flags;
+        sequence = (u16)sequence;
+    } else {
+        fallback_index = func_800B28A0();
+        fallback_entries = D_800D4244;
+        fallback_entry = fallback_entries + (fallback_index * 2);
+        fallback_effect = fallback_entry[0];
+        D_800D4268[2] = fallback_effect;
+        func_8004437C((s16)fallback_effect, 0);
+        fallback_sequence = fallback_entry[1];
+        ((volatile u16 *)D_800D4268)[3] = fallback_sequence;
+        sequence = fallback_sequence | sequence_flags;
+        sequence = (u16)sequence;
+        /* MATCH: Complete argument preparation before the shared call. */
+        ASM_SCHED_BARRIER();
     }
-    fallback_index = func_800B28A0();
-    fallback_entries = D_800D4244;
-    fallback_entry = fallback_entries + (fallback_index * 2);
-    fallback_effect = fallback_entry[0];
-    D_800D4268[2] = fallback_effect;
-    func_8004437C((s16)fallback_effect, 0);
-    fallback_sequence = fallback_entry[1];
-    ((volatile u16 *)D_800D4268)[3] = fallback_sequence;
-    SD_Call((fallback_sequence | sequence_flags) & 0xFFFF);
+    SD_Call(sequence);
     return 1;
 }

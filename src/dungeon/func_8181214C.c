@@ -4,7 +4,6 @@
 s32 func_80026F54();
 s32 func_80026FA8();
 void *func_80027110();
-void func_800272F8(void) __attribute__((noreturn));
 s32 func_8004B404();
 M2C_UNK func_80069E88();
 extern M2C_UNK D_800157C0;
@@ -17,7 +16,6 @@ s32 func_8002714C(s32 arg0, s32 arg1, s32 arg2, M2C_UNK arg3) {
     s32 var_s4;
     s32 var_s5;
     s32 var_s6;
-    register s32 tail_return ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
     var_s0 = arg1;
     var_s3 = arg2;
@@ -50,9 +48,7 @@ s32 func_8002714C(s32 arg0, s32 arg1, s32 arg2, M2C_UNK arg3) {
                     var_s1 += 1;
                     var_s2 += 0x12;
                 } while (var_s1 < var_s3);
-                tail_return = var_s6;
-                ASM_TAILSLOT_PIN_TIED(tail_return);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800272F8();
+                return var_s6;
             }
         } else {
             var_s0 = func_80026F54(arg0, var_s4, (var_s0 * 8) - 5);

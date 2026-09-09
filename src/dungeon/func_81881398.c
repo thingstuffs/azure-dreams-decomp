@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-extern void func_80024C90(void) __attribute__((noreturn));
 extern void func_80024FD8();
 extern void func_800254C4();
 extern void func_800478B8();
@@ -58,8 +57,6 @@ advance:
             ((S_80024B98_0 *)arg0)->unk_1C = v;
             if ((s16)v >= 0x41) {
                 ((S_80024B98_0 *)arg0)->unk_0A.u = 2;
-                func_80024C90();
-                return;
             }
             goto common;
         }

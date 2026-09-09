@@ -16,7 +16,7 @@ typedef struct TownVec {
 } TownVec;
 
 extern s8 D_800CFCE9;
-void func_800954F4(void);
+void func_800954F4(TownObj *arg0);
 
 void func_80095A94(TownObj *arg0, s32 arg1, TownVec **arg2)
 {
@@ -71,7 +71,7 @@ calculate:
         arg0->value14 = -0xCC000;
     }
 finish:
-    func_800954F4();
+    func_800954F4(arg0);
 }
 
 /* MECHANISM: True-space jumps are local joins, yielding the retail 0x18 ra-only frame.

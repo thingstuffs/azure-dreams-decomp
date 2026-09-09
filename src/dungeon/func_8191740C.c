@@ -4,7 +4,6 @@
 
 
 extern void func_80024A34();
-extern void func_80024D78() __attribute__((noreturn));
 extern void func_800478B8();
 extern s32 func_800644B8();
 extern s32 func_80064584();
@@ -34,6 +33,7 @@ void func_80024C0C(void *arg0, void *arg1, void *arg2) {
     s32 a1;
     s32 a2;
     s32 d0;
+    register s32 cmp ASM_REG("$2");   /* MATCH: keep the merged comparison in retail's result register. */
     u16 value;
     u8 byte;
     void *object;
@@ -66,16 +66,13 @@ state0:
     state = ((S_80024C0C_0 *)arg0)->unk_12;
     a2 = a1 + x * 0x1C;
     if (state != 0) {
-        s32 cmp;
-
         a0 = ((Rec_func_80024600_arg1 *)arg1)->unk_0C;
         cmp = a0 < a1;
-        ASM_TAILSLOT_PIN(cmp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_80024D78(a0, a1, a2);
-        return;
+    } else {
+        a0 = ((Rec_func_80024600_arg1 *)arg1)->unk_0C;
+        cmp = a1 < a0;
     }
-    a0 = ((Rec_func_80024600_arg1 *)arg1)->unk_0C;
-    if (a1 < a0) {
+    if (cmp) {
         register s32 d1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         d1 = a1 - a0;

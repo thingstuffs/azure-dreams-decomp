@@ -18,7 +18,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
 
-extern void func_80171320(void) __attribute__((noreturn));
 extern void func_80171388(void *);
 extern void func_801715CC(void *, void *, void *, void *);
 extern s32 func_80171D80(void *, void *, void *, void *);
@@ -84,7 +83,7 @@ void func_80170E68(Rec_func_800A9E70_arg0 *arg0, void *arg1, void *arg2, Rec_D_8
         result = -0x201;
         func_800AA79C(arg0, arg1, arg2, arg3);
         (void)result;
-        func_80171320();
+        goto tail_animation;
     }
 
     initial_flags = arg3->unk_1C.as_u32;
@@ -234,6 +233,7 @@ tail_checks:
     if ((*(u16 *)((u8 *)arg2 + (0x14))) & 0x40) {
         return;
     }
+tail_animation:
     if ((*(u8 * volatile *)((u8 *)arg2 + (0x2C))) != D_8017386C) {
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_8017386C;
         func_80047784(

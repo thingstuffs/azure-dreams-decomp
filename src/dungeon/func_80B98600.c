@@ -26,7 +26,6 @@ s32 func_800A04F0();             /* extern */
 s32 func_800A2B5C();                          /* extern */
 s32 func_800A2CB8();                     /* extern */
 M2C_UNK func_800C7930(); /* extern */
-s32 func_80171F9C();                                /* extern */
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80174F28;

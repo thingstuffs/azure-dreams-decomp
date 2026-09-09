@@ -5,7 +5,6 @@
 #define M2C_FIELD(expr, type_ptr, offset) \
     (*(type_ptr)((s8 *)(expr) + (offset)))
 
-s32 func_800244D4() __attribute__((noreturn));
 s32 func_8003DB94();
 void *func_8003FC64();
 s32 func_8004491C();
@@ -110,19 +109,8 @@ s32 func_800243BC(s32 arg0, S_800243BC_3 *arg1)
         ASM_KEEP(temp_v1_3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         return_value = (s32)temp_v0;
         ASM_KEEP(return_value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        temp_a0 = arg1->unk_00;
-        temp_a1 = arg1->unk_04;
-        temp_a2 = arg1->unk_08;
-        temp_a3 = arg1->unk_0C;
-        temp_v1_3->unk_00 = temp_a0;
-        temp_v1_3->unk_04 = temp_a1;
-        temp_v1_3->unk_08 = temp_a2;
-        temp_v1_3->unk_0C = temp_a3;
-        temp_a0 = arg1->unk_10;
-        temp_a1 = arg1->unk_14;
-        temp_v1_3->unk_10 = temp_a0;
-        temp_v1_3->unk_14 = temp_a1;
-        return func_800244D4(temp_a0, temp_a1, temp_a2, temp_a3);
+        *temp_v1_3 = *(S_800243BC_4 *)arg1;
+        return return_value;
     }
     return 0;
 }

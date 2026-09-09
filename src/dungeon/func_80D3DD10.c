@@ -10,7 +10,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_800D5DCC(void *, s16, s32, s32);
 extern void func_801708B8(void *, void *, void *);
-extern void func_80173938(void) __attribute__((noreturn));
 
 extern s8 D_8006CCD8;
 extern s8 D_8006CCE8;
@@ -59,6 +58,7 @@ void func_80173510(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     static void *const jt_keep[] = { &&L0, &&L1, &&L2, &&L3, &&L4, &&L5 };
     u8 state;
+    u32 state_step;
 
     state = ((S_80173510_0 *)arg0)->unk_9B.n;
     if ((u32)state >= 6) {
@@ -187,7 +187,6 @@ L2:
 
 L3:
     {
-        register u32 state_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s16 timer;
 
         timer = ((S_80173510_0 *)arg0)->unk_96.u - 1;
@@ -215,10 +214,9 @@ L3:
             !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
-        (void)((S_80173510_0 *)arg0)->unk_9B.v;
+        state = ((S_80173510_0 *)arg0)->unk_9B.n;
         state_step = 2;
-        ASM_TAILSLOT_PIN(state_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80173938();
+        goto state_tail;
     }
 
 L4:
@@ -230,8 +228,12 @@ L4:
         if ((s16)timer > 0 && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
-        ((S_80173510_0 *)arg0)->unk_96.u = 6;
-        ((S_80173510_0 *)arg0)->unk_9B.n++;
+        state = ((S_80173510_0 *)arg0)->unk_9B.n;
+        state_step = 6;
+state_tail:
+        ((S_80173510_0 *)arg0)->unk_96.u = state_step;
+        ASM_SCHED_BARRIER(); /* MATCH: Keep the timer store before the shared state increment. */
+        ((S_80173510_0 *)arg0)->unk_9B.n = state + 1;
         return;
     }
 
