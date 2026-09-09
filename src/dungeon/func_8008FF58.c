@@ -54,7 +54,7 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
     s32 index;
     s32 tail_result;
     s16 result;
-    register s32 value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 value;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     object = D_800E3DF0[((S_800956B8_0 *)arg3)->unk_03 & 0x1F];
     if (!(((S_800956B8_1 *)object)->unk_1C & 0x20000)) {
@@ -67,18 +67,18 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
                 u8 *msg;
                 value = func_80099194(D_800E0B18, (s32)arg0);
                 if (result != 0) {
-                    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    u8 *page;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                     page = (u8 *)0x800E0000;
                     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     msg = page + 0x5F0;
                 } else {
-                    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    u8 *page;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                     page = (u8 *)0x800E0000;
                     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     msg = page + 0x5E1;
-                    ASM_USE(msg);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                       /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 }
                 tail_result = func_80099194(msg, value);
                 msg3 = D_800E0B2B;
@@ -86,9 +86,9 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
             } else {
                 msg3 = D_800E202D;
 
-                ASM_USE(msg3);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 value = (s32)arg0;
-                ASM_USE2(msg3, value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             }
             value = func_80099194(msg3, value);
             ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

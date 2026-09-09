@@ -48,7 +48,7 @@ void func_8009AE88(Entity *input_entity, s32 unused_1, s32 unused_2) {
 #endif
     } else {
         register void *tail_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register Entity *tail_entity ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        Entity *tail_entity;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         if ((state->flags & 0x1000) && ((adjustment = D_800D0620) >= 0)) {
             tail_data = D_800D0088;

@@ -129,10 +129,9 @@ state_2:
     }
     {
         u16 saved_angle;
-        register s32 finished ASM_REG("$2");
+        s32 finished;
 
         saved_angle = ((Rec_D_80082E80 *)object)->unk_6A;
-        ASM_USE(saved_angle);
         finished = 1;
         ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v = saved_angle;
         return finished;

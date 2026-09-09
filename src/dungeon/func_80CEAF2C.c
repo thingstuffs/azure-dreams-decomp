@@ -97,7 +97,7 @@ void func_8017472C(void *action, void *transform, void *sprite, void *actor)
     s32 target_x;
     s32 target_y;
     u16 ticks_left;
-    register s32 step ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 step;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *anim_table;
     void *current_anim;
     u32 address_page;

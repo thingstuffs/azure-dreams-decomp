@@ -121,7 +121,6 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
         return;
     }
 
-    ASM_CLOBBER("$5");
     previous_direction = (s8)entity->unk_6D;
     if (func_800A9E70(entity, motion, monster, entity) != 0) {
         return;

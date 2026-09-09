@@ -190,11 +190,11 @@ void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
     if (((S_80170F6C_1 *)arg3)->unk_25 == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
         {
-            register void *current ASM_REG("$3") =
+            void *current =
                 ((S_80170F6C_2 *)arg2)->unk_2C;
-            register u8 *page ASM_REG("$2") = (u8 *)0x80170000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register void *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            u8 *page = (u8 *)0x80170000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            void *table;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             table = page + 0x5298;
             post_current = current;
@@ -225,7 +225,7 @@ void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
         {
             register u32 state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             u32 current_state = ((S_80170F6C_0 *)arg0)->unk_9A;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state = 0xE;
             if (current_state != state) {
                 if (((S_80170F6C_2 *)arg2)->unk_2C != D_80175258) {
@@ -347,7 +347,7 @@ sw1_case2: {
                     ((S_80170F6C_0 *)arg0)->unk_A6 = old_timer + 1;
                     if ((s16)old_timer >= 3) {
                     ((S_80170F6C_2 *)arg2)->unk_14 &= 0xF7FF;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     ((S_80170F6C_3 *)arg1)->unk_10 = 0;
                     ((S_80170F6C_3 *)arg1)->unk_0C = 0;
                     {
@@ -373,7 +373,7 @@ sw1_case3: {
                     tail_code = 3;
                     tail_value = ((S_80170F6C_0 *)arg0)->unk_A8.u;
 store_tail_timer:
-                    ASM_SCHED_BARRIER(); /* MATCH: Keep the shared timer store at its landing point. */
+                     /* MATCH: Keep the shared timer store at its landing point. */
                     ((S_80170F6C_0 *)arg0)->unk_A6 = tail_code;
                     tail_state = tail_value + 1;
 store_tail_state:
@@ -484,7 +484,7 @@ sw_case89:
             }
             ((S_80170F6C_0 *)arg0)->unk_98 = case_flags;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if ((func_80172314(arg0, arg1, arg2, arg3) << 16) != 0) {
             return;
         }

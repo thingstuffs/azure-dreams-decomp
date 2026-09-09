@@ -44,7 +44,7 @@ void *func_80017EE4(s32 unused_1, s32 unused_2, s32 action) {
 #ifndef NON_MATCHING
             dispatch_result = 0x80020000;
             dispatch_result -= 0x225F;
-            ASM_KEEP(dispatch_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #else
             return D_8001DDA1;
 #endif

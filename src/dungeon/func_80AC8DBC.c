@@ -78,7 +78,7 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
 {
     register void *node ASM_REG("$16") = source;
     OffsetTable offsets = D_80170884;
-    register void *head ASM_REG("$18") = node;
+    void *head = node;
     register void *owner = head;
     register s32 match_x ASM_REG("$23") = target_x;
     register void *owner_data = ((S_801745BC_0_pre *)head)[-1].unk_04;

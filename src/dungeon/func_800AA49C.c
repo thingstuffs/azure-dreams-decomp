@@ -105,7 +105,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         void *call_segment;
         register s16 *call_scratch ASM_REG("$6");
         register s32 call_previous ASM_REG("$7");
-        register s32 scaled_coord ASM_REG("$3");
+        s32 scaled_coord;
         register s32 end_x ASM_REG("$16");
         start_x = func_80064584(angle) * 6 - offset_x;
         scaled_coord = func_800644B8(angle) * 6;

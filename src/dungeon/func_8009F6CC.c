@@ -70,7 +70,7 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
     goto done;
 
 found:
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     *arg0 = x;
     *arg1 = y;
     goto done;

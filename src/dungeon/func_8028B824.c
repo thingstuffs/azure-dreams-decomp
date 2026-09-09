@@ -68,7 +68,7 @@ block_12:
         goto block_16;
     }
     var_s2 = -1;
-    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     var_s0 = var_s1 | 0x40;
     goto block_16;
 jt_c18:

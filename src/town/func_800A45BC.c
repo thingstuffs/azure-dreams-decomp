@@ -73,7 +73,7 @@ void func_800A1D1C(void *object, S_800A1D1C_5 *coords, void *primitive) {
     s32 blue_scaled;
     u8 *global_page;
     register void *saved_primitive ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *scratch ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *scratch;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *position;
     void *matrix;
     void *render_state;

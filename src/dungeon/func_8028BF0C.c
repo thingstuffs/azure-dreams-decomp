@@ -165,7 +165,7 @@ void func_8001EF0C(void) {
         if (meta[slot].state == trap_state) {
             x = position[slot].x;
             y = position[slot].y;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             {
                 s32 saved_trap_type = meta[slot].type;
                 s32 saved_variant = meta[slot].unk2;
@@ -205,7 +205,7 @@ void func_8001EF0C(void) {
                         position[slot].y = y;
                         spawn_variant = (func_800A6D30() & 7) | 4;
                         spawn_marker = 0x80;
-                        ASM_KEEP_DEP_NV(spawn_variant, spawn_marker);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                           /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                         spawn_height = -0x400;
                     restore_spawn:
                         meta[slot].unk2 = spawn_variant;

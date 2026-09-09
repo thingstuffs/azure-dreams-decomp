@@ -23,7 +23,6 @@ void func_8016F144(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     D_80013714[0] &= 0xFFF6;
     func_8009FAC4(arg0, arg1, arg2, arg3);
     callp = p;
-    ASM_KEEP_NV(callp);
     one = 1;
     ASM_KEEP_NV(one);
     p[0xAF] = 0;

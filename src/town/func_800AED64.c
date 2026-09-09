@@ -281,7 +281,7 @@ void func_800AC4C4(void) {
     S_func_800AED64_10 *tile_uvs;
     S_func_800AED64_7 *start_edge;
     S_func_800AED64_7 *span_edge;
-    register S_func_800AED64_13 *polygon ASM_REG("$6"); /* MATCH: the polygon loop keeps its cursor in a2, sharing the outer loop counter register. */
+    S_func_800AED64_13 *polygon; /* MATCH: the polygon loop keeps its cursor in a2, sharing the outer loop counter register. */
     void *packet_color;
     void *packet_xy3;
     S_func_800AED64_7 *end_edge;
@@ -535,7 +535,7 @@ store_column:
                     *depth_bucket = (*depth_bucket & tag_high_mask) | (s32) lookup_value;
                 }
                 tile_index = scratch->unk_C0;
-                ASM_USE_NV(tile_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 packet_color = (s8 *)packet + 4;
 
                 scratch->unk_12C.s32 = 0;

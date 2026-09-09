@@ -273,7 +273,7 @@ void func_800259D8(void *in0, void *in1, void *in2)
     register s32 phase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 i ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register void *arg0 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register void *arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *arg1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_800259D8_2 *arg2;
     void *spawn_code;
 
@@ -336,7 +336,7 @@ void func_800259D8(void *in0, void *in1, void *in2)
         tail_z = tail_z + delta.z;
     } else {
 L0_adjust_z:
-        ASM_SCHED_BARRIER();   /* MATCH: retain the alternate z calculation's scheduling boundary. */
+           /* MATCH: retain the alternate z calculation's scheduling boundary. */
         tail_z = z_value - 0x40;
     }
     ((S_800259D8_4 *)arg1)->unk_08.at02u.v = tail_z;
@@ -448,7 +448,7 @@ L_calc2:
             work->unk_14 |= 0xC;
             work->unk_10 = 0x20;
             dst = ((S_800259D8_7 *)spawn)->unk_08;
-            ASM_KEEP_NV(i);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             ((S_800259D8_5 *)entry)->unk_08.at02u.v = (func_80069EF8() & 7) + 12;
             ((S_800259D8_5 *)entry)->unk_0C = func_80069EF8() & 0xFFF;
@@ -479,7 +479,7 @@ L_calc2:
         }
         i++;
         if (i < 8) {
-            ASM_USE2(i, spawn);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             continue;
         }
     } while (i < 8);
@@ -556,7 +556,7 @@ L1_calc:
     ((S_800259D8_0 *)arg0)->unk_AA = phase;
     {
     void *spawn;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     spawn = func_8003FC64(0x12);
     if (spawn != 0) {
         entry = (u8 *)spawn + 0x20;
@@ -650,7 +650,7 @@ L1_calc:
     }
     {
         tail_a = ((S_800259D8_0 *)arg0)->unk_0A.u;
-        ASM_KEEP(tail_a);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_800259D8_0 *)arg0)->unk_84.u = 0;
         goto L_state_advance;
     }

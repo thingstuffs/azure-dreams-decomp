@@ -155,7 +155,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
             func_800A32A4(actor);
             func_8009A028(actor);
             {
-                register u8 *status_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                u8 *status_page;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 u8 *actor_counts;
                 register s32 global_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 u16 actor_count;
@@ -171,7 +171,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
                 actor_count--;
                 ((S_800CB9DC_7 *)status_page)->unk_14A0 = global_flags;
                 ((S_800CB9DC_8 *)actor_counts)->unk_0A = actor_count;
-                ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             }
         }
         {

@@ -137,7 +137,7 @@ jt_1:
             }
         } else {
             ((S_800B348C_0 *)action_state)->unk_F4 = 0;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         }
 block_7:
         ((S_800B348C_0 *)action_state)->unk_98 = (u16) (((S_800B348C_0 *)action_state)->unk_98 & 0xDFFF);
@@ -264,7 +264,7 @@ jt_7:
         } else {
             ((S_800B348C_0 *)action_state)->unk_96.u = (u16) (((S_800B348C_0 *)action_state)->unk_96.u - 1);
         }
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (((S_800B348C_0 *)action_state)->unk_96.s == 0) {
             if (((S_800B348C_0 *)action_state)->unk_102 == 0) {
                 register s32 temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */

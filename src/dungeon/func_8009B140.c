@@ -43,7 +43,7 @@ void func_800A08A0(s32 spawn_mode) {
     u8 tile_y;
     register u32 *limits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     SpawnFunc spawn_monster;
-    register void *level_monster ASM_REG("$4"); /* MATCH: Both threshold arms supply the call argument in the branch delay slot. */
+    void *level_monster; /* MATCH: Both threshold arms supply the call argument in the branch delay slot. */
 
     distance = 0x100;
     if (D_800E296C & 0x10000000) {

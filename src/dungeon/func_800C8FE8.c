@@ -176,7 +176,7 @@ block_28:
                     } else {
                         message = D_800E1BAA;
                     }
-                    ASM_KEEP_NV(message);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                       /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     var_a1 = func_80099194(message, temp_a1);
                 }
             }

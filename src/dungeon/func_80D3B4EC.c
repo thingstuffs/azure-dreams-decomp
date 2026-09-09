@@ -96,7 +96,7 @@ void func_80170CEC(void *effect, void *position, void *visual) {
     record = ((S_80170CEC_1 *)entity_base)->unk_0C;
     record_angle = ((S_80170CEC_2 *)record)->unk_06;
     new_angle = old_angle + 0x190;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entity_saved = entity;
     ((S_80170CEC_3 *)visual)->unk_1A = new_angle;
     ((S_80170CEC_3 *)visual)->unk_06 = record_angle;

@@ -274,10 +274,8 @@ next_record:
     ((S_800C9088_1 *)scratch)->unk_7C = vertex_z;
 
     z_index = (*(u16 *)((u8 *)record_end + -0x1B));
-    ASM_KEEP(z_index);
     vertex1 = scratch + 0x78;
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
-    ASM_KEEP(vertex_z);
     vertex2 = scratch + 0x80;
     ((S_800C9088_1 *)scratch)->unk_84 = vertex_z;
 

@@ -141,7 +141,7 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
     if (effect != NULL) {
         effect_mode = ((s32) mode << 0x10) >> 0x10;
         {
-            register s32 mode_arg ASM_REG("$5") = effect_mode;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            s32 mode_arg = effect_mode;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             u8 entry_variant;
             effect_id = effect_record->unk_00.at00_u8.v;
             entry_variant = effect_record->unk_00.at01_u8.v;

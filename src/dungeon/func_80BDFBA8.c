@@ -211,7 +211,6 @@ void func_801533A8(void *entity, S_801533A8_0 *motion, void *sprite)
         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
         height_fixed -= adjustment;
 check_floor:
-        ASM_SCHED_BARRIER();
         (*(s32 *)((u8 *)entity + 0x90)) = height_fixed;
         if (!(height_flags & 8)) {
             floor_height = func_800BCB04(motion->unk_00.at02.v,

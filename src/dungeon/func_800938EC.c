@@ -2,7 +2,7 @@
 
 /* Finds a value in the table, stopping at a zero entry or after 20 entries. */
 s32 func_8009904C(s32 target_value) {
-    register s32 *entry ASM_REG("$5");
+    s32 *entry;
     register s32 entry_index ASM_REG("$3") = 0;
     s32 value;
 

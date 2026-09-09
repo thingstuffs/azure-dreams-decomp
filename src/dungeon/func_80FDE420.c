@@ -60,10 +60,10 @@ extern u8 D_801740A0[];
 void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     /* MATCH: Keep the incoming arguments in their retail call registers. */
-    register void *call_arg0 ASM_REG("$4") = arg0;
-    register void *call_arg1 ASM_REG("$5") = arg1;
-    register void *call_arg2 ASM_REG("$6") = arg2;
-    register void *call_arg3 ASM_REG("$7") = arg3;
+    void *call_arg0 = arg0;
+    void *call_arg1 = arg1;
+    void *call_arg2 = arg2;
+    void *call_arg3 = arg3;
     {
         /* MATCH: Preserve retail argument saves while exposing the pass-through call. */
         register void *arg0 ASM_REG("$18") = call_arg0;
@@ -123,7 +123,6 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
 
     state_one:
         /* MATCH: Use the saved pointers in this state. */
-        ASM_CLOBBER("$6");
         value = ((S_80173C20_3 *)arg1)->unk_14 + 0x20000;
         ((S_80173C20_3 *)arg1)->unk_14 = value;
         ((S_80173C20_0 *)arg0)->unk_90 += value;
@@ -141,8 +140,6 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
 
     state_two:
         /* MATCH: Use the saved pointers in this state. */
-        ASM_CLOBBER("$6");
-        ASM_CLOBBER("$7");
         timer = ((S_80173C20_0 *)arg0)->unk_96 - 1;
         ((S_80173C20_0 *)arg0)->unk_96 = timer;
         if (((timer << 16) == 0) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
@@ -162,7 +159,6 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
 
     state_three:
         /* MATCH: Use the saved pointers in this state. */
-        ASM_CLOBBER("$7");
         if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
             goto end;
         }

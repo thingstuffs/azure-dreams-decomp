@@ -120,7 +120,7 @@ after_initial:
     } else {
         *(s16 *)((u8 *)arg0 + 0x18) = *(u16 *)((u8 *)arg0 + 0x10);
     }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     index = func_80095360(*(s16 *)((u8 *)arg0 + 0x18));
     if (*(s16 *)((u8 *)arg0 + 0x12) != index) {
         func_800489F4(arg2,

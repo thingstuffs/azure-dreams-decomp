@@ -124,7 +124,7 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u16 temp_v1_8;
     u16 var_v0;
     u16 var_v0_4;
-    register u32 temp_v1_7 ASM_REG("$3"); /* MATCH: both arms merge the fifth argument in v1. */
+    u32 temp_v1_7; /* MATCH: both arms merge the fifth argument in v1. */
     u8 temp_a0_2;
     u8 temp_a1_2;
     u8 temp_a1_3;
@@ -132,9 +132,9 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 temp_a1_5;
     s32 temp_angle;
     void *code8_a0;
-    register void *call0 ASM_REG("$4"); /* MATCH: both arms prepare a0 before the shared call. */
-    register void *call1 ASM_REG("$5"); /* MATCH: both arms prepare a1 before the shared call. */
-    register void *call2 ASM_REG("$6"); /* MATCH: both arms prepare a2 before the shared call. */
+    void *call0; /* MATCH: both arms prepare a0 before the shared call. */
+    void *call1; /* MATCH: both arms prepare a1 before the shared call. */
+    void *call2; /* MATCH: both arms prepare a2 before the shared call. */
     register s32 temp_v0_4 ASM_REG("$7"); /* MATCH: merge the fourth argument in a3. */
     s32 tail_data_flags;
     void *call_arg;
@@ -184,13 +184,13 @@ block_5:
     }
     if (!(temp_v1_3 & 0x100000)) {
         call_arg = arg2;
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         {
             void *callback = &D_8008ACDC;
             ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             {
                 data = (u8 *) &D_800DCFB0;
-                ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_pv = callback;
                 goto block_154;
             }
@@ -341,11 +341,11 @@ code_50:
 code_68:
                     temp_v0_2 = func_8009FADC(((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, temp_a1);
                     {
-                        register void *call3 ASM_REG("$2") = temp_v0_2; /* MATCH: retain the returned pointer in v0 until argument setup. */
+                        void *call3 = temp_v0_2; /* MATCH: retain the returned pointer in v0 until argument setup. */
                         call0 = arg0;
                         call1 = arg1;
                         call2 = arg2;
-                        ASM_KEEP(call2); /* MATCH: prepare argument registers before loading the mode. */
+                         /* MATCH: prepare argument registers before loading the mode. */
                         temp_v1_7 = (u32) (((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x60) >> 5;
                         temp_v0_4 = (s32) call3;
                         goto block_94270;
@@ -353,7 +353,7 @@ code_68:
 code_88:
                     call0 = arg0;
                     temp_v1_7 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                    ASM_SCHED_BARRIER(); /* MATCH: load the mode before preparing a1. */
+                     /* MATCH: load the mode before preparing a1. */
                     call1 = arg1;
                     temp_v1_7 &= 0x60;
                     temp_v1_7 >>= 5;
@@ -439,7 +439,7 @@ code_8:
                         return;
                     }
                     {
-                        register s32 flag40 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+                        s32 flag40;   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
                         temp_v1_6 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                         flag40 = temp_v1_6 & 0x40;
@@ -449,7 +449,7 @@ code_8:
                                 void *tail_a0 = arg2;
                                 void *tail_a1 = arg1;
 
-                                ASM_SET(tail_a0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                                   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                                 ASM_SET(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFBF);
                                 goto block_153;

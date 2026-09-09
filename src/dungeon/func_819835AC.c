@@ -602,7 +602,7 @@ block_52:
     coord_delta = motion->unk_08.word;
     coord_value += step_y;
     coord_delta += step_z;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     motion->unk_04.word = coord_value;
     state2_stage = (*(void **)((u8 *)&D_800814A8 + 0));
     motion->unk_08.word = coord_delta;
