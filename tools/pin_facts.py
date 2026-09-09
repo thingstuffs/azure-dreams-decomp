@@ -90,6 +90,20 @@ def facts(row, text, regions_text=""):
                      "MEASURED INERT on this shape (~15 tried).  Do not spend budget re-walking "
                      "them; only a call between the definition and the use blocks the fold, and "
                      "that puts the value in a callee-saved register, which is not retail's shape.")
+    if row.get("true_name"):
+        lines.append("- SCORING: this row has a recorded true name, so the per-row scorer links it "
+                     "exactly where the window gate does - they agree, and every word of the "
+                     "residue is real.  verify.py's caveat about a corrected internal jump being "
+                     "unscoreable applies ONLY to rows with NO true name, which link at a synthetic "
+                     "address; do not reach for it here.  (A lane recorded five rows as provably "
+                     "unfixable on that basis; all five had a true name and `gate_candidate` "
+                     "answers `not needed: scorer and gate agree`.)")
+    else:
+        lines.append("- SCORING: this row has NO recorded true name, so the scorer links it at its "
+                     "true base while the gate links it at a synthetic address.  A rewrite that "
+                     "respells an internal jump can be scorer-exact and wrong in the window, or "
+                     "right in the window and unscoreable - the WINDOW is the authority, so prove "
+                     "such a candidate with tools/verify.py --gate.")
     got, tgt, has_arg = residue_registers(regions_text)
     if got or tgt:
         lines.append(f"- residue registers: yours {sorted(got) or '-'}, retail's {sorted(tgt) or '-'}")
