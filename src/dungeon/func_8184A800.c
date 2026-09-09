@@ -52,7 +52,6 @@ static Callback const func_8184A800_table[]
 void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
 {
     s32 random_value;
-    register s32 quotient ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 update_count;
     s16 update_index;
     s16 next_index;
@@ -62,14 +61,8 @@ void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
     *(u16 *)((u8 *)owner_data + 0x16) += 1;
     *(s16 *)((u8 *)target + 0x1A) = 0;
 
-    quotient = rand();
-    ASM_KEEP(quotient);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    random_value = quotient;
-    quotient >>= 2;
-    if (random_value < 0) {
-        quotient = (random_value + 3) >> 2;
-    }
-    update_count = (random_value - (quotient * 4)) + 1;
+    random_value = rand();
+    update_count = (random_value % 4) + 1;
 
     update_index = 0;
     if (update_count > 0) {

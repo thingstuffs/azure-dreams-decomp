@@ -186,6 +186,66 @@ rule: the pin-free text is exact at B, the pinned text is exact at B as well so 
 lost, and the module's cell distribution is reported alongside. (This is the campaign's old K2
 "config reroute" found mechanically rather than by hand.)
 
+**Lane results (five packs, ten rows each, one residue class per lane).** Sonnet on `broad`,
+`reorder-only`, `length-drift` and `li-expansion`; Opus on `reg-rename`:
+
+| class | exact | what closed the rows |
+|---|---|---|
+| reorder-only | 6/10 | `do { stmt; } while (0)` as a zero-byte scheduling barrier (see below); the same wrapper on a `return` keeps the value-to-`$v0` move ahead of the callee-saved restores |
+| reg-rename | 5/10 | m2c's hand-expanded `x % (1<<n)` written back as `%` (gcc's `expand_divmod` re-emits it with its own `copy_to_mode_reg`); giving the two operands of an equality test different modes to stop `record_jump_equiv` merging their cse class; declaring a mask temp at the load's width |
+| broad | 4/10 | folding a load into the expression that consumes it instead of pre-loading an accumulator - that is what flips which pseudo becomes `rs` vs `rt`; symbol substitution for `ori`->`addiu` **when the value is not later a call argument** (it regressed two rows where it was) |
+| length-drift | 4/10 | a `u32` local plus an explicit `& 0xFF` on an `lbu` result (the mask folds away - declare the local `u8` and drop it; two sibling rows fell to it unchanged); a "dead" store before a call that is really an argument to an under-declared callee; duplicating a call into both arms with literal arguments to dodge gcc's if-conversion |
+| li-expansion | 2/10 | the page-base substitution plus a second non-folding set, chosen by score rather than assumed |
+
+**The `reg-rename` class is reachable, and the mechanism is now known.** This matters because the
+class is the largest in the near band (85 rows) and because a cheap probe makes it look impossible:
+25+ variable-map shapes across five rows (split, merge, drop the local, move or block-scope the
+declaration, swap which name is tested against returned, copies in both arms, self round-trip, dead
+init, operand-order flips, same-mode retyping) returned **byte-identical output every time**.  The
+reason is that the residue is not a colouring preference at all: retail's build holds *two live
+pseudos carrying the same value*, and gcc-2.7/2.8's cse collapses a plain `b = a;` into one pseudo
+whenever both stay live, after which the allocator has no choice left.  That is what `ASM_KEEP_NV`
+and `ASM_REG` were standing in for.  Two handles defeat the collapse:
+
+1. **A value-preserving *mode* change on one side of the copy.**  `u16 x = <s32 expr>` is not a
+   REG-REG set in RTL, so cse never enters the two into one quantity and both keep their own
+   colours.  Pick a narrowing the code already pays for - `(u16)(angle + 0x100) & 0xE00` hides the
+   re-widening inside a mask that was already there and costs zero words, where the `s16` spelling
+   costs two because `sll/sra` cannot be folded.  The same idea stops `record_jump_equiv` merging
+   the cse class of an equality test's two operands when they are given different modes.
+2. **The copy is an m2c artifact of a compiler-generated idiom.**
+   `q = x; q >>= n; if (x < 0) q = (x + m) >> n; r = x - (q << n)` is `x % (1 << n)`.  Written back
+   as `%`, gcc's own `expand_divmod` re-emits the sequence with its internal `copy_to_mode_reg`,
+   which is immune to the collapse, and gcc picks the duplicated-shift or shared-shift form per site
+   by itself - do not hand-write one form.  One edit each closed two rows.  **When a reg-rename
+   residue sits inside an arithmetic sequence, look for a hand-expanded compiler idiom before
+   touching any variable.**  (A deliberately narrow regex for this shape finds only 5 rows corpus
+   wide, 4 of them still pinned - the pattern needs widening before it is worth a sweep, since one
+   lane of ten rows contained two of them.)
+
+The rows that resist are the ones where neither handle exists: full-width same-value copies where
+narrowing is not value-preserving, and branch-derived *constant* knowledge from `record_jump_equiv`,
+which is not register naming at all despite the class label.
+
+Two things the lanes taught that change how to run the next one:
+
+- **`--regions` is a free exact oracle.** It prints the same `TOTAL` line as a scored run and says
+  `*** MATCH ***` at zero, so a whole search can run at zero budget with one scored verify for
+  confirmation - two lanes closed their rows on **4 scored verifies out of a possible 120**. The
+  caveat is that a *build failure* also produces no `TOTAL` line, so distinguish "no TOTAL" from
+  "MATCH" explicitly or a syntax error reads as a win.
+- **The class label is not always the mechanism.** Two rows labelled `reg-rename` are really
+  constant propagation (`move $v0,$zero` against `move $v0,$s0`): cse choosing between a literal and
+  a register it has proved holds the same constant, knowledge that comes from `record_jump_equiv` on
+  the guarding branch. Reshaping variables cannot reach them.
+
+**`do { one statement } while (0)` is scaffolding, and it is now counted.** It is a zero-byte
+scheduling barrier that pins a definition point, and it closed five of the six `reorder-only` rows.
+A bare block does **not** reproduce it - only the loop note does - so it is compiler-steering in C
+clothing, not a recovered source shape. It is landed anyway (ordinary portable C beats a
+non-portable asm pin for the port), but `census.py` and `status.py` now count it so the debt appears
+in STATUS.md instead of vanishing from the pin count. It is not new: 226 rows carried it at the pin.
+
 **Tried and did not pay inside this session's budget.** None of these is a reachability verdict —
 every terminal verdict this project has issued has later been overturned, and a lane that spends a
 12-verify budget without a hit has measured its budget, not the class. Read the list as "start
@@ -195,7 +255,8 @@ somewhere else", not as "unreachable":
 - *Blind statement-order search* (`tools/xform/t12_stmtorder.py`, kept as the record): 0/3 on the
   `reorder-only` rows it was built for. The C order is already right; the **scheduler** moved the
   instruction, so the lever is the dependence, not the slot.
-- *The obvious colouring menu* on a damage-2 `reg-rename` row: dropping the local, declaring it
+- *The obvious colouring menu* on a damage-2 `reg-rename` row (the Opus lane later closed 5 of 10
+  rows in this very class, so read this as "these ten shapes are spent", nothing more): dropping the local, declaring it
   first or second, block-scoping it, self-assignment, an extra unused local, splitting the constant,
   changing the divide's signedness and two statement moves were all inert at total 2. That is ten
   shapes, not the space — the levers that have historically moved a colouring (splitting a local by

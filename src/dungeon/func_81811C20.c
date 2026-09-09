@@ -22,7 +22,7 @@ extern u8 D_80029510[12];
 s32 func_80026C20(s32 object_addr) {
     s32 byte_count;
     s32 loop_bound;
-    register s32 compare_space ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 compare_space;
     s32 pair_count;
     s32 byte_offset;
     s32 has_content;

@@ -76,8 +76,6 @@ void *func_8017589C(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *
 {
     u16 delta[3];
     s32 random_value;
-    s32 random_quotient;
-    s32 adjusted_random;
     void *object;
     S_8017589C_1 *work;
     S_8017589C_2 *node;
@@ -90,21 +88,11 @@ void *func_8017589C(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *
         func_8004491C(object, &D_80045340);
         work = (u8 *)object + 0x20;
 
-        random_quotient = rand();
-        random_value = random_quotient;
-        ASM_KEEP(random_quotient);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        random_quotient >>= 0xC;
-        if (random_value < 0) {
-            random_quotient = (s32)(random_value + 0xFFF) >> 0xC;
-        }
-        work->unk_06 = (s16)(random_value - (random_quotient << 0xC));
+        random_value = rand();
+        work->unk_06 = (s16)(random_value % 0x1000);
 
-        adjusted_random = rand();
-        random_value = adjusted_random;
-        if (random_value < 0) {
-            adjusted_random = random_value + 0xFFF;
-        }
-        work->unk_08 = (s16)(random_value - ((adjusted_random >> 0xC) << 0xC));
+        random_value = rand();
+        work->unk_08 = (s16)(random_value % 0x1000);
 
         work->unk_40 = allocation_param;
         work->unk_44 = initial_data;
