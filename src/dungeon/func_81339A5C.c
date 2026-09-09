@@ -4,7 +4,45 @@
 #define NULL 0
 #endif
 
-#define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
+typedef struct S_func_81339A5C_0 {
+    u8 pad_00[8];
+    void *unk_08;
+    void *unk_0C;
+    void *unk_10;
+} S_func_81339A5C_0;
+
+typedef struct S_func_81339A5C_1 {
+    u8 pad_00[2];
+    union { u16 u; s16 s; } unk_02;
+    u8 pad_04[2];
+    union { u16 u; s16 s; } unk_06;
+    u8 pad_08[2];
+    u16 unk_0A;
+    u8 pad_0C[10];
+    u16 unk_16;
+} S_func_81339A5C_1;
+
+typedef struct S_func_81339A5C_2 {
+    u8 pad_00[0x24];
+    void *unk_24;
+    u8 pad_28[0x30];
+    s8 unk_58;
+    s8 unk_59;
+} S_func_81339A5C_2;
+
+typedef struct S_func_81339A5C_3 {
+    u8 pad_00[6];
+    s16 unk_06;
+    void *unk_08;
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
+    u8 pad_0F[5];
+    u16 unk_14;
+    u8 pad_16[6];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_func_81339A5C_3;
 
 extern void *func_8003FD64();
 extern void func_8004491C();
@@ -20,48 +58,48 @@ void func_80170A5C(void)
     u16 object_z;
     u16 source_z;
     u16 object_y;
-    void *source_pos;
-    register void *object_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    S_func_81339A5C_1 *source_pos;
+    register S_func_81339A5C_2 *object_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *source_data;
-    void *object;
-    void *render_flags;
-    void *object_pos;
-    void *render_state;
+    S_func_81339A5C_0 *object;
+    S_func_81339A5C_3 *render_flags;
+    S_func_81339A5C_1 *object_pos;
+    S_func_81339A5C_3 *render_state;
 
-    source_pos = FIELD(D_80175D50, void **, 8);
+    source_pos = ((S_func_81339A5C_0 *)D_80175D50)->unk_08;
     source_data = D_80175D50 + 0x20;
     object = func_8003FD64(0x12, D_80175D50);
     if (object != NULL) {
-        FIELD(object, void **, 0x10) = &D_8017085C;
+        object->unk_10 = &D_8017085C;
         func_8004491C(object, &D_80045340);
-        render_flags = FIELD(object, void **, 0xC);
-        object_data = object + 0x20;
-        FIELD(render_flags, u16 *, 0x14) =
-            (u16)(FIELD(render_flags, u16 *, 0x14) & 0xFFF3);
-        FIELD(object_data, void **, 0x24) = source_data;
-        object_pos = FIELD(object, void **, 8);
-        FIELD(object_pos, u16 *, 2) = FIELD(source_pos, u16 *, 2);
-        FIELD(object_pos, u16 *, 6) = FIELD(source_pos, u16 *, 6);
-        FIELD(object_pos, volatile u16 *, 0xA) =
-            FIELD(source_pos, volatile u16 *, 0xA);
-        source_z = FIELD(source_pos, volatile u16 *, 0xA);
-        object_y = FIELD(object_pos, volatile u16 *, 6);
-        object_z = FIELD(object_pos, volatile u16 *, 0xA);
-        FIELD(object_pos, u16 *, 6) = (u16)(object_y - 0x140);
-        FIELD(object_pos, u16 *, 0x16) = source_z;
-        FIELD(object_pos, u16 *, 0xA) = (u16)(object_z - 0x20);
-        render_state = FIELD(object, void **, 0xC);
-        FIELD(render_state, s16 *, 0x1E) = 0x1000;
-        FIELD(render_state, s16 *, 0x1C) = 0x1000;
-        FIELD(render_state, s16 *, 6) = 6;
-        FIELD(object_data, s8 *, 0x58) =
-            (FIELD(source_pos, s16 *, 2) - 0x20) / 0x40;
-        FIELD(object_data, s8 *, 0x59) =
-            (FIELD(source_pos, s16 *, 6) - 0x20) / 0x40;
-        FIELD(render_state, u8 *, 0xE) = 0x80;
-        FIELD(render_state, u8 *, 0xD) = 0x80;
-        FIELD(render_state, u8 *, 0xC) = 0x80;
-        FIELD(render_state, void **, 8) = &D_8006E240;
+        render_flags = object->unk_0C;
+        object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);
+        render_flags->unk_14 =
+            (u16)(render_flags->unk_14 & 0xFFF3);
+        object_data->unk_24 = source_data;
+        object_pos = object->unk_08;
+        object_pos->unk_02.u = source_pos->unk_02.u;
+        object_pos->unk_06.u = source_pos->unk_06.u;
+        ((volatile S_func_81339A5C_1 *)object_pos)->unk_0A =
+            ((volatile S_func_81339A5C_1 *)source_pos)->unk_0A;
+        source_z = ((volatile S_func_81339A5C_1 *)source_pos)->unk_0A;
+        object_y = ((volatile S_func_81339A5C_1 *)object_pos)->unk_06.u;
+        object_z = ((volatile S_func_81339A5C_1 *)object_pos)->unk_0A;
+        object_pos->unk_06.u = (u16)(object_y - 0x140);
+        object_pos->unk_16 = source_z;
+        object_pos->unk_0A = (u16)(object_z - 0x20);
+        render_state = object->unk_0C;
+        render_state->unk_1E = 0x1000;
+        render_state->unk_1C = 0x1000;
+        render_state->unk_06 = 6;
+        object_data->unk_58 =
+            (source_pos->unk_02.s - 0x20) / 0x40;
+        object_data->unk_59 =
+            (source_pos->unk_06.s - 0x20) / 0x40;
+        render_state->unk_0E = 0x80;
+        render_state->unk_0D = 0x80;
+        render_state->unk_0C = 0x80;
+        render_state->unk_08 = &D_8006E240;
         D_80175D68 = object;
     }
 }

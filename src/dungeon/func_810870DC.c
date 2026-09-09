@@ -8,14 +8,40 @@ extern u8 D_80170E94[];
 extern u8 D_80175F10[];
 extern u8 D_80175F28[];
 
-#define FIELD(type, base, offset) (*(type *)((u8 *)(base) + (offset)))
+typedef struct S_func_810870DC_0 {
+    u8 pad_00[0x8C];
+    void *unk_8C;
+    u8 pad_90[0xB];
+    u8 unk_9B;
+    u8 pad_9C[0xA];
+    s16 unk_A6;
+} S_func_810870DC_0;
+
+typedef struct S_func_810870DC_1 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0x16];
+    void *unk_2C;
+} S_func_810870DC_1;
+
+typedef struct S_func_810870DC_2 {
+    u8 pad_00[0x2A];
+    s16 unk_2A;
+} S_func_810870DC_2;
+
+typedef struct S_func_810870DC_3 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0xBC];
+    s16 unk_C8;
+} S_func_810870DC_3;
 
 /* Updates directional animation and entity state when the transition flags allow. */
-void func_801748DC(void *entity, void *unused, void *animation, void *orientation)
+void func_801748DC(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *animation, S_func_810870DC_2 *orientation)
 {
-    u8 *scene_data = D_80083160;
+    S_func_810870DC_3 *scene_data = (S_func_810870DC_3 *)D_80083160;
     u16 *counters;
-    u8 state = FIELD(u8, entity, 0x9B);
+    u8 state = entity->unk_9B;
 
     if (state == 0) {
         goto state_zero;
@@ -26,26 +52,26 @@ void func_801748DC(void *entity, void *unused, void *animation, void *orientatio
     goto done;
 
 state_zero:
-    if (FIELD(u16, animation, 0x14) & 0xE000) {
-        FIELD(void *, animation, 0x2C) = D_80175F28;
+    if (animation->unk_14 & 0xE000) {
+        animation->unk_2C = D_80175F28;
         func_80047784(animation,
-            D_80175F28[((FIELD(s16, scene_data, 0xC8) +
-                FIELD(s16, orientation, 0x2A) + 0x100) >> 9) & 7], 0);
-        FIELD(u8, entity, 0x9B)++;
+            D_80175F28[((scene_data->unk_C8 +
+                orientation->unk_2A + 0x100) >> 9) & 7], 0);
+        entity->unk_9B++;
     }
     goto done;
 
 state_one:
     {
-        s32 scene_flags = FIELD(s32, scene_data, 8);
+        s32 scene_flags = scene_data->unk_08;
 
         if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
-            FIELD(void *, animation, 0x2C) = D_80175F10;
+            animation->unk_2C = D_80175F10;
             func_80047784(animation,
-                D_80175F10[((FIELD(s16, scene_data, 0xC8) +
-                    FIELD(s16, orientation, 0x2A) + 0x100) >> 9) & 7], 0);
-            FIELD(void *, entity, 0x8C) = D_80170E94;
-            FIELD(s16, entity, 0xA6) = 0;
+                D_80175F10[((scene_data->unk_C8 +
+                    orientation->unk_2A + 0x100) >> 9) & 7], 0);
+            entity->unk_8C = D_80170E94;
+            entity->unk_A6 = 0;
             counters = (u16 *)&D_80083460;
             counters[5]--;
         }

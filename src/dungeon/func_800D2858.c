@@ -16,7 +16,63 @@ typedef struct {
     u8 *d81d4;
 } Entry;
 
-#define FIELD(expr, type, offset) (*(type)((u8 *)(expr) + (offset)))
+typedef struct S_func_800D7FB8_0 {
+    s16 unk_00;
+    union {
+        s16 s16_value;
+        u16 u16_value;
+    } unk_02;
+    u16 unk_04;
+    u16 unk_06;
+    u16 unk_08;
+} S_func_800D7FB8_0;
+
+typedef struct S_func_800D7FB8_1 {
+    u8 pad_00[0x4A];
+    s16 unk_4A;
+} S_func_800D7FB8_1;
+
+typedef struct S_func_800D7FB8_2 {
+    u8 pad_00[2];
+    u16 unk_02;
+    u8 pad_04[2];
+    u16 unk_06;
+    u8 pad_08[2];
+    u16 unk_0A;
+} S_func_800D7FB8_2;
+
+typedef struct S_func_800D7FB8_3 {
+    u8 *unk_00;
+    s8 unk_04;
+    s8 unk_05;
+    u8 pad_06[2];
+    s32 unk_08;
+    s32 unk_0C;
+    s16 unk_10;
+    u8 pad_12[2];
+    u16 unk_14;
+    u8 pad_16[6];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_func_800D7FB8_3;
+
+typedef struct S_func_800D7FB8_4 {
+    u8 pad_00[4];
+    s32 unk_04;
+} S_func_800D7FB8_4;
+
+typedef struct S_func_800D7FB8_5 {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+} S_func_800D7FB8_5;
+
+typedef struct S_func_800D7FB8_6 {
+    s32 unk_00;
+} S_func_800D7FB8_6;
+
+typedef struct S_func_800D7FB8_7 {
+    u16 unk_00;
+} S_func_800D7FB8_7;
 
 extern u8 D_80083498[];
 extern u8 D_80045340[];
@@ -30,18 +86,18 @@ extern void func_8004491C(void *, void *);
 extern s32 func_800A56E0(s32);
 
 /* Spawns effect entries and marks the controller finished after two delays. */
-void func_800D7FB8(void *controller) {
-    u8 *entry_data;
+void func_800D7FB8(S_func_800D7FB8_0 *controller) {
+    S_func_800D7FB8_1 *entry_data;
     s16 state;
     s32 spawn_index;
     u16 finish_timer;
     u16 effect_timer;
     s32 resource_word;
-    void *sub_data;
+    S_func_800D7FB8_3 *sub_data;
     Entry *entry;
-    u8 *counter_base;
+    S_func_800D7FB8_5 *counter_base;
 
-    state = FIELD(controller, s16 *, 0);
+    state = controller->unk_00;
     if (state == 1) {
         goto timer_state;
     }
@@ -60,54 +116,54 @@ check_ff:
     goto done;
 
 init_state:
-    FIELD(controller, s16 *, 2) = 0x3C;
-    FIELD(controller, s16 *, 0) = (s16)((u16)FIELD(controller, s16 *, 0) + 1);
+    controller->unk_02.s16_value = 0x3C;
+    controller->unk_00 = (s16)((u16)controller->unk_00 + 1);
     func_800A56E0(0x600);
     spawn_index = 0x96;
     do {
         entry = func_8003FD64((void *)0x312, D_80083498);
         if (entry != NULL) {
-            entry_data = (u8 *)entry + 0x20;
-            FIELD(entry, void **, 0x10) = &D_800D81D4;
+            entry_data = (S_func_800D7FB8_1 *)((u8 *)entry + 0x20);
+            entry->d81d4 = (u8 *)&D_800D81D4;
             func_8004491C(entry, D_80045340);
             sub_data = entry->sub;
-            FIELD(entry->child, u16 *, 2) = FIELD(controller, u16 *, 4);
-            FIELD(entry->child, u16 *, 6) = FIELD(controller, u16 *, 6);
-            FIELD(entry->child, u16 *, 0xA) = FIELD(controller, u16 *, 8);
-            FIELD(sub_data, s16 *, 0x1E) = 0x400;
-            FIELD(sub_data, s16 *, 0x1C) = 0x400;
-            FIELD(sub_data, s16 *, 0x10) = 0x20;
-            FIELD(sub_data, u8 **, 0) = D_800DEC00;
-            FIELD(sub_data, u16 *, 0x14) = (u16)(FIELD(sub_data, u16 *, 0x14) | 0xC);
-            resource_word = FIELD(D_800DEC00, s32 *, 4);
-            FIELD(sub_data, s8 *, 4) = 0;
-            FIELD(sub_data, s8 *, 5) = 0;
-            FIELD(sub_data, s32 *, 0xC) = 0;
-            FIELD(sub_data, s32 *, 8) = resource_word;
+            ((S_func_800D7FB8_2 *)entry->child)->unk_02 = controller->unk_04;
+            ((S_func_800D7FB8_2 *)entry->child)->unk_06 = controller->unk_06;
+            ((S_func_800D7FB8_2 *)entry->child)->unk_0A = controller->unk_08;
+            sub_data->unk_1E = 0x400;
+            sub_data->unk_1C = 0x400;
+            sub_data->unk_10 = 0x20;
+            sub_data->unk_00 = D_800DEC00;
+            sub_data->unk_14 = (u16)(sub_data->unk_14 | 0xC);
+            resource_word = ((S_func_800D7FB8_4 *)D_800DEC00)->unk_04;
+            sub_data->unk_04 = 0;
+            sub_data->unk_05 = 0;
+            sub_data->unk_0C = 0;
+            sub_data->unk_08 = resource_word;
             __builtin_memcpy((u8 *)entry + 0x2C, (u8 *)controller + 4, 8);
-            FIELD(entry_data, s16 *, 0x4A) = (spawn_index & 1) ? 1 : -1;
-            FIELD(entry->child, u16 *, 0xA) = FIELD(controller, u16 *, 8);
+            entry_data->unk_4A = (spawn_index & 1) ? 1 : -1;
+            ((S_func_800D7FB8_2 *)entry->child)->unk_0A = controller->unk_08;
         }
         spawn_index -= 1;
     } while (spawn_index >= 0);
 
 timer_state:
-    effect_timer = (u16)(FIELD(controller, u16 *, 2) - 1);
-    FIELD(controller, u16 *, 2) = effect_timer;
+    effect_timer = (u16)(controller->unk_02.u16_value - 1);
+    controller->unk_02.u16_value = effect_timer;
     if ((effect_timer << 0x10) <= 0) {
-        FIELD(controller, u16 *, 2) = 8U;
-        FIELD(controller, s16 *, 0) = (s16)0xFF;
+        controller->unk_02.u16_value = 8U;
+        controller->unk_00 = (s16)0xFF;
     }
     goto done;
 
 ff_state:
-    finish_timer = (u16)(FIELD(controller, u16 *, 2) - 1);
-    FIELD(controller, u16 *, 2) = finish_timer;
+    finish_timer = (u16)(controller->unk_02.u16_value - 1);
+    controller->unk_02.u16_value = finish_timer;
     if ((finish_timer << 0x10) <= 0) {
-        counter_base = (u8 *)D_80083460;
-        FIELD(counter_base, u16 *, 0xA) = (u16)(FIELD(counter_base, u16 *, 0xA) - 1);
-        FIELD(controller, u16 *, -2) = (u16)(FIELD(controller, u16 *, -2) | 0x8000);
-        FIELD(D_800814A0, s32 *, 0) = FIELD(D_800814A0, s32 *, 0) | 0x8000;
+        counter_base = (S_func_800D7FB8_5 *)D_80083460;
+        counter_base->unk_0A = (u16)(counter_base->unk_0A - 1);
+        ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 = (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
+        ((S_func_800D7FB8_6 *)D_800814A0)->unk_00 = ((S_func_800D7FB8_6 *)D_800814A0)->unk_00 | 0x8000;
     }
 
 done:

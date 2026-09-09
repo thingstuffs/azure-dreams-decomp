@@ -2,7 +2,45 @@
 
 typedef s32 M2C_UNK;
 
-#define FIELD(p, t, n) (*(t)((u8 *)(p) + (n)))
+typedef struct S_func_809A0B58_0 {
+    u8 pad_00[0x8C];
+    s32 unk_8C;
+    u8 pad_90[2];
+    u16 unk_92;
+    u8 pad_94[6];
+    s8 unk_9A;
+    s8 unk_9B;
+    u8 pad_9C[2];
+    s16 unk_9E;
+    u8 pad_A0[2];
+    u16 unk_A2;
+    u8 pad_A4[0xC];
+    u16 unk_B0;
+    u16 unk_B2;
+} S_func_809A0B58_0;
+
+typedef struct S_func_809A0B58_1 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[6];
+    u8 *unk_2C;
+} S_func_809A0B58_1;
+
+typedef struct S_func_809A0B58_2 {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    union {
+        u16 unk_00;
+        s16 unk_00_s;
+    } unk_2A;
+} S_func_809A0B58_2;
+
+typedef struct S_func_809A0B58_3 {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+} S_func_809A0B58_3;
 
 extern M2C_UNK func_80047784();
 extern M2C_UNK func_8009A350();
@@ -11,36 +49,36 @@ extern M2C_UNK D_80083460;
 extern u8 D_80175EA8[9];
 
 /* Advance the counter when unblocked and reset the action when it exceeds 60. */
-void func_809A0B58(void *actor_state, void *unused, void *sprite, void *entity) {
+void func_809A0B58(S_func_809A0B58_0 *actor_state, void *unused, S_func_809A0B58_1 *sprite, S_func_809A0B58_2 *entity) {
     u16 tile_flags;
     u16 counter_value;
     u8 *direction_frames;
-    u8 *global_state;
+    S_func_809A0B58_3 *global_state;
 
-    func_8009A350(FIELD(sprite, u8 *, 0x24) - 1, FIELD(sprite, u8 *, 0x25),
-                  ((u16)FIELD(entity, u16 *, 0x2A) >> 9) & 7, &tile_flags);
+    func_8009A350(sprite->unk_24 - 1, sprite->unk_25,
+                  ((u16)entity->unk_2A.unk_00 >> 9) & 7, &tile_flags);
     if (!(tile_flags & 0x8400)) {
-        counter_value = FIELD(actor_state, u16 *, 0xB2) + 1;
-        FIELD(actor_state, u16 *, 0xB2) = counter_value;
+        counter_value = actor_state->unk_B2 + 1;
+        actor_state->unk_B2 = counter_value;
         if ((u32)(counter_value & 0xFFFF) >= 0x3D) {
-            global_state = (u8 *)&D_80083460;
-            FIELD(actor_state, u16 *, 0xB2) = 0x3C;
-            FIELD(global_state, u16 *, 0xA) =
-                (u16)(FIELD(global_state, u16 *, 0xA) + 1);
-            FIELD(actor_state, s8 *, 0x9A) = 0x19;
-            FIELD(actor_state, s32 *, 0x8C) = 0;
-            FIELD(actor_state, s8 *, 0x9B) = 0;
+            global_state = (S_func_809A0B58_3 *)&D_80083460;
+            actor_state->unk_B2 = 0x3C;
+            global_state->unk_0A =
+                (u16)(global_state->unk_0A + 1);
+            actor_state->unk_9A = 0x19;
+            actor_state->unk_8C = 0;
+            actor_state->unk_9B = 0;
             direction_frames = D_80175EA8;
-            FIELD(sprite, u8 **, 0x2C) = direction_frames;
+            *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
             func_80047784(sprite,
-                           direction_frames[((s32)(D_80083228 + FIELD(entity, s16 *, 0x2A) + 0x100) >> 9) & 7],
+                           direction_frames[((s32)(D_80083228 + entity->unk_2A.unk_00_s + 0x100) >> 9) & 7],
                            0);
-            FIELD(actor_state, u16 *, 0xB0) = (u16)FIELD(entity, u16 *, 0x2A);
-            FIELD(entity, s32 *, 0x1C) = (s32)(FIELD(entity, s32 *, 0x1C) & 0xFFFBFFFF);
-            counter_value = FIELD(actor_state, u16 *, 0x92) - FIELD(actor_state, u16 *, 0xA2);
-            FIELD(actor_state, u16 *, 0xA2) = 0;
-            FIELD(actor_state, s16 *, 0x9E) = 0;
-            FIELD(actor_state, u16 *, 0x92) = counter_value;
+            actor_state->unk_B0 = (u16)entity->unk_2A.unk_00;
+            entity->unk_1C = (s32)(entity->unk_1C & 0xFFFBFFFF);
+            counter_value = actor_state->unk_92 - actor_state->unk_A2;
+            actor_state->unk_A2 = 0;
+            actor_state->unk_9E = 0;
+            actor_state->unk_92 = counter_value;
         }
     }
 }

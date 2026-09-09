@@ -1,33 +1,53 @@
 #include "common.h"
 
-#define FIELD(expr, type, offset) (*(type)((u8 *)(expr) + (offset)))
+typedef struct S_func_8065C05C_0 {
+    s8 unk_00;
+    s8 unk_01;
+    s8 unk_02;
+    s8 unk_03;
+} S_func_8065C05C_0;
+
+typedef struct S_func_8065C05C_1 {
+    u8 pad_00[0x6000];
+    void *unk_6000;
+} S_func_8065C05C_1;
+
+typedef struct S_func_8065C05C_2 {
+    u8 pad_00[0x20];
+    void *unk_20;
+} S_func_8065C05C_2;
+
+typedef struct S_func_8065C05C_3 {
+    u8 pad_00[0x70];
+    s32 (*unk_70)(s32);
+} S_func_8065C05C_3;
 
 extern u8 D_80016000[12];
 
 /* Build a terminated list of four-byte entries for IDs accepted by the callback. */
 void func_8065C05C(void *entries) {
-    register void *entries_base;
+    register S_func_8065C05C_0 *entries_base;
     s32 entry_count;
     register s32 entry_id;
     register s32 entry_tag ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *globals_page ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *entries_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register S_func_8065C05C_1 *globals_page ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register S_func_8065C05C_0 *entries_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 terminator;
-    register void *entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register S_func_8065C05C_0 *entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     entries_base = entries;
     entry_count = 0;
     entry_id = 0;
-    globals_page = (u8 *)0x80010000;
+    globals_page = (S_func_8065C05C_1 *)0x80010000;
     entry_tag = 0x17;
     entry = entries_base;
     do {
-        if (FIELD(FIELD(FIELD(globals_page, void **, 0x6000), void **, 0x20), s32 (**)(s32), 0x70)(entry_id) != 0) {
-            FIELD(entry, s8 *, 0) = entry_id;
-            FIELD(entry, s8 *, 1) = entry_tag;
-            FIELD(entry, s8 *, 3) = 0;
-            FIELD(entry, s8 *, 2) = 0;
-            entry += 4;
+        if (((S_func_8065C05C_3 *)((S_func_8065C05C_2 *)globals_page->unk_6000)->unk_20)->unk_70(entry_id) != 0) {
+            entry->unk_00 = entry_id;
+            entry->unk_01 = entry_tag;
+            entry->unk_03 = 0;
+            entry->unk_02 = 0;
+            entry += 1;
             entry_count += 1;
         }
         entry_id += 1;
@@ -37,7 +57,7 @@ void func_8065C05C(void *entries) {
     terminator = entry_count;
     terminator <<= 2;
     terminator += (u32)entries_copy;
-    FIELD((void *)terminator, s8 *, 1) = 0;
-    FIELD((void *)terminator, s8 *, 0) = 0;
+    ((S_func_8065C05C_0 *)terminator)->unk_01 = 0;
+    ((S_func_8065C05C_0 *)terminator)->unk_00 = 0;
     ASM_USE2(entries_copy, terminator);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 }

@@ -1,7 +1,5 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
-
 typedef struct {
     s16 x;
     s16 y;
@@ -214,7 +212,7 @@ snap_initial_tile:
             }
             x_or_mask |= 0xFFFF;
             D_800E296C &= x_or_mask;
-            FIELD(effect, u16 *, -2) |= 0x8000;
+            *(u16 *)((u8 *)effect - 2) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
         func_800CDE0C();

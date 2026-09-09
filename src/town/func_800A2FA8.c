@@ -2,14 +2,23 @@
 
 typedef s32 M2C_UNK;
 
-#define FIELD(base, type, offset) (*(type)((s8 *)(base) + (offset)))
+typedef struct S_func_800A0708_0 {
+    u8 pad_00[0x50];
+    M2C_UNK (*unk_50)(void *, M2C_UNK, M2C_UNK, M2C_UNK);
+    u8 pad_54[0x44];
+    s8 *unk_98;
+} S_func_800A0708_0;
+
+typedef struct S_func_800A0708_1 {
+    u16 unk_00;
+} S_func_800A0708_1;
 
 extern void func_80033D08(void *arg0);
 extern s32 func_8009CFE0(void *, M2C_UNK);
 extern s32 D_800814A0[3];
 
 /* Clear and flag the object on a nonzero check result, or invoke its callback. */
-void func_800A0708(void *object, M2C_UNK callback_arg, M2C_UNK callback_data)
+void func_800A0708(S_func_800A0708_0 *object, M2C_UNK callback_arg, M2C_UNK callback_data)
 {
     s8 *linked_flag;
     M2C_UNK check_result;
@@ -17,25 +26,22 @@ void func_800A0708(void *object, M2C_UNK callback_arg, M2C_UNK callback_data)
 
     check_result = func_8009CFE0(object, callback_arg);
     {
-        register void *callback_object = object;
+        register S_func_800A0708_0 *callback_object = object;
 
         if (check_result != 0) {
-            linked_flag = FIELD(object, s8 **, 0x98);
+            linked_flag = object->unk_98;
             if (linked_flag != 0) {
                 *linked_flag = 0;
             }
             func_80033D08(object);
-            FIELD(object, u16 *, -2) =
-                (u16)(FIELD(object, u16 *, -2) | 0x8000);
+            ((S_func_800A0708_1 *)((u8 *)object - 2))->unk_00 =
+                (u16)(((S_func_800A0708_1 *)((u8 *)object - 2))->unk_00 | 0x8000);
             D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
             return;
         } else {
             register void *object_arg = callback_object;
 
-            callback = FIELD(callback_object,
-                             M2C_UNK (**)(void *, M2C_UNK, M2C_UNK,
-                                           M2C_UNK),
-                             0x50);
+            callback = callback_object->unk_50;
             callback(callback_object, object_arg, callback_arg, callback_data);
         }
     }

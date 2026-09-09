@@ -1,7 +1,95 @@
 #include "common.h"
 
+typedef struct S_func_8080F4A4_1 {
+    s32 unk_00;
+    u8 pad_04[0xC];
+    s32 unk_10;
+    s32 unk_14;
+    s16 unk_18;
+    u16 unk_1A;
+    u16 unk_1C;
+    u16 unk_1E;
+    u16 unk_20;
+    s16 unk_22;
+    s16 unk_24;
+} S_func_8080F4A4_1;
+
+typedef struct S_func_8080F4A4_2 {
+    s16 unk_00;
+    s16 unk_02;
+    void * unk_04;
+    u8 pad_08[0x15];
+    s8 unk_1D;
+    u8 pad_1E[0x36];
+    s16 unk_54;
+    s16 unk_56;
+    s32 unk_58;
+    s32 unk_5C;
+    s32 unk_60;
+    s32 unk_64;
+    s32 unk_68;
+    s32 unk_6C;
+    s16 unk_70;
+    s16 unk_72;
+    s16 unk_74;
+} S_func_8080F4A4_2;
+
+typedef struct S_func_8080F4A4_3 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x4];
+    s32 unk_10;
+} S_func_8080F4A4_3;
+
+typedef struct S_func_8080F4A4_4 {
+    s32 unk_00;
+    s32 unk_04;
+    u8 pad_08[0x8];
+    u16 unk_10;
+} S_func_8080F4A4_4;
+
+typedef struct S_func_8080F4A4_5 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    s32 unk_10;
+    u8 pad_14[0x10];
+    void * unk_24;
+} S_func_8080F4A4_5;
+
+typedef struct S_func_8080F4A4_6 {
+    u8 pad_00[0x4];
+    s8 unk_04;
+    s8 unk_05;
+    u8 pad_06[0x2];
+    s32 unk_08;
+    s32 unk_0C;
+    u8 pad_10[0x4];
+    u16 unk_14;
+    u8 pad_16[0x6];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_func_8080F4A4_6;
+
+typedef struct S_func_8080F4A4_7 {
+    u8 pad_00[0x70];
+    s16 unk_70;
+    s16 unk_72;
+    s16 unk_74;
+} S_func_8080F4A4_7;
+
+typedef struct S_func_8080F4A4_8 {
+    u8 pad_00[0x70];
+    s16 unk_70;
+} S_func_8080F4A4_8;
+
+typedef struct S_func_8080F4A4_9 {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+} S_func_8080F4A4_9;
+
 typedef s32 M2C_UNK;
-#define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 #ifndef NULL
 #define NULL 0
 #endif
@@ -48,23 +136,23 @@ extern u8 D_8052B054[];
 extern u8 D_8052B1EC[];
 extern u8 D_8053012C[];
 /* Updates the betting game, its animations, and payout or refund coins. */
-void func_8052A0A4(void *game) {
+void func_8052A0A4(S_func_8080F4A4_1 *game) {
     u8 spawn_data[0x80];
-#define spawn_mode FIELD(spawn_data, s16 *, 0)
-#define spawn_delay FIELD(spawn_data, s16 *, 2)
-#define spawn_parent FIELD(spawn_data, void **, 4)
-#define spawn_variant FIELD(spawn_data, s8 *, 0x1D)
-#define coin_kind FIELD(spawn_data, s16 *, 0x54)
-#define coin_index FIELD(spawn_data, s16 *, 0x56)
-#define spawn_x FIELD(spawn_data, s32 *, 0x58)
-#define spawn_y FIELD(spawn_data, s32 *, 0x5C)
-#define spawn_z FIELD(spawn_data, s32 *, 0x60)
-#define velocity_x FIELD(spawn_data, s32 *, 0x64)
-#define velocity_y FIELD(spawn_data, s32 *, 0x68)
-#define velocity_z FIELD(spawn_data, s32 *, 0x6C)
-#define ones_left FIELD(spawn_data, s16 *, 0x70)
-#define tens_left FIELD(spawn_data, s16 *, 0x72)
-#define hundreds_left FIELD(spawn_data, s16 *, 0x74)
+#define spawn_mode ((S_func_8080F4A4_2 *)spawn_data)->unk_00
+#define spawn_delay ((S_func_8080F4A4_2 *)spawn_data)->unk_02
+#define spawn_parent ((S_func_8080F4A4_2 *)spawn_data)->unk_04
+#define spawn_variant ((S_func_8080F4A4_2 *)spawn_data)->unk_1D
+#define coin_kind ((S_func_8080F4A4_2 *)spawn_data)->unk_54
+#define coin_index ((S_func_8080F4A4_2 *)spawn_data)->unk_56
+#define spawn_x ((S_func_8080F4A4_2 *)spawn_data)->unk_58
+#define spawn_y ((S_func_8080F4A4_2 *)spawn_data)->unk_5C
+#define spawn_z ((S_func_8080F4A4_2 *)spawn_data)->unk_60
+#define velocity_x ((S_func_8080F4A4_2 *)spawn_data)->unk_64
+#define velocity_y ((S_func_8080F4A4_2 *)spawn_data)->unk_68
+#define velocity_z ((S_func_8080F4A4_2 *)spawn_data)->unk_6C
+#define ones_left ((S_func_8080F4A4_2 *)spawn_data)->unk_70
+#define tens_left ((S_func_8080F4A4_2 *)spawn_data)->unk_72
+#define hundreds_left ((S_func_8080F4A4_2 *)spawn_data)->unk_74
     M2C_UNK bounce_anim;
     M2C_UNK settle_anim;
     s16 hundreds;
@@ -105,31 +193,31 @@ void func_8052A0A4(void *game) {
     s32 bounce_y_speed;
     s32 flags_or_z;
     s32 state_or_x;
-    void *coin_counts;
-    void *input;
-    void *animated_sprite;
-    void *sprite_data;
-    void *game_data;
-    void *sprite;
+    S_func_8080F4A4_8 *coin_counts;
+    S_func_8080F4A4_3 *input;
+    S_func_8080F4A4_4 *animated_sprite;
+    S_func_8080F4A4_6 *sprite_data;
+    S_func_8080F4A4_7 *game_data;
+    S_func_8080F4A4_5 *sprite;
 
-    input = &D_8012F130;
-    animated_sprite = &D_801328E8;
-    state_or_buttons = FIELD(game, s16 *, 0x18);
-    game_data = FIELD(game, s32 *, 0) + 0x20;
+    input = (S_func_8080F4A4_3 *)&D_8012F130;
+    animated_sprite = (S_func_8080F4A4_4 *)&D_801328E8;
+    state_or_buttons = game->unk_18;
+    game_data = (S_func_8080F4A4_7 *)(game->unk_00 + 0x20);
     switch (state_or_buttons) {
     case 0:
-        initial_flags = FIELD(game, u16 *, 0x20);
+        initial_flags = game->unk_20;
         D_802BC5C8[0] = 1;
-        FIELD(game, s16 *, 0x22) = 3;
-        FIELD(game, u16 *, 0x1E) = 0U;
-        FIELD(game, s32 *, 0x14) = 0;
-        FIELD(game, u16 *, 0x20) = (u16) (initial_flags & 0xFFFD);
+        game->unk_22 = 3;
+        game->unk_1E = 0U;
+        game->unk_14 = 0;
+        game->unk_20 = (u16) (initial_flags & 0xFFFD);
         func_802441A4(input);
         func_80058F88(0x700);
-        flags_or_z = FIELD(game, u16 *, 0x20);
+        flags_or_z = game->unk_20;
         state_or_x = 1;
-        FIELD(game, s16 *, 0x18) = state_or_x;
-        FIELD(game, u16 *, 0x20) = (u16) (flags_or_z & 0xFFF7);
+        game->unk_18 = state_or_x;
+        game->unk_20 = (u16) (flags_or_z & 0xFFF7);
         spawn_mode = 0;
         spawn_parent = game;
         coin_kind = 2;
@@ -160,106 +248,106 @@ spawn_column:
         do {
             sprite = func_800374FC(0x112, &D_801328C8);
             if (sprite != NULL) {
-                sprite_data = FIELD(sprite, void **, 0xC);
-                FIELD(sprite, s32 *, 0x10) = (s32 *)D_8052B054;
+                sprite_data = sprite->unk_0C;
+                sprite->unk_10 = (s32 *)D_8052B054;
                 func_8003BC18(sprite, &D_8003C558);
-                FIELD(FIELD(sprite, void **, 8), s32 *, 0) = (s32) ((sprite_index << 0x17) + 0x04600000);
-                FIELD(FIELD(sprite, void **, 8), s32 *, 4) = 0x03600000;
-                FIELD(FIELD(sprite, void **, 8), s32 *, 8) = 0xFE000000;
-                FIELD(sprite_data, s16 *, 0x1E) = sprite_scale;
-                FIELD(sprite_data, s16 *, 0x1C) = sprite_scale;
-                FIELD(sprite_data, u16 *, 0x14) = (u16) (FIELD(sprite_data, u16 *, 0x14) | 0xC);
-                FIELD(sprite_data, s32 *, 8) = (s32) *sprite_entry;
-                FIELD(sprite_data, s8 *, 4) = 0;
-                FIELD(sprite_data, s8 *, 5) = 0;
-                FIELD(sprite_data, s32 *, 0xC) = 0x808080;
-                FIELD(sprite, void **, 0x24) = game;
+                ((S_func_8080F4A4_9 *)sprite->unk_08)->unk_00 = (s32) ((sprite_index << 0x17) + 0x04600000);
+                ((S_func_8080F4A4_9 *)sprite->unk_08)->unk_04 = 0x03600000;
+                ((S_func_8080F4A4_9 *)sprite->unk_08)->unk_08 = 0xFE000000;
+                sprite_data->unk_1E = sprite_scale;
+                sprite_data->unk_1C = sprite_scale;
+                sprite_data->unk_14 = (u16) (sprite_data->unk_14 | 0xC);
+                sprite_data->unk_08 = (s32) *sprite_entry;
+                sprite_data->unk_04 = 0;
+                sprite_data->unk_05 = 0;
+                sprite_data->unk_0C = 0x808080;
+                sprite->unk_24 = game;
             }
             sprite_index -= 1;
             sprite_entry -= 1;
         } while (sprite_index >= 0);
         break;
     case 1:
-        if (FIELD(game, s16 *, 0x22) != 3) {
+        if (game->unk_22 != 3) {
             round_handle = func_80232868(0, -0x50, 0x40);
-            odds = 6 / (s32) (FIELD(game, s16 *, 0x22) + 1);
+            odds = 6 / (s32) (game->unk_22 + 1);
             D_80530588[0] = round_handle;
-            FIELD(game, s32 *, 0x10) = odds;
+            game->unk_10 = odds;
             if (func_80052374(odds) == 0) {
                 D_80132AE8[5] = 0;
                 D_80132AE8[4] = 0;
                 D_80132AE8[3] = 0;
-                FIELD(animated_sprite, u16 *, 0x10) = 0U;
+                animated_sprite->unk_10 = 0U;
                 func_802445FC((s32)D_80290268);
-                FIELD(animated_sprite, s32 *, 0) = (s32)D_802483B8;
-                FIELD(animated_sprite, s32 *, 4) = (s32)D_8052B1EC;
+                animated_sprite->unk_00 = (s32)D_802483B8;
+                animated_sprite->unk_04 = (s32)D_8052B1EC;
             }
-            FIELD(game_data, s16 *, 0x70) = 1;
-            FIELD(game_data, s16 *, 0x72) = 0x10;
-            FIELD(game_data, s16 *, 0x74) = 0x14;
-            FIELD(game, u16 *, 0x1A) = 5U;
-            FIELD(game, s16 *, 0x18) = 2;
+            game_data->unk_70 = 1;
+            game_data->unk_72 = 0x10;
+            game_data->unk_74 = 0x14;
+            game->unk_1A = 5U;
+            game->unk_18 = 2;
         }
         break;
     case 2:
-        if (FIELD(input, s32 *, 8) & 0x5000) {
-            repeat_delay = FIELD(game, u16 *, 0x1A);
-            FIELD(game, u16 *, 0x1A) = (u16) (repeat_delay - 1);
+        if (input->unk_08 & 0x5000) {
+            repeat_delay = game->unk_1A;
+            game->unk_1A = (u16) (repeat_delay - 1);
             if (repeat_delay < 0) {
-                FIELD(game, u16 *, 0x1A) = 0U;
+                game->unk_1A = 0U;
             }
         } else {
-            FIELD(game, u16 *, 0x1A) = 5U;
+            game->unk_1A = 5U;
         }
-        if (((FIELD(input, s32 *, 0x10) & 0x1000) || ((FIELD(input, s32 *, 8) & 0x1000) && ((s16) FIELD(game, u16 *, 0x1A) <= 0))) && (FIELD(game, s32 *, 0x14) <= 0x1869F) && ((u32) D_80012BCC[0] >= 0x3E8U)) {
+        if (((input->unk_10 & 0x1000) || ((input->unk_08 & 0x1000) && ((s16) game->unk_1A <= 0))) && (game->unk_14 <= 0x1869F) && ((u32) D_80012BCC[0] >= 0x3E8U)) {
             D_80012BC8[1] = D_80012BCC[0] - 0x3E8;
-            new_bet = FIELD(game, s32 *, 0x14) + 0x3E8;
+            new_bet = game->unk_14 + 0x3E8;
             goto store_bet;
         }
-        if (((FIELD(input, s32 *, 0x10) & 0x4000) || ((FIELD(input, s32 *, 8) & 0x4000) && ((s16) FIELD(game, u16 *, 0x1A) <= 0))) && (FIELD(game, s32 *, 0x14) >= 0x3E8)) {
+        if (((input->unk_10 & 0x4000) || ((input->unk_08 & 0x4000) && ((s16) game->unk_1A <= 0))) && (game->unk_14 >= 0x3E8)) {
             D_80012BC8[1] = D_80012BCC[0] + 0x3E8;
-            new_bet = FIELD(game, s32 *, 0x14) - 0x3E8;
+            new_bet = game->unk_14 - 0x3E8;
 store_bet:
-            FIELD(game, s32 *, 0x14) = new_bet;
+            game->unk_14 = new_bet;
         }
-        FIELD(game, u16 *, 0x1E) = (u16) (FIELD(game, s32 *, 0x14) / 1000);
-        state_or_buttons = FIELD(input, s32 *, 0x10);
+        game->unk_1E = (u16) (game->unk_14 / 1000);
+        state_or_buttons = input->unk_10;
         if (state_or_buttons & 0x20) {
-            if (FIELD(game, s32 *, 0x14) > 0) {
-                FIELD(game, s16 *, 0x18) = 3;
-                FIELD(game, u16 *, 0x1A) = 9U;
+            if (game->unk_14 > 0) {
+                game->unk_18 = 3;
+                game->unk_1A = 9U;
                 D_80132AE8[5] = -0x240000;
             }
         } else if (state_or_buttons & 0x40) {
-            if (FIELD(game_data, s16 *, 0x70) != 0) {
-                FIELD(game_data, s16 *, 0x70) = 3;
+            if (game_data->unk_70 != 0) {
+                game_data->unk_70 = 3;
             }
-            FIELD(game, s16 *, 0x18) = 0xA;
+            game->unk_18 = 0xA;
             func_80244660(animated_sprite, &D_80132AE8[0], &D_80095AA0);
         }
         break;
     case 3:
-        FIELD(animated_sprite, u16 *, 0x10) = (u16) ((FIELD(animated_sprite, u16 *, 0x10) + 0x200) & 0xFFF);
-        spin_delay = FIELD(game, u16 *, 0x1A) - 1;
-        FIELD(game, u16 *, 0x1A) = spin_delay;
+        animated_sprite->unk_10 = (u16) ((animated_sprite->unk_10 + 0x200) & 0xFFF);
+        spin_delay = game->unk_1A - 1;
+        game->unk_1A = spin_delay;
         if ((spin_delay << 0x10) <= 0) {
-            FIELD(game, u16 *, 0x1A) = 0xAU;
-            D_80132AE8[3] = (s32) (0x03600000 - D_80132AE8[0]) / (s16) FIELD(game, u16 *, 0x1A);
-            D_80132AE8[4] = (s32) (0x02A00000 - D_80132AE8[1]) / (s16) FIELD(game, u16 *, 0x1A);
-            FIELD(game, s16 *, 0x18) = 0xB;
+            game->unk_1A = 0xAU;
+            D_80132AE8[3] = (s32) (0x03600000 - D_80132AE8[0]) / (s16) game->unk_1A;
+            D_80132AE8[4] = (s32) (0x02A00000 - D_80132AE8[1]) / (s16) game->unk_1A;
+            game->unk_18 = 0xB;
         }
         break;
     case 11:
-        FIELD(animated_sprite, u16 *, 0x10) = (u16) ((FIELD(animated_sprite, u16 *, 0x10) + 0x200) & 0xFFF);
-        move_delay = FIELD(game, u16 *, 0x1A) - 1;
-        FIELD(game, u16 *, 0x1A) = move_delay;
+        animated_sprite->unk_10 = (u16) ((animated_sprite->unk_10 + 0x200) & 0xFFF);
+        move_delay = game->unk_1A - 1;
+        game->unk_1A = move_delay;
         if ((move_delay << 0x10) <= 0) {
             D_80132AE8[0] = 0x03600000;
             D_80132AE8[1] = 0x02A00000;
             D_80132AE8[5] = 0x180000;
             D_80132AE8[4] = 0;
             D_80132AE8[3] = 0;
-            FIELD(game, s16 *, 0x18) = 0xC;
+            game->unk_18 = 0xC;
         }
         break;
     case 12: {
@@ -267,23 +355,23 @@ store_bet:
         s32 *position_z;
         position_z = &D_80132AE8[2];
         landing_z = (s32)0xFF000000;
-        rotation = (FIELD(animated_sprite, u16 *, 0x10) + 0x200) & 0xFFF;
-        FIELD(animated_sprite, u16 *, 0x10) = rotation;
+        rotation = (animated_sprite->unk_10 + 0x200) & 0xFFF;
+        animated_sprite->unk_10 = rotation;
         if ((*position_z >= landing_z) && (rotation == 0)) {
             *position_z = landing_z;
-            FIELD(game, s16 *, 0x18) = 4;
+            game->unk_18 = 4;
             func_80244660(animated_sprite, position_z - 2, &D_80095AA0, landing_z);
             func_80244588();
         }
         break;
     }
     case 4:
-        if ((FIELD(input, s32 *, 0x10) & 0x20) && (FIELD(game_data, s16 *, 0x70) == 2)) {
+        if ((input->unk_10 & 0x20) && (game_data->unk_70 == 2)) {
             func_802445FC((s32)D_80290290);
             D_80132AE8[4] = 0x48000;
             D_80132AE8[5] = -0xC0000;
-            FIELD(game, u16 *, 0x1C) = 0U;
-            FIELD(game, s16 *, 0x18) = 5;
+            game->unk_1C = 0U;
+            game->unk_18 = 5;
         }
         break;
     case 5:
@@ -292,8 +380,8 @@ store_bet:
         if (D_80132AE8[5] <= 0x9FFFF) {
             D_80132AE8[5] += 0x20000;
         }
-        bounce_frame = FIELD(game, u16 *, 0x1C);
-        FIELD(game, u16 *, 0x1C) = (u16) (bounce_frame + 1);
+        bounce_frame = game->unk_1C;
+        game->unk_1C = (u16) (bounce_frame + 1);
         switch ((s16) bounce_frame) {
         case 0x0:
             goto bounce_frame_0;
@@ -354,20 +442,20 @@ set_bounce_speed:
 set_bounce_anim:
         func_802445FC(bounce_anim);
 bounce_done:
-        if (FIELD(game_data, s16 *, 0x70) == 3) {
+        if (game_data->unk_70 == 3) {
             D_80132AE8[5] = -0x50000;
             D_80132AE8[4] = 0;
             D_80132AE8[2] = -0x400000;
             func_802445FC((s32)D_80290268);
-            FIELD(game, u16 *, 0x1C) = 0U;
-            FIELD(game, s16 *, 0x18) = 6;
+            game->unk_1C = 0U;
+            game->unk_18 = 6;
         }
         break;
     case 6:
         D_80132AE8[2] += D_80132AE8[5];
         D_80132AE8[5] += 0x10000;
-        settle_frame = FIELD(game, u16 *, 0x1C);
-        FIELD(game, u16 *, 0x1C) = (u16) (settle_frame + 1);
+        settle_frame = game->unk_1C;
+        game->unk_1C = (u16) (settle_frame + 1);
         switch ((s16) settle_frame) {
         case 0:
         case 11:
@@ -403,49 +491,49 @@ settle_frame_26:
 set_settle_anim:
         func_802445FC(settle_anim);
 settle_done:
-        if ((s16) FIELD(game, u16 *, 0x1C) == 0x1C) {
-            FIELD(game_data, s16 *, 0x70) = 4;
+        if ((s16) game->unk_1C == 0x1C) {
+            game_data->unk_70 = 4;
             D_80132AE8[5] = 0;
             D_80132AE8[2] = -0x400000;
             func_802445FC((s32)D_80290268);
-            FIELD(game, u16 *, 0x1C) = 3U;
-            FIELD(game, s16 *, 0x18) = 7;
+            game->unk_1C = 3U;
+            game->unk_18 = 7;
         }
         break;
     case 7:
-        D_80132AE8[0] = (func_8006A3A4(0x1000 - (s16) FIELD(game, u16 *, 0x1A)) * 0xA00) + 0x03600000;
-        D_80132AE8[1] = (func_8006A470(0x1000 - (s16) FIELD(game, u16 *, 0x1A)) * 0xA00) + 0x03600000;
-        result_delay = FIELD(game, u16 *, 0x1C) - 1;
-        FIELD(game, u16 *, 0x1C) = result_delay;
+        D_80132AE8[0] = (func_8006A3A4(0x1000 - (s16) game->unk_1A) * 0xA00) + 0x03600000;
+        D_80132AE8[1] = (func_8006A470(0x1000 - (s16) game->unk_1A) * 0xA00) + 0x03600000;
+        result_delay = game->unk_1C - 1;
+        game->unk_1C = result_delay;
         if ((result_delay << 0x10) == 0) {
             func_802445FC((s32)D_80290270);
         }
-        if (FIELD(game_data, s16 *, 0x70) == 0) {
+        if (game_data->unk_70 == 0) {
             func_802441A4();
-            if (FIELD(game, s16 *, 0x22) == FIELD(game, s16 *, 0x24)) {
-                FIELD(game_data, s16 *, 0x70) = 6;
-                FIELD(game, u16 *, 0x1A) = 0x1EU;
-                FIELD(game, s16 *, 0x18) = 8;
+            if (game->unk_22 == game->unk_24) {
+                game_data->unk_70 = 6;
+                game->unk_1A = 0x1EU;
+                game->unk_18 = 8;
             } else {
-                FIELD(game, s32 *, 0x14) = 0;
-                FIELD(game, s16 *, 0x18) = 0xA;
+                game->unk_14 = 0;
+                game->unk_18 = 0xA;
             }
         }
         break;
     case 8: {
         s32 payout;
-        payout_steps = FIELD(game, u16 *, 0x1E) - 2;
-        FIELD(game, u16 *, 0x1E) = payout_steps;
+        payout_steps = game->unk_1E - 2;
+        game->unk_1E = payout_steps;
         if ((s16)payout_steps < 0) {
-            FIELD(game, u16 *, 0x1E) = 0U;
-            FIELD(game, u16 *, 0x20) = (u16) (FIELD(game, u16 *, 0x20) | 8);
+            game->unk_1E = 0U;
+            game->unk_20 = (u16) (game->unk_20 | 8);
         }
-        payout_delay = FIELD(game, u16 *, 0x1A) - 1;
-        FIELD(game, u16 *, 0x1A) = payout_delay;
-        if (((payout_delay << 0x10) <= 0) && (FIELD(game, u16 *, 0x20) & 8)) {
-            payout = FIELD(game, s32 *, 0x14);
-            payout_multiplier = FIELD(game, s32 *, 0x10);
-            FIELD(game, u16 *, 0x1A) = 0xF0U;
+        payout_delay = game->unk_1A - 1;
+        game->unk_1A = payout_delay;
+        if (((payout_delay << 0x10) <= 0) && (game->unk_20 & 8)) {
+            payout = game->unk_14;
+            payout_multiplier = game->unk_10;
+            game->unk_1A = 0xF0U;
             payout *= payout_multiplier;
             payout_or_index = payout / 1000;
             ones = payout_or_index % 10;
@@ -469,7 +557,7 @@ settle_done:
                 }
             }
             payout_or_index = 0;
-            FIELD(game, u16 *, 0x20) = (u16) (FIELD(game, u16 *, 0x20) & 0xFFF7);
+            game->unk_20 = (u16) (game->unk_20 & 0xFFF7);
             spawn_mode = 1;
             spawn_parent = game;
             spawn_variant = 0;
@@ -479,10 +567,10 @@ settle_done:
                     do {
                         random_kind = func_80071494() % 3;
                         coin_kind = random_kind;
-                        coin_counts = (void *) (((s32) (random_kind << 0x10) >> 0xF) + (s32) spawn_data);
-                        coins_left = FIELD(coin_counts, s16 *, 0x70);
+                        coin_counts = (S_func_8080F4A4_8 *) (((s32) (random_kind << 0x10) >> 0xF) + (s32) spawn_data);
+                        coins_left = coin_counts->unk_70;
                     } while (coins_left <= 0);
-                    do { FIELD(coin_counts, s16 *, 0x70) = (s16) (coins_left - 1); } while (0);
+                    do { coin_counts->unk_70 = (s16) (coins_left - 1); } while (0);
                     spawn_x = 0x03600000;
                     coin_angle = (s32) (payout_or_index << 0xC) / coin_count;
                     payout_or_index += 1;
@@ -494,38 +582,38 @@ settle_done:
                     func_80529438(&spawn_mode, &spawn_x);
                 } while (payout_or_index < coin_count);
             }
-            FIELD(game, s16 *, 0x18) = 9;
+            game->unk_18 = 9;
         }
         break;
     }
     case 9:
-        finish_delay = FIELD(game, u16 *, 0x1A) - 1;
-        FIELD(game, u16 *, 0x1A) = finish_delay;
+        finish_delay = game->unk_1A - 1;
+        game->unk_1A = finish_delay;
         if ((finish_delay << 0x10) <= 0) {
             func_80232A08(D_80530588[0]);
-            FIELD(game, s16 *, 0x18) = 0;
-            finish_flags = FIELD(game, u16 *, 0x20) | 2;
+            game->unk_18 = 0;
+            finish_flags = game->unk_20 | 2;
             goto store_finish_flags;
         }
         break;
     case 10:
-        if (FIELD(game, s32 *, 0x14) != 0) {
+        if (game->unk_14 != 0) {
             u32 refunded_gold;
-            refund_units = (s16) FIELD(game, u16 *, 0x1E);
+            refund_units = (s16) game->unk_1E;
             refunded_gold = D_80012BCC[0] + ((refund_units >= 2) ? 0x7D0 : 0x3E8);
             D_80012BC8[1] = refunded_gold;
         }
-        refund_steps = FIELD(game, u16 *, 0x1E) - 2;
-        FIELD(game, u16 *, 0x1E) = refund_steps;
+        refund_steps = game->unk_1E - 2;
+        game->unk_1E = refund_steps;
         if ((refund_steps << 0x10) <= 0) {
             func_80232A08(D_80530588[0]);
-            FIELD(game, u16 *, 0x1E) = 0U;
-            FIELD(game, s16 *, 0x18) = 0;
-            finish_flags = FIELD(game, u16 *, 0x20) | 0xA;
+            game->unk_1E = 0U;
+            game->unk_18 = 0;
+            finish_flags = game->unk_20 | 0xA;
 store_finish_flags:
-            FIELD(game, u16 *, 0x20) = finish_flags;
+            game->unk_20 = finish_flags;
         }
         break;
     }
-    FIELD(game, u16 *, 0x20) = (u16) (FIELD(game, u16 *, 0x20) & 0xFFFE);
+    game->unk_20 = (u16) (game->unk_20 & 0xFFFE);
 }

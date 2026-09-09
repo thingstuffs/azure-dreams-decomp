@@ -1,7 +1,5 @@
 #include "common.h"
 
-#define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
-
 typedef struct {
     u32 x;
     u32 y;
@@ -22,6 +20,80 @@ typedef struct {
     s16 y;
     s16 z;
 } ShortVec;
+
+typedef struct S_func_80FDD1A0_1 {
+    u8 pad_00[0x8C];
+    void *unk_8C;
+    u8 pad_90[0x08];
+    u16 unk_98;
+    u8 pad_9A[0x01];
+    u8 unk_9B;
+    u8 pad_9C[0x0A];
+    u16 unk_A6;
+    void *unk_A8;
+} S_func_80FDD1A0_1;
+
+typedef struct S_func_80FDD1A0_2 {
+    u8 pad_00[0x04];
+    s8 unk_04;
+    u8 pad_05[0x07];
+    s32 unk_0C;
+    u8 pad_10[0x02];
+    u16 unk_12;
+    u16 unk_14;
+    u8 pad_16[0x06];
+    u16 unk_1C;
+    u16 unk_1E;
+    u8 pad_20[0x04];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x02];
+    s32 unk_28;
+    u8 *unk_2C;
+} S_func_80FDD1A0_2;
+
+typedef struct S_func_80FDD1A0_3 {
+    u8 pad_00[0x08];
+    u8 unk_08;
+    u8 pad_09[0x02];
+    u8 unk_0B;
+    u8 pad_0C[0x02];
+    u8 unk_0E;
+    u8 pad_0F[0x0D];
+    u32 unk_1C;
+    u8 pad_20[0x0A];
+    union { s16 s; u16 u; } unk_2A;
+    u8 pad_2C[0x1A];
+    u16 unk_46;
+    u8 pad_48[0x18];
+    void *unk_60;
+    u8 pad_64[0x09];
+    union { s8 s; u8 u; } unk_6D;
+    u8 pad_6E[0x04];
+    union { s8 s; u8 u; } unk_72;
+    union { s8 s; u8 u; } unk_73;
+} S_func_80FDD1A0_3;
+
+typedef struct S_func_80FDD1A0_4 {
+    u8 pad_00[0x08];
+    VecData *unk_08;
+    void *unk_0C;
+    void *unk_10;
+    u8 pad_14[0x36];
+    u16 unk_4A;
+    u8 pad_4C[0x6F];
+    u8 unk_BB;
+} S_func_80FDD1A0_4;
+
+typedef struct S_func_80FDD1A0_5 {
+    void *unk_00;
+} S_func_80FDD1A0_5;
+
+typedef struct S_func_80FDD1A0_6 {
+    u8 pad_00[0x0A];
+    u16 unk_0A;
+    s32 unk_0C;
+} S_func_80FDD1A0_6;
 
 extern s32 func_8003F270(void);
 extern void *func_8003FD64(s32, void *);
@@ -48,7 +120,7 @@ extern u8 D_80174038[];
 extern u8 D_80174078[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */
-void func_801729A0(void *actor, VecData *motion, void *sprite, void *actor_data)
+void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 *sprite, S_func_80FDD1A0_3 *actor_data)
 {
     static void *const kind_labels[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
@@ -56,20 +128,20 @@ void func_801729A0(void *actor, VecData *motion, void *sprite, void *actor_data)
     };
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 use_player = 0;
-    void *effect = (void *)zero;
+    S_func_80FDD1A0_4 *effect = (void *)zero;
     void *target;
     u8 *item_slot;
-    u8 *turn_state;
+    S_func_80FDD1A0_6 *turn_state;
     ShortVec sound_pos;
     u8 phase;
 
-    phase = FIELD(actor, u8, 0x9B);
+    phase = actor->unk_9B;
     switch (phase) {
     case 0:
-        if (FIELD(actor_data, u32, 0x1C) & 0x2000) {
+        if (actor_data->unk_1C & 0x2000) {
             u32 kind_index;
 
-            kind_index = (FIELD(actor_data, u16, 0x46) & 0x3FFF) - 1;
+            kind_index = (actor_data->unk_46 & 0x3FFF) - 1;
             if (kind_index >= 7) {
                 goto kind_default;
             }
@@ -90,7 +162,7 @@ kind_5:
         {
             s32 action_kind;
 
-            action_kind = FIELD(actor_data, u16, 0x46) & 0x3FFF;
+            action_kind = actor_data->unk_46 & 0x3FFF;
             if (action_kind == 2) {
                 goto kind_2;
             }
@@ -108,13 +180,13 @@ kind_5:
         }
 
 kind_3:
-        item_slot = (u8 *)actor_data + 0xE;
+        item_slot = &actor_data->unk_0E;
         goto selection_ready;
 kind_2:
-        item_slot = (u8 *)actor_data + 0xB;
+        item_slot = &actor_data->unk_0B;
         goto selection_ready;
 kind_1:
-        item_slot = (u8 *)actor_data + 8;
+        item_slot = &actor_data->unk_08;
         goto selection_ready;
 kind_default:
         item_slot = 0;
@@ -123,7 +195,7 @@ selection_ready:
         if (*item_slot == 0) {
             goto empty_selection;
         }
-        FIELD(actor, u16, 0x98) &= 0xFF7F;
+        actor->unk_98 &= 0xFF7F;
         {
             s32 player_target;
 
@@ -131,7 +203,7 @@ selection_ready:
             ASM_KEEP(player_target);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (player_target != 0) {
                 target = D_800814A8;
-                FIELD(actor_data, void *, 0x60) = target;
+                actor_data->unk_60 = target;
                 goto copy_active_coords;
             }
         }
@@ -141,14 +213,14 @@ selection_ready:
 
             item_id = *item_slot;
             if (D_8006DE24[item_id].type == 2) {
-                target = FIELD(actor_data, void *, 0x60);
+                target = actor_data->unk_60;
                 if (target != 0) {
-                    register u8 *target_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    register S_func_80FDD1A0_2 *target_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 copy_active_coords:
-                    target_sprite = FIELD(target, u8 *, -0x14);
-                    FIELD(actor_data, u8, 0x72) = target_sprite[0x24];
-                    FIELD(actor_data, u8, 0x73) = target_sprite[0x25];
+                    target_sprite = ((S_func_80FDD1A0_5 *)((u8 *)target - 0x14))->unk_00;
+                    actor_data->unk_72.u = target_sprite->unk_24;
+                    actor_data->unk_73.u = target_sprite->unk_25;
                     goto invoke_item;
                 }
             } else {
@@ -157,21 +229,21 @@ copy_active_coords:
 
                 target = func_800A05A4(
                     actor_data,
-                    FIELD(sprite, u8, 0x24),
-                    FIELD(sprite, u8, 0x25),
-                    FIELD(actor_data, s16, 0x2A),
+                    sprite->unk_24,
+                    sprite->unk_25,
+                    actor_data->unk_2A.s,
                     0x10);
-                FIELD(actor_data, void *, 0x60) = target;
-                target_x = FIELD(actor_data, s8, 0x72);
-                target_y = FIELD(actor_data, s8, 0x73);
+                actor_data->unk_60 = target;
+                target_x = actor_data->unk_72.s;
+                target_y = actor_data->unk_73.s;
                 if (target_x < 0) {
                     target_x = -target_x;
                 }
                 if (target_y < 0) {
                     target_y = -target_y;
                 }
-                FIELD(actor_data, u8, 0x72) = target_x;
-                FIELD(actor_data, u8, 0x73) = target_y;
+                actor_data->unk_72.u = target_x;
+                actor_data->unk_73.u = target_y;
             }
         }
 
@@ -180,129 +252,129 @@ invoke_item:
         sound_pos.y = motion->y >> 16;
         sound_pos.z = motion->z >> 16;
 
-        if (!(FIELD(actor, u16, 0x98) & 0x2000)) {
+        if (!(actor->unk_98 & 0x2000)) {
             void *new_effect;
 
             new_effect = func_8003FD64(0x112, D_80083498);
             effect = new_effect;
             ASM_KEEP(new_effect);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            FIELD(actor, void *, 0xA8) = new_effect;
+            actor->unk_A8 = new_effect;
             if (effect != 0) {
                 VecData *effect_motion;
 
                 func_8004491C(effect, &D_80045340);
-                FIELD(effect, void *, 0x10) = D_800D7960;
-                effect_motion = FIELD(effect, VecData *, 8);
+                effect->unk_10 = D_800D7960;
+                effect_motion = effect->unk_08;
                 *effect_motion = *motion;
-                FIELD(effect, u8, 0xBB) = 0;
-                FIELD(effect, u16, 0x4A) = FIELD(actor_data, u16, 0x2A);
+                effect->unk_BB = 0;
+                effect->unk_4A = actor_data->unk_2A.u;
                 {
-                    s32 sprite_flags = FIELD(sprite, s32, 0x28);
-                    register void *effect_sprite ASM_REG("$4") = FIELD(effect, void *, 0x0C);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    s32 sprite_flags = sprite->unk_28;
+                    register S_func_80FDD1A0_2 *effect_sprite ASM_REG("$4") = effect->unk_0C;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                    FIELD(effect_sprite, u16, 0x1E) = 0x1000;
-                    FIELD(effect_sprite, u16, 0x1C) = 0x1000;
-                    FIELD(effect_sprite, s32, 0x28) = sprite_flags;
-                    FIELD(effect_sprite, u16, 0x14) = FIELD(sprite, u16, 0x14);
-                    FIELD(effect_sprite, u16, 0x12) = FIELD(sprite, u16, 0x12);
+                    effect_sprite->unk_1E = 0x1000;
+                    effect_sprite->unk_1C = 0x1000;
+                    effect_sprite->unk_28 = sprite_flags;
+                    effect_sprite->unk_14 = sprite->unk_14;
+                    effect_sprite->unk_12 = sprite->unk_12;
                     {
-                        s32 sprite_link = FIELD(sprite, s32, 0x0C);
+                        s32 sprite_link = sprite->unk_0C;
 
-                        FIELD(effect_sprite, void *, 0x2C) = D_80174078;
-                        FIELD(effect_sprite, s32, 0x0C) = sprite_link;
+                        effect_sprite->unk_2C = D_80174078;
+                        effect_sprite->unk_0C = sprite_link;
                     }
                 }
             }
-            FIELD(actor, u16, 0x98) |= 0x2000;
+            actor->unk_98 |= 0x2000;
         }
 
         {
-            void *effect_sprite;
+            S_func_80FDD1A0_2 *effect_sprite;
             u8 *animations;
             s32 direction;
 
-            effect_sprite = FIELD(actor, void *, 0xA8);
-            effect_sprite = FIELD(effect_sprite, void *, 0x0C);
-            animations = FIELD(effect_sprite, u8 *, 0x2C);
-            direction = ((D_80083228 + FIELD(actor_data, s16, 0x2A) + 0x100) >> 9) & 7;
+            effect_sprite = actor->unk_A8;
+            effect_sprite = ((S_func_80FDD1A0_4 *)effect_sprite)->unk_0C;
+            animations = effect_sprite->unk_2C;
+            direction = ((D_80083228 + actor_data->unk_2A.s + 0x100) >> 9) & 7;
             func_80047784(effect_sprite, animations[direction], 0);
         }
         if (func_800A94A0(actor_data, item_slot, use_player,
-                          (u16 *)((u8 *)actor + 0x98)) == 0) {
+                          &actor->unk_98) == 0) {
             return;
         }
-        FIELD(actor, u16, 0x98) &= 0xDFFF;
-        FIELD(sprite, u16, 0x14) &= 0xF7FF;
+        actor->unk_98 &= 0xDFFF;
+        sprite->unk_14 &= 0xF7FF;
         func_800A56E0(0x703);
         func_800DA840(&sound_pos, (*item_slot - 1) % 3);
-        FIELD(actor, u8, 0x9B)++;
+        actor->unk_9B++;
         return;
 
 empty_selection:
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        func_800A2B04(motion, FIELD(sprite, u8, 0x24), FIELD(sprite, u8, 0x25));
+        func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
         D_8008346C = 0;
-        FIELD(D_800814A8, u16, 0xA6)--;
+        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         func_800A4ACC(actor_data);
-        FIELD(actor_data, u8, 0x6D)--;
-        FIELD(actor, void *, 0x8C) = &D_80170EA8;
-        FIELD(actor_data, u8, 0x73) = 0;
-        FIELD(actor_data, u8, 0x72) = 0;
-        FIELD(actor_data, u16, 0x46) &= 0x7FFF;
+        actor_data->unk_6D.u--;
+        actor->unk_8C = &D_80170EA8;
+        actor_data->unk_73.u = 0;
+        actor_data->unk_72.u = 0;
+        actor_data->unk_46 &= 0x7FFF;
         return;
 
     case 1:
         if (func_8003F270() != 0) {
-            FIELD(sprite, u16, 0x14) |= 0x800;
+            sprite->unk_14 |= 0x800;
             return;
         }
-        FIELD(sprite, u16, 0x14) &= 0xF7FF;
-        FIELD(actor, u8, 0x9B)++;
+        sprite->unk_14 &= 0xF7FF;
+        actor->unk_9B++;
         /* fallthrough */
 
     case 2:
-        if (FIELD(actor, void *, 0xA8) != 0) {
-            effect = FIELD(actor, void *, 0xA8);
-            *FIELD(effect, VecData *, 8) = *motion;
+        if (actor->unk_A8 != 0) {
+            effect = actor->unk_A8;
+            *effect->unk_08 = *motion;
         }
-        if ((FIELD(sprite, s8, 4) != 4 ||
-             !(FIELD(sprite, u16, 0x14) & 0x1000)) &&
-            !(FIELD(sprite, u16, 0x14) & 0xE000)) {
+        if ((sprite->unk_04 != 4 ||
+             !(sprite->unk_14 & 0x1000)) &&
+            !(sprite->unk_14 & 0xE000)) {
             return;
         }
-        FIELD(actor, u16, 0x98) |= 0x80;
-        if (!(FIELD(sprite, u16, 0x14) & 0xE000)) {
+        actor->unk_98 |= 0x80;
+        if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        if (FIELD(actor, void *, 0xA8) != 0) {
-            FIELD(effect, u8, 0xBB) = 0xFF;
-            FIELD(actor, void *, 0xA8) = 0;
+        if (actor->unk_A8 != 0) {
+            effect->unk_BB = 0xFF;
+            actor->unk_A8 = 0;
         }
-        FIELD(sprite, void *, 0x2C) = D_80174038;
+        *(void **)((u8 *)sprite + 0x2C) = D_80174038;
         func_80047784(
             sprite,
-            D_80174038[((D_80083228 + FIELD(actor_data, s16, 0x2A) + 0x100) >> 9) & 7],
+            D_80174038[((D_80083228 + actor_data->unk_2A.s + 0x100) >> 9) & 7],
             0);
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        func_800A2B04(motion, FIELD(sprite, u8, 0x24), FIELD(sprite, u8, 0x25));
-        turn_state = (u8 *)&D_80083460;
-        if (FIELD(turn_state, s32, 0x0C) != 0) {
+        func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
+        turn_state = (S_func_80FDD1A0_6 *)&D_80083460;
+        if (turn_state->unk_0C != 0) {
             return;
         }
-        FIELD(turn_state, u16, 0x0A)--;
-        FIELD(sprite, u16, 0x14) &= 0xF7FF;
-        FIELD(actor, void *, 0x8C) = &D_80170EA8;
+        turn_state->unk_0A--;
+        sprite->unk_14 &= 0xF7FF;
+        actor->unk_8C = &D_80170EA8;
         func_800A4ACC(actor_data);
-        if (FIELD(actor_data, s8, 0x6D) > 0) {
-            FIELD(actor_data, u8, 0x6D)--;
+        if (actor_data->unk_6D.s > 0) {
+            actor_data->unk_6D.u--;
         }
-        FIELD(actor_data, u8, 0x73) = 0;
-        FIELD(actor_data, u8, 0x72) = 0;
-        FIELD(actor_data, u16, 0x46) &= 0x7FFF;
+        actor_data->unk_73.u = 0;
+        actor_data->unk_72.u = 0;
+        actor_data->unk_46 &= 0x7FFF;
         func_800A56E0(0xB4);
         return;
 

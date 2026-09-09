@@ -1,6 +1,9 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
+typedef struct S_func_8186E800_0 {
+    u8 pad_00[0x14];
+    s32 unk_14;
+} S_func_8186E800_0;
 
 extern void func_80024154(void) __attribute__((noreturn));
 extern s32 func_800990FC(void);
@@ -41,10 +44,10 @@ __asm__(".globl func_8186E800\n"
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void BODY_NAME(void *entity, s32 effect_param) BODY_ATTR;
+BODY_STORAGE void BODY_NAME(S_func_8186E800_0 *entity, s32 effect_param) BODY_ATTR;
 
 /* Applies effect 0x12 to an eligible entity and handles messages for flagged entities. */
-BODY_STORAGE void BODY_NAME(void *entity, s32 effect_param)
+BODY_STORAGE void BODY_NAME(S_func_8186E800_0 *entity, s32 effect_param)
 {
     s32 message_end;
     s32 message_start;
@@ -52,11 +55,11 @@ BODY_STORAGE void BODY_NAME(void *entity, s32 effect_param)
     if (func_8009D218(entity, 1) == 0) {
         if ((func_800A48F0(entity, 0x12,
                           (s8)(func_800A6870(effect_param & 0xFF) + 2)) << 16) != 0) {
-            if (FIELD(entity, s32, 0x14) & 0x4000) {
+            if (entity->unk_14 & 0x4000) {
                 func_80099844(entity, &D_800E1C64);
                 func_80024154();
             }
-        } else if (FIELD(entity, s32, 0x14) & 0x4000) {
+        } else if (entity->unk_14 & 0x4000) {
             message_end = func_800990FC();
             message_start = message_end;
             message_end = func_80099194(&D_80024004, message_end);

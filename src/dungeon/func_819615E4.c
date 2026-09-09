@@ -1,7 +1,5 @@
 #include "common.h"
 
-#define FIELD(base, type, off) (*(type *)((u8 *)(base) + (off)))
-
 typedef struct {
     u16 x;
     u16 y;
@@ -43,6 +41,51 @@ typedef struct {
     s16 z;
 } Target;
 
+typedef struct S_func_819615E4_0 {
+    u8 pad_00[0xC];
+    u8 unk_0C;
+} S_func_819615E4_0;
+
+typedef struct S_func_819615E4_1 {
+    u8 pad_00[2];
+    u16 unk_02;
+    u8 pad_04[2];
+    u16 unk_06;
+} S_func_819615E4_1;
+
+typedef struct S_func_819615E4_2 {
+    u8 pad_00[0x2A];
+    union {
+        s16 s16_value;
+        u16 u16_value;
+    } unk_2A;
+    u8 pad_2C[0x5C];
+    union {
+        s16 s16_value;
+        u16 u16_value;
+    } unk_88;
+} S_func_819615E4_2;
+
+typedef struct S_func_819615E4_3 {
+    void *unk_00;
+} S_func_819615E4_3;
+
+typedef struct S_func_819615E4_4 {
+    u8 pad_00[8];
+    void *unk_08;
+    u8 pad_0C[0x18];
+    u8 unk_24;
+    u8 unk_25;
+} S_func_819615E4_4;
+
+typedef struct S_func_819615E4_5 {
+    s16 unk_00;
+} S_func_819615E4_5;
+
+typedef struct S_func_819615E4_6 {
+    s16 unk_00;
+} S_func_819615E4_6;
+
 extern s8 D_8006CCD8;
 extern s8 D_8006CCE8;
 extern u16 D_80027330[];
@@ -60,7 +103,7 @@ extern void func_8003DE58(void *, void *, Vec3s *, s16);
 extern void func_800B8D64(s16, s16, s16);
 
 /* Interpolate the target position, fade its color, and finish the transition. */
-void func_819615E4(State *state, Target *target, u8 *color)
+void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
 {
     Vec3s position_offset;
     Vec3s position;
@@ -97,13 +140,13 @@ void func_819615E4(State *state, Target *target, u8 *color)
 init:
     {
         s32 transform_offset;
-        u8 *spawn = D_80083780;
+        S_func_819615E4_1 *spawn = (S_func_819615E4_1 *)D_80083780;
 
-        position.x = *(u16 *)(spawn + 2);
-        position.y = *(u16 *)(spawn + 6);
-        position.z = *(u16 *)(D_800E3D7C + 0x88) - 0x50;
-        transform_offset = ((D_80083228 + *(s16 *)(D_800E3D7C + 0x2A) + 0x100) >> 7) & 0x1C;
-        func_8003DE58(*(void **)((s32)transform_offset + (s32)D_800E3D18), D_80082E80,
+        position.x = spawn->unk_02;
+        position.y = spawn->unk_06;
+        position.z = ((S_func_819615E4_2 *)D_800E3D7C)->unk_88.u16_value - 0x50;
+        transform_offset = ((D_80083228 + ((S_func_819615E4_2 *)D_800E3D7C)->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
+        func_8003DE58(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, D_80082E80,
                       &position_offset, 0);
         position.x += position_offset.x;
         state->x = position.x;
@@ -178,14 +221,14 @@ update:
     return;
 
 fade:
-    color[0xC] -= color[0xC] / state->timer;
+    color->unk_0C -= color->unk_0C / state->timer;
     phase_value = state->timer - 1;
     state->timer = phase_value;
     if ((s16)phase_value > 0) {
         return;
     }
     if (state->step == 0) {
-        color[0xC] = 0;
+        color->unk_0C = 0;
         state->phase = 4;
         state->state++;
         func_800271EC();
@@ -196,24 +239,24 @@ fade:
 phase:
     {
         s32 direction_offset;
-        u8 *table;
+        S_func_819615E4_4 *table;
 
-        table = (u8 *)(table_page + 0x2E80);
-        func_8003DE58(*(void **)(table + 8), table, &position, 0);
+        table = (S_func_819615E4_4 *)(table_page + 0x2E80);
+        func_8003DE58(table->unk_08, table, &position, 0);
         phase_value = state->phase - 1;
         state->phase = phase_value;
         if ((s16)phase_value > 0) {
             return;
         }
-        direction_offset = ((*(u16 *)(D_800E3D7C + 0x2A) >> 8) & 0xE);
+        direction_offset = ((((S_func_819615E4_2 *)D_800E3D7C)->unk_2A.u16_value >> 8) & 0xE);
         func_80025334(
-            (s16)(((table[0x24] +
-                    (*(s16 *)((u8 *)&D_8006CCD8 + direction_offset) * 4)) << 6) + 0x20),
-            (s16)(((table[0x25] +
-                    (*(s16 *)((u8 *)&D_8006CCE8 + direction_offset) * 4)) << 6) + 0x20),
-            *(s16 *)(D_800E3D7C + 0x88));
+            (s16)(((table->unk_24 +
+                    (((S_func_819615E4_5 *)((u8 *)&D_8006CCD8 + direction_offset))->unk_00 * 4)) << 6) + 0x20),
+            (s16)(((table->unk_25 +
+                    (((S_func_819615E4_6 *)((u8 *)&D_8006CCE8 + direction_offset))->unk_00 * 4)) << 6) + 0x20),
+            ((S_func_819615E4_2 *)D_800E3D7C)->unk_88.s16_value);
 finish:
-        FIELD(state, u16, -2) |= 0x8000;
+        *(u16 *)((u8 *)state - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
     }

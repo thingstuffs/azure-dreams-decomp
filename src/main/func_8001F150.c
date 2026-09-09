@@ -1,6 +1,19 @@
 #include "common.h"
 
-#define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
+typedef struct S_func_8001F150_0 {
+    u8 pad_00[0x10];
+    void (*unk_10)(void);
+    u8 pad_14[0x34];
+    s32 unk_48;
+    s32 unk_4C;
+    u8 pad_50[0x4];
+    void (*unk_54)(void);
+} S_func_8001F150_0;
+
+typedef struct S_func_8001F150_1 {
+    s32 unk_00;
+    u8 pad_04[0x7C];
+} S_func_8001F150_1;
 
 extern void func_804032FC(void *arg0);
 extern void func_80406368(void);
@@ -12,20 +25,20 @@ extern s32 D_8009DDD8[];
 void func_80406150(void *object_state)
 {
     void (*next_callback)(void);
-    void *object_base;
+    S_func_8001F150_0 *object_base;
     s32 entry_index;
     s32 entry_active;
 
-    entry_index = FIELD(object_state, s32 *, 0x28);
-    entry_active = *(s32 *)((u8 *)D_8009DDD8 + entry_index * 0x80);
-    object_base = (u8 *)object_state - 0x20;
+    entry_index = ((S_func_8001F150_0 *)((u8 *)object_state - 0x20))->unk_48;
+    entry_active = ((S_func_8001F150_1 *)D_8009DDD8)[entry_index].unk_00;
+    object_base = (S_func_8001F150_0 *)((u8 *)object_state - 0x20);
     if (entry_active != 0) {
         next_callback = func_80405FC4;
-        FIELD(object_state, s32 *, 0x2C) = entry_index;
+        ((S_func_8001F150_0 *)((u8 *)object_state - 0x20))->unk_4C = entry_index;
     } else {
-        FIELD(object_state, void (**)(void), 0x34) = func_80406368;
+        ((S_func_8001F150_0 *)((u8 *)object_state - 0x20))->unk_54 = func_80406368;
         func_804032FC(object_base);
         next_callback = func_80405A64;
     }
-    FIELD(object_state, void (**)(void), -0x10) = next_callback;
+    ((S_func_8001F150_0 *)((u8 *)object_state - 0x20))->unk_10 = next_callback;
 }

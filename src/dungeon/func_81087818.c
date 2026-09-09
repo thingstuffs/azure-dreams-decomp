@@ -1,7 +1,5 @@
 #include "common.h"
 
-#define FIELD(p, type, offset) (*(type *)((u8 *)(p) + (offset)))
-
 typedef struct Vec3Work {
     s32 x;
     s32 y;
@@ -15,6 +13,81 @@ typedef struct LocalWork {
     Vec3Work base;
     u16 delta[3];
 } LocalWork;
+
+typedef struct S_81087818_0 {
+    union { s16 s; u16 u; } unk_00;
+    union { s16 s; u16 u; } unk_02;
+    union { s16 s; u16 u; } unk_04;
+    union { s16 s; u16 u; } unk_06;
+    union { s16 s; u16 u; } unk_08;
+    u16 unk_0A;
+    u16 unk_0C;
+    u16 unk_0E;
+    u8 pad_10[0x18];
+    union {
+        s32 word;
+        struct { u8 pad_00[2]; s16 unk_2A; } half;
+    } unk_28;
+    union {
+        s32 word;
+        struct { u8 pad_00[2]; s16 unk_2E; } half;
+    } unk_2C;
+    union {
+        s32 word;
+        struct { u8 pad_00[2]; union { s16 s; u16 u; } unk_32; } half;
+    } unk_30;
+    s32 unk_34;
+    s32 unk_38;
+    s32 unk_3C;
+    void *unk_40;
+    Vec3Work *unk_44;
+    void *unk_48;
+    void *unk_4C;
+} S_81087818_0;
+
+typedef struct S_81087818_1 {
+    u8 pad_00[8];
+    void *unk_08;
+    u8 pad_0C[8];
+    u16 unk_14;
+    u8 pad_16[0x16];
+    void *unk_2C;
+    u8 pad_30[0x78];
+    s16 unk_A8;
+    s16 unk_AA;
+    s16 unk_AC;
+    u8 unk_AE;
+} S_81087818_1;
+
+typedef struct S_81087818_2 {
+    u8 pad_00[0x2A];
+    union { s16 s; u16 u; } unk_2A;
+    u8 pad_2C[0x34];
+    void *unk_60;
+} S_81087818_2;
+
+typedef struct S_81087818_3 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+} S_81087818_3;
+
+typedef struct S_81087818_4 {
+    u8 pad_00[2];
+    union { s16 s; u16 u; } unk_02;
+    u8 pad_04[2];
+    union { s16 s; u16 u; } unk_06;
+    u8 pad_08[2];
+    union { s16 s; u16 u; } unk_0A;
+} S_81087818_4;
+
+typedef struct S_81087818_5 {
+    u8 pad_00[0x18];
+    union { s16 s; u16 u; } unk_18;
+} S_81087818_5;
+
+typedef struct S_81087818_7 {
+    s32 *unk_00;
+} S_81087818_7;
 
 extern void func_800478B8(void *);
 extern void *func_8003DE58(void *, void *, u16 *, s32);
@@ -33,7 +106,7 @@ extern void *D_80170888[];
 extern u8 D_80175F68;
 
 /* Updates staged movement to a target and back to the actor's base position. */
-void func_80175018(void *motion, Vec3Work *trajectory, void *context)
+void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
 {
     LocalWork work;
 #define base work.base
@@ -44,29 +117,29 @@ void func_80175018(void *motion, Vec3Work *trajectory, void *context)
         &&state0, &&state1, &&state2, &&state3, &&state4
     };
 
-    FIELD(motion, u16, 2)++;
+    motion->unk_02.u++;
     func_800478B8(context);
 
-    base = *FIELD(motion, Vec3Work *, 0x44);
+    base = *motion->unk_44;
     delta[0] = delta[1] = delta[2] = 0;
     {
-        void *actor = FIELD(motion, void *, 0x48);
-        if ((FIELD(actor, u16, 0x14) & 0x9FFF) == 0 &&
-            func_8003DE58(FIELD(actor, void *, 8), actor, delta, 3) != 0) {
-            FIELD(&base, u16, 2) += delta[0];
-            FIELD(&base, u16, 6) += delta[1];
-            FIELD(&base, u16, 0xA) += delta[2];
-            FIELD(motion, u16, 0xA) = delta[0];
-            FIELD(motion, u16, 0xC) = delta[1];
-            FIELD(motion, u16, 0xE) = delta[2];
+        S_81087818_1 *actor = motion->unk_48;
+        if ((actor->unk_14 & 0x9FFF) == 0 &&
+            func_8003DE58(actor->unk_08, actor, delta, 3) != 0) {
+            ((S_81087818_4 *)&base)->unk_02.u += delta[0];
+            ((S_81087818_4 *)&base)->unk_06.u += delta[1];
+            ((S_81087818_4 *)&base)->unk_0A.u += delta[2];
+            motion->unk_0A = delta[0];
+            motion->unk_0C = delta[1];
+            motion->unk_0E = delta[2];
         } else {
-            FIELD(&base, u16, 2) += FIELD(motion, u16, 0xA);
-            FIELD(&base, u16, 6) += FIELD(motion, u16, 0xC);
-            FIELD(&base, u16, 0xA) += FIELD(motion, u16, 0xE);
+            ((S_81087818_4 *)&base)->unk_02.u += motion->unk_0A;
+            ((S_81087818_4 *)&base)->unk_06.u += motion->unk_0C;
+            ((S_81087818_4 *)&base)->unk_0A.u += motion->unk_0E;
         }
     }
 
-    state = (u32)FIELD(motion, s16, 0);
+    state = (u32)motion->unk_00.s;
     if (state >= 5) {
         goto finish;
     }
@@ -75,8 +148,8 @@ void func_80175018(void *motion, Vec3Work *trajectory, void *context)
 
 state0:
 {
-    void *actor = FIELD(motion, void *, 0x40);
-    void *source;
+    S_81087818_1 *actor = motion->unk_40;
+    S_81087818_2 *source;
     s32 base_x;
     s32 base_y;
     register s32 distance_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -85,54 +158,54 @@ state0:
     s16 *direction_table;
     s32 tile_x;
 
-    FIELD(motion, s32, 0x28) = FIELD(motion, s32, 0x2C) = FIELD(motion, s32, 0x30) = 0;
-    FIELD(motion, s32, 0x34) = FIELD(motion, s32, 0x38) = FIELD(motion, s32, 0x3C) = 0;
-    switch (FIELD(actor, u8, 0xAE)) {
+    motion->unk_28.word = motion->unk_2C.word = motion->unk_30.word = 0;
+    motion->unk_34 = motion->unk_38 = motion->unk_3C = 0;
+    switch (actor->unk_AE) {
     case 1:
-        source = FIELD(motion, void *, 0x4C);
-        tile_x = FIELD(actor, s16, 0xA8);
-        direction_offset = FIELD(source, u16, 0x2A);
+        source = motion->unk_4C;
+        tile_x = actor->unk_A8;
+        direction_offset = source->unk_2A.u;
         direction_table = D_8006CCD8;
         direction_offset = (direction_offset >> 8) & 0xE;
-        FIELD(motion, s16, 0x2A) =
+        motion->unk_28.half.unk_2A =
             (tile_x * 64) +
             ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);
-        FIELD(motion, s16, 0x2E) =
-            (FIELD(FIELD(motion, void *, 0x40), s16, 0xAA) * 64) +
+        motion->unk_2C.half.unk_2E =
+            (((S_81087818_1 *)motion->unk_40)->unk_AA * 64) +
             ((*(s16 *)((u8 *)D_8006CCE8 + direction_offset) + 1) * 32);
-        FIELD(motion, u16, 0x32) = FIELD(&base, u16, 0xA);
+        motion->unk_30.half.unk_32.u = ((S_81087818_4 *)&base)->unk_0A.u;
 
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        distance_x = FIELD(motion, s16, 0x2A);
-        base_x = FIELD(&base, s16, 2);
-        base_y = FIELD(&base, s16, 6);
+        distance_x = motion->unk_28.half.unk_2A;
+        base_x = ((S_81087818_4 *)&base)->unk_02.s;
+        base_y = ((S_81087818_4 *)&base)->unk_06.s;
         distance_x -= base_x;
         if (distance_x < 0) {
             distance_x = -distance_x;
         }
         delta[0] = distance_x;
-        distance_y = FIELD(motion, s16, 0x2E) - base_y;
+        distance_y = motion->unk_2C.half.unk_2E - base_y;
         if (distance_y < 0) {
             distance_y = -distance_y;
         }
         delta[1] = distance_y;
-        FIELD(motion, s16, 4) = delta[0];
-        if (FIELD(motion, s16, 4) < (s16)delta[1]) {
-            FIELD(motion, u16, 4) = delta[1];
+        motion->unk_04.s = delta[0];
+        if (motion->unk_04.s < (s16)delta[1]) {
+            motion->unk_04.u = delta[1];
         }
-        FIELD(motion, s16, 4) = (s16)FIELD(motion, u16, 4) >> 5;
-        if (FIELD(motion, s16, 4) == 0) {
-            FIELD(motion, u16, 4) = 1;
+        motion->unk_04.s = (s16)motion->unk_04.u >> 5;
+        if (motion->unk_04.s == 0) {
+            motion->unk_04.u = 1;
         }
-        trajectory->dx = FIELD(motion, s32, 0x28) - base.x;
-        trajectory->dy = FIELD(motion, s32, 0x2C) - base.y;
+        trajectory->dx = motion->unk_28.word - base.x;
+        trajectory->dy = motion->unk_2C.word - base.y;
         trajectory->dz = 0;
         break;
 
     case 2:
     {
         s32 *position;
-        void *node;
+        S_81087818_3 *node;
         s32 axis = 1;
         s32 distance_x;
         s32 distance_y;
@@ -144,30 +217,30 @@ state0:
         s32 height;
         s32 position_z;
 
-        node = FIELD(FIELD(motion, void *, 0x4C), void *, 0x60);
-        position = FIELD(node, s32 *, -0x18);
-        FIELD(motion, s32, 0x28) = position[0];
-        FIELD(motion, s32, 0x2C) = position[1];
-        height = D_800DDC40[FIELD(FIELD(FIELD(motion, void *, 0x4C), void *, 0x60), u8, 0x13)];
+        node = ((S_81087818_2 *)motion->unk_4C)->unk_60;
+        position = ((S_81087818_7 *)((u8 *)node - 0x18))->unk_00;
+        motion->unk_28.word = position[0];
+        motion->unk_2C.word = position[1];
+        height = D_800DDC40[((S_81087818_3 *)((S_81087818_2 *)motion->unk_4C)->unk_60)->unk_13];
         position_z = position[2];
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        distance_x = FIELD(motion, s16, 0x2A);
-        FIELD(motion, s32, 0x30) = position_z - (height << 15);
+        distance_x = motion->unk_28.half.unk_2A;
+        motion->unk_30.word = position_z - (height << 15);
 
-        origin_x = FIELD(&base, s16, 2);
-        origin_y = FIELD(&base, s16, 6);
+        origin_x = ((S_81087818_4 *)&base)->unk_02.s;
+        origin_y = ((S_81087818_4 *)&base)->unk_06.s;
         distance_x -= origin_x;
         if (distance_x < 0) {
             distance_x = -distance_x;
         }
         delta[0] = distance_x;
-        distance_y = FIELD(motion, s16, 0x2E) - origin_y;
+        distance_y = motion->unk_2C.half.unk_2E - origin_y;
         if (distance_y < 0) {
             distance_y = -distance_y;
         }
         delta[1] = distance_y;
-        distance_z = FIELD(motion, s16, 0x32);
-        origin_z = FIELD(&base, s16, 0xA);
+        distance_z = motion->unk_30.half.unk_32.s;
+        origin_z = ((S_81087818_4 *)&base)->unk_0A.s;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         delta_scan = (u8 *)&base + 2;
         ASM_KEEP_NV(distance_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -177,19 +250,19 @@ state0:
         }
         delta[2] = distance_z;
 
-        FIELD(motion, s16, 4) = delta[0];
+        motion->unk_04.s = delta[0];
         for (axis = 1; axis < 3; axis++, delta_scan += 2) {
-            if (FIELD(delta_scan, s16, 0x18) > FIELD(motion, s16, 4)) {
-                FIELD(motion, u16, 4) = FIELD(delta_scan, u16, 0x18);
+            if (((S_81087818_5 *)delta_scan)->unk_18.s > motion->unk_04.s) {
+                motion->unk_04.u = ((S_81087818_5 *)delta_scan)->unk_18.u;
             }
         }
-        FIELD(motion, s16, 4) = (s16)FIELD(motion, u16, 4) >> 5;
-        if (FIELD(motion, s16, 4) == 0) {
-            FIELD(motion, u16, 4) = 1;
+        motion->unk_04.s = (s16)motion->unk_04.u >> 5;
+        if (motion->unk_04.s == 0) {
+            motion->unk_04.u = 1;
         }
-        trajectory->dx = FIELD(motion, s32, 0x28) - base.x;
-        trajectory->dy = FIELD(motion, s32, 0x2C) - base.y;
-        trajectory->dz = FIELD(motion, s32, 0x30) - base.z;
+        trajectory->dx = motion->unk_28.word - base.x;
+        trajectory->dy = motion->unk_2C.word - base.y;
+        trajectory->dz = motion->unk_30.word - base.z;
         break;
     }
     case 0:
@@ -200,8 +273,8 @@ state0:
     trajectory->x = base.x;
     trajectory->y = base.y;
     trajectory->z = base.z;
-    FIELD(motion, u16, 0)++;
-    FIELD(motion, u16, 2) = 0;
+    motion->unk_00.u++;
+    motion->unk_02.u = 0;
     goto finish;
 }
 
@@ -213,27 +286,27 @@ state1:
     trajectory->x += trajectory->dx;
     trajectory->y += trajectory->dy;
     trajectory->z += trajectory->dz;
-    if (FIELD(motion, s16, 2) < FIELD(motion, s16, 4)) {
+    if (motion->unk_02.s < motion->unk_04.s) {
         goto call_helper;
     }
 
-    trajectory->x = FIELD(motion, s32, 0x28);
-    trajectory->y = FIELD(motion, s32, 0x2C);
-    trajectory->z = FIELD(motion, s32, 0x30);
-    FIELD(motion, u16, 2) = 0;
+    trajectory->x = motion->unk_28.word;
+    trajectory->y = motion->unk_2C.word;
+    trajectory->z = motion->unk_30.word;
+    motion->unk_02.u = 0;
     {
-        void *actor = FIELD(motion, void *, 0x40);
-        if (FIELD(actor, u8, 0xAE) != 2) {
+        S_81087818_1 *actor = motion->unk_40;
+        if (actor->unk_AE != 2) {
             s32 return_dz;
 
-            trajectory->dx = (base.x - trajectory->x) >> (FIELD(motion, s16, 4) + 1);
-            trajectory->dy = (base.y - trajectory->y) >> (FIELD(motion, s16, 4) + 1);
-            return_dz = (base.z - trajectory->z) >> (FIELD(motion, s16, 4) + 1);
+            trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
+            trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
+            return_dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             next_state = 3;
             trajectory->dz = return_dz;
         } else {
-            next_state = FIELD(motion, u16, 0) + 1;
+            next_state = motion->unk_00.u + 1;
         }
     }
     goto commit_state;
@@ -246,7 +319,7 @@ state2:
     {
         s32 random_angle = func_80069EF8();
         s32 biased_angle = random_angle;
-        s32 base_angle = FIELD(motion, u16, 6) + 0x400;
+        s32 base_angle = motion->unk_06.u + 0x400;
         s32 quotient;
         s32 remainder;
 
@@ -255,12 +328,12 @@ state2:
         }
         quotient = biased_angle >> 11;
         remainder = random_angle - (quotient << 11);
-        FIELD(motion, u16, 6) = base_angle + remainder;
+        motion->unk_06.u = base_angle + remainder;
     }
     {
         s32 random_angle = func_80069EF8();
         s32 biased_angle = random_angle;
-        s32 base_angle = FIELD(motion, u16, 8) + 0x400;
+        s32 base_angle = motion->unk_08.u + 0x400;
         s32 quotient;
         s32 remainder;
 
@@ -269,42 +342,42 @@ state2:
         }
         quotient = biased_angle >> 11;
         remainder = random_angle - (quotient << 11);
-        FIELD(motion, u16, 8) = base_angle + remainder;
+        motion->unk_08.u = base_angle + remainder;
     }
 
-    elevation_factor = func_800644B8(FIELD(motion, s16, 6));
-    azimuth_factor = func_800644B8(FIELD(motion, s16, 8));
+    elevation_factor = func_800644B8(motion->unk_06.s);
+    azimuth_factor = func_800644B8(motion->unk_08.s);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     elevation_factor >>= 4;
     azimuth_factor >>= 4;
-    trajectory->x = FIELD(motion, s32, 0x28) + ((elevation_factor * azimuth_factor) << 5);
-    elevation_factor = func_800644B8(FIELD(motion, s16, 6));
-    azimuth_factor = func_80064584(FIELD(motion, s16, 8));
+    trajectory->x = motion->unk_28.word + ((elevation_factor * azimuth_factor) << 5);
+    elevation_factor = func_800644B8(motion->unk_06.s);
+    azimuth_factor = func_80064584(motion->unk_08.s);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     elevation_factor >>= 4;
     azimuth_factor >>= 4;
-    trajectory->y = FIELD(motion, s32, 0x2C) + ((elevation_factor * azimuth_factor) << 5);
-    trajectory->z = FIELD(motion, s32, 0x30) + ((func_80064584(FIELD(motion, s16, 6)) >> 4) << 13);
+    trajectory->y = motion->unk_2C.word + ((elevation_factor * azimuth_factor) << 5);
+    trajectory->z = motion->unk_30.word + ((func_80064584(motion->unk_06.s) >> 4) << 13);
 
-    if (FIELD(motion, s16, 2) < 8) {
+    if (motion->unk_02.s < 8) {
         goto call_helper;
     }
     {
-        void *actor = FIELD(motion, void *, 0x40);
-        if (FIELD(actor, u8, 0xAE) == 2) {
-            void *source = FIELD(motion, void *, 0x4C);
-            func_8009C12C(source, FIELD(motion, void *, 0x48),
-                          FIELD(source, s16, 0x2A), FIELD(actor, s16, 0xAC));
+        S_81087818_1 *actor = motion->unk_40;
+        if (actor->unk_AE == 2) {
+            S_81087818_2 *source = motion->unk_4C;
+            func_8009C12C(source, motion->unk_48,
+                          source->unk_2A.s, actor->unk_AC);
         }
     }
-    trajectory->dx = (base.x - trajectory->x) >> (FIELD(motion, s16, 4) + 1);
-    trajectory->dy = (base.y - trajectory->y) >> (FIELD(motion, s16, 4) + 1);
-    trajectory->dz = (base.z - trajectory->z) >> (FIELD(motion, s16, 4) + 1);
-    FIELD(motion, u16, 2) = 0;
+    trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
+    trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
+    trajectory->dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
+    motion->unk_02.u = 0;
 
-    next_state = FIELD(motion, u16, 0) + 1;
+    next_state = motion->unk_00.u + 1;
 commit_state:
-    FIELD(motion, u16, 0) = next_state;
+    motion->unk_00.u = next_state;
 call_helper:
     func_80175A90(&base, trajectory);
     goto finish;
@@ -312,7 +385,7 @@ call_helper:
 
 state3:
 {
-    if (FIELD(motion, s16, 2) < FIELD(motion, s16, 4)) {
+    if (motion->unk_02.s < motion->unk_04.s) {
         trajectory->dx *= 2;
         trajectory->dy *= 2;
         trajectory->dz *= 2;
@@ -326,33 +399,33 @@ state3:
     trajectory->y = base.y;
     trajectory->z = base.z;
     {
-        void *actor = FIELD(motion, void *, 0x48);
-        u16 flags = FIELD(actor, u16, 0x14);
+        S_81087818_1 *actor = motion->unk_48;
+        u16 flags = actor->unk_14;
         if (!(flags & 0x800)) {
             goto finish;
         }
-        FIELD(actor, u16, 0x14) = flags & 0xF7FF;
+        actor->unk_14 = flags & 0xF7FF;
     }
-    FIELD(motion, u16, 0)++;
-    FIELD(motion, u16, 2) = 0;
+    motion->unk_00.u++;
+    motion->unk_02.u = 0;
 }
 
 state4:
 {
-    void *actor = FIELD(motion, void *, 0x48);
-    if (FIELD(actor, void *, 0x2C) != &D_80175F68) {
-        FIELD(motion, u16, -2) |= 0x8000;
+    S_81087818_1 *actor = motion->unk_48;
+    if (actor->unk_2C != &D_80175F68) {
+        (*(u16 *)((u8 *)motion - 2)) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
     }
-    FIELD(actor, u16, 0x14) &= 0xF7FF;
+    actor->unk_14 &= 0xF7FF;
     trajectory->x = base.x;
     trajectory->y = base.y;
     trajectory->z = base.z;
 }
 
 finish:
-    if (FIELD(motion, s16, 0) != 0) {
+    if (motion->unk_00.s != 0) {
         func_800C77D0((u8 *)motion - 0x20, trajectory, 8, 0x300);
     }
 #undef delta

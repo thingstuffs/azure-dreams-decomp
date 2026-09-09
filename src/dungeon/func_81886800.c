@@ -1,6 +1,252 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
+typedef struct S_func_81886800_1 {
+    void *unk_00;
+    void *unk_04;
+    u8 pad_08[0x1];
+    u8 unk_09;
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_0A;
+    u16 unk_0C;
+    u16 unk_0E;
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_10;
+    u8 unk_12;
+    u8 pad_13[0x1];
+    u16 unk_14;
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_16;
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_18;
+    u8 pad_1A[0x2];
+    union {
+        u32 u32;
+        struct {
+            u8 pad_1C[0x2];
+            union {
+                s16 s16;
+                struct {
+                    union {
+                        s8 s8;
+                        u8 u8;
+                    } unk_1E;
+                    union {
+                        s8 s8;
+                        u8 u8;
+                    } unk_1F;
+                } parts;
+            } unk_1E;
+        } parts;
+    } unk_1C;
+    union {
+        s16 s16;
+        struct {
+            u8 unk_20;
+            u8 unk_21;
+        } parts;
+    } unk_20;
+    u8 pad_22[0x6];
+    void *unk_28;
+    union {
+        s32 s32;
+        struct {
+            u8 pad_2C[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_2E;
+        } parts;
+    } unk_2C;
+    u8 pad_30[0x28];
+    s16 unk_58;
+} S_func_81886800_1;
+
+typedef struct S_func_81886800_2 {
+    u8 pad_00[0x8];
+    void *unk_08;
+    void *unk_0C;
+} S_func_81886800_2;
+
+typedef struct S_func_81886800_3 {
+    u8 pad_00[0x8];
+    void *unk_08;
+    union {
+        u32 u32;
+        struct {
+            u8 unk_0C;
+            u8 unk_0D;
+            u8 unk_0E;
+        } parts;
+    } unk_0C;
+    u16 unk_10;
+    u8 pad_12[0x2];
+    u16 unk_14;
+    u8 pad_16[0x6];
+    u16 unk_1C;
+    u16 unk_1E;
+} S_func_81886800_3;
+
+typedef struct S_func_81886800_4 {
+    u16 unk_00;
+} S_func_81886800_4;
+
+typedef struct S_func_81886800_5 {
+    u16 unk_00;
+} S_func_81886800_5;
+
+typedef struct S_func_81886800_6 {
+    u16 unk_00;
+} S_func_81886800_6;
+
+typedef struct S_func_81886800_7 {
+    s32 unk_00;
+} S_func_81886800_7;
+
+typedef struct S_func_81886800_8 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    u8 pad_14[0x16];
+    u16 unk_2A;
+    u8 pad_2C[0x34];
+    void *unk_60;
+    u8 pad_64[0xC];
+    union {
+        u32 u32;
+        struct {
+            u8 pad_70[0x2];
+            union {
+                s8 s8;
+                u8 u8;
+            } unk_72;
+            union {
+                s8 s8;
+                u8 u8;
+            } unk_73;
+        } parts;
+    } unk_70;
+    u8 pad_74[0x14];
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_88;
+} S_func_81886800_8;
+
+typedef struct S_func_81886800_9 {
+    s32 unk_00;
+} S_func_81886800_9;
+
+typedef struct S_func_81886800_10 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x2];
+    u16 unk_06;
+    union {
+        void * ptr;
+        struct {
+            u8 pad_08[0x2];
+            u16 unk_0A;
+        } parts;
+    } unk_08;
+    u8 pad_0C[0x8];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+} S_func_81886800_10;
+
+typedef struct S_func_81886800_11 {
+    union {
+        s32 s32;
+        struct {
+            u8 pad_00[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_02;
+        } parts;
+    } unk_00;
+    union {
+        s32 s32;
+        struct {
+            u8 pad_04[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_06;
+        } parts;
+    } unk_04;
+    union {
+        s32 s32;
+        struct {
+            u8 pad_08[0x2];
+            u16 unk_0A;
+        } parts;
+    } unk_08;
+    union {
+        s32 s32;
+        struct {
+            u8 pad_0C[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_0E;
+        } parts;
+    } unk_0C;
+    union {
+        s32 s32;
+        struct {
+            u8 pad_10[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_12;
+        } parts;
+    } unk_10;
+} S_func_81886800_11;
+
+typedef struct S_func_81886800_12 {
+    u16 unk_00;
+} S_func_81886800_12;
+
+typedef struct S_func_81886800_13 {
+    void *unk_00;
+} S_func_81886800_13;
+
+typedef struct S_func_81886800_14 {
+    s16 unk_00;
+} S_func_81886800_14;
+
+typedef struct S_func_81886800_15 {
+    u16 unk_00;
+} S_func_81886800_15;
+
+typedef struct S_func_81886800_16 {
+    u8 pad_00[0x1E];
+    u16 unk_1E;
+} S_func_81886800_16;
+
+typedef struct S_func_81886800_17 {
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_00;
+} S_func_81886800_17;
+
+typedef struct S_func_81886800_18 {
+    s32 unk_00;
+} S_func_81886800_18;
+
+typedef struct S_func_81886800_19 {
+    s32 unk_00;
+} S_func_81886800_19;
 
 extern void func_80024064(void);
 extern void func_800240C8(void);
@@ -90,19 +336,19 @@ void BODY_NAME(void *effect_in, void *motion_in, void *sprite_in)
 void BODY_NAME(void *effect_in, void *motion_in, void *sprite_in)
 {
 #ifdef __mips__
-    void *effect = effect_in;
-    register void *motion ASM_REG("$17") = motion_in;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *sprite = sprite_in;
-    register void *owner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *owner_base;
-    void *owner_motion;
+    S_func_81886800_1 *effect = effect_in;
+    register S_func_81886800_11 *motion ASM_REG("$17") = motion_in;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_81886800_3 *sprite = sprite_in;
+    register S_func_81886800_8 *owner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_81886800_2 *owner_base;
+    S_func_81886800_11 *owner_motion;
 #else
-    void *effect = effect_in;
-    void *motion = motion_in;
-    void *sprite = sprite_in;
-    void *owner;
-    void *owner_base;
-    void *owner_motion;
+    S_func_81886800_1 *effect = effect_in;
+    S_func_81886800_11 *motion = motion_in;
+    S_func_81886800_3 *sprite = sprite_in;
+    S_func_81886800_8 *owner;
+    S_func_81886800_2 *owner_base;
+    S_func_81886800_11 *owner_motion;
 #endif
     s32 state;
     u32 valid_state;
@@ -116,11 +362,11 @@ void BODY_NAME(void *effect_in, void *motion_in, void *sprite_in)
         &&case_15, &&case_16, &&case_17,
     };
 
-    owner = FIELD(effect, void *, 0);
-    state = FIELD(effect, s16, 0xA);
-    owner_base = (u8 *)owner - 0x20;
+    owner = effect->unk_00;
+    state = effect->unk_0A.s16;
+    owner_base = (S_func_81886800_2 *)((u8 *)owner - 0x20);
     valid_state = (u32)state < 18u;
-    owner_motion = FIELD(owner_base, void *, 8);
+    owner_motion = owner_base->unk_08;
     if (!valid_state) {
         goto end;
     }
@@ -132,96 +378,96 @@ case_0:
     texture_rect[1] = 0x00200020;
     func_800B835C(D_8002632C, texture_rect, 1, 0);
 
-    FIELD(sprite, u32, 0xC) = 0x00808080;
-    FIELD(sprite, u16, 0x1E) = 0x555;
-    FIELD(sprite, u16, 0x1C) = 0x555;
-    FIELD(sprite, void *, 8) = D_80026344;
-    FIELD(D_80026324, u16, 0) = 0;
-    FIELD(D_80026328, u16, 0) = 0;
-    FIELD(D_8002632A, u16, 0) = 0;
-    FIELD(D_80026470, s32, 0) = 0;
-    owner_flags = FIELD(owner, u16, 0x2A);
-    FIELD(D_80026474, s32, 0) = 0;
-    FIELD(effect, u16, 0x16) = (owner_flags >> 9) & 7;
-    FIELD(effect, u16, 0xA)++;
+    sprite->unk_0C.u32 = 0x00808080;
+    sprite->unk_1E = 0x555;
+    sprite->unk_1C = 0x555;
+    sprite->unk_08 = D_80026344;
+    ((S_func_81886800_4 *)(D_80026324))->unk_00 = 0;
+    ((S_func_81886800_5 *)(D_80026328))->unk_00 = 0;
+    ((S_func_81886800_6 *)(D_8002632A))->unk_00 = 0;
+    ((S_func_81886800_7 *)(D_80026470))->unk_00 = 0;
+    owner_flags = owner->unk_2A;
+    ((S_func_81886800_9 *)(D_80026474))->unk_00 = 0;
+    effect->unk_16.u16 = (owner_flags >> 9) & 7;
+    effect->unk_0A.u16++;
 
     if (func_8003DF74(
-            FIELD(FIELD(owner_base, void *, 0xC), void *, 8),
-            FIELD(owner_base, void *, 0xC), surface_pos, 0) == 0) {
-        if ((FIELD(FIELD(owner_base, void *, 0xC), u16, 0x14) & 0x8000) == 0) {
+            ((S_func_81886800_10 *)(owner_base->unk_0C))->unk_08.ptr,
+            owner_base->unk_0C, surface_pos, 0) == 0) {
+        if ((((S_func_81886800_10 *)(owner_base->unk_0C))->unk_14 & 0x8000) == 0) {
             goto end;
         }
     }
 
-    FIELD(motion, u16, 2) = FIELD(owner_motion, u16, 2);
-    FIELD(motion, u16, 6) = FIELD(owner_motion, u16, 6);
-    if (FIELD(FIELD(owner_base, void *, 0xC), u16, 0x14) & 0x8000) {
+    motion->unk_00.parts.unk_02.u16 = owner_motion->unk_00.parts.unk_02.u16;
+    motion->unk_04.parts.unk_06.u16 = owner_motion->unk_04.parts.unk_06.u16;
+    if (((S_func_81886800_10 *)(owner_base->unk_0C))->unk_14 & 0x8000) {
         {
             s32 start_height;
 
-            start_height = FIELD(owner_motion, u16, 0xA) - 64;
+            start_height = owner_motion->unk_08.parts.unk_0A - 64;
             ASM_TAILSLOT_PIN(start_height);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             func_800241E8();
         }
     }
-    FIELD(motion, u16, 0xA) = FIELD(owner_motion, u16, 0xA) + surface_pos[2];
-    FIELD(effect, u16, 0x2E) = FIELD(motion, u16, 0xA);
+    motion->unk_08.parts.unk_0A = owner_motion->unk_08.parts.unk_0A + surface_pos[2];
+    effect->unk_2C.parts.unk_2E.u16 = motion->unk_08.parts.unk_0A;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     {
-        void *effect_flags = FIELD(effect, void *, 4);
-        if ((FIELD(effect_flags, u16, 0) & 0x80) == 0) {
+        S_func_81886800_12 *effect_flags = effect->unk_04;
+        if ((effect_flags->unk_00 & 0x80) == 0) {
             goto end;
         }
-        if ((FIELD(effect, u8, 0x12) & 4) == 0) {
+        if ((effect->unk_12 & 4) == 0) {
             func_8004491C((u8 *)effect - 0x20, D_80045340);
-            FIELD(sprite, u16, 0x10) = 0x20;
-            FIELD(sprite, u8, 0xE) = 0x80;
-            FIELD(sprite, u8, 0xD) = 0x80;
-            FIELD(sprite, u8, 0xC) = 0x80;
-            FIELD(sprite, u16, 0x14) |= 0xC;
-            FIELD(effect, u8, 0x12) |= 4;
+            sprite->unk_10 = 0x20;
+            sprite->unk_0C.parts.unk_0E = 0x80;
+            sprite->unk_0C.parts.unk_0D = 0x80;
+            sprite->unk_0C.parts.unk_0C = 0x80;
+            sprite->unk_14 |= 0xC;
+            effect->unk_12 |= 4;
         }
     }
 
     {
-        if (FIELD(owner, void *, 0x60) == 0) {
+        if (owner->unk_60 == 0) {
             goto case_0_no_object;
         }
         {
-            void *target_data;
+            S_func_81886800_10 *target_data;
 
             target_data =
-                FIELD(FIELD(owner, void *, 0x60), void *, -0x18);
-            FIELD(effect, u16, 0xC) = FIELD(target_data, u16, 2);
-            FIELD(effect, u16, 0xE) = FIELD(target_data, u16, 6);
+                ((S_func_81886800_13 *)((u8 *)(owner->unk_60) - 0x18))->unk_00;
+            effect->unk_0C = target_data->unk_02;
+            effect->unk_0E = target_data->unk_06;
             {
                 u8 target_kind;
                 u8 *height_offsets;
 
                 height_offsets = D_800DDC40;
-                target_kind = FIELD(FIELD(owner, void *, 0x60), u8, 0x13);
-                FIELD(effect, u16, 0x10) =
-                    FIELD(target_data, u16, 0xA) - height_offsets[target_kind];
+                target_kind = ((S_func_81886800_8 *)(owner->unk_60))->unk_13;
+                effect->unk_10.u16 =
+                    target_data->unk_08.parts.unk_0A - height_offsets[target_kind];
             }
             {
                 s16 direction;
                 u8 tile_coord;
-                direction = FIELD(effect, s16, 0x16);
-                target_data = FIELD(owner, void *, -0x14);
-                tile_coord = FIELD(target_data, u8, 0x24) +
+                direction = effect->unk_16.s16;
+                target_data = ((S_func_81886800_13 *)((u8 *)(owner) - 0x14))->unk_00;
+                tile_coord = target_data->unk_24 +
                         D_8006CCD8[(s32)direction * 2];
-                FIELD(effect, u8, 0x1E) = tile_coord;
-                FIELD(effect, u8, 0x20) = tile_coord;
+                effect->unk_1C.parts.unk_1E.parts.unk_1E.u8 = tile_coord;
+                effect->unk_20.parts.unk_20 = tile_coord;
             }
             {
                 s16 direction;
                 u8 tile_coord;
-                direction = FIELD(effect, s16, 0x16);
-                tile_coord = FIELD(target_data, u8, 0x25) +
+                direction = effect->unk_16.s16;
+                tile_coord = target_data->unk_25 +
                         D_8006CCE8[(s32)direction * 2];
-                FIELD(effect, u8, 0x1F) = tile_coord;
-                FIELD(effect, u8, 0x21) = tile_coord;
+                effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = tile_coord;
+                effect->unk_20.parts.unk_21 = tile_coord;
             }
             {
 #ifdef __mips__
@@ -232,11 +478,11 @@ case_0:
                 s32 target_tile;
 #endif
                 s32 tile_distance;
-                owner_tile = FIELD(owner, s8, 0x72);
-                target_tile = FIELD(target_data, u8, 0x24);
+                owner_tile = owner->unk_70.parts.unk_72.s8;
+                target_tile = target_data->unk_24;
                 if (owner_tile == target_tile) {
-                    owner_tile = FIELD(owner, s8, 0x73);
-                    target_tile = FIELD(target_data, u8, 0x25);
+                    owner_tile = owner->unk_70.parts.unk_73.s8;
+                    target_tile = target_data->unk_25;
                     tile_distance = owner_tile - target_tile;
                 } else {
                     tile_distance = owner_tile - target_tile;
@@ -244,28 +490,28 @@ case_0:
                 if (tile_distance < 0) {
                     tile_distance = -tile_distance;
                 }
-                FIELD(effect, u16, 0x14) = tile_distance + 1;
+                effect->unk_14 = tile_distance + 1;
             }
         }
     }
     func_80024380();
 
 case_0_no_object:
-    FIELD(effect, u16, 0x14) = 8;
-    FIELD(effect, u16, 0xC) = FIELD(motion, u16, 2);
-    FIELD(effect, u16, 0xE) = FIELD(motion, u16, 6);
-    FIELD(effect, u16, 0x10) = FIELD(owner, u16, 0x88) - 80;
+    effect->unk_14 = 8;
+    effect->unk_0C = motion->unk_00.parts.unk_02.u16;
+    effect->unk_0E = motion->unk_04.parts.unk_06.u16;
+    effect->unk_10.u16 = owner->unk_88.u16 - 80;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     {
         u8 *x_offsets = D_8006CCD8;
-        s16 direction = FIELD(effect, s16, 0x16);
-        FIELD(motion, u16, 0xE) =
-            FIELD(x_offsets + (s32)direction * 2, s16, 0) * 8;
+        s16 direction = effect->unk_16.s16;
+        motion->unk_0C.parts.unk_0E.u16 =
+            ((S_func_81886800_14 *)(x_offsets + (s32)direction * 2))->unk_00 * 8;
         {
             u8 *y_offsets = D_8006CCE8;
-            s16 y_direction = FIELD(effect, s16, 0x16);
-            FIELD(motion, u16, 0x12) =
-                FIELD(y_offsets + (s32)y_direction * 2, s16, 0) * 8;
+            s16 y_direction = effect->unk_16.s16;
+            motion->unk_10.parts.unk_12.u16 =
+                ((S_func_81886800_14 *)(y_offsets + (s32)y_direction * 2))->unk_00 * 8;
         }
     }
     func_8002477C();
@@ -279,15 +525,15 @@ case_1:
         s32 x_step;
         s32 x_velocity;
 #endif
-        x_step = FIELD(motion, s32, 0xC);
+        x_step = motion->unk_0C.s32;
         x_velocity = x_step;
-        FIELD(motion, s32, 0) += x_step;
+        motion->unk_00.s32 += x_step;
         ASM_KEEP(x_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         x_velocity += x_velocity >> 4;
-        FIELD(motion, s32, 0xC) = x_velocity;
+        motion->unk_0C.s32 = x_velocity;
         if ((x_velocity < 0 ? -x_velocity : x_velocity) > 0x200000) {
             x_velocity = x_velocity > 0 ? 0x200000 : -0x200000;
-            FIELD(motion, s32, 0xC) = x_velocity;
+            motion->unk_0C.s32 = x_velocity;
         }
     }
     {
@@ -298,82 +544,82 @@ case_1:
         s32 y_step;
         s32 y_velocity;
 #endif
-        y_step = FIELD(motion, s32, 0x10);
+        y_step = motion->unk_10.s32;
         y_velocity = y_step;
-        FIELD(motion, s32, 4) += y_step;
+        motion->unk_04.s32 += y_step;
         ASM_KEEP(y_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         y_velocity += y_velocity >> 4;
-        FIELD(motion, s32, 0x10) = y_velocity;
+        motion->unk_10.s32 = y_velocity;
         if ((y_velocity < 0 ? -y_velocity : y_velocity) > 0x200000) {
             y_velocity = y_velocity > 0 ? 0x200000 : -0x200000;
-            FIELD(motion, s32, 0x10) = y_velocity;
+            motion->unk_10.s32 = y_velocity;
         }
     }
     {
-        s32 height = FIELD(effect, s32, 0x2C);
-        height += (((s32)FIELD(effect, s16, 0x10) << 16) - height) >> 4;
-        FIELD(effect, s32, 0x2C) = height;
-        height = FIELD(motion, s32, 8);
-        height += (((s32)FIELD(effect, s16, 0x10) << 16) - height) >> 4;
-        FIELD(motion, s32, 8) = height;
+        s32 height = effect->unk_2C.s32;
+        height += (((s32)effect->unk_10.s16 << 16) - height) >> 4;
+        effect->unk_2C.s32 = height;
+        height = motion->unk_08.s32;
+        height += (((s32)effect->unk_10.s16 << 16) - height) >> 4;
+        motion->unk_08.s32 = height;
     }
     {
-        s32 bob_offset = func_800644B8((s32)FIELD(effect, s16, 0x18) << 7);
-        FIELD(motion, s32, 8) += bob_offset << 6;
+        s32 bob_offset = func_800644B8((s32)effect->unk_18.s16 << 7);
+        motion->unk_08.s32 += bob_offset << 6;
     }
     func_80024DE8(motion, sprite);
     {
-        s32 tile_coord = FIELD(motion, s16, 2);
+        s32 tile_coord = motion->unk_00.parts.unk_02.s16;
         if (tile_coord < 0) {
             tile_coord += 63;
         }
-        FIELD(effect, u8, 0x1E) = tile_coord >> 6;
-        tile_coord = FIELD(motion, s16, 6);
+        effect->unk_1C.parts.unk_1E.parts.unk_1E.u8 = tile_coord >> 6;
+        tile_coord = motion->unk_04.parts.unk_06.s16;
         if (tile_coord < 0) {
             tile_coord += 63;
         }
-        FIELD(effect, u8, 0x1F) = tile_coord >> 6;
+        effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = tile_coord >> 6;
     }
-    if (FIELD(effect, s16, 0x20) == FIELD(effect, s16, 0x1E)) {
+    if (effect->unk_20.s16 == effect->unk_1C.parts.unk_1E.s16) {
         goto end;
     }
-    if (FIELD(owner, void *, 0x60) != 0) {
-        if (FIELD(effect, s16, 0x58) == 0) {
+    if (owner->unk_60 != 0) {
+        if (effect->unk_58 == 0) {
             s32 target_distance = set_item_w0(
-                FIELD(effect, volatile u8, 0x1E),
-                FIELD(effect, volatile u8, 0x1F),
-                FIELD(owner, volatile u8, 0x72),
-                FIELD(owner, volatile u8, 0x73));
+                ((volatile S_func_81886800_1 *)(effect))->unk_1C.parts.unk_1E.parts.unk_1E.u8,
+                ((volatile S_func_81886800_1 *)(effect))->unk_1C.parts.unk_1E.parts.unk_1F.u8,
+                ((volatile S_func_81886800_8 *)(owner))->unk_70.parts.unk_72.u8,
+                ((volatile S_func_81886800_8 *)(owner))->unk_70.parts.unk_73.u8);
             target_distance = (s16)target_distance;
             if (target_distance < 5) {
-                FIELD(effect, s16, 0x58) = 1;
+                effect->unk_58 = 1;
                 func_800A56E0(0x300);
             }
         }
     }
-    if (FIELD(owner, void *, 0x60) != 0) {
-        if ((FIELD(owner, volatile u32, 0x70) & 0xFFFF0000) ==
-            (FIELD(effect, volatile u32, 0x1C) & 0xFFFF0000)) {
-            void *snapped_motion;
+    if (owner->unk_60 != 0) {
+        if ((((volatile S_func_81886800_8 *)(owner))->unk_70.u32 & 0xFFFF0000) ==
+            (((volatile S_func_81886800_1 *)(effect))->unk_1C.u32 & 0xFFFF0000)) {
+            S_func_81886800_11 *snapped_motion;
 
             snapped_motion = motion;
             {
-                s32 coordinate = FIELD(owner, s8, 0x72);
-                FIELD(motion, s16, 2) = (coordinate << 6) + 0x20;
+                s32 coordinate = owner->unk_70.parts.unk_72.s8;
+                motion->unk_00.parts.unk_02.s16 = (coordinate << 6) + 0x20;
             }
             {
-                s32 coordinate = FIELD(owner, s8, 0x73);
-                FIELD(motion, s16, 6) = (coordinate << 6) + 0x20;
+                s32 coordinate = owner->unk_70.parts.unk_73.s8;
+                motion->unk_04.parts.unk_06.s16 = (coordinate << 6) + 0x20;
             }
-            FIELD(motion, u16, 0xA) = FIELD(effect, u16, 0x10);
+            motion->unk_08.parts.unk_0A = effect->unk_10.u16;
             func_80024DE8(snapped_motion, sprite);
             {
-                u16 next_state = FIELD(effect, u16, 0xA);
+                u16 next_state = effect->unk_0A.u16;
                 u16 target_id =
-                    FIELD(FIELD(owner, void *, 0x60), u16, 0x88);
+                    ((S_func_81886800_8 *)(owner->unk_60))->unk_88.u16;
                 next_state++;
-                FIELD(effect, u16, 0xA) = next_state;
-                FIELD(D_80026878, u16, 0) = target_id;
+                effect->unk_0A.u16 = next_state;
+                ((S_func_81886800_15 *)(D_80026878))->unk_00 = target_id;
             }
             func_800247C8();
         }
@@ -381,76 +627,76 @@ case_1:
 
 case_1_continue:
     {
-        u8 x = FIELD(effect, u8, 0x1E);
-        u8 y = FIELD(effect, u8, 0x1F);
-        s32 timer = FIELD(effect, u16, 0x14) - 1;
+        u8 x = effect->unk_1C.parts.unk_1E.parts.unk_1E.u8;
+        u8 y = effect->unk_1C.parts.unk_1E.parts.unk_1F.u8;
+        s32 timer = effect->unk_14 - 1;
         s32 collision;
-        FIELD(effect, u16, 0x14) = timer;
-        FIELD(effect, u8, 0x20) = x;
-        FIELD(effect, u8, 0x21) = y;
+        effect->unk_14 = timer;
+        effect->unk_20.parts.unk_20 = x;
+        effect->unk_20.parts.unk_21 = y;
         if ((timer << 16) != 0) {
-            s32 world_x = (((s32)FIELD(effect, s8, 0x1E) << 6) + 0x20) & 0xFFE0;
-            s32 world_y = (((s32)FIELD(effect, s8, 0x1F) << 6) + 0x20) & 0xFFE0;
-            collision = func_800A45D8(world_x, world_y, FIELD(effect, s16, 0x2E));
+            s32 world_x = (((s32)effect->unk_1C.parts.unk_1E.parts.unk_1E.s8 << 6) + 0x20) & 0xFFE0;
+            s32 world_y = (((s32)effect->unk_1C.parts.unk_1E.parts.unk_1F.s8 << 6) + 0x20) & 0xFFE0;
+            collision = func_800A45D8(world_x, world_y, effect->unk_2C.parts.unk_2E.s16);
             if ((collision << 16) == 0) {
                 goto end;
             }
         }
-        FIELD(effect, u16, 0xA) = 16;
+        effect->unk_0A.u16 = 16;
         func_800247C8();
     }
 
 case_2:
-    func_80065F90(FIELD(motion, s16, 0xE), FIELD(motion, s16, 0x12));
+    func_80065F90(motion->unk_0C.parts.unk_0E.s16, motion->unk_10.parts.unk_12.s16);
     {
 #ifdef __mips__
-        register void *target_object ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register S_func_81886800_8 *target_object ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #else
-        void *target_object;
+        S_func_81886800_8 *target_object;
 #endif
-        FIELD(effect, void *, 0x28) = func_80024C80(
-            effect, motion, (target_object = FIELD(owner, void *, 0x60),
-                            FIELD(target_object, s16, 0x88)));
-        if (FIELD(effect, void *, 0x28) == 0) {
+        effect->unk_28 = func_80024C80(
+            effect, motion, (target_object = owner->unk_60,
+                            target_object->unk_88.s16));
+        if (effect->unk_28 == 0) {
             goto end;
         }
-        FIELD(effect, u16, 0xA)++;
-        FIELD(sprite, u8, 0xC) -= FIELD(sprite, u8, 0xC) >> 2;
-        FIELD(sprite, u8, 0xD) -= FIELD(sprite, u8, 0xD) >> 2;
-        FIELD(sprite, u8, 0xE) -= FIELD(sprite, u8, 0xE) >> 2;
-        if ((FIELD(FIELD(effect, void *, 0x28), u16, 0x1E) & 0x8000) == 0) {
+        effect->unk_0A.u16++;
+        sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 2;
+        sprite->unk_0C.parts.unk_0D -= sprite->unk_0C.parts.unk_0D >> 2;
+        sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 2;
+        if ((((S_func_81886800_16 *)(effect->unk_28))->unk_1E & 0x8000) == 0) {
             goto end;
         }
-        if (FIELD(owner, void *, 0x60) != 0) {
-            func_800262B8(FIELD(owner, void *, 0x60),
-                          FIELD(effect, u8, 9), owner);
+        if (owner->unk_60 != 0) {
+            func_800262B8(owner->unk_60,
+                          effect->unk_09, owner);
         }
-        FIELD(effect, u16, 0xA) = 17;
+        effect->unk_0A.u16 = 17;
         func_800247C8();
     }
 
 case_3:
     {
 #ifdef __mips__
-        register void *moving_motion ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        register S_func_81886800_11 *moving_motion ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #else
-        void *moving_motion;
+        S_func_81886800_11 *moving_motion;
 #endif
         moving_motion = motion;
-        FIELD(moving_motion, s32, 0) += FIELD(moving_motion, s32, 0xC);
-        FIELD(moving_motion, s32, 4) += FIELD(moving_motion, s32, 0x10);
+        moving_motion->unk_00.s32 += moving_motion->unk_0C.s32;
+        moving_motion->unk_04.s32 += moving_motion->unk_10.s32;
         {
-            s32 target_height = (s32)FIELD(effect, s16, 0x10) << 16;
-            s32 height = FIELD(moving_motion, s32, 8);
+            s32 target_height = (s32)effect->unk_10.s16 << 16;
+            s32 height = moving_motion->unk_08.s32;
             height += (target_height - height) >> 4;
-            FIELD(moving_motion, s32, 8) = height;
+            moving_motion->unk_08.s32 = height;
         }
-        FIELD(sprite, u8, 0xC) -= FIELD(sprite, u8, 0xC) >> 1;
-        FIELD(sprite, u8, 0xD) -= FIELD(sprite, u8, 0xD) >> 1;
-        FIELD(sprite, u8, 0xE) -= FIELD(sprite, u8, 0xE) >> 1;
+        sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 1;
+        sprite->unk_0C.parts.unk_0D -= sprite->unk_0C.parts.unk_0D >> 1;
+        sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 1;
         func_80024DE8(moving_motion, sprite);
-        if (FIELD(sprite, u8, 0xC) < 2) {
-            FIELD(effect, u16, 0xA)++;
+        if (sprite->unk_0C.parts.unk_0C < 2) {
+            effect->unk_0A.u16++;
             func_800247C8();
         } else {
             goto end;
@@ -458,12 +704,12 @@ case_3:
     }
 
 case_4:
-    if (FIELD(D_80026326, s16, 0) != 0) {
+    if (((S_func_81886800_17 *)(D_80026326))->unk_00.s16 != 0) {
         goto end;
     }
-    FIELD(D_8008346C, s32, 0) = 0;
-    FIELD((u8 *)effect - 2, u16, 0) |= 0x8000;
-    FIELD(D_800814A0, s32, 0) |= 0x8000;
+    ((S_func_81886800_18 *)(D_8008346C))->unk_00 = 0;
+    ((S_func_81886800_12 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
+    ((S_func_81886800_19 *)(D_800814A0))->unk_00 |= 0x8000;
 
 case_5:
 case_6:
@@ -480,9 +726,9 @@ case_16:
 case_17:
 end:
     {
-        u16 frame_count = FIELD(effect, u16, 0x18);
-        FIELD(D_80026326, u16, 0) = 0;
-        FIELD(effect, u16, 0x18) = frame_count + 1;
+        u16 frame_count = effect->unk_18.u16;
+        ((S_func_81886800_17 *)(D_80026326))->unk_00.u16 = 0;
+        effect->unk_18.u16 = frame_count + 1;
     }
 }
 

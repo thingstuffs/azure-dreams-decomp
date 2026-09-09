@@ -1,7 +1,5 @@
 #include "common.h"
 
-#define FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))
-
 typedef struct {
     u8 f0;
     u8 f1;
@@ -33,6 +31,6 @@ void *func_80025C6C(void *entryBuffer) {
         entries[entryIndex].f4 = sharedEntryValue;
         entryIndex += 1;
     } while (entryIndex < 5);
-    FIELD(((entryIndex * 12) + entryBuffer), u8 *, -12) = 128;
+    ((Entry *)((entryIndex * 12) + entryBuffer))[-1].f0 = 128;
     return entryBuffer;
 }

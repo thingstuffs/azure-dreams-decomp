@@ -1,9 +1,106 @@
 #include "common.h"
 
-#define FIELD(p, type, offset) (*(type *)((u8 *)(p) + (offset)))
-#define TMP FIELD(storage, s32, 0x7C)
-#define OUTX FIELD(storage, s16, 0x78)
-#define OUTY FIELD(storage, s16, 0x7A)
+typedef struct S_func_80174228_0 {
+    u8 pad_00[4];
+    union { s16 s16; u16 u16; } unk_04;
+    u8 unk_06;
+    u8 pad_07[0x21];
+    void *unk_28;
+    void *unk_2C;
+    s16 unk_30;
+    s16 unk_32;
+    s16 unk_34;
+    u8 pad_36[0xA];
+    s16 unk_40;
+    s16 unk_42;
+    u8 pad_44[4];
+    u16 unk_48[24];
+    s16 unk_78;
+    s16 unk_7A;
+    union { s32 s32; u16 u16; } unk_7C;
+} S_func_80174228_0;
+
+typedef struct S_func_80174228_1 {
+    u16 unk_00;
+    s16 unk_02;
+    s16 unk_04;
+    u8 pad_06[2];
+} S_func_80174228_1;
+
+typedef struct S_func_80174228_2 {
+    void *unk_00;
+    u8 pad_04[0xC4];
+    u16 unk_C8;
+} S_func_80174228_2;
+
+typedef struct S_func_80174228_3 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+    u8 pad_0C[2];
+    u16 unk_0E;
+    u8 pad_10[8];
+    s16 unk_18;
+} S_func_80174228_3;
+
+typedef struct S_func_80174228_4 {
+    u8 pad_00[0xB0];
+    u32 unk_B0[520];
+    void *unk_8D0;
+} S_func_80174228_4;
+
+typedef struct S_func_80174228_5 {
+    u32 unk_00;
+    u8 unk_04;
+    u8 unk_05;
+    u8 unk_06;
+    u8 pad_07[1];
+    s16 unk_08;
+    s16 unk_0A;
+    s8 unk_0C;
+    u8 unk_0D;
+    u8 pad_0E[2];
+    s16 unk_10;
+    s16 unk_12;
+    s8 unk_14;
+    u8 unk_15;
+    s16 unk_16;
+    s16 unk_18;
+    s16 unk_1A;
+    s8 unk_1C;
+    u8 unk_1D;
+    u8 pad_1E[2];
+    s16 unk_20;
+    s16 unk_22;
+    s8 unk_24;
+    u8 unk_25;
+    u8 pad_26[2];
+} S_func_80174228_5;
+
+typedef struct S_func_80174228_6 {
+    s16 unk_00;
+} S_func_80174228_6;
+
+typedef struct S_func_80174228_7 {
+    u8 pad_00[0x48];
+    s16 unk_48;
+} S_func_80174228_7;
+
+typedef struct S_func_80174228_8 {
+    u8 pad_00[0x58];
+    s16 unk_58;
+} S_func_80174228_8;
+
+typedef struct S_func_80174228_9 {
+    void *unk_00;
+} S_func_80174228_9;
+
+typedef struct S_func_80174228_10 {
+    u32 unk_00;
+} S_func_80174228_10;
+
+#define TMP ((S_func_80174228_0 *)storage)->unk_7C.s32
+#define OUTX ((S_func_80174228_0 *)storage)->unk_78
+#define OUTY ((S_func_80174228_0 *)storage)->unk_7A
 
 extern s32 func_80065420();
 extern s16 func_80066460();
@@ -46,17 +143,17 @@ s32 func_80174228(u8 *item_data)
     register s32 left_x;
     u32 addr_mask;
     register u32 tag_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register u8 *init_vertex ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register S_func_80174228_1 *init_vertex ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *vertex;
-    u8 *prim;
+    S_func_80174228_5 *prim;
     u8 shade;
     u8 tex_height;
-    u8 *context;
-    u8 *context2;
-    u8 *profile_dst;
-    u8 *profile_mirror;
+    S_func_80174228_4 *context;
+    S_func_80174228_4 *context2;
+    S_func_80174228_6 *profile_dst;
+    S_func_80174228_7 *profile_mirror;
     u32 mirror_addr;
-    s16 *profile_base;
+    S_func_80174228_8 *profile_base;
     s32 brightness;
     s32 shade_bias;
     s32 profile_raw;
@@ -65,40 +162,40 @@ s32 func_80174228(u8 *item_data)
     u32 coord_bits;
     u16 profile_peak;
     s32 half_height;
-    register u8 *item ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register S_func_80174228_3 *item ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 render_term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *render_state;
-    register u8 *profile_storage ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_80174228_2 *render_state;
+    register S_func_80174228_0 *profile_storage ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *transform ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    render_state = D_80083160;
+    render_state = (S_func_80174228_2 *)D_80083160;
     __builtin_memcpy(storage, D_8017087C, 8);
     depth = 0;
     vertices = storage + 8;
 
     do {
-        item = item_data;
+        item = (S_func_80174228_3 *)item_data;
         vertex_base = vertices;
         i = 3;
         far_z = -0xA0;
         near_z = 0x10;
-        FIELD(storage, s32, 0x7C) = 0x40;
-        half_width = FIELD(storage, u16, 0x7C);
-        init_vertex = vertex_base + 0x18;
+        ((S_func_80174228_0 *)storage)->unk_7C.s32 = 0x40;
+        half_width = ((S_func_80174228_0 *)storage)->unk_7C.u16;
+        init_vertex = (S_func_80174228_1 *)(vertex_base + 0x18);
         left_x = -half_width;
         do {
-            FIELD(init_vertex, u16, 0) = half_width;
+            init_vertex->unk_00 = half_width;
             if (i < 2) {
-                FIELD(init_vertex, u16, 0) = left_x;
+                init_vertex->unk_00 = left_x;
             }
-            FIELD(init_vertex, s16, 2) = 0;
+            init_vertex->unk_02 = 0;
             if (i & 1) {
-                FIELD(init_vertex, s16, 4) = far_z;
+                init_vertex->unk_04 = far_z;
             } else {
-                FIELD(init_vertex, s16, 4) = near_z;
+                init_vertex->unk_04 = near_z;
             }
             i--;
-            init_vertex -= 8;
+            init_vertex--;
         } while (i >= 0);
 
         transform = storage + 0x28;
@@ -106,20 +203,20 @@ s32 func_80174228(u8 *item_data)
         min_xy &= 0xFFFF;
         max_xy &= 0xFFFF;
         i = 3;
-        setup_source = render_state;
-        render_term = FIELD(setup_source, u16, 0xC8);
+        setup_source = (u8 *)render_state;
+        render_term = ((S_func_80174228_2 *)setup_source)->unk_C8;
         ASM_USE_NV(render_term);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        FIELD(storage, s16, 0x32) = 0;
-        FIELD(storage, s16, 0x30) = 0;
+        ((S_func_80174228_0 *)storage)->unk_32 = 0;
+        ((S_func_80174228_0 *)storage)->unk_30 = 0;
         setup_source = vertices;
         scratch_ptr = &TMP;
         vertex = setup_source + 0x18;
-        FIELD(storage, u8 *, 0x28) = setup_source;
-        FIELD(storage, u8 *, 0x2C) = setup_source;
-        FIELD(storage, s16, 0x34) = -render_term;
+        ((S_func_80174228_0 *)storage)->unk_28 = setup_source;
+        ((S_func_80174228_0 *)storage)->unk_2C = setup_source;
+        ((S_func_80174228_0 *)storage)->unk_34 = -render_term;
         __builtin_memcpy(storage + 0x38, item, 8);
-        FIELD(storage, s16, 0x40) = 4;
-        FIELD(storage, s16, 0x42) = 0;
+        ((S_func_80174228_0 *)storage)->unk_40 = 4;
+        ((S_func_80174228_0 *)storage)->unk_42 = 0;
         func_800DBA90(transform, left_x, near_z, far_z);
 
         min_xy |= 0x75300000;
@@ -163,39 +260,39 @@ s32 func_80174228(u8 *item_data)
 
         i = 1;
         depth >>= 2;
-        profile_peak = FIELD(item, u16, 0xE);
+        profile_peak = item->unk_0E;
         ASM_KEEP_MEMDEP_NV(profile_peak, profile_dst, storage[0]);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        profile_dst = storage + 0x60;
-        FIELD(storage, u16, 0x5E) = profile_peak;
+        profile_dst = (S_func_80174228_6 *)(storage + 0x60);
+        ((S_func_80174228_0 *)storage)->unk_48[11] = profile_peak;
         do {
             mirror_addr = (0xB - i) * 2;
             mirror_addr += (u32)storage;
-            profile_mirror = (u8 *)mirror_addr;
-            profile_raw = FIELD(storage, u16, 0x48 + (0xC - i) * 2);
+            profile_mirror = (S_func_80174228_7 *)mirror_addr;
+            profile_raw = ((S_func_80174228_0 *)storage)->unk_48[0xC - i];
             i++;
             half_height = (profile_raw << 16) >> 17;
-            FIELD(profile_dst, s16, 0) = half_height;
-            FIELD(profile_mirror, s16, 0x48) = half_height;
-            profile_dst += 2;
+            profile_dst->unk_00 = half_height;
+            profile_mirror->unk_48 = half_height;
+            profile_dst++;
         } while (i < 0xC);
 
         if ((u32)depth < 0x1E0U) {
             i = 0;
             do {
-                context = FIELD(render_state, u8 *, 0);
-                prim = FIELD(context, u8 *, 0x8D0);
-                FIELD(context, u8 *, 0x8D0) = prim + 0x28;
+                context = render_state->unk_00;
+                prim = context->unk_8D0;
+                context->unk_8D0 = (u8 *)prim + 0x28;
 
-                profile_base = (s16 *)(storage + i * 2 - 0x10);
+                profile_base = (S_func_80174228_8 *)(storage + i * 2 - 0x10);
                 ASM_USE(profile_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 render_term = 0xB;
                 render_term -= i;
-                brightness = FIELD(profile_base, s16, 0x58);
+                brightness = profile_base->unk_58;
                 if (render_term < 0) {
                     render_term = -render_term;
                 }
                 brightness -= render_term;
-                shade_bias = FIELD(item, s16, 0x18);
+                shade_bias = item->unk_18;
                 brightness *= 2;
                 shade_bias *= 4;
                 shade_bias += 0x5C;
@@ -205,81 +302,81 @@ s32 func_80174228(u8 *item_data)
                     TMP = 0;
                 }
                 shade = TMP;
-                FIELD(prim, u8, 6) = shade;
-                FIELD(prim, u8, 5) = shade;
-                FIELD(prim, u8, 4) = shade;
+                prim->unk_06 = shade;
+                prim->unk_05 = shade;
+                prim->unk_04 = shade;
                 func_800666F4(prim);
                 func_80066640(prim, 1);
-                FIELD(prim, s16, 0x16) = func_80066460(2, 1, 0x340, 0x100);
+                prim->unk_16 = func_80066460(2, 1, 0x340, 0x100);
 
-                render_term = i * FIELD(storage, s16, 4);
+                render_term = i * ((S_func_80174228_0 *)storage)->unk_04.s16;
                 left_coord = render_term / 23;
-                FIELD(prim, s8, 0x14) = left_coord;
-                FIELD(prim, s8, 0xC) = left_coord;
+                prim->unk_14 = left_coord;
+                prim->unk_0C = left_coord;
                 tex_coord = left_coord;
-                tex_coord += ((FIELD(storage, u16, 4) << 16) >> 16) / 23;
-                FIELD(prim, u8, 0x1D) = 0;
-                FIELD(prim, u8, 0xD) = 0;
-                FIELD(prim, s8, 0x24) = tex_coord;
-                FIELD(prim, s8, 0x1C) = tex_coord;
+                tex_coord += ((((S_func_80174228_0 *)storage)->unk_04.u16 << 16) >> 16) / 23;
+                prim->unk_1D = 0;
+                prim->unk_0D = 0;
+                prim->unk_24 = tex_coord;
+                prim->unk_1C = tex_coord;
 
-                tex_height = FIELD(storage, u8, 6);
+                tex_height = ((S_func_80174228_0 *)storage)->unk_06;
                 ASM_USE(tex_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                FIELD(prim, u8, 0x25) = tex_height;
-                tex_coord = FIELD(prim, u8, 0xD) + 2;
+                prim->unk_25 = tex_height;
+                tex_coord = prim->unk_0D + 2;
                 if (tex_height >= 2) {
-                    tex_coord = FIELD(prim, u8, 0xD) + FIELD(prim, u8, 0x25);
+                    tex_coord = prim->unk_0D + prim->unk_25;
                 }
                 right_bound = (s16)max_xy;
                 screen_width = right_bound - (s16)min_xy;
-                FIELD(prim, u8, 0x25) = tex_coord;
-                FIELD(prim, u8, 0x15) = tex_coord;
+                prim->unk_25 = tex_coord;
+                prim->unk_15 = tex_coord;
 
                 strip_offset = (screen_width * i) / 23;
                 TMP = strip_offset;
                 if (i < 0xB) {
-                    TMP = strip_offset + FIELD(item, s16, 0xA);
+                    TMP = strip_offset + item->unk_0A;
                     if ((screen_width >> 1) < TMP) {
                         TMP = screen_width >> 1;
                     }
                 } else if (i >= 0xC) {
-                    TMP = strip_offset - FIELD(item, s16, 0xA);
+                    TMP = strip_offset - item->unk_0A;
                     if (TMP < (screen_width >> 1)) {
                         TMP = screen_width >> 1;
                     }
                 }
 
                 left_coord = (u16)TMP + min_xy;
-                FIELD(prim, s16, 0x10) = left_coord;
-                FIELD(prim, s16, 8) = left_coord;
+                prim->unk_10 = left_coord;
+                prim->unk_08 = left_coord;
                 right_x = left_coord + screen_width / 23;
-                FIELD(prim, s16, 0x20) = right_x;
-                FIELD(prim, s16, 0x18) = right_x;
+                prim->unk_20 = right_x;
+                prim->unk_18 = right_x;
 
-                profile_storage = storage;
-                top_y = FIELD(profile_storage, u16, 0x48 + i * 2) + (min_xy >> 16);
-                FIELD(prim, s16, 0x1A) = top_y;
-                FIELD(prim, s16, 0xA) = top_y;
-                bottom_y = FIELD(profile_storage, u16, 0x48 + i * 2) + (max_xy >> 16);
-                FIELD(prim, s16, 0x22) = bottom_y;
-                FIELD(prim, s16, 0x12) = bottom_y;
+                profile_storage = (S_func_80174228_0 *)storage;
+                top_y = profile_storage->unk_48[i] + (min_xy >> 16);
+                prim->unk_1A = top_y;
+                prim->unk_0A = top_y;
+                bottom_y = profile_storage->unk_48[i] + (max_xy >> 16);
+                prim->unk_22 = bottom_y;
+                prim->unk_12 = bottom_y;
 
                 ot_offset = depth * 4;
                 tag_mask = 0xFF000000;
                 addr_mask = 0x00FFFFFF;
-                context = FIELD(render_state, u8 *, 0);
-                FIELD(prim, u32, 0) = (FIELD(prim, u32, 0) & tag_mask) |
-                    (FIELD(context, u32, 0xB0 + ot_offset) & addr_mask);
-                context2 = FIELD(render_state, u8 *, 0);
-                FIELD(context2, u32, 0xB0 + ot_offset) =
-                    (FIELD(context2, u32, 0xB0 + ot_offset) & tag_mask) |
+                context = render_state->unk_00;
+                prim->unk_00 = (prim->unk_00 & tag_mask) |
+                    (((S_func_80174228_10 *)((u8 *)context + (0xB0 + ot_offset)))->unk_00 & addr_mask);
+                context2 = render_state->unk_00;
+                ((S_func_80174228_10 *)((u8 *)context2 + (0xB0 + ot_offset)))->unk_00 =
+                    (((S_func_80174228_10 *)((u8 *)context2 + (0xB0 + ot_offset)))->unk_00 & tag_mask) |
                     ((u32)prim & addr_mask);
 
                 i++;
             } while (i < 0x17);
         }
 
-        next_node = FIELD(item_data, u8 *, -8);
+        next_node = ((S_func_80174228_9 *)(item_data - 8))->unk_00;
         if (next_node == 0) {
             break;
         }

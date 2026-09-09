@@ -1,7 +1,5 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
-
 typedef struct {
     s16 x;
     u16 y;
@@ -30,11 +28,43 @@ typedef struct {
     u8 unkA8;
     u8 unkA9;
     u8 unkAA;
+    u8 pad_AB[0x49];
+    s32 unk_F4;
+    u8 pad_F8[0xA];
+    u8 unk_102;
 } GlobalObj;
 
 typedef struct {
     u16 flags;
 } ChildObj;
+
+typedef struct S_func_819C0C18_0 {
+    u8 pad_00[4];
+    ChildObj *unk_04;
+    u8 unk_08;
+    u8 pad_09[1];
+    union { s16 s; u16 u; } unk_0A;
+    u8 pad_0C[0x10];
+    union { s16 s; u16 u; } unk_1C;
+    u8 pad_1E[6];
+    s16 unk_24;
+    u8 pad_26[2];
+    union { s16 s; u16 u; } unk_28;
+    u16 unk_2A;
+} S_func_819C0C18_0;
+
+typedef struct S_func_819C0C18_1 {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+    s32 unk_0C;
+} S_func_819C0C18_1;
+
+typedef struct S_func_819C0C18_3 {
+    u8 pad_00[0xA8];
+    u8 unk_A8;
+    u8 unk_A9;
+    u8 unk_AA;
+} S_func_819C0C18_3;
 
 extern OffsetTable D_80024028;
 extern void *D_80024048[];
@@ -63,17 +93,17 @@ extern void func_800A56E0(s32);
 extern void func_800C77D0(void *, void *, s32, s32);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */
-void func_819C0C18(void *effect)
+void func_819C0C18(S_func_819C0C18_0 *effect)
 {
     static void *const keep_cases[] __attribute__((used)) = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&done, &&done
     };
     s32 rect[2];
     OffsetTable offsets = D_80024028;
-    u8 *colors = D_80083160;
+    S_func_819C0C18_3 *colors = (S_func_819C0C18_3 *)D_80083160;
     s32 state;
 
-    state = FIELD(effect, s16, 0xA);
+    state = effect->unk_0A.s;
     if ((u32)state >= 7) {
         goto done;
     }
@@ -83,14 +113,14 @@ case_0:
     {
         s32 rect_xy;
         s32 rect_size;
-        void *owner;
+        GlobalObj *owner;
         ChildObj *child;
         u16 state;
 
         func_800C77D0((u8 *)D_800814A8[0] - 0x20, &D_80083780, 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
-        FIELD(D_800814A8[0], u8, 0x102) = 1;
+        D_800814A8[0]->unk_102 = 1;
         rect[0] = rect_xy;
         rect[1] = rect_size;
         func_80040490(D_8006E8A0, rect);
@@ -98,14 +128,14 @@ case_0:
         func_80024BA0();
 
         owner = D_800814A8[0];
-        FIELD(owner, s32, 0xF4) = 0;
-        FIELD(owner, s16, 0x96) = 30;
-        state = FIELD(effect, u16, 0xA);
+        owner->unk_F4 = 0;
+        owner->unk96 = 30;
+        state = effect->unk_0A.u;
         D_8002992E = 1;
-        FIELD(effect, u16, 0x2A) = 0;
-        FIELD(effect, u16, 0xA) = state + 1;
+        effect->unk_2A = 0;
+        effect->unk_0A.u = state + 1;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        child = FIELD(effect, ChildObj *, 4);
+        child = effect->unk_04;
         if ((child->flags & 0x80) == 0) {
             return;
         }
@@ -117,7 +147,7 @@ case_0:
 
 case_1:
     {
-        u16 timer = FIELD(effect, u16, 0x28);
+        u16 timer = effect->unk_28.u;
         register GlobalObj *owner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         Position *position;
         OffsetPair *offset_base;
@@ -125,31 +155,31 @@ case_1:
         u16 direction;
         s16 particle_index;
 
-        FIELD(effect, u16, 0x28) = timer + 1;
+        effect->unk_28.u = timer + 1;
         if ((s16)timer >= 0x52) {
             owner = D_800814A8[0];
-            FIELD(effect, s16, 0x1C) = 0x21;
-            FIELD(owner, u16, 0xA6) = FIELD(owner, u16, 0xA6) - 1;
-            FIELD(owner, u8, 0xA8) = FIELD(effect, u8, 8);
+            effect->unk_1C.s = 0x21;
+            owner->unkA6 = owner->unkA6 - 1;
+            owner->unkA8 = effect->unk_08;
             owner = D_800814A8[0];
-            next_state = FIELD(effect, u16, 0xA);
-            direction = FIELD(owner, u16, 0x2A);
-            FIELD(effect, u16, 0xA) = next_state + 1;
-            FIELD(effect, u16, 0x28) = 0;
-            FIELD(effect, s16, 0x24) = (direction >> 9) & 7;
+            next_state = effect->unk_0A.u;
+            direction = owner->unk2A;
+            effect->unk_0A.u = next_state + 1;
+            effect->unk_28.u = 0;
+            effect->unk_24 = (direction >> 9) & 7;
         }
 
         particle_index = 0;
-        if (FIELD(effect, s16, 0x28) == 0x4A) {
+        if (effect->unk_28.s == 0x4A) {
             Position *effect_position = &D_80083780;
 
-            func_80025CE8(FIELD(effect_position, s16, 2),
-                          FIELD(effect_position, s16, 6),
-                          FIELD(effect_position, s16, 0xA),
-                          FIELD(D_800814A8[0], s16, 0x2A));
+            func_80025CE8((s16)effect_position->x,
+                          (s16)effect_position->y,
+                          (s16)effect_position->z,
+                          (s16)D_800814A8[0]->unk2A);
         }
 
-        FIELD(effect, s16, 0x24) = (FIELD(D_800814A8[0], u16, 0x2A) >> 9) & 7;
+        effect->unk_24 = (D_800814A8[0]->unk2A >> 9) & 7;
         position = &D_80083780;
         offset_base = offsets.entries;
         do {
@@ -161,30 +191,30 @@ case_1:
             spread_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
             spread_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
 
-            func_8002626C((u8 *)effect - 0x20, FIELD(effect, s16, 0x24),
+            func_8002626C((u8 *)effect - 0x20, effect->unk_24,
                           0x00C0C0C0, 0x28, spread_y, spread_x, spread_z,
                           (s16)(position->x + ({
                               OffsetPair *offset = (OffsetPair *)
                                   ((u8 *)offset_base +
-                                  FIELD(effect, s16, 0x24) * 4);
+                                  effect->unk_24 * 4);
                               offset->x;
                           }) * 128),
                           (s16)(position->y + ({
                               OffsetPair *offset = (OffsetPair *)
                                   ((u8 *)offset_base +
-                                  FIELD(effect, s16, 0x24) * 4);
+                                  effect->unk_24 * 4);
                               (s32)(offset->y << 16) >> 9;
                           })),
                           (s16)(position->z - 0x74));
             particle_index++;
         } while (particle_index < 2);
 
-        if (colors[0xA8] < 0x3D) {
+        if (colors->unk_A8 < 0x3D) {
             return;
         }
-        colors[0xA8] -= 2;
-        colors[0xA9] -= 2;
-        colors[0xAA] -= 2;
+        colors->unk_A8 -= 2;
+        colors->unk_A9 -= 2;
+        colors->unk_AA -= 2;
         func_80026924();
         return;
     }
@@ -194,46 +224,46 @@ case_2:
         s32 reset_timer;
         u16 current_state;
 
-        FIELD(effect, u16, 0x28) = 0;
-        FIELD(effect, u16, 0xA) = FIELD(effect, u16, 0xA) + 1;
-        if (colors[0xA8] >= 0x3D) {
-            colors[0xA8] -= 2;
-            colors[0xA9] -= 2;
-            colors[0xAA] -= 2;
+        effect->unk_28.u = 0;
+        effect->unk_0A.u = effect->unk_0A.u + 1;
+        if (colors->unk_A8 >= 0x3D) {
+            colors->unk_A8 -= 2;
+            colors->unk_A9 -= 2;
+            colors->unk_AA -= 2;
         }
-        FIELD(effect, u16, 0x1C) = FIELD(effect, u16, 0x1C) - 1;
-        if (FIELD(effect, s16, 0x1C) > 0) {
+        effect->unk_1C.u = effect->unk_1C.u - 1;
+        if (effect->unk_1C.s > 0) {
             return;
         }
         reset_timer = 0x3C;
-        current_state = FIELD(effect, u16, 0xA);
+        current_state = effect->unk_0A.u;
         ASM_KEEP(current_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        FIELD(effect, s16, 0x1C) = reset_timer;
+        effect->unk_1C.s = reset_timer;
         func_800268A0();
         return;
     }
 
 case_3:
     {
-        s8 color = colors[0xA8];
+        s8 color = colors->unk_A8;
         s32 dungeon_mode;
 
         if ((u8)color < 0x80) {
-            colors[0xA8] += 10;
-            colors[0xA9] += 10;
-            colors[0xAA] += 10;
+            colors->unk_A8 += 10;
+            colors->unk_A9 += 10;
+            colors->unk_AA += 10;
         }
         if ((D_80082E94 & 0x8000) == 0) {
-            FIELD(effect, u16, 0x1C) = FIELD(effect, u16, 0x1C) - 1;
-            if (FIELD(effect, s16, 0x1C) >= 0) {
+            effect->unk_1C.u = effect->unk_1C.u - 1;
+            if (effect->unk_1C.s >= 0) {
                 return;
             }
         }
         dungeon_mode = D_8002992E;
-        FIELD(effect, s16, 0x1C) = 0;
+        effect->unk_1C.s = 0;
         if (dungeon_mode == 0) {
-            FIELD(effect, u16, 0x28) = 0;
-            FIELD(effect, u16, 0xA) = FIELD(effect, u16, 0xA) + 1;
+            effect->unk_28.u = 0;
+            effect->unk_0A.u = effect->unk_0A.u + 1;
             func_80026924();
             return;
         } else {
@@ -245,24 +275,24 @@ case_3:
 
 case_4:
     {
-        u16 timer = FIELD(effect, u16, 0x28);
+        u16 timer = effect->unk_28.u;
 
-        FIELD(effect, u16, 0x28) = timer + 1;
+        effect->unk_28.u = timer + 1;
         if ((s16)timer < 4) {
             return;
         }
-        colors[0xAA] = 0x80;
-        colors[0xA9] = 0x80;
-        colors[0xA8] = 0x80;
+        colors->unk_AA = 0x80;
+        colors->unk_A9 = 0x80;
+        colors->unk_A8 = 0x80;
         {
-            u8 *dungeon_state = D_80083460;
+            S_func_819C0C18_1 *dungeon_state = (S_func_819C0C18_1 *)D_80083460;
 
-            FIELD(dungeon_state, s32, 0xC) = 0;
-            FIELD(dungeon_state, u16, 0xA) =
-                FIELD(dungeon_state, u16, 0xA) - 1;
+            dungeon_state->unk_0C = 0;
+            dungeon_state->unk_0A =
+                dungeon_state->unk_0A - 1;
         }
         D_80082E86 = 0;
-        FIELD(effect, u16, -2) |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
     }

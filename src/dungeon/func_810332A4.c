@@ -1,6 +1,80 @@
 #include "common.h"
 
-#define FIELD(p, t, o) (*(t *)((u8 *)(p) + (o)))
+typedef struct S_func_810332A4_1 {
+    u8 pad_00[0x16];
+    union { s16 s; u16 u; } unk_16;
+    u8 pad_18[4];
+    s16 unk_1C;
+    union { s16 s; u16 u; } unk_1E;
+    u8 pad_20[6];
+    s16 unk_26;
+    void *unk_28;
+    void *unk_2C;
+    void *unk_30;
+    u8 pad_34[0x18];
+    union { s8 s; u8 u; } unk_4C;
+    union { s8 s; u8 u; } unk_4D;
+} S_func_810332A4_1;
+
+typedef struct S_func_810332A4_2 {
+    union {
+        s32 word;
+        struct { u8 pad_00[2]; s16 unk_02; } half;
+    } unk_00;
+    union {
+        s32 word;
+        struct { u8 pad_04[2]; s16 unk_06; } half;
+    } unk_04;
+    u8 pad_08[2];
+    union { s16 s; u16 u; } unk_0A;
+    s32 unk_0C;
+    s32 unk_10;
+} S_func_810332A4_2;
+
+typedef struct S_func_810332A4_3 {
+    u8 pad_00[0xC];
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
+    u8 pad_0F[5];
+    u16 unk_14;
+} S_func_810332A4_3;
+
+typedef struct S_func_810332A4_4 {
+    u8 pad_00[0x11];
+    u8 unk_11;
+    u8 pad_12[0x18];
+    s16 unk_2A;
+    u8 pad_2C[0x80];
+    u8 unk_AC;
+} S_func_810332A4_4;
+
+typedef struct S_func_810332A4_5 {
+    u8 pad_00[8];
+    void *unk_08;
+    void *unk_0C;
+} S_func_810332A4_5;
+
+typedef struct S_func_810332A4_6 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_func_810332A4_6;
+
+typedef struct S_func_810332A4_7 {
+    u8 pad_00[0x14];
+    u32 unk_14;
+    u8 pad_18[4];
+    u32 unk_1C;
+    u8 pad_20[0x68];
+    s16 unk_88;
+} S_func_810332A4_7;
+
+typedef struct S_func_810332A4_8 {
+    u8 unk_00;
+    u8 pad_01[1];
+    u8 unk_02;
+} S_func_810332A4_8;
 
 typedef struct {
     s16 x;
@@ -34,11 +108,11 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
         &&state_10, &&state_11, &&state_12,
     };
     u16 collision_flags;
-    void *owner;
-    void *object;
-    void *new_object;
-    register void *display ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register void *transform ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    S_func_810332A4_4 *owner;
+    S_func_810332A4_5 *object;
+    S_func_810332A4_5 *new_object;
+    register S_func_810332A4_6 *display ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register S_func_810332A4_2 *transform ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 blocked;
     s32 stop_mask;
     s32 step_coord;
@@ -47,7 +121,7 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     s32 next_tile;
     s32 collision_coord;
     register s32 coord_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register void *object_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register S_func_810332A4_7 *object_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 burst_index;
     s32 target_y;
@@ -67,10 +141,10 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     s32 fade_value;
     s32 delay_pending;
     u16 timer;
-    void *held_effect;
-    void *held_motion;
-    register void *held_sprite ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    void *effect_owner;
+    S_func_810332A4_1 *held_effect;
+    S_func_810332A4_2 *held_motion;
+    register S_func_810332A4_3 *held_sprite ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    S_func_810332A4_4 *effect_owner;
 
     held_effect = effect;
     held_motion = motion;
@@ -79,8 +153,8 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
 #define motion held_motion
 #define sprite held_sprite
 
-    effect_owner = FIELD(effect, void *, 0x28);
-    state = FIELD(effect, s16, 0x16);
+    effect_owner = effect->unk_28;
+    state = effect->unk_16.s;
     owner = effect_owner;
     if ((u32)state >= 13U) {
         goto end;
@@ -89,72 +163,72 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     goto *D_80170858[state];
 
 state_0:
-    timer = FIELD(effect, u16, 0x1E) + 1;
-    FIELD(effect, u16, 0x1E) = timer;
+    timer = effect->unk_1E.u + 1;
+    effect->unk_1E.u = timer;
     fade_value = ((s16)timer << 7) / 10;
-    FIELD(sprite, u8, 0xE) = fade_value;
-    FIELD(sprite, u8, 0xD) = fade_value;
-    FIELD(sprite, u8, 0xC) = fade_value;
-    fade_value = FIELD(effect, s16, 0x1E) < 10;
+    sprite->unk_0E = fade_value;
+    sprite->unk_0D = fade_value;
+    sprite->unk_0C = fade_value;
+    fade_value = effect->unk_1E.s < 10;
     if (fade_value) {
         goto end;
     }
-    FIELD(effect, u16, 0x1E) = 0;
-    FIELD(effect, u16, 0x16)++;
+    effect->unk_1E.u = 0;
+    effect->unk_16.u++;
     goto end;
 
 state_1:
-    timer = FIELD(effect, u16, 0x1E) + 1;
-    FIELD(effect, u16, 0x1E) = timer;
+    timer = effect->unk_1E.u + 1;
+    effect->unk_1E.u = timer;
     if ((s16)timer < 30) {
         goto end;
     }
-    FIELD(effect, u16, 0x16)++;
-    FIELD(effect, u16, 0x1E) = 0;
-    FIELD(motion, s32, 0xC) = D_8017610C[FIELD(effect, s16, 0x1C)].x << 20;
-    FIELD(motion, s32, 0x10) = D_8017610C[FIELD(effect, s16, 0x1C)].y << 20;
+    effect->unk_16.u++;
+    effect->unk_1E.u = 0;
+    motion->unk_0C = D_8017610C[effect->unk_1C].x << 20;
+    motion->unk_10 = D_8017610C[effect->unk_1C].y << 20;
     func_800A56E0(0x808);
     goto end;
 
 state_2:
-    if ((FIELD(effect, s8, 0x4C) << 6) + 0x20 != FIELD(motion, s16, 2)) {
+    if ((effect->unk_4C.s << 6) + 0x20 != motion->unk_00.half.unk_02) {
         goto object_common;
     }
-    if ((FIELD(effect, s8, 0x4D) << 6) + 0x20 != FIELD(motion, s16, 6)) {
+    if ((effect->unk_4D.s << 6) + 0x20 != motion->unk_04.half.unk_06) {
         goto object_common;
     }
 
-    FIELD(effect, s16, 0x26) = 0;
-    func_8009A350(FIELD(effect, s8, 0x4C), FIELD(effect, s8, 0x4D),
-                  FIELD(effect, s16, 0x1C), &collision_flags);
+    effect->unk_26 = 0;
+    func_8009A350(effect->unk_4C.s, effect->unk_4D.s,
+                  effect->unk_1C, &collision_flags);
     if (collision_flags & 0x8400) {
-        FIELD(effect, s16, 0x26) = 1;
+        effect->unk_26 = 1;
     }
     coord_base = (s32)D_8017610C;
-    step_x = FIELD(effect, s16, 0x1C);
+    step_x = effect->unk_1C;
     ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    next_tile = FIELD(effect, u8, 0x4C);
+    next_tile = effect->unk_4C.u;
     step_x <<= 2;
     step_x += (s32)coord_base;
-    step_x = FIELD((void *)step_x, u8, 0);
+    step_x = ((S_func_810332A4_8 *)step_x)->unk_00;
     next_tile += step_x;
-    FIELD(effect, u8, 0x4C) = next_tile;
-    collision_coord = FIELD(effect, s16, 0x1C);
+    effect->unk_4C.u = next_tile;
+    collision_coord = effect->unk_1C;
     collision_coord <<= 2;
     collision_coord += (s32)coord_base;
     ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    step_coord = FIELD(effect, s8, 0x4C);
-    next_tile = FIELD(effect, u8, 0x4D);
-    collision_coord = FIELD((void *)collision_coord, u8, 2);
+    step_coord = effect->unk_4C.s;
+    next_tile = effect->unk_4D.u;
+    collision_coord = ((S_func_810332A4_8 *)collision_coord)->unk_02;
     ASM_KEEP_DEP_NV(step_coord, next_tile);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_DEP_NV(step_coord, collision_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     next_tile += collision_coord;
-    FIELD(effect, u8, 0x4D) = next_tile;
+    effect->unk_4D.u = next_tile;
     step_coord <<= 6;
     ASM_KEEP_NV(step_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     target_x = step_coord + 0x20;
-    target_y = (FIELD(effect, s8, 0x4D) << 6) + 0x20;
-    collision_coord = FIELD(effect, s16, 0x26);
+    target_y = (effect->unk_4D.s << 6) + 0x20;
+    collision_coord = effect->unk_26;
     if (collision_coord != 0) {
         goto checks_done;
     }
@@ -162,130 +236,130 @@ state_2:
     check_x = (u16)target_x;
     check_y = (u16)target_y;
     if ((func_800A45D8(check_x, check_y,
-                       FIELD(motion, s16, 0xA)) << 16) != 0) {
-        FIELD(effect, s16, 0x26) = 1;
+                       motion->unk_0A.s) << 16) != 0) {
+        effect->unk_26 = 1;
     }
-    if (FIELD(effect, s16, 0x26) == 0) {
-        if (func_80174A00(owner, (u16)(s8)FIELD(effect, u8, 0x4C),
-                           (u16)(s8)FIELD(effect, u8, 0x4D),
-                           FIELD(motion, s16, 0xA)) != 0) {
-            FIELD(effect, s16, 0x26) = 1;
+    if (effect->unk_26 == 0) {
+        if (func_80174A00(owner, (u16)(s8)effect->unk_4C.u,
+                           (u16)(s8)effect->unk_4D.u,
+                           motion->unk_0A.s) != 0) {
+            effect->unk_26 = 1;
         }
     }
-    if (FIELD(effect, s16, 0x26) == 0) {
+    if (effect->unk_26 == 0) {
         floor_height = func_800BCB04(check_x, check_y,
-                              (s16)((u16)FIELD(motion, s16, 0xA) - 0x20));
-        if (floor_height >= 0x200 || floor_height > FIELD(motion, s16, 0xA) + 0x20 ||
-            floor_height < FIELD(motion, s16, 0xA)) {
-            FIELD(effect, s16, 0x26) = 1;
+                              (s16)((u16)motion->unk_0A.s - 0x20));
+        if (floor_height >= 0x200 || floor_height > motion->unk_0A.s + 0x20 ||
+            floor_height < motion->unk_0A.s) {
+            effect->unk_26 = 1;
         }
     }
 
 checks_done:
-    if (FIELD(effect, s16, 0x26) == 1) {
-        FIELD(effect, s16, 0x16) = 10;
-        FIELD(effect, s16, 0x1E) = 0;
-        FIELD(motion, s32, 0x10) = 0;
-        FIELD(motion, s32, 0xC) = 0;
-        object = FIELD(effect, void *, 0x30);
+    if (effect->unk_26 == 1) {
+        effect->unk_16.s = 10;
+        effect->unk_1E.s = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        object = effect->unk_30;
         if (object == 0) {
             goto end;
         }
-        object_data = (u8 *)object + 0x20;
-        display = FIELD(object, void *, 0xC);
-        transform = FIELD(object, void *, 8);
+        object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+        display = object->unk_0C;
+        transform = object->unk_08;
         cleanup_mask = 0xFFEFFFFF;
         ASM_KEEP4_NV(cleanup_mask, cleanup_mask, cleanup_mask, cleanup_mask);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        FIELD(object_data, u32, 0x14) &= cleanup_mask;
+        object_data->unk_14 &= cleanup_mask;
         goto cleanup_object;
     }
 
-    if (FIELD(effect, void *, 0x2C) == 0) {
+    if (effect->unk_2C == 0) {
         new_object = func_801748FC(owner,
-                    (u16)(s8)FIELD(effect, u8, 0x4C),
-                    (u16)(s8)FIELD(effect, u8, 0x4D),
-                    FIELD(motion, s16, 0xA));
-        FIELD(effect, void *, 0x2C) = new_object;
+                    (u16)(s8)effect->unk_4C.u,
+                    (u16)(s8)effect->unk_4D.u,
+                    motion->unk_0A.s);
+        effect->unk_2C = new_object;
         if (new_object == 0) {
             goto secondary_object;
         }
         object = new_object;
-        object_data = (u8 *)object + 0x20;
-        display = FIELD(object, void *, 0xC);
-        FIELD(object_data, u32, 0x14) |= 0x100000;
-        func_8009A3D0(FIELD(display, u8, 0x24), FIELD(display, u8, 0x25),
-                      (FIELD(object_data, u32, 0x1C) & 0x2000) ? 0x300 : 0x3000);
+        object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+        display = object->unk_0C;
+        object_data->unk_14 |= 0x100000;
+        func_8009A3D0(display->unk_24, display->unk_25,
+                      (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
     }
 
 object_common:
-    if (FIELD(effect, void *, 0x2C) == 0) {
+    if (effect->unk_2C == 0) {
         goto secondary_object;
     }
-    object = FIELD(effect, void *, 0x2C);
-    display = FIELD(object, void *, 0xC);
-    transform = FIELD(object, void *, 8);
-    object_data = (u8 *)object + 0x20;
-    if ((FIELD(display, volatile u8, 0x24) << 6) + 0x20 !=
-        FIELD(transform, s16, 2)) {
+    object = effect->unk_2C;
+    display = object->unk_0C;
+    transform = object->unk_08;
+    object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+    if ((((volatile S_func_810332A4_6 *)display)->unk_24 << 6) + 0x20 !=
+        transform->unk_00.half.unk_02) {
         goto rollback_object;
     }
-    if ((FIELD(display, volatile u8, 0x25) << 6) + 0x20 !=
-        FIELD(transform, s16, 6)) {
+    if ((((volatile S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20 !=
+        transform->unk_04.half.unk_06) {
         goto rollback_object;
     }
 
-    func_8009A350(FIELD(display, u8, 0x24), FIELD(display, u8, 0x25),
-                  FIELD(effect, s16, 0x1C), &collision_flags);
+    func_8009A350(display->unk_24, display->unk_25,
+                  effect->unk_1C, &collision_flags);
     coord_base = (s32)D_8017610C;
-    step_coord = FIELD(effect, s16, 0x1C);
-    object_tile = FIELD(display, u8, 0x24);
+    step_coord = effect->unk_1C;
+    object_tile = display->unk_24;
     collision_coord = collision_flags;
     step_coord <<= 2;
     step_coord += coord_base;
     collision_coord &= 0x8400;
-    step_coord = FIELD((void *)step_coord, u8, 0);
+    step_coord = ((S_func_810332A4_8 *)step_coord)->unk_00;
     blocked = collision_coord != 0;
     object_tile += step_coord;
-    FIELD(display, u8, 0x24) = object_tile;
-    step_coord = FIELD(effect, s16, 0x1C);
-    object_tile = FIELD(display, u8, 0x25);
-    collision_coord = FIELD(display, u8, 0x24);
+    display->unk_24 = object_tile;
+    step_coord = effect->unk_1C;
+    object_tile = display->unk_25;
+    collision_coord = display->unk_24;
     step_coord <<= 2;
     step_coord += coord_base;
-    step_coord = FIELD((void *)step_coord, u8, 2);
+    step_coord = ((S_func_810332A4_8 *)step_coord)->unk_02;
     ASM_KEEP_DEP_NV(collision_coord, step_coord);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     collision_coord <<= 6;
     ASM_KEEP_NV(collision_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     object_tile += step_coord;
-    FIELD(display, u8, 0x25) = object_tile;
+    display->unk_25 = object_tile;
     coord_base = collision_coord + 0x20;
     object_x = coord_base & 0xFFFF;
-    object_y = (FIELD(display, volatile u8, 0x25) << 6) + 0x20;
+    object_y = (((volatile S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
 
     if (!blocked) {
         if ((func_800A45D8((u16)object_x, (u16)object_y,
-                           FIELD(transform, s16, 0xA)) << 16) != 0) {
+                           transform->unk_0A.s) << 16) != 0) {
             blocked = 1;
         }
     }
     if (!blocked) {
-        if (func_80174A00(owner, FIELD(display, u8, 0x24),
-                           FIELD(display, u8, 0x25),
-                           FIELD(motion, s16, 0xA)) != 0) {
+        if (func_80174A00(owner, display->unk_24,
+                           display->unk_25,
+                           motion->unk_0A.s) != 0) {
             blocked = 1;
         }
     }
     if (!blocked) {
         floor_height = func_800BCB04((u16)object_x, (u16)object_y,
-                              (s16)((u16)FIELD(object_data, s16, 0x88) - 0x20));
-        if (floor_height >= 0x200 || floor_height > FIELD(object_data, s16, 0x88) + 0x20 ||
-            floor_height < FIELD(object_data, s16, 0x88)) {
+                              (s16)((u16)object_data->unk_88 - 0x20));
+        if (floor_height >= 0x200 || floor_height > object_data->unk_88 + 0x20 ||
+            floor_height < object_data->unk_88) {
             blocked = 1;
         }
     }
 
-    if (func_801748FC(object_data, FIELD(display, u8, 0x24),
-                      FIELD(display, u8, 0x25), FIELD(object_data, s16, 0x88)) != 0) {
+    if (func_801748FC(object_data, display->unk_24,
+                      display->unk_25, object_data->unk_88) != 0) {
         blocked = 1;
     }
     if (blocked != 1) {
@@ -293,101 +367,101 @@ object_common:
     }
 
     stop_mask = 0xFFEFFFFF;
-    FIELD(object_data, u32, 0x14) &= stop_mask;
-    FIELD(display, u8, 0x24) -=
-        (u8)D_8017610C[FIELD(effect, s16, 0x1C)].x;
-    FIELD(display, u8, 0x25) -=
-        (u8)D_8017610C[FIELD(effect, s16, 0x1C)].y;
-    func_800A2B04(transform, FIELD(display, u8, 0x24), FIELD(display, volatile u8, 0x25));
-    func_8009A21C(FIELD(display, u8, 0x24), FIELD(display, u8, 0x25),
-                  (FIELD(object_data, u32, 0x1C) & 0x2000) ? 0x300 : 0x3000);
+    object_data->unk_14 &= stop_mask;
+    display->unk_24 -=
+        (u8)D_8017610C[effect->unk_1C].x;
+    display->unk_25 -=
+        (u8)D_8017610C[effect->unk_1C].y;
+    func_800A2B04(transform, display->unk_24, ((volatile S_func_810332A4_6 *)display)->unk_25);
+    func_8009A21C(display->unk_24, display->unk_25,
+                  (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
     func_800AA53C(object_data);
-    FIELD(effect, s16, 0x16) = 10;
-    FIELD(effect, s16, 0x1E) = 0;
-    FIELD(motion, s32, 0x10) = 0;
-    FIELD(motion, s32, 0xC) = 0;
-    func_8009CE1C(object_data, 7, FIELD(owner, u8, 0x11), 10,
-                  FIELD(owner, s16, 0x2A), (u32)owner | 0xA0000000, 2);
+    effect->unk_16.s = 10;
+    effect->unk_1E.s = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    func_8009CE1C(object_data, 7, owner->unk_11, 10,
+                  owner->unk_2A, (u32)owner | 0xA0000000, 2);
 
-    new_object = FIELD(effect, void *, 0x30);
+    new_object = effect->unk_30;
     if (new_object == 0) {
         goto end;
     }
     object = new_object;
-    object_data = (u8 *)object + 0x20;
-    display = FIELD(object, void *, 0xC);
-    transform = FIELD(object, void *, 8);
-    FIELD(object_data, u32, 0x14) &= stop_mask;
+    object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+    display = object->unk_0C;
+    transform = object->unk_08;
+    object_data->unk_14 &= stop_mask;
 
 cleanup_object:
-    func_800A2B04(transform, FIELD(display, u8, 0x24), FIELD(display, u8, 0x25));
-    func_8009A21C(FIELD(display, u8, 0x24), FIELD(display, u8, 0x25),
-                  (FIELD(object_data, u32, 0x1C) & 0x2000) ? 0x300 : 0x3000);
+    func_800A2B04(transform, display->unk_24, display->unk_25);
+    func_8009A21C(display->unk_24, display->unk_25,
+                  (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
     func_800AA53C(object_data);
     goto end;
 
 rollback_object:
-    object_tile_x = FIELD(display, u8, 0x24);
-    if ((object_tile_x - D_8017610C[FIELD(effect, s16, 0x1C)].x) * 64 + 0x20 !=
-            FIELD(transform, s16, 2) ||
-        (FIELD(display, u8, 0x25) - D_8017610C[FIELD(effect, s16, 0x1C)].y) * 64 + 0x20 !=
-            FIELD(transform, s16, 6)) {
+    object_tile_x = display->unk_24;
+    if ((object_tile_x - D_8017610C[effect->unk_1C].x) * 64 + 0x20 !=
+            transform->unk_00.half.unk_02 ||
+        (display->unk_25 - D_8017610C[effect->unk_1C].y) * 64 + 0x20 !=
+            transform->unk_04.half.unk_06) {
         floor_height = func_800BCB04((object_tile_x << 6) | 0x20,
-                              (FIELD(display, u8, 0x25) << 6) | 0x20,
-                              FIELD(object_data, s16, 0x88));
-        if (FIELD(transform, s16, 0xA) < floor_height) {
-            FIELD(transform, u16, 0xA) += 0x10;
-            FIELD(object_data, s16, 0x88) = floor_height;
+                              (display->unk_25 << 6) | 0x20,
+                              object_data->unk_88);
+        if (transform->unk_0A.s < floor_height) {
+            transform->unk_0A.u += 0x10;
+            object_data->unk_88 = floor_height;
         }
     }
-    FIELD(transform, s32, 0) += FIELD(motion, s32, 0xC);
-    FIELD(transform, s32, 4) += FIELD(motion, s32, 0x10);
+    transform->unk_00.word += motion->unk_0C;
+    transform->unk_04.word += motion->unk_10;
 
 secondary_object:
-    new_object = FIELD(effect, void *, 0x30);
+    new_object = effect->unk_30;
     if (new_object != 0) {
         object = new_object;
-        display = FIELD(object, void *, 0xC);
-        transform = FIELD(object, void *, 8);
-        object_data = (u8 *)object + 0x20;
-        if ((FIELD(display, u8, 0x24) << 6) + 0x20 == FIELD(transform, s16, 2) &&
-            (FIELD(display, u8, 0x25) << 6) + 0x20 == FIELD(transform, s16, 6)) {
-            FIELD(display, u8, 0x24) +=
-                (u8)D_8017610C[FIELD(effect, s16, 0x1C)].x;
-            FIELD(display, u8, 0x25) +=
-                (u8)D_8017610C[FIELD(effect, s16, 0x1C)].y;
+        display = object->unk_0C;
+        transform = object->unk_08;
+        object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+        if ((display->unk_24 << 6) + 0x20 == transform->unk_00.half.unk_02 &&
+            (display->unk_25 << 6) + 0x20 == transform->unk_04.half.unk_06) {
+            display->unk_24 +=
+                (u8)D_8017610C[effect->unk_1C].x;
+            display->unk_25 +=
+                (u8)D_8017610C[effect->unk_1C].y;
         } else {
-            floor_height = func_800BCB04((FIELD(display, u8, 0x24) << 6) | 0x20,
-                                  (FIELD(display, u8, 0x25) << 6) | 0x20,
-                                  FIELD(object_data, s16, 0x88));
-            if (FIELD(transform, s16, 0xA) < floor_height) {
-                FIELD(transform, u16, 0xA) += 0x10;
-                FIELD(object_data, s16, 0x88) = floor_height;
+            floor_height = func_800BCB04((display->unk_24 << 6) | 0x20,
+                                  (display->unk_25 << 6) | 0x20,
+                                  object_data->unk_88);
+            if (transform->unk_0A.s < floor_height) {
+                transform->unk_0A.u += 0x10;
+                object_data->unk_88 = floor_height;
             }
         }
-        FIELD(transform, s32, 0) += FIELD(motion, s32, 0xC);
-        FIELD(transform, s32, 4) += FIELD(motion, s32, 0x10);
+        transform->unk_00.word += motion->unk_0C;
+        transform->unk_04.word += motion->unk_10;
     }
 
-    tile_x = FIELD(effect, s8, 0x4C);
-    if ((tile_x - D_8017610C[FIELD(effect, s16, 0x1C)].x) * 64 + 0x20 !=
-            FIELD(motion, s16, 2) ||
-        (FIELD(effect, s8, 0x4D) - D_8017610C[FIELD(effect, s16, 0x1C)].y) * 64 + 0x20 !=
-            FIELD(motion, s16, 6)) {
+    tile_x = effect->unk_4C.s;
+    if ((tile_x - D_8017610C[effect->unk_1C].x) * 64 + 0x20 !=
+            motion->unk_00.half.unk_02 ||
+        (effect->unk_4D.s - D_8017610C[effect->unk_1C].y) * 64 + 0x20 !=
+            motion->unk_04.half.unk_06) {
         world_coord = tile_x << 6;
         ASM_KEEP_NV(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord_base = world_coord + 0x20;
         floor_x = coord_base & 0xFFE0;
-        world_coord = FIELD(effect, s8, 0x4D) << 6;
+        world_coord = effect->unk_4D.s << 6;
         world_coord += 0x20;
         floor_y = world_coord & 0xFFE0;
-        floor_height = func_800BCB04(floor_x, floor_y, FIELD(motion, s16, 0xA));
-        if (FIELD(motion, s16, 0xA) < floor_height) {
-            FIELD(motion, u16, 0xA) += 0x10;
+        floor_height = func_800BCB04(floor_x, floor_y, motion->unk_0A.s);
+        if (motion->unk_0A.s < floor_height) {
+            motion->unk_0A.u += 0x10;
         }
     }
-    FIELD(motion, s32, 0) += FIELD(motion, s32, 0xC);
-    FIELD(motion, s32, 4) += FIELD(motion, s32, 0x10);
+    motion->unk_00.word += motion->unk_0C;
+    motion->unk_04.word += motion->unk_10;
     goto end;
 
 state_10:
@@ -398,24 +472,24 @@ state_10:
         func_801746EC(effect, motion, sprite);
     }
     func_800A56E0(0x80B);
-    FIELD(effect, u16, 0x1E) = 0;
-    FIELD(effect, u16, 0x16)++;
-    FIELD(sprite, u16, 0x14) |= 0x80;
+    effect->unk_1E.u = 0;
+    effect->unk_16.u++;
+    sprite->unk_14 |= 0x80;
 
 state_11:
-    timer = FIELD(effect, u16, 0x1E) + 1;
-    FIELD(effect, u16, 0x1E) = timer;
+    timer = effect->unk_1E.u + 1;
+    effect->unk_1E.u = timer;
     delay_pending = (s16)timer < 10;
     if (delay_pending) {
         goto end;
     }
-    FIELD(effect, u16, 0x1E) = 0;
-    FIELD(effect, u16, 0x16)++;
+    effect->unk_1E.u = 0;
+    effect->unk_16.u++;
     goto end;
 
 state_12:
-    FIELD(effect_owner, u8, 0xAC) = 0x4D;
-    FIELD(effect, u16, -2) |= 0x8000;
+    effect_owner->unk_AC = 0x4D;
+    *(u16 *)((u8 *)effect - 2) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 end:

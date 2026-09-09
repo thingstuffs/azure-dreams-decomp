@@ -1,6 +1,9 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
+typedef struct S_func_8187A800_0 {
+    u8 pad_00[0x14];
+    s32 unk_14;
+} S_func_8187A800_0;
 
 extern void func_80024190(void) __attribute__((noreturn));
 extern s32 func_800990FC(void);
@@ -45,10 +48,10 @@ __asm__(".globl func_8187A800\n"
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void BODY_NAME(void *target, s32 effect_arg) BODY_ATTR;
+BODY_STORAGE void BODY_NAME(S_func_8187A800_0 *target, s32 effect_arg) BODY_ATTR;
 
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
-BODY_STORAGE void BODY_NAME(void *target, s32 effect_arg)
+BODY_STORAGE void BODY_NAME(S_func_8187A800_0 *target, s32 effect_arg)
 {
     s32 message;
     s32 message_start;
@@ -56,11 +59,11 @@ BODY_STORAGE void BODY_NAME(void *target, s32 effect_arg)
     if (func_8009D218(target, 4) == 0) {
         if ((func_800A48F0(target, 0x14,
                           (s8)(func_800A6870(effect_arg & 0xFF) + 2)) << 16) != 0) {
-            if (FIELD(target, s32, 0x14) & 0x4000) {
+            if (target->unk_14 & 0x4000) {
                 func_80099844(target, &D_800E1CB0);
                 func_80024190();
             }
-        } else if (FIELD(target, s32, 0x14) & 0x4000) {
+        } else if (target->unk_14 & 0x4000) {
             message = func_800990FC();
             message_start = message;
             message = func_80099194(&D_80024004, message);

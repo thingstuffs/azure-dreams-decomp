@@ -1,6 +1,63 @@
 #include "common.h"
 
-#define FIELD(ptr, type, off) (*(type *)((u8 *)(ptr) + (off)))
+typedef struct S_func_8016C64C_0 {
+    u8 pad_00[0x8C];
+    u8 *unk_8C;
+    u8 pad_90[4];
+    s16 unk_94;
+    union {
+        s16 s16_value;
+        u16 u16_value;
+    } unk_96;
+    u8 pad_98[3];
+    u8 unk_9B;
+    u8 pad_9C[0x10];
+    u8 unk_AC;
+    u8 pad_AD[3];
+    u8 unk_B0;
+} S_func_8016C64C_0;
+
+typedef struct S_func_8016C64C_1 {
+    u8 pad_00[2];
+    s16 unk_02;
+    u8 pad_04[2];
+    s16 unk_06;
+    u8 pad_08[4];
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_func_8016C64C_1;
+
+typedef struct S_func_8016C64C_2 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[6];
+    u8 *unk_2C;
+} S_func_8016C64C_2;
+
+typedef struct S_func_8016C64C_3 {
+    u8 pad_00[0x28];
+    u8 unk_28;
+    u8 pad_29[1];
+    s16 unk_2A;
+    u8 pad_2C[0x38];
+    s16 unk_64;
+    u8 pad_66[4];
+    u16 unk_6A;
+} S_func_8016C64C_3;
+
+typedef struct S_func_8016C64C_4 {
+    u8 pad_00[0x10];
+    union {
+        u8 *ptr;
+        u32 u32_value;
+    } unk_10;
+} S_func_8016C64C_4;
+
+typedef struct S_func_8016C64C_5 {
+    s16 unk_00;
+} S_func_8016C64C_5;
 
 extern s16 func_800A0818(u8, u8, u8, u8, s16 *);
 extern void func_80047784(void *, u8, s32);
@@ -26,7 +83,7 @@ extern u8 D_80175DC0;
 extern u8 D_80175DC1;
 
 /* Move the actor back to its tile, update its animation, and advance its recovery state. */
-void func_8016C64C(void *action, void *motion, void *sprite, void *actor)
+void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_8016C64C_2 *sprite, S_func_8016C64C_3 *actor)
 {
     s16 target_distance;
     s16 frame_count;
@@ -34,114 +91,110 @@ void func_8016C64C(void *action, void *motion, void *sprite, void *actor)
     s32 offset_pos;
     u8 *anim_table;
     u8 *current_anim;
-    u8 *world_state;
+    S_func_8016C64C_4 *world_state;
 
-    switch (FIELD(action, u8, 0x9B)) {
+    switch (action->unk_9B) {
     case 0:
-        FIELD(actor, s16, 0x64) = 0;
-        FIELD(action, u8, 0x9B)++;
+        actor->unk_64 = 0;
+        action->unk_9B++;
         D_80175DC1 = 0;
-        FIELD(action, s16, 0x96) = 6;
-        if (FIELD(action, u8, 0xB0) < 2) {
+        action->unk_96.s16_value = 6;
+        if (action->unk_B0 < 2) {
             return;
         }
-        FIELD(actor, s16, 0x2A) = func_800A0818(
-            FIELD(sprite, u8, 0x24), FIELD(sprite, u8, 0x25),
+        actor->unk_2A = func_800A0818(
+            sprite->unk_24, sprite->unk_25,
             D_80082E80[0x24], D_80082E80[0x25], &target_distance);
-        FIELD(action, s16, 0x94) = 1;
+        action->unk_94 = 1;
         return;
 
     case 1:
-        frame_count = --FIELD(action, u16, 0x96);
+        frame_count = --action->unk_96.u16_value;
         if (frame_count > 0) {
-            FIELD(motion, s32, 0xC) =
-                FIELD((u8 *)&D_8006CCD8,
-                      s16, (FIELD(actor, u16, 0x6A) >> 8) & 0xE) << 18;
-            FIELD(motion, s32, 0x10) =
-                FIELD((u8 *)&D_8006CCE8,
-                      s16, (FIELD(actor, u16, 0x6A) >> 8) & 0xE) << 18;
+            motion->unk_0C =
+                ((S_func_8016C64C_5 *)((u8 *)&D_8006CCD8 + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+            motion->unk_10 =
+                ((S_func_8016C64C_5 *)((u8 *)&D_8006CCE8 + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
             return;
         }
         if (frame_count != 0) {
             return;
         }
-        FIELD(motion, s32, 0xC) =
-            FIELD((u8 *)&D_8006CCD8,
-                  s16, (FIELD(actor, u16, 0x6A) >> 8) & 0xE) << 18;
-        FIELD(motion, s32, 0x10) =
-            FIELD((u8 *)&D_8006CCE8,
-                  s16, (FIELD(actor, u16, 0x6A) >> 8) & 0xE) << 18;
-        FIELD(action, s16, 0x96) = 8;
-        FIELD(action, u8, 0x9B)++;
+        motion->unk_0C =
+            ((S_func_8016C64C_5 *)((u8 *)&D_8006CCD8 + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+        motion->unk_10 =
+            ((S_func_8016C64C_5 *)((u8 *)&D_8006CCE8 + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+        action->unk_96.s16_value = 8;
+        action->unk_9B++;
         return;
 
     case 2:
-        frame_count = FIELD(action, s16, 0x96);
+        frame_count = action->unk_96.s16_value;
         if (frame_count != 0) {
-            tile_pos = FIELD(sprite, u8, 0x24) << 6;
-            offset_pos = FIELD(motion, s16, 2);
+            tile_pos = sprite->unk_24 << 6;
+            offset_pos = motion->unk_02;
             offset_pos -= 0x20;
-            FIELD(motion, s32, 0xC) =
+            motion->unk_0C =
                 ((tile_pos - offset_pos) << 16) / frame_count;
-            tile_pos = FIELD(sprite, u8, 0x25) << 6;
-            offset_pos = FIELD(motion, s16, 6);
+            tile_pos = sprite->unk_25 << 6;
+            offset_pos = motion->unk_06;
             offset_pos -= 0x20;
-            FIELD(motion, s32, 0x10) =
-                ((tile_pos - offset_pos) << 16) / FIELD(action, s16, 0x96);
+            motion->unk_10 =
+                ((tile_pos - offset_pos) << 16) / action->unk_96.s16_value;
         }
-        if (FIELD(action, s16, 0x96)-- > 0) {
+        if (action->unk_96.s16_value-- > 0) {
             return;
         }
-        FIELD(motion, s32, 0x14) = 0;
-        FIELD(motion, s32, 0x10) = 0;
-        FIELD(motion, s32, 0xC) = 0;
-        FIELD(action, u8, 0x9B)++;
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        action->unk_9B++;
 
-        switch (FIELD(action, u8, 0xAC)) {
+        switch (action->unk_AC) {
         case 0:
             anim_table = D_801739A0;
-            if (FIELD(sprite, u8 *, 0x2C) == anim_table) {
+            if (sprite->unk_2C == anim_table) {
                 return;
             }
-            FIELD(sprite, u8 *, 0x2C) = anim_table;
+            *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((D_80083228 + FIELD(actor, s16, 0x2A) + 0x100) >> 9) & 7],
+                anim_table[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 1:
-            current_anim = FIELD(sprite, u8 *, 0x2C);
+            current_anim = sprite->unk_2C;
             anim_table = D_801739A8;
             if (current_anim == anim_table) {
                 return;
             }
-            FIELD(sprite, u8 *, 0x2C) = anim_table;
+            *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((D_80083228 + FIELD(actor, s16, 0x2A) + 0x100) >> 9) & 7],
+                anim_table[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 2:
-            current_anim = FIELD(sprite, u8 *, 0x2C);
+            current_anim = sprite->unk_2C;
             anim_table = D_801739B0;
             if (current_anim == anim_table) {
                 return;
             }
-            FIELD(sprite, u8 *, 0x2C) = anim_table;
+            *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((D_80083228 + FIELD(actor, s16, 0x2A) + 0x100) >> 9) & 7],
+                anim_table[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 3:
             anim_table = D_801739B8;
-            if (FIELD(sprite, u8 *, 0x2C) == anim_table) {
+            if (sprite->unk_2C == anim_table) {
                 return;
             }
-            FIELD(sprite, u8 *, 0x2C) = anim_table;
+            *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((D_80083228 + FIELD(actor, s16, 0x2A) + 0x100) >> 9) & 7],
+                anim_table[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         default:
@@ -153,33 +206,33 @@ void func_8016C64C(void *action, void *motion, void *sprite, void *actor)
             if (D_80175DC0 == 0) {
                 return;
             }
-            if (FIELD(actor, u8, 0x28) == 0) {
-                FIELD(action, s16, 0x96) = 0;
-                FIELD(action, u8, 0x9B) += 2;
+            if (actor->unk_28 == 0) {
+                action->unk_96.s16_value = 0;
+                action->unk_9B += 2;
                 return;
             }
-            FIELD(action, s16, 0x96) = 0;
-            FIELD(action, u8, 0x9B)++;
+            action->unk_96.s16_value = 0;
+            action->unk_9B++;
             func_800A56E0(0x300);
             return;
         }
-        FIELD(action, u8, 0x9B) += 2;
+        action->unk_9B += 2;
         return;
 
     case 4:
-        frame_count = ++FIELD(action, u16, 0x96);
+        frame_count = ++action->unk_96.u16_value;
         if (frame_count < 0x50) {
             return;
         }
-        FIELD(action, u8, 0x9B)++;
+        action->unk_9B++;
         return;
 
     case 5:
-        if (FIELD(actor, u8, 0x28) == 0) {
-            FIELD(motion, s32, 0x14) = 0;
-            FIELD(motion, s32, 0x10) = 0;
-            FIELD(motion, s32, 0xC) = 0;
-            switch (FIELD(action, u8, 0xAC)) {
+        if (actor->unk_28 == 0) {
+            motion->unk_14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            switch (action->unk_AC) {
             case 0:
                 func_800AAA54(action, motion, sprite, D_80173A20);
                 return;
@@ -197,15 +250,15 @@ void func_8016C64C(void *action, void *motion, void *sprite, void *actor)
             }
         }
 
-        FIELD(motion, s32, 0x14) = 0;
-        FIELD(motion, s32, 0x10) = 0;
-        FIELD(motion, s32, 0xC) = 0;
-        func_800A2B04(motion, FIELD(sprite, u8, 0x24), FIELD(sprite, u8, 0x25));
-        world_state = (u8 *)&D_80083460;
-        if (FIELD(world_state, u8 *, 0x10) == (u8 *)actor - 0x20) {
-            FIELD(world_state, u32, 0x10) &= 0x7FFFFFFF;
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
+        world_state = (S_func_8016C64C_4 *)&D_80083460;
+        if (world_state->unk_10.ptr == (u8 *)actor - 0x20) {
+            world_state->unk_10.u32_value &= 0x7FFFFFFF;
         }
-        FIELD(action, u8 *, 0x8C) = D_8016A36C;
+        action->unk_8C = D_8016A36C;
         return;
     }
 }

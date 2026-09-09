@@ -64,19 +64,112 @@ __asm__(".globl func_80024000\n"
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void BODY_NAME(void *state, void *motion, void *source_data) BODY_ATTR;
+typedef struct S_func_81820800_1 {
+    void *unk_00;
+    u16 *unk_04;
+    u8 pad_08[1];
+    u8 unk_09;
+    s16 unk_0A;
+    u8 pad_0C[0x44];
+    u16 unk_50;
+    s16 unk_52;
+} S_func_81820800_1;
+
+typedef struct S_func_81820800_2 {
+    union {
+        s32 unk_00;
+        struct {
+            u8 pad_00[2];
+            u16 unk_02;
+        } unk_02;
+    } unk_00;
+    union {
+        s32 unk_04;
+        struct {
+            u8 pad_04[2];
+            u16 unk_06;
+        } unk_06;
+    } unk_04;
+    u8 pad_08[2];
+    s16 unk_0A;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_func_81820800_2;
+
+typedef struct S_func_81820800_3 {
+    u8 pad_00[0x2A];
+    u16 unk_2A;
+    u8 pad_2C[0x34];
+    void *unk_60;
+    u8 pad_64[0xE];
+    u8 unk_72;
+    u8 unk_73;
+} S_func_81820800_3;
+
+typedef struct S_func_81820800_4 {
+    u8 pad_00[8];
+    void *unk_08;
+    void *unk_0C;
+} S_func_81820800_4;
+
+typedef struct S_func_81820800_5 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+} S_func_81820800_5;
+
+typedef struct S_func_81820800_6 {
+    u8 pad_00[0x10];
+    s32 unk_10;
+    u8 pad_14[0xC];
+    void *unk_20;
+} S_func_81820800_6;
+
+typedef struct S_func_81820800_7 {
+    u8 pad_00[4];
+    s32 unk_04;
+    s32 unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+    s32 unk_18;
+    s32 unk_1C;
+    s32 unk_20;
+    s32 unk_24;
+    u8 pad_28[0x24];
+    s16 unk_4C;
+    u16 unk_4E;
+    u16 unk_50;
+    u16 unk_52;
+    s16 unk_54;
+    s16 unk_56;
+} S_func_81820800_7;
+
+typedef struct S_func_81820800_8 {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+} S_func_81820800_8;
+
+typedef struct S_func_81820800_10 {
+    s32 unk_00;
+} S_func_81820800_10;
+
+BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source_data) BODY_ATTR;
 /* Moves an attack toward its target, spawns trailing effects, and applies the hit. */
-BODY_STORAGE void BODY_NAME(void *state, void *motion, void *source_data) {
+BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source_data) {
     static void *const state_labels[] = { &&state_aim, &&state_move, &&state_trail, &&state_hit, &&state_wait, &&state_finish };
-    void *state_obj;
-    void *owner;
-    register void *source ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *target;
-    void *target_data;
-    void *effect_data;
-    void *effect;
-    void *actor_data;
+    S_func_81820800_1 *state_obj;
+    S_func_81820800_4 *owner;
+    register S_func_81820800_5 *source ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register S_func_81820800_3 *actor ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_81820800_3 *target;
+    S_func_81820800_5 *target_data;
+    S_func_81820800_7 *effect_data;
+    S_func_81820800_6 *effect;
+    S_func_81820800_5 *actor_data;
     s32 step_x;
     s32 step_y;
     register s32 offset_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -99,46 +192,46 @@ BODY_STORAGE void BODY_NAME(void *state, void *motion, void *source_data) {
     state_obj = state;
     source = source_data;
     x_steps = (s8 *) &D_8006CCD8;
-    actor = M2C_FIELD(state_obj, void **, 0);
+    actor = state_obj->unk_00;
     owner = (void *) ((u8 *) actor - 0x20);
-    header_raw = M2C_FIELD(actor, u16 *, 0x2A);
+    header_raw = actor->unk_2A;
     delta_x = header_raw >> 8;
     direction_offset = delta_x & 0xE;
     ASM_KEEP_DEP_NV(direction_offset, header_raw);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    actor_data = M2C_FIELD(actor, void **, -0x14);
+    actor_data = ((S_func_81820800_4 *) ((u8 *) actor - 0x20))->unk_0C;
     step_x = *(s16 *)(direction_offset + x_steps);
     step_y = *(s16 *)(direction_offset + (s8 *)&D_8006CCE8);
     ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(state_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (M2C_FIELD(state_obj, s16 *, 0xA) != 1) {
+    if (state_obj->unk_0A != 1) {
         goto dispatch;
     }
-    M2C_FIELD(motion, s32 *, 0) = (s32) (M2C_FIELD(motion, s32 *, 0) + M2C_FIELD(motion, s32 *, 0xC));
-    M2C_FIELD(motion, s32 *, 4) = (s32) (M2C_FIELD(motion, s32 *, 4) + M2C_FIELD(motion, s32 *, 0x10));
-    delta_x = func_800BCB04(M2C_FIELD(motion, u16 *, 2), M2C_FIELD(motion, u16 *, 6), (s16) (M2C_FIELD(M2C_FIELD(owner, void **, 8), u16 *, 0xA) - 0x30));
+    motion->unk_00.unk_00 = (s32) (motion->unk_00.unk_00 + motion->unk_0C);
+    motion->unk_04.unk_04 = (s32) (motion->unk_04.unk_04 + motion->unk_10);
+    delta_x = func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06, (s16) (((S_func_81820800_8 *) owner->unk_08)->unk_0A - 0x30));
     if (delta_x >= 0x200) {
         goto dispatch;
     }
-    M2C_FIELD(motion, s16 *, 0xA) = delta_x;
+    motion->unk_0A = delta_x;
 dispatch:
-    phase = M2C_FIELD(state_obj, s16 *, 0xA);
-    M2C_FIELD(state_obj, u16 *, 0x50) = (u16) (M2C_FIELD(state_obj, u16 *, 0x50) - 1);
+    phase = state_obj->unk_0A;
+    state_obj->unk_50 = (u16) (state_obj->unk_50 - 1);
     if ((u32) phase >= 6U) {
         goto done;
     }
     (void)state_labels;
     goto *jtbl_80024008[(u32) phase];
 state_aim:
-    if (!(*M2C_FIELD(state_obj, u16 **, 4) & 0x80)) {
+    if (!(*state_obj->unk_04 & 0x80)) {
         goto done;
     }
     {
-        void *tile_data;
+        S_func_81820800_5 *tile_data;
         s32 search_mode = func_800A3820(3) << 0x10;
         tile_data = actor_data;
-        target = func_800A05A4(actor, M2C_FIELD(tile_data, u8 *, 0x24), M2C_FIELD(tile_data, u8 *, 0x25), (s16) M2C_FIELD(actor, u16 *, 0x2A), search_mode >> 0x10);
+        target = func_800A05A4(actor, tile_data->unk_24, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
     }
-    M2C_FIELD(actor, void **, 0x60) = target;
+    actor->unk_60 = target;
     if (target != NULL) {
         goto use_target;
     }
@@ -147,17 +240,17 @@ state_aim:
     offset_x = 0;
 scan_tiles:
     {
-        void *tile_data = actor_data;
+        S_func_81820800_5 *tile_data = actor_data;
         register s32 tile_left ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         s32 tile_top;
-        tile_left = (M2C_FIELD(tile_data, u8 *, 0x24) + offset_x) << 6;
+        tile_left = (tile_data->unk_24 + offset_x) << 6;
         coord_x = tile_left + 0x20;
-        tile_top = (M2C_FIELD(tile_data, u8 *, 0x25) + offset_y) << 6;
+        tile_top = (tile_data->unk_25 + offset_y) << 6;
         coord_y = tile_top + 0x20;
         ASM_KEEP_NV(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ASM_KEEP_NV(coord_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
-    if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400), (s16) M2C_FIELD(actor, u16 *, 0x2A), M2C_FIELD(actor, void **, 0x60)) << 0x10) != 0) {
+    if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400), (s16) actor->unk_2A, actor->unk_60) << 0x10) != 0) {
         goto set_endpoint;
     }
     distance_or_script += 1;
@@ -170,33 +263,33 @@ set_endpoint:
     ASM_USE(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     ASM_USE2(coord_x, coord_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
-        void *tile_data = actor_data;
-        M2C_FIELD(actor, u8 *, 0x72) = (u8) (M2C_FIELD(tile_data, u8 *, 0x24) + (step_x * distance_or_script));
-        M2C_FIELD(actor, u8 *, 0x73) = (u8) (M2C_FIELD(tile_data, u8 *, 0x25) + (step_y * distance_or_script));
+        S_func_81820800_5 *tile_data = actor_data;
+        actor->unk_72 = (u8) (tile_data->unk_24 + (step_x * distance_or_script));
+        actor->unk_73 = (u8) (tile_data->unk_25 + (step_y * distance_or_script));
     }
     goto start_motion;
 use_target:
-    target_data = M2C_FIELD(target, void **, -0x14);
-    M2C_FIELD(actor, u8 *, 0x72) = (u8) M2C_FIELD(target_data, u8 *, 0x24);
-    M2C_FIELD(actor, u8 *, 0x73) = (u8) M2C_FIELD(target_data, u8 *, 0x25);
-    if (!(M2C_FIELD(target_data, u16 *, 0x14) & 0x8000)) {
+    target_data = ((S_func_81820800_4 *) ((u8 *) target - 0x20))->unk_0C;
+    actor->unk_72 = (u8) target_data->unk_24;
+    actor->unk_73 = (u8) target_data->unk_25;
+    if (!(target_data->unk_14 & 0x8000)) {
         goto start_motion;
     }
-    if (M2C_FIELD(source, u16 *, 0x14) & 0x8000) {
+    if (source->unk_14 & 0x8000) {
         goto start_hit;
     }
 start_motion:
     {
-        void *tile_data;
+        S_func_81820800_5 *tile_data;
         s32 end_x;
         s32 end_y;
         s32 start_x;
         s32 start_y;
         tile_data = actor_data;
-        end_x = (s8)M2C_FIELD(actor, u8 *, 0x72);
-        end_y = (s8)M2C_FIELD(actor, u8 *, 0x73);
-        start_x = M2C_FIELD(tile_data, u8 *, 0x24);
-        start_y = M2C_FIELD(tile_data, u8 *, 0x25);
+        end_x = (s8)actor->unk_72;
+        end_y = (s8)actor->unk_73;
+        start_x = tile_data->unk_24;
+        start_y = tile_data->unk_25;
         delta_x = end_x - start_x;
         delta_y = end_y - start_y;
         ASM_KEEP(start_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -221,20 +314,20 @@ max_distance:
     }
     distance_or_script = abs_y;
 set_motion:
-    M2C_FIELD(state_obj, u16 *, 0x50) = (u16) (distance_or_script * 0xC);
-    M2C_FIELD(motion, s32 *, 0) = (s32) (((M2C_FIELD(actor_data, u8 *, 0x24) << 6) + 0x20) << 0x10);
-    M2C_FIELD(motion, s32 *, 4) = (s32) (((M2C_FIELD(actor_data, u8 *, 0x25) << 6) + 0x20) << 0x10);
-    M2C_FIELD(motion, s32 *, 0xC) = (s32) ((step_x << 0x16) / 12);
-    M2C_FIELD(motion, s32 *, 0x10) = (s32) ((step_y << 0x16) / 12);
+    state_obj->unk_50 = (u16) (distance_or_script * 0xC);
+    motion->unk_00.unk_00 = (s32) (((actor_data->unk_24 << 6) + 0x20) << 0x10);
+    motion->unk_04.unk_04 = (s32) (((actor_data->unk_25 << 6) + 0x20) << 0x10);
+    motion->unk_0C = (s32) ((step_x << 0x16) / 12);
+    motion->unk_10 = (s32) ((step_y << 0x16) / 12);
     func_800A56E0(0x300);
-    M2C_FIELD(state_obj, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) + 1);
+    state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
 
 state_move:
 state_trail:
-    M2C_FIELD(motion, s32 *, 0x14) = (s32) (M2C_FIELD(motion, s32 *, 0x14) + 0x100);
+    motion->unk_14 = (s32) (motion->unk_14 + 0x100);
     target_flag = 0;
-    if (M2C_FIELD(actor, void **, 0x60) != NULL) {
+    if (actor->unk_60 != NULL) {
         goto spawn_effects;
     }
     target_flag = -1;
@@ -246,69 +339,69 @@ next_effect:
     if (effect == NULL) {
         goto effect_spawned;
     }
-    M2C_FIELD(effect, s32 *, 0x10) = distance_or_script;
+    effect->unk_10 = distance_or_script;
     func_8004491C(effect, &D_80024A1C);
-    duration = M2C_FIELD(state_obj, u16 *, 0x50);
-    effect_data = effect + 0x20;
-    M2C_FIELD(effect_data, s16 *, 0x54) = target_flag;
-    M2C_FIELD(effect_data, u16 *, 0x52) = duration;
-    M2C_FIELD(effect_data, s16 *, 0x4C) = (s16) (func_80069EF8() & 0xFFF);
-    M2C_FIELD(effect_data, u16 *, 0x4E) = (u16) M2C_FIELD(motion, s32 *, 0x14);
-    M2C_FIELD(effect_data, s32 *, 4) = (s32) M2C_FIELD(motion, s32 *, 0);
-    M2C_FIELD(effect_data, s32 *, 8) = (s32) M2C_FIELD(motion, s32 *, 4);
-    M2C_FIELD(effect_data, s32 *, 0xC) = 0;
-    velocity_x = M2C_FIELD(motion, s32 *, 0xC);
-    M2C_FIELD(effect_data, s32 *, 0x1C) = velocity_x;
-    M2C_FIELD(effect_data, s32 *, 0x10) = velocity_x;
-    velocity_y = M2C_FIELD(motion, s32 *, 0x10);
-    M2C_FIELD(effect_data, s32 *, 0x24) = 0xFFFD0000;
-    M2C_FIELD(effect_data, s32 *, 0x18) = 0xFFFD0000;
-    M2C_FIELD(effect_data, s32 *, 0x20) = velocity_y;
-    M2C_FIELD(effect_data, s32 *, 0x14) = velocity_y;
-    M2C_FIELD(effect_data, u16 *, 0x50) = (u16) M2C_FIELD(motion, s16 *, 0xA);
-    M2C_FIELD(effect, void **, 0x20) = state_obj;
-    M2C_FIELD(effect_data, s16 *, 0x56) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) - 1);
+    duration = state_obj->unk_50;
+    effect_data = (S_func_81820800_7 *) ((u8 *) effect + 0x20);
+    effect_data->unk_54 = target_flag;
+    effect_data->unk_52 = duration;
+    effect_data->unk_4C = (s16) (func_80069EF8() & 0xFFF);
+    effect_data->unk_4E = (u16) motion->unk_14;
+    effect_data->unk_04 = (s32) motion->unk_00.unk_00;
+    effect_data->unk_08 = (s32) motion->unk_04.unk_04;
+    effect_data->unk_0C = 0;
+    velocity_x = motion->unk_0C;
+    effect_data->unk_1C = velocity_x;
+    effect_data->unk_10 = velocity_x;
+    velocity_y = motion->unk_10;
+    effect_data->unk_24 = 0xFFFD0000;
+    effect_data->unk_18 = 0xFFFD0000;
+    effect_data->unk_20 = velocity_y;
+    effect_data->unk_14 = velocity_y;
+    effect_data->unk_50 = (u16) motion->unk_0A;
+    effect->unk_20 = state_obj;
+    effect_data->unk_56 = (s16) ((u16) state_obj->unk_0A - 1);
 effect_spawned:
     effects_left -= 1;
     if (effects_left >= 0) {
         goto next_effect;
     }
-    if ((s16) M2C_FIELD(state_obj, u16 *, 0x50) > 0) {
+    if ((s16) state_obj->unk_50 > 0) {
         goto done;
     }
-    M2C_FIELD(state_obj, u16 *, 0x50) = 5U;
-    M2C_FIELD(state_obj, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) + 1);
-    if (M2C_FIELD(actor, void **, 0x60) != NULL) {
+    state_obj->unk_50 = 5U;
+    state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
+    if (actor->unk_60 != NULL) {
         goto done;
     }
 start_hit:
-    M2C_FIELD(state_obj, s16 *, 0xA) = 3;
+    state_obj->unk_0A = 3;
     return;
 state_hit:
-    if (M2C_FIELD(actor, void **, 0x60) == NULL) {
+    if (actor->unk_60 == NULL) {
         goto wait_hit;
     }
-    func_8009CE1C(M2C_FIELD(actor, void **, 0x60), 0x10, M2C_FIELD(state_obj, u8 *, 9), 4, (s32) (s16) M2C_FIELD(actor, u16 *, 0x2A), actor, 2);
+    func_8009CE1C(actor->unk_60, 0x10, state_obj->unk_09, 4, (s32) (s16) actor->unk_2A, actor, 2);
 wait_hit:
-    M2C_FIELD(state_obj, u16 *, 0x50) = 0x10U;
-    M2C_FIELD(state_obj, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) + 1);
+    state_obj->unk_50 = 0x10U;
+    state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
 state_wait:
-    if ((s16) M2C_FIELD(state_obj, u16 *, 0x50) > 0) {
+    if ((s16) state_obj->unk_50 > 0) {
         goto done;
     }
-    M2C_FIELD(state_obj, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) + 1);
+    state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
 state_finish:
-    if (!(M2C_FIELD(state_obj, s16 *, 0x52) & 0x8000)) {
+    if (!(state_obj->unk_52 & 0x8000)) {
         goto finish;
     }
-    M2C_FIELD(state_obj, s16 *, 0x52) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0x52) & 0x7FFF);
+    state_obj->unk_52 = (s16) ((u16) state_obj->unk_52 & 0x7FFF);
     return;
 finish:
     D_8008346C = 0;
-    M2C_FIELD(state_obj, u16 *, -2) = (u16) (M2C_FIELD(state_obj, u16 *, -2) | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (M2C_FIELD(&D_800814A0, s32 *, 0) | 0x8000);
+    *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | 0x8000);
+    ((S_func_81820800_10 *) &D_800814A0)->unk_00 = (s32) (((S_func_81820800_10 *) &D_800814A0)->unk_00 | 0x8000);
 done:
     return;
 }

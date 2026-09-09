@@ -1,8 +1,5 @@
 #include "common.h"
 
-#define FIELD(p, t, o) (*(t *)((u8 *)(p) + (o)))
-#define LOCAL(t, o) FIELD(scratch, t, o)
-#define DELTA(i) FIELD(scratch, s16, 0x18 + ((i) * 2))
 
 extern void *jtbl_80024008[];
 __asm__(".set jtbl_80024008, 0x80024008");
@@ -30,18 +27,199 @@ typedef struct {
     s32 z;
 } Coord;
 
+typedef struct S_func_80024578_1 {
+    void *unk_00;
+    void *unk_04;
+    u8 pad_08[0x1];
+    u8 unk_09;
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_0A;
+    u8 pad_0C[0x2];
+    u16 unk_0E;
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_10;
+    s16 unk_12;
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_14;
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_16;
+    u16 unk_18;
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_1A;
+    void *unk_1C;
+    void *unk_20;
+    void *unk_24;
+    union {
+        s32 s32;
+        void *ptr;
+    } unk_28;
+} S_func_80024578_1;
+
+typedef struct S_func_80024578_2 {
+    union {
+        s32 s32;
+        struct {
+            u8 pad_00[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_02;
+        } parts_02;
+    } unk_00;
+    union {
+        s32 s32;
+        struct {
+            u8 pad_04[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_06;
+        } parts_06;
+    } unk_04;
+    union {
+        s32 s32;
+        void *ptr;
+        struct {
+            u8 pad_08[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_0A;
+        } parts_0A;
+    } unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_func_80024578_2;
+
+typedef struct S_func_80024578_3 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x12];
+    u16 unk_2A;
+    u8 pad_2C[0x34];
+    void *unk_60;
+    u8 pad_64[0x24];
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_88;
+} S_func_80024578_3;
+
+typedef struct S_func_80024578_4 {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    u8 pad_10[0xA];
+    u16 unk_1A;
+} S_func_80024578_4;
+
+typedef struct S_func_80024578_5 {
+    union {
+        s32 s32;
+        struct {
+            u8 pad_00[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_02;
+        } parts_02;
+    } unk_00;
+    union {
+        s32 s32;
+        struct {
+            u8 pad_04[0x2];
+            union {
+                s16 s16;
+                u16 u16;
+            } unk_06;
+        } parts_06;
+    } unk_04;
+    union {
+        s32 s32;
+        void *ptr;
+        struct {
+            u8 pad_08[0x2];
+            s16 unk_0A;
+        } parts_0A;
+    } unk_08;
+    void *unk_0C;
+} S_func_80024578_5;
+
+typedef struct S_func_80024578_6 {
+    u8 pad_00[0x8];
+    void *unk_08;
+    u8 pad_0C[0x8];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+} S_func_80024578_6;
+
+typedef struct S_func_80024578_7 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x2];
+    u16 unk_06;
+    u8 pad_08[0x2];
+    u16 unk_0A;
+} S_func_80024578_7;
+
+typedef struct S_func_80024578_8 {
+    u16 unk_00;
+} S_func_80024578_8;
+
+typedef struct S_func_80024578_9 {
+    u8 pad_00[0x18];
+    union {
+        s16 s16;
+        u16 u16;
+    } unk_18;
+} S_func_80024578_9;
+
+typedef struct S_func_80024578_10 {
+    u8 unk_00;
+} S_func_80024578_10;
+
+typedef struct S_func_80024578_11 {
+    u8 pad_00[0x8];
+    void *unk_08;
+    void *unk_0C;
+} S_func_80024578_11;
+
+typedef struct S_func_80024578_12 {
+    u16 unk_00;
+} S_func_80024578_12;
+
+typedef struct S_func_80024578_13 {
+    u8 pad_00[0x18];
+    s16 unk_18[3];
+} S_func_80024578_13;
+
+#define DELTA(i) (((S_func_80024578_13 *)scratch)->unk_18[(i)])
+
 /* Updates effect movement, target spinning, and completion across animation states. */
 void func_80024578(void *effect_data, void *position_data, void *render_data)
 {
-    void *effect = effect_data;
-    register void *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *actor;
-    register void *render = render_data;
+    S_func_80024578_1 *effect = effect_data;
+    register S_func_80024578_2 *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register S_func_80024578_3 *actor;
+    register S_func_80024578_4 *render = render_data;
     void **state_table;
-    register void *work_base;
-    void *motion_data;
-    void *map_data;
-    void *origin_pos;
+    register S_func_80024578_5 *work_base;
+    S_func_80024578_6 *motion_data;
+    S_func_80024578_6 *map_data;
+    S_func_80024578_7 *origin_pos;
     void *target;
     s32 state;
     u16 frame;
@@ -66,11 +244,11 @@ void func_80024578(void *effect_data, void *position_data, void *render_data)
         &&case_8, &&case_9, &&case_10, &&case_11,
     };
 
-    frame = FIELD(effect, u16, 0x10);
-    state = FIELD(effect, s16, 0xA);
-    actor = FIELD(effect, void *, 0);
+    frame = effect->unk_10.u16;
+    state = effect->unk_0A.s16;
+    actor = effect->unk_00;
     position = position_data;
-    FIELD(effect, u16, 0x10) = (u16)(frame + 1);
+    effect->unk_10.u16 = (u16)(frame + 1);
     if ((u32)state >= 16U) {
         goto finish;
     }
@@ -79,66 +257,66 @@ void func_80024578(void *effect_data, void *position_data, void *render_data)
     goto *state_table[state];
 
 case_0:
-    FIELD(effect, u16, 0x10) = 0;
-    FIELD(effect, u16, 0xA) = (u16)(FIELD(effect, u16, 0xA) + 1);
-    FIELD(effect, u16, 0xE) = (u16)((FIELD(actor, u16, 0x2A) >> 9) & 7);
-    FIELD(render, s32, 0xC) = 0x808080;
+    effect->unk_10.u16 = 0;
+    effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+    effect->unk_0E = (u16)((actor->unk_2A >> 9) & 7);
+    render->unk_0C = 0x808080;
 case_1_entry:
-    work_base = (u8 *)actor - 0x20;
-    motion_data = FIELD(work_base, void *, 0xC);
-    if (func_8003DE58(FIELD(motion_data, void *, 8), motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
-        if ((FIELD(FIELD(work_base, void *, 0xC), u16, 0x14) & 0x8000) == 0) {
+    work_base = (S_func_80024578_5 *)((u8 *)actor - 0x20);
+    motion_data = work_base->unk_0C;
+    if (func_8003DE58(motion_data->unk_08, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
+        if ((((S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
             goto finish;
         }
     }
-    origin_pos = FIELD(work_base, void *, 8);
-    FIELD(position, u16, 2) = FIELD(origin_pos, u16, 2);
-    FIELD(position, u16, 6) = FIELD(origin_pos, u16, 6);
-    copied_z = FIELD(origin_pos, u16, 0xA);
-    FIELD(position, u16, 0xA) = copied_z;
+    origin_pos = work_base->unk_08.ptr;
+    position->unk_00.parts_02.unk_02.u16 = origin_pos->unk_02;
+    position->unk_04.parts_06.unk_06.u16 = origin_pos->unk_06;
+    copied_z = origin_pos->unk_0A;
+    position->unk_08.parts_0A.unk_0A.u16 = copied_z;
     {
         u16 next_z;
 
-        if ((FIELD(FIELD(work_base, void *, 0xC), u16, 0x14) & 0x8000) == 0) {
-            FIELD(position, u16, 2) = (u16)(FIELD(position, u16, 2) + DELTA(0));
-            FIELD(position, u16, 6) = (u16)(FIELD(position, u16, 6) + DELTA(1));
+        if ((((S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
+            position->unk_00.parts_02.unk_02.u16 = (u16)(position->unk_00.parts_02.unk_02.u16 + DELTA(0));
+            position->unk_04.parts_06.unk_06.u16 = (u16)(position->unk_04.parts_06.unk_06.u16 + DELTA(1));
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             {
                 register u16 position_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 register u16 offset_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                position_z = FIELD(position, u16, 0xA);
+                position_z = position->unk_08.parts_0A.unk_0A.u16;
                 offset_z = (u16)DELTA(2);
                 next_z = (u16)(position_z + offset_z);
             }
         } else {
             next_z = (u16)(copied_z - 64);
         }
-        FIELD(position, u16, 0xA) = next_z;
+        position->unk_08.parts_0A.unk_0A.u16 = next_z;
     }
-    if ((FIELD(FIELD(effect, void *, 4), u16, 0) & 0x80) == 0) {
+    if ((((S_func_80024578_8 *)(effect->unk_04))->unk_00 & 0x80) == 0) {
         goto finish;
     }
-    target = FIELD(actor, void *, 0x60);
+    target = actor->unk_60;
     index = 1;
     if (target != 0) {
-        work_base = FIELD(FIELD(actor, void *, 0x60), void *, -0x18);
-        FIELD(effect, void *, 0x20) = work_base;
-        FIELD(effect, void *, 0x1C) = FIELD(actor, void *, 0x60);
-        FIELD(effect, void *, 0x24) =
-            FIELD(FIELD(actor, void *, 0x60), void *, -0x14);
-        FIELD(effect, u16, 0x16) = FIELD(FIELD(effect, void *, 0x1C), u16, 0x88);
-        FIELD(effect, u16, 0x18) = FIELD(FIELD(effect, void *, 0x1C), u16, 0x2A);
+        work_base = ((S_func_80024578_11 *)((u8 *)(actor->unk_60) - 0x20))->unk_08;
+        effect->unk_20 = work_base;
+        effect->unk_1C = actor->unk_60;
+        effect->unk_24 =
+            ((S_func_80024578_11 *)((u8 *)(actor->unk_60) - 0x20))->unk_0C;
+        effect->unk_16.u16 = ((S_func_80024578_3 *)(effect->unk_1C))->unk_88.u16;
+        effect->unk_18 = ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A;
 
-        delta_x = FIELD(work_base, s16, 2);
-        delta_x -= FIELD(position, s16, 2);
+        delta_x = work_base->unk_00.parts_02.unk_02.s16;
+        delta_x -= position->unk_00.parts_02.unk_02.s16;
         if (delta_x < 0) delta_x = -delta_x;
         DELTA(0) = (s16)delta_x;
         {
             s32 distance_y;
             register s32 position_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            distance_y = FIELD(work_base, s16, 6);
-            position_y = FIELD(position, s16, 6);
+            distance_y = work_base->unk_04.parts_06.unk_06.s16;
+            position_y = position->unk_04.parts_06.unk_06.s16;
             distance_y -= position_y;
             if (distance_y < 0) distance_y = -distance_y;
             DELTA(1) = (s16)distance_y;
@@ -146,8 +324,8 @@ case_1_entry:
         {
             s32 distance_z;
             register s32 position_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            position_z = FIELD(position, s16, 0xA);
-            distance_z = FIELD(FIELD(actor, void *, 0x60), s16, 0x88);
+            position_z = position->unk_08.parts_0A.unk_0A.s16;
+            distance_z = ((S_func_80024578_3 *)(actor->unk_60))->unk_88.s16;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             delta_cursor = (s16 *)(scratch + 2);
             ASM_KEEP(delta_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -155,33 +333,33 @@ case_1_entry:
             if (distance_z < 0) distance_z = -distance_z;
             DELTA(2) = (s16)distance_z;
         }
-        FIELD(effect, s16, 0x12) = DELTA(0);
+        effect->unk_12 = DELTA(0);
         index = 1;
         do {
-            if (FIELD(delta_cursor, s16, 0x18) > FIELD(effect, s16, 0x12)) {
-                FIELD(effect, s16, 0x12) = FIELD(delta_cursor, u16, 0x18);
+            if (((S_func_80024578_9 *)(delta_cursor))->unk_18.s16 > effect->unk_12) {
+                effect->unk_12 = ((S_func_80024578_9 *)(delta_cursor))->unk_18.u16;
             }
             index++;
             delta_cursor++;
         } while (index < 3);
-        travel_frames = (s16)(((u16)FIELD(effect, s16, 0x12) << 16) >> 20);
-        FIELD(effect, s16, 0x12) = travel_frames;
+        travel_frames = (s16)(((u16)effect->unk_12 << 16) >> 20);
+        effect->unk_12 = travel_frames;
         if (travel_frames == 0) {
-            FIELD(effect, s16, 0x12) = 1;
+            effect->unk_12 = 1;
         }
-        FIELD(position, s32, 0xC) =
-            (FIELD(work_base, s32, 0) - FIELD(position, s32, 0)) / FIELD(effect, s16, 0x12);
-        FIELD(position, s32, 0x10) =
-            (FIELD(work_base, s32, 4) - FIELD(position, s32, 4)) / FIELD(effect, s16, 0x12);
-        FIELD(position, s32, 0x14) =
-            (((s32)FIELD(FIELD(actor, void *, 0x60), s16, 0x88) << 16) -
-             FIELD(position, s32, 8)) / FIELD(effect, s16, 0x12);
-        next_state = (u16)(FIELD(effect, u16, 0xA) + 1);
+        position->unk_0C =
+            (work_base->unk_00.s32 - position->unk_00.s32) / effect->unk_12;
+        position->unk_10 =
+            (work_base->unk_04.s32 - position->unk_04.s32) / effect->unk_12;
+        position->unk_14 =
+            (((s32)((S_func_80024578_3 *)(actor->unk_60))->unk_88.s16 << 16) -
+             position->unk_08.s32) / effect->unk_12;
+        next_state = (u16)(effect->unk_0A.u16 + 1);
         goto set_state;
     }
 
     index = 0;
-    map_data = FIELD(work_base, void *, 0xC);
+    map_data = work_base->unk_0C;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     page_base = 0x80070000;
     ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -199,8 +377,8 @@ case_1_entry:
         s32 y_adjust;
         s16 *x_adjust_table;
 
-        tile_x = FIELD(map_data, u8, 0x24);
-        tile_y = FIELD(map_data, u8, 0x25);
+        tile_x = map_data->unk_24;
+        tile_y = map_data->unk_25;
         last_tile_x = tile_x;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         last_tile_y = (u16)tile_y;
@@ -208,21 +386,21 @@ case_1_entry:
             signed_tile_x = (s16)tile_x;
             signed_tile_y = (s16)tile_y;
             if ((func_800A44E0((signed_tile_x << 6) & 0xFFC0, (signed_tile_y << 6) & 0xFFC0,
-                               FIELD(actor, s16, 0x88),
-                               (s16)(FIELD(effect, u16, 0xE) << 9)) << 16) == 0) {
+                               actor->unk_88.s16,
+                               (s16)(effect->unk_0E << 9)) << 16) == 0) {
                 s16 floor = func_800BCB04(
-                    ((signed_tile_x + ((s16 *)D_8006CCD8)[(s16)FIELD(effect, u16, 0xE)]) << 6) + 0x20 & 0xFFE0,
-                    ((signed_tile_y + ((s16 *)D_8006CCE8)[(s16)FIELD(effect, u16, 0xE)]) << 6) + 0x20 & 0xFFE0,
-                    (s16)(FIELD(actor, s16, 0x88) - 0x20));
-                if ((floor < 513) && ((s16)(floor - FIELD(actor, s16, 0x88)) >= -63)) {
+                    ((signed_tile_x + ((s16 *)D_8006CCD8)[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
+                    ((signed_tile_y + ((s16 *)D_8006CCE8)[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
+                    (s16)(actor->unk_88.s16 - 0x20));
+                if ((floor < 513) && ((s16)(floor - actor->unk_88.s16) >= -63)) {
                     s32 next_tile_x;
                     register s32 next_tile_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                     index++;
-                    next_tile_x = tile_x + ((u16 *)D_8006CCD8)[(s16)FIELD(effect, u16, 0xE)];
+                    next_tile_x = tile_x + ((u16 *)D_8006CCD8)[(s16)effect->unk_0E];
                     tile_x = next_tile_x;
                     ASM_KEEP_NV(tile_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    next_tile_y = tile_y + ((u16 *)D_8006CCE8)[(s16)FIELD(effect, u16, 0xE)];
+                    next_tile_y = tile_y + ((u16 *)D_8006CCE8)[(s16)effect->unk_0E];
                     tile_y = next_tile_y;
                     last_tile_y = (u16)next_tile_y;
                     last_tile_x = next_tile_x;
@@ -234,7 +412,7 @@ case_1_entry:
             break;
         } while (index < 8);
 
-        work_base = scratch;
+        work_base = (S_func_80024578_5 *)scratch;
         x_base = (last_tile_x << 16) >> 10;
         floor_x = (x_base + 0x20) & 0xFFE0;
         x_adjust_table = (s16 *)D_8006CCD8;
@@ -246,11 +424,11 @@ case_1_entry:
         y_base = (s32)tile_y_bits << 16;
         y_base >>= 10;
         floor_y = y_base + 0x20;
-        x_adjust = x_adjust_table[(s16)FIELD(effect, u16, 0xE)];
-        FIELD(work_base, u16, 2) = (u16)(x_base + ((x_adjust + 1) << 5));
-        y_adjust = ((s16 *)D_8006CCE8)[(s16)FIELD(effect, u16, 0xE)];
+        x_adjust = x_adjust_table[(s16)effect->unk_0E];
+        work_base->unk_00.parts_02.unk_02.u16 = (u16)(x_base + ((x_adjust + 1) << 5));
+        y_adjust = ((s16 *)D_8006CCE8)[(s16)effect->unk_0E];
         floor_y &= 0xFFE0;
-        FIELD(work_base, u16, 6) = (u16)(y_base + ((y_adjust + 1) << 5));
+        work_base->unk_04.parts_06.unk_06.u16 = (u16)(y_base + ((y_adjust + 1) << 5));
         final_floor = func_800BCB04(floor_x, floor_y, floor_limit);
         {
             register s32 expanded_floor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -258,14 +436,14 @@ case_1_entry:
             register s32 position_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s16 *delta_scan = (s16 *)(scratch + 2);
 
-            FIELD(work_base, s16, 0xA) = final_floor;
+            work_base->unk_08.parts_0A.unk_0A = final_floor;
             expanded_floor = (s32)final_floor << 16;
             ASM_KEEP(expanded_floor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            delta_x = (s16)FIELD(work_base, u16, 2) - FIELD(position, s16, 2);
+            delta_x = (s16)work_base->unk_00.parts_02.unk_02.u16 - position->unk_00.parts_02.unk_02.s16;
             if (delta_x < 0) delta_x = -delta_x;
             DELTA(0) = (s16)delta_x;
-            widened_y = FIELD(work_base, u16, 6);
-            position_y = FIELD(position, s16, 6);
+            widened_y = work_base->unk_04.parts_06.unk_06.u16;
+            position_y = position->unk_04.parts_06.unk_06.s16;
             ASM_KEEP_DEP_NV(widened_y, position_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             widened_y <<= 16;
             widened_y >>= 16;
@@ -273,59 +451,59 @@ case_1_entry:
             if (widened_y < 0) widened_y = -widened_y;
             DELTA(1) = (s16)widened_y;
             expanded_floor >>= 16;
-            expanded_floor -= FIELD(position, s16, 0xA);
+            expanded_floor -= position->unk_08.parts_0A.unk_0A.s16;
             if (expanded_floor < 0) expanded_floor = -expanded_floor;
             DELTA(2) = (s16)expanded_floor;
-            FIELD(effect, s16, 0x12) = DELTA(0);
+            effect->unk_12 = DELTA(0);
             do {
-                if (FIELD(delta_scan, s16, 0x18) > FIELD(effect, s16, 0x12)) {
-                    FIELD(effect, s16, 0x12) = FIELD(delta_scan, s16, 0x18);
+                if (((S_func_80024578_9 *)(delta_scan))->unk_18.s16 > effect->unk_12) {
+                    effect->unk_12 = ((S_func_80024578_9 *)(delta_scan))->unk_18.s16;
                 }
                 index++;
                 delta_scan++;
             } while (index < 3);
         }
     }
-    travel_frames = (s16)(((u16)FIELD(effect, s16, 0x12) << 16) >> 20);
-    FIELD(effect, s16, 0x12) = travel_frames;
+    travel_frames = (s16)(((u16)effect->unk_12 << 16) >> 20);
+    effect->unk_12 = travel_frames;
     if (travel_frames == 0) {
-        FIELD(effect, s16, 0x12) = 1;
+        effect->unk_12 = 1;
     }
-    FIELD(position, s32, 0xC) =
-        (FIELD(work_base, s32, 0) - FIELD(position, s32, 0)) / FIELD(effect, s16, 0x12);
-    FIELD(position, s32, 0x10) =
-        (FIELD(work_base, s32, 4) - FIELD(position, s32, 4)) / FIELD(effect, s16, 0x12);
-    FIELD(position, s32, 0x14) =
-        (FIELD(work_base, s32, 8) - FIELD(position, s32, 8)) / FIELD(effect, s16, 0x12);
+    position->unk_0C =
+        (work_base->unk_00.s32 - position->unk_00.s32) / effect->unk_12;
+    position->unk_10 =
+        (work_base->unk_04.s32 - position->unk_04.s32) / effect->unk_12;
+    position->unk_14 =
+        (work_base->unk_08.s32 - position->unk_08.s32) / effect->unk_12;
     ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     next_state = 11;
 set_state:
-    FIELD(effect, u16, 0xA) = next_state;
-    FIELD(effect, u16, 0x10) = 0;
+    effect->unk_0A.u16 = next_state;
+    effect->unk_10.u16 = 0;
     ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_800243CC(effect, position);
     goto finish;
 
 case_motion_flags:
-    FIELD(position, s32, 0) += FIELD(position, s32, 0xC);
-    FIELD(position, s32, 4) += FIELD(position, s32, 0x10);
-    FIELD(position, s32, 8) += FIELD(position, s32, 0x14);
-    if (FIELD(effect, s16, 0x10) < FIELD(effect, s16, 0x12)) {
+    position->unk_00.s32 += position->unk_0C;
+    position->unk_04.s32 += position->unk_10;
+    position->unk_08.s32 += position->unk_14;
+    if (effect->unk_10.s16 < effect->unk_12) {
         goto finish;
     }
     func_800A56E0(0x300);
     func_800542BC();
     {
-        void *owner = FIELD(effect, void *, 0x1C);
+        S_func_80024578_3 *owner = effect->unk_1C;
         s32 flags;
 
-        FIELD(effect, u16, 0x1A) = 0;
-        flags = FIELD(owner, s32, 0x14);
+        effect->unk_1A.u16 = 0;
+        flags = owner->unk_14;
         if ((flags & 0x100000) != 0) {
             goto advance_state;
         }
-        FIELD(owner, s32, 0x14) = flags | 0x100000;
-        FIELD(effect, u16, 0x1A) = 1;
+        owner->unk_14 = flags | 0x100000;
+        effect->unk_1A.u16 = 1;
     }
     goto advance_state;
 
@@ -336,45 +514,45 @@ case_1:
     goto finish;
 
 case_2:
-    FIELD(FIELD(effect, void *, 0x20), u16, 0xA) =
-        (u16)(FIELD(FIELD(effect, void *, 0x20), u16, 0xA) - FIELD(effect, u16, 0x10));
-    FIELD(FIELD(effect, void *, 0x1C), u16, 0x2A) =
-        (u16)(FIELD(FIELD(effect, void *, 0x1C), u16, 0x2A) + 0x200);
-    if (FIELD(effect, s16, 0x10) >= 28) {
-        register void *target_render ASM_REG("$2") = FIELD(effect, void *, 0x24);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    ((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
+        (u16)(((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 - effect->unk_10.u16);
+    ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
+        (u16)(((S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
+    if (effect->unk_10.s16 >= 28) {
+        register S_func_80024578_4 *target_render ASM_REG("$2") = effect->unk_24;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-        FIELD(target_render, u16, 0x1A) = (u16)(FIELD(target_render, u16, 0x1A) + 0x800);
+        target_render->unk_1A = (u16)(target_render->unk_1A + 0x800);
         goto advance_state;
     }
     goto finish;
 
 case_3:
-    FIELD(FIELD(effect, void *, 0x20), u16, 0xA) =
-        (u16)(FIELD(FIELD(effect, void *, 0x20), u16, 0xA) + FIELD(effect, s16, 0x10) * 4);
-    FIELD(FIELD(effect, void *, 0x1C), u16, 0x2A) =
-        (u16)(FIELD(FIELD(effect, void *, 0x1C), u16, 0x2A) + 0x200);
+    ((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
+        (u16)(((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 + effect->unk_10.s16 * 4);
+    ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
+        (u16)(((S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
     {
         u8 *height_base;
-        void *target_pos;
-        u8 *height_entry;
+        S_func_80024578_2 *target_pos;
+        S_func_80024578_10 *height_entry;
         u16 max_height;
-        void *owner;
+        S_func_80024578_3 *owner;
         register s32 effect_size ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 effect_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         height_base = D_800DDC40;
-        owner = FIELD(effect, void *, 0x1C);
-        target_pos = FIELD(effect, void *, 0x20);
-        height_entry = height_base + FIELD(owner, u8, 0x13);
+        owner = effect->unk_1C;
+        target_pos = effect->unk_20;
+        height_entry = (S_func_80024578_10 *)(height_base + owner->unk_13);
         effect_size = 16;
-        if (FIELD(target_pos, s16, 0xA) >=
-            FIELD(effect, s16, 0x16) - FIELD(height_entry, u8, 0)) {
+        if (target_pos->unk_08.parts_0A.unk_0A.s16 >=
+            effect->unk_16.s16 - height_entry->unk_00) {
             effect_id = 8;
             ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             index = 0;
-            max_height = FIELD(effect, u16, 0x16);
-            FIELD(target_pos, u16, 0xA) =
-                (u16)(max_height - FIELD(height_entry, u8, 0));
+            max_height = effect->unk_16.u16;
+            target_pos->unk_08.parts_0A.unk_0A.u16 =
+                (u16)(max_height - height_entry->unk_00);
             func_800419EC(effect_id, effect_size);
 case_3_loop:
             func_80024138(effect);
@@ -388,62 +566,62 @@ case_3_loop:
     goto finish;
 
 case_4:
-    FIELD(FIELD(effect, void *, 0x1C), u16, 0x2A) =
-        (u16)(FIELD(FIELD(effect, void *, 0x1C), u16, 0x2A) + 0x200);
+    ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
+        (u16)(((S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
     index = 0;
-    if (FIELD(effect, s16, 0x10) == 2) {
+    if (effect->unk_10.s16 == 2) {
         do {
             func_80024138(effect);
             index++;
         } while (index < 8);
     }
-    if (FIELD(effect, s16, 0x10) < 12) {
+    if (effect->unk_10.s16 < 12) {
         goto finish;
     }
     goto advance_state;
 
 case_5:
-    if (FIELD(effect, s16, 0x10) < 4) {
+    if (effect->unk_10.s16 < 4) {
         goto finish;
     }
-    FIELD(FIELD(effect, void *, 0x20), s32, 8) = FIELD(effect, s32, 0x28);
-    FIELD(FIELD(effect, void *, 0x1C), u16, 0x2A) = FIELD(effect, u16, 0x18);
-    if (FIELD(effect, s16, 0x1A) != 0) {
-        FIELD(FIELD(effect, void *, 0x1C), s32, 0x14) &= 0xFFEFFFFF;
+    ((S_func_80024578_2 *)(effect->unk_20))->unk_08.s32 = effect->unk_28.s32;
+    ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A = effect->unk_18;
+    if (effect->unk_1A.s16 != 0) {
+        ((S_func_80024578_3 *)(effect->unk_1C))->unk_14 &= 0xFFEFFFFF;
     }
-    FIELD(FIELD(effect, void *, 0x24), u16, 0x1A) -= 0x800;
-    func_8009CE1C(FIELD(actor, void *, 0x60), 24, FIELD(effect, u8, 9), 4,
-                  (s16)(FIELD(effect, u16, 0xE) << 9), actor, 1);
+    ((S_func_80024578_4 *)(effect->unk_24))->unk_1A -= 0x800;
+    func_8009CE1C(actor->unk_60, 24, effect->unk_09, 4,
+                  (s16)(effect->unk_0E << 9), actor, 1);
     goto advance_state;
 
 case_6:
-    if (FIELD(effect, s16, 0x14) != 0) {
+    if (effect->unk_14.s16 != 0) {
         goto finish;
     }
     D_8008346C[0] = 0;
-    FIELD(effect, u16, -2) |= 0x8000;
+    ((S_func_80024578_12 *)((u8 *)(effect) - 2))->unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;
     goto finish;
 
 case_7:
     func_800243CC(effect, position);
-    if (FIELD(effect, s16, 0x10) < 15) {
+    if (effect->unk_10.s16 < 15) {
         goto finish;
     }
     {
-        void *saved_height = FIELD(FIELD(effect, void *, 0x20), void *, 8);
+        void *saved_height = ((S_func_80024578_2 *)(effect->unk_20))->unk_08.ptr;
 
-        FIELD(effect, u16, 0xA) = (u16)(FIELD(effect, u16, 0xA) + 1);
-        FIELD(effect, u16, 0x10) = 0;
-        FIELD(effect, void *, 0x28) = saved_height;
+        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+        effect->unk_10.u16 = 0;
+        effect->unk_28.ptr = saved_height;
     }
     goto finish;
 
 case_8:
-    FIELD(position, s32, 0) += FIELD(position, s32, 0xC);
-    FIELD(position, s32, 4) += FIELD(position, s32, 0x10);
-    FIELD(position, s32, 8) += FIELD(position, s32, 0x14);
-    if (FIELD(effect, s16, 0x10) < FIELD(effect, s16, 0x12)) {
+    position->unk_00.s32 += position->unk_0C;
+    position->unk_04.s32 += position->unk_10;
+    position->unk_08.s32 += position->unk_14;
+    if (effect->unk_10.s16 < effect->unk_12) {
         goto finish;
     }
     func_800A56E0(0x300);
@@ -457,23 +635,23 @@ case_9:
     goto advance_state;
 
 case_10:
-    if (FIELD(effect, s16, 0x10) < 7) {
+    if (effect->unk_10.s16 < 7) {
         goto finish;
     }
 
 advance_state:
-    FIELD(effect, u16, 0xA) = (u16)(FIELD(effect, u16, 0xA) + 1);
-    FIELD(effect, u16, 0x10) = 0;
+    effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+    effect->unk_10.u16 = 0;
     goto finish;
 
 case_11:
-    if (FIELD(effect, s16, 0x10) >= 28) {
+    if (effect->unk_10.s16 >= 28) {
         func_800A56E0(116);
-        FIELD(effect, u16, 0xA) = 10;
-        FIELD(effect, u16, 0x10) = 0;
+        effect->unk_0A.u16 = 10;
+        effect->unk_10.u16 = 0;
     }
     goto finish;
 
 finish:
-    FIELD(effect, u16, 0x14) = 0;
+    effect->unk_14.u16 = 0;
 }

@@ -1,6 +1,9 @@
 #include "common.h"
 
-#define FIELD(expr, type, offset) (*(type)((u8 *)(expr) + (offset)))
+typedef struct S_func_80026F04_0 {
+    u8 pad_00[0x57D2];
+    u8 unk_57D2;
+} S_func_80026F04_0;
 
 /* GCC 2.7.2 does not accept the read/write constraint in ASM_KEEP. */
 #if !defined(NON_MATCHING) && __GNUC__ < 3
@@ -13,18 +16,18 @@
 s32 func_80026F04(s32 target_value, s32 start_index)
 {
     register s32 index ASM_REG("$6") = start_index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *entry;
+    S_func_80026F04_0 *entry;
 
     KEEP_INDEX(index);
     if (index < 0x40) {
-        entry = (void *)0x80010000;
-        entry += ((index * 4 + start_index) * 4) - start_index;
+        entry = (S_func_80026F04_0 *)0x80010000;
+        entry = (S_func_80026F04_0 *)((u8 *)entry + (((index * 4 + start_index) * 4) - start_index));
 loop:
-        if (FIELD(entry, u8 *, 0x57D2) == target_value) {
+        if (entry->unk_57D2 == target_value) {
             return index;
         }
         index++;
-        entry += 0x13;
+        entry = (S_func_80026F04_0 *)((u8 *)entry + 0x13);
         if (index < 0x40) {
             goto loop;
         }

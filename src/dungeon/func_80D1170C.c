@@ -1,11 +1,48 @@
 #include "common.h"
 
-#define FIELD(obj, type, offset) (*(type)((u8 *)(obj) + (offset)))
+typedef struct S_func_80D1170C_1 {
+    u8 unk_00;
+    u8 unk_01;
+    u8 unk_02;
+    u8 pad_03[1];
+    union {
+        s32 unk_04;
+        struct {
+            s8 unk_04;
+            s8 unk_05;
+            s8 unk_06;
+            u8 pad_07[1];
+        } bytes;
+    } unk_04;
+    s32 unk_08;
+    u8 pad_0C[0x26];
+    union {
+        s16 unk_32;
+        u16 unk_32_u;
+    } unk_32;
+    s16 unk_34;
+    u8 pad_36[0xA];
+    s32 unk_40;
+    s32 unk_44;
+    s32 unk_48;
+    u8 pad_4C[8];
+    s32 unk_54;
+} S_func_80D1170C_1;
+
+typedef struct S_func_80D1170C_2 {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+} S_func_80D1170C_2;
+
+typedef struct S_func_80D1170C_3 {
+    u16 unk_00;
+} S_func_80D1170C_3;
 
 extern s32 D_800814A0;
 
 /* Move and fade the effect, apply vertical acceleration, and flag it when its lifetime ends. */
-void func_80170F0C(void *effect, void *position)
+void func_80170F0C(S_func_80D1170C_1 *effect, S_func_80D1170C_2 *position)
 {
     s16 life_left;
     s32 red;
@@ -14,30 +51,30 @@ void func_80170F0C(void *effect, void *position)
     s32 color_product;
     s32 *flag_page;
 
-    FIELD(position, s32 *, 0) += FIELD(effect, s32 *, 0x40);
-    FIELD(position, s32 *, 4) += FIELD(effect, s32 *, 0x44);
-    FIELD(position, s32 *, 8) += FIELD(effect, s32 *, 0x48);
+    position->unk_00 += effect->unk_40;
+    position->unk_04 += effect->unk_44;
+    position->unk_08 += effect->unk_48;
 
-    color_product = FIELD(effect, u8 *, 0) * FIELD(effect, s16 *, 0x32);
-    red = color_product / FIELD(effect, s16 *, 0x34);
+    color_product = effect->unk_00 * effect->unk_32.unk_32;
+    red = color_product / effect->unk_34;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    color_product = FIELD(effect, u8 *, 1) * FIELD(effect, s16 *, 0x32);
-    green = color_product / FIELD(effect, s16 *, 0x34);
+    color_product = effect->unk_01 * effect->unk_32.unk_32;
+    green = color_product / effect->unk_34;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    color_product = FIELD(effect, u8 *, 2) * FIELD(effect, s16 *, 0x32);
-    blue = color_product / FIELD(effect, s16 *, 0x34);
+    color_product = effect->unk_02 * effect->unk_32.unk_32;
+    blue = color_product / effect->unk_34;
 
-    FIELD(effect, s32 *, 0x48) += FIELD(effect, s32 *, 0x54);
-    life_left = FIELD(effect, u16 *, 0x32);
+    effect->unk_48 += effect->unk_54;
+    life_left = effect->unk_32.unk_32_u;
     life_left -= 1;
-    FIELD(effect, u16 *, 0x32) = life_left;
-    FIELD(effect, s8 *, 4) = red;
-    FIELD(effect, s8 *, 5) = green;
-    FIELD(effect, s8 *, 6) = blue;
-    FIELD(effect, s32 *, 8) = FIELD(effect, s32 *, 4);
+    effect->unk_32.unk_32_u = life_left;
+    effect->unk_04.bytes.unk_04 = red;
+    effect->unk_04.bytes.unk_05 = green;
+    effect->unk_04.bytes.unk_06 = blue;
+    effect->unk_08 = effect->unk_04.unk_04;
 
     if ((life_left << 16) <= 0) {
-        FIELD(effect, u16 *, -2) |= 0x8000;
+        ((S_func_80D1170C_3 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
         flag_page = (s32 *)0x80080000;
         ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         flag_page[0x14A0 / sizeof(s32)] =

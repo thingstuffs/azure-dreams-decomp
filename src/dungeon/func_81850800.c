@@ -1,7 +1,5 @@
 #include "common.h"
 
-#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
-
 extern void func_800241F0(void) __attribute__((noreturn));
 extern void func_8002426C(void) __attribute__((noreturn));
 extern void func_8002427C(void) __attribute__((noreturn));
@@ -44,9 +42,179 @@ __asm__(".globl func_81850800\n"
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void BODY_NAME(void *owner, void *motion, void *sprite) BODY_ATTR;
+typedef struct S_81850800_0 {
+    void * unk_00;
+    void * unk_04;
+    u8 pad_08[0x1];
+    u8 unk_09;
+    union {
+        s16 unk_0A_s16;
+        u16 unk_0A_u16;
+    } unk_0A;
+    u8 pad_0C[0x44];
+    union {
+        s16 unk_50_s16;
+        u16 unk_50_u16;
+    } unk_50;
+    union {
+        s16 unk_52_s16;
+        u16 unk_52_u16;
+    } unk_52;
+} S_81850800_0;
+
+typedef struct S_81850800_1 {
+    u8 pad_00[0x2A];
+    union {
+        s16 unk_2A_s16;
+        u16 unk_2A_u16;
+    } unk_2A;
+    u8 pad_2C[0x34];
+    void * unk_60;
+    u8 pad_64[0xE];
+    s8 unk_72;
+    s8 unk_73;
+} S_81850800_1;
+
+typedef struct S_81850800_2 {
+    void * unk_00;
+} S_81850800_2;
+
+typedef struct S_81850800_3 {
+    u16 unk_00;
+} S_81850800_3;
+
+typedef struct S_81850800_4 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_81850800_4;
+
+typedef struct S_81850800_5 {
+    union {
+        s32 unk_00_s32;
+        struct {
+            u8 pad_00[0x2];
+            s16 unk_02_s16;
+        } unk_02_view_s16;
+    } unk_00;
+    union {
+        s32 unk_04_s32;
+        struct {
+            u8 pad_04[0x2];
+            s16 unk_06_s16;
+        } unk_06_view_s16;
+    } unk_04;
+    union {
+        s32 unk_08_s32;
+        struct {
+            u8 pad_08[0x2];
+            s16 unk_0A_s16;
+        } unk_0A_view_s16;
+    } unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+    union {
+        s32 unk_14_s32;
+        u16 unk_14_u16;
+    } unk_14;
+    u8 pad_18[0xC];
+    u8 unk_24;
+    u8 unk_25;
+} S_81850800_5;
+
+typedef struct S_81850800_6 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+} S_81850800_6;
+
+typedef struct S_81850800_7 {
+    union {
+        s32 unk_00_s32;
+        struct {
+            u8 pad_00[0x2];
+            u16 unk_02_u16;
+        } unk_02_view_u16;
+    } unk_00;
+    union {
+        s32 unk_04_s32;
+        struct {
+            u8 pad_04[0x2];
+            u16 unk_06_u16;
+        } unk_06_view_u16;
+    } unk_04;
+    union {
+        s32 unk_08_s32;
+        struct {
+            u8 pad_08[0x2];
+            s16 unk_0A_s16;
+        } unk_0A_view_s16;
+        struct {
+            u8 pad_08[0x2];
+            u16 unk_0A_u16;
+        } unk_0A_view_u16;
+    } unk_08;
+    union {
+        s32 unk_0C_s32;
+        struct {
+            u8 pad_0C[0x2];
+            u16 unk_0E_u16;
+        } unk_0E_view_u16;
+    } unk_0C;
+    union {
+        s32 unk_10_s32;
+        struct {
+            u8 pad_10[0x2];
+            u16 unk_12_u16;
+        } unk_12_view_u16;
+    } unk_10;
+} S_81850800_7;
+
+typedef struct S_81850800_8 {
+    void * unk_00;
+    s8 unk_04;
+    s8 unk_05;
+    u8 pad_06[0x2];
+    union {
+        s32 unk_08_s32;
+        void * unk_08_ptr;
+    } unk_08;
+    s32 unk_0C;
+    s16 unk_10;
+    u8 pad_12[0x2];
+    u16 unk_14;
+    u8 pad_16[0x6];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_81850800_8;
+
+typedef struct S_81850800_9 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    void * unk_10;
+    u8 pad_14[0xC];
+    void * unk_20;
+} S_81850800_9;
+
+typedef struct S_81850800_10 {
+    u8 pad_00[0x4];
+    s32 unk_04;
+} S_81850800_10;
+
+typedef struct S_81850800_11 {
+    u8 pad_00[0x48];
+    union {
+        s16 unk_48_s16;
+        u16 unk_48_u16;
+    } unk_48;
+    s16 unk_4A;
+    s16 unk_4C;
+    s16 unk_4E;
+} S_81850800_11;
+
+BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite) BODY_ATTR;
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
-BODY_STORAGE void BODY_NAME(void *owner, void *motion, void *sprite)
+BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite)
 {
     s32 step_x;
     s32 step_y;
@@ -80,16 +248,16 @@ BODY_STORAGE void BODY_NAME(void *owner, void *motion, void *sprite)
     u16 flags;
     register u8 base_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s16 ground_height;
-    u8 *caster_data;
-    register u8 *caster_sprite ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *work;
-    u8 *obj;
-    u8 *target;
-    u8 *effect_data;
-    u8 *position;
+    S_81850800_1 *caster_data;
+    register S_81850800_4 *caster_sprite ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_81850800_8 *work;
+    S_81850800_9 *obj;
+    S_81850800_1 *target;
+    S_81850800_11 *effect_data;
+    S_81850800_5 *position;
     u8 *spawn_cb;
     register u8 *particle_cb ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *particle_anim ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register S_81850800_10 *particle_anim ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *step_x_table;
     u8 *step_y_table;
     s32 pix_x;
@@ -98,22 +266,22 @@ BODY_STORAGE void BODY_NAME(void *owner, void *motion, void *sprite)
     s32 pix_y;
     s32 next_state;
     static void *const keepalive[] = { &&state_0_after };
-    caster_data = FIELD(owner, u8 *, 0);
+    caster_data = owner->unk_00;
     step_x_table = (u8 *)&D_8006CCD8;
-    magnitude = (u16)FIELD(caster_data, u16, 0x2A);
+    magnitude = (u16)caster_data->unk_2A.unk_2A_u16;
     facing_shift = magnitude >> 8;
-    caster_sprite = FIELD(caster_data, u8 *, -0x14);
+    caster_sprite = ((S_81850800_2 *)((u8 *)caster_data - 0x14))->unk_00;
     facing = facing_shift & 0xE;
     step_x_table = (u8 *)(facing + (s32)step_x_table);
     step_x = *(s16 *)step_x_table;
     step_y_table = (u8 *)&D_8006CCE8;
     facing = (s32)step_y_table + facing;
-    timer = FIELD(owner, u16, 0x50) - 1;
+    timer = owner->unk_50.unk_50_u16 - 1;
     facing = *(s16 *)facing;
     step_y = facing;
-    work = caster_data - 0x20;
-    state = FIELD(owner, s16, 0xA) ^ (step_x ^ step_x);
-    FIELD(owner, u16, 0x50) = timer;
+    work = (S_81850800_8 *)((u8 *)caster_data - 0x20);
+    state = owner->unk_0A.unk_0A_s16 ^ (step_x ^ step_x);
+    owner->unk_50.unk_50_u16 = timer;
 
     if (state == 1) {
         goto state_1;
@@ -136,10 +304,10 @@ BODY_STORAGE void BODY_NAME(void *owner, void *motion, void *sprite)
     return;
 
 state_0:
-    if ((FIELD(FIELD(owner, u8 *, 4), u16, 0) & 0x80) == 0) {
+    if ((((S_81850800_3 *)owner->unk_04)->unk_00 & 0x80) == 0) {
         goto done;
     }
-    target = FIELD(caster_data, u8 *, 0x60);
+    target = caster_data->unk_60;
     tiles_ahead = 0;
     if (target == 0) {
         s32 tile_pixel_x;
@@ -153,8 +321,8 @@ state_0:
 state_0_loop:
         min_height = -0x400;
         ASM_KEEP(min_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        tile_pixel_x = FIELD(caster_sprite, u8, 0x24);
-        tile_pixel_y = FIELD(caster_sprite, u8, 0x25);
+        tile_pixel_x = caster_sprite->unk_24;
+        tile_pixel_y = caster_sprite->unk_25;
         tile_pixel_x = (tile_pixel_x + off_x) << 6;
         ASM_KEEP(tile_pixel_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         dx = tile_pixel_x + 0x20;
@@ -164,8 +332,8 @@ state_0_loop:
         probe_x = (u16)dx;
         probe_y = (u16)dy;
         ground_height = func_800BCB04(probe_x, probe_y, min_height);
-        if ((s16)func_800A4688(probe_x, probe_y, ground_height, FIELD(caster_data, s16, 0x2A),
-                               FIELD(caster_data, void *, 0x60)) != 0) {
+        if ((s16)func_800A4688(probe_x, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
+                               caster_data->unk_60) != 0) {
             goto state_0_tail;
         }
         tiles_ahead++;
@@ -183,17 +351,17 @@ state_0_tail:
         return;
     }
 
-    position = FIELD(target, u8 *, -0x14);
-    copy_value = FIELD(caster_sprite, u8, 0x24);
-    facing = FIELD(position, u8, 0x24);
-    dy = FIELD(position, u8, 0x25);
+    position = ((S_81850800_2 *)((u8 *)target - 0x14))->unk_00;
+    copy_value = caster_sprite->unk_24;
+    facing = position->unk_24;
+    dy = position->unk_25;
     dx = facing - copy_value;
-    base_y = FIELD(caster_sprite, u8, 0x25);
+    base_y = caster_sprite->unk_25;
     dy -= base_y;
-    if ((FIELD(position, u16, 0x14) & 0x8000) &&
-        (FIELD(sprite, u16, 0x14) & 0x8000)) {
-        FIELD(owner, s16, 0xA) = 2;
-        FIELD(owner, u16, 0x50) = 0;
+    if ((position->unk_14.unk_14_u16 & 0x8000) &&
+        (sprite->unk_14 & 0x8000)) {
+        owner->unk_0A.unk_0A_s16 = 2;
+        owner->unk_50.unk_50_u16 = 0;
         func_800247A8();
         return;
     }
@@ -209,7 +377,7 @@ state_0_tail:
         abs_x = abs_y;
     }
     magnitude = abs_x * 4;
-    FIELD(owner, u16, 0x50) = magnitude;
+    owner->unk_50.unk_50_u16 = magnitude;
     if (abs_x == 0) {
         goto state_0_zero;
     }
@@ -228,7 +396,7 @@ state_0_zero:
     ASM_KEEP(scale);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     mode = 2;
     ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    FIELD(owner, u16, 0x50) = 0;
+    owner->unk_50.unk_50_u16 = 0;
     func_8002427C();
 
 state_0_one:
@@ -236,16 +404,16 @@ state_0_one:
     scale = zero;
     mode = 3;
     state = mode;
-    if (FIELD(caster_data, void *, 0x60) != 0) {
+    if (caster_data->unk_60 != 0) {
         state = zero + 1;
     }
     ASM_KEEP(base_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    FIELD(owner, u16, 0x50) = state;
+    owner->unk_50.unk_50_u16 = state;
     func_8002427C();
 
 state_0_after:
-    FIELD(owner, u16, 0x50) -= 2;
+    owner->unk_50.unk_50_u16 -= 2;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     tile_step_x = step_x * scale;
     pixel_offset = mode << 4;
@@ -253,164 +421,164 @@ state_0_after:
     ASM_KEEP(pixel_step_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     tile_step_y = step_y * scale;
     ASM_KEEP_NV(tile_step_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    origin_x = FIELD(caster_sprite, u8, 0x24);
+    origin_x = caster_sprite->unk_24;
     ASM_USE_NV(scale);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     pix_x = (origin_x + tile_step_x) << 6;
     pixel_step_y = step_y * pixel_offset;
     pixel_offset = pixel_step_x + 0x20;
     pix_x += pixel_offset;
-    FIELD((u8 *)motion, u16, 2) = pix_x;
-    origin_y = FIELD(caster_sprite, u8, 0x25);
-    FIELD((u8 *)motion, u16, 0xE) = step_x << 4;
-    FIELD((u8 *)motion, u16, 0x12) = step_y << 4;
+    motion->unk_00.unk_02_view_u16.unk_02_u16 = pix_x;
+    origin_y = caster_sprite->unk_25;
+    motion->unk_0C.unk_0E_view_u16.unk_0E_u16 = step_x << 4;
+    motion->unk_10.unk_12_view_u16.unk_12_u16 = step_y << 4;
     pix_y = (origin_y + tile_step_y) << 6;
     pixel_offset = pixel_step_y + 0x20;
     pix_y += pixel_offset;
-    FIELD((u8 *)motion, u16, 6) = pix_y;
+    motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
     func_800A56E0(0x300);
-    next_state = FIELD(owner, u16, 0xA) + 1;
+    next_state = owner->unk_0A.unk_0A_u16 + 1;
     ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_80024754();
     return;
 
 state_1:
-    ground_height = func_800BCB04(FIELD((u8 *)motion, u16, 2),
-                        FIELD((u8 *)motion, u16, 6),
-                        (s16)(FIELD(FIELD(work, u8 *, 8), u16, 0xA) -
+    ground_height = func_800BCB04(motion->unk_00.unk_02_view_u16.unk_02_u16,
+                        motion->unk_04.unk_06_view_u16.unk_06_u16,
+                        (s16)(((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16 -
                               0x30));
-    FIELD((u8 *)motion, s16, 0xA) = ground_height;
+    motion->unk_08.unk_0A_view_s16.unk_0A_s16 = ground_height;
     if (ground_height >= 0x200) {
-        FIELD((u8 *)motion, u16, 0xA) =
-            FIELD(FIELD(work, u8 *, 8), u16, 0xA);
+        motion->unk_08.unk_0A_view_u16.unk_0A_u16 =
+            ((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16;
     }
     spawn_cb = (u8 *)&D_80083498;
     obj = func_8003FD64(0x112, spawn_cb);
     if (obj == 0) {
         goto state_1_after_first;
     }
-    FIELD(obj, void *, 0x10) = D_800247DC;
-    position = FIELD(obj, u8 *, 8);
-    work = FIELD(obj, u8 *, 0xC);
-    copy_value = FIELD((u8 *)motion, s32, 0);
-    FIELD(position, s32, 0) = copy_value;
-    position = FIELD(obj, u8 *, 8);
-    copy_value = FIELD((u8 *)motion, s32, 4);
-    effect_data = obj + 0x20;
-    FIELD(position, s32, 4) = copy_value;
-    position = FIELD(obj, u8 *, 8);
-    copy_value = FIELD((u8 *)motion, s32, 8);
+    obj->unk_10 = D_800247DC;
+    position = obj->unk_08;
+    work = obj->unk_0C;
+    copy_value = motion->unk_00.unk_00_s32;
+    position->unk_00.unk_00_s32 = copy_value;
+    position = obj->unk_08;
+    copy_value = motion->unk_04.unk_04_s32;
+    effect_data = (S_81850800_11 *)((u8 *)obj + 0x20);
+    position->unk_04.unk_04_s32 = copy_value;
+    position = obj->unk_08;
+    copy_value = motion->unk_08.unk_08_s32;
     spawn_color = 0xC00000;
-    FIELD(position, s32, 8) = copy_value;
-    FIELD(work, s16, 0x1E) = 0x1000;
-    FIELD(work, s16, 0x1C) = 0x1000;
-    FIELD(work, s16, 0x10) = 0x60;
-    FIELD(work, u16, 0x14) |= 0xC;
-    FIELD(work, void *, 0) = D_800DE9D0;
-    copy_value = FIELD(D_800DE9D0, s32, 4);
+    position->unk_08.unk_08_s32 = copy_value;
+    work->unk_1E = 0x1000;
+    work->unk_1C = 0x1000;
+    work->unk_10 = 0x60;
+    work->unk_14 |= 0xC;
+    work->unk_00 = D_800DE9D0;
+    copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
     spawn_color |= 0x8080;
-    FIELD(work, s8, 4) = 0;
-    FIELD(work, s8, 5) = 0;
-    FIELD(work, s32, 0xC) = spawn_color;
-    FIELD(work, s32, 8) = copy_value;
-    FIELD(obj, void *, 0x20) = owner;
-    FIELD(effect_data, s16, 0x48) = func_80069EF8() & 3;
-    FIELD(effect_data, s16, 0x4E) = (func_80069EF8() & 3) + 8;
-    FIELD(effect_data, s16, 0x4A) = (func_80069EF8() & 7) + 0xC;
-    FIELD(effect_data, s16, 0x4C) = 0;
+    work->unk_04 = 0;
+    work->unk_05 = 0;
+    work->unk_0C = spawn_color;
+    work->unk_08.unk_08_s32 = copy_value;
+    obj->unk_20 = owner;
+    effect_data->unk_48.unk_48_s16 = func_80069EF8() & 3;
+    effect_data->unk_4E = (func_80069EF8() & 3) + 8;
+    effect_data->unk_4A = (func_80069EF8() & 7) + 0xC;
+    effect_data->unk_4C = 0;
 
 state_1_after_first:
-    if (FIELD(owner, s16, 0x50) > 0) {
+    if (owner->unk_50.unk_50_s16 > 0) {
         goto shared_motion;
     }
-    if (FIELD(caster_data, void *, 0x60) == 0) {
+    if (caster_data->unk_60 == 0) {
         goto state_1_no_child;
     }
-    FIELD(owner, u16, 0x50) = 4;
-    FIELD(owner, u16, 0xA)++;
-    tile_x = FIELD(caster_data, s8, 0x72);
-    FIELD((u8 *)motion, u16, 2) = (tile_x << 6) + 0x20;
-    tile_y = FIELD(caster_data, s8, 0x73);
-    FIELD((u8 *)motion, s32, 0x10) = 0;
-    FIELD((u8 *)motion, s32, 0xC) = 0;
-    FIELD((u8 *)motion, u16, 6) = (tile_y << 6) + 0x20;
+    owner->unk_50.unk_50_u16 = 4;
+    owner->unk_0A.unk_0A_u16++;
+    tile_x = caster_data->unk_72;
+    motion->unk_00.unk_02_view_u16.unk_02_u16 = (tile_x << 6) + 0x20;
+    tile_y = caster_data->unk_73;
+    motion->unk_10.unk_10_s32 = 0;
+    motion->unk_0C.unk_0C_s32 = 0;
+    motion->unk_04.unk_06_view_u16.unk_06_u16 = (tile_y << 6) + 0x20;
     obj = func_8003FD64(0x112, spawn_cb);
     if (obj == 0) {
         goto state_1_loop_setup;
     }
-    FIELD(obj, void *, 0x10) = D_800247DC;
-    position = FIELD(obj, u8 *, 8);
-    work = FIELD(obj, u8 *, 0xC);
-    copy_value = FIELD((u8 *)motion, s32, 0);
-    FIELD(position, s32, 0) = copy_value;
-    position = FIELD(obj, u8 *, 8);
-    copy_value = FIELD((u8 *)motion, s32, 4);
-    effect_data = obj + 0x20;
-    FIELD(position, s32, 4) = copy_value;
-    position = FIELD(obj, u8 *, 8);
-    copy_value = FIELD((u8 *)motion, s32, 8);
+    obj->unk_10 = D_800247DC;
+    position = obj->unk_08;
+    work = obj->unk_0C;
+    copy_value = motion->unk_00.unk_00_s32;
+    position->unk_00.unk_00_s32 = copy_value;
+    position = obj->unk_08;
+    copy_value = motion->unk_04.unk_04_s32;
+    effect_data = (S_81850800_11 *)((u8 *)obj + 0x20);
+    position->unk_04.unk_04_s32 = copy_value;
+    position = obj->unk_08;
+    copy_value = motion->unk_08.unk_08_s32;
     spawn_color = 0x600000;
-    FIELD(position, s32, 8) = copy_value;
-    FIELD(work, s16, 0x1C) = 0x2000;
-    FIELD(work, s16, 0x1E) = 0x2800;
-    FIELD(work, s16, 0x10) = 0x20;
-    FIELD(work, u16, 0x14) |= 0xC;
-    FIELD(work, void *, 0) = D_800DE9D0;
-    copy_value = FIELD(D_800DE9D0, s32, 4);
+    position->unk_08.unk_08_s32 = copy_value;
+    work->unk_1C = 0x2000;
+    work->unk_1E = 0x2800;
+    work->unk_10 = 0x20;
+    work->unk_14 |= 0xC;
+    work->unk_00 = D_800DE9D0;
+    copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
     spawn_color |= 0x6060;
-    FIELD(work, s8, 4) = 0;
-    FIELD(work, s8, 5) = 0;
-    FIELD(work, s32, 0xC) = spawn_color;
-    FIELD(work, s32, 8) = copy_value;
-    FIELD(obj, void *, 0x20) = owner;
-    timer = FIELD(owner, u16, 0x50);
-    FIELD(effect_data, s16, 0x4E) = 8;
-    FIELD(effect_data, s16, 0x4A) = 8;
-    FIELD(effect_data, s16, 0x4C) = 0;
-    FIELD(effect_data, u16, 0x48) = timer;
+    work->unk_04 = 0;
+    work->unk_05 = 0;
+    work->unk_0C = spawn_color;
+    work->unk_08.unk_08_s32 = copy_value;
+    obj->unk_20 = owner;
+    timer = owner->unk_50.unk_50_u16;
+    effect_data->unk_4E = 8;
+    effect_data->unk_4A = 8;
+    effect_data->unk_4C = 0;
+    effect_data->unk_48.unk_48_u16 = timer;
 
 state_1_loop_setup:
     particles_left = 0x3C;
     particle_cb = D_800247DC;
     ASM_KEEP_MEM_NV(particles_left, *(u8 *)D_800247DC);
-    particle_anim = D_800DEC28;
+    particle_anim = (S_81850800_10 *)D_800DEC28;
     ASM_KEEP_MEM_NV(particles_left, *(u8 *)D_800DEC28);
 state_1_loop:
     obj = func_8003FD64(0x312, &D_80083498);
     if (obj == 0) {
         goto state_1_loop_next;
     }
-    work = FIELD(obj, u8 *, 0xC);
-    FIELD(obj, void *, 0x10) = particle_cb;
-    FIELD(FIELD(obj, u8 *, 8), s16, 2) =
-        FIELD((u8 *)motion, u16, 2) + (func_80069EF8() & 0x3F) - 0x20;
-    FIELD(FIELD(obj, u8 *, 8), s16, 6) =
-        FIELD((u8 *)motion, u16, 6) + (func_80069EF8() & 0x3F) - 0x20;
-    FIELD(FIELD(obj, u8 *, 8), s16, 0xA) =
-        FIELD((u8 *)motion, u16, 0xA) - (func_80069EF8() & 0x1F);
+    work = obj->unk_0C;
+    obj->unk_10 = particle_cb;
+    ((S_81850800_5 *)obj->unk_08)->unk_00.unk_02_view_s16.unk_02_s16 =
+        motion->unk_00.unk_02_view_u16.unk_02_u16 + (func_80069EF8() & 0x3F) - 0x20;
+    ((S_81850800_5 *)obj->unk_08)->unk_04.unk_06_view_s16.unk_06_s16 =
+        motion->unk_04.unk_06_view_u16.unk_06_u16 + (func_80069EF8() & 0x3F) - 0x20;
+    ((S_81850800_5 *)obj->unk_08)->unk_08.unk_0A_view_s16.unk_0A_s16 =
+        motion->unk_08.unk_0A_view_u16.unk_0A_u16 - (func_80069EF8() & 0x1F);
     color = 0x800000;
-    FIELD(work, s16, 0x1E) = 0x800;
-    FIELD(work, s16, 0x1C) = 0x800;
-    FIELD(work, s16, 0x10) = 0x60;
-    FIELD(work, void *, 0) = particle_anim;
-    FIELD(work, u16, 0x14) |= 0xC;
-    copy_value = FIELD(particle_anim, s32, 4);
+    work->unk_1E = 0x800;
+    work->unk_1C = 0x800;
+    work->unk_10 = 0x60;
+    work->unk_00 = particle_anim;
+    work->unk_14 |= 0xC;
+    copy_value = particle_anim->unk_04;
     color |= 0x8080;
-    FIELD(work, s8, 4) = 0;
-    FIELD(work, s8, 5) = 0;
-    FIELD(work, s32, 0xC) = color;
-    FIELD(work, s32, 8) = copy_value;
-    FIELD(FIELD(obj, u8 *, 8), s32, 0xC) =
+    work->unk_04 = 0;
+    work->unk_05 = 0;
+    work->unk_0C = color;
+    work->unk_08.unk_08_s32 = copy_value;
+    ((S_81850800_5 *)obj->unk_08)->unk_0C =
         step_x * (func_80069EF8() << 3);
-    effect_data = obj + 0x20;
-    FIELD(FIELD(obj, u8 *, 8), s32, 0x10) =
+    effect_data = (S_81850800_11 *)((u8 *)obj + 0x20);
+    ((S_81850800_5 *)obj->unk_08)->unk_10 =
         step_y * (func_80069EF8() << 3);
-    FIELD(FIELD(obj, u8 *, 8), s32, 0x14) =
+    ((S_81850800_5 *)obj->unk_08)->unk_14.unk_14_s32 =
         0xFFF7FFFF - func_80069EF8();
-    FIELD(obj, void *, 0x20) = owner;
-    FIELD(effect_data, s16, 0x48) = 2;
-    FIELD(effect_data, s16, 0x4E) = (func_80069EF8() & 7) + 8;
-    FIELD(effect_data, s16, 0x4A) = 0x10;
-    FIELD(effect_data, s16, 0x4C) = 0;
+    obj->unk_20 = owner;
+    effect_data->unk_48.unk_48_s16 = 2;
+    effect_data->unk_4E = (func_80069EF8() & 7) + 8;
+    effect_data->unk_4A = 0x10;
+    effect_data->unk_4C = 0;
 state_1_loop_next:
     particles_left--;
     if (particles_left >= 0) {
@@ -420,11 +588,11 @@ state_1_loop_next:
     return;
 
 state_1_no_child:
-    FIELD(owner, u16, 0x50) = 4;
-    FIELD(owner, s16, 0xA) = 3;
+    owner->unk_50.unk_50_u16 = 4;
+    owner->unk_0A.unk_0A_s16 = 3;
 shared_motion:
-    FIELD((u8 *)motion, s32, 0) += FIELD((u8 *)motion, s32, 0xC);
-    FIELD((u8 *)motion, s32, 4) += FIELD((u8 *)motion, s32, 0x10);
+    motion->unk_00.unk_00_s32 += motion->unk_0C.unk_0C_s32;
+    motion->unk_04.unk_04_s32 += motion->unk_10.unk_10_s32;
     func_800247A8();
     return;
 
@@ -432,21 +600,21 @@ state_2:
     if ((s16)timer > 0) {
         goto done;
     }
-    if (FIELD(caster_data, void *, 0x60) != 0) {
-        func_8009CE1C(FIELD(caster_data, void *, 0x60), 0x13,
-                      FIELD(owner, u8, 9), 2,
-                      FIELD(caster_data, s16, 0x2A), caster_data, state);
+    if (caster_data->unk_60 != 0) {
+        func_8009CE1C(caster_data->unk_60, 0x13,
+                      owner->unk_09, 2,
+                      caster_data->unk_2A.unk_2A_s16, caster_data, state);
     }
-    FIELD(owner, u16, 0x50) = 0x10;
-    FIELD(owner, u16, 0xA)++;
+    owner->unk_50.unk_50_u16 = 0x10;
+    owner->unk_0A.unk_0A_u16++;
     func_800247A8();
     return;
 
 state_3:
-    effect_flags = FIELD(owner, s16, 0x52);
-    flags = FIELD(owner, u16, 0x52);
+    effect_flags = owner->unk_52.unk_52_s16;
+    flags = owner->unk_52.unk_52_u16;
     if (effect_flags & 0x8000) {
-        FIELD(owner, u16, 0x52) = flags & 0x7FFF;
+        owner->unk_52.unk_52_u16 = flags & 0x7FFF;
         func_800247A8();
         return;
     }
@@ -455,7 +623,7 @@ state_3:
         goto done;
     }
     D_8008346C = 0;
-    FIELD(owner, u16, -2) |= 0x8000;
+    (*(u16 *)((u8 *)owner - 2)) |= 0x8000;
     D_800814A0 |= 0x8000;
     goto done;
 

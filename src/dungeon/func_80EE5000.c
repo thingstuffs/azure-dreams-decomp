@@ -1,10 +1,15 @@
 #include "common.h"
 
-#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
-
 typedef struct GridPoint {
-    s16 x;
-    s16 y;
+    union {
+        s16 x;
+        u8 unk_00;
+    } unk_00;
+    union {
+        s16 y;
+        u16 unk_02;
+        u8 unk_02_u8;
+    } unk_02;
 } GridPoint;
 
 typedef struct GridData {
@@ -15,6 +20,83 @@ typedef struct FlagBlock {
     s32 value;
     s32 pad[2];
 } FlagBlock;
+
+typedef struct S_func_80EE5000_0 {
+    u8 pad_00[0x2C];
+    s16 unk_2C;
+    s16 unk_2E;
+    u8 pad_30[4];
+    s16 unk_34;
+    s16 unk_36;
+    u8 pad_38[8];
+    void *unk_40;
+    u8 pad_44[0x18];
+    s8 unk_5C;
+    s8 unk_5D;
+    u8 pad_5E[0x0E];
+    s32 unk_6C;
+    s32 unk_70;
+    s32 unk_74;
+    s32 unk_78;
+    s32 unk_7C;
+    s32 unk_80;
+} S_func_80EE5000_0;
+
+typedef struct S_func_80EE5000_1 {
+    union {
+        s32 unk_00;
+        struct {
+            u8 pad_00[2];
+            union {
+                s16 unk_02;
+                u16 unk_02_u16;
+            } unk_02;
+        } unk_00_s16;
+    } unk_00;
+    union {
+        s32 unk_04;
+        struct {
+            u8 pad_04[2];
+            union {
+                s16 unk_06;
+                u16 unk_06_u16;
+            } unk_06;
+        } unk_04_s16;
+    } unk_04;
+    union {
+        s32 unk_08;
+        struct {
+            s16 unk_08;
+            s16 unk_0A;
+        } unk_08_s16;
+    } unk_08;
+    u8 pad_0C[2];
+    s16 unk_0E;
+    u8 pad_10[2];
+    s16 unk_12;
+    u8 pad_14[2];
+    s16 unk_16;
+} S_func_80EE5000_1;
+
+typedef struct S_func_80EE5000_2 {
+    u8 pad_00[6];
+    s16 unk_06;
+    s32 *unk_08;
+    u8 pad_0C[8];
+    u16 unk_14;
+    u8 pad_16[6];
+    u16 unk_1C;
+    u16 unk_1E;
+} S_func_80EE5000_2;
+
+typedef struct S_func_80EE5000_3 {
+    u8 pad_00[0xA4];
+    s16 unk_A4;
+} S_func_80EE5000_3;
+
+typedef struct S_func_80EE5000_4 {
+    u16 unk_00;
+} S_func_80EE5000_4;
 
 extern s32 func_800A45D8(u16, u16, s16);
 extern s32 func_800A7234(s8, s8, s16, s16 *, s16 *, s16 *);
@@ -49,14 +131,14 @@ __asm__(".globl func_8016A800\n"
 #define BODY_NAME func_8016A800
 #endif
 
-void BODY_NAME(void *motion, void *position, void *display)
+void BODY_NAME(S_func_80EE5000_0 *motion, S_func_80EE5000_1 *position, S_func_80EE5000_2 *display)
 #ifdef __mips__
     __attribute__((section(".text.func_8016A800")))
 #endif
 ;
 
 /* Updates motion, landing interpolation, and completion of a moving object. */
-void BODY_NAME(void *motion, void *position, void *display)
+void BODY_NAME(S_func_80EE5000_0 *motion, S_func_80EE5000_1 *position, S_func_80EE5000_2 *display)
 {
     s8 command[4];
     GridPoint grid[8];
@@ -76,21 +158,21 @@ void BODY_NAME(void *motion, void *position, void *display)
     __builtin_memcpy(grid, D_8016A808, 32);
 
 settle:
-    if (FIELD(motion, s16, 0x2C) != 1)
+    if (motion->unk_2C != 1)
         goto fall;
-    if (FIELD(motion, s16, 0x2E) != 0)
+    if (motion->unk_2E != 0)
         goto interpolate;
-    FIELD(motion, s16, 0x2E) = (s16)((u16)FIELD(motion, s16, 0x2E) + 1);
+    motion->unk_2E = (s16)((u16)motion->unk_2E + 1);
     {
         s32 abs_x;
         s32 abs_y;
         s32 map_y;
 
-        abs_x = FIELD(position, s16, 0x0E);
-        abs_y = FIELD(motion, s8, 0x5C);
-        map_y = FIELD(motion, s8, 0x5D);
+        abs_x = position->unk_0E;
+        abs_y = motion->unk_5C;
+        map_y = motion->unk_5D;
         abs_x -= abs_y;
-        abs_y = FIELD(position, s16, 0x12);
+        abs_y = position->unk_12;
         if (abs_x < 0)
             abs_x = -abs_x;
         abs_y -= map_y;
@@ -117,15 +199,15 @@ distance_four:
 max_duration:
     settle_frames = 16;
 set_duration:
-    FIELD(motion, s16, 0x36) = settle_frames;
+    motion->unk_36 = settle_frames;
 interpolate:
     {
         u32 countdown_raw;
         s32 countdown;
         s32 shifted_countdown;
 
-        countdown_raw = (u16)FIELD(motion, s16, 0x36) - 1;
-        FIELD(motion, s16, 0x36) = countdown_raw;
+        countdown_raw = (u16)motion->unk_36 - 1;
+        motion->unk_36 = countdown_raw;
         ASM_KEEP(countdown_raw);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         shifted_countdown = (s32)(countdown_raw << 16);
         countdown = shifted_countdown >> 16;
@@ -135,102 +217,102 @@ interpolate:
             register s32 interp_goal ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 interp_current;
 
-            interp_goal = FIELD(position, s16, 0x0E);
+            interp_goal = position->unk_0E;
             ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            interp_current = FIELD(position, s16, 2) - 32;
+            interp_current = position->unk_00.unk_00_s16.unk_02.unk_02 - 32;
             interp_goal =
                 (interp_goal * 64 - interp_current) / countdown;
-            FIELD(position, s16, 2) += interp_goal;
+            position->unk_00.unk_00_s16.unk_02.unk_02 += interp_goal;
 
-            interp_goal = FIELD(position, s16, 0x12);
+            interp_goal = position->unk_12;
             ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            interp_current = FIELD(position, s16, 6);
-            countdown = FIELD(motion, s16, 0x36);
+            interp_current = position->unk_04.unk_04_s16.unk_06.unk_06;
+            countdown = motion->unk_36;
             ASM_KEEP(countdown);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             interp_goal = interp_goal * 64;
             interp_current -= 32;
             interp_goal -= interp_current;
             interp_goal /= countdown;
 
-            interp_current = FIELD(position, u16, 6);
-            countdown = FIELD(position, s16, 0x0A);
+            interp_current = position->unk_04.unk_04_s16.unk_06.unk_06_u16;
+            countdown = position->unk_08.unk_08_s16.unk_0A;
             interp_current += interp_goal;
 
-            interp_goal = FIELD(position, s16, 0x16);
-            FIELD(position, s16, 6) = interp_current;
+            interp_goal = position->unk_16;
+            position->unk_04.unk_04_s16.unk_06.unk_06 = interp_current;
             interp_goal = (interp_goal - countdown) /
-                (s16)FIELD(motion, s16, 0x36);
-            FIELD(position, s16, 0x0A) += interp_goal;
+                (s16)motion->unk_36;
+            position->unk_08.unk_08_s16.unk_0A += interp_goal;
         }
     }
 check_settled:
-    if ((s16)FIELD(motion, s16, 0x36) > 0)
+    if ((s16)motion->unk_36 > 0)
         goto repeat_settle;
     command[0] = 6;
     command[1] = 12;
     command[2] = 0;
     command[3] = 0;
-    func_800A7A7C(FIELD(position, s16, 0x0E), FIELD(position, s16, 0x12),
-                  FIELD(position, s16, 0x16), FIELD(display, s32 *, 8), command);
+    func_800A7A7C(position->unk_0E, position->unk_12,
+                  position->unk_16, display->unk_08, command);
     goto finish;
 repeat_settle:
-    if (FIELD(display, u16, 0x14) & 0x8000)
+    if (display->unk_14 & 0x8000)
         goto settle;
 
 fall:
-    if (FIELD(motion, s16, 0x2C) != 2)
+    if (motion->unk_2C != 2)
         goto move;
-    FIELD(position, s32, 8) += FIELD(motion, s32, 0x74);
-    FIELD(motion, s32, 0x74) += FIELD(motion, s32, 0x80);
-    scale = FIELD(display, u16, 0x1E) - 0xC8;
-    FIELD(display, u16, 0x1E) = scale;
-    FIELD(display, u16, 0x1C) = scale;
-    fall_height = FIELD(position, s16, 0x0A);
-    if (func_800BCB04((FIELD(motion, s8, 0x5C) << 6) & 0xFFC0,
-                      (FIELD(motion, s8, 0x5D) << 6) & 0xFFC0,
-                      (s16)((u16)FIELD(position, s16, 0x0A) - 0x20)) - 7 >=
+    position->unk_08.unk_08 += motion->unk_74;
+    motion->unk_74 += motion->unk_80;
+    scale = display->unk_1E - 0xC8;
+    display->unk_1E = scale;
+    display->unk_1C = scale;
+    fall_height = position->unk_08.unk_08_s16.unk_0A;
+    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0,
+                      (motion->unk_5D << 6) & 0xFFC0,
+                      (s16)((u16)position->unk_08.unk_08_s16.unk_0A - 0x20)) - 7 >=
         fall_height)
         goto repeat_fall;
-    FIELD(position, s16, 0x0A) = func_800BCB04(
-        (FIELD(motion, s8, 0x5C) << 6) & 0xFFC0,
-        (FIELD(motion, s8, 0x5D) << 6) & 0xFFC0,
-        (s16)((u16)FIELD(position, s16, 0x0A) - 0x20));
-    FIELD(position, s16, 8) = 0;
+    position->unk_08.unk_08_s16.unk_0A = func_800BCB04(
+        (motion->unk_5C << 6) & 0xFFC0,
+        (motion->unk_5D << 6) & 0xFFC0,
+        (s16)((u16)position->unk_08.unk_08_s16.unk_0A - 0x20));
+    position->unk_08.unk_08_s16.unk_08 = 0;
 finish:
-    FIELD(FIELD(motion, void **, 0x40), s16, 0xA4) = 0;
-    FIELD(motion, u16, -2) |= 0x8000;
+    ((S_func_80EE5000_3 *)motion->unk_40)->unk_A4 = 0;
+    ((S_func_80EE5000_4 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
     D_800814A0.value |= 0x8000;
     goto epilogue;
 repeat_fall:
-    if (FIELD(display, u16, 0x14) & 0x8000)
+    if (display->unk_14 & 0x8000)
         goto fall;
 
 move:
     grid_base = grid;
-    if (FIELD(motion, s16, 0x2C) != 0)
+    if (motion->unk_2C != 0)
         goto epilogue;
-    FIELD(position, s32, 0) += FIELD(motion, s32, 0x6C);
-    FIELD(motion, s32, 0x6C) += FIELD(motion, s32, 0x78);
-    FIELD(position, s32, 4) += FIELD(motion, s32, 0x70);
+    position->unk_00.unk_00 += motion->unk_6C;
+    motion->unk_6C += motion->unk_78;
+    position->unk_04.unk_04 += motion->unk_70;
     {
         s32 coord;
         register s32 map_sum ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 rounded;
         GridPoint *point;
 
-        coord = FIELD(motion, s32, 0x70);
-        map_sum = FIELD(motion, s16, 0x34);
+        coord = motion->unk_70;
+        map_sum = motion->unk_34;
         ASM_KEEP(map_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        rounded = FIELD(motion, s32, 0x7C);
+        rounded = motion->unk_7C;
         ASM_KEEP(rounded);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         point = &grid_base[map_sum];
         ASM_KEEP(point);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        map_sum = FIELD(motion, s8, 0x5C);
+        map_sum = motion->unk_5C;
         coord += rounded;
-        FIELD(motion, s32, 0x70) = coord;
+        motion->unk_70 = coord;
 
-        coord = point->x;
-        rounded = FIELD(position, s16, 2);
+        coord = point->unk_00.x;
+        rounded = position->unk_00.unk_00_s16.unk_02.unk_02;
         map_sum += coord;
         if (rounded < 0)
             rounded += 0x3F;
@@ -238,9 +320,9 @@ move:
         if (map_sum != coord)
             goto update_height;
 
-        coord = FIELD(point, u16, 2);
-        rounded = FIELD(position, s16, 6);
-        map_sum = FIELD(motion, s8, 0x5D);
+        coord = point->unk_02.unk_02;
+        rounded = position->unk_04.unk_04_s16.unk_06.unk_06;
+        map_sum = motion->unk_5D;
         ASM_KEEP(map_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord = (s16)coord;
         map_sum += coord;
@@ -250,56 +332,56 @@ move:
         if (map_sum != coord)
             goto update_height;
     }
-    if ((func_800A45D8(FIELD(position, u16, 2), FIELD(position, u16, 6),
-                       FIELD(position, s16, 0x0A)) << 16) != 0)
+    if ((func_800A45D8(position->unk_00.unk_00_s16.unk_02.unk_02_u16, position->unk_04.unk_04_s16.unk_06.unk_06_u16,
+                       position->unk_08.unk_08_s16.unk_0A) << 16) != 0)
         goto stop_horizontal;
-    if (func_800BCB04(FIELD(position, u16, 2), FIELD(position, u16, 6),
-                      FIELD(position, s16, 0x0A)) < 0x200)
+    if (func_800BCB04(position->unk_00.unk_00_s16.unk_02.unk_02_u16, position->unk_04.unk_04_s16.unk_06.unk_06_u16,
+                      position->unk_08.unk_08_s16.unk_0A) < 0x200)
         goto advance_tile;
 stop_horizontal:
-    FIELD(position, s32, 0) -= FIELD(motion, s32, 0x6C);
-    FIELD(motion, s32, 0x6C) = 0;
-    FIELD(motion, s32, 0x78) = 0;
-    FIELD(position, s32, 4) -= FIELD(motion, s32, 0x70);
-    FIELD(motion, s32, 0x70) = 0;
-    FIELD(motion, s32, 0x7C) = 0;
+    position->unk_00.unk_00 -= motion->unk_6C;
+    motion->unk_6C = 0;
+    motion->unk_78 = 0;
+    position->unk_04.unk_04 -= motion->unk_70;
+    motion->unk_70 = 0;
+    motion->unk_7C = 0;
     goto clear_movement;
 advance_tile:
-    FIELD(motion, s8, 0x5C) +=
-        FIELD((u8 *)grid_base + (FIELD(motion, s16, 0x34) << 2), u8, 0);
-    FIELD(motion, s8, 0x5D) +=
-        FIELD((u8 *)grid_base + (FIELD(motion, s16, 0x34) << 2), u8, 2);
+    motion->unk_5C +=
+        ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_00.unk_00;
+    motion->unk_5D +=
+        ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_02.unk_02_u8;
 clear_movement:
-    FIELD(display, s16, 6) = 0;
+    display->unk_06 = 0;
 update_height:
-    FIELD(position, s32, 8) += FIELD(motion, s32, 0x74);
-    FIELD(motion, s32, 0x74) += FIELD(motion, s32, 0x80);
-    move_height = FIELD(position, s16, 0x0A);
-    if (func_800BCB04((FIELD(motion, s8, 0x5C) << 6) & 0xFFC0,
-                      (FIELD(motion, s8, 0x5D) << 6) & 0xFFC0,
-                      (s16)((u16)FIELD(position, s16, 0x0A) - 0x20)) - 0x10 >=
+    position->unk_08.unk_08 += motion->unk_74;
+    motion->unk_74 += motion->unk_80;
+    move_height = position->unk_08.unk_08_s16.unk_0A;
+    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0,
+                      (motion->unk_5D << 6) & 0xFFC0,
+                      (s16)((u16)position->unk_08.unk_08_s16.unk_0A - 0x20)) - 0x10 >=
         move_height)
         goto repeat_move;
-    FIELD(position, s16, 0x0A) = func_800BCB04(
-        (FIELD(motion, s8, 0x5C) << 6) & 0xFFC0,
-        (FIELD(motion, s8, 0x5D) << 6) & 0xFFC0,
-        (s16)((u16)FIELD(position, s16, 0x0A) - 0x20));
-    FIELD(position, s16, 8) = 0;
-    FIELD(motion, s32, 0x7C) = 0;
-    FIELD(motion, s32, 0x70) = 0;
-    FIELD(motion, s32, 0x78) = 0;
-    FIELD(motion, s32, 0x6C) = 0;
-    FIELD(motion, s16, 0x2C) = (s16)((u16)FIELD(motion, s16, 0x2C) + 1);
-    if ((func_800A7234(FIELD(motion, s8, 0x5C), FIELD(motion, s8, 0x5D),
-                       (s16)((u16)FIELD(position, s16, 0x0A) - 0x20),
-                       &FIELD(position, s16, 0x0E), &FIELD(position, s16, 0x12),
-                       &FIELD(position, s16, 0x16)) << 16) != 0)
+    position->unk_08.unk_08_s16.unk_0A = func_800BCB04(
+        (motion->unk_5C << 6) & 0xFFC0,
+        (motion->unk_5D << 6) & 0xFFC0,
+        (s16)((u16)position->unk_08.unk_08_s16.unk_0A - 0x20));
+    position->unk_08.unk_08_s16.unk_08 = 0;
+    motion->unk_7C = 0;
+    motion->unk_70 = 0;
+    motion->unk_78 = 0;
+    motion->unk_6C = 0;
+    motion->unk_2C = (s16)((u16)motion->unk_2C + 1);
+    if ((func_800A7234(motion->unk_5C, motion->unk_5D,
+                       (s16)((u16)position->unk_08.unk_08_s16.unk_0A - 0x20),
+                       &position->unk_0E, &position->unk_12,
+                       &position->unk_16) << 16) != 0)
         goto epilogue;
-    FIELD(motion, s16, 0x2C) = 2;
-    FIELD(motion, s32, 0x74) = (s32)0xFFF80000;
+    motion->unk_2C = 2;
+    motion->unk_74 = (s32)0xFFF80000;
     goto epilogue;
 repeat_move:
-    if (FIELD(display, u16, 0x14) & 0x8000)
+    if (display->unk_14 & 0x8000)
         goto move;
 epilogue:
     return;

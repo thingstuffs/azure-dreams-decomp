@@ -1,6 +1,39 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
+typedef struct S_func_801728C4_0 {
+    u8 pad_00[0x8C];
+    void *unk_8C;
+    u8 pad_90[0x6];
+    u16 unk_96;
+    u8 pad_98[0x3];
+    u8 unk_9B;
+} S_func_801728C4_0;
+
+typedef struct S_func_801728C4_1 {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_func_801728C4_1;
+
+typedef struct S_func_801728C4_2 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x6];
+    void *unk_2C;
+} S_func_801728C4_2;
+
+typedef struct S_func_801728C4_3 {
+    u8 pad_00[0x2A];
+    s16 unk_2A;
+    u8 pad_2C[0x1A];
+    u16 unk_46;
+    u8 pad_48[0x25];
+    s8 unk_6D;
+} S_func_801728C4_3;
 
 extern s16 D_80083228;
 extern s32 D_8008346C;
@@ -16,17 +49,17 @@ void func_800A56E0(s32);
 void func_800AD594(void *, s32);
 
 /* Advance the actor action through animation setup, delay, and completion. */
-void func_801728C4(void *action, void *motion, void *animation, void *actor_data) {
-    register u8 *actor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+void func_801728C4(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_801728C4_2 *animation, void *actor_data) {
+    register S_func_801728C4_3 *actor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     u16 delay_ticks;
     u8 next_state;
     s32 state;
 
     actor = actor_data;
-    state = FIELD(action, u8 *, 0x9B);
+    state = action->unk_9B;
     switch (state) {
         case 0:
-            FIELD(action, u8 *, 0x9B) = 1;
+            action->unk_9B = 1;
         case 1:
             goto state_1;
         case 2:
@@ -38,52 +71,52 @@ void func_801728C4(void *action, void *motion, void *animation, void *actor_data
     }
 
 state_1:
-    if (FIELD(animation, u16 *, 0x14) & 0x8000) {
-        FIELD(action, u8 *, 0x9B) = 3;
-        FIELD(animation, u16 *, 0x14) |= 0x6000;
-        func_8009C12C(actor, animation, FIELD(actor, s16 *, 0x2A), 1);
+    if (animation->unk_14 & 0x8000) {
+        action->unk_9B = 3;
+        animation->unk_14 |= 0x6000;
+        func_8009C12C(actor, animation, actor->unk_2A, 1);
         goto end;
     }
-    FIELD(motion, s32 *, 0x14) = 0;
-    FIELD(motion, s32 *, 0x10) = 0;
-    FIELD(motion, s32 *, 0xC) = 0;
-    FIELD(animation, void **, 0x2C) = D_80173D58;
+    motion->unk_14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    *(void **)((u8 *)animation + 0x2C) = D_80173D58;
     func_80047784(animation,
-        D_80173D58[((D_80083228 + FIELD(actor, s16 *, 0x2A) + 0x100) >> 9) & 7],
+        D_80173D58[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
         0);
-    next_state = FIELD(action, u8 *, 0x9B);
-    FIELD(action, u16 *, 0x96) = 0;
+    next_state = action->unk_9B;
+    action->unk_96 = 0;
     goto increment_state;
 
 state_2:
-    delay_ticks = FIELD(action, u16 *, 0x96) + 1;
-    FIELD(action, u16 *, 0x96) = delay_ticks;
+    delay_ticks = action->unk_96 + 1;
+    action->unk_96 = delay_ticks;
     if ((s16)delay_ticks != 2) {
         goto end;
     }
     func_800A56E0(0x804);
-    func_8009C12C(actor, animation, FIELD(actor, s16 *, 0x2A), 1);
-    next_state = FIELD(action, u8 *, 0x9B);
+    func_8009C12C(actor, animation, actor->unk_2A, 1);
+    next_state = action->unk_9B;
 
 increment_state:
     next_state++;
-    FIELD(action, u8 *, 0x9B) = next_state;
+    action->unk_9B = next_state;
     goto end;
 
 state_3:
-    if (!(FIELD(animation, u16 *, 0x14) & 0xE000)) {
+    if (!(animation->unk_14 & 0xE000)) {
         goto end;
     }
-    func_800A2B04(motion, FIELD(animation, u8 *, 0x24), FIELD(animation, u8 *, 0x25));
+    func_800A2B04(motion, animation->unk_24, animation->unk_25);
     func_800AD594(actor, 0x100);
-    FIELD(action, void **, 0x8C) = D_80170F74;
+    action->unk_8C = D_80170F74;
     D_8008346C = 0;
     func_800A4ACC(actor);
-    if (FIELD(actor, s8 *, 0x6D) == 0) {
-        FIELD(actor, u16 *, 0x46) &= 0x7FFF;
+    if (actor->unk_6D == 0) {
+        actor->unk_46 &= 0x7FFF;
         goto end;
     }
-    D_800E3DE8 = actor - 0x20;
+    D_800E3DE8 = (u8 *)actor - 0x20;
     ASM_USE(actor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
 end:

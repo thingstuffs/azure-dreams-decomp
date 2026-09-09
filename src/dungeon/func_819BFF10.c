@@ -1,6 +1,28 @@
 #include "common.h"
 
-#define FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))
+typedef struct S_func_819BFF10_0 {
+    u8 pad_00[0x8];
+    void *unk_08;
+    void *unk_0C;
+    u8 pad_10[0xE];
+    u16 unk_1E;
+} S_func_819BFF10_0;
+
+typedef struct S_func_819BFF10_1 {
+    u8 pad_00[0x5C];
+    s32 unk_5C;
+} S_func_819BFF10_1;
+
+typedef struct S_func_819BFF10_2 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_func_819BFF10_2;
+
+typedef struct S_func_819BFF10_3 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_func_819BFF10_3;
 
 extern s32 func_80024AE8();
 
@@ -12,40 +34,40 @@ void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s32 lower_bou
     s32 lower_limit;
     s16 threshold;
     u16 flags;
-    void *range_data;
-    void *position_data;
+    S_func_819BFF10_2 *range_data;
+    S_func_819BFF10_3 *position_data;
     register void *next_entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    void *entry;
-    void *list_link;
+    S_func_819BFF10_0 *entry;
+    S_func_819BFF10_1 *list_link;
     register void *head ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     list_link = list_head;
     head = list_link;
-    next_entry = FIELD(list_link, s32 *, 0x5C);
+    next_entry = list_link->unk_5C;
     list_link = next_entry + 0x20;
     if (list_link != head) {
         ASM_KEEP(list_link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         upper_limit = (s16)upper_bound;
         lower_limit = (s16)lower_bound;
-        entry = list_link - 0x20;
+        entry = (void *)list_link - 0x20;
         do {
-            position_data = FIELD(list_link, void **, -0x14);
-            range_data = FIELD(entry, void **, 8);
-            if ((FIELD(position_data, u8 *, 0x24) == (match_x & 0xFFFF)) &&
-                (FIELD(position_data, u8 *, 0x25) == (match_y & 0xFFFF))) {
-                threshold = FIELD(range_data, s16 *, 0xA);
+            position_data = ((S_func_819BFF10_0 *)((u8 *)list_link - 0x20))->unk_0C;
+            range_data = entry->unk_08;
+            if ((position_data->unk_24 == (match_x & 0xFFFF)) &&
+                (position_data->unk_25 == (match_y & 0xFFFF))) {
+                threshold = range_data->unk_0A;
                 if ((upper_limit >= threshold) && (lower_limit < threshold)) {
-                    flags = FIELD(entry, u16 *, 0x1E);
+                    flags = entry->unk_1E;
                     if (!(flags & 0x2000)) {
-                        FIELD(entry, u16 *, 0x1E) = flags | 0x2000;
+                        entry->unk_1E = flags | 0x2000;
                         func_80024AE8(entry, range_data, position_data);
                     }
                 }
             }
-            next_entry = FIELD(list_link, s32 *, 0x5C);
+            next_entry = list_link->unk_5C;
             list_link = next_entry + 0x20;
             ASM_KEEP(list_link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            entry = list_link - 0x20;
+            entry = (void *)list_link - 0x20;
         } while (list_link != head);
     }
 }

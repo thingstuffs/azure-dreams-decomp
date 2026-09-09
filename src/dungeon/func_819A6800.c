@@ -1,6 +1,112 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
+typedef struct S_func_819A6800_1 {
+    void *unk_00;
+    void *unk_04;
+    u8 unk_08;
+    u8 unk_09;
+    union { s16 s; u16 u; } unk_0A;
+    u8 pad_0C[0x44];
+    union { s16 s; u16 u; } unk_50;
+    union { s16 s; u16 u; } unk_52;
+} S_func_819A6800_1;
+
+typedef struct S_func_819A6800_2 {
+    u8 pad_00[8];
+    void *unk_08;
+    void *unk_0C;
+    void *unk_10;
+    u8 pad_14[0x0C];
+    void *unk_20;
+    u8 unk_24;
+    u8 unk_25;
+} S_func_819A6800_2;
+
+typedef struct S_func_819A6800_3 {
+    u8 pad_00[0x60];
+    union { void *p; u32 u; } unk_60;
+    u8 pad_64[0x0E];
+    u8 unk_72;
+    u8 unk_73;
+} S_func_819A6800_3;
+
+typedef struct S_func_819A6800_4 {
+    u8 pad_00[0x2A];
+    s16 unk_2A;
+    u8 pad_2C[0x7A];
+    u16 unk_A6;
+    u8 unk_A8;
+    u8 pad_A9[0x4B];
+    volatile u32 unk_F4;
+    u8 pad_F8[0x0A];
+    u8 unk_102;
+} S_func_819A6800_4;
+
+typedef struct S_func_819A6800_5 {
+    union {
+        u32 u;
+        s32 s;
+        struct { u8 pad_00[2]; u16 unk_02; } h;
+    } unk_00;
+    union {
+        u32 u;
+        s32 s;
+        struct { u8 pad_04[2]; u16 unk_06; } h;
+    } unk_04;
+    union {
+        u32 u;
+        s32 s;
+        struct { u8 pad_08[2]; u16 unk_0A; } h;
+    } unk_08;
+} S_func_819A6800_5;
+
+typedef struct S_func_819A6800_6 {
+    u16 unk_00;
+} S_func_819A6800_6;
+
+typedef struct S_func_819A6800_7 {
+    u8 pad_00[0x0C];
+    u16 unk_0C;
+    u16 unk_0E;
+    u16 unk_10;
+    u8 pad_12[0x1E];
+    u16 unk_30;
+    u16 unk_32;
+    u32 unk_34;
+    u32 unk_38;
+    u16 unk_3C;
+    u16 unk_3E;
+    u16 unk_40;
+    u16 unk_42;
+    u8 pad_44[8];
+    u16 unk_4C;
+} S_func_819A6800_7;
+
+typedef struct S_func_819A6800_8 {
+    void *unk_00;
+    u8 unk_04;
+    u8 unk_05;
+    u8 pad_06[2];
+    u32 unk_08;
+    u32 unk_0C;
+    u16 unk_10;
+    u8 pad_12[2];
+    u16 unk_14;
+    u8 pad_16[6];
+    u16 unk_1C;
+    u16 unk_1E;
+} S_func_819A6800_8;
+
+typedef struct S_func_819A6800_9 {
+    u8 pad_00[4];
+    u32 unk_04;
+} S_func_819A6800_9;
+
+typedef struct S_func_819A6800_10 {
+    u8 pad_00[0x0A];
+    u16 unk_0A;
+    u32 unk_0C;
+} S_func_819A6800_10;
 
 extern void *D_80024008[];
 extern u8 D_800814A8[16];
@@ -57,10 +163,10 @@ void FUNC_819A6800_BODY(void *, void *)
 /* Runs a timed object creation sequence with visual effects and final cleanup. */
 void FUNC_819A6800_BODY(void *sequence, void *out_position)
 {
-    u8 *self = (u8 *)sequence;
-    register u8 *owner ASM_REG("$18") = FIELD(self, u8 *, 0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *record = FIELD(owner, u8 *, -0x14);
-    register u8 *owner_object ASM_REG("$16") = owner - 0x20;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_819A6800_1 *self = (S_func_819A6800_1 *)sequence;
+    register S_func_819A6800_3 *owner ASM_REG("$18") = self->unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_819A6800_2 *record = ((S_func_819A6800_2 *)((u8 *)owner - 0x20))->unk_0C;
+    register S_func_819A6800_2 *owner_object ASM_REG("$16") = (S_func_819A6800_2 *)((u8 *)owner - 0x20);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 timer;
     s32 state;
     static void *const state_labels[] = {
@@ -72,9 +178,9 @@ void FUNC_819A6800_BODY(void *sequence, void *out_position)
         &&advance_state,
     };
 
-    timer = FIELD(self, u16, 0x50) - 1;
-    state = FIELD(self, s16, 0x0A);
-    FIELD(self, u16, 0x50) = timer;
+    timer = self->unk_50.u - 1;
+    state = self->unk_0A.s;
+    self->unk_50.u = timer;
     if ((u32)state >= 6U) {
         goto return_done;
     }
@@ -83,93 +189,93 @@ void FUNC_819A6800_BODY(void *sequence, void *out_position)
 
 state2:
     {
-        void *new_object;
-        void *counter_object;
+        S_func_819A6800_2 *new_object;
+        S_func_819A6800_4 *counter_object;
         s16 position_offset[3];
-        u8 *effect_data;
-        register u8 *sprite ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        S_func_819A6800_7 *effect_data;
+        register S_func_819A6800_8 *sprite ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         u8 *global_slot = (u8 *)&D_800814A0[2];
-        void *global_object = *(void **)global_slot;
-        void *reloaded_object;
-        FIELD(global_object, u8, 0x102) = 1;
+        S_func_819A6800_4 *global_object = *(void **)global_slot;
+        S_func_819A6800_4 *reloaded_object;
+        global_object->unk_102 = 1;
         reloaded_object = *(void * volatile *)global_slot;
-        FIELD(reloaded_object, volatile u32, 0xF4) = 0;
+        reloaded_object->unk_F4 = 0;
 
-        FIELD(out_position, u32, 0) = FIELD(FIELD(owner_object, void *, 8), u32, 0);
-        FIELD(out_position, u32, 4) = FIELD(FIELD(owner_object, void *, 8), u32, 4);
-        FIELD(out_position, u32, 8) = FIELD(FIELD(owner_object, void *, 8), u32, 8);
+        ((S_func_819A6800_5 *)(out_position))->unk_00.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.u;
+        ((S_func_819A6800_5 *)(out_position))->unk_04.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.u;
+        ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
         new_object = func_800A05A4(reloaded_object,
                                 D_80082E80[0x24],
                                 D_80082E80[0x25],
-                                FIELD(reloaded_object, s16, 0x2A),
+                                reloaded_object->unk_2A,
                                 7);
-        FIELD(owner, void *, 0x60) = new_object;
+        owner->unk_60.p = new_object;
         if (new_object == 0) {
-            FIELD(owner, u8, 0x72) = FIELD(record, u8, 0x24);
-            FIELD(owner, u8, 0x73) = FIELD(record, u8, 0x25);
+            owner->unk_72 = record->unk_24;
+            owner->unk_73 = record->unk_25;
             return func_8002413C();
         } else {
-            register u8 *created_record ASM_REG("$6") =
-                FIELD(new_object, u8 *, -0x14);
-            FIELD(owner, u8, 0x72) = FIELD(created_record, u8, 0x24);
-            FIELD(owner, u8, 0x73) = FIELD(created_record, u8, 0x25);
+            register S_func_819A6800_2 *created_record ASM_REG("$6") =
+                ((S_func_819A6800_2 *)((u8 *)new_object - 0x20))->unk_0C;
+            owner->unk_72 = created_record->unk_24;
+            owner->unk_73 = created_record->unk_25;
         }
 
-        FIELD(self, volatile u16, 0x0A)++;
-        if ((FIELD(FIELD(self, void * volatile, 4), u16, 0) & 0x80) == 0) {
+        ((volatile S_func_819A6800_1 *)(self))->unk_0A.u++;
+        if ((((S_func_819A6800_6 *)(((volatile S_func_819A6800_1 *)(self))->unk_04))->unk_00 & 0x80) == 0) {
             goto return_done;
         }
 
         counter_object = GLOBAL_OBJECT;
-        FIELD(self, u16, 0x50) = 10;
-        FIELD(counter_object, u16, 0xA6)--;
-        FIELD(counter_object, u8, 0xA8) = FIELD(self, u8, 8);
+        self->unk_50.u = 10;
+        counter_object->unk_A6--;
+        counter_object->unk_A8 = self->unk_08;
         new_object = func_8003FD64(0x312, D_80083498);
         record = new_object;
         if (record == 0) {
             goto advance_state;
         }
 
-        if (func_8003DE58(FIELD(FIELD(owner_object, void *, 0x0C), void *, 8),
-                          FIELD(owner_object, void *, 0x0C), position_offset, 0) == 0) {
+        if (func_8003DE58(((S_func_819A6800_2 *)(owner_object->unk_0C))->unk_08,
+                          owner_object->unk_0C, position_offset, 0) == 0) {
             position_offset[2] = 0;
             position_offset[1] = 0;
             position_offset[0] = 0;
         }
-        FIELD(record, void *, 0x10) = D_800244BC;
+        record->unk_10 = D_800244BC;
         func_8004491C(record, D_80045340);
-        sprite = FIELD(record, u8 *, 0x0C);
+        sprite = record->unk_0C;
 
-        FIELD(FIELD(record, void *, 8), s32, 0) =
-            FIELD(FIELD(owner_object, void *, 8), s32, 0) + ((s32)position_offset[0] << 16);
-        FIELD(FIELD(record, void *, 8), s32, 4) =
-            FIELD(FIELD(owner_object, void *, 8), s32, 4) + ((s32)position_offset[1] << 16);
-        FIELD(FIELD(record, void *, 8), s32, 8) =
-            FIELD(FIELD(owner_object, void *, 8), s32, 8) + ((s32)position_offset[2] << 16);
+        ((S_func_819A6800_5 *)(record->unk_08))->unk_00.s =
+            ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.s + ((s32)position_offset[0] << 16);
+        ((S_func_819A6800_5 *)(record->unk_08))->unk_04.s =
+            ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.s + ((s32)position_offset[1] << 16);
+        ((S_func_819A6800_5 *)(record->unk_08))->unk_08.s =
+            ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.s + ((s32)position_offset[2] << 16);
 
-        effect_data = record + 0x20;
-        FIELD(effect_data, u16, 0x0C) = FIELD(FIELD(record, void *, 8), u16, 2);
-        FIELD(effect_data, u16, 0x0E) = FIELD(FIELD(record, void *, 8), u16, 6);
-        FIELD(effect_data, u16, 0x10) = FIELD(FIELD(record, void *, 8), u16, 0x0A);
+        effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
+        effect_data->unk_0C = ((S_func_819A6800_5 *)(record->unk_08))->unk_00.h.unk_02;
+        effect_data->unk_0E = ((S_func_819A6800_5 *)(record->unk_08))->unk_04.h.unk_06;
+        effect_data->unk_10 = ((S_func_819A6800_5 *)(record->unk_08))->unk_08.h.unk_0A;
 
-        FIELD(sprite, u16, 0x1E) = 0x1000;
-        FIELD(sprite, u16, 0x1C) = 0x1000;
-        FIELD(sprite, u16, 0x10) = 0x20;
-        FIELD(sprite, u16, 0x14) |= 0x0C;
-        FIELD(sprite, void *, 0) = D_800DEE38;
-        FIELD(sprite, u32, 8) = FIELD(D_800DEE38, u32, 4);
-        FIELD(sprite, u8, 4) = 0;
-        FIELD(sprite, u8, 5) = 0;
-        FIELD(sprite, u32, 0x0C) = 0x00606060;
-        FIELD(record, void *, 0x20) = self;
-        FIELD(effect_data, u16, 0x4C) = 0;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_10 = 0x20;
+        sprite->unk_14 |= 0x0C;
+        sprite->unk_00 = D_800DEE38;
+        sprite->unk_08 = ((S_func_819A6800_9 *)(D_800DEE38))->unk_04;
+        sprite->unk_04 = 0;
+        sprite->unk_05 = 0;
+        sprite->unk_0C = 0x00606060;
+        record->unk_20 = self;
+        effect_data->unk_4C = 0;
     }
     return func_80024434();
 
 state4:
-    if ((s16)FIELD(self, u16, 0x50) > 0) {
+    if ((s16)self->unk_50.u > 0) {
         goto return_done;
     }
     {
@@ -182,86 +288,86 @@ state4:
         func_800A56E0(mode);
     }
     {
-        u16 unused_state = FIELD(self, u16, 0x0A);
+        u16 unused_state = self->unk_0A.u;
         register u16 timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(unused_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         timer = 10;
-        FIELD(self, u16, 0x50) = timer;
+        self->unk_50.u = timer;
     }
     return func_80024438();
 
 state5:
     {
-        s16 timer_left = FIELD(self, s16, 0x50);
+        s16 timer_left = self->unk_50.s;
         if (timer_left == 7) {
-            if (FIELD(owner, void *, 0x60) != 0) {
-                void *new_object = func_8003FD64(0x302, D_80083498);
+            if (owner->unk_60.p != 0) {
+                S_func_819A6800_2 *new_object = func_8003FD64(0x302, D_80083498);
                 if (new_object != 0) {
-                    u8 *effect_data = (u8 *)new_object + 0x20;
+                    S_func_819A6800_7 *effect_data = (S_func_819A6800_7 *)((u8 *)new_object + 0x20);
                     u32 target_object;
-                    FIELD(new_object, void *, 0x10) = D_80024810;
+                    new_object->unk_10 = D_80024810;
                     func_8004491C(new_object, D_80024B20);
-                    target_object = FIELD(owner, u32, 0x60);
-                    FIELD(effect_data, u16, 0x3C) = 0;
-                    FIELD(effect_data, u16, 0x3E) = 0;
-                    FIELD(effect_data, u16, 0x32) = 0x1F;
-                    FIELD(effect_data, u16, 0x30) = 0x1F;
-                    FIELD(effect_data, u32, 0x34) = target_object;
-                    FIELD(effect_data, u16, 0x40) = func_80066460(0, 1, 0x2C0, 0x100);
-                    FIELD(effect_data, u16, 0x42) = func_8006649C(0x60, 0x1F8);
-                    FIELD(effect_data, u32, 0x38) = 0x00404040;
-                    FIELD(new_object, void *, 0x20) = self;
+                    target_object = owner->unk_60.u;
+                    effect_data->unk_3C = 0;
+                    effect_data->unk_3E = 0;
+                    effect_data->unk_32 = 0x1F;
+                    effect_data->unk_30 = 0x1F;
+                    effect_data->unk_34 = target_object;
+                    effect_data->unk_40 = func_80066460(0, 1, 0x2C0, 0x100);
+                    effect_data->unk_42 = func_8006649C(0x60, 0x1F8);
+                    effect_data->unk_38 = 0x00404040;
+                    new_object->unk_20 = self;
                 }
             }
         }
     }
-    if (FIELD(self, s16, 0x50) == 4) {
-        func_8009CE1C(FIELD(owner, void *, 0x60),
+    if (self->unk_50.s == 4) {
+        func_8009CE1C(owner->unk_60.p,
                       10,
-                      FIELD(self, u8, 9),
+                      self->unk_09,
                       12,
-                      FIELD(GLOBAL_OBJECT, s16, 0x2A),
+                      ((S_func_819A6800_4 *)(GLOBAL_OBJECT))->unk_2A,
                       owner,
                       2);
     }
-    if ((FIELD(D_80082E94, u16, 0) & 0x8000) == 0 &&
-        FIELD(self, s16, 0x50) >= 0) {
+    if ((D_80082E94[0] & 0x8000) == 0 &&
+        self->unk_50.s >= 0) {
         goto return_done;
     }
     {
         u16 unused_state;
         register u16 cleanup_delay ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        unused_state = FIELD(self, u16, 0x0A);
+        unused_state = self->unk_0A.u;
         ASM_KEEP(unused_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         cleanup_delay = 20;
-        FIELD(self, u16, 0x50) = cleanup_delay;
+        self->unk_50.u = cleanup_delay;
     }
     return func_80024438();
 
 state6:
-    if ((s16)FIELD(self, u16, 0x50) > 0) {
+    if ((s16)self->unk_50.u > 0) {
         goto return_done;
     }
 
 advance_state:
-    FIELD(self, u16, 0x0A)++;
+    self->unk_0A.u++;
     return func_8002449C();
 
 state7:
     {
-        s16 signed_flags = FIELD(self, s16, 0x52);
-        u16 flags = FIELD(self, u16, 0x52);
+        s16 signed_flags = self->unk_52.s;
+        u16 flags = self->unk_52.u;
         if ((signed_flags & 0x8000) != 0) {
-            FIELD(self, u16, 0x52) = flags & 0x7FFF;
+            self->unk_52.u = flags & 0x7FFF;
             return func_8002449C();
         }
     }
     {
-        u8 *globals = D_80083460;
-        FIELD(globals, u32, 0x0C) = 0;
-        FIELD(globals, u16, 0x0A)--;
+        S_func_819A6800_10 *globals = (S_func_819A6800_10 *)D_80083460;
+        globals->unk_0C = 0;
+        globals->unk_0A--;
     }
-    FIELD(self, u16, -2) |= 0x8000;
+    ((S_func_819A6800_6 *)((u8 *)self - 2))->unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;
 
 return_done:

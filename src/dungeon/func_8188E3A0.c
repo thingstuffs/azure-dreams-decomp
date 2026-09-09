@@ -4,7 +4,55 @@
 #define NULL 0
 #endif
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
+typedef struct S_func_80025BA0_0 {
+    u8 pad_00[0x8];
+    void *unk_08;
+    void *unk_0C;
+    void *unk_10;
+} S_func_80025BA0_0;
+
+typedef struct S_func_80025BA0_1 {
+    u8 pad_00[0x2];
+    s16 unk_02;
+    u8 pad_04[0x2];
+    s16 unk_06;
+    u8 pad_08[0x2];
+    s16 unk_0A;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_func_80025BA0_1;
+
+typedef struct S_func_80025BA0_2 {
+    u8 pad_00[0x16];
+    s16 unk_16;
+    s16 unk_18;
+} S_func_80025BA0_2;
+
+typedef struct S_func_80025BA0_3 {
+    u8 pad_00[0x1A];
+    s16 unk_1A;
+    u8 pad_1C[0x18];
+    s32 unk_34;
+    u16 unk_38;
+    u8 pad_3A[0x2];
+    s32 unk_3C;
+    u16 unk_40;
+    u8 pad_42[0x2];
+    s32 unk_44;
+    u16 unk_48;
+    u8 pad_4A[0x2];
+    s32 unk_4C;
+    u16 unk_50;
+    u8 pad_52[0x2];
+    s32 unk_54;
+    s32 unk_58;
+} S_func_80025BA0_3;
+
+typedef struct S_func_80025BA0_4 {
+    u8 pad_00[0x6476];
+    s16 unk_6476;
+} S_func_80025BA0_4;
 
 typedef struct {
     s16 x;
@@ -30,7 +78,7 @@ extern Cell D_80026648[];
 #define READ_COUNT_PAGE() (*(s16 *)count_page)
 #else
 #define SET_COUNT_PAGE() (addr_or_coord = 0x80020000)
-#define READ_COUNT_PAGE() FIELD((void *)addr_or_coord, s16, 0x6476)
+#define READ_COUNT_PAGE() ((S_func_80025BA0_4 *)addr_or_coord)->unk_6476
 #endif
 
 /* Spawn quad effects at cell centers with randomized motion, then clear the pending count. */
@@ -40,10 +88,10 @@ void func_80025BA0(void) {
     Cell *diagonal;
     Cell *below;
     Cell *right;
-    void *effect;
-    void *motion;
-    void *angles;
-    void *quad_data;
+    S_func_80025BA0_0 *effect;
+    S_func_80025BA0_1 *motion;
+    S_func_80025BA0_2 *angles;
+    S_func_80025BA0_3 *quad_data;
     s32 quad_index;
     s32 row_start;
     register s32 index_or_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -72,7 +120,7 @@ void func_80025BA0(void) {
             if (effect != NULL) {
                 effect_or_x = (s32)effect;
                 addr_or_coord = (s32)D_800255E8;
-                FIELD(effect, void *, 0x10) = (void *)addr_or_coord;
+                effect->unk_10 = (void *)addr_or_coord;
                 func_8004491C((void *)effect_or_x, D_800259DC);
 
                 row_start = quad_index & ~0xF;
@@ -88,7 +136,7 @@ void func_80025BA0(void) {
                 effect_or_x = corner->x;
                 addr_or_coord = right->x;
                 index_or_coord = diagonal->x;
-                motion = FIELD(effect, void *, 8);
+                motion = effect->unk_08;
                 right_y = right->y;
                 below_y = below->y;
                 diagonal_y = diagonal->y;
@@ -102,41 +150,41 @@ void func_80025BA0(void) {
                 addr_or_coord = corner->y;
                 index_or_coord = corner->z;
                 effect_or_x >>= 2;
-                FIELD(motion, s16, 2) = effect_or_x;
+                motion->unk_02 = effect_or_x;
                 addr_or_coord = (addr_or_coord + right_y + below_y + diagonal_y) >> 2;
-                FIELD(motion, s16, 6) = addr_or_coord;
+                motion->unk_06 = addr_or_coord;
                 index_or_coord = (index_or_coord + right_z + below_z + diagonal_z) >> 2;
-                FIELD(motion, s16, 0xA) = index_or_coord;
+                motion->unk_0A = index_or_coord;
 
-                FIELD(motion, s32, 0xC) = ((func_80069EF8() & 0xF) - 8) << 0x10;
-                FIELD(motion, s32, 0x10) = ((func_80069EF8() & 0xF) - 8) << 0x10;
-                FIELD(motion, s32, 0x14) = ((func_80069EF8() & 0xF) - 8) << 0x10;
+                motion->unk_0C = ((func_80069EF8() & 0xF) - 8) << 0x10;
+                motion->unk_10 = ((func_80069EF8() & 0xF) - 8) << 0x10;
+                motion->unk_14 = ((func_80069EF8() & 0xF) - 8) << 0x10;
 
-                angles = FIELD(effect, void *, 0xC);
-                FIELD(angles, s16, 0x16) = (func_80069EF8() & 0x1FF) - 0x100;
-                FIELD(angles, s16, 0x18) = (func_80069EF8() & 0x1FF) - 0x100;
+                angles = effect->unk_0C;
+                angles->unk_16 = (func_80069EF8() & 0x1FF) - 0x100;
+                angles->unk_18 = (func_80069EF8() & 0x1FF) - 0x100;
 
-                quad_data = (u8 *)effect + 0x20;
-                FIELD(quad_data, s16, 0x1A) = 0x20;
-                FIELD(quad_data, s32, 0x34) = *(s32 *)corner;
-                FIELD(quad_data, u16, 0x38) = corner->z;
-                FIELD(quad_data, s32, 0x3C) = *(s32 *)right;
-                FIELD(quad_data, u16, 0x40) = right->z;
-                FIELD(quad_data, s32, 0x44) = *(s32 *)&D_80026648[quad_index];
-                FIELD(quad_data, u16, 0x48) = below->z;
-                FIELD(quad_data, s32, 0x4C) = *(s32 *)((u8 *)D_80026648 + right_offset);
-                FIELD(quad_data, u16, 0x50) = diagonal->z;
+                quad_data = (S_func_80025BA0_3 *)((u8 *)effect + 0x20);
+                quad_data->unk_1A = 0x20;
+                quad_data->unk_34 = *(s32 *)corner;
+                quad_data->unk_38 = corner->z;
+                quad_data->unk_3C = *(s32 *)right;
+                quad_data->unk_40 = right->z;
+                quad_data->unk_44 = *(s32 *)&D_80026648[quad_index];
+                quad_data->unk_48 = below->z;
+                quad_data->unk_4C = *(s32 *)((u8 *)D_80026648 + right_offset);
+                quad_data->unk_50 = diagonal->z;
 
                 rounded_index = quad_index;
                 if (quad_index < 0) {
                     rounded_index = quad_index + 0x1F;
                 }
                 if ((quad_index - ((rounded_index >> 5) << 5)) < 0x10) {
-                    FIELD(quad_data, s32, 0x54) = D_800265C0;
-                    FIELD(quad_data, s32, 0x58) = D_800265C4;
+                    *(s32 *)((u8 *)quad_data + 0x54) = D_800265C0;
+                    quad_data->unk_58 = D_800265C4;
                 } else {
-                    FIELD(quad_data, s32, 0x58) = D_800265C0;
-                    FIELD(quad_data, s32, 0x54) = D_800265C4;
+                    *(s32 *)((u8 *)quad_data + 0x58) = D_800265C0;
+                    quad_data->unk_54 = D_800265C4;
                 }
                 SET_COUNT_PAGE();
             }
