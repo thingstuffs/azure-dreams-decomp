@@ -95,6 +95,18 @@ Rows whose residue is branch-derived *constant* knowledge (`move $v0,$zero` agai
 `move $v0,$s0`) are cse choosing between a literal and a register it has proved holds the same
 constant.  That is not register naming despite the class label - record it and move on.
 
+**Read the `internal_jumps` column of `rows.tsv` before you diagnose anything.**  m2c spells
+retail's plain `j` to a label *inside the same function* as a call to a symbol declared
+`__attribute__((noreturn))`.  When that column is non-empty, the named symbol is NOT a callee: it
+is a label at the given word of this very function, and **the value stored just before the "call"
+is live, not dead** - control continues at the label.  Three separate lanes reasoned from the
+declaration instead, concluded gcc's liveness analysis provably deletes the store and that the
+class was unreachable from C, and closed 0/28 rows between them on that basis.  The real shape is
+the LABEL_AS_CALL rewrite: `if (c) {{ A; target(); return; }} B; T` becomes
+`if (c) {{ A' }} else {{ B' }} T`, where T is the code the landing word points at; a backward
+target is a loop, not a tail; when the tail is already spelled out after the call, just delete the
+call.  That rewrite closed 67 of 75 rows in this project's earlier reader lanes.
+
 ## Commands (run from the repo root; never `cd` elsewhere)
 
 - Score a candidate — **counts against your budget of {budget} verifies per row**:
@@ -127,6 +139,33 @@ A table `row | size | cfg | damage | class | exact | verifies | the C shape that
 best residue reached and what was tried)`, then a short list of patterns the brief does not
 already name.  Final line exactly: `Exact: N/{count}`.
 """
+
+
+NORETURN_RE = re.compile(
+    r"extern[^;\n]*\b(func_[0-9A-Fa-f]{8})\s*\([^;\n]*\)\s*__attribute__\s*\(\s*\(\s*noreturn")
+
+
+def internal_jumps(row, text):
+    """`func_X@word N` for every "noreturn callee" that is really a label inside this row.
+
+    m2c spells retail's plain `j` to an internal label as a call to a symbol declared noreturn.
+    Three separate lanes then reasoned that the value stored before such a "call" is provably dead
+    (the call never returns, so nothing can read it) and concluded the class was unreachable from
+    C.  It is not dead: control continues at the label, inside this same function.  27 pinned rows
+    are in this state and the fidelity census already flags 25 of them; the packs simply never
+    passed the fact on.  The landing word is counted from the row's true name, which is what a
+    LABEL_AS_CALL rewrite needs.
+    """
+    tn = row.get("true_name")
+    if not tn:
+        return ""
+    base = int(tn.replace("func_", ""), 16)
+    out = []
+    for m in NORETURN_RE.finditer(text):
+        tgt = int(m.group(1).replace("func_", ""), 16)
+        if base <= tgt < base + row["size"]:
+            out.append(f"{m.group(1)}@word{(tgt - base) // 4}")
+    return ",".join(out)
 
 
 def main():
@@ -203,13 +242,13 @@ def main():
         (d / "residue").mkdir(parents=True)
         (d / "scratch").mkdir()
         (d / "out").mkdir()
-        lines = ["row_id\tcontainer\tfile\tsize\tcfg\tpins\tmacros\tdamage\tclass\twindow"]
+        lines = ["row_id\tcontainer\tfile\tsize\tcfg\tpins\tmacros\tdamage\tclass\twindow\tinternal_jumps"]
         for rec, row, text in items:
             macros = ",".join(f"{k}x{v}" for k, v in sorted(rec.get("macros", {}).items()))
             lines.append("\t".join(str(x) for x in [
                 row["id"], row["container"], f"src/{row['container']}/{Path(row['c_path']).name}",
                 row["size"], row["cfg"], rec["pins"], macros, rec["total"], rec.get("class"),
-                Path(row.get("gate_config") or "").stem]))
+                Path(row.get("gate_config") or "").stem, internal_jumps(row, text) or "-"]))
             jobs.append((d, rec, row, text))
         (d / "rows.tsv").write_text("\n".join(lines) + "\n")
         (d / "BRIEF.md").write_text(BRIEF.format(n=bi, cls=cls, budget=a.budget, count=len(items)))
