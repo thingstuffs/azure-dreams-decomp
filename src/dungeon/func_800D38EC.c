@@ -52,12 +52,12 @@ typedef struct S_800D904C_4 {
 /* Advance the actor along its queued path and update movement timing. */
 void func_800D904C(void *action, s32 action_id, void *actor, void *move_state)
 {
-    register void *state ASM_REG("$17") = move_state;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *state = move_state;
     void *anim_table;
     s32 tile_mask;
     s16 direction;
     s16 move_result;
-    s32 old_x;
+    s16 old_x;
     s32 old_y;
     s32 step_count;
     void *step;

@@ -74,8 +74,10 @@ void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
         object_type = 0x12;
         if (effect_index != 0) {
             object_type = 0x212;
+            effect = func_8003FC64(object_type);
+        } else {
+            effect = func_8003FC64(object_type);
         }
-        effect = func_8003FC64(object_type);
         if (effect != NULL) {
             ((S_800C5E5C_0 *)effect)->unk_10 = &D_800C5D80;
             func_8004491C(effect, &D_80045C34);
@@ -91,7 +93,6 @@ void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
                 s32 color;
                 color = 0x808080;
                 sprite->unk_0C = color;
-                ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             }
             {
                 s32 scale;

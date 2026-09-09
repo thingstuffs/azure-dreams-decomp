@@ -45,7 +45,7 @@ typedef struct S_801735BC_1 {
 void func_801735BC(void *incoming_arg0, void *incoming_arg1, void *incoming_arg2, void *arg3)
 {
     /* MATCH: the local state join must retain arg0 in retail's s2. */
-    register void *arg0 ASM_REG("$18") = incoming_arg0;
+    void *arg0 = incoming_arg0;
     void *arg1 = incoming_arg1;
     void *arg2 = incoming_arg2;
     void *actor = arg3;
@@ -63,7 +63,9 @@ void func_801735BC(void *incoming_arg0, void *incoming_arg1, void *incoming_arg2
     goto *(((void **)D_80170850)[state]);
 
 L0:
-    timer = ((S_801735BC_0 *)arg0)->unk_96 - 1;
+    do {
+        timer = ((S_801735BC_0 *)arg0)->unk_96 - 1;
+    } while (0);
     ((S_801735BC_0 *)arg0)->unk_96 = timer;
     if ((s16)timer > 0) {
         return;

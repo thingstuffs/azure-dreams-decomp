@@ -9,10 +9,9 @@ s32 func_800C2F14(s32 angle, s16 divisions) {
     s32 shifted_divisions;
     s32 division_count;
     s32 distance;
-    register s32 result ASM_REG("$2");
+    s16 result;
 
     angle_data = D_80083160;
-    ASM_KEEP(angle_data);
     shifted_divisions = divisions << 16;
     division_count = shifted_divisions >> 16;
     result = division_count < 2;

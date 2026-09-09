@@ -5,7 +5,7 @@
 /* Decompress an LZ stream with LSB-first flags and return the end of the output. */
 u8 *func_8004068C(u8 *src, u8 *dst) {
     u32 flags;
-    register s32 bits_left ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 bits_left;
     u32 offset;
     s32 copy_count;
     u8 *copy_src;
@@ -69,8 +69,10 @@ short_match:
         flags = *src;
         src = src + 1;
         bits_left = 8;
+        copy_count = (s32)((flags & 1) << 1);
+    } else {
+        copy_count = (s32)((flags & 1) << 1);
     }
-    copy_count = (s32)((flags & 1) << 1);
     bits_left = bits_left - 1;
     flags = flags >> 1;
     if (bits_left == 0) {
