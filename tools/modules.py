@@ -29,7 +29,7 @@ def load_bases(container):
     p = LEDGER / "splits" / f"{container}.jsonl"
     if p.exists():
         for j in read_jsonl(p):
-            out[j["func_vram"]] = j.get("load_base")
+            if j.get("func_vram"): out[j["func_vram"]] = j.get("load_base")
     return out
 
 def assertion_files():
@@ -55,6 +55,13 @@ def scope_ids(proposal, scope):
         return {x["id"] for x in json.loads(Path(scope).read_text())}
     return None
 
+def row_key(r):
+    """File-offset order; SLUS rows (one executable, no per-row foff) order by their lowest symbol address."""
+    if r.get("foff") is not None:
+        return r["foff"]
+    addrs = [int(m.group(1), 16) for s in [r.get("func")] + list(r.get("defs") or []) if s for m in [re.search(r"([0-9A-F]{8})$", s)] if m]
+    return min(addrs) if addrs else 0
+
 def check(proposal, scope=None):
     cont = container_of(proposal)
     reg = {r["id"]: r for r in rows() if r["container"] == cont}
@@ -77,7 +84,7 @@ def check(proposal, scope=None):
             if r is None: errors.append(f"module {name}: {rid} is not a registered {cont} row"); continue
             if rid in seen: errors.append(f"{rid} appears in {seen[rid]} and {name}")
             seen[rid] = name
-            offs.append(r["foff"] if r["foff"] is not None else 0)
+            offs.append(row_key(r))
             bases.add(lb.get(r["func"]))
             for f in af.get(rid, ()):
                 if f != name: errors.append(f"{rid} carries assertion file {f} but sits in {name}")
@@ -88,7 +95,7 @@ def check(proposal, scope=None):
     missing = sorted(set(reg) - set(seen))
     if missing: errors.append(f"{len(missing)} rows not in any module (first: {missing[:5]})")
     # contiguity: no foreign row between a module's first and last row
-    order = sorted(reg.values(), key=lambda r: (r["foff"] if r["foff"] is not None else 0, r["id"]))
+    order = sorted(reg.values(), key=lambda r: (row_key(r), r["id"]))
     pos = {r["id"]: k for k, r in enumerate(order)}
     for m in mods:
         ks = sorted(pos[i] for i in m.get("rows", []) if i in pos)
