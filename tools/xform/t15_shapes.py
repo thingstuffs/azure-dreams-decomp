@@ -433,15 +433,20 @@ class T:
         best_label = "strip"
         seen = {sha_text(base)}
         for rnd in range(ROUNDS):
-            # Measured menu.  Corpus-wide wins after 1,019 row-attempts: fence 63, narrow 11,
+            # Measured menu.  EIGHT of the ten generators were harvested from a lane that closed a
+            # row by hand with that exact shape, and seven of those eight then scored ZERO as
+            # single-shot sweeps.  The pattern is consistent enough to plan around: a lane closes a
+            # row with a *combination* of edits and reports the one it thinks did the work, but the
+            # shape rarely carries on its own.  Only the fence and narrow families transfer.  Corpus-wide wins after 1,019 row-attempts: fence 63, narrow 11,
             # fence-return 3, dup_after_if 2 - and ZERO for foldtemp, collapse, maskfold, mask2cast,
             # commute and efence, each of which was harvested from a lane win on some other row.
             # `commute` alone quadrupled the sweep's wall time for nothing, so the default menu is
             # the four that have paid; T15_WIDE=1 runs the whole set when a new class is opened.
-            cands = (inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur) + dup_after_if_candidates(cur) + narrow_candidates(cur)
+            cands = (dup_after_if_candidates(cur) + narrow_candidates(cur)
                      + fence_candidates(cur) + fence_pair_candidates(cur))
             if WIDE:
-                cands = (fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
+                cands = (inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur)
+                         + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                          + maskfold_candidates(cur) + mask2cast_candidates(cur)
                          + commute_candidates(cur) + cands + empty_fence_candidates(cur))
             round_best = None
