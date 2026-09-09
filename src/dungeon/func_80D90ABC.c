@@ -112,10 +112,10 @@ update_motion:
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
             (((((Rec_D_80082E80 *)entity)->unk_25 << 6) - origin_y) << 16) /
             (s16)((S_801722BC_0 *)anim)->unk_A4.s;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        arc_ticks = ((S_801722BC_0 *)anim)->unk_A4.s;
+        do {
+            arc_ticks = ((S_801722BC_0 *)anim)->unk_A4.s;
+        } while (0);
         vertical_speed = ((Rec_D_800E3D7C *)motion)->unk_14.as_s32;
-        ASM_KEEP(arc_ticks);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         acceleration =
             (arc_ticks << 15) + (arc_ticks << 13);
         vertical_speed += acceleration;

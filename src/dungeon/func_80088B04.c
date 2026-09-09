@@ -62,9 +62,8 @@ start_move:
             if (launch_state != 0) {
                 goto check_launch_state;
             }
-            ASM_KEEP(launch_state);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-            motion_value = 0xFFF00000;
-            goto apply_launch;
+            ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFF00000;
+            goto launch_ready;
 check_launch_state:
             motion_value = 8;
             if (launch_state != motion_value) {
@@ -74,6 +73,7 @@ check_launch_state:
             motion_value = 0xFFF80000;
 apply_launch:
             ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = motion_value;
+launch_ready:
             func_80099F70(((Rec_D_800E3D7C *)model)->unk_5C);
             func_80099F04(((Rec_D_800E3D7C *)model)->unk_5C);
             move_flags = (u8 *)&D_80083460;

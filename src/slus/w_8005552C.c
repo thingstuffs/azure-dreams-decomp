@@ -9,9 +9,9 @@ extern void func_80055730(s32 a0, s32 a1);
 /* Decode a packed selector and dispatch its index and offset if its code is available. */
 void func_8005552C(s32 selector) {
     /* Pin keeps andi a0,a0 (not CSE-from-saved_selector) and value temps in $v0. */
-    register s32 type_bits ASM_REG("$4") = selector;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register s32 selected_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 saved_selector;
+    s32 type_bits = selector;
+    s16 selected_code;
+    s16 saved_selector;
     s32 dispatch_code;
     s32 entry_index;
     s32 entry_offset;

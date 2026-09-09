@@ -240,11 +240,13 @@ block_26:
     func_80099F04(((S_80092018_2 *)model)->unk_5C);
     {
         void *action_status = &D_80083460;
-        register u16 action_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u16 action_flags;
         action_flags = ((S_80092018_6 *)action_status)->unk_02;
         action_flags = (u16) (action_flags | 0x812);
         ((S_80092018_6 *)action_status)->unk_02 = action_flags;
     }
+    ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
+    return;
 block_27:
 block_28:
     ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;

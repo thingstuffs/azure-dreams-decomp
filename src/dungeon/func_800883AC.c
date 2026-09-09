@@ -21,12 +21,13 @@ extern u8 D_800DD130[];
 void func_8008DB0C(void *obj, s32 unused, void *display, s32 mode, u16 variant) {
     u8 *direction_table = D_800DD130;
     s32 lookup_result;
-    register s32 saved_mode ASM_REG("$16") = mode;
+    u16 saved_mode;
 
     ((Rec_func_8008ACDC_arg0 *)obj)->unk_9A.as_s8 = 0x26;
     ((Rec_func_8008ACDC_arg0 *)obj)->unk_9B.as_s8 = 0;
     ((Rec_func_8008ACDC_arg0 *)obj)->unk_8C.as_s32 = 0;
     (*(u8 **)((u8 *)display + 0x2C)) = direction_table;
+    saved_mode = mode;
     func_80048A44(
         display,
         direction_table[((D_80083228 + ((Rec_func_8008ACDC_arg0 *)obj)->unk_2A + 0x100) >> 9) & 7],

@@ -100,7 +100,9 @@ project_corners:
     func_80046A5C(corner, transformed_corner);
     if (func_80046AFC(
             &geometry->vectors[5], transformed_corner, output_corner, (s16)depth)) {
-        use_fallback = 1;
+        do {
+            use_fallback = 1;
+        } while (0);
     }
     output_corner--;
     transformed_corner--;
@@ -110,7 +112,6 @@ project_corners:
         goto project_corners;
     }
 
-    ASM_USE(use_fallback);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     if (use_fallback != 0) {
         angle = view_geometry->angle + 0x600;
         screen_point.x = view_geometry->base_x;

@@ -101,9 +101,10 @@ void func_800BACB0(Core *parent_core, Position *origin)
 
     quotient <<= 12;
     quotient = random_value - quotient;
-    parent_core->angle = quotient;
+    do {
+        parent_core->angle = quotient;
+    } while (0);
     parent_core->index = 0;
-    ASM_KEEP(quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     child_index = 0;
     do {
         child_obj = func_8003FD64(0x136, (u8 *)parent_core - 0x20);

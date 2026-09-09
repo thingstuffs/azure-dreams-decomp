@@ -36,8 +36,7 @@ extern M2C_UNK D_80082EB0;
 s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id) {
     s32 saved_x;
     s32 saved_y;
-    register s32 result ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 shifted_result;
+    s16 result;
     u8 item_type;
     void *actor_base;
     void *equipment_item;
@@ -62,16 +61,14 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id)
             equipment_item = ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
         }
         func_800982A8(actor_base, equipment_item);
-        shifted_result = result << 0x10;
-        goto return_result;
+        goto shift_result;
     case 17:
         accessory_item = NULL;
         if (((S_80095538_1 *)(&D_80082EB0))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_68) {
             accessory_item = ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
         }
         func_80098614(actor_base, accessory_item);
-        shifted_result = result << 0x10;
-        goto return_result;
+        goto shift_result;
     case 1:
     case 2:
     case 3:
@@ -99,7 +96,5 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id)
         goto shift_result;
     }
 shift_result:
-    shifted_result = result << 0x10;
-return_result:
-    return shifted_result >> 0x10;
+    return result;
 }

@@ -19,7 +19,7 @@ extern s32 D_800D5FE8;
 /* Try random directions against the bounds, then initialize the entity state. */
 void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context_arg)
 {
-    register void *bounds ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *bounds;
     s32 context;
     s32 attempts;
     s32 direction;
@@ -31,7 +31,7 @@ loop:
     direction = func_800374F4(4) & 0xFFFF;
     if (direction == 0) {
         s32 upper_edge;
-        s32 bound_test;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 bound_test;
         s32 extent;
 
         upper_edge = entity->unk_84.as_s16;
@@ -45,7 +45,7 @@ loop:
         }
     } else if (direction == 1) {
         s32 upper_edge;
-        s32 bound_test;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 bound_test;
         s32 extent;
 
         upper_edge = entity->unk_86.as_s16;
@@ -65,7 +65,6 @@ loop:
         lower_edge = entity->unk_84.as_s16;
         extent = entity->unk_8C;
         bound_coord = ((S_800C7AC4_1 *)bounds)->unk_02;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         lower_edge -= extent;
         lower_edge = lower_edge < bound_coord;
         if (lower_edge != 0) {
@@ -80,7 +79,6 @@ loop:
         lower_edge = entity->unk_86.as_s16;
         extent = entity->unk_8E;
         bound_coord = ((S_800C7AC4_1 *)bounds)->unk_06;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         lower_edge -= extent;
         lower_edge = lower_edge < bound_coord;
         if (lower_edge != 0) {
@@ -89,7 +87,9 @@ loop:
         }
     }
 
-    attempts++;
+    do {
+        attempts++;
+    } while (0);
     if (attempts < 0x10) {
         goto loop;
     }

@@ -128,10 +128,11 @@ phase_start:
         goto adjust_height;
     }
     {
-        register s32 finish_phase ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        func_8009D8A4();
+        s32 finish_phase;
+        do {
+            func_8009D8A4();
+        } while (0);
         finish_phase = 5;
-        ASM_KEEP(finish_phase);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         global_flags = D_800E296C[0];
         ((S_8017558C_0 *)action)->unk_96 = finish_phase;
         D_800E296C[0] = global_flags | 0x800000;

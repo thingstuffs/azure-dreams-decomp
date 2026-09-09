@@ -57,19 +57,12 @@ void func_8008DBE8(void *entity, void *motion, void *sprite, void *facing) {
     }
 
     if (((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 & 0x100) {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         frames_left = ((S_8008DBE8_0 *)status)->unk_04;
-        if (D_80013714 & 8) {
-            if (frames_left != 3) {
-                ASM_SCHED_BARRIER(); /* MATCH: Keep the frames_left checks separate and jump to the shared update. */
-                goto continue_update;
-            }
-        } else if (frames_left != 6) {
-            goto continue_update;
+        if (((*(u16 *)0x80013714 & 8) && frames_left == 3) ||
+            (!(*(u16 *)0x80013714 & 8) && frames_left == 6)) {
+            func_8008D94C(entity, motion, sprite, facing);
+            return;
         }
-
-        func_8008D94C(entity, motion, sprite, facing);
-        return;
     }
 
 continue_update:
@@ -86,9 +79,8 @@ continue_update:
         }
     }
 
-    status_page = 0x80080000;
-    ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    late_status = (void *)(status_page + 0x3460);
+    status_page = (u32)&D_80083460;
+    late_status = (void *)status_page;
     timer = ((S_8008DBE8_5 *)late_status)->unk_04 - 1;
     ((S_8008DBE8_5 *)late_status)->unk_04 = timer;
     if (timer > 0) {
