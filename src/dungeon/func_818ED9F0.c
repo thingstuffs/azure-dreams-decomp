@@ -24,7 +24,6 @@ typedef struct S_800251F0_1 {
 
 extern void *D_80024028[8];
 extern s32 D_800814A0;
-extern void func_80025328(void) __attribute__((noreturn));
 
 void func_800251F0(void *arg0)
 {
@@ -78,15 +77,13 @@ counter_done:
 case_0:
     ((S_800251F0_0 *)arg1)->unk_1E++;
     ((S_800251F0_0 *)arg1)->unk_28 += 0x10;
-    func_80025328();
-    return;
+    goto done;
 
 case_1:
     ((S_800251F0_0 *)arg1)->unk_1E++;
     ((S_800251F0_0 *)arg1)->unk_28 -= 0x30;
     ((S_800251F0_0 *)arg1)->unk_29 += 0x20;
-    func_80025328();
-    return;
+    goto done;
 
 case_2:
     ((S_800251F0_0 *)arg1)->unk_28 -= 0x30;

@@ -24,7 +24,6 @@ extern u8 D_800E0B4C[];
 
 extern s32 func_800A2B5C(s32);
 extern void func_80096088(Actor *, s32);
-extern void func_80096058(void);
 extern s32 func_800990FC(s32, s32, s32, s32);
 extern s32 func_80099194(void *, s32);
 extern s32 func_8009929C(s32, s32);
@@ -60,7 +59,6 @@ void func_80095DFC(Actor *a0, s32 a1, s32 a2, s32 arg3) {
             D_80083460.fC = 0;
             D_80083460.f14--;
             D_80083460.f2 &= 0xFFF7;
-            func_80096058();
             return;
         }
         if (!(entry[3] & 0x40)) {
@@ -104,7 +102,6 @@ void func_80095DFC(Actor *a0, s32 a1, s32 a2, s32 arg3) {
         D_80083460.fC = 0;
         D_80083460.f14--;
         D_80083460.f2 &= 0xFFF7;
-        func_80096058();
         return;
     } else {
         s16 r = (s16) func_800B627C(D_800E3648[a0->h100 * 4], a3, a0->h100, 0);

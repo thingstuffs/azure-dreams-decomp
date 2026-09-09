@@ -4,9 +4,6 @@
 M2C_UNK func_800247B8();      /* extern */
 M2C_UNK func_80024AEC();      /* extern */
 M2C_UNK func_80024D34();      /* extern */
-void func_80025190() __attribute__((noreturn)); /* extern */
-void func_800251F4() __attribute__((noreturn)); /* extern */
-void func_800252C4() __attribute__((noreturn)); /* extern */
 M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800A4778();           /* extern */
@@ -206,10 +203,7 @@ void func_80024E5C(void *arg0, void *arg1, void *arg2) {
                     temp_v0_3 = ((S_80024E5C_0 *)arg0)->unk_5A.s;
                     temp_v1_2 = temp_a2 - temp_v1_2;
                     temp_v0_3 -= 0xB;
-                    ASM_USE(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                    ASM_TAILSLOT_PIN(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    func_80025190(temp_a0, temp_a1_2, temp_a2);
-                    return;
+                    goto divide_z;
                 }
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (temp_a0 >= 0xB) {
@@ -221,23 +215,24 @@ void func_80024E5C(void *arg0, void *arg1, void *arg2) {
                     temp_v0_3 = ((S_80024E5C_0 *)arg0)->unk_5A.s;
                     temp_v1_2 = temp_a2 - temp_v1_2;
                     temp_v0_3 -= 9;
-                    ASM_USE(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                    ASM_TAILSLOT_PIN(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    func_80025190(temp_a0, temp_a1_2, temp_a2);
-                    return;
+                    goto divide_z;
                 }
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (temp_a0 >= 5) {
                     current_x = ((S_80024E5C_2 *)arg1)->unk_00.at00.v;
                     ((S_80024E5C_2 *)arg1)->unk_0C = (s32) ((temp_v1_2 - current_x) / (s32) (temp_a0 - 4));
                     ((S_80024E5C_2 *)arg1)->unk_10 = (s32) ((s32) (temp_a1_2 - ((S_80024E5C_2 *)arg1)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)arg0)->unk_5A.u - 4));
-                    ((S_80024E5C_2 *)arg1)->unk_14 = (s32) ((s32) (temp_a2 - ((S_80024E5C_2 *)arg1)->unk_08.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)arg0)->unk_5A.u - 4));
-                    func_800251F4(temp_a0, temp_a1_2, temp_a2);
-                    return;
+                    temp_v1_2 = temp_a2 - ((S_80024E5C_2 *)arg1)->unk_08.at00.v;
+                    temp_v0_3 = ((S_80024E5C_0 *)arg0)->unk_5A.s - 4;
+divide_z:
+                    temp_v1_2 /= temp_v0_3;
+                    ((S_80024E5C_2 *)arg1)->unk_14 = temp_v1_2;
+                    goto integrate;
                 }
                 ((S_80024E5C_2 *)arg1)->unk_0C = (s32) ((s32) (temp_v1_2 - ((S_80024E5C_2 *)arg1)->unk_00.at00.v) / temp_a0);
                 ((S_80024E5C_2 *)arg1)->unk_10 = (s32) ((s32) (temp_a1_2 - ((S_80024E5C_2 *)arg1)->unk_04.at00.v) / (s16) ((S_80024E5C_0 *)arg0)->unk_5A.u);
                 ((S_80024E5C_2 *)arg1)->unk_14 = (s32) ((s32) (temp_a2 - ((S_80024E5C_2 *)arg1)->unk_08.at00.v) / (s16) ((S_80024E5C_0 *)arg0)->unk_5A.u);
+integrate:
                 ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 temp_a0_2 = ((S_80024E5C_2 *)arg1)->unk_10;
                 temp_a1_3 = ((S_80024E5C_2 *)arg1)->unk_14;
@@ -254,8 +249,7 @@ void func_80024E5C(void *arg0, void *arg1, void *arg2) {
                     ((S_80024E5C_2 *)arg1)->unk_10 = 0;
                     ((S_80024E5C_2 *)arg1)->unk_0C = 0;
                     ((S_80024E5C_0 *)arg0)->unk_56 = 0x1E;
-                    func_800252C4(temp_a0_2, temp_a1_3, temp_a2);
-                    return;
+                    goto block_38;
                 }
                 goto block_38;
             }

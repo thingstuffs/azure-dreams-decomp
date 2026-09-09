@@ -4,8 +4,6 @@ extern u16 D_8008347E[];
 extern u16 D_8006CCD8[];
 extern u16 D_8006CCE8[];
 s32 func_8009A350();
-s32 func_800A7338();
-s32 func_800A7514();
 s32 func_800BCB04();
 extern u16 D_800DCE6C[];
 extern u16 D_800DCE8C[];
@@ -73,7 +71,7 @@ s32 func_800A7234(s32 arg0, s32 arg1, s32 arg2, s16 *arg3, s16 *arg4, s16 *arg5)
                 scratch = (u32)arg4;
                 ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 *(s16 *)scratch = (s16)raw_arg1;
-                return func_800A7338(distance);
+                goto store_result;
             }
         }
     }
@@ -92,12 +90,11 @@ found:
     ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     found_y = base_y + found_y;
     *(s16 *)scratch = found_y;
+store_result:
     scratch = (u32)arg5;
     ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     found_result = 1;
-    ASM_LIVE_SIBCALL_PIN(found_result, 1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     *(s16 *)scratch = distance;
-    func_800A7514(distance);
     return found_result;
 scan_start:
     shifted_x = base_x << 0x10;

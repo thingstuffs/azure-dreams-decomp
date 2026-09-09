@@ -1,8 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_80017CA4() __attribute__((noreturn));
-s32 func_80017E88() __attribute__((noreturn));
 s32 func_80017EBC();
 s16 func_80017F88();
 s16 func_8001816C();
@@ -76,9 +74,9 @@ s32 func_80017BEC(s16 arg0) {
         goto valid;
     }
 bad:
+    ASM_SCHED_BARRIER(); /* MATCH: keep the shared failure return at the guard. */
     bad_value = 0;
-    ASM_TAILSLOT_PIN(bad_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    return func_80017E88();
+    return bad_value;
 valid:
     {
         s32 early_y;
@@ -168,8 +166,7 @@ loop_4:
             temp_v0_3->unk_04 = (u16)(temp_v1_load | 0x100);
             if ((temp_a0_2 << 0x10) > 0) {
                 var_s4 = func_800BCB04(((tail_x << 6) + 0x20) & 0xFFE0, ((tail_y << 6) + 0x20) & 0xFFE0, -0x400, tail_x);
-                ASM_TAILSLOT_PIN(var_s4);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                return func_80017CA4();
+                goto loop_4;
             }
             goto block_17;
         }

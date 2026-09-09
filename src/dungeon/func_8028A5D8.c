@@ -27,10 +27,6 @@ typedef struct {
 extern DungeonState D_8008333C;
 extern DungeonCell D_800EA000[];
 
-extern void func_8001D900(void) __attribute__((noreturn));
-extern void func_8001D920(void) __attribute__((noreturn));
-
-
 extern void func_8001D9CC(s16 x0, s16 y0, s16 x1, s16 y1, s16 value);
 extern void func_8001DD08(DungeonCell *cell, s16 value);
 extern void func_8001DD48(DungeonCell *cell, s16 value);
@@ -61,9 +57,9 @@ void func_8001D5D8(DungeonRect *arg0) {
     s16 flag0;
     s16 flag1;
     register s16 fill_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 value_40_shift;
+    register s32 value_40_shift ASM_REG("$18"); /* MATCH: Retain the retail fill value register at the shared call. */
     DungeonCell *cell;
-    s32 row;
+    register s32 row ASM_REG("$23"); /* MATCH: Retain the retail row register at the shared call. */
     s32 raw_bound;
     register u32 dead_page ASM_REG("$2") = 0x80080000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     DungeonState *page = &D_8008333C;
@@ -141,42 +137,46 @@ void func_8001D5D8(DungeonRect *arg0) {
             remaining_y = y_count;
             if (y_count > 0) {
                 do {
-                    if (start_y < (s16)y1) {
+                    register s32 signed_bound ASM_REG("$2") = (s32)start_y << 16; /* MATCH: Keep guard truncation in the retail scratch register. */
+                    register s32 signed_row ASM_REG("$3") = signed_bound >> 16; /* MATCH: Keep the guard input separate from the saved row. */
+                    if (signed_row < (s16)y1) {
                         remaining_x = x_count;
                         current_x = start_x;
 
                         if (remaining_x > 0) {
                             s32 current_flag;
 
-                            s32 val_40;
+                            register s32 val_40 ASM_REG("$2"); /* MATCH: Keep fill subtraction and row scaling in the retail scratch register. */
 
-                            row = start_y;
+                            row = signed_row;
                             current_flag = flag1;
                             val_40 = value - 0x40;
                             value_40_shift = val_40 << 16;
                             do {
-                                if (current_x < (s16)x1) {
-                                    cell = &D_800EA000[
-                                        (row << D_8008333C.stride) + current_x];
+                                s32 tail_value;
+                                DungeonCell *tail_cell;
+                                signed_bound = (s32)current_x << 16;
+                                signed_row = signed_bound >> 16;
+                                if (signed_row < (s16)x1) {
+                                    val_40 = row << D_8008333C.stride;
+                                    cell = &D_800EA000[val_40 + signed_row];
                                     if (flag0 != 0) {
+                                        tail_cell = cell;
                                         if (current_flag != 0) {
-                                            func_8001DD08(cell, value_40_shift >> 16);
+                                            func_8001DD08(tail_cell, value_40_shift >> 16);
                                         } else {
-                                            DungeonCell *tail_cell = cell;
-                                            register s32 tail_value ASM_REG("$5") = value - 0xC0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                                            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                                            func_8001D900();
+                                            tail_value = value - 0xC0;
+                                            goto apply_tail;
                                         }
                                     } else {
+                                        tail_cell = cell;
                                         if (current_flag != 0) {
-                                            u16 tail_remaining;
-                                            func_8001DD48(cell, (s16)(value - 0xC0));
+                                            tail_value = value - 0xC0;
+                                        apply_tail:
+                                            func_8001DD48(tail_cell, (s16)tail_value);
                                             ASM_USE_NV(current_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                                            tail_remaining = remaining_x - 1;
-                                            ASM_TAILSLOT_PIN(tail_remaining);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                                            func_8001D920();
                                         } else {
-                                            func_8001DD08(cell, value_40_shift >> 16);
+                                            func_8001DD08(tail_cell, value_40_shift >> 16);
                                         }
                                     }
                                 }

@@ -186,8 +186,6 @@ extern s32 func_80028208(void *, s32);
 extern void func_80027534(s16, s16, s16, s32);
 extern void func_80048A44(void *, s32, s32, s32);
 
-extern void func_80025F78(void) __attribute__((noreturn));
-extern void func_80025F7C(void) __attribute__((noreturn));
 
 void func_800253C0(void *arg0_in, void *arg1_in, void *arg2_in, void *arg3_in)
 {
@@ -223,7 +221,7 @@ l0_calls:
         s32 value = func_800445E0();
         Control_CD(21, value, 0);
     }
-    func_80025F78();
+    goto L_F78;
 
     case 1:
     {
@@ -249,7 +247,7 @@ l0_calls:
 
     case 2:
     {
-        s32 i = 0;
+        register s32 i ASM_REG("$17") = 0; /* MATCH: Keep the case 2 loop counter in s1 when sharing the state increment tail. */
         u32 mask = 0x20000000;
         void *record = arg0;
 
@@ -264,7 +262,7 @@ l0_calls:
             record = (u8 *)record + 4;
         } while (i < 2);
     }
-    func_80025F78();
+    goto L_F78;
 
     case 3:
     if (D_8008346A[0] != 0) {
@@ -403,11 +401,11 @@ l0_calls:
         {
             register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 16;
-            (void)((S_800253C0_0 *)arg0)->unk_9B.v;
+            state = ((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
         }
         }
-        func_80025F7C();
+        goto L_F7C;
     }
 
     case 4:
@@ -422,10 +420,10 @@ l0_calls:
         {
             register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 32;
-            (void)((S_800253C0_0 *)arg0)->unk_9B.v;
+            state = ((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
         }
-        func_80025F7C();
+        goto L_F7C;
     }
 
     case 5:
@@ -473,11 +471,11 @@ l0_calls:
         {
             register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 8;
+            state = ((S_800253C0_0 *)arg0)->unk_9B.v;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            (void)((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
         }
-        func_80025F7C();
+        goto L_F7C;
     }
 
     case 7:
@@ -699,10 +697,10 @@ L_AC4:
         {
             register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 64;
-            (void)((S_800253C0_0 *)arg0)->unk_9B.v;
+            state = ((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
         }
-        func_80025F7C();
+        goto L_F7C;
     }
 
     case 9:
@@ -716,10 +714,10 @@ L_AC4:
             register s32 nv ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             nv = 32;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            (void)((S_800253C0_0 *)arg0)->unk_9B.v;
+            state = ((S_800253C0_0 *)arg0)->unk_9B.v;
             ((S_800253C0_0 *)arg0)->unk_96.n = nv;
         }
-        func_80025F7C();
+        goto L_F7C;
     }
 
     case 10:
@@ -814,7 +812,7 @@ L_AC4:
             i++;
             record2 = (u8 *)record2 + 4;
         } while (i < 2);
-        func_80025F78();
+        goto L_F78;
     }
 
     case 11:
@@ -825,7 +823,10 @@ L_AC4:
           ((S_800253C0_1 *)arg3)->unk_2A.s) + 0x100) >> 9) & 7);
 L_F6C:
     func_80048A44(fa0, *tp, fa2, 1);
-    ((S_800253C0_0 *)arg0)->unk_9B.n++;
+L_F78:
+    state = ((S_800253C0_0 *)arg0)->unk_9B.n;
+L_F7C:
+    ((S_800253C0_0 *)arg0)->unk_9B.n = state + 1;
     goto done;
 
     case 12:

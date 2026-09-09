@@ -58,9 +58,6 @@ extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_80164BA4(void *);
-extern void func_8016BEFC() __attribute__((noreturn));
-extern void func_8016C048(void) __attribute__((noreturn));
-extern void func_8016C0E0(void) __attribute__((noreturn));
 
 extern u16 D_80013714;
 extern s16 D_80083228;
@@ -115,22 +112,27 @@ jt_c0:
         return;
 
 jt_c1:
+    {
+        register u8 *table ASM_REG("$5"); /* MATCH: keep the merged table address in a1 across both arms. */
         if (D_80175DC1 == 0) {
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
-            func_8016BEFC(arg0, D_80173A40);
+            table = D_80173A40;
+        } else {
+            if (D_80175DC0 == 0) {
+                return;
+            }
+            ((S_8016BE20_0 *)state)->unk_96.s = 0;
+            ((S_8016BE20_0 *)state)->unk_9B.n++;
+            func_800A56E0(0x300);
+            table = D_80173A40;
         }
-        if (D_80175DC0 == 0) {
-            return;
-        }
-        ((S_8016BE20_0 *)state)->unk_96.s = 0;
-        ((S_8016BE20_0 *)state)->unk_9B.n++;
-        func_800A56E0(0x300);
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
+        (*(u8 * *)((u8 *)actor + 0x2C)) = table;
         func_80047784(actor,
-            D_80173A40[((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+            *(u8 *)((((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7) + (u32)table),
             0);
         return;
+    }
 
 jt_c2:
         timer = ((S_8016BE20_0 *)state)->unk_96.u + 1;
@@ -158,9 +160,9 @@ jt_c3:
                 0);
         }
         if (D_80175DC1 != 0) {
-            (void)((S_8016BE20_0 *)state)->unk_9B.v;
+            state_index = ((S_8016BE20_0 *)state)->unk_9B.v;
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
-            func_8016C048();
+            goto increment_state;
         }
         ((S_8016BE20_0 *)state)->unk_9B.n += 2;
         return;
@@ -171,7 +173,9 @@ jt_c4:
         if ((s16)timer < 0x28) {
             return;
         }
-        ((S_8016BE20_0 *)state)->unk_9B.n++;
+        state_index = ((S_8016BE20_0 *)state)->unk_9B.n;
+increment_state:
+        ((S_8016BE20_0 *)state)->unk_9B.n = state_index + 1;
         return;
 
 jt_c5:
@@ -203,17 +207,18 @@ jt_c5:
         ((S_8016BE20_2 *)ctx)->unk_6D = 0;
         ((S_8016BE20_0 *)state)->unk_9B.n = 0;
 
-        object = (*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + i * 4));
-        if (object != 0) {
-            func_80164BA4(object);
-            header = (u8 *)(*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + i * 4)) - 0x20;
-            ((S_8016BE20_6 *)header)->unk_10 |= mask;
+        for (;;) {
+            object = (*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + i * 4));
+            if (object != 0) {
+                func_80164BA4(object);
+                header = (u8 *)(*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + i * 4)) - 0x20;
+                ((S_8016BE20_6 *)header)->unk_10 |= mask;
+            }
+            i++;
+            if (i >= 2) {
+                return;
+            }
         }
-        i++;
-        if (i >= 2) {
-            return;
-        }
-        func_8016C0E0();
 
 case5_failure:
         ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;

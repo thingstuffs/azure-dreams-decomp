@@ -55,12 +55,6 @@ extern void *func_8003FC64(s32 arg0);
 extern void func_8004491C(void *arg0, void *arg1);
 extern void func_8008F074(void *arg0, void *arg1, void *arg2);
 
-extern void func_80022804(void) __attribute__((noreturn));
-extern void func_80022904(void) __attribute__((noreturn));
-extern void func_80022F50(void) __attribute__((noreturn));
-extern void func_800230D0(void) __attribute__((noreturn));
-extern void func_80023280(void) __attribute__((noreturn));
-extern void func_80023284(void) __attribute__((noreturn));
 
 
 typedef struct S_80022768_0 {
@@ -187,9 +181,7 @@ void func_80022768(void *arg0, void *arg1_input)
         if (angle > 0) {
             ((S_80022768_1 *)angles)->unk_08.at00.v = 0xFFEE0000;
             angle = func_800C2AE8(angles);
-            func_80022804();
-        }
-        {
+        } else {
             s16 current = ((S_80022768_1 *)angles)->unk_08.at02.v;
             register s32 delta ASM_REG("$2") = angle - current;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 half ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -244,7 +236,6 @@ sw_1:
         ((S_80022768_0 *)state)->unk_5E.u = (u16)(timer - 1);
         if ((s16)timer < 0) {
             ((S_80022768_0 *)state)->unk_5E.u = 0;
-            func_80022904();
         }
     } else {
         ((S_80022768_0 *)state)->unk_5E.u = 5;
@@ -441,9 +432,10 @@ sw_6:
                         ((S_80022768_0 *)state)->unk_58 += amount;
                         {
                             s32 tail_value = values[2][2];
-                            ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                            if (tail_value == 0) {
+                                ((S_80022768_0 *)state)->unk_62 |= 1;
+                            }
                         }
-                        func_80022F50();
                     }
                     break;
                 case 2:

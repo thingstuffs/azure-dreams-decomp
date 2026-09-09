@@ -8,23 +8,21 @@ typedef struct {
     u16 output;
 } TownObject;
 
-extern void func_800CA60C(void);
-extern void func_800CA008(void);
+extern void func_800CA60C(TownObject *obj, s32 arg1, s32 arg2);
 
-void func_800C9FBC(TownObject *obj) {
+void func_800C9FBC(TownObject *obj, s32 arg1, s32 arg2) {
     u16 timer;
     u16 value;
 
     timer = obj->timer - 1;
     obj->timer = timer;
     if ((timer << 16) <= 0) {
-        func_800CA60C();
+        func_800CA60C(obj, arg1, arg2);
         value = obj->value + 0x800;
-        ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        func_800CA008();
-        return;
+    } else {
+        value = obj->output + 0x100;
     }
-    obj->output += 0x100;
+    obj->output = value;
 }
 
 /* MECHANISM: The seed's 24-byte frame and s0-held object base were already exact.

@@ -76,8 +76,6 @@ void func_800A5720();
 s16 func_800A70E4();
 void func_800A9A0C();
 void func_800BC318();
-void func_801741E8() __attribute__((noreturn));
-void func_8017424C() __attribute__((noreturn));
 void func_80175DD0();
 void *func_8017618C();
 
@@ -122,10 +120,10 @@ jt_c0:
     ((Rec_func_80173D78_arg0 *)arg0)->unk_9B = ((Rec_func_80173D78_arg0 *)arg0)->unk_9B + 1;
     if (arg2->unk_14 & 0x8000) {
         ((Rec_func_80173D78_arg0 *)arg0)->unk_96 = 0;
-        func_8017424C();
+        goto jt_c4;
     }
     ((Rec_func_80173D78_arg0 *)arg0)->unk_96 = 0x10;
-    func_8017424C();
+    goto jt_c4;
 
 jt_c1:
     if (!(((Rec_func_80173D78_arg0 *)arg0)->unk_96 & 3)) {
@@ -189,7 +187,7 @@ jt_c1:
         ((S_80173D78_4 *)counter_base)->unk_0A =
             ((S_80173D78_4 *)counter_base)->unk_0A - 1;
         arg3->unk_1C &= 0xEFFFFFFF;
-        func_8017424C();
+        goto jt_c4;
     }
 
     ((Rec_func_80173D78_arg0 *)arg0)->unk_9B = ((Rec_func_80173D78_arg0 *)arg0)->unk_9B + 1;
@@ -214,7 +212,7 @@ jt_c1:
         arg2->unk_14 |= 0xC;
         func_8009A028(arg3);
         base->unk_10 |= 0x80000000;
-        func_801741E8();
+        goto advance_state;
     }
 
     map_flags = arg3->unk_14;
@@ -226,7 +224,7 @@ jt_c1:
     }
     func_8009A21C(sound_x, sound_y, mode);
     arg3->unk_1C &= 0xFFFEFFFF;
-    func_8017424C();
+    goto jt_c4;
 
 jt_c2:
     state = arg2->unk_0C.at03.v;
@@ -244,7 +242,7 @@ jt_c2:
             arg2->unk_0C.at02.v +
             (-(s32)arg2->unk_0C.at02.v /
              (8 - arg2->unk_0C.at03.v));
-        func_8017424C();
+        goto jt_c4;
     }
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -256,8 +254,9 @@ jt_c2:
     arg2->unk_14 |= 0x800;
     arg2->unk_12 = arg2->unk_12 + 0x80;
     arg2->unk_14 &= 0xFFF3;
+advance_state:
     ((Rec_func_80173D78_arg0 *)arg0)->unk_9B = ((Rec_func_80173D78_arg0 *)arg0)->unk_9B + 1;
-    func_8017424C();
+    goto jt_c4;
 
 jt_c3:
 {

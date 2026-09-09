@@ -6,8 +6,6 @@ void func_8009DF0C();
 s32 func_800A2C34();
 M2C_UNK func_800A634C();
 M2C_UNK func_800A67F4();
-extern void func_8009E770(void) __attribute__((noreturn));
-extern void func_8009E728(void) __attribute__((noreturn));
 extern s16 D_80013630[4];
 extern M2C_UNK D_8001363C;
 extern M2C_UNK D_80082E80;
@@ -176,14 +174,14 @@ block_22:
     }
     M2C_FIELD(arg0, s16 *, 0x1C) = 0x1E;
     M2C_FIELD(arg0, s16 *, 0x1A) = (s16) ((u16) M2C_FIELD(arg0, s16 *, 0x1A) + 1);
-    func_8009E770();
+    goto block_46;
 block_25:
     if (M2C_FIELD(var_s3, s32 *, 8) & 0x100) {
         goto block_46;
     }
     M2C_FIELD(arg0, s16 *, 0x1C) = 4;
     M2C_FIELD(arg0, s16 *, 0x1A) = 0x10;
-    func_8009E770();
+    goto block_46;
 jt_c1:
     temp_v0_4 = (u16) M2C_FIELD(arg0, s16 *, 0x1C) - 1;
     M2C_FIELD(arg0, s16 *, 0x1C) = temp_v0_4;

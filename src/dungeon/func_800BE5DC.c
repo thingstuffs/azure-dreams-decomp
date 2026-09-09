@@ -11,8 +11,6 @@ extern s32 func_8009D6F4();
 extern s32 func_800403BC();
 extern s32 func_800997FC();
 extern s32 func_80098B38();
-extern s32 func_800C400C();
-extern s32 func_800C3FF0();
 
 extern s32 D_80083160[];
 extern void *D_800E3D7C;
@@ -57,29 +55,18 @@ s32 func_800C3D3C(void *arg0, s32 arg1, s16 arg2, s32 arg3) {
     se = arg2;
     ASM_KEEP_NV(av1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (se == 13) {
-        func_80098864(av1, arg3);
-        return func_800C400C();
+        return func_80098864(av1, arg3);
     }
     if (arg0 == D_800E3D7C) {
         S32(arg0, 0x110) = av1;
         func_8008D344(arg0, D_80083780, D_80082E80, arg0);
-        {
-            s32 tail_zero;
-            tail_zero = 0;
-            ASM_TAILSLOT_PIN(tail_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800C400C();
-        }
+        return 0;
     }
     if ((u32) arg0 <= 0x9FFFFFFFU) {
         func_800A6480(arg0, av1, se);
         if (func_800AD6FC(arg0, U16(D_800DDE84, U8(arg0, 0x13) * 2) & 3, av1) == 0) {
             func_800A5F38(arg0, av1);
-            {
-                s32 tail_one;
-                tail_one = 1;
-                ASM_TAILSLOT_PIN(tail_one);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                return func_800C400C();
-            }
+            return 1;
         }
         D_80083460[5] = D_80083460[5] - 1;
         func_80098B38(av1);
@@ -138,14 +125,9 @@ s32 func_800C3D3C(void *arg0, s32 arg1, s16 arg2, s32 arg3) {
         mask = 0x3FF7FFFF;
         D_800E296C = D_800E296C & mask;
         func_800403BC(D_800CE028, mask);
-        {
-            register u32 tail_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            tail_page = 0x80080000;
-            ASM_PAGEBASE_PIN(tail_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800C3FF0();
-        }
+    } else {
+        func_800997FC(&D_800E1863, arg3, se);
     }
-    func_800997FC(&D_800E1863, arg3, se);
     D_80083460[5] = D_80083460[5] - 1;
     func_80098B38(av1);
     return 1;

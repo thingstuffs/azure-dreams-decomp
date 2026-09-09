@@ -5,7 +5,6 @@ extern u8 D_800CF838[];
 
 s32 func_8008B2E4(void *);
 s32 func_8008B3AC(s32);
-void func_8008B49C(s32);
 
 /* reserve_twch_load: reserve a town character load in an available character_slot and process it. */
 void reserve_twch_load(s32 character_id) {
@@ -25,7 +24,6 @@ void reserve_twch_load(s32 character_id) {
             reservation_slot = D_800CF828;
             reservation_slot = (u8 *)(i + (s32)reservation_slot);
             *reservation_slot = character_id;
-            func_8008B49C(i);
             return;
         }
         i = 0;
@@ -34,14 +32,15 @@ void reserve_twch_load(s32 character_id) {
     {
         u8 *free_slot;
         u8 *reservations;
+        register u8 *next_slot ASM_REG("$2"); /* MATCH: keep the terminator address in v0 for the branch delay slot. */
 
         reservations = D_800CF828;
         free_slot = (u8 *)(i + (s32)reservations);
         do {
             if (*free_slot == 0) {
+                next_slot = (u8 *)((s32)reservations + i);
                 *free_slot = character_id;
-                ((u8 *)((s32)reservations + i))[1] = 0;
-                func_8008B49C(i);
+                next_slot[1] = 0;
                 return;
             }
             i++;

@@ -51,8 +51,6 @@ typedef struct S_800262AC_3 {
 
 
 
-extern void func_80026378(void *);
-extern void func_800263D4(void) __attribute__((noreturn));
 extern s32 func_8003FA44(s32);
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
@@ -76,10 +74,7 @@ void *func_800262AC(s16 arg0, s16 arg1, s16 arg2)
     void *texture;
 
     if (func_8003FA44(0x30) == 0) {
-        register void *zero ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-        ASM_TAILSLOT_PIN(zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800263D4();
+        return 0;
     }
     outer = 2;
 
@@ -107,10 +102,12 @@ inner_loop:
         render = ((S_800262AC_0 *)object)->unk_0C;
         render->unk_06 = 0x10;
         if (outer != 0) {
-            func_80026378(render);
-            return (void *)0x100;
+            ASM_SCHED_BARRIER(); /* MATCH: Keep the two render modes as arms feeding the shared store. */
+            state_value = 0x100;
+        } else {
+            state_value = 0x800;
         }
-        render->unk_1E.s = 0x800;
+        render->unk_1E.s = state_value;
         render_value = render->unk_1E.u;
         render->unk_14 = 0xC;
         render->unk_10 = 0x20;

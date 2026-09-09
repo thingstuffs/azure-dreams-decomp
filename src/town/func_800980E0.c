@@ -34,7 +34,6 @@ typedef struct S_80095840_3 {
 
 
 extern s32 D_800D0484[8];
-extern void func_80095908(void) __attribute__((noreturn));
 
 s32 func_80095840(void *arg0, void *arg1)
 {
@@ -79,7 +78,7 @@ s32 func_80095840(void *arg0, void *arg1)
         work = 2;
         ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         out->unk_2C.s = entry;
-        func_80095908();
+        goto done;
     }
 
     work = (s32)in + value;
@@ -98,13 +97,16 @@ s32 func_80095840(void *arg0, void *arg1)
             work = 1;
             ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             out->unk_2C.s = entry;
-            func_80095908();
+            goto done;
         }
     }
 
 none:
     out->unk_2C.u = 0;
-    return 0;
+    work = 0;
+done:
+    ASM_SCHED_BARRIER();   /* MATCH: Keep the selector live through the shared return tail. */
+    return work;
 }
 
 /* MECHANISM: Frameless leaf; v0 carries quotient/address/entry/selector and block-local a2 copies.

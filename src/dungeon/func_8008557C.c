@@ -66,11 +66,6 @@ typedef struct S_8008ACDC_9 {
 M2C_UNK func_8002534C(); /* extern */
 void func_80040AA0();                     /* extern */
 void func_80048A44(); /* extern */
-M2C_UNK func_8008B330(); /* extern */
-M2C_UNK func_8008B730();                 /* extern */
-M2C_UNK func_8008B7A0();                            /* extern */
-M2C_UNK func_8008B7F8();                            /* extern */
-M2C_UNK func_8008B848();                 /* extern */
 M2C_UNK func_8008B9FC(); /* extern */
 M2C_UNK func_8008C468(); /* extern */
 M2C_UNK func_8008C514(); /* extern */
@@ -165,7 +160,7 @@ void func_8008ACDC(void *arg0, void *arg1_raw, void *arg2_raw, void *arg3_raw) {
     void *temp_v0_2;
     void *arg1;
     register void *arg2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    void *arg3;
+    register void *arg3 ASM_REG("$18"); /* MATCH: internal gotos extend live ranges; keep arg3 in retail s2. */
     void *case_arg0;
     void *case_call_a0;
     void *case_call_a1;
@@ -298,8 +293,7 @@ block_7:
                         }
                         ((S_8008ACDC_4 *)arg3)->unk_2A.s = var_v0_4;
                         func_8009F988(temp_a0, signed_target);
-                        func_8008B7A0();
-                        return;
+                        goto block_182;
                     }
                     D_800E3544 = (u8) (((S_8008ACDC_6 *)temp_v0)->unk_01 & 0xF8);
                     switch (D_800E3544) {
@@ -479,7 +473,7 @@ block_163:
                             (*(u16 *)((u8 *)arg0 + 0xA2)) = (u16) (temp_v1_8 & 0xFFFE);
                             if (!(((S_8008ACDC_5 *)data)->unk_08 & 0x20)) {
                                 if ((func_8008C8BC(arg0, arg1, arg2, arg3) << 0x10) != 0) {
-                                    func_8008B7F8();
+                                    goto block_183;
                                 }
                             } else if (func_8008C5C4(arg0, arg1, arg2, arg3) == 0) {
                                 goto block_176;
@@ -512,6 +506,7 @@ block_182:
                 (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD058;
                 func_80048A44(arg2, D_800DD058[((s32) (D_80083228 + (s16) ((S_8008ACDC_4 *)arg3)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
+block_183:
             if (((S_8008ACDC_1 *)arg2)->unk_14 & 0xE000) {
                 (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DCFB0;
                 func_80048A44(arg2, D_800DCFB0[((s32) (D_80083228 + (s16) ((S_8008ACDC_4 *)arg3)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);

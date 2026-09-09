@@ -73,7 +73,7 @@ extern void func_80048A44();
 extern void func_800982A8();
 extern void func_80098614();
 extern void func_80098B38();
-extern s32 func_800990FC();
+extern s32 func_800990FC(void *, s32, void *, void *);
 extern s32 func_80099194();
 extern void func_80099290();
 extern s32 func_8009929C();
@@ -93,22 +93,25 @@ extern u8 D_800E0919[];
 
 void *func_80098CF8(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
-    void *s3 = arg0;
+    register void *message ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    /* MATCH: Reuse the a0 pin to pass the incoming argument without a redundant move. */
+    register void *s3 ASM_REG("$19") = message;   /* MATCH: Preserve the incoming object in retail s3. */
     s32 s6 = arg1;
     void *s5 = arg2;
     register void *s2 ASM_REG("$18") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *s4 = arg0;
+    void *s4;
     register void *s0;
     s32 s1;
     void *object;
     void *primitive;
     void *state;
-    register void *message ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 value;
 
+    ASM_KEEP_NV(s3);   /* MATCH: Preserve the retail s3-to-s4 copy while passing a0 explicitly. */
+    s4 = s3;
     s0 = D_80081484;
     if ((s2 != s0) && (((S_80098CF8_0 *)s0)->unk_01 != 0)) {
-        s1 = func_800990FC();
+        s1 = func_800990FC(message, arg1, arg2, arg3);
         value = func_8009929C(8, s1);
         value = func_80099368(s2, value);
         value = func_80099194(D_800E08CC, value);
@@ -127,7 +130,7 @@ print_message:
     }
 
     if (((S_80098CF8_1 *)s2)->unk_00.at03.v & 0x20) {
-        s1 = func_800990FC();
+        s1 = func_800990FC(message, arg1, arg2, arg3);
         s0 = (void *)func_8009929C(8, s1);
         if (((S_80098CF8_1 *)s2)->unk_00.at03.v & 0x40) {
             func_800A56E0(0x70A);

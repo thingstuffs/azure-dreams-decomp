@@ -61,10 +61,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800BB044(void *);
 
-extern void func_801726B0(void) __attribute__((noreturn));
-extern void func_801726B8(void) __attribute__((noreturn));
-extern void func_801726C0(void) __attribute__((noreturn));
-extern void func_801726CC(void) __attribute__((noreturn));
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
@@ -80,7 +76,7 @@ void func_801725A4(void *arg0, void *arg1, void *arg2, void *arg3)
     static void *const jt_keep[] = {
         &&L_tail_b0, &&L_tail_b8, &&L_tail_c0, &&L_after_jt
     };
-    void *owner = arg0;
+    register void *owner ASM_REG("$21") = arg0; /* MATCH: local tail jumps otherwise swap owner and special between $s5 and $s4. */
     register void *motion ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *actor ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *object ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -128,16 +124,13 @@ L_state0:
 
 L_tail_b0:
             special = 1;
-            ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_801726B0();
+            goto L_kind3;
 L_tail_b8:
             special = 1;
-            ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_801726B8();
+            goto L_kind2;
 L_tail_c0:
             special = 1;
-            ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_801726C0();
+            goto L_kind1;
         }
 
         kind = ((S_801725A4_1 *)object)->unk_46 & 0x3FFF;
@@ -152,20 +145,18 @@ L_tail_c0:
             goto L_selected;
         }
         if (kind == 3) {
+L_kind3:
             selected = (u8 *)object + 0xE;
-            ASM_TAILSLOT_PIN(selected);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_801726CC();
+            goto L_selected;
         }
         selected = 0;
         goto L_selected;
 L_kind2:
         selected = (u8 *)object + 0xB;
-        ASM_TAILSLOT_PIN(selected);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_801726CC();
+        goto L_selected;
 L_kind1:
         selected = (u8 *)object + 8;
-        ASM_TAILSLOT_PIN(selected);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_801726CC();
+        goto L_selected;
 
 L_after_jt:
         selected = 0;

@@ -23,8 +23,6 @@ extern void func_800A020C();
 extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
-extern void func_801713B8(void) __attribute__((noreturn));
-extern void func_8017143C(void) __attribute__((noreturn));
 
 extern u16 D_80013714;
 extern s16 D_80083228;
@@ -196,8 +194,6 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
     if (!(((S_8017112C_0 *)actor)->unk_1C & 0x20)) {
         if (!(((S_8017112C_5 *)monster)->unk_14 & 0x40)) {
             func_800478B8(monster);
-            func_801713B8();
-            return;
         }
     } else {
         ((S_8017112C_5 *)monster)->unk_14 |= 0x7000;
@@ -220,24 +216,23 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
             if (distance >= 0x65) {
                 next_current = current_raw + 8;
                 ((S_8017112C_4 *)motion)->unk_08.at02.v = next_current;
-                func_8017143C();
-                return;
+            } else {
+                ASM_KEEP_NV(division_magic);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                delta = ((S_8017112C_4 *)motion)->unk_14.at00.v;
+                position = ((S_8017112C_4 *)motion)->unk_08.at00.v;
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                division_magic |= 0x6667;
+                ASM_KEEP_NV(division_magic);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                delta -= position;
+                if (delta < 0) {
+                    delta = -delta;
+                }
+                ASM_KEEP_NV(delta);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                product.value = (long long)delta * division_magic;
+                quotient = (product.word.high >> 2) - (delta >> 31);
+                position += quotient;
+                ((S_8017112C_4 *)motion)->unk_08.at00.v = position;
             }
-            ASM_KEEP_NV(division_magic);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            delta = ((S_8017112C_4 *)motion)->unk_14.at00.v;
-            position = ((S_8017112C_4 *)motion)->unk_08.at00.v;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            division_magic |= 0x6667;
-            ASM_KEEP_NV(division_magic);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            delta -= position;
-            if (delta < 0) {
-                delta = -delta;
-            }
-            ASM_KEEP_NV(delta);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            product.value = (long long)delta * division_magic;
-            quotient = (product.word.high >> 2) - (delta >> 31);
-            position += quotient;
-            ((S_8017112C_4 *)motion)->unk_08.at00.v = position;
         }
     }
 

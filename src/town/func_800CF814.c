@@ -18,8 +18,6 @@ typedef struct {
     u16 unk12;
 } TownCf814Obj;
 
-extern void func_800CD00C();
-
 void func_800CCF74(TownCf814State *arg0, TownCf814Obj *arg1, s32 unused, s32 arg3, s32 arg4, s32 arg5) {
     TownCf814Obj *obj = arg1;
     register s32 stack_arg4 ASM_REG("$5") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -29,8 +27,7 @@ void func_800CCF74(TownCf814State *arg0, TownCf814Obj *arg1, s32 unused, s32 arg
 
     if (state != 0) {
         if (state != 1) {
-            func_800CD00C(arg0, stack_arg4, obj, arg3);
-            return;
+            goto done;
         }
     } else {
         arg0->unk6C = arg3;
@@ -43,7 +40,7 @@ void func_800CCF74(TownCf814State *arg0, TownCf814Obj *arg1, s32 unused, s32 arg
     arg0->unk6C = timer;
     if ((timer << 0x10) > 0) {
         register s32 curX ASM_REG("$2") = obj->unk2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        s32 x = obj->unkE;
+        register s32 x ASM_REG("$4") = obj->unkE; /* MATCH: retain the X increment register after removing the label call. */
         s32 curY = obj->unk6;
         s32 y = obj->unk12;
 
@@ -51,10 +48,11 @@ void func_800CCF74(TownCf814State *arg0, TownCf814Obj *arg1, s32 unused, s32 arg
         curY += y;
         obj->unk2 = curX;
         obj->unk6 = curY;
-        func_800CD00C(x, y, obj);
-        return;
+        goto done;
     }
 
     arg0->unk6A = 0;
     arg0->unk68++;
+done:
+    ASM_SCHED_BARRIER(); /* MATCH: preserve both jumps to the shared return. */
 }

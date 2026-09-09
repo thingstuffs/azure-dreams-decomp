@@ -219,12 +219,6 @@ typedef struct S_800218E4_29 {
 
 
 M2C_UNK func_80021120();   /* extern */
-extern void func_80021CF0() __attribute__((noreturn));
-extern void func_80021FA8() __attribute__((noreturn));
-extern void func_80021FAC() __attribute__((noreturn));
-extern void func_80021FB8() __attribute__((noreturn));
-extern void func_80022014() __attribute__((noreturn));
-extern void func_800223DC() __attribute__((noreturn));
 s32 func_8002263C(); /* extern */
 M2C_UNK func_80023E6C();   /* extern */
 M2C_UNK func_80033B78();                     /* extern */
@@ -429,8 +423,7 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
             ((S_800218E4_0 *)arg0)->unk_2E.s = 0x20U;
             ((S_800218E4_0 *)arg0)->unk_2C.s = (s16) ((u16) ((S_800218E4_0 *)arg0)->unk_2C.s + 1);
             SD_Call(0x521, var_a1, var_a2, var_a3);
-            func_80021FB8();
-            return;
+            goto block_67;
         }
         goto block_67;
     case 2:
@@ -469,11 +462,12 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
         ((S_800218E4_0 *)arg0)->unk_2E.s = temp_v0_6;
         if ((temp_v0_6 << 0x10) <= 0) {
             ((S_800218E4_5 *)base)->unk_08 = 2;
-            (void) ((S_800218E4_0 *)arg0)->unk_2C.u;
+            transition_v0 = ((S_800218E4_0 *)arg0)->unk_2C.u;
+            ASM_SCHED_BARRIER(); /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
+            ASM_SCHED_BARRIER(); /* MATCH: keep the timer setup local to each state transition. */
             ((S_800218E4_0 *)arg0)->unk_2E.s = transition_timer;
-            func_80021FAC();
-            return;
+            goto block_advance_loaded;
         }
         goto block_67;
     case 3:
@@ -525,8 +519,7 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
                 ((S_800218E4_27 *)(temp_v1_8->unk_20))->unk_42 = (u16) var_a1_5;
             } while (var_s2_4 >= 0);
             SD_Call(0x1702, var_a1_5);
-            func_80021FA8();
-            return;
+            goto block_advance;
         }
         goto block_67;
     case 4:
@@ -534,10 +527,9 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
         if (((S_800218E4_0 *)arg0)->unk_46 >= 0) {
             if (((S_800218E4_0 *)arg0)->unk_44 != 0) {
                 func_80033B78(0x58F);
-                func_80021CF0();
-                return;
+            } else {
+                func_80033B9C(0x58F);
             }
-            func_80033B9C(0x58F);
             temp_s2_2 = ((S_800218E4_0 *)arg0)->unk_44;
             if (((S_800218E4_0 *)arg0)->unk_46 < temp_s2_2) {
                 ((S_800218E4_0 *)arg0)->unk_44 = (s16) (u16) ((S_800218E4_0 *)arg0)->unk_46;
@@ -567,8 +559,7 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
             stack.sp12 = 8;
             stack.sp14 = arg0;
             func_80021120(&D_80022514, &stack, 1);
-            func_80021FA8();
-            return;
+            goto block_advance;
         }
         goto block_67;
     case 5:
@@ -589,11 +580,12 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
             if (D_80113158[0] != 0) {
                 D_80024338[0] = func_800B1BEC(0, -0x50, 0x40);
             }
-            (void) ((S_800218E4_0 *)arg0)->unk_2C.u;
+            transition_v0 = ((S_800218E4_0 *)arg0)->unk_2C.u;
+            ASM_SCHED_BARRIER(); /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
+            ASM_SCHED_BARRIER(); /* MATCH: keep the timer setup local to each state transition. */
             ((S_800218E4_0 *)arg0)->unk_2E.s = transition_timer;
-            func_80021FAC();
-            return;
+            goto block_advance_loaded;
         }
         goto block_67;
     case 6:
@@ -614,11 +606,12 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
         transition_v0 += 0x15E;
         ((S_800218E4_0 *)arg0)->unk_4A.s = transition_v0;
         if (transition_timer <= 0) {
-            (void) ((S_800218E4_0 *)arg0)->unk_2C.u;
+            transition_v0 = ((S_800218E4_0 *)arg0)->unk_2C.u;
+            ASM_SCHED_BARRIER(); /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x21;
+            ASM_SCHED_BARRIER(); /* MATCH: keep the timer setup local to each state transition. */
             ((S_800218E4_0 *)arg0)->unk_2E.s = transition_timer;
-            func_80021FAC();
-            return;
+            goto block_advance_loaded;
         }
         goto block_67;
     case 7:
@@ -629,11 +622,11 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
         ((S_800218E4_0 *)arg0)->unk_4A.s = (u16) (((S_800218E4_0 *)arg0)->unk_4A.s + ((s32) (0x1EDC - (s16) ((S_800218E4_0 *)arg0)->unk_4A.s) >> 1));
         if (temp_a0_6 <= 0) {
             ((S_800218E4_0 *)arg0)->unk_48 = 0U;
-            (void) ((S_800218E4_0 *)arg0)->unk_2C.u;
+            transition_v0 = ((S_800218E4_0 *)arg0)->unk_2C.u;
             transition_timer = 0x10;
+            ASM_SCHED_BARRIER(); /* MATCH: keep the timer setup local to each state transition. */
             ((S_800218E4_0 *)arg0)->unk_2E.s = transition_timer;
-            func_80021FAC();
-            return;
+            goto block_advance_loaded;
         }
         goto block_67;
     case 8:
@@ -657,11 +650,12 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
                 D_80012D5C[0] = case8_gold;
                 func_800B1DBC(case8_handle);
             }
-            (void) ((S_800218E4_0 *)arg0)->unk_2C.u;
+            transition_v0 = ((S_800218E4_0 *)arg0)->unk_2C.u;
+            ASM_SCHED_BARRIER(); /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x8F;
+            ASM_SCHED_BARRIER(); /* MATCH: keep the timer setup local to each state transition. */
             ((S_800218E4_0 *)arg0)->unk_2E.s = transition_timer;
-            func_80021FAC();
-            return;
+            goto block_advance_loaded;
         }
         goto block_67;
     case 9:
@@ -675,8 +669,7 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
             ((S_800218E4_0 *)arg0)->unk_2E.s = 0x1EU;
             ((S_800218E4_0 *)arg0)->unk_3A = (u16) (((S_800218E4_0 *)arg0)->unk_3A | 0x8000);
             ((S_800218E4_0 *)arg0)->unk_2C.p = (u16) (((S_800218E4_0 *)arg0)->unk_2C.p + 1);
-            func_80021FB8();
-            return;
+            goto block_67;
         }
         goto block_67;
     case 10:
@@ -684,7 +677,10 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
         ((S_800218E4_0 *)arg0)->unk_2E.s = temp_v0_10;
         if ((temp_v0_10 << 0x10) <= 0) {
             ((S_800218E4_5 *)base)->unk_08 = 4;
-            ((S_800218E4_0 *)arg0)->unk_2C.s = (s16) ((u16) ((S_800218E4_0 *)arg0)->unk_2C.s + 1);
+block_advance:
+            transition_v0 = ((S_800218E4_0 *)arg0)->unk_2C.p;
+block_advance_loaded:
+            ((S_800218E4_0 *)arg0)->unk_2C.s = (s16) (transition_v0 + 1);
         }
         goto block_67;
     default:
@@ -697,14 +693,11 @@ block_67:
                 payout_amount -= 0x3E8;
                 D_8011315C[0] = payout_amount;
                 payout_carry += 0x3E8;
-                /* gcc-2.7.x rejects the '+' read/write constraint.  The
-                 * project-sanctioned tied spelling has identical dataflow
-                 * semantics and preserves the tailslot marker. */
-                ASM_TAILSLOT_PIN_TIED(payout_carry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80022014();
-                return;
-            }
-            if (payout_amount >= 0x64) {
+                *payout_gold = payout_carry;
+            } else {
+                if (payout_amount < 0x64) {
+                    goto block_73;
+                }
                 payout_gold = D_80012D5C;
                 payout_carry = *payout_gold;
                 payout_amount -= 0x64;
@@ -879,10 +872,10 @@ loop_79:
                                 goto block_object_collision;
                             }
 block_base_collision:
+                            ASM_KEEP(collision_a0); /* MATCH: retain the collision threshold across the base-object arm. */
                             ((S_800218E4_5 *)base)->unk_58 = (s32) (((S_800218E4_5 *)base)->unk_58 + var_t2);
                             ((S_800218E4_5 *)base)->unk_5C = (s32) (((S_800218E4_5 *)base)->unk_5C + var_a1_3);
-                            func_800223DC(collision_a0, var_a1_3, var_a2_2, var_a3_2);
-                            return;
+                            goto block_127;
 block_object_collision:
                             transition_v0 = ((S_800218E4_17 *)var_s1)->unk_1C;
                             temp_s0 = transition_v0 + 0x20;

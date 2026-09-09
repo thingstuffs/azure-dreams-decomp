@@ -144,8 +144,6 @@ extern void *D_800DF55C;
 extern void *D_800DF560;
 extern M2C_UNK D_800E1640;
 extern void *D_800E3D7C;
-extern void func_800C2B8C() __attribute__((noreturn));
-extern void func_800C2C48() __attribute__((noreturn));
 
 typedef struct {
     s32 sp20;
@@ -162,7 +160,8 @@ void func_800C2824(void *arg0, void *arg1, void *arg2) {
     s16 temp_v0_4;
     s16 temp_v0_8;
     s32 temp_v1;
-    s16 var_v0;
+    register s16 var_v0 ASM_REG("$2"); /* MATCH: all state-update arms join with the value in v0. */
+    register u8 *c3_page ASM_REG("$4"); /* MATCH: retain the shared flag page in retail a0. */
     void *temp_v0_5;
     s32 var_v1;
     s32 temp_v1_9;
@@ -193,7 +192,7 @@ void func_800C2824(void *arg0, void *arg1, void *arg2) {
     s32 c17_status;
     s32 c17_x;
     void *c17_final_ptr;
-    s32 c17_flags;
+    register s32 c17_flags ASM_REG("$3"); /* MATCH: both flag paths feed the shared tail in v1. */
     u16 c17_field;
     void *temp_t0;
     u8 *page_base;
@@ -247,11 +246,10 @@ jt_c1:
     temp_v0_4 = (u16) ((S_800C2824_0 *)arg0)->unk_06 - 1;
     ((S_800C2824_0 *)arg0)->unk_06 = temp_v0_4;
     if ((temp_v0_4 << 0x10) > 0) {
-        return;
+        goto block_27;
     }
     var_v0 = (u16) ((S_800C2824_0 *)arg0)->unk_04 + 1;
-    ASM_TAILSLOT_PIN(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    return func_800C2B8C();
+    goto block_20;
 jt_c2:
     temp_v0_5 = func_800A32A4(((S_800C2824_0 *)arg0)->unk_00);
     if (temp_v0_5 == 0) {
@@ -285,10 +283,8 @@ block_14:
     func_8009A028(((S_800C2824_0 *)arg0)->unk_00);
     func_80099844(((S_800C2824_0 *)arg0)->unk_00, &D_800E1640);
     var_v0 = (u16) ((S_800C2824_0 *)arg0)->unk_04 + 1;
-    ASM_TAILSLOT_PIN(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    return func_800C2B8C();
+    goto block_20;
 jt_c3: {
-    register u8 *c3_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register u8 *c3_82_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register void *c3_object ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 c3_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -305,9 +301,9 @@ jt_c3: {
     c3_page = (u8 *)0x80080000;
     c3_object = ((S_800C2824_0 *)arg0)->unk_00;
     ((S_800C2824_9_pre *)c3_object)[-1].unk_00 = (u16) (((S_800C2824_9_pre *)c3_object)[-1].unk_00 | 0x8000);
-    c3_flags = ((S_800C2824_10 *)c3_page)->unk_14A0 | 0x8000;
-    ((S_800C2824_10 *)c3_page)->unk_14A0 = c3_flags;
-    return func_800C2C48();
+    c17_flags = ((S_800C2824_10 *)c3_page)->unk_14A0 | 0x8000;
+    ((S_800C2824_10 *)c3_page)->unk_14A0 = c17_flags;
+    goto block_26;
 }
 jt_c16:
     temp_v0_7 = ((S_800C2824_0 *)arg0)->unk_00;
@@ -321,6 +317,8 @@ jt_c16:
     }
     ((S_800C2824_0 *)arg0)->unk_06 = 0x3C;
     var_v0 = (u16) ((S_800C2824_0 *)arg0)->unk_04 + 1;
+block_20:
+    ASM_SCHED_BARRIER(); /* MATCH: keep the shared state store at its local landing. */
     ((S_800C2824_0 *)arg0)->unk_04 = var_v0;
     return;
 jt_c17:
@@ -351,14 +349,15 @@ block_25:
     temp_v1_8 = ((S_800C2824_0 *)arg0)->unk_00;
     (*(u16 *)((u8 *)temp_v1_8 + -2)) = (u16) (((S_800C2824_14_pre *)temp_v1_8)[-1].unk_00 | 0x8000);
     c17_final_ptr = D_800DF560;
-    c17_flags = D_800814A0;
+    c3_page = (u8 *)0x80080000;
+    c17_flags = ((S_800C2824_10 *)c3_page)->unk_14A0;
     c17_field = ((S_800C2824_15 *)c17_final_ptr)->unk_1E;
     c17_flags |= 0x8000;
-    D_800814A0 = c17_flags;
+    ((S_800C2824_10 *)c3_page)->unk_14A0 = c17_flags;
     ((S_800C2824_15 *)c17_final_ptr)->unk_1E = (u16)(c17_field | 0x8000);
 block_26:
     (*(u16 *)((u8 *)arg0 + -2)) = (u16) ((*(u16 *)((u8 *)arg0 + -2)) | 0x8000);
-    D_800814A0 = c17_flags;
+    ((S_800C2824_10 *)c3_page)->unk_14A0 = c17_flags;
 block_27:
     return;
 }

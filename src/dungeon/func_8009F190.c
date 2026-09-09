@@ -16,15 +16,12 @@ typedef struct S_800A48F0_1 {
 
 M2C_UNK func_80042BDC(void *, s32, s32, s32);
 extern s32 func_800A48F0__self_recurse(void *, s8, s8) __asm__("func_800A48F0");
-s16 func_800A4980(void);
-s16 func_800A49E4(void *, s32);
-void func_800A4A70(void) __attribute__((noreturn));
-void func_800A4A74(void) __attribute__((noreturn));
 M2C_UNK func_800A4B88(void *, s8);
 M2C_UNK func_80042B68(void *, s32);
 
 s16 func_800A48F0(void *arg0, s32 arg1, s32 arg2) {
     s32 var_a3;
+    s32 tail_value;
     s32 var_s1;
     s32 temp_a1;
     s32 temp_v0;
@@ -61,18 +58,14 @@ loop_1:
             func_80042BDC(held_arg0, temp_a1, signed_arg2, var_a3);
             ((S_800A48F0_0 *)var_s0)->unk_2C = 0;
             ((S_800A48F0_0 *)var_s0)->unk_2D.u = 0;
-            return func_800A4980();
+        } else {
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            ((S_800A48F0_0 *)var_s0)->unk_2D.s = (u8) held_arg2;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        ((S_800A48F0_0 *)var_s0)->unk_2D.s = (u8) held_arg2;
         func_800A4B88(held_arg0, (s8)(signed_arg1 >> 24));
-        {
-            register s32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            tail_value = var_s1 << 16;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800A4A70();
-            return tail_value;
-        }
+        ASM_SCHED_BARRIER(); /* MATCH: preserve the separate call and shared return tail. */
+        tail_value = var_s1 << 16;
+        goto return_tail;
     }
     var_s1 -= 1;
     var_s0 -= 2;
@@ -84,25 +77,28 @@ loop_1:
 loop_10:
         temp_v1 = ((S_800A48F0_1 *)var_s0_2)->unk_2C;
         if (temp_v1 == 0) {
-            if (second_arg1 == 1) {
-                return func_800A49E4(held_arg0, 4);
-            }
-            if (second_arg1 == 4) {
-                void *call_arg0 = held_arg0;
-                register s32 one ASM_REG("$5") = 1;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_DEP_NV(call_arg0, one);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            {
+                void *call_arg0;
+                register s32 one ASM_REG("$5"); /* MATCH: merge the argument at the shared call. */
+                if (second_arg1 == 1) {
+                    call_arg0 = held_arg0;
+                    one = 4;
+                } else {
+                    if (second_arg1 != 4) {
+                        goto skip_clear;
+                    }
+                    call_arg0 = held_arg0;
+                    one = 1;
+                    ASM_KEEP_DEP_NV(call_arg0, one);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                }
                 func_80042B68(call_arg0, one);
             }
+skip_clear:
             ((S_800A48F0_1 *)var_s0_2)->unk_2C = held_arg1;
             ((S_800A48F0_1 *)var_s0_2)->unk_2D = held_arg2;
             func_800A4B88(held_arg0, (s8)(signed_arg1 >> 24));
-            {
-                register s32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                tail_value = var_s1 << 16;
-                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800A4A70();
-                return tail_value;
-            }
+            tail_value = var_s1 << 16;
+            goto return_tail;
         }
         if (temp_v1 < (s16) var_a3) {
             var_a3 = temp_v1;
@@ -126,19 +122,17 @@ loop_10:
                 goto final_less;
             }
 
-            {
-                void *tail_arg = held_arg0;
-                s32 tail_value = -1;
-                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800A4A74();
-                return tail_value;
-            }
+            ASM_SCHED_BARRIER(); /* MATCH: keep the guard before the recursive arm. */
+            return -1;
 
 final_less:
             func_80042B68(held_arg0, (s8) var_a3);
-            return func_800A48F0__self_recurse(held_arg0, (s8)(final_arg1_shift >> 24), (s8)held_arg2);
+            tail_value = func_800A48F0__self_recurse(held_arg0, (s8)(final_arg1_shift >> 24), (s8)held_arg2) << 16;
+            goto return_tail;
         }
         goto loop_10;
     }
     goto loop_1;
+return_tail:
+    return tail_value >> 16;
 }

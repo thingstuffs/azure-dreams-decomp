@@ -11,7 +11,6 @@ extern u8 D_800E3548[];
 
 extern s32 func_8009A540(s32, s32, s32, s32);
 extern Spawned *func_8009B25C(void *, s32, s32, s32);
-extern void *func_8009B7B8(void);
 extern s32 func_800A4298(Spawned *);
 extern s32 func_800A70E4(s32, s32, s32);
 extern Spawned *func_800A8E74(void *, s32, s32, void *, void *, s32);
@@ -93,8 +92,7 @@ void *func_8009B5AC(Source *arg0, s32 arg1, s32 arg2) {
             dead_state[3] = (u8)v1;
             dead_state[2] = 0;
             dead_state = (u8 *)obj;
-            ASM_TAILSLOT_PIN(dead_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            return func_8009B7B8();
+            return dead_state;
         }
         return obj;
     }
@@ -130,7 +128,7 @@ void *func_8009B5AC(Source *arg0, s32 arg1, s32 arg2) {
     ASM_USE_NV(dead_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     obj->value34 = tail34;
     obj->value3c = tail3c;
-    return func_8009B7B8();
+    return dead_state;
 
 ret_null:
     return (void *)0;

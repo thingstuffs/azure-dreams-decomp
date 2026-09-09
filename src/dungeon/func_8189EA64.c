@@ -2,8 +2,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-extern void func_8002436C(void) __attribute__((noreturn));
-extern void func_80024370(void) __attribute__((noreturn));
 extern void func_800478B8(void *arg0);
 
 
@@ -24,6 +22,7 @@ typedef struct S_80024264_1 {
 void func_80024264(S_80024264_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2)
 {
     s16 state;
+    s32 tail_value;
     S_80024264_1 *owner;
 
     owner = arg0->unk_08;
@@ -65,13 +64,12 @@ state_0: {
     arg2->unk_1C.at02_u16.v = upper;
     lower += 0x100;
     arg2->unk_1C.at00_u16.v = lower;
-    func_80024370();
+    goto check_count;
 }
 
 state_1: {
     u8 value;
     u16 lower;
-    s32 tail_value;
 
     value = arg2->unk_0C.at02_u8.v;
     lower = arg2->unk_1C.at00_u16.v;
@@ -82,8 +80,7 @@ state_1: {
     arg2->unk_0C.at00_u8.v = value;
     arg2->unk_1C.at00_u16.v = lower;
     tail_value = arg0->unk_02.s << 8;
-    ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_8002436C();
+    goto store_upper;
 }
 
 state_2: {
@@ -96,14 +93,19 @@ state_2: {
     arg2->unk_0C.at00_u8.v = value;
     position = arg0->unk_02.s;
     
-    arg2->unk_1C.at02_u16.v = (position + 0x10) << 8;
+    tail_value = (position + 0x10) << 8;
+}
+
+store_upper:
+    arg2->unk_1C.at02_u16.v = tail_value;
+
+check_count:
     if (arg0->unk_02.s < arg0->unk_04) {
         goto done;
     }
     arg0->unk_02.u = 0;
     arg0->unk_00.u++;
     return;
-}
 
 state_3:
     func_800478B8(arg2);

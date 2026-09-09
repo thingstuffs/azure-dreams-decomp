@@ -2,9 +2,6 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8002589C();        /* extern */
-void func_8002600C(void) __attribute__((noreturn)); /* extern */
-void func_80026270(void) __attribute__((noreturn)); /* extern */
-void func_8002633C() __attribute__((noreturn));        /* extern */
 M2C_UNK func_80026548();                 /* extern */
 M2C_UNK func_8002660C();    /* extern */
 M2C_UNK func_800266D0();                  /* extern */
@@ -204,8 +201,7 @@ void func_80025C80(void *arg0_in, void *arg1_in, void *arg2_in) {
         if (temp_v1 == 0) {
             goto case_0;
         }
-        func_8002633C();
-        return;
+        goto block_54;
     }
     if (temp_v1 == 2) {
         goto case_2;
@@ -213,8 +209,7 @@ void func_80025C80(void *arg0_in, void *arg1_in, void *arg2_in) {
     if (temp_v1 == 0x10) {
         goto case_16;
     }
-    func_8002633C();
-    return;
+    goto block_54;
 
 case_0:
     ((S_80025C80_2 *)arg1)->unk_08.at00.v = (s32) (((S_80025C80_2 *)arg1)->unk_08.at00.v + 0xFFFF0000);
@@ -244,8 +239,7 @@ case_0:
         ((S_80025C80_0 *)arg0)->unk_30.n = 3;
         ((S_80025C80_0 *)arg0)->unk_2C = (s16) ((u16) ((S_80025C80_0 *)arg0)->unk_2C + 1);
         ((S_80025C80_0 *)arg0)->unk_3E.n = case0_byte;
-        func_8002633C();
-        return;
+        goto block_54;
     }
     goto block_54;
 
@@ -273,16 +267,14 @@ case1_check_flag:
     }
     ((S_80025C80_0 *)arg0)->unk_30.n = 0;
     ((S_80025C80_0 *)arg0)->unk_2C = (u16) ((S_80025C80_0 *)arg0)->unk_2C + 1;
-    func_8002633C();
-    return;
+    goto block_54;
 
 case1_add_base:
     var_a0 = &D_80083780;
     ((S_80025C80_2 *)arg1)->unk_00.at02.v = (s16) (var_a0->unk_02 + ((S_80025C80_0 *)arg0)->unk_24);
     ((S_80025C80_2 *)arg1)->unk_04.at02.v = (s16) (var_a0->unk_06 + ((S_80025C80_0 *)arg0)->unk_26);
     ((S_80025C80_2 *)arg1)->unk_08.at02.v = (s16) (var_a0->unk_0A + ((S_80025C80_0 *)arg0)->unk_28);
-    func_8002633C();
-    return;
+    goto block_54;
 
 case_2:
     if (((S_80025C80_0 *)arg0)->unk_30.n != 0) {
@@ -303,8 +295,7 @@ case2_complete:
     x_step = 8;
     ((S_80025C80_2 *)arg1)->unk_14.at02.v = x_step;
     ((S_80025C80_0 *)arg0)->unk_30.n = x_step;
-    func_8002600C();
-    return;
+    goto block_31;
 
 case2_update:
     update_base = D_8006CCD8;
@@ -379,8 +370,7 @@ case_16:
     ((S_80025C80_0 *)arg0)->unk_30.n = temp_v0_4;
     if ((temp_v0_4 << 0x10) <= 0) {
         D_8002966C[0] = 0;
-        func_80026270();
-        return;
+        goto linked_flag_update;
     }
     temp_v0_5 = ((S_80025C80_1 *)arg2)->unk_04;
     if ((s8) temp_v0_5 == ((S_80025C80_0 *)arg0)->unk_36) {
@@ -394,14 +384,14 @@ case_16:
     }
 block_47:
     func_8002589C(arg0 - 0x20, (s16) ((S_80025C80_0 *)arg0)->unk_40.u, 0xF0);
-    func_8002633C();
-    return;
+    goto block_54;
 
 linked_monster:
     ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (temp_a0->unk_1E & 0x8000) {
+linked_flag_update:
         linked_flags = ((S_80025C80_0_pre *)arg0)[-1].unk_00;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         linked_global = &D_800814A0;

@@ -18,8 +18,6 @@ extern u8 D_800EA000[];
 
 extern void func_800672D8(PackedPair *, u8 *);
 extern void func_8009BF7C(s32, s32);
-extern void func_8009D9B4(s32, u8 *, s32, u8 *);
-extern void func_8009D9F0(u8, u8 *, s32, u8 *);
 
 void func_8009D8A4(void) {
     PackedPair sp10;
@@ -72,7 +70,7 @@ loop_4:
             temp_a0 = (u8 *)((long)((var_v1 + (s16) var_a2) * 6) + (long)var_t4);
             temp_v1 = *(u16 *)temp_a0;
             if ((temp_v1 != 0) && (temp_v1 != 3)) {
-                u16 clamp_a0;
+                register u16 clamp_a0 ASM_REG("$4"); /* MATCH: keep the merged clamp value in retail a0. */
                 s32 clamp_v1;
 
                 var_v0 = (s16) (*(u16 *)(temp_a0 + 2) + 0x200) / 64;
@@ -80,10 +78,8 @@ loop_4:
                 ASM_KEEP_NV(var_v0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 clamp_v1 = var_v0;
                 if (clamp_v1 >= 0x10) {
-                    func_8009D9B4(15, var_a1, var_a2, var_a3);
-                    return;
-                }
-                if (clamp_v1 <= 0) {
+                    clamp_a0 = 15;
+                } else if (clamp_v1 <= 0) {
                     clamp_a0 = 1;
                 }
                 var_v0 = (u32) clamp_a0 << 16;
@@ -91,16 +87,10 @@ loop_4:
                 temp_a0_2 = *var_a3;
                 if ((s32) var_a2 & 1) {
                     var_v0 = temp_a0_2 | (temp_v0_6 << 4);
-                    ASM_TAILSLOT_PIN(var_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    func_8009D9F0(temp_a0_2, var_a1, var_a2, var_a3);
-                    return;
+                } else {
+                    var_v0 = temp_a0_2 | temp_v0_6;
                 }
-                var_v0 = temp_a0_2 | temp_v0_6;
-                ASM_TAILSLOT_PIN(var_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                func_8009D9F0(temp_a0_2, var_a1, var_a2, var_a3);
-                return;
-            }
-            {
+            } else {
                 register s32 var_odd ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
                 temp_v1_2 = *var_a3;
@@ -111,7 +101,10 @@ loop_4:
                 } else {
                     var_v0 = temp_v1_2 & 0xF0;
                 }
-                *var_a3 = var_v0;
+            }
+            *var_a3 = var_v0;
+            {
+                s32 var_odd;
                 var_odd = var_a2 & 1;
                 if (var_odd) {
                     var_a3 += 1;

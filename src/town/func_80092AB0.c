@@ -27,8 +27,6 @@ M2C_UNK func_80033AE8();                     /* extern */
 s32 func_80033B2C();                         /* extern */
 M2C_UNK func_80048D20();                            /* extern */
 s32 func_80048D40();                                /* extern */
-M2C_UNK func_800902C0();                            /* extern */
-M2C_UNK func_800902F4();                            /* extern */
 M2C_UNK func_80094984(); /* extern */
 M2C_UNK func_80098868(); /* extern */
 M2C_UNK func_80098928(); /* extern */
@@ -45,7 +43,7 @@ extern s32 D_800D0438;
 void func_80090210(void) {
     s32 temp_s0;
     s32 temp_s0_2;
-    s32 temp_v0;
+    register s32 temp_v0 ASM_REG("$2"); /* MATCH: Keep the merged call result in v0 for the shared stores. */
     u8 *base_83780 = (u8 *)&D_80083780;
     u8 *base_82E80 = D_80082E80;
     u8 *base_834B8 = (u8 *)&D_800834B8;
@@ -57,13 +55,9 @@ void func_80090210(void) {
             ((S_80090210_0 *)((u8 *)base_834B8 - 0x10))->unk_26 = 0;
             temp_s0 = func_80033B2C(0x1202);
             if (temp_s0 != func_80033B2C(0x9D)) {
-                register u32 dead_result_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-                func_80048D20();
-                dead_result_page = 0x80080000;
-                ASM_PAGEBASE_PIN(dead_result_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800902C0();
-                return;
+                temp_v0 = func_80048D20();
+                D_80080A80 = temp_v0;
+                ((S_80090210_1 *)base_82E80)->unk_28 = temp_v0;
             }
             goto block_7;
         }
@@ -76,15 +70,10 @@ void func_80090210(void) {
         }
 block_7:
         if (func_80033B2C(0x1202) != 0) {
-            register u32 dead_arg_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
             func_80033AA8(0x9D);
-            dead_arg_page = 0x800D0000;
-            ASM_PAGEBASE_PIN(dead_arg_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800902F4();
-            return;
+        } else {
+            func_80033AE8(0x9D);
         }
-        func_80033AE8(0x9D);
         func_80094984(D_800D0078, base_834B8, base_82E80);
         func_80099764(base_834B8);
         func_80098868(base_834B8, base_83780, base_82E80);

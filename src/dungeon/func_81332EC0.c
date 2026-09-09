@@ -16,13 +16,6 @@ extern void func_800A48F0();
 extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s32 func_800BCB04();
-extern void func_80169FC0() __attribute__((noreturn));
-extern void func_8016A158() __attribute__((noreturn));
-extern void func_8016A17C() __attribute__((noreturn));
-extern void func_8016A1E8() __attribute__((noreturn));
-extern void func_8016A280() __attribute__((noreturn));
-extern void func_8016A298() __attribute__((noreturn));
-extern void func_8016A318() __attribute__((noreturn));
 extern void D_8016A36C();
 
 extern u16 D_80013714;
@@ -103,8 +96,9 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     void *slot_entry;
     S_80169EC0_2 *slot_record;
     u16 status;
-    u16 height;
-    s16 signed_height;
+    register u16 height ASM_REG("$4"); /* MATCH: reserve the unsigned height register used by the shared landing tail. */
+    s32 signed_height;
+    s32 height_offset;
 
     if ((*(u8 *)((u8 *)owner + (0xB1))) == 0 &&
         !(D_80013714 & 1) && D_8008346A == 0) {
@@ -131,15 +125,10 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     }
 
     if ((*(u8 *)((u8 *)owner + (0xB0))) == 1) {
-        u32 page;
         func_800A48F0(actor, 7, 1);
-        page = 0x80080000;
-        ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80169FC0();
-        return;
+    } else {
+        func_80042B68(actor, 7);
     }
-
-    func_80042B68(actor, 7);
     if (D_80083462 & 0x2000) {
         special_callback = (*(Callback *)((u8 *)owner + (0x8C)));
         if (special_callback == (Callback)D_8016A36C) {
@@ -195,30 +184,24 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         if (!(((S_80169EC0_3 *)actor)->unk_1C & 0x20)) {
             if (!(frame_status & 0x40)) {
                 func_800478B8(data);
-                func_8016A158();
-                return;
             }
         } else {
             ((S_80169EC0_4 *)data)->unk_14 = cleared_status | 0x7000;
         }
         func_800A020C(((S_80169EC0_3 *)actor)->unk_1C, (u8 *)data + 0xC);
-        func_8016A17C();
-        return;
+    } else {
+        ((S_80169EC0_4 *)data)->unk_14 = (status & 0x800) ?
+                                (status & 0x8FFF) : (status | 0x7000);
     }
-
-    ((S_80169EC0_4 *)data)->unk_14 = (status & 0x800) ?
-                            (status & 0x8FFF) : (status | 0x7000);
 
     ((S_80169EC0_5 *)motion)->unk_00.at00.v += ((S_80169EC0_5 *)motion)->unk_0C;
     ((S_80169EC0_5 *)motion)->unk_04.at00.v += ((S_80169EC0_5 *)motion)->unk_10;
     if ((*(u16 *)((u8 *)owner + (0x98))) & 8) {
         (*(u8 *)((u8 *)owner + (0x9D))) = 0;
-        func_8016A1E8();
-        return;
+    } else {
+        ((S_80169EC0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)owner + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)owner + (0x9D)))++;
     }
-
-    ((S_80169EC0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)owner + (0x9D))) * 0x14000;
-    (*(u8 *)((u8 *)owner + (0x9D)))++;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(s32 *)((u8 *)owner + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
 
@@ -230,22 +213,22 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     if ((s16)terrain_height >= 0x200) {
         goto clear_movement_flag;
     }
+    height_offset = (*(s16 *)((u8 *)owner + (0x92)));
     signed_height = ((S_80169EC0_3 *)actor)->unk_88.s;
     height = ((S_80169EC0_3 *)actor)->unk_88.u;
-    if ((*(s16 *)((u8 *)owner + (0x92))) + signed_height < (s16)terrain_height) {
+    if (height_offset + signed_height < (s16)terrain_height) {
         ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
-        func_8016A298(height, terrain_height, signed_height);
-        return;
+    } else {
+        if ((s16)terrain_height >= signed_height) {
+            (*(s32 *)((u8 *)owner + (0x90))) = 0;
+        } else {
+            (*(s16 *)((u8 *)owner + (0x92))) = terrain_height - height;
+            ASM_KEEP(height); /* MATCH: keep the height operand intact so the difference uses the retail scratch register. */
+        }
+        ((S_80169EC0_5 *)motion)->unk_14 = 0;
+        ((S_80169EC0_3 *)actor)->unk_1C |= 0x08000000;
+        (*(u8 *)((u8 *)owner + (0x9D))) = 0;
     }
-    if ((s16)terrain_height >= signed_height) {
-        (*(s32 *)((u8 *)owner + (0x90))) = 0;
-        func_8016A280(height, terrain_height, signed_height);
-        return;
-    }
-    (*(s16 *)((u8 *)owner + (0x92))) = terrain_height - height;
-    ((S_80169EC0_5 *)motion)->unk_14 = 0;
-    ((S_80169EC0_3 *)actor)->unk_1C |= 0x08000000;
-    (*(u8 *)((u8 *)owner + (0x9D))) = 0;
     actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
     if (actor_flags & 0x40000000) {
         ((S_80169EC0_3 *)actor)->unk_1C = actor_flags & 0xBFFFFFFF;
@@ -254,8 +237,6 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
                                (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
         (*(s16 *)((u8 *)owner + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;
         ((S_80169EC0_3 *)actor)->unk_88.u = terrain_height;
-        func_8016A318();
-        return;
     }
     goto finish;
 

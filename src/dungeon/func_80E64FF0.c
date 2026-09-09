@@ -62,14 +62,12 @@ extern s32 func_800A45D8(u16, u16, s16);
 extern s32 func_800A7234(s8, s8, s16, s16 *, s16 *, s16 *);
 extern void func_800A7A7C(s16, s16, s16, s32, u8 *);
 extern s16 func_800BCB04(s32, s32, s16);
-extern void func_801748B8(void) __attribute__((noreturn));
-extern void func_80174AA0(void) __attribute__((noreturn));
-extern void func_80174C5C(void) __attribute__((noreturn));
 
 void func_801747F0(void *arg0, void *arg1, void *arg2)
 {
     static void *const jump_targets[] = { &&jt0, &&jt1, &&jt2, &&jt3, &&jt4 };
     u8 colors[4];
+    s32 result;
     s32 old_height;
     s32 old_height2;
     s32 x;
@@ -114,36 +112,22 @@ state1:
     (void)jump_targets;
     goto *D_80170870[distance];
 jt0:
-    {
-        s32 result = 4;
-        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_801748B8();
-        return;
-    }
+    result = 4;
+    goto set_count;
 jt1:
-    {
-        s32 result = 8;
-        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_801748B8();
-        return;
-    }
+    result = 8;
+    goto set_count;
 jt2:
-    {
-        s32 result = 0xC;
-        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_801748B8();
-        return;
-    }
+    result = 0xC;
+    goto set_count;
 jt3:
-    {
-        s32 result = 0xE;
-        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_801748B8();
-        return;
-    }
+    result = 0xE;
+    goto set_count;
 jt4:
 far1:
-    ((S_801747F0_0 *)arg0)->unk_26.u = 0x10;
+    result = 0x10;
+set_count:
+    ((S_801747F0_0 *)arg0)->unk_26.u = result;
 move1:
     count_after = ((S_801747F0_0 *)arg0)->unk_26.u - 1;
     ((S_801747F0_0 *)arg0)->unk_26.u = count_after;
@@ -182,8 +166,7 @@ move1:
         colors[3] = ((S_801747F0_0 *)arg0)->unk_2F;
         func_800A7A7C(((S_801747F0_1 *)arg1)->unk_0E, ((S_801747F0_1 *)arg1)->unk_12,
                       ((S_801747F0_1 *)arg1)->unk_16, ((S_801747F0_2 *)arg2)->unk_08, colors);
-        func_80174AA0();
-        return;
+        goto finished;
     }
     if (((S_801747F0_2 *)arg2)->unk_14 & 0x8000) {
         goto state1;
@@ -213,6 +196,7 @@ state2:
                 (((S_801747F0_0 *)arg0)->unk_51.s << 6) & 0xFFC0,
                 (s16)(((S_801747F0_1 *)arg1)->unk_08.at02p.v - 0x20));
             ((S_801747F0_1 *)arg1)->unk_08.at00u.v = 0;
+finished:
             (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
             D_800814A0 |= 0x8000;
             return;
@@ -266,11 +250,10 @@ blocked:
                 ((S_801747F0_1 *)arg1)->unk_04.at00.v -= ((S_801747F0_0 *)arg0)->unk_58;
                 ((S_801747F0_0 *)arg0)->unk_58 = 0;
                 ((S_801747F0_0 *)arg0)->unk_64 = 0;
-                func_80174C5C();
-                return;
+            } else {
+                ((S_801747F0_0 *)arg0)->unk_50.u += *(u8 *)((((S_801747F0_0 *)arg0)->unk_24 * 4) + tile_base);
+                ((S_801747F0_0 *)arg0)->unk_51.u += *(u8 *)((((S_801747F0_0 *)arg0)->unk_24 * 4) + tile_base + 2);
             }
-            ((S_801747F0_0 *)arg0)->unk_50.u += *(u8 *)((((S_801747F0_0 *)arg0)->unk_24 * 4) + tile_base);
-            ((S_801747F0_0 *)arg0)->unk_51.u += *(u8 *)((((S_801747F0_0 *)arg0)->unk_24 * 4) + tile_base + 2);
             ((S_801747F0_2 *)arg2)->unk_06 = 0;
         }
     }

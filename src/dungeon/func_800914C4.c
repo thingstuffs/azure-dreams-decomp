@@ -12,11 +12,6 @@ extern u8 D_800DD274[];
 
 extern s32 func_8003DB94();
 extern void func_80094ED4();
-extern void func_80096DE4();
-extern void func_80096E08();
-extern void func_80096F28();
-extern void func_80096F84();
-extern void func_8009701C();
 extern void func_80099F04();
 extern void func_80099F70();
 extern s32 func_8009A21C();
@@ -48,6 +43,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
         &&after_nonpositive_9701C,
     };
 
+    ASM_USE_NV(obj); /* MATCH: Preserve obj's retail saved-register allocation when the handler call is shared. */
     globals = D_80083160;
     func_800A67F4();
     result = func_8009ABA0(S16(map, 0x2A), arg1, actor, S16(map, 0x88), 0x20);
@@ -84,8 +80,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
                 call_actor = actor;
                 n = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
                 entry = handler + (n & 0x1C);
-                ASM_TAILSLOT_PIN(entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                return func_80096DE4(call_actor);
+                func_8003DB94(call_actor, *(void **)entry, 0);
             }
         } else if ((S32(globals, 8) & 0x20) && func_800A5C70()) {
             register u8 *second_handler;
@@ -95,13 +90,6 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
             P32(actor, 0x2C) = second_handler;
             n = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
             func_8003DB94(actor, *(void **)(second_handler + (n & 0x1C)), 0);
-            {
-                u32 page;
-
-                page = 0x80080000;
-                ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            }
-            return func_80096E08();
         } else {
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             do {
@@ -128,7 +116,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
         }
         U8(obj, 0x9A) = 0x35;
         state2[2] = 8;
-            return func_80096F84();
+            goto after_positive_9701C;
     }
 
     U16(obj, 0x98) |= 0xC;
@@ -138,9 +126,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
     func_8003DB94(actor, *(void **)(late_handler + (n & 0x1C)), 0);
     if (kind < 4) {
         U16(obj, 0xA2) |= 1;
-        return func_80096F28();
-    }
-    if (kind == 2 || kind == 4) {
+    } else if (kind == 2 || kind == 4) {
         U8(obj, 0x9B) = 8;
     }
     func_80094ED4(obj, arg1, actor, map);
@@ -154,7 +140,7 @@ void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
         S32(call_map, 0x1C) |= 0x40000000;
         func_8009F644(call_map, 8, 0, 0);
     }
-        return func_8009701C();
+        return;
 after_positive_9701C:
         func_8009F644(map, 8, 0, 0);
         tail_obj = obj;
@@ -170,7 +156,7 @@ after_positive_9701C:
     n = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
     func_8003DB94(actor, *(void **)(nonpositive_handler + (n & 0x1C)), 0);
     S32(obj, 0x8C) = (s32)D_80096384;
-    return func_8009701C();
+    return;
 after_nonpositive_9701C:
     func_80094ED4(tail_obj, arg1, actor, map);
     map_flags = S32(map, 0x1C);

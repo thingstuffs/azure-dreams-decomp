@@ -8,12 +8,6 @@ typedef struct {
     s16 fieldA;
 } D_80083460_t;
 
-extern void func_8008FD34();
-extern void func_8008FD1C(void *, u8, s32);
-#ifndef NON_MATCHING
-extern void func_8008FD1C_state0(void *, u8, s32) __asm__("func_8008FD1C");
-#endif
-extern void func_8008FCE8(void) __attribute__((noreturn));
 extern void func_80099F70(s32);
 extern void func_80099F04(s32);
 extern void func_80048A44(void *, u8, s16, s32);
@@ -107,6 +101,7 @@ void func_8008FA7C(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3) {
     s16 countdown;
     s32 index;
     s16 state;
+    u8 *table;
 #ifndef NON_MATCHING
     register s32 saved ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 result;
@@ -133,7 +128,6 @@ void func_8008FA7C(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3) {
         }
 #ifndef NON_MATCHING
 #endif
-        func_8008FD34(state0_call_arg);
         return;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -143,7 +137,6 @@ void func_8008FA7C(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3) {
     if (state == 3) {
         goto state_3;
     }
-    func_8008FD34();
     return;
 
 state_0:
@@ -157,14 +150,17 @@ state_0:
             state0_index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
             state0_index += (u32)D_800DD0C8;
             state0_byte = *(volatile u8 *)state0_index;
-            func_8008FD1C_state0(state0_call_arg, state0_byte, 0);
+            ASM_SCHED_BARRIER(); /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
+            func_80048A44(state0_call_arg, state0_byte, 0, 1);
+            arg0[0x9B]++;
 #else
             u8 *lookup_v0;
             u8 lookup_byte;
             index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
             lookup_v0 = &D_800DD0C8[index];
             lookup_byte = *lookup_v0;
-            func_8008FD1C(state0_call_arg, lookup_byte, 0);
+            func_80048A44(state0_call_arg, lookup_byte, 0, 1);
+            arg0[0x9B]++;
 #endif
         }
         return;
@@ -274,7 +270,8 @@ state_1:
             state1_index >>= 9;
             state1_index &= 7;
             state1_index += state1_a1;
-            func_8008FD1C(call_arg, *(u8 *)state1_index, 5);
+            func_80048A44(call_arg, *(u8 *)state1_index, 5, 1);
+            arg0[0x9B]++;
 #else
             ((S_8008FA7C_2 *)arg3)->unk_1C &= clear_mask;
             saved = D_80081484[0];
@@ -287,7 +284,8 @@ state_1:
             lookup_v0 = &table_a1[index];
 #ifndef NON_MATCHING
 #endif
-            func_8008FD1C(call_arg, *lookup_v0, 5);
+            func_80048A44(call_arg, *lookup_v0, 5, 1);
+            arg0[0x9B]++;
 #endif
         }
         return;
@@ -312,12 +310,14 @@ state_2:
 
             state2_index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
             state2_index += (u32)D_800DD060;
-            func_8008FD1C(state2_call_arg, *(u8 *)state2_index, 0);
+            func_80048A44(state2_call_arg, *(u8 *)state2_index, 0, 1);
+            arg0[0x9B]++;
 #else
             u8 *lookup_v0;
             index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
             lookup_v0 = &D_800DD060[index];
-            func_8008FD1C(state2_call_arg, *lookup_v0, 0);
+            func_80048A44(state2_call_arg, *lookup_v0, 0, 1);
+            arg0[0x9B]++;
 #endif
         }
         return;
@@ -339,18 +339,19 @@ state_3:
             dead_v0 = (u8 *)0x800E0000;
             ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             dead_v0 -= 0x2F48;
-            ASM_TAILSLOT_PIN(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            table = dead_v0;
 #else
             ((S_8008FA7C_3 *)arg0)->unk_8C.p = D_8008EAC8;
+            table = D_800DD0B8;
 #endif
-            func_8008FCE8();
-            return;
-        }
+        } else {
 #ifndef NON_MATCHING
-        dead_v0 = (u8 *)0x80090000;
+            dead_v0 = (u8 *)0x80090000;
 #endif
-        ((S_8008FA7C_3 *)arg0)->unk_8C.p2 = &D_8008ACDC;
-        (*(u8 * *)((u8 *)state3_arg2 + (0x2C))) = D_800DCFB0;
+            ((S_8008FA7C_3 *)arg0)->unk_8C.p2 = &D_8008ACDC;
+            table = D_800DCFB0;
+        }
+        (*(u8 * *)((u8 *)state3_arg2 + (0x2C))) = table;
 #ifndef NON_MATCHING
         ASM_KEEP(state3_arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #endif

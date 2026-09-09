@@ -9,8 +9,6 @@ extern void func_8008CBA0();
 extern void func_8008CF6C();
 extern s16 func_8009074C();
 extern s32 func_80094EA4(void);
-extern void func_8009693C(void) __attribute__((noreturn));
-extern void func_80096990() __attribute__((noreturn));
 extern void func_800969B8();
 extern void func_80096AC0();
 extern void func_80096C24();
@@ -97,7 +95,7 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
     u8 *temp_s4;
     u16 *flags_page;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 flags;
-    s32 temp_s4_value = 0x32;
+    register s32 temp_s4_value ASM_REG("$20") = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
     s32 temp_state;
 
     if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 != temp_s4_value) {
@@ -120,7 +118,7 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
     temp_v0 = ((S_80096384_3 *)arg3)->unk_64;
     if (temp_v0 < 0) {
         func_80097898(arg0, arg1, arg2, arg3);
-        func_80096990();
+        return;
     }
     if (temp_v0 > 0) {
         func_8008CBA0(arg0, arg1, arg2, arg3);
@@ -134,13 +132,13 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
     temp_v1_2 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
     if (!(temp_v1_2 & 0x10)) {
         func_80096AC0(arg0, arg1, arg2, arg3);
-        func_80096990();
+        return;
     }
 
     temp_a0 = ((S_80096384_3 *)arg3)->unk_1C;
     if (temp_a0 & 0x200) {
         func_80097C50(arg0, arg1, arg2, arg3);
-        func_80096990();
+        return;
     }
 
     if (!(((S_80096384_4 *)temp_s4)->unk_02 & 4)) {
@@ -204,7 +202,7 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
                         }
                         ((S_80096384_3 *)arg3)->unk_2A.u = var_v0_4;
                         func_8009F988(temp_a0, signed_target);
-                        func_8009693C();
+                        goto block_87;
                     }
 
                     D_800E3544[0] = temp_v0_2->unk_01 & 0xF8;
@@ -212,13 +210,15 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
                     if (temp_state != 0x10) {
                         if (temp_state < 0x11) {
                             if (temp_state != 8) {
-                                func_8009693C();
+                                ASM_SCHED_BARRIER(); /* MATCH: preserve the state dispatch jump layout. */
+                                goto block_87;
                             }
                             goto block_state_8;
                         }
                         if (temp_state != 0x18) {
                             if (temp_state != 0xD8) {
-                                func_8009693C();
+                                ASM_SCHED_BARRIER(); /* MATCH: preserve the state dispatch jump layout. */
+                                goto block_87;
                             }
                             goto block_state_D8;
                         }
@@ -227,22 +227,22 @@ void func_80096384(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
                     goto block_state_10;
 block_state_8:
                     func_80096C24(arg0, arg1, arg2, arg3);
-                    func_80096990();
+                    return;
 block_state_10:
                     func_800969B8(arg0, arg1, arg2, arg3);
-                    func_80096990();
+                    return;
 block_state_18:
                     func_800973F0(arg0, arg1, arg2, arg3);
-                    func_8009693C();
+                    goto block_87;
 block_state_D8:
                     D_800DD830[temp_v0_2->unk_00 & 0x7F]();
-                    func_8009693C();
+                    goto block_87;
                 }
             } else {
                 D_800E3544[0] = 0;
                 if (flags & 4) {
                     func_80040AA0(3);
-                    func_80096990();
+                    return;
                 }
 
                 if ((func_80094EA4() << 16) != 0) {
@@ -256,7 +256,7 @@ block_state_D8:
                         arg2->unk_25) << 16) != 0)) {
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 &= 0xFDFF;
                     func_8008CF6C(arg0, arg1, arg2, D_800245A8);
-                    func_80096990();
+                    return;
                 }
 
                 if (((S_80096384_2 *)temp_s5)->unk_08.s & 0x80) {
@@ -266,14 +266,14 @@ block_state_D8:
                     D_80082EB0[0] = 0;
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_104 = 0;
-                    func_80096990();
+                    return;
                 }
 
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 temp_a1_2 = (u8 *)arg0 + 0xA2;
                 if (((S_80096384_2 *)temp_s5)->unk_08.s & 3) {
                     func_800A56E0(0x506, temp_a1_2);
-                    func_80096990();
+                    return;
                 }
 
                 temp_v0_3 = func_8009074C(((Rec_func_8008ACDC_arg0 *)arg0)->unk_9E,
@@ -291,7 +291,7 @@ block_state_D8:
                             }
                             func_80096C24(arg0, arg1, arg2, arg3);
                             if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 != 0x32) {
-                                func_80096990();
+                                return;
                             }
                             goto block_78;
                         }
@@ -304,7 +304,7 @@ block_78:
                 if ((tail_data_flags & 0x30) == 0x30) {
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 &= 0xFFFE;
                     func_800969B8(arg0, arg1, arg2, arg3);
-                    func_80096990();
+                    return;
                 }
 
                 temp_v1_6 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
@@ -313,7 +313,7 @@ block_78:
                     temp_v0_4 = tail_data_flags & 0x40;
                     if (temp_v0_4 == 0) {
                         ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = temp_v1_6 & 0xFFBF;
-                        func_8009693C();
+                        goto block_87;
                     }
                     goto block_88;
                 }

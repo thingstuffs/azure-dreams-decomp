@@ -82,7 +82,6 @@ M2C_UNK func_800AA888();
 M2C_UNK func_800AD4D0();
 M2C_UNK func_80171F94();
 M2C_UNK func_80173CEC();
-extern void func_80173954(void) __attribute__((noreturn));
 extern M2C_UNK D_80045340;
 extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
@@ -143,14 +142,16 @@ block_9:
     func_80047784(arg2, D_801741E4[((D_80083228 + ((S_801732A4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
     if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         if (!(((Rec_func_801732A4_arg0 *)arg0)->unk_98 & 0x8000)) goto block_14;
-        ((S_801732A4_3 *)var_v0)->unk_0A = (u16)(((S_801732A4_3 *)var_v0)->unk_0A + 1);
-        func_80173954();
+        temp_v0 = ((S_801732A4_3 *)var_v0)->unk_0A + 1;
+        ASM_SCHED_BARRIER(); /* MATCH: keep this count update separate, with the store in the jump delay slot. */
+        ((S_801732A4_3 *)var_v0)->unk_0A = temp_v0;
+        goto block_55;
 block_14:
         ((S_801732A4_2 *)arg3)->unk_1C = (s32)(((S_801732A4_2 *)arg3)->unk_1C & ~0x200);
         goto block_56;
     }
     ((S_801732A4_3 *)var_v0)->unk_0A = (u16)(((S_801732A4_3 *)var_v0)->unk_0A + 1);
-    func_80173954();
+    goto block_55;
 block_16:
     if (((S_801732A4_2 *)arg3)->unk_64 == 0) goto block_22;
     if (func_800AA6B4(arg0, arg1, arg2, 0) == 0) goto block_22;
@@ -207,17 +208,18 @@ block_40:
     if (!(((Rec_func_801732A4_arg0 *)arg0)->unk_98 & 0x8000)) goto block_14;
     {
         register u16 effect_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        effect_count = D_80083460[5];
-        D_80083460[5] = (u16)(effect_count + 1);
+        effect_count = D_80083460[5] + 1;
+        ASM_SCHED_BARRIER(); /* MATCH: keep this count update separate, with the store in the jump delay slot. */
+        D_80083460[5] = effect_count;
     }
-    func_80173954();
+    goto block_55;
 block_44:
     {
         register u16 effect_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         effect_count = D_80083460[5];
         D_80083460[5] = (u16)(effect_count + 1);
     }
-    func_80173954();
+    goto block_55;
 jt_c2:
     if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) goto block_58;
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_801741EC;

@@ -6,9 +6,6 @@ M2C_UNK func_80064A40();                            /* extern */
 M2C_UNK func_80064CF0();                      /* extern */
 M2C_UNK func_80064D80();                      /* extern */
 M2C_UNK func_80065320();     /* extern */
-M2C_UNK func_800A1DD4();                            /* extern */
-M2C_UNK func_800A1E14();                            /* extern */
-M2C_UNK func_800A1E54();                            /* extern */
 extern s32 D_800814A0;
 
 
@@ -95,34 +92,31 @@ void func_800A1D1C(void *arg0, S_800A1D1C_5 *arg1, void *arg2) {
     ((S_800A1D1C_0 *)arg0)->unk_00(arg0, arg1, arg2_local);
     if (((S_800A1D1C_0 *)arg0)->unk_3C != 0) {
         ((S_800A1D1C_3 *)arg2_local)->unk_0C.u = ((S_800A1D1C_1 *)temp_s1)->unk_10.u8;
-        func_800A1DD4();
-        return;
+    } else {
+        var_v0 = ((S_800A1D1C_1 *)temp_s1)->unk_10.s16 * 3;
+        if (var_v0 < 0) {
+            var_v0 += 3;
+        }
+        ((S_800A1D1C_3 *)arg2_local)->unk_0C.s = (s8) (var_v0 >> 2);
     }
-    var_v0 = ((S_800A1D1C_1 *)temp_s1)->unk_10.s16 * 3;
-    if (var_v0 < 0) {
-        var_v0 += 3;
-    }
-    ((S_800A1D1C_3 *)arg2_local)->unk_0C.s = (s8) (var_v0 >> 2);
     if (((S_800A1D1C_0 *)arg0)->unk_3D != 0) {
         ((S_800A1D1C_3 *)arg2_local)->unk_0D.u = ((S_800A1D1C_1 *)temp_s1)->unk_10.u8;
-        func_800A1E14();
-        return;
+    } else {
+        var_v0_2 = ((S_800A1D1C_1 *)temp_s1)->unk_10.s16 * 3;
+        if (var_v0_2 < 0) {
+            var_v0_2 += 3;
+        }
+        ((S_800A1D1C_3 *)arg2_local)->unk_0D.s = (s8) (var_v0_2 >> 2);
     }
-    var_v0_2 = ((S_800A1D1C_1 *)temp_s1)->unk_10.s16 * 3;
-    if (var_v0_2 < 0) {
-        var_v0_2 += 3;
-    }
-    ((S_800A1D1C_3 *)arg2_local)->unk_0D.s = (s8) (var_v0_2 >> 2);
     if (((S_800A1D1C_0 *)arg0)->unk_3E != 0) {
         ((S_800A1D1C_3 *)arg2_local)->unk_0E.u = ((S_800A1D1C_1 *)temp_s1)->unk_10.u8;
-        func_800A1E54();
-        return;
+    } else {
+        var_v0_3 = ((S_800A1D1C_1 *)temp_s1)->unk_10.s16 * 3;
+        if (var_v0_3 < 0) {
+            var_v0_3 += 3;
+        }
+        ((S_800A1D1C_3 *)arg2_local)->unk_0E.s = (s8) (var_v0_3 >> 2);
     }
-    var_v0_3 = ((S_800A1D1C_1 *)temp_s1)->unk_10.s16 * 3;
-    if (var_v0_3 < 0) {
-        var_v0_3 += 3;
-    }
-    ((S_800A1D1C_3 *)arg2_local)->unk_0E.s = (s8) (var_v0_3 >> 2);
     ((S_800A1D1C_4 *)scratch)->unk_2C = ((S_800A1D1C_0 *)arg0)->unk_24;
     ((S_800A1D1C_4 *)scratch)->unk_2E = ((S_800A1D1C_0 *)arg0)->unk_28;
     ((S_800A1D1C_4 *)scratch)->unk_30 = ((S_800A1D1C_0 *)arg0)->unk_2C;

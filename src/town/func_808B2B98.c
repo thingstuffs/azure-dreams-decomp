@@ -10,7 +10,7 @@ typedef struct {
 extern u8 D_A0700000[0x1000];
 extern CallbackOwner *D_A0700F58[4];
 
-extern s32 func_80700304(void);
+extern s32 func_80700304(s32, s32, s32, s32);
 extern void func_8070049C(void) __attribute__((noreturn));
 extern void func_80700590(s32, u8 *);
 extern s32 func_80700DC0(s16);
@@ -20,7 +20,7 @@ typedef struct S_808B2B98_0 {
     u8 unk_0E;
 } S_808B2B98_0;   /* temp_v1 in func_808B2B98 */
 
-s32 func_808B2B98(s32 arg0) {
+s32 func_808B2B98(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_v0;
     s32 temp_a0;
     s32 var_s0;
@@ -29,7 +29,7 @@ s32 func_808B2B98(s32 arg0) {
     s32 temp_result;
 
     var_s0 = arg0;
-    if (func_80700304() > 0) {
+    if (func_80700304(arg0, arg1, arg2, arg3) > 0) {
         temp_v0 = *(s16 *)(D_A0700000 + (var_s0 * 2) + 0xF34);
         temp_a0 = temp_v0;
         if (temp_v0 < 0) {

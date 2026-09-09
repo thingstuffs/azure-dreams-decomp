@@ -74,8 +74,6 @@ extern void func_800AAF00(void *, void *, void *, void *, void *);
 extern void func_800D6068(void *, void *, void *, void *);
 extern void func_801708B8(void *, void *, void *);
 extern void func_801717D0(void *, void *, void *, void *, void *);
-extern void func_80171C9C(void) __attribute__((noreturn));
-extern void func_80172050() __attribute__((noreturn));
 extern void func_80172144(void);
 extern void func_801723F8(void *, void *, void *, void *);
 extern s32 func_80172BB0(void *, void *, void *, void *);
@@ -161,6 +159,7 @@ void func_80171A80(void *arg0, void *arg1, void *arg2, void *arg3)
         }
         if (((S_80171A80_0 *)arg0)->unk_B5 == 0) {
             void *table = D_800E23E0;
+            u8 active;
 
             if (((S_80171A80_2 *)arg2)->unk_2C != table) {
                 (*(void * *)((u8 *)arg2 + 0x2C)) = table;
@@ -168,13 +167,13 @@ void func_80171A80(void *arg0, void *arg1, void *arg2, void *arg3)
                     ((u8 *)table)[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                     0);
                 ((S_80171A80_2 *)arg2)->unk_05 = 1;
-                (void)((S_80171A80_0 *)arg0)->unk_B0.v;
+                active = ((S_80171A80_0 *)arg0)->unk_B0.v;
                 ((S_80171A80_0 *)arg0)->unk_9E = 0;
                 ((S_80171A80_0 *)arg0)->unk_A2.s = 0;
-                func_80171C9C();
-                return;
+            } else {
+                active = ((S_80171A80_0 *)arg0)->unk_B0.n;
             }
-            if (((S_80171A80_0 *)arg0)->unk_B0.n == 0) {
+            if (active == 0) {
                 func_801708B8(arg0, arg1, arg2);
             }
             if (((S_80171A80_0 *)arg0)->unk_B5 == 0) {
@@ -253,8 +252,7 @@ jt_c1:
             func_801754AC(arg0, arg1, arg2, arg3);
             return;
         }
-        ((s32 *)__builtin_alloca(0))[-2] = 0;
-        func_80172050();
+        func_80175F44(arg0, arg1, arg2, 1, 0);
         return;
 
 jt_c2:
@@ -262,8 +260,7 @@ jt_c2:
             func_800D6068(arg0, arg1, arg2, arg3);
             return;
         }
-        ((s32 *)__builtin_alloca(0))[-2] = 0;
-        func_80172050();
+        func_80175F44(arg0, arg1, arg2, 1, 0);
         return;
 
 jt_c5:

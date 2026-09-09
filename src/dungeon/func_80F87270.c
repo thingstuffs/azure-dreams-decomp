@@ -10,10 +10,6 @@ extern void func_800A020C(s32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(u16, u16, s16);
-extern void func_80170C0C(void) __attribute__((noreturn));
-extern void func_80170D30(void) __attribute__((noreturn));
-extern void func_80171064(void) __attribute__((noreturn));
-extern void func_80171068(void) __attribute__((noreturn));
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
@@ -109,10 +105,9 @@ void func_80170A70(void *arg0, void *raw_arg1, void *raw_arg2)
         !((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
         ((S_80170A70_0 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)arg0 + (0x9D)))++;
-        func_80170C0C();
+    } else {
+        (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
     }
-
-    do { (*(u8 *)((u8 *)arg0 + (0x9D))) = 0; } while (0);
     (*(s32 *)((u8 *)arg0 + (0x90))) += ((S_80170A70_0 *)arg1)->unk_14;
     flags = ((S_80170A70_1 *)arg2)->unk_14;
 
@@ -144,11 +139,6 @@ void func_80170A70(void *arg0, void *raw_arg1, void *raw_arg2)
         if (!(object->unk_1C & 0x20)) {
             if (!(((S_80170A70_1 *)arg2)->unk_14 & 0x40)) {
                 func_800478B8(arg2);
-                {
-                    u32 tail_v0 = 0xF7FF0000;
-                    ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_80170D30();
-                }
             }
             goto clear_motion_flag;
         }
@@ -180,13 +170,13 @@ phase_update_a:
                 if ((*(s16 *)((u8 *)arg0 + (0x92))) > ground - 0x30) {
                     (*(s16 *)((u8 *)arg0 + (0x92))) =
                         (u16)(*(s16 *)((u8 *)arg0 + (0x92))) - 8;
-                    func_80171068();
+                    goto reset_bob;
                 }
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 if (ground - 0x3A > (*(s16 *)((u8 *)arg0 + (0x92)))) {
                     (*(s16 *)((u8 *)arg0 + (0x92))) =
                         (u16)(*(s16 *)((u8 *)arg0 + (0x92))) + 8;
-                    func_80171068();
+                    goto reset_bob;
                 }
             }
             goto reset_bob;
@@ -206,7 +196,7 @@ phase_update_a:
                 (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
                 ((S_80170A70_0 *)arg1)->unk_14 = 0;
                 object->unk_1C |= 0x08000000;
-                func_80171068();
+                goto reset_bob;
             }
         }
         goto reset_bob;
@@ -240,7 +230,7 @@ phase_update_a:
                 (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
                 ((S_80170A70_0 *)arg1)->unk_14 = 0;
                 object->unk_1C |= 0x08000000;
-                func_80171064();
+                goto finish_height;
             }
         }
         goto finish_height;

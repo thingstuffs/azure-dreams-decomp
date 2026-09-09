@@ -15,10 +15,10 @@ typedef struct Runtime {
 } Runtime;
 
 extern Runtime *D_80016000;
-extern void func_80016128(void);
+extern void func_80016128(s32 arg0, s32 arg1);
 extern void func_80016118(void) __attribute__((noreturn));
 
-void func_807748D0(void)
+void func_807748D0(s32 arg0, s32 arg1)
 {
     void *callback;
     s32 callbackIndex;
@@ -31,7 +31,7 @@ void func_807748D0(void)
     callback = *(void **)callback;
     
     if (callback == 0) {
-        func_80016128();
+        func_80016128(arg0, arg1);
         func_80016118();
     }
     ((Callback)callback)();

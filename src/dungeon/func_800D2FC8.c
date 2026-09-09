@@ -13,15 +13,6 @@ extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
 
-extern void func_800D88E4(void) __attribute__((noreturn));
-extern void func_800D8930(void) __attribute__((noreturn));
-extern void func_800D8954(void) __attribute__((noreturn));
-extern void func_800D8A30(void) __attribute__((noreturn));
-extern void func_800D8A78(void) __attribute__((noreturn));
-extern void func_800D8AC4(void) __attribute__((noreturn));
-extern void func_800D8B98(void) __attribute__((noreturn));
-extern void func_800D8C18(void) __attribute__((noreturn));
-
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
 extern u16 D_80083462;
@@ -93,29 +84,27 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
             FIELD(entity, s16, 0x94) = state_direction;
         }
 
-        if (D_8006CCF8[lookup_direction] != 0) {
+        {
             u16 tail_flags;
-            tail_flags = FIELD(monster, u16, 0x14) | 1;
-            ASM_TAILSLOT_PIN(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800D88E4();
+            if (D_8006CCF8[lookup_direction] != 0) {
+                tail_flags = FIELD(monster, u16, 0x14) | 1;
+            } else {
+                ASM_KEEP(lookup_direction);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                tail_flags = VFIELD(monster, u16, 0x14) & 0xFFFE;
+            }
+            VFIELD(monster, u16, 0x14) = tail_flags;
         }
-        ASM_KEEP(lookup_direction);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        VFIELD(monster, u16, 0x14) &= 0xFFFE;
 
         if (!(FIELD(actor, s32, 0x1C) & 0x20)) {
             if (!(VFIELD(monster, u16, 0x14) & 0x40)) {
                 func_800478B8(monster);
-                func_800D8930();
             }
         } else {
             VFIELD(monster, u16, 0x14) |= 0x7000;
         }
 
         func_800A020C(FIELD(actor, s32, 0x1C), (u8 *)monster + 0xC);
-        func_800D8954();
-    }
-
-    if (flags & 0x800) {
+    } else if (flags & 0x800) {
         FIELD(monster, u16, 0x14) = flags & 0x8FFF;
     } else {
         FIELD(monster, u16, 0x14) = flags | 0x7000;
@@ -141,14 +130,13 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
 
         if ((u16)(FIELD(entity, u16, 0xA0) + 7) < 8) {
             FIELD(motion, s32, 0x14) += 0x40000;
-            func_800D8A30();
+        } else {
+            FIELD(motion, s32, 0x14) = 0;
         }
-        FIELD(motion, s32, 0x14) = 0;
 
         if (FIELD(entity, s16, 0xA0) < -7) {
             FIELD(entity, u16, 0x98) &= 0xFFFE;
             FIELD(entity, u16, 0xA0) = (func_80069EF8() & 0x3F) | 0x40;
-            func_800D8A78();
         }
     } else {
         FIELD(entity, u16, 0x98) &= 0xFFFE;
@@ -156,12 +144,11 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
 
     if (FIELD(entity, u16, 0x98) & 8) {
         FIELD(entity, u8, 0x9D) = 0;
-        func_800D8AC4();
+    } else {
+        FIELD(motion, s32, 0x14) +=
+            ((s8)FIELD(entity, u8, 0x9D) * 5) << 14;
+        FIELD(entity, u8, 0x9D)++;
     }
-
-    FIELD(motion, s32, 0x14) +=
-        ((s8)FIELD(entity, u8, 0x9D) * 5) << 14;
-    FIELD(entity, u8, 0x9D)++;
     ASM_USE(entity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     FIELD(entity, s32, 0x90) += FIELD(motion, s32, 0x14);
 
@@ -172,20 +159,17 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
         if (floor < 0x200) {
             if (FIELD(entity, s16, 0x92) + FIELD(actor, s16, 0x88) < floor) {
                 FIELD(actor, s32, 0x1C) &= 0xF7FFFFFF;
-                func_800D8B98();
-            }
-            if (floor >= FIELD(actor, s16, 0x88)) {
+            } else if (floor >= FIELD(actor, s16, 0x88)) {
                 FIELD(entity, s32, 0x90) = 0;
                 FIELD(motion, s32, 0x14) = 0;
                 FIELD(actor, s32, 0x1C) |= 0x08000000;
                 FIELD(entity, u8, 0x9D) = 0;
-                func_800D8B98();
+            } else {
+                FIELD(motion, s32, 0x14) = 0;
+                FIELD(actor, s32, 0x1C) |= 0x08000000;
+                FIELD(entity, u8, 0x9D) = 0;
+                FIELD(entity, u16, 0x92) = floor - FIELD(actor, u16, 0x88);
             }
-
-            FIELD(motion, s32, 0x14) = 0;
-            FIELD(actor, s32, 0x1C) |= 0x08000000;
-            FIELD(entity, u8, 0x9D) = 0;
-            FIELD(entity, u16, 0x92) = floor - FIELD(actor, u16, 0x88);
 
             if (FIELD(actor, s32, 0x1C) & 0x40000000) {
                 FIELD(actor, s32, 0x1C) &= 0xBFFFFFFF;
@@ -194,7 +178,6 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
                                       (s16)(FIELD(actor, u16, 0x88) - 0x20));
                 FIELD(entity, u16, 0x92) += FIELD(actor, u16, 0x88) - floor;
                 FIELD(actor, u16, 0x88) = floor;
-                func_800D8C18();
             }
             goto finish;
         }

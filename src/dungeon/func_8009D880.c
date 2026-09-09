@@ -8,7 +8,6 @@ s32 func_80099194();                  /* extern */
 M2C_UNK func_80099290();                         /* extern */
 s32 func_80099734();                     /* extern */
 s32 func_800A2DB8();                          /* extern */
-M2C_UNK func_800A319C();                   /* extern */
 M2C_UNK func_800A5720();                         /* extern */
 extern void *D_8007359C;
 extern M2C_UNK D_80089000;
@@ -82,14 +81,19 @@ void func_800A2FE0(Rec_D_800E3D7C *arg0) {
                     ASM_KEEP(temp_v0_raw);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     temp_v0_5 = temp_v0_raw;
                     ASM_KEEP(temp_v0_5);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    func_8003AD08(var_s2, func_80099194(&D_800E09D9, func_80099194(temp_global->unk_04, temp_v0_5)));
-                    func_800A319C(&D_800E09E6);
+                    func_80099290(func_80099194(&D_800E09E6, func_8003AD08(var_s2, func_80099194(&D_800E09D9, func_80099194(temp_global->unk_04, temp_v0_5)))));
+                } else {
+                    return;
                 }
-            } else if (temp_v1_2->unk_13 >= 0) {
+            } else {
+                if (temp_v1_2->unk_13 < 0) {
+                    return;
+                }
                 do { temp_v0_4 = func_800990FC(); } while (0);
-                func_80099290(func_80099194(&D_800E09FB, func_8003AD08(var_s2, func_80099194(&D_800E09EE, func_80099734(arg0->unk_60.as_pv, temp_v0_4)))));
-                func_800A5720(temp_v0_4);
+                temp_v0_5 = temp_v0_4;
+                func_80099290(func_80099194(&D_800E09FB, func_8003AD08(var_s2, func_80099194(&D_800E09EE, func_80099734(arg0->unk_60.as_pv, temp_v0_5)))));
             }
+            func_800A5720(temp_v0_5);
         }
     }
 }

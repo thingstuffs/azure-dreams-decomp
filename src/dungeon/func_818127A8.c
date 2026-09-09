@@ -11,8 +11,6 @@ extern M2C_UNK func_80026CD8();
 extern M2C_UNK func_80026D0C();
 extern M2C_UNK func_80027454();
 extern M2C_UNK func_800274A8();
-extern void func_80027954() __attribute__((noreturn));
-extern void func_80027968() __attribute__((noreturn));
 extern M2C_UNK func_80028620();
 extern M2C_UNK SD_Call();
 
@@ -105,10 +103,7 @@ void func_800277A8(void *arg0) {
         if (flags & 0x1000) {
             goto dispatch_negative;
         }
-        tail_flags = flags & 0x4000;
-        ASM_KEEP(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80027954(input_word, input);
-        return;
+        goto test_positive;
     }
 
     counter = ((S_800277A8_1 *)arg0)->unk_0C;
@@ -124,9 +119,7 @@ void func_800277A8(void *arg0) {
 
 dispatch_negative:
     delta = -9;
-    ASM_TAILSLOT_PIN(delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80027968(input_word, input);
-    return;
+    goto check_delta;
 
 test_positive:
     if (!(flags & 0x4000)) {
@@ -135,9 +128,7 @@ test_positive:
 
 dispatch_positive:
     delta = 9;
-    ASM_TAILSLOT_PIN(delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80027968(input_word, input);
-    return;
+    goto check_delta;
 
 increment_count:
     ((S_800277A8_1 *)arg0)->unk_0C = counter + 1;

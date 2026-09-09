@@ -25,8 +25,7 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171C50(void) __attribute__((noreturn));
-extern void func_80171CA8(void);
+extern void func_80171CA8(void *, void *, void *);
 extern void func_80171EEC(void *, void *, void *, void *);
 extern s32 func_801726B0(void *, void *, void *, void *);
 extern void func_80172874(void *, void *, void *, void *);
@@ -86,6 +85,7 @@ void func_801716F4(void *arg0, void *arg1, void *arg2, void *arg3)
     void *p2;
     register void *p3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *table;
+    register u8 *state ASM_REG("$5"); /* MATCH: both paths merge their table pointer in a1. */
     s32 result;
     s32 scratch;
     u32 initial_flags = D_80083462;
@@ -101,7 +101,7 @@ void func_801716F4(void *arg0, void *arg1, void *arg2, void *arg3)
 
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
-        func_80171CA8();
+        func_80171CA8(arg0, arg1, arg2);
         return;
     }
 
@@ -111,12 +111,8 @@ void func_801716F4(void *arg0, void *arg1, void *arg2, void *arg3)
     if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
         if (((S_801716F4_2 *)arg2)->unk_2C != D_801755A4) {
-#ifdef __mips__
-            register void *state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             state = D_8017559C;
-            ASM_TAILSLOT_PIN(state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-#endif
-            func_80171C50();
+            goto set_table;
         }
         return;
     }
@@ -305,8 +301,17 @@ generic:
         return;
     }
     ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    (*(void * *)((u8 *)arg2 + (0x2C))) = table;
-    func_80047784(arg2,
-        table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
-        0);
+    state = table;
+set_table:
+    (*(void * *)((u8 *)arg2 + (0x2C))) = state;
+    {
+        s32 color_index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        u8 *event_color;
+#ifdef __mips__
+        event_color = (u8 *)((u32)color_index + (u32)state);
+#else
+        event_color = state + color_index;
+#endif
+        func_80047784(arg2, event_color[0], 0);
+    }
 }

@@ -39,7 +39,6 @@ M2C_UNK func_8009A3D0();             /* extern */
 void func_800A32A4(void *);                 /* extern */
 M2C_UNK func_800A56C0();                            /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
-void func_800D36B4(s32);                     /* extern */
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083460;
 extern s16 D_8008346A;
@@ -64,13 +63,10 @@ void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
     temp_v1 = ((S_800D34CC_0 *)arg0)->unk_9B;
     if (temp_v1 != 0) {
         temp_a0 = 0x20;
-        if (temp_v1 != 1) {
-            func_800D36B4(temp_a0);
-            return;
+        if (temp_v1 == 1) {
+            goto block_6;
         }
-        goto block_6;
-    }
-    if (D_8008346A == 0) {
+    } else if (D_8008346A == 0) {
         ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 | 0x10000000);
         func_800A56E0(0x805);
         ((S_800D34CC_2 *)arg2)->unk_0C.at00.v = 0x808080;

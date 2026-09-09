@@ -11,9 +11,6 @@ extern s16 func_800A1BD0(void *arg0);
 extern s32 func_800A1C14(void *arg0);
 extern void *func_800990FC(void);
 extern s32 func_80099194(void *arg0, s32 arg1);
-extern void func_80095750(void *arg0, s32 arg1);
-extern void func_80095774(void *arg0, s32 arg1);
-extern void func_80095828(void);
 extern void func_80099290(s32 arg0);
 extern void func_800A5720(s32 arg0);
 extern void func_800ACB98(void *arg0, s32 arg1, s32 arg2, void *arg3);
@@ -62,34 +59,37 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
     object = D_800E3DF0[((S_800956B8_0 *)arg3)->unk_03 & 0x1F];
     if (!(((S_800956B8_1 *)object)->unk_1C & 0x20000)) {
         result = func_800A1BD0(object);
+        /* Retail callee sets a3 = 10 at 0x80099114 before reading it; no incoming argument. */
         arg0 = func_800990FC();
-        if (result >= 0) {
-            value = func_80099194(D_800E0B18, (s32)arg0);
-            if (result != 0) {
-                register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-
-                page = (u8 *)0x800E0000;
-                ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                func_80095750(page + 0x5F0, value);
-                return;
-            } else {
-                register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        {
+            register u8 *msg3 ASM_REG("$4"); /* MATCH: materialize each shared message address directly in a0. */
+            if (result >= 0) {
                 u8 *msg;
+                value = func_80099194(D_800E0B18, (s32)arg0);
+                if (result != 0) {
+                    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-                page = (u8 *)0x800E0000;
-                ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                msg = page + 0x5E1;
-                ASM_USE(msg);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                    page = (u8 *)0x800E0000;
+                    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    msg = page + 0x5F0;
+                } else {
+                    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+
+                    page = (u8 *)0x800E0000;
+                    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    msg = page + 0x5E1;
+                    ASM_USE(msg);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                }
                 tail_result = func_80099194(msg, value);
-                func_80095774(D_800E0B2B, tail_result - 3);
-                return;
-            }
-        } else {
-            u8 *msg3 = D_800E202D;
+                msg3 = D_800E0B2B;
+                value = tail_result - 3;
+            } else {
+                msg3 = D_800E202D;
 
-            ASM_USE(msg3);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            value = (s32)arg0;
-            ASM_USE2(msg3, value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                ASM_USE(msg3);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                value = (s32)arg0;
+                ASM_USE2(msg3, value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            }
             value = func_80099194(msg3, value);
             ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80099290(value);
@@ -110,24 +110,19 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
     }
 
     index = func_800A1BD0(object);
-    if (index >= 0) {
-        void *tail_selected;
-        register s32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-
-        tail_selected = ((S_800956B8_2 *)((u8 *)arg0 + index * 4))->unk_AC;
-        tail_value = 2;
-        ASM_KEEP(tail_selected);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_80095828();
-        return;
-    }
-
     {
         void *st;
-        register s32 two ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register s32 two ASM_REG("$2"); /* MATCH: retain retail's v0 literal and v1 state pointer in the shared tail. */
 
-        st = ((Rec_func_8008D024_arg0 *)arg0)->unk_60;
-        two = 2;
+        if (index >= 0) {
+            void *tail_selected;
+            tail_selected = ((S_800956B8_2 *)((u8 *)arg0 + index * 4))->unk_AC;
+            st = tail_selected;
+            two = 2;
+        } else {
+            st = ((Rec_func_8008D024_arg0 *)arg0)->unk_60;
+            two = 2;
+        }
         ((S_800956B8_4 *)st)->unk_9A = two;
         ((S_800956B8_4 *)st)->unk_9B = 0;
         ((S_800956B8_4 *)st)->unk_8C = 0;

@@ -17,11 +17,6 @@ extern void func_800A020C(s32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32, s32, s32);
-extern void func_80170C0C(void) __attribute__((noreturn));
-extern void func_80170CB4(void) __attribute__((noreturn));
-extern void func_80170D20(void) __attribute__((noreturn));
-extern void func_80170F8C() __attribute__((noreturn));
-extern void func_80171030(void) __attribute__((noreturn));
 
 
 typedef struct S_80170A78_0 {
@@ -79,9 +74,10 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
             void *entry_obj = arg0;
             ASM_KEEP(entry_obj);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             callback(entry_obj, arg1, arg2, entry_obj);
-            return func_80171030();
+            return;
         } else {
-            return ((*(u8 *)((u8 *)arg0 + 0x71)) &= 0x7F, func_80171030());
+            (*(u8 *)((u8 *)arg0 + 0x71)) &= 0x7F;
+            return;
         }
     }
 
@@ -122,7 +118,6 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
             !((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
             ((S_80170A78_0 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + 0x9D)) * 0x14000;
             (*(u8 *)((u8 *)arg0 + 0x9D)) += 1;
-            return func_80170C0C();
         } else {
             (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
             ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -146,19 +141,16 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
         ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (collision != 0) {
             raw_work = *(volatile u16 *)((u8 *)arg2 + 0x14) | 1;
-            ASM_TAILSLOT_PIN(raw_work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_80170CB4();
         } else {
-            ((S_80170A78_1 *)arg2)->unk_14 &= 0xFFFE;
+            raw_work = ((S_80170A78_1 *)arg2)->unk_14 & 0xFFFE;
         }
+
+        ((S_80170A78_1 *)arg2)->unk_14 = raw_work;
 
         func_800A020C(((S_80170A78_2 *)state)->unk_1C, (u8 *)arg2 + 0xC);
         if (!(((S_80170A78_2 *)state)->unk_1C & 0x20)) {
             if (!(((S_80170A78_1 *)arg2)->unk_14 & 0x40)) {
                 func_800478B8(arg2);
-                raw_work = 0xF7FF0000;
-                ASM_PAGEBASE_PIN(raw_work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                return func_80170D20();
             }
         } else {
             ((S_80170A78_1 *)arg2)->unk_14 |= 0x7000;
@@ -184,7 +176,7 @@ void func_80170A78(void *arg0, void *arg1, void *arg2)
             floor_y = (*(s16 *)((u8 *)arg0 + 0x92));
             if (floor_y > delta - 0x18) {
                 (*(s16 *)((u8 *)arg0 + 0x92)) = (*(s16 *)((u8 *)arg0 + 0x92)) - 8;
-                return func_80170F8C(floor_y, delta);
+                goto finish_height;
             }
             if (floor_y < delta - 0x20) {
                 (*(s16 *)((u8 *)arg0 + 0x92)) = (*(u16 *)((u8 *)arg0 + 0x92)) + 8;
@@ -216,7 +208,7 @@ reset_height:
                 (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
                 ((S_80170A78_0 *)arg1)->unk_14 = 0;
                 ((S_80170A78_2 *)state)->unk_1C |= 0x08000000;
-                return func_80170F8C();
+                goto finish_height;
             }
         }
         goto finish_height;

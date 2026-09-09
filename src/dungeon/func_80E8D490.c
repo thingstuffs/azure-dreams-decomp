@@ -81,15 +81,6 @@ extern void func_800A2B04(void *, u8, u8);
 extern void func_800A4ACC(void *);
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, u8, s32);
-extern void func_80172DDC(void) __attribute__((noreturn));
-extern void func_80172DE4(void) __attribute__((noreturn));
-extern void func_80172DEC(void) __attribute__((noreturn));
-extern void func_80172DF8(void) __attribute__((noreturn));
-extern void func_80172E6C(void) __attribute__((noreturn));
-extern void func_80172ED0(void) __attribute__((noreturn));
-extern void func_801731D8(void) __attribute__((noreturn));
-extern void func_8017328C(void) __attribute__((noreturn));
-extern void func_801733F0(void) __attribute__((noreturn));
 
 extern s16 D_8006CCD8[8];
 extern s16 D_8006CCE8[8];
@@ -115,6 +106,7 @@ void func_80172C90(void *arg0, S_80172C90_2 *arg1, Rec_D_80082E80 *arg2, void *a
     u32 state;
     register u8 *selector ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 special;
+    register s32 tail_state ASM_REG("$2"); /* MATCH: the shared state store receives its value in v0. */
     u16 position[3];
     static void *const keepalive[] = {
         &&L0, &&L1, &&L2, &&L3, &&L4, &&L5, &&L6, &&L16,
@@ -156,16 +148,13 @@ L0:
 
 I7:
     special = 1;
-    ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80172DDC();
+    goto I3;
 I6:
     special = 1;
-    ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80172DE4();
+    goto I2;
 I5:
     special = 1;
-    ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80172DEC();
+    goto I1;
 
 IDirect:
     {
@@ -187,16 +176,13 @@ IDirect:
 
 I3:
     selector = (u8 *)arg3 + 0xE;
-    ASM_TAILSLOT_PIN(selector);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80172DF8();
+    goto IEnd;
 I2:
     selector = (u8 *)arg3 + 0xB;
-    ASM_TAILSLOT_PIN(selector);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80172DF8();
+    goto IEnd;
 I1:
     selector = (u8 *)arg3 + 8;
-    ASM_TAILSLOT_PIN(selector);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80172DF8();
+    goto IEnd;
 I4:
     selector = 0;
 
@@ -213,16 +199,17 @@ IEnd:
         if (specialCheck) {
             localOwner = D_800814A8[0];
             ((S_80172C90_0 *)arg3)->unk_60 = localOwner;
-            func_80172E6C();
+            goto OwnerLinked;
         }
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (D_8006DE24[*selector].type == 2) {
             localOwner = ((S_80172C90_0 *)arg3)->unk_60;
             if (localOwner != 0) {
+OwnerLinked:
                 localLinked = ((S_80172C90_3_pre *)localOwner)[-1].unk_00;
                 ((S_80172C90_0 *)arg3)->unk_72.s = ((S_80172C90_4 *)localLinked)->unk_24;
                 ((S_80172C90_0 *)arg3)->unk_73.s = ((S_80172C90_4 *)localLinked)->unk_25;
-                func_80172ED0();
+                goto OwnerDone;
             }
         } else {
             s32 deltaX;
@@ -244,6 +231,7 @@ IEnd:
             ((S_80172C90_0 *)arg3)->unk_72.u = deltaX;
             ((S_80172C90_0 *)arg3)->unk_73.u = deltaY;
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+OwnerDone:
             {
                 register void *edgeActor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
@@ -285,11 +273,10 @@ IEnd:
         }
         arg1->unk_14.s = (s32)0xFFF30000;
         {
-            s32 tail_state;
-
-            tail_state = ((S_80172C90_1 *)arg0)->unk_9B + 1;
-            ASM_TAILSLOT_PIN(tail_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_8017328C();
+            tail_state = ((S_80172C90_1 *)arg0)->unk_9B;
+            ASM_SCHED_BARRIER(); /* MATCH: retain separate state loads for L0 and L1. */
+            tail_state++;
+            goto StoreState;
         }
     }
 
@@ -310,13 +297,13 @@ IEnd:
     ((S_80172C90_0 *)arg3)->unk_73.s = 0;
     ((S_80172C90_0 *)arg3)->unk_72.s = 0;
     ((S_80172C90_0 *)arg3)->unk_46 &= 0x7FFF;
-    func_801733F0();
+    return;
 
 L1:
     if (arg2->unk_14.at00_u16.v & 0x8000) {
         ((S_80172C90_1 *)arg0)->unk_9B = 16;
         ((S_80172C90_1 *)arg0)->unk_98 |= 0x80;
-        func_801733F0();
+        return;
     }
     if (((S_80172C90_1 *)arg0)->unk_96.u <= 0) {
         arg1->unk_0C.u = 0;
@@ -326,21 +313,18 @@ L1:
         arg1->unk_14.u = 0;
         arg1->unk_14.s = (s32)0xFFF30000;
         {
-            s32 tail_state;
-
             tail_state = ((S_80172C90_1 *)arg0)->unk_9B + 1;
-            ASM_TAILSLOT_PIN(tail_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_8017328C();
+            goto StoreState;
         }
     }
     arg1->unk_0C.s *= 2;
     arg1->unk_10.s *= 2;
-    func_801733F0();
+    return;
 
 L2:
     if (func_8003F270()) {
         arg2->unk_14.at00_u16.v |= 0x0800;
-        func_801733F0();
+        return;
     }
     arg2->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80172C90_1 *)arg0)->unk_9B++;
@@ -365,10 +349,7 @@ L3Activate:
         tail_flags = ((S_80172C90_1 *)arg0)->unk_98;
         tail_state = ((S_80172C90_1 *)arg0)->unk_9B;
         tail_flags |= 0x80;
-        ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_801731D8();
-    }
+        goto UpdateFlags;
 
 L4:
     arg1->unk_14.s += 0x20000;
@@ -395,9 +376,16 @@ L4Activate:
     func_80047784(arg2,
         effect[((D_80083228[0] + ((S_80172C90_0 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
         0);
-    ((S_80172C90_1 *)arg0)->unk_98 &= 0xFFF7;
-    ((S_80172C90_1 *)arg0)->unk_9B++;
-    func_801733F0();
+    tail_flags = ((S_80172C90_1 *)arg0)->unk_98;
+    tail_state = ((S_80172C90_1 *)arg0)->unk_9B;
+    tail_flags &= 0xFFF7;
+UpdateFlags:
+    ASM_SCHED_BARRIER(); /* MATCH: keep the state increment in the shared flags tail. */
+    tail_state++;
+    ((S_80172C90_1 *)arg0)->unk_98 = tail_flags;
+    ((S_80172C90_1 *)arg0)->unk_9B = tail_state;
+    return;
+    }
     }
 
 L5:
@@ -420,8 +408,11 @@ L5:
         D_80174EF8[((D_80083228[0] + ((S_80172C90_0 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     ((S_80172C90_1 *)arg0)->unk_96.s = 10;
-    ((S_80172C90_1 *)arg0)->unk_9B++;
-    func_801733F0();
+    tail_state = ((S_80172C90_1 *)arg0)->unk_9B + 1;
+StoreState:
+    ASM_SCHED_BARRIER(); /* MATCH: keep the state store at the shared L5 tail. */
+    ((S_80172C90_1 *)arg0)->unk_9B = tail_state;
+    return;
 
 L6:
     {
@@ -458,7 +449,7 @@ L6:
     arg1->unk_0C.s = 0;
     arg2->unk_14.at00_u16.v |= 0x6000;
     ((S_80172C90_1 *)arg0)->unk_9B = 16;
-    func_801733F0();
+    return;
 
 L16:
     {

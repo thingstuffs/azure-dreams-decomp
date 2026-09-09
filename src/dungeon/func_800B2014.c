@@ -36,8 +36,6 @@ M2C_UNK func_800A48F0();
 M2C_UNK func_800A5720();
 M2C_UNK func_800A90E8();
 void func_8009A180(s32 *, u8 *);
-M2C_UNK func_800B7A30();
-M2C_UNK func_800B7B18();
 extern M2C_UNK D_800E0A42;
 extern M2C_UNK D_800E0A56;
 extern M2C_UNK D_800E0A6A;
@@ -130,16 +128,15 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
         if (phase != 0) {
             void *null_arg;
             null_arg = NULL;
-            func_800B7B18();
-            return;
+            ASM_SCHED_BARRIER(); /* MATCH: preserve the low-phase guard before the shared-tail jump. */
+            goto block_30;
         }
         goto state_0;
     }
     if (phase == 2) {
         goto state_2;
     }
-    func_800B7B18(state_base);
-    return;
+    goto block_30;
 
 state_0:
     if ((func_8009B88C(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
@@ -203,8 +200,7 @@ state_0:
         ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
         func_8009A180(call_obj, call_state);
         }
-        func_800B7A30();
-        return;
+        goto advance_phase;
     }
     goto block_30;
 
@@ -214,9 +210,9 @@ state_1:
     if (((remaining_frames << 0x10) > 0) && !(((S_800B7774_4 *)effect)->unk_14 & 0x8000) && (((S_800B7774_5 *)state_base)->unk_10 == 0)) {
         goto block_30;
     }
+advance_phase:
     ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
-    func_800B7B18(state_base);
-    return;
+    goto block_30;
 
 state_2:
     monster = ((S_800B7774_0 *)egg_bomb)->unk_04;

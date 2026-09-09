@@ -42,12 +42,6 @@ extern void func_800A5720(u8 *);
 extern s32 func_800A6D30(void);
 extern s32 func_800A6DA4(s32, s32);
 extern s16 func_800A9400(s16);
-extern s32 func_800B4328(u8 *);
-extern s32 func_800B4340(void);
-extern s32 func_800B44E0(s32, s32);
-extern s32 func_800B45A4(u8 *);
-extern s32 func_800B45BC(void);
-extern s32 func_800B45C0(void);
 extern void func_800B4C7C(s32, void *, s32, s32);
 extern s32 func_800C8980(Entity800B4194 *, s32, s32);
 extern s32 func_800C8C1C(Entity800B4194 *, s32, s32);
@@ -60,6 +54,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   s32 flag;
   u8 *saved;
   u8 *text;
+  register u8 *suffix ASM_REG("$4"); /* MATCH: merge suffix addresses in the retail argument register. */
   s32 code;
   s32 delta;
   s16 amount;
@@ -89,7 +84,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     {
       goto mode16;
     }
-    return func_800B4340();
+    goto common;
   }
   if (code == 0x13)
   {
@@ -99,7 +94,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   {
     goto mode21;
   }
-  return func_800B4340();
+  goto common;
   mode19:
   mode16:
   {
@@ -119,7 +114,8 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     ASM_KEEP_NV(saved);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     text = func_80099194(D_800E0BC7, saved);
     text = func_80099734(entityp, text);
-    return func_800B4328(D_800892C4);
+    suffix = D_800892C4;
+    goto mode_text;
   }
 
 
@@ -141,7 +137,9 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     saved = func_800990FC();
     text = func_80099194(D_800E0BDC, saved);
     text = func_80099734(entityp, text);
-    text = func_80099194(D_800892C8, text);
+    suffix = D_800892C8;
+    mode_text:
+    text = func_80099194(suffix, text);
     text = func_80099290(text);
     func_800A5720(saved);
   }
@@ -169,7 +167,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     {
       goto event3;
     }
-    return func_800B45C0();
+    return 0;
   }
   if (value == 5)
   {
@@ -179,7 +177,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   {
     goto event9;
   }
-  return func_800B45C0();
+  return 0;
   event3:
   {
   s32 eventZero = 0;
@@ -190,7 +188,6 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   if (amount == 0)
   {
     return 0;
-    func_800B45C0();
   }
   contextp->value64 += delta;
   func_800B4C7C(0x10, contextp, amount, 1);
@@ -213,11 +210,14 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     ASM_KEEP_NV(saved);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     text = func_80099194(D_800E0BF3, saved);
     text = func_80099734(entityp, text);
-    return func_800B45A4(D_800892C4);
+    suffix = D_800892C4;
+    goto event_text;
   }
 
   event5:
   {
+    register s32 low ASM_REG("$4"); /* MATCH: merge random-range bounds in the retail argument registers. */
+    register s32 high ASM_REG("$5"); /* MATCH: preserve the range-bound delay slots. */
     s32 eventTest = blocked;
     ASM_KEEP_NV(eventTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (!eventTest)
@@ -236,27 +236,28 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     saved[1] = 0xE;
     if ((D_80012090[0] != 2) && (D_8008146C[0] < 0xC))
     {
-      register s32 low ASM_REG("$4") = 0x10;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-      s32 high = 0x18;
+      low = 0x10;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+      high = 0x18;
       ASM_KEEP_NV(low);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
       ASM_KEEP_NV(high);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
       saved[0] = 1;
-      return func_800B44E0(low, high);
+      goto state_roll;
     }
     if ((D_80012090[0] != 2) && (D_8008146C[0] < 0x16))
     {
-      register s32 low ASM_REG("$4") = 0x50;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-      register s32 high ASM_REG("$5") = 0x78;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+      low = 0x50;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+      high = 0x78;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
       saved[0] = 2;
       ASM_USE(saved);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+      state_roll:
       saved[2] = func_800A6DA4(low, high);
       saved[3] = 0;
-      return func_800B45BC();
+      goto done;
     }
     entityp->state48 = 3;
     saved[2] = func_800A6DA4(0x10, 0x18);
     saved[3] = 1;
-    return func_800B45BC();
+    goto done;
   }
 
   event9:
@@ -287,9 +288,13 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   saved = func_800990FC();
   text = func_80099194(D_800E0C09, saved);
   text = func_80099734(entityp, text);
-  text = func_80099194(D_800E0C1D, text);
+  suffix = D_800E0C1D;
+  event_text:
+  text = func_80099194(suffix, text);
   text = func_80099290(text);
   func_800A5720(saved);
+  done:
+  ASM_SCHED_BARRIER(); /* MATCH: keep the shared zero return after the state-store delay slots. */
   return 0;
   }
 }

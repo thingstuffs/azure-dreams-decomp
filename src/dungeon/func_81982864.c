@@ -69,9 +69,6 @@ extern s16 D_800269F8[5];
 extern s32 D_80083460[3];
 extern s32 D_800814A0[3];
 extern void *D_80024008[];
-void func_80024238(void) __attribute__((noreturn)); /* extern */
-void func_8002423C(void) __attribute__((noreturn)); /* extern */
-void func_80024294(void) __attribute__((noreturn)); /* extern */
 s32 func_800244EC();                     /* extern */
 M2C_UNK func_800263F0();                         /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
@@ -134,17 +131,15 @@ jt_c1:
     ((S_80024064_0 *)arg0)->unk_20 = -1;
     ((S_80024064_0 *)arg0)->unk_22 = 0x20;
     func_800A56E0(0x300);
-    func_80024238();
-    return;
+    goto increment_state;
 jt_c2:
     temp_v1 = 0x10;
     if (D_80027C94 != 0) {
         goto block_15;
     }
     ((S_80024064_0 *)arg0)->unk_1A = (s16) temp_v1;
-    (void) ((S_80024064_0 *)arg0)->unk_0A.u;
-    func_8002423C();
-    return;
+    temp_v0 = ((S_80024064_0 *)arg0)->unk_0A.p;
+    goto increment_loaded;
 jt_c3:
     ((S_80024064_4 *)global_base)->unk_A9 = (u8) (((S_80024064_4 *)global_base)->unk_A9 + ((s32) (0x80 - ((S_80024064_4 *)global_base)->unk_A9) / (s16) ((S_80024064_0 *)arg0)->unk_1A));
     temp_a0 = ((S_80024064_0 *)arg0)->unk_1A;
@@ -156,9 +151,11 @@ jt_c3:
     }
     ((S_80024064_4 *)global_base)->unk_A9 = 0x80U;
     ((S_80024064_4 *)global_base)->unk_A8 = 0x80U;
-    ((S_80024064_0 *)arg0)->unk_0A.p = (u16) ((S_80024064_0 *)arg0)->unk_0A.p + 1;
-    func_80024294();
-    return;
+increment_state:
+    temp_v0 = ((S_80024064_0 *)arg0)->unk_0A.p;
+increment_loaded:
+    ((S_80024064_0 *)arg0)->unk_0A.p = temp_v0 + 1;
+    goto block_15;
 jt_c4:
     if ((s16) *D_800269F8 != 0) {
         goto block_15;

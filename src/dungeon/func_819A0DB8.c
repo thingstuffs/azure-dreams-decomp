@@ -9,12 +9,10 @@ extern u8 D_80080000[];
 extern void *jtbl_80024008[];
 __asm__(".set jtbl_80024008, 0x80024008");
 
-extern void func_8002468C(void) __attribute__((noreturn));
-extern void func_800246AC(void) __attribute__((noreturn));
-
 void func_800245B8(void *arg0)
 {
     s32 index;
+    s32 tail_value;
     void *self = arg0;
     register u8 *page ASM_REG("$4") = (u8 *)0x80020000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     static void *const keepalive[] = {
@@ -36,27 +34,27 @@ L0:
     FIELD(self, u8 *, 0x9E) -= 0x60;
     FIELD(self, u8 *, 0x93) += 0x20;
     FIELD(self, u8 *, 0x9F) += 0x20;
-    func_800246AC();
+    goto tail;
 L1:
     FIELD(self, u8 *, 0x92) += 0x20;
     FIELD(self, u8 *, 0x9E) += 0x20;
     FIELD(self, u8 *, 0x8C) -= 1;
     FIELD(self, u8 *, 0x98) += 1;
-    func_800246AC();
+    goto tail;
 L2:
     FIELD(self, u8 *, 0x95) = 24;
     FIELD(self, u8 *, 0xA1) = 24;
-    {
-        s32 tail_value;
-        tail_value = -12;
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    }
-    func_8002468C();
+    ASM_SCHED_BARRIER(); /* MATCH: keep each arm's stores before the shared tail. */
+    tail_value = -12;
+    goto shared;
 L3:
     FIELD(self, u8 *, 0x95) = 16;
     FIELD(self, u8 *, 0xA1) = 16;
-    FIELD(self, s8 *, 0x8D) = -8;
-    FIELD(self, s8 *, 0x99) = -8;
+    ASM_SCHED_BARRIER(); /* MATCH: keep each arm's stores before the shared tail. */
+    tail_value = -8;
+shared:
+    FIELD(self, s8 *, 0x8D) = tail_value;
+    FIELD(self, s8 *, 0x99) = tail_value;
     FIELD(self, u8 *, 0x92) += 0x20;
     FIELD(self, u8 *, 0x9E) += 0x20;
 

@@ -37,8 +37,6 @@ extern u8 D_800DF334[];
 extern EntityHeader *D_800814A8[3];
 
 extern void *func_8003FD64(s32, void *);
-extern void func_800B8C88(Object *);
-extern void func_800B8CAC(Tail *);
 
 void func_800B8C20(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
@@ -64,21 +62,16 @@ void func_800B8C20(void *arg0, s32 arg1, void *arg2, void *arg3)
 
         if (arg2 != 0) {
             child->value8 = arg2;
-            func_800B8C88(object);
-            return;
+        } else {
+            child->value8 = D_800DF2F8;
         }
 
-        child->value8 = D_800DF2F8;
         do { child->value10 = 0x60; } while (0);
         object = (Object *)&object->tail;
 
         if (arg3 != 0) {
             ((Tail *)object)->valueC = arg3;
-            func_800B8CAC((Tail *)object);
-            return;
-        }
-
-        {
+        } else {
             u8 *fallback;
 
             fallback = D_800DF334 - 0x3C;

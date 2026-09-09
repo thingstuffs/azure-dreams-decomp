@@ -78,18 +78,6 @@ s32 func_800A6D30(void);
 void func_800A9A0C(void *);
 extern void call_800A9A0C_top(void *) __asm__("func_800A9A0C");
 s16 func_800BCB04(s32, s32, s32);
-void func_8016FF80(void) __attribute__((noreturn));
-void func_8016FF84(void) __attribute__((noreturn));
-void func_8016FFC0(void) __attribute__((noreturn));
-void func_80170110(void) __attribute__((noreturn));
-void func_8017018C(void) __attribute__((noreturn));
-void func_801701E4(void) __attribute__((noreturn));
-extern void call_8016FF80(void) __asm__("func_8016FF80") __attribute__((noreturn));
-extern void call_8016FF84(void) __asm__("func_8016FF84") __attribute__((noreturn));
-extern void call_8016FFC0(void) __asm__("func_8016FFC0") __attribute__((noreturn));
-extern void call_80170110(void) __asm__("func_80170110") __attribute__((noreturn));
-extern void call_8017018C(void) __asm__("func_8017018C") __attribute__((noreturn));
-extern void call_801701E4(void) __asm__("func_801701E4") __attribute__((noreturn));
 extern u8 D_8006CCD8[];
 extern u8 D_8006CCE8[];
 extern s16 D_8006CD00[];
@@ -129,7 +117,6 @@ void func_8016FCE4(void *arg0, void *arg1, void *in2, void *in3) {
     var_s6 = 0;
     if ((D_80083462 & 0x4000) || (((S_8016FCE4_0 *)arg3)->unk_71.s >= 0)) {
         call_800A9A0C_top(arg3);
-        call_801701E4();
         return;
     }
     if (D_80083462 & 0x2000) {
@@ -144,23 +131,21 @@ void func_8016FCE4(void *arg0, void *arg1, void *in2, void *in3) {
                     temp_v0_2 = ((S_8016FCE4_2_pre *)temp_v0)[-1].unk_00;
                     ((S_8016FCE4_0 *)arg3)->unk_2A.u = func_800A0818(((S_8016FCE4_1 *)arg2)->unk_24.at00.v, ((S_8016FCE4_1 *)arg2)->unk_24.at01.v, temp_v0_2->unk_24, temp_v0_2->unk_25, arg0 + 0x98);
                     ((S_8016FCE4_0 *)arg3)->unk_71.u = ((S_8016FCE4_0 *)arg3)->unk_71.u & 0x7F;
-                    call_801701E4();
                     return;
                 }
                 temp_v0_3 = ((S_8016FCE4_0 *)arg3)->unk_14;
                 if (temp_v0_3 >= 0) {
                     ((S_8016FCE4_0 *)arg3)->unk_14 = (s32) (temp_v0_3 | 0x80000000);
                     ((S_8016FCE4_0 *)arg3)->unk_2A.u += (func_800A6D30() & 7) << 9;
-                    call_8016FF80();
-                    return;
+                    goto block_26;
                 }
                 goto block_26;
             }
             temp_v0_3 = func_800A04F0(arg3, ((S_8016FCE4_1 *)arg2)->unk_24.at00.v, ((S_8016FCE4_1 *)arg2)->unk_24.at01.v, (s16) ((S_8016FCE4_0 *)arg3)->unk_2A.u);
             var_s4 = 0;
             if (temp_v0_3 != 0) {
-                call_8017018C();
-                return;
+                ASM_SCHED_BARRIER(); /* MATCH: retain the forward jump to shared cleanup. */
+                goto block_cleanup;
             }
             goto block_27;
         }
@@ -191,9 +176,7 @@ void func_8016FCE4(void *arg0, void *arg1, void *in2, void *in3) {
                     var_s4 = 0;
                     if ((temp_v0_3 << 0x10) != 0) {
                         var_s6 = 1;
-                        ASM_TAILSLOT_PIN(var_s6);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                        call_8016FF84();
-                        return;
+                        goto block_27;
                     }
                     goto block_27;
                 }
@@ -206,6 +189,7 @@ block_26:
             goto block_27;
         }
 block_27:
+        ASM_SCHED_BARRIER(); /* MATCH: keep table setup after the incoming jumps. */
         var_s7 = D_8006CCD8;
         var_s1 = D_8006CD00;
 loop_28:
@@ -213,13 +197,11 @@ loop_28:
         if (((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 2) {
             temp_v0_3 = *var_s1;
             temp_s0_2 = temp_v1_2 - temp_v0_3;
-            ASM_TAILSLOT_PIN(temp_s0_2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            call_8016FFC0();
-            return;
+        } else {
+            temp_v0_3 = *var_s1;
+            ASM_KEEP(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            temp_s0_2 = temp_v1_2 + temp_v0_3;
         }
-        temp_v0_3 = *var_s1;
-        ASM_KEEP(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        temp_s0_2 = temp_v1_2 + temp_v0_3;
         if ((func_8009A66C((s16) temp_s0_2, arg2, arg3, 0x20) << 0x10) > 0) {
             if (var_s4 < 3) {
                 goto block_step;
@@ -249,8 +231,7 @@ block_step:
                 }
                 func_8009A21C(temp_a0, temp_call_a1, var_a2_2);
                 temp_v0_3 = var_s4 < 8;
-                ASM_TAILSLOT_PIN(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                call_80170110();
+                goto block_check;
             }
         }
         if ((var_s4 != 0) || (D_80082EA4 == ((S_8016FCE4_1 *)arg2)->unk_24.at00u.v) || ((func_8009A180(arg3, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) == 0)) {
@@ -260,11 +241,11 @@ block_step:
 block_48:
                 ASM_KEEP_NV(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 temp_v0_3 = var_s4 < 8;
+block_check:
                 if (temp_v0_3 == 0) {
                     ((S_8016FCE4_0 *)arg3)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F);
                     ((S_8016FCE4_0 *)arg3)->unk_46 = (u16) (((S_8016FCE4_0 *)arg3)->unk_46 & 0x7FFF);
                     func_800A9A0C(arg3);
-                    call_801701E4();
                     return;
                 }
                 ((S_8016FCE4_0 *)arg3)->unk_46 = (u16) (((S_8016FCE4_0 *)arg3)->unk_46 & 0x7FFF);
@@ -277,7 +258,6 @@ block_48:
                 }
 block_cleanup:
                 ((S_8016FCE4_0 *)arg3)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F);
-                call_801701E4();
                 return;
 block_life_nonzero:
                 var_s4 = (s16) func_800BCB04((((S_8016FCE4_1 *)arg2)->unk_24.at00.v << 6) | 0x20, (((S_8016FCE4_1 *)arg2)->unk_24.at01.v << 6) | 0x20, (s16) (((S_8016FCE4_0 *)arg3)->unk_88 - 0x20));

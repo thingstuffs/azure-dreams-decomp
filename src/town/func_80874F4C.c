@@ -32,12 +32,12 @@ extern InputTable D_80700000;
 extern State *D_80701968[3];
 extern CallbackOwner *D_80701984[4];
 
-extern s32 func_80700D84(void);
+extern s32 func_80700D84(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80701024() __attribute__((noreturn));
 extern void func_80701028(void) __attribute__((noreturn));
 extern s32 func_80701060(s32 *word, s32 old_value);
 
-s32 func_80874F4C(s32 arg0) {
+s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #ifndef NON_MATCHING
     s32 value;
     s32 index;
@@ -59,11 +59,12 @@ s32 func_80874F4C(s32 arg0) {
     s32 tail_arg;
 #endif
 
-    if (func_80700D84() < 2) {
+    if (func_80700D84(arg0, arg1, arg2, arg3) < 2) {
         goto callback_path;
     }
 
-    value = D_80700000.values[arg0];
+    old_value = D_80700000.values[arg0];
+    value = old_value;
     index = value;
     if (value < 0) {
         index = value + 31;

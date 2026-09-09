@@ -110,8 +110,6 @@ M2C_UNK func_8009C12C(); /* extern */
 M2C_UNK func_800A4ACC();                      /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 void func_800AD594(void *, s32);  /* extern */
-void func_801731C8(void);  /* extern */
-void func_80173618(void); /* extern */
 extern M2C_UNK D_80045340;
 extern s16 D_80083228;
 extern s32 D_8008346C;

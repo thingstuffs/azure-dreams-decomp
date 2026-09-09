@@ -29,8 +29,6 @@ extern void func_8002429C(Obj81911BF4 *, s32 *, s32, s32);
 extern void func_800246C0(Obj81911BF4 *, s32 *, s32, s32);
 extern void func_80024ACC(Obj81911BF4 *, s32 *, s32, s32);
 extern void func_8002539C(Obj81911BF4 *);
-extern void func_8002581C(void) __attribute__((noreturn));
-extern void func_80025824(void) __attribute__((noreturn));
 extern s32 D_800814A0;
 
 void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
@@ -41,7 +39,7 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
     volatile Obj81911BF4 *out;
     s32 i;
     register u8 fade45 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 value;
+    register u16 value ASM_REG("$2"); /* MATCH: Carry the state in v0 into the shared increment. */
     u16 step45;
     u16 scale45;
     u16 duration_value;
@@ -78,8 +76,7 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
             return;
         }
         base[2] = obj->field14 << 16;
-        func_8002581C();
-        return;
+        goto advance;
 
     case 1:
         func_800246C0(obj, base, obj->timer, obj->duration);
@@ -89,10 +86,11 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
         {
             register u16 duration_c1 ASM_REG("$3") = 4;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(duration_c1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            (void)*(volatile u16 *)&obj->state;
+            value = *(volatile u16 *)&obj->state;
             obj->timer = 0;
+            ASM_SCHED_BARRIER(); /* MATCH: Keep this arm's duration store in its jump delay slot. */
             obj->duration = duration_c1;
-            func_80025824();
+            goto increment;
         }
         return;
 
@@ -105,12 +103,14 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
         {
             u16 value_c2 = 3;
             register u16 duration_c2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            obj->field12 = value_c2;
-            value_c2 = *(volatile u16 *)&obj->state;
+            value = value_c2;
+            obj->field12 = value;
+            value = *(volatile u16 *)&obj->state;
             duration_c2 = 0x10;
             obj->timer = 0;
+            ASM_SCHED_BARRIER(); /* MATCH: Keep this arm's duration store in its jump delay slot. */
             obj->duration = duration_c2;
-            func_80025824();
+            goto increment;
         }
         return;
 
@@ -153,11 +153,12 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
         {
             u16 state_c4;
             register u16 duration_c4 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            state_c4 = *(volatile u16 *)&obj->state;
+            value = *(volatile u16 *)&obj->state;
             duration_c4 = 0x20;
             obj->timer = 0;
+            ASM_SCHED_BARRIER(); /* MATCH: Keep this arm's duration store in its jump delay slot. */
             obj->duration = duration_c4;
-            func_80025824();
+            goto increment;
         }
         return;
 
@@ -200,8 +201,10 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
         }
 
 advance:
+        value = obj->state;
         obj->timer = 0;
-        obj->state++;
+increment:
+        obj->state = value + 1;
         return;
 
     case 6:

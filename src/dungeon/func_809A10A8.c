@@ -10,8 +10,6 @@ extern void func_800A2B04(void *, u8, u8);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_80172B38(void) __attribute__((noreturn));
-extern void func_80172D40(void) __attribute__((noreturn));
 extern void func_80174910(void *, void *);
 
 extern s8 D_8006CCD8;
@@ -101,9 +99,9 @@ L1:
         D_80175E58[((D_80083228 + ((S_801728A8_4 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     func_80174910((u8 *)arg0 - 0x20, (u8 *)arg3 + 0x2A);
-    (void)((S_801728A8_0 *)arg0)->unk_9B.v;
+    state = ((S_801728A8_0 *)arg0)->unk_9B.n;
     ((S_801728A8_0 *)arg0)->unk_96.s = 0;
-    func_80172B38();
+    goto increment_state;
 
 L2:
     {
@@ -144,7 +142,9 @@ L2:
         D_80175E60[((D_80083228 + ((S_801728A8_4 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     func_800A56E0(0x808);
-    ((S_801728A8_0 *)arg0)->unk_9B.n++;
+    state = ((S_801728A8_0 *)arg0)->unk_9B.n;
+increment_state:
+    ((S_801728A8_0 *)arg0)->unk_9B.n = state + 1;
     return;
 
 L3:
@@ -211,9 +211,9 @@ L4:
     ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v -= ((S_801728A8_0 *)arg0)->unk_AC;
     if (((S_801728A8_0 *)arg0)->unk_A0.at02.v > 0) {
         ((S_801728A8_0 *)arg0)->unk_A0.at02u.v -= 0x10;
-        func_80172D40();
+    } else {
+        ((S_801728A8_0 *)arg0)->unk_A0.at02.v = 0;
     }
-    ((S_801728A8_0 *)arg0)->unk_A0.at02.v = 0;
     if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }

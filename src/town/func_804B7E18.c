@@ -1,14 +1,14 @@
 #include "common.h"
 
-extern void func_8001611C(void);
+extern void func_8001611C(void *, s32);
 extern void func_800176B4(void);
 extern void func_80018854(s32);
 extern void func_800188CC(s32);
 extern s32 func_8001894C(s16);
 
-s32 func_80016618(void *arg0)
+s32 func_80016618(void *arg0, s32 arg1)
 {
-    func_8001611C();
+    func_8001611C(arg0, arg1);
     if (func_8001894C(*(s16 *)((u8 *)arg0 + 0x18)) == 0) {
         goto no_event;
     }

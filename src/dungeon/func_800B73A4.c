@@ -59,8 +59,6 @@ typedef struct {
 
 extern DungeonTables D_8008333C;
 
-extern s32 func_800BCB7C(s32, s32, DungeonTables *, Cell *);
-extern s32 func_800BCBA4(s32, s32, DungeonTables *, Cell *);
 extern s32 func_800BCE7C(Work *);
 
 s32 func_800BCB04(s32 arg0, s32 arg1, s16 arg2) {
@@ -84,9 +82,8 @@ s32 func_800BCB04(s32 arg0, s32 arg1, s16 arg2) {
     vertices2 = tables->vertices2;
     if (xblock < 0) {
         work->index = 0;
-        return func_800BCB7C(xblock, arg1, tables, cells);
-    }
-    if (xblock < 0x40) {
+        yblock = arg1 & 0xFFFF;
+    } else if (xblock < 0x40) {
         yblock = arg1 & 0xFFFF;
     } else {
         work->index = 0x3F;
@@ -96,9 +93,7 @@ s32 func_800BCB04(s32 arg0, s32 arg1, s16 arg2) {
     work->best = yblock;
     if (yblock < 0) {
         work->best = 0;
-        return func_800BCBA4(xblock, arg1, tables, cells);
-    }
-    if (yblock >= 0x40) {
+    } else if (yblock >= 0x40) {
         work->best = 0x3F;
     }
     work->index += work->best << tables->shift;
@@ -190,7 +185,8 @@ next_primitive:
 
 done:
     {
-        s16 result = work->best;
+        s32 result = (s16)work->best;
+        ASM_KEEP(result); /* MATCH: keep result sign extension before the shared epilogue. */
         return result;
     }
 }

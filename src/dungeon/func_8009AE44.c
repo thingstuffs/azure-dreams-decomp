@@ -14,8 +14,6 @@ extern s16 D_8006CCE8[];
 
 extern void *func_8009B4B0(void *, u16, u16);
 extern s32 func_800A0548(s16, s16);
-extern void func_800A0674(void) __attribute__((noreturn));
-extern void func_800A079C(void) __attribute__((noreturn));
 extern s16 func_800A44E0(u16, u16, s16, u32);
 
 void *func_800A05A4(void *arg0, s32 arg1, s32 arg2, u32 arg3, volatile s32 arg4)
@@ -76,28 +74,21 @@ void *func_800A05A4(void *arg0, s32 arg1, s32 arg2, u32 arg3, volatile s32 arg4)
         ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = out0;
         out1 = *(u8 *)(u32)slot7;
         ASM_CLOBBER("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        out0 = 0;
         ASM_KEEP(out1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(out0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800A0674();
-    }
+        out0 = 0;
+        goto collision_tail;
 
 collision_exit:
-    {
-        register volatile s32 out0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register volatile s32 out1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-
-        if (0) {   }
         out0 = *(u8 *)(u32)slot5;
         out0 -= x;
         ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = out0;
         out1 = *(u8 *)(u32)slot2;
         ASM_KEEP_NV(out1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         out0 = 0;
-        ASM_KEEP(out0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+collision_tail:
         out1 -= y;
         ((Rec_D_800E3D7C *)arg0)->unk_73.as_s8 = out1;
-        func_800A079C();
+        return (void *)out0;
     }
 
 blocked_exit:
@@ -112,7 +103,7 @@ blocked_exit:
         ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = out1;
         out1 = -y;
         ((Rec_D_800E3D7C *)arg0)->unk_73.as_s8 = out1;
-        func_800A079C();
+        return (void *)out0;
     }
 
 start:

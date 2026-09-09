@@ -24,9 +24,6 @@ typedef struct {
     s16 state4A;
 } Entity;
 
-extern void func_80024E54(void) __attribute__((noreturn));
-extern void func_80024EE0(void) __attribute__((noreturn));
-extern void func_80024F20() __attribute__((noreturn));
 extern void func_8004491C(void *, void *);
 extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
@@ -50,12 +47,12 @@ void func_80024C40(Entity *entity)
         if (state == 0) {
             goto state_zero;
         }
-        func_80024F20();
+        goto end;
     }
     if (state == 2) {
         goto state_two;
     }
-    func_80024F20();
+    goto end;
 
 state_zero:
     entity->timer48--;
@@ -94,8 +91,7 @@ state_zero:
         } while (i < 5);
     }
     state = (u16)entity->state4A + 1;
-    ASM_TAILSLOT_PIN_TIED(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80024EE0();
+    goto store_state;
 
 state_one:
     i = 1;
@@ -108,13 +104,13 @@ state_one:
             i++;
         } while (i < 5);
         i = 1;
-        ASM_TAILSLOT_PIN_TIED(i);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80024E54();
-    }
-    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    i++;
-    while (i < 5) {
+    } else {
+        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         i++;
+        while (i < 5) {
+            i++;
+        }
+        i = 1;
     }
     i = 1;
     do {
@@ -122,7 +118,7 @@ state_one:
         i++;
     } while (i < 5);
     {
-        s32 amount;
+        register s32 amount ASM_REG("$4"); /* MATCH: retain retail a0 allocation after removing the internal-label calls. */
         register s32 delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 masked;
         amount = entity->timer48;
@@ -138,12 +134,14 @@ state_one:
         entity->field3A = ((s16)delta >> 2) << 5;
         if ((s16)entity->timer48 >= 8) {
             entity->value34 = 0;
-            entity->state4A++;
-            func_80024F20(amount);
+            state = (u16)entity->state4A + 1;
+store_state:
+            entity->state4A = state;
+            goto end;
         }
         delta = 0xFFEFEFF0;
         entity->value34 += delta;
-        func_80024F20(amount);
+        goto end;
     }
 
 state_two:
@@ -154,4 +152,6 @@ state_two:
         *(u16 *)((u8 *)entity - 2) |= 0x8000;
         page[0x528] |= 0x8000;
     }
+end:
+    return;
 }

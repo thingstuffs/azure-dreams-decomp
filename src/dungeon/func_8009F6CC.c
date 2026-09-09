@@ -11,7 +11,6 @@ typedef struct DungeonArea {
 } DungeonArea;
 
 extern s32 func_8009A350(s16 x, s16 y, s32 arg2, u16 *tile);
-extern void func_800A5018(void);
 extern s32 func_800A6D30(void);
 extern s16 D_80081468[3];
 extern s8 D_800E2970[];
@@ -68,20 +67,20 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
         goto fallback;
     }
     result = 0;
-    func_800A5018();
-    return result;
+    goto done;
 
 found:
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     *arg0 = x;
     *arg1 = y;
-    func_800A5018();
-    return result;
+    goto done;
 
 fallback:
     *arg0 = 1;
     *arg1 = 1;
-    return 0;
+    result = 0;
+done:
+    return result;
 }
 
 /* MECHANISM: The retail 0x40 frame comes from the tile local plus s0-s7/fp holds.

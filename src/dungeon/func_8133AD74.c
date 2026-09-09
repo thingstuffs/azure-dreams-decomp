@@ -156,13 +156,6 @@ void func_801677FC();                  /* extern */
 void func_8016F5D8();      /* extern */
 void func_8016F79C();      /* extern */
 void func_801715D0();                            /* extern */
-void func_80173008() __attribute__((noreturn));                            /* extern */
-void func_80173018() __attribute__((noreturn));                  /* extern */
-void func_8017301C() __attribute__((noreturn));              /* extern */
-void func_80173074() __attribute__((noreturn));                 /* extern */
-void func_80173080() __attribute__((noreturn));                  /* extern */
-void func_80173084() __attribute__((noreturn));                            /* extern */
-void func_80173110() __attribute__((noreturn));                            /* extern */
 extern u8 D_8006CCF8[16];
 extern u16 D_80082E76[8];
 extern s16 D_80083228[8];
@@ -211,7 +204,6 @@ void func_80171D74(void *arg0_in, void *arg1_in, void *arg2_in) {
     register s32 *base833c ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 tail_phase;
-    register void *tail_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     s32 temp_v1_3;
     u16 temp_a0_12;
     u16 temp_a0_14;
@@ -298,8 +290,7 @@ jt_c0:
             ((S_80171D74_1 *)arg0)->unk_96 = 0U;
             ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
             ((S_80171D74_3 *)arg1)->unk_10.n = (s32) 0xFFF80000;
-            func_80173018();
-            return;
+            goto block_147;
         }
         goto block_147;
 jt_c1:
@@ -309,19 +300,22 @@ jt_c1:
         if ((s16) temp_v0_2 >= 0x38) {
             ((S_80171D74_1 *)arg0)->unk_96 = 0U;
             ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
+            ASM_SCHED_BARRIER(); /* MATCH: preserve the distinct case tail and its delay-slot store. */
             ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
-            func_8017301C();
-            return;
+            goto block_147;
         }
         goto block_147;
 jt_c2:
         temp_v0_3 = ((S_80171D74_1 *)arg0)->unk_96;
         ((S_80171D74_1 *)arg0)->unk_96 = (u16) (temp_v0_3 + 1);
         if ((s16) temp_v0_3 >= 0x1E) {
+            u8 phase2;
+            phase2 = ((S_80171D74_1 *)arg0)->unk_9A;
             ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            func_80173018();
-            return;
+            phase2 = phase2 + 1;
+            ASM_SCHED_BARRIER(); /* MATCH: preserve the distinct case tail and its delay-slot store. */
+            ((S_80171D74_1 *)arg0)->unk_9A = (u8) phase2;
+            goto block_147;
         }
         goto block_147;
 jt_c3:
@@ -344,8 +338,7 @@ jt_c3:
             ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
             ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
             ((S_80171D74_3 *)arg1)->unk_10.n = (s32) 0xFFF80000;
-            func_8017301C();
-            return;
+            goto block_147;
         }
         goto block_147;
 jt_c4:
@@ -356,8 +349,7 @@ jt_c4:
             ((S_80171D74_1 *)arg0)->unk_96 = 0U;
             ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
             ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
-            func_8017301C();
-            return;
+            goto block_147;
         }
         goto block_147;
 jt_c6:
@@ -366,8 +358,7 @@ jt_c6:
         ((S_80171D74_1 *)arg0)->unk_96 = 0U;
         ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
         ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) 0x00020000;
-        func_80173080();
-        return;
+        goto block_152;
 jt_c7:
         ((S_80171D74_3 *)arg1)->unk_00.at00.v = (s32) (((S_80171D74_3 *)arg1)->unk_00.at00.v + ((S_80171D74_3 *)arg1)->unk_0C.n);
         temp_v0_6 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
@@ -381,15 +372,11 @@ jt_c7:
             ((S_80171D74_3 *)arg1)->unk_00.at02.v = 1U;
         }
         if ((s16) ((S_80171D74_1 *)arg0)->unk_96 == 3) {
-            u32 tail_page7;
             func_80166F3C(temp_s4, 0);
             func_80166F3C(temp_s4, 1);
             func_8016738C(temp_s4);
             func_801676CC(temp_s4);
-            tail_page7 = 0x80170000;
-            ASM_PAGEBASE_PIN(tail_page7);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80173084();
-            return;
+            goto block_152;
         }
         goto block_152;
 jt_c9:
@@ -397,8 +384,7 @@ jt_c9:
         tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
         ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_80171D74_1 *)arg0)->unk_96 = 0;
-        func_80173074();
-        return;
+        goto tail_73074;
 jt_c10:
         temp_v0_7 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
         ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_7;
@@ -430,10 +416,7 @@ jt_c10:
             ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) (0 - (SP2_X_AT(sp2_base, temp_s3->unk_2A.n) << 0x10));
             ((S_80171D74_3 *)arg1)->unk_10.n = (void *) (0 - (SP2_Y_AT(sp2_base, temp_s3->unk_2A.n) << 0x10));
             func_801715D0();
-            tail_call_arg = arg0;
-            ASM_TAILSLOT_PIN(tail_call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8017301C();
-            return;
+            goto block_147;
         }
         goto block_152;
 jt_c11:
@@ -450,8 +433,7 @@ jt_c11:
         if ((s16) temp_v0_8 >= 0x14) {
             ((S_80171D74_1 *)arg0)->unk_96 = 0U;
             ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            func_8017301C();
-            return;
+            goto block_147;
         }
         goto block_147;
 jt_c13:
@@ -464,8 +446,7 @@ jt_c13:
         ((S_80171D74_1 *)arg0)->unk_96 = 0U;
         ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
         temp_a1_2->unk_27 = 3;
-        func_80173018();
-        return;
+        goto block_147;
 jt_c15:
         ((S_80171D74_1 *)arg0)->unk_96 = 0x1EU;
         ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
@@ -511,8 +492,7 @@ jt_c16:
             sp2_base16 += angle_index16;
             ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) (((S_80171D74_11 *)sp2_base16)->unk_00 << 0x10);
             ((S_80171D74_3 *)arg1)->unk_10.n = (s32) (((S_80171D74_11 *)sp2_base16)->unk_02 << 0x10);
-            func_80173018();
-            return;
+            goto block_147;
         }
         goto block_147;
 jt_c17:
@@ -556,10 +536,7 @@ jt_c17:
             temp_s3->unk_2A.n = angle_result;
             if ((s16) ((S_80171D74_1 *)arg0)->unk_96 == 0x1E) {
                 func_800A56E0(0x81A);
-                tail_call_arg = arg0;
-                ASM_TAILSLOT_PIN(tail_call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_8017301C();
-                return;
+                goto block_147;
             }
             goto block_147;
         }
@@ -599,15 +576,13 @@ jt_c20:
             tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
             ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)arg0)->unk_96 = 0;
-            func_80173074();
-            return;
+            goto tail_73074;
         }
         goto block_152;
 jt_c21:
         if (((S_80171D74_5 *)arg2)->unk_04 == 0) {
             ((S_80171D74_5 *)arg2)->unk_14 = (u16) (((S_80171D74_5 *)arg2)->unk_14 | 0x800);
-            func_80173080();
-            return;
+            goto block_152;
         }
         goto block_152;
 jt_c22:
@@ -645,8 +620,7 @@ jt_c22:
             ((S_80171D74_1 *)arg0)->unk_A0.at00.v = 0;
             ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
             ((S_80171D74_3 *)arg1)->unk_08.at02.v = temp_s3->unk_88;
-            func_80173080();
-            return;
+            goto block_152;
         }
         goto block_152;
 jt_c24:
@@ -675,8 +649,7 @@ jt_c24:
             ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) (SP2_X_AT(sp2_base24, temp_s3->unk_2A.n) << 0x14);
             ((S_80171D74_3 *)arg1)->unk_10.n = (s32) (SP2_Y_AT(sp2_base24, temp_s3->unk_2A.n) << 0x14);
             ((S_80171D74_3 *)arg1)->unk_14 = (void *)0xFFF00000;
-            func_80173080();
-            return;
+            goto block_152;
         }
         goto block_152;
 jt_c25:
@@ -691,8 +664,7 @@ jt_c25:
             tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
             ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)arg0)->unk_96 = 0;
-            func_80173074();
-            return;
+            goto tail_73074;
         }
         goto block_152;
 jt_c30: {
@@ -708,8 +680,7 @@ jt_c30: {
         tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
         ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_80171D74_1 *)arg0)->unk_96 = 0;
-        func_80173074();
-        return;
+        goto tail_73074;
     }
 jt_c31:
         temp_a0_10 = ((S_80171D74_3 *)arg1)->unk_10.n;
@@ -725,8 +696,7 @@ jt_c31:
             ((S_80171D74_3 *)arg1)->unk_14 = NULL;
             ((S_80171D74_3 *)arg1)->unk_10.n = NULL;
             ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
-            func_80173080();
-            return;
+            goto block_152;
         }
         goto block_152;
 jt_c32:
@@ -761,8 +731,7 @@ jt_c32:
             ((S_80171D74_1 *)arg0)->unk_96 = 0U;
             ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
             ((S_80171D74_3 *)arg1)->unk_14 = (void *)0xFFF80000;
-            func_80173080();
-            return;
+            goto block_152;
         }
         goto block_152;
 jt_c33:
@@ -826,8 +795,7 @@ jt_c34: {
                 ((S_80171D74_3 *)arg1)->unk_00.at02.v = reset_base[1];
                 ((S_80171D74_3 *)arg1)->unk_04.at02u.v = reset_base[3];
             }
-            func_8017301C(arg0);
-            return;
+            goto block_147;
         }
         goto block_147;
     }
@@ -845,8 +813,7 @@ jt_c41:
             tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
             ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)arg0)->unk_96 = 0;
-            func_80173074();
-            return;
+            goto tail_73074;
         }
         goto block_152;
 jt_c45:
@@ -874,12 +841,7 @@ jt_c14:
 jt_c18:
 block_147:
     func_8016F5D8(arg0, arg1, arg2);
-    {
-        u32 tail_page147;
-        tail_page147 = 0x80170000;
-        ASM_PAGEBASE_PIN(tail_page147);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    }
-    func_80173084();
+    goto block_152;
 
 jt_c42:
 jt_c47:
@@ -897,7 +859,9 @@ jt_c47:
         }
         D_80082E76[0] = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
-        ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
+        tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
+tail_73074:
+        ((S_80171D74_1 *)arg0)->unk_9A = (u8) (tail_phase + 1);
         goto block_152;
 jt_c8:
 jt_c23:
@@ -919,14 +883,15 @@ block_152:
             func_80047738(arg2, *(((S_80171D74_5 *)arg2)->unk_2C.p2 + temp_s2_2), ((S_80171D74_5 *)arg2)->unk_04);
             ((S_80171D74_1 *)arg0)->unk_94 = temp_s2_2;
         }
-        if ((*(u8 *)((u8 *)D_8006CCF8 + temp_s2_2)) != 0) {
+        {
             u16 tail_flag;
-            tail_flag = ((S_80171D74_5 *)arg2)->unk_14 | 1;
-            ASM_TAILSLOT_PIN(tail_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80173110();
-            return;
+            if ((*(u8 *)((u8 *)D_8006CCF8 + temp_s2_2)) != 0) {
+                tail_flag = ((S_80171D74_5 *)arg2)->unk_14 | 1;
+            } else {
+                tail_flag = ((S_80171D74_5 *)arg2)->unk_14 & 0xFFFE;
+            }
+            ((S_80171D74_5 *)arg2)->unk_14 = tail_flag;
         }
-        ((S_80171D74_5 *)arg2)->unk_14 = (u16) (((S_80171D74_5 *)arg2)->unk_14 & 0xFFFE);
     }
     return;
 

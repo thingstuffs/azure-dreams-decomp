@@ -87,11 +87,8 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171060(void) __attribute__((noreturn));
-extern void func_80171430(void);
-extern void func_80171468(void) __attribute__((noreturn));
 extern void func_8017154C(void) __attribute__((noreturn));
-extern void func_80171570(void);
+extern void func_80171570(void *, void *);
 extern void func_801717B4(void *, void *, void *, void *);
 extern s32 func_80171FC0(void *, void *, void *, void *);
 extern void func_80172184(void *, void *, void *, void *);
@@ -129,10 +126,11 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
     s8 result;
     u16 state;
     u8 *table;
+    register u8 *high_table ASM_REG("$5"); /* MATCH: both table-selection paths feed the shared tail in a1. */
 
     if (D_80083462 & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
-        func_80171570();
+        func_80171570(arg0, arg1);
         func_8017154C();
         return;
     }
@@ -143,13 +141,12 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
         {
-            register void *next_state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            void *next_state;
 
             next_state = D_80174188;
-            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            high_table = next_state;
         }
-        func_80171060();
-        return;
+        goto high_table_store;
     }
 
     if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x200) {
@@ -158,7 +155,6 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
             ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= 0xFFFBFFFF;
-            func_8017154C();
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_80174188) != 0) {
@@ -169,7 +165,6 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
     if (!(D_80083462 & 0x2000)) {
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            func_8017154C();
             return;
         }
 
@@ -193,16 +188,14 @@ normal_state:
         }
 
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
-            u8 *high_table;
-
             func_800AA888(arg0, arg1, arg2, arg3);
             func_80173EF4(arg0, arg1, arg2, arg3);
             high_table = D_80174140;
+high_table_store:
             (*(void * *)((u8 *)arg2 + 0x2C)) = high_table;
             func_80047784(arg2,
-                high_table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                *((u8 *)(((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)high_table),
                 0);
-            func_8017154C();
             return;
         }
 
@@ -251,7 +244,6 @@ jt_c9:
             return;
         }
         func_80172184(arg0, arg1, arg2, arg3);
-        func_8017154C();
         return;
 
 jt_c5:
@@ -276,7 +268,6 @@ jt_c7:
 jt_c12:
 case_12:
         func_800A9A0C(arg3);
-        func_8017154C();
         return;
 
 jt_c1:
@@ -284,7 +275,6 @@ jt_c2:
 jt_c3:
 case_123:
         func_800AAF00(arg0, arg1, arg2, D_80174140, &D_80170E54);
-        func_8017154C();
         return;
 
 jt_c4:
@@ -292,7 +282,6 @@ jt_c10:
 jt_c11:
 generic:
         func_801717B4(arg0, arg1, arg2, arg3);
-        func_8017154C();
         return;
     }
 
@@ -330,27 +319,23 @@ generic:
             table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = 1;
-        func_80171468();
-        return;
-    }
-
-    if (((S_80170E54_2 *)arg2)->unk_14 & 0x6000) {
+    } else if (((S_80170E54_2 *)arg2)->unk_14 & 0x6000) {
         s16 timer = ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA - 1;
 
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = timer;
         if (timer < 0) {
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = (func_80069EF8() & 0x1F) + 0x20;
         }
-        if (((Rec_func_800A9E70_arg0 *)arg0)->unk_AA < 2) {
-            {
-                void *next_state;
+        {
+            void *next_state;
 
+            if (((Rec_func_800A9E70_arg0 *)arg0)->unk_AA < 2) {
                 next_state = D_80174148;
-                ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            } else {
+                next_state = D_80174140;
             }
-            func_80171430();
+            ((S_80170E54_2 *)arg2)->unk_2C.p = next_state;
         }
-        ((S_80170E54_2 *)arg2)->unk_2C.p = D_80174140;
 timer_table_reload:
         func_80047784(arg2,
             ((S_80170E54_2 *)arg2)->unk_2C.p2[
@@ -402,4 +387,3 @@ timer_table_reload:
     }
 }
 
-extern void func_80171430(void) __attribute__((noreturn));

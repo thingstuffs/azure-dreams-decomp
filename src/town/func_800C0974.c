@@ -18,7 +18,6 @@ extern void func_800478B8(S1 *);
 extern s32 func_800352FC(void);
 extern s32 func_800C2AB4(S0 *);
 extern void func_8003DB94(S1 *, s32, s32);
-extern void func_800BE1BC(S1 *, s32); /* j-only sibcall dispatcher */
 
 /* Pre-existing rodata jump table in the retail overlay blob. */
 extern void *D_80089670[];
@@ -27,8 +26,9 @@ void func_800BE0D4(S0 *self, s32 arg1, S1 *arg2) {
     S0 *obj = self;
     S1 *dst = arg2;
     s32 state;
-    static void *const keepalive[7] = {
-        &&L0, &&L1, &&L2, &&L3, &&L4, &&L0After, &&L1After
+    s32 callValue;
+    static void *const keepalive[5] = {
+        &&L0, &&L1, &&L2, &&L3, &&L4
     };
 
     func_800478B8(dst);
@@ -40,17 +40,15 @@ void func_800BE0D4(S0 *self, s32 arg1, S1 *arg2) {
 
 L0:
     if (func_800352FC() && func_800C2AB4(obj)) {
-        S1 *callArg = dst;
-        ASM_KEEP(callArg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800BE1BC(callArg, obj->fieldA4);
+        callValue = obj->fieldA4;
+        goto Lcall;
     }
 L0After:
     return;
 L1:
     if (dst->field14 & 0x6000) {
-        S1 *callArg = dst;
-        ASM_KEEP(callArg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800BE1BC(callArg, obj->fieldA8);
+        callValue = obj->fieldA8;
+        goto Lcall;
     }
 L1After:
     return;
@@ -63,7 +61,9 @@ L3:
     if (!(func_800352FC() && func_800C2AB4(obj))) {
         return;
     }
-    func_8003DB94(dst, obj->fieldA0, 0);
+    callValue = obj->fieldA0;
+Lcall:
+    func_8003DB94(dst, callValue, 0);
 Linc:
     obj->state = (u16)obj->state + 1;
     return;

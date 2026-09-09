@@ -6,9 +6,6 @@ s32 func_800A45D8();
 s32 func_800A7234();
 M2C_UNK func_800A7A7C();
 s16 func_800BCB04();
-void func_8016E63C(void) __attribute__((noreturn));
-void func_8016E824(void) __attribute__((noreturn));
-void func_8016E9E0(void) __attribute__((noreturn));
 extern s32 D_800814A0;
 extern u8 D_80174708;
 
@@ -179,8 +176,7 @@ block_23:
     sp18[2] = ((S_8016E528_0 *)arg0)->unk_46;
     sp18[3] = ((S_8016E528_0 *)arg0)->unk_47;
     func_800A7A7C(((S_8016E528_2 *)arg1)->unk_0E, ((S_8016E528_2 *)arg1)->unk_12, ((S_8016E528_2 *)arg1)->unk_16, ((S_8016E528_1 *)arg2)->unk_08, sp18);
-    func_8016E824();
-    return;
+    goto mark_removed;
 block_26:
     if (((S_8016E528_1 *)arg2)->unk_14 & 0x8000) {
         goto block_3;
@@ -202,6 +198,7 @@ block_28:
     }
     ((S_8016E528_2 *)arg1)->unk_08.at02.v = func_800BCB04((((S_8016E528_0 *)arg0)->unk_48 << 6) & 0xFFC0, (((S_8016E528_0 *)arg0)->unk_49 << 6) & 0xFFC0, (s16) ((u16) ((S_8016E528_2 *)arg1)->unk_08.at02.v - 0x20));
     ((S_8016E528_2 *)arg1)->unk_08.at00u.v = 0;
+mark_removed:
     (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_8016E528_0_pre *)arg0)[-1].unk_00 | 0x8000);
     D_800814A0 |= 0x8000;
     return;
@@ -252,11 +249,11 @@ block_42:
     ((S_8016E528_2 *)arg1)->unk_04.at00.v = (s32) (((S_8016E528_2 *)arg1)->unk_04.at00.v - ((S_8016E528_0 *)arg0)->unk_50);
     ((S_8016E528_0 *)arg0)->unk_50 = 0;
     ((S_8016E528_0 *)arg0)->unk_5C = 0;
-    func_8016E9E0();
-    return;
+    goto clear_motion;
 block_44:
     ((S_8016E528_0 *)arg0)->unk_48 = (s8) ((u8) ((S_8016E528_0 *)arg0)->unk_48 + *((((S_8016E528_0 *)arg0)->unk_18 * 4) + table_base));
     ((S_8016E528_0 *)arg0)->unk_49 = (s8) ((u8) ((S_8016E528_0 *)arg0)->unk_49 + ((S_8016E528_4 *)(((((S_8016E528_0 *)arg0)->unk_18 * 4) + table_base)))->unk_02);
+clear_motion:
     ((S_8016E528_1 *)arg2)->unk_06 = 0;
 block_45:
     ((S_8016E528_2 *)arg1)->unk_08.at00.v = (s32) (((S_8016E528_2 *)arg1)->unk_08.at00.v + ((S_8016E528_0 *)arg0)->unk_54);

@@ -66,8 +66,6 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s16 func_80069EF8(void);
-extern s32 func_800BAD40(s8);
-extern s32 func_800BAEA8(void);
 
 s32 func_800BABA8(DungeonObject *object, u16 *input) {
     DungeonRoot *root =
@@ -97,7 +95,7 @@ s32 func_800BABA8(DungeonObject *object, u16 *input) {
             if ((s8)row->level >= 48) {
                 if (object->active != 0) {
                     row->level = 48;
-                    return func_800BAEA8();
+                    goto next_iteration;
                 }
                 row->level = 0;
             }
@@ -120,13 +118,8 @@ s32 func_800BABA8(DungeonObject *object, u16 *input) {
             s16 value = func_80069EF8();
             s8 level = *(s8 *)((u8 *)object + index + 0x12);
             if (level >= 33) {
-                s32 dead_value = value;
-                register s32 dead_level ASM_REG("$2") = level - 32;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(dead_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                ASM_TAILSLOT_PIN(dead_level);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                return func_800BAD40(level);
-            }
-            if (level < 16) {
+                value = value / (level - 32);
+            } else if (level < 16) {
                 value = value / (16 - level);
             }
             ((S_800BABA8_0 *)dst)->unk_0D = (*(s32 *)((u8 *)object->state + 0x14) & 1) ? value : 0;
@@ -163,6 +156,7 @@ s32 func_800BABA8(DungeonObject *object, u16 *input) {
             object->count = count + 1;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
+        next_iteration:
         {
             s16 next_i = i + 1;
             i = next_i;
@@ -173,5 +167,9 @@ s32 func_800BABA8(DungeonObject *object, u16 *input) {
         }
     } while (1);
     ((S_800BABA8_1 *)(*(DungeonRoot **)global_field))->unk_8D0 = cursor;
-    return 0;
+    {
+        s32 result = 0;
+        ASM_KEEP_NV(result); /* MATCH: Initialize the return value before the epilogue restores. */
+        return result;
+    }
 }

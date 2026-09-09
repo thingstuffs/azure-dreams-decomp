@@ -33,9 +33,6 @@ typedef struct {
 
 extern void func_80025648(void *, s32, s32, s32, s32);
 extern void func_80025710(void *, u32, u32, s32, s32);
-extern void func_800258D4(void) __attribute__((noreturn));
-extern void func_80025BE0(void) __attribute__((noreturn));
-extern void func_80025CB4(void) __attribute__((noreturn));
 extern void func_80025FB0(void *, s32);
 extern void func_80026060(void *, void *, s32, s32);
 extern void func_8002612C(void *, s32);
@@ -109,24 +106,22 @@ void func_80025800(void *arg0_in, void *arg1_in, void *arg2_in)
             src += 0x10;
             dst += 0x10;
         } while (src != end);
-        func_800258D4();
-        return;
+    } else {
+        end = src + 0x20;
+        do {
+            w0 = S32_AT(src, 0);
+            w1 = S32_AT(src, 4);
+            w2 = S32_AT(src, 8);
+            w3 = S32_AT(src, 0xC);
+            S32_AT(dst, 0) = w0;
+            S32_AT(dst, 4) = w1;
+            S32_AT(dst, 8) = w2;
+            S32_AT(dst, 0xC) = w3;
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            src += 0x10;
+            dst += 0x10;
+        } while (src != end);
     }
-
-    end = src + 0x20;
-    do {
-        w0 = S32_AT(src, 0);
-        w1 = S32_AT(src, 4);
-        w2 = S32_AT(src, 8);
-        w3 = S32_AT(src, 0xC);
-        S32_AT(dst, 0) = w0;
-        S32_AT(dst, 4) = w1;
-        S32_AT(dst, 8) = w2;
-        S32_AT(dst, 0xC) = w3;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        src += 0x10;
-        dst += 0x10;
-    } while (src != end);
     ASM_KEEP_NV(dst);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     PACKED_AT(dst, 0) = PACKED_AT(src, 0);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -147,16 +142,14 @@ void func_80025800(void *arg0_in, void *arg1_in, void *arg2_in)
             if (state == 0) {
                 goto state_zero;
             }
-            func_80025CB4();
-            return;
+            goto function_done;
         }
 
         ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (state == 2) {
             goto state_two;
         }
-        func_80025CB4();
-        return;
+        goto function_done;
 
 state_zero:
                 count30 = U16_AT(arg0, 0x30);
@@ -180,14 +173,12 @@ state_zero:
                     func_80026060(arg2, (u8 *)arg0 + 0x34,
                                   S16_AT(arg0, 0x3A), S16_AT(arg0, 0x38));
                     func_80025FB0(arg0, S32_AT(arg2, 0));
-                    func_80025CB4();
-                    return;
+                    goto function_done;
                 }
                 U16_AT(arg0, 0x30) = 0;
                 U16_AT(arg0, 0x32) = 0;
                 U16_AT(arg0, 0x2C) = U16_AT(arg0, 0x2C) + 1;
-                func_80025CB4();
-                return;
+                goto function_done;
 
 state_one:
             next = U16_AT(arg0, 0x32) + 1;
@@ -205,8 +196,7 @@ state_one:
                 S32_AT(arg0, 0x50) = 0x200000;
                 S32_AT(arg0, 0x5C) = 0;
                 U16_AT(arg0, 0x2C) = U16_AT(arg0, 0x2C) + 1;
-                func_80025CB4();
-                return;
+                goto function_done;
             }
             goto state_done;
 
@@ -238,6 +228,7 @@ state_two:
 
             outer = 0;
             do {
+                ASM_SCHED_BARRIER(); /* MATCH: Keep the inner counter reset out of the outer branch delay slot. */
                 inner = 0;
                 do {
                     s32 pointoff;
@@ -272,18 +263,17 @@ state_two:
             if (next >= 0x28) {
                 D_8002992C = 0;
                 D_80028630 = 0;
-                func_80025BE0();
-                return;
+                goto object_dead;
             }
             }
 state_done:
             ;
     } else {
         if (U16_AT(object, 0x1E) & 0x8000) {
+object_dead:
             U16_AT(arg0, -2) |= 0x8000;
             D_800814A0 |= 0x8000;
-            func_80025CB4();
-            return;
+            goto function_done;
         }
 
         node = PTR_AT(object, 8);
@@ -306,4 +296,6 @@ state_done:
         U16_AT(arg2, 0x18) = U16_AT(tile, 0x18);
         U16_AT(arg2, 0x1A) = U16_AT(tile, 0x1A);
     }
+function_done:
+    ;
 }

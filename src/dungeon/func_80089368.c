@@ -15,9 +15,6 @@ M2C_UNK func_8008CF6C(); /* extern */
 s32 func_8008D024(); /* extern */
 s32 func_8008D1D0();  /* extern */
 M2C_UNK func_8008D94C();                            /* extern */
-M2C_UNK func_8008F05C(); /* extern */
-M2C_UNK func_8008F3C0();              /* extern */
-M2C_UNK func_8008F3C8();           /* extern */
 M2C_UNK func_8008F6EC(); /* extern */
 M2C_UNK func_8008FA14(); /* extern */
 M2C_UNK func_80090200(); /* extern */
@@ -117,7 +114,6 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 var_v0_2;
     s32 temp_a0;
     s32 temp_code;
-    s32 temp_v0_4;
     s32 temp_v1_2;
     s32 temp_v1_3;
     s32 var_v0_3;
@@ -128,7 +124,7 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u16 temp_v1_8;
     u16 var_v0;
     u16 var_v0_4;
-    u32 temp_v1_7;
+    register u32 temp_v1_7 ASM_REG("$3"); /* MATCH: both arms merge the fifth argument in v1. */
     u8 temp_a0_2;
     u8 temp_a1_2;
     u8 temp_a1_3;
@@ -136,13 +132,19 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 temp_a1_5;
     s32 temp_angle;
     void *code8_a0;
+    register void *call0 ASM_REG("$4"); /* MATCH: both arms prepare a0 before the shared call. */
+    register void *call1 ASM_REG("$5"); /* MATCH: both arms prepare a1 before the shared call. */
+    register void *call2 ASM_REG("$6"); /* MATCH: both arms prepare a2 before the shared call. */
+    register s32 temp_v0_4 ASM_REG("$7"); /* MATCH: merge the fourth argument in a3. */
     s32 tail_data_flags;
+    void *call_arg;
+    register u8 *data ASM_REG("$5"); /* MATCH: shared tail receives its data pointer in a1. */
     void *temp_v0;
     void *temp_v0_2;
 
     if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 != 0xE) {
         if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x100) {
-            func_8008D94C();
+            func_8008D94C(arg0, arg1, arg2, arg3);
             return;
         }
         goto block_5;
@@ -181,16 +183,16 @@ block_5:
         return;
     }
     if (!(temp_v1_3 & 0x100000)) {
-        void *call_arg = arg2;
+        call_arg = arg2;
         ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         {
             void *callback = &D_8008ACDC;
             ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             {
-                void *data = &D_800DCFB0;
+                data = (u8 *) &D_800DCFB0;
                 ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_pv = callback;
-                func_8008F3C8(call_arg, data);
+                goto block_154;
             }
         }
         return;
@@ -273,8 +275,7 @@ block_5:
                             ((S_8008EAC8_1 *)arg3)->unk_2A.u = step;
                         }
                         func_8009F988(temp_a0);
-                        func_8008F3C0(arg2);
-                        return;
+                        goto block_153;
                     }
                     *(volatile s8 *) &D_800E3544 = (s8) (((S_8008EAC8_6 *)temp_v0)->unk_01 & 0xF8);
                     temp_code = *(u8 *) &D_800E3544;
@@ -340,23 +341,27 @@ code_50:
 code_68:
                     temp_v0_2 = func_8009FADC(((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, temp_a1);
                     {
-                        register void *call0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        register void *call1 ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                        void *call2 = arg2;
-                        register void *call3 ASM_REG("$2") = temp_v0_2;   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-                        u32 mode;
-                        ASM_KEEP(call2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        mode = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                        mode &= 0x60;
-                        mode >>= 5;
-                        ASM_TAILSLOT_PIN(mode);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                        func_8008F05C(call0, call1, call2, call3);
+                        register void *call3 ASM_REG("$2") = temp_v0_2; /* MATCH: retain the returned pointer in v0 until argument setup. */
+                        call0 = arg0;
+                        call1 = arg1;
+                        call2 = arg2;
+                        ASM_KEEP(call2); /* MATCH: prepare argument registers before loading the mode. */
+                        temp_v1_7 = (u32) (((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x60) >> 5;
+                        temp_v0_4 = (s32) call3;
+                        goto block_94270;
                     }
-                    return;
 code_88:
-                    temp_v1_7 = (u32) (((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x60) >> 5;
-                    temp_v0_4 = ((S_8008EAC8_8 *)(((temp_v1_7 * 4) + arg0)))->unk_D0;
-                    func_80094270(arg0, arg1, arg2, temp_v0_4, temp_v1_7);
+                    call0 = arg0;
+                    temp_v1_7 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
+                    ASM_SCHED_BARRIER(); /* MATCH: load the mode before preparing a1. */
+                    call1 = arg1;
+                    temp_v1_7 &= 0x60;
+                    temp_v1_7 >>= 5;
+                    temp_v0_4 = ((S_8008EAC8_8 *)(((temp_v1_7 * 4) + call0)))->unk_D0;
+                    ASM_SCHED_BARRIER(); /* MATCH: prepare a2 after loading the fourth argument. */
+                    call2 = arg2;
+block_94270:
+                    func_80094270(call0, call1, call2, temp_v0_4, temp_v1_7);
                     return;
 code_70:
                     temp_a1_5 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
@@ -447,8 +452,7 @@ code_8:
                                 ASM_SET(tail_a0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                                 ASM_SET(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFBF);
-                                func_8008F3C0(tail_a0, tail_a1);
-                                return;
+                                goto block_153;
                             }
                             goto block_153;
                         }
@@ -472,8 +476,11 @@ code_30:
             }
         } else {
 block_153:
-            (*(u8 **)((u8 *)arg2 + (0x2C))) = D_800DD0B8;
-            func_80048A44(arg2, D_800DD0B8[((s32) (D_80083228 + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7], 0, 1);
+            call_arg = arg2;
+            data = D_800DD0B8;
+block_154:
+            (*(u8 **)((u8 *)call_arg + (0x2C))) = data;
+            func_80048A44(call_arg, *((u8 *) (((s32) (D_80083228 + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) data), 0, 1);
         }
     }
 }

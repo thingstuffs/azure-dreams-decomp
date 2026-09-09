@@ -2,7 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_80700304();                                /* extern */
+s32 func_80700304(s32, s32, s32, s32);                                /* extern */
 void func_8070055C(void) __attribute__((noreturn)); /* extern */
 void func_80700590();                              /* extern */
 
@@ -19,14 +19,14 @@ typedef struct S_808B2CB0_0 {
     u8 unk_0E;
 } S_808B2CB0_0;   /* temp_v1 in func_808B2CB0 */
 
-s32 func_808B2CB0(s32 arg0) {
+s32 func_808B2CB0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_v0;
     register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *temp_a1;
     S_808B2CB0_0 *temp_v1;
     register u8 temp_v0_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    if (func_80700304() >= 2) {
+    if (func_80700304(arg0, arg1, arg2, arg3) >= 2) {
         temp_v0 = *(s16 *)((u8 *)D_A0700000 + (arg0 * 2) + 0xF34);
         temp_a0 = temp_v0;
         if (temp_v0 < 0) {

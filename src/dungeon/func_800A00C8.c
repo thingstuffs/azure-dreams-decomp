@@ -10,9 +10,6 @@ extern GlobalState D_80083160;
 extern s32 D_800814A0[3];
 
 extern s32 func_800644B8(s32);
-extern void func_800A58A4(void) __attribute__((noreturn));
-extern void func_800A5938(void) __attribute__((noreturn));
-extern void func_800A5994(void) __attribute__((noreturn));
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -31,17 +28,13 @@ void func_800A5828(void *arg0, s32 arg1, void *arg2)
 
     if (S16_AT(arg0, 0x64) == 0) {
         if (global->flags & 1) {
-            s32 tail_value;
-
-            tail_value = (s16)U16_AT(arg0, 0x6A) >> 1;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800A58A4();
+            color = (s16)U16_AT(arg0, 0x6A) >> 1;
+        } else {
+            current = U16_AT(arg0, 0x6A);
+            U16_AT(arg0, 0x6A) =
+                U16_AT(arg0, 0x6A) + (192 - current) / S16_AT(arg0, 0x66);
+            color = U8_AT(arg0, 0x6A);
         }
-
-        current = U16_AT(arg0, 0x6A);
-        U16_AT(arg0, 0x6A) =
-            U16_AT(arg0, 0x6A) + (192 - current) / S16_AT(arg0, 0x66);
-        color = U8_AT(arg0, 0x6A);
         U8_AT(arg2, 0xE) = color;
         U8_AT(arg2, 0xD) = color;
         U8_AT(arg2, 0xC) = color;
@@ -50,20 +43,18 @@ void func_800A5828(void *arg0, s32 arg1, void *arg2)
         if (S16_AT(arg0, 0x66) <= 0) {
             U16_AT(arg0, 0x66) = 16;
             U16_AT(arg0, 0x64)++;
-            func_800A5994();
         }
     } else {
         if (global->flags & 1) {
             S32_AT(arg2, 0xC) = 0;
-            func_800A5938();
+        } else {
+            step = S16_AT(arg0, 0x6A) / S16_AT(arg0, 0x66);
+            U16_AT(arg0, 0x6A) -= step;
+            color = U8_AT(arg0, 0x6A);
+            U8_AT(arg2, 0xE) = color;
+            U8_AT(arg2, 0xD) = color;
+            U8_AT(arg2, 0xC) = color;
         }
-
-        step = S16_AT(arg0, 0x6A) / S16_AT(arg0, 0x66);
-        U16_AT(arg0, 0x6A) -= step;
-        color = U8_AT(arg0, 0x6A);
-        U8_AT(arg2, 0xE) = color;
-        U8_AT(arg2, 0xD) = color;
-        U8_AT(arg2, 0xC) = color;
 
         U16_AT(arg0, 0x66)--;
         if (S16_AT(arg0, 0x66) <= 0) {

@@ -21,8 +21,6 @@ extern void *D_800E3D18;
 extern void *func_8003DE58(void *, void *, ShortVec *, s16);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
-extern void func_800B8994(void) __attribute__((noreturn));
-extern void func_800B8BE8(void) __attribute__((noreturn));
 extern void func_800B8D64(s16, s16, s16);
 extern void func_800B8EA8(void *, s16, s16, s16, ShortVec *, s32, s32, s32, s32);
 
@@ -135,15 +133,13 @@ void func_800B8830(void *arg0, S_800B8830_3 *arg1, S_800B8830_1 *arg2) {
             if (state == 0) {
                 goto state_zero;
             }
-            func_800B8BE8();
-            return;
+            goto done;
         }
         page_base = (void *)0x80080000;
         if (state == 2) {
             goto state_two;
         }
-        func_800B8BE8();
-        return;
+        goto done;
 
 state_zero:
         arg2->unk_0C = arg2->unk_0D = arg2->unk_0E = 0x80;
@@ -171,12 +167,11 @@ state_zero:
             arg1->unk_00.at02.v += (u16)delta.x;
             arg1->unk_04.at02.v += (u16)delta.y;
             w = arg1->unk_08.at02.v + (u16)delta.z;
-            ASM_TAILSLOT_PIN(w);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800B8994();
-            return;
+            arg1->unk_08.at02.v = w;
+        } else {
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            arg1->unk_08.at02.v = z - 0x20;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        arg1->unk_08.at02.v = z - 0x20;
     }
 
     if (!(((S_800B8830_11 *)(((S_800B8830_0 *)arg0)->unk_08))->unk_00 & 0x80)) {
@@ -184,8 +179,7 @@ state_zero:
     }
     ((S_800B8830_0 *)arg0)->unk_26.s = 9;
     ((S_800B8830_0 *)arg0)->unk_20.u++;
-    func_800B8BE8();
-    return;
+    goto done;
 
 state_two:
 {

@@ -20,11 +20,9 @@ typedef struct S80083780 {
 
 extern S80083780 D_80083780;
 
-extern s32 func_800352FC(void);
+extern s32 func_800352FC(s32, s32 *, S1 *);
 extern s32 func_800C2AB4(S0 *);
 extern void SD_Call(s32);
-extern void func_800BF61C(void) __attribute__((noreturn));
-extern void func_800BF634(void) __attribute__((noreturn));
 extern void *D_80089900[];
 
 #ifndef NON_MATCHING
@@ -75,7 +73,7 @@ L_A: {
         if (threshold != 0) {
             return;
         }
-        if (func_800352FC() == 0) {
+        if (func_800352FC(rhs, arg1, arg2) == 0) {
             return;
         }
         if (func_800C2AB4(obj) == 0) {
@@ -86,7 +84,7 @@ L_A: {
         ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         threshold = 32;
         obj->f6C = threshold;
-        func_800BF634();
+        goto L_INCREMENT;
     }
 
 L_B: {
@@ -98,12 +96,11 @@ L_B: {
         D_80083780.field4 += 0x40000;
     }
     value = arg2->f1A - 32;
-    ASM_TAILSLOT_PIN(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    func_800BF61C();
+    goto L_STORE;
 }
 
 L_C:
-    if (func_800352FC() != 0) {
+    if (func_800352FC((s32)self, arg1, arg2) != 0) {
         if (func_800C2AB4(obj) != 0) {
             goto L_EXIT;
         }
@@ -113,11 +110,13 @@ L_C:
 
 L_D:
     value = arg2->f1A + 32;
+L_STORE:
     arg2->f1A = value;
     if (obj->f6C > 0) {
         goto L_EXIT;
     }
     value = (u16)obj->f68;
+L_INCREMENT:
     obj->f68 = value + 1;
 L_EXIT:
     return;

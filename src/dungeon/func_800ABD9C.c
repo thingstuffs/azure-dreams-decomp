@@ -32,8 +32,6 @@ extern s32 (*D_800DF030[])(void);
 extern s32 D_800814A0;
 
 extern void func_8004E994(void *arg0);
-extern void func_800B16BC(void) __attribute__((noreturn));
-extern void func_800B1750(void) __attribute__((noreturn));
 
 void func_800B14FC(void *arg0, s32 arg1, void *arg2)
 {
@@ -62,7 +60,7 @@ void func_800B14FC(void *arg0, s32 arg1, void *arg2)
 
     if (state < 2) {
         if (state != 0) {
-            func_800B1750();
+            ASM_SCHED_BARRIER(); /* MATCH: retain the separate jump to the shared epilogue. */
             return;
         }
         goto state0;
@@ -70,7 +68,6 @@ void func_800B14FC(void *arg0, s32 arg1, void *arg2)
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state != 2) {
-        func_800B1750();
         return;
     }
     goto state2;
@@ -84,7 +81,6 @@ state0:
         if (countdown != 0) {
             countdown_value -= 1;
             ((S_800B14FC_0 *)base)->unk_26.u = countdown_value;
-            func_800B1750();
             return;
         }
 
@@ -118,7 +114,6 @@ state0:
         ((S_800B14FC_1 *)render)->unk_1E = 0x1000;
         ((S_800B14FC_1 *)render)->unk_0C.at00u.v = 0x00808080;
         ((S_800B14FC_0 *)base)->unk_20.u = ((S_800B14FC_0 *)base)->unk_20.u + 1;
-        func_800B1750();
         return;
     }
 
@@ -156,8 +151,7 @@ state2:
                 render = (u8 *)render + 4;
                 func_8004E994(object);
                 ASM_USE_NV(render);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800B16BC();
-                return;
+                continue;
             }
             render = (u8 *)render + 4;
             if (object == (void *)0) {

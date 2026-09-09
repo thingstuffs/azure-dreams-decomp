@@ -28,8 +28,6 @@ M2C_UNK func_800A4ACC();
 M2C_UNK func_800A9A04();
 M2C_UNK func_800AD594();
 s32 func_800AD9B4();
-void func_801724D0(void) __attribute__((noreturn));
-void func_801725A8() __attribute__((noreturn));
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
@@ -53,12 +51,12 @@ void func_80172290(void *arg0, void *arg1, void *arg2, void *arg3) {
         if (state == 0) {
             goto state_0;
         }
-        func_801724D0();
+        goto tick;
     }
     if (state == 2) {
         goto state_2;
     }
-    func_801724D0();
+    goto tick;
 
 state_0:
     if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
@@ -147,7 +145,6 @@ tick:
         if (flags & 0x2000) {
             if (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000) {
                 ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
-                func_801725A8(&D_80083460);
             }
         } else if (!(flags & 0x410)) {
             if (flags & 0x20000) {

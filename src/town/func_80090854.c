@@ -67,11 +67,6 @@ extern s32 D_800FE480;
 extern s32 D_800FE484;
 
 extern s32 func_8008CE08(Scratch_80090854 *);
-extern void func_8008E05C(void) __attribute__((noreturn));
-extern void func_8008E0EC(void) __attribute__((noreturn));
-extern void func_8008E164(void) __attribute__((noreturn));
-extern void func_8008E204(void) __attribute__((noreturn));
-extern s32 func_8008E4C0(void);
 
 s32 func_8008DFB4(s16 arg0, u16 arg1, u16 arg2)
 {
@@ -82,7 +77,7 @@ s32 func_8008DFB4(s16 arg0, u16 arg1, u16 arg2)
     Global_80090854 *global = &D_80083160;
     register Map_80090854 *map ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u16 *tiles ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    Vec_80090854 *vertices;
+    register Vec_80090854 *vertices ASM_REG("$19"); /* MATCH: the cell loop otherwise swaps vertices and cell between s3 and s2. */
 
     scan_x = arg0;
     scan_z = arg1;
@@ -103,10 +98,10 @@ s32 func_8008DFB4(s16 arg0, u16 arg1, u16 arg2)
 
     if (arg0 >= 0x20) {
         scratch->x_step = 0x40;
-        func_8008E05C();
+    } else {
+        scratch->x_step = -0x40;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
-    scratch->x_step = -0x40;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if ((s16)scratch->x >= 0x20) {
         s32 z_pos;
@@ -134,12 +129,10 @@ outer_loop:
 
         scan_z = sum_z;
         if (scratch->z_step >= 0) {
-            if (sum_z < D_800FE484) {
-                func_8008E0EC();
+            if (sum_z >= D_800FE484) {
+                goto finished;
             }
-            goto finished;
-        }
-        if (sum_z < 0) {
+        } else if (sum_z < 0) {
             goto finished;
         }
     }
@@ -157,18 +150,10 @@ inner_loop:
 
         scan_x = sum_x;
         if (scratch->x_step >= 0) {
-            if (sum_x < D_800FE480) {
-                register s32 e164_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register s32 e164_hi ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-
-                e164_hi = (s32)((u32)(u16)scan_x << 16);
-                e164_arg = e164_hi >> 16;
-                ASM_TAILSLOT_PIN(e164_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_8008E164();
+            if (sum_x >= D_800FE480) {
+                goto next_outer;
             }
-            goto next_outer;
-        }
-        if (sum_x < 0) {
+        } else if (sum_x < 0) {
             goto next_outer;
         }
     }
@@ -198,73 +183,75 @@ inner_loop:
             cell = map->cells[tile_value & 0x3FFF];
             tail = (u8 *)cell + 0x16;
 
-            if (scratch->planes[*(u16 *)(tail - 6)].x > 0 &&
-                !(tail[1] & 1)) {
-                s32 value;
+            for (;;) {
+                if (scratch->planes[*(u16 *)(tail - 6)].x > 0 &&
+                    !(tail[1] & 1)) {
+                    s32 value;
 
-                tmp = (u16)vertices[*(u16 *)(tail - 0x12)].y;
-                tmp -= (u16)scratch->x;
-                scratch->quad[0] = tmp;
-                tmp = (u16)vertices[*(u16 *)(tail - 0x12)].z;
-                tmp -= (u16)scratch->z;
-                scratch->quad[1] = tmp;
-                tmp = (u16)vertices[*(u16 *)(tail - 0x10)].y;
-                tmp -= (u16)scratch->x;
-                scratch->quad[2] = tmp;
-                tmp = (u16)vertices[*(u16 *)(tail - 0x10)].z;
-                tmp -= (u16)scratch->z;
-                scratch->quad[3] = tmp;
-                tmp = (u16)vertices[*(u16 *)(tail - 0x14)].y;
-                tmp -= (u16)scratch->x;
-                scratch->quad[4] = tmp;
-                tmp = (u16)vertices[*(u16 *)(tail - 0x14)].z;
-                tmp -= (u16)scratch->z;
-                scratch->quad[5] = tmp;
-                tmp = (u16)vertices[cell->v0].y;
-                tmp -= (u16)scratch->x;
-                scratch->quad[6] = tmp;
-                tmp = (u16)vertices[cell->v0].z;
-                tmp -= (u16)scratch->z;
-                scratch->quad[7] = tmp;
+                    tmp = (u16)vertices[*(u16 *)(tail - 0x12)].y;
+                    tmp -= (u16)scratch->x;
+                    scratch->quad[0] = tmp;
+                    tmp = (u16)vertices[*(u16 *)(tail - 0x12)].z;
+                    tmp -= (u16)scratch->z;
+                    scratch->quad[1] = tmp;
+                    tmp = (u16)vertices[*(u16 *)(tail - 0x10)].y;
+                    tmp -= (u16)scratch->x;
+                    scratch->quad[2] = tmp;
+                    tmp = (u16)vertices[*(u16 *)(tail - 0x10)].z;
+                    tmp -= (u16)scratch->z;
+                    scratch->quad[3] = tmp;
+                    tmp = (u16)vertices[*(u16 *)(tail - 0x14)].y;
+                    tmp -= (u16)scratch->x;
+                    scratch->quad[4] = tmp;
+                    tmp = (u16)vertices[*(u16 *)(tail - 0x14)].z;
+                    tmp -= (u16)scratch->z;
+                    scratch->quad[5] = tmp;
+                    tmp = (u16)vertices[cell->v0].y;
+                    tmp -= (u16)scratch->x;
+                    scratch->quad[6] = tmp;
+                    tmp = (u16)vertices[cell->v0].z;
+                    tmp -= (u16)scratch->z;
+                    scratch->quad[7] = tmp;
 
-                if (func_8008CE08(scratch) != 0) {
-                    u16 pi = *(u16 *)(tail - 6);
-                    u16 ci = cell->v0;
-                    register Vec_80090854 *plane ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    register Vec_80090854 *vertex ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    s32 dy;
-                    s32 dz;
-                    s32 y_product;
-                    s32 z_product;
-                    s32 x_product;
+                    if (func_8008CE08(scratch) != 0) {
+                        u16 pi = *(u16 *)(tail - 6);
+                        u16 ci = cell->v0;
+                        register Vec_80090854 *plane ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        register Vec_80090854 *vertex ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        s32 dy;
+                        s32 dz;
+                        s32 y_product;
+                        s32 z_product;
+                        s32 x_product;
 
-                    plane = (Vec_80090854 *)(pi * 8 + (u32)scratch->planes);
-                    vertex = (Vec_80090854 *)(ci * 8 + (u32)vertices);
-                    dy = vertex->y - (s16)scratch->x;
-                    dz = vertex->z - (s16)scratch->z;
-                    y_product = plane->y * dy;
-                    z_product = plane->z * dz;
-                    x_product = plane->x * vertex->x;
-                    value = (y_product + z_product + x_product) / plane->x;
-                    scratch->result = value;
-                    scratch->result += scratch->inner_bias;
-                    if (scratch->limit >= scratch->result &&
-                        scratch->best < scratch->result) {
-                        scratch->best = scratch->result;
+                        plane = (Vec_80090854 *)(pi * 8 + (u32)scratch->planes);
+                        vertex = (Vec_80090854 *)(ci * 8 + (u32)vertices);
+                        dy = vertex->y - (s16)scratch->x;
+                        dz = vertex->z - (s16)scratch->z;
+                        y_product = plane->y * dy;
+                        z_product = plane->z * dz;
+                        x_product = plane->x * vertex->x;
+                        value = (y_product + z_product + x_product) / plane->x;
+                        scratch->result = value;
+                        scratch->result += scratch->inner_bias;
+                        if (scratch->limit >= scratch->result &&
+                            scratch->best < scratch->result) {
+                            scratch->best = scratch->result;
+                        }
                     }
                 }
-            }
 
-            {
-            register u16 fl ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            fl = *(u16 *)tail & 0x80FF;
-            if (fl != 0x8001) {
-                tail += 0x18;
-                ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                cell = (Cell_80090854 *)((u8 *)cell + 0x18);
-                ASM_TAILSLOT_PIN(cell);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                func_8008E204();
-            }
+                {
+                    register u16 fl ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    fl = *(u16 *)tail & 0x80FF;
+                    if (fl != 0x8001) {
+                        tail += 0x18;
+                        ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                        cell = (Cell_80090854 *)((u8 *)cell + 0x18);
+                    } else {
+                        break;
+                    }
+                }
             }
         }
     }
@@ -290,7 +277,6 @@ finished:
     {
         s32 result;
         result = (s16)((u16)scratch->block + (u16)scratch->best);
-        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        return func_8008E4C0();
+        return result;
     }
 }

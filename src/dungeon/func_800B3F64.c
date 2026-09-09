@@ -9,11 +9,6 @@ extern s32 D_8008346C[];
 
 extern void func_800A56E0(s32);
 extern void func_800478B8(void *, void *, void *);
-extern void func_800B9760(void) __attribute__((noreturn));
-extern void func_800B97CC(void) __attribute__((noreturn));
-extern void func_800B97DC(void) __attribute__((noreturn));
-extern void func_800B9828(void) __attribute__((noreturn));
-extern void func_800B9930(void) __attribute__((noreturn));
 
 void func_800B96C4(void *p, void *out_arg, void *q_arg) {
     register void *out ASM_REG("$18") = out_arg;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -28,7 +23,6 @@ void func_800B96C4(void *p, void *out_arg, void *q_arg) {
                 func_800A56E0(0x507);
                 F(p, s16, 0xE) = 4;
                 D_800DF364[0] = F(F(p, void *, 0), void *, 0);
-                func_800B9760();
             }
         } else {
             void *t;
@@ -45,7 +39,7 @@ void func_800B96C4(void *p, void *out_arg, void *q_arg) {
             F(q, u16, 0x1C) = t;
             if (t >= 0x1001) {
                 F(q, u16, 0x1E) = 0x1000;
-                func_800B97CC();
+                F(q, u16, 0x1C) = 0x1000;
             }
         }
     } else {
@@ -55,7 +49,6 @@ void func_800B96C4(void *p, void *out_arg, void *q_arg) {
             u16 r = (u16)((s32)v - (s32)v / e);
             F(q, u16, 0x1E) = r;
             F(q, u16, 0x1C) = r;
-            func_800B97DC();
         } else {
             F(q, u16, 0x1E) = 0;
             F(q, u16, 0x1C) = 0;
@@ -64,20 +57,21 @@ void func_800B96C4(void *p, void *out_arg, void *q_arg) {
 
     {
         void *w1 = F(F(p, void *, 0), void *, 0);
+        u32 dead;
         if (w1 == 0) {
-            u32 dead = 0x808080;
-            ASM_TAILSLOT_PIN(dead);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800B9828();
+            dead = 0x808080;
+        } else {
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            if (w1 == F(D_800E3D7C[0], void *, 0xAC)) {
+                u32 dead2 = 0x101080;
+                dead = dead2;
+            } else {
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                dead = 0x801010;
+            }
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (w1 == F(D_800E3D7C[0], void *, 0xAC)) {
-            u32 dead2 = 0x101080;
-            ASM_TAILSLOT_PIN(dead2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800B9828();
-        }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        F(q, s32, 0xC) = dead;
     }
-    F(q, s32, 0xC) = 0x801010;
     base = D_800DF364[0];
     a1p = F((char *)base - 0x18, void *, 0);
     if (F(p, s16, 0xE) != 0) {
@@ -92,11 +86,11 @@ void func_800B96C4(void *p, void *out_arg, void *q_arg) {
                     F(out, u16, 2) = F(a1p, u16, 2);
                     F(out, u16, 6) = F(a1p, u16, 6);
                     F(out, u16, 0xA) = F(base, u16, 0x88);
-                    func_800B9930();
+                } else {
+                    F(p, u16, -2) = F(p, u16, -2) | 0x8000;
+                    D_8008346C[0] = 0;
+                    D_800814A0[0] = D_800814A0[0] | 0x8000;
                 }
-                F(p, u16, -2) = F(p, u16, -2) | 0x8000;
-                D_8008346C[0] = 0;
-                D_800814A0[0] = D_800814A0[0] | 0x8000;
             }
         }
     }

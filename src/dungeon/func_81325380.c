@@ -9,9 +9,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A9A04(void *);
 extern s32 func_800AD9B4(void *, void *);
-extern void func_8016CD88() __attribute__((noreturn));
-extern void func_8016CDC0() __attribute__((noreturn));
-extern void func_8016CE8C() __attribute__((noreturn));
 extern u8 D_80082E80[];
 extern s16 D_80083228;
 extern u8 D_80083460[];
@@ -66,7 +63,7 @@ void func_8016CB80(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 *temp_a0_2;
     register void *temp_v1_dispatch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u32 temp_v0_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *temp_a1;
 
 #define arg1 base1
 #define arg2 base2
@@ -80,8 +77,7 @@ void func_8016CB80(void *arg0, void *arg1, void *arg2, void *arg3) {
         if (temp_v1 == 0) {
             goto block_0;
         }
-        func_8016CDC0();
-        return;
+        goto block_22;
     }
     if (temp_v1 == 2) {
         goto block_14;
@@ -89,8 +85,7 @@ void func_8016CB80(void *arg0, void *arg1, void *arg2, void *arg3) {
     if (temp_v1 == 3) {
         goto block_18;
     }
-    func_8016CDC0();
-    return;
+    goto block_22;
 block_0:
     ((S_8016CB80_0 *)arg0)->unk_98 = (u16) (((S_8016CB80_0 *)arg0)->unk_98 | 8);
     ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0xF7FFFFFF);
@@ -126,8 +121,7 @@ block_14:
         ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, ((S_8016CB80_2 *)arg2)->unk_24, ((S_8016CB80_2 *)arg2)->unk_25);
         ((S_8016CB80_0 *)arg0)->unk_9B = (u8) (((S_8016CB80_0 *)arg0)->unk_9B + 1);
-        func_8016CDC0();
-        return;
+        goto block_22;
     }
     goto block_22;
 block_18:
@@ -137,13 +131,13 @@ block_18:
         temp_v0_page = 0x80170000;
         ASM_KEEP(temp_v0_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         temp_a1 = (u8 *)temp_v0_page + 0x467C;
-        ASM_TAILSLOT_PIN(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8016CD88();
-        return;
+    } else {
+        temp_v1_dispatch = ((S_8016CB80_2 *)arg2)->unk_2C.p;
+        temp_a1 = D_80174684;
     }
-    if (((S_8016CB80_2 *)arg2)->unk_2C.p2 != D_80174684) {
-        (*(u8 **)((u8 *)arg2 + 0x2C)) = D_80174684;
-        func_80047784(arg2, D_80174684[((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    if (temp_v1_dispatch != temp_a1) {
+        (*(u8 **)((u8 *)arg2 + 0x2C)) = temp_a1;
+        func_80047784(arg2, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)temp_a1), 0);
     }
 block_22:
     temp_v0 = ((S_8016CB80_0 *)arg0)->unk_96 - 1;
@@ -165,8 +159,7 @@ block_22:
                 goto block_32;
             }
             ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = temp_v1_4 & 0x7FFF;
-            func_8016CE8C(temp_a0_2);
-            return;
+            goto block_32;
         }
         if (temp_v1_3 & 0x410) {
             goto block_32;

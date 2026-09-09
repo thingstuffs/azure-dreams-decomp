@@ -29,9 +29,6 @@ typedef struct {
 
 extern void func_8008B5D8(void *arg0, s32 arg1);
 extern s32 func_800937F8(void);
-extern void func_80093974(void *arg0);
-extern void func_80093A00(void *arg0);
-extern void func_80093A28(void);
 extern void func_80093D48(void *arg0, void *arg1, void *arg2);
 extern void func_8009451C(void *arg0, void *arg1, void *arg2);
 extern void func_800947BC(void *arg0, void *arg1, void *arg2);
@@ -117,43 +114,47 @@ void func_80093894(void) {
         check = func_8009FF50(delta) == 1;
 
         if (!check) {
-            if (func_800937F8() != 0) {
-                func_80093974(D_80088C0C);
-                return;
-            }
-            if (func_800A0608() >= 0x12) {
-                func_80093974(D_80088C48);
-                return;
-            }
-            if (work.bytes.unk1 == 0x13) {
-                void *callback_slot;
-                register void (*callback)(void *, void *, void *) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register void *message ASM_REG("$4"); /* MATCH: keep the merged message address in the retail argument register. */
+            void *callback_slot;
+            register void (*callback)(void *, void *, void *) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                func_8008B5D8(D_80088C8C, 0x11);
-                func_800947BC(object, arg1, arg2);
-                callback_slot = &D_800FE5D8;
-                callback = (void (*)(void *, void *, void *))&D_80093D48;
-                *(void (**)(void *, void *, void *))callback_slot = callback;
-                func_80093A28();
-                return;
+            if (func_800937F8() != 0) {
+                message = D_80088C0C;
+            } else if (func_800A0608() >= 0x12) {
+                message = D_80088C48;
+            } else {
+                if (work.bytes.unk1 != 0x13) {
+                    goto process;
+                }
+                message = D_80088C8C;
             }
+            func_8008B5D8(message, 0x11);
+            func_800947BC(object, arg1, arg2);
+            callback_slot = &D_800FE5D8;
+            callback = (void (*)(void *, void *, void *))&D_80093D48;
+            *(void (**)(void *, void *, void *))callback_slot = callback;
+            goto reset;
         } else {
+            register void *message ASM_REG("$4"); /* MATCH: keep the merged message address in the retail argument register. */
+
             if (work.bytes.unk1 == 0x13) {
                 goto process;
             }
             if (work.bytes.unk1 == 0x12) {
                 mode = func_800B28A0();
-                if (func_8009F71C((void *)0x80010980, D_800D0728[mode]) == -1) {
-                    func_80093A00(D_80088CCC);
-                    return;
+                if (func_8009F71C((void *)0x80010980, D_800D0728[mode]) != -1) {
+                    goto process;
                 }
+                message = D_80088CCC;
             } else {
-                func_8008B5D8(D_80088D04, 0x11);
-                func_800947BC(object, arg1, arg2);
-                D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
-                D_800FE518 = 0;
-                return;
+                message = D_80088D04;
             }
+            func_8008B5D8(message, 0x11);
+            func_800947BC(object, arg1, arg2);
+            D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
+reset:
+            D_800FE518 = 0;
+            return;
         }
 
 process:

@@ -6,8 +6,6 @@ M2C_UNK func_80033D08();
 M2C_UNK func_800375C0();
 M2C_UNK func_8003DB94(void *, M2C_UNK *, s32);
 M2C_UNK func_8004491C();
-M2C_UNK func_8008B8DC();
-M2C_UNK func_8008B914();
 extern M2C_UNK D_80033D54;
 extern M2C_UNK D_80037714;
 extern M2C_UNK D_800794AC;
@@ -54,25 +52,24 @@ void func_8008B818(s32 arg0, s32 *arg1, void *arg2, void *arg3)
   temp_a1 = *temp_index_ptr;
   if (temp_a1 != 0)
   {
-    u32 page;
     *((M2C_UNK **) (((s8 *) temp_s0) + 8)) = &D_80037714;
     func_800375C0(temp_s0, temp_a1);
-    page = 0x00800000;
-    ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_8008B8DC();
-    return;
   }
-  *((M2C_UNK **) (((s8 *) temp_s0) + 8)) = 0;
-  ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  else
+  {
+    *((M2C_UNK **) (((s8 *) temp_s0) + 8)) = 0;
+    ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  }
   *((s16 *) (((s8 *) temp_s0) + 0x60)) = 0;
   *((s32 *) (((s8 *) temp_s2) + 0xC)) = 0x808080;
   if (((u32) (arg0 - 9)) < 2U)
   {
     func_8003DB94(temp_s2, &D_800794AC, 0);
-    func_8008B914();
-    return;
   }
-  *((s32 *) (((s8 *) temp_s2) + 8)) = 0;
+  else
+  {
+    *((s32 *) (((s8 *) temp_s2) + 8)) = 0;
+  }
   ASM_CLOBBER("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   if (arg0 == 0)
   {

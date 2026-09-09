@@ -2,8 +2,6 @@
 
 
 extern void func_8004E994();
-extern void func_800B0EF4(void);
-extern void func_800B0EF8(void);
 
 extern s32 D_800814A0;
 extern u8 D_800DDC40[];
@@ -130,8 +128,7 @@ void func_800B0D34(void *arg0, void *arg1, void *arg2) {
         goto mode_one;
     }
     ((S_800B0D34_3 *)arg2)->unk_04 = 0;
-    func_800B0EF8();
-    return;
+    goto copy_source;
 
 mode_zero:
     {
@@ -143,8 +140,7 @@ mode_zero:
     if (((S_800B0D34_4 *)(D_800E3D7C[0]))->unk_104 !=
         ((S_800B0D34_0 *)arg0)->unk_14) {
         ((S_800B0D34_0 *)arg0)->unk_10.u++;
-        func_800B0EF4();
-        return;
+        goto finish;
     }
     goto finish;
 
@@ -154,8 +150,7 @@ mode_one:
         u16 value = ((S_800B0D34_3 *)arg2)->unk_18.u;
         if (signed_value >= -0x3FF) {
             ((S_800B0D34_3 *)arg2)->unk_18.u = value - 0x100;
-            func_800B0EF4();
-            return;
+            goto finish;
         }
     }
     func_8004E994(((S_800B0D34_0 *)arg0)->unk_5C);
@@ -179,6 +174,7 @@ mode_one:
 
 finish:
     ((S_800B0D34_3 *)arg2)->unk_04 = 0;
+copy_source:
     {
         void *source = ((S_800B0D34_1_pre *)info)[-1].unk_00;
         s32 adjustment;

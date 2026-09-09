@@ -22,9 +22,7 @@ extern u8 D_800E07C0[];
 extern u8 D_800E07D3[];
 extern s32 *D_800E3D18[];
 extern Item *func_80097F84(Item *, u8 *, u8 *, s32);
-extern void func_800983C8(void *);
-extern void func_80098550(void);
-extern void func_800985E4(void);
+/* Retail sets a3 to 10 at 0x80099114 before reading it; no incoming argument. */
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *, s32);
 extern void func_80099290(s32);
@@ -60,6 +58,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
     register s32 item_b3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     Item *temp_s2;
     Item *var_s0;
+    register u8 *message ASM_REG("$4"); /* MATCH: both message arms merge their address in a0 before the shared call. */
     u8 *head_c;
     u8 *head_b;
     u8 head_b_value;
@@ -71,9 +70,9 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
             func_800A56E0(0x506);
             var_s1 = func_800990FC();
             ASM_USE_NV(var_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_80099368(var_s0, func_80099194(D_800E080A, func_80099734(arg0, func_8009929C(8, var_s1))));
-            func_800983C8(D_80088B64);
-            return;
+            item_b3 = func_80099368(var_s0, func_80099194(D_800E080A, func_80099734(arg0, func_8009929C(8, var_s1))));
+            message = D_80088B64;
+            goto show_message;
         }
         var_s0 = func_80097F84(var_s0, D_800E07C0, D_800E07D3, 0);
         if (var_s0 == NULL) {
@@ -87,7 +86,10 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         if (temp_v0 & 0x40) {
             func_800A56E0(0x70A);
             var_s1 = func_800990FC();
-            func_80099290(func_80099194(D_800E081C, func_80099368(temp_s2, func_8009929C(8, var_s1))));
+            item_b3 = func_80099368(temp_s2, func_8009929C(8, var_s1));
+            message = D_800E081C;
+show_message:
+            func_80099290(func_80099194(message, item_b3));
             func_800A5720(var_s1);
             return;
         }
@@ -108,37 +110,36 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         func_80099290(func_80099194(D_800E0844, func_80099368(var_s0, func_8009929C(8, var_s1))));
         func_800A5720(var_s1);
         D_800E3D18[0] = (s32 *)D_800E3D80;
+        tail_index = 0x70A; /* MATCH: prepare a0 in the guard branch delay slot. */
         if (var_s0->b3 & 0x40) {
             arg0->flags |= 0x800;
-            func_800A56E0(0x70A);
+            func_800A56E0(tail_index);
             var_s1 = func_800990FC();
             func_80099290(func_80099194(D_800E0853, func_80099368(var_s0, var_s1)));
             func_800A5720(var_s1);
         }
         var_s0->b3 |= 0x20;
-        func_80098550();
-        return;
+    } else {
+        state = var_s1;
+        ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        if (state != 0) {
+            var_s1 = func_800990FC();
+            temp_v0 = func_8009929C(8, var_s1);
+            temp_v0 = func_80099368(arg0->field4C, temp_v0);
+            temp_v0 = func_80099194(D_800E0862, temp_v0);
+            func_80099290(temp_v0);
+            func_800A5720(var_s1);
+        }
+        head_c = D_800DD2C4;
+        arg0->b84 = head_c[0];
+        head_b = D_800DD2B4;
+        head_b_value = head_b[0];
+        ASM_SET(head_b);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        var_s2 = 0;
+        ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        arg0->b85 = head_b_value;
+        ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
-
-    state = var_s1;
-    ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    if (state != 0) {
-        var_s1 = func_800990FC();
-        temp_v0 = func_8009929C(8, var_s1);
-        temp_v0 = func_80099368(arg0->field4C, temp_v0);
-        temp_v0 = func_80099194(D_800E0862, temp_v0);
-        func_80099290(temp_v0);
-        func_800A5720(var_s1);
-    }
-    head_c = D_800DD2C4;
-    arg0->b84 = head_c[0];
-    head_b = D_800DD2B4;
-    head_b_value = head_b[0];
-    ASM_SET(head_b);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    var_s2 = 0;
-    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    arg0->b85 = head_b_value;
-    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     arg0->field4C = var_s0;
     func_800A56E0(0x508);
     tail_index = var_s2;
@@ -147,19 +148,22 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         arg0->b85 = D_800DD2D4[tail_index];
         if (tail_index != 0) {
             func_80048590(tail_index);
-            func_800985E4();
-            return;
+        } else {
+            goto clear_state;
         }
     } else {
         arg0->b84 = D_800DD2C4_index[tail_index];
         arg0->b85 = D_800DD2B4_index[tail_index];
         if (tail_index != 0) {
             func_80048568(tail_index);
-            ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            if (var_s2 != 0) {
-                return;
-            }
+        } else {
+            goto clear_state;
         }
     }
+    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    if (var_s2 != 0) {
+        return;
+    }
+clear_state:
     func_800483AC(1);
 }

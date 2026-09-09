@@ -12,10 +12,6 @@ extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
 
-extern void func_80152F3C(void) __attribute__((noreturn));
-extern void func_80152FE4(void) __attribute__((noreturn));
-extern void func_80153050(void) __attribute__((noreturn));
-extern void func_80153408(void) __attribute__((noreturn));
 
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
@@ -120,10 +116,9 @@ void func_80152DA8(void *arg0_, void *arg1_, void *arg2_)
         !((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
         ((S_80152DA8_0 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + 0x9D)) * 0x14000;
         (*(u8 *)((u8 *)arg0 + 0x9D))++;
-        func_80152F3C();
+    } else {
+        (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
     }
-
-    (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     (*(s32 *)((u8 *)arg0 + 0x90)) += ((S_80152DA8_0 *)arg1)->unk_14;
     part_flags = ((S_80152DA8_1 *)arg2)->unk_14;
@@ -137,20 +132,19 @@ void func_80152DA8(void *arg0_, void *arg1_, void *arg2_)
                 ((S_80152DA8_1 *)arg2)->unk_04.s8);
             (*(s16 *)((u8 *)arg0 + 0x94)) = direction;
         }
-        if (D_8006CCF8[direction_copy] != 0) {
+        {
             u32 scratch;
-            scratch = ((S_80152DA8_1 *)arg2)->unk_14 | 1;
-            ASM_TAILSLOT_PIN(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80152FE4();
+            if (D_8006CCF8[direction_copy] != 0) {
+                scratch = ((S_80152DA8_1 *)arg2)->unk_14 | 1;
+            } else {
+                scratch = ((S_80152DA8_1 *)arg2)->unk_14 & 0xFFFE;
+            }
+            ((S_80152DA8_1 *)arg2)->unk_14 = scratch;
         }
-        ((S_80152DA8_1 *)arg2)->unk_14 &= 0xFFFE;
         func_800A020C(((S_80152DA8_2 *)state)->unk_1C.s, (u8 *)arg2 + 0xC);
         if (!(((S_80152DA8_2 *)state)->unk_1C.u & 0x20)) {
             if (!(((S_80152DA8_1 *)arg2)->unk_14 & 0x40)) {
                 func_800478B8(arg2);
-                tail_value = (u8 *)0xF7FF0000;
-                ASM_PAGEBASE_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_80153050();
             }
         } else {
             ((S_80152DA8_1 *)arg2)->unk_14 |= 0x7000;
@@ -215,7 +209,7 @@ play_tail_value_1:
             if (height_work < height) {
                 height_work = raw_height - 8;
                 (*(s16 *)((u8 *)arg0 + 0x92)) = height_work;
-                func_80153408();
+                goto final_adjustment;
             }
             goto low_height_adjustment;
         }
@@ -242,7 +236,7 @@ reset_offset:
                 (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
                 ((S_80152DA8_0 *)arg1)->unk_14 = 0;
                 ((S_80152DA8_2 *)state)->unk_1C.u |= 0x08000000;
-                func_80153408();
+                goto final_adjustment;
             }
         }
         goto final_adjustment;

@@ -54,12 +54,6 @@ extern void func_80065320(void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern void func_8006658C(s32, void *);
 extern void func_80067EF4();
-extern void func_800B935C(u16);
-extern void func_800B93D0(u16);
-extern void func_800B94E8(void);
-extern void func_800B94F0(void);
-extern void func_800B9540(void);
-extern void func_800B9644(void);
 
 void func_800B9144(void *arg0, void *arg1, s32 arg2, s16 arg3)
 {
@@ -138,72 +132,64 @@ loop:
         S32(scratch, 0x10) = U8(s2, 0xA);
         S32(scratch, 0x14) = U8(s2, 0xB);
 
-        if (((U8(s2, 0) ^ U16(scratch, 0x24)) & 1) != 0) {
-            s32 v;
-            register s32 width ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            s32 addend;
-
-            v = VU8(s2, 2);
-            width = U16(scratch, 0x108);
-            addend = U16(scratch, 0x10);
-            v = (s8)v;
-            v = -v - width;
-            U16(scratch, 0x80) = v;
-            U16(scratch, 0x70) = v;
-            v -= addend;
-            ASM_TAILSLOT_PIN(v);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_800B935C(addend);
-            return;
-        }
-
         {
-            s32 v;
-            s32 width;
-            s32 addend;
+            register s32 v ASM_REG("$2"); /* MATCH: Both coordinate arms merge in retail v0. */
+            if (((U8(s2, 0) ^ U16(scratch, 0x24)) & 1) != 0) {
+                register s32 width ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                s32 addend;
 
-            v = VU8(s2, 2);
-            width = U16(scratch, 0x108);
-            addend = U16(scratch, 0x10);
-            v = (s8)v;
-            v -= width;
-            U16(scratch, 0x80) = v;
-            U16(scratch, 0x70) = v;
-            v += addend;
+                v = VU8(s2, 2);
+                width = U16(scratch, 0x108);
+                addend = U16(scratch, 0x10);
+                v = (s8)v;
+                v = -v - width;
+                U16(scratch, 0x80) = v;
+                U16(scratch, 0x70) = v;
+                v -= addend;
+            } else {
+                s32 width;
+                s32 addend;
+
+                v = VU8(s2, 2);
+                width = U16(scratch, 0x108);
+                addend = U16(scratch, 0x10);
+                v = (s8)v;
+                v -= width;
+                U16(scratch, 0x80) = v;
+                U16(scratch, 0x70) = v;
+                v += addend;
+            }
             U16(scratch, 0x88) = v;
             U16(scratch, 0x78) = v;
         }
 
-        if (((U8(s2, 0) ^ U16(scratch, 0x24)) & 2) != 0) {
-            s32 v;
-            register s32 height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            s32 addend;
-
-            v = VU8(s2, 3);
-            height = U16(scratch, 0x10A);
-            addend = U16(scratch, 0x14);
-            v = (s8)v;
-            v = -v - height;
-            U16(scratch, 0x7A) = v;
-            U16(scratch, 0x72) = v;
-            v -= addend;
-            ASM_TAILSLOT_PIN(v);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_800B93D0(addend);
-            return;
-        }
-
         {
-            s32 v;
-            s32 height;
-            s32 addend;
+            register s32 v ASM_REG("$2"); /* MATCH: Both coordinate arms merge in retail v0. */
+            if (((U8(s2, 0) ^ U16(scratch, 0x24)) & 2) != 0) {
+                register s32 height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                s32 addend;
 
-            v = VU8(s2, 3);
-            height = U16(scratch, 0x10A);
-            addend = U16(scratch, 0x14);
-            v = (s8)v;
-            v -= height;
-            U16(scratch, 0x7A) = v;
-            U16(scratch, 0x72) = v;
-            v += addend;
+                v = VU8(s2, 3);
+                height = U16(scratch, 0x10A);
+                addend = U16(scratch, 0x14);
+                v = (s8)v;
+                v = -v - height;
+                U16(scratch, 0x7A) = v;
+                U16(scratch, 0x72) = v;
+                v -= addend;
+            } else {
+                s32 height;
+                s32 addend;
+
+                v = VU8(s2, 3);
+                height = U16(scratch, 0x10A);
+                addend = U16(scratch, 0x14);
+                v = (s8)v;
+                v -= height;
+                U16(scratch, 0x7A) = v;
+                U16(scratch, 0x72) = v;
+                v += addend;
+            }
             U16(scratch, 0x8A) = v;
             U16(scratch, 0x82) = v;
         }
@@ -263,40 +249,37 @@ loop:
         S32(scratch, 0xC) <<= 8;
 
         {
+            register s32 tail_value ASM_REG("$2"); /* MATCH: Retain retail operand order in the merged addition. */
             s32 count = U16(s3, 0x12);
             if (count != 0) {
                 if (U16(scratch, 0x24) & 0x100) {
                     U16(s1, 0x0E) = count;
-                    func_800B94F0();
-                    return;
-                }
-                {
-                    register s32 tail_value ASM_REG("$2") = U16(s2, 6);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                } else {
+                    tail_value = U16(s2, 6);
                     tail_value = count + tail_value;
-                    ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_800B94E8();
-                    return;
+                    U16(s1, 0x0E) = tail_value;
                 }
+            } else {
+                tail_value = U16(s2, 6);
+                U16(s1, 0x0E) = tail_value;
             }
         }
 
-        U16(s1, 0x0E) = U16(s2, 6);
         S16(s1, 0x0C) = U16(scratch, 0xC) + U16(scratch, 8);
         S16(s1, 0x14) = U16(scratch, 0xC) + U16(scratch, 0x10);
 
         {
+            register s32 tail_value ASM_REG("$2"); /* MATCH: Retain retail operand order in the merged addition. */
             s32 count = U16(s3, 0x10);
             if (count != 0) {
-                register s32 tail_value ASM_REG("$2") = U16(s2, 4);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                tail_value = U16(s2, 4);
                 tail_value &= 0xFF9F;
                 tail_value = count + tail_value;
-                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                func_800B9540();
-                return;
+            } else {
+                tail_value = U16(s2, 4);
             }
+            U16(s1, 0x16) = tail_value;
         }
-
-        U16(s1, 0x16) = U16(s2, 4);
         {
             register s32 v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 v1;
@@ -362,22 +345,18 @@ loop:
             s1 += 40;
             ASM_KEEP(s1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         }
-        func_800B9644();
-        return;
-    }
-
-    callback = P32(s2, 8);
-    if (callback != 0) {
-        register s32 result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        result = callback(arg1, s6, s3, s2, s1);
-        if (result > 0) {
-            u32 tag = 0x80000000;
-            s2 = (Record *)(result | tag);
-            ASM_TAILSLOT_PIN(s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800B9644();
-            return;
+    } else {
+        callback = P32(s2, 8);
+        if (callback != 0) {
+            register s32 result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            result = callback(arg1, s6, s3, s2, s1);
+            if (result > 0) {
+                u32 tag = 0x80000000;
+                s2 = (Record *)(result | tag);
+            } else {
+                s1 = (u8 *)result;
+            }
         }
-        s1 = (u8 *)result;
     }
 
     if ((s8)U8(s2++, 0) >= 0) {

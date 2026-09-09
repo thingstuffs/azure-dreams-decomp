@@ -13,9 +13,6 @@ extern void func_800A2B04(void *, u8, u8);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
-extern void func_80173420(void) __attribute__((noreturn));
-extern void func_80173438(void) __attribute__((noreturn));
-extern void func_801734E8(void) __attribute__((noreturn));
 
 extern s16 D_8006CCD8[];
 extern s16 D_8006CCE8[];
@@ -86,13 +83,13 @@ state_zero:
     func_80047784(arg2, *phase_page, 0);
     U16(arg0, 0x96) = 0;
     func_800A56E0(0x808);
-    func_801734E8();
+    goto advance_state;
 }
 
 state_one:
 {
     register u8 *direction_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 active_x;
+    register s32 active_x ASM_REG("$2"); /* MATCH: keep the merged motion result in retail's v0. */
     s32 active_y;
     s32 limit;
     s32 raw_y;
@@ -121,20 +118,21 @@ state_one:
     if (count) {
         active_x = S32(arg1, 0xC) - delta_x;
         active_y = S32(arg1, 0x10) - delta_y;
-        ASM_KEEP(active_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN_TIED(active_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_80173420();
+        goto store_motion;
     }
     limit = (s16)next_count;
     if (limit < 0x12) {
-        S32(arg1, 0xC) += delta_x;
-        S32(arg1, 0x10) += delta_y;
-        func_80173438();
+        active_x = S32(arg1, 0xC) + delta_x;
+        active_y = S32(arg1, 0x10) + delta_y;
+store_motion:
+        S32(arg1, 0xC) = active_x;
+        S32(arg1, 0x10) = active_y;
+    } else {
+        ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        S32(arg1, 0x14) = 0;
+        S32(arg1, 0x10) = 0;
+        S32(arg1, 0xC) = 0;
     }
-    ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    S32(arg1, 0x14) = 0;
-    S32(arg1, 0x10) = 0;
-    S32(arg1, 0xC) = 0;
     object_type = S8(arg2, 4);
     if (object_type == 5) {
         if (U16(arg2, 0x14) & 0x1000) {
@@ -169,6 +167,7 @@ after_c12c:
     S32(arg1, 0x10) = 0;
     S32(arg1, 0xC) = 0;
     func_800A2B04(arg1, U8(arg2, 0x24), U8(arg2, 0x25));
+advance_state:
     U8(arg0, 0x9B)++;
     return;
 }

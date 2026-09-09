@@ -16,9 +16,6 @@ extern s32 func_800A2B04();
 extern s32 func_800AAA54();
 extern s32 func_800AD4D0();
 extern s32 func_80047784();
-extern u8 *func_8016D470() __attribute__((noreturn));
-extern u8 *func_8016D528() __attribute__((noreturn));
-extern u8 *func_8016D590() __attribute__((noreturn));
 
 u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 state;
@@ -26,6 +23,7 @@ u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 next;
     u16 raw;
     s32 value;
+    s32 current;
     s32 below2;
     s32 x;
     s32 y;
@@ -36,7 +34,7 @@ u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 *shared;
     u8 *chosen;
     register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *tail_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *tail_a1;
 
     state = FIELD(u8 *, arg0, 0x9B);
     if (state == 1) {
@@ -69,7 +67,7 @@ state0_body:
             page = (u32)D_8016B778;
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             FIELD(u8 *, arg0, 0x9B) = 0;
-            return func_8016D590();
+            goto store_chosen;
         }
         goto initialize;
     }
@@ -124,7 +122,7 @@ state1_body:
         page = FIELD(u8 *, arg0, 0x9B);
         ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         FIELD(s16 *, arg0, 0x96) = timer;
-        return func_8016D470();
+        goto increment_state;
 state2_body:
     timer = FIELD(s16 *, arg0, 0x96);
     if (timer != 0) {
@@ -146,7 +144,9 @@ state2_body:
     FIELD(s32 *, arg1, 0x14) = 0;
     FIELD(s32 *, arg1, 0x10) = 0;
     FIELD(s32 *, arg1, 0x0C) = 0;
-    FIELD(u8 *, arg0, 0x9B) = (u8)(FIELD(u8 *, arg0, 0x9B) + 1);
+    page = FIELD(u8 *, arg0, 0x9B);
+increment_state:
+    FIELD(u8 *, arg0, 0x9B) = (u8)(page + 1);
     return;
 
 state3_body:
@@ -172,28 +172,31 @@ state3_tail:
     page = (u32)D_8016B778;
     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     FIELD(u8 *, arg0, 0x9B) = 0;
-    return func_8016D590();
+    goto store_chosen;
 
 state3_continue:
-    if (FIELD(s32 *, arg2, 0x2C) == (s32)D_801746C4) {
+    current = FIELD(s32 *, arg2, 0x2C);
+    if (current == (s32)D_801746C4) {
         if (FIELD(u8 *, arg0, 0xB3) == 0) {
             page = 0x80170000;
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             tail_a1 = (u8 *)page + 18044;
-            ASM_TAILSLOT_PIN(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8016D528();
-            return (u8 *)0;
+        } else {
+            page = (u32)D_80174684;
+            tail_a1 = (u8 *)page;
         }
-        if (FIELD(s32 *, arg2, 0x2C) != (s32)D_80174684) {
-            FIELD(s32 *, arg2, 0x2C) = (s32)D_80174684;
+        if (current != (s32)tail_a1) {
+            FIELD(s32 *, arg2, 0x2C) = (s32)tail_a1;
             value = D_80083228[0] + FIELD(s16 *, arg3, 0x2A);
-            func_80047784(arg2, D_80174684[((value + 0x100) >> 9) & 7], 0);
+            func_80047784(arg2, *(u8 *)((u32)(((value + 0x100) >> 9) & 7) + (u32)tail_a1), 0);
         }
     }
     shared = D_80083460;
     if (shared[4] == (s32)((u8 *)arg3 - 0x20)) {
         shared[4] &= 0x7FFFFFFF;
     }
-    FIELD(u8 **, arg0, 0x8C) = D_8016B778;
-    return D_8016B778;
+    page = (u32)D_8016B778;
+store_chosen:
+    FIELD(u8 **, arg0, 0x8C) = (u8 *)page;
+    return (u8 *)page;
 }

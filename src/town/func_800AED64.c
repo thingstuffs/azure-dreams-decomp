@@ -7,14 +7,6 @@ s32 func_80046C20(); /* extern */
 M2C_UNK func_80064624();                    /* extern */
 M2C_UNK func_80064D20();                      /* extern */
 M2C_UNK func_80064D50();                      /* extern */
-void func_800AC550(void) __attribute__((noreturn)); /* extern */
-void func_800AC7F4(void) __attribute__((noreturn)); /* extern */
-void func_800AC7F8(void) __attribute__((noreturn)); /* extern */
-void func_800AC860(void) __attribute__((noreturn)); /* extern */
-void func_800AC868(void) __attribute__((noreturn)); /* extern */
-void func_800ACA88(void) __attribute__((noreturn)); /* extern */
-void func_800ACED4(void) __attribute__((noreturn)); /* extern */
-void func_800ACFF8(void) __attribute__((noreturn)); /* extern */
 M2C_UNK func_800AD138();                         /* extern */
 extern u8 D_8006ADBC[];
 extern u8 D_80083160[];
@@ -66,7 +58,7 @@ void func_800AC4C4(void) {
     void *temp_t6;
     void *var_a0;
     void *var_a1;
-    void *var_a2_3;
+    register void *var_a2_3 ASM_REG("$6"); /* MATCH: the polygon loop keeps its cursor in a2, sharing the outer loop counter register. */
     void *var_a3;
     void *var_t0;
     void *var_v1_2;
@@ -108,13 +100,12 @@ void func_800AC4C4(void) {
     if (D_800D1554[0] != 0) {
         M2C_FIELD(d_80083160, s16 *, 0x1A) = -0xB8;
         tail_v0 = 0x1DA;
-        ASM_TAILSLOT_PIN_TIED(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800AC550();
-        return;
+    } else {
+        ASM_KEEP(d_80083160);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        M2C_FIELD(d_80083160, s16 *, 0x1A) = -0x88;
+        tail_v0 = 0x1AA;
     }
-    ASM_KEEP(d_80083160);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    M2C_FIELD(d_80083160, s16 *, 0x1A) = -0x88;
-    M2C_FIELD(d_80083160, s16 *, 0x1E) = 0x1AA;
+    M2C_FIELD(d_80083160, s16 *, 0x1E) = tail_v0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s0 = d_80083160 + 0x20;
     func_80046884(d_80083160 + 0x18, temp_s0, 0);
@@ -237,17 +228,15 @@ loop_18:
         M2C_FIELD(gte, s32 *, 0x138) = temp_v1_7;
         if (temp_v1_7 < 0) {
             M2C_FIELD(gte, s32 *, 0x138) = 0;
-            func_800AC7F8();
-            return;
+        } else {
+            row_limit = M2C_FIELD(gte, s32 *, 0x120);
+            if (temp_v1_7 >= row_limit) {
+                tail_v0 = row_limit << M2C_FIELD(gte, s32 *, 0x124);
+            } else {
+                tail_v0 = temp_v1_7 << M2C_FIELD(gte, s32 *, 0x124);
+            }
+            M2C_FIELD(gte, s32 *, 0x138) = tail_v0;
         }
-        row_limit = M2C_FIELD(gte, s32 *, 0x120);
-        if (temp_v1_7 >= row_limit) {
-            tail_v0 = row_limit << M2C_FIELD(gte, s32 *, 0x124);
-            ASM_TAILSLOT_PIN_TIED(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800AC7F4();
-            return;
-        }
-        M2C_FIELD(gte, s32 *, 0x138) = temp_v1_7 << M2C_FIELD(gte, s32 *, 0x124);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         temp_v1_8 = M2C_FIELD(gte, s32 *, 0x014);
         tail_v0 = M2C_FIELD(gte, s32 *, 0x018);
@@ -259,23 +248,21 @@ loop_37:
             if (temp_v1_8 < 0) {
                 tail_v0 = M2C_FIELD(gte, s32 *, 0x138);
                 temp_v1_8 &= 3;
-                ASM_KEEP(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                ASM_TAILSLOT_PIN_TIED(temp_v1_8);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800AC860();
-                return;
-            }
-            var_a0_3 = M2C_FIELD(gte, s32 *, 0x11C);
-            if (temp_v1_8 >= (s32) var_a0_3) {
+            } else {
+                var_a0_3 = M2C_FIELD(gte, s32 *, 0x11C);
+                if (temp_v1_8 >= (s32) var_a0_3) {
+                    tail_v0 = M2C_FIELD(gte, s32 *, 0x138);
+                    temp_v1_8 &= 3;
+                    tail_v0 += (s32) var_a0_3;
+                    tail_v0 += temp_v1_8;
+                    tail_v0 -= 3;
+                    goto store_column;
+                }
                 tail_v0 = M2C_FIELD(gte, s32 *, 0x138);
-                temp_v1_8 &= 3;
-                tail_v0 += (s32) var_a0_3;
-                tail_v0 += temp_v1_8;
-                tail_v0 -= 3;
-                ASM_TAILSLOT_PIN_TIED(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_800AC868();
-                return;
             }
-            M2C_FIELD(gte, s32 *, 0x144) = M2C_FIELD(gte, s32 *, 0x138) + temp_v1_8;
+            tail_v0 += temp_v1_8;
+store_column:
+            M2C_FIELD(gte, s32 *, 0x144) = tail_v0;
             temp_v0_3 = M2C_FIELD(var_s6 + (M2C_FIELD(gte, volatile s32 *, 0x144) * 2), u16 *, 0) & 0x3FFF;
             M2C_FIELD(gte, s32 *, 0x0C0) = temp_v0_3;
             if (temp_v0_3 != 0) {
@@ -329,110 +316,64 @@ loop_37:
                 var_a3 = (s8 *)var_s0 + 4;
                 ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 M2C_FIELD(gte, s32 *, 0x12C) = 0;
-                    var_a2_3 = M2C_FIELD((s8 *)M2C_FIELD(temp_s5, s32 *, 4) + (c0idx * 4), u8 **, 0);
-                if (M2C_FIELD(var_a2_3, s32 *, 0xC) != 0) {
-                    tail_v0 = M2C_FIELD(var_a2_3, s32 *, 0x10);
-                    call_a0 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x014);
-                    M2C_FIELD(gte, s32 *, 0x170) = tail_v0;
-                    tail_v0 = M2C_FIELD(var_a2_3, u16 *, 0);
-                    temp_v1_8 = M2C_FIELD(var_a2_3, s32 *, 0x14);
-                    tail_v0 <<= 3;
-                    tail_v0 += (s32) temp_s2;
-                    M2C_FIELD(gte, s32 *, 0x16C) = temp_v1_8;
-                    tail_v0 = M2C_FIELD((void *) tail_v0, s32 *, 0);
-                    temp_v1_8 = M2C_FIELD(gte, u16 *, 0x12C);
-                    M2C_FIELD(gte, s32 *, 0x168) = tail_v0;
-                    tail_v0 = M2C_FIELD(var_a2_3, u16 *, 0);
-                    call_a1 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x168);
-                    tail_v0 <<= 3;
-                    tail_v0 += (s32) temp_s2;
-                    call_a0 = (void *) ((u32) call_a0 + (u32) call_a1);
-                    tail_v0 = M2C_FIELD((void *) tail_v0, u16 *, 4);
-                    call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
-                    tail_v0 -= temp_v1_8;
-                    M2C_FIELD(gte, s16 *, 0x0E4) = tail_v0;
-                    tail_v0 = M2C_FIELD(gte, u16 *, 0x16A);
-                    temp_v1_8 = M2C_FIELD(gte, s32 *, 0x00C);
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    ASM_KEEP_NV(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    tail_v0 = (s32) (tail_v0 << 0x10) >> 0x10;
-                    temp_v1_8 += tail_v0;
-                    temp_v1_8 <<= 0x10;
-                    tail_v0 = M2C_FIELD(var_a2_3, u16 *, 2);
-                    call_a0 = (void *) ((u32) call_a0 | (u32) temp_v1_8);
-                    M2C_FIELD(gte, s32 *, 0x0E0) = (s32) call_a0;
-                    call_a0 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x014);
-                    temp_v1_8 = M2C_FIELD(gte, u16 *, 0x12C);
-                    tail_v0 <<= 3;
-                    tail_v0 += (s32) temp_s2;
-                    tail_v0 = M2C_FIELD((void *) tail_v0, s32 *, 0);
-                    M2C_FIELD(gte, s32 *, 0x168) = tail_v0;
-                    tail_v0 = M2C_FIELD(var_a2_3, u16 *, 2);
-                    call_a1 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x168);
-                    tail_v0 <<= 3;
-                    tail_v0 += (s32) temp_s2;
-                    call_a0 = (void *) ((u32) call_a0 + (u32) call_a1);
-                    tail_v0 = M2C_FIELD((void *) tail_v0, u16 *, 4);
-                    call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
-                    tail_v0 -= temp_v1_8;
-                    M2C_FIELD(gte, s16 *, 0x0EC) = tail_v0;
-                    tail_v0 = M2C_FIELD(gte, u16 *, 0x16A);
-                    temp_v1_8 = M2C_FIELD(gte, s32 *, 0x00C);
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    ASM_KEEP_NV(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    tail_v0 = (s32) (tail_v0 << 0x10) >> 0x10;
-                    temp_v1_8 += tail_v0;
-                    temp_v1_8 <<= 0x10;
-                    tail_v0 = M2C_FIELD(var_a2_3, u16 *, 4);
-                    call_a0 = (void *) ((u32) call_a0 | (u32) temp_v1_8);
-                    M2C_FIELD(gte, s32 *, 0x0E8) = (s32) call_a0;
-                    call_a0 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x014);
-                    tail_v0 <<= 3;
-                    tail_v0 += (s32) temp_s2;
-                    tail_v0 = M2C_FIELD((void *) tail_v0, s32 *, 0);
-                    M2C_FIELD(gte, s32 *, 0x168) = tail_v0;
-                    tail_v0 = M2C_FIELD(gte, u16 *, 0x168);
-                    temp_v1_8 = M2C_FIELD(gte, volatile u16 *, 0x16A);
-                    call_a0 = (void *) ((u32) call_a0 + (u32) tail_v0);
-                    call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
-                    temp_v1_8 <<= 0x10;
-                    tail_v0 = M2C_FIELD(gte, s32 *, 0x00C);
-                    temp_v1_8 >>= 0x10;
-                    tail_v0 += temp_v1_8;
-                    tail_v0 <<= 0x10;
-                    call_a0 = (void *) ((u32) call_a0 | (u32) tail_v0);
-                    M2C_FIELD(gte, s32 *, 0x0F0) = (s32) call_a0;
-                    tail_v0 = M2C_FIELD(var_a2_3, u16 *, 4);
-                    tail_v0 <<= 3;
-                    tail_v0 += (s32) temp_s2;
-                    temp_v1_8 = M2C_FIELD((void *) tail_v0, u16 *, 4);
-                    tail_v0 = M2C_FIELD(gte, u16 *, 0x12C);
-                    temp_v1_8 -= tail_v0;
-                    M2C_FIELD(gte, s16 *, 0x0F4) = temp_v1_8;
-                    gte_ldv3(gte_input, gte + 0xE8, gte + 0xF0);
-                    gte_rtpt();
-                    gte_nclip();
-                    gte_stopz(gte + 0xDC);
-                    if (M2C_FIELD(gte, s32 *, 0x0DC) >= 0) {
-                        tail_v0 = M2C_FIELD(var_a2_3, u16 *, 6);
+                var_a2_3 = M2C_FIELD((s8 *)M2C_FIELD(temp_s5, s32 *, 4) + (c0idx * 4), u8 **, 0);
+                for (;;) {
+                    if (M2C_FIELD(var_a2_3, s32 *, 0xC) != 0) {
+                        tail_v0 = M2C_FIELD(var_a2_3, s32 *, 0x10);
+                        call_a0 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x014);
+                        M2C_FIELD(gte, s32 *, 0x170) = tail_v0;
+                        tail_v0 = M2C_FIELD(var_a2_3, u16 *, 0);
+                        temp_v1_8 = M2C_FIELD(var_a2_3, s32 *, 0x14);
                         tail_v0 <<= 3;
                         tail_v0 += (s32) temp_s2;
-                        temp_v1_8 = M2C_FIELD((void *) tail_v0, u16 *, 4);
-                        tail_v0 = M2C_FIELD(gte, u16 *, 0x12C);
-                        temp_v1_8 -= tail_v0;
-                        M2C_FIELD(gte, s16 *, 0x0FC) = temp_v1_8;
-                        gte_stsxy3_g3(var_s0);
-                        gte_avsz3();
-                        gte_stotz(gte + 0xC8);
-                        temp_v1_10 = (u16) M2C_FIELD(gte, s32 *, 0x170);
-                        if (M2C_FIELD(gte, s32 *, 0x14C) != temp_v1_10) {
-                            M2C_FIELD(gte, s32 *, 0x14C) = (s32) temp_v1_10;
-                            gte_ldrgb(gte);
-                            gte_ldv0(temp_s3 + (temp_v1_10 * 8));
-                            gte_nccs();
-                            gte_strgb(gte + 4);
-                        }
-                        tail_v0 = M2C_FIELD(var_a2_3, u16 *, 6);
+                        M2C_FIELD(gte, s32 *, 0x16C) = temp_v1_8;
+                        tail_v0 = M2C_FIELD((void *) tail_v0, s32 *, 0);
+                        temp_v1_8 = M2C_FIELD(gte, u16 *, 0x12C);
+                        M2C_FIELD(gte, s32 *, 0x168) = tail_v0;
+                        tail_v0 = M2C_FIELD(var_a2_3, u16 *, 0);
+                        call_a1 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x168);
+                        tail_v0 <<= 3;
+                        tail_v0 += (s32) temp_s2;
+                        call_a0 = (void *) ((u32) call_a0 + (u32) call_a1);
+                        tail_v0 = M2C_FIELD((void *) tail_v0, u16 *, 4);
+                        call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
+                        tail_v0 -= temp_v1_8;
+                        M2C_FIELD(gte, s16 *, 0x0E4) = tail_v0;
+                        tail_v0 = M2C_FIELD(gte, u16 *, 0x16A);
+                        temp_v1_8 = M2C_FIELD(gte, s32 *, 0x00C);
+                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                        ASM_KEEP_NV(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        tail_v0 = (s32) (tail_v0 << 0x10) >> 0x10;
+                        temp_v1_8 += tail_v0;
+                        temp_v1_8 <<= 0x10;
+                        tail_v0 = M2C_FIELD(var_a2_3, u16 *, 2);
+                        call_a0 = (void *) ((u32) call_a0 | (u32) temp_v1_8);
+                        M2C_FIELD(gte, s32 *, 0x0E0) = (s32) call_a0;
+                        call_a0 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x014);
+                        temp_v1_8 = M2C_FIELD(gte, u16 *, 0x12C);
+                        tail_v0 <<= 3;
+                        tail_v0 += (s32) temp_s2;
+                        tail_v0 = M2C_FIELD((void *) tail_v0, s32 *, 0);
+                        M2C_FIELD(gte, s32 *, 0x168) = tail_v0;
+                        tail_v0 = M2C_FIELD(var_a2_3, u16 *, 2);
+                        call_a1 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x168);
+                        tail_v0 <<= 3;
+                        tail_v0 += (s32) temp_s2;
+                        call_a0 = (void *) ((u32) call_a0 + (u32) call_a1);
+                        tail_v0 = M2C_FIELD((void *) tail_v0, u16 *, 4);
+                        call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
+                        tail_v0 -= temp_v1_8;
+                        M2C_FIELD(gte, s16 *, 0x0EC) = tail_v0;
+                        tail_v0 = M2C_FIELD(gte, u16 *, 0x16A);
+                        temp_v1_8 = M2C_FIELD(gte, s32 *, 0x00C);
+                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                        ASM_KEEP_NV(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        tail_v0 = (s32) (tail_v0 << 0x10) >> 0x10;
+                        temp_v1_8 += tail_v0;
+                        temp_v1_8 <<= 0x10;
+                        tail_v0 = M2C_FIELD(var_a2_3, u16 *, 4);
+                        call_a0 = (void *) ((u32) call_a0 | (u32) temp_v1_8);
+                        M2C_FIELD(gte, s32 *, 0x0E8) = (s32) call_a0;
                         call_a0 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x014);
                         tail_v0 <<= 3;
                         tail_v0 += (s32) temp_s2;
@@ -448,49 +389,124 @@ loop_37:
                         tail_v0 += temp_v1_8;
                         tail_v0 <<= 0x10;
                         call_a0 = (void *) ((u32) call_a0 | (u32) tail_v0);
-                        M2C_FIELD(gte, s32 *, 0x0F8) = (s32) call_a0;
-                        gte_ldv0(gte + 0xF8);
-                        M2C_FIELD(var_a3, s32 *, 8) = (s32) M2C_FIELD(var_a2_3, s32 *, 8);
-                        gte_rtps_nn();
-                        M2C_FIELD(var_a3, s32 *, 0x10) = (s32) M2C_FIELD(var_a2_3, s32 *, 0xC);
-                        M2C_FIELD(var_a3, u16 *, 0x18) = (u16) M2C_FIELD(gte, s32 *, 0x172);
-                        M2C_FIELD(var_a3, u16 *, 0x20) = (u16) M2C_FIELD(gte, s32 *, 0x16C);
-                        gte_stsxy(var_t0);
-                        gte_stszotz(gte + 0xD4);
-                        call_a0 = (void *)M2C_FIELD(gte, s32 *, 0x0D4);
-                        tail_v0 = M2C_FIELD(gte, s32 *, 0x0C8);
-                        temp_v1_8 = tail_v0 << 1;
-                        tail_v0 += temp_v1_8;
-                        tail_v0 += (s32)call_a0;
-                        tail_v0 += 3;
-                        tail_v0 >>= 2;
-                        M2C_FIELD(gte, s32 *, 0x0C8) = tail_v0;
-                        if ((u32) tail_v0 >= 0x200U) {
-                            M2C_FIELD(gte, s32 *, 0x0C8) = 0x1FF;
-                        }
-                        if ((((s32) M2C_FIELD(gte, s32 *, 0x0C8) < 0x1C1) || ((s32) (M2C_FIELD(gte, u16 *, 0x0E4) << 0x10) >= 0) || ((tail_v0 = M2C_FIELD(gte, s32 *, 0x14C), tail_v0 <<= 3, call_a0 = (void *)(tail_v0 + (s32)temp_s3), var_a0_3 = call_a0, (M2C_FIELD(var_a0_3, s16 *, 4) < 0)) && !(M2C_FIELD(var_a0_3, s32 *, 0) & 0x0FFF0FFF))) && ((u32) M2C_FIELD(gte, s32 *, 0x0C8) < 0x200U)) {
-                            M2C_FIELD(var_a3, s8 *, -1) = 9;
-                            M2C_FIELD(var_a3, s32 *, 0) = (s32) M2C_FIELD(gte, s32 *, 0x004);
-                            if (M2C_FIELD(gte, u8 *, 0x16F) & 1) {
-                                M2C_FIELD(var_a3, u8 *, 3) |= 2;
-                                func_800ACED4();
-                                return;
+                        M2C_FIELD(gte, s32 *, 0x0F0) = (s32) call_a0;
+                        tail_v0 = M2C_FIELD(var_a2_3, u16 *, 4);
+                        tail_v0 <<= 3;
+                        tail_v0 += (s32) temp_s2;
+                        temp_v1_8 = M2C_FIELD((void *) tail_v0, u16 *, 4);
+                        tail_v0 = M2C_FIELD(gte, u16 *, 0x12C);
+                        temp_v1_8 -= tail_v0;
+                        M2C_FIELD(gte, s16 *, 0x0F4) = temp_v1_8;
+                        gte_ldv3(gte_input, gte + 0xE8, gte + 0xF0);
+                        gte_rtpt();
+                        gte_nclip();
+                        gte_stopz(gte + 0xDC);
+                        if (M2C_FIELD(gte, s32 *, 0x0DC) >= 0) {
+                            tail_v0 = M2C_FIELD(var_a2_3, u16 *, 6);
+                            tail_v0 <<= 3;
+                            tail_v0 += (s32) temp_s2;
+                            temp_v1_8 = M2C_FIELD((void *) tail_v0, u16 *, 4);
+                            tail_v0 = M2C_FIELD(gte, u16 *, 0x12C);
+                            temp_v1_8 -= tail_v0;
+                            M2C_FIELD(gte, s16 *, 0x0FC) = temp_v1_8;
+                            gte_stsxy3_g3(var_s0);
+                            gte_avsz3();
+                            gte_stotz(gte + 0xC8);
+                            temp_v1_10 = (u16) M2C_FIELD(gte, s32 *, 0x170);
+                            if (M2C_FIELD(gte, s32 *, 0x14C) != temp_v1_10) {
+                                M2C_FIELD(gte, s32 *, 0x14C) = (s32) temp_v1_10;
+                                gte_ldrgb(gte);
+                                gte_ldv0(temp_s3 + (temp_v1_10 * 8));
+                                gte_nccs();
+                                gte_strgb(gte + 4);
                             }
-                            tail_v0 = 0xC000;
-                            temp_v1_8 = M2C_FIELD(gte, s32 *, 0x17C) & 0xC000;
-                            if (temp_v1_8 == tail_v0) {
-                                tail_v0 = M2C_FIELD(var_a3, s32 *, 0xC);
-                                temp_v1_8 = M2C_FIELD(var_a3, s32 *, 0x14);
-                                call_a0 = M2C_FIELD(var_a3, void **, 0x1C);
-                                var_t0 += 0x28;
-                                M2C_FIELD(var_a3, s32 *, 8) = tail_v0;
-                                M2C_FIELD(var_a3, s32 *, 0xC) = temp_v1_8;
-                                M2C_FIELD(var_a3, s32 *, 0x10) = (s32) call_a0;
-                                temp_v1_8 = M2C_FIELD(gte, s32 *, 0x110);
-                                tail_v0 = 5;
-                                M2C_FIELD(var_a3, s8 *, -1) = tail_v0;
-                                M2C_FIELD(var_a3, s32 *, 0) = temp_v1_8;
+                            tail_v0 = M2C_FIELD(var_a2_3, u16 *, 6);
+                            call_a0 = (void *) (u32) M2C_FIELD(gte, u16 *, 0x014);
+                            tail_v0 <<= 3;
+                            tail_v0 += (s32) temp_s2;
+                            tail_v0 = M2C_FIELD((void *) tail_v0, s32 *, 0);
+                            M2C_FIELD(gte, s32 *, 0x168) = tail_v0;
+                            tail_v0 = M2C_FIELD(gte, u16 *, 0x168);
+                            temp_v1_8 = M2C_FIELD(gte, volatile u16 *, 0x16A);
+                            call_a0 = (void *) ((u32) call_a0 + (u32) tail_v0);
+                            call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
+                            temp_v1_8 <<= 0x10;
+                            tail_v0 = M2C_FIELD(gte, s32 *, 0x00C);
+                            temp_v1_8 >>= 0x10;
+                            tail_v0 += temp_v1_8;
+                            tail_v0 <<= 0x10;
+                            call_a0 = (void *) ((u32) call_a0 | (u32) tail_v0);
+                            M2C_FIELD(gte, s32 *, 0x0F8) = (s32) call_a0;
+                            gte_ldv0(gte + 0xF8);
+                            M2C_FIELD(var_a3, s32 *, 8) = (s32) M2C_FIELD(var_a2_3, s32 *, 8);
+                            gte_rtps_nn();
+                            M2C_FIELD(var_a3, s32 *, 0x10) = (s32) M2C_FIELD(var_a2_3, s32 *, 0xC);
+                            M2C_FIELD(var_a3, u16 *, 0x18) = (u16) M2C_FIELD(gte, s32 *, 0x172);
+                            M2C_FIELD(var_a3, u16 *, 0x20) = (u16) M2C_FIELD(gte, s32 *, 0x16C);
+                            gte_stsxy(var_t0);
+                            gte_stszotz(gte + 0xD4);
+                            call_a0 = (void *)M2C_FIELD(gte, s32 *, 0x0D4);
+                            tail_v0 = M2C_FIELD(gte, s32 *, 0x0C8);
+                            temp_v1_8 = tail_v0 << 1;
+                            tail_v0 += temp_v1_8;
+                            tail_v0 += (s32)call_a0;
+                            tail_v0 += 3;
+                            tail_v0 >>= 2;
+                            M2C_FIELD(gte, s32 *, 0x0C8) = tail_v0;
+                            if ((u32) tail_v0 >= 0x200U) {
+                                M2C_FIELD(gte, s32 *, 0x0C8) = 0x1FF;
+                            }
+                            if ((((s32) M2C_FIELD(gte, s32 *, 0x0C8) < 0x1C1) || ((s32) (M2C_FIELD(gte, u16 *, 0x0E4) << 0x10) >= 0) || ((tail_v0 = M2C_FIELD(gte, s32 *, 0x14C), tail_v0 <<= 3, call_a0 = (void *)(tail_v0 + (s32)temp_s3), var_a0_3 = call_a0, (M2C_FIELD(var_a0_3, s16 *, 4) < 0)) && !(M2C_FIELD(var_a0_3, s32 *, 0) & 0x0FFF0FFF))) && ((u32) M2C_FIELD(gte, s32 *, 0x0C8) < 0x200U)) {
+                                M2C_FIELD(var_a3, s8 *, -1) = 9;
+                                M2C_FIELD(var_a3, s32 *, 0) = (s32) M2C_FIELD(gte, s32 *, 0x004);
+                                if (M2C_FIELD(gte, u8 *, 0x16F) & 1) {
+                                    M2C_FIELD(var_a3, u8 *, 3) |= 2;
+                                } else {
+                                    tail_v0 = 0xC000;
+                                    temp_v1_8 = M2C_FIELD(gte, s32 *, 0x17C) & 0xC000;
+                                    if (temp_v1_8 == tail_v0) {
+                                        tail_v0 = M2C_FIELD(var_a3, s32 *, 0xC);
+                                        temp_v1_8 = M2C_FIELD(var_a3, s32 *, 0x14);
+                                        call_a0 = M2C_FIELD(var_a3, void **, 0x1C);
+                                        var_t0 += 0x28;
+                                        M2C_FIELD(var_a3, s32 *, 8) = tail_v0;
+                                        M2C_FIELD(var_a3, s32 *, 0xC) = temp_v1_8;
+                                        M2C_FIELD(var_a3, s32 *, 0x10) = (s32) call_a0;
+                                        temp_v1_8 = M2C_FIELD(gte, s32 *, 0x110);
+                                        tail_v0 = 5;
+                                        M2C_FIELD(var_a3, s8 *, -1) = tail_v0;
+                                        M2C_FIELD(var_a3, s32 *, 0) = temp_v1_8;
+                                        var_a3 += 0x28;
+                                        tail_v0 = M2C_FIELD(gte, s32 *, 0x0C8);
+                                        temp_v1_8 = M2C_FIELD(gte, s32 *, 0x0BC);
+                                        tail_v0 <<= 2;
+                                        tail_v0 += temp_v1_8;
+                                        temp_v1_8 = *var_s0;
+                                        tail_v0 = M2C_FIELD((void *)tail_v0, s32 *, 0);
+                                        temp_v1_8 &= tag_high_mask;
+                                        tail_v0 &= tag_low_mask;
+                                        temp_v1_8 |= tail_v0;
+                                        *var_s0 = temp_v1_8;
+                                        call_a0 = (void *)(M2C_FIELD(gte, s32 *, 0x0C8) * 4);
+                                        tail_v0 = M2C_FIELD(gte, s32 *, 0x0BC);
+                                        call_a0 = (void *)((s32)call_a0 + tail_v0);
+                                        tail_v0 = (s32) var_s0 & tag_low_mask;
+                                        temp_v1_8 = M2C_FIELD(call_a0, s32 *, 0);
+                                        var_s0 = (s32 *)((s8 *)var_s0 + 0x28);
+                                        temp_v1_8 &= tag_high_mask;
+                                        temp_v1_8 |= tail_v0;
+                                        M2C_FIELD(call_a0, s32 *, 0) = temp_v1_8;
+                                        M2C_FIELD(var_a3, s8 *, -1) = one;
+                                        temp_v1_8 = M2C_FIELD(gte, u16 *, 0x176);
+                                        tail_v0 = 0xE1000000;
+                                        temp_v1_8 &= 0x9FF;
+                                        temp_v1_8 |= tail_v0;
+                                        M2C_FIELD(var_a3, s32 *, 0) = temp_v1_8;
+                                    }
+                                }
                                 var_a3 += 0x28;
+                                ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                                var_t0 += 0x28;
                                 tail_v0 = M2C_FIELD(gte, s32 *, 0x0C8);
                                 temp_v1_8 = M2C_FIELD(gte, s32 *, 0x0BC);
                                 tail_v0 <<= 2;
@@ -504,95 +520,65 @@ loop_37:
                                 call_a0 = (void *)(M2C_FIELD(gte, s32 *, 0x0C8) * 4);
                                 tail_v0 = M2C_FIELD(gte, s32 *, 0x0BC);
                                 call_a0 = (void *)((s32)call_a0 + tail_v0);
-                                tail_v0 = (s32) var_s0 & tag_low_mask;
                                 temp_v1_8 = M2C_FIELD(call_a0, s32 *, 0);
+                                tail_v0 = (s32) var_s0 & tag_low_mask;
                                 var_s0 = (s32 *)((s8 *)var_s0 + 0x28);
                                 temp_v1_8 &= tag_high_mask;
                                 temp_v1_8 |= tail_v0;
                                 M2C_FIELD(call_a0, s32 *, 0) = temp_v1_8;
-                                M2C_FIELD(var_a3, s8 *, -1) = one;
-                                temp_v1_8 = M2C_FIELD(gte, u16 *, 0x176);
-                                tail_v0 = 0xE1000000;
-                                temp_v1_8 &= 0x9FF;
-                                temp_v1_8 |= tail_v0;
-                                M2C_FIELD(var_a3, s32 *, 0) = temp_v1_8;
-                            }
-                            var_a3 += 0x28;
-                            ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                            var_t0 += 0x28;
-                            tail_v0 = M2C_FIELD(gte, s32 *, 0x0C8);
-                            temp_v1_8 = M2C_FIELD(gte, s32 *, 0x0BC);
-                            tail_v0 <<= 2;
-                            tail_v0 += temp_v1_8;
-                            temp_v1_8 = *var_s0;
-                            tail_v0 = M2C_FIELD((void *)tail_v0, s32 *, 0);
-                            temp_v1_8 &= tag_high_mask;
-                            tail_v0 &= tag_low_mask;
-                            temp_v1_8 |= tail_v0;
-                            *var_s0 = temp_v1_8;
-                            call_a0 = (void *)(M2C_FIELD(gte, s32 *, 0x0C8) * 4);
-                            tail_v0 = M2C_FIELD(gte, s32 *, 0x0BC);
-                            call_a0 = (void *)((s32)call_a0 + tail_v0);
-                            temp_v1_8 = M2C_FIELD(call_a0, s32 *, 0);
-                            tail_v0 = (s32) var_s0 & tag_low_mask;
-                            var_s0 = (s32 *)((s8 *)var_s0 + 0x28);
-                            temp_v1_8 &= tag_high_mask;
-                            temp_v1_8 |= tail_v0;
-                            M2C_FIELD(call_a0, s32 *, 0) = temp_v1_8;
-                            temp_v1_8 = M2C_FIELD(gte, u8 *, 0x16E);
-                            if ((temp_v1_8 & 0xF) == one) {
-                                tail_v0 = M2C_FIELD(gte, u8 *, 0x16F);
-                                tail_v0 <<= 0x18;
-                                if (tail_v0 >= 0) {
-                                    temp_v1_8 = (u32) temp_v1_8 >> 4;
-                                    tail_v0 = temp_v1_8 * 3;
-                                    tail_v0 *= 8;
-                                    tail_v0 += 0x18;
-                                    var_a2_3 = (s8 *) var_a2_3 + tail_v0;
-                                    ASM_TAILSLOT_PIN_TIED(var_a2_3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                                    func_800ACA88();
-                                    return;
+                                temp_v1_8 = M2C_FIELD(gte, u8 *, 0x16E);
+                                if ((temp_v1_8 & 0xF) == one) {
+                                    tail_v0 = M2C_FIELD(gte, u8 *, 0x16F);
+                                    tail_v0 <<= 0x18;
+                                    if (tail_v0 >= 0) {
+                                        temp_v1_8 = (u32) temp_v1_8 >> 4;
+                                        tail_v0 = temp_v1_8 * 3;
+                                        tail_v0 *= 8;
+                                        tail_v0 += 0x18;
+                                        var_a2_3 = (s8 *) var_a2_3 + tail_v0;
+                                        continue;
+                                    }
+                                    goto block_80;
                                 }
-                                goto block_80;
+                                goto tail_aca88_18;
+                            }
+                            goto block_80;
+                        }
+                        if (M2C_FIELD((((u16) M2C_FIELD(gte, s32 *, 0x170) * 8) + temp_s3), s16 *, 4) < 0) {
+                            if (M2C_FIELD(gte, u8 *, 0x16E) == one) {
+                                tail_v0 = (s32) M2C_FIELD(gte, u8 *, 0x16F) << 0x18;
+                                goto check_polygon_end;
                             }
                             goto tail_aca88_18;
                         }
+                        temp_v1_8 = M2C_FIELD(gte, u8 *, 0x16E);
+                        if (temp_v1_8 & 0xF0) {
+                            goto tail_aca88_scaled;
+                        }
+                        tail_v0 = M2C_FIELD(gte, u8 *, 0x16F);
+                        tail_v0 <<= 0x18;
+                        if (tail_v0 >= 0) {
+tail_aca88_scaled:
+                            temp_v1_8 &= 0xF;
+                            tail_v0 = temp_v1_8 * 3;
+                            tail_v0 *= 8;
+                            var_a2_3 = (s8 *) var_a2_3 + tail_v0;
+                            continue;
+                        }
                         goto block_80;
                     }
-                    if (M2C_FIELD((((u16) M2C_FIELD(gte, s32 *, 0x170) * 8) + temp_s3), s16 *, 4) < 0) {
-                        if (M2C_FIELD(gte, u8 *, 0x16E) == one) {
-                            tail_v0 = (s32) M2C_FIELD(gte, u8 *, 0x16F) << 0x18;
-                            ASM_TAILSLOT_PIN_TIED(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                            func_800ACFF8();
-                            return;
-                        }
+                    if (M2C_FIELD(var_a2_3, u8 *, 0x16) != one) {
                         goto tail_aca88_18;
                     }
-                    temp_v1_8 = M2C_FIELD(gte, u8 *, 0x16E);
-                    if (temp_v1_8 & 0xF0) {
-                        goto tail_aca88_scaled;
-                    }
-                    tail_v0 = M2C_FIELD(gte, u8 *, 0x16F);
-                    tail_v0 <<= 0x18;
+                    tail_v0 = M2C_FIELD(var_a2_3, s8 *, 0x17);
+check_polygon_end:
                     if (tail_v0 >= 0) {
-tail_aca88_scaled:
-                        temp_v1_8 &= 0xF;
-                        tail_v0 = temp_v1_8 * 3;
-                        tail_v0 *= 8;
-                        var_a2_3 = (s8 *) var_a2_3 + tail_v0;
-                        ASM_TAILSLOT_PIN_TIED(var_a2_3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                        func_800ACA88();
-                        return;
-                    }
-                    goto block_80;
-                }
-                if ((M2C_FIELD(var_a2_3, u8 *, 0x16) != one) || (M2C_FIELD(var_a2_3, s8 *, 0x17) >= 0)) {
 tail_aca88_18:
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    var_a2_3 = (s8 *) var_a2_3 + 0x18;
-                    ASM_TAILSLOT_PIN_TIED(var_a2_3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    func_800ACA88();
-                    return;
+                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                        var_a2_3 = (s8 *) var_a2_3 + 0x18;
+                        continue;
+                    }
+                    break;
                 }
 block_80:
                 if ((u32) M2C_FIELD(gte, s32 *, 0x164) >= var_s0) {

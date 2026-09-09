@@ -4,11 +4,8 @@
 typedef s32 (*M2C_CALLBACK2)(s32, s32);
 typedef s32 (*M2C_CALLBACK0)(void);
 
-M2C_UNK func_800195AC();                            /* extern */
-M2C_UNK func_8001960C();                            /* extern */
-extern void func_80019618(void) __attribute__((noreturn));
 M2C_UNK func_800196A4();                            /* extern */
-M2C_UNK func_8001D048();                            /* extern */
+M2C_UNK func_8001D048(s32 arg0, s32 arg1, s32 arg2, s32 arg3);                            /* extern */
 M2C_UNK func_8001E578();                     /* extern */
 M2C_UNK func_8001E5F0();                     /* extern */
 s32 func_8001E670();                             /* extern */
@@ -24,34 +21,27 @@ typedef struct S_80019560_0 {
     s32 unk_40;
 } S_80019560_0;   /* *(void **)D_80016000 in func_80019560 */
 
-void func_80019560(void) {
+void func_80019560(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_v0;
     u32 page_value;
     u8 *page;
     M2C_CALLBACK0 *callback_table;
 
-    func_8001D048();
+    func_8001D048(arg0, arg1, arg2, arg3);
     if (func_8001E670(0xA3) != 0) {
         if (func_8001E670(0xAB) == 0) {
             func_8001E578(0x409);
-            func_800195AC();
-            return;
+        } else {
+            func_8001E5F0(0x409);
         }
-        func_8001E5F0(0x409);
         if (func_8001E670(0xAD) == 0) {
             if (((M2C_CALLBACK2 *)((u8 *)((S_80019560_0 *)(*(void **)D_80016000))->unk_20 + 0x350))[0](1, 0x12) != 0) {
                 func_8001E578(0xAD);
-                func_8001960C();
-                return;
-        }
-        func_8001E578(0x40A);
-        {
-            u32 tail_page;
-            tail_page = 0x80020000;
-            ASM_PAGEBASE_PIN(tail_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80019618();
-        }
-        return;
+                goto block_11;
+            }
+            func_8001E578(0x40A);
+            page_value = 0x80020000;
+            goto block_12;
         }
         goto block_11;
     }
@@ -59,6 +49,7 @@ void func_80019560(void) {
 block_11:
     func_8001E5F0(0x40A);
     page_value = 0x80020000;
+block_12:
     ASM_KEEP(page_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     page = (u8 *)page_value;
     callback_table = D_800178E8;

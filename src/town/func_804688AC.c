@@ -5,7 +5,6 @@ extern void *D_8001E950;
 extern s32 func_8001E670(s32 id);
 extern void func_8001E578(s32 id);
 extern void func_8001E5F0(s32 id);
-extern void func_80019AE8(void);
 extern u8 func_8001A4F0(void);
 extern s32 func_8001A2F0(void);
 extern s32 func_8001A360(void);
@@ -13,29 +12,28 @@ extern s32 func_8001A414(void);
 
 #define TAIL_AE8(code) \
     do { \
-        register void *pv1 ASM_REG("$3") = D_8001E950; \
-        ASM_KEEP(pv1); \
-        func_80019AE8(); \
-        return (code); \
+        pv1 = D_8001E950; \
+        var_v0 = (code); \
+        goto tail; \
     } while (0)
 
 #define FIELD3_CHECK(if_code, else_code) \
     do { \
-        void *pv1 = D_8001E950; \
-        \
+        pv1 = D_8001E950; \
         temp_v0 = *((u8 *)pv1 + 3); \
         if (temp_v0 != 0) { \
             *((u8 *)pv1 + 4) = temp_v0; \
             TAIL_AE8(if_code); \
         } \
-        \
-        func_80019AE8(); \
-        return (else_code); \
+        var_v0 = (else_code); \
+        goto tail; \
     } while (0)
 
 s32 func_800198AC(void) {
     u8 temp_v0;
     s32 var_a0;
+    s32 var_v0;
+    void *pv1;
 
     if ((func_8001E670(0x145D) != 0) && (func_8001E670(0x1455) == 0)) {
         func_8001E578(0x1455);
@@ -78,5 +76,8 @@ s32 func_800198AC(void) {
         *((s8 *)D_8001E950 + 5) = 0;
         return;
     }
-    *((s8 *)D_8001E950 + 5) = 1;
+    pv1 = D_8001E950;
+    var_v0 = 1;
+tail:
+    *((s8 *)pv1 + 5) = var_v0;
 }

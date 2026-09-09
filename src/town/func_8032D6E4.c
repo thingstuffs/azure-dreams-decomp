@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_80017F2C(void) __attribute__((noreturn));
 extern void func_80019BC0(void);
 extern void func_8001ACE8(s32 arg0);
 extern u8 D_8001DCD4[];
@@ -23,32 +22,34 @@ void *func_80017EE4(s32 arg0, s32 arg1, s32 arg2) {
         dispatch_result = 0x80020000;
         dispatch_result -= 0x232C;
 #else
-        (void)D_8001DCD4;
+        return D_8001DCD4;
 #endif
-        func_80017F2C();
-    }
+    } else {
 #ifndef NON_MATCHING
-    dispatch_result = 3;
-    if (arg2 != dispatch_result) {
-        dispatch_result = 0x80020000;
-        dispatch_result -= 0x227A;
+        dispatch_result = 3;
+        if (arg2 != dispatch_result) {
+            dispatch_result = 0x80020000;
+            dispatch_result -= 0x227A;
 #else
-    if (arg2 != 3) {
-        (void)D_8001DD86;
+        if (arg2 != 3) {
+            return D_8001DD86;
 #endif
-        func_80017F2C();
+        } else {
+#ifndef NON_MATCHING
+            dispatch_result = 0x80020000;
+            ASM_KEEP(dispatch_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+#endif
+            func_80019BC0();
+#ifndef NON_MATCHING
+            dispatch_result = 0x80020000;
+            dispatch_result -= 0x225F;
+            ASM_KEEP(dispatch_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+#else
+            return D_8001DDA1;
+#endif
+        }
     }
 #ifndef NON_MATCHING
-    dispatch_result = 0x80020000;
-    ASM_KEEP(dispatch_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-#endif
-    func_80019BC0();
-#ifndef NON_MATCHING
-    dispatch_result = 0x80020000;
-    dispatch_result -= 0x225F;
-    ASM_KEEP(dispatch_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     return (void *)dispatch_result;
-#else
-    return D_8001DDA1;
 #endif
 }

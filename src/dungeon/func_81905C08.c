@@ -24,8 +24,6 @@ typedef struct {
 } Point __attribute__((packed));
 
 extern void func_80024B6C(void *, Box *, Point *, s32, s32);
-extern void func_80025524() __attribute__((noreturn));
-extern void func_8002576C() __attribute__((noreturn));
 extern s32 func_80067014(s32);
 extern void func_800672D8(Box *, u8 *);
 extern void func_8006733C(Box *, u8 *);
@@ -74,10 +72,10 @@ void func_80025408(void *arg0, void *arg1, void *arg2) {
     state = *(s16 *)arg0;
     D_800267B8 = 1;
     if (state != 0) {
-        if (state != 1) {
-            return func_8002576C();
+        if (state == 1) {
+            goto block_16;
         }
-        goto block_16;
+        goto block_217;
     }
 
     outer = 0;
@@ -102,9 +100,9 @@ loop_6:
 loop_9:
     if (*cursor == 0) {
         *cursor = sentinel;
-        return func_80025524(index);
+    } else {
+        *cursor = 0;
     }
-    *cursor = 0;
     index += 1;
     cursor += 1;
     if (index >= 0x1f8) {
@@ -177,6 +175,7 @@ block_16: {
                     *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
                     D_800814A0 |= 0x8000;
                 }
+block_217:
                 if ((u32)(*(u8 *)(*(u8 **)((u8 *)arg0 + 0x3c) + 0x13) - 0x33) < 4U) {
                     *(u16 *)((u8 *)effect + 0x14) |= 0x80;
                 }

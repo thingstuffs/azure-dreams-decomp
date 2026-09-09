@@ -6,8 +6,6 @@ extern s32 func_800419EC();
 extern s32 func_80042900();
 extern s32 func_80042B68();
 extern s32 func_80048A44();
-extern s32 func_80092F30();
-extern s32 func_8009307C();
 extern s32 func_800997FC();
 extern s32 func_800A2B04();
 
@@ -110,12 +108,10 @@ void func_80092E90(void *arg0, void *arg1, void *arg2, void *arg3)
         pixel = ((S_80092E90_1 *)arg2)->unk_25 << 6;
         ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
             ((pixel - adjusted) << 16) / ((S_80092E90_0 *)global)->unk_04;
-        func_80092F30(divisor, global);
-        return;
+    } else {
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
     }
-
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     countBase = &D_80083460_count;
     count = ((S_80092E90_3 *)countBase)->unk_04.n;
@@ -169,29 +165,15 @@ state1:
             } while (node != savedArg3);
 
             loopResult = found;
-            if (loopResult != 0) {
-#ifndef NON_MATCHING
-                register u32 page ASM_REG("$2") = 0x800E0000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                func_8009307C((void *)(page + 0x597));
-#else
-                func_8009307C(&D_800E0597);
-#endif
-                return;
-            }
-#ifndef NON_MATCHING
-            ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             {
-                register u32 page ASM_REG("$2") = 0x800E0000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register void *message ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                message = (void *)(page + 0x5C3);
-                ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                void *message;
+                if (loopResult != 0) {
+                    message = &D_800E0597;
+                } else {
+                    message = &D_800E05C3;
+                }
                 func_800997FC(message);
             }
-#else
-            func_800997FC(&D_800E05C3);
-#endif
         }
 
     ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;

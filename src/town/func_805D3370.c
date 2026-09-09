@@ -7,7 +7,7 @@ typedef s32 M2C_UNK;
 #endif
 
 extern void func_8001749C(void) __attribute__((noreturn));
-extern s32 func_800191E8(void);
+extern s32 func_800191E8();
 extern M2C_UNK D_8001A20C;
 extern M2C_UNK D_8001A2E7;
 extern M2C_UNK D_8001A348;
@@ -41,7 +41,7 @@ extern M2C_UNK D_8001A91D;
 #define RUN_CASE(offset, other_label, success_label) do { \
     register u32 page ASM_REG("$2"); \
     register M2C_UNK *tail_result ASM_REG("$3"); \
-    status = func_800191E8(); \
+    status = func_800191E8(arg0); \
     if (status == -0x30) { \
         page = 0x80020000; \
         \
@@ -93,7 +93,7 @@ case_34:
     if (arg2 != 0x34) {
         goto done;
     }
-    status = func_800191E8();
+    status = func_800191E8(arg0);
     if (status != -0x30) {
         status = func_800191E8();
         if (status != -0x38) {

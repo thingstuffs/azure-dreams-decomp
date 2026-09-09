@@ -8,12 +8,6 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_8008C9F4();
-#ifndef NON_MATCHING
-void func_8008CA80(void);
-#else
-void func_8008CA80(void *arg0);
-#endif
 M2C_UNK func_80099F70();
 s32 func_8009A540();
 s32 func_8009B25C();
@@ -98,21 +92,15 @@ s32 func_8008C8BC(void *arg0, void *arg1, void *arg2, void *arg3) {
             && (((S_8008C8BC_2 *)r4)->unk_3186 & 1) && !(((S_8008C8BC_0 *)held3)->unk_1C & 0x410)) {
             ((S_8008C8BC_0 *)held3)->unk_60.p = NULL;
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-#ifndef NON_MATCHING
-            func_8008CA80();
-#else
-            func_8008CA80(held3);
-#endif
             return 0;
         }
         r4 = (u8 *)held3;
         ASM_KEEP(r4);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_8009C93C(r4, held2, (s16) ((S_8008C8BC_0 *)held3)->unk_2A, 1, 0);
-        func_8008C9F4();
-        return 0x11;
+    } else {
+        ((S_8008C8BC_0 *)held3)->unk_60.p = NULL;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
-    ((S_8008C8BC_0 *)held3)->unk_60.p = NULL;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_8008C8BC_4 *)held0)->unk_9A = 0x11;
     state = D_80083460;
     ((S_8008C8BC_4 *)held0)->unk_9B = 0;

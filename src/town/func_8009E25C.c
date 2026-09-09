@@ -57,8 +57,6 @@ extern void func_8008F294(void *, void *);
 extern void func_8008F664(void *, void *);
 extern s32 func_800352FC();
 extern s32 func_8009B120(void *);
-extern void func_8009BBDC(void *, void *, void *);
-extern void func_8009BBF4(void);
 extern void func_8009C340(void *, void *, void *, s32);
 extern void func_800C172C(void);
 
@@ -71,6 +69,10 @@ void func_8009B9BC(void *arg0, S_8009B9BC_1 *arg1, Rec_D_800E3D7C *arg2, s32 arg
     s32 current;
     s32 target;
     s32 flag;
+    DispatchFn selector;
+    register void *a0r ASM_REG("$4"); /* MATCH: keep dispatch arguments in retail setup order. */
+    register void *a1r ASM_REG("$5"); /* MATCH: keep dispatch arguments in retail setup order. */
+    void *a2r;
 
     arg2->unk_00.at00_s32.v = D_80083780[0];
     arg2->unk_04.at00_s32.v = position[1];
@@ -84,76 +86,57 @@ void func_8009B9BC(void *arg0, S_8009B9BC_1 *arg1, Rec_D_800E3D7C *arg2, s32 arg
     if (target - arg2->unk_08.at00_s32.v >= 0x10) {
         arg2->unk_08.at00_s32.v =
             target + ((S_8009B9BC_3 *)(arg1->unk_0C))->unk_14;
+        a2r = arg2;
     }
 
     current = D_800834B8.current;
     flag = 1;
 
     if (current == (s32)&D_800930E4 || current == (s32)&D_80093250) {
-        register void *a0r ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register void *a1r ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 selector;
-        ASM_KEEP(a0r);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        selector = ((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_08;
-        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        func_8009BBDC(a0r, a1r, arg2);
-        ASM_USE2(flag, arg3);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        return;
-    }
-
-    if (current == (s32)&D_800AA5F8) {
-        register void *a0r ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register void *a1r ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 selector;
-        ASM_KEEP(a0r);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        selector = ((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_14;
-        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        func_8009BBDC(a0r, a1r, arg2);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return;
-    }
-
-    if (current == (s32)&D_80093328) {
-        register void *a0r ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register void *a1r ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 selector;
-        ASM_USE2(arg3, arg3);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(a0r);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        selector = ((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_0C;
-        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        func_8009BBDC(a0r, a1r, arg2);
-        return;
-    }
-
-    if (current == (s32)&D_80093638) {
+        a0r = arg0;
+        a1r = arg1;
+        ASM_KEEP(a0r); /* MATCH: retain argument setup before the dispatch load. */
+        selector = (DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_08;
+        a2r = arg2;
+    } else if (current == (s32)&D_800AA5F8) {
+        a0r = arg0;
+        a1r = arg1;
+        ASM_KEEP(a0r); /* MATCH: retain argument setup before the dispatch load. */
+        selector = (DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_14;
+        a2r = arg2;
+    } else if (current == (s32)&D_80093328) {
+        ASM_USE2(arg3, arg3); /* MATCH: preserve the fourth argument register allocation. */
+        a0r = arg0;
+        a1r = arg1;
+        ASM_KEEP(a0r); /* MATCH: retain argument setup before the dispatch load. */
+        selector = (DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_0C;
+        a2r = arg2;
+    } else if (current == (s32)&D_80093638) {
         func_8009C340(arg0, arg1, arg2, arg3);
-        func_8009BBF4();
-        return;
-    }
-
-    if (current == (s32)&D_80092698 || current == (s32)&D_800927EC ||
-        current == (s32)&D_80092A84 || current == (s32)&D_80092FF0 ||
-        current == (s32)&D_80092CD4 || current == (s32)&D_80092DA8 ||
-        current == (s32)&D_80092ECC || current == (s32)&D_800933FC ||
-        current == (s32)&D_80090A6C || func_800352FC() != 0) {
-        if (previous_owner == (s32)arg1) {
-            goto skip;
+        goto tail;
+    } else {
+        if (current == (s32)&D_80092698 || current == (s32)&D_800927EC ||
+            current == (s32)&D_80092A84 || current == (s32)&D_80092FF0 ||
+            current == (s32)&D_80092CD4 || current == (s32)&D_80092DA8 ||
+            current == (s32)&D_80092ECC || current == (s32)&D_800933FC ||
+            current == (s32)&D_80090A6C || func_800352FC() != 0) {
+            if (previous_owner == (s32)arg1) {
+                goto skip;
+            }
         }
-    }
 
-    {
-        void *a0r = arg0;
-        void *a1r = arg1;
-        ASM_KEEP(a0r);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_10)(
-            a0r, a1r, arg2, arg3);
+        a0r = arg0;
+        a1r = arg1;
+        ASM_KEEP(a0r); /* MATCH: retain argument setup before the dispatch load. */
+        selector = (DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_10;
+        a2r = arg2;
     }
-    func_8009BBF4();
-    return;
+    selector(a0r, a1r, a2r, arg3);
+    goto tail;
 
 skip:
     flag = 0;
-    ASM_KEEP(flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+tail:
     if (flag != 0 && func_8009B120((u8 *)arg0 + 0x4C) != 0) {
         func_800C172C();
     }

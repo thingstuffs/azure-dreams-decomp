@@ -11,14 +11,15 @@ extern s16 func_80094AA0(s32, s32, s32);
 extern s32 func_80095360(s16);
 extern void func_80095544(void *);
 extern void func_800A48B0(void *, void *);
-extern void func_800A57D0(s16, s32, s32);
-extern void func_800A584C(void);
 
 void func_800A573C(void *arg0, void *arg1, void *arg2) {
     u8 *state;
     u8 *page;
     register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 index;
+    s32 current;
+    s32 goal;
+    s32 distance;
 
     call_arg = arg1;
     page = (u8 *)0x80080000;
@@ -34,30 +35,27 @@ void func_800A573C(void *arg0, void *arg1, void *arg2) {
         ASM_KEEP_NV(expected);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         actual = *(void **)arg0;
         expected += 0x5A98;
-        if (actual == expected) {
-            if (*(s32 *)(state + 8) & 0x2000) {
-                return func_800A57D0(*(s16 *)((u8 *)arg0 + 0x18),
-                                     *(s16 *)((u8 *)arg0 + 0x10) - 0x200,
-                                     0x200);
-            }
-            if (*(s32 *)(state + 8) & 0x8000) {
-                return func_800A57D0(*(s16 *)((u8 *)arg0 + 0x18),
-                                     *(s16 *)((u8 *)arg0 + 0x10) + 0x200,
-                                     0x200);
-            }
+        if (actual == expected && (*(s32 *)(state + 8) & 0x2000)) {
+            goal = *(s16 *)((u8 *)arg0 + 0x10);
+            current = *(s16 *)((u8 *)arg0 + 0x18);
+            goal -= 0x200;
+            distance = 0x200;
+        } else if (actual == expected && (*(s32 *)(state + 8) & 0x8000)) {
+            goal = *(s16 *)((u8 *)arg0 + 0x10);
+            current = *(s16 *)((u8 *)arg0 + 0x18);
+            goal += 0x200;
+            distance = 0x200;
+        } else {
+            current = *(s16 *)((u8 *)arg0 + 0x18);
+            goal = *(s16 *)((u8 *)arg0 + 0x10);
+            ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            distance = 0x200;
+            ASM_KEEP_NV(distance);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         }
     }
     {
-        s32 current;
-        s32 goal;
-        s32 distance;
         s16 result;
 
-        current = *(s16 *)((u8 *)arg0 + 0x18);
-        goal = *(s16 *)((u8 *)arg0 + 0x10);
-        ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        distance = 0x200;
-        ASM_KEEP_NV(distance);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         result = func_80094AA0(current, goal, distance);
         *(s16 *)((u8 *)arg0 + 0x18) = result;
     }
@@ -71,17 +69,16 @@ void func_800A573C(void *arg0, void *arg1, void *arg2) {
     }
     {
         s16 *table = D_800D01F8;
+        u16 bit_value;
 
         ASM_USE(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (table[index] != 0) {
-            u16 bit_value = *(u16 *)((u8 *)arg2 + 0x14) | 1;
-
-            ASM_TAILSLOT_PIN_TIED(bit_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800A584C();
-            return;
+            bit_value = *(u16 *)((u8 *)arg2 + 0x14) | 1;
+        } else {
+            bit_value = *(u16 *)((u8 *)arg2 + 0x14) & 0xFFFE;
         }
+        *(u16 *)((u8 *)arg2 + 0x14) = bit_value;
     }
-    *(u16 *)((u8 *)arg2 + 0x14) &= 0xFFFE;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_80048AC8(arg2, 0);
     {

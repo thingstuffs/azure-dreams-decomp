@@ -14,13 +14,13 @@ extern void func_80042640(void *, s32);
 extern void func_8009A028(void *);
 extern void func_8009A3D0(s32, s32, s32);
 extern s32 func_8009FB34(s32, s32);
-extern void func_800A0B64(void) __attribute__((noreturn));
 extern SpawnFunc func_800A0B94(s32, void *, s32);
 extern void func_800A152C(s32, s32);
 extern void *func_800A1618(s32, s32);
 extern void func_800A1D4C(void *, s32);
 extern void func_800A32A4(void *);
 extern void func_800A4E2C(u8 *, u8 *);
+/* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */
 extern s32 func_800A6D30(void);
 extern s32 func_800A9230(void *);
 extern s32 func_800BCB04(s32, s32, s32);
@@ -43,6 +43,7 @@ void func_800A08A0(s32 spawn_mode) {
     u8 tile_y;
     register u32 *limits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     SpawnFunc spawn_monster;
+    register void *level_monster ASM_REG("$4"); /* MATCH: Both threshold arms supply the call argument in the branch delay slot. */
 
     distance = 0x100;
     if (D_800E296C & 0x10000000) {
@@ -133,24 +134,30 @@ void func_800A08A0(s32 spawn_mode) {
             func_8009A028(monster);
             *(u16 *)((u8 *)monster - 2) |= 0x8000;
             D_800814A0 |= 0x8000;
-            func_800A0B64();
+            return;
         }
 
         limits = D_800835E4;
         ((u32 *)((u8 *)monster + 0x18))[0] = limits[spawn_level];
         limits++;
         if (*(u32 *)((u8 *)monster + 0x18) >= limits[((u8 *)monster)[0x11]]) {
-            u32 *level_thresholds = limits;
+            u32 *level_thresholds;
             u32 next_level_exp;
+            level_monster = monster;
+            level_thresholds = limits;
             do {
-                func_800A1D4C(monster, 0);
+                func_800A1D4C(level_monster, 0);
                 next_level_exp = level_thresholds[((u8 *)monster)[0x11]];
+                level_monster = monster;
             } while (*(u32 *)((u8 *)monster + 0x18) >= next_level_exp);
+        } else {
+            level_monster = monster;
         }
+        ASM_USE_NV(level_monster); /* MATCH: Keep both threshold arms' argument assignments live. */
         if (((u8 *)monster)[0x49] != 0) {
             return;
         }
         *(s32 *)((u8 *)monster + 0x48) = func_800A9230(monster);
-        func_800A0B64();
+        return;
     } while (++attempt < 0x10);
 }

@@ -1,14 +1,7 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define OLD_GCC_KEEP(var) ((void)0)
-#else
-#define OLD_GCC_KEEP(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
-#endif
-
 extern int rand(void);
 #ifndef NON_MATCHING
-extern void func_800ABAFC(void);
 extern void *D_80089140[15];
 #endif
 
@@ -44,13 +37,7 @@ void func_800ABA1C(Struct800AE2BC *arg0) {
 #endif
 case_4:
         s0 = (rand() & 7) | 4;
-#ifndef NON_MATCHING
-        func_800ABAFC();
-        OLD_GCC_KEEP(s0);
-        return;
-#else
         goto done;
-#endif
 #ifdef NON_MATCHING
     case 15:
     case 16:
@@ -67,25 +54,13 @@ case_15:
             goto done;
         }
         s1 = -64;
-#ifndef NON_MATCHING
-        func_800ABAFC();
-        OLD_GCC_KEEP(s1);
-        return;
-#else
         goto done;
-#endif
 #ifdef NON_MATCHING
     case 18:
 #endif
 case_18:
         s0 = rand() % 40 + 60;
-#ifndef NON_MATCHING
-        func_800ABAFC();
-        OLD_GCC_KEEP(s0);
-        return;
-#else
         goto done;
-#endif
 #ifdef NON_MATCHING
     case 14:
 #endif

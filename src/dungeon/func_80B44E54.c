@@ -67,9 +67,6 @@ void func_800A4ACC(void *);
 void func_800A56E0(s32);
 void func_800AD594(void *, s32);
 s32 func_800BCB04(s32, s32, s16);
-void func_80172990(void) __attribute__((noreturn));
-void func_80172994(void) __attribute__((noreturn));
-void func_80172ACC(void) __attribute__((noreturn));
 extern s8 D_8006CCD8;
 extern s8 D_8006CCE8;
 extern s16 D_80083228;
@@ -89,7 +86,7 @@ void func_80172654(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 offset;
     s32 state;
     s32 count;
-    s32 next_state;
+    u8 next_state;
     s32 shifted_count;
     register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     void *obj;
@@ -109,12 +106,13 @@ void func_80172654(void *arg0, void *arg1, void *arg2, void *arg3) {
             shifted_count = count << 16;
             goto state_1;
         }
-        func_80172ACC();
+        ASM_SCHED_BARRIER(); /* MATCH: preserve the state-1 branch and shared epilogue jump. */
+        goto done;
     }
     if (state == 4) goto state_4;
     if (state < 4) goto state_3;
     if (state == 0xFF) goto state_255;
-    func_80172ACC();
+    goto done;
 
 state_0:
     call_a0 = arg3;
@@ -122,7 +120,7 @@ state_0:
         ((S_80172654_0 *)arg0)->unk_9B.s = 0xFF;
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(call_a0, arg2, ((S_80172654_3 *)call_a0)->unk_2A, 1);
-        func_80172ACC();
+        goto done;
     }
     ((S_80172654_4 *)arg1)->unk_0C = (-temp_s5) << 17;
     ((S_80172654_4 *)arg1)->unk_10 = (-temp_s6) << 17;
@@ -131,10 +129,10 @@ state_0:
     func_80047784(arg2,
         D_80175A4C[((D_80083228 + ((S_80172654_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
         0);
-    (void)((S_80172654_0 *)arg0)->unk_9B.u;
+    next_state = ((S_80172654_0 *)arg0)->unk_9B.u;
     count = 8;
     ((S_80172654_0 *)arg0)->unk_96.s = count;
-    func_80172994();
+    goto store_next_state;
 
 state_1:
     if (shifted_count > 0) goto done;
@@ -144,7 +142,7 @@ state_1:
     func_80047784(arg2,
         D_80175A8C[((D_80083228 + ((S_80172654_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
         0);
-    func_80172990();
+    goto increment_state;
 
 state_2:
     if (((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 4) &&
@@ -173,7 +171,7 @@ state_2:
                               (s16)(((S_80172654_4 *)arg1)->unk_0A - 0x80)) -
                 ((S_80172654_4 *)arg1)->unk_0A;
             ((S_80172654_6 *)tail)->unk_10 = ((S_80172654_1 *)arg3)->unk_2A.s;
-            func_80172990();
+            goto increment_state;
         }
         goto increment_state;
     }
@@ -191,9 +189,10 @@ state_3:
 
 increment_state:
     next_state = ((S_80172654_0 *)arg0)->unk_9B.u;
+store_next_state:
     next_state += 1;
     ((S_80172654_0 *)arg0)->unk_9B.s = next_state;
-    func_80172ACC();
+    goto done;
 
 state_4:
     if ((count << 16) > 0) goto done;
@@ -203,7 +202,7 @@ state_4:
         0);
     ((S_80172654_0 *)arg0)->unk_96.s = state;
     ((S_80172654_0 *)arg0)->unk_9B.s = 0xFF;
-    func_80172ACC();
+    goto done;
 
 state_255:
     ((S_80172654_4 *)arg1)->unk_0C =
@@ -225,7 +224,7 @@ state_255:
         func_800A4ACC(arg3);
         if (((S_80172654_1 *)arg3)->unk_6D == 0) {
             ((S_80172654_1 *)arg3)->unk_46 &= 0x7FFF;
-            func_80172ACC();
+            goto done;
         }
         D_800E3DE8 = (u8 *)arg3 - 0x20;
     }

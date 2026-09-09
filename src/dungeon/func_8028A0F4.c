@@ -27,7 +27,6 @@ typedef struct {
     u8 f3;
 } DungeonSlot;
 
-extern void func_8001D2C4(void) __attribute__((noreturn));
 extern void func_8009A21C(u8, u8, s32);
 extern s32 func_8009A350(s16, s16, s32, u16 *);
 extern s32 func_800A6D30(void);
@@ -82,24 +81,25 @@ void func_8001D0F4(DungeonRect *rect)
                 spot->py = (u8)rect->y + y_offset;
                 if (special_roll == 0) {
                     D_800E3648[slot_index].kind = 7;
-                    func_8001D2C4();
-                }
-
-                kind_roll = func_800A6D30() & 0xFFFF;
-                item_kind = (kind_roll % 19) + 1;
-                ASM_KEEP(item_kind);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                item_flags = *(u16 *)(item_category_table[21].entries +
-                                       ((s16)item_kind * 12));
-                stored_kind = item_kind;
-                if ((item_flags & 0x3000) != 0x3000) {
+                } else {
+                    kind_roll = func_800A6D30() & 0xFFFF;
+                    item_kind = (kind_roll % 19) + 1;
+                    ASM_KEEP(item_kind);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    item_flags = *(u16 *)(item_category_table[21].entries +
+                                           ((s16)item_kind * 12));
+                    stored_kind = item_kind;
+                    if ((item_flags & 0x3000) == 0x3000) {
+                        goto next_spot;
+                    }
                     D_800E3648[slot_index].kind = stored_kind;
                     ASM_KEEP(stored_kind);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    D_800E3648[slot_index].f1 = 0x15;
-                    D_800E3648[slot_index].f3 = 0x80;
-                    D_800E3648[slot_index].f2 = 0;
-                    func_8009A21C(spot->px, spot->py, 0x20);
                 }
+                D_800E3648[slot_index].f1 = 0x15;
+                D_800E3648[slot_index].f3 = 0x80;
+                D_800E3648[slot_index].f2 = 0;
+                func_8009A21C(spot->px, spot->py, 0x20);
             }
+next_spot:
             spot--;
             slot_index--;
         } while (slot_index >= 0);

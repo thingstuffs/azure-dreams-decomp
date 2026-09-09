@@ -34,7 +34,6 @@ typedef struct S_800CD474_3 {
 
 extern s32 func_800419EC();
 extern s32 func_800A56E0();
-extern s32 func_800CD66C();
 extern s32 func_800CD6AC();
 extern s32 D_800814A0;
 extern s32 D_80083460;
@@ -70,10 +69,7 @@ void func_800CD474(void *arg0, S_800CD474_1 *arg1, S_800CD474_2 *arg2) {
             color = 0x808080;
         }
         arg2->unk_0C.at00.v = color;
-        func_800CD66C();
-        return;
-    }
-    if (state == 1) {
+    } else if (state == 1) {
         color = 0x404040;
         if (((S_800CD474_0 *)arg0)->unk_0C & 1) {
             color = 0x808080;
@@ -87,27 +83,23 @@ void func_800CD474(void *arg0, S_800CD474_1 *arg1, S_800CD474_2 *arg2) {
             ((S_800CD474_0 *)arg0)->unk_04 = (u16)((S_800CD474_0 *)arg0)->unk_04 + 1;
             if (((S_800CD474_0 *)arg0)->unk_08 == 0) {
                 func_800CD6AC(((S_800CD474_0 *)arg0)->unk_00, 0x10);
-                func_800CD66C();
-                return;
             }
         }
-        arg1->unk_08.at00.v += arg1->unk_14;
-        ((S_800CD474_0 *)arg0)->unk_0C += 1;
-        return;
-    }
-    arg2->unk_0C.at00u.v = arg2->unk_0C.at00u.v -
-                           (arg2->unk_0C.at00u.v / (s16)((S_800CD474_0 *)arg0)->unk_06);
-    arg2->unk_0C.at01.v = arg2->unk_0C.at01.v -
-                           (arg2->unk_0C.at01.v / (s16)((S_800CD474_0 *)arg0)->unk_06);
-    arg2->unk_0C.at02.v = arg2->unk_0C.at02.v -
-                           (arg2->unk_0C.at02.v / (s16)((S_800CD474_0 *)arg0)->unk_06);
-    timer3 = ((S_800CD474_0 *)arg0)->unk_06 - 1;
-    ((S_800CD474_0 *)arg0)->unk_06 = timer3;
-    if ((timer3 << 16) <= 0) {
-        ((S_800CD474_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-        D_800814A0 |= 0x8000;
-        global_base = &D_80083460;
-        ((S_800CD474_3 *)global_base)->unk_0A -= 1;
+    } else {
+        arg2->unk_0C.at00u.v = arg2->unk_0C.at00u.v -
+                               (arg2->unk_0C.at00u.v / (s16)((S_800CD474_0 *)arg0)->unk_06);
+        arg2->unk_0C.at01.v = arg2->unk_0C.at01.v -
+                               (arg2->unk_0C.at01.v / (s16)((S_800CD474_0 *)arg0)->unk_06);
+        arg2->unk_0C.at02.v = arg2->unk_0C.at02.v -
+                               (arg2->unk_0C.at02.v / (s16)((S_800CD474_0 *)arg0)->unk_06);
+        timer3 = ((S_800CD474_0 *)arg0)->unk_06 - 1;
+        ((S_800CD474_0 *)arg0)->unk_06 = timer3;
+        if ((timer3 << 16) <= 0) {
+            ((S_800CD474_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+            D_800814A0 |= 0x8000;
+            global_base = &D_80083460;
+            ((S_800CD474_3 *)global_base)->unk_0A -= 1;
+        }
     }
     arg1->unk_08.at00.v += arg1->unk_14;
     ((S_800CD474_0 *)arg0)->unk_0C += 1;

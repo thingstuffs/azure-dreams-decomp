@@ -57,8 +57,6 @@ extern void func_80095A94();
 extern void func_80095C80();
 extern void func_80097844();
 extern s32 func_800A5894();
-extern void func_800A5BFC();
-extern void func_800A5CF0();
 extern s32 func_800C1D44();
 
 
@@ -98,26 +96,12 @@ after_second_update:
     limit = func_80095978(actor, D_800FE488);
     if (actor->height >= limit) {
         func_80095A94(actor, limit, D_800FE488);
-        {
-            u32 page;
-            page = 0x80080000;
-            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800A5BFC();
-        }
-    }
-
-    if ((&D_800CFCEE)[1] != 0) {
+    } else if ((&D_800CFCEE)[1] != 0) {
         actor->value = 0;
         func_800954F4(actor, limit);
-        {
-            u32 page;
-            page = 0x80080000;
-            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800A5BFC();
-        }
+    } else {
+        func_80095388(actor, limit);
     }
-
-    func_80095388(actor, limit);
     temp = func_8008C180(D_80083780.first, D_80083780.second);
     if (func_800C1D44((u16)temp) != 0) {
         actor->value -= func_800A5894(actor);
@@ -145,11 +129,10 @@ after_second_update:
 
     if (amount == 0) {
         ((S_800A5A98_0 *)input)->unk_C8 = (((S_800A5A98_0 *)input)->unk_C8 + 8) & 0xFFF0;
-        return func_800A5CF0();
-    }
-
-    if ((((S_800A5A98_0 *)input)->unk_08 & 0x30) == 0x10) {
-        amount = (D_80100E20 * 3) / 2;
+    } else {
+        if ((((S_800A5A98_0 *)input)->unk_08 & 0x30) == 0x10) {
+            amount = (D_80100E20 * 3) / 2;
+        }
     }
     {
         s32 adjusted;

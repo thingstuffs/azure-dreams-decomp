@@ -1,9 +1,6 @@
 #include "common.h"
 
 extern void *func_800A9B2C(s32 arg0, void *arg1);
-extern void *func_800A9E2C();
-extern void *func_800A9E48();
-extern void *func_800A9E58();
 
 extern u8 D_8006C894[];
 extern u8 D_8006C8F7[];
@@ -16,7 +13,7 @@ extern void *D_80100E38[];
 
 void *func_800A9D74(void *arg0, void *arg1) {
     s32 temp_a0;
-    void *temp_v0;
+    register void *temp_v0 ASM_REG("$2"); /* MATCH: Both store paths use the return-value register. */
     void *temp_v1;
 
     if ((arg0 != 0) && (arg1 != 0)) {
@@ -29,42 +26,26 @@ void *func_800A9D74(void *arg0, void *arg1) {
               (*(s32 *)((u8 *)arg0 + 0x60) != 0)))) {
             temp_a0 = *(s32 *)((u8 *)arg0 + 0x60);
             if (temp_a0 == 4) {
-                register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-
-                result = (void *)0x80070000;
-                ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                result = (u8 *)result - 0x361C;
-                ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800A9E58();
-                return result;
+                return D_8006C9E4;
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_SCHED_BARRIER(); /* MATCH: Keep the 4/5-arm seam scheduling. */
             if (temp_a0 == 5) {
                 if (*(u16 *)((u8 *)arg1 + 0x4C) == 0xB05) {
-                    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-
-                    result = (void *)0x80070000;
-                    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    result = (u8 *)result - 0x3709;
-                    ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_800A9E2C();
-                    return result;
+                    temp_v1 = (void *)0x80100000;
+                    temp_v0 = D_8006C8F7;
+                } else {
+                    temp_v1 = (void *)0x80100000;
+                    temp_v0 = D_8006C982;
                 }
-                D_80100E38[0] = D_8006C982;
-                return func_800A9E48();
+                *(void **)((u8 *)temp_v1 + 0xE38) = temp_v0;
+            } else {
+                temp_v0 = func_800A9B2C(temp_a0, (u8 *)arg1 + 0x4C);
+                D_80100E38[0] = temp_v0;
+                if (temp_v0 == 0) {
+                    return 0;
+                }
             }
-            temp_v0 = func_800A9B2C(temp_a0, (u8 *)arg1 + 0x4C);
-            D_80100E38[0] = temp_v0;
-            if (temp_v0 != 0) {
-                register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-
-                result = (void *)0x80070000;
-                ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                result = (u8 *)result - 0x376C;
-                ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800A9E58();
-                return result;
-            }
+            return D_8006C894;
         }
     }
     return 0;

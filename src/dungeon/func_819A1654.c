@@ -154,7 +154,6 @@ extern s32 func_80069EF8(void);
 extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);
 extern void D_80024C50(Entity *, void *, void *, s32, s32, s32);
-extern void func_8002614C(void) __attribute__((noreturn));
 
 extern void func_80024B3C(void);
 extern void func_80024BD0(void);
@@ -259,7 +258,7 @@ void func_80024E54(Entity *arg0, void *arg1, void *arg2) {
             e->state = next_state + 1;
             e->age = 0;
             e->point_index = (angle >> 9) & 7;
-            return func_8002614C();
+            goto switch_end;
         }
         goto switch_end;
     }
@@ -269,7 +268,7 @@ void func_80024E54(Entity *arg0, void *arg1, void *arg2) {
         if (e->timer <= 0) {
             e->timer = 16;
             e->state++;
-            return func_8002614C();
+            goto switch_end;
         }
 
         if (e->timer == 18) {
@@ -779,7 +778,7 @@ void func_80024E54(Entity *arg0, void *arg1, void *arg2) {
                 ASM_KEEP(task);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 focus_data = task->data;
                 sprite->data = focus_data;
-                return func_8002614C();
+                goto switch_end;
             }
         }
         goto switch_end;
@@ -802,7 +801,7 @@ cleanup:
             D_80083460[0].count--;
             *((u16 *)e - 1) |= 0x8000;
             D_800814A0[0].flags |= 0x8000;
-            return func_8002614C();
+            goto switch_end;
         }
         D_800261B0[0] = 0;
         goto switch_end;

@@ -44,7 +44,6 @@ extern void *D_800814A8_count __asm__("D_800814A8");
 extern u8 D_80083160[];
 extern s32 D_80083460;
 
-extern void func_80024298(void) __attribute__((noreturn));
 extern void *func_800244C4(void *, void *);
 extern void func_8003F80C(void *, s32, s32, s32);
 extern void func_80040490(void *, void *);
@@ -117,8 +116,7 @@ jt_c1:
         ((DungeonObject *)D_800814A8_count)->countA6--;
         arg0->state++;
         func_800A56E0(0x300);
-        func_80024298();
-        return;
+        goto common_tail;
 
 jt_c2: {
         s16 timer;
@@ -126,8 +124,7 @@ jt_c2: {
         timer = (s16)(arg0->timer1C - 1);
         arg0->timer1C = timer;
         if (timer >= 0) {
-            func_80024298();
-            return;
+            goto common_tail;
         }
         goto advance_state;
     }
@@ -137,8 +134,7 @@ jt_c3:
         arg0->timer1A = 0x20;
         arg0->mode20 = 0;
         arg0->state++;
-        func_80024298();
-        return;
+        goto common_tail;
 
 jt_c4: {
         s16 timer;
@@ -155,8 +151,7 @@ jt_c4: {
     }
 advance_state:
         arg0->state++;
-        func_80024298();
-        return;
+        goto common_tail;
 
 jt_c5:
         if (*(s16 *)D_80027452 != 0) {

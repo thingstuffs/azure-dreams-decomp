@@ -1,8 +1,6 @@
 #include "common.h"
 
 extern s32 func_800422A8(void *, void *, s32, s32);
-extern void *func_80098194(void);
-extern void *func_800981C8(void);
 extern s32 func_80098FB0(void);
 extern s32 func_80098FF8(void);
 extern void *func_800990FC(void);
@@ -67,7 +65,6 @@ invalid_index:
             func_8009955C(held_arg0,
                 func_80099194(held_arg1, func_8009929C(8, object)))));
         func_800A5720(object);
-        func_800981C8();
         return 0;
     }
 
@@ -87,29 +84,29 @@ valid_index:
         D_80081484 = 0;
         *(s32 *)((u8 *)global_object + 0x124) = 0;
         *(u32 *)((u8 *)global_object + 0x1C) = flags & 0xFFEFFFFF;
-        return func_80098194();
-    }
+    } else {
 
-    narrowed = func_800422A8(*(void **)(D_800E3D7C + 0xF0),
-                              D_800E3548, 4, 0x40);
-    narrowed <<= 16;
-    found = narrowed >> 16;
-    ASM_KEEP4(first, second, found, narrowed);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    entry_base = (u8 *)0x800E0000;
-    if (found >= 0) {
-        ASM_KEEP_NV(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        entry_base += 0x36C8;
-        ASM_KEEP(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        entry = (u8 *)(found * 12);
-        entry += (s32)entry_base;
-        func_8009A3D0(entry[0], entry[1], 0x800);
-    }
+        narrowed = func_800422A8(*(void **)(D_800E3D7C + 0xF0),
+                                  D_800E3548, 4, 0x40);
+        narrowed <<= 16;
+        found = narrowed >> 16;
+        ASM_KEEP4(first, second, found, narrowed);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        entry_base = (u8 *)0x800E0000;
+        if (found >= 0) {
+            ASM_KEEP_NV(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            entry_base += 0x36C8;
+            ASM_KEEP(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            entry = (u8 *)(found * 12);
+            entry += (s32)entry_base;
+            func_8009A3D0(entry[0], entry[1], 0x800);
+        }
 
-    ((void **)0x80010248)[index] = *(void **)D_80081470;
-    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    narrowed = (s32)D_800814A8;
-    narrowed = *(s32 *)(narrowed + 0xF0);
-    *(s32 *)narrowed = 0;
+        ((void **)0x80010248)[index] = *(void **)D_80081470;
+        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        narrowed = (s32)D_800814A8;
+        narrowed = *(s32 *)(narrowed + 0xF0);
+        *(s32 *)narrowed = 0;
+    }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     entry_base = (u8 *)0x80010248;
     ASM_KEEP(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */

@@ -11,10 +11,6 @@ typedef struct {
     u8 pad[8];
 } Flags;
 
-void func_80025EB8(void) __attribute__((noreturn));
-void func_800260F0(void) __attribute__((noreturn));
-void func_800260F4(void) __attribute__((noreturn));
-void func_8002626C(void) __attribute__((noreturn));
 s32 func_800644B8(s16);
 s32 func_80064584(s16);
 void func_800B835C(void *, s32 *, s32, s32);
@@ -88,13 +84,10 @@ void func_80025E48(void *arg0, S_80025E48_1 *arg1, S_80025E48_2 *arg2)
         if (((S_80025E48_0 *)arg0)->unk_24 != 0) {
             angle_offset = ((S_80025E48_0 *)arg0)->unk_18.s * 0x10;
             angle = base_angle + angle_offset;
-            ASM_TAILSLOT_PIN(angle);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80025EB8();
-            return;
+        } else {
+            angle_offset = ((S_80025E48_0 *)arg0)->unk_18.s * 0x10;
+            angle = held_angle - angle_offset;
         }
-
-        angle_offset = ((S_80025E48_0 *)arg0)->unk_18.s * 0x10;
-        angle = held_angle - angle_offset;
         arg1->unk_02 = ((S_80025E48_0 *)arg0)->unk_5C +
             ((((S_80025E48_0 *)arg0)->unk_66.s * func_80064584(angle)) >> 10);
         arg1->unk_06 = ((S_80025E48_0 *)arg0)->unk_5E +
@@ -154,9 +147,8 @@ state_0:
         }
         reset0 = 0x18;
         dead_mode0 = ((S_80025E48_0 *)arg0)->unk_0A.u;
-        ASM_KEEP(dead_mode0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         ((S_80025E48_0 *)arg0)->unk_1A.u = reset0;
-        func_800260F4();
+        ((S_80025E48_0 *)arg0)->unk_0A.u = dead_mode0 + 1;
         return;
     }
 
@@ -178,9 +170,8 @@ state_1:
         }
         dead_mode1 = ((S_80025E48_0 *)arg0)->unk_0A.u;
         reset1 = 0x10;
-        ASM_KEEP(dead_mode1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(reset1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800260F0();
+        ((S_80025E48_0 *)arg0)->unk_1A.u = reset1;
+        ((S_80025E48_0 *)arg0)->unk_0A.u = dead_mode1 + 1;
         return;
     }
 
@@ -259,8 +250,7 @@ fade_fast:
         timer3 = ((S_80025E48_0 *)arg0)->unk_1A.u - 1;
         ((S_80025E48_0 *)arg0)->unk_1A.u = timer3;
         if ((s16)timer3 < 7) {
-            func_8002626C();
-            return;
+            goto finish;
         }
         goto epilogue;
 
@@ -276,6 +266,7 @@ fade_slow:
             goto epilogue;
         }
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+finish:
         ((S_80025E48_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         D_800814A0.value |= 0x8000;
     }

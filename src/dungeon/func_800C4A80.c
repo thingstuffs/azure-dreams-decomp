@@ -36,7 +36,6 @@ extern s8 D_800E2970[];
 M2C_UNK func_8009A350();
 s16 func_8009FB34();
 s16 func_800BCB04();
-s32 func_800CA410();
 
 s32 func_800CA1E0(u32 arg0, void *arg1, void *volatile arg2, u16 arg3) {
     u16 sp10;
@@ -69,7 +68,7 @@ s32 func_800CA1E0(u32 arg0, void *arg1, void *volatile arg2, u16 arg3) {
     register u16 temp_arg3_copy ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register S_800CA1E0_0 *temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register S_800CA1E0_2 *temp_arg2 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *temp_table;
+    register u8 *temp_table ASM_REG("$6"); /* MATCH: Keep the range-check table in a2 after removing the internal-label call. */
     s32 final_value;
     void *var_a1;
 
@@ -119,8 +118,7 @@ s32 func_800CA1E0(u32 arg0, void *arg1, void *volatile arg2, u16 arg3) {
     }
 block_tail:
     temp_tail_value = -1;
-    ASM_TAILSLOT_PIN_TIED(temp_tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    return func_800CA410(temp_a0, var_a1, temp_table);
+    return temp_tail_value;
 block_body:
     temp_v1_3 = temp_s2->unk_24.u;
     temp_v0 = temp_s2->unk_25.u;
@@ -164,8 +162,7 @@ block_body:
     goto block_body_continue;
 block_body_tail:
     temp_tail_value = 0;
-    ASM_TAILSLOT_PIN_TIED(temp_tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    return func_800CA410();
+    return temp_tail_value;
 block_body_continue:
     if (temp_s2->unk_26 < 0) {
         temp_a0 = func_8009FB34((temp_s2->unk_24.s + *temp_fp) & 0xFFFF, (temp_s2->unk_25.s + *temp_s6) & 0xFFFF);

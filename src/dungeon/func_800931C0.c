@@ -22,7 +22,6 @@ extern u8 D_800E3648[];
 extern void *D_800E3D7C[];
 
 extern void func_80094E34(void);
-extern void func_80098AA0(void);
 extern s16 func_80098C80(void *);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
@@ -71,10 +70,9 @@ s32 func_80098920(void *actor, void *action, s16 dispatch_mode, s32 handler_para
             if (result != 0x15) {
                 if (result == 0x16) {
                     *(*(s32 **)((u8 *)D_800E3D7C[0] + 0xF0)) = 0;
-                    func_80098AA0();
-                    return;
+                } else {
+                    func_80094E34();
                 }
-                func_80094E34();
             }
         }
         if ((s16)dispatch_mode != 0x15) {

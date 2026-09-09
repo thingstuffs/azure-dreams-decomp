@@ -37,8 +37,6 @@ extern u8 D_80045340[];
 extern u32 D_800814A0;
 extern u8 *D_80027C98[];
 
-extern void func_800243B4(void) __attribute__((noreturn));
-extern void func_80024474(void) __attribute__((noreturn));
 extern s32 func_80025F54(s16, s16, s16, s16);
 extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern void func_8004491C(void *, void *, void *);
@@ -58,9 +56,7 @@ void func_8002432C(Entity *entity, Position *position, Motion *motion)
             if (func_8003DE58(*(s32 *)((u8 *)actor + 8), actor,
                               &entity->x, 0) != 0) {
                 entity->active = 1;
-                func_800243B4();
-            }
-            if (*(u16 *)((u8 *)actor + 0x14) & 0x8000) {
+            } else if (*(u16 *)((u8 *)actor + 0x14) & 0x8000) {
                 entity->active = 1;
                 entity->z = -0x40;
             }
@@ -74,7 +70,7 @@ void func_8002432C(Entity *entity, Position *position, Motion *motion)
         position->y = coords[3] + entity->y;
         position->z = coords[5] + entity->z;
         func_8004491C((u8 *)entity - 0x20, D_80045340, coords);
-        func_80024474();
+        goto advance_state;
     }
 
     if (state == 1) {
@@ -84,6 +80,7 @@ void func_8002432C(Entity *entity, Position *position, Motion *motion)
         }
         if (func_80025F54(position->x, position->y, position->z,
                           *(s16 *)(D_80027C98[0] + 0x2A)) != 0) {
+advance_state:
             entity->state++;
             return;
         }

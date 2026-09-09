@@ -10,8 +10,6 @@ typedef struct Node {
 
 extern s32 func_80022138(void);
 extern s32 func_80022160(void);
-extern void func_8002493C(void *arg0, void *arg1);
-extern void func_80024948(void);
 extern void func_8003AD08(s32 arg0, void *arg1);
 extern void func_8004DA74(void *arg0, void *arg1, s32 arg2);
 extern void strcat(void *arg0, void *arg1);
@@ -44,6 +42,8 @@ void func_80024818(void *arg0)
     register s32 index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 limit;
     void *first;
+    void *dest;
+    void *text;
 
     root = arg0;
     index = ((S_80024818_0 *)root)->unk_80;
@@ -52,7 +52,9 @@ void func_80024818(void *arg0)
     if (is_one != 0) {
         if (func_80022160() == 0) {
             func_8004DA74(root + 0x84, D_800283EC[0], 1);
-            return func_8002493C(root + 0x204, D_800283EC[1]);
+            dest = root + 0x204;
+            text = D_800283EC[1];
+            goto write_second;
         }
         small = state < 3;
     } else {
@@ -73,8 +75,7 @@ void func_80024818(void *arg0)
         func_8004DA74(dest, *(void **)((u8 *)table + index), 1);
         func_8004DA74(root + 0x384, table[2], 1);
         limit = 3;
-        ASM_TAILSLOT_PIN_TIED(limit);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_80024948();
+        goto update_nodes;
     }
 
     {
@@ -88,7 +89,13 @@ void func_80024818(void *arg0)
     func_8003AD08(state / 3, sp50);
     strcpy(sp10, sp50);
     strcat(sp10, D_800283FC);
-    func_8004DA74(root + 0x204, sp10, 1);
+    dest = root + 0x204;
+    text = sp10;
+write_second:
+    func_8004DA74(dest, text, 1);
+    limit = 2;
+update_nodes:
+    ASM_KEEP(limit);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     {
         register s32 i ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 offset ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -96,8 +103,6 @@ void func_80024818(void *arg0)
         register u8 *cursor ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 kind;
 
-        limit = 2;
-        ASM_KEEP(limit);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         i = 0;
         if (limit != 0) {
             kind = 0xA9;

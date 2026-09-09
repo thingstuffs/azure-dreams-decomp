@@ -12,11 +12,6 @@ M2C_UNK func_800A2B04();
 M2C_UNK func_800A4ACC();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800AD594();
-void func_801727D0() __attribute__((noreturn));
-void func_801727E8();  /* LEAD 29: NOT noreturn -- expose LEAD-22 SHAPE-B shared-epilogue jal for the 2-arg pinned sibcall */
-void func_8017281C() __attribute__((noreturn));
-void func_80172820() __attribute__((noreturn));
-void func_801728AC() __attribute__((noreturn));
 extern u8 D_8006CCD8;
 extern u8 D_8006CCE8;
 extern s16 D_80083228;
@@ -45,6 +40,7 @@ void func_80172524(void *arg0, void *arg1, void *arg2, void *arg3) {
     u16 temp_v0;
     u16 temp_v0_2;
     u8 temp_v1;
+    register u8 *tail_arg ASM_REG("$5"); /* MATCH: shared animation pointer stays in a1 across the incoming jumps. */
 
     temp_v1 = ((S_80172524_0 *)arg0)->unk_9B.n;
     if (temp_v1 >= 6U) {
@@ -70,20 +66,15 @@ block_5:
     __asm__ __volatile__("" ::: "memory");
     ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = (s32) (*(s16 *)(&D_8006CCD8 + (((u16) ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 >> 8) & 0xE)) << 0x14);
     ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = (s32) (*(s16 *)(&D_8006CCE8 + (((u16) ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 >> 8) & 0xE)) << 0x14);
-    func_8017281C();
-    return;
+    goto block_increment;
 jt_c1:
     ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = (s32) ((s32) ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 >> 1);
     ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = (s32) ((s32) ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v >> 1);
     if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto block_31;
     }
-    {
-        register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        void *tail_arg = &D_80174F30;
-        func_801727E8(call_a0, tail_arg);
-    }
-    return;
+    tail_arg = &D_80174F30;
+    goto block_animation;
 jt_c2:
     ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = (s32) ((s32) ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 >> 1);
     ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = (s32) ((s32) ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v >> 1);
@@ -91,12 +82,8 @@ jt_c2:
         goto block_31;
     }
     func_800A56E0(0x808);
-    {
-        register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        void *tail_arg = &D_80174F38;
-        func_801727E8(call_a0, tail_arg);
-    }
-    return;
+    tail_arg = &D_80174F38;
+    goto block_animation;
 jt_c3:
     if (((Rec_D_80082E80 *)arg2)->unk_04.as_s8 != 2) {
         goto block_17;
@@ -107,11 +94,10 @@ jt_c3:
     func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
     {
         register u16 six ASM_REG("$3") = 6;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        (void) ((S_80172524_0 *)arg0)->unk_9B.v;
+        temp_v1 = ((S_80172524_0 *)arg0)->unk_9B.v;
         ((S_80172524_0 *)arg0)->unk_96.u = six;
     }
-    func_80172820();
-    return;
+    goto block_increment_store;
 block_17:
     if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto block_31;
@@ -138,18 +124,23 @@ jt_c4:
         s32 current = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
         ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = ((coord - current) << 0x10) / ((S_80172524_0 *)arg0)->unk_96.s;
     }
-    func_801727D0((s16) temp_v0);
-    return;
+    goto block_23_tail;
 block_23:
     ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
     ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+block_23_tail:
     if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto block_31;
     }
-    (*(M2C_UNK **)((u8 *)arg2 + (0x2C))) = &D_80174F40;
-    func_80047784(arg2, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_80174F40), 0);
-    ((S_80172524_0 *)arg0)->unk_9B.n++;
+    tail_arg = &D_80174F40;
+block_animation:
+    (*(M2C_UNK **)((u8 *)arg2 + (0x2C))) = (M2C_UNK *)tail_arg;
+    func_80047784(arg2, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)tail_arg), 0);
+block_increment:
+    temp_v1 = ((S_80172524_0 *)arg0)->unk_9B.n;
+block_increment_store:
+    ((S_80172524_0 *)arg0)->unk_9B.n = temp_v1 + 1;
     return;
 jt_c5:
     temp_v0_2 = ((S_80172524_0 *)arg0)->unk_96.u - 1;
@@ -167,12 +158,12 @@ jt_c5:
         s32 current = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
         ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = ((coord - current) << 0x10) / ((S_80172524_0 *)arg0)->unk_96.s;
     }
-    func_801728AC((s16) temp_v0_2);
-    return;
+    goto block_29_tail;
 block_29:
     ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
     ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+block_29_tail:
     if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto block_31;
     }

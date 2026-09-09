@@ -23,15 +23,6 @@ M2C_UNK func_80172A14();      /* extern */
 M2C_UNK func_80172B00();      /* extern */
 M2C_UNK func_80172CC8(); /* extern */
 M2C_UNK func_80172F44(); /* extern */
-void func_80173240() __attribute__((noreturn));      /* extern */
-void func_801735B0() __attribute__((noreturn));      /* extern */
-void func_8017378C() __attribute__((noreturn));      /* extern */
-void func_80173C7C() __attribute__((noreturn));      /* extern */
-void func_80173CE8() __attribute__((noreturn));      /* extern */
-void func_80173CF8() __attribute__((noreturn));      /* extern */
-void func_80173D34() __attribute__((noreturn));      /* extern */
-void func_80173D38() __attribute__((noreturn));      /* extern */
-void func_80173DC4() __attribute__((noreturn));      /* extern */
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
 extern InitBlock D_8016A894;
@@ -45,7 +36,7 @@ extern s32 D_80174CE0;
 
 /* Updates Beldo's scripted movement, idle animation, and particle effects. */
 void func_801730AC(void *actor_input, void *motion_input, void *sprite_input) {
-    void *actor = actor_input;
+    register void *actor ASM_REG("$17") = actor_input; /* MATCH: shared-tail control flow must retain the retail actor register. */
     void *motion = motion_input;
     void *sprite = sprite_input;
     InitBlock direction_vectors;
@@ -115,36 +106,34 @@ jt_c0:
     M2C_FIELD(actor, u16 *, 0x96) = 0U;
     M2C_FIELD(actor, u8 *, 0x9A) = (u8) (M2C_FIELD(actor, u8 *, 0x9A) + 1);
     M2C_FIELD(motion, s32 *, 0xC) = 0xFFF80000;
-    func_80173D34();
-    return;
+    goto block_97;
 jt_c1:
     M2C_FIELD(motion, s32 *, 0) = (s32) (M2C_FIELD(motion, s32 *, 0) + M2C_FIELD(motion, s32 *, 0xC));
     tail_test = M2C_FIELD(actor, u16 *, 0x96) + 1;
     M2C_FIELD(actor, u16 *, 0x96) = (u16) tail_test;
     tail_test = (s16) tail_test < 0x28;
-    ASM_TAILSLOT_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80173240();
-    return;
+    goto pause_complete;
 jt_c3:
     M2C_FIELD(sprite, u16 *, 0x14) = (u16) (M2C_FIELD(sprite, u16 *, 0x14) & 0xFF7F);
-    pause_timer = M2C_FIELD(actor, u16 *, 0x96) + 1;
+    tail_test = M2C_FIELD(actor, u16 *, 0x96) + 1;
+    pause_timer = (u16) tail_test;
     M2C_FIELD(actor, u16 *, 0x96) = pause_timer;
-    if ((s16) pause_timer < 0xA) {
+    tail_test = (s16) tail_test < 0xA;
+pause_complete:
+    if (tail_test) {
         goto block_98;
     }
     M2C_FIELD(actor, u16 *, 0x96) = 0U;
     M2C_FIELD(actor, u8 *, 0x9A) = (u8) (M2C_FIELD(actor, u8 *, 0x9A) + 1);
     M2C_FIELD(motion, s32 *, 0xC) = 0;
-    func_80173D34();
-    return;
+    goto block_97;
 jt_c5:
     M2C_FIELD(sprite, u8 **, 0x2C) = D_80174C8C;
     func_80047784(sprite, D_80174C8C[((s32) (D_80083228 + M2C_FIELD(beldo, s16 *, 0x2A) + 0x100) >> 9) & 7], 0);
     func_800A56E0(0x801);
     M2C_FIELD(actor, u16 *, 0x96) = 0U;
     M2C_FIELD(actor, u8 *, 0x9A) = (u8) (M2C_FIELD(actor, u8 *, 0x9A) + 1);
-    func_80173D34();
-    return;
+    goto block_97;
 jt_c6:
     if (!(M2C_FIELD(sprite, u16 *, 0x14) & 0x6000)) {
         goto block_98;
@@ -169,10 +158,7 @@ jt_c6:
         M2C_FIELD(actor, u8 *, 0x9A) = (u8) (previous_state + 1);
         func_80172B00(case6_a0, saved_motion, saved_sprite);
     }
-    tail_test = 0x80170000;
-    ASM_PAGEBASE_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80173D38();
-    return;
+    goto block_98;
 jt_c7:
     M2C_FIELD(motion, u16 *, 0xA) = (u16) (M2C_FIELD(motion, u16 *, 0xA) - 8);
     rise_timer = M2C_FIELD(actor, u16 *, 0x96) + 1;
@@ -186,8 +172,7 @@ jt_c7:
     M2C_FIELD(actor, u16 *, 0x9E) = 0U;
     M2C_FIELD(actor, u16 *, 0xA2) = 0U;
     M2C_FIELD(actor, s16 *, 0x92) = -0x20;
-    func_80173D34();
-    return;
+    goto block_97;
 jt_c9:
     path_start_timer = M2C_FIELD(actor, u16 *, 0x96);
     M2C_FIELD(actor, u16 *, 0x96) = (u16) (path_start_timer + 1);
@@ -207,8 +192,7 @@ jt_c9:
     M2C_FIELD(motion, s16 *, 0xE) = (s16) (M2C_FIELD(start_vector, s16 *, 0) * 0x10);
     M2C_FIELD(motion, s16 *, 0x12) = (s16) (M2C_FIELD(start_vector, u16 *, 2) * 0x10);
     M2C_FIELD(beldo, s16 *, 0x2A) = (s16) (start_direction << 9);
-    func_80173D34();
-    return;
+    goto block_97;
 jt_c10:
     if ((s16) M2C_FIELD(actor, u16 *, 0x96) > 0) {
         goto block_29;
@@ -237,11 +221,11 @@ block_25:
     M2C_FIELD(motion, s32 *, 4) = (s32) (M2C_FIELD(motion, s32 *, 4) + M2C_FIELD(motion, s32 *, 0x10));
 block_27:
     M2C_FIELD(actor, u16 *, 0xB4) = (u16) (M2C_FIELD(actor, u16 *, 0xB4) + 1);
-    func_801735B0();
-    return;
+    goto path_particles;
 block_29:
     M2C_FIELD(motion, s32 *, 0) = (s32) (M2C_FIELD(motion, s32 *, 0) + M2C_FIELD(motion, s32 *, 0xC));
     M2C_FIELD(motion, s32 *, 4) = (s32) (M2C_FIELD(motion, s32 *, 4) + M2C_FIELD(motion, s32 *, 0x10));
+path_particles:
     if (M2C_FIELD(sprite, s8 *, 4) != 5) {
         goto block_32;
     }
@@ -264,8 +248,7 @@ loop_31:
     }
 block_32:
     M2C_FIELD(actor, u16 *, 0x96) = (u16) (M2C_FIELD(actor, u16 *, 0x96) - 1);
-    func_80173D34();
-    return;
+    goto block_97;
 jt_c11:
     M2C_FIELD(motion, s32 *, 0) = (s32) (M2C_FIELD(motion, s32 *, 0) + M2C_FIELD(motion, s32 *, 0xC));
     M2C_FIELD(motion, s32 *, 4) = (s32) (M2C_FIELD(motion, s32 *, 4) + M2C_FIELD(motion, s32 *, 0x10));
@@ -314,8 +297,7 @@ block_37:
     ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #endif
     M2C_FIELD(sprite, u8 **, 0x2C) = tail_sprite;
-    func_80173CF8();
-    return;
+    goto update_animation;
 jt_c12:
     turn_timer = M2C_FIELD(actor, u16 *, 0x96) - 1;
     M2C_FIELD(actor, u16 *, 0x96) = turn_timer;
@@ -327,8 +309,7 @@ jt_c12:
         goto block_45;
     }
     M2C_FIELD(beldo, s16 *, 0x2A) = (s16) (M2C_FIELD(beldo, u16 *, 0x2A) + 0x200);
-    func_8017378C();
-    return;
+    goto block_46;
 block_45:
     M2C_FIELD(actor, u16 *, 0x96) = 0U;
     M2C_FIELD(actor, u8 *, 0x9A) = (u8) (M2C_FIELD(actor, u8 *, 0x9A) + 1);
@@ -362,8 +343,7 @@ block_56:
         goto block_98;
     }
     M2C_FIELD(beldo, s16 *, 0x2A) = 0;
-    func_80173D38();
-    return;
+    goto block_98;
 jt_c8:
 jt_c13:
     bob_phase = M2C_FIELD(actor, u16 *, 0x9E);
@@ -371,23 +351,26 @@ jt_c13:
     M2C_FIELD(actor, s32 *, 0xA0) = (s32) (M2C_FIELD(actor, s32 *, 0xA0) + (func_800644B8((s16) bob_phase * 0x55) * 0x10));
     M2C_FIELD(motion, u16 *, 0xA) = (u16) (M2C_FIELD(beldo, u16 *, 0x88)
         + M2C_FIELD(actor, u16 *, 0x92) - M2C_FIELD(actor, u16 *, 0xA2));
-    func_80173D34();
-    return;
+    goto block_97;
 jt_c14:
     animation_timer = M2C_FIELD(actor, u16 *, 0x96) + 1;
     M2C_FIELD(actor, u16 *, 0x96) = animation_timer;
     if ((s16) animation_timer < 3) {
         goto block_98;
     }
+#ifdef NON_MATCHING
+    tail_sprite = D_80174C6C;
+    tail_state = M2C_FIELD(actor, u8 *, 0x9A);
+#else
     tail_sprite = (u8 *)0x80170000;
     ASM_KEEP(tail_sprite);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     tail_state = M2C_FIELD(actor, u8 *, 0x9A);
     ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     tail_sprite += 0x4C6C;
     ASM_KEEP(tail_sprite);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+#endif
     M2C_FIELD(actor, u16 *, 0x96) = 0U;
-    func_80173CE8();
-    return;
+    goto advance_animation;
 jt_c15:
     if (M2C_FIELD(sprite, s8 *, 4) != 5) {
         goto block_67;
@@ -423,8 +406,7 @@ block_67:
     M2C_FIELD(actor, u8 *, 0x9A) = (u8) (M2C_FIELD(actor, u8 *, 0x9A) + 1);
     M2C_FIELD(motion, s16 *, 0xE) = -0x10;
     M2C_FIELD(motion, s16 *, 0x12) = 0;
-    func_80173D34();
-    return;
+    goto block_97;
 jt_c16:
     move_timer = M2C_FIELD(actor, u16 *, 0x96) + 1;
     M2C_FIELD(actor, u16 *, 0x96) = move_timer;
@@ -478,10 +460,7 @@ loop_76:
     if (move_particle_count < 0x14) {
         goto loop_76;
     }
-    tail_test = 0x80170000;
-    ASM_KEEP(tail_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80173D38();
-    return;
+    goto block_98;
 jt_c17:
     spin_timer = M2C_FIELD(actor, u16 *, 0x96) + 1;
     M2C_FIELD(actor, u16 *, 0x96) = (u16) spin_timer;
@@ -517,8 +496,7 @@ block_85:
     M2C_FIELD(actor, u8 *, 0x9A) = (u8) (M2C_FIELD(actor, u8 *, 0x9A) + 1);
     M2C_FIELD(motion, s16 *, 0x12) = 0;
     M2C_FIELD(motion, s16 *, 0xE) = 0;
-    func_80173C7C(velocity_x, velocity_y);
-    return;
+    goto block_90;
 jt_c18:
     idle_timer = M2C_FIELD(actor, u16 *, 0x96) + 1;
     M2C_FIELD(actor, u16 *, 0x96) = idle_timer;
@@ -537,23 +515,35 @@ block_90:
     }
     func_80172F44(motion, -0x10, 0, -4);
     func_80172F44(motion, 0xC, 0, -0xC);
-    tail_test = 0x80170000;
-    ASM_PAGEBASE_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80173D38();
-    return;
+    goto block_98;
 jt_c19:
     final_timer = M2C_FIELD(actor, u16 *, 0x96) - 1;
     M2C_FIELD(actor, u16 *, 0x96) = final_timer;
     if ((final_timer << 0x10) > 0) {
         goto block_98;
     }
-    M2C_FIELD(actor, u8 *, 0x9A) = (u8) (M2C_FIELD(actor, u8 *, 0x9A) + 1);
-    M2C_FIELD(sprite, u8 **, 0x2C) = D_80174C84;
-    func_80047784(sprite, D_80174C84[((s32) (D_80083228 + M2C_FIELD(beldo, s16 *, 0x2A) + 0x100) >> 9) & 7], 0);
-    tail_test = 0x80170000;
-    ASM_PAGEBASE_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80173D38();
-    return;
+#ifdef NON_MATCHING
+    tail_sprite = D_80174C84;
+    tail_state = M2C_FIELD(actor, u8 *, 0x9A);
+#else
+    tail_sprite = (u8 *)0x80170000;
+    ASM_KEEP(tail_sprite); /* MATCH: split the animation address around the state load. */
+    tail_state = M2C_FIELD(actor, u8 *, 0x9A);
+    tail_sprite += 0x4C84;
+#endif
+advance_animation:
+    tail_state += 1;
+    M2C_FIELD(actor, u8 *, 0x9A) = (u8) tail_state;
+    tail_state = 0x80080000;
+    M2C_FIELD(sprite, u8 **, 0x2C) = tail_sprite;
+update_animation:
+#ifdef NON_MATCHING
+    func_80047784(sprite, tail_sprite[((s32) (D_80083228 + M2C_FIELD(beldo, s16 *, 0x2A) + 0x100) >> 9) & 7], 0);
+#else
+    tail_state = (((s32) (M2C_FIELD((void *)tail_state, s16 *, 0x3228) + M2C_FIELD(beldo, s16 *, 0x2A) + 0x100) >> 9) & 7) + (s32) tail_sprite;
+    func_80047784(sprite, M2C_FIELD((void *)tail_state, u8 *, 0), 0);
+#endif
+    goto block_98;
 jt_c20:
     func_80170C3C();
 jt_c2:
@@ -571,15 +561,13 @@ block_98:
     func_80047738(sprite, M2C_FIELD(sprite, u8 **, 0x2C)[sprite_direction], M2C_FIELD(sprite, s8 *, 4));
     M2C_FIELD(actor, s16 *, 0x94) = sprite_direction;
 block_101:
-    if (D_8006CCF8[sprite_direction] == 0) {
-        goto block_104;
-    }
-    tail_test = M2C_FIELD(sprite, u16 *, 0x14) | 1;
-    ASM_TAILSLOT_PIN(tail_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80173DC4();
-    return;
+    if (D_8006CCF8[sprite_direction] != 0) {
+        tail_test = M2C_FIELD(sprite, u16 *, 0x14) | 1;
+    } else {
 block_104:
-    M2C_FIELD(sprite, u16 *, 0x14) = (u16) (M2C_FIELD(sprite, u16 *, 0x14) & 0xFFFE);
+        tail_test = M2C_FIELD(sprite, u16 *, 0x14) & 0xFFFE;
+    }
+    M2C_FIELD(sprite, u16 *, 0x14) = (u16) tail_test;
 block_105:
     return;
 }

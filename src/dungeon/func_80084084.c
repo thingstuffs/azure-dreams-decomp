@@ -15,12 +15,6 @@ typedef struct Entry {
 } Entry;
 
 extern s32 func_80045310(s32);
-extern void func_80089874();
-extern void func_800898BC();
-extern void func_8008999C();
-extern void func_800899C0();
-extern void func_800899C4();
-extern void func_80089A68();
 
 extern void *D_800814A8;
 extern void *D_80083160[];
@@ -61,6 +55,7 @@ loop_first:
                     p = firstSpecial;
                     ASM_KEEP(firstScan);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                     ASM_KEEP(p);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+first_scan:
                     if (*p == fn) {
                         ASM_KEEP(fn);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                         fn(entry->data, entry->arg1, entry->arg2);
@@ -68,17 +63,13 @@ loop_first:
                         ASM_KEEP(firstBase);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                         ASM_KEEP(firstEntryp);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                         firstCallback++;
-                        ASM_TAILSLOT_PIN(firstCallback);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                        func_800898BC();
-                        return;
+                        goto first_advance;
                     }
                     if (*firstScan != 0) {
                         firstScan++;
                         ASM_KEEP(firstScan);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                         p++;
-                        ASM_TAILSLOT_PIN(p);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                        func_80089874();
-                        return;
+                        goto first_scan;
                     }
                 }
             } else {
@@ -87,6 +78,7 @@ loop_first:
             }
         }
         firstCallback++;
+first_advance:
         firstEntryp++;
         if ((s32)firstCallback < (s32)(firstBase + 0x20)) {
             goto loop_first;
@@ -139,17 +131,14 @@ loop_second:
                         ASM_KEEP(secondBase);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                         ASM_KEEP(secondEntryp);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                         entry->saved = saved;
-                        func_800899C0();
-                        return;
+                        goto second_next;
                     }
                     goto second_next;
 second_scan_equal:
                     ASM_KEEP(fn);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     fn(entry->data, entry->arg1, entry->arg2);
                     secondCallback++;
-                    ASM_TAILSLOT_PIN(secondCallback);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_800899C4();
-                    return;
+                    goto second_advance;
 second_scan_check:
                     ASM_KEEP(secondScan);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     if (*secondScan == fn) {
@@ -160,8 +149,7 @@ second_scan_check:
                     }
                     secondScan++;
                     ASM_KEEP(secondScan);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                    func_8008999C();
-                    return;
+                    goto second_scan_check;
                 }
             } else {
                 *secondCallback = 0;
@@ -169,6 +157,7 @@ second_scan_check:
         }
 second_next:
         secondCallback++;
+second_advance:
         secondEntryp++;
         if ((s32)secondCallback < (s32)(secondBase + 0x20)) {
             goto loop_second;
@@ -205,9 +194,7 @@ loop_third:
                 thirdCallback++;
                 if (result == 0) {
                     i++;
-                    ASM_TAILSLOT_PIN(i);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_80089A68();
-                    return;
+                    goto third_advance;
                 }
                 goto third_done;
             }
@@ -218,6 +205,7 @@ loop_third:
     }
     thirdCallback++;
     i++;
+third_advance:
     thirdEntryp++;
     if (i < 0x20) {
         goto loop_third;

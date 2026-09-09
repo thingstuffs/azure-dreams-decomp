@@ -18,16 +18,6 @@ s32 func_80099734();
 M2C_UNK func_80099C58();
 M2C_UNK func_8009BF7C();
 M2C_UNK func_8009BFF8();
-void *func_8009C31C();
-void *func_8009C3EC();
-void *func_8009C4A4();
-void *func_8009C4F4();
-void *func_8009C544();
-void *func_8009C57C();
-void *func_8009C644();
-void *func_8009C6A4();
-void *func_8009C6D0(s32, s32);
-void *func_8009C908();
 s32 func_8009CD58();
 M2C_UNK func_800A2D68();
 M2C_UNK func_800A56E0();
@@ -217,7 +207,6 @@ void *func_8009C12C(void *arg0_in, void *arg1_in, s16 arg2, s16 arg3) {
                 func_800A56E0(0x700);
                 func_800A2D68(arg0, 8);
                 func_800B4C7C(0x82, arg0, 8, 1);
-                func_8009C908();
             }
         }
         return NULL;
@@ -231,17 +220,16 @@ void *func_8009C12C(void *arg0_in, void *arg1_in, s16 arg2, s16 arg3) {
         temp_v1_2 = temp_ptr->unk_14;
         if (!(arg1->unk_14 & temp_v1_2 & 0x8000) || ((temp_v0_7 == 0x23) && (((S_8009C12C_0 *)arg0)->unk_A6 != 0) && !(temp_v1_2 & 0x8000))) {
             var_s0 = func_8009929C(0xA, func_80099194(&D_800E0D92, func_80099734(arg0, temp_v0_3)));
-            ASM_TAILSLOT_PIN_TIED(var_s0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_8009C31C();
-        }
-        temp_v1_3 = ((S_8009C12C_0 *)arg0)->unk_14.s32 & 0x4000;
-        if ((temp_v1_3 != 0) || (var_s6 = -1, ((((S_8009C12C_3 *)temp_s1)->unk_14 & 0x4000) != 0))) {
-            var_a0 = temp_s1;
-            if (temp_v1_3 != 0) {
-                var_a0 = arg0;
+        } else {
+            temp_v1_3 = ((S_8009C12C_0 *)arg0)->unk_14.s32 & 0x4000;
+            if ((temp_v1_3 != 0) || (var_s6 = -1, ((((S_8009C12C_3 *)temp_s1)->unk_14 & 0x4000) != 0))) {
+                var_a0 = temp_s1;
+                if (temp_v1_3 != 0) {
+                    var_a0 = arg0;
+                }
+                var_s0 = func_80099194(&D_800E0D9E, func_80099734(var_a0, var_s0));
+                var_s6 = 1;
             }
-            var_s0 = func_80099194(&D_800E0D9E, func_80099734(var_a0, var_s0));
-            var_s6 = 1;
         }
         goto block_17;
     }
@@ -259,20 +247,18 @@ block_17:
             if (var_s2 >= 0) {
                 func_80099290(var_s0);
                 func_800A5720(temp_v0_3);
-                func_8009C908();
                 return (void *)hard_zero;
             }
             return var_v0;
         }
-        func_8009C908();
         return (void *)hard_zero;
     }
     temp_v0_4 = ((S_8009C12C_0 *)arg0)->unk_4C;
     if ((temp_v0_4 != NULL) && (*temp_v0_4 == 0xF0D)) {
         ((S_8009C12C_3 *)temp_s1)->unk_22.n = ((S_8009C12C_3 *)temp_s1)->unk_27;
-        return func_8009C3EC();
+    } else {
+        ((S_8009C12C_3 *)temp_s1)->unk_22.v = (u16) (((S_8009C12C_3 *)temp_s1)->unk_27 + func_80098250(temp_s1));
     }
-    ((S_8009C12C_3 *)temp_s1)->unk_22.v = (u16) (((S_8009C12C_3 *)temp_s1)->unk_27 + func_80098250(temp_s1));
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if ((func_80042900(temp_s1, 0xA) << 0x10) != 0) {
         ((S_8009C12C_3 *)temp_s1)->unk_22.n = (u16) ((s32) (((S_8009C12C_3 *)temp_s1)->unk_22.n << 0x10) >> 0x11);
@@ -289,17 +275,17 @@ block_17:
     if (temp_s7 & 1) {
         if ((func_80042900(temp_s1, 0x13) << 0x10) != 0) {
             ((S_8009C12C_0 *)arg0)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)arg0)->unk_20.n << 0x10) >> 0x12);
-            return func_8009C4A4();
+        } else {
+            if (temp_s3 & 4) {
+                var_s2 += 1;
+            }
+            var_v0_2 = temp_s3 & 2;
+            if (var_v0_2) {
+                var_s2 -= 2;
+                goto block_41;
+            }
+            goto block_42;
         }
-        if (temp_s3 & 4) {
-            var_s2 += 1;
-        }
-        var_v0_2 = temp_s3 & 2;
-        if (var_v0_2) {
-            var_s2 -= 2;
-            goto block_41;
-        }
-        goto block_42;
     }
 block_41:
 block_42:
@@ -307,17 +293,17 @@ block_42:
     if (var_v0_2 != 0) {
         if ((func_80042900(temp_s1, 0x14) << 0x10) != 0) {
             ((S_8009C12C_0 *)arg0)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)arg0)->unk_20.n << 0x10) >> 0x12);
-            return func_8009C4F4();
+        } else {
+            if (temp_s3 & 1) {
+                var_s2 += 1;
+            }
+            var_v0_3 = temp_s3 & 4;
+            if (var_v0_3) {
+                var_s2 -= 2;
+                goto block_50;
+            }
+            goto block_51;
         }
-        if (temp_s3 & 1) {
-            var_s2 += 1;
-        }
-        var_v0_3 = temp_s3 & 4;
-        if (var_v0_3) {
-            var_s2 -= 2;
-            goto block_50;
-        }
-        goto block_51;
     }
 block_50:
 block_51:
@@ -325,32 +311,32 @@ block_51:
     if (var_v0_3 != 0) {
         if ((func_80042900(temp_s1, 0x12) << 0x10) != 0) {
             ((S_8009C12C_0 *)arg0)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)arg0)->unk_20.n << 0x10) >> 0x12);
-            return func_8009C544();
+        } else {
+            var_v0_3 = temp_s3 & 2;
+            if (var_v0_3) {
+                var_s2 += 1;
+            }
+            var_v0_3 = temp_s3 & 1;
+            if (var_v0_3) {
+                var_s2 -= 2;
+            }
+            goto block_59;
         }
-        var_v0_3 = temp_s3 & 2;
-        if (var_v0_3) {
-            var_s2 += 1;
-        }
-        var_v0_3 = temp_s3 & 1;
-        if (var_v0_3) {
-            var_s2 -= 2;
-        }
-        goto block_59;
     }
 block_59:
     temp_v0_5 = (u16) ((S_8009C12C_0 *)arg0)->unk_88 - ((S_8009C12C_3 *)temp_s1)->unk_88;
     if (temp_v0_5 >= 0x20) {
         var_s2 -= 1;
-        ASM_TAILSLOT_PIN_TIED(var_s2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_8009C57C();
-    }
-    var_v0_4 = temp_v0_5 < -0x1F;
-    if (var_v0_4 == 0) {
-        var_v0_4 = var_s2 << 0x10;
     } else {
-        var_s2 += 1;
-        var_v0_4 = var_s2 << 0x10;
+        var_v0_4 = temp_v0_5 < -0x1F;
+        if (var_v0_4 == 0) {
+            var_v0_4 = var_s2 << 0x10;
+        } else {
+            var_s2 += 1;
+            var_v0_4 = var_s2 << 0x10;
+        }
     }
+    var_v0_4 = var_s2 << 0x10;
     {
         s32 first_lhs;
         register s32 first_product ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -379,9 +365,9 @@ block_59:
         temp_v1 = (s32) ((s16) ((S_8009C12C_3 *)temp_s1)->unk_22.n - (s16) ((S_8009C12C_0 *)arg0)->unk_20.n) / 2;
         temp_v1_7 = (s32) ((s16) temp_v1 + ((u32) (temp_v1 << 0x10) >> 0x1F)) >> 1;
         ((S_8009C12C_3 *)temp_s1)->unk_64.n = (s16) (temp_v1 + temp_v1_7);
-        return func_8009C644(temp_v1_7);
+    } else {
+        ((S_8009C12C_3 *)temp_s1)->unk_64.v = (s16) ((s32) ((s16) ((S_8009C12C_3 *)temp_s1)->unk_22.n - (s16) ((S_8009C12C_0 *)arg0)->unk_20.n) / 2);
     }
-    ((S_8009C12C_3 *)temp_s1)->unk_64.v = (s16) ((s32) ((s16) ((S_8009C12C_3 *)temp_s1)->unk_22.n - (s16) ((S_8009C12C_0 *)arg0)->unk_20.n) / 2);
     if (((S_8009C12C_3 *)temp_s1)->unk_64.n >= 0) {
         ((S_8009C12C_3 *)temp_s1)->unk_64.n = -1;
     }
@@ -389,18 +375,28 @@ block_59:
     var_v0_5 = var_s6 << 0x10;
     if (var_v0_5 == 0) {
         var_s0 = func_80099734(temp_s1, var_s0);
-        if (((S_8009C12C_0 *)arg0)->unk_14.s32 & 0x2000) {
-            void *c6a4_arg = &D_800E0DD0;
-            ASM_TAILSLOT_PIN_TIED(c6a4_arg);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            return func_8009C6A4(c6a4_arg);
-        }
-        var_s0 = func_80099194(&D_800E0DDD, var_s0);
-        if ((var_s2 << 0x10) != 0) {
-            return func_8009C6D0(0, var_s0);
+        {
+            void *c6a4_arg;
+            if (((S_8009C12C_0 *)arg0)->unk_14.s32 & 0x2000) {
+                c6a4_arg = (void *)0x800E0000;
+                ASM_KEEP(c6a4_arg); /* MATCH: split the address so its offset fills the jump delay slot. */
+                c6a4_arg += 0xDD0;
+            } else {
+                c6a4_arg = &D_800E0DDD;
+            }
+            var_s0 = func_80099194(c6a4_arg, var_s0);
         }
         {
-            s32 ad08_a0 = 0 - ((S_8009C12C_3 *)temp_s1)->unk_64.n;
-            register s32 ad08_a1 ASM_REG("$5") = var_s0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 ad08_a0;
+            register s32 ad08_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            if ((var_s2 << 0x10) != 0) {
+                ad08_a0 = 0;
+                ad08_a1 = var_s0;
+            } else {
+                ad08_a0 = ((S_8009C12C_3 *)temp_s1)->unk_64.n;
+                ad08_a1 = var_s0;
+                ad08_a0 = 0 - ad08_a0;
+            }
             ASM_USE2(ad08_a0, ad08_a1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             var_s0 = func_8003AD08(ad08_a0, ad08_a1);
         }

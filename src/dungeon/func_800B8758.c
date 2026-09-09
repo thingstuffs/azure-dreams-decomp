@@ -14,8 +14,6 @@ M2C_UNK func_800A5720();
 M2C_UNK func_800A5F38();
 M2C_UNK func_800A63B8();
 s32 func_800AD6FC();
-s32 func_800BE04C();
-s32 func_800BE088();
 M2C_UNK func_800D5460();
 
 typedef struct {
@@ -63,7 +61,7 @@ s32 func_800BDEB8(void *arg0, s32 arg1, s16 arg2) {
     s32 var_s5 = arg1;
     register s32 var_s3 ASM_REG("$19") = 0;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 var_s1;
+    register s32 var_s1 ASM_REG("$17"); /* MATCH: Keep the shared-tail value in s1 after merging the two call paths. */
     register s32 var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register void *entry_ra ASM_REG("$31");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u32 id;
@@ -102,41 +100,45 @@ s32 func_800BDEB8(void *arg0, s32 arg1, s16 arg2) {
         goto special;
     }
 
-            flag_mask = 0x80000;
-            var_s4 = ((S_800BDEB8_0 *)var_s2)->unk_13;
-            if (((S_800BDEB8_0 *)var_s2)->unk_1C & flag_mask) {
-                ((S_800BDEB8_1 *)(((S_800BDEB8_0_pre *)var_s2)[-1].unk_00))->unk_06 = 0;
-            }
-
-            temp_v0 = func_800A48F0(var_s2, 10, 0x20);
-            if ((s16)temp_v0 >= 0) {
-                var_s0 = ((S_800BDEB8_0 *)var_s2)->unk_13;
-                var_s1 = func_800990FC();
-                ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                ((S_800BDEB8_0 *)var_s2)->unk_13 = var_s4;
-                temp_v0 = func_80099734(var_s2, var_s1);
-                ((S_800BDEB8_0 *)var_s2)->unk_13 = var_s0;
-                return func_800BE04C(D_800E0FA4, temp_v0);
-            }
-
+    flag_mask = 0x80000;
+    var_s4 = ((S_800BDEB8_0 *)var_s2)->unk_13;
+    if (((S_800BDEB8_0 *)var_s2)->unk_1C & flag_mask) {
+        ((S_800BDEB8_1 *)(((S_800BDEB8_0_pre *)var_s2)[-1].unk_00))->unk_06 = 0;
+    }
+    {
+        register u8 *call_a0 ASM_REG("$4"); /* MATCH: Keep the merged message address in retail's argument register. */
+        register s32 call_a1 ASM_REG("$5"); /* MATCH: Both arms supply the shared call through a1 before the tail jump. */
+        temp_v0 = func_800A48F0(var_s2, 10, 0x20);
+        if ((s16)temp_v0 >= 0) {
+            var_s0 = ((S_800BDEB8_0 *)var_s2)->unk_13;
             var_s1 = func_800990FC();
             ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            {
-                u8 *call_a0 = D_800E0FB9;
-                s32 call_a1 = var_s1;
-                ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                temp_v0 = func_80099194(call_a0, call_a1);
-            }
-            func_80099290(temp_v0);
-            func_800A5720(var_s1);
-            func_800D5460((u8 *)var_s2 - 0x20, 0x20A0A0, 0x613);
-            func_800BE088();
-            return var_s3;
+            ((S_800BDEB8_0 *)var_s2)->unk_13 = var_s4;
+            temp_v0 = func_80099734(var_s2, var_s1);
+            ((S_800BDEB8_0 *)var_s2)->unk_13 = var_s0;
+            call_a0 = D_800E0FA4;
+            call_a1 = temp_v0;
+        } else {
+            var_s1 = func_800990FC();
+            ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            call_a0 = D_800E0FB9;
+            call_a1 = var_s1;
+            ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        }
+        ASM_KEEP(call_a1); /* MATCH: Preserve the argument move before the shared call. */
+        temp_v0 = func_80099194(call_a0, call_a1);
+    }
+    func_80099290(temp_v0);
+    func_800A5720(var_s1);
+    func_800D5460((u8 *)var_s2 - 0x20, 0x20A0A0, 0x613);
+    temp_v0 = var_s3;
+    goto check_s3;
 
 set_s3:
     var_s3 = 1;
     ASM_KEEP(var_s3);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     temp_v0 = var_s3;
+check_s3:
     if (temp_v0 == 0) {
         goto common;
     }

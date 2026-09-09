@@ -49,8 +49,6 @@ extern void func_800AE484(s32);
 extern void func_800AF36C(TownObject *);
 extern void func_800AF860(TownObject *);
 extern s32 func_800AF8B0(TownObject *);
-extern void func_800AFA48(s32);
-extern void func_800AFCC4(void) __attribute__((noreturn));
 
 void func_800AF9C4(TownObject *obj)
 {
@@ -74,12 +72,13 @@ void func_800AF9C4(TownObject *obj)
     }
     if (obj->inner->limit == 0) {
         if (state->flags & 0x20) {
-            return func_800AFA48(input);
+            goto confirm;
         }
         return;
     }
 
     if (state->flags & 0x20) {
+confirm:
         SD_Call(0x515);
         func_800AE484(obj->resource);
         return;
@@ -144,10 +143,10 @@ void func_800AF9C4(TownObject *obj)
         return;
     }
     if (value < obj->inner->band) {
-        (void)obj->aux->down;
-        func_800AFCC4();
+        *(s32 *)((void **)(void *)obj->aux->down)[1] = D_800891F4;
+    } else {
+        *(s32 *)((void **)obj->aux->up)[1] = D_800891F4;
     }
-    *(s32 *)((void **)obj->aux->up)[1] = D_800891F4;
     obj->inner->band = value;
     func_800AF860(obj);
 }

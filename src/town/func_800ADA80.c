@@ -4,12 +4,11 @@
 
 typedef void (*Callback)(void *, s32, void *);
 
-extern void func_80033D08(void);
+extern void func_80033D08(void *, s32);
+/* garbage-passthru: a2/a3 survive func_800AAFE0; explicit arguments add saves/reloads absent from retail. */
 extern s32 func_800352FC(void);
 extern void func_800AAF5C(void);
 extern void func_800AAFE0(void *, s32);
-extern void func_800AB2F4(void);
-extern void func_800AB3D0(void);
 extern void func_800C2C80(void *, void *, s32, s32);
 extern void func_800C2CB0(void *, void *, void *, s8);
 extern s32 func_800C2E1C(s16, s16);
@@ -41,9 +40,10 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     s16 buf[12];
     u8 *ref;
     s32 idx;
+    u16 cleared;
 
     if (D_800834A8 == 0) {
-        func_80033D08();
+        func_80033D08(arg0, arg1);
         (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
@@ -56,14 +56,12 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
         (((S_800AB1E0_1 *)base)->unk_08 & 0xF000) != 0) {
         func_800AAF5C();
         (*(s16 *)((u8 *)arg0 + (0x90))) = 0;
-        func_800AB2F4();
-        return;
-    }
-
-    (*(s16 *)((u8 *)arg0 + (0x90))) = (*(s16 *)((u8 *)arg0 + (0x90))) + 1;
-    if ((*(s16 *)((u8 *)arg0 + (0x90))) > 100) {
-        (*(s16 *)((u8 *)arg0 + (0x90))) = 100;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    } else {
+        (*(s16 *)((u8 *)arg0 + (0x90))) = (*(s16 *)((u8 *)arg0 + (0x90))) + 1;
+        if ((*(s16 *)((u8 *)arg0 + (0x90))) > 100) {
+            (*(s16 *)((u8 *)arg0 + (0x90))) = 100;
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        }
     }
     (*(Callback *)((u8 *)arg0 + (0x50)))(arg0, arg1, arg2);
     if (((*(u16 *)((u8 *)arg0 + (-2))) & 0x8000) != 0) {
@@ -80,24 +78,25 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     if (((*(u8 *)((u8 *)arg0 + (0x71))) & 1) == 0) {
         if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
                                (*(s16 *)((u8 *)arg0 + (0x64)))) == 0) {
-            u16 cleared;
-            cleared = arg2->unk_14.at00_u16.v & 0xFFFE;
-            ASM_TAILSLOT_PIN(cleared);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800AB3D0();
-            return;
+            cleared = arg2->unk_14.at00_u16.v;
+            ASM_SCHED_BARRIER(); /* MATCH: keep each clear load in its own arm. */
+            cleared &= 0xFFFE;
+        } else {
+            cleared = arg2->unk_14.at00_u16.v | 1;
         }
     } else {
         if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
                                (*(s16 *)((u8 *)arg0 + (0x64)))) != 0) {
-            u16 cleared;
-            cleared = arg2->unk_14.at00_u16.v & 0xFFFE;
-            ASM_TAILSLOT_PIN(cleared);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800AB3D0();
-            return;
+            cleared = arg2->unk_14.at00_u16.v;
+            ASM_SCHED_BARRIER(); /* MATCH: keep each clear load in its own arm. */
+            cleared &= 0xFFFE;
+        } else {
+            cleared = arg2->unk_14.at00_u16.v | 1;
         }
     }
 
-    arg2->unk_14.at00_u16.v |= 1;
+    ASM_SCHED_BARRIER(); /* MATCH: keep the flag store in the common tail. */
+    arg2->unk_14.at00_u16.v = cleared;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     func_800C2C80(arg0, arg2, 0, 0);
 }

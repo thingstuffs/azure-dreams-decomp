@@ -9,9 +9,6 @@ extern s32 func_800644B8(s32);
 extern void func_800A020C(s32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern s16 func_800BCB04(s32, s32, s16);
-extern void func_800C9CA0(void);
-extern void func_800C9D08(void);
-extern void func_800C9E68();
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
@@ -128,21 +125,16 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
         }
 
         if (D_8006CCF8[direction_index] != 0) {
-            u32 tail_value;
-            tail_value = ((S_800C9AAC_0 *)part)->unk_14 | 1;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800C9CA0();
-            return;
+            adjusted_flags = ((S_800C9AAC_0 *)part)->unk_14 | 1;
+        } else {
+            adjusted_flags = ((S_800C9AAC_0 *)part)->unk_14 & 0xFFFE;
         }
-
-        ((S_800C9AAC_0 *)part)->unk_14 &= 0xFFFE;
+        ((S_800C9AAC_0 *)part)->unk_14 = adjusted_flags;
         func_800A020C(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
 
         if (!(((S_800C9AAC_2 *)secondary)->unk_1C & 0x20)) {
             if (!(((S_800C9AAC_0 *)part)->unk_14 & 0x40)) {
                 func_800478B8(part);
-                func_800C9D08();
-                return;
             }
         } else {
             ((S_800C9AAC_0 *)part)->unk_14 |= 0x7000;
@@ -164,13 +156,9 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
                 height = (*(s16 *)((u8 *)state + (0x92)));
                 if (lower_bound < height) {
                     (*(u16 *)((u8 *)state + (0x92))) -= 8;
-                    func_800C9E68(height);
-                    return;
                 }
-                if (height < -0x28) {
+                else if (height < -0x28) {
                     (*(u16 *)((u8 *)state + (0x92))) += 8;
-                    func_800C9E68();
-                    return;
                 }
             }
         } else {
@@ -191,13 +179,9 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
                     (*(u16 *)((u8 *)state + (0x92))) = old_height + 8;
                     if (target < (*(s16 *)((u8 *)state + (0x92)))) {
                         (*(s16 *)((u8 *)state + (0x92))) = target;
-                        func_800C9E68();
-                        return;
                     }
                 } else {
                     (*(s16 *)((u8 *)state + (0x92))) = target;
-                    func_800C9E68();
-                    return;
                 }
             }
         }

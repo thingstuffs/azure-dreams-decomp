@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 func_80033B2C();
-extern void func_800B89A4();
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
 
@@ -71,7 +70,7 @@ loop:
         }
 
 return_zero:
-        func_800B89A4();
+        ASM_SCHED_BARRIER(); /* MATCH: Keep this zero-return block distinct so GCC shares the retail epilogue through a jump. */
         return 0;
 
 continue_loop:

@@ -54,8 +54,6 @@ typedef struct Global814A0 {
     s32 unused[2];
 } Global814A0;
 
-extern void func_8002530C(void) __attribute__((noreturn));
-extern void func_80025314(void) __attribute__((noreturn));
 extern void func_8002569C(s32, s32, s32, s32, void *);
 extern u8 D_80020000[0x10000];
 extern Global26326 D_80026326;
@@ -89,7 +87,7 @@ void func_80025160(void *arg0, s32 arg1, S_80025160_1 *arg2) {
         goto state_0;
     }
     arg2->unk_0C = 0x20;
-    func_80025314();
+    goto set_remaining_colors;
 
 state_ge_2:
     value = 2;
@@ -101,7 +99,7 @@ state_ge_2:
         goto state_3;
     }
     arg2->unk_0C = 0x20;
-    func_80025314();
+    goto set_remaining_colors;
 
 state_0:
     value = arg2->unk_06.s + 0x80;
@@ -128,7 +126,7 @@ state_0:
     ((S_80025160_0 *)arg0)->unk_0A.u++;
     if (((S_80025160_0 *)arg0)->unk_22 == 0x6F) {
         D_80026328.flag = one;
-        func_8002530C();
+        goto set_colors;
     }
     goto set_colors;
 
@@ -140,7 +138,7 @@ state_1:
     arg2->unk_06.u = -0x100;
     ((S_80025160_0 *)arg0)->unk_1A = 0x10;
     ((S_80025160_0 *)arg0)->unk_0A.u++;
-    func_8002530C();
+    goto set_colors;
 
 state_2:
     value = ((S_80025160_0 *)arg0)->unk_1A - 1;
@@ -163,6 +161,7 @@ state_1_zero:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 set_colors:
     arg2->unk_0C = 0x20;
+set_remaining_colors:
     arg2->unk_0D = 0x40;
     arg2->unk_0E = 0xE0;
 }

@@ -5,8 +5,6 @@
 extern s32 func_8003DE58();
 extern void func_80048A44();
 extern void func_80091934();
-extern void func_80092A08();
-extern void func_80092AFC() __attribute__((noreturn));
 extern s32 func_800990FC();
 extern s32 func_80099194();
 extern s32 func_80099290();
@@ -124,7 +122,7 @@ void func_800927E4(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, S_800927E4_3 *arg
     u16 timer;
     u8 *pageHi;
     s16 *page;
-    s32 tailValue;
+    register s32 tailValue ASM_REG("$2"); /* MATCH: keep the shared-tail store value in retail's v0. */
     u8 *flagsBase;
 
     state = ((S_800927E4_0 *)arg0)->unk_9B;
@@ -160,9 +158,7 @@ state_zero:
                 0,
                 1);
             tailValue = ((S_800927E4_0 *)arg0)->unk_9B + 1;
-            ASM_TAILSLOT_PIN_TIED(tailValue);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_80092AFC();
-            return;
+            goto state_advance;
         }
 
         pageHi = (u8 *)0x80080000;
@@ -190,9 +186,7 @@ state_zero:
                 0,
                 1);
             tailValue = ((S_800927E4_0 *)arg0)->unk_9B + 1;
-            ASM_TAILSLOT_PIN_TIED(tailValue);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_80092AFC();
-            return;
+            goto state_advance;
             }
             }
 
@@ -227,16 +221,15 @@ state_one:
                 if (arg2->unk_14.at00_u16.v & 0x8000) {
                     effect = (u8 *)obj + 0x20;
                     tailValue = arg3->unk_88 - 0x50;
-                    ASM_TAILSLOT_PIN_TIED(tailValue);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_80092A08(prim, effect);
-                    return;
+                } else {
+                    effect = (u8 *)obj + 0x20;
+                    ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                    prim->unk_02 += pos[0];
+                    prim->unk_06 += pos[1];
+                    tailValue = pos[2];
+                    tailValue += arg3->unk_88;
                 }
-
-                effect = (u8 *)obj + 0x20;
-                ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                prim->unk_02 += pos[0];
-                prim->unk_06 += pos[1];
-                prim->unk_0A = pos[2] + arg3->unk_88;
+                prim->unk_0A = tailValue;
                 effect->unk_A8 = 0x1E;
                 effect->unk_AA = 2;
                 effect->unk_90 = arg2;
@@ -265,7 +258,9 @@ state_one:
         }
 
         ((S_800927E4_0 *)arg0)->unk_96 = 0x1E;
-        ((S_800927E4_0 *)arg0)->unk_9B++;
+        tailValue = ((S_800927E4_0 *)arg0)->unk_9B + 1;
+state_advance:
+        ((S_800927E4_0 *)arg0)->unk_9B = tailValue;
         return;
 
 state_two:

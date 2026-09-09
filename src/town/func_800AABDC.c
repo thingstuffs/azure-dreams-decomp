@@ -4,9 +4,8 @@ typedef struct {
     s32 words[3];
 } TownRecord;
 
-extern s32 func_8009CFE0(void);
+extern s32 func_8009CFE0(void *arg0, void *arg1);
 extern void func_80033D08(void *arg0);
-extern void func_800A83C8(void) __attribute__((noreturn));
 
 extern s32 D_800814A0[3];
 extern s32 D_800D0E44;
@@ -17,7 +16,7 @@ void func_800A833C(void *arg0, void *arg1, void *arg2)
 {
     u8 *field98;
 
-    if (func_8009CFE0() != 0) {
+    if (func_8009CFE0(arg0, arg1) != 0) {
         field98 = *(u8 **)((u8 *)arg0 + 0x98);
         if (field98 != 0) {
             *field98 = 0;
@@ -30,9 +29,7 @@ void func_800A833C(void *arg0, void *arg1, void *arg2)
 
     if (D_800D0E44 < 0) {
         D_800D0E44 = 0;
-        func_800A83C8();
-    }
-    if (D_800D0E44 >= 21) {
+    } else if (D_800D0E44 >= 21) {
         D_800D0E44 = 20;
     }
     *(TownRecord **)((u8 *)arg2 + 8) = &D_800F8A70[D_800D0E40[1]];

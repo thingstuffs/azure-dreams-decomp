@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_80016164();                                /* extern */
+s32 func_80016164(s32 arg0, s32 arg1);                                /* extern */
 s32 func_800161C8();                         /* extern */
 s32 func_80016224();                /* extern */
 M2C_UNK func_8001A418();                     /* extern */
@@ -14,11 +14,11 @@ extern M2C_UNK D_8001E9C0;
 extern M2C_UNK D_8001EB10;
 extern M2C_UNK D_8001EC04;
 
-M2C_UNK *func_8001628C(void) {
+M2C_UNK *func_8001628C(s32 arg0, s32 arg1) {
     M2C_UNK *var_s0;
     s32 temp_s0;
 
-    if (func_80016164() != 0) {
+    if (func_80016164(arg0, arg1) != 0) {
         var_s0 = &D_8001EC04;
         goto done;
     }

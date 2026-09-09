@@ -33,7 +33,6 @@ s32 func_800B2130();
 M2C_UNK func_800B2190();
 M2C_UNK *func_800B2280();
 M2C_UNK func_800B23C0();
-s32 func_800B25B4();
 s32 func_800B29A4();
 
 
@@ -94,8 +93,7 @@ s32 func_800B2400(void *arg0) {
         var_v1 = 1;
         if (((Rec_func_800B1DCC_arg0 *)arg0)->unk_0C == 0) {
             var_v1 = 2;
-            ASM_TAILSLOT_PIN_TIED(var_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800B25B4();
+            goto done;
         }
         goto done;
     }
@@ -103,8 +101,7 @@ s32 func_800B2400(void *arg0) {
     temp_a0 = arg0 + (temp_v1 * 0x10);
     if (temp_a0->unk_28 == 0) {
         var_v1 = 4;
-        ASM_TAILSLOT_PIN_TIED(var_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_800B25B4(temp_a0);
+        goto done;
     }
     temp_s2 = ((S_800B2400_11 *)((temp_a0->unk_24 * 4) + ((S_800B2400_8 *)(((temp_v1 * 4) + arg0)))->unk_3C))->unk_00;
     if (((Rec_func_800B1DCC_arg0 *)arg0)->unk_0C == 0) {

@@ -6,9 +6,8 @@ extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_800A56E0();
 extern void func_800A6508();
-extern s32 func_800A6D30();
+extern s32 func_800A6D30(void *, s32, s32, s32);
 extern void func_800CD6AC();
-extern void func_800CD744();
 
 extern u8 D_80045C34[];
 extern s16 D_8006CCD8[];
@@ -88,7 +87,7 @@ typedef struct S_800CD6E0_7 {
     u16 unk_0A;
 } S_800CD6E0_7;   /* link in func_800CD6E0 */
 
-s32 func_800CD6E0(void *arg0) {
+s32 func_800CD6E0(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     void *obj;
     S_800CD6E0_1 *owner;
     S_800CD6E0_4 *prim;
@@ -100,7 +99,7 @@ s32 func_800CD6E0(void *arg0) {
     s32 random;
     register s32 call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 divisor;
-    s32 gate;
+    register s32 gate ASM_REG("$2");   /* MATCH: the merged gate value occupies v0 in the jump delay slot. */
     register s32 color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     register s32 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 owner_coord;
@@ -109,20 +108,21 @@ s32 func_800CD6E0(void *arg0) {
     void *callback_base;
 
     if (D_800E3D40 == 0) {
-        call_arg = func_800A6D30() & 0xFFFF;
+        call_arg = func_800A6D30(arg0, arg1, arg2, arg3) & 0xFFFF;
         count = ((S_800CD6E0_0 *)arg0)->unk_03;
         if (count != 0) {
             divisor = count;
             ASM_KEEP(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             count = call_arg % divisor;
-            ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_800CD744();
-            return count;
+            gate = count;
+            goto check_gate;
         }
     }
 
     gate = 0;
     ASM_KEEP(gate);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+check_gate:
+    ASM_SCHED_BARRIER();   /* MATCH: keep the shared comparison after the gate merge. */
     if (gate < 0x30) {
         owner = ((S_800CD6E0_0_pre *)arg0)[-1].unk_00;
         if (owner->unk_14 & 0x8000) {

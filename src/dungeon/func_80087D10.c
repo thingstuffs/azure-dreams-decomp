@@ -78,9 +78,6 @@ extern u8 D_80081484[];
 
 extern s32 func_8003DE58();
 extern s32 func_800644B8();
-extern void func_8008D614();
-extern void func_8008D680();
-extern void func_8008D790();
 extern s32 func_800A8E74();
 
 void func_8008D470(void *arg0, S_8008D470_4 *arg1, S_8008D470_3 *arg2) {
@@ -91,9 +88,9 @@ void func_8008D470(void *arg0, S_8008D470_4 *arg1, S_8008D470_3 *arg2) {
     s32 current0;
     s32 current1;
     s32 current2;
-    s32 result;
+    register s32 result ASM_REG("$2"); /* MATCH: retain the shared-tail completed-to-result copy before the return guard. */
     s32 spawned;
-    s32 completed;
+    register s32 completed ASM_REG("$19"); /* MATCH: shared-tail liveness otherwise swaps completed and arg2 registers. */
     u16 next;
     u8 color;
     S_8008D470_1 *target;
@@ -103,8 +100,7 @@ void func_8008D470(void *arg0, S_8008D470_4 *arg1, S_8008D470_3 *arg2) {
     completed = 0;
     if (state != 0) {
         if (state != 1) {
-            func_8008D680();
-            return;
+            goto update_light;
         }
     } else {
         ((S_8008D470_0 *)arg0)->unk_A4.s = 6;
@@ -133,28 +129,25 @@ void func_8008D470(void *arg0, S_8008D470_4 *arg1, S_8008D470_3 *arg2) {
                 (((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_08.at00.v +
                  (offsets[2] << 16) - (((S_8008D470_0 *)arg0)->unk_A4.u << 21) - current2) /
                 ((S_8008D470_0 *)arg0)->unk_A4.u;
-            func_8008D614();
-            return;
+        } else {
+            ((S_8008D470_0 *)arg0)->unk_A4.s = 0;
+            arg1->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_00.at02.v + (u16)offsets[0];
+            arg1->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_04.at02.v + (u16)offsets[1];
+            arg1->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_08.at02.v + (u16)offsets[2];
         }
-
-        ((S_8008D470_0 *)arg0)->unk_A4.s = 0;
-        arg1->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_00.at02.v + (u16)offsets[0];
-        arg1->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_04.at02.v + (u16)offsets[1];
-        arg1->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_08.at02.v + (u16)offsets[2];
         if (((S_8008D470_0 *)arg0)->unk_AA == 0) {
             ((S_8008D470_0 *)arg0)->unk_AA = 1;
-            func_8008D680();
-            return;
+            completed = 1;
+        } else {
+            completed = 1;
         }
-        completed = 1;
     } else {
         state = ((S_8008D470_0 *)arg0)->unk_AA;
         if (state != 0) {
             goto nonzero_state;
         }
         arg2->unk_1C = 0;
-        func_8008D680();
-        return;
+        goto update_light;
 nonzero_state:
         if (state == 1) {
             if (((S_8008D470_0 *)arg0)->unk_AE == 0) {
@@ -164,6 +157,7 @@ nonzero_state:
         }
     }
 
+update_light:
     if (((S_8008D470_0 *)arg0)->unk_AE != 0) {
         light = (func_800644B8(((S_8008D470_0 *)arg0)->unk_B4.s << 8) >> 6) + 0x80;
         color = arg2->unk_0C;
@@ -189,14 +183,17 @@ nonzero_state:
                 entity->unk_1C |= 0x80000;
                 ((S_8008D470_7 *)(target->unk_124))->unk_60 = target;
                 target->unk_1C |= 0x100000;
-                func_8008D790(entity, target);
-                return;
+                goto set_flag;
             }
         } else {
             if (mode == 2) {
                 goto set_flag;
             }
-            result = mode ? mode : completed;
+            if (mode != 0) {
+                return;
+            }
+            result = completed;
+            ASM_KEEP(result); /* MATCH: materialize the retail v0 copy before testing completed. */
             if (result != 0) {
                 return;
             }

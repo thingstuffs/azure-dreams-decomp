@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_80024C50(void) __attribute__((noreturn));
 typedef struct {
     s32 value;
     s32 pad[2];
@@ -35,13 +34,13 @@ void func_80024B60(void *arg0)
     if (state == 0) {
         goto initialize;
     }
-    func_80024C50();
+    goto update_position;
 
 state_at_least_2:
     if (state == 2) {
         goto state_2;
     }
-    func_80024C50();
+    goto update_position;
 
 initialize:
     U16_AT(arg0, 0x4E) = 0;
@@ -57,7 +56,7 @@ update_counter:
 
     if (S16_AT(arg0, 0x48) >= 4) {
         U16_AT(arg0, 0x4C)++;
-        func_80024C50();
+        goto update_position;
     }
     goto update_position;
 

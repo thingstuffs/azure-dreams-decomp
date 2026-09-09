@@ -33,8 +33,6 @@ M2C_UNK func_800654B0(void *, void *, void *, void *, void *, void *, void *, vo
 M2C_UNK func_80065820();        /* extern */
 M2C_UNK func_8006658C();         /* extern */
 M2C_UNK func_800666F4();                 /* extern */
-s32 func_800B53CC();                                /* extern */
-s32 func_800B577C();                                /* extern */
 u16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_8006CD30[8];
 extern struct S_8003E2D8 D_80083160;

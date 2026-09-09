@@ -7,8 +7,6 @@ extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
 extern s16 func_8009A66C();
 extern s16 func_800A0818();
-extern void func_80171574() __attribute__((noreturn));
-extern void func_80171578() __attribute__((noreturn));
 extern s32 func_80171D3C();
 
 extern s16 D_80083228;
@@ -108,20 +106,18 @@ void func_8017139C(void *arg0, void *arg1, void *arg2, void *arg3)
         if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             func_80171D3C(arg0, arg1, arg2, state);
             ((S_8017139C_2 *)arg0)->unk_8C = 0;
-            func_80171578();
-            return;
+        } else {
+            ((S_8017139C_2 *)arg0)->unk_9A = 0xF;
+            ((S_8017139C_2 *)arg0)->unk_8C = 0;
         }
+    } else {
+        flags = ((S_8017139C_2 *)arg0)->unk_98;
         ((S_8017139C_2 *)arg0)->unk_9A = 0xF;
-        func_80171574();
-        return;
+        flags &= ~8;
+        ((S_8017139C_2 *)arg0)->unk_98 = flags;
+        ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ((S_8017139C_2 *)arg0)->unk_8C = 0;
     }
-
-    flags = ((S_8017139C_2 *)arg0)->unk_98;
-    ((S_8017139C_2 *)arg0)->unk_9A = 0xF;
-    flags &= ~8;
-    ((S_8017139C_2 *)arg0)->unk_98 = flags;
-    ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_8017139C_2 *)arg0)->unk_8C = 0;
     (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
     if (D_80083462 & 0x80) {
         ((S_8017139C_2 *)arg0)->unk_96 = 0;

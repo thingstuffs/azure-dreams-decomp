@@ -11,17 +11,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 extern s16 func_800A7234(s8, s8, s16, void *, void *, void *);
 extern s32 D_800814A0[3];
 
-extern void func_8014CBD8(void) __attribute__((noreturn));
-extern void func_8014CD98(void) __attribute__((noreturn));
-extern void func_8014CEB8(void) __attribute__((noreturn));
-extern void func_8014CA0C(void) __attribute__((noreturn));
-#ifdef __mips__
-__asm__(".set func_8014CBD8, 0x8014CBD8");
-__asm__(".set func_8014CD98, 0x8014CD98");
-__asm__(".set func_8014CEB8, 0x8014CEB8");
-__asm__(".set func_8014CA0C, 0x8014CA0C");
-#endif
-
 extern void *D_8014C828[];
 extern Packed32 D_8014C808;
 #ifdef __mips__
@@ -210,49 +199,17 @@ state_one:
     }
 #endif
 switch_case0:
-#ifdef __mips__
-    {
-        s32 call_value = 4;
-        ASM_TAILSLOT_PIN(call_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8014CA0C();
-    }
-#else
     switch_value = 4;
     goto switch_store;
-#endif
 switch_case1:
-#ifdef __mips__
-    {
-        s32 call_value = 8;
-        ASM_TAILSLOT_PIN(call_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8014CA0C();
-    }
-#else
     switch_value = 8;
     goto switch_store;
-#endif
 switch_case2:
-#ifdef __mips__
-    {
-        s32 call_value = 12;
-        ASM_TAILSLOT_PIN(call_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8014CA0C();
-    }
-#else
     switch_value = 12;
     goto switch_store;
-#endif
 switch_case3:
-#ifdef __mips__
-    {
-        s32 call_value = 14;
-        ASM_TAILSLOT_PIN(call_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8014CA0C();
-    }
-#else
     switch_value = 14;
     goto switch_store;
-#endif
 switch_default:
     switch_value = 16;
 switch_store:
@@ -299,12 +256,7 @@ countdown:
                       ((S_80F03000_1 *)arg1)->unk_12,
                       ((S_80F03000_1 *)arg1)->unk_16,
                       ((S_80F03000_2 *)arg2)->unk_08, color);
-#ifdef __mips__
-        func_8014CBD8();
-        return;
-#else
         goto state_two_finish;
-#endif
     }
 
 state_one_end:
@@ -396,12 +348,7 @@ state_zero_collision:
     ((S_80F03000_1 *)arg1)->unk_04.at00.v -= ((S_80F03000_0 *)arg0)->unk_70;
     ((S_80F03000_0 *)arg0)->unk_70 = 0;
     ((S_80F03000_0 *)arg0)->unk_7C = 0;
-#ifdef __mips__
-    func_8014CD98();
-    return;
-#else
-    goto state_zero_z;
-#endif
+    goto state_zero_reset;
 
 state_zero_update:
     update_index_x = ((S_80F03000_0 *)arg0)->unk_34;
@@ -411,6 +358,7 @@ state_zero_update:
     ((S_80F03000_0 *)arg0)->unk_5C.s = point_old_x;
     update_y = (u8 *)points_base + ((S_80F03000_0 *)arg0)->unk_34 * 4;
     ((S_80F03000_0 *)arg0)->unk_5D += update_y[2];
+state_zero_reset:
     ((S_80F03000_2 *)arg2)->unk_06 = 0;
 
 state_zero_z:
@@ -440,10 +388,7 @@ state_zero_z:
         }
         ((S_80F03000_0 *)arg0)->unk_2C = 2;
         ((S_80F03000_0 *)arg0)->unk_74 = -0x80000;
-#ifdef __mips__
-        func_8014CEB8();
-        return;
-#endif
+        goto done;
     }
     if (((S_80F03000_2 *)arg2)->unk_14 & 0x8000) {
         goto state_zero_check;

@@ -40,8 +40,6 @@ extern void func_800A2FE0(Object *);
 extern void func_800A32A4(Object *);
 extern void func_800A56E0(s32);
 extern void func_800ACF88(Object *);
-extern void func_80173450() __attribute__((noreturn));
-extern void func_80173514() __attribute__((noreturn));
 
 extern s32 D_800814A0;
 extern s16 D_80083228;
@@ -100,7 +98,7 @@ state_1:
     entity->field12 -= 0x80;
     object->flags |= 0x10000000;
     entity->value = 0x808080;
-    func_80173450();
+    goto advance_state;
 
 state_2:
     entity->value += 0xFFF7F7F8;
@@ -113,6 +111,7 @@ state_2:
     *(volatile u16 *)&effect->countdown = 0;
     index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
     func_80047784(entity, entity->table[index], 0);
+advance_state:
     effect->state++;
     return;
 
@@ -128,12 +127,13 @@ state_3:
     effect->countdown = countdown;
     if (countdown >= 0) {
         entity->flags |= 0x800;
-        func_80173514(delta);
+        goto countdown_done;
     }
     entity->flags &= 0xF7FF;
     timer = effect->timer + 0x60;
     effect->timer = timer;
     effect->countdown = (u16)((s32)(timer << 16) >> 24);
+countdown_done:
     if ((entity->type == 2) && (entity->flags & 0x1000)) {
         index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
         func_80047784(entity, entity->table[index], 0);

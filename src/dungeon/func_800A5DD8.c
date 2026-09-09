@@ -45,10 +45,6 @@ typedef struct S_800AB538_4 {
 
 
 extern s32 func_800644B8();
-extern s32 func_800AB694();
-extern s32 func_800AB734();
-extern s32 func_800AB754();
-extern s32 func_800AB758();
 
 extern u16 D_80013714;
 extern u8 D_80083780[];
@@ -58,13 +54,16 @@ s32 func_800AB538(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     u8 *p0 = arg0;
     u8 *p1 = arg1;
-    u8 *p2 = arg2;
-    u8 *p3 = arg3;
+    /* MATCH: Preserve retail pointer homes after replacing the pseudo-calls. */
+    register u8 *p2 ASM_REG("$19") = arg2;
+    register u8 *p3 ASM_REG("$18") = arg3;
     s32 count;
     s16 value;
     s32 result;
     u16 delta;
     s32 state;
+    s32 continuation_state;
+
 
     state = ((S_800AB538_0 *)p0)->unk_9B;
     if (state == 1) {
@@ -76,44 +75,25 @@ s32 func_800AB538(void *arg0, void *arg1, void *arg2, void *arg3)
     if (state == 0) {
         goto state_0;
     }
-    {
-        s32 continuation_state = 0;
-
-        ASM_KEEP(continuation_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        return func_800AB758();
-    }
+    return 0;
 
 state_ge_2:
     if (state == 2) {
         goto state_2;
     }
-    {
-        s32 continuation_state = 0;
-
-        ASM_KEEP(continuation_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        return func_800AB758();
-    }
+    return 0;
 
 state_0:
     ((S_800AB538_0 *)p0)->unk_96.s = 0x10;
     ((S_800AB538_1 *)p3)->unk_1C &= 0xFFFBFFFF;
     (*(u16 *)((u8 *)p0 + 0x98)) |= 8;
     if (D_80013714 & 2) {
-        s32 tail_result;
-
         ((S_800AB538_0 *)p0)->unk_9B = 2;
-        tail_result = func_800AB754();
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-        return tail_result;
+        goto return_zero;
     }
     ((S_800AB538_1 *)p3)->unk_8A = 0x800 / ((S_800AB538_0 *)p0)->unk_96.s;
-    {
-        s32 continuation_state =
-            ((S_800AB538_0 *)p0)->unk_9B + 1;
-
-        ASM_TAILSLOT_PIN(continuation_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        return func_800AB734();
-    }
+    continuation_state = ((S_800AB538_0 *)p0)->unk_9B + 1;
+    goto increment_state;
 
 state_1:
     count = ((S_800AB538_0 *)p0)->unk_96.s - 2;
@@ -125,10 +105,7 @@ state_1:
         ((S_800AB538_3 *)p1)->unk_10 =
             ((((S_800AB538_2 *)base)->unk_06.s - ((S_800AB538_3 *)p1)->unk_06.s) << 16) /
             (((S_800AB538_0 *)p0)->unk_96.s - 2);
-        return func_800AB694();
-    }
-
-    {
+    } else {
         u8 *base = D_80083780;
 
         (*(s32 *)((u8 *)p1 + 0x10)) = 0;
@@ -161,10 +138,12 @@ state_1:
         ((S_800AB538_1 *)p3)->unk_88 = (u16)D_8008378A;
         ((S_800AB538_3 *)p1)->unk_0A.u = (u16)D_8008378A;
         ((S_800AB538_0 *)p0)->unk_92 = 0;
-        ((S_800AB538_0 *)p0)->unk_9B++;
-        return func_800AB754();
+        continuation_state = ((S_800AB538_0 *)p0)->unk_9B + 1;
+increment_state:
+        ((S_800AB538_0 *)p0)->unk_9B = continuation_state;
+        goto return_zero;
     }
-    return 0;
+    goto return_zero;
 
 state_2:
     ((S_800AB538_4 *)p2)->unk_1E = 0;
@@ -177,6 +156,7 @@ state_2:
         ((S_800AB538_1 *)p3)->unk_1C = flags;
         ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     }
+return_zero:
     return 0;
 }
 

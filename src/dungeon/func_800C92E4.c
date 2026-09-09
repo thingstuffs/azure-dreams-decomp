@@ -48,14 +48,14 @@ extern void func_800A1D4C(void *, s32);
 extern void func_800A56E0(s32);
 extern s32 func_800A6D30(void);
 extern s32 func_800A6DA4(s32, s32);
-extern void func_800CED28(void);
-extern void func_800CEDD8(void);
 
 /* Spawns and levels monster den monsters, then advances the event delays and cleanup. */
 void func_800CEA44(void *den_event) {
     register u8 *ctx ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     LocalScratch scratch;
     s16 state;
+    u16 next_state;
+    s32 tail_value;
     register s32 y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 spawn_x;
     s32 area_x;
@@ -185,18 +185,12 @@ retry_position:
         }
 
 initial_done:
-        {
-            register s32 tail_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-            (void)*(volatile u16 *)(ctx + 6);
-            tail_value = 10;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800CED28();
+        next_state = *(u16 *)(ctx + 6);
+        tail_value = 10;
+    } else {
+        if (state != 1) {
+            goto other_state;
         }
-        return;
-    }
-
-    if (state == 1) {
         delay_timer = *(u16 *)(ctx + 4) - 1;
         *(u16 *)(ctx + 4) = delay_timer;
         if ((s16)delay_timer >= 0) {
@@ -205,17 +199,17 @@ initial_done:
         func_800997FC(&D_800E1C3A);
         func_800419EC(0xC, 0x18);
         func_800A56E0(0x602);
-        *(u16 *)(ctx + 4) = 0x10;
-        *(u16 *)(ctx + 6) += 1;
-        func_800CEDD8();
-        return;
+        next_state = *(u16 *)(ctx + 6);
+        tail_value = 0x10;
     }
+    *(u16 *)(ctx + 4) = tail_value;
+    ASM_SCHED_BARRIER(); /* MATCH: keep the timer store before the state increment. */
+    *(u16 *)(ctx + 6) = next_state + 1;
+    return;
 
-    goto other_state;
 
 spawn_failed:
     ((DungeonSlot *)D_800E3648)[*(s16 *)(ctx + 0xC)].count -= count;
-    func_800CEDD8();
     return;
 
 other_state:

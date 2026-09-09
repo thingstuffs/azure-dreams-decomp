@@ -10,8 +10,6 @@ extern Func D_800E2934[];
 extern GlobalState *D_800E5910;
 
 extern void func_800DC628(void *, s32);
-extern void func_800DC6BC(void *);
-extern void func_800DC6E8(void *, s32, void *);
 extern s32 func_800DCA1C(void *, s32);
 
 void func_800DC650(u8 *arg0) {
@@ -22,7 +20,7 @@ void func_800DC650(u8 *arg0) {
     s32 target;
     s32 delta;
     register u32 call_flags ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *call_arg;
+    register void *call_arg ASM_REG("$4"); /* MATCH: both arms load the shared call argument directly into a0. */
     s32 result;
 
     base = ctx + 0x3C;
@@ -33,11 +31,10 @@ void func_800DC650(u8 *arg0) {
 
     if (delta < 0) {
         current -= 0x80;
-        if (delta < -0x80) {
-            func_800DC6BC(arg0);
-            return;
+        if (delta >= -0x80) {
+            goto set_target;
         }
-        goto set_target;
+        goto compare;
     } else {
         current += 0x80;
         if (delta >= 0x81) {
@@ -51,14 +48,14 @@ set_target:
 compare:
     if (current != target) {
         *(s32 *)(ctx + 0x58) = 1;
-        func_800DC6E8(*(void **)(ctx + 0x3C), 0, ctx);
-        return;
+        call_arg = *(void **)(ctx + 0x3C);
+        call_flags = 0;
+    } else {
+        call_flags = *(u32 *)(ctx + 0x50);
+        call_arg = *(void **)(ctx + 0x3C);
+        call_flags = ((call_flags >> 1) ^ 1) % 2;
+        ASM_KEEP(call_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
-
-    call_flags = *(u32 *)(ctx + 0x50);
-    call_arg = *(void **)(ctx + 0x3C);
-    call_flags = ((call_flags >> 1) ^ 1) % 2;
-    ASM_KEEP(call_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     result = func_800DCA1C(call_arg, call_flags);
     do {
         D_800E5910->value = result;

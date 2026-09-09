@@ -49,8 +49,6 @@ extern s16 D_800266BC[5];
 extern s32 D_800814A0;
 
 extern void func_80024CD4();
-extern void func_80025468() __attribute__((noreturn));
-extern void func_80025578() __attribute__((noreturn));
 
 void func_80025398(void *arg0, void *arg1, void *arg2)
 {
@@ -94,22 +92,20 @@ void func_80025398(void *arg0, void *arg1, void *arg2)
         ((S_80025398_1 *)out)->unk_0E.s = quotient;
         ((S_80025398_1 *)out)->unk_0D.s = quotient;
         ((S_80025398_1 *)out)->unk_0C.s = quotient;
-        func_80025468(quotient, limit, source_ptr, out);
-        return;
+    } else {
+        end = ((S_80025398_0 *)arg0)->unk_02;
+        quotient2 = ((end - current) << 7) / (end - limit);
+        color_x = ((S_80025398_1 *)out)->unk_1C.u;
+        color = ((S_80025398_1 *)out)->unk_1E.u;
+        color_x += 0x50;
+        color += 0x50;
+        ((S_80025398_1 *)out)->unk_1C.s = color_x;
+        ((S_80025398_1 *)out)->unk_1E.s = color;
+        ASM_KEEP(color_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ((S_80025398_1 *)out)->unk_0E.u = quotient2;
+        ((S_80025398_1 *)out)->unk_0D.u = quotient2;
+        ((S_80025398_1 *)out)->unk_0C.u = quotient2;
     }
-
-    end = ((S_80025398_0 *)arg0)->unk_02;
-    quotient2 = ((end - current) << 7) / (end - limit);
-    color_x = ((S_80025398_1 *)out)->unk_1C.u;
-    color = ((S_80025398_1 *)out)->unk_1E.u;
-    color_x += 0x50;
-    color += 0x50;
-    ((S_80025398_1 *)out)->unk_1C.s = color_x;
-    ((S_80025398_1 *)out)->unk_1E.s = color;
-    ASM_KEEP(color_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((S_80025398_1 *)out)->unk_0E.u = quotient2;
-    ((S_80025398_1 *)out)->unk_0D.u = quotient2;
-    ((S_80025398_1 *)out)->unk_0C.u = quotient2;
 
     angle = ((S_80025398_0 *)arg0)->unk_98;
     angle_next = angle - 0x28;
@@ -136,7 +132,7 @@ void func_80025398(void *arg0, void *arg1, void *arg2)
     if (state != 0) {
         render_source = &source;
         if (state != 1) {
-            func_80025578(color, limit, render_source, out);
+            ASM_SCHED_BARRIER();   /* MATCH: Keep the state guard jumping to the shared epilogue. */
             return;
         }
         goto render;

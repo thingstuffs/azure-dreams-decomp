@@ -24,8 +24,8 @@ typedef struct {
     TownVtable *vtable;
 } TownObject;
 
-extern void func_8009C120(void);
-extern void func_8009C148(void);
+extern void func_8009C120(TownObject *arg0, void *arg1, void *arg2);
+extern void func_8009C148(TownObject *arg0, void *arg1, void *arg2);
 
 extern s32 D_800834B8;
 extern u8 D_80091F64[];
@@ -50,7 +50,7 @@ typedef struct S_8009B2C4_1 {
 } S_8009B2C4_1;   /* entry in func_8009B2C4 */
 
 
-s32 func_8009B2C4(TownObject *arg0, void *arg1) {
+s32 func_8009B2C4(TownObject *arg0, void *arg1, void *arg2) {
     register TownControl *control ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register TownControl *initial_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     TownControl *var_v0;
@@ -76,7 +76,7 @@ s32 func_8009B2C4(TownObject *arg0, void *arg1) {
             }
 block_7:
             if (D_800834B8 == (s32)&D_80092698) {
-                func_8009C120();
+                func_8009C120(arg0, arg1, arg2);
                 return 1;
                    /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 return 1;
@@ -85,7 +85,7 @@ block_7:
             if (D_800834B8 == (s32)&D_800927EC) {
                 var_v0 = (TownControl *)0x800D0000;
                 if (D_800CFCCC == 0) {
-                    func_8009C148();
+                    func_8009C148(arg0, arg1, arg2);
                     return 1;
                        /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     return 1;

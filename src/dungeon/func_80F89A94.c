@@ -46,8 +46,6 @@ extern void func_800A2FE0();
 extern void func_800A32A4();
 extern void func_800A56E0();
 extern void func_800ACF88();
-extern void func_8017341C() __attribute__((noreturn));
-extern void func_801734E8() __attribute__((noreturn));
 extern u8 D_8006CCD8;
 extern u8 D_8006CCE8;
 extern s32 D_800814A0;
@@ -67,6 +65,7 @@ void func_80173294(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 state;
     s32 field14;
     s32 state_lt_2;
+    register s32 state_next ASM_REG("$2");   /* MATCH: both state arms feed the shared byte store in v0. */
 
     p0 = arg0;
     p1 = arg1;
@@ -94,12 +93,13 @@ void func_80173294(void *arg0, void *arg1, void *arg2, void *arg3) {
         state = 0xFFFE0000;
         goto state_0;
     }
-    func_801734E8(table_x, table_bias, table_y);
+    ASM_SCHED_BARRIER();   /* MATCH: keep the low-state guard and its separate exit jump. */
+    goto done;
 
 high_states:
     if (state == 2) goto state_2;
     if (state == 3) goto state_3;
-    func_801734E8(table_x, table_bias, table_y);
+    goto done;
 
 state_0:
     state |= 0x8000;
@@ -119,9 +119,8 @@ state_1:
         u16 y;
         u16 status;
         volatile u8 *state_byte;
-        s32 mask_a0;
+        register s32 mask_a0 ASM_REG("$4");   /* MATCH: preserve the mask register formerly imposed by the label pseudo-call. */
         s32 mask_v1;
-        register s32 state_next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         flags = ((S_80173294_0 *)p3)->unk_14;
         if (flags & 0x4000) {
@@ -147,15 +146,17 @@ state_1:
         ((S_80173294_3 *)p2)->unk_14 = y;
         state_byte = (volatile u8 *)((u8 *)p0 + 0x9B);
         state_next = *state_byte + 1;
-        ASM_TAILSLOT_PIN(state_next);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        func_8017341C(mask_a0);
+        goto store_state;
     }
 
 state_2:
     if (!(((S_80173294_3 *)p2)->unk_14 & 0x6000)) goto done;
     ((S_80173294_2 *)p0)->unk_96.s16 = 0x80;
-    ((S_80173294_2 *)p0)->unk_9B = ((S_80173294_2 *)p0)->unk_9B + 1;
-    func_801734E8(table_x, table_bias, table_y);
+    state_next = ((S_80173294_2 *)p0)->unk_9B + 1;
+store_state:
+    ASM_SCHED_BARRIER();   /* MATCH: share the state store instead of duplicating it in each arm. */
+    ((S_80173294_2 *)p0)->unk_9B = state_next;
+    goto done;
 
 state_3:
     {

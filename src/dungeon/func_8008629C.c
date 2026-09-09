@@ -62,12 +62,6 @@ extern u8 D_800E3544[];
 
 extern void D_8008ACDC(void);
 extern void func_80048A44();
-extern void func_8008BCB4();
-extern void func_8008BD50();
-extern void func_8008BD80();
-extern void func_8008BE64() __attribute__((noreturn));
-extern void func_8008C048() __attribute__((noreturn));
-extern void func_8008C10C();
 extern void func_8008CD4C();
 extern void func_8008E264();
 extern void func_80094ED4();
@@ -81,7 +75,6 @@ extern s32 func_800A5C70();
 extern void func_800A67F4();
 
 void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
-    static void *const keepalive[] = { &&block_80086620, &&block_80086704 };
     u8 *state = D_80083160;
     u8 *alt_callback;
     u16 *flags;
@@ -148,17 +141,13 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800
             }
             arg0->unk_9A = 0xF;
             D_80083464[0] = 8;
-            func_8008BD80();
-            return;
+            goto block_80086620;
         }
 
         arg0->unk_98 |= 0xC;
         if (temp_v0 < 4) {
             arg0->unk_A2 |= 1;
-            func_8008BCB4();
-            return;
-        }
-        if ((temp_v0 == 2) || (temp_v0 == 4)) {
+        } else if ((temp_v0 == 2) || (temp_v0 == 4)) {
             arg0->unk_9B = 8;
         }
         func_80094ED4(arg0, arg1, arg2, arg3);
@@ -166,15 +155,14 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800
         if (arg2->unk_2C.as_pu8 == D_800DCFB8) {
             arg2->unk_14.at00_u16.v |= 0x6000;
             func_8008E264(arg0, arg1, arg2, arg3);
-            func_8008BD50(arg3);
-            return;
+        } else {
+            arg2->unk_2C.as_pu8 = D_800DD030;
+            func_80048A44(
+                arg2,
+                D_800DD030[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
+                                  0x100) >> 9) & 7],
+                0, 1);
         }
-        arg2->unk_2C.as_pu8 = D_800DD030;
-        func_80048A44(
-            arg2,
-            D_800DD030[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
-                              0x100) >> 9) & 7],
-            0, 1);
         arg0->unk_9A = 0x10;
         {
             register void *tail_word_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -182,15 +170,12 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800
             ((S_8008B9FC_4 *)tail_word_obj)->unk_1C |= 0x40000000;
         }
         func_8009F644(arg3, 8, 0, 0);
-        func_8008C10C();
         return;
 
 block_80086620:
         func_8009F644(arg3, 8, 0, 0);
         mask = 0x40000000;
-        ASM_PAGEBASE_PIN(mask);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8008BE64();
-        return;
+        goto block_80086704;
     }
 
     if (temp_v0 < 0) {
@@ -201,7 +186,6 @@ block_80086620:
             func_8008CD4C(arg0, arg1, arg2, arg3, (s32)temp_v0);
             if (arg0->unk_9B >= 0x10) {
                 arg3->unk_1C.as_s32 |= 0x40000000;
-                func_8008C10C();
                 return;
             }
         }
@@ -219,7 +203,6 @@ block_80086620:
             0, 1);
     }
     arg0->unk_8C.u = D_8008ACDC;
-    func_8008C10C();
     return;
 
 block_80086704:
@@ -249,8 +232,8 @@ block_80086704:
                               arg3->unk_2A.as_s16 + 0x100) >> 9) & 7)),
                 0, 1);
         }
-        func_8008C048();
-        return;
+        ASM_SCHED_BARRIER(); /* MATCH: keep the F0 callback call separate from the F8 arm. */
+        goto halve_flags;
     }
 
     if (D_800E3544[0] == 0xF8) {
@@ -266,8 +249,7 @@ block_80086704:
             alt_callback[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
                                  0x100) >> 9) & 7],
             0, 1);
-        func_8008C048();
-        return;
+        goto halve_flags;
     }
 
     if (D_800E3544[0] == 0xE8) {
@@ -284,7 +266,6 @@ block_80086704:
         func_8009A21C(arg2->unk_24, arg2->unk_25, 0x300);
 halve_flags:
         flags[2] = (s16)flags[2] >> 1;
-        func_8008C10C();
         return;
     }
 

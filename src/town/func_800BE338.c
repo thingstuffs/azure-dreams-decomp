@@ -29,7 +29,6 @@ typedef struct {
 
 void func_800478B8();
 s32 rand(void);
-void func_800BBBE0(void *);
 extern s32 D_800814A0[3];
 
 void func_800BBA98(void *arg0, void *arg1, void *arg2) {
@@ -44,17 +43,20 @@ void func_800BBA98(void *arg0, void *arg1, void *arg2) {
     s32 var_a0;
     void *var_a1;
     register void *call_arg ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *held_arg2 ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *held_arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     temp_a3 = arg0;
     temp_s0 = (State *)arg1;
+    held_arg2 = arg2;
     temp_v1 = ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4E.s;
-    if (temp_v1 != 0) {
-        if (temp_v1 != 1) {
-            return func_800BBBE0(call_arg);
-        }
+    if (temp_v1 == 0) {
+        goto zero_state;
+    }
+    if (temp_v1 == 1) {
         goto type1;
     }
+    ASM_SCHED_BARRIER(); /* MATCH: retain the dispatch jump to the shared tail. */
+    goto zero_shared;
 zero_state:
     temp_s0->f0 += (temp_s0->fc / (s16) ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4A);
     temp_s0->f4 += (temp_s0->f10 / (s16) ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4A);
@@ -65,7 +67,7 @@ zero_state:
         ((Arg2State *)held_arg2)->f10 = temp_v1;
         ((Arg2State *)held_arg2)->f14 |= 0xC;
         ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4E.u += 1;
-        return func_800BBBE0(call_arg);
+        goto zero_shared;
     }
     goto zero_shared;
 type1:

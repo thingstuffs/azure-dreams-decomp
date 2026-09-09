@@ -15,9 +15,6 @@ extern void func_8009A028();
 extern void func_8009A21C();
 extern void func_800A2B04();
 extern void func_800A32A4();
-extern s32 func_800AC7C8();
-extern void func_800AC7CC(void) __attribute__((noreturn));
-extern void func_800AC7CC_returning(void) __asm__("func_800AC7CC");
 extern s16 func_800BCB04();
 
 
@@ -65,7 +62,6 @@ s32 func_800AC5C8(S_800AC5C8_0 *arg0, Rec_D_800E3D7C *arg1, S_800AC5C8_3 *arg2, 
 
         rv_low = 0;
         ASM_KEEP(rv_low);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800AC7CC();
         return rv_low;
     }
 
@@ -78,7 +74,6 @@ state_ge_2:
 
         rv_high = 0;
         ASM_KEEP(rv_high);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800AC7CC();
         return rv_high;
     }
 
@@ -107,7 +102,7 @@ state_1:
             func_8009A028(arg3);
             ((S_800AC5C8_1_pre *)arg3)[-1].unk_00 |= 0x8000;
             D_800814A0[0] |= 0x8000;
-            return func_800AC7C8();
+            goto return_zero;
         }
 
         ((Rec_D_80082E80 *)arg3)->unk_88.as_u16 = func_800BCB04(
@@ -118,7 +113,7 @@ state_1:
         ((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v &= 0xFFFEFFFF;
         arg0->unk_96 = 0x10;
         arg0->unk_9B++;
-        return func_800AC7C8();
+        goto return_zero;
 
 state_2:
         ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v += 0x200;
@@ -152,9 +147,11 @@ state_2:
             rv = 1;
             ASM_USE(rv);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v = restored;
-            func_800AC7CC_returning();
-            return 0;
+            return rv;
         }
+return_zero:
+    ASM_SCHED_BARRIER(); /* MATCH: keep the zero assignment in the shared tail after both state-1 stores. */
+    return 0;
 }
 
 /* MECHANISM: vars=0 frame holds arg0/arg2/arg3 and 0x10 in s1/s2/s0/s3.

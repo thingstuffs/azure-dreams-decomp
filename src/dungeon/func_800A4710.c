@@ -8,11 +8,6 @@ extern s32 func_800A2BDC(void *arg0);
 extern void func_8003DB94(void *arg0, s32 arg1, s8 arg2);
 extern void func_80047738(void *arg0, u8 arg1, s8 arg2);
 extern void func_800478B8(void *arg0);
-extern s32 func_800A9F24(void);
-extern void func_800A9F58(void) __attribute__((noreturn));
-extern s32 func_800AA048(void);
-extern void func_800AA060(void) __attribute__((noreturn));
-extern s32 func_800AA22C(void);
 extern void func_800ACB98(void *arg0, s32 arg1, void *arg2, void *arg3);
 extern void func_800ACD74(void *arg0, s32 arg1, void *arg2, void *arg3);
 
@@ -59,22 +54,18 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
                 func_8003DB94(arg2, arg2->unk_2C.p[direction],
                               arg2->unk_04);
                 arg0->unk_94 = direction;
-                return func_800A9F24();
+            } else {
+                func_80047738(arg2, arg2->unk_2C.p2[direction],
+                              arg2->unk_04);
+                arg0->unk_94 = direction;
             }
-            func_80047738(arg2, arg2->unk_2C.p2[direction],
-                          arg2->unk_04);
-            arg0->unk_94 = direction;
         }
         if (D_8006CCF8[direction] != 0) {
-            u32 tail_value;
-
-            tail_value = arg2->unk_14;
-            tail_value |= 1;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_800A9F58();
+            arg2->unk_14 |= 1;
+        } else {
+            ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            arg2->unk_14 &= 0xFFFE;
         }
-        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        arg2->unk_14 &= 0xFFFE;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_800478B8(arg2);
         return 1;
@@ -99,18 +90,11 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 func_8003DB94(arg2, arg2->unk_2C.p[direction],
                               arg2->unk_04);
-                return func_800AA048();
+            } else {
+                func_80047738(arg2, arg2->unk_2C.p2[direction],
+                              arg2->unk_04);
             }
-            func_80047738(arg2, arg2->unk_2C.p2[direction],
-                          arg2->unk_04);
-            {
-                u32 tail_value;
-
-                tail_value = arg0->unk_98;
-                tail_value &= 0xFBFF;
-                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            }
-            func_800AA060();
+            arg0->unk_98 &= 0xFBFF;
         }
     } else {
         arg0->unk_98 |= 0x400;
@@ -153,8 +137,17 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
                                 return 0;
                             }
                             arg3->unk_14.as_s32 = flags14 & 0xFFBFFFFF;
-                            arg0->unk_9A.as_u8 = (flags14 & 0x4000) ? 1 : 2;
-                            return func_800AA22C();
+                            {
+                                u32 tail_value = flags14 & 0x4000;
+                                if (tail_value) {
+                                    tail_value = 1;
+                                } else {
+                                    tail_value = 2;
+                                }
+                                ASM_SCHED_BARRIER(); /* MATCH: Keep the selected type's store shared before the tail jump. */
+                                arg0->unk_9A.as_u8 = tail_value;
+                            }
+                            goto block_17;
                         }
                         if (arg3->unk_1C.as_s32 & 0x02000000) {
                             arg0->unk_8C = 0;
@@ -165,6 +158,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
                                 return 0;
                             }
                             arg0->unk_9A.as_u8 = 0;
+                        block_17:
                             arg0->unk_9B.as_u8 = 0;
                         }
                     }

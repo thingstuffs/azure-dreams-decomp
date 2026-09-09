@@ -20,13 +20,6 @@ extern void func_800A020C();
 extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
-extern void func_80170D54(void) __attribute__((noreturn));
-extern void func_80170DFC(void) __attribute__((noreturn));
-extern void func_80170E78(void) __attribute__((noreturn));
-extern void func_80170EF0(void) __attribute__((noreturn));
-extern void func_801711A0(void) __attribute__((noreturn));
-extern void func_801712C8(void) __attribute__((noreturn));
-extern void func_801712D8(void) __attribute__((noreturn));
 
 
 typedef struct S_80170BB8_0 {
@@ -123,13 +116,11 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
         !((*(u16 *)((u8 *)actor + (0x98))) & 8)) {
         ((S_80170BB8_0 *)motion)->unk_14 += (s8)(*(u8 *)((u8 *)actor + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)actor + (0x9D)))++;
-        func_80170D54();
-        return;
+    } else {
+        do {
+            (*(volatile u8 *)((u8 *)actor + (0x9D))) = 0;
+        } while (0);
     }
-
-    do {
-        (*(volatile u8 *)((u8 *)actor + (0x9D))) = 0;
-    } while (0);
     (*(s32 *)((u8 *)actor + (0x90))) += ((S_80170BB8_0 *)motion)->unk_14;
     object_flags = ((S_80170BB8_1 *)object)->unk_14;
 
@@ -144,13 +135,15 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                           ((S_80170BB8_1 *)object)->unk_04);
             (*(s16 *)((u8 *)actor + (0x94))) = direction;
         }
-        if (D_8006CCF8[direction] != 0) {
-            u32 tail_v0 = ((S_80170BB8_1 *)object)->unk_14 | 1;
-            ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80170DFC();
+        {
+            u32 tail_v0;
+            if (D_8006CCF8[direction] != 0) {
+                tail_v0 = ((S_80170BB8_1 *)object)->unk_14 | 1;
+            } else {
+                tail_v0 = ((S_80170BB8_1 *)object)->unk_14 & 0xFFFE;
+            }
+            ((S_80170BB8_1 *)object)->unk_14 = tail_v0;
         }
-
-        ((S_80170BB8_1 *)object)->unk_14 &= 0xFFFE;
         if ((*(u8 *)((u8 *)actor + (0x9A))) != 8) {
             func_800A020C(((S_80170BB8_2 *)actor2)->unk_1C.s, (u8 *)object + 0xC);
         }
@@ -158,11 +151,6 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
         if (!(((S_80170BB8_2 *)actor2)->unk_1C.u & 0x20)) {
             if (!(((S_80170BB8_1 *)object)->unk_14 & 0x40)) {
                 func_800478B8(object);
-                {
-                    u32 tail_v0 = 0xF7FF0000;
-                    ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    func_80170E78();
-                }
             }
         } else {
             ((S_80170BB8_1 *)object)->unk_14 |= 0x7000;
@@ -178,9 +166,10 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                     (*(u16 *)((u8 *)actor + (0x98))) = object_flags & 0x7FFF;
                     palette = ((S_80170BB8_1 *)object)->unk_2C;
                     if (palette == D_8017449C) {
-                        register void *tail_a1 ASM_REG("$5") = D_80174494;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                        ASM_TAILSLOT_PIN(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                        func_80170EF0();
+                        (*(u8 * *)((u8 *)object + (0x2C))) = D_80174494;
+                        func_80047784(object,
+                            D_80174494[((D_80083228 + ((S_if_0 *)actor2)->unk_2A + 0x100) >> 9) & 7],
+                            0);
                     }
                     else if (palette == D_80174494) {
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -211,14 +200,12 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                     ((S_80170BB8_2 *)actor2)->unk_88.u);
                 if ((*(s16 *)((u8 *)actor + (0x92))) > ground - 0x30) {
                     (*(s16 *)((u8 *)actor + (0x92))) = (*(s16 *)((u8 *)actor + (0x92))) - 8;
-                    func_801712D8();
-                    return;
+                    goto common_tail;
                 }
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 if (ground - 0x3A > (*(s16 *)((u8 *)actor + (0x92)))) {
                     (*(s16 *)((u8 *)actor + (0x92))) = (*(s16 *)((u8 *)actor + (0x92))) + 8;
-                    func_801712D8();
-                    return;
+                    goto common_tail;
                 }
         }
         } else {
@@ -235,8 +222,7 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                     (*(u8 *)((u8 *)actor + (0x9D))) = 0;
                     ((S_80170BB8_0 *)motion)->unk_14 = 0;
                     ((S_80170BB8_2 *)actor2)->unk_1C.u |= 0x08000000;
-                    func_801712D8();
-                    return;
+                    goto common_tail;
                 }
             }
         }
@@ -265,8 +251,6 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                 (*(u8 *)((u8 *)actor + (0x9D))) = 0;
                 ((S_80170BB8_0 *)motion)->unk_14 = 0;
                 ((S_80170BB8_2 *)actor2)->unk_1C.u |= 0x08000000;
-                func_801712C8();
-                return;
             }
         }
     } else {
@@ -276,9 +260,10 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                 (*(u16 *)((u8 *)actor + (0x98))) = object_flags & 0x7FFF;
                 palette = ((S_80170BB8_1 *)object)->unk_2C;
                 if (palette == D_8017449C) {
-                    register void *tail_a1 ASM_REG("$5") = D_80174494;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    ASM_TAILSLOT_PIN(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    func_801711A0();
+                    (*(u8 * *)((u8 *)object + (0x2C))) = D_80174494;
+                    func_80047784(object,
+                        D_80174494[((D_80083228 + ((S_80170BB8_2 *)actor2)->unk_2A + 0x100) >> 9) & 7],
+                        0);
                 } else if (palette == D_80174494) {
                     ASM_KEEP(palette);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     (*(u8 * *)((u8 *)object + (0x2C))) = D_8017449C;

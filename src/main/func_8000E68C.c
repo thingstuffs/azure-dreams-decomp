@@ -4,9 +4,6 @@
 extern void *D_80020060[];
 M2C_UNK func_80020924();
 s32 func_80021594();
-s32 func_800216F8();
-s32 func_8002177C();
-s32 func_800217B4();
 s32 func_8002190C();
 extern M2C_UNK D_80028530[];
 extern M2C_UNK D_80028538[];
@@ -21,6 +18,7 @@ s32 func_8002168C(void) {
     s32 temp_s0;
     s32 temp_v1;
     s32 keep5;
+    s32 *dead_base;
 
     temp_s0 = func_80021594();
     temp_a0 = func_8002190C();
@@ -31,7 +29,8 @@ s32 func_8002168C(void) {
         goto block_4;
     }
     *(s32 *)((s8 *)&D_80028530 + temp_a0 * 4) += 1;
-    return func_800216F8(temp_a0, temp_a0 * 4);
+    keep5 = temp_a0 * 4;
+    goto kill_lbl;
 block_4:
     *(s32 *)((s8 *)&D_80028530 + temp_a0 * 4) = 0;
     keep5 = temp_a0 * 4;
@@ -44,29 +43,25 @@ kill_lbl:
 jt_c1:
 jt_c2:
     D_800287D0[temp_a0] = temp_s0;
-    return func_800217B4(temp_a0);
+    goto block_12;
 jt_c3:
-    {
-        s32 *dead_base;
-        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        dead_base = D_80028530;
-        ASM_KEEP(dead_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        tail_v1 = temp_a0 * 4;
-        ASM_TAILSLOT_PIN(tail_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    }
-    return func_8002177C(temp_a0);
+    dead_base = D_80028530;
+    temp_v1 = temp_a0 * 4;
+    goto check_count;
 jt_c4:
 jt_c5:
     D_80084118[temp_a0] = 0;
     temp_v1 = temp_a0 * 4;
-    if (*(s32 *)((s8 *)&D_80028530 + temp_v1) < 0xB) {
-        func_80020924(temp_a0, (s32 *)((s8 *)&D_80028530 + temp_v1));
+    dead_base = D_80028530;
+check_count:
+    if (*(s32 *)(temp_v1 + (s32)dead_base) < 0xB) {
+        func_80020924(temp_a0, (s32 *)(temp_v1 + (s32)dead_base));
         goto block_13;
     }
     *(s32 *)((s8 *)&D_800287D0 + temp_v1) = temp_s0;
-    *(s32 *)((s8 *)&D_80028530 + temp_v1) = 0;
+    *(s32 *)(temp_v1 + (s32)dead_base) = 0;
     *(s32 *)((s8 *)&D_80028538 + temp_v1) = 0;
-    func_80020924(temp_a0, (s32 *)((s8 *)&D_80028530 + temp_v1));
+    func_80020924(temp_a0, (s32 *)(temp_v1 + (s32)dead_base));
     goto block_13;
 block_12:
     func_80020924(temp_a0, (s32 *)keep5);

@@ -10,10 +10,6 @@ typedef struct S_8001E824_0 {
 
 
 extern void *D_80016034[];
-#if 0
-void func_8001E944(void) __attribute__((noreturn));
-#endif
-s32 func_8001E944();
 s32 func_800A6D30();
 
 void func_8001E824(void *arg0) {
@@ -44,7 +40,7 @@ jt_c4:
         var_s2 = (func_800A6D30() & 7) | 4;
     }
     var_s0 = -0x80;
-    func_8001E944();
+    goto block_16;
 jt_c15:
     if (((S_8001E824_0 *)entity)->unk_00 != 9) {
         goto block_8;
@@ -74,7 +70,7 @@ block_12:
     var_s2 = -1;
     ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     var_s0 = var_s1 | 0x40;
-    func_8001E944();
+    goto block_16;
 jt_c18:
     var_s2 = ((u32)(func_800A6D30() & 0xFFFF) % 40U) + 0x3C;
 jt_c1:

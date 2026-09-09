@@ -61,12 +61,10 @@ extern s32 D_80083460[3];
 extern void func_80042B68(void *, s32);
 extern M2C_UNK func_800A18E8();
 extern M2C_UNK func_800A31D0();
-extern s32 func_800A3418();
-extern s32 func_800A347C(void *);
 
 s32 func_800A32A4(void *arg0) {
     register M2C_UNK var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 *temp_a0_2;
+    register s32 *temp_a0_2 ASM_REG("$4"); /* MATCH: keep the counter base in a0 after replacing the label call with local control flow. */
     s32 temp_a1_2;
     s32 temp_v1;
     s32 temp_v1_2;
@@ -82,7 +80,7 @@ s32 func_800A32A4(void *arg0) {
     void *var_a2;
     void *var_a3;
     u8 *page_base;
-    u8 *status_page;
+    register u8 *status_page ASM_REG("$2"); /* MATCH: keep the page immediate and flag mask in v0 while the counter base uses a0. */
     register s32 flags_mask ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     S_800E3E48 *copy_base;
     s32 *registry;
@@ -137,7 +135,7 @@ loop_2:
             ((S_800A32A4_5 *)var_a2)->unk_00 = tail_w0;
             ((S_800A32A4_5 *)var_a2)->unk_04 = tail_w4;
             ((S_800A32A4_5 *)var_a2)->unk_08 = tail_w8;
-            return func_800A3418();
+            goto block_8;
         }
         if (var_v1 >= 4) {
             goto block_8;
@@ -158,17 +156,15 @@ block_8:
                     ((S_800A32A4_6 *)temp_a0_2)->unk_1C.s = (s16)(((S_800A32A4_6 *)temp_a0_2)->unk_1C.u - 1);
                 }
                 var_s1 = 2;
-                ASM_TAILSLOT_PIN(var_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                return func_800A347C(temp_a0_2);
+            } else {
+                status_page = (u8 *)0x80080000;
+                ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                temp_a0_2 = (s32 *)(status_page + 0x3460);
+                if (((S_800A32A4_6 *)temp_a0_2)->unk_1C.s != 0) {
+                    ((S_800A32A4_6 *)temp_a0_2)->unk_1C.s = (s16)(((S_800A32A4_6 *)temp_a0_2)->unk_1C.u - 1);
+                }
+                var_s1 = 1;
             }
-            status_page = (u8 *)0x80080000;
-            ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            temp_a0_2 = (s32 *)(status_page + 0x3460);
-            if (((S_800A32A4_6 *)temp_a0_2)->unk_1C.s != 0) {
-                ((S_800A32A4_6 *)temp_a0_2)->unk_1C.s = (s16)(((S_800A32A4_6 *)temp_a0_2)->unk_1C.u - 1);
-            }
-            var_s1 = 1;
-            goto block_18;
         }
     }
 block_18:

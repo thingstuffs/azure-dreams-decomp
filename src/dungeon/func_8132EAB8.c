@@ -5,8 +5,6 @@ extern s16 D_801760D8;
 extern s32 D_800814A0;
 extern void *D_80164808[];
 extern s16 func_800BCB04(u16, u16, s16);
-extern void func_80165C3C(void) __attribute__((noreturn));
-extern void func_80165CC8(void) __attribute__((noreturn));
 
 
 typedef struct S_80165AB8_0 {
@@ -50,6 +48,8 @@ void func_80165AB8(u8 *arg0, u8 *arg1, u8 *arg2)
     };
     s32 old_height;
     u32 state;
+    s32 condition;
+    s32 next_counter;
 
     state = ((S_80165AB8_0 *)arg0)->unk_17;
     if (state >= 5) {
@@ -76,17 +76,10 @@ case_0:
             ((S_80165AB8_0 *)arg0)->unk_32.s = 0;
             ((S_80165AB8_0 *)arg0)->unk_17++;
         }
-        {
-            s32 condition;
-            s32 next_counter;
-
-            condition = ((S_80165AB8_0 *)arg0)->unk_32.u;
-            next_counter = condition + 1;
-            condition = (s16)condition < 60;
-            ASM_KEEP(next_counter);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(condition);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80165CC8();
-        }
+        condition = ((S_80165AB8_0 *)arg0)->unk_32.u;
+        next_counter = condition + 1;
+        condition = (s16)condition < 60;
+        goto check_counter;
 
 case_1: {
         register s32 tripled ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -94,14 +87,14 @@ case_1: {
         tripled = ((S_80165AB8_2 *)arg2)->unk_1E * 3;
         ((S_80165AB8_2 *)arg2)->unk_1E = tripled;
         ((S_80165AB8_2 *)arg2)->unk_1C = tripled;
-        func_80165C3C();
+        goto advance_state;
     }
 
 case_2:
         if (D_801760D8 == 0) {
             goto done;
         }
-        func_80165C3C();
+        goto advance_state;
 
 case_3:
         if ((s16)((S_80165AB8_0 *)arg0)->unk_32.u++ < 20) {
@@ -110,6 +103,7 @@ case_3:
         ((S_80165AB8_2 *)arg2)->unk_10 = 0;
         ((S_80165AB8_2 *)arg2)->unk_14 |= 0xC;
 
+advance_state:
         ((S_80165AB8_0 *)arg0)->unk_32.s = 0;
         ((S_80165AB8_0 *)arg0)->unk_17++;
         return;
@@ -119,7 +113,12 @@ case_4:
             ((10 - ((S_80165AB8_0 *)arg0)->unk_32.s) * 255) / 10;
         ((S_80165AB8_2 *)arg2)->unk_0D = ((S_80165AB8_2 *)arg2)->unk_0E =
             ((10 - ((S_80165AB8_0 *)arg0)->unk_32.s) * 32) / 10;
-        if ((s16)((S_80165AB8_0 *)arg0)->unk_32.u++ < 10) {
+        condition = ((S_80165AB8_0 *)arg0)->unk_32.u;
+        next_counter = condition + 1;
+        condition = (s16)condition < 10;
+check_counter:
+        ((S_80165AB8_0 *)arg0)->unk_32.u = next_counter;
+        if (condition) {
             goto done;
         }
 

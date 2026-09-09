@@ -16,15 +16,15 @@ typedef struct {
 
 extern Runtime *D_80016000;
 extern void func_80016120(void) __attribute__((noreturn));
-extern void func_80016130(void);
+extern void func_80016130(s32 arg0, s32 arg1);
 
-void func_8047E0D8(void)
+void func_8047E0D8(s32 arg0, s32 arg1)
 {
     Callback callback;
 
     callback = D_80016000->callbacks[D_80016000->callbackIndex].callback;
     if (callback == 0) {
-        func_80016130();
+        func_80016130(arg0, arg1);
         func_80016120();
     }
     callback();

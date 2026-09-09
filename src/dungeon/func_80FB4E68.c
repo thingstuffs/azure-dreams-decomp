@@ -141,8 +141,6 @@ extern void func_800AD594(void *, s32);
 extern void func_800B8FC8(void *, void *, void *, s32, s32);
 extern s32 func_800BCB04(u16, u16, s16);
 extern void func_800C8CD8(void *, s32, s32);
-extern void func_80174AD8(void) __attribute__((noreturn));
-extern void func_80174AF0() __attribute__((noreturn));
 
 extern u8 D_80045340[];
 extern s16 D_80083228[];
@@ -190,7 +188,7 @@ void func_80174668(S_80174668_0 *arg0, S_80174668_3 *arg1, S_80174668_1 *arg2, v
     if (state == 2) {
         goto state_2;
     }
-    func_80174AF0();
+    goto done;
 
 state_0:
     object = func_800A05A4(arg3, arg2->unk_24,
@@ -203,7 +201,7 @@ state_0:
         0);
     if (arg2->unk_14 & 0x8000) {
         arg0->unk_9B = 2;
-        func_80174AF0();
+        goto done;
     }
 
     arg0->unk_9B = 1;
@@ -241,7 +239,7 @@ state_0:
     ((S_80174668_6 *)prim)->unk_A2 = (arg2->unk_24 << 6) + 0x20;
     ((S_80174668_6 *)prim)->unk_A4 = (arg2->unk_25 << 6) + 0x20;
     {
-        u32 color;
+        register u32 color ASM_REG("$4"); /* MATCH: retain retail color register after removing the internal-label call. */
         s32 countdown;
         u16 arg1_value;
         color = 0x00808080;
@@ -252,7 +250,7 @@ state_0:
         ((S_80174668_6 *)prim)->unk_96 = countdown;
         ((S_80174668_6 *)prim)->unk_A6 = arg1_value;
         arg0->unk_96.s = countdown;
-        func_80174AF0(color);
+        goto done;
     }
 
 state_1:
@@ -312,7 +310,7 @@ state_1_continue:
         goto done;
     }
     arg0->unk_9B++;
-    func_80174AF0();
+    goto done;
 
 state_2:
     if (!(arg2->unk_14 & 0xE000)) {
@@ -330,9 +328,9 @@ state_2:
     }
     if (((S_80174668_2 *)arg3)->unk_6D == 0) {
         ((S_80174668_2 *)arg3)->unk_46 &= 0x7FFF;
-        func_80174AD8();
+    } else {
+        D_800E3DE8[0] = (u32)((u8 *)arg3 - 0x20);
     }
-    D_800E3DE8[0] = (u32)((u8 *)arg3 - 0x20);
 
     object = ((S_80174668_2 *)arg3)->unk_60.u;
     if (object != 0) {

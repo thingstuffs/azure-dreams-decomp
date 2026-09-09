@@ -17,7 +17,7 @@ typedef struct {
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30();
+extern s32 func_800A6D30(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
 extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s32);
 extern void func_800673A0(Rect *, s32, s32);
@@ -187,17 +187,13 @@ special:
         {
             if ((s16)((s32)arg0 & -4) == 0 &&
                 !(((S_80FB1000_0 *)work)->unk_14 & 0x200)) {
-#ifdef __mips__
                 value = func_800A6D30();
-#else
-                value = func_800A6D30(created, position);
-#endif
                 init_arg0 = created;
                 if (!(value & 1)) {
                     goto initialize_after_a0;
                 }
                 ((S_80FB1000_0 *)work)->unk_1C |= 0x200;
-                value = func_800A6D30(created);
+                value = func_800A6D30();
                 func_800A48F0(work, 1, (value & 0x3F) | 0x20);
                 (*(Callback *)((u8 *)monster + 0x2C)) = func_80175298;
             }

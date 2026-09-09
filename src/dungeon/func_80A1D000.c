@@ -43,7 +43,7 @@ typedef struct S_80170884_4 {
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30();
+extern s32 func_800A6D30(void);
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
@@ -176,7 +176,7 @@ normal_kind:
                 }
                 work->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
-                              (func_800A6D30(obj) & 0x3F) | 0x20);
+                              (func_800A6D30() & 0x3F) | 0x20);
                 part_b->unk_2C = D_80174860;
                 goto post_kind;
             }

@@ -19,13 +19,6 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 
-extern void func_800D0918(void) __attribute__((noreturn));
-extern void func_800D09C4(void) __attribute__((noreturn));
-extern void func_800D0A38(void) __attribute__((noreturn));
-extern void func_800D0C14(void) __attribute__((noreturn));
-extern void func_800D0C64(void) __attribute__((noreturn));
-extern void func_800D0D78(void) __attribute__((noreturn));
-
 extern u8 *D_80083160[3];
 extern GlobalPage D_80080000;
 __asm__(".set D_80080000, 0x80080000");
@@ -139,10 +132,10 @@ void func_800D07C8(s32 arg0, u8 *arg1, u8 *arg2, s16 arg3) {
     register u8 *temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 temp_v0;
     s16 temp_v0_2;
-    s16 temp_v0_3;
+    s32 temp_v0_3;
     s16 temp_v0_4;
     s16 temp_v0_5;
-    s16 temp_v0_6;
+    s32 temp_v0_6;
     s32 temp_a0;
     s32 temp_a1;
     s32 temp_v0_8;
@@ -188,160 +181,157 @@ void func_800D07C8(s32 arg0, u8 *arg1, u8 *arg2, s16 arg3) {
 
     temp_s3 = ((S_800D07C8_3 *)arg2)->unk_08;
     temp_s2 = temp_s3 + 8;
-    ASM_KEEP_NV(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ((S_800D07C8_0 *)scratch)->unk_24 = ((S_800D07C8_3 *)arg2)->unk_14;
-    if (!(((S_800D07C8_4 *)temp_s3)->unk_00.u & 0x20)) {
-        ((S_800D07C8_0 *)scratch)->unk_08.s32 = (*(u8 *)((u8 *)temp_s2 + 0));
-        ((S_800D07C8_0 *)scratch)->unk_0C.s32 = (*(u8 *)((u8 *)temp_s2 + 1));
-        ((S_800D07C8_0 *)scratch)->unk_10.s32 = (*(u8 *)((u8 *)temp_s2 + 2));
-        ((S_800D07C8_0 *)scratch)->unk_14.s32 = (*(u8 *)((u8 *)temp_s2 + 3));
-        if ((((S_800D07C8_4 *)temp_s3)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 1) {
-            s32 continuation_v0;
-            continuation_v0 = (0 - (s8)(*(volatile u8 *)((u8 *)temp_s2 + -6))) - ((S_800D07C8_0 *)scratch)->unk_108;
-            ((S_800D07C8_0 *)scratch)->unk_80 = continuation_v0;
-            ((S_800D07C8_0 *)scratch)->unk_70 = continuation_v0;
-            continuation_v0 -= ((S_800D07C8_0 *)scratch)->unk_10.u16;
-            ASM_TAILSLOT_PIN(continuation_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800D09C4();
-        }
-        temp_v0_2 = (s8)(*(u8 *)((u8 *)temp_s2 + -6)) - ((S_800D07C8_0 *)scratch)->unk_108;
-        ((S_800D07C8_0 *)scratch)->unk_80 = temp_v0_2;
-        ((S_800D07C8_0 *)scratch)->unk_70 = temp_v0_2;
-        temp_v0_3 = temp_v0_2 + ((S_800D07C8_0 *)scratch)->unk_10.u16;
-        ((S_800D07C8_0 *)scratch)->unk_88 = temp_v0_3;
-        ((S_800D07C8_0 *)scratch)->unk_78 = temp_v0_3;
-        if ((((S_800D07C8_4 *)temp_s3)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 2) {
-            s32 continuation_v0;
-            continuation_v0 = (0 - (s8)(*(volatile u8 *)((u8 *)temp_s2 + -5))) - ((S_800D07C8_0 *)scratch)->unk_10A;
-            ((S_800D07C8_0 *)scratch)->unk_7A = continuation_v0;
-            ((S_800D07C8_0 *)scratch)->unk_72 = continuation_v0;
-            continuation_v0 -= ((S_800D07C8_0 *)scratch)->unk_14.u16;
-            ASM_TAILSLOT_PIN(continuation_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800D0A38();
-        }
-        temp_v0_5 = (s8)(*(u8 *)((u8 *)temp_s2 + -5)) - ((S_800D07C8_0 *)scratch)->unk_10A;
-        ((S_800D07C8_0 *)scratch)->unk_7A = temp_v0_5;
-        ((S_800D07C8_0 *)scratch)->unk_72 = temp_v0_5;
-        temp_v0_6 = temp_v0_5 + ((S_800D07C8_0 *)scratch)->unk_14.u16;
-        ((S_800D07C8_0 *)scratch)->unk_8A = temp_v0_6;
-        ((S_800D07C8_0 *)scratch)->unk_82 = temp_v0_6;
+    for (;;) {
+        ASM_KEEP_NV(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        if (!(((S_800D07C8_4 *)temp_s3)->unk_00.u & 0x20)) {
+            ((S_800D07C8_0 *)scratch)->unk_08.s32 = (*(u8 *)((u8 *)temp_s2 + 0));
+            ((S_800D07C8_0 *)scratch)->unk_0C.s32 = (*(u8 *)((u8 *)temp_s2 + 1));
+            ((S_800D07C8_0 *)scratch)->unk_10.s32 = (*(u8 *)((u8 *)temp_s2 + 2));
+            ((S_800D07C8_0 *)scratch)->unk_14.s32 = (*(u8 *)((u8 *)temp_s2 + 3));
+            if ((((S_800D07C8_4 *)temp_s3)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 1) {
+                temp_v0_3 = (0 - (s8)(*(volatile u8 *)((u8 *)temp_s2 + -6))) - ((S_800D07C8_0 *)scratch)->unk_108;
+                ((S_800D07C8_0 *)scratch)->unk_80 = temp_v0_3;
+                ((S_800D07C8_0 *)scratch)->unk_70 = temp_v0_3;
+                temp_v0_3 -= ((S_800D07C8_0 *)scratch)->unk_10.u16;
+            } else {
+                temp_v0_3 = (s8)(*(volatile u8 *)((u8 *)temp_s2 + -6)) - ((S_800D07C8_0 *)scratch)->unk_108;
+                ((S_800D07C8_0 *)scratch)->unk_80 = temp_v0_3;
+                ((S_800D07C8_0 *)scratch)->unk_70 = temp_v0_3;
+                temp_v0_3 = temp_v0_3 + ((S_800D07C8_0 *)scratch)->unk_10.u16;
+            }
+            ((S_800D07C8_0 *)scratch)->unk_88 = temp_v0_3;
+            ((S_800D07C8_0 *)scratch)->unk_78 = temp_v0_3;
+            if ((((S_800D07C8_4 *)temp_s3)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 2) {
+                temp_v0_6 = (0 - (s8)(*(volatile u8 *)((u8 *)temp_s2 + -5))) - ((S_800D07C8_0 *)scratch)->unk_10A;
+                ((S_800D07C8_0 *)scratch)->unk_7A = temp_v0_6;
+                ((S_800D07C8_0 *)scratch)->unk_72 = temp_v0_6;
+                temp_v0_6 -= ((S_800D07C8_0 *)scratch)->unk_14.u16;
+            } else {
+                temp_v0_6 = (s8)(*(volatile u8 *)((u8 *)temp_s2 + -5)) - ((S_800D07C8_0 *)scratch)->unk_10A;
+                ((S_800D07C8_0 *)scratch)->unk_7A = temp_v0_6;
+                ((S_800D07C8_0 *)scratch)->unk_72 = temp_v0_6;
+                temp_v0_6 = temp_v0_6 + ((S_800D07C8_0 *)scratch)->unk_14.u16;
+            }
+            ((S_800D07C8_0 *)scratch)->unk_8A = temp_v0_6;
+            ((S_800D07C8_0 *)scratch)->unk_82 = temp_v0_6;
 
-        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        temp_v0_7 = (func_80065590(scratch + 0x70, scratch + 0x78,
-                                   scratch + 0x80, scratch + 0x88,
-                                   temp_s4 + 8, temp_s4 + 0x14,
-                                   temp_s4 + 0x20, temp_s4 + 0x2C,
-                                   scratch + 0x90, scratch + 0x94) - arg3) - 6;
-        ((S_800D07C8_0 *)scratch)->unk_C0 = temp_v0_7;
-        if (temp_v0_7 < 0x1E0U) {
-            var_a1 = 0;
-            if ((u32)(((*(u16 *)((u8 *)temp_s0 + 1)) + 0x20) & 0xFFFF) < 0x181U) {
-                u32 masked;
-                masked = (u32)(((*(u16 *)((u8 *)temp_s0 + 3)) + 0x20) & 0xFFFF);
-                var_a1 = masked < 0x121U;
-            }
-            var_v1 = 0;
-            if ((u32)(((*(u16 *)((u8 *)temp_s0 + 0xD)) + 0x20) & 0xFFFF) < 0x181U) {
-                u32 masked;
-                masked = (u32)(((*(u16 *)((u8 *)temp_s0 + 0xF)) + 0x20) & 0xFFFF);
-                var_v1 = masked < 0x121U;
-            }
-            var_a0 = 0;
-            temp_a1 = var_a1 | var_v1;
-            if ((u32)(((*(u16 *)((u8 *)temp_s0 + 0x19)) + 0x20) & 0xFFFF) < 0x181U) {
-                u32 masked;
-                masked = (u32)(((*(u16 *)((u8 *)temp_s0 + 0x1B)) + 0x20) & 0xFFFF);
-                var_a0 = masked < 0x121U;
-            }
-            var_v1_2 = 0;
-            temp_a0 = temp_a1 | var_a0;
-            if ((u32)(((*(u16 *)((u8 *)temp_s0 + 0x25)) + 0x20) & 0xFFFF) < 0x181U) {
-                u32 masked;
-                masked = (u32)(((*(u16 *)((u8 *)temp_s0 + 0x27)) + 0x20) & 0xFFFF);
-                var_v1_2 = masked < 0x121U;
-            }
-            if ((temp_a0 | var_v1_2) != 0) {
-                ((S_800D07C8_3 *)arg2)->unk_14 &= 0x7FFF;
-                temp_v1 = ((S_800D07C8_0 *)scratch)->unk_10.s32 + ((S_800D07C8_0 *)scratch)->unk_08.s32;
-                ((S_800D07C8_0 *)scratch)->unk_10.s32 = temp_v1;
-                if (temp_v1 & 0x100) {
-                    ((S_800D07C8_0 *)scratch)->unk_10.s32 = temp_v1 - 1;
+            ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            temp_v0_7 = (func_80065590(scratch + 0x70, scratch + 0x78,
+                                       scratch + 0x80, scratch + 0x88,
+                                       temp_s4 + 8, temp_s4 + 0x14,
+                                       temp_s4 + 0x20, temp_s4 + 0x2C,
+                                       scratch + 0x90, scratch + 0x94) - arg3) - 6;
+            ((S_800D07C8_0 *)scratch)->unk_C0 = temp_v0_7;
+            if (temp_v0_7 < 0x1E0U) {
+                var_a1 = 0;
+                if ((u32)(((*(u16 *)((u8 *)temp_s0 + 1)) + 0x20) & 0xFFFF) < 0x181U) {
+                    u32 masked;
+                    masked = (u32)(((*(u16 *)((u8 *)temp_s0 + 3)) + 0x20) & 0xFFFF);
+                    var_a1 = masked < 0x121U;
                 }
-                temp_v1_2 = ((S_800D07C8_0 *)scratch)->unk_14.s32 + ((S_800D07C8_0 *)scratch)->unk_0C.s32;
-                ((S_800D07C8_0 *)scratch)->unk_14.s32 = temp_v1_2;
-                if (temp_v1_2 & 0x100) {
-                    ((S_800D07C8_0 *)scratch)->unk_14.s32 = temp_v1_2 - 1;
+                var_v1 = 0;
+                if ((u32)(((*(u16 *)((u8 *)temp_s0 + 0xD)) + 0x20) & 0xFFFF) < 0x181U) {
+                    u32 masked;
+                    masked = (u32)(((*(u16 *)((u8 *)temp_s0 + 0xF)) + 0x20) & 0xFFFF);
+                    var_v1 = masked < 0x121U;
                 }
-                ((S_800D07C8_0 *)scratch)->unk_0C.s32 <<= 8;
-                ((S_800D07C8_0 *)scratch)->unk_14.s32 <<= 8;
-                if (((S_800D07C8_0 *)scratch)->unk_24 & 0x100) {
-                    (*(s16 *)((u8 *)temp_s0 + 7)) = ((S_800D07C8_3 *)arg2)->unk_12;
-                    func_800D0C14();
+                var_a0 = 0;
+                temp_a1 = var_a1 | var_v1;
+                if ((u32)(((*(u16 *)((u8 *)temp_s0 + 0x19)) + 0x20) & 0xFFFF) < 0x181U) {
+                    u32 masked;
+                    masked = (u32)(((*(u16 *)((u8 *)temp_s0 + 0x1B)) + 0x20) & 0xFFFF);
+                    var_a0 = masked < 0x121U;
                 }
-                (*(s16 *)((u8 *)temp_s0 + 7)) = ((S_800D07C8_3 *)arg2)->unk_12 + (*(u16 *)((u8 *)temp_s2 + -2));
-                (*(s16 *)((u8 *)temp_s0 + 5)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16 + ((S_800D07C8_0 *)scratch)->unk_08.u16;
-                (*(s16 *)((u8 *)temp_s0 + 0x11)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16 + ((S_800D07C8_0 *)scratch)->unk_10.u16;
-                {
-                    s32 continuation_base = ((S_800D07C8_3 *)arg2)->unk_10;
-                    if (continuation_base != 0) {
-                        s32 continuation_v0;
-                        continuation_v0 = continuation_base + ((*(u16 *)((u8 *)temp_s2 + -4)) & 0xFF9F);
-                        ASM_TAILSLOT_PIN(continuation_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                        func_800D0C64();
+                var_v1_2 = 0;
+                temp_a0 = temp_a1 | var_a0;
+                if ((u32)(((*(u16 *)((u8 *)temp_s0 + 0x25)) + 0x20) & 0xFFFF) < 0x181U) {
+                    u32 masked;
+                    masked = (u32)(((*(u16 *)((u8 *)temp_s0 + 0x27)) + 0x20) & 0xFFFF);
+                    var_v1_2 = masked < 0x121U;
+                }
+                if ((temp_a0 | var_v1_2) != 0) {
+                    ((S_800D07C8_3 *)arg2)->unk_14 &= 0x7FFF;
+                    temp_v1 = ((S_800D07C8_0 *)scratch)->unk_10.s32 + ((S_800D07C8_0 *)scratch)->unk_08.s32;
+                    ((S_800D07C8_0 *)scratch)->unk_10.s32 = temp_v1;
+                    if (temp_v1 & 0x100) {
+                        ((S_800D07C8_0 *)scratch)->unk_10.s32 = temp_v1 - 1;
                     }
-                }
-                (*(u16 *)((u8 *)temp_s0 + 0x13)) = (*(u16 *)((u8 *)temp_s2 + -4));
-                (*(s16 *)((u8 *)temp_s0 + 0x1D)) = ((S_800D07C8_0 *)scratch)->unk_14.u16 + ((S_800D07C8_0 *)scratch)->unk_08.u16;
-                (*(s16 *)((u8 *)temp_s0 + 0x29)) = ((S_800D07C8_0 *)scratch)->unk_14.u16 + ((S_800D07C8_0 *)scratch)->unk_10.u16;
-                if ((*(s16 *)((u8 *)temp_s0 + 1)) > (*(s16 *)((u8 *)temp_s0 + 0x25))) {
-                    ((S_800D07C8_5 *)temp_s0)->unk_11--;
-                    ((S_800D07C8_5 *)temp_s0)->unk_29--;
-                }
-                if ((*(s16 *)((u8 *)temp_s0 + 3)) > (*(s16 *)((u8 *)temp_s0 + 0x27))) {
-                    ((S_800D07C8_5 *)temp_s0)->unk_1E--;
-                    ((S_800D07C8_5 *)temp_s0)->unk_2A--;
-                }
-                temp_v0_8 = ((S_800D07C8_3 *)arg2)->unk_0C;
-                (*(s32 *)((u8 *)temp_s0 + 0x21)) = 0;
-                (*(s32 *)((u8 *)temp_s0 + 0x15)) = 0;
-                ((S_800D07C8_5_pre *)temp_s0)[-1].unk_00 = 0xC;
-                (*(s32 *)((u8 *)temp_s0 + 9)) = temp_v0_8;
-                (*(s32 *)((u8 *)temp_s0 + -3)) = temp_v0_8;
-                temp_a0_2 = (*(u8 *)((u8 *)temp_s2 + -7));
-                ((S_800D07C8_5 *)temp_s0)->unk_00 = temp_a0_2;
-                temp_v1_3 = ((S_800D07C8_0 *)scratch)->unk_24;
-                if (temp_v1_3 & 8) {
-                    var_v0 = temp_v1_3 & 4;
-                    if (var_v0 == 0) {
-                        var_v0 = temp_a0_2 & 0xFD;
+                    temp_v1_2 = ((S_800D07C8_0 *)scratch)->unk_14.s32 + ((S_800D07C8_0 *)scratch)->unk_0C.s32;
+                    ((S_800D07C8_0 *)scratch)->unk_14.s32 = temp_v1_2;
+                    if (temp_v1_2 & 0x100) {
+                        ((S_800D07C8_0 *)scratch)->unk_14.s32 = temp_v1_2 - 1;
+                    }
+                    ((S_800D07C8_0 *)scratch)->unk_0C.s32 <<= 8;
+                    ((S_800D07C8_0 *)scratch)->unk_14.s32 <<= 8;
+                    if (((S_800D07C8_0 *)scratch)->unk_24 & 0x100) {
+                        (*(s16 *)((u8 *)temp_s0 + 7)) = ((S_800D07C8_3 *)arg2)->unk_12;
                     } else {
-                        var_v0 = temp_a0_2 | 2;
+                        (*(s16 *)((u8 *)temp_s0 + 7)) = ((S_800D07C8_3 *)arg2)->unk_12 + (*(u16 *)((u8 *)temp_s2 + -2));
                     }
-                    ((S_800D07C8_5 *)temp_s0)->unk_00 = var_v0;
+                    (*(s16 *)((u8 *)temp_s0 + 5)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16 + ((S_800D07C8_0 *)scratch)->unk_08.u16;
+                    (*(s16 *)((u8 *)temp_s0 + 0x11)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16 + ((S_800D07C8_0 *)scratch)->unk_10.u16;
+                    {
+                        s32 continuation_base = ((S_800D07C8_3 *)arg2)->unk_10;
+                        s32 continuation_v0;
+                        if (continuation_base != 0) {
+                            continuation_v0 = continuation_base + ((*(u16 *)((u8 *)temp_s2 + -4)) & 0xFF9F);
+                        } else {
+                            continuation_v0 = (*(u16 *)((u8 *)temp_s2 + -4));
+                        }
+                        (*(u16 *)((u8 *)temp_s0 + 0x13)) = continuation_v0;
+                    }
+                    (*(s16 *)((u8 *)temp_s0 + 0x1D)) = ((S_800D07C8_0 *)scratch)->unk_14.u16 + ((S_800D07C8_0 *)scratch)->unk_08.u16;
+                    (*(s16 *)((u8 *)temp_s0 + 0x29)) = ((S_800D07C8_0 *)scratch)->unk_14.u16 + ((S_800D07C8_0 *)scratch)->unk_10.u16;
+                    if ((*(s16 *)((u8 *)temp_s0 + 1)) > (*(s16 *)((u8 *)temp_s0 + 0x25))) {
+                        ((S_800D07C8_5 *)temp_s0)->unk_11--;
+                        ((S_800D07C8_5 *)temp_s0)->unk_29--;
+                    }
+                    if ((*(s16 *)((u8 *)temp_s0 + 3)) > (*(s16 *)((u8 *)temp_s0 + 0x27))) {
+                        ((S_800D07C8_5 *)temp_s0)->unk_1E--;
+                        ((S_800D07C8_5 *)temp_s0)->unk_2A--;
+                    }
+                    temp_v0_8 = ((S_800D07C8_3 *)arg2)->unk_0C;
+                    (*(s32 *)((u8 *)temp_s0 + 0x21)) = 0;
+                    (*(s32 *)((u8 *)temp_s0 + 0x15)) = 0;
+                    ((S_800D07C8_5_pre *)temp_s0)[-1].unk_00 = 0xC;
+                    (*(s32 *)((u8 *)temp_s0 + 9)) = temp_v0_8;
+                    (*(s32 *)((u8 *)temp_s0 + -3)) = temp_v0_8;
+                    temp_a0_2 = (*(u8 *)((u8 *)temp_s2 + -7));
+                    ((S_800D07C8_5 *)temp_s0)->unk_00 = temp_a0_2;
+                    temp_v1_3 = ((S_800D07C8_0 *)scratch)->unk_24;
+                    if (temp_v1_3 & 8) {
+                        var_v0 = temp_v1_3 & 4;
+                        if (var_v0 == 0) {
+                            var_v0 = temp_a0_2 & 0xFD;
+                        } else {
+                            var_v0 = temp_a0_2 | 2;
+                        }
+                        ((S_800D07C8_5 *)temp_s0)->unk_00 = var_v0;
+                    }
+                    {
+                        register u8 *call_s4 ASM_REG("$5") = temp_s4;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                        temp_s0 += 0x34;
+                        temp_s4 += 0x34;
+                        func_8006658C(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4), call_s4);
+                    }
+                    ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                    ASM_KEEP(temp_s4);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 }
-                {
-                    register u8 *call_s4 ASM_REG("$5") = temp_s4;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    temp_s0 += 0x34;
-                    temp_s4 += 0x34;
-                    func_8006658C(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4), call_s4);
-                }
-                ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(temp_s4);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                func_800D0D78();
+            }
+        } else {
+            callback = (*(Callback *)((u8 *)temp_s2 + 0));
+            if (callback != 0) {
+                callback(arg0, arg1, arg2, temp_s3);
             }
         }
-    } else {
-        callback = (*(Callback *)((u8 *)temp_s2 + 0));
-        if (callback != 0) {
-            callback(arg0, arg1, arg2, temp_s3);
-        }
-    }
 
-    temp_s2 += 0xC;
-    if (((S_800D07C8_4 *)temp_s3)->unk_00.s >= 0) {
-        temp_s3 += 0xC;
-        ASM_TAILSLOT_PIN(temp_s3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_800D0918();
+        temp_s2 += 0xC;
+        if (((S_800D07C8_4 *)temp_s3)->unk_00.s >= 0) {
+            temp_s3 += 0xC;
+        } else {
+            break;
+        }
     }
     ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     func_80064A40();

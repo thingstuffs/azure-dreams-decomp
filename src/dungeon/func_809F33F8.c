@@ -20,13 +20,6 @@ M2C_UNK func_800A020C(s32, void *);               /* extern */
 s32 func_800A9E70(void *, void *, void *, void *); /* extern */
 M2C_UNK func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(s32, s32, s16);                 /* extern */
-void func_80170D94(void) __attribute__((noreturn));  /* extern */
-void func_80170E3C(void) __attribute__((noreturn));  /* extern */
-void func_80170EB8(void) __attribute__((noreturn));  /* extern */
-void func_80170F54(void) __attribute__((noreturn));  /* extern */
-void func_80171210(void) __attribute__((noreturn));  /* extern */
-void func_80171320(void) __attribute__((noreturn));  /* extern */
-void func_80171330(void) __attribute__((noreturn));  /* extern */
 extern u8 D_8006CCF8[12];
 extern s16 D_80083228[5];
 extern u16 D_80083462[5];
@@ -162,10 +155,10 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
         if (!(((S_80170BF8_0 *)arg0)->unk_1C & 0x40000) && !(((S_80170BF8_0 *)arg0)->unk_98 & 8)) {
             ((S_80170BF8_1 *)arg1)->unk_14 = (s32) (((S_80170BF8_1 *)arg1)->unk_14 + (((S_80170BF8_0 *)arg0)->unk_9D.s * 0x14000));
             ((S_80170BF8_0 *)arg0)->unk_9D.u = (u8) (((S_80170BF8_0 *)arg0)->unk_9D.u + 1);
-            func_80170D94();
-            return;
+            goto block_19;
         }
         ((S_80170BF8_0 *)arg0)->unk_9D.s = 0;
+block_19:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_80170BF8_0 *)arg0)->unk_90.at00.v = (s32) (((S_80170BF8_0 *)arg0)->unk_90.at00.v + ((S_80170BF8_1 *)arg1)->unk_14);
         temp_v1_2 = ((S_80170BF8_2 *)arg2)->unk_14;
@@ -179,21 +172,17 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
             if (D_8006CCF8[temp_s0] != 0) {
                 temp_dead = ((S_80170BF8_2 *)arg2)->unk_14;
                 temp_dead |= 1;
-                ASM_TAILSLOT_PIN(temp_dead);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80170E3C();
-                return;
+            } else {
+                temp_dead = ((S_80170BF8_2 *)arg2)->unk_14 & 0xFFFE;
             }
-            ((S_80170BF8_2 *)arg2)->unk_14 = (u16) (((S_80170BF8_2 *)arg2)->unk_14 & 0xFFFE);
+            ((S_80170BF8_2 *)arg2)->unk_14 = (u16) temp_dead;
             if (((S_80170BF8_0 *)arg0)->unk_9A != 8) {
                 func_800A020C(((S_80170BF8_3 *)actor2)->unk_1C, arg2 + 0xC);
             }
             if (!(((S_80170BF8_3 *)actor2)->unk_1C & 0x20)) {
                 if (!(((S_80170BF8_2 *)arg2)->unk_14 & 0x40)) {
                     func_800478B8(arg2);
-                    page_base = 0xF7FF0000;
-                    ASM_PAGEBASE_PIN(page_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_80170EB8();
-                    return;
+                    goto block_28;
                 }
                 goto block_28;
             }
@@ -211,17 +200,13 @@ block_28:
                         var_a1 = D_80175148;
                         if (temp_v1_5 == D_80175148) {
                             tail_value = (u32) D_80175140;
-                            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                            func_80170F54();
-                            return;
+                            goto block_39_merge;
                         }
                         if (temp_v1_5 != D_80175140) {
                             var_a1 = D_80175170;
                             if (temp_v1_5 == D_80175170) {
                                 tail_value = (u32) D_80175178;
-                                ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                                func_80170F54();
-                                return;
+                                goto block_39_merge;
                             }
                             if (temp_v1_5 == D_80175178) {
                                 goto block_39;
@@ -229,6 +214,10 @@ block_28:
                             goto block_40;
                         }
 block_39:
+                        tail_value = (u32) var_a1;
+block_39_merge:
+                        ASM_KEEP_NV(tail_value); /* MATCH: Keep the merged address in a1. */
+                        var_a1 = (u8 *) tail_value;
                         ((S_80170BF8_2 *)arg2)->unk_2C = var_a1;
                         address_1 = (u32) ((((s32) (D_80083228[0] + ((S_80170BF8_3 *)actor2)->unk_2A + 0x100) >> 9) & 7));
                         address_1 += (u32) var_a1;
@@ -252,14 +241,12 @@ block_44:
                     temp_v1_9 = (u16) ((S_80170BF8_0 *)arg0)->unk_90.at02.v;
                     if (((S_80170BF8_0 *)arg0)->unk_90.at02.v > (temp_v0_2 - 0x20)) {
                         ((S_80170BF8_0 *)arg0)->unk_90.at02.v = (s16) (temp_v1_9 - 8);
-                        func_80171330();
-                        return;
+                        goto block_82;
                     }
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     if (((S_80170BF8_0 *)arg0)->unk_90.at02.v < (temp_v0_2 - 0x2A)) {
                         ((S_80170BF8_0 *)arg0)->unk_90.at02.v = (s16) (temp_v1_9 + 8);
-                        func_80171330();
-                        return;
+                        goto block_82;
                     }
                     goto block_82;
                 }
@@ -278,8 +265,7 @@ block_44:
                     ((S_80170BF8_0 *)arg0)->unk_9D.s = 0;
                     ((S_80170BF8_1 *)arg1)->unk_14 = 0;
                     ((S_80170BF8_3 *)actor2)->unk_1C = ((S_80170BF8_3 *)actor2)->unk_1C | 0x08000000;
-                    func_80171330();
-                    return;
+                    goto block_82;
                 }
             }
             goto block_82;
@@ -301,8 +287,7 @@ block_44:
                     ((S_80170BF8_0 *)arg0)->unk_9D.s = 0;
                     ((S_80170BF8_1 *)arg1)->unk_14 = 0;
                     ((S_80170BF8_3 *)actor2)->unk_1C = ((S_80170BF8_3 *)actor2)->unk_1C | 0x08000000;
-                    func_80171320();
-                    return;
+                    goto block_81;
                 }
             }
             goto block_81;
@@ -315,17 +300,13 @@ block_44:
                 var_a1_2 = D_80175148;
                 if (temp_v1_8 == D_80175148) {
                     tail_value = (u32) D_80175140;
-                    ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    func_80171210();
-                    return;
+                    goto block_72_merge;
                 }
                 if (temp_v1_8 != D_80175140) {
                     var_a1_2 = D_80175170;
                     if (temp_v1_8 == D_80175170) {
                         tail_value = (u32) D_80175178;
-                        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                        func_80171210();
-                        return;
+                        goto block_72_merge;
                     }
                     if (temp_v1_8 == D_80175178) {
                         goto block_72;
@@ -333,6 +314,10 @@ block_44:
                     goto block_73;
                 }
 block_72:
+                tail_value = (u32) var_a1_2;
+block_72_merge:
+                ASM_KEEP_NV(tail_value); /* MATCH: Keep the merged address in a1. */
+                var_a1_2 = (u8 *) tail_value;
                 ((S_80170BF8_2 *)arg2)->unk_2C = var_a1_2;
                 address_1 = (u32) ((((s32) (D_80083228[0] + ((S_80170BF8_3 *)actor2)->unk_2A + 0x100) >> 9) & 7));
                 address_1 += (u32) var_a1_2;

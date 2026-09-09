@@ -5,21 +5,19 @@
 #include "records/Rec_func_800C9B44_arg0.h"
 
 s32 func_800374F4();                         /* extern */
-M2C_UNK func_800C9ED0();                         /* extern */
-M2C_UNK func_800C9ED4();                         /* extern */
 extern void (*D_800D65D8[])(void *, void *, M2C_UNK);
 
 
 
 void func_800C9DB8(Rec_func_800C9B44_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    s16 temp_a0;
-    s16 temp_a0_2;
-    s16 temp_a0_3;
+    s32 temp_a0;
+    s32 temp_a0_2;
+    s32 temp_a0_3;
     s32 temp_v0_4;
     s32 temp_v1_4;
     s32 temp_a0_4;
     s32 temp_v1;
-    s32 var_s1;
+    register s32 var_s1 ASM_REG("$17"); /* MATCH: Keep the dispatch index in retail's s1 across the random call. */
     register s32 var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 tail_value;
 
@@ -36,40 +34,39 @@ loop_1:
         if (var_s1 == 1) {
             temp_v1 = func_800374F4(4) & 0xFFFF;
             if (temp_v1 == 0) {
+                s32 temp_v0 = arg0->unk_84;
                 temp_a0 = arg0->unk_8C;
                 var_s2 -= 1;
-                if (arg1->unk_00.at02_s16.v < (arg0->unk_84 + temp_a0)) {
+                if (arg1->unk_00.at02_s16.v < (temp_v0 + temp_a0)) {
                     var_s2 += 1;
                     ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     tail_value = 0x400;
-                    ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_800C9ED0(temp_a0);
-                    return;
+                    goto store_tail;
                 }
                 goto loop_1;
             }
             if (temp_v1 == var_s1) {
+                s32 temp_v0 = arg0->unk_86;
                 temp_a0_2 = arg0->unk_8E;
                 var_s2 -= 1;
-                if (arg1->unk_04.at02_s16.v < (arg0->unk_86 + temp_a0_2)) {
+                if (arg1->unk_04.at02_s16.v < (temp_v0 + temp_a0_2)) {
                     var_s2 += 1;
                     ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     arg0->unk_72 = 0;
-                    func_800C9ED4(temp_a0_2);
-                    return;
+                    goto block_17;
                 }
                 goto loop_1;
             }
             if (temp_v1 == 2) {
+                s32 temp_v0 = arg0->unk_84;
+                s32 temp_v1_3 = arg0->unk_8C;
                 temp_a0_3 = arg1->unk_00.at02_s16.v;
                 var_s2 -= 1;
-                if ((arg0->unk_84 - arg0->unk_8C) < temp_a0_3) {
+                if ((temp_v0 - temp_v1_3) < temp_a0_3) {
                     var_s2 += 1;
                     ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     tail_value = 0xC00;
-                    ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_800C9ED0(temp_a0_3);
-                    return;
+                    goto store_tail;
                 }
                 goto loop_1;
             }
@@ -80,7 +77,9 @@ loop_1:
             if ((temp_v0_4 - temp_v1_4) < temp_a0_4) {
                 var_s2 += 1;
                 ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                arg0->unk_72 = 0x800;
+                tail_value = 0x800;
+store_tail:
+                arg0->unk_72 = tail_value;
                 goto block_17;
             }
             goto loop_1;
@@ -95,6 +94,7 @@ block_17:
 
         ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         table[var_s1](call_arg0, arg1, arg2);
+        ASM_KEEP(var_s1); /* MATCH: Keep the index intact while forming the dispatch address. */
     }
 }
 

@@ -57,9 +57,6 @@ typedef struct S_80025A14_4 {
 
 
 
-extern void func_80025BD8() __attribute__((noreturn));
-extern void func_80025C78(void) __attribute__((noreturn));
-extern void func_80025C7C() __attribute__((noreturn));
 extern void func_800489F4(void *, u8, s8, s32);
 extern void func_80048AC8(void *, s32);
 extern s16 D_8002715A;
@@ -96,7 +93,8 @@ void func_80025A14(void *arg0, void *arg1, void *arg2)
     if (phase < 2) {
         init_value = 0x1000;
         if (phase != 0) {
-            func_80025C7C(var_a0);
+            ASM_SCHED_BARRIER(); /* MATCH: preserve dispatch layout and jump to the shared epilogue. */
+            goto end;
         }
         goto init;
     }
@@ -106,7 +104,7 @@ void func_80025A14(void *arg0, void *arg1, void *arg2)
     if (phase == 3) {
         goto fade_out;
     }
-    func_80025C7C(var_a0);
+    goto end;
 
 init:
     ((S_80025A14_1 *)buffer)->unk_02 = 0;
@@ -150,7 +148,7 @@ check_stop:
     if (D_8002715A != 0) {
         ((S_80025A14_0 *)state)->unk_73.u = 8;
         ((S_80025A14_1 *)buffer)->unk_16 = 8;
-        func_80025BD8(var_a0, buffer);
+        goto advance_phase;
     }
     goto final_update;
 
@@ -166,6 +164,7 @@ fade_out:
     fade_out_value = ((S_80025A14_0 *)state)->unk_73.u - 1;
     ((S_80025A14_0 *)state)->unk_73.u = fade_out_value;
     if ((s8)fade_out_value <= 0) {
+advance_phase:
         phase_value = ((S_80025A14_0 *)state)->unk_72.u;
         ((S_80025A14_0 *)state)->unk_72.u = phase_value + 1;
     }
@@ -182,8 +181,10 @@ final_update:
     func_80048AC8(obj, 2);
     if (D_8006CCF8[index] != 0) {
         tail_value = ((S_80025A14_2 *)obj)->unk_14 | 1;
-        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80025C78();
+    } else {
+        tail_value = ((S_80025A14_2 *)obj)->unk_14 & 0xFFFE;
     }
-    ((S_80025A14_2 *)obj)->unk_14 &= 0xFFFE;
+    ((S_80025A14_2 *)obj)->unk_14 = tail_value;
+end:
+    return;
 }

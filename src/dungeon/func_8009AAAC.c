@@ -1,6 +1,5 @@
 #include "common.h"
 extern void itm_mon_koyaw_set(void *);
-extern void func_800A028C(void *);
 extern u8 D_800DD83C[];
 extern u8 D_800DD840[];
 extern u8 D_800DD844[];
@@ -9,46 +8,38 @@ extern u8 D_800DD84C[];
 extern u8 D_800DD850[];
 void func_800A020C(s32 flags) {
     if (!(flags & 0x10000000)) {
+        void *ptr;
         if (flags & 8) {
             register u32 page ASM_REG("$2") = 0x800E0000;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_800A028C((void *)(page - 0x27BC));
-            return;
-        }
-        if (flags & 0x20) {
+            ptr = (void *)(page - 0x27BC);
+        } else if (flags & 0x20) {
             register u32 page ASM_REG("$2") = 0x800E0000;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_800A028C((void *)(page - 0x27B0));
-            return;
-        }
-        if (flags & 0x40) {
+            ptr = (void *)(page - 0x27B0);
+        } else if (flags & 0x40) {
             register u32 page ASM_REG("$2") = 0x800E0000;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_800A028C((void *)(page - 0x27B8));
-            return;
-        }
-        if (flags & 0x400) {
+            ptr = (void *)(page - 0x27B8);
+        } else if (flags & 0x400) {
             register u32 page ASM_REG("$2") = 0x800E0000;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_800A028C((void *)(page - 0x27C0));
-            return;
-        }
-        if (flags & 0x10) {
+            ptr = (void *)(page - 0x27C0);
+        } else if (flags & 0x10) {
             register u32 page ASM_REG("$2") = 0x800E0000;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_800A028C((void *)(page - 0x27B4));
-            return;
-        }
-        ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        {
-            u32 page = 0x800E0000;
-            void *ptr;
+            ptr = (void *)(page - 0x27B4);
+        } else {
+            ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            {
+                u32 page = 0x800E0000;
 
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ptr = (void *)(page - 0x27C4);
-            if (ptr != 0) {
-                itm_mon_koyaw_set(ptr);
+                ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                ptr = (void *)(page - 0x27C4);
             }
+        }
+        if (ptr != 0) {
+            itm_mon_koyaw_set(ptr);
         }
     }
 }

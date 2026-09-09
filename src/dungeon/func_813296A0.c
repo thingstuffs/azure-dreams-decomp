@@ -52,7 +52,6 @@ extern void func_800A56E0(s32);
 extern void func_80047784(Sub *, u8, s32);
 extern void func_80170CE0(s32, s32, s32, s32);
 extern void func_800478B8(Sub *);
-extern void func_80171034(void) __attribute__((noreturn));
 
 void func_80170EA0(void) {
     Extra *s0;
@@ -80,13 +79,13 @@ void func_80170EA0(void) {
     if (state == 0) {
         goto block_0;
     }
-    func_80171034();
+    goto block_exit;
 
 block_ge2:
     if (state == 2) {
         goto block_2;
     }
-    func_80171034();
+    goto block_exit;
 
 block_0:
     s0->field_9A = 1;
@@ -106,7 +105,7 @@ block_1:
         s2->field_2C = D_80174B30;
         s2->flags_14 |= 0xC;
         func_80047784(s2, D_80174B30[((D_80083228[0] + s3->field_2A + 0x100) >> 9) & 7], 0);
-        func_80171034();
+        goto block_exit;
     }
     goto block_exit;
 

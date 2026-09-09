@@ -160,10 +160,6 @@ extern SpawnFunc func_800A0B94();
 extern s32 func_800A152C();
 extern s32 func_800A1618();
 extern s32 func_800A1BD0();
-extern s32 func_800A53E0();
-extern s32 func_800A5448();
-extern s32 func_800A5668();
-extern s32 func_800A566C();
 
 extern u8 D_80023000[];
 extern u8 D_8003E140[];
@@ -186,6 +182,8 @@ s32 func_800A504C(s32 unused, void *arg1)
     u8 *base = (u8 *)&D_80083460;
     s32 count = ((S_800A504C_0 *)base)->unk_0A.s;
     s32 offset;
+    register s32 load_result ASM_REG("$2"); /* MATCH: both loading paths feed the shared store directly from the call-result register. */
+    register u8 *load_spawned ASM_REG("$5"); /* MATCH: each loading arm prepares the shared call argument before the join, filling the jump delay slot. */
     s32 saved5c;
     s32 saved58;
     s32 angle;
@@ -236,12 +234,12 @@ s32 func_800A504C(s32 unused, void *arg1)
         if (((S_800A504C_2_pre *)role1)[-1].unk_00 == 0) {
             goto first_zero;
         }
-        return func_800A566C();
+        return 0;
     }
     if (((S_800A504C_2_pre *)role1)[-1].unk_00 == 2) {
         goto first_two;
     }
-    return func_800A566C();
+    return 0;
 
 first_zero:
     first_zero_delay = 0;
@@ -254,14 +252,14 @@ first_zero:
         return 0;
     }
     call_index = ((S_800A504C_1 *)entity)->unk_13;
-    func_80047DB8(call_index);
-    ASM_SET(call_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    return func_800A53E0(call_index, spawned);
+    load_result = func_80047DB8(call_index);
+    load_spawned = spawned;
+    goto start_loading;
 
 first_equal:
     if (D_800E3E40[0] != 0) {
         func_80047E30();
-        return func_800A5448();
+        goto increment_mode;
     }
     return 0;
 
@@ -349,7 +347,7 @@ first_two:
     ASM_KEEP(tail_zero);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     ((S_800A504C_7_pre *)mode_page)[-1].unk_00 = 0;
     ((S_800A504C_6 *)global_page)->unk_14A0 = first_value | 0x8000;
-    return func_800A566C();
+    return tail_zero;
 
 second_dispatch:
     if (((S_800A504C_2_pre *)role1)[-1].unk_00 == count) {
@@ -360,12 +358,12 @@ second_dispatch:
         if (((S_800A504C_2_pre *)role1)[-1].unk_00 == 0) {
             goto second_zero;
         }
-        return func_800A566C();
+        return 0;
     }
     if (((S_800A504C_2_pre *)role1)[-1].unk_00 == 2) {
         goto second_two;
     }
-    return func_800A566C();
+    return 0;
 
 second_zero:
     ASM_KEEP(second_zero_delay);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -378,11 +376,15 @@ second_zero:
     ((S_800A504C_1 *)entity)->unk_13--;
     func_8003E188(((S_800A504C_1 *)entity)->unk_13, 0);
     D_80080A90 = D_80023000;
-    D_80081488 = func_80048118(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
-    func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 0);
+    load_result = func_80048118(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
+    load_spawned = spawned;
+
+start_loading:
+    D_80081488 = load_result;
+    func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
     D_800E3E40[0] = 0;
     Control_CD(0xFF, D_8003E140, D_800E3E40);
-    return func_800A5448();
+    goto increment_mode;
 
 second_equal:
     if (D_800E3E40[0] == 0) {
@@ -394,7 +396,7 @@ second_equal:
 
 increment_mode:
     ((S_800A504C_2_pre *)role1)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)role1)[-1].unk_00 + 1);
-    return func_800A5668();
+    goto done;
 
 second_two:
     second_two_delay = 0;

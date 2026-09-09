@@ -28,11 +28,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern s32 func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171088(void) __attribute__((noreturn));
-extern void func_80171474(void); /* noreturn evidence decl after body: gcc must
-    NOT see the barrier here or reorg predicts the beqz taken and fills its slot
-    from the target; retail fills from the fallthrough */
-extern void func_801714AC(void) __attribute__((noreturn));
 extern void func_801715B4(void);
 extern void func_801717F8(void *, void *, void *, void *);
 extern s32 func_80171FA4(void *, void *, void *, void *);
@@ -130,6 +125,7 @@ void func_80170E7C(void *arg0, void *arg1, void *arg2, void *arg3)
     s8 result;
     u16 state;
     u8 *table;
+    register u8 *next_state ASM_REG("$5"); /* MATCH: both paths merge the table address in a1. */
 
     if (D_80083462 & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
@@ -142,16 +138,8 @@ void func_80170E7C(void *arg0, void *arg1, void *arg2, void *arg3)
         if (((S_80170E7C_2 *)arg2)->unk_2C == D_80174C8C) {
             return;
         }
-#ifdef __mips__
-        {
-            register void *next_state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            next_state = D_80174C84;
-            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        }
-#endif
-        func_80171088();
-        return;
+        next_state = D_80174C84;
+        goto set_high_table;
     }
 
     if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x200) {
@@ -205,12 +193,14 @@ void func_80170E7C(void *arg0, void *arg1, void *arg2, void *arg3)
 
             func_800AA888(arg0, arg1, arg2, arg3);
             func_80173F20(arg0, arg1, arg2, arg3);
-            high_table = D_80174C34;
+            next_state = D_80174C34;
 #ifndef __mips__
 #endif
+set_high_table:
+            high_table = next_state;
             (*(void * *)((u8 *)arg2 + (0x2C))) = high_table;
             func_80047784(arg2,
-                high_table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)high_table),
                 0);
             return;
         }
@@ -339,11 +329,8 @@ generic:
             table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = 1;
-        func_801714AC();
-        return;
-    }
-
-    if (((S_80170E7C_2 *)arg2)->unk_14 & 0x6000) {
+    } else if (((S_80170E7C_2 *)arg2)->unk_14 & 0x6000) {
+        void *next_state;
         s16 timer = ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA - 1;
 
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = timer;
@@ -351,20 +338,11 @@ generic:
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = (rand() & 0x1F) + 0x20;
         }
         if (((Rec_func_800A9E70_arg0 *)arg0)->unk_AA < 2) {
-#ifdef __mips__
-            {
-                void *next_state;
-
-                next_state = D_80174C3C;
-                ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            }
-#endif
-            func_80171474();
-            /* no return: the call (noreturn at runtime, via maspsx evidence
-               only) falls through into the store path, so the target label is
-               fallthrough-reached and reorg cannot steal from it */
+            next_state = D_80174C3C;
+        } else {
+            next_state = D_80174C34;
         }
-        ((S_80170E7C_2 *)arg2)->unk_2C = D_80174C34;
+        ((S_80170E7C_2 *)arg2)->unk_2C = next_state;
         func_80047784(arg2,
             ((u8 *)*(u8 * volatile *)((u8 *)arg2 + 0x2C))[
                 ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
@@ -419,9 +397,3 @@ generic:
     }
 }
 
-/* LEAD-18 evidence redeclaration, AFTER the body on purpose: gcc 2.8.1 binds
- * decls top-down, so the call site above compiled without a noreturn barrier
- * (matching retail's compile, which predates the attribute), while the
- * cpp-blind census scanner (tools/gen_noreturn_syms.py scan_text) still
- * harvests the symbol so maspsx's jal->j tail-call conversion fires. */
-extern void func_80171474(void) __attribute__((noreturn));

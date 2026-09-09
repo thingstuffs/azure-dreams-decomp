@@ -19,8 +19,6 @@ M2C_UNK func_800A32A4();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800ACF88();
 s32 func_80042900();
-s32 func_800AD44C();
-s32 func_800AD4AC();
 M2C_UNK func_800B8228();
 
 
@@ -100,7 +98,7 @@ s32 func_800AD058(u8 *arg0, s32 *arg1, u8 *arg2, u8 *arg3) {
         if (temp_v1 == 0) {
             goto phase_0;
         }
-        return func_800AD4AC(1);
+        return dispatch_zero;
     }
     if (temp_v1 == 2) {
         goto block_15;
@@ -110,7 +108,8 @@ s32 func_800AD058(u8 *arg0, s32 *arg1, u8 *arg2, u8 *arg3) {
         dispatch_zero = 0;
         goto phase_3;
     }
-    return func_800AD4AC();
+    ASM_SCHED_BARRIER(); /* MATCH: keep the phase-3 branch followed by the default epilogue jump. */
+    return 0;
 
 phase_0:
     ASM_KEEP(dispatch_zero);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -161,12 +160,7 @@ block_15:
                     goto block_35;
                 }
                 func_800B8228(((S_800AD058_3 *)arg1)->unk_00.at02.v, ((S_800AD058_3 *)arg1)->unk_04.at02.v, ((S_800AD058_2 *)arg3_local)->unk_88, arg3_local + 0x48);
-                {
-                    register void *tail_reload ASM_REG("$4") = arg3_local;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-
-                    ASM_TAILSLOT_PIN(tail_reload);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                }
-                return func_800AD44C(cleanup_arg);
+                goto block_35;
             }
         }
         if (!(temp_v1_8 & 0x20000000)) {
@@ -188,7 +182,6 @@ block_15:
         ((S_800AD058_2_pre *)arg3_local)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)arg3_local)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
         func_800A56E0(0x609);
-        func_800AD4AC();
         return 1;
     }
     return var_v0;

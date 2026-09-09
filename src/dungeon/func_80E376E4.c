@@ -23,9 +23,7 @@ extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
 
-extern void func_80171278(void) __attribute__((noreturn));
-extern void func_80171408(void) __attribute__((noreturn));
-extern void func_80171460(void);
+extern void func_80171460(void *);
 extern void func_801716A4(void *, void *, void *, void *);
 extern s32 func_80171E38(void *, void *, void *, void *);
 extern void func_80171FFC(void *, void *, void *, void *);
@@ -113,13 +111,14 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     s8 tile;
     s16 result;
     u16 field46;
+    register void *state ASM_REG("$5"); /* MATCH: merge the selected table in a1 at the shared update. */
     u8 *table;
     void *origin;
     void *actor;
 
     if (initial_flags & 0x1000) {
         ((S_80170EE4_0 *)arg0)->unk_9A = 14;
-        func_80171460();
+        func_80171460(arg0);
         return;
     }
 
@@ -131,12 +130,8 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
         if (((S_80170EE4_2 *)arg2)->unk_2C == D_80176650) {
             return;
         }
-        {
-            register void *state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            state = D_80176678;
-            ASM_TAILSLOT_PIN(state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80171408();
-        }
+        state = D_80176678;
+        goto update_table;
     }
 
     if (((S_80170EE4_1 *)arg3)->unk_1C & 0x200) {
@@ -231,19 +226,14 @@ jt_c9:
         if ((s16)func_80171E38(arg0, arg1, arg2, arg3) != 0) {
             return;
         }
-        {
-            register void *tail_a0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            register void *tail_a1 ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(tail_a0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80171278();
-        }
+        goto call_80171FFC;
 
 jt_c8:
         if (!(((S_80170EE4_1 *)arg3)->unk_14 & 0x20000000)) {
             func_80173C40(arg0, arg1, arg2, arg3);
             return;
         }
+call_80171FFC:
         func_80171FFC(arg0, arg1, arg2, arg3);
         return;
 
@@ -306,9 +296,12 @@ jt_default:
         return;
     }
     ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    state = table;
+update_table:
+    table = state;
     (*(u8 * *)((u8 *)arg2 + (0x2C))) = table;
     func_80047784(
         arg2,
-        table[((D_80083228 + ((S_80170EE4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        *(u8 *)((((D_80083228 + ((S_80170EE4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + (u32)table),
         0);
 }

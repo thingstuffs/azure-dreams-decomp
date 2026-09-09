@@ -10,8 +10,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_80170A44(void *, void *, void *, void *);
-extern void func_801731F4(void) __attribute__((noreturn));
-extern void func_80173268(void) __attribute__((noreturn));
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
@@ -74,8 +72,8 @@ void func_80172A48(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     register void *held_arg0 ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *held_arg1 = arg1;
-    void *held_arg2 = arg2;
-    void *held_arg3 = arg3;
+    register void *held_arg2 ASM_REG("$19") = arg2; /* MATCH: retain the actor register across the shared model tail. */
+    register void *held_arg3 ASM_REG("$18") = arg3; /* MATCH: retain the item register across the shared model tail. */
     static void *volatile state_keep[] = {
         &&state_0, &&state_1, &&state_2, &&state_3,
         &&state_4, &&state_5, &&state_6, &&state_7,
@@ -94,6 +92,7 @@ void func_80172A48(void *arg0, void *arg1, void *arg2, void *arg3)
     s32 next_state;
     u8 state;
     void *active;
+    register u8 *model_base ASM_REG("$5"); /* MATCH: shared model setup materializes its pointer in a1. */
 
 #define arg0 held_arg0
 #define arg1 held_arg1
@@ -274,10 +273,11 @@ state_2:
             }
         }
     }
-    next_state = ((S_80172A48_0 *)arg0)->unk_9B + 1;
+    next_state = ((S_80172A48_0 *)arg0)->unk_9B;
     ((S_80172A48_0 *)arg0)->unk_96.u = 0;
-    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80173268();
+    ASM_KEEP(next_state); /* MATCH: keep each state load distinct before its delay-slot increment. */
+    next_state++;
+    goto store_next_state;
 
 state_3:
     if (((S_80172A48_0 *)arg0)->unk_A2 != 0) {
@@ -294,11 +294,8 @@ state_3:
     ((S_80172A48_0 *)arg0)->unk_96.u = 0;
     ((S_80172A48_0 *)arg0)->unk_9B++;
     func_800A56E0(0x703);
-    {
-        register void *model_base ASM_REG("$5") = D_80174110;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(model_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_801731F4();
-    }
+    model_base = D_80174110;
+    goto set_model;
 
 state_4:
     func_80170A44(arg0, arg1, arg2, arg3);
@@ -314,9 +311,10 @@ state_4:
         }
     }
     ((S_80172A48_3 *)arg2)->unk_14 |= 0x800;
-    next_state = ((S_80172A48_0 *)arg0)->unk_9B + 1;
-    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80173268();
+    next_state = ((S_80172A48_0 *)arg0)->unk_9B;
+    ASM_KEEP(next_state); /* MATCH: keep each state load distinct before its delay-slot increment. */
+    next_state++;
+    goto store_next_state;
 
 state_5:
     ((S_80172A48_3 *)arg2)->unk_14 |= 0x800;
@@ -405,10 +403,11 @@ state_17:
             goto end;
         }
     }
-    next_state = ((S_80172A48_0 *)arg0)->unk_9B + 1;
+    next_state = ((S_80172A48_0 *)arg0)->unk_9B;
     ((S_80172A48_0 *)arg0)->unk_96.u = 0;
-    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80173268();
+    ASM_KEEP(next_state); /* MATCH: keep each state load distinct before its delay-slot increment. */
+    next_state++;
+    goto store_next_state;
 
 state_18:
     if (((S_80172A48_0 *)arg0)->unk_A2 != 0) {
@@ -424,11 +423,9 @@ state_18:
     ((S_80172A48_0 *)arg0)->unk_96.u = 0;
     ((S_80172A48_0 *)arg0)->unk_9B++;
     func_800A56E0(0x703);
-    {
-        register void *model_base ASM_REG("$5") = D_80174110;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(model_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_801731F4();
-    }
+    /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
+    model_base = (u8 *)((u32)D_80174118 - 8);
+    goto set_model;
 
 state_19:
     func_80170A44(arg0, arg1, arg2, arg3);
@@ -443,9 +440,10 @@ state_19:
         }
     }
     ((S_80172A48_3 *)arg2)->unk_14 |= 0x800;
-    next_state = ((S_80172A48_0 *)arg0)->unk_9B + 1;
-    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80173268();
+    next_state = ((S_80172A48_0 *)arg0)->unk_9B;
+    ASM_KEEP(next_state); /* MATCH: keep each state load distinct before its delay-slot increment. */
+    next_state++;
+    goto store_next_state;
 
 state_20:
     ((S_80172A48_3 *)arg2)->unk_14 |= 0x800;
@@ -475,11 +473,14 @@ state_21:
     ((S_80172A48_0 *)arg0)->unk_96.u = 0;
     ((S_80172A48_0 *)arg0)->unk_9B++;
     {
-        u8 *model_base = D_80174118;
+        model_base = D_80174118;
+
+set_model:
+        ASM_SCHED_BARRIER(); /* MATCH: retain the common model tail after the incoming jump. */
 
         (*(void * *)((u8 *)arg2 + 0x2C)) = model_base;
         func_80047784(arg2,
-            model_base[((D_80083228 + (*(s16 *)((u8 *)arg3 + 0x2A)) + 0x100) >> 9) & 7],
+            *((u8 *)((((D_80083228 + (*(s16 *)((u8 *)arg3 + 0x2A)) + 0x100) >> 9) & 7) + (u32)model_base)),
             0);
     }
     return;
@@ -494,16 +495,18 @@ state_22:
             goto end;
         }
     }
-    next_state = ((S_80172A48_0 *)arg0)->unk_9B + 1;
+    next_state = ((S_80172A48_0 *)arg0)->unk_9B;
     ((S_80172A48_0 *)arg0)->unk_96.u = 0;
-    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80173268();
+    ASM_KEEP(next_state); /* MATCH: keep each state load distinct before its delay-slot increment. */
+    next_state++;
+    goto store_next_state;
 
 state_23:
     next_state = 6;
     ((S_80172A48_0 *)arg0)->unk_96.u = 0;
 
 store_next_state:
+    ASM_SCHED_BARRIER(); /* MATCH: retain the shared state store after the incoming jumps. */
     ((S_80172A48_0 *)arg0)->unk_9B = next_state;
 
 end:

@@ -69,14 +69,6 @@ extern void func_800A56E0();
 extern s32 func_800A94A0();
 extern void func_80171790();
 extern void func_80171928();
-extern void func_80174840() __attribute__((noreturn));
-extern void func_80174848() __attribute__((noreturn));
-extern void func_80174850() __attribute__((noreturn));
-extern void func_8017485C() __attribute__((noreturn));
-extern void func_801748CC() __attribute__((noreturn));
-extern void func_80174930() __attribute__((noreturn));
-extern void func_80174B84() __attribute__((noreturn));
-extern void func_80174BC4() __attribute__((noreturn));
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
@@ -141,19 +133,13 @@ state_0:
 
 special_3:
         special = 1;
-        ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80174840();
-        return;
+        goto kind_3;
 special_2:
         special = 1;
-        ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80174848();
-        return;
+        goto kind_2;
 special_1:
         special = 1;
-        ASM_TAILSLOT_PIN(special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80174850();
-        return;
+        goto kind_1;
     }
 
     kind = ((S_8017472C_1 *)arg3)->unk_46 & 0x3FFF;
@@ -166,8 +152,7 @@ special_1:
         }
         choice = 0;
         ASM_KEEP(choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8017485C();
-        return;
+        goto choice_ready;
     }
     if (kind != 3) {
         goto kind_none;
@@ -175,30 +160,25 @@ special_1:
 
 kind_3:
     choice = (u8 *)arg3 + 0xE;
-    ASM_TAILSLOT_PIN(choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_8017485C();
-    return;
+    goto choice_ready;
 kind_2:
     choice = (u8 *)arg3 + 0xB;
-    ASM_TAILSLOT_PIN(choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_8017485C();
-    return;
+    goto choice_ready;
 kind_1:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     choice = (u8 *)arg3 + 8;
-    ASM_TAILSLOT_PIN(choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_8017485C();
-    return;
+    goto choice_ready;
 
 kind_none:
     choice = 0;
 
+choice_ready:
     if (*choice != 0) {
         ((S_8017472C_0 *)arg0)->unk_98 &= 0xFF7F;
         if (special != 0) {
-            ((S_8017472C_1 *)arg3)->unk_60 = D_800814A8;
-            func_801748CC();
-            return;
+            object = D_800814A8;
+            ((S_8017472C_1 *)arg3)->unk_60 = object;
+            goto record_setup;
         }
 
         if (D_8006DE24[*choice * 20 + 0x12] == 2) {
@@ -206,11 +186,11 @@ kind_none:
             if (object == 0) {
                 goto move_setup;
             }
+record_setup:
             record = ((S_8017472C_2_pre *)object)[-1].unk_00;
             ((S_8017472C_1 *)arg3)->unk_72.s = ((S_8017472C_3 *)record)->unk_24;
             ((S_8017472C_1 *)arg3)->unk_73.s = ((S_8017472C_3 *)record)->unk_25;
-            func_80174930();
-            return;
+            goto move_setup;
         }
 
         object = func_800A05A4(
@@ -319,9 +299,8 @@ state_3:
             state3_page = 0x80080000;
             ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             state3_object = (u8 *)state3_page + 0x3460;
-            ASM_TAILSLOT_PIN(state3_object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80174BC4();
-            return;
+            control = state3_object;
+            goto control_ready;
         }
     }
     if (kind == 0xF) {
@@ -331,9 +310,8 @@ state_3:
         state3_page = 0x80080000;
         ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         state3_object = (u8 *)state3_page + 0x3460;
-        ASM_TAILSLOT_PIN(state3_object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80174BC4();
-        return;
+        control = state3_object;
+        goto control_ready;
     }
 
 state3_kind_d:
@@ -342,19 +320,13 @@ state3_kind_d:
         state3_page = 0x80170000;
         ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table = (u8 *)state3_page + 0x5E24;
-        ASM_KEEP(state3_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80174B84();
-        return;
+        goto table_ready;
 state3_kind_e:
         state3_object = ((S_8017472C_4 *)arg2)->unk_2C;
         state3_page = 0x80170000;
         ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table = (u8 *)state3_page + 0x5E2C;
-        ASM_KEEP(state3_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80174B84();
-        return;
+        goto table_ready;
 state3_kind_f:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         state3_object = ((S_8017472C_4 *)arg2)->unk_2C;
@@ -362,6 +334,7 @@ state3_kind_f:
         ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table = (u8 *)state3_page + 0x5E34;
 
+table_ready:
     if (state3_object != table) {
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
         func_80047784(
@@ -371,6 +344,7 @@ state3_kind_f:
     }
 
     control = (u8 *)&D_80083460;
+control_ready:
     if (((S_8017472C_6 *)control)->unk_0C != 0) {
         return;
     }

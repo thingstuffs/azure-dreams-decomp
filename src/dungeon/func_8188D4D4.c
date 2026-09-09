@@ -51,8 +51,6 @@ typedef struct {
     u8 pad[8];
 } Flags;
 
-void func_80024E84(void) __attribute__((noreturn));
-void func_80024E8C(void) __attribute__((noreturn));
 void func_8002522C();
 void func_800262AC();
 extern Counter D_80026472;
@@ -80,8 +78,7 @@ void func_80024CD4(void *arg0, S_80024CD4_2 *arg1, S_80024CD4_1 *arg2) {
         }
         temp_v0 = 0x20;
         arg2->unk_0C = temp_v0;
-        func_80024E8C();
-        return;
+        goto finish_colors;
     }
     if (state == 2) {
         goto state_2;
@@ -92,8 +89,7 @@ void func_80024CD4(void *arg0, S_80024CD4_2 *arg1, S_80024CD4_1 *arg2) {
 
     temp_v0 = 0x20;
     arg2->unk_0C = temp_v0;
-    func_80024E8C();
-    return;
+    goto finish_colors;
 
 state_0:
     temp_v0 = arg2->unk_06.s + 0x80;
@@ -125,8 +121,7 @@ state_0:
         goto finish;
     }
     D_80026474.value = 1;
-    func_80024E84();
-    return;
+    goto set_20;
 
 state_1:
     if (D_80026474.value == 0) {
@@ -135,8 +130,7 @@ state_1:
     arg2->unk_06.u = -0x100;
     ((S_80024CD4_0 *)arg0)->unk_1A = 0x10U;
     ((S_80024CD4_0 *)arg0)->unk_0A.u++;
-    func_80024E84();
-    return;
+    goto set_20;
 
 state_2:
     temp_v0_2 = ((S_80024CD4_0 *)arg0)->unk_1A - 1;
@@ -161,6 +155,7 @@ set_20:
 
 finish:
     arg2->unk_0C = temp_v0;
+finish_colors:
     arg2->unk_0D = 0xE0;
     arg2->unk_0E = 0x40;
     func_800262AC(arg1->unk_02, arg1->unk_06, arg1->unk_0A);

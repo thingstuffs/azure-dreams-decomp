@@ -28,7 +28,6 @@ extern void func_80024264_returning(void *arg0);
 #else
 #define func_80024264_returning func_80024264
 #endif
-extern void func_80024400(void) __attribute__((noreturn));
 extern void func_800478B8(void *arg0);
 extern s32 D_800814A0;
 
@@ -51,11 +50,11 @@ void func_80024370(void *arg0, s32 arg1, void *arg2)
     if ((s16)count == 0x10) {
         goto count_16;
     }
-    func_80024400();
+    goto done;
 
 count_8:
     func_80024264_returning(((S_80024370_0 *)arg0)->unk_00);
-    func_80024400();
+    goto done;
 
 count_16:
     {
@@ -66,8 +65,9 @@ count_16:
         ((S_80024370_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         ((S_80024370_2 *)global_page)->unk_14A0 |= 0x8000;
         ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        func_800478B8(saved_arg2);
     }
+done:
+    func_800478B8(saved_arg2);
 }
 
 /* MECHANISM: Explicit labels preserve default -> count-8 -> count-16 emission order;

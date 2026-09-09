@@ -10,14 +10,6 @@ extern void func_800A020C();
 extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
-extern void func_8016553C() __attribute__((noreturn));
-extern void func_801655E4() __attribute__((noreturn));
-extern void func_80165650() __attribute__((noreturn));
-extern void func_8016574C() __attribute__((noreturn));
-extern void func_801657E4() __attribute__((noreturn));
-extern void func_801658D4() __attribute__((noreturn));
-extern void func_801658D8() __attribute__((noreturn));
-extern void func_80165910() __attribute__((noreturn));
 
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
@@ -68,6 +60,8 @@ void func_801653A8(void *arg0, S_801653A8_0 *arg1, void *arg2)
     register s32 amount ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u16 initial_mode;
     u16 mode;
+    s32 tail_sum;
+    register u16 tail_mode ASM_REG("$4"); /* MATCH: preserve the mode register at the shared position-update tail. */
 
     if (D_80083462 & 0x2000) {
         void *entry_self = arg0;
@@ -119,11 +113,9 @@ void func_801653A8(void *arg0, S_801653A8_0 *arg1, void *arg2)
         !((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
         arg1->unk_14 += (*(s8 *)((u8 *)arg0 + 0x9D)) * 0x14000;
         (*(u8 *)((u8 *)arg0 + 0x9D))++;
-        func_8016553C();
-        return;
+    } else {
+        (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
     }
-
-    do { (*(u8 *)((u8 *)arg0 + 0x9D)) = 0; } while (0);
     (*(s32 *)((u8 *)arg0 + 0x90)) += arg1->unk_14;
     initial_mode = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
 
@@ -136,15 +128,10 @@ void func_801653A8(void *arg0, S_801653A8_0 *arg1, void *arg2)
             (*(s16 *)((u8 *)arg0 + 0x94)) = index;
         }
         if (D_8006CCF8[index] != 0) {
-            u32 tail_value;
-
-            tail_value = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 1;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_801655E4();
-            return;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 1;
+        } else {
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFFFE;
         }
-
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFFFE;
         func_800A020C(((S_801653A8_2 *)base)->unk_1C, (u8 *)arg2 + 0xC);
         if (!(((S_801653A8_2 *)base)->unk_1C & 0x20)) {
             if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x40)) {
@@ -173,15 +160,13 @@ clear_8000000:
                     (*(s32 *)((u8 *)arg0 + 0xAC)) += (*(s32 *)((u8 *)arg0 + 0xB0));
                     if ((*(s32 *)((u8 *)arg0 + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
-                        func_8016574C();
-                        return;
+                        goto adjust_normal;
                     }
                 } else if (kind == D_80168644 || kind == D_8016866C) {
                     (*(s32 *)((u8 *)arg0 + 0xA4)) -= 0x40000;
                     if ((*(s32 *)((u8 *)arg0 + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
-                        func_8016574C();
-                        return;
+                        goto adjust_normal;
                     }
                 } else if (kind != D_80168654 && kind != D_8016865C &&
                            kind != D_80168664) {
@@ -189,15 +174,16 @@ clear_8000000:
                 }
             }
 
+adjust_normal:
             amount = (*(u16 *)((u8 *)arg0 + 0x98)) & 8;
             if (amount == 0) {
                 motion_value = (*(s16 *)((u8 *)arg0 + 0x92));
                 motion_raw = (*(u16 *)((u8 *)arg0 + 0x92));
                 if (amount < motion_value) {
                     amount = motion_raw - 8;
+                    ASM_SCHED_BARRIER(); /* MATCH: keep the normal-mode adjustment separate from the later adjustment. */
                     (*(s16 *)((u8 *)arg0 + 0x92)) = amount;
-                    func_80165910();
-                    return;
+                    goto finish_motion;
                 }
                 goto adjust_positive;
             }
@@ -205,19 +191,14 @@ clear_8000000:
         }
 
         {
-            s32 tail_sum;
-            register u16 tail_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-
             amount = (*(s32 *)((u8 *)arg0 + 0xA4));
             tail_sum = (*(s32 *)((u8 *)arg0 + 0x90));
             tail_mode = (*(u16 *)((u8 *)arg0 + 0x98));
             (*(s16 *)((u8 *)arg0 + 0xB8)) = 0;
             (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
-            tail_sum += amount;
             ASM_USE_NV(tail_mode);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(tail_sum);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_801657E4();
-            return;
+            tail_sum += amount;
+            goto apply_tail_sum;
         }
     }
 
@@ -231,10 +212,15 @@ clear_8000000:
 
     if (!(flags & 0x40000)) {
         amount = (*(s32 *)((u8 *)arg0 + 0xA4));
+        tail_sum = (*(s32 *)((u8 *)arg0 + 0x90));
+        tail_mode = (*(u16 *)((u8 *)arg0 + 0x98));
         (*(s16 *)((u8 *)arg0 + 0xB8)) = 0;
         (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
-        (*(s32 *)((u8 *)arg0 + 0x90)) -= amount;
-        if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+        tail_sum -= amount;
+apply_tail_sum:
+        ASM_SCHED_BARRIER(); /* MATCH: keep the position store in the shared tail. */
+        (*(s32 *)((u8 *)arg0 + 0x90)) = tail_sum;
+        if (!(tail_mode & 8)) {
             value = func_800BCB04(arg1->unk_00.at02.v,
                                   arg1->unk_04.at02.v,
                                   (s16)(((S_801653A8_2 *)base)->unk_88 - 0x20)) -
@@ -244,8 +230,7 @@ clear_8000000:
                 (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
                 arg1->unk_14 = 0;
                 ((S_801653A8_2 *)base)->unk_1C |= 0x08000000;
-                func_80165910();
-                return;
+                goto finish_motion;
             }
         }
         goto finish_motion;
@@ -256,22 +241,22 @@ clear_8000000:
 
         if (kind == D_80168634) {
             (*(s32 *)((u8 *)arg0 + 0xAC)) = 0;
-            func_801658D4();
-            return;
+            goto clear_offset;
         }
         if (kind == D_80168644 || kind == D_8016866C) {
             (*(s32 *)((u8 *)arg0 + 0xA4)) -= 0x40000;
             if ((*(s32 *)((u8 *)arg0 + 0xA4)) <= 0) {
                 (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
-                func_801658D8();
-                return;
+                goto adjust_special;
             }
         } else if (kind != D_80168654 && kind != D_8016865C &&
                    kind != D_80168664) {
+clear_offset:
             (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
         }
     }
 
+adjust_special:
     amount = (*(u16 *)((u8 *)arg0 + 0x98)) & 8;
     if (amount == 0) {
         motion_value = (*(s16 *)((u8 *)arg0 + 0x92));

@@ -5,9 +5,6 @@
 extern void func_8004491C(void *, void *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
-extern void func_80024228() __attribute__((noreturn));
-extern void func_800243F8() __attribute__((noreturn));
-extern void func_80024468() __attribute__((noreturn));
 
 extern s32 D_80045340;
 extern s32 D_800814A0;
@@ -90,7 +87,7 @@ void func_800240F0(void *arg0, void *arg1, void *arg2)
         if (state == 0) {
             goto state_zero;
         }
-        func_80024468();
+        goto tick;
     }
     if (state == 2) {
         goto state_two;
@@ -98,7 +95,7 @@ void func_800240F0(void *arg0, void *arg1, void *arg2)
     if (state == 3) {
         goto state_three;
     }
-    func_80024468();
+    goto tick;
 
 state_zero:
     func_8004491C((u8 *)arg0 - 0x20, &D_80045340);
@@ -124,11 +121,11 @@ state_one:
                 ((S_800240F0_2 *)arg1)->unk_00.at02.v += vec[0];
                 ((S_800240F0_2 *)arg1)->unk_04.at02.v += vec[1];
                 w = ((S_800240F0_2 *)arg1)->unk_08.at02.v + vec[2];
-                ASM_TAILSLOT_PIN(w);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80024228();
+                ((S_800240F0_2 *)arg1)->unk_08.at02.v = w;
+            } else {
+                ASM_SCHED_BARRIER(); /* MATCH: preserve the separate adjustment arm before the shared store. */
+                ((S_800240F0_2 *)arg1)->unk_08.at02.v = z - 0x20;
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ((S_800240F0_2 *)arg1)->unk_08.at02.v = z - 0x20;
         }
     }
 
@@ -139,7 +136,7 @@ state_one:
         ASM_KEEP_NV(ten);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         stv = ((S_800240F0_0 *)arg0)->unk_0C.v;
         ((S_800240F0_0 *)arg0)->unk_10.u = ten;
-        func_800243F8();
+        goto adv;
     }
     goto tick;
 
@@ -197,7 +194,7 @@ state_two:
 
 adv:
     ((S_800240F0_0 *)arg0)->unk_0C.n2 = stv + 1;
-    func_80024468();
+    goto tick;
 
 state_three:
     {

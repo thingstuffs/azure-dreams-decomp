@@ -1,7 +1,5 @@
 #include "common.h"
 
-extern void func_800197C8(void) __attribute__((noreturn));
-extern void func_80019860(void) __attribute__((noreturn));
 extern s32 func_80019894(s32);
 extern void Control_CD(s32, void *, s32);
 extern void func_8003F320(void);
@@ -43,9 +41,6 @@ s32 func_80019684(s16 arg0, s16 arg1, s32 arg2) {
     register u32 packed ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 mask ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if (*slot == table[D_80080AFC]) {
-        s32 tail_result = 1;
-        ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80019860();
         return 1;
     }
 
@@ -76,20 +71,16 @@ s32 func_80019684(s16 arg0, s16 arg1, s32 arg2) {
         {
             mask = 0x007F0000;
             if (D_80080AFC != 0) {
-                u32 tail_addr;
                 mask |= 0xFFFF;
                 ASM_KEEP(mask);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                tail_addr = (u32)D_801C4640;
-                ASM_TAILSLOT_PIN(tail_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_800197C8();
-                return 0;
+                packed = (u32)D_801C4640;
+            } else {
+                ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_DEP_NV(mask, word);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                mask |= 0xFFFF;
+                packed = (u32)D_801BEE40;
+                ASM_KEEP_NV(packed);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             }
-
-            ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(mask, word);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            mask |= 0xFFFF;
-            packed = (u32)D_801BEE40;
-            ASM_KEEP_NV(packed);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             packed &= mask;
             packed = word | packed;
         }
@@ -114,17 +105,12 @@ s32 func_80019684(s16 arg0, s16 arg1, s32 arg2) {
         s32 tail_arg2_test =
             (s32)held_arg2_tail << 16;
         if (tail_arg2_test != 0) {
-        s32 effect = 0x21;
-        if (D_80080AFC != 0) {
-            effect = 0x22;
-        }
-        SD_Call(effect);
-        {
-            s32 tail_result = 0;
-            ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        }
-        func_80019860();
-        return 0;
+            s32 effect = 0x21;
+            if (D_80080AFC != 0) {
+                effect = 0x22;
+            }
+            SD_Call(effect);
+            return 0;
         }
     }
 

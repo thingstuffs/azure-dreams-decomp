@@ -33,7 +33,6 @@ extern s16 D_800DCEBC[];
 extern FuncMonster D_800E2970[];
 extern s32 func_8009A350(s32, s32, s32, u16 *);
 extern s32 func_8009A540(s32, s32, s32, s16);
-void func_8009AB6C(void);
 s32 func_8009B25C(FuncArg2 *, s32, s32, s32);
 s16 func_8009FB34(u16, u16);
 s32 func_800BCB04(s32, s32, s16);
@@ -131,8 +130,8 @@ s32 func_8009A8C0(u32 arg0, FuncArg1 *arg1, FuncArg2 * volatile arg2, u16 arg3) 
                             goto collision_clear;
                         }
                     }
+                    ASM_SCHED_BARRIER(); /* MATCH: Keep the collision return in its retail branch arm. */
                     var_v0 = 0;
-                    func_8009AB6C();
                     return 0;
 collision_clear:
                     if ((arg1->flag >= 0) || (temp_v0_2 = func_8009FB34((arg1->x + *temp_fp) & 0xFFFF, (arg1->y + *temp_s7) & 0xFFFF), (temp_v0_2 < 0)) || !(D_800E2970[temp_v0_2].flags & 2) || (var_v0 = 0, ((temp_t0 = (u32)arg2, ((FuncArg2 *)temp_t0)->flags & 0x2000) != 0))) {
@@ -163,9 +162,10 @@ collision_clear:
                                     goto block_20;
                                 }
                             }
+                            var_v1 = temp_v0_3 << 0x10;
 tail_minus1:
+                            ASM_SCHED_BARRIER(); /* MATCH: Keep the shared failure return at its retail branch target. */
                             var_v0 = -1;
-                            func_8009AB6C();
                             return -1;
                         }
                         {

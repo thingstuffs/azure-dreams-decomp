@@ -3,9 +3,6 @@
 extern s32 Control_CD();
 extern s32 func_8003F320();
 extern s32 func_8003F6D4();
-extern s32 func_800A0CA4();
-extern void func_800A0DA4(void) __attribute__((noreturn));
-extern s32 func_800A0DA8();
 
 extern s8 D_800E3DA0[];
 extern u8 D_800E58A8[];
@@ -26,6 +23,7 @@ s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
     register s32 shifted_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 signed_value;
     s32 block_size;
+    s32 call_tag;
     register s32 tile ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 delta;
     register s32 term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -48,34 +46,32 @@ s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
         shifted_value = (u32)value << 0x10;
         first_value = shifted_value >> 0x10;
         if (first_value == 0x38) {
-            s32 call_tag;
             data = D_80164800;
             call_tag = 0x56B1;
             ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(call_tag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            return func_800A0CA4(tile, first_value, 0x24, call_tag);
-        }
-        if (first_value == 0x31) {
-            s32 call_tag;
+            block_size = 0x24;
+        } else if (first_value == 0x31) {
             data = D_8016A800;
             call_tag = 0x569C;
             ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(call_tag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            return func_800A0CA4(tile, first_value, 0x18, call_tag);
+            block_size = 0x18;
+        } else {
+            index = entry[3];
+            ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            block_size = 0xC;
+            ASM_KEEP(block_size);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            tile = index * 3;
+            data = D_80170800 - (tile << 13);
+            delta = first_value - 1;
+            term = delta * 0x54;
+            ASM_KEEP(first_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            tile = (tile << 2) + 0x4340;
+            call_tag = term + tile;
         }
-
-        index = entry[3];
-        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        block_size = 0xC;
-        ASM_KEEP(block_size);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        tile = index * 3;
-        data = D_80170800 - (tile << 13);
-        delta = first_value - 1;
-        term = delta * 0x54;
-        ASM_KEEP(first_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        tile = (tile << 2) + 0x4340;
         scratch = D_800E58A8;
-        func_8003F6D4(block_size, data, scratch, term + tile);
+        func_8003F6D4(block_size, data, scratch, call_tag);
         Control_CD(6, scratch, 0);
 
         if ((mode << 0x10) != 0) {
@@ -85,12 +81,12 @@ s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
             }
             result = *(s32 *)data;
             *(s32 *)(entry + 4) = result;
-            return func_800A0DA8();
+            goto done;
         }
 
         if (entry[0] != 2) {
             D_800E3DA0[entry[3]] = -value;
-            return func_800A0DA8();
+            goto done;
         }
         goto done;
     }
@@ -101,15 +97,11 @@ s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
     signed_value = (s16)value;
     if (signed_value == 0x38) {
         data = D_80164800;
-        ASM_TAILSLOT_PIN(data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800A0DA4();
-    }
-    if (signed_value == 0x31) {
+    } else if (signed_value == 0x31) {
         data = D_8016A800;
-        ASM_TAILSLOT_PIN(data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800A0DA4();
+    } else {
+        data = D_80170800 - (entry[3] * 0x6000);
     }
-    data = D_80170800 - (entry[3] * 0x6000);
     result = *(s32 *)data;
 
 done:

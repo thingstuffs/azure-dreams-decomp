@@ -53,9 +53,6 @@ extern s32 D_800E3D6C[];
 extern u8 *D_800735C4[];
 extern u8 D_800DF258[];
 
-extern void func_8001F0AC(void) __attribute__((noreturn));
-extern void func_8001F230(void) __attribute__((noreturn));
-extern void func_8001F2E8(void) __attribute__((noreturn));
 extern void func_8003DB94(void *, s32, s32);
 extern void func_80042640(void *, s32);
 extern void func_8009A21C(s32, s32, s32);
@@ -101,6 +98,7 @@ void func_8001EF0C(void) {
     register u8 store_type ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 spawn_variant;
     u8 spawn_marker;
+    s32 spawn_height;
     S_8001EF0C_0 *object;
 
     slot = 0;
@@ -149,12 +147,9 @@ void func_8001EF0C(void) {
     }
     if (((S_8001EF0C_1 *)floor_config)->unk_06 == 1) {
         spawn_limit = (func_800A6D30() & 3) + 4;
-        ASM_TAILSLOT_PIN(spawn_limit);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_8001F0AC();
-        return;
+    } else {
+        spawn_limit = ((S_8001EF0C_1 *)floor_config)->unk_06 / 2 + (func_800A6D30() & 3);
     }
-
-    spawn_limit = ((S_8001EF0C_1 *)floor_config)->unk_06 / 2 + (func_800A6D30() & 3);
     if (spawn_limit >= 0x21) {
         spawn_limit = 0x20;
     }
@@ -172,15 +167,15 @@ void func_8001EF0C(void) {
             y = position[slot].y;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             {
-                register s32 saved_trap_type ASM_REG("$16") = meta[slot].type;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 saved_trap_type = meta[slot].type;
                 s32 saved_variant = meta[slot].unk2;
-                register s32 saved_marker ASM_REG("$3") = meta[slot].unk3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register s32 spawn_height ASM_REG("$6") = -0x400;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP4(saved_trap_type, saved_variant, saved_marker, spawn_height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                ASM_TAILSLOT_PIN(spawn_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                func_8001F230();
+                s32 saved_marker = meta[slot].unk3;
+                trap_type = saved_trap_type;
+                spawn_variant = saved_variant;
+                spawn_marker = saved_marker;
+                spawn_height = -0x400;
+                goto restore_spawn;
             }
-            return;
         }
 
         if (!(D_800E3D6C[0] & 8) && slot < spawn_limit) {
@@ -211,11 +206,13 @@ void func_8001EF0C(void) {
                         spawn_variant = (func_800A6D30() & 7) | 4;
                         spawn_marker = 0x80;
                         ASM_KEEP_DEP_NV(spawn_variant, spawn_marker);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                        spawn_height = -0x400;
+                    restore_spawn:
                         meta[slot].unk2 = spawn_variant;
                         meta[slot].unk3 = spawn_marker;
                         floor_height = func_800BCB04((x << 6) | 0x20,
                                                (y << 6) | 0x20,
-                                               -0x400);
+                                               spawn_height);
                         position[slot].unk12 = floor_height;
                         position[slot].unk10 = floor_height;
                         position[slot].flags = 0;
@@ -234,8 +231,6 @@ void func_8001EF0C(void) {
                             position[slot].flags = flags | 0x840;
                             if (value & 0x20000000) {
                                 position[slot].flags = flags | 0x940;
-                                func_8001F2E8();
-                                return;
                             }
                         } else {
                             if (value != 0) {

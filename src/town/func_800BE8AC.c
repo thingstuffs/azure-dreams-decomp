@@ -35,7 +35,6 @@ typedef struct {
 } State1;
 
 M2C_UNK func_800478B8();                      /* extern */
-extern s32 func_800BC1C0_state0(void) __asm__("func_800BC1C0");
 extern s32 D_800814A0[3];
 
 s32 func_800BC00C(void *arg0, S_800BC00C_2 *arg1, Rec_D_80082E80 *arg2) {
@@ -82,7 +81,6 @@ state_0:
         goto state_0_done;
     }
     ((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_4E = state0_v0;
-    return func_800BC1C0_state0();
 state_0_done:
     return state0_v0;
 

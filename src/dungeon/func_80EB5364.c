@@ -9,14 +9,6 @@ M2C_UNK func_800A020C();
 s32 func_800A9E70();
 M2C_UNK func_800AA36C();
 s32 func_800BCB04();
-void func_80170CF8() __attribute__((noreturn));
-void func_80170DA0() __attribute__((noreturn));
-void func_80170E0C() __attribute__((noreturn));
-void func_80170EB8() __attribute__((noreturn));
-void func_80170EC0() __attribute__((noreturn));
-void func_80171064() __attribute__((noreturn));
-void func_8017106C() __attribute__((noreturn));
-void func_801710D8() __attribute__((noreturn));
 extern u8 D_8006CCF8[];
 extern s16 D_80083228[];
 extern u16 D_80083462[];
@@ -106,10 +98,6 @@ void func_80170B64(void *in0, void *in1, void *in2)
     s32 temp_v1_7;
     s16 temp_s0;
     u16 temp_v1_2;
-#ifdef __mips__
-    u32 tail_page;
-    u32 tail_flag;
-#endif
 
 #define arg0 p0
 #define arg1 p1
@@ -149,10 +137,9 @@ void func_80170B64(void *in0, void *in1, void *in2)
             ((S_80170B64_1 *)arg1)->unk_14 = ((S_80170B64_1 *)arg1)->unk_14 +
                 (((S_80170B64_0 *)arg0)->unk_9D.s * 0x14000);
             ((S_80170B64_0 *)arg0)->unk_9D.u++;
-            func_80170CF8();
-            return;
+        } else {
+            ((S_80170B64_0 *)arg0)->unk_9D.s = 0;
         }
-        ((S_80170B64_0 *)arg0)->unk_9D.s = 0;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_80170B64_0 *)arg0)->unk_90.at00.v = ((S_80170B64_0 *)arg0)->unk_90.at00.v +
             ((S_80170B64_1 *)arg1)->unk_14;
@@ -166,24 +153,14 @@ void func_80170B64(void *in0, void *in1, void *in2)
                 ((S_80170B64_0 *)arg0)->unk_94 = temp_s3;
             }
             if (D_8006CCF8[temp_s3] != 0) {
-#ifdef __mips__
-                tail_flag = ((S_80170B64_2 *)arg2)->unk_14 | 1;
-                ASM_TAILSLOT_PIN(tail_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-#endif
-                func_80170DA0();
-                return;
+                ((S_80170B64_2 *)arg2)->unk_14 |= 1;
+            } else {
+                ((S_80170B64_2 *)arg2)->unk_14 &= 0xFFFE;
             }
-            ((S_80170B64_2 *)arg2)->unk_14 &= 0xFFFE;
             func_800A020C(((S_80170B64_3 *)work)->unk_1C.s, arg2 + 0xC);
             if (!(((S_80170B64_3 *)work)->unk_1C.s & 0x20)) {
                 if (!(((S_80170B64_2 *)arg2)->unk_14 & 0x40)) {
                     func_800478B8(arg2);
-#ifdef __mips__
-                    tail_page = 0xF7FF0000;
-                    ASM_PAGEBASE_PIN(tail_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-#endif
-                    func_80170E0C();
-                    return;
                 }
                 goto block_26;
             }
@@ -197,8 +174,7 @@ block_26:
                     temp_v1_4 = ((S_80170B64_2 *)arg2)->unk_2C.i;
                     if (temp_v1_4 == (s32)&D_8017418C) {
                         ((S_80170B64_0 *)arg0)->unk_AC.at00.v = 0;
-                        func_80170EC0();
-                        return;
+                        goto block_38;
                     }
                     if (temp_v1_4 == (s32)&D_80174174) {
                         ((S_80170B64_0 *)arg0)->unk_A0.u++;
@@ -257,8 +233,7 @@ block_45:
                     ((S_80170B64_0 *)arg0)->unk_9D.s = 0;
                     ((S_80170B64_1 *)arg1)->unk_14 = 0;
                     ((S_80170B64_3 *)work)->unk_1C.u |= 0x08000000;
-                    func_801710D8();
-                    return;
+                    goto block_64;
                 }
             }
             goto block_64;
@@ -267,8 +242,7 @@ block_45:
             temp_v1_6 = ((S_80170B64_2 *)arg2)->unk_2C.i;
             if (temp_v1_6 == (s32)&D_8017418C) {
                 ((S_80170B64_0 *)arg0)->unk_AC.at00.v = 0;
-                func_8017106C();
-                return;
+                goto block_60;
             }
             if (temp_v1_6 == (s32)&D_80174174) {
                 ((S_80170B64_0 *)arg0)->unk_A0.u++;

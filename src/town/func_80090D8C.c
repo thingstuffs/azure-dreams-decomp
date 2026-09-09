@@ -67,10 +67,6 @@ extern s32 D_800FE480;
 extern s32 D_800FE484;
 
 extern s32 func_8008CE08(Scratch *);
-extern void func_8008E598(void) __attribute__((noreturn));
-extern void func_8008E628(void) __attribute__((noreturn));
-extern s32 func_8008E698(s32);
-extern void func_8008E740(void) __attribute__((noreturn));
 
 s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
 {
@@ -101,9 +97,9 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
 
     if (sc->x >= 0x20) {
         sc->step_x = 0x40;
-        func_8008E598();
+    } else {
+        sc->step_x = -0x40;
     }
-    sc->step_x = -0x40;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if ((s16)sc->y >= 0x20) {
@@ -123,12 +119,10 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
         s32 ty = (u16)sc->scan_y + (u16)sc->outer_delta;
         scan_y = ty;
         if (sc->step_y >= 0) {
-            if ((s16)ty < D_800FE484) {
-                func_8008E628();
+            if ((s16)ty >= D_800FE484) {
+                break;
             }
-            break;
-        }
-        if ((s16)ty < 0) {
+        } else if ((s16)ty < 0) {
             break;
         }
 
@@ -140,14 +134,10 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
             s32 tx = (u16)sc->scan_x + (u16)sc->inner_delta;
             scan_x = tx;
             if (sc->step_x >= 0) {
-                if ((s16)tx < D_800FE480) {
-                    register s32 t2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                    t2 = ((s32)scan_x) << 16;
-                    return func_8008E698(t2 >> 16);
+                if ((s16)tx >= D_800FE480) {
+                    break;
                 }
-                break;
-            }
-            if ((s16)tx < 0) {
+            } else if ((s16)tx < 0) {
                 break;
             }
 
@@ -178,58 +168,60 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
                     record = map->records[grid_value & 0x3FFF];
                     end = (u8 *)record + 0x16;
 
-                    if ((sc->planes[*(u16 *)(end - 6)].y < 0) && !(*(end + 1) & 1)) {
-                        s32 value;
-                        u32 vertex_index;
-                        register s16 qtmp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                        Scratch *call_arg;
-                        call_arg = sc;
-                        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    for (;;) {
+                        ASM_KEEP(end);   /* MATCH: keep one end pointer through the record loop, preventing an extra induction pointer. */
+                        if ((sc->planes[*(u16 *)(end - 6)].y < 0) && !(*(end + 1) & 1)) {
+                            s32 value;
+                            u32 vertex_index;
+                            register s16 qtmp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                            Scratch *call_arg;
+                            call_arg = sc;
+                            ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-                        vertex_index = *(u16 *)(end - 0x12);
-                        qtmp = vertices[vertex_index].x; sc->quad[0] = qtmp - *(volatile s16 *)&sc->x;
-                        vertex_index = *(u16 *)(end - 0x12);
-                        qtmp = vertices[vertex_index].z; sc->quad[1] = qtmp - *(volatile s16 *)&sc->z;
-                        vertex_index = *(u16 *)(end - 0x10);
-                        qtmp = vertices[vertex_index].x; sc->quad[2] = qtmp - *(volatile s16 *)&sc->x;
-                        vertex_index = *(u16 *)(end - 0x10);
-                        qtmp = vertices[vertex_index].z; sc->quad[3] = qtmp - *(volatile s16 *)&sc->z;
-                        vertex_index = *(u16 *)(end - 0x14);
-                        qtmp = vertices[vertex_index].x; sc->quad[4] = qtmp - *(volatile s16 *)&sc->x;
-                        vertex_index = *(u16 *)(end - 0x14);
-                        qtmp = vertices[vertex_index].z; sc->quad[5] = qtmp - *(volatile s16 *)&sc->z;
-                        vertex_index = record->vertex0;
-                        qtmp = vertices[vertex_index].x; sc->quad[6] = qtmp - *(volatile s16 *)&sc->x;
-                        vertex_index = record->vertex0;
-                        qtmp = vertices[vertex_index].z; sc->quad[7] = qtmp - *(volatile s16 *)&sc->z;
+                            vertex_index = *(u16 *)(end - 0x12);
+                            qtmp = vertices[vertex_index].x; sc->quad[0] = qtmp - *(volatile s16 *)&sc->x;
+                            vertex_index = *(u16 *)(end - 0x12);
+                            qtmp = vertices[vertex_index].z; sc->quad[1] = qtmp - *(volatile s16 *)&sc->z;
+                            vertex_index = *(u16 *)(end - 0x10);
+                            qtmp = vertices[vertex_index].x; sc->quad[2] = qtmp - *(volatile s16 *)&sc->x;
+                            vertex_index = *(u16 *)(end - 0x10);
+                            qtmp = vertices[vertex_index].z; sc->quad[3] = qtmp - *(volatile s16 *)&sc->z;
+                            vertex_index = *(u16 *)(end - 0x14);
+                            qtmp = vertices[vertex_index].x; sc->quad[4] = qtmp - *(volatile s16 *)&sc->x;
+                            vertex_index = *(u16 *)(end - 0x14);
+                            qtmp = vertices[vertex_index].z; sc->quad[5] = qtmp - *(volatile s16 *)&sc->z;
+                            vertex_index = record->vertex0;
+                            qtmp = vertices[vertex_index].x; sc->quad[6] = qtmp - *(volatile s16 *)&sc->x;
+                            vertex_index = record->vertex0;
+                            qtmp = vertices[vertex_index].z; sc->quad[7] = qtmp - *(volatile s16 *)&sc->z;
 
-                        if (func_8008CE08(call_arg) != 0) {
-                            {
-                                register s32 vx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                                register s32 pv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                                value = ((pv = sc->planes[*(u16 *)(end - 6)].x) * ((vx = vertices[record->vertex0].x) - (s16)sc->x)
-                                       + sc->planes[*(u16 *)(end - 6)].z * ((vx = vertices[record->vertex0].z) - (s16)sc->z)
-                                       + sc->planes[*(u16 *)(end - 6)].y * vertices[record->vertex0].y) / sc->planes[*(u16 *)(end - 6)].y;
-                            }
-                            sc->y = value;
-                            sc->y += sc->outer_bias;
-                            if ((sc->y >= sc->lower) && (sc->y < sc->best)) {
-                                sc->best = sc->y;
+                            if (func_8008CE08(call_arg) != 0) {
+                                {
+                                    register s32 vx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                                    register s32 pv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                                    value = ((pv = sc->planes[*(u16 *)(end - 6)].x) * ((vx = vertices[record->vertex0].x) - (s16)sc->x)
+                                           + sc->planes[*(u16 *)(end - 6)].z * ((vx = vertices[record->vertex0].z) - (s16)sc->z)
+                                           + sc->planes[*(u16 *)(end - 6)].y * vertices[record->vertex0].y) / sc->planes[*(u16 *)(end - 6)].y;
+                                }
+                                sc->y = value;
+                                sc->y += sc->outer_bias;
+                                if ((sc->y >= sc->lower) && (sc->y < sc->best)) {
+                                    sc->best = sc->y;
+                                }
                             }
                         }
-                    }
 
-                    {
-                        u16 fl;
-                        fl = *(u16 *)end & 0x80FF;
-                        end += 0x18;
-                        if (fl != 0x8001) {
-                            record = (CellRecord *)((u8 *)record + 0x18);
-                            ASM_TAILSLOT_PIN(record);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                            func_8008E740();
+                        {
+                            u16 fl;
+                            fl = *(u16 *)end & 0x80FF;
+                            end += 0x18;
+                            if (fl != 0x8001) {
+                                record = (CellRecord *)((u8 *)record + 0x18);
+                                continue;
+                            }
                         }
+                        break;
                     }
-                    ASM_KEEP(end);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 }
             }
 

@@ -64,8 +64,7 @@ typedef s64 M2C_UNK64;
 #define M2C_STRUCT_COPY memcpy
 
 s32 func_80042900();                 /* extern */
-s32 func_8009D34C();                                /* extern */
-s32 func_800A6D30();                                /* extern */
+s32 func_800A6D30(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
 M2C_UNK func_800CB82C();         
 
 typedef struct S_8009D218_1_pre {
@@ -82,15 +81,15 @@ s32 func_8009D218(void *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
     if (!(arg1 & 8) && (arg2 != NULL)) {
         if (arg1 & 1) {
             if (((func_80042900(arg0, 0x16) << 0x10) != 0) && (arg2->unk_13 >= 0)) {
-                s32 result = func_8009D34C();
-                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                return result;
+                ASM_MEM_BARRIER(); /* MATCH: distinct barriers keep the first two success paths from cross-jump merging. */
+                goto block_22;
             }
             goto block_17;
         }
         if (arg1 & 2) {
             if ((((func_80042900(arg0, 0x16) << 0x10) != 0) || ((func_80042900(arg0, 0x17) << 0x10) != 0)) && (arg2->unk_13 >= 0)) {
-                return func_8009D34C();
+                ASM_SCHED_BARRIER(); /* MATCH: prevents merging this condition tail with the arg1 & 4 path. */
+                goto block_22;
             }
             goto block_17;
         }
@@ -112,6 +111,7 @@ block_17:
             /* Duplicate return node #25. Try simplifying control flow for better match */
             return 0;
         }
+block_22:
         func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
         return 1;
     }

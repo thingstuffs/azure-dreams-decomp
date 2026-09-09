@@ -5,9 +5,6 @@ typedef s32 M2C_UNK;
 
 extern M2C_UNK func_80048A44();
 extern s32 rand();
-extern M2C_UNK func_8008F610();
-extern M2C_UNK func_8008F684();
-extern M2C_UNK func_8008F694();
 extern s32 func_800990FC();
 extern s32 func_80099194();
 extern M2C_UNK func_80099290();
@@ -87,6 +84,10 @@ void func_8008F428(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 saved;
     u16 half;
     u8 state;
+    register u8 *effect ASM_REG("$2"); /* MATCH: the merged effect pointer occupies retail v0. */
+    register u8 *table ASM_REG("$5"); /* MATCH: both table-address halves and the shared lookup use retail a1. */
+    void *call_arg;
+    register s32 next_state ASM_REG("$2"); /* MATCH: both state-update paths merge in retail v0. */
 
     if (((S_8008F428_0 *)arg0)->unk_124 != 0) {
         if (!(((S_8008F428_1 *)arg2)->unk_14 & 0x6000)) {
@@ -95,7 +96,6 @@ void func_8008F428(void *arg0, void *arg1, void *arg2, void *arg3) {
 
         state = ((S_8008F428_0 *)arg0)->unk_9B;
         if (state == 0) {
-            u8 *effect;
             void *effect_arg;
 
             D_800E3DA8[0] = 0;
@@ -115,9 +115,9 @@ void func_8008F428(void *arg0, void *arg1, void *arg2, void *arg3) {
             }
 use_effect:
             effect = D_8008EAC8;
-            ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            func_8008F694(effect_arg, D_800DD0B8);
-            return;
+            call_arg = effect_arg;
+            table = D_800DD0B8;
+            goto set_effect;
         }
 
         if (state == 1) {
@@ -151,14 +151,8 @@ use_effect:
                 D_800E3540 = old_value;
                 ((S_8008F428_4 *)arg3)->unk_1C = flags & mask2;
             }
-            {
-                s32 next_state;
-
-                next_state = ((S_8008F428_0 *)arg0)->unk_9B + 1;
-                ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_8008F610();
-            }
-            return;
+            next_state = ((S_8008F428_0 *)arg0)->unk_9B + 1;
+            goto store_state;
         }
 
         {
@@ -168,8 +162,8 @@ use_effect:
         }
         func_80099F70(((S_8008F428_4 *)arg3)->unk_5C);
         func_80099F04(((S_8008F428_4 *)arg3)->unk_5C);
-        func_8008F684(arg2);
-        return;
+        call_arg = arg2;
+        goto reset_effect;
     }
 
     state = ((S_8008F428_0 *)arg0)->unk_9B;
@@ -180,7 +174,9 @@ use_effect:
         ((S_8008F428_1 *)arg2)->unk_14 |= 0x800;
 start_wait:
         ((S_8008F428_0 *)arg0)->unk_96 = 0x10;
-        ((S_8008F428_0 *)arg0)->unk_9B = ((S_8008F428_0 *)arg0)->unk_9B + 1;
+        next_state = ((S_8008F428_0 *)arg0)->unk_9B + 1;
+store_state:
+        ((S_8008F428_0 *)arg0)->unk_9B = next_state;
         return;
     }
 
@@ -192,7 +188,6 @@ start_wait:
     ((S_8008F428_1 *)arg2)->unk_14 &= 0xF7FF;
     func_800A56E0(0x506);
     {
-        void *call_arg;
         register s32 pass_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 saved_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
@@ -203,11 +198,16 @@ start_wait:
         func_80099290(func_80099194(D_800E0683,
             func_80099734(call_arg, pass_value)));
         func_800A5720(saved_value);
-        ((S_8008F428_0 *)arg0)->unk_8C = &D_8008ACDC;
         call_arg = arg2;
-        (*(u8 * *)((u8 *)call_arg + (0x2C))) = D_800DCFB0;
+reset_effect:
+        effect = (u8 *)&D_8008ACDC;
+        table = D_800DCFB0;
+set_effect:
+        ((S_8008F428_0 *)arg0)->unk_8C = effect;
+        (*(u8 * *)((u8 *)call_arg + (0x2C))) = table;
+        effect = (u8 *)((((D_80083228 + ((S_8008F428_4 *)arg3)->unk_2A + 0x100) >> 9) & 7) + (u32)table);
         func_80048A44(call_arg,
-            D_800DCFB0[((D_80083228 + ((S_8008F428_4 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            *effect,
             0, 1);
     }
 }

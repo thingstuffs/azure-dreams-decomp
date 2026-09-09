@@ -113,20 +113,16 @@ extern s32 func_80065820();
 extern s32 func_8006658C();
 extern s32 func_800666B8();
 extern s32 func_80067F20();
-extern s32 func_800C5750();
-extern s32 func_800C58BC();
-extern s32 func_800C5914();
-extern s32 func_800C596C();
 
 extern u8 D_80083160[];
 
-void func_800C55F4(void *arg0, void *arg1, void *arg2, s16 arg3)
+void func_800C55F4(void *arg0, void *arg1, void *arg2, s32 arg3)
 {
     u8 sp18[0x20];
     register u8 *arg0_pin ASM_REG("$23") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *arg1_record = arg1;
     void *arg2_alias = arg2;
-    register s16 arg3_pin ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 arg3_pin ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *scratch ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u32 stack_arg ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *first_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -198,10 +194,13 @@ void func_800C55F4(void *arg0, void *arg1, void *arg2, s16 arg3)
         ((S_800C55F4_1 *)scratch)->unk_2C = initial_value;
     }
 
-    ((S_800C55F4_1 *)scratch)->unk_CC =
-        func_80065420(first_a0, first_a1,
-                     (void *)0x1F800090, (void *)0x1F800094) - arg3_pin;
-    func_80064AE0(sp18);
+    result = func_80065420(first_a0, first_a1,
+                          (void *)0x1F800090, (void *)0x1F800094);
+    first_a0 = sp18;
+    ASM_USE_NV(first_a0); /* MATCH: prepare the next call argument before extending the loop invariant. */
+    arg3_pin = (s16)arg3_pin;
+    ((S_800C55F4_1 *)scratch)->unk_CC = result - arg3_pin;
+    func_80064AE0(first_a0);
     func_80065820((u8 *)arg2_alias + 0x16, scratch + 0x50);
     func_80064BC0(scratch + 0x50, scratch + 0x30);
     func_80064840(sp18, scratch + 0x50, scratch + 0xD0);
@@ -217,183 +216,172 @@ void func_800C55F4(void *arg0, void *arg1, void *arg2, s16 arg3)
     ((S_800C55F4_2 *)arg2_alias)->unk_14 |= 0x8000;
     ASM_KEEP(page_record7);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    x = *scan;
-    ((S_800C55F4_1 *)scratch)->unk_70 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_00;
-    x = ((S_800C55F4_7_pre *)entry)[-1].unk_00;
-    ((S_800C55F4_1 *)scratch)->unk_78 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_00;
-    x = ((S_800C55F4_7_pre *)entry)[-1].unk_01;
-    ((S_800C55F4_1 *)scratch)->unk_80 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_00;
-    x = *scan;
-    ((S_800C55F4_1 *)scratch)->unk_74 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_04;
-    x = ((S_800C55F4_7_pre *)entry)[-1].unk_00;
-    call_a0 = scratch + 0x70;
-    ((S_800C55F4_1 *)scratch)->unk_7C = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_04;
-    x = *(volatile u8 *)(entry - 9);
-    call_a2 = sp38;
-    call_a3 = sp3C;
-    ((S_800C55F4_1 *)scratch)->unk_84 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_04;
-
-    {
-        s32 call_result;
-
-        call_result = func_80065420(call_a0, arg1_record + 8,
-                                    call_a2, call_a3);
-        call_a0 = scratch + 0x78;
+    for (;;) {
+        x = *scan;
+        ((S_800C55F4_1 *)scratch)->unk_70 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_00;
+        x = ((S_800C55F4_7_pre *)entry)[-1].unk_00;
+        ((S_800C55F4_1 *)scratch)->unk_78 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_00;
+        x = ((S_800C55F4_7_pre *)entry)[-1].unk_01;
+        ((S_800C55F4_1 *)scratch)->unk_80 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_00;
+        x = *scan;
+        ((S_800C55F4_1 *)scratch)->unk_74 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_04;
+        x = ((S_800C55F4_7_pre *)entry)[-1].unk_00;
+        call_a0 = scratch + 0x70;
+        ((S_800C55F4_1 *)scratch)->unk_7C = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_04;
+        x = *(volatile u8 *)(entry - 9);
         call_a2 = sp38;
         call_a3 = sp3C;
-        ((S_800C55F4_1 *)scratch)->unk_C0.s = call_result;
-        call_result = func_80065420(call_a0, arg1_record + 0x10,
-                                    call_a2, call_a3);
-        call_a0 = scratch + 0x80;
-        call_a2 = sp38;
-        call_a3 = sp3C;
-        ((S_800C55F4_1 *)scratch)->unk_C4 = call_result;
-        call_result = func_80065420(call_a0, arg1_record + 0x18,
-                                    call_a2, call_a3);
-        ((S_800C55F4_1 *)scratch)->unk_C8.s = call_result;
-    }
+        ((S_800C55F4_1 *)scratch)->unk_84 = ((S_800C55F4_6 *)((x << 3) + (u32)table))->unk_04;
 
-    result = func_80065480((*(s32 *)((u8 *)page_record7 + 1)),
-                           (*(s32 *)((u8 *)page_record7 + 9)),
-                           (*(s32 *)((u8 *)page_record7 + 0x11)));
-    ((S_800C55F4_1 *)scratch)->unk_114 = result;
+        {
+            s32 call_result;
 
-    if (result > 0) {
-        s32 c8_value;
-
-        ((S_800C55F4_1 *)scratch)->unk_C0.u -= arg3_pin;
-        c8_value = ((S_800C55F4_1 *)scratch)->unk_C8.u;
-        ((S_800C55F4_1 *)scratch)->unk_C4 -= arg3_pin;
-        position = *(volatile u32 *)(scratch + 0xC0);
-        ((S_800C55F4_1 *)scratch)->unk_C8.s = c8_value - arg3_pin;
-        if (position < 0x1E0) {
-            {
-                s32 first_shade;
-
-                first_shade = 0x100;
-                first_shade -= ((S_800C55F4_8 *)arg0_pin)->unk_32;
-                first_shade -=
-                    (((S_800C55F4_1 *)scratch)->unk_CC - position) << 5;
-                if (first_shade < 0x20) {
-                    first_shade = 0x20;
-                    ASM_TAILSLOT_PIN(first_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_800C58BC(((S_800C55F4_8 *)arg0_pin)->unk_32, position);
-                    return;
-                }
-                if (first_shade >= 0x100) {
-                    first_shade = 0xFF;
-                }
-                {
-                    s32 shade_arg;
-
-                    shade_arg = (s32)(s16)first_shade;
-                    ASM_KEEP_DEP_NV(shade_arg, first_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_8004CECC(((S_800C55F4_8 *)arg0_pin)->unk_30,
-                                  shade_arg, 0xFF, arg1_record + 4);
-                }
-            }
-
-            {
-                s32 second_value;
-                s32 second_shade;
-                s32 second_delta;
-                s32 second_height;
-
-                second_value = 0x100;
-                second_height = ((S_800C55F4_8 *)arg0_pin)->unk_32;
-                ASM_KEEP_DEP_NV(scratch, second_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                second_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
-                second_shade = ((S_800C55F4_1 *)scratch)->unk_C4;
-                second_value -= second_height;
-                second_delta -= second_shade;
-                second_delta <<= 5;
-                second_shade = second_value - second_delta;
-                if (second_shade < 0x20) {
-                    second_shade = 0x20;
-                    ASM_TAILSLOT_PIN(second_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_800C5914(second_value,
-                                  ((S_800C55F4_8 *)arg0_pin)->unk_32);
-                    return;
-                }
-                if (second_shade >= 0x100) {
-                    second_shade = 0xFF;
-                }
-                {
-                    s32 shade_arg;
-
-                    shade_arg = (s32)(s16)second_shade;
-                    ASM_KEEP_DEP_NV(shade_arg, second_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_8004CECC(((S_800C55F4_8 *)arg0_pin)->unk_30,
-                                  shade_arg, 0xFF,
-                                  arg1_record + 0xC);
-                }
-            }
-
-            {
-                s32 third_value;
-                s32 third_shade;
-                s32 third_delta;
-                s32 third_height;
-
-                third_value = 0x100;
-                third_height = ((S_800C55F4_8 *)arg0_pin)->unk_32;
-                ASM_KEEP_DEP_NV(scratch, third_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                third_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
-                third_shade = ((S_800C55F4_1 *)scratch)->unk_C8.s;
-                third_value -= third_height;
-                third_delta -= third_shade;
-                third_delta <<= 5;
-                third_shade = third_value - third_delta;
-                if (third_shade < 0x20) {
-                    third_shade = 0x20;
-                    ASM_TAILSLOT_PIN(third_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_800C596C(third_value,
-                                  ((S_800C55F4_8 *)arg0_pin)->unk_32);
-                    return;
-                }
-                if (third_shade >= 0x100) {
-                    third_shade = 0xFF;
-                }
-                {
-                    s32 shade_arg;
-
-                    shade_arg = (s32)(s16)third_shade;
-                    ASM_KEEP_DEP_NV(shade_arg, third_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_8004CECC(((S_800C55F4_8 *)arg0_pin)->unk_30,
-                                  shade_arg, 0xFF,
-                                  arg1_record + 0x14);
-                }
-            }
-
-            func_800666B8(arg1_record);
-            old_record = arg1_record;
-            page_flag = ((S_800C55F4_4 *)page_record7)->unk_00;
-            arg1_record += 0x1C;
-            ((S_800C55F4_4 *)page_record7)->unk_00 = page_flag | 2;
-            page_record7 += 0x1C;
-            ASM_KEEP(page_record7);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            page_record7 += 0xC;
-            ASM_KEEP(page_record7);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            func_8006658C(((S_800C55F4_1 *)scratch)->unk_20 +
-                          (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), old_record);
-
-            ((S_800C55F4_2 *)arg2_alias)->unk_14 &= 0x7FFF;
-            func_80067F20(arg1_record, 0, 0, 0, 0);
-            old_record = arg1_record;
-            arg1_record += 0xC;
-            func_8006658C(((S_800C55F4_1 *)scratch)->unk_20 +
-                          (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), old_record);
+            call_result = func_80065420(call_a0, arg1_record + 8,
+                                        call_a2, call_a3);
+            call_a0 = scratch + 0x78;
+            call_a2 = sp38;
+            call_a3 = sp3C;
+            ((S_800C55F4_1 *)scratch)->unk_C0.s = call_result;
+            call_result = func_80065420(call_a0, arg1_record + 0x10,
+                                        call_a2, call_a3);
+            call_a0 = scratch + 0x80;
+            call_a2 = sp38;
+            call_a3 = sp3C;
+            ((S_800C55F4_1 *)scratch)->unk_C4 = call_result;
+            call_result = func_80065420(call_a0, arg1_record + 0x18,
+                                        call_a2, call_a3);
+            ((S_800C55F4_1 *)scratch)->unk_C8.s = call_result;
         }
-    }
 
-    entry_flag = ((S_800C55F4_7 *)entry)->unk_00;
-    if (entry_flag >= 0) {
-        entry += 0xC;
-        ASM_USE_NV(entry);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        scan += 0xC;
-        ASM_TAILSLOT_PIN(scan);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800C5750();
-        return;
+        result = func_80065480((*(s32 *)((u8 *)page_record7 + 1)),
+                               (*(s32 *)((u8 *)page_record7 + 9)),
+                               (*(s32 *)((u8 *)page_record7 + 0x11)));
+        ((S_800C55F4_1 *)scratch)->unk_114 = result;
+
+        if (result > 0) {
+            s32 c8_value;
+
+            ((S_800C55F4_1 *)scratch)->unk_C0.u -= arg3_pin;
+            c8_value = ((S_800C55F4_1 *)scratch)->unk_C8.u;
+            ((S_800C55F4_1 *)scratch)->unk_C4 -= arg3_pin;
+            position = *(volatile u32 *)(scratch + 0xC0);
+            ((S_800C55F4_1 *)scratch)->unk_C8.s = c8_value - arg3_pin;
+            if (position < 0x1E0) {
+                {
+                    s32 first_shade;
+                    register s32 first_height ASM_REG("$4"); /* MATCH: retain retail's height operand in a0. */
+
+                    first_shade = 0x100;
+                    first_height = ((S_800C55F4_8 *)arg0_pin)->unk_32;
+                    first_shade -= first_height;
+                    first_shade -=
+                        (((S_800C55F4_1 *)scratch)->unk_CC - position) << 5;
+                    if (first_shade < 0x20) {
+                        first_shade = 0x20;
+                    } else if (first_shade >= 0x100) {
+                        first_shade = 0xFF;
+                    }
+                    {
+                        s32 shade_arg;
+
+                        shade_arg = (s32)(s16)first_shade;
+                        ASM_KEEP_DEP_NV(shade_arg, first_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        func_8004CECC(((S_800C55F4_8 *)arg0_pin)->unk_30,
+                                      shade_arg, 0xFF, arg1_record + 4);
+                    }
+                }
+
+                {
+                    s32 second_value;
+                    register s32 second_shade ASM_REG("$3"); /* MATCH: retain retail's merged clamp value in v1. */
+                    s32 second_delta;
+                    s32 second_height;
+
+                    second_value = 0x100;
+                    second_height = ((S_800C55F4_8 *)arg0_pin)->unk_32;
+                    ASM_KEEP_DEP_NV(scratch, second_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    second_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
+                    second_shade = ((S_800C55F4_1 *)scratch)->unk_C4;
+                    second_value -= second_height;
+                    second_delta -= second_shade;
+                    second_delta <<= 5;
+                    second_shade = second_value - second_delta;
+                    if (second_shade < 0x20) {
+                        second_shade = 0x20;
+                    } else if (second_shade >= 0x100) {
+                        second_shade = 0xFF;
+                    }
+                    {
+                        s32 shade_arg;
+
+                        shade_arg = (s32)(s16)second_shade;
+                        ASM_KEEP_DEP_NV(shade_arg, second_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        func_8004CECC(((S_800C55F4_8 *)arg0_pin)->unk_30,
+                                      shade_arg, 0xFF,
+                                      arg1_record + 0xC);
+                    }
+                }
+
+                {
+                    s32 third_value;
+                    register s32 third_shade ASM_REG("$3"); /* MATCH: retain retail's merged clamp value in v1. */
+                    s32 third_delta;
+                    s32 third_height;
+
+                    third_value = 0x100;
+                    third_height = ((S_800C55F4_8 *)arg0_pin)->unk_32;
+                    ASM_KEEP_DEP_NV(scratch, third_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    third_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
+                    third_shade = ((S_800C55F4_1 *)scratch)->unk_C8.s;
+                    third_value -= third_height;
+                    third_delta -= third_shade;
+                    third_delta <<= 5;
+                    third_shade = third_value - third_delta;
+                    if (third_shade < 0x20) {
+                        third_shade = 0x20;
+                    } else if (third_shade >= 0x100) {
+                        third_shade = 0xFF;
+                    }
+                    {
+                        s32 shade_arg;
+
+                        shade_arg = (s32)(s16)third_shade;
+                        ASM_KEEP_DEP_NV(shade_arg, third_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        func_8004CECC(((S_800C55F4_8 *)arg0_pin)->unk_30,
+                                      shade_arg, 0xFF,
+                                      arg1_record + 0x14);
+                    }
+                }
+
+                func_800666B8(arg1_record);
+                old_record = arg1_record;
+                page_flag = ((S_800C55F4_4 *)page_record7)->unk_00;
+                arg1_record += 0x1C;
+                ((S_800C55F4_4 *)page_record7)->unk_00 = page_flag | 2;
+                page_record7 += 0x1C;
+                ASM_KEEP(page_record7);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                page_record7 += 0xC;
+                ASM_KEEP(page_record7);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                func_8006658C(((S_800C55F4_1 *)scratch)->unk_20 +
+                              (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), old_record);
+
+                ((S_800C55F4_2 *)arg2_alias)->unk_14 &= 0x7FFF;
+                func_80067F20(arg1_record, 0, 0, 0, 0);
+                old_record = arg1_record;
+                arg1_record += 0xC;
+                func_8006658C(((S_800C55F4_1 *)scratch)->unk_20 +
+                              (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), old_record);
+            }
+        }
+
+        entry_flag = ((S_800C55F4_7 *)entry)->unk_00;
+        if (entry_flag >= 0) {
+            entry += 0xC;
+            ASM_USE_NV(entry);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            scan += 0xC;
+            continue;
+        }
+        break;
     }
     func_80064A40();
     global_base = D_80083160;

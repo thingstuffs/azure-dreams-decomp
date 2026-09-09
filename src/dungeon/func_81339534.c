@@ -7,8 +7,6 @@ typedef s32 M2C_UNK;
 
 extern void func_800419EC(s32, s32);
 extern void func_800A56E0(u32);
-extern void func_801705EC(void) __attribute__((noreturn));
-extern void func_80170690(void) __attribute__((noreturn));
 extern void *jtbl_80164A38[];
 __asm__(".set jtbl_80164A38, 0x80164A38");
 extern s32 D_800814A0[3];
@@ -67,12 +65,12 @@ state_1:
             ((S_80170534_1 *)input)->unk_0E.s = temp_v1;
             ((S_80170534_1 *)input)->unk_0D.s = temp_v1;
             ((S_80170534_1 *)input)->unk_0C = temp_v1;
-            func_801705EC();
+        } else {
+            temp_v0 = 0x80;
+            ((S_80170534_1 *)input)->unk_0E.u = temp_v0;
+            ((S_80170534_1 *)input)->unk_0D.u = temp_v0;
+            ((S_80170534_1 *)input)->unk_0C = temp_v0;
         }
-        temp_v0 = 0x80;
-        ((S_80170534_1 *)input)->unk_0E.u = temp_v0;
-        ((S_80170534_1 *)input)->unk_0D.u = temp_v0;
-        ((S_80170534_1 *)input)->unk_0C = temp_v0;
     }
     if ((s16) ((S_80170534_0 *)state)->unk_18 == 0x28) {
 #ifdef NON_MATCHING
@@ -104,12 +102,12 @@ state_2:
             ((S_80170534_1 *)input)->unk_0E.s = temp_v1;
             ((S_80170534_1 *)input)->unk_0D.s = temp_v1;
             ((S_80170534_1 *)input)->unk_0C = temp_v1;
-            func_80170690();
+        } else {
+            temp_v0 = 0x80;
+            ((S_80170534_1 *)input)->unk_0E.u = temp_v0;
+            ((S_80170534_1 *)input)->unk_0D.u = temp_v0;
+            ((S_80170534_1 *)input)->unk_0C = temp_v0;
         }
-        temp_v0 = 0x80;
-        ((S_80170534_1 *)input)->unk_0E.u = temp_v0;
-        ((S_80170534_1 *)input)->unk_0D.u = temp_v0;
-        ((S_80170534_1 *)input)->unk_0C = temp_v0;
     }
     if ((s16) ((S_80170534_0 *)state)->unk_18 >= 0x3C) {
         ((S_80170534_0 *)state)->unk_18 = 0U;

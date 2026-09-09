@@ -16,7 +16,6 @@ typedef struct S_800C382C_0 {
 
 extern s32 func_800374F4(s32 arg0);
 extern void func_800C2E84(void *arg0, void *arg1, void *arg2);
-extern void func_800C3920(void) __attribute__((noreturn));
 extern s32 D_800C355C;
 
 void func_800C382C(Rec_func_80094268_arg0 *arg0, S_800C382C_0 *arg1, void *arg2) {
@@ -34,25 +33,25 @@ void func_800C382C(Rec_func_80094268_arg0 *arg0, S_800C382C_0 *arg1, void *arg2)
             if (arg1->unk_02 <
                 arg0->unk_84.as_s16 + arg0->unk_8C) {
                 arg0->unk_72.as_s16 = 0x400;
-                func_800C3920();
+                break;
             }
         } else if (direction == 1) {
             if (arg1->unk_06 <
                 arg0->unk_86.as_s16 + arg0->unk_8E) {
                 arg0->unk_72.as_s16 = 0;
-                func_800C3920();
+                break;
             }
         } else if (direction == 2) {
             if (arg0->unk_84.as_s16 - arg0->unk_8C <
                 arg1->unk_02) {
                 arg0->unk_72.as_s16 = 0xC00;
-                func_800C3920();
+                break;
             }
         } else {
             if (arg0->unk_86.as_s16 - arg0->unk_8E <
                 arg1->unk_06) {
                 arg0->unk_72.as_s16 = 0x800;
-                func_800C3920();
+                break;
             }
         }
     }

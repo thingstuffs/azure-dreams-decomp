@@ -6,9 +6,6 @@ extern s32 func_8008AC84(s32);
 extern s32 func_8008ACE8(s32);
 extern void func_8008AD90(s32, s32);
 extern u32 *func_8008AF2C(s32, s32, s32);
-extern void func_8008B058() __attribute__((noreturn));
-extern s32 func_8008B058_live(void) __asm__("func_8008B058");
-extern void func_8008B07C() __attribute__((noreturn));
 extern s8 D_800CF720[0x8E4];
 extern s32 D_801131E4[3];
 
@@ -52,20 +49,14 @@ s32 func_8008AFB0(s8 arg0, s8 arg1, s16 arg2, s32 arg3) {
         r_arg3 = 0;
         ASM_KEEP(r_arg3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_8008AC84(r_arg3);
-        {
-            register s32 r_tail_arg ASM_REG("$4") = r_arg3;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(r_tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_8008B07C();
-        }
-    }
-
-    if (r_remaining < r_size) {
+    } else if (r_remaining < r_size) {
         register s8 *r_page ASM_REG("$2") = D_800CF720;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         register s32 r_index ASM_REG("$3") = r_arg3 << 3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         r_base = r_page + r_index;
-        func_8008B058_live();
+        goto first_page;
         do {
             r_arg3--;
+        first_page:
             r_remaining += ((s32 *)r_base)[1];
             func_8008AC84(r_arg3);
             r_base -= 8;

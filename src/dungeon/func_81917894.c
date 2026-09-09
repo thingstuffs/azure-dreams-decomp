@@ -4,8 +4,6 @@
 #include "records/Rec_func_80024E80_arg1.h"
 
 M2C_UNK func_80024E80();              /* extern */
-void func_80025150(void) __attribute__((noreturn)); /* extern */
-void func_800251FC(void) __attribute__((noreturn)); /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
@@ -52,23 +50,24 @@ void func_80025094(void *arg0, void *arg1, void *arg2) {
         if (temp_v1_2 == 0) {
             goto state_0;
         }
-        func_800251FC();
+        goto common;
     }
     if (temp_v1_2 == 2) {
         goto state_2;
     }
-    func_800251FC();
+    goto common;
 
 state_0:
-    if (((S_80025094_0 *)arg0)->unk_06.u & 1) {
+    {
         u16 tail_value;
 
-        tail_value = ((S_80025094_0 *)arg0)->unk_0A + 2;
-        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80025150();
+        if (((S_80025094_0 *)arg0)->unk_06.u & 1) {
+            tail_value = ((S_80025094_0 *)arg0)->unk_0A + 2;
+        } else {
+            tail_value = ((S_80025094_0 *)arg0)->unk_0A + 1;
+        }
+        ((S_80025094_0 *)arg0)->unk_0A = tail_value;
     }
-    ((S_80025094_0 *)arg0)->unk_0A =
-        (u16) (((S_80025094_0 *)arg0)->unk_0A + 1);
     temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v + 3;
     ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = temp_v0;
     ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = temp_v0;
@@ -84,7 +83,7 @@ state_1:
         ((S_80025094_0 *)arg0)->unk_06.u = 0U;
         ((S_80025094_0 *)arg0)->unk_04.u =
             (u16) (((S_80025094_0 *)arg0)->unk_04.u + 1);
-        func_800251FC();
+        goto common;
     }
     goto common;
 

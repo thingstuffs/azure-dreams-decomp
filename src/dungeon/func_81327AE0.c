@@ -10,13 +10,6 @@ extern void func_800A020C();
 extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s32 func_800BCB04();
-extern void func_8016F534() __attribute__((noreturn));
-extern void func_8016F580() __attribute__((noreturn));
-extern void func_8016F5A4() __attribute__((noreturn));
-extern void func_8016F610() __attribute__((noreturn));
-extern void func_8016F6A8() __attribute__((noreturn));
-extern void func_8016F6C0() __attribute__((noreturn));
-extern void func_8016F740() __attribute__((noreturn));
 
 extern u16 D_80013714;
 extern u8 D_8006CCF8[8];
@@ -89,7 +82,7 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     Callback callback;
     s32 floor;
     s16 actor_height;
-    u16 actor_height_u;
+    register u16 actor_height_u ASM_REG("$4"); /* MATCH: retain the unsigned height in a0 across the shared height-update arms. */
     s32 direction_check;
     s32 direction_value;
     u8 *tile_slot;
@@ -181,70 +174,61 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
         if (*direction_slot != 0) {
             return_flags = ((S_8016F2E0_4 *)arg2)->unk_14.n;
             return_flags |= 1;
-            ASM_TAILSLOT_PIN(return_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_8016F534();
-            return;
+        } else {
+            return_flags = ((S_8016F2E0_4 *)arg2)->unk_14.v & 0xFFFE;
         }
-
-        ((S_8016F2E0_4 *)arg2)->unk_14.v &= 0xFFFE;
+        ((S_8016F2E0_4 *)arg2)->unk_14.v = return_flags;
         if (!(((S_8016F2E0_3 *)actor)->unk_1C & 0x20)) {
             if (!(((S_8016F2E0_4 *)arg2)->unk_14.v & 0x40)) {
                 func_800478B8(arg2);
-                func_8016F580();
-                return;
             }
         } else {
             ((S_8016F2E0_4 *)arg2)->unk_14.v |= 0x7000;
         }
 
         func_800A020C(((S_8016F2E0_3 *)actor)->unk_1C, (u8 *)arg2 + 0xC);
-        func_8016F5A4();
-        return;
-    }
-
-    new_flags = flags & 0x0800;
-    if (new_flags != 0) {
-        new_flags = flags & 0x8FFF;
     } else {
-        new_flags = flags | 0x7000;
+        new_flags = flags & 0x0800;
+        if (new_flags != 0) {
+            new_flags = flags & 0x8FFF;
+        } else {
+            new_flags = flags | 0x7000;
+        }
+        ((S_8016F2E0_4 *)arg2)->unk_14.n = new_flags;
     }
-    ((S_8016F2E0_4 *)arg2)->unk_14.n = new_flags;
 
     ((S_8016F2E0_5 *)arg1)->unk_00.at00.v += ((S_8016F2E0_5 *)arg1)->unk_0C;
     ((S_8016F2E0_5 *)arg1)->unk_04.at00.v += ((S_8016F2E0_5 *)arg1)->unk_10;
 
     if ((*(u16 *)((u8 *)arg0 + (0x98))) & 8) {
         (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
-        func_8016F610();
-        return;
+    } else {
+        ((S_8016F2E0_5 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + (0x9D))) * 0x14000;
+        (*(volatile u8 *)((u8 *)arg0 + (0x9D)))++;
     }
-
-    ((S_8016F2E0_5 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + (0x9D))) * 0x14000;
-    (*(volatile u8 *)((u8 *)arg0 + (0x9D)))++;
     (*(s32 *)((u8 *)arg0 + (0x90))) += ((S_8016F2E0_5 *)arg1)->unk_14;
 
     if (!((*(volatile u16 *)((u8 *)arg0 + (0x98))) & 4)) {
         floor = func_800BCB04(((S_8016F2E0_5 *)arg1)->unk_00.at02.v,
                               ((S_8016F2E0_5 *)arg1)->unk_04.at02.v,
                               (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
+        ASM_SCHED_BARRIER(); /* MATCH: keep the floor guard ahead of the fallback mask load. */
         if ((s16)floor < 0x200) {
             actor_height = ((S_8016F2E0_3 *)actor)->unk_88.s;
-            actor_height_u = ((S_8016F2E0_3 *)actor)->unk_88.u;
+            actor_height_u = (*(volatile u16 *)((u8 *)actor + 0x88));
             if ((*(s16 *)((u8 *)arg0 + (0x92))) + actor_height < (s16)floor) {
                 ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
-                func_8016F6C0(actor_height_u, floor, actor_height);
-                return;
+            } else {
+                if ((s16)floor >= actor_height) {
+                    (*(s32 *)((u8 *)arg0 + (0x90))) = 0;
+                } else {
+                    (*(s16 *)((u8 *)arg0 + (0x92))) = floor - actor_height_u;
+                    ASM_KEEP(actor_height_u); /* MATCH: keep the original height live while the difference is stored through v0. */
+                }
+                ((S_8016F2E0_5 *)arg1)->unk_14 = 0;
+                ((S_8016F2E0_3 *)actor)->unk_1C |= 0x08000000;
+                (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
             }
-            if ((s16)floor >= actor_height) {
-                (*(s32 *)((u8 *)arg0 + (0x90))) = 0;
-                func_8016F6A8(actor_height_u, floor, actor_height);
-                return;
-            }
-
-            (*(s16 *)((u8 *)arg0 + (0x92))) = floor - actor_height_u;
-            ((S_8016F2E0_5 *)arg1)->unk_14 = 0;
-            ((S_8016F2E0_3 *)actor)->unk_1C |= 0x08000000;
-            (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
 
             if (((S_8016F2E0_3 *)actor)->unk_1C & 0x40000000) {
                 ((S_8016F2E0_3 *)actor)->unk_1C &= 0xBFFFFFFF;
@@ -253,8 +237,6 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
                                       (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)arg0 + (0x92))) += ((S_8016F2E0_3 *)actor)->unk_88.u - floor;
                 ((S_8016F2E0_3 *)actor)->unk_88.u = floor;
-                func_8016F740();
-                return;
             }
             goto finish;
         }

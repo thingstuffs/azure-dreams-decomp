@@ -11,7 +11,6 @@ extern s32 D_80083460[3];
 extern u8 D_80171FA4[];
 extern void func_800A2B04(S_B *, u8, u8);
 extern void func_800AD4D0(S_D *);
-extern void func_8017488C(void) __attribute__((noreturn));
 
 void func_80174610(S_A *a0, S_B *a1, S_C *a2, S_D *a3) {
     s16 divisor;
@@ -24,20 +23,16 @@ void func_80174610(S_A *a0, S_B *a1, S_C *a2, S_D *a3) {
 
     state = a0->state9b;
     one = 1;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state != 0) {
-            func_8017488C();
-        }
+    switch (state) {
+    case 0:
         goto state_zero;
-    }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if (state == 2) {
+    case 1:
+        goto state_one;
+    case 2:
         goto state_two;
+    default:
+        goto done;
     }
-    func_8017488C();
 
 state_zero:
         func_800AD4D0(a3);
@@ -48,7 +43,7 @@ state_zero:
         if (a2->flags14 & 0x8000) {
             a0->count96 = 0;
             a0->state9b = 2;
-            func_8017488C();
+            goto done;
         }
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         a1->dxC = (-(*(s16 *)(D_8006CCD8 + (((u16)a3->index6A >> 8) & 0xE)))) << 0xF;
@@ -65,7 +60,7 @@ state_one:
             }
             a0->count96 = 8;
             a0->state9b = (u8)(a0->state9b + 1);
-            func_8017488C();
+            goto done;
         }
         goto done;
 state_two:

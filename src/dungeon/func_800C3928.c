@@ -151,9 +151,6 @@ extern void func_80065C50(u16, void *);
 extern void func_80065DF0(u16, void *);
 extern void func_8006658C(void *, void *);
 extern void func_8006671C(void *);
-extern void func_800C925C(void);
-extern void func_800C93D4(void) __attribute__((noreturn));
-extern void func_800C93E0() __attribute__((noreturn));
 extern u8 D_80083160[];
 
 void func_800C9088(void *arg0, void *arg1, void *arg2, s16 arg3)
@@ -189,7 +186,7 @@ void func_800C9088(void *arg0, void *arg1, void *arg2, s16 arg3)
     s32 flags;
     u16 object_x;
     MATRIX_LOCAL local;
-    static void *const keepalive[] = { &&after_switch };
+    s32 visible_a0, visible_a1, visible_a2;
 
 
     local.saved_arg3 = arg3;
@@ -250,6 +247,7 @@ void func_800C9088(void *arg0, void *arg1, void *arg2, s16 arg3)
 
     ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
+next_record:
     table_word = ((S_800C9088_12 *)(table + ((S_800C9088_5 *)indices)->unk_00 * 8))->unk_00;
     ASM_KEEP(table_word);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     next_index = (*(u16 *)((u8 *)ptr_s1 + -0x1D));
@@ -305,30 +303,35 @@ void func_800C9088(void *arg0, void *arg1, void *arg2, s16 arg3)
         if (flags == 0) {
             goto flag_zero;
         }
-        func_800C93D4();
+        goto after_switch;
     }
     if (flags == 2) {
         goto flag_two;
     }
-    func_800C93D4();
+    goto after_switch;
 
 flag_zero:
-    func_800C93E0((*(s32 *)((u8 *)ptr_s0 + 1)),
-                  (*(s32 *)((u8 *)ptr_s0 + 0xD)),
-                  (*(s32 *)((u8 *)ptr_s0 + 0x19)));
+    visible_a0 = (*(s32 *)((u8 *)ptr_s0 + 1));
+    visible_a1 = (*(s32 *)((u8 *)ptr_s0 + 0xD));
+    visible_a2 = (*(s32 *)((u8 *)ptr_s0 + 0x19));
+    goto call_visible;
 flag_one:
-    func_800C93E0((*(s32 *)((u8 *)ptr_s0 + 0xD)),
-                  (*(s32 *)((u8 *)ptr_s0 + 1)),
-                  (*(s32 *)((u8 *)ptr_s0 + 0x19)));
+    visible_a0 = (*(s32 *)((u8 *)ptr_s0 + 0xD));
+    visible_a1 = (*(s32 *)((u8 *)ptr_s0 + 1));
+    visible_a2 = (*(s32 *)((u8 *)ptr_s0 + 0x19));
+    goto call_visible;
 flag_two:
-    func_800C93E0((*(s32 *)((u8 *)ptr_s0 + 0x19)),
-                  (*(s32 *)((u8 *)ptr_s0 + 0xD)),
-                  (*(s32 *)((u8 *)ptr_s0 + 1)));
+    visible_a0 = (*(s32 *)((u8 *)ptr_s0 + 0x19));
+    visible_a1 = (*(s32 *)((u8 *)ptr_s0 + 0xD));
+    visible_a2 = (*(s32 *)((u8 *)ptr_s0 + 1));
+    goto call_visible;
 
 after_switch:
-    visible = func_80065480((*(s32 *)((u8 *)ptr_s0 + 0x19)),
-                            (*(s32 *)((u8 *)ptr_s0 + 1)),
-                            (*(s32 *)((u8 *)ptr_s0 + 0xD)));
+    visible_a0 = (*(s32 *)((u8 *)ptr_s0 + 0x19));
+    visible_a1 = (*(s32 *)((u8 *)ptr_s0 + 1));
+    visible_a2 = (*(s32 *)((u8 *)ptr_s0 + 0xD));
+call_visible:
+    visible = func_80065480(visible_a0, visible_a1, visible_a2);
     ((S_800C9088_1 *)scratch)->unk_114 = visible;
     if (((S_800C9088_1 *)scratch)->unk_114 > 0) {
         register u16 raw_arg3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -381,11 +384,9 @@ after_switch:
 
     if (((S_800C9088_10_pre *)ptr_s1)[-1].unk_00 != 1 || ((S_800C9088_10 *)ptr_s1)->unk_00 >= 0) {
         ptr_s1 += 0x20;
-        indices += 0x20;
         ASM_KEEP(ptr_s1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(indices);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        func_800C925C();
-        return;
+        indices += 0x20;
+        goto next_record;
     }
 
     func_80064A40();
@@ -395,5 +396,4 @@ after_switch:
         ((S_800C9088_11 *)(*(u8 **)state_base))->unk_8D0 = packet;
     }
     ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg2_tail);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 }

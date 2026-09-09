@@ -100,13 +100,13 @@ void func_800AAF00(void *arg0, s32 arg1, void *arg2, u8 *arg3, s32 arg4) {
                 ((S_800AAF00_2 *)D_800E3D7C)->unk_98.u16 |= 0x1000;
                 ((S_800AAF00_2 *)D_800E3D7C)->unk_A6++;
                 ((S_800AAF00_1 *)state)->unk_0A++;
-                /* interior jump — was mis-decoded as extern func_800AB048() */
+                /* Jump to the shared body. */
                 goto shared_body;
             }
             func_800A4ACC(obj);
             ((S_800AAF00_0 *)obj)->unk_6D--;
             ((S_800AAF00_3 *)owner)->unk_8C = arg4;
-            /* jump to own epilogue — was mis-decoded as extern func_800AB198() */
+            /* Jump to the epilogue. */
             return;
         }
 
@@ -145,7 +145,7 @@ shared_body:
                                 ((S_800AAF00_4 *)other)->unk_25,
                                 ((S_800AAF00_0 *)obj)->unk_2A.s,
                                 entry[0x13]);
-                            /* interior jump — was mis-decoded as extern func_800AB12C() */
+                            /* Jump to the shared tail. */
                             goto shared_tail;
                         }
                     }

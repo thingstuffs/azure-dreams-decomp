@@ -9,11 +9,6 @@ extern M2C_UNK func_800241D4(s32, s32);
 extern M2C_UNK func_80024F3C(s32, s32, s32);
 extern M2C_UNK func_80026128(s32, s32, s32);
 extern M2C_UNK func_80026270(void *);
-#ifndef NON_MATCHING
-extern void func_80026378(void);
-#else
-extern void func_80026378(void *);
-#endif
 extern M2C_UNK SD_Call(s32);
 extern M2C_UNK func_800A6104(void);
 
@@ -46,50 +41,51 @@ void *func_800262BC(void *arg0) {
 #ifndef NON_MATCHING
         dead_v0 = (u8 *)0x80020000;
         ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        func_80026378();
-        return dead_v0 + 0x61C0;
+        dead_v0 += 0x61C0;
 #else
-        func_80026378(D_800261C0);
-        return D_800261C0;
+        result = D_800261C0;
 #endif
+    } else {
+        func_80024F3C(*(s32 *)((s8 *)arg0 + 4), *(s32 *)((s8 *)arg0 + 0x2C), 3);
+        func_80026270(arg0);
+#ifndef NON_MATCHING
+        dead_v0 = (u8 *)(u32)*(s32 *)((s8 *)arg0 + 0x2C);
+        dead_v0 = (u8 *)((u32)dead_v0 << 2);
+        dead_v0 = (u8 *)((u32)dead_v0 + (u32)arg0);
+        func_800241D4(*(s32 *)(dead_v0 + 0xC), 1);
+        dead_v0 = (u8 *)0x80010000;
+        __asm__ __volatile__("" : "=r"(dead_v0) : "0"(dead_v0));
+        dead_v0 = (u8 *)(s32)*(s16 *)(dead_v0 + 0x208);
+        if (dead_v0 != 0) {
+#else
+        func_800241D4(*(s32 *)((s8 *)arg0 + *(s32 *)((s8 *)arg0 + 0x2C) * 4 + 0xC), 1);
+        if (D_80010208[0] != 0) {
+#endif
+            func_800A6104();
+#ifndef NON_MATCHING
+            dead_v0 = (u8 *)0x80020000;
+            ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            dead_v0 += 0x6240;
+#else
+            result = D_80026240;
+#endif
+        } else {
+            SD_Call(0x503);
+#ifndef NON_MATCHING
+            dead_v0 = (u8 *)0x80020000;
+            ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            dead_v0 += 0x65B8;
+#else
+            result = D_800265B8;
+#endif
+        }
     }
-    func_80024F3C(*(s32 *)((s8 *)arg0 + 4), *(s32 *)((s8 *)arg0 + 0x2C), 3);
-    func_80026270(arg0);
 #ifndef NON_MATCHING
-    dead_v0 = (u8 *)(u32)*(s32 *)((s8 *)arg0 + 0x2C);
-    dead_v0 = (u8 *)((u32)dead_v0 << 2);
-    dead_v0 = (u8 *)((u32)dead_v0 + (u32)arg0);
-    func_800241D4(*(s32 *)(dead_v0 + 0xC), 1);
-    dead_v0 = (u8 *)0x80010000;
-    __asm__ __volatile__("" : "=r"(dead_v0) : "0"(dead_v0));
-    dead_v0 = (u8 *)(s32)*(s16 *)(dead_v0 + 0x208);
-    if (dead_v0 == 0) {
+    *(u8 **)((s8 *)arg0 - 0x10) = dead_v0;
 #else
-    func_800241D4(*(s32 *)((s8 *)arg0 + *(s32 *)((s8 *)arg0 + 0x2C) * 4 + 0xC), 1);
-    if (D_80010208[0] == 0) {
+    *(void **)((s8 *)arg0 - 0x10) = result;
 #endif
-        SD_Call(0x503);
-#ifndef NON_MATCHING
-        dead_v0 = (u8 *)0x80020000;
-        ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        dead_v0 += 0x65B8;
-        *(u8 **)((s8 *)arg0 - 0x10) = dead_v0;
-#else
-        *(void **)((s8 *)arg0 - 0x10) = D_800265B8;
-#endif
-        result = func_80020984();
-        *(s32 *)((s8 *)arg0 + 0x40) = 0;
-        return result;
-    }
-
-    func_800A6104();
-#ifndef NON_MATCHING
-    dead_v0 = (u8 *)0x80020000;
-    ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    func_80026378();
-    return dead_v0 + 0x6240;
-#else
-    func_80026378(D_80026240);
-    return D_80026240;
-#endif
+    result = func_80020984();
+    *(s32 *)((s8 *)arg0 + 0x40) = 0;
+    return result;
 }

@@ -33,9 +33,6 @@ extern s32 func_800A5720();
 extern s32 func_800A5F38();
 extern s32 func_800A6480();
 extern s32 func_800AD6FC();
-extern s32 func_800BED74();
-extern s32 func_800BED78();
-extern s32 func_800BEDAC();
 
 extern u8 D_80082E80[];
 extern s32 D_80083460;
@@ -119,25 +116,28 @@ s32 func_800BEB30(u32 arg0, u8 *arg1, s16 arg2, s32 arg3) {
                 temp_call_a1 = temp_s1;
                 temp_s1 = temp_v0;
                 func_800998C0(temp_s0, temp_call_a1);
-                return func_800BED78(D_80089368, temp_s1);
+                temp_a0 = D_80089368;
+                temp_call_a1 = temp_s1;
+                goto message;
             }
-            func_80099368(temp_s2, temp_s3);
-            return func_800BED74(D_800E112A);
+            temp_v0 = func_80099368(temp_s2, temp_s3);
+            temp_a0 = D_800E112A;
+            goto result;
         }
 
 other:
         temp_call_a1 = temp_s1;
         temp_v0 = func_80099368(temp_a0, temp_call_a1);
         temp_a0 = D_800E1156;
+result:
         temp_call_a1 = temp_v0;
         ASM_KEEP(temp_call_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+message:
         temp_s1 = func_80099194(temp_a0, temp_call_a1);
         func_80099290(temp_s1);
         ASM_KEEP(temp_s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800A5720(temp_s3);
-        decrement_base = (u8 *)0x80080000;
-        ASM_TAILSLOT_PIN(decrement_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_800BEDAC();
+        goto decrement;
     }
 
     func_800997FC(D_800E116E, temp_a1, arg2);

@@ -29,8 +29,6 @@ extern void func_800A5720(s32);
 extern void func_800A5F38(void *, s32);
 extern void func_800A63B8(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
-extern s32 func_800BDE34(void *);
-extern s32 func_800BDE84(void *);
 extern void func_800D5460(void *, u32, s32);
 
 s32 func_800BDC98(void *arg0, s32 arg1, s16 arg2) {
@@ -76,28 +74,26 @@ s32 func_800BDC98(void *arg0, s32 arg1, s16 arg2) {
 
             value = func_800990FC();
             if (state < 0) {
-                func_80099734(arg0, value);
-                return func_800BDE34(D_800E0F2D);
-            }
-            if (state != 0) { /* state>=0 here, so !=0 <=> >0; matches retail beqz */
+                func_80099290(func_80099194(D_800E0F2D,
+                                            func_80099734(arg0, value)));
+            } else if (state != 0) { /* state>=0 here, so !=0 <=> >0; matches retail beqz */
                 ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                func_80099734(arg0, value);
-                return func_800BDE34(D_800E0F44);
+                func_80099290(func_80099194(D_800E0F44,
+                                            func_80099734(arg0, value)));
+            } else {
+                ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                func_80099290(func_80099194(D_800E0F65,
+                                            func_80099734(arg0, value)));
             }
-
-            ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_80099290(func_80099194(D_800E0F65,
-                                        func_80099734(arg0, value)));
             func_800A5720(value);
         }
 
         func_800D5460((u8 *)arg0 - 0x20, 0x20A0A0, 0x702);
         func_80098B38(arg1);
-        return func_800BDE84((void *)0x80080000);
+    } else {
+        func_800997FC(D_800E0F85);
+        func_800A56E0(0x506);
     }
-
-    func_800997FC(D_800E0F85);
-    func_800A56E0(0x506);
     D_80083460.field_A--;
     return 1;
 }

@@ -44,7 +44,6 @@ typedef struct S_800B328C_4 {
 
 
 s32 func_8003DE58();     /* extern */
-M2C_UNK func_800B33C8();                      /* extern */
 M2C_UNK func_800B8EA8(); /* extern */
 extern M2C_UNK D_800814A0;
 
@@ -78,17 +77,17 @@ void func_800B328C(void *arg0, void *arg1) {
             ((S_800B328C_2 *)arg1)->unk_0A = temp_v0_3;
             sp30[2] = temp_v0_3;
             func_800B8EA8(((S_800B328C_0 *)arg0)->unk_00, temp_a1_2, temp_a2, temp_a3 >> 0x10, sp30, ((S_800B328C_0 *)arg0)->unk_04, 2, 0x800, 1);
-            func_800B33C8();
-            return;
+        } else {
+            ((S_800B328C_2 *)arg1)->unk_02 = (u16) (((S_800B328C_3 *)temp_a0)->unk_02 + sp28[0]);
+            ((S_800B328C_2 *)arg1)->unk_06 = (u16) (((S_800B328C_3 *)temp_a0)->unk_06 + sp28[1]);
+            ((S_800B328C_2 *)arg1)->unk_0A = (u16) (((S_800B328C_3 *)temp_a0)->unk_0A + sp28[2]);
+            ((S_800B328C_0 *)arg0)->unk_8C = 1;
         }
-        ((S_800B328C_2 *)arg1)->unk_02 = (u16) (((S_800B328C_3 *)temp_a0)->unk_02 + sp28[0]);
-        ((S_800B328C_2 *)arg1)->unk_06 = (u16) (((S_800B328C_3 *)temp_a0)->unk_06 + sp28[1]);
-        ((S_800B328C_2 *)arg1)->unk_0A = (u16) (((S_800B328C_3 *)temp_a0)->unk_0A + sp28[2]);
-        ((S_800B328C_0 *)arg0)->unk_8C = 1;
-        func_800B33C8(temp_a0);
-        return;
+    } else if (((S_800B328C_0 *)arg0)->unk_8C != 0) {
+        goto mark;
     }
-    if ((((S_800B328C_0 *)arg0)->unk_8C != 0) || (temp_v0_4 = ((S_800B328C_0 *)arg0)->unk_8E - 1, ((S_800B328C_0 *)arg0)->unk_8E = temp_v0_4, ((s16) temp_v0_4 < 0))) {
+    if (temp_v0_4 = ((S_800B328C_0 *)arg0)->unk_8E - 1, ((S_800B328C_0 *)arg0)->unk_8E = temp_v0_4, ((s16) temp_v0_4 < 0)) {
+mark:
         (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_800B328C_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }

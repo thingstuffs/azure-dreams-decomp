@@ -32,8 +32,6 @@ extern State_80083160 *D_80083160[3];
 extern u8 D_80083160_bytes[] __asm__("D_80083160");
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
-extern s32 func_800AFD04(void);
-extern s32 func_800AFE54(void);
 extern s32 func_800AFFB4(void *arg0, void *arg2, s16 *scratch, s32 previous, s32 side);
 
 s32 func_800AFBFC(Arg0_800AFBFC *arg0, s32 unused, Arg2_800AFBFC *arg2) {
@@ -111,31 +109,33 @@ s32 func_800AFBFC(Arg0_800AFBFC *arg0, s32 unused, Arg2_800AFBFC *arg2) {
     x0 = func_80064584(pos) * 6 - angle0;
     scaled_y = func_800644B8(pos) * 6;
     axis = scaled_y - angle1;
-    next_pos = pos_hold + 0x80;
-    ASM_KEEP(next_pos);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    pos = (s16)next_pos;
-    scratch[0x80 / 2] = x0;
-    scratch[0x70 / 2] = x0;
-    scratch[0x82 / 2] = axis;
-    scratch[0x72 / 2] = axis;
-    raw_axis = func_80064584(pos);
-    call_pos = pos;
-    scaled_y = raw_axis * 6;
-    axis = scaled_y - angle0;
-    raw_y = func_800644B8(call_pos);
-    call_arg2 = scratch;
-    call_arg3 = previous;
-    scaled_y = raw_y * 6;
-    call_pos = (s32)arg0;
-    call_arg1 = arg2;
-    y1 = scaled_y - angle1;
-    scratch[0x88 / 2] = axis;
-    scratch[0x78 / 2] = axis;
-    scratch[0x8a / 2] = y1;
-    scratch[0x7a / 2] = y1;
-    result = func_800AFFB4((void *)call_pos, call_arg1, call_arg2, call_arg3, 0);
-    next_pos += 0x80;
-    if (result != 0) {
+    for (;;) {
+        next_pos = pos_hold + 0x80;
+        ASM_KEEP(next_pos);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        pos = (s16)next_pos;
+        scratch[0x80 / 2] = x0;
+        scratch[0x70 / 2] = x0;
+        scratch[0x82 / 2] = axis;
+        scratch[0x72 / 2] = axis;
+        raw_axis = func_80064584(pos);
+        call_pos = pos;
+        scaled_y = raw_axis * 6;
+        axis = scaled_y - angle0;
+        raw_y = func_800644B8(call_pos);
+        call_arg2 = scratch;
+        call_arg3 = previous;
+        scaled_y = raw_y * 6;
+        call_pos = (s32)arg0;
+        call_arg1 = arg2;
+        y1 = scaled_y - angle1;
+        scratch[0x88 / 2] = axis;
+        scratch[0x78 / 2] = axis;
+        scratch[0x8a / 2] = y1;
+        scratch[0x7a / 2] = y1;
+        result = func_800AFFB4((void *)call_pos, call_arg1, call_arg2, call_arg3, 0);
+        next_pos += 0x80;
+        if (result == 0)
+            break;
         previous = result;
         pos_hold = next_pos;
         ASM_KEEP(pos_hold);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -155,11 +155,9 @@ s32 func_800AFBFC(Arg0_800AFBFC *arg0, s32 unused, Arg2_800AFBFC *arg2) {
         scratch[0x8a / 2] = scaled_y;
         scratch[0x7a / 2] = scaled_y;
         result = func_800AFFB4(arg0, arg2, scratch, previous, 1);
-        if (result != 0) {
-            previous = result;
-            ASM_TAILSLOT_PIN(previous);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800AFD04();
-        }
+        if (result == 0)
+            break;
+        previous = result;
     }
     }
 
@@ -180,31 +178,33 @@ s32 func_800AFBFC(Arg0_800AFBFC *arg0, s32 unused, Arg2_800AFBFC *arg2) {
     x0 = func_80064584(pos) * 6 - angle0;
     axis = func_800644B8(pos) * 6 - angle1;
     ASM_KEEP(axis);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    raw_pos = initial_pos;
-    next_pos = raw_pos - 0x80;
-    ASM_KEEP(next_pos);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    pos = (s16)next_pos;
-    scratch[0x88 / 2] = x0;
-    scratch[0x78 / 2] = x0;
-    scratch[0x8a / 2] = axis;
-    scratch[0x7a / 2] = axis;
-    raw_axis = func_80064584(pos);
-    call_pos = pos;
-    axis = raw_axis * 6 - angle0;
-    raw_y = func_800644B8(call_pos);
-    call_arg2 = scratch;
-    call_arg3 = previous;
-    scaled_y = raw_y * 6;
-    y1 = scaled_y - angle1;
-    call_pos = (s32)arg0;
-    call_arg1 = arg2;
-    scratch[0x80 / 2] = axis;
-    scratch[0x70 / 2] = axis;
-    scratch[0x82 / 2] = y1;
-    scratch[0x72 / 2] = y1;
-    result = func_800AFFB4((void *)call_pos, call_arg1, call_arg2, call_arg3, 1);
-    next_pos -= 0x80;
-    if (result != 0) {
+    for (;;) {
+        raw_pos = initial_pos;
+        next_pos = raw_pos - 0x80;
+        ASM_KEEP(next_pos);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        pos = (s16)next_pos;
+        scratch[0x88 / 2] = x0;
+        scratch[0x78 / 2] = x0;
+        scratch[0x8a / 2] = axis;
+        scratch[0x7a / 2] = axis;
+        raw_axis = func_80064584(pos);
+        call_pos = pos;
+        axis = raw_axis * 6 - angle0;
+        raw_y = func_800644B8(call_pos);
+        call_arg2 = scratch;
+        call_arg3 = previous;
+        scaled_y = raw_y * 6;
+        y1 = scaled_y - angle1;
+        call_pos = (s32)arg0;
+        call_arg1 = arg2;
+        scratch[0x80 / 2] = axis;
+        scratch[0x70 / 2] = axis;
+        scratch[0x82 / 2] = y1;
+        scratch[0x72 / 2] = y1;
+        result = func_800AFFB4((void *)call_pos, call_arg1, call_arg2, call_arg3, 1);
+        next_pos -= 0x80;
+        if (result == 0)
+            break;
         previous = result;
         initial_pos = next_pos;
         next_pos = (s16)next_pos;
@@ -228,11 +228,9 @@ s32 func_800AFBFC(Arg0_800AFBFC *arg0, s32 unused, Arg2_800AFBFC *arg2) {
         scratch[0x82 / 2] = scaled_y;
         scratch[0x72 / 2] = scaled_y;
         result = func_800AFFB4((void *)call_pos, call_arg1, call_arg2, call_arg3, 0);
-        if (result != 0) {
-            previous = result;
-            ASM_TAILSLOT_PIN(previous);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800AFE54();
-        }
+        if (result == 0)
+            break;
+        previous = result;
     }
     }
     view = D_80083160_bytes;
@@ -240,7 +238,9 @@ s32 func_800AFBFC(Arg0_800AFBFC *arg0, s32 unused, Arg2_800AFBFC *arg2) {
     {
         State_80083160 *final_state;
         final_state = ((D_80083160_t *)view)->state;
+        result = 0;
+        ASM_KEEP_NV(result); /* MATCH: keep the zero return ahead of the final state store. */
         final_state->value = previous;
     }
-    return 0;
+    return result;
 }

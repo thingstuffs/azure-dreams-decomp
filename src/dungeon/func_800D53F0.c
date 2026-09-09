@@ -57,10 +57,6 @@ extern s32 D_800814A0[3];
 extern s32 func_800644B8();
 extern s32 func_80066460();
 extern void func_800DBA90(WorkBlock *);
-extern void func_800DABB0();
-extern void func_800DAD60();
-extern void func_800DADE4();
-extern void func_800DAE18();
 
 void func_800DAB50(void *arg0) {
     WorkBlock work;
@@ -78,12 +74,11 @@ void func_800DAB50(void *arg0) {
     if (((S_800DAB50_0 *)var_s2)->unk_08 != 0) {
         work.unk22 = 0x30;
         work.unk2A = ((S_800DAB50_0 *)var_s2)->unk_02.s + 0x30;
-        func_800DABB0();
-        return;
+    } else {
+        temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_02.s;
+        work.unk2A = 0x30;
+        work.unk22 = (temp_v0_2 * 2) + 0x40;
     }
-    temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_02.s;
-    work.unk2A = 0x30;
-    work.unk22 = (temp_v0_2 * 2) + 0x40;
     var_s0 = 0;
     work.unk24 = (s16)(func_800644B8(((s16)((S_800DAB50_0 *)var_s2)->unk_02.s - 0x20) << 6) >> 6);
     work.unk0 = &work.unk20;
@@ -119,24 +114,13 @@ void func_800DAB50(void *arg0) {
     }
 
     temp_v1 = ((S_800DAB50_0 *)var_s2)->unk_00.s;
-    if (temp_v1 != 1) {
-        if (temp_v1 < 2) {
-            if (temp_v1 != 0) {
-                func_800DADE4();
-                return;
-            }
-            goto state_0;
-        }
-        if (temp_v1 != 2) {
-            if (temp_v1 != 3) {
-                func_800DADE4();
-                return;
-            }
-            goto state_3;
-        }
-        goto state_2;
+    switch (temp_v1) {
+    case 0: goto state_0;
+    case 1: goto state_1;
+    case 2: goto state_2;
+    case 3: goto state_3;
+    default: goto block_27;
     }
-    goto state_1;
 
 state_0:
     ((S_800DAB50_0 *)var_s2)->unk_10.at00.v = 0;
@@ -149,9 +133,9 @@ state_1:
     ((S_800DAB50_0 *)var_s2)->unk_10.at00.v = ((S_800DAB50_0 *)var_s2)->unk_10.at00.v + ((S_800DAB50_0 *)var_s2)->unk_0C;
     var_a0_2 = 0;
     if (((S_800DAB50_0 *)var_s2)->unk_10.at03.v != 0) {
-        func_80066460(0, 3, 0x2C0, 0x100);
-        func_800DAD60(var_a0_2, 0xFFFFFF);
-        return;
+        temp_v0_2 = func_80066460(0, 3, 0x2C0, 0x100);
+        var_a1_2 = 0xFFFFFF;
+        goto state_update;
     }
     goto block_27;
 
@@ -161,6 +145,7 @@ state_2:
     if ((u8)((S_800DAB50_0 *)var_s2)->unk_10.at00.v == 0x7F) {
         temp_v0_2 = func_80066460(0, 3, 0x2C0, 0x100);
         var_a1_2 = 0xA0A0A0;
+state_update:
         var_a0_2 = 0x101010;
         temp_v1 = ((S_800DAB50_0 *)var_s2)->unk_00.u;
         ((S_800DAB50_0 *)var_s2)->unk_04 = temp_v0_2;
@@ -169,8 +154,7 @@ state_2:
         ((S_800DAB50_0 *)var_s2)->unk_0C = var_a0_2;
         temp_v1 += 1;
         ((S_800DAB50_0 *)var_s2)->unk_00.s = temp_v1;
-        func_800DADE4((void *)var_a0_2, var_a1_2);
-        return;
+        goto block_27;
     }
     goto block_27;
 
@@ -188,6 +172,8 @@ state_3:
         D_800814A0[0] |= 0x8000;
     }
 
+    ASM_USE_NV(var_a0_2); /* MATCH: keep a0 live so the subtraction uses a0 after the a1 copy. */
+
 block_27:
     temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_02.u;
     temp_v0_2 <<= 0x10;
@@ -198,12 +184,10 @@ block_27:
     temp_shifted = ((S_800DAB50_0 *)var_s2)->unk_0A.u;
     if (temp_v0_2 == 0) {
         temp_shifted -= var_s0;
-        ASM_TAILSLOT_PIN(temp_shifted);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800DAE18(var_a0_2);
-        return;
+    } else {
+        temp_shifted += var_s0;
+        ASM_KEEP(temp_shifted);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
-    temp_shifted += var_s0;
-    ASM_KEEP(temp_shifted);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_02.u;
     ((S_800DAB50_0 *)var_s2)->unk_0A.s = temp_shifted;
     ((S_800DAB50_0 *)var_s2)->unk_02.s = temp_v0_2 - 1;

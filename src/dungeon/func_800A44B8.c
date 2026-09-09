@@ -9,8 +9,6 @@ extern void func_8009A21C();
 extern s32 func_8009FB34();
 extern void func_800A2B04();
 extern void func_800A34BC();
-extern void func_800A9C80() __attribute__((noreturn));
-extern void func_800A9CB4() __attribute__((noreturn));
 extern void func_800BC26C();
 extern s32 func_800BCB04();
 
@@ -37,20 +35,17 @@ void func_800A9C18(void *arg0, void *arg1, void *arg2, s32 arg3)
         if ((aligned << 16) == 0) {
             *(s32 *)((u8 *)arg2 + 0x28) =
                 func_80047D44(*(u8 *)(base + 0x13));
-            func_800A9C80();
-        }
-        do {
+        } else {
             *(s32 *)((u8 *)arg2 + 0x28) = D_80081488[0];
-        } while (0);
+        }
         D_800DCF4D[0] = -1;
-        func_800A9CB4();
+    } else {
+        kind = *(u8 *)(base + 0x13);
+        if (kind != 0x38) {
+            func_80048088(kind);
+        }
+        func_8004827C(arg0, *(u8 *)(base + 0x13));
     }
-
-    kind = *(u8 *)(base + 0x13);
-    if (kind != 0x38) {
-        func_80048088(kind);
-    }
-    func_8004827C(arg0, *(u8 *)(base + 0x13));
 
     *(s8 *)((u8 *)arg2 + 0x26) =
         func_8009FB34(*(u8 *)((u8 *)arg2 + 0x24),

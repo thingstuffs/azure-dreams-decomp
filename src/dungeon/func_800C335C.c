@@ -10,7 +10,6 @@ typedef struct S_800C8ABC_0 {
 extern s32 func_800A48F0();
 extern s32 func_800A6D30();
 extern s32 func_800C8408();
-extern s32 func_800C8B1C();
 
 s32 func_800C8ABC(void *arg0, s16 arg1, s8 arg2)
 {
@@ -36,11 +35,9 @@ s32 func_800C8ABC(void *arg0, s16 arg1, s8 arg2)
         ASM_USE(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         remainder = temp_a0 % divisor;
         ASM_KEEP(remainder);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800C8B1C();
-        return (u32)held_arg1 << 16;
+    } else {
+        remainder = 0;
     }
-
-    remainder = 0;
     divisor = held_arg1 / 2;
     ASM_USE(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if ((remainder < divisor) || (held_arg1 == 0xFF)) {

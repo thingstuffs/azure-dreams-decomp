@@ -45,7 +45,6 @@ M2C_UNK func_80095C80();                      /* extern */
 s32 func_800A5894();                          /* extern */
 M2C_UNK func_800A55CC();                         /* extern */
 s32 func_800C1D44();                             /* extern */
-void func_800A5EA0(void);                         /* extern */
 extern u8 D_80083160[];
 extern u8 D_80083780[];
 extern u8 D_800CFCEF;
@@ -59,7 +58,6 @@ void func_800A5DF8(void *arg0, void *arg1, M2C_UNK arg2) {
     s32 tail_v0;
     u16 temp_v0_3;
     u8 *var_v0;
-    u32 page;
     register S_800A5DF8_4 *var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_800A5DF8_0 *var_s0;
     M2C_UNK var_s4;
@@ -75,20 +73,12 @@ void func_800A5DF8(void *arg0, void *arg1, M2C_UNK arg2) {
     temp_v0 = func_80095978(var_s0, var_s3);
     if (var_s0->unk_0A >= temp_v0) {
         func_80095A94(var_s0, temp_v0, var_s3);
-        page = 0x80080000;
-        ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800A5EA0();
-        return;
-    }
-    if (((S_800A5DF8_1 *)(&D_800CFCEF))->unk_00 != 0) {
+    } else if (((S_800A5DF8_1 *)(&D_800CFCEF))->unk_00 != 0) {
         var_s0->unk_14 = 0;
         func_800954F4(var_s0, temp_v0);
-        page = 0x80080000;
-        ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800A5EA0();
-        return;
+    } else {
+        func_80095388(var_s0, temp_v0);
     }
-    func_80095388(var_s0, temp_v0);
     var_v0 = D_80083780;
 
 after_effect:

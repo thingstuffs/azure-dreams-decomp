@@ -22,15 +22,13 @@ typedef struct S_80024398_2 {
     u16 unk_1E;
 } S_80024398_2;   /* node in func_80024398 */
 
-
-
-extern void func_8002440C(void) __attribute__((noreturn));
-extern void func_80024470(void) __attribute__((noreturn));
 extern s16 D_8002992E[5];
 extern s32 D_800814A0[3];
 
 void func_80024398(void *arg0)
 {
+    u32 x;
+    u32 y;
     s32 state;
     s16 counter;
     u16 old_value;
@@ -53,82 +51,71 @@ void func_80024398(void *arg0)
     }
 
     {
-        u32 x;
-        u32 y;
-
-        x = node->unk_1C + 0x88;
-        y = node->unk_1E + 0x88;
-        ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_8002440C();
-        return;
+        x = node->unk_1C;
+        y = node->unk_1E;
+        x += 0x88;
+        ASM_SCHED_BARRIER(); /* MATCH: keep the two addition arms separate. */
+        y += 0x88;
+        goto store;
     }
 
 below_31:
     {
         s32 test;
 
-    test = state < 0x19;
-    if (!test) {
-        goto decrement;
-    }
-    test = state < 0x10;
-    if (!test) {
-        u32 x;
-        u32 y;
-
-        x = node->unk_1C + 0x88;
-        y = node->unk_1E + 0x88;
-        ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_8002440C();
-        return;
-    }
-    test = state < 0xA;
-    if (test) {
-        goto inner;
-    }
+        test = state < 0x19;
+        if (!test) {
+            goto decrement;
+        }
+        test = state < 0x10;
+        if (!test) {
+            x = node->unk_1C + 0x88;
+            y = node->unk_1E + 0x88;
+            goto store;
+        }
+        test = state < 0xA;
+        if (test) {
+            goto inner;
+        }
 
 decrement:
-    {
-        u32 x;
-        u32 y;
-
-        x = node->unk_1C - 0x88;
-        y = node->unk_1E - 0x88;
-        node->unk_1C = x;
-        node->unk_1E = y;
-        func_80024470();
-        return;
-    }
+        {
+            x = node->unk_1C - 0x88;
+            y = node->unk_1E - 0x88;
+store:
+            node->unk_1C = x;
+            node->unk_1E = y;
+            goto tail;
+        }
 
 inner:
-    old_value = node->unk_1C;
-    if (old_value < 0x1000U) {
-        value = old_value + 0x88;
-        node->unk_1C = value;
-        if ((u16)value >= 0x1001U) {
-            node->unk_1C = 0x1000U;
+        old_value = node->unk_1C;
+        if (old_value < 0x1000U) {
+            value = old_value + 0x88;
+            node->unk_1C = value;
+            if ((u16)value >= 0x1001U) {
+                node->unk_1C = 0x1000U;
+            }
         }
-    }
 
-    old_value = node->unk_1E;
-    if (old_value < 0x1000U) {
-        value = old_value + 0x88;
-        node->unk_1E = value;
-        if ((u16)value >= 0x1001U) {
+        old_value = node->unk_1E;
+        if (old_value < 0x1000U) {
+            value = old_value + 0x88;
+            node->unk_1E = value;
+            if ((u16)value >= 0x1001U) {
+                node->unk_1E = 0x1000U;
+            }
+        }
+
+tail:
+        counter = ((S_80024398_0 *)arg0)->unk_28.u - 1;
+        ((S_80024398_0 *)arg0)->unk_28.s = counter;
+        if ((counter << 16) <= 0) {
             node->unk_1E = 0x1000U;
+            node->unk_1C = 0x1000U;
+            ((S_80024398_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+            D_800814A0[0] |= 0x8000;
         }
-    }
-
-    counter = ((S_80024398_0 *)arg0)->unk_28.u - 1;
-    ((S_80024398_0 *)arg0)->unk_28.s = counter;
-    if ((counter << 16) <= 0) {
-        node->unk_1E = 0x1000U;
-        node->unk_1C = 0x1000U;
-        ((S_80024398_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
-    }
-    return;
+        return;
     }
 }

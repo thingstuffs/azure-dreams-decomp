@@ -6,7 +6,6 @@
 
 M2C_UNK func_80035208();                         /* extern */
 M2C_UNK func_8008B158();                         /* extern */
-M2C_UNK func_80092A30();                            /* extern */
 M2C_UNK func_80093D38();     /* extern */
 M2C_UNK func_8009455C();     /* extern */
 M2C_UNK func_800945B8();     /* extern */
@@ -95,12 +94,9 @@ block_6:
         func_80099754(arg1);
         func_8009550C(arg1);
         if (func_80094B0C(arg0 - 0x20) != 0) {
-            register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
             func_80093D38(arg0, arg1, arg2);
-            page = 0x80100000;
-            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80092A30();
+            D_800FE5D8 = &D_80093B00;
+            return;
         }
     } else {
         if (((S_800927EC_1 *)state)->unk_10 & 0x40) {
@@ -120,15 +116,10 @@ block_6:
             var_v0 = &D_800CFCB4;
             temp_v0_2 = func_800A9D74(((S_800927EC_4 *)var_v0)->unk_10, ((Rec_func_80094268_arg0 *)arg0)->unk_2C);
             if (temp_v0_2 != 0) {
-                register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
                 func_80035208(temp_v0_2);
-                page = 0x80100000;
-                ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_80092A30();
-                return;
+            } else {
+                func_8008B158(((S_800927EC_4 *)var_v0)->unk_10);
             }
-            func_8008B158(((S_800927EC_4 *)var_v0)->unk_10);
             D_800FE5D8 = &D_80093B00;
             return;
         }

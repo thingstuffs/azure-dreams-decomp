@@ -17,11 +17,6 @@ extern void func_800A020C(u32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
-extern void func_80171344(void) __attribute__((noreturn));
-extern void func_801713EC(void) __attribute__((noreturn));
-extern void func_80171458(void) __attribute__((noreturn));
-extern void func_801716F0(void) __attribute__((noreturn));
-extern void func_80171704(void) __attribute__((noreturn));
 
 
 typedef struct S_801711B0_0 {
@@ -128,10 +123,9 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
         !((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
         ((S_801711B0_0 *)motion)->unk_14 += (*(s8 *)((u8 *)obj + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)obj + (0x9D)))++;
-        func_80171344();
+    } else {
+        (*(u8 *)((u8 *)obj + (0x9D))) = 0;
     }
-
-    (*(u8 *)((u8 *)obj + (0x9D))) = 0;
     ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     (*(s32 *)((u8 *)obj + (0x90))) += ((S_801711B0_0 *)motion)->unk_14;
     part_flags = ((S_801711B0_1 *)part)->unk_14;
@@ -151,19 +145,16 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
         if (D_8006CCF8[work] != 0) {
             state_load = ((S_801711B0_1 *)part)->unk_14;
             state_load |= 1;
-            ASM_TAILSLOT_PIN(state_load);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_801713EC();
+        } else {
+            ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            state_load = ((S_801711B0_1 *)part)->unk_14 & 0xFFFE;
         }
-        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_801711B0_1 *)part)->unk_14 &= 0xFFFE;
+        ((S_801711B0_1 *)part)->unk_14 = state_load;
 
         func_800A020C(((S_801711B0_2 *)base)->unk_1C, (u8 *)part + 0xC);
         if (!(((S_801711B0_2 *)base)->unk_1C & 0x20)) {
             if (!(((S_801711B0_1 *)part)->unk_14 & 0x40)) {
                 func_800478B8(part);
-                state_load = 0xF7FF0000;
-                ASM_TAILSLOT_PIN(state_load);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                func_80171458();
             }
         } else {
             ((S_801711B0_1 *)part)->unk_14 |= 0x7000;
@@ -190,12 +181,11 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
             if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
                 if (floor < (*(s16 *)((u8 *)obj + (0x92)))) {
                     (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) - 8;
-                    func_80171704();
-                }
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                if ((*(s16 *)((u8 *)obj + (0x92))) < -0x28) {
-                    (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) + 8;
-                    func_80171704();
+                } else {
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                    if ((*(s16 *)((u8 *)obj + (0x92))) < -0x28) {
+                        (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) + 8;
+                    }
                 }
             }
         } else {
@@ -213,7 +203,6 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
                     (*(u8 *)((u8 *)obj + (0x9D))) = 0;
                     ((S_801711B0_0 *)motion)->unk_14 = 0;
                     ((S_801711B0_2 *)base)->unk_1C |= 0x08000000;
-                    func_80171704();
                 }
             }
         }
@@ -244,7 +233,6 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
                     (*(u8 *)((u8 *)obj + (0x9D))) = 0;
                     ((S_801711B0_0 *)motion)->unk_14 = 0;
                     ((S_801711B0_2 *)base)->unk_1C |= 0x08000000;
-                    func_801716F0();
                 }
             }
         } else {

@@ -49,7 +49,7 @@ typedef struct S_80170BB0_4 {
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30();
+extern s32 func_800A6D30(void);
 extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);

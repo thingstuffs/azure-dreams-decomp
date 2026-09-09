@@ -10,7 +10,6 @@ void func_800478B8();
 M2C_UNK func_8008F134();
 M2C_UNK func_8009706C();
 s32 func_8009CFE0();
-M2C_UNK func_800AAC3C();
 s32 func_800C2E1C();
 s32 func_800C2F14();
 extern s32 D_800814A0[3];
@@ -26,7 +25,7 @@ void func_800AAB20(void *arg0, M2C_UNK arg1, Rec_D_80082E80 *arg2) {
     s32 temp_v0_2;
     s8 *temp_v0;
 
-    if (func_8009CFE0() != 0) {
+    if (func_8009CFE0(arg0, arg1) != 0) {
         func_8008F134(arg0);
         temp_v0 = ((Rec_D_80082D58 *)arg0)->unk_98.as_ps8;
         if (temp_v0 != NULL) {
@@ -45,15 +44,16 @@ void func_800AAB20(void *arg0, M2C_UNK arg1, Rec_D_80082E80 *arg2) {
             func_8003DB94(arg2, ((Rec_D_80082D58 *)arg0)->unk_78[temp_v0_2], arg2->unk_04.as_s8);
             ((Rec_D_80082D58 *)arg0)->unk_74 = temp_v0_2;
         }
-        if ((func_800C2F14(((Rec_D_80082D58 *)arg0)->unk_72, ((Rec_D_80082D58 *)arg0)->unk_64) << 0x10) != 0) {
+        {
             s32 tail_v0;
 
-            tail_v0 = arg2->unk_14.at00_u16.v | 1;
-            ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800AAC3C();
-            return;
+            if ((func_800C2F14(((Rec_D_80082D58 *)arg0)->unk_72, ((Rec_D_80082D58 *)arg0)->unk_64) << 0x10) != 0) {
+                tail_v0 = arg2->unk_14.at00_u16.v | 1;
+            } else {
+                tail_v0 = arg2->unk_14.at00_u16.v & 0xFFFE;
+            }
+            arg2->unk_14.at00_u16.v = (u16) tail_v0;
         }
-        arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v & 0xFFFE);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800478B8(arg2);
     }

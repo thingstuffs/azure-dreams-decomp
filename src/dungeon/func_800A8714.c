@@ -58,36 +58,6 @@ extern s32 func_800ADD20();
 extern s32 func_800BCB04();
 extern s32 func_800C7F68();
 
-/* ---- shared-tail continuations (j-only sibcall dispatchers; every one is in
- *      config/sibcall_syms.dungeon.txt, so a noreturn call lands as retail's
- *      `j CALLEE`). ---- */
-extern void func_800AE68C(void) __attribute__((noreturn));
-extern void func_800AE690(void) __attribute__((noreturn));
-extern void func_800AE7F4(void) __attribute__((noreturn));
-extern void func_800AEEFC(void) __attribute__((noreturn));
-extern void func_800AF720(void) __attribute__((noreturn));
-extern void func_800AFA10(void) __attribute__((noreturn));
-
-/* return-value carrier: retail keeps the value materialisation in the j delay */
-#define TAIL_RV(fn, val)                                            \
-    do {                                                            \
-        s32 rv_;                             \
-        rv_ = (val);                                                \
-        ASM_TAILSLOT_PIN_TIED(rv_);                                      \
-        fn();                                                       \
-        return rv_;                                                 \
-    } while (0)
-
-/* carrier variant: value materialised earlier; j delay holds a store/nop */
-#define TAIL_RVK(fn, val)                                           \
-    do {                                                            \
-        s32 rv_;                             \
-        rv_ = (val);                                                \
-        \
-        fn();                                                       \
-        return rv_;                                                 \
-    } while (0)
-
 /* direction-vector neighbour probe (repeated 8x in retail) */
 #define STEPVEC(res)                                                            \
     do {                                                                        \
@@ -103,6 +73,7 @@ s32 func_800ADE74(s32 arg0, u8 *pArg, u8 *cArg, s32 arg3, u16 arg4, volatile s32
 {
     register u8 *p ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register u8 *c ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 cv_ ASM_REG("$2"); /* MATCH: both entries feed the shared neighbour guard in v0. */
     s32 a3keep;
     s16 sp18;
     s16 sp1A;
@@ -206,7 +177,7 @@ s32 func_800ADE74(s32 arg0, u8 *pArg, u8 *cArg, s32 arg3, u16 arg4, volatile s32
         if (nbv == 0) {
             goto Lcase0;
         }
-        func_800AE7F4();
+        goto L9094;
     }
     if (nbv == 2) {
         goto Lcase2;
@@ -214,7 +185,7 @@ s32 func_800ADE74(s32 arg0, u8 *pArg, u8 *cArg, s32 arg3, u16 arg4, volatile s32
     if (nbv == 4) {
         goto Lcase4;
     }
-    func_800AE7F4();
+    goto L9094;
 
 Lcase0: /* 0x800A89A8 */
     if ((func_800A2C34(c) << 16) != 0) {
@@ -237,8 +208,7 @@ Lcase0: /* 0x800A89A8 */
                         hv_ = D_800814A8[0];
                         ASM_KEEP(hv_);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         rv_ = 4;
-                        ASM_TAILSLOT_PIN_TIED(rv_);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                        func_800AE690();
+                        *(void **)(c + 0x60) = hv_;
                         return rv_;
                     }
                 }
@@ -315,13 +285,14 @@ Lcase1: /* 0x800A8B80 */
                 if ((tc << 16) < (uc << 16)) {
                     if ((func_800A3518(D_800814A8[0]) << 16) != 0) {
                         void *hv_;
-                        s32 r0818;
+                        register s32 r0818 ASM_REG("$2"); /* MATCH: retain the direction result in v0 until its store. */
                         *(u16 *)(c + 0x46) = (*(u16 *)&sp1C + 1) | 0x8000;
                         r0818 = func_800A0818(p[0x24], p[0x25], eB[0x24], eB[0x25], &sp1C);
                         hv_ = D_800814A8[0];
                         ASM_KEEP(hv_);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         *(u16 *)(c + 0x2A) = r0818;
-                        func_800AE68C();
+                        *(void **)(c + 0x60) = hv_;
+                        return 4;
                     }
                 }
             }
@@ -400,13 +371,14 @@ Lcase2: /* 0x800A8D58 */
                     }
                     {
                         void *hv_;
-                        s32 r0818;
+                        register s32 r0818 ASM_REG("$2"); /* MATCH: retain the direction result in v0 until its store. */
                         *(u16 *)(c + 0x46) = (*(u16 *)&sp1C + 1) | 0x8000;
                         r0818 = func_800A0818(p[0x24], p[0x25], eC[0x24], eC[0x25], &sp1C);
                         hv_ = D_800814A8[0];
                         ASM_KEEP(hv_);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         *(u16 *)(c + 0x2A) = r0818;
-                        func_800AE68C();
+                        *(void **)(c + 0x60) = hv_;
+                        return 4;
                     }
                 }
             }
@@ -766,13 +738,15 @@ Lcase38: /* 0x800A9710 */
         if (tn == NULL) {
             goto Ldef;
         }
-        if ((func_800A2CB8(c, tn) << 16) == 0) {
+        cv_ = func_800A2CB8(c, tn) << 16;
+Lneighbour_check:
+        if (cv_ == 0) {
             goto Ldef;
         }
         if ((func_80042900(tn, 4) << 16) != 0) {
             goto Ldef;
         }
-        TAIL_RV(func_800AFA10, 0x8009);
+        goto Laa2ac;
 
 Lcase39: /* 0x800A97C0 */
         func_800ADD20(c, 0x10);
@@ -810,7 +784,7 @@ Lcase32: /* 0x800A988C */
             if (o != D_800E3D7C[0]) {
                 goto Ldef;
             }
-            TAIL_RV(func_800AFA10, 0x8009);
+            goto Laa2ac;
         }
         if (*(s32 *)(c + 0x1C) & 0x410) {
             goto Ldef;
@@ -978,7 +952,7 @@ Lcase42: /* 0x800A9BA4 */
             if (s2c != (s16)th) {
                 goto Ldef;
             }
-            TAIL_RV(func_800AF720, 5);
+            goto Ldir_return;
         }
 
 Lcase27: /* 0x800A9D4C */
@@ -1067,6 +1041,7 @@ Lcase28: /* 0x800A9F0C */
                 goto Ldef;
             }
         }
+Ldir_return:
         {
             s32 rv_;
             s32 cw_;
@@ -1093,11 +1068,8 @@ Lcase29: /* 0x800A9FD8 */
             goto Ldef;
         }
         {
-            s32 cv_;
             cv_ = tn[0x13];
-            ASM_TAILSLOT_PIN_TIED(cv_);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_800AEEFC();
-            return cv_;
+            goto Lneighbour_check;
         }
 
 Lcase21: /* 0x800AA078 */

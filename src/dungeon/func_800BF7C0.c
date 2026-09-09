@@ -108,9 +108,6 @@ s32 func_800644B8();
 s32 func_80064584();
 s32 func_80069EF8();
 M2C_UNK func_800A56E0();
-extern void func_800C5254(void) __attribute__((noreturn));
-extern void func_800C5344(void) __attribute__((noreturn));
-extern void func_800C539C(void) __attribute__((noreturn));
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083780;
 
@@ -128,6 +125,7 @@ void func_800C4F20(void *arg0, S_800C4F20_5 *arg1, void *arg2_in) {
     s32 temp_v1;
     s16 temp_v1_5;
     s16 var_v1;
+    u16 tail_v0;
     s32 temp_a0_3;
     s32 temp_a1_3;
     s32 temp_s0;
@@ -186,7 +184,6 @@ block_4:
         tail_ptr->unk_1C = 0x800U;
     }
     {
-        u16 tail_v0;
         register u32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         tail_v0 = ((S_800C4F20_0 *)arg0)->unk_28.u;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -194,7 +191,8 @@ block_4:
         ASM_KEEP(tail_v1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_800C4F20_0 *)arg0)->unk_32 = 0;
-        func_800C5254();
+        var_v1 = tail_v1;
+        goto block_17;
     }
 jt_c1:
     temp_v0_8 = func_80064584(((S_800C4F20_0 *)arg0)->unk_2E);
@@ -232,7 +230,7 @@ block_8:
     ((S_800C4F20_0 *)arg0)->unk_2A = 0x20;
     ((S_800C4F20_0 *)arg0)->unk_28.s = (s16) ((u16) ((S_800C4F20_0 *)arg0)->unk_28.s + 0x10);
     func_800A56E0(0x518);
-    func_800C539C();
+    goto block_24;
 jt_c2:
     temp_a0_5 = ((S_800C4F20_0 *)arg0)->unk_2A;
     if (temp_a0_5 == 0) {
@@ -274,10 +272,12 @@ block_15:
         goto block_24;
     }
 block_16:
+    tail_v0 = ((S_800C4F20_0 *)arg0)->unk_28.u;
     var_v1 = 0x10;
 block_17:
     ((S_800C4F20_0 *)arg0)->unk_2A = var_v1;
-    ((S_800C4F20_0 *)arg0)->unk_28.s = (s16) ((u16) ((S_800C4F20_0 *)arg0)->unk_28.s + 1);
+    ASM_SCHED_BARRIER(); /* MATCH: keep the shared count store before the state increment. */
+    ((S_800C4F20_0 *)arg0)->unk_28.s = (s16) (tail_v0 + 1);
     goto block_24;
 jt_c3:
     temp_v1_5 = ((S_800C4F20_0 *)arg0)->unk_2A;
@@ -296,7 +296,7 @@ jt_c3:
     temp_a1_4->unk_1E = temp_v1_8;
     temp_a1_4->unk_1C = temp_v1_8;
     ((S_800C4F20_0 *)arg0)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)arg0)->unk_32 + ((s32) (0x400 - ((S_800C4F20_0 *)arg0)->unk_32) / (s16) ((S_800C4F20_0 *)arg0)->unk_2A));
-    func_800C5344();
+    goto block_22;
 jt_c17:
     temp_a0_6 = ((S_800C4F20_0 *)arg0)->unk_2A;
     if (temp_a0_6 == 0) {

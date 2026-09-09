@@ -170,14 +170,6 @@ s16 func_800A1BD0();
 s32 func_800A2C78();
 M2C_UNK func_800A31D0();
 M2C_UNK func_800A5720();
-s32 func_800AB840();
-s32 func_800ABA58();
-s32 func_800ABA98();
-s32 func_800ABB70();
-s32 func_800ABD98();
-s32 func_800ABD98_state0() __asm__("func_800ABD98");
-s32 func_800ABD98_state3() __asm__("func_800ABD98");
-void func_800ABD9C(void) __attribute__((noreturn));
 M2C_UNK func_800ACB98();
 M2C_UNK func_800C542C();
 extern u8 D_80010A80[];
@@ -228,14 +220,13 @@ s32 func_800AB778(S_800AB778_1 *arg0, void *arg1, S_800AB778_3 *arg2, void *arg3
     s32 *global16;
     s32 state4_owner;
     s32 call_flags;
+    register void *state4_event ASM_REG("$4"); /* MATCH: form each event address in the shared call argument register. */
+    register s32 state4_result ASM_REG("$2"); /* MATCH: keep the call result across the event-selection join. */
 
     temp_s0 = ((Rec_D_80082E80 *)arg3)->unk_14.at00_s32.v;
     if (temp_s0 & 0x20000000) {
         ((Rec_D_80082E80 *)arg3)->unk_14.at00_s32.v = temp_s0 | 0x400000;
         func_800ACB98();
-        initial_zero = 0;
-        ASM_TAILSLOT_PIN(initial_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800ABD9C();
         return 0;
     }
 
@@ -252,11 +243,8 @@ s32 func_800AB778(S_800AB778_1 *arg0, void *arg1, S_800AB778_3 *arg2, void *arg3
                 goto state_case0;
             }
             {
-                register s32 default_low_zero ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-                default_low_zero = 0;
-                ASM_KEEP(default_low_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800ABD9C();
+                return 0;
             }
         }
         if (dispatch_state == 4) {
@@ -266,11 +254,8 @@ s32 func_800AB778(S_800AB778_1 *arg0, void *arg1, S_800AB778_3 *arg2, void *arg3
             goto state_case16;
         }
         {
-            register s32 default_high_zero ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-            default_high_zero = 0;
-            ASM_KEEP(default_high_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800ABD9C();
+            return 0;
         }
     }
 
@@ -280,19 +265,18 @@ state_case0: {
     u32 state0_page;
 
     if (((Rec_D_80082E80 *)arg3)->unk_43 != 0xFD) {
-        if ((func_800A2C78(arg3) << 0x10) == 0) {
-            state0_page = 0x80080000;
-            ASM_PAGEBASE_PIN(state0_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800AB840();
+        if ((func_800A2C78(arg3) << 0x10) != 0) {
+            return 0;
         }
-        return 0;
+        ASM_SCHED_BARRIER(); /* MATCH: preserve the jump into the shared state update. */
+    } else {
+        do { ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v))->unk_110 = 0; } while (0);
     }
-    do { ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v))->unk_110 = 0; } while (0);
     do { state0 = (u8 *)&D_80083460; } while (0);
     ((S_800AB778_2 *)state0)->unk_0A++;
     do { state0_value = 3; } while (0);
     arg0->unk_9B = state0_value;
-    return func_800ABD98_state0();
+    goto return_zero;
     }
 
 state_case3:
@@ -313,7 +297,7 @@ state_case3:
             (s32)call_actor == ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v))->unk_AC, call_mode);
         arg0->unk_96.s = 0;
         arg0->unk_9B = 0x10;
-        return func_800ABD98_state3();
+        goto return_zero;
     }
     if (arg2->unk_12 == 0) {
         arg2->unk_12 = 0xFF80U;
@@ -323,7 +307,7 @@ state_case3:
     arg0->unk_96.s = 0x10;
     ((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v |= 0x10000000;
     arg0->unk_9B++;
-    return func_800ABD98();
+    goto return_zero;
 
 state_case4:
     arg2->unk_0C -=
@@ -348,16 +332,17 @@ state_case4:
     temp_a1_3 = func_8009929C(8, temp_v0_5);
     temp_v1 = ((Rec_D_80082E80 *)arg3)->unk_43;
     if (temp_v1 == 0xFF) {
-        func_80099734(arg3, temp_a1_3);
-        return func_800ABA58(&D_800E0C58);
+        state4_result = func_80099734(arg3, temp_a1_3);
+        state4_event = &D_800E0C58;
+        goto state4_emit;
     }
     if (temp_v1 == 0xFE) {
-        func_80099290(func_80099194(&D_800E0C67,
-            func_80099734(arg3, temp_a1_3)));
+        state4_result = func_80099734(arg3, temp_a1_3);
+        state4_event = &D_800E0C67;
+state4_emit:
+        func_80099290(func_80099194(state4_event, state4_result));
         func_800A5720(temp_v0_5);
-        return func_800ABA98();
-    }
-    {
+    } else {
         u8 *state4_head;
         u16 *state4_global;
 
@@ -387,9 +372,9 @@ state_case4:
         page_obj4 = page4->unk_3D7C;
         *temp_a1_4 = NULL;
         func_80098B38(page_obj4->unk_110);
-        return func_800ABB70(arg3);
+    } else {
+        func_800A18E8(((Rec_D_80082E80 *)arg3)->unk_12.at01_u8.v, 2);
     }
-    func_800A18E8(((Rec_D_80082E80 *)arg3)->unk_12.at01_u8.v, 2);
     if ((func_80042900(arg3, 0x1B) << 0x10) == 0) {
         call_flags = ((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v;
         call_arg0 = arg2->unk_24;
@@ -410,7 +395,7 @@ state_case4:
     ((S_800AB778_11 *)state4_tail)->unk_0A = state4_count;
     if (state4_owner == (s32)arg3) {
         ((S_800AB778_11 *)state4_tail)->unk_0C = 0;
-        return func_800ABD98();
+        goto return_zero;
     }
     goto return_zero;
 

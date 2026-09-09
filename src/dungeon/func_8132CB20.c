@@ -38,9 +38,6 @@ extern void func_8016FCE4(void *, void *, void *, void *);
 extern void func_80171594(u8, u8, s16);
 extern void func_801724D4(void);
 extern void func_801740F8(void *, void *, void *, void *);
-extern void func_801744C0(void) __attribute__((noreturn));
-extern void func_8017464C(void) __attribute__((noreturn));
-extern void func_80174658(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern u8 D_80174A2C[];
@@ -93,7 +90,7 @@ s32 func_80174320(void *arg0, void *arg1, void *arg2) {
     temp_t0 = temp_a3 & 0xFF;
     if (temp_t0 == 0) {
         ((S_80174320_1 *)obj)->unk_B2 = 0;
-        func_8017464C();
+        goto block_common;
     }
 
     stream_count = stream[0];
@@ -129,7 +126,7 @@ s32 func_80174320(void *arg0, void *arg1, void *arg2) {
             if (temp_v1 == 8) {
                 goto block_8;
             }
-            func_8017464C();
+            goto block_common;
         }
         if (temp_v1 == 0xC0) {
             goto block_C0;
@@ -137,7 +134,7 @@ s32 func_80174320(void *arg0, void *arg1, void *arg2) {
         if (temp_v1 == 0xC8) {
             goto block_C8;
         }
-        func_8017464C();
+        goto block_common;
     }
     if (temp_v1 == 0xE8) {
         goto block_E8;
@@ -149,7 +146,7 @@ s32 func_80174320(void *arg0, void *arg1, void *arg2) {
         if (temp_v1 == 0xE0) {
             goto block_E0;
         }
-        func_8017464C();
+        goto block_common;
     }
     if (temp_v1 == 0xF0) {
         goto block_F0;
@@ -157,49 +154,47 @@ s32 func_80174320(void *arg0, void *arg1, void *arg2) {
     if (temp_v1 == 0xF8) {
         goto block_F8;
     }
-    func_8017464C();
+    goto block_common;
 
 block_8:
         call_arg0 = obj;
         ASM_KEEP_NV(call_arg0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         func_8016FCE4(call_arg0, ctx, entity, call_arg0);
         zero_ret = 0;
-        ASM_TAILSLOT_PIN(zero_ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80174658();
+        return zero_ret;
 
 block_C0:
         ((S_80174320_1 *)obj)->unk_9B = 0;
 block_C8:
         func_801740F8(call_arg0, ctx, entity, obj);
-        func_8017464C();
+        goto block_common;
 
 block_10:
         old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
         ASM_KEEP(old_anim);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         page = 0x80170000;
         ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        stream = (u8 *)(page + 0x4A2C);
-        ASM_TAILSLOT_PIN(stream);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_801744C0();
+        anim = (u8 *)(page + 0x4A2C);
+        goto block_anim;
 
 block_F8:
         page = 0x80170000;
         ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
         ASM_KEEP(old_anim);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        stream = (u8 *)(page + 0x4AA4);
-        ASM_TAILSLOT_PIN(stream);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_801744C0();
+        anim = (u8 *)(page + 0x4AA4);
+        goto block_anim;
 
 block_F0:
         old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
         anim = D_80174AAC;
+block_anim:
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             func_80047784(entity,
-                anim[((D_80083228 + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                *(u8 *)((((D_80083228 + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
-            func_8017464C();
+            goto block_common;
         }
         goto block_common;
 
@@ -214,7 +209,7 @@ block_E8:
             func_80171594(((S_80174320_0 *)entity)->unk_24, ((S_80174320_0 *)entity)->unk_25,
                 ((S_80174320_2 *)ctx)->unk_0A);
             func_800A152C(0x15, 1);
-            func_8017464C();
+            goto block_common;
         }
         goto block_common;
 
@@ -227,7 +222,7 @@ block_D8:
                 anim[((D_80083228 + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80174320_0 *)entity)->unk_14 |= 0x800;
-            func_8017464C();
+            goto block_common;
         }
         goto block_common;
 
@@ -236,7 +231,7 @@ block_D0:
         ((S_80174320_0 *)entity)->unk_14 = temp_v0_2;
         if (temp_v0_2 != 0) {
             ((S_80174320_0 *)entity)->unk_14 = 0;
-            func_8017464C();
+            goto block_common;
         }
         goto block_common;
 

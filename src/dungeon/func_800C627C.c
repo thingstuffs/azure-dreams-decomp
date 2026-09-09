@@ -78,7 +78,6 @@ M2C_UNK func_8009A028();                      /* extern */
 M2C_UNK func_8009A3D0();             /* extern */
 M2C_UNK func_800A32A4();                      /* extern */
 M2C_UNK func_800A6780();                            /* extern */
-M2C_UNK func_800CBB58();                            /* extern */
 extern s32 D_80010234;
 extern M2C_UNK D_80013714;
 extern s16 D_80081468[3];
@@ -100,6 +99,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
     void *actor;
 
     func_800478B8(animation);
+    ASM_KEEP(trap_state); /* MATCH: preserve the trap-state save order after sharing the final update. */
     actor = ((S_800CB9DC_0 *)trap_state)->unk_00;
     actor_data = ((S_800CB9DC_1_pre *)actor)[-1].unk_04;
     position = ((S_800CB9DC_1_pre *)actor)[-1].unk_00;
@@ -120,62 +120,65 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
             ASM_KEEP(motion_state);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             if (motion_state->unk_3714 & 4) {
                 func_80040AA0(3U, actor_data);
-                func_800CBB58();
-                return;
+            } else {
+                func_800945E8(actor, actor_data);
+                func_800948BC();
+                func_800A6780();
+                transition_page = (u8 *)0x80080000;
+                ASM_KEEP(transition_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                trap_counts = D_80081468;
+                transition_id = transition_page[0x2E6B];
+                floors_ascended = motion_state->unk_234;
+                go_up_trap_count = ((S_800CB9DC_5 *)trap_counts)->unk_04;
+                floors_ascended++;
+                go_up_trap_count++;
+                motion_state->unk_234 = floors_ascended;
+                ((S_800CB9DC_5 *)trap_counts)->unk_04 = go_up_trap_count;
+                func_80040AA0(transition_id, trap_counts);
+                func_800481E0();
             }
-            func_800945E8(actor, actor_data);
-            func_800948BC();
-            func_800A6780();
-            transition_page = (u8 *)0x80080000;
-            ASM_KEEP(transition_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            trap_counts = D_80081468;
-            transition_id = transition_page[0x2E6B];
-            floors_ascended = motion_state->unk_234;
-            go_up_trap_count = ((S_800CB9DC_5 *)trap_counts)->unk_04;
-            floors_ascended++;
-            go_up_trap_count++;
-            motion_state->unk_234 = floors_ascended;
-            ((S_800CB9DC_5 *)trap_counts)->unk_04 = go_up_trap_count;
-            func_80040AA0(transition_id, trap_counts);
-            func_800481E0();
-            func_800CBB58();
-            return;
-        }
-        {
-            s32 tile_x;
-            s32 tile_y;
-            s32 actor_flags;
+        } else {
+            {
+                s32 tile_x;
+                s32 tile_y;
+                s32 actor_flags;
 
-            actor_flags = ((S_800CB9DC_1 *)actor)->unk_1C;
-            tile_x = ((S_800CB9DC_6 *)actor_data)->unk_24;
-            tile_y = ((S_800CB9DC_6 *)actor_data)->unk_25;
-            tile_mask = 0x3000;
-            if (actor_flags & 0x2000) {
-                tile_mask = 0x300;
+                actor_flags = ((S_800CB9DC_1 *)actor)->unk_1C;
+                tile_x = ((S_800CB9DC_6 *)actor_data)->unk_24;
+                tile_y = ((S_800CB9DC_6 *)actor_data)->unk_25;
+                tile_mask = 0x3000;
+                if (actor_flags & 0x2000) {
+                    tile_mask = 0x300;
+                }
+                func_8009A3D0(tile_x, tile_y, tile_mask);
             }
-            func_8009A3D0(tile_x, tile_y, tile_mask);
+            func_800A32A4(actor);
+            func_8009A028(actor);
+            {
+                register u8 *status_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                u8 *actor_counts;
+                register s32 global_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                u16 actor_count;
+                u16 removal_flags;
+
+                status_page = (u8 *)0x80080000;
+                actor_counts = (u8 *)&D_80083460;
+                removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
+                ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;
+                global_flags = ((S_800CB9DC_7 *)status_page)->unk_14A0;
+                actor_count = ((S_800CB9DC_8 *)actor_counts)->unk_0A;
+                global_flags |= 0x8000;
+                actor_count--;
+                ((S_800CB9DC_7 *)status_page)->unk_14A0 = global_flags;
+                ((S_800CB9DC_8 *)actor_counts)->unk_0A = actor_count;
+                ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            }
         }
-        func_800A32A4(actor);
-        func_8009A028(actor);
         {
-            register u8 *status_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            u8 *actor_counts;
-            register s32 global_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            u16 actor_count;
+            s32 global_flags;
             u8 *status_page_again;
             u16 removal_flags;
 
-            status_page = (u8 *)0x80080000;
-            actor_counts = (u8 *)&D_80083460;
-            removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
-            ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;
-            global_flags = ((S_800CB9DC_7 *)status_page)->unk_14A0;
-            actor_count = ((S_800CB9DC_8 *)actor_counts)->unk_0A;
-            global_flags |= 0x8000;
-            actor_count--;
-            ((S_800CB9DC_7 *)status_page)->unk_14A0 = global_flags;
-            ((S_800CB9DC_8 *)actor_counts)->unk_0A = actor_count;
-            ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             removal_flags = ((S_800CB9DC_0_pre *)trap_state)[-1].unk_00;
             status_page_again = (u8 *)0x80080000;
             ((S_800CB9DC_0_pre *)trap_state)[-1].unk_00 = removal_flags | 0x8000;

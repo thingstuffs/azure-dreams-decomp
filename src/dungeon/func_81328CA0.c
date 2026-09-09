@@ -29,8 +29,6 @@ M2C_UNK func_800A2B04();
 M2C_UNK func_800A4ACC();
 M2C_UNK func_800A9A04();
 s32 func_800AD9B4();
-void func_801706C0(void) __attribute__((noreturn));
-void func_8017078C() __attribute__((noreturn));
 typedef struct {
     u8 pad[0x24];
     u8 x;
@@ -69,7 +67,7 @@ void func_801704A0(S_801704A0_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
     if (temp_v1 == 0) {
         goto block_zero;
     }
-    func_801706C0();
+    goto block_19;
 block_ge2:
     if (temp_v1 == 2) {
         goto block_14;
@@ -77,7 +75,7 @@ block_ge2:
     if (temp_v1 == 3) {
         goto block_three;
     }
-    func_801706C0();
+    goto block_19;
 block_zero:
     arg0->unk_98 = (u16) (arg0->unk_98 | 8);
     arg3->unk_1C.as_s32 = (s32) (arg3->unk_1C.as_s32 & 0xF7FFFFFF);
@@ -124,7 +122,7 @@ block_14:
     arg1->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
     arg0->unk_9B = arg0->unk_9B + 1;
-    func_801706C0();
+    goto block_19;
 block_three:
     if (arg2->unk_2C.as_pu8 != D_80174A2C) {
         arg2->unk_2C.as_pu8 = D_80174A2C;
@@ -152,7 +150,7 @@ block_19:
             goto block_29;
         }
         arg3->unk_44.at02_u16.v = temp_flag46 & 0x7FFF;
-        func_8017078C(temp_83460);
+        goto block_29;
 block_no_2000:
         if (temp_v1_3 & 0x410) {
             goto block_29;

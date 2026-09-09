@@ -70,8 +70,6 @@ typedef struct S_80170CEC_7 {
 #define VFIELD(ptr, type, off) (*(type volatile *)((u8 *)(ptr) + (off)))
 
 extern s32 func_80042900();
-extern void func_80170F50() __attribute__((noreturn));
-extern void func_80170F54(void *) __attribute__((noreturn));
 extern s32 D_800814A0;
 extern u8 D_800E23F8[];
 extern u8 D_800E2408[];
@@ -114,13 +112,7 @@ void func_80170CEC(void *arg0, void *arg1, void *arg2) {
         if (state == 0) {
             goto state_0;
         }
-        {
-            register void *tail_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            tail_arg = entity_saved;
-            ASM_KEEP(tail_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            func_80170F54(tail_arg);
-        }
+        goto do_call;
     }
     if (state == 2) {
         goto state_2;
@@ -128,13 +120,7 @@ void func_80170CEC(void *arg0, void *arg1, void *arg2) {
     if (state == 3) {
         goto state_3;
     }
-    {
-        register void *tail_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-        tail_arg = entity_saved;
-        ASM_KEEP(tail_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        func_80170F54(tail_arg);
-    }
+    goto do_call;
 
 state_0:
 {
@@ -151,8 +137,7 @@ state_0:
         goto do_call;
     }
     ((S_80170CEC_0 *)arg0)->unk_2C.u++;
-    func_80170F54(entity_saved);
-    return;
+    goto do_call;
 }
 
 state_1:
@@ -187,8 +172,7 @@ state_1:
     ((S_80170CEC_6 *)arg1)->unk_00 = ((S_80170CEC_7 *)copy_source)->unk_00;
     ((S_80170CEC_6 *)arg1)->unk_04 = ((S_80170CEC_7 *)copy_source)->unk_04;
     ((S_80170CEC_6 *)arg1)->unk_08 = ((S_80170CEC_7 *)copy_source)->unk_08;
-    func_80170F50();
-    return;
+    goto call_tail;
 
 state_3:
     ((S_80170CEC_6 *)arg1)->unk_00 = ((S_80170CEC_7 *)copy_source)->unk_00;
@@ -213,6 +197,7 @@ state_2:
     }
 }
 
+call_tail:
     ASM_KEEP(entity_saved);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 do_call:
     if ((func_80042900(entity_saved, 0xA) << 16) == 0) {

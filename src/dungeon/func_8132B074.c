@@ -58,7 +58,6 @@ typedef struct S_80172874_7 {
 
 
 
-extern void func_80172A0C(void) __attribute__((noreturn));
 extern s32 D_800814A0;
 extern u8 D_80174C8C[];
 extern s32 D_80174CE0;
@@ -94,19 +93,16 @@ void func_80172874(void *arg0, Rec_D_800E3D7C *arg1, S_80172874_2 *arg2)
 
     temp_v1 = ((S_80172874_0 *)base)->unk_12.s;
     temp_a0_2 = ((S_80172874_0 *)base)->unk_12.u;
-    if (temp_v1 == 1) {
-        goto mode_one;
-    }
-    if (temp_v1 < 2) {
-        if (temp_v1 != 0) {
-            func_80172A0C();
-        }
+    switch (temp_v1) {
+    case 0:
         goto mode_zero;
+    case 1:
+        goto mode_one;
+    case 2:
+        goto mode_two;
+    default:
+        goto done;
     }
-    if (temp_v1 != 2) {
-        func_80172A0C();
-    }
-    goto mode_two;
 
 mode_zero:
     temp_v1_2 = ((S_80172874_0 *)base)->unk_16.s + 1;
@@ -118,7 +114,7 @@ mode_zero:
     arg2->unk_0E = temp_lo;
     if (((S_80172874_0 *)base)->unk_16.u >= 5) {
         ((S_80172874_0 *)base)->unk_12.p = ((S_80172874_0 *)base)->unk_12.p + 1;
-        func_80172A0C();
+        goto done;
     }
     goto done;
 
@@ -139,7 +135,7 @@ mode_one:
     arg1->unk_00.at00_s32.v = source->unk_00;
     arg1->unk_04.at00_s32.v = source->unk_04;
     arg1->unk_08.at00_s32.v = source->unk_08;
-    func_80172A0C();
+    goto done;
     }
 
 mode_two:

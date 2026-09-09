@@ -26,8 +26,6 @@ extern u8 D_80083498[];
 extern u8 D_80083780[];
 extern u8 D_800F7DFC[];
 
-extern void func_800248D8(void) __attribute__((noreturn));
-extern void func_80024920(void) __attribute__((noreturn));
 extern void func_80033B78(s32);
 extern void func_80033B9C(s32);
 extern void func_8003DB94(void *, void *, s32);
@@ -158,7 +156,7 @@ tick:
     }
     if (arg0->flags & 4) {
         arg0->state = 2;
-        func_80024920();
+        goto end;
     }
 
 case_1:
@@ -195,7 +193,7 @@ case_1:
     }
     arg0->timer = 0x96;
     arg0->state = 3;
-    func_80024920();
+    goto end;
 
 case_2:
     spawn_kind = 1;
@@ -230,7 +228,7 @@ case_2:
     }
     arg0->state = 4;
     arg0->timer = 0x64;
-    func_80024920();
+    goto end;
 
 case_3:
     arg0->timer--;
@@ -239,7 +237,7 @@ case_3:
     }
     arg0->timer = 0;
     arg0->state = 1;
-    func_80024920();
+    goto end;
 
 case_4:
     arg0->timer--;
@@ -263,22 +261,19 @@ case_4:
         SD_Call(0x300);
         D_800135BC[0] = arg0->threshold;
         func_80033B9C(0x553);
-        func_800248D8();
-    }
-
-    {
+    } else {
         s32 dialog_id_false;
         ASM_KEEP(dialog_zero);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         dialog_id_false = 0x2C3D;
         func_8003F540(dialog_zero, dialog_id_false, dialog_zero, 0x01000290);
+        SD_Call(0x300);
+        func_80033B78(0x553);
     }
-    SD_Call(0x300);
-    func_80033B78(0x553);
     func_800483AC(1);
     func_80033B78(0xA5);
     arg0->state = 5;
     arg0->flags |= 2;
-    func_80024920();
+    goto end;
 
 case_5:
     *((u16 *)arg0 - 1) |= 0x8000;

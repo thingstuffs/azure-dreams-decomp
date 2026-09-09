@@ -62,8 +62,6 @@ extern u8 D_80171E60[];
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
-extern void func_80171FAC(void) __attribute__((noreturn));
-extern void func_80172074(void) __attribute__((noreturn));
 
 void func_80171F30(S_80171F30_1 *arg0, s32 arg1, s16 arg2_in, s16 arg3_in)
 {
@@ -79,6 +77,9 @@ void func_80171F30(S_80171F30_1 *arg0, s32 arg1, s16 arg2_in, s16 arg3_in)
     s16 arg3;
     s32 alloc_kind;
     void *alloc_source;
+    void *data;
+    s32 random;
+    s32 coord;
 
     alloc_kind = 0x211;
     alloc_source = arg0;
@@ -96,20 +97,18 @@ void func_80171F30(S_80171F30_1 *arg0, s32 arg1, s16 arg2_in, s16 arg3_in)
     if (selector == 0) {
         ASM_KEEP(dispatch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         dispatch += 0x1CC0;
-        ASM_TAILSLOT_PIN(dispatch);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80171FAC();
+    } else {
+        dispatch = 1;
+        if (selector == dispatch) {
+            dispatch = (s32)0x80170000;
+            ASM_KEEP(dispatch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            dispatch += 0x1D90;
+        } else {
+            ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            dispatch = (s32)D_80171E60;
+        }
     }
-    dispatch = 1;
-    if (selector == dispatch) {
-        dispatch = (s32)0x80170000;
-        ASM_KEEP(dispatch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        dispatch += 0x1D90;
-        ASM_TAILSLOT_PIN(dispatch);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80171FAC();
-    }
-
-    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ((S_80171F30_0 *)object)->unk_10 = D_80171E60;
+    ((S_80171F30_0 *)object)->unk_10 = (void *)dispatch;
     ((S_80171F30_5 *)(((S_80171F30_0 *)object)->unk_08))->unk_02 =
         ((S_80171F30_6 *)(arg0->unk_08))->unk_02;
     ((S_80171F30_5 *)(((S_80171F30_0 *)object)->unk_08))->unk_06 =
@@ -119,10 +118,6 @@ void func_80171F30(S_80171F30_1 *arg0, s32 arg1, s16 arg2_in, s16 arg3_in)
 
     ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if ((mode << 16) == 0) {
-        void *data;
-        s32 random;
-        s32 coord;
-
         random = rand();
         data = ((S_80171F30_0 *)object)->unk_08;
         coord = ((S_80171F30_2 *)data)->unk_02;
@@ -135,17 +130,8 @@ void func_80171F30(S_80171F30_1 *arg0, s32 arg1, s16 arg2_in, s16 arg3_in)
         coord = ((S_80171F30_2 *)data)->unk_06;
         random &= 7;
         coord -= 4;
-        ASM_KEEP(random);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(coord);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80172074();
-    }
-
-    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    {
-        void *data;
-        s32 random;
-        s32 coord;
-
+    } else {
+        ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         random = rand();
         data = ((S_80171F30_0 *)object)->unk_08;
         coord = ((S_80171F30_2 *)data)->unk_02;
@@ -158,10 +144,11 @@ void func_80171F30(S_80171F30_1 *arg0, s32 arg1, s16 arg2_in, s16 arg3_in)
         coord = ((S_80171F30_2 *)data)->unk_06;
         random &= 0xF;
         coord -= 0xC;
-        coord += random;
-        ((S_80171F30_2 *)data)->unk_06 = coord;
-        ASM_KEEP(coord);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     }
+    ASM_SCHED_BARRIER(); /* MATCH: Keep the RNG addition shared and the subtraction in the jump delay slot. */
+    coord += random;
+    ((S_80171F30_2 *)data)->unk_06 = coord;
+    ASM_KEEP(coord);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     call_object = object;
     call_global = D_80171704;

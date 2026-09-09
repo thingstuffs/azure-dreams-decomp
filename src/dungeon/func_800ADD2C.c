@@ -9,10 +9,6 @@ s32 func_8009C12C();    /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 M2C_UNK func_800B341C();        /* extern */
-void func_800B357C() __attribute__((noreturn)); /* extern */
-void func_800B3744() __attribute__((noreturn)); /* extern */
-void func_800B3998() __attribute__((noreturn)); /* extern */
-void func_800B3A40() __attribute__((noreturn)); /* extern */
 M2C_UNK func_800B3D10();          /* extern */
 M2C_UNK func_800B4194();             /* extern */
 M2C_UNK func_800C77D0(); /* extern */
@@ -136,26 +132,25 @@ jt_1:
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD030;
             func_80048A44(animation, D_800DD030[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = NULL;
-            if ((u16) ((S_800B348C_0 *)action_state)->unk_A6 < 2U) {
-                func_800B357C();
+            if ((u16) ((S_800B348C_0 *)action_state)->unk_A6 >= 2U) {
                 return;
             }
         } else {
             ((S_800B348C_0 *)action_state)->unk_F4 = 0;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        }
 block_7:
-            ((S_800B348C_0 *)action_state)->unk_98 = (u16) (((S_800B348C_0 *)action_state)->unk_98 & 0xDFFF);
-            ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
-        case 2:
+        ((S_800B348C_0 *)action_state)->unk_98 = (u16) (((S_800B348C_0 *)action_state)->unk_98 & 0xDFFF);
+        ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
+    case 2:
 jt_2:
-            if (((S_800B348C_0 *)action_state)->unk_A6 == 0) {
-                func_800C77D0(actor - 0x20, motion, 8, 0x300);
-                (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
-                func_80048A44(animation, D_800DD068[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
-                action_phase = ((S_800B348C_0 *)action_state)->unk_9B;
-                ((S_800B348C_0 *)action_state)->unk_CC = NULL;
-                goto bump_state_9b;
-            }
+        if (((S_800B348C_0 *)action_state)->unk_A6 == 0) {
+            func_800C77D0(actor - 0x20, motion, 8, 0x300);
+            (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
+            func_80048A44(animation, D_800DD068[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+            action_phase = ((S_800B348C_0 *)action_state)->unk_9B;
+            ((S_800B348C_0 *)action_state)->unk_CC = NULL;
+            goto bump_state_9b;
         }
         break;
     case 3:
@@ -188,26 +183,14 @@ jt_4:
             windup_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = windup_animations;
             func_80048A44(animation, *(windup_animations + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
-            if (((Rec_D_800E3D7C *)actor)->unk_4C.as_s32 != 0) {
-                register u32 page_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                register u8 *next_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-                page_v0 = 0x800E0000;
-                ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                next_v1 = (u8 *)page_v0 - 0x2F80;
-                ASM_TAILSLOT_PIN(next_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800B3744();
-                return;
-            }
             {
-                register u32 page_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                register u8 *next_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                u8 *next_v1;
 
-                ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                page_v0 = 0x800E0000;
-                ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                next_v1 = (u8 *)page_v0 - 0x2F50;
-                ASM_KEEP(next_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                if (((Rec_D_800E3D7C *)actor)->unk_4C.as_s32 != 0) {
+                    next_v1 = D_800DD080;
+                } else {
+                    next_v1 = D_800DD0B0;
+                }
                 action_phase = ((S_800B348C_0 *)action_state)->unk_9B;
                 ((S_800B348C_0 *)action_state)->unk_CC = next_v1;
             }
@@ -278,8 +261,6 @@ jt_6:
 jt_7:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000) {
             ((S_800B348C_0 *)action_state)->unk_96.u = 0U;
-            func_800B3998();
-            return;
         } else {
             ((S_800B348C_0 *)action_state)->unk_96.u = (u16) (((S_800B348C_0 *)action_state)->unk_96.u - 1);
         }
@@ -292,8 +273,7 @@ jt_7:
                 if (temp_a2 != 0) {
                     func_800B4194(((S_800B348C_0 *)action_state)->unk_A8, temp_a2, actor);
                     ((S_800B348C_0 *)action_state)->unk_A8 = 0U;
-                    func_800B3A40();
-                    return;
+                    goto check_mix_delay;
                 } else {
                     register void *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
@@ -302,8 +282,7 @@ jt_7:
                         ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = NULL;
                         ((S_800B348C_4 *)temp_a2)->unk_1C = (s32) (((S_800B348C_4 *)temp_a2)->unk_1C & 0xEFFFFFFF);
                         ((S_800B348C_7 *)(((S_800B348C_4_pre *)temp_a2)[-1].unk_00))->unk_0C = 0x808080;
-                        func_800B3A40();
-                        return;
+                        goto check_mix_delay;
                     }
                 }
             } else {
@@ -315,6 +294,7 @@ jt_7:
                 }
             }
         }
+check_mix_delay:
         if (((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0) && (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000)) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD088;
             func_80048A44(animation, D_800DD088[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);

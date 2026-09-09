@@ -7,12 +7,14 @@ extern u8 D_801112C8[];
 extern u8 D_801114C8[];
 extern void *D_800893A0[];
 
-extern void func_800B7F58(void *, void *);
 extern void LoadImage(void *, void *);
 
 void func_800B7E78(u16 *arg0) {
     u16 value;
     s32 index;
+    s32 page; /* MATCH: ASM_KEEP preserves the page value used by the shared tail. */
+    void *rect;
+    register void *data ASM_REG("$5"); /* MATCH: form the merged image argument in a1 before each tail jump. */
     static void *const keepalive[] = { &&L0, &&L4, &&L8, &&L12 };
 
     value = *arg0 + 1;
@@ -28,51 +30,36 @@ void func_800B7E78(u16 *arg0) {
     goto *D_800893A0[index];
 
 L0:
-    {
-#ifndef NON_MATCHING
-        register s32 page ASM_REG("$3") = (s32)0x80110000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        void *rect;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        rect = (void *)(page + 0x1FA8);
-#else
-        void *rect = D_80111FA8;
-#endif
-        func_800B7F58(rect, D_80110EC8);
-        return;
-    }
+    page = (s32)0x80110000;
+    ASM_KEEP(page);
+    rect = (void *)(page + 0x1FA8);
+    data = D_80110EC8;
+    goto tail;
 
 L4:
-    {
-#ifndef NON_MATCHING
-        register s32 page ASM_REG("$3") = (s32)0x80110000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        void *rect;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        rect = (void *)(page + 0x1FA8);
-#else
-        void *rect = D_80111FA8;
-#endif
-        func_800B7F58(rect, D_801110C8);
-        return;
-    }
+    page = (s32)0x80110000;
+    ASM_KEEP(page);
+    rect = (void *)(page + 0x1FA8);
+    data = D_801110C8;
+    goto tail;
 
 L8:
-    {
-#ifndef NON_MATCHING
-        register s32 page ASM_REG("$3") = (s32)0x80110000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        void *rect;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        rect = (void *)(page + 0x1FA8);
-#else
-        void *rect = D_80111FA8;
-#endif
-        func_800B7F58(rect, D_801112C8);
-        return;
-    }
+    page = (s32)0x80110000;
+    ASM_KEEP(page);
+    rect = (void *)(page + 0x1FA8);
+    data = D_801112C8;
+    goto tail;
 
 L12:
-    D_80111FA8[0] = 808;
-    D_80111FA8[1] = 128;
-    D_80111FA8[2] = 8;
-    D_80111FA8[3] = 32;
-    LoadImage(D_80111FA8, D_801114C8);
+    page = (s32)0x80110000;
+    ASM_KEEP(page);
+    rect = (void *)(page + 0x1FA8);
+    data = D_801114C8;
+
+tail:
+    (*(u16 *)(page + 0x1FA8)) = 808;
+    ((u16 *)rect)[1] = 128;
+    ((u16 *)rect)[2] = 8;
+    ((u16 *)rect)[3] = 32;
+    LoadImage(rect, data);
 }

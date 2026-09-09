@@ -29,10 +29,6 @@ extern s32 func_800A56E0();
 extern s32 func_800A9400();
 extern s32 func_800A94A0();
 extern s32 func_800BB044();
-extern void func_80173624() __attribute__((noreturn));
-extern void func_80173698() __attribute__((noreturn));
-extern void func_801736FC() __attribute__((noreturn));
-extern void func_801737D4() __attribute__((noreturn));
 extern s32 func_80175814();
 extern s32 func_80175D7C();
 
@@ -111,6 +107,7 @@ void func_80173560(void *arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
     s32 sv;
     register s32 raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *ptr;
+    void *outer;
 
     state = ((S_80173560_0 *)arg0)->unk_9B.n;
     ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -133,28 +130,26 @@ state0:
 
 item_a:
     s1 = 1;
-    s0 = (s32)((u8 *)arg3 + 0xE);
     ASM_KEEP(s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_TAILSLOT_PIN(s0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80173624();
+    s0 = (s32)((u8 *)arg3 + 0xE);
+    goto item_ready;
 
 item_b:
     s1 = 1;
-    s0 = (s32)((u8 *)arg3 + 0xB);
     ASM_KEEP(s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_TAILSLOT_PIN(s0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80173624();
+    s0 = (s32)((u8 *)arg3 + 0xB);
+    goto item_ready;
 
 item_c:
     s1 = 1;
-    s0 = (s32)((u8 *)arg3 + 8);
     ASM_KEEP(s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_TAILSLOT_PIN(s0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80173624();
+    s0 = (s32)((u8 *)arg3 + 8);
+    goto item_ready;
 
 item_default:
     s0 = 0;
     ASM_KEEP(s0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+item_ready:
     key = ((S_80173560_0 *)arg0)->unk_98;
     cond = s1;
     ((S_80173560_0 *)arg0)->unk_98 = key & 0xFF7F;
@@ -164,20 +159,23 @@ item_default:
     }
     D_80175F6E = state;
     if (cond != 0) {
-        ((S_80173560_1 *)arg3)->unk_60 = D_800814A8;
-        func_80173698();
+        outer = D_800814A8;
+        ((S_80173560_1 *)arg3)->unk_60 = outer;
+        goto copy_inner;
     }
 
     vidx = *(u8 *)s0;
     tval = D_8006DE24[vidx * 20 + 0x12];
     if (tval == 2) {
         register void *a0v ASM_REG("$4") = arg3;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        void *outer = ((S_80173560_1 *)arg3)->unk_60;
+        outer = ((S_80173560_1 *)arg3)->unk_60;
         if (outer != 0) {
-            register void *inner ASM_REG("$3") = ((S_80173560_2_pre *)outer)[-1].unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_80173560_1 *)arg3)->unk_72.u = ((S_80173560_3 *)inner)->unk_24;
-            ((S_80173560_1 *)arg3)->unk_73.u = ((S_80173560_3 *)inner)->unk_25;
-            func_801736FC(a0v, (void *)s0);
+copy_inner:
+            {
+                register void *inner ASM_REG("$3") = ((S_80173560_2_pre *)outer)[-1].unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                ((S_80173560_1 *)arg3)->unk_72.u = ((S_80173560_3 *)inner)->unk_24;
+                ((S_80173560_1 *)arg3)->unk_73.u = ((S_80173560_3 *)inner)->unk_25;
+            }
         }
     } else {
         register s32 abs_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -210,11 +208,11 @@ item_default:
     if (s1 != 0 && !(((S_80173560_1 *)arg3)->unk_13 & 0x80)) {
         func_80175814(arg3);
         func_80175D7C(arg3);
-        func_801737D4();
+    } else {
+        ((S_80173560_1 *)arg3)->unk_13 &= 0x7F;
+        *(u16 *)&D_80175E40[0x12E] &= 0xFF7F;
+        func_800BB044(arg3);
     }
-    ((S_80173560_1 *)arg3)->unk_13 &= 0x7F;
-    *(u16 *)&D_80175E40[0x12E] &= 0xFF7F;
-    func_800BB044(arg3);
     ((S_80173560_0 *)arg0)->unk_9B.n++;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s0 = (s32)&D_80175F6E;

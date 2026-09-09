@@ -54,7 +54,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-void func_8015EA10(void) __attribute__((noreturn));
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_8015EAA4;
@@ -124,35 +123,33 @@ void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
             var_s0->unk_14 = (s32) (var_s0->unk_14 | 0x6000);
             var_s0->unk_98 = (u16) (flags98 | 0x4000);
             var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x6000);
-            func_8015EA10();
-        }
-        if (temp_v1 >= 2) {
+        } else if (temp_v1 >= 2) {
             flags98 = var_s0->unk_98;
             var_s0->unk_14 = (s32) (var_s0->unk_14 | 0x2000);
             var_s0->unk_98 = (u16) (flags98 | 0x4000);
             var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x2000);
-            func_8015EA10();
-        }
-        call_a0 = temp_v0;
-        if (((arg0 & ~3) << 0x10) == 0) {
-            if (!(var_s0->unk_14 & 0x200)) {
-                call_a1 = temp_s4;
-                temp_v1 = func_800A6D30();
-                call_a0 = temp_v0;
-                if (!(temp_v1 & 1)) {
-                    goto call_a1_setup;
+        } else {
+            call_a0 = temp_v0;
+            if (((arg0 & ~3) << 0x10) == 0) {
+                if (!(var_s0->unk_14 & 0x200)) {
+                    call_a1 = temp_s4;
+                    temp_v1 = func_800A6D30();
+                    call_a0 = temp_v0;
+                    if (!(temp_v1 & 1)) {
+                        goto call_a1_setup;
+                    }
+                    var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x200);
+                    func_800A48F0(var_s0, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    temp_s2->unk_2C = &D_80162000;
+                    goto post_a6d30;
                 }
-                var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x200);
-                func_800A48F0(var_s0, 1, (func_800A6D30() & 0x3F) | 0x20);
-                temp_s2->unk_2C = &D_80162000;
-                goto post_a6d30;
             }
+            goto call_a1_setup;
         }
-        goto call_a1_setup;
 post_a6d30:
         call_a0 = temp_v0;
 call_a1_setup:
-        func_800A9C18(call_a0, temp_s4, temp_s2, arg0);
+        func_800A9C18(temp_v0, temp_s4, temp_s2, arg0);
         temp_s5->unk_9A = 0xFF;
         temp_s5->unk_9C = -1;
         temp_s5->unk_8C = &D_8015EF68;

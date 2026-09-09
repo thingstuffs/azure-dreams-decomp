@@ -42,8 +42,6 @@ M2C_UNK D_8009E714();         /* extern */
 M2C_UNK func_80033CD8();           /* extern */
 M2C_UNK func_800374F4();                     /* extern */
 M2C_UNK func_8009DC8C();     /* extern */
-M2C_UNK func_8009E918();                     /* extern */
-M2C_UNK func_8009E95C();                            /* extern */
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_8006E240;
 extern s32 D_800D09C8[];
@@ -69,10 +67,9 @@ void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
     ((Rec_func_80094268_arg0 *)arg0)->unk_4D = temp_v1;
     if (temp_v1 == 0x12) {
         arg2->unk_08 = &D_8006E240;
-        func_8009E918();
-        return;
+    } else {
+        func_8009DC8C(arg0, arg2, ((Rec_func_80094268_arg0 *)arg0)->unk_4C, M2C_FIELD(page, s32 *, ((page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x983] & 0x3F) * 0x54) + 0xA94));
     }
-    func_8009DC8C(arg0, arg2, ((Rec_func_80094268_arg0 *)arg0)->unk_4C, M2C_FIELD(page, s32 *, ((page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x983] & 0x3F) * 0x54) + 0xA94));
     func_80033CD8(arg0, &D_80045340);
     init_flags = 0x20;
     active_base = (s32 *)0x800D0000;
@@ -80,14 +77,13 @@ void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
     flags = arg2->unk_14.s;
     active = ((S_8009E85C_3 *)active_base)->unk_9C8;
     arg2->unk_14.u = (u16)(flags | 0x1C);
+    tail_self = arg0;
     if (active == 0) {
         ((Rec_func_80094268_arg0 *)arg0)->unk_6C.as_s16 = func_800374F4(0x1000);
-        func_8009E95C();
-        return;
+    } else {
+        /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        tail_self->unk_6C = 0;
     }
-    tail_self = arg0;
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    tail_self->unk_6C = 0;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     call_a0 = tail_self;
     call_a1 = arg1;

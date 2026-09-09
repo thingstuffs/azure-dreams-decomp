@@ -7,10 +7,6 @@ extern u16 D_80083462;
 extern DungeonCallback D_800E2228[];
 
 extern s16 func_800BCB04(u16, u16, s16);
-extern void func_800D276C(s32, s32);
-extern void func_800D27F8();
-extern void func_800D2810();
-extern void func_800D2890();
 
 
 typedef struct S_800D2664_0 {
@@ -82,12 +78,10 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
 
     if ((*(u16 *)((u8 *)work + (0x98))) & 8) {
         (*(u8 *)((u8 *)work + (0x9D))) = 0;
-        func_800D276C(dx, dy);
-        return;
+    } else {
+        ((S_800D2664_0 *)pos)->unk_14 += (*(s8 *)((u8 *)work + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)work + (0x9D)))++;
     }
-
-    ((S_800D2664_0 *)pos)->unk_14 += (*(s8 *)((u8 *)work + (0x9D))) * 0x14000;
-    (*(u8 *)((u8 *)work + (0x9D)))++;
     fall_accum = ((S_800D2664_1 *)obj)->unk_90.at00.v;
     fall_delta = ((S_800D2664_0 *)pos)->unk_14;
     fall_flags = ((S_800D2664_1 *)obj)->unk_98;
@@ -110,19 +104,16 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
     if (((S_800D2664_1 *)obj)->unk_90.at02.v + height < result) {
         u16 tail_flags = ((S_800D2664_1 *)obj)->unk_98;
         ASM_KEEP(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        func_800D2810();
-        return;
+    } else {
+        if (result >= height) {
+            ((S_800D2664_1 *)obj)->unk_90.at00.v = 0;
+        } else {
+            ((S_800D2664_1 *)obj)->unk_90.at02.v = result - uheight;
+        }
+        ((S_800D2664_0 *)pos)->unk_14 = 0;
+        (*(u32 *)((u8 *)work + (0x1C))) |= 0x08000000;
+        ((S_800D2664_1 *)obj)->unk_9D = 0;
     }
-    if (result >= height) {
-        ((S_800D2664_1 *)obj)->unk_90.at00.v = 0;
-        func_800D27F8();
-        return;
-    }
-
-    ((S_800D2664_1 *)obj)->unk_90.at02.v = result - uheight;
-    ((S_800D2664_0 *)pos)->unk_14 = 0;
-    (*(u32 *)((u8 *)work + (0x1C))) |= 0x08000000;
-    ((S_800D2664_1 *)obj)->unk_9D = 0;
 
     if ((*(u32 *)((u8 *)work + (0x1C))) & 0x40000000) {
         s32 tile_x;
@@ -134,8 +125,6 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
             tile_x, tile_y, (s16)((*(u16 *)((u8 *)work + (0x88))) - 0x20));
         ((S_800D2664_1 *)obj)->unk_90.at02.v += (*(u16 *)((u8 *)work + (0x88))) - result;
         (*(s16 *)((u8 *)work + (0x88))) = result;
-        func_800D2890();
-        return;
     }
     goto finish;
 

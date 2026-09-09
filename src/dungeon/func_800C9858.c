@@ -119,14 +119,6 @@ M2C_UNK func_800654B0();
 M2C_UNK func_80065820();
 u16 func_80065F90();
 M2C_UNK func_8006658C();
-M2C_UNK func_800CF270();
-M2C_UNK func_800CF31C();
-M2C_UNK func_800CF390();
-M2C_UNK func_800CF5C4();
-M2C_UNK func_800CF5D8();
-M2C_UNK func_800CF75C();
-M2C_UNK func_800CF764();
-M2C_UNK func_800CF7B4();
 extern s32 D_8006CD30[];
 extern s8 D_80083160[];
 
@@ -142,7 +134,7 @@ void func_800CEFB8(void *unused, void *arg1, void *arg2, s16 arg3, s32 arg4) {
     s16 temp_v0_9;
     s32 var_v1;
     s32 temp_a0;
-    register s32 temp_a1_2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 temp_a1_2;
     s32 arg4_copy;
     s32 temp_v0;
     s32 a3x;
@@ -411,8 +403,7 @@ axis_y_join:
                     ((S_800CEFB8_8 *)temp_s0)->unk_14 = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_14 + SP16(0xF0));
                     ((S_800CEFB8_8 *)temp_s0)->unk_1C.u = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_1C.u + SP16(0xF0));
                     ((S_800CEFB8_8 *)temp_s0)->unk_16 = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_16 + SP16(0xF2));
-                    func_800CF5C4();
-                    return;
+                    goto coord_last;
                 }
                 ((S_800CEFB8_8 *)temp_s0)->unk_14 = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_14 + SP16(0xB8));
                 ((S_800CEFB8_8 *)temp_s0)->unk_1C.u = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_1C.u + SP16(0xB8));
@@ -422,8 +413,7 @@ axis_y_join:
                 ((S_800CEFB8_8 *)temp_s0)->unk_0C = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_0C + SP16(0xF0));
                 ((S_800CEFB8_8 *)temp_s0)->unk_06 = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_06 + SP16(0xF2));
                 ((S_800CEFB8_8 *)temp_s0)->unk_0E = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_0E + SP16(0xF2));
-                func_800CF5D8();
-                return;
+                goto coord_done;
             }
             ((S_800CEFB8_8 *)temp_s0)->unk_14 = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_14 + SP16(0xB8));
             ((S_800CEFB8_8 *)temp_s0)->unk_16 = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_16 + SP16(0xBA));
@@ -432,7 +422,9 @@ axis_y_join:
             ((S_800CEFB8_8 *)temp_s0)->unk_04.u = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_04.u + SP16(0xB8));
             ((S_800CEFB8_8 *)temp_s0)->unk_06 = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_06 + SP16(0xBA));
             ((S_800CEFB8_8 *)temp_s0)->unk_1C.u = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_1C.u + SP16(0xF0));
+coord_last:
             ((S_800CEFB8_8 *)temp_s0)->unk_1E = (u16) (((S_800CEFB8_8 *)temp_s0)->unk_1E + SP16(0xF2));
+coord_done:
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             var_a1 = 0;
             if ((u32) ((((S_800CEFB8_8 *)temp_s0)->unk_04.u + 0x20) & 0xFFFF) < 0x181U) {
@@ -484,16 +476,16 @@ axis_y_join:
                 if (continuation_flag != 0) {
                     if (SP16(0x24) & 0x100) {
                         ((S_800CEFB8_8 *)temp_s0)->unk_0A = continuation_flag;
-                        func_800CF764(temp_a0, temp_a1_2);
-                        return;
+                        goto continuation_coords;
                     }
                     continuation_v0 = (*(u16 *)((u8 *)temp_s1 + 5));
                     continuation_v0 = continuation_flag + continuation_v0;
-                    ASM_TAILSLOT_PIN(continuation_v0);
-                    func_800CF75C(temp_a0, temp_a1_2);
-                    return;
+                    goto continuation_color;
                 }
-                ((S_800CEFB8_8 *)temp_s0)->unk_0A = (u16) (*(u16 *)((u8 *)temp_s1 + 5));
+                continuation_v0 = (u16) (*(u16 *)((u8 *)temp_s1 + 5));
+continuation_color:
+                ((S_800CEFB8_8 *)temp_s0)->unk_0A = continuation_v0;
+continuation_coords:
                 ((S_800CEFB8_8 *)temp_s0)->unk_08 = (s16) ((u16) SP32(0x0C) + (u16) SP32(0x08));
                 ((S_800CEFB8_8 *)temp_s0)->unk_10.s16 = (s16) ((u16) SP32(0x0C) + (u16) SP32(0x10));
                 continuation_flag = ((S_800CEFB8_1 *)arg2_hold)->unk_10;
@@ -501,11 +493,11 @@ axis_y_join:
                     continuation_v0 = (*(u16 *)((u8 *)temp_s1 + 3));
                     continuation_v0 &= 0xFF9F;
                     continuation_v0 = continuation_flag + continuation_v0;
-                    ASM_TAILSLOT_PIN(continuation_v0);
-                    func_800CF7B4(temp_a0, temp_a1_2);
-                    return;
+                    goto continuation_texture;
                 }
-                ((S_800CEFB8_8 *)temp_s0)->unk_12 = (u16) (*(u16 *)((u8 *)temp_s1 + 3));
+                continuation_v0 = (u16) (*(u16 *)((u8 *)temp_s1 + 3));
+continuation_texture:
+                ((S_800CEFB8_8 *)temp_s0)->unk_12 = continuation_v0;
                 {
                     s32 field_4;
                     register u16 packed_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

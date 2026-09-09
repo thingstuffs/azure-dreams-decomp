@@ -5,9 +5,6 @@ extern u8 D_80083160[];
 extern void *D_80089110[];
 
 extern s32 func_80094AA0(s32, s32, s32);
-extern void func_800A4AF4(void);
-extern void func_800A4B20(void) __attribute__((noreturn));
-extern void func_800A4B24(void) __attribute__((noreturn));
 
 #ifdef NON_MATCHING
 #define OLD_GCC_KEEP(var) ((void)0)
@@ -21,6 +18,7 @@ void func_800A4A58(void)
     u8 *base;
     u32 state;
     s32 value;
+    u32 *clear;
     static void *const keepalive[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
     };
@@ -38,48 +36,52 @@ void func_800A4A58(void)
 case_0:
     base[0xA8] = 0x80;
     base[0xA9] = 0x80;
+    /* MATCH: Keep the case stores separate, with the last store in the jump delay slot. */
+    __asm__ __volatile__("" ::: "memory");
     base[0xAA] = 0x80;
-    func_800A4B20();
+    goto clear_state;
 
 case_1:
     {
-        u32 *clear = (u32 *)0x80100000;
+        clear = (u32 *)0x80100000;
         OLD_GCC_KEEP(clear);
         base[0xA8] = 0;
         base[0xA9] = 0;
         base[0xAA] = 0;
-        func_800A4B24();
+        goto clear_store;
     }
 
 case_2:
     base[0xA8] = 0x40;
     base[0xA9] = 0x40;
+    /* MATCH: Keep the case stores separate, with the last store in the jump delay slot. */
+    __asm__ __volatile__("" ::: "memory");
     base[0xAA] = 0x40;
-    func_800A4B20();
+    goto clear_state;
 
 case_3:
     target = 0x80;
-    func_800A4AF4();
-    OLD_GCC_KEEP(target);
-    return;
+    goto update;
 
 case_4:
-    func_800A4AF4();
     target = 0;
-    OLD_GCC_KEEP(target);
-    return;
+    goto update;
 
 case_5:
     target = 0x40;
     OLD_GCC_KEEP(target);
+update:
     target &= 0xFF;
     value = func_80094AA0(base[0xA8], target, 8);
     base[0xA8] = value;
     base[0xA9] = value;
     base[0xAA] = value;
     if ((value & 0xFF) == target) {
+clear_state:
         __asm__ __volatile__("" ::: "memory");
-        D_80100D94[0] = 0;
+        clear = (u32 *)0x80100000;
+clear_store:
+        clear[0xD94 / 4] = 0;
     }
 
 done:

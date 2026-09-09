@@ -15,10 +15,6 @@ extern s32 func_800352FC(void);
 extern s32 func_8003BD84(s32, s32);
 extern void func_800489F4(void *, u8, s8, s32);
 extern void func_80048AC8(void *, s32);
-extern void func_800907C4(void);
-extern void func_8009085C(void);
-extern void func_800908A0(void);
-extern void func_80090910(void);
 extern void to_camera_zero_00(void);
 extern void func_80090A04(void *);
 extern s16 func_80094AA0(s16, s16, s32);
@@ -51,6 +47,7 @@ void func_8009065C(void *arg0, void *arg1, void *arg2) {
     if (callback == (void *)&D_80090A64) {
         goto active_callback;
     }
+    /* garbage-passthru: a1/a2/a3 are caller-saved residue after func_80095544. */
     if (func_800352FC() == 0) {
         goto inactive_callback;
     }
@@ -61,13 +58,11 @@ active_callback:
     }
 shared_exit:
     to_camera_zero_00();
-    func_8009085C();
-    return;
+    goto after_initial;
 
 active_height:
     if (*(s16 *)((u8 *)arg1 + 6) < 0x400) {
-        func_800907C4();
-        return;
+        goto low_height;
     }
     goto after_initial;
 
@@ -80,16 +75,13 @@ inactive_callback:
         *(s16 *)(base + 0xC8) -= 0x20;
         if (*(s16 *)(base + 0xC8) < -0x1E0) {
             *(s16 *)(base + 0xC8) = -0x1E0;
-            func_8009085C();
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return;
+            goto after_initial;
         }
     } else if (initial_flags & 4) {
         *(s16 *)(base + 0xC8) += 0x20;
         if (*(s16 *)(base + 0xC8) > 0x1E0) {
             *(s16 *)(base + 0xC8) = 0x1E0;
-            func_8009085C();
-            return;
+            goto after_initial;
         }
     } else {
         goto shared_exit;
@@ -98,9 +90,9 @@ inactive_callback:
 
 movement_path:
     if (*(s16 *)((u8 *)arg1 + 6) < 0x400) {
+low_height:
         func_80090A04(arg1);
-        func_8009085C();
-        return;
+        goto after_initial;
     }
     movement = func_8003BD84(*(s32 *)((u8 *)arg1 + 0xC),
                              *(s32 *)((u8 *)arg1 + 0x10));
@@ -125,11 +117,9 @@ after_initial:
         *(s16 *)((u8 *)arg0 + 0x18) =
             func_80094AA0(*(s16 *)((u8 *)arg0 + 0x18),
                           *(s16 *)((u8 *)arg0 + 0x10), 0x200);
-        func_800908A0();
-        return;
+    } else {
+        *(s16 *)((u8 *)arg0 + 0x18) = *(u16 *)((u8 *)arg0 + 0x10);
     }
-
-    *(s16 *)((u8 *)arg0 + 0x18) = *(u16 *)((u8 *)arg0 + 0x10);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     index = func_80095360(*(s16 *)((u8 *)arg0 + 0x18));
     if (*(s16 *)((u8 *)arg0 + 0x12) != index) {
@@ -139,15 +129,16 @@ after_initial:
         *(s16 *)((u8 *)arg0 + 0x12) = index;
     }
 
-    if (D_800D01F8[index] != 0) {
-        u16 bit_value = *(u16 *)((u8 *)arg2 + 0x14) | 1;
+    {
+        u16 bit_value;
 
-        ASM_TAILSLOT_PIN(bit_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80090910();
-        return;
+        if (D_800D01F8[index] != 0) {
+            bit_value = *(u16 *)((u8 *)arg2 + 0x14) | 1;
+        } else {
+            bit_value = *(u16 *)((u8 *)arg2 + 0x14) & 0xFFFE;
+        }
+        *(u16 *)((u8 *)arg2 + 0x14) = bit_value;
     }
-
-    *(u16 *)((u8 *)arg2 + 0x14) &= 0xFFFE;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_80096868(arg0, arg1, arg2);
     func_80048AC8(arg2, 0);

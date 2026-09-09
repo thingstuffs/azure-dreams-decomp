@@ -59,9 +59,6 @@ typedef struct {
 extern s32 func_80040490(u8 *, Rect *);
 extern s32 func_8003F80C();
 extern void *func_80024578(void *);
-extern void func_80024264(void) __attribute__((noreturn));
-extern void func_800242D8(void) __attribute__((noreturn));
-extern void func_80024334(void) __attribute__((noreturn));
 extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);
 
@@ -80,6 +77,7 @@ extern s32 D_80083460;
 void func_80024078(State *arg0)
 {
     u8 *screen = D_80083160;
+    register s16 discarded_state ASM_REG("$3");   /* MATCH: case 0 and case 2 share the state increment in v1. */
 
     switch (arg0->state) {
     case 0: {
@@ -119,8 +117,6 @@ void func_80024078(State *arg0)
 
         duration = 0x20;
         {
-            register s16 discarded_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
             discarded_state = ((S_80024078_3 *)arg0)->unk_0A;
             ASM_KEEP(discarded_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         }
@@ -128,8 +124,7 @@ void func_80024078(State *arg0)
         arg0->timer_1A = duration;
         arg0->phase_20 = phase;
         arg0->timer_22 = duration;
-        func_80024264();
-        return;
+        goto advance_initial_state;
     }
 
     case 1:
@@ -144,23 +139,19 @@ void func_80024078(State *arg0)
             break;
         }
         ((Rec_D_800814A8 *)D_800814A8)->unk_A6--;
-        if (func_80053EF0(4) != 2) {
-            func_800A56E0(0x300);
-        } else {
-            func_800A56E0(0x4300);
-        }
-        func_800242D8();
-        return;
+        func_800A56E0(func_80053EF0(4) != 2 ? 0x300 : 0x4300);
+        goto advance_state;
 
     case 2:
         if (D_8002966C[0] != 0) {
             break;
         }
+        discarded_state = arg0->state;
         arg0->timer_1A = 0x20;
         arg0->phase_20 = 0;
-        arg0->state++;
-        func_80024334();
-        return;
+advance_initial_state:
+        arg0->state = discarded_state + 1;
+        break;
 
     case 3:
         screen[0xA9] += (0x80 - screen[0xA9]) / arg0->timer_1A;
@@ -171,9 +162,9 @@ void func_80024078(State *arg0)
         }
         screen[0xA9] = 0x80;
         screen[0xAA] = 0x80;
+advance_state:
         arg0->state++;
-        func_80024334();
-        return;
+        break;
 
     case 4:
         if ((s16)D_800281F8[0] != 0) {

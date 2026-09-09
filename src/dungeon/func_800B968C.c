@@ -21,10 +21,6 @@ extern s32 func_800A5720();
 extern s32 func_800A5F38();
 extern s32 func_800A6480();
 extern s32 func_800AD6FC();
-extern s32 func_800BF004();
-extern s32 func_800BF034();
-extern s32 func_800BF050();
-extern s32 func_800BF050_alias(void) __asm__("func_800BF050");
 
 extern u8 D_80082E80[];
 extern D_80083460_t D_80083460;
@@ -50,8 +46,7 @@ s32 func_800BEDEC(u32 arg0, u8 *arg1, s16 arg2, s32 arg3) {
     ASM_KEEP_NV(item);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     if (arg2 == 0xD) {
-        func_80098864(item, arg3);
-        return func_800BF050();
+        return func_80098864(item, arg3);
     }
 
     base = D_800E3D7C[0];
@@ -67,14 +62,13 @@ s32 func_800BEDEC(u32 arg0, u8 *arg1, s16 arg2, s32 arg3) {
         result = 0;
         ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         item[3] = flags & 0xDF;
-        return func_800BF050_alias();
+        return result;
     }
 
     if (object <= 0x9FFFFFFF) {
         func_800A6480(object, item, arg2);
         if (func_800AD6FC(object, D_800DDE84[*(u8 *)(object + 0x13)] & 3, 0) == 0) {
             func_800A5F38(object, item);
-            func_800BF050();
             return 1;
         }
         D_80083460.fieldA--;
@@ -95,53 +89,49 @@ s32 func_800BEDEC(u32 arg0, u8 *arg1, s16 arg2, s32 arg3) {
             result = 0;
             ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             item[3] = flags | 0x20;
-            return func_800BF050();
+            return result;
         }
 
-        if (!(other[3] & 0x40)) {
-            s32 next;
-            s32 old_arg;
-
-            temp = func_800990FC();
-            ASM_KEEP(temp);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            chain = func_8009955C(other, temp);
-            if (*(s8 *)(other + 2) < 0x63) {
-                other[2] = other[2] + 1;
-            }
-            chain = func_80099978(func_80099194(D_800E118C, chain));
-            next = func_80099194(D_8008936C, chain);
-            object = chain - 2;
-            chain = next;
-            next = func_80099368(other, chain);
-            old_arg = chain;
-            chain = next;
-            func_800998C0(object, old_arg);
-            return func_800BF004(D_80089370, chain);
-        }
-
-        temp = func_800990FC();
         {
             s32 message_value;
-            u8 *message_base;
+            register u8 *message_base ASM_REG("$4"); /* MATCH: merged message addresses are formed in a0 in both arms. */
             register s32 message_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-            message_value = func_80099368(other, temp);
-            message_base = D_800E11AB;
-            ASM_KEEP(message_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            message_arg = message_value;
-            ASM_KEEP(message_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            if (!(other[3] & 0x40)) {
+                s32 next;
+                s32 old_arg;
+
+                temp = func_800990FC();
+                ASM_KEEP(temp);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                chain = func_8009955C(other, temp);
+                if (*(s8 *)(other + 2) < 0x63) {
+                    other[2] = other[2] + 1;
+                }
+                chain = func_80099978(func_80099194(D_800E118C, chain));
+                next = func_80099194(D_8008936C, chain);
+                object = chain - 2;
+                chain = next;
+                next = func_80099368(other, chain);
+                old_arg = chain;
+                chain = next;
+                func_800998C0(object, old_arg);
+                message_base = D_80089370;
+                message_arg = chain;
+            } else {
+                temp = func_800990FC();
+
+                message_value = func_80099368(other, temp);
+                message_base = D_800E11AB;
+                ASM_KEEP(message_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                message_arg = message_value;
+                ASM_KEEP(message_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            }
             func_80099290(func_80099194(message_base, message_arg));
         }
         func_800A5720(temp);
-        {
-            u32 page = 0x80080000;
-
-            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800BF034();
-        }
+    } else {
+        func_800997FC(D_800E11D7, arg3, arg2);
     }
-
-    func_800997FC(D_800E11D7, arg3, arg2);
     D_80083460.fieldA--;
     func_80098B38(item);
     return 1;

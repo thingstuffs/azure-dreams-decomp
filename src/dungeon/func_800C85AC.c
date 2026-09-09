@@ -11,16 +11,15 @@ typedef struct {
 extern u8 D_800E3D40[];
 extern u8 D_800DF870[];
 
-extern s32 func_800A6D30(void);
+extern s32 func_800A6D30(void *, s32, s32, s32);
 extern void func_800A6508(void);
 extern void func_800A56E0(s32);
 extern void func_800C8DB0(void *, s32, s32);
 extern void func_800C5E5C(s32, s32, s32, void *, s32);
-extern void func_800CDD58(void);
 
-s32 func_800CDD0C(void *arg0)
+s32 func_800CDD0C(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    s32 result;
+    register s32 result ASM_REG("$2"); /* MATCH: Keep the divisor and merged tail value in retail v0. */
     register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 random ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 range;
@@ -30,7 +29,7 @@ s32 func_800CDD0C(void *arg0)
     if (D_800E3D40[0] != 0) {
         goto main_path;
     }
-    random = func_800A6D30() & 0xFFFF;
+    random = func_800A6D30(arg0, arg1, arg2, arg3) & 0xFFFF;
     range = *(u8 *)((u8 *)arg0 + 3);
     if (range == 0) {
         goto main_path;
@@ -39,13 +38,14 @@ s32 func_800CDD0C(void *arg0)
     ASM_USE(range);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     remainder = random % result;
     ASM_USE(remainder);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800CDD58();
-    return remainder;
+    result = remainder;
+    goto shared_tail;
 
 main_path:
     result = 0;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
+shared_tail:
     if (result < 0x30) {
         amount = 0x20;
         if (D_800E3D40[0] != 0) {

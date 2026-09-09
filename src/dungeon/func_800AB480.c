@@ -3,8 +3,6 @@
 
 M2C_UNK func_8006658C();                 /* extern */
 M2C_UNK func_800666F4();                      /* extern */
-void *func_800B0C64();                              /* extern */
-void func_800B0D10(void) __attribute__((noreturn)); /* extern */
 
 typedef struct S_800B0BE0_0 {
     u8 pad_00[0x4];
@@ -75,10 +73,10 @@ void *func_800B0BE0(s32 arg0, S_800B0BE0_1 *arg1, void **arg2, void *arg3) {
     temp_v1_4 = arg1->unk_10;
     if (temp_v1_4 != 0) {
         tail_value = temp_v1_4 + (((S_800B0BE0_2 *)(*arg2))->unk_04 & 0xFF9F);
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        return func_800B0C64();
+    } else {
+        tail_value = ((S_800B0BE0_2 *)(*arg2))->unk_04;
     }
-    ((S_800B0BE0_0 *)arg3)->unk_16 = (u16) ((S_800B0BE0_2 *)(*arg2))->unk_04;
+    ((S_800B0BE0_0 *)arg3)->unk_16 = (u16) tail_value;
     temp_v0 = ((S_800B0BE0_2 *)(*arg2))->unk_08;
     ((S_800B0BE0_0 *)arg3)->unk_1C = temp_v0;
     ((S_800B0BE0_0 *)arg3)->unk_0C = temp_v0;
@@ -101,9 +99,9 @@ void *func_800B0BE0(s32 arg0, S_800B0BE0_1 *arg1, void **arg2, void *arg3) {
     arg3 += 0x28;
     if (((S_800B0BE0_5 *)temp_v1_3)->unk_00 < 0) {
         *arg2 = NULL;
-        func_800B0D10();
+    } else {
+        *arg2 = temp_v1_3 + 0xC;
     }
-    *arg2 = temp_v1_3 + 0xC;
     return arg3;
 }
 

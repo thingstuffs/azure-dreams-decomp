@@ -28,9 +28,6 @@ typedef struct S_800236BC_3 {
 } S_800236BC_3;   /* ((S_800236BC_1 *)arg0)->unk_00 in func_800236BC */
 
 
-extern void func_800239BC(void) __attribute__((noreturn));
-extern void func_80023A74(void) __attribute__((noreturn));
-extern void func_80023B5C(void) __attribute__((noreturn));
 extern void func_800478B8(void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
@@ -52,6 +49,8 @@ void func_800236BC(void *arg0, void *arg1, void *arg2)
     s16 state;
     s32 value;
     s32 amount;
+    s32 tail_value;
+    register u32 page ASM_REG("$4"); /* MATCH: both reward paths carry the global page in a0. */
     s32 *localp = (s32 *)&local;
     u32 speculative_page;
 
@@ -139,7 +138,7 @@ state_2:
             ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = 0;
             ((S_800236BC_1 *)arg0)->unk_06.s = 150;
             ((S_800236BC_1 *)arg0)->unk_04.u++;
-            return func_800239BC();
+            goto state_2_collision;
         }
         ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = -((Rec_func_800206D0_arg1 *)arg1)->unk_14 >> 1;
         ASM_KEEP(speculative_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -151,15 +150,11 @@ state_2_collision:
         }
         SD_Call(0x516);
         {
-            register s32 tail_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register u32 page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u8 *frame;
             frame = __builtin_alloca(0);
             tail_value = *(s32 *)(((S_800236BC_1 *)arg0)->unk_54 * 4 + frame);
-            ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             page = 0x80010000;
-            ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_80023A74();
+            goto collision_reward;
         }
 
 state_3:
@@ -172,9 +167,19 @@ state_3:
             return;
         }
         SD_Call(0x516);
-        amount = localp[((S_800236BC_1 *)arg0)->unk_54] * 100;
-        D_80012D5C[0] += amount;
-        D_80024628[0] += amount;
+        tail_value = localp[((S_800236BC_1 *)arg0)->unk_54];
+        page = 0x80010000;
+collision_reward:
+        {
+            s32 first, second;
+            u32 other_page = 0x80020000;
+            ASM_KEEP(other_page); /* MATCH: prepare the second global page before the reward arithmetic. */
+            amount = tail_value * 100;
+            first = *(s32 *)(page + 0x2D5C);
+            second = *(s32 *)(other_page + 0x4628);
+            *(s32 *)(page + 0x2D5C) = first + amount;
+            *(s32 *)(other_page + 0x4628) = second + amount;
+        }
         ((S_800236BC_1 *)arg0)->unk_04.s = 255;
         return;
 
@@ -186,13 +191,15 @@ state_4:
             D_80024628[0] += amount;
             ((S_800236BC_1 *)arg0)->unk_04.s = 255;
         }
-        if ((((S_800236BC_1 *)arg0)->unk_06.u >> 2) & 1) {
+        {
             s32 tail_value;
-            tail_value = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x80;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            return func_80023B5C();
+            if ((((S_800236BC_1 *)arg0)->unk_06.u >> 2) & 1) {
+                tail_value = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x80;
+            } else {
+                tail_value = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xFF7F;
+            }
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = tail_value;
         }
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFF7F;
         ((S_800236BC_1 *)arg0)->unk_06.u--;
         if (((S_800236BC_1 *)arg0)->unk_06.s > 0) {
             return;

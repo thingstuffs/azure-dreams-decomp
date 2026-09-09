@@ -22,13 +22,6 @@ extern void func_80099290();
 extern void func_800A5720();
 extern void func_80098B38();
 
-/* shared-epilogue tail: NOT noreturn so SHAPE-C relocates the return value
- * materialization into the converted j delay slot. */
-/* pin-arm joins: zero-arg noreturn (LEAD-18 side-channel jal->j). */
-extern void func_800C0CBC(void) __attribute__((noreturn));
-extern void func_800C0D9C(void) __attribute__((noreturn));
-extern void func_800C0E2C(void) __attribute__((noreturn));
-
 extern u8 *D_800E3D7C[];
 extern u8 D_80083780[];
 extern u8 D_80082E80[];
@@ -71,6 +64,11 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
         *(s32 *)(entity + 0x1C) &= -8;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         {
+        u8 *pa0;
+        s32 pa1;
+        s32 pa2;
+        s32 pv0;
+        s32 pv1;
         s32 ev0;
         ev0 = event[0];
         if (ev0 == 5) {
@@ -81,23 +79,15 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
                 message = page + 0x13FB;
             }
             {
-                u8 *pa0;
-                s32 pa1;
-                s32 pa2;
-                s32 pv0;
-                s32 pv1;
                 pa0 = entity - 32;
                 pa1 = 0xF0;
                 pa2 = 0x81C;
-                pv0 = *(s32 *)(entity + 0x14) | 1;
-                pv1 = *(s32 *)(entity + 0x1C) | 1;
                 ASM_USE(message);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 ASM_KEEP(pa1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 ASM_KEEP(pa2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(pv0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                ASM_TAILSLOT_PIN(pv1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                func_800C0CBC();
+                pv0 = *(s32 *)(entity + 0x14) | 1;
+                pv1 = *(s32 *)(entity + 0x1C) | 1;
             }
         } else if (ev0 == 6) {
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -108,23 +98,15 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
                 message = page + 0x1402;
             }
             {
-                u8 *pa0;
-                s32 pa1;
-                s32 pa2;
-                s32 pv0;
-                s32 pv1;
                 pa0 = entity - 32;
                 pa1 = 0xF00000;
                 pa2 = 0x81C;
-                pv0 = *(s32 *)(entity + 0x14) | 2;
-                pv1 = *(s32 *)(entity + 0x1C) | 2;
                 ASM_USE(message);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 ASM_KEEP(pa1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 ASM_KEEP(pa2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(pv0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                ASM_TAILSLOT_PIN(pv1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                func_800C0CBC();
+                pv0 = *(s32 *)(entity + 0x14) | 2;
+                pv1 = *(s32 *)(entity + 0x1C) | 2;
             }
         } else {
             {
@@ -133,10 +115,15 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
                 ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 message = page + 0x140A;
             }
-            *(s32 *)(entity + 0x14) |= 4;
-            *(s32 *)(entity + 0x1C) |= 4;
-            func_800D4FC8(entity - 32, 0xF000, 0x81C);
+            pa0 = entity - 32;
+            pa1 = 0xF000;
+            pa2 = 0x81C;
+            pv0 = *(s32 *)(entity + 0x14) | 4;
+            pv1 = *(s32 *)(entity + 0x1C) | 4;
         }
+        *(s32 *)(entity + 0x14) = pv0;
+        *(s32 *)(entity + 0x1C) = pv1;
+        func_800D4FC8(pa0, pa1, pa2);
         }
         func_80042984(entity);
 
@@ -150,15 +137,13 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
                     if (flags & 1) {
                         s32 pv1;
                         pv1 = ((item - 1) / 3) * 3 + 1;
-                        ASM_TAILSLOT_PIN(pv1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                        func_800C0D9C();
+                        slot[0] = pv1;
                     } else {
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                         if (flags & 2) {
                             s32 pv1;
                             pv1 = ((item - 1) / 3) * 3 + 2;
-                            ASM_TAILSLOT_PIN(pv1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                            func_800C0D9C();
+                            slot[0] = pv1;
                         } else {
                             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                             if (flags & 4) {
@@ -183,12 +168,7 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
             r = func_80099194(D_800E1411, r);
             r = func_80099194(message, r);
             ASM_USE(saved);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            {
-                register u32 page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                page = 0x80090000;
-                ASM_PAGEBASE_PIN(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_800C0E2C();
-            }
+            goto message_join;
         }
     } else {
         t = func_800990FC();
@@ -202,6 +182,7 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
             r = func_80099194(pa0, ta);
         }
         r = func_80099734(entity, r);
+message_join:
         r = func_80099194(D_80089380, r);
         func_80099290(r);
         func_800A5720(saved);

@@ -7,8 +7,6 @@ extern void func_8009A21C(s32, s32, s32);
 extern void func_8009A3D0(s32, s32, s32);
 extern s16 func_8009A66C(s16, void *, void *, s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
-extern void func_800D910C(void *, void *, void *);
-extern void func_800D9240(void);
 extern void func_800D9820(void *, s32, void *, void *);
 
 extern s16 D_80083228;
@@ -72,12 +70,8 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
             (*(void * *)((u8 *)arg2 + (0x2C))) = D_800E260C;
             dispatch = D_800E260C +
                 (((D_80083228 + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
-            ASM_TAILSLOT_PIN(dispatch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_800D910C(arg2, D_800E260C, current);
-            return;
-        }
-
-        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
+            func_8003DB94(arg2, *(void **)dispatch, 0);
+        } else if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
             func_8003DB94(
                 arg2,
                 *(void **)(D_800E260C +
@@ -120,11 +114,9 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
         if ((second_result == 3) &&
             ((D_80083462 & 0x80) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000))) {
             ((S_800D904C_3 *)arg0)->unk_9A = 0xF;
-            func_800D9240();
-            return;
+        } else {
+            func_800D9820(arg0, arg1, arg2, state);
         }
-
-        func_800D9820(arg0, arg1, arg2, state);
         ((S_800D904C_3 *)arg0)->unk_8C = 0;
         (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
         if (D_80083462 & 0x80) {

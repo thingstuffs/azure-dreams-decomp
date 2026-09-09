@@ -98,8 +98,6 @@ void func_80043914();
 s32 func_80047DB8();
 void func_80047DF0();
 void func_80048A44();
-void func_80095D30() __attribute__((noreturn));
-void func_80095D34() __attribute__((noreturn));
 M2C_UNK func_80093C70();
 M2C_UNK func_80093D8C();
 M2C_UNK func_800956B8();
@@ -134,6 +132,7 @@ void func_80095A10(u8 *incoming0, void *incoming1, void *incoming2, u8 *incoming
     u16 temp_v1_3;
     u8 *temp_s1;
     u32 temp_a0;
+    u32 temp_v0_5;
     void *temp_v0_3;
     void *temp_v1;
     void *temp_v1_2;
@@ -154,7 +153,7 @@ jt_c0:
     ((S_80095A10_1 *)arg2)->unk_14 = (u16) (((S_80095A10_1 *)arg2)->unk_14 | 0x200);
     func_80093C70(arg0, arg1, arg2);
     func_80093D8C(arg0, arg1, arg2);
-    return func_80095D30();
+    goto block_18;
 jt_c1:
     temp_v0 = func_800A1618(((S_80095A10_3 *)temp_s1)->unk_00, 2);
     if (temp_v0 == 0) {
@@ -164,13 +163,13 @@ jt_c1:
     func_800A0B94(((S_80095A10_3 *)temp_s1)->unk_00, temp_v0, 0);
     (*(s8 *)&D_800E3E40) = 0;
     Control_CD(0xFF, &D_8003E140, &D_800E3E40);
-    return func_80095D30();
+    goto block_18;
 jt_c2:
     if (((S_80095A10_4 *)(&D_800E3E40))->unk_00 == 0) {
         goto block_22;
     }
     func_80047DF0(temp_a0);
-    return func_80095D30();
+    goto block_18;
 jt_c3:
     temp_v0_2 = func_800A1618(((S_80095A10_3 *)temp_s1)->unk_00, 2);
     if (temp_v0_2 == 0) {
@@ -205,11 +204,11 @@ jt_c3:
     }
     ((S_80095A10_5 *)temp_v0_3)->unk_25 = 1U;
 block_12:
-    temp_a0 = *(volatile u8 *)((u8 *)arg0 + 0x9B);
+    temp_v0_5 = ((S_80095A10_0 *)arg0)->unk_9B;
     {
         register u16 timer ASM_REG("$3") = 0x10U;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ((S_80095A10_0 *)arg0)->unk_96 = timer;
-        return func_80095D34();
+        goto block_19;
     }
 jt_c4:
     temp_v0_4 = ((S_80095A10_0 *)arg0)->unk_96 - 1;
@@ -231,7 +230,9 @@ block_17:
     (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = var_a1;
     func_80048A44(arg2, *((((s32) (D_80083228 + ((S_80095A10_2 *)arg3)->unk_2A + 0x100) >> 9) & 7) + var_a1), 0, 1);
 block_18:
-    ((S_80095A10_0 *)arg0)->unk_9B = (u8) (((S_80095A10_0 *)arg0)->unk_9B + 1);
+    temp_v0_5 = ((S_80095A10_0 *)arg0)->unk_9B;
+block_19:
+    ((S_80095A10_0 *)arg0)->unk_9B = (u8) (temp_v0_5 + 1);
     return;
 jt_c6:
     if (((S_80095A10_10 *)(((S_80095A10_2 *)arg3)->unk_60))->unk_14 & 0x100000) {

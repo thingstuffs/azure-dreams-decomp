@@ -4,8 +4,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern volatile s16 D_80013714[8];
 extern s32 D_80083460[3];
-M2C_UNK __attribute__((noreturn)) func_80017344();  /* extern */
-M2C_UNK __attribute__((noreturn)) func_80017390();  /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();                                /* extern */
@@ -79,18 +77,14 @@ void func_800172A0(S_800172A0_0 *arg0, s16 arg1) {
         ((S_800172A0_1 *)state)->unk_A4 = temp_v1;
         if (temp_v1 < 0) {
             ((S_800172A0_1 *)state)->unk_A4 = 0;
-            func_80017344();
-        }
-        if (temp_v1 >= temp_s5->unk_1C) {
+        } else if (temp_v1 >= temp_s5->unk_1C) {
             ((S_800172A0_1 *)state)->unk_A4 = (s16) ((u16) temp_s5->unk_1C - 1);
         }
         temp_v1_2 = arg0->unk_06 + (func_800644B8(temp_s2) * 2);
         ((S_800172A0_1 *)state)->unk_A6 = temp_v1_2;
         if (temp_v1_2 < 0) {
             ((S_800172A0_1 *)state)->unk_A6 = 0;
-            func_80017390();
-        }
-        if (temp_v1_2 >= temp_s5->unk_1E) {
+        } else if (temp_v1_2 >= temp_s5->unk_1E) {
             ((S_800172A0_1 *)state)->unk_A6 = (s16) ((u16) temp_s5->unk_1E - 1);
         }
         temp_v0 = (s16) (arg0->unk_0A - 0x400);

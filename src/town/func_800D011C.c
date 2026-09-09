@@ -4,7 +4,6 @@ extern s32 func_800C30E0(void *arg0, void *arg1, s32 arg2);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
 extern s32 *func_8008FAC0(void *arg0, void *arg1);
-extern void func_800CD9C4() __attribute__((noreturn));
 extern void func_800CDD98(void *arg0, void *arg1, s32 arg2);
 
 extern u8 D_800CFCB4[];
@@ -39,11 +38,8 @@ void func_800CD87C(void *arg0, void *arg1, s32 arg2) {
         if (state != 2) {
             if (state == 0) {
                 S32_AT(arg1, 0) -= entry[1];
-                func_800CD9C4(entry);
-            }
-            if (state == 1) {
+            } else if (state == 1) {
                 S32_AT(arg1, 4) -= entry[1];
-                func_800CD9C4(entry);
             }
             func_800CDD98(arg0, arg1, arg2);
             return;

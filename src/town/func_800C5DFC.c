@@ -3,9 +3,6 @@
 
 extern s32 func_800C30E0(void *arg0, void *arg1, void *arg2);
 extern s16 func_800C2B38(void *arg0, s32 arg1, s32 arg2);
-extern void func_800C3688(void) __attribute__((noreturn));
-extern void func_800C36B0(void);
-extern void func_800C36B0_zero(void) __asm__("func_800C36B0");
 extern void func_800C37C4(void *arg0, void *arg1, void *arg2);
 extern int abs(int);
 
@@ -72,8 +69,7 @@ void func_800C355C(S_800C355C_1 *arg0, void *arg1, void *arg2)
         if (quadrant == 0) {
             goto case_zero;
         }
-        func_800C3688();
-        return;
+        goto case_three;
     }
     if (quadrant == 2) {
         goto case_two;
@@ -94,14 +90,12 @@ case_zero:
     goto apply;
 
 case_zero_call:
-    func_800C36B0_zero();
-    return;
+    goto clamp;
 
 case_one:
     if (arg0->unk_86.s + arg0->unk_8E.s < ((S_800C355C_0 *)arg1)->unk_04.at02.v) {
         ((S_800C355C_0 *)arg1)->unk_04.at02u.v = arg0->unk_86.u + arg0->unk_8E.u;
-        func_800C36B0();
-        return;
+        goto clamp;
     }
     goto apply;
 
@@ -112,10 +106,7 @@ case_two:
         bound_x = arg0->unk_84.u;
         bound_y = arg0->unk_8C.u;
         ((S_800C355C_0 *)arg1)->unk_00.at02u.v = bound_x - bound_y;
-        do {
-            func_800C36B0();
-        } while (0);
-        return;
+        goto clamp;
     }
     goto apply;
 
@@ -126,9 +117,13 @@ case_three:
         bound_x = arg0->unk_86.u;
         bound_y = arg0->unk_8E.u;
         ((S_800C355C_0 *)arg1)->unk_04.at02u.v = bound_x - bound_y;
-        func_800C37C4(arg0, arg1, arg2);
-        return;
+    } else {
+        goto apply;
     }
+
+clamp:
+    func_800C37C4(arg0, arg1, arg2);
+    return;
 
 apply:
     limit = 0x20000;

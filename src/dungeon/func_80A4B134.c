@@ -70,7 +70,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);
 extern void func_80174214(void *, s32, s32, s32, s32, s32, s32);
-extern void func_80174BC8() __attribute__((noreturn));
 extern void *memcpy(void *, const void *, u32);
 
 extern s32 D_800814A0;
@@ -109,13 +108,13 @@ void func_80174934(u8 *arg0, Vec3w *arg1, u8 *arg2)
         if (phase < 2) {
             if (phase == 0)
                 goto phase_zero;
-            func_80174BC8();
+            goto build_objects;
         } else {
-            if (phase != 2) {
-                func_80174BC8();
+            if (phase == 2) {
+                goto phase_two;
             }
 
-            goto phase_two;
+            goto build_objects;
         }
 
 phase_zero:
@@ -128,7 +127,7 @@ phase_zero:
         if (((S_80174934_0 *)arg0)->unk_1A.s < 0x29) {
             ((S_80174934_0 *)arg0)->unk_16.p =
                 ((S_80174934_0 *)arg0)->unk_16.u + 1;
-            func_80174BC8();
+            goto build_objects;
         }
 
         goto build_objects;
@@ -155,7 +154,7 @@ phase_zero:
             ((S_80174934_0 *)arg0)->unk_64, ((S_80174934_0 *)arg0)->unk_66,
             (s16)(-0x40 - (random_low & 0x1F)));
     }
-    func_80174BC8();
+    goto build_objects;
 
 phase_two:
     arg2[0xC] = (u8)((arg0[4] * ((S_80174934_0 *)arg0)->unk_1A.s) / 10);

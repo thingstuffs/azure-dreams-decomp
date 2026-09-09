@@ -16,7 +16,6 @@ typedef struct S_80174600_1 {
 
 
 
-extern void func_801747BC(void) __attribute__((noreturn));
 extern s32 D_800814A0;
 
 void func_80174600(void *arg0, s32 arg1, void *arg2)
@@ -33,11 +32,7 @@ void func_80174600(void *arg0, s32 arg1, void *arg2)
         ((S_80174600_0 *)arg2)->unk_0C = (p[0] * (0x41 - ((S_80174600_1 *)p)->unk_1A.s)) / 14;
         ((S_80174600_0 *)arg2)->unk_0D = (p[1] * (0x41 - ((S_80174600_1 *)p)->unk_1A.s)) / 14;
         ((S_80174600_0 *)arg2)->unk_0E = (p[2] * (0x41 - ((S_80174600_1 *)p)->unk_1A.s)) / 14;
-        func_801747BC();
-        return;
-    }
-
-    if (((S_80174600_1 *)p)->unk_1A.s < 0x1A) {
+    } else if (((S_80174600_1 *)p)->unk_1A.s < 0x1A) {
         if (((S_80174600_1 *)p)->unk_1A.s >= 0x10) {
             diff = (p[0] - p[1]) / (((S_80174600_1 *)p)->unk_1A.s - 0xF);
             channel = p[1] + diff;
@@ -48,11 +43,7 @@ void func_80174600(void *arg0, s32 arg1, void *arg2)
             channel = p[2] + diff;
             p[2] = channel;
             ((S_80174600_0 *)arg2)->unk_0E = channel;
-            func_801747BC();
-            return;
-        }
-
-        if (((S_80174600_1 *)p)->unk_1A.s >= 8) {
+        } else if (((S_80174600_1 *)p)->unk_1A.s >= 8) {
             value = p[0] * (((S_80174600_1 *)p)->unk_1A.s - 8);
             if (value < 0) {
                 value += 7;
@@ -67,11 +58,9 @@ void func_80174600(void *arg0, s32 arg1, void *arg2)
 
             value = p[2] * (((S_80174600_1 *)p)->unk_1A.s - 8);
             ((S_80174600_0 *)arg2)->unk_0E = value / 8;
-            func_801747BC();
-            return;
+        } else {
+            ((S_80174600_1 *)p)->unk_1A.s = 0;
         }
-
-        ((S_80174600_1 *)p)->unk_1A.s = 0;
     }
 
     timer = ((S_80174600_1 *)p)->unk_1A.u - 1;

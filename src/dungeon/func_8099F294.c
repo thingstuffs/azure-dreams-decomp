@@ -19,12 +19,6 @@ extern void func_800A020C(s32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32, s32, s16);
-extern void func_80170C28(void) __attribute__((noreturn));
-extern void func_80170CBC(void) __attribute__((noreturn));
-extern void func_80170D3C(void) __attribute__((noreturn));
-extern void func_80170E24(void) __attribute__((noreturn));
-extern void func_80170FDC(void) __attribute__((noreturn));
-extern void func_80171020(void) __attribute__((noreturn));
 extern u8 D_8006CCF8[32];
 extern S16Global D_80083228;
 extern U16Global D_80083462;
@@ -92,13 +86,11 @@ void func_80170A94(void *input0, void *input1, void *input2)
   {
     *((s32 *) (((u8 *) arg1) + 0x14)) += (*((s8 *) (((u8 *) arg0) + 0x9D))) * 0x14000;
     (*((u8 *) (((u8 *) arg0) + 0x9D)))++;
-    func_80170C28();
   }
-  do
+  else
   {
     *((u8 *) (((u8 *) arg0) + 0x9D)) = 0;
   }
-  while (0);
   *((s32 *) (((u8 *) arg0) + 0x90)) += *((s32 *) (((u8 *) arg1) + 0x14));
   direction_value = ((D_80083228.value + (*((s16 *) (((u8 *) physics) + 0x2A)))) + 0x100) >> 9;
   direction = direction_value & 7;
@@ -112,14 +104,12 @@ void func_80170A94(void *input0, void *input1, void *input2)
   if (D_8006CCF8[direction_index] != 0)
   {
     flags = (*((u16 *) (((u8 *) arg2) + 0x14))) | 1;
-    ASM_TAILSLOT_PIN(flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    func_80170CBC();
   }
   else
   {
     flags = (*((u16 *) (((u8 *) arg2) + 0x14))) & 0xFFFE;
-    *((u16 *) (((u8 *) arg2) + 0x14)) = flags;
   }
+  *((u16 *) (((u8 *) arg2) + 0x14)) = flags;
   ASM_KEEP(direction_index);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   state_flags = *((volatile u16 *) (((u8 *) arg2) + 0x14));
   if (!(state_flags & 0x8000))
@@ -130,9 +120,6 @@ void func_80170A94(void *input0, void *input1, void *input2)
       if (!((*((u16 *) (((u8 *) arg2) + 0x14))) & 0x40))
       {
         func_800478B8(arg2);
-        actor_mask = 0xF7FF0000;
-        ASM_TAILSLOT_PIN(actor_mask);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80170D3C();
       }
     }
     else
@@ -155,17 +142,15 @@ void func_80170A94(void *input0, void *input1, void *input2)
           s16 count = *((u16 *) (((u8 *) arg0) + 0x9E));
           (*((u16 *) (((u8 *) arg0) + 0x9E)))++;
           random_value = func_800644B8(count * 0xAA);
- do { accumulator_probe = *((volatile s32 *) (((u8 *) arg0) + 0xA0)); tail_value = random_value << 5; } while (0);
-          ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-          func_80170E24();
+          *((s32 *) (((u8 *) arg0) + 0xA0)) += random_value << 5;
         }
         else
         {
           s16 count = *((u16 *) (((u8 *) arg0) + 0x9E));
           (*((u16 *) (((u8 *) arg0) + 0x9E)))++;
           random_value = func_800644B8(count * 0xAA);
+          *((s32 *) (((u8 *) arg0) + 0xA0)) += random_value << 6;
         }
-        *((s32 *) (((u8 *) arg0) + 0xA0)) += random_value << 6;
       }
       if (!((*((u16 *) (((u8 *) arg0) + 0x98))) & 8))
       {
@@ -212,7 +197,7 @@ void func_80170A94(void *input0, void *input1, void *input2)
         *((u8 *) (((u8 *) arg0) + 0x9D)) = 0;
         *((s32 *) (((u8 *) arg1) + 0x14)) = 0;
         *((u32 *) (((u8 *) physics) + 0x1C)) |= 0x08000000;
-        func_80171020();
+        goto post_physics;
       }
     }
     goto post_physics;
@@ -229,18 +214,15 @@ void func_80170A94(void *input0, void *input1, void *input2)
       s16 count = *((u16 *) (((u8 *) arg0) + 0x9E));
       (*((u16 *) (((u8 *) arg0) + 0x9E)))++;
       random_value = func_800644B8(count * 0xAA);
-      accumulator_probe = *((volatile s32 *) (((u8 *) arg0) + 0xA0));
-      tail_value = random_value << 5;
-      ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-      func_80170FDC();
+      *((s32 *) (((u8 *) arg0) + 0xA0)) += random_value << 5;
     }
     else
     {
       s16 count = *((u16 *) (((u8 *) arg0) + 0x9E));
       (*((u16 *) (((u8 *) arg0) + 0x9E)))++;
       random_value = func_800644B8(count * 0xAA);
+      *((s32 *) (((u8 *) arg0) + 0xA0)) += random_value << 6;
     }
-    *((s32 *) (((u8 *) arg0) + 0xA0)) += random_value << 6;
   }
   if (!((*((u16 *) (((u8 *) arg0) + 0x98))) & 8))
   {

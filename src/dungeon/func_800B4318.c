@@ -79,17 +79,13 @@ extern s32 func_800BA33C();
 extern void func_800478B8();
 extern void func_8009F644();
 extern void func_800C77D0();
-extern void func_800B9BE4();
-extern void func_800B9CB0();
-extern void func_800B9EE4();
-extern void func_800B9F18() __attribute__((noreturn));
-extern void func_800B9F60();
 
 void func_800B9A78(Work *w, Out *out, Render *render_arg)
 {
     register Render *render;
     u8 *controls_page;
     u8 *controls;
+    u8 *counter_base;
     s32 n;
     s32 t;
     s32 r;
@@ -128,8 +124,6 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
             w->y.whole += t;
             if (w->node->entity->flags & 0x80000) {
                 w->y.half.angle -= 0x80;
-                func_800B9BE4();
-                return;
             }
         } else {
             w->y.whole += (((s32)w->node->entity->height << 16) - w->y.whole) / w->timer;
@@ -161,8 +155,6 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
             w->y.half.angle = angle;
             if (w->node->entity->flags & 0x80000) {
                 w->y.half.angle = angle - 0x80;
-                func_800B9CB0();
-                return;
             }
         } else {
             w->y.half.angle = w->node->entity->height;
@@ -230,9 +222,8 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
             tail_base = (u8 *)0x80080000;
             ASM_KEEP_NV(tail_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             tail_base += 0x3460;
-            ASM_TAILSLOT_PIN_TIED(tail_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800B9EE4();
-            return;
+            counter_base = tail_base;
+            goto decrement_counter;
         }
         if (input & 0x40) {
             w->state = 1;
@@ -252,8 +243,6 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
                     ASM_KEEP_DEP_NV(objects_page, amount);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     object = *(GlobalObj **)(objects_page + 0x3D7C);
                     func_8009F644(object, action, amount, 0);
-                    func_800B9F18();
-                    return;
                 } else {
                     u8 *objects_page;
                     register s32 amount ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -265,14 +254,11 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
                     object = *(GlobalObj **)(objects_page + 0x3D7C);
                     func_8009F644(object, 0x50,
                                    w->node->entity == object->right, amount);
-                    func_800B9F18();
-                    return;
                 }
             }
         }
     } else {
         if (w->mode == 0) {
-            u8 *counter_base;
             Node *state_node;
             s32 count;
             Entity *entity;
@@ -294,6 +280,7 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
             counter_base = (u8 *)0x80080000;
             ASM_KEEP(counter_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             counter_base += 0x3460;
+decrement_counter:
             (*(s16 *)(counter_base + 10))--;
         }
 finish:
@@ -313,12 +300,10 @@ finish:
     w->counter++;
     if (w->mode == 2) {
         render->rot_y += 0x40;
-        func_800B9F60();
-        return;
+    } else {
+        r = func_800644B8((s16)w->counter << 7);
+        w->x += r << 5;
     }
-
-    r = func_800644B8((s16)w->counter << 7);
-    w->x += r << 5;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (w->mode == 0) {
         w->phase &= 0x1F;

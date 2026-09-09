@@ -24,7 +24,6 @@ typedef struct {
 
 extern s32 func_8009A350(s32, s32, s32, u16 *);
 extern s32 func_8009A540(s32, s32, s32, s16);
-extern void func_8009A890(void);
 extern s32 func_8009B25C(FuncArg2 *, s32, s32, s16);
 extern s16 func_8009FB34(u16, u16);
 extern s32 func_800BCB04(s32, s32, s16);
@@ -98,8 +97,8 @@ s32 func_8009A66C(u32 arg0, FuncArg1 *arg1, FuncArg2 *arg2, s16 arg3) {
         s32 call_x;
 
         if (!(flags & 0x40)) {
-            func_8009A890();
-            return -1;
+            ret = -1;
+            goto done;
         }
         x_pos &= 0xFFFF;
         call_x = x_pos;
@@ -107,8 +106,8 @@ s32 func_8009A66C(u32 arg0, FuncArg1 *arg1, FuncArg2 *arg2, s16 arg3) {
         temp_s2 = func_800BCB04(call_x, y_norm, (s16)(height - arg3));
         if (func_8009B25C(arg2, (u32)x_pos >> 6, (u32)y_norm >> 6,
                           (s16)temp_s2)) {
-            func_8009A890();
-            return -1;
+            ret = -1;
+            goto done;
         }
     } else {
         temp_s2 = func_800BCB04(x_pos & 0xFFFF, y_pos & 0xFFFF,
@@ -130,8 +129,7 @@ s32 func_8009A66C(u32 arg0, FuncArg1 *arg1, FuncArg2 *arg2, s16 arg3) {
     if (signed_height < result) {
         goto done;
     }
-    func_8009A890();
-    return 3;
+    ret = 3;
 done:
         return ret;
     }
