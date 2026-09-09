@@ -42,8 +42,9 @@ void func_800AF784(Object *obj)
     }
     state = obj->state;
     if (state->current < state->limit) {
-        clear_mask = -2;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            clear_mask = -2;
+        } while (0);
         obj->flags &= clear_mask;
         *obj->outputs->secondary = D_800786E8;
         return;

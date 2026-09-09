@@ -32,7 +32,7 @@ void func_8005B070(s16 slot_index)
 {
     S_8005B070_req request;
     u8 *entry;
-    register s32 entry_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 entry_index;
     s32 *entry_id;
     S_80086C00 *slots;
 
@@ -57,7 +57,9 @@ void func_8005B070(s16 slot_index)
         entry += 0x78;
         {
             s32 entry_count = D_80073734[0];
-            entry_index++;
+            do {
+                entry_index++;
+            } while (0);
             if (entry_index < entry_count) goto loop;
         }
     }

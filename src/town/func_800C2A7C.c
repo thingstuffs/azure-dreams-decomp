@@ -49,12 +49,14 @@ void func_800C01DC(void) {
     func_8008FCE0();
     func_8008FD48(&D_800FE490, &D_80083780, &D_800D0420);
     {
-        register s8 *position_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s8 *position_data;
         u16 *position_entry;
 
         position_data = (s8 *) &D_8006ADBC;
         position_entry = ((S_800C01DC_1 *)position_data)->unk_10;
-        ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at02_s16.v = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
+        do {
+            ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at02_s16.v = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
+        } while (0);
         ((Rec_D_800E3D7C *)(&D_80083780))->unk_04.at02_s16.v = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
         ((Rec_D_800E3D7C *)(&D_80083780))->unk_08.at02_s16.v = func_800C2AE8(&D_80083780, position_entry);
     }

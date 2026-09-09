@@ -29,7 +29,7 @@ extern u8 D_80175258[];
 /* Validate an actor transition and update its state and directional animation on success. */
 s32 func_80172314(void *state, s32 transition_id, void *sprite, void *actor)
 {
-    register s32 transitioned ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 transitioned;
     s32 target_heading;
     u16 *global_flags;
 
@@ -39,7 +39,6 @@ s32 func_80172314(void *state, s32 transition_id, void *sprite, void *actor)
     if (global_flags[1] & 0x2000) {
         goto abort_transition;
     }
-    ASM_KEEP(transitioned);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     target_heading = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                            ((Rec_D_80082E80 *)sprite)->unk_25, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
     if ((func_800A2CB8(actor, target_heading) << 16) == 0) {

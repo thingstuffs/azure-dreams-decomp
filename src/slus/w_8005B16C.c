@@ -30,7 +30,7 @@ void func_8005B16C(s16 slot_index)
 {
     S_8005B16C_req request;
     u8 *channel;
-    register s32 channel_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 channel_index;
     s32 *channel_flags;
     S_80086C00 *slots;
 
@@ -55,7 +55,9 @@ void func_8005B16C(s16 slot_index)
         channel += 0x78;
         {
             s32 channel_count = D_80073734[0];
-            channel_index++;
+            do {
+                channel_index++;
+            } while (0);
             if (channel_index < channel_count) goto loop;
         }
     }

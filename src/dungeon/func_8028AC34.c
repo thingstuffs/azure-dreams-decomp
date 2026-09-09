@@ -43,12 +43,13 @@ void func_8001DC34(void *region_data)
     region->unk_0A = 0;
     first_row = region->unk_02 - 1;
     row = first_row;
-    ASM_KEEP_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     end_row = first_row + region->unk_06 + 2;
     if ((first_row << 16) < (end_row << 16)) {
         grid_base = (u32)D_800E9FFA;
         do {
-            row_shifted = row << 16;
+            do {
+                row_shifted = row << 16;
+            } while (0);
             cell = (s16 *)(((((row_shifted >> 16) << grid_config[10]) +
                   region->unk_00) * 6) + grid_base);
             row_width = region->unk_04 + 2;

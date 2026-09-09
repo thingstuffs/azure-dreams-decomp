@@ -20,15 +20,13 @@ typedef struct {
 void func_800AB708(Rec_func_800AB014_arg0 *object, Rec_func_800AAE98_arg0 *position) {
     LocalEntry target_entries[6];
     void *object_arg;
-    register s32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 total_offset;
+    s32 offset;
+    s16 total_offset;
     u16 target_z;
 
     func_800AAFE0(target_entries, 4);
     offset = func_800AAE98(position);
-    ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object_arg = object;
-    ASM_KEEP(object_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     total_offset = offset;
     offset = func_800AB030(object_arg);
     target_z = target_entries[2].value;

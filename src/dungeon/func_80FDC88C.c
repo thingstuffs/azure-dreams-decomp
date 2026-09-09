@@ -31,8 +31,9 @@ void func_8017208C(void *action_state, M2C_UNK context, void *sprite, void *acto
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
             ((Rec_D_800E3D7C *)actor)->unk_84.as_s8 = 0x7C;
         }
-        ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 8;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 8;
+        } while (0);
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174038;
         func_80047784(sprite, D_80174038[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
         ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);

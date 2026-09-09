@@ -6,10 +6,12 @@ extern s8 D_80016000[];
 
 /* Sum callback results for flagged entries in a terminated four-byte entry list. */
 s32 func_80018C4C(void *entry, s32 callback_mode) {
-    register s32 total ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 total;
     Callback callback;
 
-    total = 0;
+    do {
+        total = 0;
+    } while (0);
     while (((u8 *)entry)[1] != 0) {
         if (((u8 *)entry)[3] & 0x20) {
             if (callback_mode == 0) {

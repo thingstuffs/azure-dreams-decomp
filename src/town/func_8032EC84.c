@@ -12,8 +12,9 @@ u8 *func_80019484(u8 *dst, volatile u8 *src) {
     } while (*dst != 0);
     goto check_src;
 copy_byte:
-    *dst = *src;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    do {
+        *dst = *src;
+    } while (0);
     dst++;
     src++;
 check_src:

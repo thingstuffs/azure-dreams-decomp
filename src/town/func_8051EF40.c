@@ -26,7 +26,9 @@ s32 func_80016740(UnkStruct *object) {
 
     if (status != 0) {
         func_80018ADC(0x5BC);
-        return status;
+        do {
+            return status;
+        } while (0);
     }
 
     if (func_80018B5C(0x1068) != 0) {
@@ -36,7 +38,6 @@ s32 func_80016740(UnkStruct *object) {
         func_80018A64(0x5BC);
         func_80018A64(0x5BE);
         func_80018A64(0x5C5);
-        ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         result = status;
     }
     return result;

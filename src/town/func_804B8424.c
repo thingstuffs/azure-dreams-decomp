@@ -43,9 +43,10 @@ void func_80016C24(s32 update_arg, s32 unused, s32 entry_arg)
             value_index = dispatch_state->dispatch->get_value(3);
             update_state = *(TownState **)D_80016000;
             entry_index = update_state->index;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             entries = update_state->entries;
-            entries[(entry_index * 8) + 1] = value_index;
+            do {
+                entries[(entry_index * 8) + 1] = value_index;
+            } while (0);
             func_800169F8(entries);
         }
     }

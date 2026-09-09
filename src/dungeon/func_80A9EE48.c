@@ -162,9 +162,10 @@ case_1:
     func_80041588(D_80174CF4, D_80174D18, 0);
     ((S_80174648_0 *)effect_state)->unk_B0 = 0;
     ((S_80174648_0 *)effect_state)->unk_9B++;
-    saved_angle = ((S_80174648_1 *)actor)->unk_2A.u;
+    do {
+        saved_angle = ((S_80174648_1 *)actor)->unk_2A.u;
+    } while (0);
     ((S_80174648_1 *)actor)->unk_8A = saved_angle;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     direction = ((D_80083228 + ((S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
     mode = ((u8 *)D_80174D1C)[-4];
     angle = ((S_80174648_1 *)actor)->unk_2A.u;

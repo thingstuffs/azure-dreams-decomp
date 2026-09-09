@@ -42,14 +42,16 @@ void func_800BC290(void *fade_state, s32 unused, void *visual)
 
     case 1: {
         s32 color;
-        register s32 color_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 color_step;
 
         if (((S_800BC290_1 *)visual)->unk_0C.u8 < 0x10U) {
             goto color_done;
         }
         color = ((S_800BC290_1 *)visual)->unk_0C.s32;
         color_step = 0xFFEFEFF0;
-        color = color + color_step;
+        do {
+            color = color + color_step;
+        } while (0);
         ((S_800BC290_1 *)visual)->unk_0C.s32 = color;
 color_done:
         if (((S_800BC290_0 *)fade_state)->unk_02.s <= 0) {

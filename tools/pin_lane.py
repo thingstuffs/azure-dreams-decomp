@@ -43,29 +43,57 @@ exactly what your C has to change.  Do not re-derive it.
 
 ## What the residue classes mean, and what has worked
 
-- **reg-rename / broad-with-a-colouring-signature** — same instructions, two registers swapped.
-  gcc-2.7.x colours by allocno priority ≈ `floor_log2(refs) * refs / live_length`, so the lever
-  is the *variable map*, not the register: split one local into one per use-group (the single
-  highest-yield edit); merge two short-lived locals into one; give a value a longer or shorter
-  live range by moving its first assignment; hoist a block-scoped declaration to function scope
-  (or push a function-scope one into the block that uses it).  Declaration order decides the
-  frame-slot order and, inside a block, the argument-register colours.
-- **reorder-only / code-motion** — same instructions, one moved.  The C order is usually already
-  right and the *scheduler* moved it, so re-slotting the statement rarely helps.  What does help:
-  change the dependence.  Sink a value's computation into both arms of the `if` that produces it
-  (deleting the temp), or lift it into its own local assigned *before* the statement it must
-  precede and read only through that local.  A loop counter's increment at the end of the body
-  instead of the top is the same lever in a loop.
-- **li-expansion / const-remat / addressing** — the address form differs.  `lui;ori` on your side
-  against `lui;addiu` on retail's means your C materialises an integer literal where retail
-  references a **symbol**: find the real `D_<addr>` the address lands on and reference it, instead
-  of a `.set` page base plus an offset.  The reverse (`addiu` yours, `ori` retail's) means retail
-  really did compute a constant.  A base used repeatedly wants one function-scope pointer
-  assigned once; a base used once wants the expression spelled at the use.
-- **length-drift / dead-code-retention** — retail keeps a word gcc deletes (or the reverse).  This
-  is the hardest class from C; spend few probes and move on.
-- **delay-slot / slot-rotation** — retail fills a slot your build leaves as `nop`.  The filler is
+**Read this first: the residue is almost never a register *preference*.**  In most rows retail's
+build holds two live pseudos carrying the same value, and gcc-2.7/2.8's cse collapses a plain
+`b = a;` into one pseudo whenever both stay live - after which the allocator has no choice left.
+That collapse is what `ASM_REG` and `ASM_KEEP_NV` were standing in for.  Reshaping the *variable
+map* does not defeat it: 25+ shapes across five rows (split a local, merge two, drop it, move or
+block-scope the declaration, copies in both arms, self round-trip, dead init, operand-order flips,
+same-mode retyping) produced **byte-identical output every time**.  Two handles do defeat it:
+
+1. **A value-preserving *mode* change on one side of the copy.**  `u16 x = <s32 expr>` is not a
+   REG-REG set in RTL, so cse never enters the two into one quantity.  Choose a narrowing the code
+   already pays for: `(u16)(angle + 0x100) & 0xE00` hides the re-widening inside a mask that was
+   already there and costs zero words, where the `s16` spelling costs two because `sll/sra` cannot
+   be folded.  The same trick stops `record_jump_equiv` merging the cse class of the two operands
+   of an equality test - give them different modes and the later test reads the other register.
+2. **The copy is an m2c artifact of a compiler-generated idiom.**
+   `q = x; q >>= n; if (x < 0) q = (x + m) >> n; r = x - (q << n)` is `x % (1 << n)`.  Written back
+   as `%`, gcc's own `expand_divmod` re-emits it with an internal copy that is immune to the
+   collapse, and gcc picks the duplicated-shift or shared-shift form per site by itself.  **When a
+   residue sits inside an arithmetic sequence, look for a hand-expanded compiler idiom before
+   touching any variable.**
+
+Then, by class:
+
+- **length-drift** - retail keeps or drops a word.  A local declared wider than the load that fills
+  it, with an explicit `& 0xFF`, is the commonest case: the mask folds away because `lbu` already
+  zero-extends, so declare the local `u8` and drop the mask.  A "dead" store before a call is often
+  a real argument to an under-declared callee - retype the extern, pass it, and retail's kept words
+  return.  gcc's if-conversion fires on `x=1; if (c) x=0; f(x);`: writing the call out in both arms
+  with literal arguments dodges it, and arm order sets branch polarity independently.
+- **reorder-only / code-motion** - the C order is usually already right and the *scheduler* moved
+  the instruction, so re-slotting the statement is a dead end (measured 0/3 mechanically).  Change
+  the dependence instead: sink a value's computation into both arms of the `if` that produces it,
+  or lift it into its own local assigned before the statement it must precede and read only through
+  that local.  `do { stmt; } while (0)` is a zero-byte scheduling barrier that pins a definition
+  point (a bare block does **not** - only the loop note does); it works, it is counted as
+  scaffolding by `census.py`, so reach for it only after a real shape has failed.
+- **li-expansion / const-remat / addressing** - `lui;ori` yours against `lui;addiu` retail's means
+  your C materialises an integer literal where retail references a **symbol**: find the real
+  `D_<addr>` and reference it instead of a `.set` page base plus an offset.  The substitution alone
+  often regresses, because a local set once from an address constant is a `reg_equiv_constant` that
+  gets rematerialised at each use; a second, non-folding set fixes that, and whether it is free
+  depends on the cell.  It also regresses when the value is later a **call argument**.
+- **broad** - no single named signal; read the row's regions view.  Folding a load into the
+  expression that consumes it, instead of pre-loading an accumulator, is what flips which pseudo
+  becomes `rs` and which `rt`.
+- **delay-slot / slot-rotation** - retail fills a slot your build leaves as `nop`; the filler is
   usually a value computed earlier than your C computes it.
+
+Rows whose residue is branch-derived *constant* knowledge (`move $v0,$zero` against
+`move $v0,$s0`) are cse choosing between a literal and a register it has proved holds the same
+constant.  That is not register naming despite the class label - record it and move on.
 
 ## Commands (run from the repo root; never `cd` elsewhere)
 

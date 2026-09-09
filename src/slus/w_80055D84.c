@@ -20,7 +20,7 @@ extern void func_8005AC30(s32 a0);
 
 /* Initializes an entry, marking it available on success or reporting an error on failure. */
 void func_80055D84(s16 entry_id) {
-    register s32 entry_index ASM_REG("$16") = entry_id;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 entry_index = entry_id;
     s32 index_or_error;
     index_or_error = entry_index;
     if ((s16)func_8005A778(D_80084538[index_or_error], index_or_error, D_800847C0[index_or_error]) == -1) {
@@ -30,7 +30,9 @@ void func_80055D84(s16 entry_id) {
     if ((s16)func_8005AAA8(D_80084758[index_or_error], entry_index) != -1) {
         goto activate_entry;
     }
-    func_80055C50(index_or_error);
+    do {
+        func_80055C50(index_or_error);
+    } while (0);
     index_or_error = 0x01020000;
 report_error:
     func_8003F52C(((entry_index << 8) & 0xFF00) | index_or_error);

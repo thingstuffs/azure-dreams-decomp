@@ -9,10 +9,12 @@ extern void *D_80017508;
 void func_8079A1EC(void)
 {
     void *state = D_80016000;
-    register void *callback_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    void *callback_base;
 
     *(void **)(*(void **)((u8 *)state + 0x1C) + 0x40) = &D_8001601C;
     callback_base = *(void **)((u8 *)state + 0x20);
     D_80017508 = &D_80016084;
-    (*(void (**)(s32, void *))((u8 *)callback_base + 0x28C))(2, state);
+    do {
+        (*(void (**)(s32, void *))((u8 *)callback_base + 0x28C))(2, state);
+    } while (0);
 }

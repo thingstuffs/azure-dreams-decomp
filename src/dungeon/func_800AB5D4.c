@@ -84,9 +84,9 @@ typedef struct S_800B0D34_8 {
 /* Updates status colors and exit animation, releases finished objects, and copies their position. */
 void func_800B0D34(void *object, void *position, void *anim_state) {
     u16 frame_count;
-    register s32 base_phase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s32 phase;
-    register s32 reflected_phase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 base_phase;
+    s16 phase;
+    s32 reflected_phase;
     void *color;
     void *info;
     s32 mode;

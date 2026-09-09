@@ -25,10 +25,12 @@ void func_80097844(void *source, s32 effect_count)
     s32 angle;
     s32 spawned;
     s32 angle_step;
-    register s32 full_turn ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 full_turn;
 
     if (effect_count != 0) {
-        full_turn = 0x1000;
+        do {
+            full_turn = 0x1000;
+        } while (0);
         angle_step = full_turn / effect_count;
         spawned = 0;
         angle = rand();

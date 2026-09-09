@@ -34,10 +34,11 @@ void func_80172474(void *entity_ptr, M2C_UNK unused, M2C_UNK check_arg, M2C_UNK 
     if ((func_800AD9B4(check_value, actor) << 0x10) <= 0) {
         return;
     }
-    entity->unk_8C = &D_80171514;
+    do {
+        entity->unk_8C = &D_80171514;
+    } while (0);
 check_flag:
     if (D_80083462 & 0x80) {
         entity->unk_92 = -0x20;
     }
-    ASM_KEEP(check_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 }

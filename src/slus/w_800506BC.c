@@ -46,7 +46,7 @@ void func_800506BC(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
     s16 fixed_offset;
     s16 layout_offset;
     s16 shared_offset;
-    register s32 shared_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 shared_index;
     s32 fixed_index;
     S_800506BC_Mid **shared_entry;
     S_800506BC_Mid **fixed_entry;
@@ -74,7 +74,9 @@ void func_800506BC(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
     ctx->flag14 = 1;
     func_8004FFF4(obj);
 
-    shared_index = 0xA;
+    do {
+        shared_index = 0xA;
+    } while (0);
     shared_offset = 0;
     shared_entry = obj->arr6;
     layout_offset = -0x28;

@@ -25,11 +25,12 @@ void *func_80017180(s32 handler_arg_a, s32 handler_arg_b, s32 selector)
     if ((u32)index >= 43) {
         goto case_default;
     }
-    ASM_KEEP(handler_arg_a);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     goto *D_800160D0[index];
 
 case_19:
-    result = func_80016CE4(handler_arg_a, handler_arg_b);
+    do {
+        result = func_80016CE4(handler_arg_a, handler_arg_b);
+    } while (0);
     D_8001B16C[0] = result;
     if (result != 0) {
         return result;
