@@ -18,7 +18,7 @@ batch:
 The lane writes exact candidates to `<out>/batchN/out/<container>/<f>.c`; landing is
 `tools/apply_candidates.py <out>/batchN/out --transform t13_depin`, then the window gate.
 """
-import argparse, collections, json, shutil, sys, tempfile
+import argparse, collections, json, re, shutil, sys, tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -161,6 +161,11 @@ def main():
         if sha_text(text) != rec.get("in_sha") or not sites_of(text):
             continue                      # the probe is stale for this text
         if "NON_MATCHING" in text:
+            continue
+        if re.search(r'__asm__\s*(__volatile__\s*)?\(\s*"[a-z]', text):
+            # a raw asm BODY is not an ASM_* pin: `strip_pins` leaves it, so the "pin-free" base a
+            # lane would start from still carries hand-written instructions and can never be a
+            # clean result.  A reorder-only lane hit exactly this (4 asm blocks, rows.tsv said 1 pin).
             continue
         live.append((rec, row, text))
     # one mechanism per lane: group by class, then damage, then size
