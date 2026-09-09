@@ -13,10 +13,9 @@ extern s32 D_800814A0[];
 /* Increments three state bytes while the first is below 0x80, otherwise sets flag bits. */
 s32 func_8016ABC8(u16 *words)
 {
-    u32 state_value = D_80083160.unkA8;
+    u8 state_value = D_80083160.unkA8;
 
-    ASM_KEEP(state_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if ((state_value & 0xFF) < 0x80U) {
+    if (state_value < 0x80U) {
         D_80083160.unkA8 = state_value + 4;
         D_80083160.unkA9 += 4;
         D_80083160.unkAA += 4;

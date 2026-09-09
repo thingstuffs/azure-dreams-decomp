@@ -35,6 +35,7 @@ s32 func_80021A84(s32 card_slot) {
         }
     }
     result = status;
-    ASM_KEEP(result);
-    return result;
+    do {
+        return result;
+    } while (0);
 }

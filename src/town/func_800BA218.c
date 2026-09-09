@@ -17,8 +17,9 @@ void func_800B7978(s32 dst_x, s32 dst_y, s32 image_id, void *dst) {
     s32 table_offset;
 
     table_offset = image_id << 0x10;
-    base = (u8 *)D_800D1868;
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+        base = (u8 *)D_800D1868;
+    } while (0);
     table_offset >>= 0xE;
     entry_address = (u8 *)table_offset;
     entry_address = (u8 *)((s32)entry_address + (s32)base);

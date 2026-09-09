@@ -101,6 +101,10 @@ def census_one(row, audit):
         # scaffolding debt (docs/FIDELITY.md): the noreturn tail-call spelling and the maspsx markers
         "tail_idiom": len(re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", text)) + len(re.findall(r"\basm\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)|__asm__\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", text)),
         "markers": sum(pins.get(k, 0) for k in ("TAILSLOT_PIN", "TAILSLOT_PIN_TIED", "PAGEBASE_PIN", "JALDELAY_PIN", "LIVE_SIBCALL_PIN", "SHAPE_D_SIBCALL_PIN", "BRANCH_LABEL_SPLIT")),
+        # a `do { one statement } while (0)` is not a loop: it is a zero-byte scheduling barrier
+        # (a bare block does NOT reproduce it - only the loop note does), so it is scaffolding in C
+        # clothing and is counted like a pin, never silently traded for one
+        "dowhile0": len(re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", text, re.S)),
         "volatile": text.count("volatile"), "switch": len(re.findall(r"\bswitch\s*\(", text)),
         "audit": live, "audit_pin": dict(aud), "ndefs": len(defs),
     }
@@ -118,12 +122,12 @@ def main():
         sz = by[c["id"]]["size"]
         for k, cond in (("boiler", c["boiler"]), ("m2c_field", c["m2c_field"] > 0), ("pins", c["pin_total"] > 0),
                         ("gotos", c["gotos"] > 0), ("computed_goto", c["computed_goto"] > 0), ("m2c_locals", c["m2c_locals"] > 0),
-                        ("local_structs", c["n_local_structs"] > 0), ("nonmatching", c["nonmatching"]), ("inline_asm", c["inline_asm"] > 0),
+                        ("local_structs", c["n_local_structs"] > 0), ("nonmatching", c["nonmatching"]), ("inline_asm", c["inline_asm"] > 0), ("dowhile0", c.get("dowhile0", 0) > 0),
                         ("audit_blocking", any(k2 in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k2 in c["audit"])),
                         ("audit_any", bool(c["audit"])), ("clean_shape", not c["boiler"] and c["m2c_field"] == 0 and c["pin_total"] == 0 and c["gotos"] == 0 and c["m2c_locals"] == 0)):
             if cond: tot[k] += 1; B[k] += sz
     print(f"{'defect':16} {'files':>6} {'bytes':>9}")
-    for k in ("boiler", "m2c_field", "m2c_locals", "pins", "gotos", "computed_goto", "local_structs", "nonmatching", "inline_asm", "audit_blocking", "audit_any", "clean_shape"):
+    for k in ("boiler", "m2c_field", "m2c_locals", "pins", "gotos", "computed_goto", "local_structs", "nonmatching", "inline_asm", "dowhile0", "audit_blocking", "audit_any", "clean_shape"):
         print(f"{k:16} {tot[k]:6d} {B[k]:9d}")
 
 if __name__ == "__main__":

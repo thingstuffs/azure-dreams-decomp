@@ -87,12 +87,10 @@ update_geometry:
     if (coord < 0) {
         offset = (s32) (coord + 0x3F) >> 6;
     }
-    size = offset + 3;
     if (offset < 0) {
         offset = 0;
-        ASM_KEEP_NV(offset);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        size = offset + 3;
     }
+    size = offset + 3;
     ((S_80023C80_0 *)obj)->unk_12 = size;
     ((S_80023C80_0 *)obj)->unk_10 = size;
     ((S_80023C80_0 *)obj)->unk_0C.s =
