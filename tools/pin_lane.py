@@ -133,7 +133,12 @@ call.  That rewrite closed 67 of 75 rows in this project's earlier reader lanes.
 - Work `rows.tsv` in order (smallest residue first).  Stop a row at its budget; never re-submit an
   unchanged candidate.  Do every row in the batch.
 
-## Report (`REPORT.md`)
+## Report
+
+**Return the report as your final message.  Do not write a `.md` file** - the harness blocks
+subagents from creating report files, and two lanes have already wasted a turn discovering that.
+
+## Report contents
 
 A table `row | size | cfg | damage | class | exact | verifies | the C shape that did it (or the
 best residue reached and what was tried)`, then a short list of patterns the brief does not
@@ -239,7 +244,7 @@ def main():
         body = v.get("text", "")
         (d / "residue" / (row["id"].replace("/", "__") + ".txt")).write_text(
             "FACTS (mechanical - do not re-derive these):\n"
-            + facts(row, text, body) + "\n\nRESIDUE of the pin-free text against retail:\n" + body)
+            + facts(row, base, body) + "\n\nRESIDUE of the pin-free text against retail:\n" + body)
         return row["id"]
 
     jobs = []

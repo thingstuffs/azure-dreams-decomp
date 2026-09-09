@@ -315,6 +315,79 @@ def fence_pair_candidates(text):
     return out
 
 
+GOTO_ARM_RE = re.compile(r"^(?P<i>[ \t]*)if\s*\([^;{}]*\)\s*\{\s*$")
+
+
+def hoist_from_goto_arm_candidates(text):
+    """`if (c) { stmt; goto A; }` becomes `stmt; if (c) goto A;`.
+
+    From a polarity lane.  For an `if (c) goto A; goto B;` pair, gcc's branch SENSE is decided by
+    whether the true arm's body is a bare single `goto` or carries an extra statement: with an
+    extra statement it lowers to jumpifnot-skip form and a later pass collapses the negated branch
+    onto B, and no spelling of the condition - inversion, arm swap, operand order - changes that
+    (ten variants, byte-identical).  Hoisting the statement out so both arms are bare gotos is what
+    restores the natural sense.  Condition-inversion is NOT the lever for this class.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    for i, ln in enumerate(masked):
+        m = GOTO_ARM_RE.match(ln.rstrip("\n"))
+        if not m or i + 3 > len(lines):
+            continue
+        body, jump, close = masked[i + 1], masked[i + 2], masked[i + 3] if i + 3 < len(masked) else ""
+        if not movable(body) or is_decl(body):
+            continue
+        if not jump.strip().startswith("goto ") or close.strip() != "}":
+            continue
+        ind = m.group("i")
+        cond = lines[i].strip()[:-1].rstrip()          # drop the trailing '{'
+        new = (f"{ind}{lines[i + 1].strip()}\n{ind}{cond} {lines[i + 2].strip()}\n")
+        out.append(("hoistgoto:%d" % (i + 1), "".join(lines[:i] + [new] + lines[i + 4:])))
+    return out
+
+
+INPLACE_RE = re.compile(
+    r"^(?P<i>[ \t]*)(?:u8|s8|u16|s16|u32|s32|int|unsigned)\s+(?P<n>[A-Za-z_]\w*)\s*=\s*"
+    r"(?P<src>[A-Za-z_]\w*)\s*(?P<op>[-+*/|&^]|<<|>>)\s*(?P<k>[^;]+?)\s*;\s*$")
+
+
+def inplace_update_candidates(text):
+    """`s32 index = state << 2;` becomes `state <<= 2;`, with the single use renamed.
+
+    From an addressing lane, which called it the one mechanically generalisable positive result in
+    its batch: when a value computed from an existing live variable by one operator is used exactly
+    once, declaring a fresh local costs a register-allocation degree of freedom that keeps `reorg`
+    from hoisting the computation into a branch's otherwise-empty delay slot.  Written as an
+    in-place update of the source, the slot fills.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    whole = mask(text)
+    for i, ln in enumerate(masked):
+        m = INPLACE_RE.match(ln.rstrip("\n"))
+        if not m:
+            continue
+        name, src = m.group("n"), m.group("src")
+        if name == src:
+            continue
+        if len(re.findall(r"\b%s\b" % re.escape(name), whole)) != 2:
+            continue                       # this definition and exactly one use
+        if len(re.findall(r"\b%s\b" % re.escape(src), whole)) < 2:
+            continue
+        real = lines[i]
+        k = real.split(m.group("op"), 1)[1].rsplit(";", 1)[0].strip()
+        new = f"{m.group('i')}{src} {m.group('op')}= {k};\n"
+        rest = "".join(lines[:i] + [new] + lines[i + 1:])
+        rest = re.sub(r"\b%s\b" % re.escape(name), src, rest)
+        # drop the now-unused declaration of the old local, if it had a separate one
+        rest = re.sub(r"^[ \t]*(?:u8|s8|u16|s16|u32|s32|int|unsigned)[ \t]+%s[ \t]*;[ \t]*\n"
+                      % re.escape(name), "", rest, count=1, flags=re.M)
+        out.append(("inplace:%s->%s" % (name, src), rest))
+    return out
+
+
 class T:
     name = "t15_shapes"
     level = 1
@@ -365,7 +438,7 @@ class T:
             # commute and efence, each of which was harvested from a lane win on some other row.
             # `commute` alone quadrupled the sweep's wall time for nothing, so the default menu is
             # the four that have paid; T15_WIDE=1 runs the whole set when a new class is opened.
-            cands = (dup_after_if_candidates(cur) + narrow_candidates(cur)
+            cands = (inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur) + dup_after_if_candidates(cur) + narrow_candidates(cur)
                      + fence_candidates(cur) + fence_pair_candidates(cur))
             if WIDE:
                 cands = (fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)

@@ -48,6 +48,31 @@ def residue_registers(regions_text):
     return got, tgt, bool((got | tgt) & ARGREGS)
 
 
+SUBBASE_RE = re.compile(
+    r"^[ \t]*(?P<n>[A-Za-z_]\w*)\s*=\s*\(?[^;=]*?\b(?P<base>[A-Za-z_]\w*)\s*\+\s*(?P<k>0x[0-9A-Fa-f]+|\d+)\s*\)?\s*;\s*$",
+    re.M)
+
+
+def single_use_subbase(text):
+    """Names the `T *sub = base + K; sub->f = v;` shape that combine folds away.
+
+    An addressing lane found this in 5 of its 9 rows and could not move it with any of ~15 C
+    shapes: gcc sees the `addiu`'s result has exactly one reaching use, folds
+    PLUS(PLUS(base,K1),K2) into PLUS(base,K1+K2) and deletes it.  The fold is dataflow-driven, so
+    statement order, `register`, `do{}while(0)`, algebraically-identical second sets and
+    struct-member versus raw-cast spellings are all provably inert.  Only a CALL_INSN between the
+    definition and the use blocks it, and that forces the value into a callee-saved register,
+    which is not what retail does.  Saying so up front stops the next lane spending its budget on
+    the same fifteen shapes.
+    """
+    out = []
+    for m in SUBBASE_RE.finditer(text):
+        n = m.group("n")
+        if len(re.findall(r"\b%s\b" % re.escape(n), text)) == 2:
+            out.append(f"{n} = {m.group('base')} + {m.group('k')}")
+    return out
+
+
 def facts(row, text, regions_text=""):
     """The block a lane packet carries for one row."""
     lines = []
@@ -58,6 +83,13 @@ def facts(row, text, regions_text=""):
         tb = row.get("true_name") or row["func"]
         lines.append(f"- row {row['id']}: defined as {tb}, {row['size']} bytes, cell {row['cfg']}"
                      f"  (fidelity facts unavailable: {e!r})")
+    for sb in single_use_subbase(text)[:4]:
+        lines.append(f"- SINGLE-USE SUB-BASE `{sb}`: gcc folds this offset into its one use and "
+                     "deletes the addiu.  Statement order, `register`, do{}while(0), "
+                     "algebraically-identical second sets and struct-vs-cast spellings are all "
+                     "MEASURED INERT on this shape (~15 tried).  Do not spend budget re-walking "
+                     "them; only a call between the definition and the use blocks the fold, and "
+                     "that puts the value in a callee-saved register, which is not retail's shape.")
     got, tgt, has_arg = residue_registers(regions_text)
     if got or tgt:
         lines.append(f"- residue registers: yours {sorted(got) or '-'}, retail's {sorted(tgt) or '-'}")
