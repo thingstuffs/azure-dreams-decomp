@@ -131,7 +131,7 @@ could not type), L0 20.4 % (rows still carrying a blocking fidelity site). `STAT
   …, strong/weak) + 93 script-overlay modules (`main.c`/`lshop.c`/`memory.c` proven, the rest
   `ovl_<foff>.c`); dungeon engine 35 themed modules + 403 floor-overlay modules (mostly one or two
   rows, `ovl_<foff>.c`, weak). Names in the map are proposals until a header carries them; the
-  confidence field says which ones rest on evidence. SLUS proposal pending (`work/modules_proposed/slus.json`).
+  confidence field says which ones rest on evidence. SLUS: 29 modules (`scene_runtime.c`, `message_script.c`, `object_display.c`, …; rows ordered by symbol address). Every counted row (6,745) has a module.
 
 **Traps for the next session:** the controller commits `ledger/agents ledger/promotions.jsonl src`
 after every launch — commit your own tree changes (tools, config, ledger) *before* launching it or
