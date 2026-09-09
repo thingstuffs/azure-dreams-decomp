@@ -79,7 +79,7 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
     u8 *member_slot;
     u8 *global_page;
     s32 recipient_count;
-    register s32 member_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-member_slot fill; the source shape that makes it unnecessary has not been found */
+    s32 member_index;
     s32 level_delta;
     s32 award;
     s32 rounded_exp;
@@ -101,12 +101,13 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
         experience *= 2;
     }
 
-    recipient_count = 1;
     if (source->unk_54 & 0x40) {
         experience *= 2;
+        recipient_count = 1;
+    } else {
+        recipient_count = 1;
     }
 
-    ASM_KEEP(recipient_count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     member_index = recipient_count;
     member_slot = (u8 *)D_800E3D7C[0] + 4;
     do {

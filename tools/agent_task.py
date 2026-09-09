@@ -193,7 +193,11 @@ def run_codex(model, effort, prompt, workdir, timeout):
     t0 = time.time()
     try:
         r = subprocess.run(cmd, input=prompt, capture_output=True, text=True, timeout=timeout, cwd=workdir)
-        rc = r.returncode; err = (r.stderr or "")[-400:]
+        # codex prints "You've hit your usage limit ..." on STDOUT, not stderr: a quota stop that
+        # only looked at stderr was classified as an ordinary failure and (before the fix below)
+        # journalled as "unchanged", marking 483 rows permanently done.  Look at both streams.
+        rc = r.returncode
+        err = ((r.stderr or "") + ("\n" + (r.stdout or "")[-400:] if rc != 0 else ""))[-800:]
     except subprocess.TimeoutExpired:
         rc = -1; err = "timeout"; r = None
     secs = round(time.time() - t0, 1)
@@ -277,7 +281,13 @@ def one(row, model, effort, timeout):
         shutil.rmtree(work, ignore_errors=True)
         return rec
     if new == src:
-        rec["outcome"] = "unchanged"
+        # A failed call leaves the file untouched, which is NOT the same as a model that looked and
+        # declined.  Journalling both as "unchanged" marks the row done for ever (see the resume
+        # filter below) - 483 rows were burned that way when codex started returning rc=1 in ~1s.
+        # Only a clean run that chose not to edit is "unchanged"; anything else is retryable.
+        rec["outcome"] = "unchanged" if rc == 0 else "error"
+        if rc != 0:
+            rec["err"] = (err or "")[-300:]
     else:
         v = verify(row, out, include_root=INCLUDE)
         rec.update({"exact": v.get("exact"), "class": v.get("class"), "total": v.get("total")})

@@ -232,8 +232,10 @@ wait_return:
         state = ((S_80173510_0 *)action)->unk_9B.n;
         next_timer = 6;
 advance_state:
-        ((S_80173510_0 *)action)->unk_96.u = next_timer;
-        ASM_SCHED_BARRIER(); /* MATCH: Keep the timer store before the shared state increment. */
+        do {
+            ((S_80173510_0 *)action)->unk_96.u = next_timer;
+        } while (0);
+         /* MATCH: Keep the timer store before the shared state increment. */
         ((S_80173510_0 *)action)->unk_9B.n = state + 1;
         return;
     }

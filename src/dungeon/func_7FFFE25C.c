@@ -111,7 +111,6 @@ void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, Rec_D_800E3D7C *adjusted_
         }
 
         if (current == (s32)&D_80093328) {
-            ASM_USE2(dispatch_param, dispatch_param);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             dispatch_context = context;
             dispatch_owner = owner;
             handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_0C;
@@ -120,7 +119,11 @@ void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, Rec_D_800E3D7C *adjusted_
         }
 
         if (current == (s32)&D_80093638) {
-            func_8009C340(context, owner, adjusted_pos, dispatch_param);
+            do {
+                do {
+                    func_8009C340(context, owner, adjusted_pos, dispatch_param);
+                } while (0);
+            } while (0);
             goto check_result;
         }
 

@@ -71,24 +71,24 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
     s16 bonus;
     s16 affinity_adjust;
     s32 power;
-    register s32 target_elements ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 target_elements;
     s32 damage_delta;
     M2C_UNK direction_offset;
     s32 affinity;
-    register s16 requested_bonus ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 requested_bonus;
     s32 second_element;
     s32 third_element;
     M2C_UNK affinity_shift;
-    register s32 first_affinity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 first_affinity;
     S_8009CE1C_2 *position;
     register u16 base = base_power;
-    register s16 element_mask ASM_REG("$21") = elements;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 element_mask = elements;
     s32 base_shift;
 
     requested_bonus = power_bonus;
     bonus = requested_bonus;
     affinity = 0;
-    if ((target != NULL) && (func_8009D218(target, element_mask & 0xFFFF, source_flags) == 0)) {
+    if ((target != NULL) && (func_8009D218(target, (u16) element_mask, source_flags) == 0)) {
         if (requested_bonus == 0xFF) {
             bonus = ((S_8009CE1C_0 *)(*D_800E3D7C))->unk_11 * 4;
             if (bonus >= 0x64) {
@@ -104,7 +104,6 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
             fixed_base_shift = base << 0x10;
             base_shift = fixed_base_shift;
         }
-        ASM_USE_NV(requested_bonus);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         power = ((base_shift >> 0x10) + bonus) * 2;
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_7E = hit_angle;
         if ((((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_27 != 0) && !(((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_30 & 0x238) && !(((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_5A & 0x8000)) {
@@ -130,8 +129,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
                 affinity -= 1;
                 goto check_second_element;
             }
-            second_element = element_mask & 2;
-            goto apply_second_element;
+            goto check_second_element;
         }
 check_second_element:
         second_element = element_mask & 2;
