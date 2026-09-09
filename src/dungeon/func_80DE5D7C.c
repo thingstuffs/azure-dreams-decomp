@@ -92,10 +92,12 @@ state_one:
         }
 
         {
-            register void *call_controller ASM_REG("$4") = controller;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            void *call_controller = controller;
 
             if (((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 & 0x100) {
-                func_800AA258(call_controller, context, sprite, actor);
+                do {
+                    func_800AA258(call_controller, context, sprite, actor);
+                } while (0);
                 return;
             }
 

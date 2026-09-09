@@ -6,7 +6,7 @@ extern s32 rand(void);
 s32 func_81088650(s32 base)
 {
     s32 random_roll;
-    register s32 result ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 result;
     s32 offset;
 
     result = base;

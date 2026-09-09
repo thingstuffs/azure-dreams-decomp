@@ -60,7 +60,7 @@ void *func_800C07AC(EntityFields *source) {
     ConfigFields *config;
     TailFields *entity_tail;
     TailFields *source_tail;
-    register u16 config_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u16 config_flags;
     u16 size;
 
     entity = func_8003FD64(2, source);
@@ -85,7 +85,9 @@ void *func_800C07AC(EntityFields *source) {
         source_tail = &source->tail;
         config_flags = config->field14;
         config->fieldC = 0x808080;
-        config->field14 = config_flags | 0xC;
+        do {
+            config->field14 = config_flags | 0xC;
+        } while (0);
         entity_tail = &entity->tail;
         entity_tail->field4C = 0x10;
         entity_tail->field68 = source_tail;

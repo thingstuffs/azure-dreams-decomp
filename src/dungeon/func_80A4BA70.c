@@ -284,7 +284,7 @@ case_7:
   {
     void *child;
     S_80175270_7 *child_obj;
-    s32 direction;
+    s16 direction;
 
     if ((((S_80175270_1 *)actor)->unk_60 = func_800A504C(entity, actor)) == 0) {
         return;
@@ -294,7 +294,6 @@ case_7:
     ((S_80175270_9 *)(((S_80175270_1 *)actor)->unk_60))->unk_2A = ((S_80175270_1 *)actor)->unk_2A.u;
     child = ((S_80175270_1 *)actor)->unk_60;
     child_obj = ((S_80175270_6_pre *)child)[-1].unk_00;
-    ASM_KEEP_NV(child);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     direction = (D_80083228 + ((S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
     direction &= 7;
     func_80047738(child_obj, ((S_80175270_10 *)(child_obj->unk_2C + direction))->unk_00, child_obj->unk_04);

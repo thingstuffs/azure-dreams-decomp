@@ -125,7 +125,7 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
     u16 next_timer;
     u16 *counters;
     s32 next_state;
-    register s32 effect_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 effect_index;
 
     state = ((S_80175470_0 *)sequence)->unk_9B.n;
     if (state >= 9U) {
@@ -211,7 +211,6 @@ jt_c4:
     model->unk_0C = model_color;
     effect_choice = func_800498A0(actor) - 1;
     effect_index = effect_choice;
-    ASM_KEEP_NV(effect_choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot model_color; the source shape that makes it unnecessary has not been found */
     if ((s16)effect_choice < 0) {
         effect_index = func_80069EF8() % 3;
     }

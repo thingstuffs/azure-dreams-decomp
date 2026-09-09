@@ -47,7 +47,7 @@ extern void SetDrawMode(S_80053604_TPage *p, s32 tge, s32 abe, u16 tpage, s32 un
 /* Draws a full-screen additive or subtractive fade, advances its timer, and reports completion. */
 s32 func_80053604(S_80053604_Obj *fade)
 {
-  register u32 addr_mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+  u32 addr_mask;
   register u32 tag_mask;
   u32 color;
   S_80053604_TPage *tpage;
@@ -93,7 +93,9 @@ s32 func_80053604(S_80053604_Obj *fade)
   poly->rgbc = color;
   SetPolyF4(poly);
   SetSemiTrans(poly, 1);
-  addr_mask = 0x00FFFFFF;
+  do {
+      addr_mask = 0x00FFFFFF;
+  } while (0);
   poly->x3 = 320;
   poly->x2 = 320;
   poly->x1 = 0;
