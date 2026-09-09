@@ -141,6 +141,12 @@ could not type), L0 20.4 % (rows still carrying a blocking fidelity site). `STAT
   rows, `ovl_<foff>.c`, weak). Names in the map are proposals until a header carries them; the
   confidence field says which ones rest on evidence. SLUS: 29 modules (`scene_runtime.c`, `message_script.c`, `object_display.c`, …; rows ordered by symbol address). Every counted row (6,745) has a module.
 
+**Plan v2 finished 07:24 UTC:** fidelity 794 rows served (single 218 + multi 199 accepted, 344 rows
+cleared of every blocking site, 656 sites removed); fields 96/96 accepted and landed, 0 `FIELD()`
+left in them. The closing size tiers served nothing because `ledger/levels.jsonl` was stale (the
+controller never regenerated it, so the freshly unblocked rows still read L0); `campaign.py` now runs
+`levels.py` before every launch, and plan v3 serves them.
+
 **Traps for the next session:** the controller commits `ledger/agents ledger/promotions.jsonl src`
 after every launch — commit your own tree changes (tools, config, ledger) *before* launching it or
 they get swept into a campaign commit without their config; a bash `a && b && nohup c &` backgrounds

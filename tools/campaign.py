@@ -46,6 +46,8 @@ def launch(plan, tier, n, dry_run):
     logf = WORK / f"astra_campaign_c{n:03d}.log"
     log(f"launch {n}: {' '.join(cmd[2:])} -> {logf.name}")
     if dry_run: return "dry"
+    # tier selection reads ledger/levels.jsonl (level >= 1): regenerate it so rows the previous launch unblocked are served
+    subprocess.run([sys.executable, str(ROOT / "tools/levels.py")], cwd=ROOT, capture_output=True)
     with logf.open("w") as f:
         p = subprocess.Popen(cmd, cwd=ROOT, stdout=f, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, start_new_session=True)
     (WORK / "campaign.pid").write_text(str(p.pid))
