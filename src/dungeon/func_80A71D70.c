@@ -44,11 +44,11 @@ extern u8 D_80174138[];
 
 /* Advances the entity along its stored path and updates movement timing. */
 void func_80171570(void *action, s32 action_id, void *entity, void *move_state) {
-    register void *state ASM_REG("$17") = move_state;
+    void *state = move_state;
     s32 tile_mask;
     s16 move_result;
     s16 direction;
-    s32 x;
+    s16 x;
     s32 y;
     s32 step_count;
     u8 new_x;

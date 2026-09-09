@@ -76,8 +76,9 @@ fade_in:
     advance_state = *(volatile u16 *)&effect->state;
 
 advance:
-    effect->timer = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    do {
+        effect->timer = 0;
+    } while (0);
     effect->state = advance_state + 1;
     return;
 

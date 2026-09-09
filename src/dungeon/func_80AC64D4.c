@@ -39,11 +39,11 @@ typedef struct S_80171CD4_4 {
 
 /* Advance the entity along its stored path and update movement timing. */
 void func_80171CD4(void *movement, void *motion, void *entity, void *path_state) {
-    register void *state ASM_REG("$17") = path_state;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *state = path_state;
     s32 move_flags;
     s16 heading;
     s16 move_result;
-    s32 x;
+    s16 x;
     s32 y;
 
     if (((S_80171CD4_0 *)state)->unk_71.s <= 0) {

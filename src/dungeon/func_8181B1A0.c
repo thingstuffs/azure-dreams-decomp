@@ -63,16 +63,17 @@ typedef struct S_8181B1A0_3 {
 
 /* Creates an effect at an offset from the source and initializes its state and appearance. */
 void func_8181B1A0(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s32 effect_value) {
-    register s32 saved_value ASM_REG("$18") = effect_value;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 saved_value = effect_value;
     S_8181B1A0_2 *render;
     S_8181B1A0_0 *state;
     void *effect;
     S_8181B1A0_3 *position;
 
     effect = func_8003FC64(0x212);
-    state = effect + 0x20;
+    do {
+        state = effect + 0x20;
+    } while (0);
     if (effect != NULL) {
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         state->unk_02 = (s16) saved_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
         ((S_8181B1A0_1 *)effect)->unk_10 = &D_80024878;
