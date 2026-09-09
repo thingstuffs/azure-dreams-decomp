@@ -8,18 +8,19 @@ typedef struct Node {
 
 extern void func_800CEFB8();
 
-s32 func_800CEEFC(void *arg0, s32 arg1, void *arg2) {
-    u8 *state = arg0;
+/* Process each linked state with func_800CEFB8 in mode zero. */
+s32 func_800CEEFC(void *initial_state, s32 value, void *data) {
+    u8 *state = initial_state;
 
     for (;;) {
-        func_800CEFB8(state, arg1, arg2, *(s16 *)((u8 *)arg2 + 6), 0);
-        arg2 = *(Node **)(state - 8);
-        if (arg2 == 0) {
+        func_800CEFB8(state, value, data, *(s16 *)((u8 *)data + 6), 0);
+        data = *(Node **)(state - 8);
+        if (data == 0) {
             break;
         }
-        state = (u8 *)arg2 + 32;
-        arg1 = ((Node *)arg2)->value1;
-        arg2 = ((Node *)arg2)->value2;
+        state = (u8 *)data + 32;
+        value = ((Node *)data)->value1;
+        data = ((Node *)data)->value2;
     }
     return 0;
 }

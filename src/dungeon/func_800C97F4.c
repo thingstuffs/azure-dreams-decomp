@@ -14,20 +14,21 @@ typedef struct Node {
 
 extern void func_800CEFB8();
 
-s32 func_800CEF54(void *arg0, s32 arg1, void *arg2) {
-    register u8 *state ASM_REG("$16") = arg0;
-    s32 one = 1;
+/* Process each linked state with func_800CEFB8 in mode one. */
+s32 func_800CEF54(void *initial_state, s32 value, void *data) {
+    register u8 *state ASM_REG("$16") = initial_state;
+    s32 mode = 1;
 
     ASM_CLOBBER_A0();
     for (;;) {
-        func_800CEFB8(state, arg1, arg2, *(s16 *)((u8 *)arg2 + 6), one);
-        arg2 = *(Node **)(state - 8);
-        if (arg2 == 0) {
+        func_800CEFB8(state, value, data, *(s16 *)((u8 *)data + 6), mode);
+        data = *(Node **)(state - 8);
+        if (data == 0) {
             break;
         }
-        state = (u8 *)arg2 + 32;
-        arg1 = ((Node *)arg2)->value1;
-        arg2 = ((Node *)arg2)->value2;
+        state = (u8 *)data + 32;
+        value = ((Node *)data)->value1;
+        data = ((Node *)data)->value2;
     }
     return 0;
 }

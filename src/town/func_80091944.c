@@ -6,7 +6,8 @@
 M2C_UNK func_8008F01C(Rec_func_80094268_arg0 *, s32, s32);                            /* extern */
 
 
-void func_8008F0A4(Rec_func_80094268_arg0 *arg0, s32 arg1, s32 arg2) {
-    func_8008F01C(arg0, arg1, arg2);
-    arg0->unk_14 = 2;
+/* Configure the record and set its mode to 2. */
+void func_8008F0A4(Rec_func_80094268_arg0 *record, s32 setup_value, s32 setup_param) {
+    func_8008F01C(record, setup_value, setup_param);
+    record->unk_14 = 2;
 }

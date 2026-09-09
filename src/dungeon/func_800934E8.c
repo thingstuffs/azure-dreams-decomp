@@ -1,16 +1,17 @@
 #include "common.h"
 
-s32 func_80098C48(s32 arg0) {
-    s32 count = 0x13;
-    s8 *ptr = (s8 *)0x80010294;
+/* Returns the index of a matching table entry address, or -1. */
+s32 func_80098C48(s32 entry_address) {
+    s32 entry_index = 0x13;
+    s8 *entry = (s8 *)0x80010294;
 
     do {
-        if ((s32)ptr != arg0) {
-            count -= 1;
-            ptr -= 4;
+        if ((s32)entry != entry_address) {
+            entry_index -= 1;
+            entry -= 4;
             continue;
         }
-        return (s16)count;
-    } while (count >= 0);
+        return (s16)entry_index;
+    } while (entry_index >= 0);
     return -1;
 }

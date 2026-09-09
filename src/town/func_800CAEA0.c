@@ -25,8 +25,9 @@ typedef struct S_800C8600_0 {
 
 
 M2C_UNK func_800C4174(S_800C8600_0 *, M2C_UNK, M2C_UNK);
-void func_800C8600(S_800C8600_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    ((S_800C8600_2 *)(((S_800C8600_1 *)arg0)->unk_80))->unk_04 = &D_800D62C4;
-    *((arg0->unk_60 * 8) + &D_80082660) = 0;
-    func_800C4174(arg0, arg1, arg2);
+/* Set the object data pointer and clear its indexed flag before calling func_800C4174. */
+void func_800C8600(S_800C8600_0 *object, M2C_UNK param_1, M2C_UNK param_2) {
+    ((S_800C8600_2 *)(((S_800C8600_1 *)object)->unk_80))->unk_04 = &D_800D62C4;
+    *((object->unk_60 * 8) + &D_80082660) = 0;
+    func_800C4174(object, param_1, param_2);
 }

@@ -10,13 +10,14 @@ typedef struct S_800C0C48_0 {
     M2C_UNK * unk_10;
 } S_800C0C48_0;   /* temp_v0 in func_800C0C48 */
 
-s32 func_800C0C48(s32 arg0, s32 arg1, s32 arg2) {
-    S_800C0C48_0 *temp_v0;
+/* Run setup, assign the retrieved object handler when present, and return -1. */
+s32 func_800C0C48(s32 context, s32 value, s32 options) {
+    S_800C0C48_0 *object;
 
-    func_800C0D80(arg0, arg1, arg2);
-    temp_v0 = func_8003FC64(0);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800C0C28;
+    func_800C0D80(context, value, options);
+    object = func_8003FC64(0);
+    if (object != NULL) {
+        object->unk_10 = &D_800C0C28;
     }
     return -1;
 }

@@ -8,18 +8,19 @@ typedef struct Func800C138CData {
 
 extern void func_800C6B40(void *arg0, void *arg1, void *arg2, s32 arg3);
 
-s32 func_800C6AEC(void *arg0, void *arg1, void *arg2) {
-    void *next = arg0;
-    void *data;
+/* Process each linked state with func_800C6B40 in mode zero. */
+s32 func_800C6AEC(void *initial_state, void *context, void *data) {
+    void *state = initial_state;
+    void *next_node;
 
     for (;;) {
-        func_800C6B40(next, arg1, arg2, 0);
-        data = *((void **)next - 2);
-        if (data == 0) {
+        func_800C6B40(state, context, data, 0);
+        next_node = *((void **)state - 2);
+        if (next_node == 0) {
             return 0;
         }
-        next = (u8 *)data + 0x20;
-        arg1 = ((Func800C138CData *)data)->arg1;
-        arg2 = ((Func800C138CData *)data)->arg2;
+        state = (u8 *)next_node + 0x20;
+        context = ((Func800C138CData *)next_node)->arg1;
+        data = ((Func800C138CData *)next_node)->arg2;
     }
 }

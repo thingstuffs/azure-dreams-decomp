@@ -10,6 +10,7 @@ extern u8 D_8001E405[];
 register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
+/* Select a handler and data pointer based on the query for 0xD53. */
 void *func_800170B8(void) {
     if (func_8001ADE0(0xD53) != 0) {
         func_8001AD60(0xD53);

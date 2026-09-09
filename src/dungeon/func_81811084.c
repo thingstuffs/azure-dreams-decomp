@@ -7,8 +7,9 @@ M2C_UNK func_80025E3C();                 /* extern */
 M2C_UNK func_80025FFC(void *, s32, s32, s32);                            /* extern */
 
 
-void func_80026084(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    func_80025FFC(arg0, arg1, arg2, arg3);
-    func_80025D9C(arg0, arg0 + 0x44, arg0 + 0x1C, arg0 + 0x2C);
-    func_80025E3C(arg0, ((Rec_func_80025850_arg0 *)arg0)->unk_54);
+/* Initialize the object and configure it from its embedded data and stored value. */
+void func_80026084(void *object, s32 init_value, s32 init_value_2, s32 init_value_3) {
+    func_80025FFC(object, init_value, init_value_2, init_value_3);
+    func_80025D9C(object, object + 0x44, object + 0x1C, object + 0x2C);
+    func_80025E3C(object, ((Rec_func_80025850_arg0 *)object)->unk_54);
 }

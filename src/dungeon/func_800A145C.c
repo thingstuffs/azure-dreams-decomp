@@ -7,6 +7,7 @@ typedef struct {
     u8 pad3[9];
 } Record;
 
+/* Adds successive multiples of the step to record values through the terminal record. */
 void func_800A6BBC(Record *record, s16 step)
 {
     u8 *value;

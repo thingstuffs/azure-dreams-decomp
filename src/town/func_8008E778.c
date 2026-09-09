@@ -2,7 +2,8 @@
 
 extern u8 D_800FC418;
 
-s32 func_8008BED8(void *arg0) {
+/* Select and store an address based on the global byte value. */
+s32 func_8008BED8(void *object) {
     u8 value = D_800FC418;
 
     if (value == 0xFF) {
@@ -26,7 +27,7 @@ s32 func_8008BED8(void *arg0) {
 merge: {
         register u32 result ASM_REG("$2");
 
-        *(u32 *)((u8 *)arg0 + 0x68) = result;
+        *(u32 *)((u8 *)object + 0x68) = result;
         return result;
     }
 }

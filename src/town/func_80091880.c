@@ -14,6 +14,7 @@ typedef struct List {
     s32 pad[2];
 } List;
 
+/* Insert a non-null node before the global list sentinel. */
 s32 func_8008EFE0(Node *node) {
     register u32 page ASM_REG("$3") = 0x800D0000;
     register Node *head ASM_REG("$4");

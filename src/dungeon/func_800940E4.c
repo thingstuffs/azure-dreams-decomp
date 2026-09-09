@@ -51,15 +51,16 @@ extern s32 func_80099194(void *arg0, s32 arg1);
 extern void func_80099290(s32 arg0);
 extern s32 func_80099734(s32 arg0, s32 arg1);
 extern void func_800A5720(s32 arg0);
-void func_80099844(s32 arg0, void *arg1, s32 arg2, s32 arg3)
+/* Adjusts a computed value for application to the source and finalizes the original value. */
+void func_80099844(s32 context, void *source, s32 first_input, s32 second_input)
 {
-  void *new_var2;
-  s32 new_var3;
-  s32 temp_s0;
-  s32 new_var;
-  new_var = func_80099734(arg0, temp_s0 = func_800990FC(arg0, arg1, arg2, arg3));
-  new_var3 = temp_s0;
-  temp_s0 = new_var;
-  func_80099290(func_80099194(new_var2 = arg1, temp_s0));
-  func_800A5720(new_var3);
+  void *source_copy;
+  s32 original_value;
+  s32 current_value;
+  s32 adjusted_value;
+  adjusted_value = func_80099734(context, current_value = func_800990FC(context, source, first_input, second_input));
+  original_value = current_value;
+  current_value = adjusted_value;
+  func_80099290(func_80099194(source_copy = source, current_value));
+  func_800A5720(original_value);
 }

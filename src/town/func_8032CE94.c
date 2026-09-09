@@ -7,10 +7,11 @@ extern s32 D_8001C354;
 
 register u8 *dispatch_result ASM_REG("$2");
 
-u8 *func_80017694(s32 arg0, s32 arg1, s32 arg2) {
+/* Return the dispatch result, overriding it when the 0x1390 check succeeds. */
+u8 *func_80017694(s32 dispatch_arg, s32 unused, s32 dispatch_option) {
     u8 *result;
-    register s32 first_arg ASM_REG("$2") = arg0;
-    register s32 fourth_arg ASM_REG("$7") = arg2;
+    register s32 first_arg ASM_REG("$2") = dispatch_arg;
+    register s32 fourth_arg ASM_REG("$7") = dispatch_option;
 
     __asm__("" : "=r"(fourth_arg) : "0"(fourth_arg));
 

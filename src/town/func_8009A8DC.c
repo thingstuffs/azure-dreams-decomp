@@ -11,12 +11,13 @@ typedef struct S_8009803C_0 {
 
 
 M2C_UNK func_80098928(S_8009803C_0 *, s32, s32);
-void func_8009803C(S_8009803C_0 *arg0, s32 arg1, s32 arg2) {
-    u16 temp_v0;
+/* Decrement the countdown and call func_80098928 when it reaches zero. */
+void func_8009803C(S_8009803C_0 *state, s32 value, s32 mode) {
+    u16 remaining_ticks;
 
-    temp_v0 = arg0->unk_0A - 1;
-    arg0->unk_0A = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_80098928(arg0, arg1, arg2);
+    remaining_ticks = state->unk_0A - 1;
+    state->unk_0A = remaining_ticks;
+    if ((remaining_ticks << 0x10) <= 0) {
+        func_80098928(state, value, mode);
     }
 }

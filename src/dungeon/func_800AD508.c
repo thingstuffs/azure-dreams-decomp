@@ -11,8 +11,9 @@ typedef struct S_800B2C68_0 {
 
 
 s32 func_800AB378(S_800B2C68_0 *, void *, void *, void *);
-void func_800B2C68(S_800B2C68_0 *arg0, void *arg1, void *arg2, void *arg3) {
-    if (func_800AB378(arg0, arg1, arg2, arg3) != 0) {
-        arg0->unk_8C = &D_800B2A60;
+/* Set the state pointer to D_800B2A60 when func_800AB378 succeeds. */
+void func_800B2C68(S_800B2C68_0 *state, void *context, void *data, void *extra_data) {
+    if (func_800AB378(state, context, data, extra_data) != 0) {
+        state->unk_8C = &D_800B2A60;
     }
 }

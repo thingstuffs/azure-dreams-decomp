@@ -6,10 +6,11 @@ s32 func_80099194();                        /* extern */
 M2C_UNK func_80099290();                         /* extern */
 M2C_UNK func_800A5720();                         /* extern */
 
-void func_800997FC(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_v0;
+/* Computes a value, applies its context-dependent result, and finalizes the value. */
+void func_800997FC(s32 context, s32 first_input, s32 second_input, s32 third_input) {
+    s32 computed_value;
 
-    temp_v0 = func_800990FC(arg0, arg1, arg2, arg3);
-    func_80099290(func_80099194(arg0, temp_v0));
-    func_800A5720(temp_v0);
+    computed_value = func_800990FC(context, first_input, second_input, third_input);
+    func_80099290(func_80099194(context, computed_value));
+    func_800A5720(computed_value);
 }

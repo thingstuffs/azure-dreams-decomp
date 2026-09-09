@@ -1,14 +1,15 @@
 #include "common.h"
 
-void func_800B13CC(void *arg0, s32 arg1) {
-    u16 *field;
+/* Applies a flag mask to each record through the terminal record. */
+void func_800B13CC(void *record, s32 flag_mask) {
+    u16 *flags;
 
     for (;;) {
-        field = (u16 *)((u8 *)arg0 + 4);
-        *field = (u16)(*field | arg1);
-        if (*(s8 *)arg0 < 0) {
+        flags = (u16 *)((u8 *)record + 4);
+        *flags = (u16)(*flags | flag_mask);
+        if (*(s8 *)record < 0) {
             return;
         }
-        arg0 = (u8 *)arg0 + 12;
+        record = (u8 *)record + 12;
     }
 }

@@ -11,22 +11,23 @@ register s32 hidden_v1 ASM_REG("$3");
 s32 hidden_v1;
 #endif
 
-void *func_800B512C(void *arg0, s16 arg1) {
-    u8 *base = arg0;
-    s32 zero;
+/* Set two entry bytes to complementary values derived from the amount. */
+void *func_800B512C(void *entry, s16 amount) {
+    u8 *base = entry;
+    s32 remaining;
 
-    if (arg1 < 300) {
-        s32 quotient = arg1 / 4;
+    if (amount < 300) {
+        s32 quotient = amount / 4;
 
         hidden_v1 = quotient + 1;
     } else {
         hidden_v1 = 64;
     }
 
-    zero = 64;
-    LEGACY_ASM_KEEP(zero);
-    zero -= hidden_v1;
-    base[2] = zero;
+    remaining = 64;
+    LEGACY_ASM_KEEP(remaining);
+    remaining -= hidden_v1;
+    base[2] = remaining;
     {
         void *result = base;
 

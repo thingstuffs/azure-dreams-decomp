@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_800CA744(void *);                            /* extern */
 
-void func_800CA114(void *arg0) {
-    func_800CA744(arg0);
+/* Pass the object to func_800CA744. */
+void func_800CA114(void *object) {
+    func_800CA744(object);
 }

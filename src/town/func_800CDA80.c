@@ -11,12 +11,13 @@ typedef struct S_800CB1E0_0 {
 
 
 M2C_UNK func_800C4174(S_800CB1E0_0 *, M2C_UNK, M2C_UNK);
-void func_800CB1E0(S_800CB1E0_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Decrement the countdown and call func_800C4174 when it reaches zero. */
+void func_800CB1E0(S_800CB1E0_0 *object, M2C_UNK context, M2C_UNK update_data) {
+    u16 remaining_ticks;
 
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800C4174(arg0, arg1, arg2);
+    remaining_ticks = object->unk_6C - 1;
+    object->unk_6C = remaining_ticks;
+    if ((remaining_ticks << 0x10) <= 0) {
+        func_800C4174(object, context, update_data);
     }
 }

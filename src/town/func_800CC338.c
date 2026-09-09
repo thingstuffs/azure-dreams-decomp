@@ -11,12 +11,13 @@ typedef struct S_800C9A98_0 {
 
 
 M2C_UNK func_800C9CDC(S_800C9A98_0 *, void *, s32);
-void func_800C9A98(S_800C9A98_0 *arg0, void *arg1, s32 arg2) {
-    u16 temp_v0;
+/* Decrement the object countdown and call func_800C9CDC when it expires. */
+void func_800C9A98(S_800C9A98_0 *object, void *context, s32 param) {
+    u16 countdown;
 
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800C9CDC(arg0, arg1, arg2);
+    countdown = object->unk_6C - 1;
+    object->unk_6C = countdown;
+    if ((countdown << 0x10) <= 0) {
+        func_800C9CDC(object, context, param);
     }
 }

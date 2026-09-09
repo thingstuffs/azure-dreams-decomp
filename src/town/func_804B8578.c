@@ -7,10 +7,11 @@ extern s32 func_8001894C(s32 arg0);
 extern u8 D_80019950[];
 extern u8 D_80019A10[];
 
-void *func_80016D78(s32 arg0, s32 arg1) {
+/* Select a data array based on flag 0x507, setting the flag on first use. */
+void *func_80016D78(s32 first_input, s32 second_input) {
     void *result;
 
-    func_80017BA0(arg0, arg1);
+    func_80017BA0(first_input, second_input);
     if (func_8001894C(0x507) != 0) {
         goto nonzero;
     }

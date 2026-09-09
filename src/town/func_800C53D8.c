@@ -2,10 +2,11 @@
 
 extern s32 func_800C2AE8(void *);
 
-s32 func_800C2B38(void *arg0) {
+/* Return the signed low halfword of the query result, clamped to at most zero. */
+s32 func_800C2B38(void *object) {
     s32 result;
 
-    result = func_800C2AE8(arg0);
+    result = func_800C2AE8(object);
     if ((result << 16) > 0) {
         result = 0;
     }

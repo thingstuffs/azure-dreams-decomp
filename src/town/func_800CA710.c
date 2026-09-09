@@ -13,13 +13,14 @@ typedef struct S_800C7E70_0 {
 
 
 M2C_UNK func_800C4174(S_800C7E70_0 *, M2C_UNK, M2C_UNK);
-void func_800C7E70(S_800C7E70_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Decrement the countdown, then restore unk_72 from unk_6E and call func_800C4174 when it expires. */
+void func_800C7E70(S_800C7E70_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
+    u16 countdown;
 
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg0->unk_72 = (u16) arg0->unk_6E;
-        func_800C4174(arg0, arg1, arg2);
+    countdown = object->unk_6C - 1;
+    object->unk_6C = countdown;
+    if ((countdown << 0x10) <= 0) {
+        object->unk_72 = (u16) object->unk_6E;
+        func_800C4174(object, callback_arg_1, callback_arg_2);
     }
 }

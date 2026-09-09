@@ -12,13 +12,14 @@ typedef struct S_800980B4_0 {
 
 
 M2C_UNK func_80098928(S_800980B4_0 *, s32, s32);
-void func_800980B4(S_800980B4_0 *arg0, s32 arg1, s32 arg2) {
-    u16 temp_v0;
+/* Decrement the countdown, then call func_80098928 and set unk_10 to 0x400 at zero. */
+void func_800980B4(S_800980B4_0 *state, s32 value, s32 mode) {
+    u16 remaining_ticks;
 
-    temp_v0 = arg0->unk_0A - 1;
-    arg0->unk_0A = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_80098928(arg0, arg1, arg2);
-        arg0->unk_10 = 0x400;
+    remaining_ticks = state->unk_0A - 1;
+    state->unk_0A = remaining_ticks;
+    if ((remaining_ticks << 0x10) <= 0) {
+        func_80098928(state, value, mode);
+        state->unk_10 = 0x400;
     }
 }

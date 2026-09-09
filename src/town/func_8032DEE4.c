@@ -4,7 +4,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_8001DD74(s32, s32, s32, s32);                            /* extern */
 
-s32 func_800186E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    func_8001DD74(arg0, arg1, arg2, arg3);
+/* Forward four values to func_8001DD74 and return zero. */
+s32 func_800186E4(s32 first_value, s32 second_value, s32 third_value, s32 fourth_value) {
+    func_8001DD74(first_value, second_value, third_value, fourth_value);
     return 0;
 }

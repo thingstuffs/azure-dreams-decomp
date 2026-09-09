@@ -1,18 +1,19 @@
 #include "common.h"
 
-void func_800970AC(s32 arg0, u8 *arg1) {
-    if (arg0 & 1) {
-        arg1[0x37] = 1;
+/* Set state bytes from flags, giving lower bits priority within each pair. */
+void func_800970AC(s32 flags, u8 *state) {
+    if (flags & 1) {
+        state[0x37] = 1;
     } else {
-        if (arg0 & 0x10) {
-            arg1[0x36] = 1;
+        if (flags & 0x10) {
+            state[0x36] = 1;
         }
     }
-    if (arg0 & 0x100) {
-        arg1[0x39] = 1;
+    if (flags & 0x100) {
+        state[0x39] = 1;
         return;
     }
-    if (arg0 & 0x1000) {
-        arg1[0x38] = 1;
+    if (flags & 0x1000) {
+        state[0x38] = 1;
     }
 }

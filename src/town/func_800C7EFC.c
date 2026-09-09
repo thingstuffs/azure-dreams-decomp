@@ -12,13 +12,14 @@ typedef struct S_800C565C_0 {
 
 
 M2C_UNK func_800C5864(S_800C565C_0 *, M2C_UNK, M2C_UNK);
-void func_800C565C(S_800C565C_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Decrement the countdown, then call func_800C5864 and clear unk_72 when it expires. */
+void func_800C565C(S_800C565C_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
+    u16 countdown;
 
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800C5864(arg0, arg1, arg2);
-        arg0->unk_72 = 0;
+    countdown = object->unk_6C - 1;
+    object->unk_6C = countdown;
+    if ((countdown << 0x10) <= 0) {
+        func_800C5864(object, callback_arg_1, callback_arg_2);
+        object->unk_72 = 0;
     }
 }

@@ -12,7 +12,8 @@ typedef struct S_800C88AC_0 {
 
 
 M2C_UNK func_800C4804(S_800C88AC_0 *, s32, s32);
-void func_800C88AC(S_800C88AC_0 *arg0, s32 arg1, s32 arg2) {
-    func_800C4804(arg0, arg1, arg2);
-    arg0->unk_54 = &D_800C885C;
+/* Call func_800C4804 and set the object pointer to D_800C885C. */
+void func_800C88AC(S_800C88AC_0 *object, s32 param_1, s32 param_2) {
+    func_800C4804(object, param_1, param_2);
+    object->unk_54 = &D_800C885C;
 }

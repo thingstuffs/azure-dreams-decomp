@@ -2,20 +2,21 @@
 
 extern s32 D_800786E8[];
 
-void func_800241D4(s32 arg0, s32 arg1) {
-    s8 *v0;
-    void *a0;
+/* Set the object color, optional display table, and display dimensions. */
+void func_800241D4(s32 object_addr, s32 enable_table) {
+    s8 *object_data;
+    void *display_data;
 
-    if (arg0 != 0) {
-        v0 = (s8 *) arg0 + 0x20;
-        a0 = *(void **) (v0 + 0x280);
-        *(s32 *) (v0 + 0x224) = 0x808080;
-        if (arg1 != 0) {
-            *(s32 **) a0 = D_800786E8;
+    if (object_addr != 0) {
+        object_data = (s8 *) object_addr + 0x20;
+        display_data = *(void **) (object_data + 0x280);
+        *(s32 *) (object_data + 0x224) = 0x808080;
+        if (enable_table != 0) {
+            *(s32 **) display_data = D_800786E8;
         } else {
-            *(s32 *) a0 = 0;
+            *(s32 *) display_data = 0;
         }
-        *(s16 *) (*(s8 **) ((s8 *) a0 + 4) + 8) = 0x60;
-        *(s16 *) (*(s8 **) ((s8 *) a0 + 4) + 0xA) = 0x18;
+        *(s16 *) (*(s8 **) ((s8 *) display_data + 4) + 8) = 0x60;
+        *(s16 *) (*(s8 **) ((s8 *) display_data + 4) + 0xA) = 0x18;
     }
 }

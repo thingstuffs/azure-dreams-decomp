@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_800BB508(void *, s32);                            /* extern */
 
-void func_800BB6C4(void *arg0, s32 arg1) {
-    func_800BB508(arg0, arg1);
+/* Forward the object and value to func_800BB508. */
+void func_800BB6C4(void *object, s32 value) {
+    func_800BB508(object, value);
 }

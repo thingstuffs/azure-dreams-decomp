@@ -11,8 +11,9 @@ typedef struct S_800CEAC8_0 {
 
 
 M2C_UNK func_800CEB00(S_800CEAC8_0 *, s32, s32);
-void func_800CEAC8(S_800CEAC8_0 *arg0, s32 arg1, s32 arg2) {
-    func_800CEB00(arg0, arg1, arg2);
+/* Call func_800CEB00, clear D_80082688, and set the object state to 4. */
+void func_800CEAC8(S_800CEAC8_0 *object, s32 context, s32 update_data) {
+    func_800CEB00(object, context, update_data);
     D_80082688 = 0;
-    arg0->unk_90 = 4;
+    object->unk_90 = 4;
 }

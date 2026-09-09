@@ -8,12 +8,13 @@ typedef struct S_80017158_0 {
 
 s32 func_80019C68(void *, s32);                                /* extern */
 
-s32 func_80017158(void *arg0, s32 arg1) {
-    s32 temp_v0;
+/* Set the record flag 0x8000 when the query returns zero and return the query result. */
+s32 func_80017158(void *record_field, s32 query_value) {
+    s32 query_result;
 
-    temp_v0 = func_80019C68(arg0, arg1);
-    if (temp_v0 == 0) {
-        ((S_80017158_0 *)((u8 *)arg0 - 0x1C))->unk_00 = (s32) (((S_80017158_0 *)((u8 *)arg0 - 0x1C))->unk_00 | 0x8000);
+    query_result = func_80019C68(record_field, query_value);
+    if (query_result == 0) {
+        ((S_80017158_0 *)((u8 *)record_field - 0x1C))->unk_00 = (s32) (((S_80017158_0 *)((u8 *)record_field - 0x1C))->unk_00 | 0x8000);
     }
-    return temp_v0;
+    return query_result;
 }

@@ -10,7 +10,8 @@ typedef struct S_80173588_0 {
 
 
 M2C_UNK func_800AB538(S_80173588_0 *, void *, void *);
-void func_80173588(S_80173588_0 *arg0, void *arg1, void *arg2) {
-    func_800AB538(arg0, arg1, arg2);
-    arg0->unk_A2 = 0;
+/* Call func_800AB538 and clear the state field at offset 0xA2. */
+void func_80173588(S_80173588_0 *state, void *context, void *data) {
+    func_800AB538(state, context, data);
+    state->unk_A2 = 0;
 }
