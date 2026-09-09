@@ -51,11 +51,14 @@ wait_ready:
 initialize:
     if (entity->unk_48.at01_u8.v != 0) {
         func_80174D48(context, visual, entity);
-        entity->unk_48.at00_s8.v = 0;
+        do {
+            entity->unk_48.at00_s8.v = 0;
+        } while (0);
         entity->unk_48.at01_u8.v = 0U;
+        color = 0x808080;
+    } else {
+        color = 0x808080;
     }
-    color = 0x808080;
-    ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     visual->unk_10 = 0x20;
     visual->unk_12 = (u16)(visual->unk_12 - 0x80);
     visual->unk_14 = (u16)(visual->unk_14 | 0xC);

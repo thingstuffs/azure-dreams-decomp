@@ -6,7 +6,7 @@ extern s32 func_800A0818(s32, s32, s32, s32, s16 *);
 /* Tests whether distinct neighboring positions share a lookup value or pass the relation check. */
 s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     u16 src_x_bits = src_x;
-    register u16 src_y_bits ASM_REG("$9") = src_y;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 src_y_bits = src_y;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 dst_x_bits = dst_x;
     u16 dst_y_bits = dst_y;
     s16 relation_detail;
@@ -28,7 +28,7 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     s32 distance_x;
     s32 allowed;
     s32 distance_y;
-    register s32 distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 distance;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     signed_dst_x = (s16) dst_x;
     signed_src_x = (s16) src_x;
@@ -46,7 +46,7 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
         }
         if (distance_y < 2) {
             distance = distance_x + distance_y;
-            ASM_KEEP_NV(src_x_bits);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             if (distance != 0) {
                 query_x = src_x_bits & 0xFFFF;
