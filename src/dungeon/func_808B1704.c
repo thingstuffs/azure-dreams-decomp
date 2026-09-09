@@ -23,9 +23,8 @@ s32 func_808B1704(Func8094D708Object *object)
 
 L_CALLBACK:
 {
-    register void *callbackObject ASM_REG("$4") = object;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    callbackAddress = (u8 *)(callbackIndex << 4);
-    callbackAddress = (u8 *)((s32)callbackAddress + (s32)object->callbacks);
+    void *callbackObject = object;
+    callbackAddress = (u8 *)((s32)(callbackIndex << 4) + (s32)object->callbacks);
     callback = *(Func8094D708Callback *)callbackAddress;
     if (callback(callbackObject, callbackIndex) == 0)
         return callbackIndex;

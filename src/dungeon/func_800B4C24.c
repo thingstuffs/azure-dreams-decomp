@@ -6,7 +6,7 @@ extern void func_800BA414(void *arg0, s32 arg1, void *arg2, s16 arg3);
 s32 func_800BA384(void *node_payload, s32 node_value, u8 *node_data) {
     volatile s16 *scratch = (volatile s16 *)0x1F800000;
     register u8 *next_ptr;
-    register s32 next_value ASM_REG("$5");
+    s32 next_value;
     s32 result;
 
     scratch[0x46] = 0;
@@ -29,9 +29,8 @@ s32 func_800BA384(void *node_payload, s32 node_value, u8 *node_data) {
         if (next_ptr == 0) {
             break;
         }
-        next_value = *(s32 *)(next_ptr + 8);
+        node_value = *(s32 *)(next_ptr + 8);
         next_ptr = *(u8 **)(next_ptr + 12);
-        node_value = next_value;
         node_data = next_ptr;
     }
     result = 0;

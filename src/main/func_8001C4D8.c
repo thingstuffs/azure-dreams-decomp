@@ -100,7 +100,7 @@ void func_804034D8(S_804034D8_0 *menu)
     s32 step;
     s32 frame;
     u8 *offset_slot;
-    register s32 row_index ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 row_index;
     u32 offset;
     u32 next_offset;
     u8 row_offset;
@@ -139,7 +139,9 @@ loop:
         if (next_offset != 0)
             next_offset--;
     }
-    *offset_slot = next_offset;
+    do {
+        *offset_slot = next_offset;
+    } while (0);
     row_offset = ((S_804034D8_1 *)offset_cursor)->unk_7C;
 
     ((S_804034D8_11 *)(((S_804034D8_5 *)(((S_804034D8_2 *)primitive_cursor)->unk_1E0))->unk_04))->unk_08 =

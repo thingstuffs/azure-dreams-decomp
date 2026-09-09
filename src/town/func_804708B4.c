@@ -45,11 +45,10 @@ s32 func_800178B4(S_800178B4_0 *arg0, s32 arg1) {
         temp_a0 = arg1 * 0x10;
         {
             M2C_UNK *temp_v0;
-            register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 temp_v1;
 
+            temp_v1 = temp_a0 + arg0->unk_10;
             temp_v0 = &D_80016A3C;
-            temp_v1 = arg0->unk_10;
-            temp_v1 = temp_a0 + temp_v1;
             ((S_800178B4_1 *)temp_v1)->unk_04 = temp_v0;
         }
         temp_a0_2 = temp_a0 + arg0->unk_10;

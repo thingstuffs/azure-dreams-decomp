@@ -48,8 +48,7 @@ void func_800211C4(S_800211C4_0 *orientation, void *state_ptr, Rec_D_80082E80 *r
     flags_page = (u8 *)0x80070000;
 update_flags:
     flags_base = (s32)flags_page - 0x3308;
-    ASM_KEEP(flags_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    direction_data = (u8 *)(direction + flags_base);
+    direction_data = D_8006CCF8 + direction;
     if (direction_data[0] != 0) {
         flags = record->unk_14.at00_u16.v | 1;
     } else {

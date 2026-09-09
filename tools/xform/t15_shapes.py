@@ -238,6 +238,59 @@ def commute_candidates(text):
     return out
 
 
+def empty_fence_candidates(text):
+    """An EMPTY `do { } while (0);` inserted at a statement boundary.
+
+    Distinct from `fence`, which wraps an existing statement: this inserts a barrier of its own,
+    emitting nothing but a loop note.  Harvested from a length-drift lane, where placing one as the
+    function's first statement kept gcc's frame-save ahead of the first global load and restored a
+    load-delay `nop` retail has - taking that row from four words off to one in a single move.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    dep = depths(masked)
+    for i, ln in enumerate(lines):
+        if not movable(masked[i]) or is_decl(masked[i]):
+            continue
+        ind = re.match(r"[ \t]*", ln).group(0)
+        new = f"{ind}do {{\n{ind}}} while (0);\n"
+        out.append(("efence:%d" % (i + 1), "".join(lines[:i] + [new] + lines[i:])))
+    return out
+
+
+FOLD_A = re.compile(r"^(?P<i>[ \t]*)(?P<t>[A-Za-z_]\w*)\s*=\s*(?P<e>[^;=][^;]*?)\s*;\s*$")
+FOLD_B = re.compile(r"^[ \t]*(?P<d>[A-Za-z_]\w*(?:\s*(?:->|\.)\s*\w+|\s*\[[^\]]+\])*)\s*=\s*(?P<t>[A-Za-z_]\w*)\s*;\s*$")
+
+
+def fold_temp_candidates(text):
+    """`tmp = expr; dest = tmp;` becomes `dest = expr;`, deleting the temp's declaration.
+
+    Harvested from a `broad` lane: routing a value through a temp gives gcc an extra definition
+    point, and writing the expression straight into its destination lets the allocator target the
+    register the destination needs (a call argument, or one side of a commutative operand pair).
+    Only fired when the temp is assigned once and read once, on the very next line.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    for i in range(len(lines) - 1):
+        a = FOLD_A.match(masked[i].rstrip("\n"))
+        b = FOLD_B.match(masked[i + 1].rstrip("\n"))
+        if not a or not b or a.group("t") != b.group("t"):
+            continue
+        t = a.group("t")
+        if len(re.findall(r"\b%s\b" % re.escape(t), mask(text))) != 3:
+            continue                       # the declaration, the write and this one read
+        rhs = lines[i].split("=", 1)[1].rsplit(";", 1)[0].strip()
+        dest = lines[i + 1].split("=", 1)[0].strip()
+        new = f"{a.group('i')}{dest} = {rhs};\n"
+        cand = "".join(lines[:i] + [new] + lines[i + 2:])
+        cand = re.sub(r"^[ \t]*[A-Za-z_][\w \t\*]*?\b%s\s*;[ \t]*\n" % re.escape(t), "", cand, count=1, flags=re.M)
+        out.append(("foldtemp:%s" % t, cand))
+    return out
+
+
 class T:
     name = "t15_shapes"
     level = 1
@@ -283,10 +336,10 @@ class T:
         best_label = "strip"
         seen = {sha_text(base)}
         for rnd in range(ROUNDS):
-            cands = (collapse_selfassign_candidates(cur) + maskfold_candidates(cur)
+            cands = (fold_temp_candidates(cur) + collapse_selfassign_candidates(cur) + maskfold_candidates(cur)
                      + mask2cast_candidates(cur) + commute_candidates(cur)
                      + dup_after_if_candidates(cur) + narrow_candidates(cur)
-                     + fence_candidates(cur))
+                     + fence_candidates(cur) + empty_fence_candidates(cur))
             round_best = None
             for label, cand in cands:
                 if tried >= BUDGET:

@@ -15,19 +15,13 @@ s32 func_8008B328(void) {
     slot = 0;
     entry_indices = D_800CF828;
     entries = D_800CF838;
-loop_1:
-    {
+    for (; slot < 0xF; slot++) {
         s32 found = func_8008B2E4(entries[*(u8 *)((u32)slot + (u32)entry_indices)]);
 
-        ASM_KEEP(found);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        slot += 1;
         if (found != 0) {
             any_found = 1;
             goto epilogue;
         }
-    }
-    if (slot < 0xF) {
-        goto loop_1;
     }
     any_found = 0;
 epilogue:
