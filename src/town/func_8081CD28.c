@@ -11,7 +11,7 @@ typedef struct S_80026D28_0 {
 } S_80026D28_0;   /* arg0 in func_80026D28 */
 
 
-extern s32 func_80053DA8();
+extern s32 SD_Call();
 extern s32 D_800814A0[3];
 
 
@@ -29,14 +29,14 @@ void func_80026D28(void *object)
         goto tick;
     }
 
-    func_80053DA8(0x603);
+    SD_Call(0x603);
     ((S_80026D28_0 *)object)->unk_50.u = ((S_80026D28_0 *)object)->unk_50.u + 1;
 
 tick:
     timer = ((S_80026D28_0 *)object)->unk_52 - 1;
     ((S_80026D28_0 *)object)->unk_52 = timer;
     if ((timer << 16) <= 0) {
-        func_80053DA8(0x1603);
+        SD_Call(0x1603);
         ((S_80026D28_0_pre *)object)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }

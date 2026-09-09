@@ -24,7 +24,7 @@ typedef struct S_80036880_0 {
 } S_80036880_0;   /* arg0 in func_80036880 */
 
 
-M2C_UNK func_80053DA8();                     /* extern */
+M2C_UNK SD_Call();                     /* extern */
 extern M2C_UNK func_80036484;
 
 /* Save the object's flags, install state 0x11 and its handler, and set flag 0x80. */
@@ -33,5 +33,5 @@ void func_80036880(S_80036880_0 *object) {
     object->unk_64 = 0x11;
     object->unk_68 = &func_80036484;
     object->unk_4D = (u8) (object->unk_4D | 0x80);
-    func_80053DA8(0x503);
+    SD_Call(0x503);
 }

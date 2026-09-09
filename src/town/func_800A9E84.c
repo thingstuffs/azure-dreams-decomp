@@ -7,23 +7,23 @@
 typedef struct S_800A75E4_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800A75E4_0;   /* entry in func_800A75E4 */
+} S_800A75E4_0;   /* entry in fukidasi_set */
 
 typedef struct S_800A75E4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800A75E4_1;   /* object in func_800A75E4 */
+} S_800A75E4_1;   /* object in fukidasi_set */
 
 typedef struct S_800A75E4_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800A75E4_2;   /* part_data in func_800A75E4 */
+} S_800A75E4_2;   /* part_data in fukidasi_set */
 
 typedef struct S_800A75E4_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800A75E4_3;   /* part in func_800A75E4 */
+} S_800A75E4_3;   /* part in fukidasi_set */
 
 typedef struct S_800A75E4_4 {
     u8 pad_00[0x50];
@@ -35,7 +35,7 @@ typedef struct S_800A75E4_4 {
     u8 pad_92[0x3];
     s8 unk_95;
     s8 unk_96;
-} S_800A75E4_4;   /* body in func_800A75E4 */
+} S_800A75E4_4;   /* body in fukidasi_set */
 
 
 
@@ -53,7 +53,7 @@ extern s32 D_800D0E24[];
 extern s32 D_800D0E3C[];
 
 /* fukidasi_set: create a speech bubble object and initialize its part and body from indexed data. */
-void func_800A75E4(s32 entry_index, s32 part_index, s32 body_index, s32 body_value) {
+void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_value) {
     s32 saved_part_index;
     s32 saved_body_index;
     s32 saved_body_value;

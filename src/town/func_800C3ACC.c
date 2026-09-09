@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_8004437C(s16 arg0, s16 arg1);
-extern s16 func_80053DA8(s32 arg0);
+extern s16 SD_Call(s32 arg0);
 extern void func_800542BC(void);
 extern s8 D_80080A88[];
 extern s16 D_800D4258[];
@@ -36,7 +36,7 @@ void func_800C122C(void)
     if (selection == unset) goto no_selection;
     previous = D_800D4268;
     if (previous[2] != selection) {
-        func_80053DA8(0x71);
+        SD_Call(0x71);
         func_800542BC();
         func_8004437C(active[2], 0);
         if (active[3] == unset) goto finish;
@@ -44,33 +44,33 @@ void func_800C122C(void)
     }
     if (active[3] == unset) goto inactive_floor;
     if (previous[3] != active[3]) {
-        func_80053DA8(0x71);
+        SD_Call(0x71);
         func_800542BC();
         goto play_active_floor;
     }
     if (D_80080A88[0] != 0) goto finish;
-    func_80053DA8(0x71);
+    SD_Call(0x71);
     func_800542BC();
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     goto play_active_floor;
 
 inactive_floor:
-    func_80053DA8(0x71);
+    SD_Call(0x71);
     func_800542BC();
     goto finish;
 
 no_selection:
-    func_80053DA8(0x71);
+    SD_Call(0x71);
     func_800542BC();
     if (active[3] != selection) {
 play_active_floor:
-        func_80053DA8((u16)active[3]);
+        SD_Call((u16)active[3]);
     }
 
 finish:
     active = D_800D4260;
     unset = -1;
-    if (active[1] != unset) func_80053DA8((u16)active[1]);
+    if (active[1] != unset) SD_Call((u16)active[1]);
     D_800D4258[0] = unset;
     {
         s16 *pending_reset = D_800D4258;

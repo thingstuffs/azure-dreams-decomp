@@ -15,9 +15,9 @@ typedef struct S_800BCE78_1 {
 
 
 
-extern s32 func_800352FC(void);
+extern s32 func_800352FC(void *, void *, void *, s32);
 extern s32 func_800C2AB4(void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 rand(void);
 extern s16 func_800C2AE8(void *);
 extern void func_8008F134(void *, s32, s32);
@@ -32,7 +32,7 @@ extern s32 D_800E9E54[];
 extern u8 D_800E9E7C[];
 extern s32 D_800E9ECC[];
 
-void func_800BCE78(void *arg0, void *arg1, void *arg2)
+void func_800BCE78(void *arg0, void *arg1, void *arg2, s32 arg3)
 {
     register s32 *callback;
     register s32 state;
@@ -41,9 +41,9 @@ void func_800BCE78(void *arg0, void *arg1, void *arg2)
     register s32 state_34 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     callback = 0;
-    if ((func_800352FC() != 0) && (func_800C2AB4(arg0) != 0)) {
+    if ((func_800352FC(arg0, arg1, arg2, arg3) != 0) && (func_800C2AB4(arg0) != 0)) {
         if (!(((Rec_D_80082D58 *)arg0)->unk_AC & 1)) {
-            func_80053DA8(0x60B);
+            SD_Call(0x60B);
             ((Rec_D_80082D58 *)arg0)->unk_AC |= 1;
         }
     } else {

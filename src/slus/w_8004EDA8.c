@@ -20,7 +20,7 @@ typedef struct S_8004EDA8_owner {
 extern void *func_8003FC64(s32 a0);
 extern void func_8004EB3C(void *a0);
 extern void func_8004ED5C(void *a0);
-extern s16 func_80053DA8(s32 a0);
+extern s16 SD_Call(s32 a0);
 
 /* Clears the owner flag and allocates and initializes a callback node with its context. */
 void *func_8004EDA8(void *owner_arg, void *context_arg)
@@ -36,7 +36,7 @@ void *func_8004EDA8(void *owner_arg, void *context_arg)
         node_fields = (u8 *)&node->owner_0x20;
         *(void **)(node_fields + 4) = context;
         node->owner_0x20 = owner;
-        func_80053DA8(0xD1);
+        SD_Call(0xD1);
         *(void (**)(void *))(node_fields - 0x10) = func_8004ED5C;
         func_8004EB3C((u8 *)node + 0x28);
     }

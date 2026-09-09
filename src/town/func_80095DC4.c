@@ -30,9 +30,9 @@ typedef struct CopyOutput {
 
 
 extern CopyGlobal D_800CFCB4;
-extern void func_80094894(void);
+extern void func_80094894(S_80093524_0 *, CopyOutput *, s32);
 
-void func_80093524(S_80093524_0 *arg0, CopyOutput *out) {
+void func_80093524(S_80093524_0 *arg0, CopyOutput *out, s32 arg2) {
     s16 counter;
 
     out->x = D_800CFCB4.middle->source->x;
@@ -41,6 +41,6 @@ void func_80093524(S_80093524_0 *arg0, CopyOutput *out) {
     counter = arg0->unk_0A - 1;
     arg0->unk_0A = counter;
     if (counter < 0) {
-        func_80094894();
+        func_80094894(arg0, out, arg2);
     }
 }

@@ -48,10 +48,10 @@ typedef int s32;
 typedef s8 M2C_UNK8;
 extern s32 D_800E296C[3];
 extern u8 D_800E3648[];
-s32 func_800A6D30();
+s32 func_800A6D30(void *, s32, s32, s32);
 s32 func_800A6DA4();
 extern u8 D_800E39C8[];
-void func_8001CFB8(void *arg0)
+void func_8001CFB8(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
   u8 *var_s2;
   s16 temp_v1;
@@ -65,7 +65,7 @@ void func_8001CFB8(void *arg0)
   u8 *var_s1;
   if (!((*D_800E296C) & 0x10000000))
   {
-    temp_rand = func_800A6D30() & 7;
+    temp_rand = func_800A6D30(arg0, arg1, arg2, arg3) & 7;
     temp_lo = (*((u16 *) (((s8 *) arg0) + 6))) * (*((u16 *) (((s8 *) arg0) + 4)));
     temp_v1 = (temp_lo >> 2) + temp_rand;
     var_s4 = temp_v1;

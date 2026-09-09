@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800A6D30(void);
+extern s32 func_800A6D30(u32, u32, s32, s32);
 
 #ifdef NON_MATCHING
 #define TF14_HOLD(var) ((void)0)
@@ -10,7 +10,7 @@ extern s32 func_800A6D30(void);
 #define TF14_KEEP(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
 #endif
 
-s32 func_800A6DA4(u32 arg0, u32 arg1) {
+s32 func_800A6DA4(u32 arg0, u32 arg1, s32 arg2, s32 arg3) {
     register u32 range ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 result;
     u32 temp_v0;
@@ -25,7 +25,7 @@ s32 func_800A6DA4(u32 arg0, u32 arg1) {
         var_s0 = var_s1;
         var_s1 = temp_v0;
     }
-    result = func_800A6D30() & 0xFFFF;
+    result = func_800A6D30(arg0, arg1, arg2, arg3) & 0xFFFF;
     range = (var_s0 - var_s1) + 1;
     TF14_HOLD(range);
     result %= range;

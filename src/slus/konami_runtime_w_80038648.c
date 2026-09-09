@@ -11,13 +11,13 @@ typedef struct S_80038648_0 {
 } S_80038648_0;   /* arg0 in func_80038648 */
 
 
-M2C_UNK func_80053DA8();                     /* extern */
+M2C_UNK SD_Call();                     /* extern */
 extern M2C_UNK func_80038A10;
 
-/* When the object's flag is set, call func_80053DA8 and set its handler to func_80038A10. */
+/* When the object's flag is set, call SD_Call and set its handler to func_80038A10. */
 void func_80038648(S_80038648_0 *object) {
     if (object->unk_84 != 0) {
-        func_80053DA8(0xB4);
+        SD_Call(0xB4);
         object->unk_10 = &func_80038A10;
     }
 }

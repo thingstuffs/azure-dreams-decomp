@@ -41,7 +41,7 @@ typedef struct State {
 extern Entry D_80082660[];
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
-extern ObjectBlock *func_800392A4(s32 arg0);
+extern ObjectBlock *ms_mot_accpt_ow(s32 arg0);
 extern void func_800383D4(void);
 extern void func_80038408(void);
 
@@ -76,7 +76,7 @@ void func_8003931C(State *state)
     }
 
     do {
-        object = func_800392A4(entry_index);
+        object = ms_mot_accpt_ow(entry_index);
     } while (0);
     if (object == 0) {
         goto unavailable;

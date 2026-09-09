@@ -2,7 +2,7 @@
 
 /* S_8006E61C: 12-byte record array indexed by a signed 16-bit id.
  * field0 (u16) is a counter/state value; field4 and field8 are pointers
- * forwarded to func_8003E4FC (callback registration). */
+ * forwarded to Control_CD (callback registration). */
 typedef struct {
     u16 field0;
     s16 pad2;
@@ -37,7 +37,7 @@ extern void func_800542BC(void);
 extern void DrawSync(s32 a0);
 
 /* registers a callback (kind, callback-ptr, arg) (matched, code.c) */
-extern s32 func_8003E4FC(s32 a0, void *a1, void *a2);
+extern s32 Control_CD(s32 a0, void *a1, void *a2);
 
 /* runs one step of the main loop while a condition holds (matched, code.c) */
 extern void func_8003F320(void);
@@ -46,7 +46,7 @@ extern void func_8003F320(void);
 extern void func_8003F5E0(s32 a0);
 
 /* masks a0 to 16 bits and forwards to func_80055778, sign-extends result (matched, code.c) */
-extern short func_80053DA8(s32 a0);
+extern short SD_Call(s32 a0);
 
 /* tests availability bit n of D_800847D0 (matched, gcc 2.8.1, w_8005405C.c) */
 extern s32 func_8005405C(s16 n);
@@ -73,9 +73,9 @@ void func_8004425C(s16 record_id)
         {
             void *callback = record->field8;
             D_80081480.field_0 = D_8008148C.field_0;
-            func_8003E4FC(6, callback, 0);
+            Control_CD(6, callback, 0);
         }
-        func_8003E4FC(6, record->field4, 0);
+        Control_CD(6, record->field4, 0);
         func_8003F320();
         ready_value = 1;
         /* == D_8008148C.field_0, but reached via the D_80081480 neighbour symbol
@@ -85,7 +85,7 @@ void func_8004425C(s16 record_id)
          * both independently; see decomp_learnings.md's "dual-access global"
          * neighbour-symbol technique). */
         func_8003F5E0(((s32 *)&D_80081480)[3]);
-        func_80053DA8(((2 << slot) | 0x10) & 0xFFFF);
+        SD_Call(((2 << slot) | 0x10) & 0xFFFF);
         func_800542BC();
         do {
             available = (s16)func_8005405C(record->field0);

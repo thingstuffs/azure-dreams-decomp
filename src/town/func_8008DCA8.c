@@ -8,7 +8,7 @@ s32 func_8008B3AC(s32);
 void func_8008B49C(s32);
 
 /* reserve_twch_load: reserve a town character load in an available character_slot and process it. */
-void func_8008B408(s32 character_id) {
+void reserve_twch_load(s32 character_id) {
     register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     void **character_slot;
     u8 *character_table;

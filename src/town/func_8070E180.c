@@ -7,7 +7,7 @@ extern u8 D_8001B9E0[];
 extern u8 D_8001C6D0[];
 extern u8 D_80020934[];
 
-extern void *func_80016CE4(void);
+extern void *func_80016CE4(s32, s32);
 extern void *func_80016D18(void);
 extern void *func_80016E48(s32);
 extern void func_8001A554(s32);
@@ -28,7 +28,7 @@ void *func_80017180(s32 arg0, s32 arg1, s32 arg2)
     goto *D_800160D0[index];
 
 case_19:
-    result = func_80016CE4();
+    result = func_80016CE4(arg0, arg1);
     D_8001B16C[0] = result;
     if (result != 0) {
         return result;

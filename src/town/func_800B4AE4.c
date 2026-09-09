@@ -9,6 +9,6 @@ __asm__(".set D_8001029C_A, 0x8001029C");
 __asm__(".set D_8001029C_B, 0x8001029C");
 
 /* del_t_item_w_ptr: Find the town item pointer and delete its table entry. */
-void func_800B2244(s32 item_ptr) {
+void del_t_item_w_ptr(s32 item_ptr) {
     func_800B2190(D_8001029C_A, func_800B2214(D_8001029C_B, item_ptr, 0x14));
 }

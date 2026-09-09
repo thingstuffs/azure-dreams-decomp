@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_80053EF0(s32 a0);
-extern s16 func_80053DA8(s32 a0);
+extern s16 SD_Call(s32 a0);
 extern void func_80044618(s32 a0);
 extern s32 VSync(s32 mode);
 
@@ -28,7 +28,7 @@ void func_80044698(void)
             first_poll_done = 1;
             if (poll_state != 3)
             {
-                func_80053DA8(0xC1);
+                SD_Call(0xC1);
             }
         }
 

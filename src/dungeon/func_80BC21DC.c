@@ -22,7 +22,7 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern s32 func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171FC8(void);
+extern void func_80171FC8(void *, void *, void *, void *);
 extern void func_801721D8(void *, void *, void *, void *);
 extern s32 func_80172920(void *, void *, void *, void *);
 extern void func_80172AAC(void *, void *, void *, void *);
@@ -118,7 +118,7 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
 
     if (D_80083462 & 0x1000) {
         ((S_801719DC_0 *)arg0)->unk_9A = 0xE;
-        func_80171FC8();
+        func_80171FC8(in0, in1, in2, in3);
         return;
     }
     ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

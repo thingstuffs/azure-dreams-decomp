@@ -6,7 +6,7 @@
 
 extern s32 D_80083160[];
 
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_80025D34(void *);
 extern void func_80027AFC(s32, s32);
 extern void func_8002592C(void *);
@@ -35,13 +35,13 @@ void func_8002593C(u8 *object)
     if (held_buttons != 0) {
         pressed_buttons = controller[4];
         if (pressed_buttons & 0x20) {
-            func_80053DA8(0x515);
+            SD_Call(0x515);
             func_80025D34(object - 0x20);
             func_80027AFC(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
             goto epilogue;
         }
         if (pressed_buttons & 0x40) {
-            func_80053DA8(0x503);
+            SD_Call(0x503);
             if (((Rec_func_80025030_arg0 *)object)->unk_48 == 0) {
                 func_8002592C(object);
                 needs_refresh = 1;
@@ -88,7 +88,7 @@ void func_8002593C(u8 *object)
 
 direction_check:
         if (selection_step != 0) {
-            func_80053DA8(0x502);
+            SD_Call(0x502);
             if (((Rec_func_80025030_arg0 *)object)->unk_48 == 1) {
                 ((Rec_func_80025030_arg0 *)object)->unk_28 =
                     func_80049DE8(((Rec_func_80025030_arg0 *)object)->unk_28, selection_step, 5);

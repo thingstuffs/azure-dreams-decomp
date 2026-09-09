@@ -11,7 +11,7 @@ typedef struct {
 extern State D_80100DE0;
 
 /* tcame_chase2_set: Set the alternate camera chase handler and target pointers. */
-void func_800A50B8(void) {
+void tcame_chase2_set(void) {
     u8 *state = (u8 *)&D_80100DE0;
 
     *(void **)(state + 0x28) = D_800A4D4C;

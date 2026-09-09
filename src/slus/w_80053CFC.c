@@ -19,7 +19,7 @@ typedef struct {
     s32 field_8;
 } S_80081568_Hi;
 
-extern void func_8003E4FC(s32 arg0, void *arg1, s32 arg2);
+extern void Control_CD(s32 arg0, void *arg1, s32 arg2);
 extern void func_8003F320(void);
 extern volatile s32 D_80081568;
 extern s32 D_8008156C;
@@ -41,6 +41,6 @@ void func_80053CFC(S_80053CFC *source, s32 packed_value)
     command = &D_80081568_hi;
     D_80081568 = ((((u32)D_80081568 + 0x7FF) >> 11) << 23) | low_bits;
     __asm__ volatile("" : : "r"(command));
-    func_8003E4FC(6, command, saved_value);
+    Control_CD(6, command, saved_value);
     func_8003F320();
 }

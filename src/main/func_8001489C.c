@@ -18,7 +18,7 @@ extern void func_80027BF4(void);
 extern void func_80027C90(void *arg0);
 extern void func_80040AA0(s32 arg0);
 extern void func_80044144(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 extern void func_800A68F4(void);
 extern void func_800277BC(void);
 
@@ -48,7 +48,7 @@ void func_8002789C(void *menu)
         if (button_flags & 0x20) {
             s32 *object;
 
-            func_80053DA8(0x515);
+            SD_Call(0x515);
             func_80027C90((u8 *)menu - 0x20);
             func_80027BF4();
             if (D_80082E6B == 3) {
@@ -63,7 +63,7 @@ void func_8002789C(void *menu)
             }
             goto selection_check;
         } else if (button_flags & 0x40) {
-            func_80053DA8(0x503);
+            SD_Call(0x503);
             func_80020924((*(s32 *)((u8 *)menu + 0xC)));
             (*(s32 *)((u8 *)menu + 0x34)) = 0;
             (*(void * *)((u8 *)menu + -0x10)) = func_800277BC;
@@ -86,7 +86,7 @@ void func_8002789C(void *menu)
 
 selection_check:
         if (selection_changed != 0) {
-            func_80053DA8(0x502);
+            SD_Call(0x502);
             func_80026FD4((*(s32 *)((u8 *)menu + 0x24)), (*(s32 *)((u8 *)menu + 0xC)));
         }
     }

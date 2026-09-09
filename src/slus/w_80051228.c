@@ -7,7 +7,7 @@
 #endif
 
 extern void DrawSync(s32);
-extern void func_8003E4FC(s32, void *, void *);
+extern void Control_CD(s32, void *, void *);
 extern void func_8003F320(void);
 extern void func_80041344(void *, s32);
 extern void func_80046E38(u8, void *);
@@ -46,26 +46,26 @@ void func_80051228(void)
     void *load_callback = func_8003E140;
 
     load_status = 0;
-    func_8003E4FC(6, D_80080BB4, 0);
-    func_8003E4FC(0xFF, load_callback, &load_status);
+    Control_CD(6, D_80080BB4, 0);
+    Control_CD(0xFF, load_callback, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_0[0]);
     DrawSync(0);
     load_status = 0;
-    func_8003E4FC(6, D_80080BBC, 0);
-    func_8003E4FC(0xFF, load_callback, &load_status);
+    Control_CD(6, D_80080BBC, 0);
+    Control_CD(0xFF, load_callback, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_1[0]);
     DrawSync(0);
     load_status = 0;
-    func_8003E4FC(6, D_80080BC4, 0);
-    func_8003E4FC(0xFF, load_callback, &load_status);
+    Control_CD(6, D_80080BC4, 0);
+    Control_CD(0xFF, load_callback, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_2[0]);
     DrawSync(0);
     load_status = 0;
-    func_8003E4FC(6, D_80080BCC, 0);
-    func_8003E4FC(0xFF, load_callback, &load_status);
+    Control_CD(6, D_80080BCC, 0);
+    Control_CD(0xFF, load_callback, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_3[0]);
     DrawSync(0);
@@ -122,8 +122,8 @@ void func_80051228(void)
         break;
     }
 
-    func_8003E4FC(command, resource, 0);
-    func_8003E4FC(0xFF, func_8003E140, &load_status);
+    Control_CD(command, resource, 0);
+    Control_CD(0xFF, func_8003E140, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_4[0]);
     DrawSync(0);

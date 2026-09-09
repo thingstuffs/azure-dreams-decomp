@@ -5,6 +5,6 @@
 M2C_UNK func_8009E348(); /* extern */
 
 /* koya_mon_status_close: close the monster status display. */
-void func_800C0BA4(void) {
+void koya_mon_status_close(void) {
     func_8009E348(0, 0, 0, 0);
 }

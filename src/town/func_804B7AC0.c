@@ -8,9 +8,9 @@ typedef struct {
 } TownState;
 
 extern TownState *D_80016000;
-extern void func_80017BA0(void);
+extern void func_80017BA0(s32, s32);
 
-s32 func_804B7AC0(void)
+s32 func_804B7AC0(s32 arg0, s32 arg1)
 {
     TownState *state_before;
     TownState *state_after;
@@ -19,7 +19,7 @@ s32 func_804B7AC0(void)
     if (state_before->bytes[state_before->index * 8] < 2U) {
         return 0;
     }
-    func_80017BA0();
+    func_80017BA0(arg0, arg1);
     state_after = D_80016000;
     state_after->bytes[state_after->index * 8] = 0;
     return 1;

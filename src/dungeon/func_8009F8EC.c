@@ -141,7 +141,7 @@ typedef struct S_800A504C_7_pre {
 
 
 extern s32 func_8003E188();
-extern s32 func_8003E4FC();
+extern s32 Control_CD();
 extern s32 func_8003FA44();
 extern s32 func_800424E0();
 extern s32 func_80042560();
@@ -381,7 +381,7 @@ second_zero:
     D_80081488 = func_80048118(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
     func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 0);
     D_800E3E40[0] = 0;
-    func_8003E4FC(0xFF, D_8003E140, D_800E3E40);
+    Control_CD(0xFF, D_8003E140, D_800E3E40);
     return func_800A5448();
 
 second_equal:

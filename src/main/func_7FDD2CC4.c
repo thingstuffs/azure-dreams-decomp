@@ -34,7 +34,7 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_80053428();                      /* extern */
-M2C_UNK func_80053DA8(); /* extern */
+M2C_UNK SD_Call(); /* extern */
 M2C_UNK func_80067014();                     /* extern */
 M2C_UNK func_800672D8();        /* extern */
 M2C_UNK func_8006733C();        /* extern */
@@ -142,7 +142,7 @@ void func_80089C24(void) {
         third_level = (s32) D_80080A94 >> 7;
     }
     levels[2] = third_level;
-    func_80053DA8(0x200);
+    SD_Call(0x200);
     func_8006733C(frame + 0x270, frame + 0x70);
     func_80067014(0);
     index = 0xFF;

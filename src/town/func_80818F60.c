@@ -90,7 +90,7 @@ extern s32 func_800352FC(void);
 extern void *func_8003FC64(s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 rand(void);
 extern void func_80093CEC(void *);
 extern void func_80093D48(void *, void *, void *);
@@ -155,7 +155,7 @@ void func_80022F60(void *arg0) {
             angle = ((S_80022F60_1 *)main_state)->unk_10.s;
             angle = (angle + 0x1000) & 0xFE00;
             ((S_80022F60_1 *)main_state)->unk_10.u = angle;
-            func_80053DA8(0xB1);
+            SD_Call(0xB1);
             func_80033B78(0x524);
             ((S_80022F60_0 *)arg)->unk_02.s = 4;
             ((S_80022F60_0 *)arg)->unk_06 = 0;
@@ -225,7 +225,7 @@ void func_80022F60(void *arg0) {
                 ((S_80022F60_2 *)motion)->unk_10 = 0;
                 ((S_80022F60_2 *)motion)->unk_0C = 0;
                 if ((cur_angle == 0) && (func_800352FC() == 0)) {
-                    func_80053DA8(0x200);
+                    SD_Call(0x200);
                     one = 1;
                     alloc_page = main_state - 0x20;
                     flag_one = D_800272C8;
@@ -490,7 +490,7 @@ void func_80022F60(void *arg0) {
 
     case 0x23:
         if ((s16)timer <= 0) {
-            func_80053DA8(0xB1);
+            SD_Call(0xB1);
             ((S_80022F60_0 *)arg)->unk_02.s = 0x3C;
             ((S_80022F60_0 *)arg)->unk_00.u = 0xFF;
         }
@@ -498,7 +498,7 @@ void func_80022F60(void *arg0) {
 
     case 0xFF:
         if ((s16)timer <= 0) {
-            func_80053DA8(0x200);
+            SD_Call(0x200);
             func_80093D48(main_state, &D_80083780, D_80082E80);
             ((S_80022F60_0 *)arg)->unk_00.s = 0;
         }

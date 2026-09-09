@@ -29,7 +29,7 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern s32 func_8003E4FC();
+extern s32 Control_CD();
 extern s32 func_8003F6D4();
 extern s32 func_8004068C();
 extern s32 func_800672D8();
@@ -57,9 +57,9 @@ void func_801254D8(void *context) {
 
     func_8003F6D4(8, D_8012A998, D_80133198,
                   D_80126D44[((S_801254D8_0 *)context)->unk_13][1]);
-    func_8003E4FC(6, D_80133198, 0);
+    Control_CD(6, D_80133198, 0);
     ((S_801254D8_0 *)context)->unk_0D = 0;
-    func_8003E4FC(0xFF, D_8003E140, (u8 *)context + 0xD);
+    Control_CD(0xFF, D_8003E140, (u8 *)context + 0xD);
     ((S_801254D8_0 *)context)->unk_0B++;
 
 state_ready:

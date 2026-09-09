@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8009EEAC();                            /* extern */
+M2C_UNK func_8009EEAC(s32, s32, s32, s32);                            /* extern */
 M2C_UNK func_8009F3D4(); /* extern */
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
@@ -16,12 +16,12 @@ typedef struct S_8009F020_1 {
     u8 unk_01;
 } S_8009F020_1;   /* var_s1 in func_8009F020 */
 
-void func_8009F020(void) {
+void func_8009F020(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *var_s0;
     u8 *var_s1;
     s32 var_s2;
 
-    func_8009EEAC();
+    func_8009EEAC(arg0, arg1, arg2, arg3);
     var_s2 = 0;
     var_s1 = D_800E36C8;
     var_s0 = D_800E3548;

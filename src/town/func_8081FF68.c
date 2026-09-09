@@ -47,7 +47,7 @@ __asm__(".set D_800834C8, 0x800834c8");
 extern s16 func_800C2AE8(void *arg0);
 extern void func_80093864(void);
 extern s32 func_800A2A18(void *arg0, void *arg1);
-extern s16 func_80053DA8(s32 arg0);
+extern s16 SD_Call(s32 arg0);
 extern void *func_800B1BEC(s32 arg0, s32 arg1, s32 arg2);
 extern void *func_80093C70(void);
 extern void func_800B1DBC(void *arg0);
@@ -227,7 +227,7 @@ sw_0:
         if (func_800A2A18(D_80024470, arg1) == 0) {
             return;
         }
-        func_80053DA8(0x523);
+        SD_Call(0x523);
         D_80024638[0] = (s32)func_800B1BEC(0, -80, 64);
         D_800834C8[0] = 0;
         func_80093C70();
@@ -254,7 +254,7 @@ sw_1:
         ((((S_80022768_2 *)global)->unk_08 & 0x1000) != 0 &&
          (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
         if (((S_80022768_0 *)state)->unk_64 < 3) {
-            func_80053DA8(0x502);
+            SD_Call(0x502);
             if ((u32)D_80012D5C[0] < 100U) {
                 return;
             }
@@ -268,7 +268,7 @@ sw_1:
         ((((S_80022768_2 *)global)->unk_08 & 0x4000) != 0 &&
          (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
         if (((S_80022768_0 *)state)->unk_64 >= 2) {
-            func_80053DA8(0x502);
+            SD_Call(0x502);
             D_80012D5C[0] += 100;
             ((S_80022768_0 *)state)->unk_64--;
             return;
@@ -285,7 +285,7 @@ sw_1:
         ((S_80022768_0 *)state)->unk_64 == 0) {
         return;
     }
-    func_80053DA8(0x526);
+    SD_Call(0x526);
     ((S_80022768_0 *)state)->unk_5E.u = 20;
     ((S_80022768_0 *)state)->unk_5C.s = 4;
     return;
@@ -339,7 +339,7 @@ sw_3:
     }
 
 sw_4:
-    func_80053DA8(0x524);
+    SD_Call(0x524);
     {
         u16 timer = ((S_80022768_0 *)state)->unk_60.u;
         ((S_80022768_0 *)state)->unk_60.u = timer - 1;
@@ -349,7 +349,7 @@ sw_4:
     if ((((S_80022768_2 *)global)->unk_10 & 0x40) != 0 &&
         ((S_80022768_0 *)state)->unk_60.s == 0) {
         void *obj;
-        func_80053DA8(0x522);
+        SD_Call(0x522);
         obj = ((S_80022768_12 *)((u8 *)(((s32)(s16)((S_80022768_0 *)state)->unk_5E.s << 2) +
                           (s32)state)))->unk_4C;
         ((S_80022768_4 *)obj)->unk_24 = 4;

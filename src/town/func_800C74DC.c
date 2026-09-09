@@ -9,7 +9,7 @@ extern Entry D_80082660[];
 extern s32 D_80082A38[64];
 
 /* anyone_org_pos_get: copy the actor's original position to script variables. */
-void func_800C4C3C(s32 actor_id) {
+void anyone_org_pos_get(s32 actor_id) {
     s32 *script_vars = D_80082A38;
     s16 *actor;
     s16 *position_data;

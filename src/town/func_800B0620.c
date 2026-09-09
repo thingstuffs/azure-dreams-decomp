@@ -1,9 +1,9 @@
 #include "common.h"
 
 extern s32 func_80049E1C(s32 arg0, s32 arg1, s32 arg2);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 extern void func_800ADB30(void *arg0);
-extern void func_800AE30C(void *arg0);
+extern void close_twin_shop(void *arg0);
 extern void func_800B1778(s32 arg0, s32 arg1, s32 arg2);
 extern void func_800B17C0(s32 arg0, s32 arg1);
 extern s32 D_80082AB8;
@@ -25,23 +25,23 @@ void func_800ADD80(s32 *menu) {
     if (held_buttons == 0) return;
     if (menu[2] == 0) {
         if (pad_state[4] & 0x20) {
-            func_80053DA8(0x515);
+            SD_Call(0x515);
             D_80082AB8 = 0;
-            func_800AE30C((u8 *)menu - 0x20);
+            close_twin_shop((u8 *)menu - 0x20);
         }
         return;
     }
     pressed_buttons = pad_state[4];
     if (pressed_buttons & 0x20) {
-        func_80053DA8(0x515);
+        SD_Call(0x515);
         D_80082AB8 = 0;
-        func_800AE30C((u8 *)menu - 0x20);
+        close_twin_shop((u8 *)menu - 0x20);
         return;
     }
     if (pressed_buttons & 0x40) {
-        func_80053DA8(0x514);
+        SD_Call(0x514);
         D_80082AB8 = 1;
-        func_800AE30C((u8 *)menu - 0x20);
+        close_twin_shop((u8 *)menu - 0x20);
         selected_entry = (u8 *)(menu[1] * 4 + menu[8]);
         selected_entry[3] |= 0x20;
         return;
@@ -70,7 +70,7 @@ void func_800ADD80(s32 *menu) {
     selection = func_80049E1C(menu[1], selection_step, menu[2]);
     row = selection / 5;
     if (selection == menu[1]) return;
-    func_80053DA8(0x502);
+    SD_Call(0x502);
     menu[1] = selection;
     if (row != menu[3]) {
         menu[3] = row;

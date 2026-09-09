@@ -3,12 +3,12 @@
 extern void func_800197C8(void) __attribute__((noreturn));
 extern void func_80019860(void) __attribute__((noreturn));
 extern s32 func_80019894(s32);
-extern void func_8003E4FC(s32, void *, s32);
+extern void Control_CD(s32, void *, s32);
 extern void func_8003F320(void);
 extern void func_8004425C(s32);
 extern void func_8004450C(s16);
 extern void func_80044698(void);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 
 typedef struct Object {
     s32 field_0;
@@ -103,7 +103,7 @@ s32 func_80019684(s16 arg0, s16 arg1, s32 arg2) {
             remat_base = D_8006E704_remat;
             remat_index >>= 14;
             slot = (Object **)((u8 *)remat_base + remat_index);
-            func_8003E4FC(call_kind, *slot, 0);
+            Control_CD(call_kind, *slot, 0);
             D_80080AF4_fresh[D_80080AFC_fresh] = *slot;
             func_8003F320();
         }
@@ -118,7 +118,7 @@ s32 func_80019684(s16 arg0, s16 arg1, s32 arg2) {
         if (D_80080AFC != 0) {
             effect = 0x22;
         }
-        func_80053DA8(effect);
+        SD_Call(effect);
         {
             s32 tail_result = 0;
             ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */

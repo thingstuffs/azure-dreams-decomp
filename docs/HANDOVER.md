@@ -1,4 +1,4 @@
-# Handover (written 2026-09-07 late evening UTC) — start here in a fresh session
+# Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on
 2026-09-08, the old URL redirects), local `~/azure-clean`, branch `master`.
@@ -80,8 +80,79 @@ skips the duplicate scorer run. The pin-removal obligation for tiny rows lives i
   forward, so headers only ever gain views. Scalar globals read through one-member structs are
   deliberately not records (typed-global work for L4).
 
+## Session 2026-09-09 (start here; the sections above are the 09-07/08 baseline)
+
+**Levels (bytes):** L3 74.4 %, L2 1.3 %, L1 4.0 % (96 rows whose `M2C_FIELD` accesses the T4 sweep
+could not type), L0 20.4 % (rows still carrying a blocking fidelity site). `STATUS.md` is current.
+
+**Done this session**
+
+- `tools/xform/t8b_passthru_params.py` (sweep `t8b_passthru_params`): the pass-through repair for
+  callers that declare fewer parameters than the callee reads (or name them differently) and for
+  files where t8 found the call ordinal ambiguous — resolved by the audited target name. 190 of the
+  277 single-site `PASSTHRU_NO_ARGS` rows applied, windows re-gated MATCH.
+- Reader lanes for single-site `LABEL_AS_CALL` rows (`work/lac_lane/BRIEF.md`, batches 3–7, Sonnet
+  subagents, 15 rows each): 13+11+14+15+14 exact of 75, landed through `tools/apply_candidates.py
+  --transform t11_midrow`. New levers are in the batch REPORTs and in the Astra prompt
+  (`ASM_SCHED_BARRIER()` before a guard clause / after an arm's store; guard order = hot/cold
+  layout; the tail-slot-sink loop is an unpinned `do/while` + `continue`). **Trap:** a row whose
+  target is called as a plain `f(args)` is NOT resolved when `f` is listed in
+  `config/sibcall_syms.<container>.txt` / `noreturn_syms.<container>.txt` — the assembler front
+  end converts that `jal` to `j` by name; the census (`census.py::live_sites`) is right to keep
+  counting it, and a lane must restructure the call away.
+- `tools/verify.py --diff` prints the scorer's positional disasm diff (free iteration for lanes).
+- **Names (L4a) are live.** `tools/apply_names.py <tsv>` applies evidence-backed renames: one
+  names.tsv line per function, every `src/` mention rewritten, every touched row re-verified, any
+  failure reverts the whole name (journal `ledger/names.jsonl`). 125 script-dump names applied
+  (`config/names.tsv` 145 lines; SLUS SHA-1 gate MATCH; windows MATCH). Mechanism, learned the hard
+  way: **names are a C-level alias layer and nothing below C ever sees them.** `tools/ccproc.py`
+  (gate pipeline) and `match.py::_canonicalise_names` (scorer pipeline) spell every renamed
+  identifier in the `gcc -S` listing back to its `func_<addr>` original, so the assembler's
+  name-keyed tables (sibcall/noreturn lists — the first attempt with a `.set` alias broke the SLUS
+  gate exactly there), the linker scripts and the slices work on the pre-rename symbols;
+  `verify.py::canonical_spelling` additionally scores a renamed *definition* under its func_ symbol.
+  The names.tsv row must carry the **true-space** symbol the C defines (`rows.jsonl true_name`),
+  not the synthetic row name the evidence may quote; `apply_names.py` resolves that.
+- `tools/agent_task.py --mode fidelity` (facts + recipes per row: class, target, landing word,
+  needed registers, rowbase coverage) and `--mode fields` (type the `M2C_FIELD` accesses);
+  `tools/campaign.py` takes per-tier `tag`/`limit`/`workers`. Plan `work/campaign_plan_v2.json`:
+  the three size tiers (picks up every row the sweeps and lanes unblocked), then the fidelity lane
+  over `work/fidelity_rows_single.txt` (311 rows) and `work/fidelity_rows_multi.txt` (483), then
+  the fields lane (`work/fields_rows.txt`, 96), then the size tiers again. Journals
+  `ledger/agents/gpt-6-astra-high-{campaign,fidelity,fields}.jsonl`. Relaunch after a quota stop:
+  `nohup python3 tools/campaign.py --plan work/campaign_plan_v2.json > work/campaign_controller.out 2>&1 &`
+  (state in `work/campaign_state.json`; delete it to start the plan from the first tier).
+- `levels.py`: a pin named only in a comment is not a pin; sweep journals without an `id` are skipped.
+
+**Traps for the next session:** the controller commits `ledger/agents ledger/promotions.jsonl src`
+after every launch — commit your own tree changes (tools, config, ledger) *before* launching it or
+they get swept into a campaign commit without their config; a bash `a && b && nohup c &` backgrounds
+the whole list, not just `c`; never print a set of window names.
+
 ## What happens next (in order)
 
+0. **Keep the Astra plan running** (above) until every tier prints `0 rows`; re-run `gate_all.py`
+   + `build_slus.sh`, `levels.py`, `status.py` and commit between relaunches. Lanes that stay
+   refused after two attempts at the same text are the residue for the L5 shape pass.
+0b. **Declarations (L4b), the measured prerequisite for modules** (`tools/decl_census.py`, output
+   `work/decl_census/<container>.json`): callers' prototypes disagree with the definition for 820
+   of town's 3,656 functions, 1,042 of dungeon's 4,836, 577 of slus's 1,260, 168 of main's 800;
+   data symbols are declared under several types for 350 / 517 / 152 / 57 of them (the L3 lanes
+   invented per-file struct names for shared globals; only 30 sit on a T7 record). Build `tools/gen_decls.py`: one canonical prototype per
+   function from its definition, one canonical extern per data symbol (record headers where T7
+   has one, the widest consistent scalar/array view otherwise, union views for real conflicts),
+   into `include/<container>/decls.h`; then a T12 sweep that replaces a row's local declarations
+   with the include, verified per row, refusals journalled (conflicting rows are reader work).
+0c. **Module map** (`tools/modules.py check|accept <proposal.json>` validates a proposal —
+   contiguity, one load base per module, assertion files respected, full coverage — and writes
+   `ledger/modules.jsonl`; inputs per container with call graph + evidence in
+   `work/modules_input/<container>.json`, prompt `work/modules_input/PROMPT.md`, Astra proposals
+   land in `work/modules_proposed/`): every container splits into sub-overlays by load base (`ledger/splits/*.jsonl`
+   `load_base`: town 1,414 rows resident + 46 script modules; dungeon 808 engine + 183 floor
+   overlays + 620 unbased rows in `dungeon_deep_t8_*` windows; main 2 halves + card UI); within
+   the big resident groups cut at the proven object boundaries (`docs/EVIDENCE.md` §2) and by
+   call-graph clusters; `tools/modules.py` writes `ledger/modules.jsonl` and the `l4_modules`
+   journal `levels.py` already reads.
 1. **Names and modules (L4).** The 12 record headers are the place to name things: a member
    name changed in `include/records/Rec_*.h` reaches every user, and the gate proves it. **Start
    from `docs/EVIDENCE.md`** (2026-09-08): every source of real names is in-tree and joined to rows

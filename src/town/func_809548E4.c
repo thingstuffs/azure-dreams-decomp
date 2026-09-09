@@ -229,7 +229,7 @@ s32 func_8002263C(); /* extern */
 M2C_UNK func_80023E6C();   /* extern */
 M2C_UNK func_80033B78();                     /* extern */
 M2C_UNK func_80033B9C();                     /* extern */
-short func_80053DA8(); /* extern */
+short SD_Call(); /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();           /* extern */
 s32 rand();                      /* extern */
@@ -428,15 +428,15 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
             ((S_800218E4_5 *)base)->unk_08 = 1;
             ((S_800218E4_0 *)arg0)->unk_2E.s = 0x20U;
             ((S_800218E4_0 *)arg0)->unk_2C.s = (s16) ((u16) ((S_800218E4_0 *)arg0)->unk_2C.s + 1);
-            func_80053DA8(0x521, var_a1, var_a2, var_a3);
+            SD_Call(0x521, var_a1, var_a2, var_a3);
             func_80021FB8();
             return;
         }
         goto block_67;
     case 2:
         if ((s16) ((S_800218E4_0 *)arg0)->unk_2E.s == 0x10) {
-            func_80053DA8(0x700);
-            func_80053DA8(0x702);
+            SD_Call(0x700);
+            SD_Call(0x702);
             var_s2_4 = 2;
             transition_a0 = 3;
             var_v1_6 = arg0 + 8;
@@ -524,7 +524,7 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
                 var_a0_6->unk_42 = (s16) ((S_800218E4_27 *)(temp_v1_8->unk_20))->unk_42;
                 ((S_800218E4_27 *)(temp_v1_8->unk_20))->unk_42 = (u16) var_a1_5;
             } while (var_s2_4 >= 0);
-            func_80053DA8(0x1702, var_a1_5);
+            SD_Call(0x1702, var_a1_5);
             func_80021FA8();
             return;
         }
@@ -666,12 +666,12 @@ void func_800218E4(void *arg0_in, s32 arg1, void *arg2, M2C_UNK arg3) {
         goto block_67;
     case 9:
         if ((s16) ((S_800218E4_0 *)arg0)->unk_2E.s == 0x64) {
-            func_80053DA8(0x702);
+            SD_Call(0x702);
         }
         temp_v0_9 = ((S_800218E4_0 *)arg0)->unk_2E.s - 1;
         ((S_800218E4_0 *)arg0)->unk_2E.s = temp_v0_9;
         if ((temp_v0_9 << 0x10) <= 0) {
-            func_80053DA8(0x72);
+            SD_Call(0x72);
             ((S_800218E4_0 *)arg0)->unk_2E.s = 0x1EU;
             ((S_800218E4_0 *)arg0)->unk_3A = (u16) (((S_800218E4_0 *)arg0)->unk_3A | 0x8000);
             ((S_800218E4_0 *)arg0)->unk_2C.p = (u16) (((S_800218E4_0 *)arg0)->unk_2C.p + 1);

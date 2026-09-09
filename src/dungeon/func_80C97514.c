@@ -99,7 +99,7 @@ typedef struct S_80C97514_11 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *D_80170858[];
 void func_8003DB94();     /* extern */
-s32 func_8003E4FC(); /* extern */
+s32 Control_CD(); /* extern */
 void func_8003F540(); /* extern */
 void *func_8003FC64();                       /* extern */
 void func_80041588(); /* extern */
@@ -181,9 +181,9 @@ turn_actor:
 start_effect:
     func_80041588(&D_8017530C, &D_801753A8, 1);
     func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
-    func_8003E4FC(0x15, func_800445E0(), NULL);
+    Control_CD(0x15, func_800445E0(), NULL);
     (*(s8 *)&D_801753A9) = 0;
-    func_8003E4FC(0xFF, &D_8003E140, &D_801753A9);
+    Control_CD(0xFF, &D_8003E140, &D_801753A9);
     func_800C77D0(actor - 0x20, position, 8, 0x300);
     ((S_80C97514_0 *)state)->unk_96 = 0x10U;
     ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);

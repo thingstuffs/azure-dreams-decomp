@@ -38,9 +38,22 @@ if os.path.exists(NAMES_TSV):
             if old and new and new != old:
                 _rename[new] = old
 
+# Names are a C-level alias layer.  The assembly is spelled back to the original func_<addr>
+# symbols before anything else sees it - the definition, every call, every address reference -
+# so the assembler front end's name-keyed tables (config/noreturn_syms*, sibcall_syms*), the
+# linker scripts, the per-row scorer and the SLUS link all work on exactly the pre-rename
+# symbols and the bytes cannot move.  String data (.ascii/.asciz) is left alone.
+_lines = sys.stdin.readlines()
+if _rename:
+    _text = "".join(_lines)
+    _present = [n for n in _rename if n in _text]
+    if _present:
+        _pat = re.compile(r"\b(" + "|".join(re.escape(n) for n in sorted(_present, key=len, reverse=True)) + r")\b")
+        _lines = [l if re.match(r"\s*\.(ascii|asciz|string)\b", l) else _pat.sub(lambda m: _rename[m.group(1)], l) for l in _lines]
+
 aliases = []  # (original func_<addr>, readable) to emit at EOF
 cur_section = None  # func_<addr> section name while between .ent and .end
-for line in sys.stdin:
+for line in _lines:
     m = re.match(r'\s*\.ent\s+(\S+)', line)
     if m:
         name = m.group(1)

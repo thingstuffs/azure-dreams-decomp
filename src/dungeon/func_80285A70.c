@@ -62,7 +62,7 @@ extern s32 func_80018E80(void);
 extern s32 func_80019AF8(void);
 extern void func_8001E96C(void);
 extern void func_8001F32C(void);
-extern void func_80041284();
+extern void file_load_com();
 
 extern u8 D_80083160[];
 extern u8 D_80083780[];
@@ -231,7 +231,7 @@ after_optional_setup:
         v0index += track_no;
         track = (TrackRecord *)(v0index + v1base);
         func_800B0544(track->track);
-        func_80041284(D_8001F588[track->table_index]);
+        file_load_com(D_8001F588[track->table_index]);
         func_80046E38(track->kind, D_800F0000);
         func_8001744C();
         func_800177A8();
@@ -289,7 +289,7 @@ after_optional_setup:
     }
 
 do_action:
-    func_80041284(action);
+    file_load_com(action);
     {
         s32 call_arg0;
         u8 *call_arg1;

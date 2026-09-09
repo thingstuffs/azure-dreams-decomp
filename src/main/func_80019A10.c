@@ -4,7 +4,7 @@ extern void func_8007BEF0(s32 arg0) __attribute__((noreturn));
 extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
 extern s32 func_8007C998(s32 arg0, s32 arg1, s32 arg2, void *arg3);
 extern s32 func_8007C9D8(s32 arg0);
-extern void func_8007CA38(void);
+extern void func_8007CA38(s32, s32, s32, s32);
 extern void func_8007CA48(void);
 
 extern s32 D_80400004[];
@@ -23,9 +23,9 @@ extern s32 D_804009E8[];
 extern s32 D_804009FC[];
 
 /* Opens and enables memory card events, asserting that each operation succeeds. */
-void func_80019A10(void) {
+void func_80019A10(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 event_handle;
-    func_8007CA38();
+    func_8007CA38(arg0, arg1, arg2, arg3);
     event_handle = func_8007C998(0xF4000001, 4, 0x2000, 0);
     *(s32 *)0x80409270 = event_handle;
     if (event_handle == -1) { func_8007C040(D_80400004, D_8040002C, 0xB4); func_8007BEF0(1); }

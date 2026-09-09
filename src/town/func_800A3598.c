@@ -8,7 +8,7 @@ s16 func_800A0F9C(void *arg0, s32 arg1, s16 arg2);
 void func_800A12AC(void *arg0, s32 arg1, s32 arg2);
 void func_8003E1C4(s32 arg0);
 void func_8003F540(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80053DA8(s32 arg0);
+void SD_Call(s32 arg0);
 
 /* Updates the object's state and applies completion effects when it reaches zero. */
 void func_800A0CF8(u8 *object, s32 unused, s32 state_id, s32 state_arg) {
@@ -21,6 +21,6 @@ void func_800A0CF8(u8 *object, s32 unused, s32 state_id, s32 state_arg) {
         *(void **)(object + 0x50) = D_800A0DAC;
         func_8003E1C4(0);
         func_8003F540(0, D_8006CD58[0], 0x0600065E, 0x030008B6);
-        func_80053DA8(0x300);
+        SD_Call(0x300);
     }
 }

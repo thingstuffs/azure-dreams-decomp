@@ -5,7 +5,7 @@
 M2C_UNK func_800C22A4();                            /* extern */
 
 /* start_gym_func: Prepare and start the gym event. */
-void func_800C2374(void) {
+void start_gym_func(void) {
     func_800C22A4();
     func_80022C8C(0, 0, 0, 0);
 }

@@ -3,13 +3,13 @@
 typedef s32 M2C_UNK;
 
 extern M2C_UNK func_8009EB3C();
-extern s32 func_8009F6E4();
+extern s32 get_item_chk();
 
 /* Process the item index when available and report success. */
 s32 func_8009EB9C(s32 context) {
     s32 item_index;
 
-    item_index = func_8009F6E4();
+    item_index = get_item_chk();
     if (item_index == -1) {
         return 0;
     }

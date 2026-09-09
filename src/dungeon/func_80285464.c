@@ -76,7 +76,7 @@ typedef struct RecD {
 
 #define ROOM_CELL(r, n) (*(RoomCell *)&D_800E2C40[((n) << 2) + ((r) << 6)])
 
-extern void func_8003E4FC(s32, s32, s32);
+extern void Control_CD(s32, s32, s32);
 extern void func_8003F320(void);
 extern s32 func_800199C8(s16);
 extern void func_8009A21C(s32, s32, s32);
@@ -124,7 +124,7 @@ void func_80018464(s16 layout_number)
     D_80081480 = data;
     cfg = &D_8008333C;
     map = cfg->cells;
-    func_8003E4FC(6, layout_id, 0);
+    Control_CD(6, layout_id, 0);
     func_8003F320();
     entry_index = 0;
 

@@ -16,7 +16,7 @@ typedef struct S_800B260C_1 {
 
 extern u8 D_80083160[];
 
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_800B1DCC(void *);
 extern void func_800B1F80(void *, s32);
 extern void func_800B2068(void *);
@@ -44,7 +44,7 @@ void func_800B260C(u8 *arg0) {
 
     buttons = ((S_800B260C_0 *)base)->unk_10.s;
     if (buttons & 0x20) {
-        func_80053DA8(0x515);
+        SD_Call(0x515);
         func_800B2CE8(arg0 - 0x20);
         func_800B2814();
         return;
@@ -52,25 +52,25 @@ void func_800B260C(u8 *arg0) {
     if (buttons & 0x40) {
         result = func_800B2400(arg0);
         if (result == 0) {
-            func_80053DA8(0x503);
+            SD_Call(0x503);
             func_800B26D8();
             return;
         }
         if (result != 3) {
             goto finish;
         }
-        func_80053DA8(0x506);
+        SD_Call(0x506);
         func_800B2814();
         return;
     }
         if (buttons & 0x80) {
-            func_80053DA8(0x503);
+            SD_Call(0x503);
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             func_800B2814();
         return;
     }
     if (buttons & 0x10) {
-        func_80053DA8(0x503);
+        SD_Call(0x503);
         func_800B25D8(arg0);
         func_800B2068(arg0);
         func_800B2814();
@@ -152,7 +152,7 @@ void func_800B260C(u8 *arg0) {
     }
 
     if (action != 0) {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         func_800B1F80(arg0, action);
     }
 

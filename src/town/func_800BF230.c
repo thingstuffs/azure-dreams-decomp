@@ -4,9 +4,9 @@
 #define F_U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define F_S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-extern s32 func_800352FC(void);
+extern s32 func_800352FC(void *, void *, void *, s32);
 extern s32 func_800C2AB4(void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_800478B8(void *);
 extern s32 rand(void);
 extern void func_8003DB94(void *, void *, s32);
@@ -24,7 +24,7 @@ extern u8 D_800E9DAC[];
 extern u8 D_800E9DD4[];
 extern u8 D_800E9DEC[];
 
-void func_800BC990(void *arg0, void *arg1, void *arg2) {
+void func_800BC990(void *arg0, void *arg1, void *arg2, s32 arg3) {
     void *handler;
     s16 *base_x;
     s16 *base_y;
@@ -43,7 +43,7 @@ void func_800BC990(void *arg0, void *arg1, void *arg2) {
     s32 value;
 
     handler = 0;
-    if (func_800352FC() == 0) {
+    if (func_800352FC(arg0, arg1, arg2, arg3) == 0) {
         goto clear_flag;
     }
     if (func_800C2AB4(arg0) == 0) {
@@ -52,7 +52,7 @@ void func_800BC990(void *arg0, void *arg1, void *arg2) {
     if (F_S32(arg0, 0xAC) & 1) {
         goto after_flag;
     }
-    func_80053DA8(0x601);
+    SD_Call(0x601);
     F_S32(arg0, 0xAC) |= 1;
     goto after_flag;
 

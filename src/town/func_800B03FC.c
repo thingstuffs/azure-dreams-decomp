@@ -1,12 +1,12 @@
 #include "common.h"
 
 extern s32 func_80049E1C(s32 arg0, s32 arg1, s32 arg2);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 extern void func_800AD8CC(s32 *arg0);
 extern void func_800ADA1C(s32 *arg0);
 extern void func_800ADB04(s32 *arg0);
 extern void func_800ADBD4(void) __attribute__((noreturn));
-extern void func_800AE30C(void *arg0);
+extern void close_twin_shop(void *arg0);
 extern void func_800B1778(s32 arg0, s32 arg1, s32 arg2);
 extern void func_800B17C0(s32 arg0, s32 arg1);
 
@@ -28,14 +28,14 @@ void func_800ADB5C(s32 *arg0) {
     }
 
     if (state[4] & 0x10) {
-        func_80053DA8(0x514);
+        SD_Call(0x514);
         func_800AD8CC(arg0);
         func_800ADBD4();
     }
     if (state[4] & 0x20) {
-        func_80053DA8(0x515);
+        SD_Call(0x515);
         D_80082AB8 = 0;
-        func_800AE30C((s8 *)arg0 - 0x20);
+        close_twin_shop((s8 *)arg0 - 0x20);
         return;
     }
     if (state[4] & 0x40) {
@@ -71,7 +71,7 @@ void func_800ADB5C(s32 *arg0) {
         return;
     }
 
-    func_80053DA8(0x502);
+    SD_Call(0x502);
     arg0[1] = value;
     if (quotient != arg0[3]) {
         arg0[3] = quotient;

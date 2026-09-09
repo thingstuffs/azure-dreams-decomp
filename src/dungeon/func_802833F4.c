@@ -16,7 +16,7 @@ extern void func_800A9024(s32);
 extern void func_8004AB7C(void);
 extern void func_80040AA0(s32);
 extern void func_8003F6D4(s32, void *, void *, s32);
-extern void func_8003E4FC(s32, void *, s32);
+extern void Control_CD(s32, void *, s32);
 extern void func_8003F320(void);
 extern void func_8009FAC4(void);
 extern void func_800499BC(void);
@@ -85,7 +85,7 @@ check_init:
         func_80040AA0(0x11);
         func_8003F6D4(0xC, (void *)0x80010000, &floor_data,
                      (floor_index * 0xC) + 0x399D);
-        func_8003E4FC(6, &floor_data, 0);
+        Control_CD(6, &floor_data, 0);
         func_8003F320();
         D_800E3D1C = 0x384;
         *(u16 *)(globals_base + 0x3714) |= 5;

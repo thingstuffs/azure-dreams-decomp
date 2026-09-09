@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800B2834();
+extern s32 get_player_homerank();
 extern u8 D_8008910C[];
 
 /* Returns the first four-byte table entry whose first two bytes match the keys. */
@@ -12,7 +12,7 @@ u8 *func_8009F77C(s32 first_key, s32 second_key) {
     s32 last_index;
 
     memcpy(last_indices, D_8008910C, 4);
-    last_index = last_indices[func_800B2834()];
+    last_index = last_indices[get_player_homerank()];
     index = 0;
     if (last_index <= -1) {
         goto no_match;

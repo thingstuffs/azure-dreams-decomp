@@ -38,7 +38,7 @@ typedef struct S_800F63D0_2 {
 
 extern s32 func_80033BC0();
 extern void *func_8003FC64();
-extern M2C_UNK func_80041284();
+extern M2C_UNK file_load_com();
 extern M2C_UNK func_8004491C();
 extern s16 func_800BCA68();
 extern u8 D_80045C34[]; /* overlays/dungeon/first_pass_matched/func_80D403A8.c */
@@ -55,7 +55,7 @@ void func_800F63D0(void) {
     S_800F63D0_2 *animation;
 
     if (func_80033BC0(0xA2) == 0) {
-        func_80041284(&D_800F6F28);
+        file_load_com(&D_800F6F28);
         object = func_8003FC64(0x12);
         if (object != NULL) {
             object->unk_10 = &D_800F62BC;

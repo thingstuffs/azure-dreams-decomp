@@ -216,13 +216,13 @@ s32 func_80043FB8(s32 unused, ...)
 }
 
 extern void func_8003F540(int a0, int a1, int a2, int a3);
-extern short func_80053DA8(int a0);
+extern short SD_Call(int a0);
 
 /* Forward four values and trigger status event 0x300. */
 void func_80044234(int first, int second, int third, int fourth)
 {
     func_8003F540(first, second, third, fourth);
-    func_80053DA8(0x300);
+    SD_Call(0x300);
 }
 
 extern int *func_8003F534(void);
@@ -541,13 +541,13 @@ int func_8004A4C4(void *unused, void *object) {
 extern s32 func_8004A574(u8 *item, s32 flag);
 
 /* file_load_com: process the item with mode one. */
-s32 func_8004A618(void *item)
+s32 get_item_sell_money(void *item)
 {
     return func_8004A574(item, 1);
 }
 
 /* func_koya_mon_talk_pal_ld: process the item with mode zero. */
-s32 func_8004A638(void *item)
+s32 get_item_buy_money(void *item)
 {
     return func_8004A574(item, 0);
 }
@@ -643,13 +643,13 @@ int func_8004B4DC(Unk8004B4DC *record) {
 /* Process the fixed global record with command six. */
 void func_8004B634(void)
 {
-    func_8003E4FC(6, D_80080B48, 0);
+    Control_CD(6, D_80080B48, 0);
 }
 
 extern void func_8004B634(void);
 
 /* jyotyu_set_reserve_nyul: process the fixed reserve record. */
-void func_8004B834(void)
+void load_bin_nametwin(void)
 {
     func_8004B634();
 }
@@ -967,12 +967,12 @@ void func_80050FA8(void)
 }
 
 extern char D_80080C1C[];
-extern void func_80041284(void *arg);
+extern void file_load_com(void *arg);
 
 /* Load the fixed global record D_80080C1C. */
 void func_80051500(void)
 {
-    func_80041284(D_80080C1C);
+    file_load_com(D_80080C1C);
 }
 
 extern void func_80051548(void);
@@ -1059,20 +1059,20 @@ void func_800530A4(Entity1 *entity) {
     }
 }
 
-extern int func_8003E4FC(int a0, void *a1, int a2);
+extern int Control_CD(int a0, void *a1, int a2);
 extern void func_8003F320(void);
 
 /* Process a record with command six and finish the update. */
 void func_80053C3C(void *record)
 {
-    func_8003E4FC(6, record, 0);
+    Control_CD(6, record, 0);
     func_8003F320();
 }
 
 extern int func_80055778(unsigned short a0);
 
 /* Pass the low 16 flag bits to the event handler and return its signed halfword result. */
-short func_80053DA8(int flags)
+short SD_Call(int flags)
 {
     return func_80055778((unsigned short)flags);
 }

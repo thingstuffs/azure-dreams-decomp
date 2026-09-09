@@ -56,7 +56,7 @@ extern void func_80019A74(void);
 extern s32 func_80033BC0(s32 arg0);
 extern void func_80044698(void);
 extern void func_80048088(s16 arg0);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 extern void func_800542BC(void);
 extern s32 func_800A6D30(void);
 extern s32 func_800A6DA4(s32 arg0, s32 arg1);
@@ -146,7 +146,7 @@ process_quotient:
             if (D_80080A88[0] == 0) {
                 func_80044698();
                 D_80080A88[0] = 1;
-                func_80053DA8(0x200);
+                SD_Call(0x200);
                 func_800542BC();
             }
             if (encounter_status == 0) {
@@ -156,7 +156,7 @@ process_quotient:
         } else {
             func_80019684(0, 1, 0);
             func_80019684(0x29, 1, 1);
-            func_80053DA8(0x200);
+            SD_Call(0x200);
             func_800542BC();
             func_80048088(0x38);
         }
@@ -175,7 +175,7 @@ finish_state_zero:
             floor_event = 9;
             D_800E296C[0] |= 0x10000000;
             func_80019684(1, 1, 1);
-            func_80053DA8(0x200);
+            SD_Call(0x200);
             func_800542BC();
             func_80019684(0, 1, 0);
             final_page = (DungeonPage80285E80 *)0x80080000;
@@ -186,7 +186,7 @@ finish_state_zero:
             encounter_status = func_80019684(floor_group + 1, 1, 1);
             if (encounter_status == 0) {
                 func_80044698();
-                func_80053DA8(0x200);
+                SD_Call(0x200);
                 func_800542BC();
                 func_80019684(0, 1, 0);
             }

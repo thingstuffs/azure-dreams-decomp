@@ -22,7 +22,7 @@ extern s32 func_8003DF74(void *, void *, void *, s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern void func_80024DE8(void *, void *);
-extern s32 func_8009FCF0(s32, s32, s32, s32);
+extern s32 set_item_w0(s32, s32, s32, s32);
 extern void func_800A56E0(s32);
 extern s32 func_800A45D8(s32, s32, s32);
 extern void func_80065F90(s32, s32);
@@ -339,7 +339,7 @@ case_1:
     }
     if (FIELD(owner, void *, 0x60) != 0) {
         if (FIELD(effect, s16, 0x58) == 0) {
-            s32 target_distance = func_8009FCF0(
+            s32 target_distance = set_item_w0(
                 FIELD(effect, volatile u8, 0x1E),
                 FIELD(effect, volatile u8, 0x1F),
                 FIELD(owner, volatile u8, 0x72),

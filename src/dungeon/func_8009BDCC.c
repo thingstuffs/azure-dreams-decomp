@@ -15,7 +15,6 @@ typedef struct {
     u8 count;
 } Entry;
 
-extern void func_800A159C(void) __attribute__((noreturn));
 extern Entry *func_800A1618(s16 arg0, s16 arg1);
 extern DungeonState D_80083460;
 
@@ -28,15 +27,11 @@ s32 func_800A152C(s16 arg0, s16 arg1) {
         type = 2;
     }
     entry = func_800A1618(type, arg1);
-    if (entry == NULL) {
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-
-        result = 0;
-        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800A159C();
+    if (entry != NULL) {
+        entry->type = type;
+        entry->count++;
+        D_80083460.count++;
+        return 1;
     }
-    entry->type = type;
-    entry->count++;
-    D_80083460.count++;
-    return 1;
+    return 0;
 }

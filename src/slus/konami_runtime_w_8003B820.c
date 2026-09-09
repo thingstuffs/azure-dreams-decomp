@@ -4,7 +4,7 @@
 
 extern u8 *D_8001029C[];
 extern s8 D_80010333[];
-extern void func_800B2244(u8 *entry);
+extern void del_t_item_w_ptr(u8 *entry);
 
 /* Process type-0x13 entries whose indexed status is negative. */
 void func_8003B820(void)
@@ -22,7 +22,7 @@ void func_8003B820(void)
                                     (entry[3] & 0x1F) * 84);
 
                 if (status < 0) {
-                    func_800B2244(entry);
+                    del_t_item_w_ptr(entry);
                     continue;
                 }
             }

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_8004A618(void *arg0);
+extern s32 get_item_sell_money(void *arg0);
 extern s8 D_800D1074[];
 extern s32 D_800D1080[];
 
@@ -13,7 +13,7 @@ s32 func_800A9A38(u8 *entry) {
         type_index = 0;
         do {
             if (D_800D1074[type_index] == entry[1]) {
-                entry_value = func_8004A618(entry);
+                entry_value = get_item_sell_money(entry);
                 if (entry_value < D_800D1080[0]) {
                     return 0;
                 }

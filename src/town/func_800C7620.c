@@ -11,18 +11,18 @@ typedef struct S_800C4D80_0 {
     u16 unk_72;
     u8 pad_74[0xC];
     void * unk_80;
-} S_800C4D80_0;   /* data in func_800C4D80 */
+} S_800C4D80_0;   /* data in trget_psn_ang_set */
 
 typedef struct S_800C4D80_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
     void * unk_10;
-} S_800C4D80_1;   /* entry in func_800C4D80 */
+} S_800C4D80_1;   /* entry in trget_psn_ang_set */
 
 typedef struct S_800C4D80_2 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_800C4D80_2;   /* child in func_800C4D80 */
+} S_800C4D80_2;   /* child in trget_psn_ang_set */
 
 
 
@@ -39,7 +39,7 @@ extern u16 D_800D5070[];
 extern void func_800C2E84(void *, s32, s32);
 
 /* trget_psn_ang_set: set the matching person's angle from the table and refresh its child state. */
-void func_800C4D80(s8 object_slot, s8 angle_index)
+void trget_psn_ang_set(s8 object_slot, s8 angle_index)
 {
     TownEntry *table;
     s32 object_index;

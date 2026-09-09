@@ -12,7 +12,7 @@ extern s8 D_800CFC2C;
 extern s8 D_800FC418;
 
 /* Allocate and initialize eleven linked objects and their resources. */
-s32 func_8008B654(s32 value_7c, s32 value_78) {
+s32 town_map_set(s32 value_7c, s32 value_78) {
     register s32 count;
     void *objects[11];
     void *resources[11];

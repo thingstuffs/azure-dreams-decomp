@@ -14,7 +14,7 @@ extern u8 D_80083780[];
 
 extern s32 func_80064710(s32);
 extern void func_800672D8(LocalPoint *, void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -263,6 +263,6 @@ wrap_angle:
     value = U16(effect, 0x1A) & 0xFFF;
     U16(effect, 0x1A) = value;
     if ((prev_angle >> 8) != ((u32)value >> 8)) {
-        func_80053DA8(0x701);
+        SD_Call(0x701);
     }
 }

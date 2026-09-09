@@ -18,7 +18,7 @@ typedef struct S_80048C3C_1 {
 #endif
 
 M2C_UNK DrawSync();                          /* extern */
-M2C_UNK func_8003E4FC();       /* extern */
+M2C_UNK Control_CD();       /* extern */
 M2C_UNK func_8003F320();                            /* extern */
 M2C_UNK func_8003F80C(); /* extern */
 M2C_UNK func_80046F88();                      /* extern */
@@ -40,7 +40,7 @@ void *func_80048C3C(s32 resource_id) {
     load_mode = 6;
     ASM_KEEP(load_mode);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
     entry = (u8 *)entry + (u32)D_80071210;
-    func_8003E4FC(load_mode, ((S_80048C3C_0 *)entry)->unk_00, 0);
+    Control_CD(load_mode, ((S_80048C3C_0 *)entry)->unk_00, 0);
     func_8003F320();
     resource = ((S_80048C3C_0 *)entry)->unk_04;
     payload = resource + ((S_80048C3C_1 *)resource)->unk_1C;

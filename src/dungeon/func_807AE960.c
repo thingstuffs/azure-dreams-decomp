@@ -44,7 +44,7 @@ typedef struct S_807AE960_6 {
 
 
 extern void *D_800F6000[];
-M2C_UNK func_8003E4FC();
+M2C_UNK Control_CD();
 s32 func_8003F270();
 void func_8003F540();
 int func_800445E0();
@@ -153,7 +153,7 @@ jt_c3:
         goto block_26;
     }
     func_8003F540(0, D_8006CD58, 0x0600065E, 0x030008B6);
-    func_8003E4FC(0x15, func_800445E0(), 0);
+    Control_CD(0x15, func_800445E0(), 0);
 block_26:
     ((S_807AE960_1 *)state)->unk_04.s = 0x60;
     ((S_807AE960_1 *)state)->unk_0C.s = 0x60;

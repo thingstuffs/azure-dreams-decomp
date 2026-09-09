@@ -11,7 +11,7 @@ typedef struct S_800390D0_0 {
 } S_800390D0_0;   /* arg0 in func_800390D0 */
 
 
-M2C_UNK func_80053DA8();                     /* extern */
+M2C_UNK SD_Call();                     /* extern */
 s32 func_80053EF0();                         /* extern */
 extern u8 D_80082E6A;
 extern M2C_UNK func_80038A00;
@@ -20,7 +20,7 @@ extern M2C_UNK func_80038A00;
 void func_800390D0(S_800390D0_0 *state) {
     if (D_80082E6A != 2) {
         if (func_80053EF0(4) != 0x100) {
-            func_80053DA8(0xC4);
+            SD_Call(0xC4);
             goto set_callback;
         }
         state->unk_10 = NULL;

@@ -35,7 +35,8 @@ def commit(msg):
 
 def launch(plan, tier, n, dry_run):
     cmd = [sys.executable, str(ROOT / "tools/agent_task.py"), "--model", plan["model"], "--effort", plan.get("effort", "high"),
-           "--workers", str(plan.get("workers", 3)), "--limit", str(plan.get("limit", 900)), "--commit", "--tag", "campaign"]
+           "--workers", str(tier.get("workers", plan.get("workers", 3))), "--limit", str(tier.get("limit", plan.get("limit", 900))), "--commit",
+           "--tag", tier.get("tag", "campaign")]
     if "rows_file" in tier:
         ids = ",".join(Path(ROOT / tier["rows_file"]).read_text().split()); cmd += ["--rows", ids]
     else:
@@ -70,7 +71,7 @@ def main():
         res = launch(plan, tier, state["launch"], a.dry_run)
         log(f"launch {state['launch']} -> {res}")
         if a.dry_run: state["tier"] += 1; continue
-        commit(f"campaign: launch {state['launch']} tier {tier.get('min', 'rows')}-{tier.get('max', '')} {tier.get('mode', 'full')} ({res})")
+        commit(f"campaign: launch {state['launch']} {tier.get('tag', 'campaign')} tier {tier.get('min', 'rows')}-{tier.get('max', '')} {tier.get('mode', 'full')} ({res})")
         if res == "quota":
             log(f"quota: waiting {a.quota_wait}s"); time.sleep(a.quota_wait)
         elif res == "empty" or "rows_file" in tier:

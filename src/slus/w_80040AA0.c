@@ -25,7 +25,7 @@ struct S_80082E60
 extern struct S_80082E60 D_80082E60;
 extern s8 D_80080A88[12];
 extern void func_80043568(void);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 extern void func_800542BC(void);
 /* Updates the requested state and triggers transition handling when needed. */
 void func_80040AA0(s16 requested_state)
@@ -48,7 +48,7 @@ void func_80040AA0(s16 requested_state)
   {
     if ((((u16) requested_state) & 0xFFFF) == 5)
     {
-      func_80053DA8(0x72);
+      SD_Call(0x72);
     }
 #ifdef NON_MATCHING
     D_80080A88[0] = 0;
@@ -58,7 +58,7 @@ void func_80040AA0(s16 requested_state)
   }
   if (D_80080A88[0] == 0)
   {
-    func_80053DA8(0xCF);
+    SD_Call(0xCF);
     func_800542BC();
   }
 }

@@ -15,9 +15,9 @@ typedef struct S_800935BC_1 {
 
 
 
-extern void func_80093D48(void);
+extern void func_80093D48(S_800935BC_1 *, S_800935BC_0 *, s32);
 
-void func_800935BC(S_800935BC_1 *arg0, S_800935BC_0 *arg1) {
+void func_800935BC(S_800935BC_1 *arg0, S_800935BC_0 *arg1, s32 arg2) {
     s16 temp_v0;
 
     arg1->unk_00 = (s32) (((s32) (arg0->unk_30 << 0x10) + arg1->unk_00) / 2);
@@ -25,6 +25,6 @@ void func_800935BC(S_800935BC_1 *arg0, S_800935BC_0 *arg1) {
     temp_v0 = arg0->unk_0A - 1;
     arg0->unk_0A = temp_v0;
     if (temp_v0 < 0) {
-        func_80093D48();
+        func_80093D48(arg0, arg1, arg2);
     }
 }

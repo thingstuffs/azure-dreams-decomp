@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 func_8003E4FC(s32, s32, s32);
+extern s32 Control_CD(s32, s32, s32);
 extern void func_8003F320(void);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_800542BC(void);
 extern void func_8005A4E8(s32, s32, s32);
 extern void func_8005A56C(s32, s16, s16);
@@ -39,7 +39,7 @@ void func_800400AC(void) {
 
     D_80082E60 &= ~1;
     if (D_80080A88 == 0) {
-        func_80053DA8(0x7F);
+        SD_Call(0x7F);
         func_800542BC();
     }
 
@@ -75,7 +75,7 @@ void func_800400AC(void) {
     func_80067014(0);
     func_8005FE18(2);
     func_80060DE8(0);
-    func_8003E4FC(9, 0, 0);
+    Control_CD(9, 0, 0);
     func_8003F320();
     func_8017797C(0);
     func_80061208(0);

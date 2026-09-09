@@ -5,7 +5,7 @@
 M2C_UNK func_800C22A4();                            /* extern */
 
 /* Run func_sn_ball initialization and reset the four control values. */
-void func_800C2340(void) {
+void scr_func_sn_ball(void) {
     func_800C22A4();
     func_80020A20(0, 0, 0, 0);
 }

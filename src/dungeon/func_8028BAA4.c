@@ -12,13 +12,13 @@ typedef struct S_8001EAA4_1 {
 
 
 
-extern s32 func_800A6D30(void);
+extern s32 func_800A6D30(s8 *, s8 *, s32, s32);
 extern s32 D_80012090[];
 extern s16 D_8001F6F8[];
 extern u8 D_80073414[];
 
 /* Selects a random item by category thresholds and eligible item weights. */
-s32 func_8001EAA4(s8 *category_out, s8 *item_out) {
+s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
     s32 category_index;
     s32 rarity;
     s32 category_scale_or_weight;
@@ -35,7 +35,7 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out) {
     register u8 *item_category_table ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *category_entry ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    rng_result = func_800A6D30();
+    rng_result = func_800A6D30(category_out, item_out, arg2, arg3);
     category_threshold = (u16 *)D_8001F6F8;
     random_weight = category_threshold[19];
     random_weight = (rng_result & 0xFFFF) % random_weight;

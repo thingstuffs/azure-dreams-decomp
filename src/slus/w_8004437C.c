@@ -29,9 +29,9 @@ extern s32 D_801BEE40[4];
 extern void func_800542BC(void);
 extern void func_80044698(void);
 extern s32 func_8004450C(s16 arg0);
-extern s32 func_8003E4FC(s32 a0, void *a1, s32 a2);
+extern s32 Control_CD(s32 a0, void *a1, s32 a2);
 extern void func_8003F320(void);
-extern short func_80053DA8(int a0);
+extern short SD_Call(int a0);
 
 /* Selects a buffered entry, registering it with the slot marker and applying the requested mode. */
 s32 func_8004437C(s16 entry_index, s16 mode)
@@ -53,14 +53,14 @@ s32 func_8004437C(s16 entry_index, s16 mode)
         D_8006E704[entry_index]->field_0 |=
             ((D_80080AFC != 0) ? (s32) D_801C4640 : (s32) D_801BEE40) & 0x7FFFFF;
 
-        func_8003E4FC(6, D_8006E704[entry_index], 0);
+        Control_CD(6, D_8006E704[entry_index], 0);
         D_80080AF4[D_80080AFC] = D_8006E704[entry_index];
         func_8003F320();
     }
 
     func_8004450C(mode);
 
-    func_80053DA8((D_80080AFC != 0) ? 0x22 : 0x21);
+    SD_Call((D_80080AFC != 0) ? 0x22 : 0x21);
 
     return 0;
 }

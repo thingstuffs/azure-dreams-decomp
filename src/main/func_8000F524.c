@@ -12,7 +12,7 @@ typedef struct S_80022524_0 {
 
 
 
-extern void func_80053DA8(s32 code);
+extern void SD_Call(s32 code);
 extern s32 func_800231E4(s32 mode);
 extern s32 func_80049E1C(s32 current, s32 direction, u8 entry);
 extern void func_80022488(void *arg0);
@@ -40,7 +40,7 @@ void func_80022524(S_80022524_0 *menu)
     if (pressed_buttons & 0x20) {
         s32 *exit_status;
 
-        func_80053DA8(0x515);
+        SD_Call(0x515);
         func_800231E4(1);
         exit_status = menu->unk_20;
         if (exit_status != 0) {
@@ -53,7 +53,7 @@ void func_80022524(S_80022524_0 *menu)
         s32 *updated_status;
         s32 exit_result;
 
-        func_80053DA8(0x514);
+        SD_Call(0x514);
         exit_status = menu->unk_20;
         if (exit_status != 0) {
             exit_result = func_800231E4(1);
@@ -111,7 +111,7 @@ common:
             D_800280B4[menu->unk_08 * 0x18 + 0x14]);
         if (new_selection != menu->unk_00) {
             menu->unk_00 = new_selection;
-            func_80053DA8(0x502);
+            SD_Call(0x502);
         }
         func_80022488(menu);
     }

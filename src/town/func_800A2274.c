@@ -6,7 +6,7 @@ extern u8 D_80010980[];
 extern s32 D_800D0728[];
 
 /* sarch_koyaw_free: search for a free entry using the selected capacity. */
-void func_8009F9D4(void) {
+void sarch_koyaw_free(void) {
     s32 capacity_index;
 
     capacity_index = func_800B28A0();

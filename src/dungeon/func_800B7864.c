@@ -7,7 +7,7 @@ extern u8 D_800DF3CC[];
 
 extern s32 func_80033BC0(s32);
 extern void func_80040AA0(s32);
-extern void func_8003E4FC();
+extern void Control_CD();
 extern void func_8003F320(void);
 
 /* Invokes action 0x21 once when its conditions hold, or runs the default action. */
@@ -24,6 +24,6 @@ void func_800BCFC4(void) {
             return;
         }
     }
-    func_8003E4FC(6, &D_800DF3CC, 0);
+    Control_CD(6, &D_800DF3CC, 0);
     func_8003F320();
 }

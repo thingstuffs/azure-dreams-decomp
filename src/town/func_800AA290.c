@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 func_800644B8();                             /* extern */
-M2C_UNK func_800A790C();                            /* extern */
+/* extern */
 typedef struct S_800A79F0_0 {
     u8 pad_00[0x6C];
     u16 unk_6C;
@@ -16,7 +16,9 @@ typedef struct S_800A79F0_1 {
 
 /* extern */
 
-void func_800A79F0(S_800A79F0_0 *arg0, s32 arg1, S_800A79F0_1 *arg2) {
+
+M2C_UNK func_800A790C(S_800A79F0_0 *, s32, S_800A79F0_1 *, s32);
+void func_800A79F0(S_800A79F0_0 *arg0, s32 arg1, S_800A79F0_1 *arg2, s32 arg3) {
     u16 temp_v0;
     s32 temp_v0_2;
     s32 var_v1;
@@ -27,7 +29,7 @@ void func_800A79F0(S_800A79F0_0 *arg0, s32 arg1, S_800A79F0_1 *arg2) {
     if ((s16) temp_v0 <= 0) {
         arg2->unk_1E = 0x1000;
         arg2->unk_1C = 0x1000;
-        func_800A790C();
+        func_800A790C(arg0, arg1, arg2, arg3);
         return;
     }
     temp_v0_2 = func_800644B8((s16) temp_v0 * 0xBA);

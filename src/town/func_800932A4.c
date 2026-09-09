@@ -6,7 +6,7 @@ typedef struct {
 } State80083160;
 
 extern State80083160 D_80083160;
-extern void func_800909A0();
+extern void to_camera_zero_00();
 
 /* Clear the state field or invoke updates according to the record value. */
 void func_80090A04(void *record) {
@@ -18,9 +18,9 @@ void func_80090A04(void *record) {
         return;
     }
     if (threshold_value < 0x300) {
-        func_800909A0(state);
-        func_800909A0();
+        to_camera_zero_00(state);
+        to_camera_zero_00();
     }
-    func_800909A0();
-    func_800909A0();
+    to_camera_zero_00();
+    to_camera_zero_00();
 }

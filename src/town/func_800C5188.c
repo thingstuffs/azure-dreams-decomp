@@ -10,7 +10,7 @@ typedef struct {
     s32 pad[2];
 } FlagGlobal;
 
-extern s32 func_800352FC(void);
+extern s32 func_800352FC(void *, s32, s32, s32);
 extern void func_8008F134(void *arg0);
 
 extern PointerGlobal D_800FE4A0;
@@ -18,10 +18,10 @@ extern PointerGlobal D_800834B8;
 extern u8 D_80097D2C[12];
 extern FlagGlobal D_800814A0;
 
-void func_800C28E8(void *arg0) {
+void func_800C28E8(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     void *object;
 
-    if (func_800352FC() != 0) {
+    if (func_800352FC(arg0, arg1, arg2, arg3) != 0) {
         object = D_800FE4A0.value;
         if (object == arg0 && D_800834B8.value == D_80097D2C) {
             func_8008F134(object);

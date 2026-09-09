@@ -3,7 +3,7 @@
 #include "records/Rec_D_80082D58.h"
 
 s32 func_800352FC();                             /* extern */
-M2C_UNK func_80053DA8();                     /* extern */
+M2C_UNK SD_Call();                     /* extern */
 M2C_UNK func_800BF9CC();                            /* extern */
 M2C_UNK func_800BF9D0();                            /* extern */
 s32 func_800C2AB4();                          /* extern */
@@ -46,7 +46,7 @@ block_10:
             }
             threshold = threshold < distance;
             if ((threshold == 0) && (func_800352FC() != 0) && (func_800C2AB4(arg0) != 0)) {
-                func_80053DA8(0x50B);
+                SD_Call(0x50B);
                 distance = (u16)arg0->unk_68;
                 threshold = 0x20;
                 arg0->unk_6C.as_s16 = threshold;

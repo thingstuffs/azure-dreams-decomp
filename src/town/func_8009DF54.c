@@ -26,7 +26,7 @@ extern void func_8008F664(void *, void *);
 extern void func_8009B778(void *, void *);
 extern s32 func_8008C180(s16, s16);
 extern s32 func_800C1D44(u16);
-extern void func_80053DA8(u32);
+extern void SD_Call(u32);
 
 extern u8 D_8009B454[];
 extern s16 D_800D45AA[];
@@ -66,7 +66,7 @@ void func_8009B6B4(void *arg0, Rec_D_800CFCB4 *arg1, Rec_D_800E3D7C *arg2, s32 a
             s16 threshold = thresholds[index];
 
             if (height > threshold) {
-                func_80053DA8(0x517);
+                SD_Call(0x517);
             }
         }
     }

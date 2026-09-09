@@ -12,20 +12,20 @@ typedef struct S_800A7FD8_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     void * unk_0C;
-} S_800A7FD8_0;   /* temp_v0 in func_800A7FD8 */
+} S_800A7FD8_0;   /* temp_v0 in present_flower_set */
 
 typedef struct S_800A7FD8_1 {
     u8 pad_00[0x60];
     s32 unk_60;
-} S_800A7FD8_1;   /* temp_s0 in func_800A7FD8 */
+} S_800A7FD8_1;   /* temp_s0 in present_flower_set */
 
 typedef struct S_800A7FD8_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800A7FD8_2;   /* temp_s1 in func_800A7FD8 */
+} S_800A7FD8_2;   /* temp_s1 in present_flower_set */
 
 /* present_flower_set: create a flower gift object and initialize its state and callback data. */
-void func_800A7FD8(s32 initial_value) {
+void present_flower_set(s32 initial_value) {
     s32 callback_arg;
     S_800A7FD8_1 *state;
     S_800A7FD8_2 *callback_data;

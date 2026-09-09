@@ -12,7 +12,7 @@ typedef struct S_80039A08_0 {
 
 
 s32 func_80039884();                          /* extern */
-M2C_UNK func_80053DA8();                     /* extern */
+M2C_UNK SD_Call();                     /* extern */
 s32 func_80053EF0();                         /* extern */
 extern M2C_UNK func_800389B4;
 
@@ -31,6 +31,6 @@ void func_80039A08(S_80039A08_0 *state) {
             state->unk_10 = &func_800389B4;
             return;
         }
-        func_80053DA8(0xB4);
+        SD_Call(0xB4);
     }
 }

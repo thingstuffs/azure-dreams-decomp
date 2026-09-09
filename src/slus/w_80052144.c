@@ -35,7 +35,7 @@ extern s32 D_800814A0;
 
 extern void *jtbl_8002EFDC[];
 extern void func_800530C4(void *);
-extern s16 func_80053DA8(s32);
+extern s16 SD_Call(s32);
 extern s32 func_80053EF0(s32);
 extern void func_80051528(void *);
 extern void func_800517AC(void *);
@@ -91,7 +91,7 @@ void func_80052144(Controller *controller)
         if (controller->group != 0) {
             func_800530C4(controller->group);
         }
-        func_80053DA8(0xB4);
+        SD_Call(0xB4);
         controller->timer = 0;
         controller->state = 4;
     }
@@ -214,7 +214,7 @@ L_default:
         if (controller->attached != controller->finished) {
             return;
         }
-        func_80053DA8(0xB4);
+        SD_Call(0xB4);
 #line 900 "x"
         {
             register u8 *state_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */

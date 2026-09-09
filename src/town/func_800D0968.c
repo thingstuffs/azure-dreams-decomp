@@ -22,9 +22,9 @@ typedef struct {
 } TownState;
 
 extern TownState D_80083498;
-extern void func_800CE9EC(void);
+extern void func_800CE9EC(Object *, Position *, s32);
 
-void func_800CE0C8(Object *object, Position *position)
+void func_800CE0C8(Object *object, Position *position, s32 arg2)
 {
     s32 adjusted_y;
     s16 timer;
@@ -33,7 +33,7 @@ void func_800CE0C8(Object *object, Position *position)
     object->timer = timer;
     if (timer <= 0) {
         object->transition = 1;
-        func_800CE9EC();
+        func_800CE9EC(object, position, arg2);
     }
 
     position->x += (-position->x + D_80083498.target->x) / 2;

@@ -2,7 +2,7 @@
 
 #define NULL ((void *)0)
 
-s32 func_800A6D30(void);
+s32 func_800A6D30(void *, void *, s32, s32);
 s32 func_800A0818(u8, u8, u8, u8, void *);
 void func_800B4C7C(s32, void *, s32, s32);
 s32 func_800990FC(void);
@@ -16,7 +16,7 @@ extern u8 D_80088CAC[];
 extern u8 D_800E0D51[];
 extern u8 D_800E0D6D[];
 
-void func_8009BFF8(void *arg0, void *arg1) {
+void func_8009BFF8(void *arg0, void *arg1, s32 arg2, s32 arg3) {
     int sp18;
     s32 s0;
     s16 s3;
@@ -27,7 +27,7 @@ void func_8009BFF8(void *arg0, void *arg1) {
     void *v1;
 
     v0 = *(u8 **)((s8 *)arg0 + 0x50);
-    if (v0 != NULL && *v0 == 0xB && !(func_800A6D30() & 3)) {
+    if (v0 != NULL && *v0 == 0xB && !(func_800A6D30(arg0, arg1, arg2, arg3) & 3)) {
         s0 = ((s32)(*(u16 *)((s8 *)arg0 + 0x64) << 0x10)) >> 0x12;
         s3 = s0;
         *(u16 *)((s8 *)arg1 + 0x64) += s0;

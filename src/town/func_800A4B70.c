@@ -17,14 +17,13 @@ typedef struct Func800A4B70Output {
     s16 value;
 } Func800A4B70Output;
 
-extern void func_800A22FC(void) __attribute__((noreturn));
-
 void func_800A22D0(Func800A4B70Object *arg0, s32 arg1, Func800A4B70Output *arg2) {
     Func800A4B70Inner *inner = arg0->inner;
 
     if (arg0->flag != 0) {
         arg2->value = inner->value;
-        func_800A22FC();
+        return;
     }
     arg2->value = -inner->value;
+    ASM_SCHED_BARRIER();
 }

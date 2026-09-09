@@ -13,7 +13,7 @@ extern void func_800267DC();
 extern void func_80026978();
 extern void *func_8003FC64();
 extern void func_8004491C();
-extern void func_80053DA8();
+extern void SD_Call();
 extern s32 rand();
 
 extern u8 D_80026748[];
@@ -88,7 +88,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
         if (S16(state, 0xE) > 0) {
             break;
         }
-        func_80053DA8(0x518);
+        SD_Call(0x518);
         U16(PTR(object, 0), 0x12)++;
         S16(state, 0xC) = 1;
         U16(sprite, 0x14) &= 0xFF7F;
@@ -105,7 +105,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
                 S32(color_state, 0xC) -= 0x80808;
             }
             U16(sprite, 0x14) |= 0x80;
-            func_80053DA8(0x506);
+            SD_Call(0x506);
             S16(state, 0xC) = 2;
             break;
         }
@@ -119,7 +119,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
         }
         type_index = U16(owner, 0x16) - 3;
         if ((u32)type_index < 3) {
-            func_80053DA8(0x513);
+            SD_Call(0x513);
             S32(state, 4) = 0x180000;
             S16(state, 0xC) = 3;
             U16(state, 0x10) |= 4;
@@ -134,7 +134,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
             break;
         }
 
-        func_80053DA8(0x510);
+        SD_Call(0x510);
         remaining = 1;
         U16(state, 0x10) |= 4;
         U16(PTR(object, 0), 0x14)++;
@@ -187,7 +187,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
         *position = rebound_x;
         if (rebound_x > 0x55FFFFF) {
             S16(state, 0xE) = 5;
-            func_80053DA8(0x50C);
+            SD_Call(0x50C);
             S16(state, 0xC) = 4;
         }
         break;

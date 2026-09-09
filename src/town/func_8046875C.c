@@ -9,19 +9,19 @@ typedef struct S_8001975C_0 {
 } S_8001975C_0;   /* *(void **)D_80016000 in func_8001975C */
 
 
-extern void func_800198AC(void);
+extern void func_800198AC(s32);
 extern s16 *func_80019AFC(u8, u8);
 extern s8 D_80016000[];
 extern u8 *D_8001E950;
 
-s32 func_8001975C(void) {
+s32 func_8001975C(s32 arg0) {
     s16 *event;
     void *town;
     TownCallback callback;
     s32 result;
 
     if (D_8001E950[1] == 0) {
-        func_800198AC();
+        func_800198AC(arg0);
         D_8001E950[1]++;
         result = 1;
         event = func_80019AFC(D_8001E950[1], D_8001E950[5]);

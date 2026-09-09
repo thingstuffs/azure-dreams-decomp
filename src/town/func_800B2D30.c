@@ -16,7 +16,7 @@ typedef struct S_800B0490_1 {
 } S_800B0490_1;   /* arg0 in func_800B0490 */
 
 
-extern void func_80053DA8();
+extern void SD_Call();
 extern void func_800AE4D4();
 extern void func_800AF1B4();
 extern void func_800B0424();
@@ -44,13 +44,13 @@ void func_800B0490(S_800B0490_1 *menu)
 
     pressed_buttons = ((S_800B0490_0 *)pad_state)->unk_10;
     if (pressed_buttons & 0x20) {
-        func_80053DA8(0x515, pad_state);
+        SD_Call(0x515, pad_state);
         func_800AE4D4(menu->unk_08);
         goto done;
     }
 
     if (pressed_buttons & 0x40) {
-        func_80053DA8(0x503, pad_state);
+        SD_Call(0x503, pad_state);
         func_800B0424(menu);
         goto done;
     }
@@ -94,7 +94,7 @@ move:
     if (direction == 0) {
         goto done;
     }
-    func_80053DA8(0x502, pad_state);
+    SD_Call(0x502, pad_state);
     func_800AF1B4(menu->unk_04, direction, move_mode);
 
 done:

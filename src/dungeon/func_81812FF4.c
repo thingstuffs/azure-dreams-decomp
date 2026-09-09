@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80028774();                            /* extern */
+/* extern */
 
 typedef struct S_80027FF4_0 {
     u8 pad_00[0x2];
@@ -14,8 +14,10 @@ typedef struct S_80027FF4_0 {
     s8 unk_16;
 } S_80027FF4_0;   /* arg0 in func_80027FF4 */
 
-void *func_80027FF4(S_80027FF4_0 *arg0, s32 arg1) {
-    func_80028774();
+
+M2C_UNK func_80028774(S_80027FF4_0 *, s32, s32, s32);
+void *func_80027FF4(S_80027FF4_0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+    func_80028774(arg0, arg1, arg2, arg3);
     if (arg1 == 1) {
         arg0->unk_02 = -0x31;
         arg0->unk_0E = -0x31;

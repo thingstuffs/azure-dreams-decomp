@@ -9,13 +9,13 @@ typedef struct S_80173C40_0 {
 } S_80173C40_0;   /* arg0 in func_80173C40 */
 
 
-extern void func_800AB538(void);
+extern void func_800AB538(S_80173C40_0 *, void *, void *);
 
 
-void func_80173C40(S_80173C40_0 *arg0) {
+void func_80173C40(S_80173C40_0 *arg0, void *arg1, void *arg2) {
     s32 field_A4;
 
-    func_800AB538();
+    func_800AB538(arg0, arg1, arg2);
     field_A4 = arg0->unk_A4.at00.v;
     arg0->unk_A4.at02.v = 0;
     arg0->unk_AC = 0;

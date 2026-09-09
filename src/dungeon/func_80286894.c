@@ -3,10 +3,10 @@
 #include "records/Rec_D_80082E80.h"
 
 void func_800199A8(void) __attribute__((noreturn)); /* extern */
-M2C_UNK func_8003E4FC();       /* extern */
+M2C_UNK Control_CD();       /* extern */
 M2C_UNK func_8003F320();                            /* extern */
 M2C_UNK func_8003F5E0();                         /* extern */
-M2C_UNK func_80053DA8();                    /* extern */
+M2C_UNK SD_Call();                    /* extern */
 s16 func_8005405C();                             /* extern */
 M2C_UNK func_800542BC();                            /* extern */
 M2C_UNK func_8005FE18();                     /* extern */
@@ -42,18 +42,18 @@ s32 func_80019894(s16 arg0) {
         func_800199A8();
         return 0;
     }
-    func_80053DA8(0x72, temp_a1);
+    SD_Call(0x72, temp_a1);
     func_800542BC();
     *temp_s0 = arg0 + 1;
     func_80067014(0);
     func_8005FE18(0);
     temp_arg8 = temp_s1->unk_08;
     D_80081480 = ((Rec_D_80082E80 *)(&D_8008148C))->unk_00;
-    func_8003E4FC(6, temp_arg8, 0);
-    func_8003E4FC(6, temp_s1->unk_04, 0);
+    Control_CD(6, temp_arg8, 0);
+    Control_CD(6, temp_s1->unk_04, 0);
     func_8003F320();
     func_8003F5E0(D_8008148C);
-    func_80053DA8(((2 << temp_v0) | 0x10) & 0xFFFF);
+    SD_Call(((2 << temp_v0) | 0x10) & 0xFFFF);
     func_800542BC();
     do {
 

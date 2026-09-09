@@ -29,7 +29,7 @@ typedef struct TownObject {
     TownSlots *town;
 } TownObject;
 
-extern void func_80123C18(void);
+extern void func_80123C18(TownObject *);
 extern u8 D_80126A01;
 extern void *D_80126988[4];
 extern u8 D_80128038[16];
@@ -38,7 +38,7 @@ extern DisplayPair *D_80129748;
 
 void func_801247F8(TownObject *obj)
 {
-    func_80123C18();
+    func_80123C18(obj);
     D_80126A01 = 0;
 
     if (obj->digit == 0x31) {

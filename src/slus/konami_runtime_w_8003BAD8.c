@@ -3,9 +3,9 @@
 
 #include "common.h"
 
-M2C_UNK func_8003B9E8();                            /* extern */
+M2C_UNK chg_map_second_house_sel();                            /* extern */
 
-/* Calls func_8003B9E8. */
+/* Calls chg_map_second_house_sel. */
 void func_8003BAD8(void) {
-    func_8003B9E8();
+    chg_map_second_house_sel();
 }

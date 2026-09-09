@@ -27,7 +27,7 @@ typedef struct S_800DC724_3 {
 
 
 
-extern s32 func_80053DA8();
+extern s32 SD_Call();
 extern s32 func_800DC650();
 extern u8 D_800E2924[];
 
@@ -86,7 +86,7 @@ void func_800DC724(S_800DC724_0 *state, s32 coord)
         return;
     }
     if ((next_index ^ current_index) & 2) {
-        func_80053DA8(0x507);
+        SD_Call(0x507);
     }
     state->unk_50 = state->unk_54;
 }

@@ -8,7 +8,7 @@
 
 M2C_UNK func_80033AA8();
 M2C_UNK func_80033AE8();
-M2C_UNK func_8003E4FC();
+M2C_UNK Control_CD();
 M2C_UNK func_8003F320();
 M2C_UNK func_800B7934();
 extern u8 D_80010000[];
@@ -40,7 +40,7 @@ void func_800B98B4(void) {
     S_800B98B4_0 *entry;
     S_800B98B4_2 *reloaded_entry;
 
-    func_8003E4FC(6, &D_800D1BF4, 0);
+    Control_CD(6, &D_800D1BF4, 0);
     slot_index = 0;
     func_8003F320();
     func_80033AE8(0x12C3);

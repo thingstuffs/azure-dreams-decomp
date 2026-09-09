@@ -77,7 +77,7 @@ __asm__(".set D_800812F8, 0x800812F8");
 __asm__(".set D_800D381A, 0x800D381A");
 
 /* Updates the runtime state from an input record and invokes its callback. */
-void func_8003BAF8(InputRecord *input)
+void change_map(InputRecord *input)
 {
     TableEntry *entry;
     PairRecord *pair;

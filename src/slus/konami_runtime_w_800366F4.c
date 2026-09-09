@@ -19,7 +19,7 @@ struct Object {
 
 extern u8 D_80083160[];
 extern void func_80036880(Object *arg0, void *arg1, void *arg2);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 
 /* Move the two-column menu cursor and handle confirmation input. */
 void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {
@@ -75,7 +75,7 @@ after_switch_column:
     }
 
     if (menu->unk4D != cursor) {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         menu->unk4D = cursor;
     }
     if (*(u32 *)(input_state + 0x10) & 0x40) {

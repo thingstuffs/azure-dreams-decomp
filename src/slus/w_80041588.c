@@ -24,7 +24,7 @@ typedef struct {
 } LargeWord;
 
 extern void func_8003E140(u8 *);
-extern s32 func_8003E4FC(s32, void *, void *);
+extern s32 Control_CD(s32, void *, void *);
 extern u8 *func_8004068C(u8 *, u8 *);
 extern void func_8003F80C(s32, s32, s32, s32);
 extern s32 DrawSync(s32);
@@ -64,9 +64,9 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     input = stream_ref;
     cmd = (StreamCommand *)state;
     if (execute == 0) {
-        func_8003E4FC(6, input, 0);
+        Control_CD(6, input, 0);
         *(u8 *)cmd = 0;
-        func_8003E4FC(0xFF, func_8003E140, cmd);
+        Control_CD(0xFF, func_8003E140, cmd);
         return;
     }
 

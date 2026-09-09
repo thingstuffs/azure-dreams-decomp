@@ -21,7 +21,7 @@ typedef struct {
 
 extern DungeonState D_80083160[];
 
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 extern s32 func_80025514(s32 arg0);
 extern s32 func_80025850(DungeonArg *arg0, s32 arg1);
 extern s32 func_80025888(s32 arg0, s32 arg1);
@@ -41,7 +41,7 @@ void func_80025A0C(DungeonArg *menu) {
     }
 
     if (input->unk10 & 0x20) {
-        func_80053DA8(0x515);
+        SD_Call(0x515);
         func_80025514(menu->unk14);
         func_800258B8(menu);
         goto done;
@@ -49,13 +49,13 @@ void func_80025A0C(DungeonArg *menu) {
 
     if (input->unk10 & 0x40) {
         if (func_800258B0(menu) != 0 || func_800259CC(menu) != 0) {
-            func_80053DA8(0x506);
+            SD_Call(0x506);
             goto done;
         }
         if (menu->unk8 == 4) {
-            func_80053DA8(0x503);
+            SD_Call(0x503);
         } else {
-            func_80053DA8(0x514);
+            SD_Call(0x514);
         }
         func_80025850(menu, menu->unk8);
         goto done;
@@ -89,7 +89,7 @@ void func_80025A0C(DungeonArg *menu) {
             }
         }
         if (selection_step != 0) {
-            func_80053DA8(0x502);
+            SD_Call(0x502);
             menu->unk8 = func_80049DE8(selection_step, menu->unk8, 5);
             func_80025888(menu->unk54, menu->unk8);
         }

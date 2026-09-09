@@ -84,7 +84,7 @@ extern s32 strlen(void *);
 extern void func_8008F074(void *, s32, void *);
 
 /* town_map_mod_yorozu_item: Creates a town object by type and initializes its position and display data. */
-void func_800BE4D4(s16 *tile_data, s16 object_type, s32 spawn_value)
+void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
 {
   SpBuf position;
   s16 type_index;

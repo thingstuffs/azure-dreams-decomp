@@ -3,7 +3,7 @@
 typedef s32 M2C_UNK;
 
 extern M2C_UNK *func_8001628C();
-extern s32 func_80017E98();
+extern s32 func_80017E98(s32, M2C_UNK);
 extern M2C_UNK func_80019880(void);
 extern s32 func_80019A04();
 extern M2C_UNK *func_80019ABC();
@@ -18,7 +18,7 @@ M2C_UNK *func_80016640(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
     u8 *page_v0;
     M2C_UNK *var_s0;
 
-    if (func_80017E98() != 0) {
+    if (func_80017E98(arg0, arg1) != 0) {
 #ifdef NON_MATCHING
         return &D_8001B63C;
 #else

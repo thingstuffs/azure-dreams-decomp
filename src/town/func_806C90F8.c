@@ -56,10 +56,10 @@ typedef s32 M2C_UNK32;
 typedef s64 M2C_UNK64;
 M2C_UNK func_80016A78();
 M2C_UNK func_80016B20();
-s32 func_8001762C();
+s32 func_8001762C(s32, M2C_UNK);
 void func_806C90F8(s32 arg0, M2C_UNK arg1)
 {
-  if (func_8001762C() != 0)
+  if (func_8001762C(arg0, arg1) != 0)
   {
     func_80016A78();
   }

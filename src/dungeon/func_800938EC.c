@@ -1,33 +1,23 @@
 #include "common.h"
 
-extern void func_80099088() __attribute__((noreturn));
-
 s32 func_8009904C(s32 arg0) {
-    s32 *entry;
+    register s32 *entry ASM_REG("$5");
+    register s32 i ASM_REG("$3") = 0;
     s32 value;
-    s32 i;
 
-    i = 0;
     entry = (s32 *)0x80010000;
 loop:
     value = entry[0xA7];
     if (value != 0) {
-        if (value == arg0) {
-            s32 index = (s16)i;
-            ASM_TAILSLOT_PIN_TIED(index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80099088(arg0, entry);
-        }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        i++;
-        entry++;
-        if (i < 20) {
-            goto loop;
+        if (value != arg0) {
+            i++;
+            entry++;
+            if (i < 20) {
+                goto loop;
+            }
+        } else {
+            return (s16)i;
         }
     }
     return -1;
 }
-
-/* MECHANISM: The a1 cursor holds 0x80010000; indexed +0x29c loads D_8001029C.
-   The continuation consumes a signed index through its nonstandard v0 ABI, so
-   a guarded tail-slot pin exposes the sll/sra pair around the frameless jump;
-   a zero-word boundary keeps the other path's increment out of that delay slot. */

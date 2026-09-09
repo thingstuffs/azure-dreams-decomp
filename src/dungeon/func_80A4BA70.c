@@ -24,7 +24,7 @@ extern void *D_80175924[];
 extern s32 D_80175928[];
 
 extern void func_8003DB94();
-extern s32 func_8003E4FC();
+extern s32 Control_CD();
 extern void func_8003F540();
 extern void *func_8003FC64();
 extern void func_80041588();
@@ -173,9 +173,9 @@ case_1:
     func_80041588((u8 *)D_80175904 - 8, (u8 *)D_80175924 - 4, 1);
     func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
     effect_id = func_800445E0();
-    func_8003E4FC(0x15, effect_id, 0);
+    Control_CD(0x15, effect_id, 0);
     D_80175921[0] = 0;
-    func_8003E4FC(0xFF, D_8003E140, D_80175921);
+    Control_CD(0xFF, D_8003E140, D_80175921);
     func_800C77D0((u8 *)actor - 0x20, position, 8, 0x300);
     ((S_80175270_0 *)action)->unk_96.s = 0x10;
     ((S_80175270_0 *)action)->unk_9B++;

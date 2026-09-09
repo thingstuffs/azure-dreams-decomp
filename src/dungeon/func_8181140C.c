@@ -21,7 +21,7 @@ typedef struct {
 extern PadState D_80083160;
 extern void func_80026370(s32, s32);
 extern s32 func_80026388(s32, s32, s32);
-extern s16 func_80053DA8(s32);
+extern s16 SD_Call(s32);
 
 /* Updates the menu selection from directional input with key repeat and a sound. */
 void func_8002640C(MenuState *menu) {
@@ -56,7 +56,7 @@ void func_8002640C(MenuState *menu) {
         }
 
         if (direction != 0) {
-            func_80053DA8(0x502);
+            SD_Call(0x502);
             selection = func_80026388(direction, menu->field8, menu->field10);
             menu->field8 = selection;
             func_80026370(menu->field70, selection);

@@ -11,7 +11,7 @@ typedef struct S_800BEAD0_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800BEAD0_0;   /* temp_v0 in func_800BEAD0 */
+} S_800BEAD0_0;   /* temp_v0 in event_pool_clean_in */
 
 typedef struct S_800BEAD0_1 {
     u8 pad_00[0x8];
@@ -20,7 +20,7 @@ typedef struct S_800BEAD0_1 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800BEAD0_1;   /* temp_v1 in func_800BEAD0 */
+} S_800BEAD0_1;   /* temp_v1 in event_pool_clean_in */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
@@ -28,14 +28,14 @@ typedef struct S_800BEAD0_1 {
 
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
-extern M2C_UNK func_80053DA8();
+extern M2C_UNK SD_Call();
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_8007789C;
 extern s32 D_80083780;
 extern M2C_UNK D_800BEBA4;
 
 /* event_pool_clean_in: creates the pool cleaning object and initializes its motion and display. */
-s32 func_800BEAD0(void)
+s32 event_pool_clean_in(void)
 {
     s32 *origin;
     s32 color;
@@ -46,7 +46,7 @@ s32 func_800BEAD0(void)
 
     object = func_8003FC64(0x136);
     if (object != NULL) {
-        func_80053DA8(0x512);
+        SD_Call(0x512);
         motion = ((S_800BEAD0_0 *)object)->unk_08;
         ((S_800BEAD0_0 *)object)->unk_10 = &D_800BEBA4;
         func_8004491C(object, &D_80045340);

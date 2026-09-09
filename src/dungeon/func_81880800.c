@@ -17,7 +17,7 @@ extern void func_800B835C(void *, s32 *, s32, s32);
 extern void *func_8003DF74(void *, void *, s16 *, s32);
 extern void func_8004491C(void *, void *);
 extern void func_80025654(void *, void *);
-extern s16 func_8009FCF0(u8, u8, u8, u8);
+extern s16 set_item_w0(u8, u8, u8, u8);
 extern void func_800A56E0(s32);
 extern s32 func_800A45D8(s32, s32, s16);
 extern void *func_80024968(void *, void *, s16);
@@ -296,7 +296,7 @@ track_target:
 
     if (F(owner, void *, 0x60) != 0) {
         if (F(self, s16, 0x28) == 0) {
-            if ((s16)func_8009FCF0(F(self, u8, 0x20), F(self, u8, 0x21),
+            if ((s16)set_item_w0(F(self, u8, 0x20), F(self, u8, 0x21),
                                     F(owner, u8, 0x72), F(owner, u8, 0x73)) < 5) {
                 F(self, s16, 0x28) = 1;
                 func_800A56E0(0x300);

@@ -34,7 +34,7 @@ extern s8 D_80080A84;
 extern s8 D_80129728;
 
 extern u8 func_80123200(u8);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_801237A4(Object *);
 extern void func_80044144(s32, s32, s32, s32);
 extern void func_8004B248(void *);
@@ -60,7 +60,7 @@ void func_801249A0(Object *object)
         if (!func_80123200(object->field_13)) {
             goto end;
         }
-        func_80053DA8(0x702);
+        SD_Call(0x702);
         slot_index = object->field_16;
         target_value = object->field_13;
         active_value = *((u8 *)object + slot_index + 0x17);
@@ -96,7 +96,7 @@ matched_five:
     }
 
     if (input_flags & 0x20) {
-        func_80053DA8(0x700);
+        SD_Call(0x700);
         if (D_80082E6B == 0x17) {
             func_80044144(0, 0, 0, 0);
             reset_entries = (s32 **)&D_80129728;

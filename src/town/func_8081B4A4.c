@@ -105,7 +105,7 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 extern void func_8008F074(void *, void *, void *);
-extern void func_800C15C0(s32, s32);
+extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Creates a parent object, three children, paired display rows, and a final display element. */
 s32 func_800254A4(void)
@@ -144,7 +144,7 @@ s32 func_800254A4(void)
     right_data[1] = D_80020140;
     initial_data = D_80020144;
 
-    func_800C15C0(0x24, 0x200);
+    tw_sd_sq_ld_call(0x24, 0x200);
     func_80026CE4(0x5A);
     func_8003E188(0x3C, (s32)parent_state);
 

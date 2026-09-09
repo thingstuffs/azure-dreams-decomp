@@ -26,7 +26,7 @@ void func_8004066C(int amount)
 }
 
 
-extern void func_80041284(void *arg);
+extern void file_load_com(void *arg);
 
 typedef struct {
     unsigned char data[16];
@@ -34,10 +34,10 @@ typedef struct {
 
 extern D_80080B9C_t D_80080B9C;
 
-/* Passes the global buffer to func_80041284. */
+/* Passes the global buffer to file_load_com. */
 void func_80050FCC(void)
 {
-    func_80041284(&D_80080B9C);
+    file_load_com(&D_80080B9C);
 }
 
 extern int D_800814A0;

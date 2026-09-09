@@ -10,7 +10,7 @@ typedef struct Position {
     s16 y;
 } Position;
 
-extern void func_800C170C(s32 arg0);
+extern void town_sd_sq_callagain(s32 arg0);
 extern s32 func_800C2124(void);
 extern Position D_80083780;
 
@@ -46,7 +46,7 @@ s32 func_800C21F8(S_800C21F8_0 *object) {
     }
     if ((object->unk_0C < (x_distance >> 16)) ||
         ((s16)y_distance > object->unk_0E)) {
-        func_800C170C(y_distance);
+        town_sd_sq_callagain(y_distance);
         object->unk_00 = (void (*)(void))func_800C2124;
         
         return 1;

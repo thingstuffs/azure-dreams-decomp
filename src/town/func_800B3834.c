@@ -1,14 +1,12 @@
 #include "common.h"
 
-extern void func_800B0FCC(void);
-
 s32 func_800B0F94(void *arg0) {
     register u8 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 value;
 
     value = *((u8 *)arg0 + 1);
     if (value == 0x16) {
-        func_800B0FCC();
+        ASM_SCHED_BARRIER();
         goto ret_zero;
     }
     if (value != 0x19) {

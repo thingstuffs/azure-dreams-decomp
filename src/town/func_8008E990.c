@@ -3,7 +3,7 @@
 extern s32 func_8008C0AC();
 
 /* town_map_mod_read_p: convert world coordinates to tiles and compute the map entry address. */
-void func_8008C0F0(s16 world_x, s16 world_y) {
+void town_map_mod_read_p(s16 world_x, s16 world_y) {
     s32 tile_x;
     s32 tile_y;
 

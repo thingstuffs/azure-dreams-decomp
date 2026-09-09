@@ -17,7 +17,7 @@ typedef struct TownObject {
     s32 entry_index;
 } TownObject;
 
-extern void func_80053DA8();
+extern void SD_Call();
 extern void func_80094984();
 extern void func_80099754();
 extern u8 D_800983BC;
@@ -38,5 +38,5 @@ void func_800992F8(TownObject *object, s32 table_target) {
     object->state = 3;
     object->value = entry_value;
     func_80099754(table_target, D_800D5070);
-    func_80053DA8(0x519);
+    SD_Call(0x519);
 }

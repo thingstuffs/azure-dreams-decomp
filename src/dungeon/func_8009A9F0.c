@@ -3,7 +3,7 @@
 extern u16 D_80083164;
 
 /* Blends three source channels toward 0x80 using a triangular phase weight. */
-void func_800A0150(u8 *src, s8 *dst)
+void itm_mon_koyaw_set(u8 *src, s8 *dst)
 {
   register u8 *channels ASM_REG("$8") = src;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   s16 weight;

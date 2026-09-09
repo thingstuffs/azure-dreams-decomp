@@ -20,10 +20,10 @@ extern TownEntry D_800D4094[];
 extern s32 func_800C0F60(s16 arg0);
 extern void func_800540A8(void);
 extern void func_8004425C(s32 arg0);
-extern s16 func_80053DA8(s32 arg0);
+extern s16 SD_Call(s32 arg0);
 
 /* town_sd_se_callagain: replay the selected town entry's effect and sound when the town state is 12. */
-s32 func_800C14C0(void) {
+s32 town_sd_se_callagain(void) {
     TownState *town_state;
     s32 entry_index;
     TownEntry *entries;
@@ -39,7 +39,7 @@ s32 func_800C14C0(void) {
             func_8004425C(entry->effect);
         }
         if ((s16)entry->sound != -1) {
-            func_80053DA8(entry->sound);
+            SD_Call(entry->sound);
         }
     }
     return 1;

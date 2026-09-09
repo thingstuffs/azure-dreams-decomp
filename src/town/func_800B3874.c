@@ -13,8 +13,8 @@ typedef struct S_800B0FD4_2 {
 } S_800B0FD4_2;   /* (var_s2 + ctx->unk_CC) in func_800B0FD4 */
 
 
-s32 func_8004A618();                             /* extern */
-M2C_UNK func_8004A638();                         /* extern */
+s32 get_item_sell_money();                             /* extern */
+M2C_UNK get_item_buy_money();                         /* extern */
 s32 func_8004A658();                          /* extern */
 s32 func_8004AC3C();                      /* extern */
 s32 func_8004DC14();                        /* extern */
@@ -72,10 +72,10 @@ loop_1:
         *((S_800B0FD4_2 *)((var_s2 + ctx->unk_CC)))->unk_38 = func_8004DC14(func_8004AC3C(ctx->unk_24 + var_s0, &sp30), sp30);
         if (func_800B0F94(ctx->unk_24 + var_s0) != 0) {
             if (ctx->unk_18 == 0) {
-                func_800B10D4(func_8004A638(ctx->unk_24 + var_s0));
+                func_800B10D4(get_item_buy_money(ctx->unk_24 + var_s0));
                 return;
             }
-            func_8004E5A0(func_8004A618(ctx->unk_24 + var_s0), 8, &sp10);
+            func_8004E5A0(get_item_sell_money(ctx->unk_24 + var_s0), 8, &sp10);
             func_8004E69C(&sp10);
             strcat(&sp10, &D_800D1600);
             *((S_800B0FD4_2 *)((var_s2 + ctx->unk_CC)))->unk_4C = func_8004E928(&sp10, 0);

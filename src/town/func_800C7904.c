@@ -1,21 +1,21 @@
 #include "common.h"
 
-extern s32 func_800352FC(void);
-extern void func_800A5160(s32 *arg0);
+extern s32 func_800352FC(void *, void *, s32, s32);
+extern void tcame_chase_fix(s32 *arg0);
 extern s32 D_80113208[];
 extern u8 D_800C321C[];
 
-void func_800C5064(void *arg0, void *arg1) {
+void func_800C5064(void *arg0, void *arg1, s32 arg2, s32 arg3) {
     s32 *base;
     s32 value;
 
-    if (func_800352FC() != 0) {
+    if (func_800352FC(arg0, arg1, arg2, arg3) != 0) {
         D_80113208[0] = ((s32 *)arg1)[0];
         value = ((s32 *)arg1)[1];
         base = D_80113208;
         base[2] = 0;
         base[1] = value;
-        func_800A5160(base);
+        tcame_chase_fix(base);
         *(void **)((s8 *)arg0 - 0x10) = D_800C321C;
     }
 }

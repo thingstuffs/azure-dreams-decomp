@@ -40,7 +40,7 @@ extern s32 D_80083780[];
 extern int abs(int);
 
 extern s32 func_800352FC(void);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_800673A0(void *, s32, s32);
 extern s32 func_800C2AB4(Obj *);
 /* Advances the interaction state, animating the cursor and vertical position. */
@@ -95,7 +95,7 @@ state3:
     if (func_800C2AB4(self) == 0) {
         return;
     }
-    func_80053DA8(0x50B);
+    SD_Call(0x50B);
     self->counter = 0x20;
     self->state = (u16)self->state + 1;
     return;

@@ -7,7 +7,7 @@ typedef void (*S_8006CE80_FuncPtr)(void);
  * offset 0x4: unk4       - opaque pointer, forwarded verbatim to func_8003F9E0() (see func_80041038)
  * offset 0x8: unk8       - opaque pointer, forwarded verbatim to func_8003F8F8() (see func_80040FDC)
  * offset 0xC: argList    - null-terminated array of pointers, each passed as the sole arg
- *                          to func_80041284() (see func_800411FC)
+ *                          to file_load_com() (see func_800411FC)
  */
 typedef struct S_8006CE80_Handler {
     S_8006CE80_FuncPtr *funcs;

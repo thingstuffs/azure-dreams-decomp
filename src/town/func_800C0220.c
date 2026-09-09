@@ -24,14 +24,14 @@ typedef struct S_800BD980_0 {
     volatile u16 unk_0C;
     volatile u16 unk_0E;
     volatile u16 unk_10;
-} S_800BD980_0;   /* temp_v1 in func_800BD980 */
+} S_800BD980_0;   /* temp_v1 in event_tori_in */
 
 typedef struct S_800BD980_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_800BD980_1;   /* temp_a3 in func_800BD980 */
+} S_800BD980_1;   /* temp_a3 in event_tori_in */
 
 typedef struct S_800BD980_2 {
     u8 pad_00[0xC];
@@ -39,10 +39,10 @@ typedef struct S_800BD980_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800BD980_2;   /* temp_a0 in func_800BD980 */
+} S_800BD980_2;   /* temp_a0 in event_tori_in */
 
 /* event_tori_in: Creates a parent object and two linked render objects offset from the supplied position. */
-s32 func_800BD980(void *source) {
+s32 event_tori_in(void *source) {
     void *source_data;
     s32 child_index;
     s32 x_step;

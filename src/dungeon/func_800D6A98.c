@@ -137,7 +137,7 @@ void func_800DC1F8(S_800DC1F8_0 *transition, void *anim_data) {
 
 wait_first_quarter:
         if ((((u16) *state->unk_08 >> 0xA) & 3) == 1) {
-            func_80053DA8(0x504);
+            SD_Call(0x504);
             flag_or_delay = transition->unk_20;
             stage = transition->unk_28;
             flag_or_delay ^= 1;
@@ -157,7 +157,7 @@ wait_half_turn:
 
 wait_third_quarter:
         if ((((u16) *state->unk_08 >> 0xA) & 3) == 3) {
-            func_80053DA8(0x504);
+            SD_Call(0x504);
             transition->unk_28 = 0;
             transition->unk_24 = (s32) (transition->unk_24 ^ 1);
             transition->unk_20 = (s32) (transition->unk_20 ^ 1);

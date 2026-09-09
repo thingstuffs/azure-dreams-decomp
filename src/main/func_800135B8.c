@@ -20,7 +20,7 @@ extern void func_8002651C(void *arg0);
 extern void func_80026920(void *arg0);
 extern void func_80027AFC(s32 arg0, s32 arg1);
 extern s32 func_80049DE8(s32 arg0, s32 arg1, s32 arg2);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 
 /* Handles menu navigation with button repeat and dispatches the selected action. */
 void func_800265B8(u8 *menu)
@@ -38,11 +38,11 @@ void func_800265B8(u8 *menu)
     if (held_buttons != 0) {
         pressed_buttons = controller[4];
         if (pressed_buttons & 0x20) {
-            func_80053DA8(0x515);
+            SD_Call(0x515);
             goto perform_action;
         }
         if (pressed_buttons & 0x40) {
-            func_80053DA8(0x503);
+            SD_Call(0x503);
             func_8002651C(menu);
             goto finish_input;
         }
@@ -73,7 +73,7 @@ void func_800265B8(u8 *menu)
 
 finish_input:
         if (status != 0) {
-            func_80053DA8(0x502);
+            SD_Call(0x502);
             ((S_800265B8_0 *)menu)->unk_2C =
                 func_80049DE8(((S_800265B8_0 *)menu)->unk_2C, status, 5);
             func_80025DC8(menu);

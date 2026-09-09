@@ -28,7 +28,7 @@ typedef struct S_8001625C_3 {
 } S_8001625C_3;   /* var_s0 in func_8001625C; pointer addresses record offset 0x30B2 */
 
 
-M2C_UNK func_80041284();                   /* extern */
+M2C_UNK file_load_com();                   /* extern */
 s32 func_80048D00();                                /* extern */
 M2C_UNK bzero();          /* extern */
 extern s32 D_80012D60;
@@ -104,12 +104,12 @@ set_flag_page:
         init_flag_page = (M2C_UNK *)0x800E0000;
     }
     if (((S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 == 0) {
-        func_80041284(&D_80080AE0);
-        func_80041284(&D_80080AE8);
-        func_80041284(&D_80080E18);
-        func_80041284(&D_80080E20);
-        func_80041284(&D_80080EE8);
-        func_80041284(&D_80080E30);
+        file_load_com(&D_80080AE0);
+        file_load_com(&D_80080AE8);
+        file_load_com(&D_80080E18);
+        file_load_com(&D_80080E20);
+        file_load_com(&D_80080EE8);
+        file_load_com(&D_80080E30);
         D_80080A80 = func_80048D00();
         ((S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 = 1;
     }

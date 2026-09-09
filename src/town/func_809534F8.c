@@ -63,7 +63,7 @@ extern void func_800537D0();
 extern s32 strlen();
 
 /* baken_uriba: Draw a labeled grid with triangular entries of row and column products. */
-void func_800204F8(void)
+void baken_uriba(void)
 {
     Screen screen;
     Screen *header_screen;

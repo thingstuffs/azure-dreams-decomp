@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800C4174();                            /* extern */
+/* extern */
 
 typedef struct S_800CE2D4_0 {
     u8 pad_00[0x6C];
@@ -20,14 +20,16 @@ typedef struct S_800CE2D4_1 {
     s16 unk_0A;
 } S_800CE2D4_1;   /* arg1 in func_800CE2D4 */
 
-void func_800CE2D4(S_800CE2D4_0 *arg0, S_800CE2D4_1 *arg1) {
+
+M2C_UNK func_800C4174(S_800CE2D4_0 *, S_800CE2D4_1 *, M2C_UNK);
+void func_800CE2D4(S_800CE2D4_0 *arg0, S_800CE2D4_1 *arg1, M2C_UNK arg2) {
     u16 temp_v0;
     u32 temp_v1;
 
     temp_v0 = arg0->unk_6C - 1;
     arg0->unk_6C = temp_v0;
     if ((temp_v0 << 0x10) <= 0) {
-        func_800C4174();
+        func_800C4174(arg0, arg1, arg2);
     }
     arg1->unk_02 = (s16) ((u16) arg1->unk_02 + ((s32) (arg0->unk_84 - arg1->unk_02) / 2));
     temp_v1 = arg0->unk_86 - arg1->unk_06;

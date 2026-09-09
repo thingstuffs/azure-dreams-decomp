@@ -36,7 +36,7 @@ typedef struct S_800274F0_Arg {
 extern S_8003E2D8 D_80083160;
 extern u8 D_80027E84[];
 
-extern s16 func_80053DA8(s32, S_8003E2D8 *);
+extern s16 SD_Call(s32, S_8003E2D8 *);
 extern void func_800274A8(S_800274F0_Arg *);
 extern void func_80027454(void *, s32, s32, void *);
 extern void *func_8002553C(void *);
@@ -65,16 +65,16 @@ void func_800274F0(S_800274F0_Arg *menu) {
         goto done;
     pressed_buttons = input->unk10;
     if (pressed_buttons & 0x20) {
-        func_80053DA8(0x515, input);
+        SD_Call(0x515, input);
         func_800274A8(menu);
         goto done;
     }
     if (pressed_buttons & 0x10) {
-        func_80053DA8(0x503, input);
+        SD_Call(0x503, input);
         goto finish_effect;
     }
     if (pressed_buttons & 0x40) {
-        func_80053DA8(0x503, input);
+        SD_Call(0x503, input);
         func_80027454(&menu->unk38, menu->unk14,
                       (menu->unk8 / 72) * 72, menu->unk28);
         func_800265B8(func_8002553C(menu->unk44),
@@ -142,7 +142,7 @@ increment_done:
 direction_common:
     if (index_step == 0)
         goto done;
-    func_80053DA8(0x502, input);
+    SD_Call(0x502, input);
     selected_index = menu->unk8;
     item_count = menu->unk3C;
     next_index = selected_index + index_step;

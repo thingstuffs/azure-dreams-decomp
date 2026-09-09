@@ -22,7 +22,6 @@ typedef struct S_80026E3C_1 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_80026E78() __attribute__((noreturn));
 extern s32 D_800814A0[3];
 
 void func_80026E3C(void *arg0, M2C_UNK arg1, S_80026E3C_1 *arg2)
@@ -36,11 +35,10 @@ void func_80026E3C(void *arg0, M2C_UNK arg1, S_80026E3C_1 *arg2)
     temp_v0 = ((S_80026E3C_0 *)arg0)->unk_68 + 1;
     ((S_80026E3C_0 *)arg0)->unk_68 = temp_v0;
     if (temp_v0 & 1) {
-        arg2->unk_0E = ((S_80026E3C_0 *)arg0)->unk_6A.u8;
-        func_80026E78(arg0);
-        return;
+        temp_v0_2 = ((S_80026E3C_0 *)arg0)->unk_6A.u8;
+    } else {
+        temp_v0_2 = ((S_80026E3C_0 *)arg0)->unk_6A.u16 >> 3;
     }
-    temp_v0_2 = ((S_80026E3C_0 *)arg0)->unk_6A.u16 >> 3;
     arg2->unk_0E = (s8) temp_v0_2;
     arg2->unk_0D = (s8) temp_v0_2;
     arg2->unk_0C = (s8) temp_v0_2;
@@ -58,7 +56,3 @@ void func_80026E3C(void *arg0, M2C_UNK arg1, S_80026E3C_1 *arg2)
         D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
     }
 }
-
-/* MECHANISM: The frameless noreturn CFG holds arg0 in a1 and keeps the odd-path store in the tail-j slot.
-   Pinning the signed-shift helper to v1 and the timer to a0 leaves the adjusted value naturally in v0.
-   ASM_KEEP after subu enforces subu-before-decrement while preserving the value store in the branch slot. */

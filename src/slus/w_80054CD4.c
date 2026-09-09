@@ -42,7 +42,7 @@ extern S_80084904 D_80084904;
 
 extern void func_8005A4E8(u8 a0, u8 a1, u8 a2);
 extern void func_8005A56C(s32 a0, s32 a1, s32 a2);
-extern s32 func_8003E4FC(s32 a0, void *a1, void *a2);
+extern s32 Control_CD(s32 a0, void *a1, void *a2);
 
 /* Enters mode 2, activates pending status fields, resets subsystems, and registers status callbacks. */
 void func_80054CD4(void) {
@@ -62,6 +62,6 @@ void func_80054CD4(void) {
 
     func_8005A4E8(0, 0, 0);
     func_8005A56C(0, 0, 0);
-    func_8003E4FC(0xE, 0, &status->field28);
-    func_8003E4FC(0xD, (void *)(s32) status->field8, &status->field2C);
+    Control_CD(0xE, 0, &status->field28);
+    Control_CD(0xD, (void *)(s32) status->field8, &status->field2C);
 }

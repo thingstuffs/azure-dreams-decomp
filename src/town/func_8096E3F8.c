@@ -14,7 +14,7 @@ typedef struct S_80126890_0 {
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8004B248(void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_80123130(void);
 extern s32 func_801264AC(void *);
 extern void func_80126620(void *);
@@ -40,7 +40,7 @@ static void *func_80126890(void *data) {
             func_80126620(payload);
             func_8004491C(node, &D_8004CAA0);
             ((S_80126890_0 *)node)->unk_10 = &D_80126704;
-            func_80053DA8(0x701);
+            SD_Call(0x701);
         } else {
             func_8004B248((u8 *)node + 0x7C);
             ((S_80126890_0 *)node)->unk_1E |= 0x8000;

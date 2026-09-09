@@ -6,7 +6,7 @@ extern u8 D_800CF828[];
 extern u8 D_800CF838[];
 
 /* Stores an ID in a selected entry or appends it to the zero-terminated ID list. */
-void func_8008B408(s32 entry_id) {
+void reserve_twch_load(s32 entry_id) {
     register s32 entry_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void **source_slot;
     u8 *source_table;

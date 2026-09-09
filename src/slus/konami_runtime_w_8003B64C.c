@@ -4,8 +4,8 @@
 
 extern u8 *D_8001029C[];
 extern s8 D_80010333[];
-extern void func_800A0150(s32, u8 *, u8 *, s32);
-extern void func_800B2244(u8 *entry);
+extern void itm_mon_koyaw_set(s32, u8 *, u8 *, s32);
+extern void del_t_item_w_ptr(u8 *entry);
 
 /* Processes type-0x13 entries whose associated record code is nonnegative. */
 void func_8003B64C(void)
@@ -22,10 +22,10 @@ void func_8003B64C(void)
                                           (entry[3] & 0x1F) * 84);
 
                 if (record_code >= 0) {
-                    func_800A0150(record_code & 0x3F, entry,
+                    itm_mon_koyaw_set(record_code & 0x3F, entry,
                                   (u8 *)(0x800102F0 +
                                       (entry[3] & 0x1F) * 84), 0);
-                    func_800B2244((u8 *)*entry_slot);
+                    del_t_item_w_ptr((u8 *)*entry_slot);
                     continue;
                 }
             }

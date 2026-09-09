@@ -22,7 +22,7 @@ extern void func_8003AF8C(void *arg0);
 extern void func_8008EF58(void);
 extern void func_8008FCE0(void);
 extern void func_800A03DC(void);
-extern void func_80033D44(s32 arg0);
+extern void obj_disp23_cancel_sw_set(s32 arg0);
 extern void func_8003B42C(s32 arg0);
 extern void func_8003B988(void);
 extern void func_8003B92C(void);
@@ -30,18 +30,18 @@ extern s32 func_80033B2C(s32 arg0);
 extern void func_8003BA60(void);
 extern void func_8003BA9C(void);
 extern void func_8003B9B8(void);
-extern void func_8003B9E8(void);
+extern void chg_map_second_house_sel(void);
 extern void func_8003BA24(void);
-extern void func_8008B408(s32 arg0);
-extern void func_8008B550(s32 arg0);
-extern void func_80041284(void *arg0);
+extern void reserve_twch_load(s32 arg0);
+extern void reserve_tw_mon_load(s32 arg0);
+extern void file_load_com(void *arg0);
 extern void func_800434E4(void);
 extern void func_800B9830(void);
-extern void func_8003BAF8(void *arg0);
+extern void change_map(void *arg0);
 extern void func_8009FF28(void);
 extern void func_800B9890(void);
 extern void func_800B98B4(void);
-extern void func_800C0FA4(void);
+extern void town_sd_se_load_init(void);
 
 extern u8 D_800717D0[0x18];
 extern u8 D_800717E8[0x18];
@@ -62,7 +62,7 @@ void func_8003B470(void)
     func_8008FCE0();
     func_800A03DC();
     D_8006ADBC[0] = 0;
-    func_80033D44(0);
+    obj_disp23_cancel_sw_set(0);
 
     runtime_flags = D_80082E60.flags;
     if (runtime_flags & 0x4000) {
@@ -99,16 +99,16 @@ void func_8003B470(void)
     func_8003B9B8();
 
 shared_setup:
-    func_8003B9E8();
+    chg_map_second_house_sel();
     goto flagged_setup;
 
 zero_status_setup:
     func_8003BA24();
 
 flagged_setup:
-    func_8008B408(1);
-    func_8008B550(1);
-    func_80041284(&D_80080EA0);
+    reserve_twch_load(1);
+    reserve_tw_mon_load(1);
+    file_load_com(&D_80080EA0);
     goto finalize;
 
 default_setup:
@@ -116,14 +116,14 @@ default_setup:
     page->red_collar_status = 1;
     func_800B9830();
     page->word_2D5C = 0;
-    func_8003BAF8(D_8006AEC4);
-    func_8008B408(0);
-    func_8008B550(0);
+    change_map(D_8006AEC4);
+    reserve_twch_load(0);
+    reserve_tw_mon_load(0);
 
 finalize:
     D_80082E60.flags &= 0x3FF9;
     func_8009FF28();
     func_800B9890();
     func_800B98B4();
-    func_800C0FA4();
+    town_sd_se_load_init();
 }

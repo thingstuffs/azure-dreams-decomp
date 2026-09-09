@@ -5,6 +5,6 @@
 M2C_UNK func_8009E258(); /* extern */
 
 /* Loads the monster talk palette (func_koya_mon_talk_pal_ld). */
-void func_800C0AF4(void) {
+void scr_func_koya_mon_talk_pal_ld(void) {
     func_8009E258(0, 0, 0, 0);
 }

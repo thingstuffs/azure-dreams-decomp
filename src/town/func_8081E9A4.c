@@ -66,7 +66,7 @@ extern void func_80020570(void *, void *);
 extern s32 func_800352FC(s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);
@@ -224,7 +224,7 @@ state_0:
     flags &= ~2;
     effect->flags = flags;
     func_80093864();
-    func_80053DA8(0x700);
+    SD_Call(0x700);
     effect->state = 1;
     effect->flags &= ~8;
     grid_origin_x = 0x05200000;
@@ -289,7 +289,7 @@ state_1:
     if (effect->phase == 3) {
         goto common_done;
     }
-    func_80053DA8(0x523);
+    SD_Call(0x523);
     handle = func_800B1BEC(0, -80, 64);
     payout_scale = 6 / (effect->phase + 1);
     D_80024558[0] = handle;
@@ -328,7 +328,7 @@ state_2:
         }
     }
     if (effect->amount < 10000 && (u32)D_80012D5C[0] >= 100) {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         D_80012D5C[0] -= 100;
         effect->amount = effect->amount + 100;
         goto state_3_after_shake;
@@ -342,7 +342,7 @@ state_3_body:
         }
     }
     if (effect->amount >= 100) {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         D_80012D5C[0] += 100;
         effect->amount = effect->amount - 100;
     }
@@ -444,7 +444,7 @@ state_7:
         ((S_800211A4_6 *)child)->unk_70 != 2) {
         goto common_done;
     }
-    func_80053DA8(0x50A);
+    SD_Call(0x50A);
     func_80093CEC(D_800D00A0);
     motion = D_80083780;
     ((S_800211A4_4 *)motion)->unk_10 = 0x48000;
@@ -483,7 +483,7 @@ counter_b:
     func_80093CEC(D_800D00B8);
     goto counter_done;
 counter_c:
-    func_80053DA8(0x508);
+    SD_Call(0x508);
     {
         s32 y_speed = 0x18000;
         u8 *animation = D_800D0078;
@@ -501,7 +501,7 @@ counter_e:
     func_80093CEC(D_800D00A8);
     goto counter_done;
 counter_f:
-    func_80053DA8(0x508);
+    SD_Call(0x508);
     {
         u8 *animation = D_800D0078;
         u8 *motion;
@@ -512,12 +512,12 @@ counter_f:
     }
     goto counter_done;
 counter_g:
-    func_80053DA8(0x508);
+    SD_Call(0x508);
     ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
     goto counter_done;
 counter_h:
-    func_80053DA8(0x508);
+    SD_Call(0x508);
     ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = (s32)0xFFFC8000;
     func_80093CEC(D_800D0078);
 
@@ -568,12 +568,12 @@ counter_j:
     func_80093CEC(D_800D00B8);
     goto counter9_done;
 counter_k:
-    func_80053DA8(0x508);
+    SD_Call(0x508);
     ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
     goto counter9_done;
 counter_l:
-    func_80053DA8(0x508);
+    SD_Call(0x508);
     {
         s32 z_speed;
         count_or_addr = (s32)(D_800834B8 + 0x2C8);
