@@ -28,8 +28,9 @@ void func_8001A3FC(void) {
         entry_base = &D_8001C370;
     } while (0);
     entry_index = ((Rec_D_80016000 *)D_80016000)->unk_14;
-    entry_offset = entry_index * 0x1C;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+        entry_offset = entry_index * 0x1C;
+    } while (0);
     entry = (void *)(entry_offset + *entry_base);
     do {
         type = entry->unk_00;

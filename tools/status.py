@@ -38,6 +38,7 @@ def main():
                 "n_local_structs": len(set(_re.findall(r"\b((?:S_|Struct|Func)[0-9A-F]{7,8}[A-Za-z0-9_]*)\b", t))),
                 "audit": cen.get(r["id"], {}).get("audit", {}),   # live: sites still spelled in the current text
                 "tail_idiom": len(_re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", t)) + len(_re.findall(r"\basm\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)|__asm__\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", t)),
+                "dowhile0": len(_re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", t, _re.S)),
                 "markers": len(_re.findall(r"\bASM_(?:TAILSLOT_PIN|TAILSLOT_PIN_TIED|PAGEBASE_PIN|JALDELAY_PIN|LIVE_SIBCALL_PIN|SHAPE_D_SIBCALL_PIN|BRANCH_LABEL_SPLIT)\(", t))}
     curc = {r["id"]: cur_facts(r) for r in rs}
     defs = [("m2c boilerplate block", lambda c: c["boiler"]), ("M2C_FIELD raw offsets", lambda c: c["m2c_field"] > 0), ("m2c local names", lambda c: c["m2c_locals"] > 0),
@@ -45,6 +46,7 @@ def main():
             ("inline asm outside macros", lambda c: c["inline_asm"] > 0), ("fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS)", lambda c: any(k in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k in c["audit"])),
             ("any fidelity site", lambda c: bool(c["audit"])),
             ("noreturn tail-call spelling (scaffolding, docs/FIDELITY.md)", lambda c: c.get("tail_idiom", 0) > 0), ("maspsx marker pins (scaffolding)", lambda c: c.get("markers", 0) > 0),
+            ("do{}while(0) scheduling barrier (scaffolding, pure C)", lambda c: c.get("dowhile0", 0) > 0),
             ("local address-named struct", lambda c: c["n_local_structs"] > 0),
             ("clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names)", lambda c: not c["boiler"] and c["m2c_field"] == 0 and c["pin_total"] == 0 and c["gotos"] == 0 and c["m2c_locals"] == 0)]
     for name, f in defs:

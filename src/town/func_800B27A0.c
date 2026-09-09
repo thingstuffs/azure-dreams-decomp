@@ -63,7 +63,6 @@ void func_800AFF00(S_800AFF00_4 *state, S_800AFF00_0 *primary, S_800AFF00_2 *sec
     s32 *secondary_defaults = D_8002E5E8;
     s32 secondary_head;
     s32 initial_offset = -60;
-    S_800AFF00_5 *primary_fields;
 
     primary->unk_00 = D_8002E5D8[0];
     primary->unk_04 = ((S_800AFF00_1 *)primary_defaults)->unk_04;
@@ -74,12 +73,9 @@ void func_800AFF00(S_800AFF00_4 *state, S_800AFF00_0 *primary, S_800AFF00_2 *sec
     secondary->unk_04 = ((S_800AFF00_3 *)secondary_defaults)->unk_04;
     secondary->unk_08 = ((S_800AFF00_3 *)secondary_defaults)->unk_08;
     state->unk_04 = primary;
-    ASM_UNDEF(primary_fields);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    primary_fields = primary;
-    ASM_KEEP(primary_fields);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     state->unk_08 = secondary;
     state->unk_00 = 0;
-    primary_fields->unk_08 = initial_offset;
+    ((S_800AFF00_5 *)(state->unk_04))->unk_08 = initial_offset;
     ((S_800AFF00_6 *)(state->unk_04))->unk_0A = initial_offset;
     ((S_800AFF00_6 *)(state->unk_04))->unk_0C = 0x200;
     ((S_800AFF00_6 *)(state->unk_04))->unk_06 = 0;

@@ -17,8 +17,7 @@ s32 func_8008EFA0(Node *node) {
 
     if (node != NULL) {
         Node *head;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        head = (Node *)(page - 0x34C);
+        head = D_800CFCB4;
         node->prev = head;
         node->next = head->next;
         head->next->prev = node;

@@ -33,7 +33,7 @@ typedef struct S_800C3900_2 {
 
 /* Processes an entity action, preserves its state flag, and updates the shared counter. */
 s32 func_800C3900(Rec_D_800E3D7C *entity, s32 action, s16 action_param) {
-    register M2C_UNK *counter_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    M2C_UNK *counter_page;
     M2C_UNK *counter_base;
     s32 saved_flag;
     s32 flag_test;
@@ -64,7 +64,7 @@ s32 func_800C3900(Rec_D_800E3D7C *entity, s32 action, s16 action_param) {
                 func_80094E34();
                 counter_page = (M2C_UNK *)0x80080000;
             }
-            counter_page = (M2C_UNK *)((u8 *)counter_page + 0x3460);
+            counter_page = &D_80083460;
             ((S_800C3900_1 *)counter_page)->unk_0A = (u16) (((S_800C3900_1 *)counter_page)->unk_0A + 1);
         }
         func_800A56E0(0x51E);

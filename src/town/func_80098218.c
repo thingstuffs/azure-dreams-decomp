@@ -43,8 +43,9 @@ s32 func_80095978(s32 *position, s32 *out_value) {
         min_result = 64;
     }
     result = min_result;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    return result;
+    do {
+        return result;
+    } while (0);
 }
 
 /* MECHANISM: A 24-byte escaping record at sp+0x18 followed by the sibling

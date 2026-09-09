@@ -1,9 +1,5 @@
 #include "common.h"
 
-
-
-
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -17,7 +13,6 @@ typedef struct S_800A47A8_5 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_800A47A8_5;   /* ((S_800A47A8_4 *)temp_v0)->unk_0C in func_800A47A8 */
-
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -82,8 +77,9 @@ void func_800A47A8(s16 resource_index) {
         ((S_800A47A8_0 *)object)->unk_10 = D_800A3918;
         func_8004491C(object, D_800A3B1C);
         resource_offset = resource_index << 0x10;
-        resources = D_800D0C40;
-        ASM_USE(resources);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            resources = D_800D0C40;
+        } while (0);
         resource_offset >>= 0xE;
         ((S_800A47A8_5 *)(((S_800A47A8_4 *)object)->unk_0C))->unk_08 =
             *(s32 *)((s8 *)resources + resource_offset);
