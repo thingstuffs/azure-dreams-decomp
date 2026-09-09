@@ -25,21 +25,22 @@ extern M2C_UNK D_800A0AC8;
 extern M2C_UNK D_800A0BE4;
 extern M2C_UNK D_800D09E0;
 
-void func_800A06A4(void *arg0, s32 arg1) {
-    u8 temp_v1;
+/* Initialize the record and select its handler according to its variant. */
+void func_800A06A4(void *record_data, s32 initial_value) {
+    u8 variant;
 
-    temp_v1 = ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_A4;
-    ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800A0708;
+    variant = ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A4;
+    ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800A0708;
     {
         register M2C_UNK *handler ASM_REG("$2"); /* MATCH: Keep the merged handler address in retail's $v0. */
 
-        if (temp_v1 == 1) {
+        if (variant == 1) {
             M2C_UNK *next;
 
-            ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_A0 = 2;
+            ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A0 = 2;
             next = &D_800A0BE4;
             handler = next;
-        } else if (temp_v1 == 0) {
+        } else if (variant == 0) {
             M2C_UNK *next;
 
             next = &D_800A0AC8;
@@ -48,13 +49,13 @@ void func_800A06A4(void *arg0, s32 arg1) {
         } else {
             handler = &D_800A07A4;
         }
-        ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_7E = 0;
+        ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_7E = 0;
 store_handler:
-        ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_60 = handler;
+        ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_60 = handler;
     }
-    ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_18 = arg1;
-    ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_1C = &D_800D09E0;
-    ((S_800A06A4_0 *)((u8 *)arg0 - 0x10))->unk_78 = 0;
+    ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_18 = initial_value;
+    ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_1C = &D_800D09E0;
+    ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_78 = 0;
 }
 
 /* MECHANISM: Frameless leaf CFG with guarded $v0 continuation-address pins preserves both shared-entry tail jumps.

@@ -2,31 +2,32 @@
 
 extern s32 *D_807030A4[];
 
-s32 func_80702714(s32 arg0)
+/* Tests an indexed flag, treating indices zero and one as constant results. */
+s32 func_80702714(s32 flag_index)
 {
     register s32 input ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 one;
+    s32 unit_bit;
     register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 *ptr;
-    s32 word;
-    unsigned long offset;
+    s32 *flag_word;
+    s32 adjusted_index;
+    unsigned long word_address;
 
-    input = arg0;
-    one = 1;
+    input = flag_index;
+    unit_bit = 1;
     if (input != 0) {
-        if (input != one) {
-            word = input;
+        if (input != unit_bit) {
+            adjusted_index = input;
             if (input < 0) {
-                word = input + 31;
+                adjusted_index = input + 31;
             }
-            value = word >> 5;
-            offset = value << 2;
+            value = adjusted_index >> 5;
+            word_address = value << 2;
             value <<= 5;
-            offset += (unsigned long)D_807030A4[0];
+            word_address += (unsigned long)D_807030A4[0];
             value = input - value;
-            value = one << value;
-            ptr = (s32 *)offset;
-            value &= *ptr;
+            value = unit_bit << value;
+            flag_word = (s32 *)word_address;
+            value &= *flag_word;
         } else {
             register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING

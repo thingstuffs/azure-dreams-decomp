@@ -12,14 +12,15 @@ typedef struct {
 
 extern void func_80098D60(Func8009AA20Arg0 *arg0, Func8009AA20Arg1 *arg1, s32 arg2);
 
-void func_80098180(Func8009AA20Arg0 *arg0, Func8009AA20Arg1 *arg1, s32 arg2) {
-    u16 value;
+/* Decrement the countdown, invoking its handler when exhausted or advancing the cursor by four. */
+void func_80098180(Func8009AA20Arg0 *countdown_state, Func8009AA20Arg1 *cursor_state, s32 context_value) {
+    u16 remaining_count;
 
-    value = arg0->unkA - 1;
-    arg0->unkA = value;
-    if ((s16)value < 0) {
-        func_80098D60(arg0, arg1, arg2);
+    remaining_count = countdown_state->unkA - 1;
+    countdown_state->unkA = remaining_count;
+    if ((s16)remaining_count < 0) {
+        func_80098D60(countdown_state, cursor_state, context_value);
         return;
     }
-    arg1->unk2 += 4;
+    cursor_state->unk2 += 4;
 }

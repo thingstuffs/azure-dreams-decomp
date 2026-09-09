@@ -3,15 +3,16 @@ typedef unsigned int u32;
 
 extern u32 func_8001AB20(s32 arg0, s32 arg1);
 
-u32 func_8001AC6C(s32 arg0, s32 arg1, s32 arg2)
+/* Test whether the computed value is below the squared threshold. */
+u32 func_8001AC6C(s32 input_1, s32 input_2, s32 threshold)
 {
-    s32 value;
+    s32 threshold_value;
 
-    if (value) {
-        value = arg2;
-        return func_8001AB20(arg0, arg1) < (u32)(value * value);
+    if (threshold_value) {
+        threshold_value = threshold;
+        return func_8001AB20(input_1, input_2) < (u32)(threshold_value * threshold_value);
     } else {
-        value = arg2;
-        return func_8001AB20(arg0, arg1) < (u32)(value * value);
+        threshold_value = threshold;
+        return func_8001AB20(input_1, input_2) < (u32)(threshold_value * threshold_value);
     }
 }

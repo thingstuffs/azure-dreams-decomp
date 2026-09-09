@@ -16,9 +16,10 @@ register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): remov
 #else
 #endif
 
-void *func_80016CAC(s32 arg0, s32 arg1, s32 arg2) {
+/* Returns the shared result address when the input check succeeds. */
+void *func_80016CAC(s32 check_input_a, s32 check_input_b, s32 check_input_c) {
 #ifndef NON_MATCHING
-    if (func_800162F8(arg0, arg1, arg2) == 0) {
+    if (func_800162F8(check_input_a, check_input_b, check_input_c) == 0) {
         dispatch_result = (u8 *)0x80020000;
         __asm__ __volatile__("" : "=r"(dispatch_result) : "0"(dispatch_result));
         dispatch_result -= 0x3897;
@@ -26,7 +27,7 @@ void *func_80016CAC(s32 arg0, s32 arg1, s32 arg2) {
     }
     return D_8001D244;
 #else
-    if (func_800162F8(arg0, arg1, arg2) == 0) {
+    if (func_800162F8(check_input_a, check_input_b, check_input_c) == 0) {
         return;
     }
     return D_8001D244;

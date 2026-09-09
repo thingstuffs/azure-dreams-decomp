@@ -10,13 +10,14 @@ typedef struct {
 
 extern void func_800C4174(TownObject *obj, s32 arg1, s32 arg2);
 
-void func_800C9F58(TownObject *obj, s32 arg1, s32 arg2) {
+/* Decrement the timer and lower output until expiry restores the base value. */
+void func_800C9F58(TownObject *obj, s32 update_input_1, s32 update_input_2) {
     u16 timer;
 
     timer = obj->timer - 1;
     obj->timer = timer;
     if ((timer << 16) <= 0) {
-        func_800C4174(obj, arg1, arg2);
+        func_800C4174(obj, update_input_1, update_input_2);
         obj->output = obj->value;
         return;
     }

@@ -10,19 +10,20 @@ typedef struct {
 
 extern void func_800CA60C(TownObject *obj, s32 arg1, s32 arg2);
 
-void func_800C9FBC(TownObject *obj, s32 arg1, s32 arg2) {
+/* Raise output as the timer counts down, then set it to the base value plus 0x800. */
+void func_800C9FBC(TownObject *obj, s32 update_input_1, s32 update_input_2) {
     u16 timer;
-    u16 value;
+    u16 output_value;
 
     timer = obj->timer - 1;
     obj->timer = timer;
     if ((timer << 16) <= 0) {
-        func_800CA60C(obj, arg1, arg2);
-        value = obj->value + 0x800;
+        func_800CA60C(obj, update_input_1, update_input_2);
+        output_value = obj->value + 0x800;
     } else {
-        value = obj->output + 0x100;
+        output_value = obj->output + 0x100;
     }
-    obj->output = value;
+    obj->output = output_value;
 }
 
 /* MECHANISM: The seed's 24-byte frame and s0-held object base were already exact.
