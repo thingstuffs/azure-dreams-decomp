@@ -25,7 +25,7 @@ u8 *func_80099734(void *record, u8 *out)
     u8 *src;
     s32 text_index;
     s32 word_offset;
-    register u8 *table_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *table_page;
     u8 ch;
 
     if ((((Rec_D_800E3D7C *)D_800E3D7C)->unk_1C.as_s32 & 0x10) &&
@@ -45,9 +45,10 @@ u8 *func_80099734(void *record, u8 *out)
             src = (u8 *)D_800DD728;
             goto copy;
         }
+        table_page = (u8 *)0x80070000;
+    } else {
+        table_page = (u8 *)0x80070000;
     }
-    table_page = (u8 *)0x80070000;
-    ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     word_offset = text_index * 5;
     src = ((S_80099734_3 *)((u8 *)((S_80099734_2 *)table_page)->unk_359C + word_offset * 4))->unk_04;
 
