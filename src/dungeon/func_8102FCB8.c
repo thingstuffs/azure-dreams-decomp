@@ -138,126 +138,123 @@ typedef struct S_801714B8_9 {
     u16 unk_14;
 } S_801714B8_9;   /* part in func_801714B8 */
 
-void func_801714B8(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates actor behavior, facing, and timed animation effects in the dungeon. */
+void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
 {
-    register void *p0 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *p1;
-    register void *p2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *p3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 result;
-    s32 scratch;
-    u16 offsets[3];
+    register void *actor ASM_REG("$19");
+    void *context;
+    register void *sprite ASM_REG("$17");
+    register void *stats ASM_REG("$18");
+    s32 room_id;
+    s32 distance;
+    u16 spawn_offset[3];
     u32 initial_flags = D_80083462;
 
-    p0 = arg0;
-    p1 = arg1;
-    p2 = arg2;
-    p3 = arg3;
-#define arg0 p0
-#define arg1 p1
-#define arg2 p2
-#define arg3 p3
+    actor = actor_arg;
+    context = context_arg;
+    sprite = sprite_arg;
+    stats = stats_arg;
 
     if (initial_flags & 0x1000) {
-        ((S_801714B8_0 *)arg0)->unk_9A = 0xE;
-        func_80171C3C(arg0, arg1, arg2, arg3);
+        ((S_801714B8_0 *)actor)->unk_9A = 0xE;
+        func_80171C3C(actor, context, sprite, stats);
         return;
     }
 
-    ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(actor);
+    ASM_KEEP(context);
+    ASM_KEEP(sprite);
+    ASM_KEEP(stats);
 
-    if (((S_801714B8_1 *)arg3)->unk_25 == 0) {
-        func_800AA79C(arg0, arg1, arg2, arg3);
-        if (((S_801714B8_2 *)arg2)->unk_2C != D_801760EC) {
+    if (((S_801714B8_1 *)stats)->unk_25 == 0) {
+        func_800AA79C(actor, context, sprite, stats);
+        if (((S_801714B8_2 *)sprite)->unk_2C != D_801760EC) {
             u8 *state_table = D_801760E4;
 
-            (*(void * *)((u8 *)arg2 + (0x2C))) = state_table;
-            func_80047784(arg2,
-                state_table[((D_80083228 + ((S_801714B8_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+            (*(void * *)((u8 *)sprite + (0x2C))) = state_table;
+            func_80047784(sprite,
+                state_table[((D_80083228 + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
             return;
         }
         return;
     }
 
-    if (((S_801714B8_1 *)arg3)->unk_1C & 0x200) {
-        if (((S_801714B8_2 *)arg2)->unk_2C == D_801760EC) {
-            ((S_801714B8_0 *)arg0)->unk_9A = 0xD;
-            ((S_801714B8_0 *)arg0)->unk_9B = 1;
-            ((S_801714B8_0 *)arg0)->unk_8C = 0;
-            ((S_801714B8_1 *)arg3)->unk_1C &= ~0x40000;
+    if (((S_801714B8_1 *)stats)->unk_1C & 0x200) {
+        if (((S_801714B8_2 *)sprite)->unk_2C == D_801760EC) {
+            ((S_801714B8_0 *)actor)->unk_9A = 0xD;
+            ((S_801714B8_0 *)actor)->unk_9B = 1;
+            ((S_801714B8_0 *)actor)->unk_8C = 0;
+            ((S_801714B8_1 *)stats)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(arg0, arg1, arg2, D_801760E4)) {
+        if (func_800AA924(actor, context, sprite, D_801760E4)) {
             return;
         }
     }
 
     if (!(D_80083462 & 0x2000)) {
-        if (((S_801714B8_1 *)arg3)->unk_1C & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        if (((S_801714B8_1 *)stats)->unk_1C & 0x100) {
+            func_800AA258(actor, context, sprite, stats);
             return;
         }
 
-           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        if (((S_801714B8_0 *)arg0)->unk_9A != 0xE) {
+        
+        if (((S_801714B8_0 *)actor)->unk_9A != 0xE) {
             u8 state = 0xE;
             u8 *state_table = D_8017609C;
 
-            if (((S_801714B8_2 *)arg2)->unk_2C != state_table) {
-                (*(void * *)((u8 *)arg2 + (0x2C))) = state_table;
-                func_80047784(arg2,
-                    state_table[((D_80083228 + ((S_801714B8_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+            if (((S_801714B8_2 *)sprite)->unk_2C != state_table) {
+                (*(void * *)((u8 *)sprite + (0x2C))) = state_table;
+                func_80047784(sprite,
+                    state_table[((D_80083228 + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
             }
-            ((S_801714B8_0 *)arg0)->unk_9E.s = 0;
-            ((S_801714B8_0 *)arg0)->unk_A0 = (rand() & 0x1F) + 0xF;
-            ((S_801714B8_0 *)arg0)->unk_9A = state;
+            ((S_801714B8_0 *)actor)->unk_9E.s = 0;
+            ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
+            ((S_801714B8_0 *)actor)->unk_9A = state;
         }
 
-        ((S_801714B8_0 *)arg0)->unk_98 &= 0xFFF3;
-        if (((S_801714B8_1 *)arg3)->unk_64 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, D_801760AC)) {
+        ((S_801714B8_0 *)actor)->unk_98 &= 0xFFF3;
+        if (((S_801714B8_1 *)stats)->unk_64 != 0) {
+            if (func_800AA6B4(actor, context, sprite, D_801760AC)) {
                 return;
             }
         }
 
-        if (((S_801714B8_1 *)arg3)->unk_1C & 0x80000) {
-            func_800AA888(arg0, arg1, arg2, arg3);
-            func_8017412C(arg0, arg1, arg2, arg3);
+        if (((S_801714B8_1 *)stats)->unk_1C & 0x80000) {
+            func_800AA888(actor, context, sprite, stats);
+            func_8017412C(actor, context, sprite, stats);
             return;
         }
 
-        if ((s16)func_800A1C58(arg3) != 0) {
-            func_800AAB10(arg0, arg1, arg2, arg3);
+        if ((s16)func_800A1C58(stats) != 0) {
+            func_800AAB10(actor, context, sprite, stats);
         }
     }
 
-    result = func_8009FB34(((S_801714B8_2 *)arg2)->unk_24.at00.v, ((S_801714B8_2 *)arg2)->unk_24.at01.v);
-    ((S_801714B8_2 *)arg2)->unk_26 = result;
+    room_id = func_8009FB34(((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v);
+    ((S_801714B8_2 *)sprite)->unk_26 = room_id;
 
-    if (((S_801714B8_1 *)arg3)->unk_6D > 0) {
-        if (((S_801714B8_1 *)arg3)->unk_1C & 0x20) {
+    if (((S_801714B8_1 *)stats)->unk_6D > 0) {
+        if (((S_801714B8_1 *)stats)->unk_1C & 0x20) {
             goto special_cleanup;
         }
-        if (((S_801714B8_2 *)arg2)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_801714B8_2 *)sprite)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto ordinary_cleanup;
         }
-        if (!(((S_801714B8_1 *)arg3)->unk_46 & 0x8000)) {
+        if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
             if (D_80083462 & 0x2000) {
-                if ((s16)func_8009A180(arg3,
+                if ((s16)func_8009A180(stats,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
             }
-            if ((s16)func_80172918(arg0, arg1, arg2, 0) == 0) {
+            if ((s16)func_80172918(actor, context, sprite, 0) == 0) {
                 return;
             }
-            ((S_801714B8_1 *)arg3)->unk_46 |= 0x4000;
-            if (!(((S_801714B8_1 *)arg3)->unk_46 & 0x8000)) {
+            ((S_801714B8_1 *)stats)->unk_46 |= 0x4000;
+            if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
                 goto ordinary_cleanup;
             }
         }
@@ -274,7 +271,7 @@ void func_801714B8(void *arg0, void *arg1, void *arg2, void *arg3)
             };
             s32 dispatch_index;
 
-            dispatch_index = (((S_801714B8_1 *)arg3)->unk_46 & 0x3FFF) - 1;
+            dispatch_index = (((S_801714B8_1 *)stats)->unk_46 & 0x3FFF) - 1;
             if ((u32)dispatch_index >= 12) {
                 goto ordinary_cleanup;
             }
@@ -282,11 +279,11 @@ void func_801714B8(void *arg0, void *arg1, void *arg2, void *arg3)
         }
 handler_case:
 #else
-        switch (((S_801714B8_1 *)arg3)->unk_46 & 0x3FFF) {
+        switch (((S_801714B8_1 *)stats)->unk_46 & 0x3FFF) {
         case 8:
 #endif
-            if ((s16)func_8017263C(arg0, arg1, arg2, arg3) == 0) {
-                func_80172800(arg0, arg1, arg2, arg3);
+            if ((s16)func_8017263C(actor, context, sprite, stats) == 0) {
+                func_80172800(actor, context, sprite, stats);
                 return;
             }
             return;
@@ -296,7 +293,7 @@ handler2_case:
 #else
         case 9:
 #endif
-            func_801756E0(arg0, arg1, arg2, arg3);
+            func_801756E0(actor, context, sprite, stats);
             return;
 
 #ifdef __mips__
@@ -309,14 +306,14 @@ coords_case:
         {
             u8 *origin = D_80082E80;
             void *player;
-            s16 coordinate;
+            s16 heading;
 
-            coordinate = func_800A0818(
-                ((S_801714B8_2 *)arg2)->unk_24.at00.v, ((S_801714B8_2 *)arg2)->unk_24.at01.v,
+            heading = func_800A0818(
+                ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
                 ((S_801714B8_4 *)origin)->unk_24, ((S_801714B8_4 *)origin)->unk_25,
-                &scratch);
+                &distance);
             player = D_800814A8;
-            ((S_801714B8_1 *)arg3)->unk_2A.s = coordinate;
+            ((S_801714B8_1 *)stats)->unk_2A.s = heading;
             if (((S_801714B8_5 *)player)->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
@@ -335,30 +332,30 @@ coords_case:
 #endif
 
 special_cleanup:
-        func_800A9A0C(arg3);
+        func_800A9A0C(stats);
         return;
 
 aaf_cleanup:
-        func_800AAF00(arg0, arg1, arg2, D_801760DC, &D_801714B8);
+        func_800AAF00(actor, context, sprite, D_801760DC, &D_801714B8);
         return;
 
 ordinary_cleanup:
-        func_80171E80(arg0, arg1, arg2, arg3);
+        func_80171E80(actor, context, sprite, stats);
         return;
-    } else if (!(((S_801714B8_1 *)arg3)->unk_1C & 0x2000)) {
-        s32 index = (s8)result;
+    } else if (!(((S_801714B8_1 *)stats)->unk_1C & 0x2000)) {
+        s32 room_index = (s8)room_id;
 
-        if ((index < 0) || !(((DungeonRecord *)D_800E2970)[index].flags & 2)) {
-            if (!(((S_801714B8_1 *)arg3)->unk_1C & 0x430)) {
+        if ((room_index < 0) || !(((DungeonRecord *)D_800E2970)[room_index].flags & 2)) {
+            if (!(((S_801714B8_1 *)stats)->unk_1C & 0x430)) {
                 u8 *origin = D_80082E80;
 
                 if ((s16)func_8009FD7C(
-                        ((S_801714B8_2 *)arg2)->unk_24.at00.v, ((S_801714B8_2 *)arg2)->unk_24.at01.v,
+                        ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
                         ((S_801714B8_4 *)origin)->unk_24, ((S_801714B8_4 *)origin)->unk_25) != 0) {
-                    ((S_801714B8_1 *)arg3)->unk_2A.s = func_800A0818(
-                        ((S_801714B8_2 *)arg2)->unk_24.at00.v, ((S_801714B8_2 *)arg2)->unk_24.at01.v,
+                    ((S_801714B8_1 *)stats)->unk_2A.s = func_800A0818(
+                        ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
                         ((S_801714B8_4 *)origin)->unk_24, ((S_801714B8_4 *)origin)->unk_25,
-                        &scratch);
+                        &distance);
                 }
             }
         }
@@ -367,86 +364,86 @@ ordinary_cleanup:
     if (D_80083462 & 0x2000) {
         return;
     }
-    if (((S_801714B8_2 *)arg2)->unk_14 & 0x40) {
+    if (((S_801714B8_2 *)sprite)->unk_14 & 0x40) {
         return;
     }
-    if (((S_801714B8_1 *)arg3)->unk_1C & 0x20) {
+    if (((S_801714B8_1 *)stats)->unk_1C & 0x20) {
         return;
     }
 
     {
-    u8 *main_table = D_8017609C;
+        u8 *main_table = D_8017609C;
 
-    if (((S_801714B8_2 *)arg2)->unk_2C != main_table) {
-        if (((S_801714B8_2 *)arg2)->unk_2C != D_801760A4) {
-            (*(void * *)((u8 *)arg2 + (0x2C))) = main_table;
-            func_80047784(arg2,
-                main_table[((D_80083228 + ((S_801714B8_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
-                0);
-            ((S_801714B8_0 *)arg0)->unk_9E.s = 0;
-            ((S_801714B8_0 *)arg0)->unk_A0 = (rand() & 0x1F) + 0xF;
+        if (((S_801714B8_2 *)sprite)->unk_2C != main_table) {
+            if (((S_801714B8_2 *)sprite)->unk_2C != D_801760A4) {
+                (*(void * *)((u8 *)sprite + (0x2C))) = main_table;
+                func_80047784(sprite,
+                    main_table[((D_80083228 + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    0);
+                ((S_801714B8_0 *)actor)->unk_9E.s = 0;
+                ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
+            }
+            if (((S_801714B8_2 *)sprite)->unk_2C != main_table) {
+                goto final_state_check;
+            }
         }
-        if (((S_801714B8_2 *)arg2)->unk_2C != main_table) {
-            goto final_state_check;
-        }
-    }
 
-    {
-        s16 timer = ((S_801714B8_0 *)arg0)->unk_9E.u;
+        {
+            s16 idle_timer = ((S_801714B8_0 *)actor)->unk_9E.u;
 
-        ((S_801714B8_0 *)arg0)->unk_9E.u = timer + 1;
-        if (timer >= ((S_801714B8_0 *)arg0)->unk_A0) {
-            void *object;
-            u8 *object_data;
+            ((S_801714B8_0 *)actor)->unk_9E.u = idle_timer + 1;
+            if (idle_timer >= ((S_801714B8_0 *)actor)->unk_A0) {
+                void *object;
+                u8 *object_data;
 
-            u8 *alt_table = D_801760A4;
+                u8 *alt_table = D_801760A4;
 
-            (*(void * *)((u8 *)arg2 + (0x2C))) = alt_table;
-            func_80047784(arg2,
-                alt_table[((D_80083228 + ((S_801714B8_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
-                0);
-            func_800478B8(arg2);
+                (*(void * *)((u8 *)sprite + (0x2C))) = alt_table;
+                func_80047784(sprite,
+                    alt_table[((D_80083228 + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    0);
+                func_800478B8(sprite);
 
-            object = func_8003FC64(0x212);
-            if (object != 0) {
-                func_80170DD0(object, arg0, arg1);
-                ((S_801714B8_6 *)object)->unk_10 = D_80170A0C;
-                object_data = (u8 *)object + 0x20;
-                ((S_801714B8_7 *)object_data)->unk_28 = arg1;
-                ((S_801714B8_7 *)object_data)->unk_1C = ((S_801714B8_1 *)arg3)->unk_2A.u;
+                object = func_8003FC64(0x212);
+                if (object != 0) {
+                    func_80170DD0(object, actor, context);
+                    ((S_801714B8_6 *)object)->unk_10 = D_80170A0C;
+                    object_data = (u8 *)object + 0x20;
+                    ((S_801714B8_7 *)object_data)->unk_28 = context;
+                    ((S_801714B8_7 *)object_data)->unk_1C = ((S_801714B8_1 *)stats)->unk_2A.u;
 
-                {
-                    void *owner = ((S_801714B8_0_pre *)arg0)[-1].unk_00;
+                    {
+                        void *owner = ((S_801714B8_0_pre *)actor)[-1].unk_00;
 
-                if (func_8003DE58(
-                        ((S_801714B8_8 *)owner)->unk_08, owner, offsets, 0xF)) {
-                    void *part = ((S_801714B8_6 *)object)->unk_08;
+                        if (func_8003DE58(
+                                ((S_801714B8_8 *)owner)->unk_08, owner, spawn_offset, 0xF)) {
+                            void *part = ((S_801714B8_6 *)object)->unk_08;
 
-                    ((S_801714B8_9 *)part)->unk_02 += offsets[0];
-                    ((S_801714B8_9 *)part)->unk_06 += offsets[1];
-                    ((S_801714B8_9 *)part)->unk_0A += offsets[2];
-                }
-                }
-                {
-                    void *part = ((S_801714B8_6 *)object)->unk_0C;
-                    ((S_801714B8_9 *)part)->unk_14 |= 0x80;
-                    func_8003DB94(part, &D_800DEA68, 0);
+                            ((S_801714B8_9 *)part)->unk_02 += spawn_offset[0];
+                            ((S_801714B8_9 *)part)->unk_06 += spawn_offset[1];
+                            ((S_801714B8_9 *)part)->unk_0A += spawn_offset[2];
+                        }
+                    }
+                    {
+                        void *part = ((S_801714B8_6 *)object)->unk_0C;
+                        ((S_801714B8_9 *)part)->unk_14 |= 0x80;
+                        func_8003DB94(part, &D_800DEA68, 0);
+                    }
                 }
             }
         }
     }
-    }
 
 final_state_check:
-    if (((S_801714B8_2 *)arg2)->unk_2C == D_801760A4 &&
-            (((S_801714B8_2 *)arg2)->unk_14 & 0x6000)) {
+    if (((S_801714B8_2 *)sprite)->unk_2C == D_801760A4 &&
+            (((S_801714B8_2 *)sprite)->unk_14 & 0x6000)) {
         u8 *state_table = D_8017609C;
 
-        (*(void * *)((u8 *)arg2 + (0x2C))) = state_table;
-        func_80047784(arg2,
-            state_table[((D_80083228 + ((S_801714B8_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+        (*(void * *)((u8 *)sprite + (0x2C))) = state_table;
+        func_80047784(sprite,
+            state_table[((D_80083228 + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
             0);
-        ((S_801714B8_0 *)arg0)->unk_9E.s = 0;
-        ((S_801714B8_0 *)arg0)->unk_A0 = (rand() & 0x1F) + 0xF;
+        ((S_801714B8_0 *)actor)->unk_9E.s = 0;
+        ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
     }
 }
