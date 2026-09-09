@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 
 s32 func_800A2000();
-extern void func_800A2154(void) __attribute__((noreturn));
 extern M2C_UNK D_800A2180;
 extern M2C_UNK D_800A21EC;
 
@@ -26,8 +25,7 @@ loop_1:
         goto call_succeeded;
     }
     var_s0 += 1;
-    ASM_TAILSLOT_PIN(var_s0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_800A2154();
+    goto done;
 call_succeeded:
     if (var_s0 != 0) {
         var_s0 -= 1;
@@ -36,5 +34,6 @@ call_succeeded:
     ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     var_s0 += 1;
     ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+done:
     return var_s0;
 }
