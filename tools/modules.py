@@ -2,8 +2,11 @@
 """Module map (L4c): validate a proposed partition of one container's rows into source files and
 record it in ledger/modules.jsonl.
 
-    python3 tools/modules.py check <proposal.json>            # validate only, print the verdicts
-    python3 tools/modules.py accept <proposal.json>           # validate, then write the container's records
+    python3 tools/modules.py check <proposal.json> [--scope <input.json>]    # validate only, print the verdicts
+    python3 tools/modules.py accept <proposal.json> [--scope <input.json>]   # validate, then write the rows' records
+
+A proposal may cover one sub-overlay group of a container (the input file it was made from is its
+scope); the records of several partial proposals combine into the container's map.
 
 A proposal ({"container", "modules": [{"name", "load_base", "foff_start", "foff_end", "rows",
 "rationale", "confidence"}]}) is accepted only when: every registered row of the container appears in
@@ -39,9 +42,25 @@ def assertion_files():
             if files: out[e["id"]] = files
     return out
 
-def check(proposal):
-    cont = proposal["container"]
+CONTAINERS = ("slus", "main", "town", "dungeon", "ovmovie")
+
+def container_of(proposal):
+    """A proposal names its input file stem (`town_0x8007d760`, `dungeon_overlays`); the container is the prefix."""
+    c = proposal["container"]
+    return next((k for k in CONTAINERS if c == k or c.startswith(k + "_")), c)
+
+def scope_ids(proposal, scope):
+    """The rows a proposal must cover: the whole container, or the rows of the input file it was made from."""
+    if scope:
+        return {x["id"] for x in json.loads(Path(scope).read_text())}
+    return None
+
+def check(proposal, scope=None):
+    cont = container_of(proposal)
     reg = {r["id"]: r for r in rows() if r["container"] == cont}
+    ids_in_scope = scope_ids(proposal, scope)
+    if ids_in_scope is not None:
+        reg = {k: v for k, v in reg.items() if k in ids_in_scope}
     lb = load_bases(cont); af = assertion_files()
     errors = []; seen = {}
     mods = proposal.get("modules", [])
@@ -79,9 +98,12 @@ def check(proposal):
     return errors
 
 def accept(proposal):
-    cont = proposal["container"]
+    """Records for the proposal's rows replace any earlier record of those rows (partial proposals per
+    sub-overlay group combine into the container's map)."""
+    cont = container_of(proposal)
+    covered = {rid for m in proposal["modules"] for rid in m["rows"]}
     p = LEDGER / "modules.jsonl"
-    keep = [j for j in read_jsonl(p) if j.get("container") != cont] if p.exists() else []
+    keep = [j for j in read_jsonl(p) if j.get("id") not in covered] if p.exists() else []
     recs = []
     for i, m in enumerate(proposal["modules"]):
         for rid in m["rows"]:
@@ -91,11 +113,12 @@ def accept(proposal):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["check", "accept"]); ap.add_argument("proposal")
+    ap.add_argument("--scope", help="the input JSON the proposal was made from (a partial proposal must cover exactly its rows)")
     a = ap.parse_args()
     prop = json.loads(Path(a.proposal).read_text())
-    errs = check(prop)
+    errs = check(prop, a.scope)
     for e in errs[:40]: print("ERROR", e)
-    print(f"{prop['container']}: {len(prop.get('modules', []))} modules, {sum(len(m.get('rows', [])) for m in prop.get('modules', []))} rows, {len(errs)} errors")
+    print(f"{prop['container']} ({container_of(prop)}): {len(prop.get('modules', []))} modules, {sum(len(m.get('rows', [])) for m in prop.get('modules', []))} rows, {len(errs)} errors")
     if a.cmd == "accept":
         if errs: sys.exit(1)
         n, k = accept(prop); print(f"accepted: {n} rows in {k} modules -> ledger/modules.jsonl")
