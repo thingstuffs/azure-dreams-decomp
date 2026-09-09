@@ -291,6 +291,30 @@ def fold_temp_candidates(text):
     return out
 
 
+def fence_pair_candidates(text):
+    """Two CONSECUTIVE statements wrapped together in `do { ... } while (0);`.
+
+    Harvested from a block-order lane: wrapping a `p = base + off; p->f = v;` pair tightly pulls
+    the pair out of a neighbouring statement's load-delay slot and into retail's adjacency.  This
+    pins a two-instruction *adjacency*, which the single-statement `fence` cannot express - that
+    one pins a definition point and leaves the pair free to be split around it.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    dep = depths(masked)
+    for i in range(len(lines) - 1):
+        if not movable(masked[i]) or not movable(masked[i + 1]):
+            continue
+        if is_decl(masked[i]) or is_decl(masked[i + 1]) or dep[i] != dep[i + 1]:
+            continue
+        ind = re.match(r"[ \t]*", lines[i]).group(0)
+        new = (f"{ind}do {{\n{ind}    {lines[i].strip()}\n{ind}    {lines[i+1].strip()}\n"
+               f"{ind}}} while (0);\n")
+        out.append(("fence2:%d" % (i + 1), "".join(lines[:i] + [new] + lines[i + 2:])))
+    return out
+
+
 class T:
     name = "t15_shapes"
     level = 1
@@ -341,7 +365,8 @@ class T:
             # commute and efence, each of which was harvested from a lane win on some other row.
             # `commute` alone quadrupled the sweep's wall time for nothing, so the default menu is
             # the four that have paid; T15_WIDE=1 runs the whole set when a new class is opened.
-            cands = dup_after_if_candidates(cur) + narrow_candidates(cur) + fence_candidates(cur)
+            cands = (dup_after_if_candidates(cur) + narrow_candidates(cur)
+                     + fence_candidates(cur) + fence_pair_candidates(cur))
             if WIDE:
                 cands = (fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                          + maskfold_candidates(cur) + mask2cast_candidates(cur)
