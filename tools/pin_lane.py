@@ -235,7 +235,11 @@ def main():
             f = Path(td) / Path(row["c_path"]).name
             f.write_text(base)
             v = verify(row, f, include_root=INCLUDE, regions=True)
-        (d / "residue" / (row["id"].replace("/", "__") + ".txt")).write_text(v.get("text", ""))
+        from pin_facts import facts
+        body = v.get("text", "")
+        (d / "residue" / (row["id"].replace("/", "__") + ".txt")).write_text(
+            "FACTS (mechanical - do not re-derive these):\n"
+            + facts(row, text, body) + "\n\nRESIDUE of the pin-free text against retail:\n" + body)
         return row["id"]
 
     jobs = []

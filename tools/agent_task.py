@@ -123,6 +123,11 @@ def depin_facts(row, text):
         f.write_text(text)
         v = _verify(row, f, include_root=INCLUDE, regions=True)
     body = (v.get("text") or "").split("--- aligned regions")[-1]
+    try:
+        from pin_facts import facts as _facts
+        head = _facts(row, text, v.get("text") or "") + "\n" + head
+    except Exception:
+        pass
     return head + "aligned regions (got | tgt):\n" + body[:2000]
 
 def fidelity_facts(row, text):
