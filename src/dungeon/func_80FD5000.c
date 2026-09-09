@@ -18,11 +18,11 @@ typedef struct S_80FD5000_1 {
     u8 pad_20[0x6C];
     M2C_UNK * unk_8C;
     u8 pad_90[0xA];
-    s8 unk_9A;
+    u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
     u8 pad_9D[0x11];
-    u16 unk_AE;
+    s16 unk_AE;
 } S_80FD5000_1;   /* var_s0 in BODY_NAME */
 
 typedef struct S_80FD5000_2 {
@@ -36,11 +36,18 @@ typedef struct S_80FD5000_3 {
     u8 pad_0C[0x6];
     u16 unk_12;
     u8 pad_14[0x10];
-    s8 unk_24;
-    s8 unk_25;
+    u8 unk_24;
+    u8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
 } S_80FD5000_3;   /* temp_s2 in BODY_NAME */
+
+
+typedef struct S_80FD5000_4 {
+    u8 unk_00;
+    u8 pad_01[0x5];
+    u16 unk_06;
+} S_80FD5000_4;
 
 
 void *func_8003FD64();
@@ -195,13 +202,13 @@ finish_kind:
         var_s0->unk_9C = -1;
         var_s0->unk_8C = &D_8014CF6C;
         var_s0->unk_AE = (u16) temp_s2->unk_12;
-        if (*temp_s2->unk_08 & 0x20) {
+        if (((S_80FD5000_4 *)temp_s2->unk_08)->unk_00 & 0x20) {
             return func_8014CA40();
         }
         sp10[2] = 0x100;
         sp10[0] = 0;
         sp10[3] = 1;
-        temp_v1_2 = (u16) M2C_FIELD(((0 * 2 * 4) + temp_s2->unk_08), u16 *, 6) >> 6;
+        temp_v1_2 = (u16) ((S_80FD5000_4 *)((0 * 2 * 4) + temp_s2->unk_08))->unk_06 >> 6;
         sp10[1] = (s16) temp_v1_2;
         func_800673A0(sp10, 0, temp_v1_2 - 1);
         sp10[2] = 0x10;
@@ -226,18 +233,16 @@ typedef struct {
     s16 h;
 } Rect;
 
-#define FIELD(p, type, offset) (*(type *)((u8 *)(p) + (offset)))
-
 void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3)
 {
     s8 arg1_role;
     register s8 arg2_role ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 arg3_role ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *created;
-    register u8 *work ASM_REG("$16") = 0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *position;
-    register u8 *monster ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u8 *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_80FD5000_0 *created;
+    register S_80FD5000_1 *work ASM_REG("$16") = 0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_80FD5000_2 *position;
+    register S_80FD5000_3 *monster ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register S_80FD5000_1 *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 call_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *call_definition ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 kind;
@@ -256,57 +261,57 @@ void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3)
         s32 flags0;
         s32 flags1;
         register void *call_created ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register u8 *call_position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register S_80FD5000_2 *call_position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 value;
-        u8 *entry;
+        S_80FD5000_4 *entry;
         s32 i;
         s32 doubled;
         Rect *rectp;
-        u8 *selected;
+        S_80FD5000_4 *selected;
 
-        work = (u8 *)created + 0x20;
+        work = (S_80FD5000_1 *)((u8 *)created + 0x20);
         arg0_copy = (s32)arg0;
         ASM_KEEP(arg0_copy);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        FIELD(created, Callback, 0x10) = (Callback)&D_8014CB40;
-        FIELD(work, s8, 0x13) = 0x27;
+        created->unk_10 = &D_8014CB40;
+        work->unk_13 = 0x27;
         func_8004491C(created, &D_80045340);
 
-        position = FIELD(created, u8 *, 8);
-        FIELD(position, s16, 0xA) = arg3_role;
-        monster = FIELD(created, u8 *, 0xC);
-        FIELD(monster, u8, 0x25) = arg2_role;
+        position = created->unk_08;
+        position->unk_0A = arg3_role;
+        monster = created->unk_0C;
+        monster->unk_25 = arg2_role;
         actor = work;
-        FIELD(monster, Callback, 0x2C) = (Callback)&D_80151258;
-        FIELD(monster, u8, 0x24) = arg1_role;
+        monster->unk_2C = &D_80151258;
+        monster->unk_24 = arg1_role;
 
         kind = (s32)arg0 & 3;
         if (kind == 1) {
-            flags0 = FIELD(work, s32, 0x14) | 0x6000;
-            flags1 = FIELD(work, s32, 0x1C) | 0x6000;
+            flags0 = work->unk_14 | 0x6000;
+            flags1 = work->unk_1C | 0x6000;
             goto finish_kind;
         }
         if (kind >= 2) {
-            flags0 = FIELD(work, s32, 0x14) | 0x2000;
-            flags1 = FIELD(work, s32, 0x1C) | 0x2000;
+            flags0 = work->unk_14 | 0x2000;
+            flags1 = work->unk_1C | 0x2000;
 finish_kind:
-            FIELD(work, s32, 0x14) = flags0;
-            FIELD(work, s32, 0x1C) = flags1;
+            work->unk_14 = flags0;
+            work->unk_1C = flags1;
             goto finish_kind_args;
         }
         call_created = created;
         if (((s32)arg0 & ~3) << 16 != 0)
             goto have_call_position;
         call_position = position;
-        if (FIELD(work, s32, 0x14) & 0x200)
+        if (work->unk_14 & 0x200)
             goto have_call_args;
         value = func_800A6D30(call_created, call_position);
         call_created = created;
         if (!(value & 1))
             goto have_call_position;
-        FIELD(work, s32, 0x1C) |= 0x200;
+        work->unk_1C |= 0x200;
         value = func_800A6D30(created);
         func_800A48F0(work, 1, (value & 0x3F) | 0x20);
-        FIELD(monster, Callback, 0x2C) = (Callback)&D_80151298;
+        monster->unk_2C = &D_80151298;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
 finish_kind_args:
@@ -317,17 +322,17 @@ have_call_args:
         func_800A9C18(call_created, call_position, monster, (s16)arg0_copy);
 
         i = 0;
-        value = FIELD(monster, u16, 0x12);
-        FIELD(actor, u8, 0x9A) = 0xFF;
-        FIELD(actor, s8, 0x9C) = -1;
-        FIELD(actor, Callback, 0x8C) = (Callback)&D_8014CF6C;
-        FIELD(actor, s16, 0xAE) = value;
+        value = monster->unk_12;
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C = &D_8014CF6C;
+        actor->unk_AE = value;
 
-        entry = FIELD(monster, u8 *, 8);
+        entry = (S_80FD5000_4 *)monster->unk_08;
 scan_entry:
         doubled = i << 1;
-        if (*entry & 0x20) {
-            entry += 12;
+        if (entry->unk_00 & 0x20) {
+            entry = (S_80FD5000_4 *)((u8 *)entry + 12);
             i++;
             goto scan_entry;
         } else {
@@ -335,10 +340,10 @@ scan_entry:
 
         rectp = &rect;
         ASM_KEEP(rectp);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        selected = (u8 *)(doubled + i);
-        selected = (u8 *)((s32)selected * 4);
-        selected += (s32)FIELD(monster, u8 *, 8);
-        value = FIELD(selected, u16, 6) >> 6;
+        selected = (S_80FD5000_4 *)(doubled + i);
+        selected = (S_80FD5000_4 *)((s32)selected * 4);
+        selected = (S_80FD5000_4 *)((u8 *)selected + (s32)monster->unk_08);
+        value = selected->unk_06 >> 6;
         rect.x = 0;
         rect.y = value;
         rect.w = 0x100;

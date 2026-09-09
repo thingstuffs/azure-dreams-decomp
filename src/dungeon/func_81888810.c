@@ -4,7 +4,55 @@
 #define NULL 0
 #endif
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
+typedef struct S_func_81888810_0 {
+    u8 pad_00[0x8];
+    void *unk_08;
+    void *unk_0C;
+    void *unk_10;
+} S_func_81888810_0;
+
+typedef struct S_func_81888810_1 {
+    u8 pad_00[0x2];
+    s16 unk_02;
+    u8 pad_04[0x2];
+    s16 unk_06;
+    u8 pad_08[0x2];
+    s16 unk_0A;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_func_81888810_1;
+
+typedef struct S_func_81888810_2 {
+    u8 pad_00[0x16];
+    s16 unk_16;
+    s16 unk_18;
+} S_func_81888810_2;
+
+typedef struct S_func_81888810_3 {
+    u8 pad_00[0x1A];
+    s16 unk_1A;
+    u8 pad_1C[0x14];
+    s32 unk_30;
+    u16 unk_34;
+    u8 pad_36[0x2];
+    s32 unk_38;
+    u16 unk_3C;
+    u8 pad_3E[0x2];
+    s32 unk_40;
+    u16 unk_44;
+    u8 pad_46[0x2];
+    s32 unk_48;
+    u16 unk_4C;
+    u8 pad_4E[0x2];
+    s32 unk_50;
+    s32 unk_54;
+} S_func_81888810_3;
+
+typedef struct S_func_81888810_4 {
+    u8 pad_00[0x632A];
+    s16 unk_632A;
+} S_func_81888810_4;
 
 typedef struct {
     s16 x;
@@ -30,7 +78,7 @@ extern Cell D_800264F8[];
 #define READ_COUNT_PAGE() (*(s16 *)count_page)
 #else
 #define SET_COUNT_PAGE() (temp_v0 = 0x80020000)
-#define READ_COUNT_PAGE() FIELD((void *)temp_v0, s16, 0x632A)
+#define READ_COUNT_PAGE() (((S_func_81888810_4 *)temp_v0)->unk_632A)
 #endif
 
 void func_80026010(void) {
@@ -39,10 +87,10 @@ void func_80026010(void) {
     Cell *p1;
     Cell *p2;
     Cell *p4;
-    void *obj;
-    void *motion;
-    void *angles;
-    void *dst;
+    S_func_81888810_0 *obj;
+    S_func_81888810_1 *motion;
+    S_func_81888810_2 *angles;
+    S_func_81888810_3 *dst;
     s32 i;
     s32 block;
     register s32 next ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -71,7 +119,7 @@ void func_80026010(void) {
             if (obj != NULL) {
                 value = (s32)obj;
                 temp_v0 = (s32)D_80025A58;
-                FIELD(obj, void *, 0x10) = (void *)temp_v0;
+                obj->unk_10 = (void *)temp_v0;
                 func_8004491C((void *)value, D_80025E4C);
 
                 block = i & ~0xF;
@@ -87,7 +135,7 @@ void func_80026010(void) {
                 value = current->x;
                 temp_v0 = p4->x;
                 next = p1->x;
-                motion = FIELD(obj, void *, 8);
+                motion = obj->unk_08;
                 y1 = p4->y;
                 y2 = p2->y;
                 y3 = p1->y;
@@ -101,41 +149,41 @@ void func_80026010(void) {
                 temp_v0 = current->y;
                 next = current->z;
                 value >>= 2;
-                FIELD(motion, s16, 2) = value;
+                motion->unk_02 = value;
                 temp_v0 = (temp_v0 + y1 + y2 + y3) >> 2;
-                FIELD(motion, s16, 6) = temp_v0;
+                motion->unk_06 = temp_v0;
                 next = (next + z1 + z2 + z3) >> 2;
-                FIELD(motion, s16, 0xA) = next;
+                motion->unk_0A = next;
 
-                FIELD(motion, s32, 0xC) = ((rand() & 0xF) - 8) << 0x10;
-                FIELD(motion, s32, 0x10) = ((rand() & 0xF) - 8) << 0x10;
-                FIELD(motion, s32, 0x14) = ((rand() & 0xF) - 8) << 0x10;
+                motion->unk_0C = ((rand() & 0xF) - 8) << 0x10;
+                motion->unk_10 = ((rand() & 0xF) - 8) << 0x10;
+                motion->unk_14 = ((rand() & 0xF) - 8) << 0x10;
 
-                angles = FIELD(obj, void *, 0xC);
-                FIELD(angles, s16, 0x16) = (rand() & 0x1FF) - 0x100;
-                FIELD(angles, s16, 0x18) = (rand() & 0x1FF) - 0x100;
+                angles = obj->unk_0C;
+                angles->unk_16 = (rand() & 0x1FF) - 0x100;
+                angles->unk_18 = (rand() & 0x1FF) - 0x100;
 
-                dst = (u8 *)obj + 0x20;
-                FIELD(dst, s16, 0x1A) = 0x20;
-                FIELD(dst, s32, 0x30) = *(s32 *)current;
-                FIELD(dst, u16, 0x34) = current->z;
-                FIELD(dst, s32, 0x38) = *(s32 *)p4;
-                FIELD(dst, u16, 0x3C) = p4->z;
-                FIELD(dst, s32, 0x40) = *(s32 *)&D_800264F8[i];
-                FIELD(dst, u16, 0x44) = p2->z;
-                FIELD(dst, s32, 0x48) = *(s32 *)((u8 *)D_800264F8 + byte_offset);
-                FIELD(dst, u16, 0x4C) = p1->z;
+                dst = (S_func_81888810_3 *)((u8 *)obj + 0x20);
+                dst->unk_1A = 0x20;
+                dst->unk_30 = *(s32 *)current;
+                dst->unk_34 = current->z;
+                dst->unk_38 = *(s32 *)p4;
+                dst->unk_3C = p4->z;
+                dst->unk_40 = *(s32 *)&D_800264F8[i];
+                dst->unk_44 = p2->z;
+                dst->unk_48 = *(s32 *)((u8 *)D_800264F8 + byte_offset);
+                dst->unk_4C = p1->z;
 
                 rounded = i;
                 if (i < 0) {
                     rounded = i + 0x1F;
                 }
                 if ((i - ((rounded >> 5) << 5)) < 0x10) {
-                    FIELD(dst, s32, 0x50) = D_80026470;
-                    FIELD(dst, s32, 0x54) = D_80026474;
+                    *(s32 *)((u8 *)dst + 0x50) = D_80026470;
+                    dst->unk_54 = D_80026474;
                 } else {
-                    FIELD(dst, s32, 0x54) = D_80026470;
-                    FIELD(dst, s32, 0x50) = D_80026474;
+                    *(s32 *)((u8 *)dst + 0x54) = D_80026470;
+                    dst->unk_50 = D_80026474;
                 }
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 SET_COUNT_PAGE();

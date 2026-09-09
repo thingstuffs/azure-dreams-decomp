@@ -1,6 +1,49 @@
 #include "common.h"
 
-#define FIELD(type, p, off) (*(type)((s8 *)(p) + (off)))
+typedef struct S_func_81325A04_0 {
+    u8 pad_00[0x8C];
+    void *unk_8C;
+    u8 pad_90[0x06];
+    union {
+        s16 s;
+        u16 u;
+    } unk_96;
+    u8 pad_98[0x03];
+    u8 unk_9B;
+    u8 pad_9C[0x17];
+    u8 unk_B3;
+    u8 unk_B4;
+} S_func_81325A04_0;
+
+typedef struct S_func_81325A04_1 {
+    u8 pad_00[0x02];
+    s16 unk_02;
+    u8 pad_04[0x02];
+    s16 unk_06;
+    u8 pad_08[0x04];
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_func_81325A04_1;
+
+typedef struct S_func_81325A04_2 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0x0E];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x06];
+    s32 unk_2C;
+} S_func_81325A04_2;
+
+typedef struct S_func_81325A04_3 {
+    u8 pad_00[0x28];
+    u8 unk_28;
+    u8 pad_29[0x01];
+    s16 unk_2A;
+    u8 pad_2C[0x3E];
+    u16 unk_6A;
+} S_func_81325A04_3;
 
 extern s16 D_8006CCD8[];
 extern s16 D_8006CCE8[];
@@ -17,7 +60,7 @@ extern s32 func_800AAA54();
 extern s32 func_800AD4D0();
 extern s32 func_80047784();
 
-u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
+u8 *func_8016D204(S_func_81325A04_0 *arg0, S_func_81325A04_1 *arg1, S_func_81325A04_2 *arg2, S_func_81325A04_3 *arg3) {
     s32 state;
     s16 timer;
     s16 next;
@@ -36,7 +79,7 @@ u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
     register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *tail_a1;
 
-    state = FIELD(u8 *, arg0, 0x9B);
+    state = arg0->unk_9B;
     if (state == 1) {
         goto state1_body;
     }
@@ -57,127 +100,127 @@ u8 *func_8016D204(void *arg0, void *arg1, void *arg2, void *arg3) {
 
 state0_body:
     func_800AD4D0(arg3);
-    FIELD(s16 *, arg0, 0x96) = 12;
-    FIELD(u8 *, arg0, 0x9B) = (u8)(FIELD(u8 *, arg0, 0x9B) + 1);
-    if (FIELD(u8 *, arg3, 0x28) == 0) {
-        FIELD(s32 *, arg1, 0x14) = 0;
-        FIELD(s32 *, arg1, 0x10) = 0;
-        FIELD(s32 *, arg1, 0x0C) = 0;
-        if (FIELD(u8 *, arg0, 0xB4) != 0) {
+    arg0->unk_96.s = 12;
+    arg0->unk_9B = (u8)(arg0->unk_9B + 1);
+    if (arg3->unk_28 == 0) {
+        arg1->unk_14 = 0;
+        arg1->unk_10 = 0;
+        arg1->unk_0C = 0;
+        if (arg0->unk_B4 != 0) {
             page = (u32)D_8016B778;
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            FIELD(u8 *, arg0, 0x9B) = 0;
+            arg0->unk_9B = 0;
             goto store_chosen;
         }
         goto initialize;
     }
     chosen = (u8 *)3;
-    if (!(FIELD(u16 *, arg2, 0x14) & 0x8000)) {
+    if (!(arg2->unk_14 & 0x8000)) {
         return chosen;
     }
-    FIELD(s16 *, arg0, 0x96) = 0;
-    FIELD(u8 *, arg0, 0x9B) = (u32)chosen;
+    arg0->unk_96.s = 0;
+    arg0->unk_9B = (u32)chosen;
     return;
 
 state1_body:
-        raw = FIELD(u16 *, arg0, 0x96);
+        raw = arg0->unk_96.u;
         raw--;
-        FIELD(u16 *, arg0, 0x96) = raw;
+        arg0->unk_96.u = raw;
         timer = (s16)raw;
         if (timer >= 11) {
-            FIELD(s32 *, arg1, 0x0C) =
-                *(s16 *)((u8 *)D_8006CCD8 + ((FIELD(u16 *, arg3, 0x6A) >> 8) & 0xE)) << 20;
-            FIELD(s32 *, arg1, 0x10) =
-                *(s16 *)((u8 *)D_8006CCE8 + ((FIELD(u16 *, arg3, 0x6A) >> 8) & 0xE)) << 20;
-            FIELD(u16 *, arg2, 0x14) |= 0x800;
+            arg1->unk_0C =
+                *(s16 *)((u8 *)D_8006CCD8 + ((arg3->unk_6A >> 8) & 0xE)) << 20;
+            arg1->unk_10 =
+                *(s16 *)((u8 *)D_8006CCE8 + ((arg3->unk_6A >> 8) & 0xE)) << 20;
+            arg2->unk_14 |= 0x800;
             return;
         }
         if (timer >= 7) {
-            x = FIELD(s32 *, arg1, 0x0C);
+            x = arg1->unk_0C;
             if (x < 0) {
                 x += 3;
             }
-            y = FIELD(s32 *, arg1, 0x10);
-            FIELD(s32 *, arg1, 0x0C) = x >> 2;
+            y = arg1->unk_10;
+            arg1->unk_0C = x >> 2;
             if (y < 0) {
                 y += 3;
             }
-            FIELD(s32 *, arg1, 0x10) = y >> 2;
+            arg1->unk_10 = y >> 2;
             return;
         }
         below2 = timer < 2;
         if (!below2) {
-            FIELD(s32 *, arg1, 0x10) = 0;
-            FIELD(s32 *, arg1, 0x0C) = 0;
+            arg1->unk_10 = 0;
+            arg1->unk_0C = 0;
             return;
         }
         if (timer == state) {
-            FIELD(u16 *, arg2, 0x14) &= 0xF7FF;
+            arg2->unk_14 &= 0xF7FF;
             return;
         }
         if (timer != 0) {
             return (u8 *)(u32)below2;
         }
         timer = 4;
-        page = FIELD(u8 *, arg0, 0x9B);
+        page = arg0->unk_9B;
         ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        FIELD(s16 *, arg0, 0x96) = timer;
+        arg0->unk_96.s = timer;
         goto increment_state;
 state2_body:
-    timer = FIELD(s16 *, arg0, 0x96);
+    timer = arg0->unk_96.s;
     if (timer != 0) {
-        ax = FIELD(u8 *, arg2, 0x24) << 6;
-        dy = FIELD(s16 *, arg1, 2) - 32;
-        FIELD(s32 *, arg1, 0x0C) = ((ax - dy) << 16) / timer;
-        ax2 = FIELD(u8 *, arg2, 0x25) << 6;
-        dy2 = FIELD(s16 *, arg1, 6) - 32;
-        FIELD(s32 *, arg1, 0x10) =
-            ((ax2 - dy2) << 16) / FIELD(s16 *, arg0, 0x96);
+        ax = arg2->unk_24 << 6;
+        dy = arg1->unk_02 - 32;
+        arg1->unk_0C = ((ax - dy) << 16) / timer;
+        ax2 = arg2->unk_25 << 6;
+        dy2 = arg1->unk_06 - 32;
+        arg1->unk_10 =
+            ((ax2 - dy2) << 16) / arg0->unk_96.s;
     }
-    page = FIELD(u16 *, arg0, 0x96);
+    page = arg0->unk_96.u;
     next = (s16)(page - 1);
     page <<= 16;
-    FIELD(s16 *, arg0, 0x96) = next;
+    arg0->unk_96.s = next;
     if ((s32)page > 0) {
             return (u8 *)page;
     }
-    FIELD(s32 *, arg1, 0x14) = 0;
-    FIELD(s32 *, arg1, 0x10) = 0;
-    FIELD(s32 *, arg1, 0x0C) = 0;
-    page = FIELD(u8 *, arg0, 0x9B);
+    arg1->unk_14 = 0;
+    arg1->unk_10 = 0;
+    arg1->unk_0C = 0;
+    page = arg0->unk_9B;
 increment_state:
-    FIELD(u8 *, arg0, 0x9B) = (u8)(page + 1);
+    arg0->unk_9B = (u8)(page + 1);
     return;
 
 state3_body:
-    FIELD(s32 *, arg1, 0x14) = 0;
-    FIELD(s32 *, arg1, 0x10) = 0;
-    FIELD(s32 *, arg1, 0x0C) = 0;
-    func_800A2B04(arg1, FIELD(u8 *, arg2, 0x24), FIELD(u8 *, arg2, 0x25));
-    if (FIELD(u8 *, arg3, 0x28) != 0) {
+    arg1->unk_14 = 0;
+    arg1->unk_10 = 0;
+    arg1->unk_0C = 0;
+    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
+    if (arg3->unk_28 != 0) {
         goto state3_continue;
     }
-    FIELD(s32 *, arg1, 0x14) = 0;
-    FIELD(s32 *, arg1, 0x10) = 0;
-    FIELD(s32 *, arg1, 0x0C) = 0;
-    if (FIELD(u8 *, arg0, 0xB4) != 0) {
+    arg1->unk_14 = 0;
+    arg1->unk_10 = 0;
+    arg1->unk_0C = 0;
+    if (arg0->unk_B4 != 0) {
         goto state3_tail;
     }
 initialize:
-    FIELD(u8 *, arg0, 0x9B) = 0;
+    arg0->unk_9B = 0;
     func_800AAA54(arg0, arg1, arg2, D_801746CC);
     return;
 
 state3_tail:
     page = (u32)D_8016B778;
     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    FIELD(u8 *, arg0, 0x9B) = 0;
+    arg0->unk_9B = 0;
     goto store_chosen;
 
 state3_continue:
-    current = FIELD(s32 *, arg2, 0x2C);
+    current = arg2->unk_2C;
     if (current == (s32)D_801746C4) {
-        if (FIELD(u8 *, arg0, 0xB3) == 0) {
+        if (arg0->unk_B3 == 0) {
             page = 0x80170000;
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             tail_a1 = (u8 *)page + 18044;
@@ -186,8 +229,8 @@ state3_continue:
             tail_a1 = (u8 *)page;
         }
         if (current != (s32)tail_a1) {
-            FIELD(s32 *, arg2, 0x2C) = (s32)tail_a1;
-            value = D_80083228[0] + FIELD(s16 *, arg3, 0x2A);
+            arg2->unk_2C = (s32)tail_a1;
+            value = D_80083228[0] + arg3->unk_2A;
             func_80047784(arg2, *(u8 *)((u32)(((value + 0x100) >> 9) & 7) + (u32)tail_a1), 0);
         }
     }
@@ -197,6 +240,6 @@ state3_continue:
     }
     page = (u32)D_8016B778;
 store_chosen:
-    FIELD(u8 **, arg0, 0x8C) = (u8 *)page;
+    arg0->unk_8C = (u8 *)page;
     return (u8 *)page;
 }

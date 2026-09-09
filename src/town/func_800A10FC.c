@@ -38,6 +38,11 @@ typedef struct S_8009E85C_5_pre {
 } S_8009E85C_5_pre;   /* the 0x10 bytes before call_a0 in func_8009E85C, addressed as call_a0[-1] */
 
 
+typedef struct S_8009E85C_6 {
+    u8 pad_00[0xA94];
+    s32 unk_A94;
+} S_8009E85C_6;
+
 M2C_UNK D_8009E714();         /* extern */
 M2C_UNK func_80033CD8();           /* extern */
 M2C_UNK func_800374F4();                     /* extern */
@@ -68,7 +73,7 @@ void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
     if (temp_v1 == 0x12) {
         arg2->unk_08 = &D_8006E240;
     } else {
-        func_8009DC8C(arg0, arg2, ((Rec_func_80094268_arg0 *)arg0)->unk_4C, M2C_FIELD(page, s32 *, ((page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x983] & 0x3F) * 0x54) + 0xA94));
+        func_8009DC8C(arg0, arg2, ((Rec_func_80094268_arg0 *)arg0)->unk_4C, ((S_8009E85C_6 *)(page + ((page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
     func_80033CD8(arg0, &D_80045340);
     init_flags = 0x20;

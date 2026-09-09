@@ -1,38 +1,52 @@
 #include "common.h"
 
-#define FIELD(obj, type, offset) (*(volatile type *)((u8 *)(obj) + (offset)))
+typedef struct S_func_800B361C_0 {
+    u8 pad_00[0x10];
+    volatile s32 unk_10;
+    volatile s32 unk_14;
+    u8 pad_18[0x4];
+    volatile s32 unk_1C;
+    u8 pad_20[0xAC];
+    void *unk_CC;
+} S_func_800B361C_0;
+
+typedef struct S_func_800B361C_1 {
+    u8 pad_00[0x74];
+    void *unk_74;
+    void *unk_78;
+} S_func_800B361C_1;
 
 extern s32 D_800786DC[];
 extern s32 D_800786E8[];
 
 /* Update status flags and state pointers from the current value and its limit. */
-void func_800B0D7C(void *object) {
+void func_800B0D7C(S_func_800B361C_0 *object) {
     register s32 flags ASM_REG("$2");
 
-    if (FIELD(object, s32, 0x10) > 0) {
-        void **state;
+    if (object->unk_10 > 0) {
+        S_func_800B361C_1 *state;
 
-        state = FIELD(object, void **, 0xCC);
-        *FIELD(state, void **, 0x74) = D_800786DC;
-        flags = FIELD(object, s32, 0x1C);
+        state = object->unk_CC;
+        *(void **)state->unk_74 = D_800786DC;
+        flags = object->unk_1C;
         flags &= ~2;
     } else {
-        flags = FIELD(object, s32, 0x1C);
+        flags = object->unk_1C;
         flags |= 2;
     }
-    FIELD(object, s32, 0x1C) = flags;
+    object->unk_1C = flags;
 
-    if (FIELD(object, s32, 0x10) < FIELD(object, s32, 0x14)) {
+    if (object->unk_10 < object->unk_14) {
         s32 clear_mask;
-        void **state;
+        S_func_800B361C_1 *state;
 
         clear_mask = ~1;
         ASM_KEEP(clear_mask);
-        FIELD(object, s32, 0x1C) &= clear_mask;
-        state = FIELD(object, void **, 0xCC);
-        *FIELD(state, void **, 0x78) = D_800786E8;
+        object->unk_1C &= clear_mask;
+        state = object->unk_CC;
+        *(void **)state->unk_78 = D_800786E8;
         return;
     }
 
-    FIELD(object, s32, 0x1C) |= 1;
+    object->unk_1C |= 1;
 }
