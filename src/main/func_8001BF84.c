@@ -52,18 +52,18 @@ u8 *func_8001BF84(s32 message_param_1, s32 message_param_2, s32 message_param_3,
             func_8007BEF0(1);
         }
         func_80040560(result, D_8040861C);
-        return func_80403060(child);
+        do {
+            return func_80403060(child);
+        } while (0);
     }
 
     func_8040343C(*(s32 *)0x80409534 != 2, root);
     D_80409526 &= 0x7FFF;
     func_8007BFE0(child, 0x764);
     func_80402DF0(child, 6);
-    ASM_KEEP_NV(root);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_8001BF84_0 *)root)->unk_0C = (s32)(child + 0x67C);
     result = (s32)func_80402DC8(child + 0x68C);
     store_base = child;
-    ASM_KEEP_NV(store_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_8001BF84_1 *)store_base)->unk_688 = result;
     func_80402EBC(store_base, message_param_1, message_param_2, message_param_3, message_param_4);
     ((S_8001BF84_0 *)root)->unk_10 = (s32)D_80402F04;

@@ -30,8 +30,9 @@ s32 func_80026F68(void *rect_arg, void *owner_arg)
     rect_data = rect_arg;
     owner = owner_arg;
     render_state_ptr = (u8 **)D_80083160;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    quadrant = 3;
+    do {
+        quadrant = 3;
+    } while (0);
 
 loop:
     render_state = *render_state_ptr;

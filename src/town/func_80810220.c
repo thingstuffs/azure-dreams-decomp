@@ -45,7 +45,7 @@ __asm__(".set D_80530100, 0x80530100");
 
 void func_80810220(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
     S_80810220_1 *child;
-    s32 called;
+    s16 called;
     s16 state;
     u16 flags;
 
@@ -98,7 +98,7 @@ state_0: {
     }
 
 state_1: {
-        register s32 called_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s32 called_v0;
         called_v0 = called;
         if (called_v0 != 0 && ((S_80810220_4 *)(arg0->unk_04))->unk_22 == 3) {
             child->unk_20 |= 1;

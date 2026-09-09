@@ -66,7 +66,7 @@ extern u8 D_80174D08[12];
 void func_801741D0(s32 unused_0, S_801741D0_3 *source_pos, s32 unused_2, s8 green, s32 red_blue)
 {
     s32 saved_red_blue = red_blue;
-    register s8 saved_green ASM_REG("$20") = green;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s8 saved_green = green;
     void *node;
     S_801741D0_1 *sprite;
     S_801741D0_2 *position;
@@ -94,9 +94,10 @@ void func_801741D0(s32 unused_0, S_801741D0_3 *source_pos, s32 unused_2, s8 gree
         ((S_801741D0_0 *)node)->unk_20 = 0x70;
         node_params[1] = 0x10;
         node_params[2] = 0x10;
-        ASM_KEEP(saved_green);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         sprite->unk_0D = saved_green;
-        sprite->unk_0C = saved_red_blue;
+        do {
+            sprite->unk_0C = saved_red_blue;
+        } while (0);
         sprite->unk_0E = saved_red_blue;
         sprite->unk_1A = rand() & 0xFFF;
 

@@ -71,9 +71,10 @@ s32 func_801264AC(S_801264AC_2 *context) {
     func_8004CC38(&D_80129728, 0x62, node_aux, node_count);
     func_8004CCBC(&D_80129728, 0x62);
     context->unk_58 = &D_80129728;
-    context->unk_54 = (s32)((S_801264AC_3 *)(&D_80129728))->unk_184;
+    do {
+        context->unk_54 = (s32)((S_801264AC_3 *)(&D_80129728))->unk_184;
+    } while (0);
     result = 1;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     return result;
 }
 

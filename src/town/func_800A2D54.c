@@ -7,7 +7,7 @@ void func_800A04B4(void) {
     s32 entry_index;
     s32 *entries = &D_80100AA0[0];
     s32 *write_entry;
-    register s32 *src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 *src;
 
     entry_index = 0;
     write_entry = entries;
@@ -22,5 +22,7 @@ loop:
             goto loop;
         }
     }
-    entries[entry_index] = 0;
+    do {
+        entries[entry_index] = 0;
+    } while (0);
 }

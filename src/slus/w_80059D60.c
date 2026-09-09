@@ -12,7 +12,7 @@ extern Slot D_80085FA8[];
 /* Return 1 if any slot is active, or 3 if all slots are finished. */
 s32 func_80059D60(void) {
     u32 slot_count;
-    register u32 i ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    u32 i;
     Slot *slot;
 
     i = 0;
@@ -23,7 +23,9 @@ s32 func_80059D60(void) {
             if (slot->field_2C == 0) {
                 return 1;
             }
-            i++;
+            do {
+                i++;
+            } while (0);
             slot++;
         } while (i < slot_count);
     }

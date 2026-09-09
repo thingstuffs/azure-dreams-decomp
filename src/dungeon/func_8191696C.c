@@ -28,7 +28,7 @@ s32 func_8002416C(s32 unused, s32 request_id, s32 request_value, s16 request_par
     struct S_80083178 *state = &D_80083178;
     S_8191696C_state *dispatch = (S_8191696C_state *)&state->field_B8;
     void *payload_start = (void *)((u8 *)&state->field_B8 + 4);
-    register s32 saved_value ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 saved_value;
     s32 prev_request_id;
     s32 change_flags;
 

@@ -26,7 +26,7 @@ void func_800BB030(void *entity, void *context) {
     s32 phase;
     s32 phase_ticks;
     s32 quarter_ticks;
-    register s32 intensity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s8 intensity;
 
     if (func_8009CFE0(entity, context) != 0) {
         activity_flag = ((S_800BB030_0 *)entity)->unk_98;
@@ -84,7 +84,7 @@ state_1: {
 }
 
 state_2: {
-    register s32 half_ticks ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 half_ticks;
 
     quarter_ticks = (s16)phase_ticks / 4;
     ((S_800BB030_0 *)entity)->unk_66 = quarter_ticks * 3;

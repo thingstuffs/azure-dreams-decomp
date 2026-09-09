@@ -31,7 +31,7 @@ extern u8 D_80017D50;
 u8 *func_8001A86C(s32 selected_index) {
     s32 entry_index;
     s32 first_marked;
-    register s32 entry_flag ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 entry_flag;
     u8 *output_base;
     Record12 *record_base;
     Record12 *record;
@@ -41,7 +41,9 @@ u8 *func_8001A86C(s32 selected_index) {
     output_base = &D_80017D50;
     if (selected_index != 0) {
         entry_index = 1;
-        entry_flag = 0x400;
+        do {
+            entry_flag = 0x400;
+        } while (0);
         entry = output_base + 0x14;
         record_base = D_8001791C;
         record = &record_base[1];

@@ -38,7 +38,7 @@ void func_81814C48(void *state, void *position, void *linked_state)
     s32 x;
     s32 y;
     s32 z;
-    register s32 z_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 z_step;
 
     z = (*(u16 *)((u8 *)position + 0xA));
     x = ((S_81814C48_0 *)position)->unk_00.at02.v;
@@ -56,7 +56,9 @@ void func_81814C48(void *state, void *position, void *linked_state)
                     (rand(x_step) & 0xFFFF);
         coord_value = ((S_81814C48_0 *)position)->unk_04.at00.v + y_step;
         ((S_81814C48_0 *)position)->unk_04.at00.v = coord_value;
-        z_random = rand(y_step);
+        do {
+            z_random = rand(y_step);
+        } while (0);
         z_step = 0xFFFE0000;
         coord_value = ((S_81814C48_0 *)position)->unk_08.at00.v + z_step;
         coord_value -= z_random & 0xFFF;

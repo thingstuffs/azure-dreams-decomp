@@ -54,9 +54,11 @@ loop:
         if (direction == *direction_ptr) {
             slot = *slot_ptr;
             if (((S_80095760_0 *)((u8 *)entries + slot))->unk_3A != 0) {
-                entry = ((S_80095760_1 *)((u8 *)entries + slot * 4))->unk_1C;
+                do {
+                    entry = ((S_80095760_1 *)((u8 *)entries + slot * 4))->unk_1C;
+                } while (0);
                 state = entry->unk_14;
-                ASM_USE2(direction_ptr, slot_ptr); /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
+                 /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
                 if (state == blocked_state) {
                     return -1;
                 }

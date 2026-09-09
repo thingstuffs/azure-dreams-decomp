@@ -41,7 +41,7 @@ void func_80024CD4(s32 draw_param_a, s32 draw_param_b, Position *restore_area, P
     DungeonState **state_ptr;
     u8 *packet;
     u32 *ordering_table;
-    register s32 offset_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 offset_y;
     s32 y;
     s32 saved_option = draw_option;
 

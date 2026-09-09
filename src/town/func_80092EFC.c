@@ -120,7 +120,6 @@ after_initial:
     } else {
         *(s16 *)((u8 *)arg0 + 0x18) = *(u16 *)((u8 *)arg0 + 0x10);
     }
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     index = func_80095360(*(s16 *)((u8 *)arg0 + 0x18));
     if (*(s16 *)((u8 *)arg0 + 0x12) != index) {
         func_800489F4(arg2,
@@ -139,8 +138,9 @@ after_initial:
         }
         *(u16 *)((u8 *)arg2 + 0x14) = bit_value;
     }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    func_80096868(arg0, arg1, arg2);
+    do {
+        func_80096868(arg0, arg1, arg2);
+    } while (0);
     func_80048AC8(arg2, 0);
 
     {

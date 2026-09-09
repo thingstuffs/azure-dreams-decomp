@@ -28,7 +28,7 @@ s32 func_81984E94(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
     struct S_80083178 *state = &D_80083178;
     S_8191696C_state *substate = (S_8191696C_state *)&state->field_B8;
     void *next_field = (void *)((u8 *)&state->field_B8 + 4);
-    register s32 saved_value ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 saved_value;
     s32 previous_key;
     s32 change_flags;
 

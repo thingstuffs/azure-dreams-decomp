@@ -53,6 +53,7 @@ void func_80099C18(void *work_data, void *position_data, s32 context) {
             ((work->target_y << 16) - y) / (s16)work->count;
     }
 
-    ASM_USE(position_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    pos->angle = func_800C2AE8(pos);
+    do {
+        pos->angle = func_800C2AE8(pos);
+    } while (0);
 }

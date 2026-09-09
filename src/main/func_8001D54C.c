@@ -10,9 +10,10 @@ void func_8001D54C(void *state) {
     index = 0;
     do {
         value = *(s32 **)(cursor + 0x1D8);
-        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         *value = 0;
         index++;
-        cursor += 4;
+        do {
+            cursor += 4;
+        } while (0);
     } while (index < 10);
 }

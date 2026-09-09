@@ -43,8 +43,9 @@ void func_80041A10(void)
 
     D_80082E60.field0 |= 1;
     saved_state = D_8008148C.field0;
-    ASM_KEEP(saved_state);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    D_80081480.field0 = saved_state;
+    do {
+        D_80081480.field0 = saved_state;
+    } while (0);
     func_8003FAD4(saved_state);
     func_800410FC();
     D_80083160.field0 = (s32)&D_801C9E40;

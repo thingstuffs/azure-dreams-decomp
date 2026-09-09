@@ -19,8 +19,9 @@ void func_80019394(s32 group_index, s32 entry_index) {
     Entry *groups;
     Entry *entries;
 
-    ASM_USE(group_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    root = D_80016000;
+    do {
+        root = D_80016000;
+    } while (0);
     level = *(Entry **)((u8 *)root + 0x24);
     groups = *(Entry **)((u8 *)level + 0x6C);
     do { entries = groups[group_index].next; } while (0);

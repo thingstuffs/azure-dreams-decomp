@@ -40,7 +40,7 @@ extern s32 D_80024444[];
 /* Updates the object transition state, height, and display values. */
 void func_80021E88(S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, S_80021E88_2 *display) {
     s16 state;
-    s32 transition_pending;
+    s16 transition_pending;
     s32 transition;
     u16 flags;
     S_80021E88_1 *object;
@@ -88,7 +88,6 @@ state_0:
 
 state_1:
     transition_pending = transition;
-    ASM_KEEP(transition_pending);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (transition_pending) {
         if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == 3) {
             object->unk_20 |= 1;

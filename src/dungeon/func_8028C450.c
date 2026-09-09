@@ -16,7 +16,7 @@ void func_8001F450(void)
     u8 *digit_ptr;
     void *special_label;
     s32 draw_mode;
-    register s16 draw_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 draw_x;
     s32 draw_y_fixed;
     s32 blank_code;
     u8 digit;
@@ -36,7 +36,9 @@ void func_8001F450(void)
     }
 
     func_8001F354(0xAA, 0x78, draw_mode, D_80077DE8);
-    digit_ptr = digits;
+    do {
+        digit_ptr = digits;
+    } while (0);
     func_8004E634(D_8008146C, digit_ptr);
 
     draw_x = 0xC8;

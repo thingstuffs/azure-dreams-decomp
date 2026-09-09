@@ -12,10 +12,12 @@ extern Obj *D_80175D5C[];
 
 /* Sets the selected object value and clears its timer. */
 void func_8016F96C(s32 state_selector, s16 value) {
-    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    u32 page;
     Obj *obj;
 
-    page = 0x80170000;
+    do {
+        page = 0x80170000;
+    } while (0);
     if (state_selector == 0) {
         obj = (Obj *)((u8 *)D_80175D58[0] + 0x20);
     } else {

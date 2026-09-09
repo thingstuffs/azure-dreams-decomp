@@ -4,7 +4,7 @@ extern u8 D_800D2644[];
 
 /* Clears record flags, then marks records referenced by nonzero indices in the strided list. */
 void func_800B8A9C(void) {
-    register s32 entryIndex ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 entryIndex;
     u8 *recordCursor;
     u8 *indexPageCursor;
     u8 *recordBase;
@@ -23,7 +23,9 @@ void func_800B8A9C(void) {
     entryIndex = 0;
     recordBase = D_800D2644;
     markedFlag = 1;
-    indexPageCursor = (u8 *)0x80010000;
+    do {
+        indexPageCursor = (u8 *)0x80010000;
+    } while (0);
     do {
         recordIndex = indexPageCursor[0x33A4];
         if (recordIndex != 0) {

@@ -34,10 +34,11 @@ s32 func_805D2FC4(s32 arg0, M2C_UNK arg1) {
     if (var_s0 != 0) {
         ((S_805D2FC4_2 *)(((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32)))->unk_04.u = 0;
         D_80019AFC = 0;
-        return func_8001709C();
+        do {
+            return func_8001709C();
+        } while (0);
     }
     func_80017E1C();
-    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if (((S_805D2FC4_1 *)(&D_80019AFC))->unk_00 == 1) {
         ((S_805D2FC4_2 *)(((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32)))->unk_04.u = 0;
         D_80019AFC = 0;

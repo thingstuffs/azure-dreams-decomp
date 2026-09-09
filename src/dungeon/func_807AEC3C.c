@@ -75,14 +75,15 @@ void func_800F643C(s16 x, s16 y, s32 slot) {
         object_data = object + 0x20;
         ((S_800F643C_2 *)position)->unk_0A = height;
         ((S_800F643C_3 *)object_data)->unk_0E = height;
-        ((S_800F643C_3 *)object_data)->unk_08 = slot;
+        do {
+            ((S_800F643C_3 *)object_data)->unk_08 = slot;
+        } while (0);
         if (slot != 0) {
             ((S_800F643C_3 *)object_data)->unk_02 = 0x800;
             ((S_800F643C_1 *)model)->unk_1A = 0x800;
         }
         D_800F8A44[slot] = object_data;
         ((S_800F643C_3 *)object_data)->unk_10 = slot;
-        ASM_USE(slot);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     }
 }
 

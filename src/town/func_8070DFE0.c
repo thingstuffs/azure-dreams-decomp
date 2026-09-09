@@ -30,7 +30,9 @@ void *func_80016FE0(s32 handler_arg_a, s32 handler_arg_b, s32 selector)
     goto *D_80016020[case_index];
 
 case_19:
-    response = func_80016CE4(handler_arg_a, handler_arg_b);
+    do {
+        response = func_80016CE4(handler_arg_a, handler_arg_b);
+    } while (0);
     D_8001B16C[0] = response;
     if (response != 0) {
         return response;
@@ -55,8 +57,7 @@ case_18:
 
 case_52:
     {
-        register s32 reward_selector ASM_REG("$6") = selector;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(reward_selector);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 reward_selector = selector;
         return func_80016E48(reward_selector);
     }
 

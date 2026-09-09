@@ -6,7 +6,7 @@ extern u8 initialStatsTable[24];
 s32 func_8002773C(u8 *record) {
     s32 initial_index;
     s32 initial_value;
-    register s32 entry_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 entry_index;
     s32 value_group;
     u8 *initial_entry;
     u8 *entry;
@@ -27,7 +27,9 @@ s32 func_8002773C(u8 *record) {
                     return (s16)entry_index;
                 }
                 entry_index += 1;
-                entry += 3;
+                do {
+                    entry += 3;
+                } while (0);
             } while (entry_index < 3);
         }
         initial_index += 1;
