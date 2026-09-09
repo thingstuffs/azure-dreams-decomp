@@ -253,7 +253,28 @@ def disasm(obj):
     r = subprocess.run(["mipsel-linux-gnu-objdump", "-d", "-r", str(obj)], capture_output=True, text=True)
     return [l for l in r.stdout.splitlines() if re.match(r"^\s+[0-9a-f]+:\s", l)]
 
-def verify_slus(row, cfile, include_root=None):
+def slus_regions(got, tgt, mask):
+    """The overlay `--regions` view, rendered for a SLUS row from the two disassembly streams.
+
+    `--regions`/`--diff` used to be dropped silently for `kind == "slus"`, so every SLUS residue a
+    lane pack carried was empty and both the lanes and the mechanical sweep worked blind on them.
+    The two streams are already computed here; this only renders them.
+    """
+    import difflib
+    g, t = mask(got), mask(tgt)
+    out = []
+    for op, a1, a2, b1, b2 in difflib.SequenceMatcher(None, g, t, autojunk=False).get_opcodes():
+        if op == "equal":
+            continue
+        out.append(f"--- {op} got[{a1}:{a2}] tgt[{b1}:{b2}]")
+        for k in range(max(a2 - a1, b2 - b1)):
+            L = got[a1 + k].strip() if a1 + k < a2 else ""
+            R = tgt[b1 + k].strip() if b1 + k < b2 else ""
+            out.append(f"   {L:<52} | {R}")
+    return "\n".join(out)
+
+
+def verify_slus(row, cfile, include_root=None, regions=False, diff=False):
     t0 = time.time()
     ref = (read_baseline_slus() or {}).get(row["id"])
     with tempfile.TemporaryDirectory() as td:
@@ -264,6 +285,8 @@ def verify_slus(row, cfile, include_root=None):
         if ref is None:
             return {"status": "ok", "exact": None, "obj_sha": h, "err": "no pinned object cached", "secs": round(time.time() - t0, 2)}
         if h == ref["obj_sha"]:
+            if regions or diff:
+                return {"status": "regions", "text": "*** MATCH *** (object identical to the pinned TU)", "secs": round(time.time() - t0, 2)}
             return {"status": "ok", "exact": True, "obj_sha": h, "secs": round(time.time() - t0, 2)}
         # crude residue for slus: disassembly diff vs cached pinned disassembly
         got = disasm(obj)
@@ -275,6 +298,9 @@ def verify_slus(row, cfile, include_root=None):
         mask = lambda ls: [re.sub(r"(R_MIPS_\w+)\s+\S+", r"\1 <>", re.sub(r"<[^>]*>", "<>", re.sub(r"^\s*[0-9a-f]+:\s*", "", l))) for l in ls]
         if len(got) == len(tgt) and mask(got) == mask(tgt):
             return {"status": "ok", "exact": True, "obj_sha": h, "proof": "text-identical (symbol names differ from the cached object)", "secs": round(time.time() - t0, 2)}
+        if regions or diff:
+            head = f"len {len(got)}/{len(tgt)}  (SLUS row: scored by object identity against the pinned TU)\n"
+            return {"status": "regions", "text": head + "--- aligned regions ---\n" + slus_regions(got, tgt, mask), "secs": round(time.time() - t0, 2)}
         ndiff = sum(1 for a, b in zip(got, tgt) if a.split(None, 2)[-1] != b.split(None, 2)[-1]) + abs(len(got) - len(tgt))
         return {"status": "ok", "exact": False, "obj_sha": h, "gen_words": len(got), "tgt_words": len(tgt),
                 "total": ndiff, "class": "length-drift" if len(got) != len(tgt) else "slus-diff", "secs": round(time.time() - t0, 2)}
@@ -301,7 +327,7 @@ def baseline_slus(row):
 # ---------------------------------------------------------------- entry points
 def verify(row, cfile, regions=False, include_root=None, diff=False):
     if row["kind"] == "slus":
-        return verify_slus(row, cfile, include_root)
+        return verify_slus(row, cfile, include_root, regions=regions, diff=diff)
     return verify_overlay(row, cfile, regions, include_root, diff)
 
 def main():
