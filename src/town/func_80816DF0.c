@@ -107,7 +107,7 @@ extern void func_8003F540(s32, s32, s32, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_800478B8(void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8008F134(void *);
@@ -281,7 +281,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                     *music = D_800927EC;
                 }
                 if (((S_80020DF0_0 *)object)->unk_68.s == 0xA) {
-                    func_80053DA8(0x700);
+                    SD_Call(0x700);
                 }
             }
         }
@@ -310,7 +310,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                 flags = ((S_80020DF0_1 *)actor)->unk_2A;
                 if (!(flags & 4)) {
                     ((S_80020DF0_1 *)actor)->unk_2A = flags | 4;
-                    func_80053DA8(0x701);
+                    SD_Call(0x701);
                 }
                 x = ((S_80020DF0_2 *)motion)->unk_00;
                 ((S_80020DF0_2 *)motion)->unk_08.at00.v = 0x200000;
@@ -335,14 +335,14 @@ void func_80020DF0(void *object, void *motion, void *sprite)
             if (((S_80020DF0_2 *)motion)->unk_04 <= 0x01E00000) {
                 s32 terrain;
 
-                func_80053DA8(0x1700);
-                func_80053DA8(0x1701);
+                SD_Call(0x1700);
+                SD_Call(0x1701);
                 terrain = D_800272A0[((S_80020DF0_1 *)actor)->unk_34];
                 if (terrain == 8) {
                     s32 scale;
                     u8 *particle_data;
 
-                    func_80053DA8(0x505);
+                    SD_Call(0x505);
                     index = 1;
                     scale = 0x1000;
                     particle_data = D_80022B80;
@@ -466,12 +466,12 @@ void func_80020DF0(void *object, void *motion, void *sprite)
 
                 if (best_score < score_total || score_total == 0x40) {
                     func_8003F540(zero, 0x2C3D, 0x01000001, 0x01000271);
-                    func_80053DA8(0x300);
+                    SD_Call(0x300);
                     D_800135C0 = score_total;
                     func_80033B9C(0x5DA);
                 } else {
                     func_8003F540(zero, 0x2C3D, zero, 0x01000290);
-                    func_80053DA8(0x300);
+                    SD_Call(0x300);
                     func_80033B78(0x5DA);
                 }
             }

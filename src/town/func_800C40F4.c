@@ -48,10 +48,10 @@ typedef unsigned int u32;
 typedef int s32;
 extern void func_8003AFE0(s32 a0, s32 a1);
 extern void func_80066F78(s32 a0);
-extern void func_80041284(void *arg);
+extern void file_load_com(void *arg);
 extern void func_8003C758(void *arg);
-extern void func_8008B408(s32 a0);
-extern void func_800C17A0(s32 a0, s32 a1);
+extern void reserve_twch_load(s32 a0);
+extern void town_seq_reserve(s32 a0, s32 a1);
 extern u8 D_80080E28;
 extern u8 D_800D1D54;
 extern u8 D_80080F48;
@@ -63,13 +63,13 @@ void func_800C1854(void)
   do {
     func_8003AFE0(1, 0x73);
     func_80066F78(1);
-    func_80041284(&D_80080E28);
+    file_load_com(&D_80080E28);
   } while (0);
   resource_data = &D_800D1D54;
-  func_80041284(resource_data);
+  file_load_com(resource_data);
   func_8003C758(&D_80080F48);
   func_8003C758(&D_80080F98);
-  func_8008B408(6);
-  func_8008B408(3);
-  func_800C17A0(0x27, 0x200);
+  reserve_twch_load(6);
+  reserve_twch_load(3);
+  town_seq_reserve(0x27, 0x200);
 }

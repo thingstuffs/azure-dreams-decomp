@@ -4,7 +4,7 @@
 M2C_UNK func_8001E660(); /* extern */
 M2C_UNK func_8009A21C();             /* extern */
 s32 func_8009A350();         /* extern */
-s32 func_800A6D30();                                /* extern */
+/* extern */
 s32 func_800A6DA4();                    /* extern */
 extern u8 D_800E3549[];
 extern u8 D_800E36C8[];
@@ -23,7 +23,9 @@ typedef struct S_8001D328_1 {
     u8 unk_01;
 } S_8001D328_1;   /* var_s1 in func_8001D328 */
 
-void func_8001D328(S_8001D328_0 *arg0) {
+
+s32 func_800A6D30(S_8001D328_0 *, s32, s32, s32);
+void func_8001D328(S_8001D328_0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 rand_v0;
     u16 sp10;
     s16 temp_v1;
@@ -37,7 +39,7 @@ void func_8001D328(S_8001D328_0 *arg0) {
     void *var_s4;
     u8 *base_3549;
 
-    rand_v0 = func_800A6D30();
+    rand_v0 = func_800A6D30(arg0, arg1, arg2, arg3);
     {
         register s32 mul_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         register s32 mul_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

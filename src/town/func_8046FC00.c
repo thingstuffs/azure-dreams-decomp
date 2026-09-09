@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_80016B88(void);
-extern s32 func_80017E98(void);
+extern s32 func_80017E98(s32, s32);
 extern s32 func_80019A04(u8 *, s32, s32);
 extern s32 *func_80019ABC(u8 *, s32 *, s32, s32);
 extern s32 func_8001A510(s32);
@@ -20,7 +20,7 @@ s32 *func_80016C00(s32 arg0, s32 arg1, s32 arg2) {
     s32 *var_s1;
 
     if (arg2 == 9) {
-        if (func_80017E98() != 0) {
+        if (func_80017E98(arg0, arg1) != 0) {
             if (func_8001A510(0x798) != 0) {
                 page_v0 = (u8 *)0x80020000;
                 ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

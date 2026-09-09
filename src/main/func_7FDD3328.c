@@ -97,7 +97,7 @@ extern u8 D_800814A4;
 extern u8 D_800814AC;
 extern s32 func_80053428();
 extern s32 func_80053604();
-extern void func_80053DA8();
+extern void SD_Call();
 extern void func_80053DCC();
 extern void func_80053DF0();
 extern void func_80053E14();
@@ -149,19 +149,19 @@ void func_8008A288(Menu *menu)
       buttons = pad->pressed;
       if (buttons & 0x1000)
       {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         menu->row = (menu->row + 6) % 7;
       }
       else if (buttons & 0x4000)
       {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         menu->row = (menu->row + 1) % 7;
       }
       else if (buttons & 0xA000)
       {
         if (menu->row == 0)
         {
-          func_80053DA8(0x502);
+          SD_Call(0x502);
           menu_flags = menu->flags;
           if (menu_flags & 2)
           {
@@ -215,7 +215,7 @@ void func_8008A288(Menu *menu)
       }
       if (channel_or_color == 1)
       {
-        func_80053DA8(0x516);
+        SD_Call(0x516);
       }
       volume_a = &D_80080A98;
       scaled_a = 0x7FFF;
@@ -359,7 +359,7 @@ void func_8008A288(Menu *menu)
       return;
 
     case 3:
-      func_80053DA8(0x1200);
+      SD_Call(0x1200);
       menu->f2 = 0;
       menu->f4 = 0x10;
       menu->state = ((u16) menu->state) + 1;

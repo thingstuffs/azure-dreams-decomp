@@ -10,10 +10,10 @@ typedef struct S_800A0A88_0 {
     M2C_UNK * unk_50;
     u8 pad_54[0x3C];
     s16 unk_90;
-} S_800A0A88_0;   /* temp_v1 in func_800A0A88 */
+} S_800A0A88_0;   /* temp_v1 in into_dn_door_demo_set */
 
 /* into_dn_door_demo_set: Initialize the dungeon entrance door demo state and handler. */
-void func_800A0A88(void) {
+void into_dn_door_demo_set(void) {
     s32 door_object;
     S_800A0A88_0 *door;
 

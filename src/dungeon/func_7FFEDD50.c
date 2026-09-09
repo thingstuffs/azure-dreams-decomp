@@ -2,7 +2,7 @@
 
 extern u8 D_800CF828[15];
 extern s32 D_800CF838[];
-extern void func_80041284(s32);
+extern void file_load_com(s32);
 extern s32 func_8008B328(void);
 
 /* Processes nonzero table entries and updates the first slots from the status check. */
@@ -13,7 +13,7 @@ void func_8008B4B0(void) {
     for (slot = 0; slot < 15; slot++) {
         entry_id = &D_800CF828[slot];
         if (*entry_id != 0) {
-            func_80041284(D_800CF838[*entry_id]);
+            file_load_com(D_800CF838[*entry_id]);
         }
     }
     if (func_8008B328() == 0)

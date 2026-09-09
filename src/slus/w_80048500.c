@@ -25,7 +25,7 @@ typedef struct {
 
 extern S_80081480 D_80081480;
 
-extern void func_80041284(void *arg);
+extern void file_load_com(void *arg);
 extern void func_8003F320(void);
 extern void DrawSync(s32 a0);
 extern s32 func_8004846C(s32 a0);
@@ -35,7 +35,7 @@ s32 func_80048500(s32 elem_index, s32 array_index)
 {
     s32 tile_index;
 
-    func_80041284(&D_800710E4[array_index][elem_index]);
+    file_load_com(&D_800710E4[array_index][elem_index]);
     func_8003F320();
     tile_index = D_80081480.field_0->unk18;
     DrawSync(0);

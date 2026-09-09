@@ -53,7 +53,7 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80048568(s32);
 extern s32 rand(void);
-extern void func_800C15C0(s32, s32);
+extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Initializes shared state and three columns of linked display objects. */
 s32 func_80024100(void)
@@ -75,7 +75,7 @@ s32 func_80024100(void)
     primary_values = D_80020090;
     secondary_values = D_800200A8;
 
-    func_800C15C0(0x24, 0x200);
+    tw_sd_sq_ld_call(0x24, 0x200);
     func_80033B9C(0x552);
     func_80033B9C(0xA4);
     func_80033B9C(0xA5);

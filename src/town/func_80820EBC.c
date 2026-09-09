@@ -32,7 +32,7 @@ extern void func_800239BC(void) __attribute__((noreturn));
 extern void func_80023A74(void) __attribute__((noreturn));
 extern void func_80023B5C(void) __attribute__((noreturn));
 extern void func_800478B8(void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 rand(void);
 extern void func_8008F134(void *);
 extern s32 func_8008FD9C(void *, void *, void *, void *);
@@ -91,7 +91,7 @@ state_0:
         if (((Rec_func_800206D0_arg1 *)arg1)->unk_08 < 0) {
             return;
         }
-        func_80053DA8(0x501);
+        SD_Call(0x501);
         ((Rec_func_800206D0_arg1 *)arg1)->unk_08 = 0;
         ((S_800236BC_1 *)arg0)->unk_06.s = 15;
         ((Rec_func_800206D0_arg1 *)arg1)->unk_0C = ((rand() % 320) - 64) << 12;
@@ -107,7 +107,7 @@ state_1:
         if (((Rec_func_800206D0_arg1 *)arg1)->unk_08 < 0) {
             return;
         }
-        func_80053DA8(0x501);
+        SD_Call(0x501);
         if (((S_800236BC_1 *)arg0)->unk_06.s > 0) {
             ((Rec_func_800206D0_arg1 *)arg1)->unk_08 = 0;
             ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = -((Rec_func_800206D0_arg1 *)arg1)->unk_14;
@@ -149,7 +149,7 @@ state_2_collision:
         if (func_8008FD9C((void *)speculative_page, arg1, &D_800D0420, D_80083780) == 0) {
             return;
         }
-        func_80053DA8(0x516);
+        SD_Call(0x516);
         {
             register s32 tail_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register u32 page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -171,7 +171,7 @@ state_3:
         if (func_8008FD9C(D_80024488, arg1, &D_800D0420, D_80083780) == 0) {
             return;
         }
-        func_80053DA8(0x516);
+        SD_Call(0x516);
         amount = localp[((S_800236BC_1 *)arg0)->unk_54] * 100;
         D_80012D5C[0] += amount;
         D_80024628[0] += amount;
@@ -180,7 +180,7 @@ state_3:
 
 state_4:
         if (func_8008FD9C(D_80024488, arg1, &D_800D0420, D_80083780) != 0) {
-            func_80053DA8(0x516);
+            SD_Call(0x516);
             amount = localp[((S_800236BC_1 *)arg0)->unk_54] * 100;
             D_80012D5C[0] += amount;
             D_80024628[0] += amount;

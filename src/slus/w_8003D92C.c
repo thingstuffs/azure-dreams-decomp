@@ -44,7 +44,7 @@ extern void func_8003F320(void);
 extern int func_80053EF0(int);
 extern void func_8003E758(void);
 extern void func_80044618(int);
-extern short func_80053DA8(int a0);
+extern short SD_Call(int a0);
 extern void func_80040AA0(int);
 extern void func_80053DCC(short arg0);
 extern void func_80053DF0(short);
@@ -121,7 +121,7 @@ int func_8003D92C(void)
       func_80044618(2);
     }
 
-    func_80053DA8(0x74);
+    SD_Call(0x74);
     while (func_80053EF0(4) != 0)
     {
       func_8003E758();
@@ -143,7 +143,7 @@ int func_8003D92C(void)
     }
     func_80053DF0(D_80080A98[0]);
     func_80053E14(D_80080A9C[0]);
-    func_80053DA8(0x7F);
+    SD_Call(0x7F);
     func_8003D468();
     D_80080A84[0] = 2;
     return 1;

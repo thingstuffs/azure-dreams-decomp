@@ -35,8 +35,8 @@ extern void func_8003F540(s32, s32, s32, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_800483AC(s32);
-extern s32 func_80053DA8(s32);
-extern void func_800C15C0(s32, s32);
+extern s32 SD_Call(s32);
+extern void tw_sd_sq_ld_call(s32, s32);
 
 
 typedef struct S_800243D8_0 {
@@ -244,13 +244,13 @@ case_3:
 case_4:
     arg0->timer--;
     if ((s16)arg0->timer == 0x50) {
-        func_80053DA8(0xB1);
+        SD_Call(0xB1);
     }
     if ((s16)arg0->timer >= 0) {
         goto end;
     }
 
-    func_800C15C0(0x20, 0x200);
+    tw_sd_sq_ld_call(0x20, 0x200);
     func_80033B78(0xA4);
     highscore = D_800135BC[0];
     score_threshold = arg0->threshold;
@@ -260,7 +260,7 @@ case_4:
         s32 dialog_id_true;
         dialog_id_true = 0x2C3D;
         func_8003F540(dialog_zero, dialog_id_true, 0x01000001, 0x01000271);
-        func_80053DA8(0x300);
+        SD_Call(0x300);
         D_800135BC[0] = arg0->threshold;
         func_80033B9C(0x553);
         func_800248D8();
@@ -272,7 +272,7 @@ case_4:
         dialog_id_false = 0x2C3D;
         func_8003F540(dialog_zero, dialog_id_false, dialog_zero, 0x01000290);
     }
-    func_80053DA8(0x300);
+    SD_Call(0x300);
     func_80033B78(0x553);
     func_800483AC(1);
     func_80033B78(0xA5);

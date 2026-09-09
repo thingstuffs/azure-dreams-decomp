@@ -19,7 +19,7 @@ extern void func_800907C4(void);
 extern void func_8009085C(void);
 extern void func_800908A0(void);
 extern void func_80090910(void);
-extern void func_800909A0(void);
+extern void to_camera_zero_00(void);
 extern void func_80090A04(void *);
 extern s16 func_80094AA0(s16, s16, s32);
 extern s32 func_80095360(s16);
@@ -60,7 +60,7 @@ active_callback:
         goto active_height;
     }
 shared_exit:
-    func_800909A0();
+    to_camera_zero_00();
     func_8009085C();
     return;
 

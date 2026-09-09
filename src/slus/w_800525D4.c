@@ -28,7 +28,7 @@ extern u8 D_80071E44[0x10];
 
 extern void *func_8003FC64(s32 a0);
 extern void func_8003F540(int a0, int a1, int a2, int a3);
-extern short func_80053DA8(int a0);
+extern short SD_Call(int a0);
 extern void *func_8003FD64(s32 a0, void *a1);
 extern s32 func_80033B2C(s32 a0);
 extern void func_80052144(void);
@@ -60,7 +60,7 @@ void func_800525D4(void)
         slots->f18 = 0;
         slots->f1C = 0;
         func_8003F540(0, 0x15B7C, 0, 0x10093C8);
-        func_80053DA8(0x300);
+        SD_Call(0x300);
 
         slot = func_8003FD64(0x212, node);
         if (slot != 0) {

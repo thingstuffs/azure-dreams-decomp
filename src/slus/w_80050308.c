@@ -35,7 +35,7 @@ typedef struct S_80050308 {
 
 typedef void (*StateFn_80050308)(void *);
 
-extern s16 func_80053DA8(s32 a0);
+extern s16 SD_Call(s32 a0);
 extern void func_80050DA8(void *a0);
 extern void func_80050EA8(void *a0);
 extern s32 func_800502E0(void *a0);
@@ -55,10 +55,10 @@ void func_80050308(void *object)
     if (input_state->unk08 != 0) {
         action_flags = input_state->unk10;
         if (action_flags & 0x20) {
-            func_80053DA8(0x515);
+            SD_Call(0x515);
             func_80050DA8((char *)obj - 0x20);
         } else if (action_flags & 0x40) {
-            func_80053DA8(0x514);
+            SD_Call(0x514);
             obj->unk20 = func_800502E0(obj->unk28);
             if (func_8004FF20(obj) == 0) {
                 s32 prev_callback = *(s32 *)((char *)obj - 0x10);
@@ -105,7 +105,7 @@ void func_80050308(void *object)
 
         apply_direction:
             if (direction != 0) {
-                func_80053DA8(0x502);
+                SD_Call(0x502);
                 obj->unk18 = obj->unk1C;
                 obj->unk14 = 0;
                 obj->unk1C = func_80049DE8(obj->unk1C, direction, 6);

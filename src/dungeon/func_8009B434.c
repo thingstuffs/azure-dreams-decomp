@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_8003E4FC();
+extern s32 Control_CD();
 extern s32 func_8003F320();
 extern s32 func_8003F6D4();
 extern s32 func_800A0CA4();
@@ -76,7 +76,7 @@ s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
         tile = (tile << 2) + 0x4340;
         scratch = D_800E58A8;
         func_8003F6D4(block_size, data, scratch, term + tile);
-        func_8003E4FC(6, scratch, 0);
+        Control_CD(6, scratch, 0);
 
         if ((mode << 0x10) != 0) {
             func_8003F320();

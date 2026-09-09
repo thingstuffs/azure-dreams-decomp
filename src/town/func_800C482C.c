@@ -18,7 +18,7 @@ typedef struct Position {
     s16 y;
 } Position;
 
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern Position D_80083780;
 extern u8 D_800C1EA4[];
 
@@ -54,6 +54,6 @@ void func_800C1F8C(S_800C1F8C_0 *object)
     }
 
 trigger:
-    func_80053DA8(object->unk_10 | 0x1000);
+    SD_Call(object->unk_10 | 0x1000);
     object->unk_00 = D_800C1EA4;
 }

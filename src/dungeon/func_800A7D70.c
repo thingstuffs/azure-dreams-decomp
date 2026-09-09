@@ -9,7 +9,6 @@ typedef struct {
 } FuncState;
 
 extern s32 func_80042900(void *arg0, s32 arg1);
-extern void func_800AD534(void);
 
 #ifndef NON_MATCHING
 register volatile s32 value_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -28,11 +27,8 @@ void func_800AD4D0(void *arg0) {
     value_v1 = state->value;
     value_v1 += state->delta;
     if (value_v1 < 0) {
-        func_800AD534();
         value_v1 = 0;
-        return;
-    }
-    if (value_v1 >= 0x100) {
+    } else if (value_v1 >= 0x100) {
         value_v1 = 0xFF;
     }
     state->value = (u8)value_v1;

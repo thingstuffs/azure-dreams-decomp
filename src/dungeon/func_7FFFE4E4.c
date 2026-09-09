@@ -10,7 +10,7 @@ extern void func_8008F294(void *, void *);
 extern void func_8008F664(void *, void *);
 extern s32 func_8008C180(s16, s16);
 extern s32 func_800C1D44(u16);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 
 extern u8 D_8009B454[];
 extern s16 D_800D45AA[];
@@ -50,7 +50,7 @@ void func_7FFFE4E4(void *owner, void *actor, void *motion, s32 callback_arg) {
             s16 height_limit = D_800D45AA[tile_type];
 
             if (height > height_limit) {
-                func_80053DA8(0x517);
+                SD_Call(0x517);
             }
         }
     }

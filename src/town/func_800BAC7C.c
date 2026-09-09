@@ -4,13 +4,13 @@ typedef struct S_800B83DC_0 {
     u8 pad_00[0x33A4];
     u8 unk_33A4;
     u8 unk_33A5;
-} S_800B83DC_0;   /* pair_a in func_800B83DC */
+} S_800B83DC_0;   /* pair_a in CheckBuildBuildingLand */
 
 typedef struct S_800B83DC_1 {
     u8 pad_00[0x33A4];
     u8 unk_33A4;
     u8 unk_33A5;
-} S_800B83DC_1;   /* pair_c in func_800B83DC */
+} S_800B83DC_1;   /* pair_c in CheckBuildBuildingLand */
 
 
 
@@ -30,7 +30,7 @@ extern Record D_800D2644[];
 extern u8 D_800D2EA4[];
 
 /* Implements CheckBuildBuildingLand by checking pair assignments and matching land attributes. */
-s32 func_800B83DC(s32 record_key) {
+s32 CheckBuildBuildingLand(s32 record_key) {
     s32 key;
     Record *record;
     s32 has_match;

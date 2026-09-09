@@ -86,12 +86,12 @@ typedef struct {
 M2C_UNK func_80022F34();              /* extern */
 M2C_UNK func_800239A0();     /* extern */
 M2C_UNK func_80033B9C();              /* extern */
-M2C_UNK func_8003BAF8();                       /* extern */
+M2C_UNK change_map();                       /* extern */
 M2C_UNK func_800489F4();     /* extern */
 M2C_UNK func_80048AC8(void *, s32);             /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-M2C_UNK func_8008B550();     /* extern */
+M2C_UNK reserve_tw_mon_load();     /* extern */
 M2C_UNK func_8009539C();                      /* extern */
 M2C_UNK func_800953D0();                      /* extern */
 M2C_UNK func_800954F4();                      /* extern */
@@ -350,8 +350,8 @@ state_active:
         goto update_sprite;
 state_finish:
         event_params = *(Blk20 *) &D_80089960;
-        func_8008B550(2);
-        func_8003BAF8(&event_params);
+        reserve_tw_mon_load(2);
+        change_map(&event_params);
         ((S_800C035C_0 *)actor)->unk_08 = (s16) ((u16) ((S_800C035C_0 *)actor)->unk_08 + 1);
     }
 update_sprite:

@@ -3,11 +3,11 @@
 
 #include "common.h"
 
-M2C_UNK func_8003BAF8();                         /* extern */
-s32 func_800B2834();                                /* extern */
+M2C_UNK change_map();                         /* extern */
+s32 get_player_homerank();                                /* extern */
 extern M2C_UNK D_8006AFF4[];
 
-/* Pass the selected D_8006AFF4 entry to func_8003BAF8. */
+/* Pass the selected D_8006AFF4 entry to change_map. */
 void func_8003BA60(void) {
-    func_8003BAF8(D_8006AFF4[func_800B2834()]);
+    change_map(D_8006AFF4[get_player_homerank()]);
 }

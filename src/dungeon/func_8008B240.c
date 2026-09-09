@@ -22,7 +22,7 @@ extern u8 D_800DD008[8];
 extern u8 D_800DD010[8];
 extern StateFunc D_800DD168[];
 
-void func_800909A0(void *arg0, void *arg1, void *arg2, void *arg3)
+void to_camera_zero_00(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     u8 *data = D_80083160;
     s32 state;

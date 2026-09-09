@@ -16,7 +16,7 @@ typedef struct Func800398BCOwner {
 extern s32 func_80053EF0(s32 arg0);
 extern s32 func_80039884(Func800398BCOwner *arg0);
 extern void func_8003F540(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
-extern s16 func_80053DA8(s32 arg0);
+extern s16 SD_Call(s32 arg0);
 extern s32 D_800721C0[32];
 extern s32 D_8006CD50[];
 
@@ -67,7 +67,7 @@ decode:
                   D_8006CD50[D_800721C0[table_index]],
                   command_word,
                   payload_word);
-    func_80053DA8(0x300);
+    SD_Call(0x300);
     owner->field_10 = 0;
 done:
     return;

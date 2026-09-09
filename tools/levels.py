@@ -39,7 +39,7 @@ def main():
     base = {b["id"]: b for b in read_jsonl(LEDGER / "baseline.jsonl")}
     sweeps = {}
     for p in (LEDGER / "sweeps").glob("*.jsonl"):
-        sweeps[p.stem] = {j["id"]: j for j in read_jsonl(p) if j.get("outcome") in ("applied", "noop")}
+        sweeps[p.stem] = {j["id"]: j for j in read_jsonl(p) if j.get("id") and j.get("outcome") in ("applied", "noop")}
     audit = audit_index()
     out = []; tally = collections.Counter()
     for r in rows():

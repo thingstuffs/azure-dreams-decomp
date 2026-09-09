@@ -5,7 +5,7 @@
 M2C_UNK func_800C2444();                            /* extern */
 
 /* func_sn_casino_slot: prepare and run the casino slot event. */
-void func_800C24A0(void) {
+void scr_func_sn_casino_slot(void) {
     func_800C2444();
     func_800224E0();
 }

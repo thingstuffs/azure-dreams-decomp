@@ -9,7 +9,7 @@ typedef struct S_8009F2A8_0 {
 
 
 
-M2C_UNK func_80053DA8();                     /* extern */
+M2C_UNK SD_Call();                     /* extern */
 s32 func_800644B8();                             /* extern */
 M2C_UNK func_8009F4C0(); /* extern */
 M2C_UNK func_800A3248();                      /* extern */
@@ -28,7 +28,7 @@ void func_8009F2A8(void *state, s32 event_id, void *target, M2C_UNK context) {
     if ((active_event == event_id) && (D_800834B8 == &D_800935BC)) {
         func_800A33E8(target);
         func_800A3248(target);
-        func_80053DA8(0x513);
+        SD_Call(0x513);
         func_8009F4C0(state, active_event, target, context);
     }
 }

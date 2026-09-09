@@ -3,7 +3,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *D_80088A58[];
-s32 func_8003E4FC(); /* extern */
+s32 Control_CD(); /* extern */
 void func_800424E0();          /* extern */
 void func_80042560();                      /* extern */
 M2C_UNK func_80042640();                  /* extern */
@@ -282,7 +282,7 @@ jt_c3:
     D_80081488 = func_80048118(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &D_8008149C);
     func_800A0B94(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
     (*(s8 *)&D_800E3E40) = 0;
-    func_8003E4FC(0xFF, &D_8003E140, &D_800E3E40);
+    Control_CD(0xFF, &D_8003E140, &D_800E3E40);
     goto advance_state;
 jt_c4:
     if (((S_8009345C_8 *)(&D_800E3E40))->unk_00 == 0) {

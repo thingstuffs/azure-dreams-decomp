@@ -9,7 +9,7 @@ typedef struct {
     u8 unk66;
 } DungeonState;
 
-extern s32 func_800990FC(void);
+extern s32 func_800990FC(DungeonState *, s32, u8 *, s32);
 extern s32 func_80042900(DungeonState *arg0, s32 arg1);
 extern s32 func_80099194(const void *arg0, s32 arg1);
 extern s32 func_80099734(DungeonState *arg0, s32 arg1);
@@ -24,13 +24,13 @@ extern u8 D_800E0CF3[];
 extern u8 D_800E0D1B[];
 extern u8 D_800E0D36[];
 
-s32 func_800AD6FC(DungeonState *arg0, s32 arg1, u8 *arg2) {
+s32 func_800AD6FC(DungeonState *arg0, s32 arg1, u8 *arg2, s32 arg3) {
     s32 var_s0;
     s32 var_s1;
     s32 var_s5;
     s32 var_s6;
 
-    var_s5 = func_800990FC();
+    var_s5 = func_800990FC(arg0, arg1, arg2, arg3);
     var_s0 = var_s5;
     if ((func_80042900(arg0, 0x19) << 16) != 0) {
         func_80099290(func_80099194(D_80089084,

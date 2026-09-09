@@ -14,7 +14,7 @@ extern void func_80026378(void);
 #else
 extern void func_80026378(void *);
 #endif
-extern M2C_UNK func_80053DA8(s32);
+extern M2C_UNK SD_Call(s32);
 extern M2C_UNK func_800A6104(void);
 
 extern s16 D_80010208[];
@@ -68,7 +68,7 @@ void *func_800262BC(void *arg0) {
     func_800241D4(*(s32 *)((s8 *)arg0 + *(s32 *)((s8 *)arg0 + 0x2C) * 4 + 0xC), 1);
     if (D_80010208[0] == 0) {
 #endif
-        func_80053DA8(0x503);
+        SD_Call(0x503);
 #ifndef NON_MATCHING
         dead_v0 = (u8 *)0x80020000;
         ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */

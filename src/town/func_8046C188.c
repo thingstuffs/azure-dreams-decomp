@@ -33,11 +33,11 @@ typedef struct S_8001D188_2 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_8001D414();
+extern s32 func_8001D414(s32, s32, s32, s32);
 extern s8 D_80016000[];
 extern s8 D_8001902C[];
 
-void func_8001D188(s32 arg0) {
+void func_8001D188(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_a3;
     s32 temp_s2;
     s32 temp_v0;
@@ -57,7 +57,7 @@ void func_8001D188(s32 arg0) {
     do { page = (u8 *)0x80010000; } while (0);
     temp_s2 = ((S_8001D188_4 *)(((S_8001D188_3 *)page)->unk_6000))->unk_38;
     var_s1 = arg0;
-    temp_v0 = func_8001D414();
+    temp_v0 = func_8001D414(arg0, arg1, arg2, arg3);
     cursor = ((S_8001D188_0 *)page)->unk_6000;
     cursor = cursor->unk_24;
     cursor = cursor->unk_6C;

@@ -5,7 +5,7 @@ extern s32 func_8009FB2C();
 extern s32 func_8009FD48();
 
 /* set_item_w0: Packs four item parameter bytes and dispatches according to slot availability. */
-void func_8009FCF0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3) {
+void set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3) {
     s8 item_bytes[4];
     s32 slot;
     s8 *item_bytes_ptr;

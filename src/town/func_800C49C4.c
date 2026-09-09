@@ -22,7 +22,7 @@ typedef struct {
 } TownPosition;
 
 extern s32 func_80033B2C(s32, s32);
-extern void func_800C15C0(s32, s32);
+extern void tw_sd_sq_ld_call(s32, s32);
 extern u8 D_80083780[8];
 extern u8 D_800C21F8[];
 
@@ -58,7 +58,7 @@ s32 func_800C2124(TownObject *object) {
         if (object->range_x >= distance_x) {
             coord_value = distance_z;
             if (object->range_z >= coord_value) {
-                func_800C15C0(object->effect_a, object->effect_b);
+                tw_sd_sq_ld_call(object->effect_a, object->effect_b);
                 coord_value = 1;
                 ASM_KEEP(coord_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 callback = D_800C21F8;

@@ -77,7 +77,7 @@ extern void func_8002025C(void *, void *);
 extern s32 func_80033B9C(s32);
 extern s32 func_80033BC0();
 extern void func_80043FB8(void *, s32);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 func_800B1BEC(s32, s32, s32);
 extern void func_800B1DBC(s32);
 
@@ -199,15 +199,15 @@ state_0:
 state_1:
     if ((*(s32 *)(input + 0x10) & 0x1000) &&
         (entity->selection > 0)) {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         entity->selection = (u16)entity->selection - 1;
     } else if ((*(s32 *)(input + 0x10) & 0x4000) &&
                (entity->selection < 5)) {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         entity->selection = (u16)entity->selection + 1;
     }
     if (*(s32 *)(input + 0x10) & 0x20) {
-        func_80053DA8(0x515);
+        SD_Call(0x515);
         func_80033B9C(0x592);
         func_80033B9C(0x593);
         entity->state = 0x100;
@@ -216,7 +216,7 @@ state_1:
     if (*(s32 *)(input + 0x10) & 0x40) {
         volatile s32 *money = &D_80012D5C;
 
-        func_80053DA8(0x503);
+        SD_Call(0x503);
         entity->quantity = 1;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         *money -= 100;
@@ -250,7 +250,7 @@ state_3:
     if ((*(s32 *)(input + 8) & 0x2000) &&
         (entity->quantity < 10) &&
         ((u32)D_80012D5C >= 100U)) {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         func_80033B9C(0x592);
         func_80033B9C(0x594);
         entity->quantity = (u16)entity->quantity + 1;
@@ -265,7 +265,7 @@ state_3:
         (entity->quantity >= 2)) {
         s32 *money = &D_80012D5C;
 
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         func_80033B9C(0x592);
         func_80033B9C(0x595);
         entity->quantity = (u16)entity->quantity - 1;
@@ -279,7 +279,7 @@ state_3:
     if (*(s32 *)(input + 0x10) & 0x40) {
         register Pair04 *selected_pair ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        func_80053DA8(0x503);
+        SD_Call(0x503);
         selected_pair = factor_pairs.pair;
         prices = D_80024308;
         selected_pair += entity->selection;
@@ -296,7 +296,7 @@ state_3:
         entity->state = 0x100;
     }
     if (*(s32 *)(input + 0x10) & 0x20) {
-        func_80053DA8(0x515);
+        SD_Call(0x515);
         D_80012D5C += entity->quantity * 100;
         func_800B1DBC(D_80024300[0]);
         func_80033B9C(0x592);

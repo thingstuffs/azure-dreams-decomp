@@ -1,5 +1,5 @@
 #include "common.h"
-extern void func_800A0150(void *);
+extern void itm_mon_koyaw_set(void *);
 extern void func_800A028C(void *);
 extern u8 D_800DD83C[];
 extern u8 D_800DD840[];
@@ -47,7 +47,7 @@ void func_800A020C(s32 flags) {
             ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ptr = (void *)(page - 0x27C4);
             if (ptr != 0) {
-                func_800A0150(ptr);
+                itm_mon_koyaw_set(ptr);
             }
         }
     }

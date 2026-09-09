@@ -24,7 +24,6 @@ typedef struct S_800B0BD0_1 {
 #endif
 
 extern void func_800B09EC(void *arg0, s32 arg1);
-extern void func_800B0BE8(void);
 
 void func_800B0BD0(void *arg0) {
     register void *held LOCAL_ASM_REG("$17");
@@ -37,24 +36,24 @@ void func_800B0BD0(void *arg0) {
     i = 0;
     LOCAL_ASM_KEEP(held);
     LOCAL_ASM_KEEP(i);
-    scratch = ((S_800B0BD0_0 *)held)->unk_10;
-    base = scratch * 5;
-    scratch = ((S_800B0BD0_0 *)held)->unk_0C;
-    value = base + i;
-    scratch = value < scratch;
-    if (scratch == 0) {
+    for (;;) {
+        scratch = ((S_800B0BD0_0 *)held)->unk_10;
+        base = scratch * 5;
+        scratch = ((S_800B0BD0_0 *)held)->unk_0C;
+        value = base + i;
+        scratch = value < scratch;
+        if (scratch == 0) {
+            scratch = i < 5;
+            goto test;
+        }
         scratch = i < 5;
-        goto test;
+        func_800B09EC(held, value);
+        i++;
+        scratch = i < 5;
+        if (scratch == 0) {
+            goto test;
+        }
     }
-    scratch = i < 5;
-    func_800B09EC(held, value);
-    i++;
-    scratch = i < 5;
-    if (scratch == 0) {
-        goto test;
-    }
-    func_800B0BE8();
-    return;
 
 loop:
     base = ((S_800B0BD0_0 *)held)->unk_CC;

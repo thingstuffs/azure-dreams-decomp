@@ -8,7 +8,7 @@ extern char D_8001B9E0[];
 extern char D_800206CC[];
 extern char D_8001C6D0[];
 
-extern void *func_80016CE4(void);
+extern void *func_80016CE4(s32, s32);
 extern void *func_80016D18(void);
 extern void *func_80016E48(s32);
 extern s32 func_8001A64C(s32);
@@ -29,7 +29,7 @@ void *func_80016FE0(s32 arg0, s32 arg1, s32 arg2)
     goto *D_80016020[index];
 
 L_case19:
-    result = func_80016CE4();
+    result = func_80016CE4(arg0, arg1);
     D_8001B16C[0] = result;
     if (result != 0) {
         return result;

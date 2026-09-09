@@ -37,7 +37,7 @@ extern TownTarget D_80083780[];
 extern u8 D_800D0138[];
 
 extern void func_8003F540(s32, s32, s32, s32);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_80093CEC(void *);
 
 /* Update object motion, scoring, and timed state transitions. */
@@ -74,7 +74,7 @@ void func_80023B14(TownObject *obj_arg, TownMotion *motion)
         y = motion->y;
         if (y > (s32)0xFFF00000) {
             if (!(child->flags & 1)) {
-                func_80053DA8(0x506);
+                SD_Call(0x506);
             }
             child->flags |= 1;
             goto set_state_ff;
@@ -93,7 +93,7 @@ void func_80023B14(TownObject *obj_arg, TownMotion *motion)
             break;
         }
 
-        func_80053DA8(0x512);
+        SD_Call(0x512);
         signed_score = child->count;
         score = *(volatile u16 *)&child->count;
         if (signed_score < 9999) {
@@ -138,7 +138,7 @@ store_timer:
         if ((ticks_left << 16) >= 0) {
             break;
         }
-        func_80053DA8(0x525);
+        SD_Call(0x525);
         obj->timer = 6;
         motion->dx = motion->dy = motion->dz;
         goto set_state_ff;
@@ -179,7 +179,7 @@ store_timer:
         } else {
             func_8003F540(0, 0x2C3D, 0, 0x01000290);
         }
-        func_80053DA8(0x300);
+        SD_Call(0x300);
         state = obj->state;
         obj->timer = 7;
         goto advance_state;

@@ -46,7 +46,7 @@ extern u8 D_800A5DF8;
 
 extern s32 func_800374F4();
 extern s32 func_8003BD84();
-extern void func_80053DA8();
+extern void SD_Call();
 extern s32 func_8008C180();
 extern void func_80094F58();
 extern void func_80095094();
@@ -138,7 +138,7 @@ after_second_update:
             u16 sample;
             sample = ((S_800A5A98_0 *)input)->unk_04;
             if ((sample % temp) == 0) {
-                func_80053DA8(0x60A);
+                SD_Call(0x60A);
             }
         }
     }

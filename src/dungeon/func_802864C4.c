@@ -4,7 +4,7 @@ typedef struct {
     u8 bytes[0x20];
 } __attribute__((packed)) Copy32;
 
-extern void func_8003E4FC(s32, void *, s32);
+extern void Control_CD(s32, void *, s32);
 extern void func_8003F320(void);
 extern void func_8003F6D4(s32, void *, s32 *, s32);
 
@@ -21,7 +21,7 @@ void func_800194C4(s16 resource_index)
 
     resource_data = (u8 *)&D_8014A000;
     func_8003F6D4(1, resource_data, &load_result, resource_index + 0x3F5E);
-    func_8003E4FC(6, &load_result, 0);
+    Control_CD(6, &load_result, 0);
     func_8003F320();
     *(Copy32 *)D_80083478 = D_8014A000;
     D_800DDC9C = *(Copy32 *)(resource_data + 0x20);

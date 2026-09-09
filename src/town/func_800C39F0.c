@@ -12,7 +12,7 @@ extern s16 D_800D4260[];
 
 extern void func_8004425C(s32 arg0);
 extern void func_8004450C(s32 arg0);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 extern void func_800542BC(void);
 extern u16 *func_800C1034(s16 arg0, s16 arg1);
 
@@ -21,9 +21,9 @@ void func_800C1150(void) {
     u16 *record_values;
     u16 *current_values;
 
-    func_80053DA8(0x72);
+    SD_Call(0x72);
     func_800542BC();
-    func_80053DA8(0x74);
+    SD_Call(0x74);
     func_800542BC();
     func_8004425C(2);
     func_8004450C(0);

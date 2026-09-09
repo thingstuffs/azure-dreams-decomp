@@ -11,7 +11,7 @@ typedef struct {
 } EntityStruct;
 
 /* door_open_demo_set_sub: Set the door opening demo handler and angle. */
-void func_800A09F4(s32 door_id, s16 demo_angle) {
+void door_open_demo_set_sub(s32 door_id, s16 demo_angle) {
     void *door_object;
     EntityStruct *door;
 

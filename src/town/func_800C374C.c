@@ -29,7 +29,7 @@ typedef struct Packet {
 typedef void (*PacketHandler)(Packet *);
 
 /* flgtst: dispatches a packet containing the handler arguments and current global state. */
-void func_800C0EAC(s32 handler_arg0, s32 handler_arg1, s32 handler_arg2, s32 handler_arg3) {
+void flgtst(s32 handler_arg0, s32 handler_arg1, s32 handler_arg2, s32 handler_arg3) {
     Packet packet;
     s32 *state = D_80082A38;
 

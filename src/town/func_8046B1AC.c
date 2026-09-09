@@ -3,7 +3,7 @@
 extern void func_8001C108(void);
 extern s32 func_8001A58C(u8);
 extern u8 func_8001A4F0(void);
-extern u8 *func_8001B6F8(void);
+extern u8 *func_8001B6F8(s32, s32, s32);
 
 extern u8 D_8001786E[];
 extern u8 D_8001914C[];
@@ -39,7 +39,7 @@ u8 *func_8001C1AC(s32 arg0, s32 arg1, s32 arg2) {
     if (arg2 == 1) {
         goto case_one;
     }
-    result = func_8001B6F8();
+    result = func_8001B6F8(arg0, arg1, arg2);
     goto done;
 
 case_one:

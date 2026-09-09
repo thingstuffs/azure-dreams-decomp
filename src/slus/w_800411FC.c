@@ -14,9 +14,9 @@ typedef struct S_8006CE80 {
 } S_8006CE80;
 
 extern S_8006CE80 D_8006CE80[100];
-extern void func_80041284(s32);
+extern void file_load_com(s32);
 
-/* Calls func_80041284 for each value in the indexed entry's zero-terminated list. */
+/* Calls file_load_com for each value in the indexed entry's zero-terminated list. */
 void func_800411FC(u16 entry_index) {
     S_8006CE80 *entry;
     S_8006CE80_inner *record;
@@ -35,7 +35,7 @@ void func_800411FC(u16 entry_index) {
         return;
     }
     do {
-        func_80041284(*callback_args);
+        file_load_com(*callback_args);
         callback_args++;
     } while (*callback_args != 0);
 }

@@ -3,7 +3,7 @@
 extern s8 D_800133E7[9];
 
 /* BuildLandBuilding: store the selected palette and preserve the previous common palette. */
-void func_800B89C4(s32 slot, s32 palette)
+void BuildLandBuilding(s32 slot, s32 palette)
 {
     s32 raw_palette = palette;
     register s32 signed_palette ASM_REG("$5") = palette;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

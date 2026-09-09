@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_800161D8();
-extern s32 func_80016228();
+extern s32 func_80016228(s32);
 typedef struct {
     s32 value;
     s32 pad[2];
@@ -10,10 +10,10 @@ typedef struct {
 extern Global32 D_8001967C;
 extern Global32 D_80019AFC;
 
-void func_80016928(void) {
+void func_80016928(s32 arg0) {
     D_8001967C.value = 2;
     if (3 == D_80019AFC.value) {
-        func_80016228();
+        func_80016228(arg0);
         return;
     }
     func_800161D8();

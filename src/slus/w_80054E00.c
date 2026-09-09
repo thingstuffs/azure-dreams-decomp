@@ -60,7 +60,7 @@ extern S_80084904 D_80084904;
 extern S_80084864 D_80084864;
 
 extern void func_8005A4E8(u8 a0, u8 a1, u8 a2);
-extern s32 func_8003E4FC(s32 a0, void *a1, void *a2);
+extern s32 Control_CD(s32 a0, void *a1, void *a2);
 extern s32 func_80053D64(void);
 extern int func_80054AF0(int arg0);
 extern void func_80054C58(void);
@@ -85,7 +85,7 @@ void func_80054E00(s32 event) {
 
 commit_countdown:
     func_8005A4E8(0, 0, 0);
-    func_8003E4FC(9, 0, 0);
+    Control_CD(9, 0, 0);
     D_800847D0.flags1 &= ~0x400;
     if (D_800847D0.field18 == 0) {
         D_80084904.v = 1;
@@ -101,7 +101,7 @@ commit_countdown:
 
 arm_countdown:
     if (D_800847D0.flags2 & 0x200) {
-        func_8003E4FC(9, 0, 0);
+        Control_CD(9, 0, 0);
         return;
     }
     if (D_800847D0.flags1 & 0x400) {

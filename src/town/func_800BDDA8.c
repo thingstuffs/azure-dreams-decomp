@@ -1,14 +1,14 @@
 #include "common.h"
 
-extern s32 func_8009CFE0(void);
+extern s32 func_8009CFE0(void *, void *);
 extern void func_8008F134(void *arg0);
 extern void func_80033D08(void *arg0);
 extern s32 D_800814A0;
 
 #define FIELD(base, type, offset) (*(type)((s8 *)(base) + (offset)))
 
-void func_800BB508(void *arg0) {
-    if (func_8009CFE0() != 0) {
+void func_800BB508(void *arg0, void *arg1) {
+    if (func_8009CFE0(arg0, arg1) != 0) {
         func_8008F134(arg0);
         if (FIELD(arg0, s8 **, 0x98) != 0) {
             *FIELD(arg0, s8 **, 0x98) = 0;

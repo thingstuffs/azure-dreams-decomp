@@ -17,7 +17,7 @@ extern u8 D_80175E40[];
 extern u8 D_80175F40[];
 extern u16 D_80175F6E;
 
-extern s32 func_8003E4FC();
+extern s32 Control_CD();
 extern s32 func_8003F270();
 extern s32 func_8003F540();
 extern s32 func_800445E0();
@@ -253,7 +253,7 @@ state1:
                   ((s32 *)(((sv << 17) >> 14) + s1))[0],
                   ((s32 *)(((sv << 17) >> 14) + s1))[1]);
     value = func_800445E0();
-    func_8003E4FC(0x15, value, 0);
+    Control_CD(0x15, value, 0);
     ((S_80173560_0 *)arg0)->unk_9B.n++;
 
 state2:

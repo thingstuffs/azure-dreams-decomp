@@ -20,7 +20,7 @@ typedef struct CursorState {
 } CursorState;
 
 extern RuntimeState D_80083160;
-extern void func_80053DA8(u32);
+extern void SD_Call(u32);
 extern void func_80036434(CursorState *, s32, s32);
 
 /* Wrap the cursor on directional input and dispatch the selected action. */
@@ -33,7 +33,7 @@ void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
     runtime = &D_80083160;
     flags_or_count = runtime->flags_10;
     if (flags_or_count & 0x4000) {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         next_cursor = cursor->cursor_4D + 1;
         flags_or_count = (u32)cursor->info_74;
         cursor->cursor_4D = next_cursor;
@@ -42,7 +42,7 @@ void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
         flags_or_count = next_cursor % flags_or_count;
         cursor->cursor_4D = flags_or_count;
     } else if (flags_or_count & 0x1000) {
-        func_80053DA8(0x502);
+        SD_Call(0x502);
         flags_or_count = (u32)cursor->info_74;
         flags_or_count = *(u8 *)(flags_or_count + 0x26);
         next_cursor = cursor->cursor_4D + flags_or_count;

@@ -46,21 +46,21 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-extern s32 func_800990FC(void);
+extern s32 func_800990FC(s32, s32, s32, s32);
 extern s32 func_80099194(void *, s32);
 extern s32 func_80099734(s32, s32);
 extern void func_80099290(s32);
 extern void func_800A5720(s32);
 extern u8 D_80176440[9];
 extern u8 D_80176455[9];
-void func_80175DA4(s32 arg0)
+void func_80175DA4(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
   s32 new_var2;
   s32 temp_v0;
   unsigned int new_var;
   if (1)
   {
-    new_var2 = func_800990FC();
+    new_var2 = func_800990FC(arg0, arg1, arg2, arg3);
     if (1)
     {
       temp_v0 = new_var2;

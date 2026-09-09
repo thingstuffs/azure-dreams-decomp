@@ -89,7 +89,7 @@ typedef struct S_80095A10_10 {
 
 
 extern void *D_80088AF8[];
-s32 func_8003E4FC();
+s32 Control_CD();
 void func_800424E0();
 void func_80042560();
 M2C_UNK func_80042640();
@@ -163,7 +163,7 @@ jt_c1:
     D_80081488 = func_80047DB8(((S_80095A10_3 *)temp_s1)->unk_00);
     func_800A0B94(((S_80095A10_3 *)temp_s1)->unk_00, temp_v0, 0);
     (*(s8 *)&D_800E3E40) = 0;
-    func_8003E4FC(0xFF, &D_8003E140, &D_800E3E40);
+    Control_CD(0xFF, &D_8003E140, &D_800E3E40);
     return func_80095D30();
 jt_c2:
     if (((S_80095A10_4 *)(&D_800E3E40))->unk_00 == 0) {

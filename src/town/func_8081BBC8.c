@@ -36,11 +36,11 @@ extern void func_80033B9C(s32);
 extern void func_8003F540(s32, s32, s32, s32);
 extern void func_800483AC(s32);
 extern void func_80048568(s32);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 rand(void);
 extern void func_8009AC0C(void);
 extern void func_8009AC8C(void);
-extern void func_800C15C0(s32, s32);
+extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Advances a three-object shuffle sequence and handles its effects and completion. */
 void func_80025BC8(TownState *state)
@@ -142,7 +142,7 @@ case_2:
     if (state->timer > 0) {
         goto cleanup;
     }
-    func_80053DA8(0xB1);
+    SD_Call(0xB1);
     {
         TownObject **object_slot;
         s32 object_state;
@@ -203,19 +203,19 @@ case_4:
         u16 progress;
         s32 threshold;
 
-        func_800C15C0(0x20, 0x200);
+        tw_sd_sq_ld_call(0x20, 0x200);
         func_8009AC8C();
         progress = D_800135BE;
         threshold = state->threshold;
         ASM_KEEP(progress);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if ((s16)progress < threshold) {
             func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
-            func_80053DA8(0x300);
+            SD_Call(0x300);
             D_800135BE = state->threshold;
             func_80033B9C(0xAE4);
         } else {
             func_8003F540(0, 0x2C3D, 0, 0x01000290);
-            func_80053DA8(0x300);
+            SD_Call(0x300);
             func_80033B78(0xAE4);
         }
         func_800483AC(2);

@@ -15,7 +15,7 @@ extern void func_800B8A40(void);
 extern void func_800C24FC(void);
 
 /* into_dn_door_jobs: Run dungeon entrance setup and reset entry flags. */
-void func_800A0EB8(void) {
+void into_dn_door_jobs(void) {
     func_800B074C();
     func_80033AE8(0x16);
     func_800B8A40();

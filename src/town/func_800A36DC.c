@@ -3,7 +3,7 @@
 #include "records/Rec_func_800A0668_arg0.h"
 
 M2C_UNK func_800A0B74();                 /* extern */
-M2C_UNK func_800A0EB8();                            /* extern */
+M2C_UNK into_dn_door_jobs();                            /* extern */
 M2C_UNK func_800A12B4(); /* extern */
 extern M2C_UNK D_800A08E8;
 extern M2C_UNK D_80100B70;
@@ -24,6 +24,6 @@ void func_800A0E3C(Rec_func_800A0668_arg0 *object, S_800A0E3C_1 *source, M2C_UNK
     if ((remaining_count << 0x10) <= 0) {
         func_800A0B74(object, source->unk_48);
         object->unk_50 = &D_800A08E8;
-        func_800A0EB8();
+        into_dn_door_jobs();
     }
 }

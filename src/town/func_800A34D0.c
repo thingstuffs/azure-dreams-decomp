@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_800A0F10();                                /* extern */
+/* extern */
 s32 func_8009F9A4();                                /* extern */
 M2C_UNK func_8009A8EC();                            /* extern */
 M2C_UNK func_8009A99C();                            /* extern */
@@ -26,8 +26,10 @@ typedef struct S_800A0C30_1 {
 } S_800A0C30_1;   /* arg2 in func_800A0C30 */
 
 /* Select the tower entry handler according to the six-item tower cap. */
+
+s32 func_800A0F10(S_800A0C30_0 *, void *);
 void func_800A0C30(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params) {
-    if (func_800A0F10() != 0) {
+    if (func_800A0F10(script_state, unused_context) != 0) {
         if (func_8009F9A4() < 6) {
             script_state->unk_90 = 6;
             script_state->unk_50 = &D_800A0CF8;

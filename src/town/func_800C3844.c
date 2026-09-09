@@ -5,7 +5,7 @@ extern s16 D_800D4258[];
 extern s8 D_80080A88[];
 
 /* town_sd_se_load_init: Reset both sound-effect load slot arrays and clear the shared flag. */
-void func_800C0FA4(void) {
+void town_sd_se_load_init(void) {
     s16 *load_slots;
 
     D_800D4268[0] = -1;

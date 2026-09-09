@@ -13,7 +13,7 @@ M2C_UNK func_800489F4();     /* extern */
 M2C_UNK func_80048AC8();             /* extern */
 M2C_UNK func_8004D294(); /* extern */
 M2C_UNK func_8004D7A8();                     /* extern */
-M2C_UNK func_80053DA8();                     /* extern */
+M2C_UNK SD_Call();                     /* extern */
 s32 func_80053EF0();                         /* extern */
 s32 func_800644B8();                             /* extern */
 M2C_UNK func_80096100(); /* extern */
@@ -376,7 +376,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     record_or_page = (M2C_UNK *)0x80080000;
 update_audio:
     if ((((S_80089AA0_1 *)record_or_page)->unk_AA0.u != 0) && (D_800E3CD0 == 0) && (func_80053EF0(1) == 0)) {
-        func_80053DA8(0x200);
+        SD_Call(0x200);
         ((S_80089AA0_1 *)record_or_page)->unk_AA0.s = 0;
         D_80080A88 = 1;
     }

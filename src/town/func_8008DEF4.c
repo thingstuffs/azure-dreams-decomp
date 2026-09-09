@@ -11,7 +11,7 @@ extern s8 D_800CFC2C[11];
 extern u8 D_800FC418;
 
 /* town_map_set: allocate and initialize eleven linked map objects and their resources. */
-s32 func_8008B654(s32 value_7c, s32 value_78) {
+s32 town_map_set(s32 value_7c, s32 value_78) {
     s32 objects[12];
     s32 resources[12];
     s32 *object_slot;

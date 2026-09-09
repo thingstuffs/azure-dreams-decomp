@@ -1,17 +1,17 @@
 #include "common.h"
 
 extern s16 D_800E3CD8[8];
-extern void func_8009EEAC(void);
+extern void func_8009EEAC(s32, s32, s32, s32);
 extern void func_8009F3D4(s16 x, s16 y, s32 color, s32 size, s32 count);
 
-void func_8009EF04(void) {
+void func_8009EF04(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s16 *record;
     s32 x;
     s32 y;
     s32 count;
     s32 color;
 
-    func_8009EEAC();
+    func_8009EEAC(arg0, arg1, arg2, arg3);
     count = 0;
     record = D_800E3CD8;
 loop:

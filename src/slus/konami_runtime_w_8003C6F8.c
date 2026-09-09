@@ -11,7 +11,7 @@ extern Func8003C6F8Entry D_8006B200[];
 extern void *D_80081460;
 extern u8 D_80082E6A[];
 
-extern void func_80041284(void *arg0);
+extern void file_load_com(void *arg0);
 
 /* Stores data in the selected entry, activates its pointers, and applies a mode-specific flag. */
 void func_8003C6F8(void *data, s32 entry_index)
@@ -27,7 +27,7 @@ void func_8003C6F8(void *data, s32 entry_index)
     entry->field_0 = data;
     D_80081460 = data;
     *(void **)0x80080A8C = paired_data;
-    func_80041284(data);
+    file_load_com(data);
 
     if (D_80082E6A[0] == 2) {
         *(s8 *)0x800DCF4D = -2;

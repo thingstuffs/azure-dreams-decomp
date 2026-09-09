@@ -337,6 +337,39 @@ def _local_section_placements(obj, target, vram, retail_text):
     return bases
 
 
+_NAMES_ALIAS = None
+def _names_alias():
+    """readable name -> original func_<addr> from config/names.tsv (tools/ccproc.py's table)."""
+    global _NAMES_ALIAS
+    if _NAMES_ALIAS is None:
+        _NAMES_ALIAS = {}
+        p = os.path.join(ROOT, "config", "names.tsv")
+        if os.path.exists(p):
+            with open(p, errors="replace") as fh:
+                for raw in fh:
+                    cols = raw.split("#", 1)[0].rstrip("\n").split("\t")
+                    if len(cols) >= 3 and cols[1].strip() and cols[2].strip() and cols[2].strip() != cols[1].strip():
+                        _NAMES_ALIAS[cols[2].strip()] = cols[1].strip()
+    return _NAMES_ALIAS
+
+def _canonicalise_names(s_path):
+    """Spell every renamed symbol in a gcc -S listing back to its func_<addr> original (definition,
+    calls, address references; string data untouched) so maspsx's name-keyed tables, the link and
+    the slice all see the pre-rename symbols.  Names are a C-level alias layer (docs/PLAN.md L4)."""
+    table = _names_alias()
+    if not table:
+        return
+    with open(s_path, errors="replace") as fh:
+        lines = fh.readlines()
+    text = "".join(lines)
+    present = [n for n in table if n in text]
+    if not present:
+        return
+    pat = re.compile(r"\b(" + "|".join(re.escape(n) for n in sorted(present, key=len, reverse=True)) + r")\b")
+    lines = [l if re.match(r"\s*\.(ascii|asciz|string)\b", l) else pat.sub(lambda m: table[m.group(1)], l) for l in lines]
+    with open(s_path, "w") as fh:
+        fh.writelines(lines)
+
 def build_text(cfile, gccdir, opt, aspsx, gcc_flags="", as_flags="", vram=None,
                target=None, psyq=None, as_path=None, psyq_cpp=None,
                asm_output=None, require_linked=False, retail_text=None):
@@ -391,6 +424,7 @@ def build_text(cfile, gccdir, opt, aspsx, gcc_flags="", as_flags="", vram=None,
                 if r.returncode == 0 and not os.path.exists(s):
                     detail = (detail + " " if detail else "") + "gcc produced no assembly output"
                 return None, "gcc: " + detail
+            _canonicalise_names(s)   # readable names (config/names.tsv) -> func_<addr>: the same alias layer tools/ccproc.py applies in the gate pipeline
             if asm_output:
                 try:
                     _publish_compiler_assembly(s, asm_output)

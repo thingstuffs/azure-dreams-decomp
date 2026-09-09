@@ -61,7 +61,7 @@ extern void func_8003DB94(Anim *, void *, s32);
 extern void func_8008F074(Actor *, Motion *, void *);
 extern void func_8008F134(Actor *);
 extern void func_80033D08(Actor *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_800478B8(Anim *);
 extern s32 func_800A2A18(void *, Motion *);
 
@@ -304,7 +304,7 @@ jt_c8:
 
 jt_c9:
         if (actor->timerA2 == 1) {
-            func_80053DA8(0x511);
+            SD_Call(0x511);
         }
         if (actor->timerA2 < 6) {
             anim->scale1C = scale_x.value[actor->timerA2];

@@ -13,11 +13,11 @@ typedef struct {
     u16 flags;
 } Tile;
 
-extern s32 func_800A6D30(void);
+extern s32 func_800A6D30(Rect *, s32, s32, s32);
 extern u8 D_8008333C[32];
 extern u8 D_800EA000[];
 
-void func_8001CEC0(Rect *rect)
+void func_8001CEC0(Rect *rect, s32 arg1, s32 arg2, s32 arg3)
 {
     u8 *dungeon = D_8008333C;
     s32 parity;
@@ -35,7 +35,7 @@ void func_8001CEC0(Rect *rect)
     u16 tile_y;
     volatile Tile *tile;
 
-    parity = func_800A6D30() & 1;
+    parity = func_800A6D30(rect, arg1, arg2, arg3) & 1;
     initial_y = rect->y;
     initial_x = rect->x;
     initial_width = rect->width;

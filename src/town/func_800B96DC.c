@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
 
-extern s32 func_8003E4FC();
+extern s32 Control_CD();
 extern s32 func_80049984();
 extern s16 func_800B6CEC();
 extern M2C_UNK func_800B6D54();
@@ -48,8 +48,8 @@ s32 func_800B6E3C(void *arg0) {
         func_800B6D94(((Rec_func_800B683C_arg0 *)arg0)->unk_14, &D_80083D78);
         ((Rec_func_800B683C_arg0 *)arg0)->unk_DC = 0;
         func_800B6D54(arg0);
-        ((Rec_func_800B683C_arg0 *)arg0)->unk_D0 = func_8003E4FC(6, arg0 + 0xD8, NULL);
-        ((Rec_func_800B683C_arg0 *)arg0)->unk_D4 = func_8003E4FC(0xFF, &D_800B5B20, arg0);
+        ((Rec_func_800B683C_arg0 *)arg0)->unk_D0 = Control_CD(6, arg0 + 0xD8, NULL);
+        ((Rec_func_800B683C_arg0 *)arg0)->unk_D4 = Control_CD(0xFF, &D_800B5B20, arg0);
         tail_value = 1;
         ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         return func_800B6F40();

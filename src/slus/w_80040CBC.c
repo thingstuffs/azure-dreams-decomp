@@ -51,7 +51,7 @@ extern s8 D_80080A86[16];
 extern u8 D_800E6000[];
 extern u8 D_80126804[];
 extern void func_8003F6D4(int a0, int a1, int *a2, int a3);
-extern int func_8003E4FC(int a0, void *a1, int a2);
+extern int Control_CD(int a0, void *a1, int a2);
 extern void func_8003F320(void);
 extern void func_800418B4(void);
 /* Loads the entry's resource data and selects its working buffer. */
@@ -93,10 +93,10 @@ void func_80040CBC(s16 entry_index)
           do
           {
             func_8003F6D4(0x100, (resource_info[0] & offset_mask) + (block_offset << 11), request_a, resource_info[1] + block_offset);
-            func_8003E4FC(6, request_a, 0);
+            Control_CD(6, request_a, 0);
             block_offset += 0x100;
             func_8003F6D4(0x100, (resource_info[0] & offset_mask) + (block_offset << 11), next_request, resource_info[1] + block_offset);
-            func_8003E4FC(6, next_request, 0);
+            Control_CD(6, next_request, 0);
             func_8003F320();
             block_offset += 0x100;
           }
@@ -108,7 +108,7 @@ void func_80040CBC(s16 entry_index)
           if (block_count != 0)
           {
             func_8003F6D4(block_count, (packed_info & 0x7FFFFF) + (block_offset << 11), request_a, resource_info[1] + block_offset);
-            func_8003E4FC(6, request_a, 0);
+            Control_CD(6, request_a, 0);
           }
           func_8003F320();
         }

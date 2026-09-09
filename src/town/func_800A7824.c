@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-extern s32 func_800352FC(void);
 extern u8 D_80082660;
 extern s32 D_80082A38[];
 extern u8 D_800A4F4C[];
@@ -27,14 +26,16 @@ typedef struct S_800A4F84_2 {
     s32 unk_08;
 } S_800A4F84_2;   /* value in func_800A4F84 */
 
-void func_800A4F84(S_800A4F84_0 *arg0) {
+
+extern s32 func_800352FC(S_800A4F84_0 *, s32, s32, s32);
+void func_800A4F84(S_800A4F84_0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *state;
     u8 *table;
     S_800A4F84_2 *value;
     s32 count;
     u8 index;
 
-    if (func_800352FC() != 0) {
+    if (func_800352FC(arg0, arg1, arg2, arg3) != 0) {
         state = (u8 *)D_80082A38;
         if (state[1] != 0) {
             arg0->unk_34 = 0;

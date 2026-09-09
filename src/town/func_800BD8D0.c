@@ -17,17 +17,17 @@ typedef struct S_800BB030_0 {
 
 
 
-extern s32 func_8009CFE0(void);
+extern s32 func_8009CFE0(void *, void *);
 extern s32 D_800814A0[];
 
-void func_800BB030(void *arg0) {
+void func_800BB030(void *arg0, void *arg1) {
     s8 *ptr;
     s32 state;
     s32 counter;
     s32 quotient;
     register s32 intensity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    if (func_8009CFE0() != 0) {
+    if (func_8009CFE0(arg0, arg1) != 0) {
         ptr = ((S_800BB030_0 *)arg0)->unk_98;
         if (ptr != 0) {
             *ptr = 0;

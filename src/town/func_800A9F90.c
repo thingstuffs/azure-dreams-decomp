@@ -9,10 +9,10 @@ struct S_func_800A9F90 {
     u16 counter;
 };
 
-extern void func_80033D08(void);
+extern void func_80033D08(S_func_800A9F90 *, s32);
 extern u32 D_800814A0[3];
 
-s32 func_800A76F0(S_func_800A9F90 *self)
+s32 func_800A76F0(S_func_800A9F90 *self, s32 arg1)
 {
     void (*callback)(S_func_800A9F90 *self);
     u16 counter;
@@ -20,7 +20,7 @@ s32 func_800A76F0(S_func_800A9F90 *self)
     counter = self->counter - 1;
     self->counter = counter;
     if ((counter << 16) <= 0) {
-        func_80033D08();
+        func_80033D08(self, arg1);
         *(u16 *)((u8 *)self - 2) =
             (u16)(*(u16 *)((u8 *)self - 2) | 0x8000);
         return (D_800814A0[0] |= 0x8000);

@@ -28,7 +28,7 @@ typedef struct S_8004FAA4_2 {
 
 M2C_UNK func_8004FA2C();
 s32 func_8004FD78();
-M2C_UNK func_80053DA8();
+M2C_UNK SD_Call();
 extern void *D_800814A8[];
 extern M2C_UNK D_80083160[8];
 
@@ -98,7 +98,7 @@ select_target:
             }
         } else {
 apply_move:
-            func_80053DA8(0x504);
+            SD_Call(0x504);
             func_8004FA2C(menu, index_delta);
         }
     }

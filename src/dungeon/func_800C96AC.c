@@ -6,7 +6,7 @@ extern u8 D_800E3648[];
 
 extern s32 func_8003FA44(s32 arg0, void *arg1);
 extern void *func_8003FC64(s32 arg0);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 
 /* Clamp an indexed entry and create its node if processing succeeds. */
 unsigned int func_800CEE0C(void *object, s16 entry_index)
@@ -44,7 +44,7 @@ unsigned int func_800CEE0C(void *object, s16 entry_index)
                 *(u8 **)((u8 *)node + 0x10) = D_800CEA44;
                 *(s16 *)((u8 *)node + 0x2C) = entry_index;
                 state[5] += 1;
-                func_80053DA8(0xB1);
+                SD_Call(0xB1);
             }
             result = node != 0;
         } else {

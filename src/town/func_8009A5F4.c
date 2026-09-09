@@ -2,17 +2,17 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80097D54_arg0.h"
 
-s32 func_800352FC();                                /* extern */
+s32 func_800352FC(Rec_func_80097D54_arg0 *, M2C_UNK, M2C_UNK, s32);                                /* extern */
 M2C_UNK func_80093D90();    /* extern */
 M2C_UNK func_80098988();    /* extern */
 extern M2C_UNK D_800CFFF0;
 
 
 
-void func_80097D54(Rec_func_80097D54_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
+void func_80097D54(Rec_func_80097D54_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3) {
     u16 temp_v0;
 
-    if (func_800352FC() == 0) {
+    if (func_800352FC(arg0, arg1, arg2, arg3) == 0) {
         temp_v0 = arg0->unk_0A - 1;
         arg0->unk_0A = temp_v0;
         if ((temp_v0 << 0x10) <= 0) {

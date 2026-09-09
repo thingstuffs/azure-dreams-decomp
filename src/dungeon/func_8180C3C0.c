@@ -163,7 +163,7 @@ extern u8 D_800287F0[];
 
 extern void func_8003F540(void *, void *, void *, s32);
 extern s32 func_800445E0(void);
-extern void func_8003E4FC(s32, s32, s32);
+extern void Control_CD(s32, s32, s32);
 extern void func_800ACB98(void *, void *, void *, void *);
 extern void func_800A56E0(s32);
 extern void func_80026C88(s16, s16, s16, void *);
@@ -221,7 +221,7 @@ l0_calls:
     }
     {
         s32 value = func_800445E0();
-        func_8003E4FC(21, value, 0);
+        Control_CD(21, value, 0);
     }
     func_80025F78();
 

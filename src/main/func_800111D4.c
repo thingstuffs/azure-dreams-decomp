@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_80024204(void *);
 extern s32 D_800786E8[];
 
 void func_800241D4(s32 arg0, s32 arg1) {
@@ -13,11 +12,9 @@ void func_800241D4(s32 arg0, s32 arg1) {
         *(s32 *) (v0 + 0x224) = 0x808080;
         if (arg1 != 0) {
             *(s32 **) a0 = D_800786E8;
-            func_80024204(a0);
-            return;
+        } else {
+            *(s32 *) a0 = 0;
         }
-        *(s32 *) a0 = 0;
-        __asm__ __volatile__("" ::: "memory");
         *(s16 *) (*(s8 **) ((s8 *) a0 + 4) + 8) = 0x60;
         *(s16 *) (*(s8 **) ((s8 *) a0 + 4) + 0xA) = 0x18;
     }

@@ -29,7 +29,7 @@ typedef struct S_800A5FDC_3 {
 
 extern s32 func_800374F4();
 extern s32 func_8003BD84();
-extern void func_80053DA8();
+extern void SD_Call();
 extern s32 func_8008C180();
 extern s16 func_80094BC8();
 extern void func_80094C1C();
@@ -129,7 +129,7 @@ coordinates_ready:
         speed_delta = abs(D_80100E20[0] - speed);
         sound_interval = (s32)((u32)speed_delta * 7U) / D_80100E20[0];
         if ((((S_800A5FDC_1 *)globals)->unk_04 % (sound_interval + 2)) == 0) {
-            func_80053DA8(0x60A);
+            SD_Call(0x60A);
         }
     }
 

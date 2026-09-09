@@ -2,14 +2,14 @@
 
 typedef s32 T;
 
-extern T func_80041284();
-extern T func_8008B408();
+extern T file_load_com();
+extern T reserve_twch_load();
 extern T D_80080E28;
 extern T D_800D1D54;
 
-/* Process both global objects with func_80041284, then call func_8008B408 with 3. */
+/* Process both global objects with file_load_com, then call reserve_twch_load with 3. */
 void func_800C1A0C(void) {
-    func_80041284(&D_80080E28);
-    func_80041284(&D_800D1D54);
-    func_8008B408(3);
+    file_load_com(&D_80080E28);
+    file_load_com(&D_800D1D54);
+    reserve_twch_load(3);
 }

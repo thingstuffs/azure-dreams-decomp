@@ -38,7 +38,7 @@ extern s32 func_8003FA44(s32);
 extern void func_800419EC(s32, s32);
 extern void func_80042640(void *, s32);
 extern void func_8004437C(s32, s32);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_800997FC(void *);
 extern s32 func_8009A350(s32, s32, s32, u16 *);
 extern SpawnFunc func_800A0B94(s32, s32, s32);
@@ -223,7 +223,7 @@ other_state:
     *(u16 *)(ctx + 4) = delay_timer;
     if ((s16)delay_timer < 0) {
         func_8004437C(0, 1);
-        func_80053DA8(0x200);
+        SD_Call(0x200);
         *(s32 *)(D_800E3648 + *(s16 *)(ctx + 0xC) * 4) = 0;
         {
             u8 *global_base = (u8 *)&D_80083460;

@@ -8,7 +8,7 @@ extern u8 D_800133BA;
 extern FourBytes D_8008925C;
 
 /* get_player_homerank: Return the index of the player home value or the first zero in the four-byte table. */
-s32 func_800B2834(void) {
+s32 get_player_homerank(void) {
     FourBytes home_values;
     register u8 *table_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 table_page;

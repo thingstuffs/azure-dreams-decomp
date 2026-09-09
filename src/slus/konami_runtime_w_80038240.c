@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern s16 func_80053DA8(s32 a0);
+extern s16 SD_Call(s32 a0);
 
 // Dispatches nonzero modes with code 0xB4 or 0x74 and reports whether 0x74 was used.
 s32 func_80038240(s32 mode)
@@ -16,11 +16,11 @@ s32 func_80038240(s32 mode)
 
     if (mode == 1)
     {
-        func_80053DA8(0xB4);
+        SD_Call(0xB4);
         return result;
     }
 
-    func_80053DA8(0x74);
+    SD_Call(0x74);
     result = 1;
     return result;
 }

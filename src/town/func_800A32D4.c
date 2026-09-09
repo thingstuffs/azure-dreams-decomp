@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_800A09F4(void *arg0, s32 arg1);
+extern void door_open_demo_set_sub(void *arg0, s32 arg1);
 
 /* door_open_demo_set: Run the shared town script handler with argument 8. */
-void func_800A0A34(void *script_context) {
-    func_800A09F4(script_context, 8);
+void door_open_demo_set(void *script_context) {
+    door_open_demo_set_sub(script_context, 8);
 }

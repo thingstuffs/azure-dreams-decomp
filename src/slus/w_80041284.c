@@ -10,12 +10,12 @@ extern struct S_80081480_80041284 D_80081480;
 extern struct S_8008148C_80041284 D_8008148C;
 
 extern void DrawSync(int a0);
-extern s32 func_8003E4FC(s32 a0, void *a1, s32 a2);
+extern s32 Control_CD(s32 a0, void *a1, s32 a2);
 extern void func_8003F320(void);
 extern void func_80041344(s32 a0, s32 a1);
 
 /* Decode a packed ID or relative offset, synchronize, and dispatch the resolved values. */
-void func_80041284(void *packed_data)
+void file_load_com(void *packed_data)
 {
     s32 id_or_base;
     s32 target_time;
@@ -35,7 +35,7 @@ void func_80041284(void *packed_data)
         target_time = id_base;
         D_80081480.field_0 = target_time;
     }
-    func_8003E4FC(6, packed_data, 0);
+    Control_CD(6, packed_data, 0);
     func_8003F320();
     func_80041344(id_or_base, target_time);
 }

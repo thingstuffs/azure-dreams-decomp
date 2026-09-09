@@ -28,7 +28,7 @@ extern u8 D_80174E3D[];
 extern void *D_80174E40[];
 
 extern void func_8003DB94();
-extern s32 func_8003E4FC();
+extern s32 Control_CD();
 extern void func_8003F540();
 extern void *func_8003FC64();
 extern s32 func_80041588();
@@ -193,9 +193,9 @@ direction_not_ready:
 direction_ready:
         func_80041588(D_80174E24, D_80174E3C, 1);
         func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
-        func_8003E4FC(0x15, func_800445E0(), 0);
+        Control_CD(0x15, func_800445E0(), 0);
         D_80174E3D[0] = 0;
-        func_8003E4FC(0xFF, D_8003E140, D_80174E3D);
+        Control_CD(0xFF, D_8003E140, D_80174E3D);
         func_800C77D0((u8 *)arg3 - 0x20, arg1, 8, 0x300);
         ((S_80174704_0 *)arg0)->unk_96.u = 0x10;
         ((S_80174704_0 *)arg0)->unk_9B++;

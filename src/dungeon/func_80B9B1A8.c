@@ -89,7 +89,7 @@ extern s16 D_80174F48[];
 extern s32 D_800814A0[3];
 extern s32 D_80083460[3];
 extern void *D_80170870[];
-M2C_UNK func_8003E4FC();
+M2C_UNK Control_CD();
 M2C_UNK func_8003F540();
 void *func_8003FC64();
 M2C_UNK func_80041588();
@@ -169,9 +169,9 @@ turn_target:
 start_fade:
     func_80041588(&D_80174FAC, &D_80174FCC, 1);
     func_8003F540(0, *D_8006CD58, 0x04000AD4, 0x05000CC4);
-    func_8003E4FC(0x15, func_800445E0(), NULL);
+    Control_CD(0x15, func_800445E0(), NULL);
     D_80174FCD[0] = 0;
-    func_8003E4FC(0xFF, (s32) D_8003E140, &D_80174FCD);
+    Control_CD(0xFF, (s32) D_8003E140, &D_80174FCD);
     func_800C77D0(target - 0x20, position, 8, 0x300);
     ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
     ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);

@@ -19,7 +19,7 @@ typedef struct Func80039470Block {
 extern Func80039470Entry D_80082660[];
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
-extern Func80039470Block *func_800392A4(s32 index);
+extern Func80039470Block *ms_mot_accpt_ow(s32 index);
 
 /* Activates an unused entry and stores its pair of values according to the block type. */
 s32 func_80039470(s32 entry_value, s32 first_value, s32 second_value, s32 packed_index) {
@@ -37,7 +37,7 @@ s32 func_80039470(s32 entry_value, s32 first_value, s32 second_value, s32 packed
         goto success;
     }
 
-    block = func_800392A4(entry_index);
+    block = ms_mot_accpt_ow(entry_index);
     if (block == 0) {
         goto success;
     }

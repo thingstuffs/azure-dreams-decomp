@@ -2,10 +2,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK func_8003BAF8();
+extern M2C_UNK change_map();
 extern M2C_UNK func_800A0BC0();
 extern void func_800A0BC8(s32 *arg0);
-extern s32 func_800B2834();
+extern s32 get_player_homerank();
 extern M2C_UNK func_800B28A0();
 
 void func_800A0B74(void *arg0, s32 *arg1) {
@@ -25,5 +25,5 @@ void func_800A0B74(void *arg0, s32 *arg1) {
         func_800A0BC0();
         return;
     }
-    func_8003BAF8(arg1[func_800B2834()]);
+    change_map(arg1[get_player_homerank()]);
 }

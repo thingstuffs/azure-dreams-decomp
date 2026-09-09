@@ -26,7 +26,7 @@ typedef struct {
     u8 choices[2];
 } TownState;
 
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 func_80123200(u8);
 extern void func_801237A4(TownState *);
 extern void func_801248C0(TownState *);
@@ -51,7 +51,7 @@ void func_80124F98(TownState *state)
 
     input = D_80083160;
     if (*(u32 *)(input + 0x10) & 0x20) {
-        func_80053DA8(0x702);
+        SD_Call(0x702);
         func_801248C0(state);
         state->state = 9;
         state->field4 = 1;
@@ -120,7 +120,7 @@ decrement_loop:
         current_index = state->index;
         previous_index = state->old_index;
         if (current_index < previous_index) {
-            func_80053DA8(0x702);
+            SD_Call(0x702);
             func_801248C0(state);
             state->side ^= 1;
             func_801237A4(state);
@@ -135,7 +135,7 @@ decrement_loop:
             goto done;
         }
         if (previous_index < current_index) {
-            func_80053DA8(0x702);
+            SD_Call(0x702);
             func_801248C0(state);
             state->side ^= 1;
             func_801237A4(state);
@@ -184,7 +184,7 @@ increment_loop:
         current_index = state->index;
         previous_index = state->old_index;
         if (current_index < previous_index) {
-            func_80053DA8(0x702);
+            SD_Call(0x702);
             func_801248C0(state);
             state->side ^= 1;
             func_801237A4(state);
@@ -198,7 +198,7 @@ increment_loop:
             goto done;
         }
         if (previous_index < current_index) {
-            func_80053DA8(0x702);
+            SD_Call(0x702);
             func_801248C0(state);
             state->side ^= 1;
             func_801237A4(state);

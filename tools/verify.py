@@ -50,24 +50,59 @@ def normalise_definition(row, cfile):
     tmp.write_text(re.sub(r"\b" + re.escape(other) + r"\b", row["func"], text))
     return tmp
 
-def verify_overlay(row, cfile, regions=False, include_root=None):
+_CANON = None; _CANON_MTIME = None
+def canonical_spelling(cfile):
+    """Names are an alias layer (config/names.tsv, applied by tools/apply_names.py).  The scorer is
+    keyed on func_<addr> symbols, so a file whose DEFINITION carries a readable name is scored from a
+    temporary copy that spells that one identifier as its func_<addr> original.  References to other
+    renamed functions are left as written: the pipeline canonicalises them (tools/ccproc.py in the
+    gate, match.py in the scorer), which is what makes the rename byte-neutral for real."""
+    global _CANON, _CANON_MTIME
+    p = ROOT / "config" / "names.tsv"
+    stamp = (p.stat().st_mtime_ns, p.stat().st_size) if p.exists() else None
+    if _CANON is None or stamp != _CANON_MTIME:       # the table grows while tools/apply_names.py runs
+        table = {}
+        if p.exists():
+            for raw in p.read_text(errors="replace").splitlines():
+                cols = raw.split("#", 1)[0].rstrip().split("\t")
+                if len(cols) >= 3 and cols[1].strip() and cols[2].strip() and cols[2].strip() != cols[1].strip():
+                    table[cols[2].strip()] = cols[1].strip()
+        _CANON, _CANON_MTIME = table, stamp           # one atomic swap: verify runs in worker threads
+    canon = _CANON
+    if not canon:
+        return cfile
+    text = Path(cfile).read_text(errors="replace")
+    # only the identifiers this file DEFINES: references stay renamed and are canonicalised inside the
+    # pipeline (tools/ccproc.py in the gate, match.py in the scorer), so the scorer proves what the gate links
+    hit = [n for n in canon if n in text and re.search(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**" + re.escape(n) + r"\s*\([^;{]*\)\s*\{", text, re.M)]
+    if not hit:
+        return cfile
+    pat = re.compile(r"\b(" + "|".join(re.escape(n) for n in hit) + r")\b")
+    new = pat.sub(lambda m: canon[m.group(1)], text)
+    if new == text:
+        return cfile
+    tmp = Path(tempfile.mkdtemp()) / Path(cfile).name
+    tmp.write_text(new)
+    return tmp
+
+def verify_overlay(row, cfile, regions=False, include_root=None, diff=False):
     env = _env()
     # the include root is passed as a USER include directory (-I), exactly as the window gate's
     # cc.sh does; C_INCLUDE_PATH would make it a system header and GCC then tolerates
     # redefinitions the gate rejects
     cfg = row["cfg"] + (f" -I{Path(include_root).resolve()}" if include_root else "")
-    cfile = normalise_definition(row, cfile)
+    cfile = normalise_definition(row, canonical_spelling(cfile))   # a renamed DEFINITION is scored under its func_ symbol; references are canonicalised inside the pipeline
     cmd = NICE + ["python3", "tools/aligned_score.py", "--func", row["func"],
                   "--overlay", row["container"], "--configs", cfg]
-    cmd += ["--regions", str(cfile)] if regions else ["--summary-json", str(cfile)]
+    cmd += ["--diff", str(cfile)] if diff else ["--regions", str(cfile)] if regions else ["--summary-json", str(cfile)]
     t0 = time.time()
     try:
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=900, cwd=gate_root(False), env=env)
     except subprocess.TimeoutExpired:
         return {"status": "TIMEOUT", "exact": False, "secs": round(time.time() - t0, 2)}
     secs = round(time.time() - t0, 2)
-    if regions:
-        return {"status": "regions", "text": r.stdout, "secs": secs}
+    if regions or diff:
+        return {"status": "diff" if diff else "regions", "text": r.stdout, "secs": secs}
     rec = None
     for line in reversed(r.stdout.splitlines()):
         try: j = json.loads(line)
@@ -264,15 +299,16 @@ def baseline_slus(row):
         return {"id": row["id"], "status": "ok", "exact": None, "obj_sha": h, "secs": round(time.time() - t0, 2)}
 
 # ---------------------------------------------------------------- entry points
-def verify(row, cfile, regions=False, include_root=None):
+def verify(row, cfile, regions=False, include_root=None, diff=False):
     if row["kind"] == "slus":
         return verify_slus(row, cfile, include_root)
-    return verify_overlay(row, cfile, regions, include_root)
+    return verify_overlay(row, cfile, regions, include_root, diff)
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("row_id", nargs="?"); ap.add_argument("cfile", nargs="?")
     ap.add_argument("--regions", action="store_true"); ap.add_argument("--include-root")
+    ap.add_argument("--diff", action="store_true", help="print the scorer's positional disasm diff (overlay rows; free iteration for reader lanes)")
     ap.add_argument("--gate", action="store_true", help="after a scorer-exact verdict, also prove the candidate through the row's window gate (the proof of record; slower)")
     ap.add_argument("--baseline", action="store_true"); ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--container"); ap.add_argument("--limit", type=int); ap.add_argument("--all", action="store_true", help="include non-stock rows")
@@ -316,7 +352,9 @@ def main():
                   f"{sum(1 for r in upd.values() if r.get('exact') is not True)} still not exact")
         return
     row = by[a.row_id]
-    v = verify(row, Path(a.cfile).resolve(), a.regions, a.include_root)
+    v = verify(row, Path(a.cfile).resolve(), a.regions, a.include_root, a.diff)
+    if a.diff:
+        print(v.get("text", "")); return
     if a.gate:
         v.update(gate_candidate(row, Path(a.cfile).resolve()) if v.get("exact") else {"gate": "skipped: not exact in isolation"})
     print(json.dumps(v, indent=1))

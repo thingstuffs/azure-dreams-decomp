@@ -22,7 +22,7 @@ extern S80083780 D_80083780;
 
 extern s32 func_800352FC(void);
 extern s32 func_800C2AB4(S0 *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_800BF61C(void) __attribute__((noreturn));
 extern void func_800BF634(void) __attribute__((noreturn));
 extern void *D_80089900[];
@@ -81,7 +81,7 @@ L_A: {
         if (func_800C2AB4(obj) == 0) {
             return;
         }
-        func_80053DA8(0x50B);
+        SD_Call(0x50B);
         value = (u16)obj->f68;
         ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         threshold = 32;

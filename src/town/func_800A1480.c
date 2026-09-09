@@ -8,7 +8,7 @@ extern void *D_8001029C;
 __asm__(".set D_8001029C, 0x8001029C");
 
 /* serch_item_kt: Find the first item matching the requested kind and type. */
-void *func_8009EBE0(s32 item_kind, s32 item_type) {
+void *serch_item_kt(s32 item_kind, s32 item_type) {
     void **item_slot;
     void *item;
 

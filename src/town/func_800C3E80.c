@@ -14,11 +14,11 @@ extern u16 D_800D4268[];
 extern s32 func_800C0F60(s16 arg0);
 extern s32 func_800B28A0(void);
 extern void func_8004437C(s32 arg0, s32 arg1);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 extern s32 func_800C16E0(u16 arg0);
 
 /* town_sd_sq_callagain_sub: replay and record the town or fallback sequence with the supplied flags. */
-s32 func_800C15E0(s32 sequence_flags) {
+s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
     s32 entry_index;
     u16 town_effect;
     u16 town_sequence;
@@ -57,6 +57,6 @@ s32 func_800C15E0(s32 sequence_flags) {
     func_8004437C((s16)fallback_effect, 0);
     fallback_sequence = fallback_entry[1];
     ((volatile u16 *)D_800D4268)[3] = fallback_sequence;
-    func_80053DA8((fallback_sequence | sequence_flags) & 0xFFFF);
+    SD_Call((fallback_sequence | sequence_flags) & 0xFFFF);
     return 1;
 }

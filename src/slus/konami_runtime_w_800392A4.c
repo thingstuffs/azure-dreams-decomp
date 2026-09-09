@@ -16,7 +16,7 @@ __asm__(".set D_800C3174, 0x800C3174");
 __asm__(".set D_800C321C, 0x800C321C");
 
 /* Returns object data for slot 1 or objects with matching type and data tags. */
-void *func_800392A4(u8 object_index)
+void *ms_mot_accpt_ow(u8 object_index)
 {
     u8 *object;
     void *object_type;

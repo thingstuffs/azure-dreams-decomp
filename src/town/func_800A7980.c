@@ -4,7 +4,7 @@ extern s32 D_80100DE0[];
 extern s32 D_800D0C48[];
 
 /* tcame_lock: Save and clear the two camera lock values. */
-void func_800A50E0(void) {
+void tcame_lock(void) {
     s32 lock_value_0;
     s32 lock_value_1;
 

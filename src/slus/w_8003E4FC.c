@@ -14,7 +14,7 @@ extern void *D_80080ADC;
 extern s32 func_8003E39C();
 
 /* Dispatch supported event codes and update the associated event state. */
-s32 func_8003E4FC(s32 event_code, void *event_data)
+s32 Control_CD(s32 event_code, void *event_data)
 {
     ResultBox_8003E4FC result;
     s32 kind;

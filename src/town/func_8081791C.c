@@ -122,14 +122,14 @@ extern void func_80022494(void *);
 extern void func_80033B78(s32);
 extern s32 func_800352FC(void);
 extern void func_80043FB8(void *, s32);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_80093864(void);
 extern void func_80093C70(void);
 extern void func_80093CEC(void *);
 extern void func_80093D48(void *, void *, void *);
-extern void func_800C15C0(s32, s32);
+extern void tw_sd_sq_ld_call(s32, s32);
 extern s16 func_800C2AE8(void *);
 
 void func_8002191C(void *arg0)
@@ -153,7 +153,7 @@ void func_8002191C(void *arg0)
         u16 t6;
         s32 t10;
 
-        func_80053DA8(0xB1);
+        SD_Call(0xB1);
         motion = D_80083780;
         ((S_8002191C_0 *)arg0)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
         t6 = ((S_8002191C_2 *)motion)->unk_06;
@@ -238,7 +238,7 @@ void func_8002191C(void *arg0)
         if (((S_8002191C_3 *)global)->unk_10.s != 0x800) {
             goto finish;
         }
-        func_800C15C0(0x24, 0x200);
+        tw_sd_sq_ld_call(0x24, 0x200);
         ((S_8002191C_0 *)arg0)->unk_36.s = 4;
         func_8002082C(arg0);
         func_80093D48(global, work, D_80082E80);
@@ -408,9 +408,9 @@ void func_8002191C(void *arg0)
                     ((S_8002191C_6 *)node_part)->unk_08 = node_flags | 1;
                     ((s16 *)global)[((S_8002191C_0 *)arg0)->unk_34.s]++;
                     if (((s16 *)global)[((S_8002191C_0 *)arg0)->unk_34.s] < 7) {
-                        func_80053DA8(0x702);
+                        SD_Call(0x702);
                     } else {
-                        func_80053DA8(0x703);
+                        SD_Call(0x703);
                     }
                 }
             }
@@ -441,7 +441,7 @@ void func_8002191C(void *arg0)
         value = ((S_8002191C_0 *)arg0)->unk_34.u + 1;
         ((S_8002191C_0 *)arg0)->unk_34.u = value;
         if ((s16)value == 8) {
-            func_80053DA8(0xB1);
+            SD_Call(0xB1);
             ((S_8002191C_0 *)arg0)->unk_28.s = 0x78;
             ((S_8002191C_0 *)arg0)->unk_36.s = 0xFF;
         } else {
@@ -454,7 +454,7 @@ void func_8002191C(void *arg0)
         value = ((S_8002191C_0 *)arg0)->unk_28.s - 1;
         ((S_8002191C_0 *)arg0)->unk_28.s = value;
         if ((s16)value <= 0) {
-            func_800C15C0(0x20, 0x200);
+            tw_sd_sq_ld_call(0x20, 0x200);
             ((S_8002191C_0 *)arg0)->unk_2A.s |= 1;
             ((S_8002191C_0 *)arg0)->unk_36.u++;
         }

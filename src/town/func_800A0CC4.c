@@ -5,7 +5,7 @@ extern void *func_8009F830();
 extern void *D_80100AF0[];
 
 /* kewn_namewin_close_check: Copies the entered name to the main and matching item buffers when the close flag is set. */
-s32 func_8009E424(void) {
+s32 kewn_namewin_close_check(void) {
     s32 close_flag;
     void *matched_item;
 

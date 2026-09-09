@@ -5,17 +5,17 @@ extern u8 D_800D4258[];
 
 typedef struct S_800C1770_0 {
     s16 unk_00;
-} S_800C1770_0;   /* D_800D4258 in func_800C1770 */
+} S_800C1770_0;   /* D_800D4258 in town_sdall_reserve */
 
 typedef struct S_800C1770_1 {
     u8 pad_00[0x2];
     s16 unk_02;
     s16 unk_04;
     s16 unk_06;
-} S_800C1770_1;   /* temp_v0 in func_800C1770 */
+} S_800C1770_1;   /* temp_v0 in town_sdall_reserve */
 
 /* town_sdall_reserve: reserve the four town sound effect and sequence values. */
-void func_800C1770(s16 effect_id, s16 sound_id, s16 sequence_effect, s16 sequence_id) {
+void town_sdall_reserve(s16 effect_id, s16 sound_id, s16 sequence_effect, s16 sequence_id) {
     u8 *reserved_sound;
 
     ((S_800C1770_0 *)D_800D4258)->unk_00 = effect_id;

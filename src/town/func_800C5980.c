@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern s32 func_800352FC(void);
+extern s32 func_800352FC(void *, s32, s32, s32);
 extern s32 func_800C2A60(void *arg0);
 extern void func_800C40D0(void *arg0, s32 arg1, s32 arg2);
 extern void func_800C4134(void *arg0, s32 arg1, s32 arg2);
 extern u8 D_80082A39[16];
 
-s32 func_800C30E0(void *arg0, s32 arg1, s32 arg2) {
-    if (func_800352FC() == 0) {
+s32 func_800C30E0(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
+    if (func_800352FC(arg0, arg1, arg2, arg3) == 0) {
         return 0;
     }
 

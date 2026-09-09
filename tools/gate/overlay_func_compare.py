@@ -41,6 +41,20 @@ spec.loader.exec_module(M)
 _SYM_ASSIGN = re.compile(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=")
 # Overlay-local symbol whose retail address is encoded in its own name.
 _NAME_ENCODED = re.compile(r"(func|D)_([0-9A-Fa-f]{8})$")
+_RENAMED: dict[str, str] | None = None
+
+def _renamed_symbols() -> dict[str, str]:
+    """readable name -> original func_<addr> from config/names.tsv (tools/ccproc.py's alias table)."""
+    global _RENAMED
+    if _RENAMED is None:
+        _RENAMED = {}
+        p = ROOT / "config" / "names.tsv"
+        if p.exists():
+            for raw in p.read_text(errors="replace").splitlines():
+                cols = raw.split("#", 1)[0].rstrip().split("\t")
+                if len(cols) >= 3 and cols[1].strip() and cols[2].strip() and cols[2].strip() != cols[1].strip():
+                    _RENAMED[cols[2].strip()] = cols[1].strip()
+    return _RENAMED
 
 
 # LEAD 12b: the per-function as-flags lookup was FIRST written here, then
@@ -126,10 +140,19 @@ def inject_name_encoded_symbols(
     catalog = catalog_symbols()
     injected: list[str] = []
     unresolved: list[str] = []
+    renamed = _renamed_symbols()
     for name in sorted(undef):
         if name == target or name in catalog:
             continue
         hit = _NAME_ENCODED.fullmatch(name)
+        if hit is None and name in renamed:
+            # a readable name from config/names.tsv (the defining TU aliases it to its func_<addr>);
+            # this TU only references it, so the address comes from the original symbol
+            hit = _NAME_ENCODED.fullmatch(renamed[name])
+            if hit is not None:
+                M.NAMED_SYMS_LIST.append((name, f"0x{int(hit.group(2), 16):08X}"))
+                injected.append(name)
+                continue
         if hit is None:
             unresolved.append(name)
             continue

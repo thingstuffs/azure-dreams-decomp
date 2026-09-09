@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s8 D_80089268[];
-extern s32 func_800B2834();
+extern s32 get_player_homerank();
 
 /* Return the selected value from the three global entries. */
 u8 func_800B2918(void) {
@@ -27,5 +27,5 @@ u8 func_800B2918(void) {
     values[0] = first;
     values[1] = second;
     values[2] = third;
-    return (u8) values[func_800B2834(second, third, global)];
+    return (u8) values[get_player_homerank(second, third, global)];
 }

@@ -24,7 +24,7 @@ extern u8 D_80175B25;
 extern void *D_80175B28;
 
 M2C_UNK func_8003DB94();
-M2C_UNK func_8003E4FC();
+M2C_UNK Control_CD();
 M2C_UNK func_8003F540();
 void *func_8003FC64();
 M2C_UNK func_80041588();
@@ -164,9 +164,9 @@ block_non_special:
 block_special:
     func_80041588(D_80175B0C, &D_80175B24, 1);
     func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
-    func_8003E4FC(0x15, func_800445E0(), 0);
+    Control_CD(0x15, func_800445E0(), 0);
     D_80175B25 = 0;
-    func_8003E4FC(0xFF, D_8003E140, &D_80175B25);
+    Control_CD(0xFF, D_8003E140, &D_80175B25);
     func_800C77D0((u8 *)arg3 - 0x20, arg1, 8, 0x300);
     ((S_80175470_0 *)arg0)->unk_96.u = 0x10;
     ((S_80175470_0 *)arg0)->unk_9B.n++;

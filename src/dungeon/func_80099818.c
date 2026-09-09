@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8009EEAC(void);
+extern void func_8009EEAC(s32, s32, s32, s32);
 extern void func_8009F3D4(u8, u8, s32, s32, s32);
 
 typedef struct {
@@ -20,12 +20,12 @@ typedef struct {
 extern Unk3648 D_800E3648[0x20];
 extern Unk39C8 D_800E39C8[0x20];
 
-void func_8009EF78(void) {
+void func_8009EF78(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     volatile Unk3648 *var_s0;
     volatile Unk39C8 *var_s1;
     s32 var_s2;
 
-    func_8009EEAC();
+    func_8009EEAC(arg0, arg1, arg2, arg3);
     var_s2 = 0;
     var_s1 = D_800E39C8;
     var_s0 = D_800E3648;

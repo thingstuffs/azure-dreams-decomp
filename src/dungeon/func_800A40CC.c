@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8003E4FC(s32, void *, void *);
+extern void Control_CD(s32, void *, void *);
 extern void func_8003F540(s32, s32, s32, s32);
 extern void func_8003F6D4(s32, void *, void *, s32);
 extern s32 func_800445E0(void);
@@ -46,8 +46,8 @@ s32 func_800A982C(s16 selection_id, s16 alternate_table) {
             }
             message_data = D_800E58B0;
             func_8003F6D4(0xC, resource_data, message_data, message_offset);
-            func_8003E4FC(6, message_data, 0);
-            func_8003E4FC(0xFF, D_8003E140, &D_800DCF59);
+            Control_CD(6, message_data, 0);
+            Control_CD(0xFF, D_8003E140, &D_800DCF59);
             D_800DCF4D = selection_id | (alternate_table << 6);
         }
 
@@ -64,7 +64,7 @@ s32 func_800A982C(s16 selection_id, s16 alternate_table) {
         entry_offset = (s32)(doubled_index << 16) >> 14;
         selection_entry = (s32 *)(entry_offset + (u32)selection_table);
         func_8003F540(0, state_value, selection_entry[0], selection_entry[1]);
-        func_8003E4FC(0x15, (void *)func_800445E0(), 0);
+        Control_CD(0x15, (void *)func_800445E0(), 0);
 
         change_result = changed;
         if (change_result != 0) {

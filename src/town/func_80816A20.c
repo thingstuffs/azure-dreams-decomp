@@ -87,7 +87,7 @@ extern void func_8003DB94(TownData *, void *, s32);
 extern void func_8003E188(s32, void *);
 extern TownObject *func_8003FD64(s32, void *);
 extern void func_8004491C(TownObject *, void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern void func_8008F0A4(TownPart *, TownTransform *, void *);
 
 /* Initializes the town display objects, panel lines, and image tiles. */
@@ -107,7 +107,7 @@ s32 func_80020A20(void)
     s32 initial_value;
 
     root_part = 0;
-    func_80053DA8(0x704);
+    SD_Call(0x704);
     func_80033B9C(0xA5);
     func_8003E188(0x3D, root_part);
     func_8003E188(0x3E, root_part);

@@ -8,7 +8,7 @@ extern char D_8001B9E0[];
 extern char D_8001C6D0[];
 extern char D_80020E44[];
 
-extern s32 func_80016CE4(void);
+extern s32 func_80016CE4(s32, s32);
 extern s32 func_80016D18(void);
 extern char *func_80016E48(s32);
 
@@ -35,7 +35,7 @@ char *func_8001747C(s32 arg0, s32 arg1, s32 arg2)
     goto *table[index];
 
 L_case19:
-    temp_v0 = func_80016CE4();
+    temp_v0 = func_80016CE4(arg0, arg1);
     D_8001B16C[0] = temp_v0;
     if (temp_v0 != 0) {
         goto L_return_temp;

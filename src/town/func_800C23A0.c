@@ -5,7 +5,7 @@ typedef struct S_800BFB00_0 {
     void (*unk_10)(void);
     u8 pad_14[0xC];
     u16 unk_20;
-} S_800BFB00_0;   /* temp_v0 in func_800BFB00 */
+} S_800BFB00_0;   /* temp_v0 in town_rain_in */
 
 typedef struct S_800BFB00_1 {
     u8 pad_00[0x2];
@@ -16,7 +16,7 @@ typedef struct S_800BFB00_1 {
     s16 unk_0A;
     u8 pad_0C[0x2];
     s16 unk_0E;
-} S_800BFB00_1;   /* temp_a0 in func_800BFB00 */
+} S_800BFB00_1;   /* temp_a0 in town_rain_in */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
@@ -28,7 +28,7 @@ extern u16 D_80083780[6];
 extern void func_800BFB8C(void);
 
 /* town_rain_in: creates a rain object with its callback, preset values, and position. */
-void func_800BFB00(s16 x, s16 y) {
+void town_rain_in(s16 x, s16 y) {
     u16 preset_value;
     S_800BFB00_1 *state;
     void *object;

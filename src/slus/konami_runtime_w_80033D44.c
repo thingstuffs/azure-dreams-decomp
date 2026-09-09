@@ -15,7 +15,7 @@ extern s32 D_8008099C;
 #define PVAL(p)     ((u32)(p))
 
 /* obj_disp23_cancel_sw_set: sets the display cancellation switch and returns it. */
-s32 func_80033D44(s32 cancel_switch)
+s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
 {
     D_8008099C = cancel_switch;
     return cancel_switch;

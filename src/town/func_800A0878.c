@@ -15,7 +15,7 @@ extern void func_8009C1B4(void *object, void *object_again, void *part_a,
                            void *part_b);
 extern void func_8009DC8C(void *object, void *part_b, s32 value,
                            void *callback);
-extern void func_800B2244(void *arg0);
+extern void del_t_item_w_ptr(void *arg0);
 
 extern Copy84 D_800102F0[];
 extern s32 D_8006E240;
@@ -107,6 +107,6 @@ void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_call
 set_callback:
     POINTER_AT(created, 0x10) = D_8009DEBC;
     func_8009C1B4(object, object, position, render_state);
-    func_800B2244(object_data);
+    del_t_item_w_ptr(object_data);
     return created;
 }

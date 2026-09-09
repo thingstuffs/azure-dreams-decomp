@@ -1,30 +1,20 @@
 #include "common.h"
 
 extern s32 func_8001ADE0(s32 arg0);
-extern void func_80016AAC(void) __attribute__((noreturn));
 extern u8 D_8001EB20[];
-extern u8 D_8001EC6A[];
 
-#ifndef NON_MATCHING
 register s32 dispatch_result ASM_REG("$2");
-#endif
 
 void *func_80016A84(void) {
     if (func_8001ADE0(0xD83) != 0) {
-#ifndef NON_MATCHING
         dispatch_result = 0x80020000;
         dispatch_result -= 0x1396;
-#else
-        (void)D_8001EC6A;
-#endif
-        func_80016AAC();
+        goto merge;
     }
-    __asm__ __volatile__("" ::: "memory");
-#ifndef NON_MATCHING
+    ASM_SCHED_BARRIER();
     dispatch_result = 0x80020000;
     dispatch_result -= 0x14E0;
+merge:
+    __asm__ __volatile__("" ::: "memory");
     return (void *)dispatch_result;
-#else
-    return D_8001EB20;
-#endif
 }

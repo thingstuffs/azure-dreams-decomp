@@ -22,15 +22,15 @@ typedef struct S_800AE1AC_0 {
     u8 pad_24[0x4];
     s32 unk_28;
     s32 unk_2C;
-} S_800AE1AC_0;   /* temp_s0 in func_800AE1AC */
+} S_800AE1AC_0;   /* temp_s0 in open_shop */
 
 typedef struct S_800AE1AC_1 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800AE1AC_1;   /* var_s1 in func_800AE1AC */
+} S_800AE1AC_1;   /* var_s1 in open_shop */
 
 /* open_shop: Allocate and initialize the shop and its resources, cleaning up if either resource fails. */
-void *func_800AE1AC(M2C_UNK unused, s32 primary_param, s32 secondary_param, s32 shared_param) {
+void *open_shop(M2C_UNK unused, s32 primary_param, s32 secondary_param, s32 shared_param) {
     s32 second_resource;
     S_800AE1AC_0 *shop_state;
     void *shop;

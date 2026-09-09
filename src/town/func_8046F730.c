@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_8001628C();
-extern s32 func_80017E98();
+extern s32 func_80017E98(s32, s32);
 extern s32 func_80019880();
 extern s32 func_80019A04();
 extern s32 func_80019ABC();
@@ -15,7 +15,7 @@ s32 func_80016730(s32 arg0, s32 arg1, s32 arg2) {
     register void *base ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 result;
 
-    if (func_80017E98() != 0) {
+    if (func_80017E98(arg0, arg1) != 0) {
         s32 page;
 
         page = (s32)0x80020000;

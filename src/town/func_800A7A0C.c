@@ -4,6 +4,6 @@
 extern s32 D_80100E10;
 
 /* tcame_chase_fix_reset: clear the camera chase fix value. */
-void func_800A516C(void) {
+void tcame_chase_fix_reset(void) {
     D_80100E10 = 0;
 }

@@ -67,7 +67,7 @@ typedef struct S_80173CEC_9 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *D_80170858[];
 void func_8003DB94();
-s32 func_8003E4FC();
+s32 Control_CD();
 void func_8003F540();
 void *func_8003FC64();
 void func_80041588();
@@ -155,9 +155,9 @@ turn_model:
 start_effect:
     func_80041588(&D_801742CC, &D_801742E4, 1);
     func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
-    func_8003E4FC(0x15, func_800445E0(), NULL);
+    Control_CD(0x15, func_800445E0(), NULL);
     (*(s8 *)&D_801742E5) = 0;
-    func_8003E4FC(0xFF, &D_8003E140, &D_801742E5);
+    Control_CD(0xFF, &D_8003E140, &D_801742E5);
     func_800C77D0(model - 0x20, position, 8, 0x300);
     state->unk_96 = 0x10U;
     state->unk_9B = (u8) (state->unk_9B + 1);

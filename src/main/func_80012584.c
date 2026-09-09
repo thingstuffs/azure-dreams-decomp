@@ -26,7 +26,7 @@ extern void func_800254E4(void *arg0);
 extern void func_80025D34(void *arg0);
 extern void func_80027AFC(s32 arg0, s32 arg1);
 extern s32 func_80049DE8(s32 arg0, s32 arg1, s32 arg2);
-extern void func_80053DA8(s32 arg0);
+extern void SD_Call(s32 arg0);
 
 /* Handle menu input, selection repeat, and transition completion. */
 void func_80025584(u8 *menu)
@@ -41,12 +41,12 @@ void func_80025584(u8 *menu)
     selection_delta = 0;
     if (controller[2] != 0) {
         if (controller[4] & 0x20) {
-            func_80053DA8(0x515);
+            SD_Call(0x515);
             ((S_80025584_0_pre *)menu)[-1].unk_00 = &D_80024FFC;
         }
         buttons = controller[4];
         if (buttons & 0x40) {
-            func_80053DA8(0x503);
+            SD_Call(0x503);
             func_800254E4(menu);
             goto finish_input;
         }
@@ -77,7 +77,7 @@ void func_80025584(u8 *menu)
 
 finish_input:
         if (selection_delta != 0) {
-            func_80053DA8(0x502);
+            SD_Call(0x502);
             ((S_80025584_0 *)menu)->unk_28 =
                 func_80049DE8(((S_80025584_0 *)menu)->unk_28, selection_delta, 5);
             func_800250E8(menu);

@@ -23,7 +23,7 @@ extern u8 D_80083780[8];
 extern s32 D_800C1F8C;
 
 extern s32 func_80033B2C(s16);
-extern void func_80053DA8(u16);
+extern void SD_Call(u16);
 
 /* Triggers the entity action and updates its handler when its predicate and distance checks pass. */
 void func_800C1EA4(Entity *entity)
@@ -73,7 +73,7 @@ void func_800C1EA4(Entity *entity)
         return;
     }
 
-    func_80053DA8(entity->argument);
+    SD_Call(entity->argument);
     entity->handler = &D_800C1F8C;
 }
 

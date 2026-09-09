@@ -19,7 +19,7 @@ typedef struct S_801267B8_0 {
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 M2C_UNK func_8004B248();
-M2C_UNK func_80053DA8();
+M2C_UNK SD_Call();
 M2C_UNK func_80064F00();
 M2C_UNK func_80064F20();
 M2C_UNK func_80123130();
@@ -52,7 +52,7 @@ void func_801267B8(void) {
             D_80083200 = 0x200;
             func_80064F20(0x200);
             func_80064F00(0xA0, 0x78);
-            func_80053DA8(0x701);
+            SD_Call(0x701);
             return;
         }
         func_8004B248((u8 *)obj + 0x7C);

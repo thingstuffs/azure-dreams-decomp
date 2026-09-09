@@ -44,7 +44,7 @@ typedef struct Object {
 extern void func_8003DB94(Sprite *, void *, s32);
 extern Object *func_8003FC64(s32);
 extern void func_8004491C(Object *, void *);
-extern void func_80053DA8(s32, s32);
+extern void SD_Call(s32, s32);
 extern void func_80067014(s32);
 extern void func_800672D8(void *, void *);
 extern void func_8006733C(void *, void *);
@@ -104,7 +104,7 @@ L_case0:
         goto L_epilogue;
     }
 
-    func_80053DA8(0x519, gravity);
+    SD_Call(0x519, gravity);
     index = 15;
     do {
         particle = func_8003FC64(0x136);

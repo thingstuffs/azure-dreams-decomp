@@ -1057,12 +1057,34 @@ def assert_unique_globals(
     raise SystemExit("\n".join(lines))
 
 
+_RENAMED: dict[str, str] | None = None
+
+def renamed_symbols() -> dict[str, str]:
+    """readable name -> original func_<addr> symbol from config/names.tsv (the alias table
+    tools/ccproc.py applies inside the defining TU).  A caller in another window references the
+    readable name, which no symbol file lists; it resolves through the original's address."""
+    global _RENAMED
+    if _RENAMED is None:
+        _RENAMED = {}
+        path = ROOT / "config" / "names.tsv"
+        if path.exists():
+            for raw in path.read_text(errors="replace").splitlines():
+                raw = raw.split("#", 1)[0].rstrip()
+                cols = raw.split("\t")
+                if len(cols) >= 3 and cols[1].strip() and cols[2].strip() and cols[2].strip() != cols[1].strip():
+                    _RENAMED[cols[2].strip()] = cols[1].strip()
+    return _RENAMED
+
+
 def symbol_addr(name: str, named: dict[str, int]) -> int | None:
     if name in named:
         return named[name]
     m = re.fullmatch(r"(?:func|D)_([0-9A-Fa-f]{8})", name)
     if m:
         return int(m.group(1), 16)
+    original = renamed_symbols().get(name)
+    if original is not None and original != name:
+        return symbol_addr(original, named)
     return None
 
 

@@ -23,11 +23,11 @@ typedef struct S_800A9D00_2 {
 
 
 extern s32 func_8009368C();
-extern s32 func_80093744();
+extern s32 plt_carry_item_del_ext();
 extern s32 func_800C172C();
 extern s8 D_800834B8[0x30];
 
-/* Invokes func_800C172C for an eligible linked object with code 0xD04, then calls func_80093744. */
+/* Invokes func_800C172C for an eligible linked object with code 0xD04, then calls plt_carry_item_del_ext. */
 void func_800A9D00(void) {
     s8 *stateBase;
     S_800A9D00_0 *precedingState;
@@ -40,5 +40,5 @@ void func_800A9D00(void) {
         (((S_800A9D00_2 *)(((S_800A9D00_1 *)stateBase)->unk_2C))->unk_4C == 0xD04)) {
         func_800C172C();
     }
-    func_80093744();
+    plt_carry_item_del_ext();
 }

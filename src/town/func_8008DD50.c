@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80041284(void *arg0);
+extern void file_load_com(void *arg0);
 extern s32 func_8008B328(void);
 
 extern u8 D_800CF828[];
@@ -24,7 +24,7 @@ void func_8008B4B0(void) {
         object_id = *id_ptr;
 
         if (object_id != 0) {
-            func_80041284(objects[object_id]);
+            file_load_com(objects[object_id]);
         }
         slot++;
     } while (slot < 15);

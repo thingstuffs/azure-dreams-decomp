@@ -21,7 +21,7 @@ M2C_UNK func_8008F134();                      /* extern */
 M2C_UNK func_8008F294();             /* extern */
 M2C_UNK func_8008F664();             /* extern */
 M2C_UNK func_8009539C();                      /* extern */
-M2C_UNK func_800A0150(); /* extern */
+M2C_UNK itm_mon_koyaw_set(); /* extern */
 M2C_UNK func_800C0C88();                            /* extern */
 extern s32 D_800814A0[];
 typedef struct {
@@ -47,7 +47,7 @@ void func_8009ED7C(void *object, M2C_UNK context, void *motion) {
     ticks_or_flags = ((Rec_D_80082D58 *)object)->unk_6C.as_u16 - 1;
     ((Rec_D_80082D58 *)object)->unk_6C.as_u16 = ticks_or_flags;
     if ((ticks_or_flags << 0x10) <= 0) {
-        func_800A0150(D_80100B68[0], object + 0x4C, &D_80100AF8, 0);
+        itm_mon_koyaw_set(D_80100B68[0], object + 0x4C, &D_80100AF8, 0);
         func_8008F134(object);
         func_80033D08(object);
         ticks_or_flags = ((S_8009ED7C_2_pre *)object)[-1].unk_00;

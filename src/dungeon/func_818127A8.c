@@ -14,7 +14,7 @@ extern M2C_UNK func_800274A8();
 extern void func_80027954() __attribute__((noreturn));
 extern void func_80027968() __attribute__((noreturn));
 extern M2C_UNK func_80028620();
-extern M2C_UNK func_80053DA8();
+extern M2C_UNK SD_Call();
 
 extern M2C_UNK D_80027E10;
 extern M2C_UNK D_80027E84;
@@ -69,7 +69,7 @@ void func_800277A8(void *arg0) {
 
     flags = ((S_800277A8_0 *)input)->unk_10;
     if (flags & 0x20) {
-        func_80053DA8(0x515);
+        SD_Call(0x515);
         ((S_800277A8_1_pre *)arg0)[-1].unk_00 = &D_80027E10;
         ((S_800277A8_1 *)arg0)->unk_00 = ((S_800277A8_1 *)arg0)->unk_04;
         func_80028620((u8 *)arg0 - 0x20);
@@ -78,14 +78,14 @@ void func_800277A8(void *arg0) {
     }
 
     if (flags & 0x10) {
-        func_80053DA8(0x503);
+        SD_Call(0x503);
         func_800274A8(arg0);
         func_800255AC(((S_800277A8_1 *)arg0)->unk_44);
         return;
     }
 
     if (flags & 0x40) {
-        func_80053DA8(0x503);
+        SD_Call(0x503);
         func_80027454((u8 *)arg0 + 0x38, ((S_800277A8_1 *)arg0)->unk_14,
                      (((S_800277A8_1 *)arg0)->unk_08 / 72) * 72,
                      ((S_800277A8_1 *)arg0)->unk_28);
@@ -147,7 +147,7 @@ check_delta:
         return;
     }
 
-    func_80053DA8(0x502);
+    SD_Call(0x502);
     new_pos = ((S_800277A8_1 *)arg0)->unk_08 + delta;
     limit = ((S_800277A8_1 *)arg0)->unk_3C;
     remaining = limit - new_pos / 9;

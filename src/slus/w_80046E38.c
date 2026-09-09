@@ -17,7 +17,7 @@ typedef struct State80046E38 {
 } State80046E38;
 
 extern s32 DrawSync(s32);
-extern void func_8003E4FC(s32, s32 *, s32);
+extern void Control_CD(s32, s32 *, s32);
 extern void func_8003F320(void);
 extern void func_8003F6D4(s32, s32, s32 *, s32);
 extern u8 *func_8004068C(u8 *, u8 *);
@@ -65,7 +65,7 @@ void func_80046E38(s16 entry_id, u8 *stream)
 
     if (remaining > 0) {
         do {
-            func_8003E4FC(6, (s32 *)&pair, 0);
+            Control_CD(6, (s32 *)&pair, 0);
             data_offset += 0x10;
             func_8003F320();
             stream_pos = func_8004068C(D_8008148C[-3], stream_pos);

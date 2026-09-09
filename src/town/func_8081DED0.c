@@ -41,7 +41,7 @@ typedef struct S_800206D0_2 {
 
 
 extern void func_800478B8(void *);
-extern void func_80053DA8(s32);
+extern void SD_Call(s32);
 extern s32 rand(void);
 extern void func_8008F134(void *);
 extern s32 func_8008FD9C(void *, void *, void *, void *);
@@ -140,7 +140,7 @@ state2:
     if ((s16)timer > 0) {
         goto end;
     }
-    func_80053DA8(0x501);
+    SD_Call(0x501);
     ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0xFFC00000;
     ((Rec_func_800206D0_arg1 *)motion)->unk_14 = ((rand() & 0xFF) << 11) + 0xFFE80000;
     ((S_800206D0_0 *)pickup)->unk_02.u = (rand() & 0xF) + 30;
@@ -156,12 +156,12 @@ state3:
         ((Rec_func_800206D0_arg1 *)motion)->unk_08 += ((Rec_func_800206D0_arg1 *)motion)->unk_14;
         ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
         if (floor_z < ((Rec_func_800206D0_arg1 *)motion)->unk_08) {
-            func_80053DA8(0x501);
+            SD_Call(0x501);
             ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
             ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
         }
         if (func_8008FD9C(D_80024420, motion, &D_800D0420, D_80083780) != 0) {
-            func_80053DA8(0x516);
+            SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
             D_80012D5C[0] += reward;
             D_80024628[0] += reward;
@@ -184,7 +184,7 @@ state3:
 
 state4:
     if (func_8008FD9C(D_80024420, motion, &D_800D0420, D_80083780) != 0) {
-        func_80053DA8(0x516);
+        SD_Call(0x516);
         reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
         D_80012D5C[0] += reward;
         D_80024628[0] += reward;
@@ -205,7 +205,7 @@ state5:
         ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
     }
     if (func_8008FD9C(D_80024420, motion, &D_800D0420, D_80083780) != 0) {
-        func_80053DA8(0x516);
+        SD_Call(0x516);
         reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
         D_80012D5C[0] += reward;
         D_80024628[0] += reward;
