@@ -270,8 +270,23 @@ def main():
 
 
 def report():
-    recs = {r["id"]: r for r in read_jsonl(OUT)}.values()
-    recs = list(recs)
+    """Only rows whose probe still describes their current text are counted.
+
+    The census is keyed on `in_sha`: once a row is landed pin-free (or reduced), its record is
+    history, not a candidate.  Filtering here keeps the worklist honest without a rewrite pass.
+    """
+    from common import clean_path
+    cur = {}
+    for row in rows():
+        if row["container"] == "ovmovie":
+            continue
+        p = clean_path(row)
+        if p.exists():
+            t = p.read_text(errors="replace")
+            if sites_of(t):
+                cur[row["id"]] = sha_text(t)
+    recs = [r for r in {r["id"]: r for r in read_jsonl(OUT)}.values()
+            if cur.get(r["id"]) == r.get("in_sha")]
     print(f"# Pin families (tools/pin_probe.py --strip)\n")
     print(f"Rows probed: {len(recs)}.  Every ASM_* site of the row erased at once; "
           f"the scorer's aligned distance and the shape of the residue below.\n")

@@ -220,8 +220,10 @@ and `ASM_REG` were standing in for.  Two handles defeat the collapse:
    by itself - do not hand-write one form.  One edit each closed two rows.  **When a reg-rename
    residue sits inside an arithmetic sequence, look for a hand-expanded compiler idiom before
    touching any variable.**  (A deliberately narrow regex for this shape finds only 5 rows corpus
-   wide, 4 of them still pinned - the pattern needs widening before it is worth a sweep, since one
-   lane of ten rows contained two of them.)
+   wide; widened to the spellings gcc's bias-then-shift lowering actually takes -
+   `if (x < 0) x += K;` before a `>>`, and the `- (q << n)` that reconstructs the remainder - it is
+   **35 rows that still carry pins**, and one lane of ten contained two of them.  That is the
+   population for a sweep; the loose half of the matcher needs a false-positive check first.)
 
 The rows that resist are the ones where neither handle exists: full-width same-value copies where
 narrowing is not value-preserving, and branch-derived *constant* knowledge from `record_jump_equiv`,
@@ -245,6 +247,18 @@ A bare block does **not** reproduce it - only the loop note does - so it is comp
 clothing, not a recovered source shape. It is landed anyway (ordinary portable C beats a
 non-portable asm pin for the port), but `census.py` and `status.py` now count it so the debt appears
 in STATUS.md instead of vanishing from the pin count. It is not new: 226 rows carried it at the pin.
+
+**T9 was re-run over all 1,918 pinned rows with `--force` after the T2 refresh, and applied 0.**
+Every row refused at *eligibility*, in 31 s, without spending a single verify - so T9's binding
+constraint is its **menu**, not the stale gate that made its old 12,247-refusal figure look damning.
+The refusal histogram is the shopping list for extending it: `ASM_KEEP` outside the menu 258,
+`ASM_REG` class `addressing` 222, `broad` without a colouring signature 152, `reorder-only` 102.
+Three of those four now have measured recipes from the lanes above.
+
+**`pin_probe.py --report` is self-cleaning.** It counts only records whose `in_sha` still matches the
+row's current text, so a row landed pin-free drops out of the worklist instead of lingering as a
+phantom candidate.  After this session's landings the near band is **586 rows** (112 at damage 1-3,
+279 at 4-8), down from 624.
 
 **Tried and did not pay inside this session's budget.** None of these is a reachability verdict —
 every terminal verdict this project has issued has later been overturned, and a lane that spends a
