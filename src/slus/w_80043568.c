@@ -10,10 +10,12 @@ void func_80043568(void) {
     u32 packed_index;
     s32 match_tag;
     s32 old_state;
-    register s32 new_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 new_state;
     u32 record_index;
 
-    slot = 0x3F;
+    do {
+        slot = 0x3F;
+    } while (0);
     ram_base = 0x80010000;
     match_tag = 0x13;
     old_state = 0x39;

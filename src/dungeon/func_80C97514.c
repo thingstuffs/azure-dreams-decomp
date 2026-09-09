@@ -212,7 +212,7 @@ blend_color:
 jt_c4:
 {
     s32 effect_type;
-    register s32 effect_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 effect_index;
 
     effect = func_8003FC64(0x12);
     if (effect == NULL) {
@@ -230,7 +230,6 @@ jt_c4:
     render_obj->unk_0C.s = 0x808080;
     effect_type = func_800498A0(actor) - 1;
     effect_index = effect_type;
-    ASM_KEEP(effect_type);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if ((effect_type << 0x10) >= 0) {
         goto set_effect;
     }

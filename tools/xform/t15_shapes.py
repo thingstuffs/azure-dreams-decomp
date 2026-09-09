@@ -26,7 +26,7 @@ retail.  A narrowing that changed the function's behaviour could not compile to 
 a semantic change cannot survive the gate.  The search may therefore be liberal; only the budget
 limits it.
 """
-import json, re, sys
+import json, os, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -40,8 +40,7 @@ try:
 except ImportError:                       # pragma: no cover - direct import
     from t12_stmtorder import strip_pins, mask, depths, movable, is_decl
 
-BAND = 12          # strip damage a row must already be within
-import os
+BAND = int(os.environ.get("T15_BAND", "12"))       # strip damage a row must be within
 BUDGET = int(os.environ.get("T15_BUDGET", "45"))   # verify runs per row (T15_BUDGET to raise)
 ROUNDS = int(os.environ.get("T15_ROUNDS", "3"))    # greedy hill-climb rounds
 WIDE = os.environ.get("T15_WIDE") == "1"          # include the generators with no measured win yet

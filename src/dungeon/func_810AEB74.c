@@ -80,12 +80,14 @@ advance_jump:
     frames_left = motion->unk_96;
     motion->unk_90 -= motion->unk_A4;
     if (frames_left != 0) {
-        register s32 coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s32 coord;
         s32 axis_origin;
 
         coord = target_tile->unk_24 << 6;
         axis_origin = position->unk_00.at02_s16.v - 0x20;
-        coord = ((coord - axis_origin) << 16) / frames_left;
+        do {
+            coord = ((coord - axis_origin) << 16) / frames_left;
+        } while (0);
         axis_origin = position->unk_04.at02_s16.v - 0x20;
         position->unk_0C.as_s32 = coord;
         coord = target_tile->unk_25 << 6;

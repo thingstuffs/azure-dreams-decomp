@@ -52,7 +52,7 @@ void func_801716D8(void *motion, void *unused, void *entity, void *path_state) {
     M2C_UNK old_cell_mask;
     M2C_UNK new_cell_mask;
     s16 heading;
-    register s32 step_count ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 step_count;
     s32 old_x;
     s32 old_y;
     s32 next_x;
@@ -85,8 +85,10 @@ void func_801716D8(void *motion, void *unused, void *entity, void *path_state) {
         new_cell_mask = 0x3000;
         if (move_flag) {
             new_cell_mask = 0x300;
+            func_8009A21C(next_x, next_y, new_cell_mask);
+        } else {
+            func_8009A21C(next_x, next_y, new_cell_mask);
         }
-        func_8009A21C(next_x, next_y, new_cell_mask);
         ((S_801716D8_0 *)state)->unk_2A = heading;
         ((S_801716D8_3 *)motion)->unk_9A = 0xF;
         ((S_801716D8_3 *)motion)->unk_8C = 0;
@@ -101,7 +103,6 @@ void func_801716D8(void *motion, void *unused, void *entity, void *path_state) {
             ((S_801716D8_3 *)motion)->unk_96 = (s16) (8 / (s32) step_count);
         }
     }
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: A guarded $s0 state-base pin restores the retail 0x30 frame and

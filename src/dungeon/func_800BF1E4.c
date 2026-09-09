@@ -72,7 +72,7 @@ extern s32 func_8004491C(void *, void *);
 
 /* Spawn two effects at the source position and decrement its remaining count. */
 void func_800C4944(FuncArg *source) {
-    register s32 effect_index ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 effect_index;
     FuncSub *effect_state;
     FuncItem *effect_item;
     FuncBlock *effect_block;
@@ -121,7 +121,9 @@ void func_800C4944(FuncArg *source) {
             effect_block->field10 = 0x60;
         }
         effect_state->field2 = 8;
-        effect_state->field18 = effect_index;
+        do {
+            effect_state->field18 = effect_index;
+        } while (0);
     }
     effect_index -= 1;
     if (effect_index >= 0) {

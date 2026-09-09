@@ -52,7 +52,7 @@ M2C_UNK func_8004C010();                 /* extern */
 
 /* Build a textured Gouraud quad packet with tinted vertex colors and adjusted UV bounds. */
 void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *command) {
-    register void *color_record ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    void *color_record;
     s8 u_end;
     s8 v_end;
     u8 u_span;
@@ -80,7 +80,9 @@ void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *co
             ((S_8004BDDC_1 *)command)->unk_0B = (u8) (v_span - 1);
         }
     }
-    color_record = (void *) ((u8 *) color_record + 0xC);
+    do {
+        color_record = (void *) ((u8 *) color_record + 0xC);
+    } while (0);
     color_1 = packet + 0x10;
     ((S_8004BDDC_0 *)packet)->unk_10.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_00;
     ((S_8004BDDC_0 *)packet)->unk_04 = (u8) ((S_8004BDDC_0 *)packet)->unk_10.at03.v;

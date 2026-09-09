@@ -53,7 +53,7 @@ s32 func_80053428(Param *fade)
     D80083160_t *render_state;
     TPagePkt *tpage_pkt;
     PolyF4 *poly;
-    register u32 addr_mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u32 addr_mask;
     u32 length_mask;
     Ctx *draw_ctx;
     u32 poly_addr;
@@ -81,7 +81,9 @@ s32 func_80053428(Param *fade)
     poly->rgbc = color;
     SetPolyF4(poly);
     SetSemiTrans(poly, 1);
-    addr_mask = 0xFFFFFF;
+    do {
+        addr_mask = 0xFFFFFF;
+    } while (0);
     poly->x3 = 0x140;
     poly->x2 = 0x140;
     length_mask = 0xFF000000;

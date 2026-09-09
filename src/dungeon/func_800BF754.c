@@ -9,7 +9,7 @@ void *func_800C4EB4(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s3
     void *object;
     void *payload;
     s16 savedPayloadValueA = payloadValueA;
-    register s32 savedPayloadValueC ASM_REG("$17") = payloadValueC;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 savedPayloadValueC = payloadValueC;
 
     object = func_8003FD64(0, &D_80083498[0]);
     if (object != 0) {
@@ -17,7 +17,9 @@ void *func_800C4EB4(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s3
         payload = (s8 *)object + 0x20;
         *(s16 *)((s8 *)payload + 8) = 0x40;
         *(s16 *)((s8 *)payload + 0xA) = savedPayloadValueA;
-        *(s16 *)((s8 *)payload + 0xC) = (s16)savedPayloadValueC;
+        do {
+            *(s16 *)((s8 *)payload + 0xC) = (s16)savedPayloadValueC;
+        } while (0);
     }
     return object;
 }
