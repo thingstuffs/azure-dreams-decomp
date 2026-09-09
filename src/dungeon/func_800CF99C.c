@@ -71,10 +71,9 @@ void func_800D50FC(void *effect, S_800D50FC_1 *motion, S_800D50FC_2 *color) {
     life_left = ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 - 1;
     ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 = life_left;
     if ((life_left << 0x10) <= 0) {
-        register u32 page ASM_REG("$3");
+        u32 page;
 
         page = 0x80080000;
-        ASM_KEEP(page);
         ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_00 = (u16) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_00 | 0x8000);
         ((S_800D50FC_3 *)page)->unk_14A0 = ((S_800D50FC_3 *)page)->unk_14A0 | 0x8000;
     }

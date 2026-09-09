@@ -61,7 +61,6 @@ s32 func_800A21EC(void *object, S_800A21EC_1 *placement, S_800A21EC_0 *state) {
         s32 flags = (u16) state->unk_14;
         s32 enabled = 1;
         state->unk_08 = enabled;
-        ASM_KEEP(enabled);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         state->unk_14 = (u16) (flags | 1);
         placement->unk_00.at02.v = (u16) (placement->unk_00.at02.v - 0x90);
     }

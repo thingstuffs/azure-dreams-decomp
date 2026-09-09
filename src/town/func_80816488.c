@@ -48,7 +48,6 @@ state_one:
     }
 
 done:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: Frameless leaf with an explicit dispatch, state 0 before state 1, and a shared return.

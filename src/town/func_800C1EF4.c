@@ -68,5 +68,4 @@ void func_800BF654(void *caller_data)
     }
     (*(u16 *)((u8 *)caller_data + -2)) |= 0x8000;
     D_800814A0 |= 0x8000;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

@@ -107,9 +107,7 @@ void *func_800CB4C0(void *source, s16 copy_position) {
         }
 
         display->unk_06 = -1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         state = object + 0x20;
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         state->unk_A8 = source;
         state->unk_B4 = copy_position;
         state->unk_96 = 8;

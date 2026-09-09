@@ -48,5 +48,4 @@ void func_80024A30(void *state) {
         break;
     }
 
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

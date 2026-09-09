@@ -15,7 +15,6 @@ typedef struct S_8008BED8_0 {
 void func_8008BED8(S_8008BED8_0 *state) {
     M2C_UNK *handler;
     u32 status = D_800FC418;
-    ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (status == 0xFF) {
         handler = &D_8008BA00;
