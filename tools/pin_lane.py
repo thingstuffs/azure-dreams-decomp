@@ -175,10 +175,12 @@ def main():
     ap.add_argument("--batches", type=int, default=0, help="0 = all")
     ap.add_argument("--out", default="work/pin_lane")
     ap.add_argument("--only-class")
+    ap.add_argument("--only-rows", help="path to a file of row ids, one per line")
     ap.add_argument("--budget", type=int, default=12)
     ap.add_argument("--workers", type=int, default=8)
     a = ap.parse_args()
 
+    only_rows = set(Path(a.only_rows).read_text().split()) if a.only_rows else None
     by = {r["id"]: r for r in rows()}
     recs = {}
     for r in read_jsonl(LEDGER / "pins_strip.jsonl"):
@@ -192,6 +194,8 @@ def main():
         if t is None or t > a.band:
             continue
         if a.only_class and rec.get("class") != a.only_class:
+            continue
+        if only_rows is not None and rid not in only_rows:
             continue
         p = clean_path(row)
         if not p.exists():
