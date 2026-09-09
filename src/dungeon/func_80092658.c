@@ -35,14 +35,14 @@ extern s32 func_800A5C70(Resource *, s32, s32, Resource *);
 void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
     s32 state;
     /* MATCH: Keep the guard result in v0 across argument setup. */
-    register s32 guard ASM_REG("$2");
+    s32 guard;
     D83160 *ctx;
     /* MATCH: Keep the shared flag table in its retail saved register. */
     register u16 *flags ASM_REG("$17");
     /* MATCH: Keep the incoming resource in a3 for the pass-through call. */
     register Resource *resource ASM_REG("$7") = arg3;
     /* MATCH: Set a0 in both guard delay slots without a redundant call-slot move. */
-    register Resource *callResource ASM_REG("$4");
+    Resource *callResource;
 
     state = arg0->state;
     ctx = &D_80083160;

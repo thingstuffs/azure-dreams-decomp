@@ -37,7 +37,7 @@ void func_801671AC(void *state_data, void *unused, void *color) {
     u16 next_phase;
 
     flags = ((S_801671AC_0 *)color)->unk_14;
-    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state = state_data;
     ((S_801671AC_0 *)color)->unk_14 = (u16) (flags & 0xFF7F);
     ticks_left = ((S_801671AC_1 *)state)->unk_18;

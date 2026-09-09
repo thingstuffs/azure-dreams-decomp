@@ -173,7 +173,7 @@ build_objects:
             init_obj = strip_obj;
             ASM_KEEP(init_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             callback = D_8017489C;
-            ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             strip_data = strip_obj + 0x20;
             ((S_80174934_1 *)strip_data)->unk_1A = 1;
             ((S_80174934_1 *)strip_data)->unk_1C = 1;

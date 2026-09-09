@@ -11,7 +11,7 @@ void func_80097898(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     register u8 *temp ASM_REG("$4");
     /* MATCH: save a2 then a3 before loading the state-byte constant. */
     register void *saved2 ASM_REG("$17") = arg2;
-    register void *saved ASM_REG("$16") = arg3;
+    void *saved = arg3;
     ASM_KEEP_DEP_NV(saved2, saved);
     M2C_FIELD(arg0, s8 *, 0x9A) = 0x39;
     M2C_FIELD(arg0, s8 *, 0x9B) = 0;

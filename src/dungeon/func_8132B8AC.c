@@ -140,7 +140,7 @@ void func_801730AC(void *actor_input, void *motion_input, void *sprite_input) {
     S_func_8132B8AC_3 *beldo;
     s32 tail_test;
     register s32 tail_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *tail_sprite ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *tail_sprite;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register void *particle_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 particle_color;
     s32 particle_variation;
@@ -288,7 +288,7 @@ path_particles:
         goto block_32;
     }
     particle_a0 = sprite;
-    ASM_SET(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
     func_80047784(particle_a0, D_80174C6C[((s32) (D_80083228 + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     path_particle_count = 0;
@@ -352,7 +352,7 @@ block_37:
     }
 #ifndef NON_MATCHING
     tail_state = 0x80080000;
-    ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #endif
     sprite->unk_2C = tail_sprite;
     goto update_animation;
@@ -423,9 +423,9 @@ jt_c14:
     tail_sprite = (u8 *)0x80170000;
     ASM_KEEP(tail_sprite);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     tail_state = actor->unk_9A;
-    ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     tail_sprite += 0x4C6C;
-    ASM_KEEP(tail_sprite);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
     actor->unk_96 = 0U;
     goto advance_animation;
@@ -607,7 +607,7 @@ jt_c20:
 jt_c2:
 jt_c4:
 block_97:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 block_98:
     if (D_80174CE0 == 0) {
         goto block_105;

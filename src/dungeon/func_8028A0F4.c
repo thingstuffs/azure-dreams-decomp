@@ -92,7 +92,7 @@ void func_8001D0F4(DungeonRect *rect)
                         goto next_spot;
                     }
                     D_800E3648[slot_index].kind = stored_kind;
-                    ASM_KEEP(stored_kind);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 }
                 D_800E3648[slot_index].f1 = 0x15;
                 D_800E3648[slot_index].f3 = 0x80;

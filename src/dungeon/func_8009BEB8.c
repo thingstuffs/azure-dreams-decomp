@@ -67,7 +67,7 @@ clear_flags:
     }
     entry = D_800E3DB0;
     if (entry[0x11] == 0x38) {
-        register s32 start_index ASM_REG("$6");
+        s32 start_index;
         start_index = 3;
         entry += 0x18;
         slot_index = start_index;

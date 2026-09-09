@@ -48,7 +48,7 @@ void func_80025408(void *context, void *unused, void *effect_data) {
     register u16 mask_pixel ASM_REG("$23");
     s16 frame;
     s32 pixel_index;
-    register s32 one ASM_REG("$21");
+    s32 one;
     register s32 image_width ASM_REG("$2");
     u16 *pixel;
     register Point *center_ptr ASM_REG("$20");
@@ -81,7 +81,6 @@ void func_80025408(void *context, void *unused, void *effect_data) {
 
     tile_column = 0;
     pixel_page = (u8 *)0x80020000;
-    ASM_KEEP_NV(pixel_page);
     mask_pixel = -1;
     tile_x = 0x340;
     do {
@@ -128,8 +127,6 @@ update_fade:
         pixel_page = (u8 *)0x100;
         ASM_KEEP_NV(call_rect);
         ASM_KEEP_NV(call_center);
-        ASM_KEEP_NV(tile_x);
-        ASM_KEEP_NV(pixel_page);
         image_width = 0x60;
         mask_rect.w = image_width;
         mask_rect.x = tile_x;

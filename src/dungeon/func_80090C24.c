@@ -97,7 +97,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
     u8 *control;
     u16 *flags_page;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 command_flags;
-    register s32 idle_state ASM_REG("$20") = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
+    s32 idle_state = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
     s32 command_state;
 
     if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != idle_state) {

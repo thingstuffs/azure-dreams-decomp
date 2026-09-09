@@ -52,10 +52,10 @@ extern u8 D_800DD2B4_index[] __asm__("D_800DD2B4");
 void func_800982A8(Arg0 *arg0, Item *arg1) {
     s32 temp_v0;
     register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 var_s2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 tail_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     s32 state;
-    register s32 item_b3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 item_b3;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     Item *temp_s2;
     Item *var_s0;
     register u8 *message ASM_REG("$4"); /* MATCH: both message arms merge their address in a0 before the shared call. */
@@ -69,7 +69,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         if (var_s0->b1 == 0xF && var_s0->b0 >= 0xD) {
             func_800A56E0(0x506);
             var_s1 = func_800990FC();
-            ASM_USE_NV(var_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             item_b3 = func_80099368(var_s0, func_80099194(D_800E080A, func_80099734(arg0, func_8009929C(8, var_s1))));
             message = D_80088B64;
             goto show_message;
@@ -104,7 +104,7 @@ show_message:
     if (var_s0 != NULL) {
         item_b3 = var_s0->b3;
         var_s2 = var_s0->b0;
-        ASM_USE_NV(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s0->b3 = item_b3 & 0x7F;
         var_s1 = func_800990FC();
         func_80099290(func_80099194(D_800E0844, func_80099368(var_s0, func_8009929C(8, var_s1))));
@@ -136,9 +136,9 @@ show_message:
         head_b_value = head_b[0];
         ASM_SET(head_b);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         var_s2 = 0;
-        ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg0->b85 = head_b_value;
-        ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
     arg0->field4C = var_s0;
     func_800A56E0(0x508);
@@ -160,7 +160,7 @@ show_message:
             goto clear_state;
         }
     }
-    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (var_s2 != 0) {
         return;
     }

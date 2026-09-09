@@ -442,7 +442,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
         if ((fall_timer << 0x10) <= 0) {
             ((S_800218E4_5 *)base_object)->unk_08 = 2;
             state_value = ((S_800218E4_0 *)game)->unk_2C.u;
-            ASM_SCHED_BARRIER(); /* MATCH: the state load precedes timer materialization. */
+             /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
             ((S_800218E4_0 *)game)->unk_2E.s = transition_timer;
             goto store_next_state;
@@ -585,7 +585,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
         ((S_800218E4_0 *)game)->unk_4A.s = state_value;
         if (transition_timer <= 0) {
             state_value = ((S_800218E4_0 *)game)->unk_2C.u;
-            ASM_SCHED_BARRIER(); /* MATCH: the state load precedes timer materialization. */
+             /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x21;
             ((S_800218E4_0 *)game)->unk_2E.s = transition_timer;
             goto store_next_state;
@@ -627,7 +627,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
                 func_800B1DBC(payout_handle);
             }
             state_value = ((S_800218E4_0 *)game)->unk_2C.u;
-            ASM_SCHED_BARRIER(); /* MATCH: the state load precedes timer materialization. */
+             /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x8F;
             ((S_800218E4_0 *)game)->unk_2E.s = transition_timer;
             goto store_next_state;

@@ -39,7 +39,7 @@ s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
     }
     {
         register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 signed_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 signed_value;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         shifted = (s32)value << 16;
         signed_value = shifted >> 16;

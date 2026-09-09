@@ -25,8 +25,8 @@ s32 func_800C8ABC(void *arg0, s16 arg1, s8 arg2)
         return 0;
     }
     ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     temp_a0 = func_800A6D30() & 0xFFFF;
     temp_v1 = held_arg0->unk_03;
@@ -34,12 +34,12 @@ s32 func_800C8ABC(void *arg0, s16 arg1, s8 arg2)
         divisor = temp_v1;
         ASM_USE(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         remainder = temp_a0 % divisor;
-        ASM_KEEP(remainder);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     } else {
         remainder = 0;
     }
     divisor = held_arg1 / 2;
-    ASM_USE(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if ((remainder < divisor) || (held_arg1 == 0xFF)) {
         if ((s16)func_800A48F0(held_arg0, 1, held_arg2) >= 0) {
             return 1;

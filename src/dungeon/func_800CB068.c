@@ -130,7 +130,7 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     u8 *packet_code;
     u8 *part_uv;
     u8 *part;
-    register u8 *packet ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *packet;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 vertex_x;
     s32 vertex_y;
     s32 first_three_visible;

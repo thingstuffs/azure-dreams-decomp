@@ -103,7 +103,6 @@ void func_80025398(void *effect, void *unused, void *primitive)
         vertex_y += 0x50;
         ((S_80025398_1 *)output)->unk_1C.s = vertex_x;
         ((S_80025398_1 *)output)->unk_1E.s = vertex_y;
-        ASM_KEEP(vertex_x);
         ((S_80025398_1 *)output)->unk_0E.u = fade_out;
         ((S_80025398_1 *)output)->unk_0D.u = fade_out;
         ((S_80025398_1 *)output)->unk_0C.u = fade_out;

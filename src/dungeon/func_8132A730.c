@@ -68,7 +68,7 @@ void func_80171F30(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16
 {
     void *object;
     S_80171F30_3 *header;
-    register void *call_object ASM_REG("$4");
+    void *call_object;
     void *init_data;
     void *tail;
     register s32 resource_addr;

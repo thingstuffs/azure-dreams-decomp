@@ -81,7 +81,7 @@ s32 func_800248EC(void *first_point, void *first_position)
     u8 *render_state = D_80083160;
     register u32 addr_mask ASM_REG("$18") = 0x00FFFFFF;
     u8 *render_ctx = *(u8 **)D_80083160;
-    register u8 *packet_start ASM_REG("$3");
+    u8 *packet_start;
     u32 tag_mask = 0xFF000000;
     Scratch800248EC *scratch =
         (Scratch800248EC *)0x1F800000;
@@ -96,8 +96,6 @@ s32 func_800248EC(void *first_point, void *first_position)
     register s32 page_x ASM_REG("$6");
     u32 tile_code;
 
-    ASM_KEEP(render_state);
-    ASM_KEEP(tag_mask);
 
     packet_start = ((S_800248EC_0 *)render_ctx)->unk_8D0;
     scratch->ot = (u32 *)(render_ctx + 0xB0);

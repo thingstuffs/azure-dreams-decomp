@@ -152,7 +152,7 @@ void func_8016BFA4(void *actor, void *context, void *sprite, void *entity)
             current_anim = ((S_8016BFA4_2 *)sprite)->unk_2C;
             if (current_anim == D_8016FCA8) {
                 if (((S_8016BFA4_2 *)sprite)->unk_14 & 0xE000) {
-                    register void *idle_anim ASM_REG("$5"); /* MATCH: form the jump arm anim_table address in a1. */
+                    void *idle_anim; /* MATCH: form the jump arm anim_table address in a1. */
                     idle_anim = D_8016FC30;
                     (*(void * *)((u8 *)sprite + 0x2C)) = idle_anim;
                     func_80047784(sprite,

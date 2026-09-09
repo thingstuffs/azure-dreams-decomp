@@ -29,7 +29,7 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
     u16 *fallback_entry;
     s32 fallback_index;
     /* MATCH: Keep the merged sequence argument in a0 through each arm. */
-    register s32 sequence ASM_REG("$4");
+    s32 sequence;
 
     entry_index = func_800C0F60(D_8006ADBC.index);
     if (D_8006ADBC.state == 12) {
@@ -63,7 +63,6 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         sequence = fallback_sequence | sequence_flags;
         sequence = (u16)sequence;
         /* MATCH: Complete argument preparation before the shared call. */
-        ASM_SCHED_BARRIER();
     }
     SD_Call(sequence);
     return 1;

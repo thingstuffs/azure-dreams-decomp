@@ -16,10 +16,9 @@ extern void func_800CEFB8();
 
 /* Process each linked state with func_800CEFB8 in mode one. */
 s32 func_800CEF54(void *initial_state, s32 value, void *data) {
-    register u8 *state ASM_REG("$16") = initial_state;
+    u8 *state = initial_state;
     s32 mode = 1;
 
-    ASM_CLOBBER_A0();
     for (;;) {
         func_800CEFB8(state, value, data, *(s16 *)((u8 *)data + 6), mode);
         data = *(Node **)(state - 8);

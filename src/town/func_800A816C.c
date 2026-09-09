@@ -60,7 +60,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     u8 *coords;
     u8 *flag_page;
 
-    ASM_KEEP_NV(state); /* MATCH: Order the s2 parameter copy before the s0 copy. */
+     /* MATCH: Order the s2 parameter copy before the s0 copy. */
     object_ref = (s32) object;
     town = D_80083160;
     func_80095C80((void *) object_ref);
