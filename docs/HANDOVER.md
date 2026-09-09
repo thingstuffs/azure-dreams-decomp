@@ -123,6 +123,15 @@ could not type), L0 20.4 % (rows still carrying a blocking fidelity site). `STAT
   `nohup python3 tools/campaign.py --plan work/campaign_plan_v2.json > work/campaign_controller.out 2>&1 &`
   (state in `work/campaign_state.json`; delete it to start the plan from the first tier).
 - `levels.py`: a pin named only in a comment is not a pin; sweep journals without an `id` are skipped.
+- **Module map drafted and accepted** (`ledger/modules.jsonl`, 5,861 rows): Astra analyses over
+  `work/modules_input/*.json` (call graph + evidence per row, one file per sub-overlay group),
+  validated by `tools/modules.py` (contiguity, one load base, assertion files, coverage). main 16
+  modules (libcard `c_server.c` twice — the shipped and the devkit copy — and the card UI files, all
+  proven by assertion sites); town resident 51 themed modules (`player_actions.c`, `town_map.c`,
+  …, strong/weak) + 93 script-overlay modules (`main.c`/`lshop.c`/`memory.c` proven, the rest
+  `ovl_<foff>.c`); dungeon engine 35 themed modules + 403 floor-overlay modules (mostly one or two
+  rows, `ovl_<foff>.c`, weak). Names in the map are proposals until a header carries them; the
+  confidence field says which ones rest on evidence. SLUS proposal pending (`work/modules_proposed/slus.json`).
 
 **Traps for the next session:** the controller commits `ledger/agents ledger/promotions.jsonl src`
 after every launch — commit your own tree changes (tools, config, ledger) *before* launching it or
