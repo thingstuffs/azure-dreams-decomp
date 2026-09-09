@@ -14,7 +14,7 @@ extern s32 func_800C8408();
 s32 func_800C8ABC(void *arg0, s16 arg1, s8 arg2)
 {
     S_800C8ABC_0 *held_arg0 = arg0;
-    register s16 held_arg1 ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 held_arg1 = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s8 held_arg2 = arg2;
     register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 divisor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

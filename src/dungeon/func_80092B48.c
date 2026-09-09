@@ -134,7 +134,7 @@ show_message:
         arg0->b84 = head_c[0];
         head_b = D_800DD2B4;
         head_b_value = head_b[0];
-        ASM_SET(head_b);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         var_s2 = 0;
            /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg0->b85 = head_b_value;
