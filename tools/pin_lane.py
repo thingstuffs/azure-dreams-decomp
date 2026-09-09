@@ -76,7 +76,7 @@ Then, by class:
   the instruction, so re-slotting the statement is a dead end (measured 0/3 mechanically).  Change
   the dependence instead: sink a value's computation into both arms of the `if` that produces it,
   or lift it into its own local assigned before the statement it must precede and read only through
-  that local.  `do { stmt; } while (0)` is a zero-byte scheduling barrier that pins a definition
+  that local.  `do {{ stmt; }} while (0)` is a zero-byte scheduling barrier that pins a definition
   point (a bare block does **not** - only the loop note does); it works, it is counted as
   scaffolding by `census.py`, so reach for it only after a real shape has failed.
 - **li-expansion / const-remat / addressing** - `lui;ori` yours against `lui;addiu` retail's means
