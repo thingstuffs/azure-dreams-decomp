@@ -14,3 +14,4 @@ __pycache__/
 /bin/
 /baserom/
 .pytest_cache/
+/build_ovl_*/

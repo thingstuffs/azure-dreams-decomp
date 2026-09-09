@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-08T13:25:10Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-09T00:56:44Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -23,8 +23,8 @@ Baseline NOT exact: 0 rows
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 32 | 6,088 | 0.2% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 120 | 122,816 | 4.8% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 3601 | 1,549,680 | 60.6% |
-| ASM_ pins | 2137 | 1,466,884 | 57.3% | 2040 | 1,426,252 | 55.8% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 3103 | 1,478,512 | 57.8% |
+| ASM_ pins | 2137 | 1,466,884 | 57.3% | 2038 | 1,425,888 | 55.7% |
 | goto | 1545 | 1,318,412 | 51.5% | 1537 | 1,315,716 | 51.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 317 | 437,288 | 17.1% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 355 | 254,424 | 9.9% |
@@ -33,7 +33,7 @@ Baseline NOT exact: 0 rows
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 637 | 518,168 | 20.3% |
 | maspsx marker pins (scaffolding) | 394 | 351,668 | 13.7% | 380 | 345,976 | 13.5% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3175 | 1,611,560 | 63.0% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 2168 | 381,536 | 14.9% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 2576 | 411,480 | 16.1% |
 
 Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,355, TAILSLOT_PIN 501, USE 299, USE_NV 261, KEEP_DEP_NV 184.
 
@@ -42,9 +42,9 @@ Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,
 | level | bytes | % |
 |---|---:|---:|
 | L0 | 2,558,124 | 100.0% |
-| L1 | 2,000,776 | 78.2% |
-| L2 | 1,899,768 | 74.3% |
-| L3 | 1,790,412 | 70.0% |
+| L1 | 2,003,188 | 78.3% |
+| L2 | 1,902,180 | 74.4% |
+| L3 | 1,900,560 | 74.3% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 

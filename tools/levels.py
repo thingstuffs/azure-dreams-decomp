@@ -54,7 +54,8 @@ def main():
         live = live_audit(r, text)                                                       # live: a removed site no longer blocks
         blocking = any(k2 in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k2 in live) or intra_tail_calls(r, text) > 0
         any_site = bool(live)
-        pins = len(PIN_RE.findall(text))
+        code = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))       # a pin named in a comment is not a pin
+        pins = len(PIN_RE.findall(code))
         tail_idiom = len(re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", text)) + len(re.findall(r"\b(?:asm|__asm__)\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", text))
         computed_goto = len(re.findall(r"\bgoto\s*\*", text)); inline_asm = len(re.findall(r"__asm__|\basm\s*\(", re.sub(r"\bASM_[A-Z0-9_]+\(", "", text)))
         boiler = "This header contains macros emitted by m2c" in text or "typedef float f32;" in text
