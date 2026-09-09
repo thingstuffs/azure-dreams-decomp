@@ -94,192 +94,193 @@ typedef struct S_80170EE4_5 {
     u8 unk_25;
 } S_80170EE4_5;   /* origin in func_80170EE4 */
 
-void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
+/* Update dungeon actor behavior, facing, and directional animation. */
+void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object_in, void *actor_data_in)
 {
-    static void *const jt_keep[] = {
+    static void *const action_labels[] = {
         &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6,
         &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12
     };
-    void *arg0 = arg0_;
-    void *arg1 = arg1_;
-    void *arg2 = arg2_;
-    register void *arg3 ASM_REG("$18") = arg3_;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 initial_flags = D_80083462;
-    s16 sp18;
-    s32 flags;
-    s32 kind;
-    s8 tile;
-    s16 result;
-    u16 field46;
-    register void *state ASM_REG("$5"); /* MATCH: merge the selected table in a1 at the shared update. */
-    u8 *table;
-    void *origin;
-    void *actor;
+    void *actor_state = actor_state_in;
+    void *update_context = update_context_in;
+    void *map_object = map_object_in;
+    register void *actor_data ASM_REG("$18") = actor_data_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u32 dungeon_flags = D_80083462;
+    s16 distance;
+    s32 status_flags;
+    s32 action_index;
+    s8 tile_index;
+    s16 facing_angle;
+    u16 action_flags;
+    register void *next_table ASM_REG("$5"); /* MATCH: merge the selected table in a1 at the shared update. */
+    u8 *animation_table;
+    void *target_position;
+    void *target_actor;
 
-    if (initial_flags & 0x1000) {
-        ((S_80170EE4_0 *)arg0)->unk_9A = 14;
-        func_80171460(arg0);
+    if (dungeon_flags & 0x1000) {
+        ((S_80170EE4_0 *)actor_state)->unk_9A = 14;
+        func_80171460(actor_state);
         return;
     }
 
-    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(update_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(actor_data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    if (((S_80170EE4_1 *)arg3)->unk_25 == 0) {
-        func_800AA79C(arg0, arg1, arg2, arg3);
-        if (((S_80170EE4_2 *)arg2)->unk_2C == D_80176650) {
+    if (((S_80170EE4_1 *)actor_data)->unk_25 == 0) {
+        func_800AA79C(actor_state, update_context, map_object, actor_data);
+        if (((S_80170EE4_2 *)map_object)->unk_2C == D_80176650) {
             return;
         }
-        state = D_80176678;
+        next_table = D_80176678;
         goto update_table;
     }
 
-    if (((S_80170EE4_1 *)arg3)->unk_1C & 0x200) {
-        if (((S_80170EE4_2 *)arg2)->unk_2C == D_80176650) {
-            ((S_80170EE4_0 *)arg0)->unk_9A = 13;
-            ((S_80170EE4_0 *)arg0)->unk_9B = 1;
-            ((S_80170EE4_0 *)arg0)->unk_8C = 0;
-            ((S_80170EE4_1 *)arg3)->unk_1C &= ~0x40000;
+    if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x200) {
+        if (((S_80170EE4_2 *)map_object)->unk_2C == D_80176650) {
+            ((S_80170EE4_0 *)actor_state)->unk_9A = 13;
+            ((S_80170EE4_0 *)actor_state)->unk_9B = 1;
+            ((S_80170EE4_0 *)actor_state)->unk_8C = 0;
+            ((S_80170EE4_1 *)actor_data)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(arg0, arg1, arg2, D_80176678) != 0) {
+        if (func_800AA924(actor_state, update_context, map_object, D_80176678) != 0) {
             return;
         }
     }
 
     if ((D_80083462 & 0x2000) == 0) {
-        if (((S_80170EE4_1 *)arg3)->unk_1C & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x100) {
+            func_800AA258(actor_state, update_context, map_object, actor_data);
             return;
         }
 
-        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(actor_state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
-            u8 current_state = 14;
-            if (((S_80170EE4_0 *)arg0)->unk_9A != current_state) {
-                if (((S_80170EE4_2 *)arg2)->unk_2C != D_801765D8) {
-                    (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_801765D8;
+            u8 default_state = 14;
+            if (((S_80170EE4_0 *)actor_state)->unk_9A != default_state) {
+                if (((S_80170EE4_2 *)map_object)->unk_2C != D_801765D8) {
+                    (*(u8 * *)((u8 *)map_object + (0x2C))) = D_801765D8;
                     func_80047784(
-                        arg2,
-                        D_801765D8[((D_80083228 + ((S_80170EE4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                        map_object,
+                        D_801765D8[((D_80083228 + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
-                ((S_80170EE4_0 *)arg0)->unk_9A = current_state;
+                ((S_80170EE4_0 *)actor_state)->unk_9A = default_state;
             }
         }
 
-        ((S_80170EE4_0 *)arg0)->unk_98 &= 0xFFF3;
+        ((S_80170EE4_0 *)actor_state)->unk_98 &= 0xFFF3;
 
-        if (((S_80170EE4_1 *)arg3)->unk_64 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, D_801765E0) != 0) {
+        if (((S_80170EE4_1 *)actor_data)->unk_64 != 0) {
+            if (func_800AA6B4(actor_state, update_context, map_object, D_801765E0) != 0) {
                 return;
             }
         }
 
-        if (((S_80170EE4_1 *)arg3)->unk_1C & 0x80000) {
-            func_800AA888(arg0, arg1, arg2, arg3);
-            func_801737B8(arg0, arg1, arg2, arg3);
+        if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x80000) {
+            func_800AA888(actor_state, update_context, map_object, actor_data);
+            func_801737B8(actor_state, update_context, map_object, actor_data);
             return;
         }
 
-        if ((s16)func_800A1C58(arg3) != 0) {
-            func_800AAB10(arg0, arg1, arg2, arg3);
+        if ((s16)func_800A1C58(actor_data) != 0) {
+            func_800AAB10(actor_state, update_context, map_object, actor_data);
         }
     }
 
-    tile = func_8009FB34(((S_80170EE4_2 *)arg2)->unk_24.at00.v, ((S_80170EE4_2 *)arg2)->unk_24.at01.v);
-    ((S_80170EE4_2 *)arg2)->unk_26 = tile;
+    tile_index = func_8009FB34(((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v);
+    ((S_80170EE4_2 *)map_object)->unk_26 = tile_index;
 
-    if (((S_80170EE4_1 *)arg3)->unk_6D > 0) {
-        if (((S_80170EE4_1 *)arg3)->unk_1C & 0x20) {
+    if (((S_80170EE4_1 *)actor_data)->unk_6D > 0) {
+        if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x20) {
             goto jt_c12;
         }
-        if (((S_80170EE4_2 *)arg2)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80170EE4_2 *)map_object)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto jt_default;
         }
-        field46 = ((S_80170EE4_1 *)arg3)->unk_46;
-        if ((field46 & 0x8000) == 0) {
+        action_flags = ((S_80170EE4_1 *)actor_data)->unk_46;
+        if ((action_flags & 0x8000) == 0) {
             if (D_80083462 & 0x2000) {
                 if ((s16)func_8009A180(
-                        arg3, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                        actor_data, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
             }
-            if ((s16)func_80172114(arg0, arg1, arg2, 0) == 0) {
+            if ((s16)func_80172114(actor_state, update_context, map_object, 0) == 0) {
                 return;
             }
-            field46 = ((S_80170EE4_1 *)arg3)->unk_46 | 0x4000;
-            ((S_80170EE4_1 *)arg3)->unk_46 = field46;
-            if ((field46 & 0x8000) == 0) {
+            action_flags = ((S_80170EE4_1 *)actor_data)->unk_46 | 0x4000;
+            ((S_80170EE4_1 *)actor_data)->unk_46 = action_flags;
+            if ((action_flags & 0x8000) == 0) {
                 goto jt_default;
             }
         }
 
-        kind = (((S_80170EE4_1 *)arg3)->unk_46 & 0x3FFF) - 1;
-        if ((u32)kind >= 12U) {
+        action_index = (((S_80170EE4_1 *)actor_data)->unk_46 & 0x3FFF) - 1;
+        if ((u32)action_index >= 12U) {
             goto jt_default;
         }
-        (void)jt_keep;
-        goto *D_80170808[kind];
+        (void)action_labels;
+        goto *D_80170808[action_index];
 
 jt_c9:
-        if ((s16)func_80171E38(arg0, arg1, arg2, arg3) != 0) {
+        if ((s16)func_80171E38(actor_state, update_context, map_object, actor_data) != 0) {
             return;
         }
         goto call_80171FFC;
 
 jt_c8:
-        if (!(((S_80170EE4_1 *)arg3)->unk_14 & 0x20000000)) {
-            func_80173C40(arg0, arg1, arg2, arg3);
+        if (!(((S_80170EE4_1 *)actor_data)->unk_14 & 0x20000000)) {
+            func_80173C40(actor_state, update_context, map_object, actor_data);
             return;
         }
 call_80171FFC:
-        func_80171FFC(arg0, arg1, arg2, arg3);
+        func_80171FFC(actor_state, update_context, map_object, actor_data);
         return;
 
 jt_c5:
 jt_c6:
 jt_c7:
-        result = func_800A0818(
-            ((S_80170EE4_2 *)arg2)->unk_24.at00.v, ((S_80170EE4_2 *)arg2)->unk_24.at01.v,
-            D_80082E80[0x24], D_80082E80[0x25], &sp18);
-        actor = D_800814A8;
-        ((S_80170EE4_1 *)arg3)->unk_2A = result;
-        if (((S_80170EE4_4 *)actor)->unk_9A == 0x11) {
+        facing_angle = func_800A0818(
+            ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
+            D_80082E80[0x24], D_80082E80[0x25], &distance);
+        target_actor = D_800814A8;
+        ((S_80170EE4_1 *)actor_data)->unk_2A = facing_angle;
+        if (((S_80170EE4_4 *)target_actor)->unk_9A == 0x11) {
             goto jt_call;
         }
 
 jt_c12:
-        func_800A9A0C(arg3);
+        func_800A9A0C(actor_data);
         return;
 
 jt_c1:
 jt_c2:
 jt_c3:
 jt_call:
-        func_800AAF00(arg0, arg1, arg2, D_80176660, D_80170EE4);
+        func_800AAF00(actor_state, update_context, map_object, D_80176660, D_80170EE4);
         return;
 
 jt_c4:
 jt_c10:
 jt_c11:
 jt_default:
-        func_801716A4(arg0, arg1, arg2, arg3);
+        func_801716A4(actor_state, update_context, map_object, actor_data);
         return;
     }
 
-    flags = ((S_80170EE4_1 *)arg3)->unk_1C;
-    if (!(flags & 0x2000)) {
-        if ((tile < 0) ||
-            !(((DungeonRecord *)D_800E2970)[tile].flags & 2)) {
-            if (!(flags & 0x430)) {
-                origin = D_80082E80;
+    status_flags = ((S_80170EE4_1 *)actor_data)->unk_1C;
+    if (!(status_flags & 0x2000)) {
+        if ((tile_index < 0) ||
+            !(((DungeonRecord *)D_800E2970)[tile_index].flags & 2)) {
+            if (!(status_flags & 0x430)) {
+                target_position = D_80082E80;
                 if ((s16)func_8009FD7C(
-                        ((S_80170EE4_2 *)arg2)->unk_24.at00.v, ((S_80170EE4_2 *)arg2)->unk_24.at01.v,
-                        ((S_80170EE4_5 *)origin)->unk_24, ((S_80170EE4_5 *)origin)->unk_25) != 0) {
-                    ((S_80170EE4_1 *)arg3)->unk_2A = func_800A0818(
-                        ((S_80170EE4_2 *)arg2)->unk_24.at00.v, ((S_80170EE4_2 *)arg2)->unk_24.at01.v,
-                        ((S_80170EE4_5 *)origin)->unk_24, ((S_80170EE4_5 *)origin)->unk_25, &sp18);
+                        ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
+                        ((S_80170EE4_5 *)target_position)->unk_24, ((S_80170EE4_5 *)target_position)->unk_25) != 0) {
+                    ((S_80170EE4_1 *)actor_data)->unk_2A = func_800A0818(
+                        ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
+                        ((S_80170EE4_5 *)target_position)->unk_24, ((S_80170EE4_5 *)target_position)->unk_25, &distance);
                 }
             }
         }
@@ -288,20 +289,20 @@ jt_default:
     if (D_80083462 & 0x2000) {
         return;
     }
-    if (((S_80170EE4_2 *)arg2)->unk_14 & 0x40) {
+    if (((S_80170EE4_2 *)map_object)->unk_14 & 0x40) {
         return;
     }
-    table = D_801765D8;
-    if (((S_80170EE4_2 *)arg2)->unk_2C == table) {
+    animation_table = D_801765D8;
+    if (((S_80170EE4_2 *)map_object)->unk_2C == animation_table) {
         return;
     }
-    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    state = table;
+    ASM_KEEP(map_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    next_table = animation_table;
 update_table:
-    table = state;
-    (*(u8 * *)((u8 *)arg2 + (0x2C))) = table;
+    animation_table = next_table;
+    (*(u8 * *)((u8 *)map_object + (0x2C))) = animation_table;
     func_80047784(
-        arg2,
-        *(u8 *)((((D_80083228 + ((S_80170EE4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + (u32)table),
+        map_object,
+        *(u8 *)((((D_80083228 + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7) + (u32)animation_table),
         0);
 }

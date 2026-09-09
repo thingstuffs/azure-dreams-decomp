@@ -81,30 +81,31 @@ extern u8 D_80175E24[];
 extern u8 D_80175E2C[];
 extern u8 D_80175E34[];
 
-void func_8017472C(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates an actor's action state, target coordinates, animation, and completion. */
+void func_8017472C(void *action, void *transform, void *sprite, void *actor)
 {
-    static void *const keepalive[] = {
+    static void *const kind_labels[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_none,
         &&special_1, &&special_2, &&special_3
     };
     s32 state;
-    register s32 special ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 use_player_target;
     s32 kind;
-    u8 *choice;
-    void *object;
-    register void *record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 x;
-    s32 y;
-    u16 timer;
-    register s32 i ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *table;
-    void *state3_object;
-    u32 state3_page;
-    s32 slot_carrier;
+    u8 *move;
+    void *target;
+    register void *target_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 target_x;
+    s32 target_y;
+    u16 ticks_left;
+    register s32 step ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *anim_table;
+    void *current_anim;
+    u32 address_page;
+    s32 delay_slot;
     u8 *control;
 
-    state = ((S_8017472C_0 *)arg0)->unk_9B;
-    special = 0;
+    state = ((S_8017472C_0 *)action)->unk_9B;
+    use_player_target = 0;
     if (state == 1) {
         goto state_1;
     }
@@ -123,26 +124,26 @@ void func_8017472C(void *arg0, void *arg1, void *arg2, void *arg3)
     return;
 
 state_0:
-    if (((S_8017472C_1 *)arg3)->unk_1C & 0x2000) {
-        kind = (((S_8017472C_1 *)arg3)->unk_46 & 0x3FFF) - 1;
+    if (((S_8017472C_1 *)actor)->unk_1C & 0x2000) {
+        kind = (((S_8017472C_1 *)actor)->unk_46 & 0x3FFF) - 1;
         if ((u32)kind >= 7U) {
             goto kind_none;
         }
-        (void)keepalive;
+        (void)kind_labels;
         goto *D_80170850[kind];
 
 special_3:
-        special = 1;
+        use_player_target = 1;
         goto kind_3;
 special_2:
-        special = 1;
+        use_player_target = 1;
         goto kind_2;
 special_1:
-        special = 1;
+        use_player_target = 1;
         goto kind_1;
     }
 
-    kind = ((S_8017472C_1 *)arg3)->unk_46 & 0x3FFF;
+    kind = ((S_8017472C_1 *)actor)->unk_46 & 0x3FFF;
     if (kind == 2) {
         goto kind_2;
     }
@@ -150,8 +151,7 @@ special_1:
         if (kind == 1) {
             goto kind_1;
         }
-        choice = 0;
-        ASM_KEEP(choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        move = 0;
         goto choice_ready;
     }
     if (kind != 3) {
@@ -159,135 +159,134 @@ special_1:
     }
 
 kind_3:
-    choice = (u8 *)arg3 + 0xE;
+    move = (u8 *)actor + 0xE;
     goto choice_ready;
 kind_2:
-    choice = (u8 *)arg3 + 0xB;
+    move = (u8 *)actor + 0xB;
     goto choice_ready;
 kind_1:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    choice = (u8 *)arg3 + 8;
+    move = (u8 *)actor + 8;
     goto choice_ready;
 
 kind_none:
-    choice = 0;
+    move = 0;
 
 choice_ready:
-    if (*choice != 0) {
-        ((S_8017472C_0 *)arg0)->unk_98 &= 0xFF7F;
-        if (special != 0) {
-            object = D_800814A8;
-            ((S_8017472C_1 *)arg3)->unk_60 = object;
+    if (*move != 0) {
+        ((S_8017472C_0 *)action)->unk_98 &= 0xFF7F;
+        if (use_player_target != 0) {
+            target = D_800814A8;
+            ((S_8017472C_1 *)actor)->unk_60 = target;
             goto record_setup;
         }
 
-        if (D_8006DE24[*choice * 20 + 0x12] == 2) {
-            object = ((S_8017472C_1 *)arg3)->unk_60;
-            if (object == 0) {
+        if (D_8006DE24[*move * 20 + 0x12] == 2) {
+            target = ((S_8017472C_1 *)actor)->unk_60;
+            if (target == 0) {
                 goto move_setup;
             }
 record_setup:
-            record = ((S_8017472C_2_pre *)object)[-1].unk_00;
-            ((S_8017472C_1 *)arg3)->unk_72.s = ((S_8017472C_3 *)record)->unk_24;
-            ((S_8017472C_1 *)arg3)->unk_73.s = ((S_8017472C_3 *)record)->unk_25;
+            target_record = ((S_8017472C_2_pre *)target)[-1].unk_00;
+            ((S_8017472C_1 *)actor)->unk_72.s = ((S_8017472C_3 *)target_record)->unk_24;
+            ((S_8017472C_1 *)actor)->unk_73.s = ((S_8017472C_3 *)target_record)->unk_25;
             goto move_setup;
         }
 
-        object = func_800A05A4(
-            arg3,
-            ((S_8017472C_4 *)arg2)->unk_24,
-            ((S_8017472C_4 *)arg2)->unk_25,
-            ((S_8017472C_1 *)arg3)->unk_2A,
+        target = func_800A05A4(
+            actor,
+            ((S_8017472C_4 *)sprite)->unk_24,
+            ((S_8017472C_4 *)sprite)->unk_25,
+            ((S_8017472C_1 *)actor)->unk_2A,
             0x10);
-        ((S_8017472C_1 *)arg3)->unk_60 = object;
+        ((S_8017472C_1 *)actor)->unk_60 = target;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        x = ((S_8017472C_1 *)arg3)->unk_72.u;
-        y = ((S_8017472C_1 *)arg3)->unk_73.u;
-        if (x < 0) {
-            x = -x;
+        target_x = ((S_8017472C_1 *)actor)->unk_72.u;
+        target_y = ((S_8017472C_1 *)actor)->unk_73.u;
+        if (target_x < 0) {
+            target_x = -target_x;
         }
-        if (y < 0) {
-            y = -y;
+        if (target_y < 0) {
+            target_y = -target_y;
         }
-        ((S_8017472C_1 *)arg3)->unk_72.s = x;
-        ((S_8017472C_1 *)arg3)->unk_73.s = y;
+        ((S_8017472C_1 *)actor)->unk_72.s = target_x;
+        ((S_8017472C_1 *)actor)->unk_73.s = target_y;
 
 move_setup:
-        if (func_800A94A0(arg3, choice, special,
-                          (u8 *)arg0 + 0x98) == 0) {
+        if (func_800A94A0(actor, move, use_player_target,
+                          (u8 *)action + 0x98) == 0) {
             return;
         }
-        ((S_8017472C_0 *)arg0)->unk_96.s = 0x16;
-        ((S_8017472C_0 *)arg0)->unk_AE.s = 0xE;
-        ((S_8017472C_0 *)arg0)->unk_9B++;
+        ((S_8017472C_0 *)action)->unk_96.s = 0x16;
+        ((S_8017472C_0 *)action)->unk_AE.s = 0xE;
+        ((S_8017472C_0 *)action)->unk_9B++;
         return;
     }
 
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_8017472C_4 *)arg2)->unk_24, ((S_8017472C_4 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)transform)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)transform)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)transform)->unk_0C.as_s32 = 0;
+    func_800A2B04(transform, ((S_8017472C_4 *)sprite)->unk_24, ((S_8017472C_4 *)sprite)->unk_25);
     D_8008346C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-    func_800A4ACC(arg3);
-    ((S_8017472C_1 *)arg3)->unk_6D--;
-    ((S_8017472C_0 *)arg0)->unk_8C = D_801724BC;
-    ((S_8017472C_1 *)arg3)->unk_73.s = 0;
-    ((S_8017472C_1 *)arg3)->unk_72.s = 0;
-    ((S_8017472C_1 *)arg3)->unk_46 &= 0x7FFF;
+    func_800A4ACC(actor);
+    ((S_8017472C_1 *)actor)->unk_6D--;
+    ((S_8017472C_0 *)action)->unk_8C = D_801724BC;
+    ((S_8017472C_1 *)actor)->unk_73.s = 0;
+    ((S_8017472C_1 *)actor)->unk_72.s = 0;
+    ((S_8017472C_1 *)actor)->unk_46 &= 0x7FFF;
     return;
 
 state_1:
     if (func_8003F270() != 0) {
-        ((S_8017472C_4 *)arg2)->unk_14 |= 0x800;
+        ((S_8017472C_4 *)sprite)->unk_14 |= 0x800;
         return;
     }
-    ((S_8017472C_4 *)arg2)->unk_14 &= 0xF7FF;
-    ((S_8017472C_0 *)arg0)->unk_9B++;
+    ((S_8017472C_4 *)sprite)->unk_14 &= 0xF7FF;
+    ((S_8017472C_0 *)action)->unk_9B++;
     func_800A56E0(0x703);
 
 state_2:
-    ASM_SET(slot_carrier);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    i = 0;
-    if (!(((S_8017472C_0 *)arg0)->unk_96.s & 1) &&
-        ((S_8017472C_0 *)arg0)->unk_AE.s != 0) {
-        ((S_8017472C_0 *)arg0)->unk_AE.u--;
-        ASM_SET(i);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        i = 0;
-        ASM_USE(slot_carrier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_SET(delay_slot);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    step = 0;
+    if (!(((S_8017472C_0 *)action)->unk_96.s & 1) &&
+        ((S_8017472C_0 *)action)->unk_AE.s != 0) {
+        ((S_8017472C_0 *)action)->unk_AE.u--;
+        ASM_SET(step);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        step = 0;
+        ASM_USE(delay_slot);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
     do {
-        func_80171790(arg0, arg1, arg2, arg3);
-        i++;
-    } while (i < 10);
+        func_80171790(action, transform, sprite, actor);
+        step++;
+    } while (step < 10);
 
-    if (((S_8017472C_0 *)arg0)->unk_96.u == 0x16) {
-        func_80171928(arg0, arg1, arg2);
+    if (((S_8017472C_0 *)action)->unk_96.u == 0x16) {
+        func_80171928(action, transform, sprite);
     }
-    timer = ((S_8017472C_0 *)arg0)->unk_96.s - 1;
-    ((S_8017472C_0 *)arg0)->unk_96.s = timer;
-    if ((s32)(timer << 16) > 0 &&
-        !(((S_8017472C_4 *)arg2)->unk_14 & 0xE000)) {
+    ticks_left = ((S_8017472C_0 *)action)->unk_96.s - 1;
+    ((S_8017472C_0 *)action)->unk_96.s = ticks_left;
+    if ((s32)(ticks_left << 16) > 0 &&
+        !(((S_8017472C_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    ((S_8017472C_0 *)arg0)->unk_98 |= 0x80;
-    ((S_8017472C_0 *)arg0)->unk_9B++;
+    ((S_8017472C_0 *)action)->unk_98 |= 0x80;
+    ((S_8017472C_0 *)action)->unk_9B++;
     return;
 
 state_3:
     if (D_8008346C == 0) {
-        ((S_8017472C_0 *)arg0)->unk_96.s = 0;
+        ((S_8017472C_0 *)action)->unk_96.s = 0;
     }
-    if (!(((S_8017472C_4 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((S_8017472C_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
 
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_8017472C_4 *)arg2)->unk_24, ((S_8017472C_4 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)transform)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)transform)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)transform)->unk_0C.as_s32 = 0;
+    func_800A2B04(transform, ((S_8017472C_4 *)sprite)->unk_24, ((S_8017472C_4 *)sprite)->unk_25);
 
-    kind = ((S_8017472C_1 *)arg3)->unk_48;
+    kind = ((S_8017472C_1 *)actor)->unk_48;
     if (kind == 0xE) {
         goto state3_kind_e;
     }
@@ -296,10 +295,10 @@ state_3:
             goto state3_kind_d;
         }
         {
-            state3_page = 0x80080000;
-            ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            state3_object = (u8 *)state3_page + 0x3460;
-            control = state3_object;
+            address_page = 0x80080000;
+            ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            current_anim = (u8 *)address_page + 0x3460;
+            control = current_anim;
             goto control_ready;
         }
     }
@@ -307,39 +306,37 @@ state_3:
         goto state3_kind_f;
     }
     {
-        state3_page = 0x80080000;
-        ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        state3_object = (u8 *)state3_page + 0x3460;
-        control = state3_object;
+        address_page = 0x80080000;
+        ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        current_anim = (u8 *)address_page + 0x3460;
+        control = current_anim;
         goto control_ready;
     }
 
 state3_kind_d:
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        state3_object = ((S_8017472C_4 *)arg2)->unk_2C;
-        state3_page = 0x80170000;
-        ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        table = (u8 *)state3_page + 0x5E24;
+        current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
+        address_page = 0x80170000;
+        ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        anim_table = (u8 *)address_page + 0x5E24;
         goto table_ready;
 state3_kind_e:
-        state3_object = ((S_8017472C_4 *)arg2)->unk_2C;
-        state3_page = 0x80170000;
-        ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        table = (u8 *)state3_page + 0x5E2C;
+        current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
+        address_page = 0x80170000;
+        ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        anim_table = (u8 *)address_page + 0x5E2C;
         goto table_ready;
 state3_kind_f:
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        state3_object = ((S_8017472C_4 *)arg2)->unk_2C;
-        state3_page = 0x80170000;
-        ASM_KEEP(state3_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        table = (u8 *)state3_page + 0x5E34;
+        current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
+        address_page = 0x80170000;
+        ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        anim_table = (u8 *)address_page + 0x5E34;
 
 table_ready:
-    if (state3_object != table) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
+    if (current_anim != anim_table) {
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(
-            arg2,
-            *(u8 *)((((D_80083228 + ((S_8017472C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + (u32)table),
+            sprite,
+            *(u8 *)((((D_80083228 + ((S_8017472C_1 *)actor)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
             0);
     }
 
@@ -349,11 +346,11 @@ control_ready:
         return;
     }
     ((S_8017472C_6 *)control)->unk_0A--;
-    ((S_8017472C_0 *)arg0)->unk_8C = D_801724BC;
-    func_800A4ACC(arg3);
-    ((S_8017472C_1 *)arg3)->unk_73.s = 0;
-    ((S_8017472C_1 *)arg3)->unk_72.s = 0;
-    ((S_8017472C_1 *)arg3)->unk_6D--;
-    ((S_8017472C_1 *)arg3)->unk_46 &= 0x7FFF;
+    ((S_8017472C_0 *)action)->unk_8C = D_801724BC;
+    func_800A4ACC(actor);
+    ((S_8017472C_1 *)actor)->unk_73.s = 0;
+    ((S_8017472C_1 *)actor)->unk_72.s = 0;
+    ((S_8017472C_1 *)actor)->unk_6D--;
+    ((S_8017472C_1 *)actor)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 }

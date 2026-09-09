@@ -91,22 +91,23 @@ typedef struct S_func_800D8728_2 {
     u8 *unk_2C;
 } S_func_800D8728_2;
 
-void func_800D8728(void *arg0, void *arg1, void *arg2)
+/* Update entity callbacks, facing, movement, and floor contact. */
+void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
 {
-    register S_func_800D8728_0 *self ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register S_func_800D8728_0 *entity ASM_REG("$17") = self;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register S_func_800D8728_1 *motion ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    S_func_800D8728_2 *monster = arg2;
-    register S_func_800D8728_0 *actor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register S_func_800D8728_0 *self ASM_REG("$4") = entity_data;
+    register S_func_800D8728_0 *entity ASM_REG("$17") = self;
+    register S_func_800D8728_1 *motion = motion_data;
+    S_func_800D8728_2 *monster = monster_data;
+    register S_func_800D8728_0 *actor ASM_REG("$18");
     s16 previous_direction;
-    register s32 direction_temp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 state_direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 lookup_direction ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 compare_direction ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s16 floor;
-    u16 flags;
+    register s32 direction_sector ASM_REG("$2");
+    register s32 state_direction ASM_REG("$16");
+    register s32 lookup_direction ASM_REG("$21");
+    register s32 compare_direction ASM_REG("$4");
+    s16 floor_height;
+    u16 model_flags;
 
-    ASM_KEEP_NV(self);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(self);
     actor = entity;
     *(u16 *)((u8 *)monster + 0x12) = 0;
 
@@ -120,7 +121,7 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
         return;
     }
 
-    ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_CLOBBER("$5");
     previous_direction = (s8)entity->unk_6D;
     if (func_800A9E70(entity, motion, monster, entity) != 0) {
         return;
@@ -138,32 +139,32 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
         func_800AA36C(entity, motion, monster, entity);
     }
 
-    flags = monster->unk_14;
-    if (!(flags & 0x8000)) {
-        direction_temp = (D_80083228 + entity->unk_2A + 0x100) >> 9;
-        state_direction = direction_temp & 7;
+    model_flags = monster->unk_14;
+    if (!(model_flags & 0x8000)) {
+        direction_sector = (D_80083228 + entity->unk_2A + 0x100) >> 9;
+        state_direction = direction_sector & 7;
         lookup_direction = state_direction;
         compare_direction = state_direction;
         if (entity->unk_94 != compare_direction) {
-            void *table = monster->unk_2C;
-            if (table != 0) {
-                register s32 dir_index ASM_REG("$2") = (s16)compare_direction * 4;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            void *direction_table = monster->unk_2C;
+            if (direction_table != 0) {
+                register s32 direction_offset ASM_REG("$2") = (s16)compare_direction * 4;
                 func_8003DB94(monster,
-                              *(void **)(dir_index + (s32)table),
+                              *(void **)(direction_offset + (s32)direction_table),
                               monster->unk_04);
             }
             entity->unk_94 = state_direction;
         }
 
         {
-            u16 tail_flags;
+            u16 facing_flags;
             if (D_8006CCF8[lookup_direction] != 0) {
-                tail_flags = monster->unk_14 | 1;
+                facing_flags = monster->unk_14 | 1;
             } else {
-                ASM_KEEP(lookup_direction);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                tail_flags = ((volatile S_func_800D8728_2 *)monster)->unk_14 & 0xFFFE;
+                ASM_KEEP(lookup_direction);
+                facing_flags = ((volatile S_func_800D8728_2 *)monster)->unk_14 & 0xFFFE;
             }
-            ((volatile S_func_800D8728_2 *)monster)->unk_14 = tail_flags;
+            ((volatile S_func_800D8728_2 *)monster)->unk_14 = facing_flags;
         }
 
         if (!(actor->unk_1C & 0x20)) {
@@ -175,24 +176,24 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
         }
 
         func_800A020C(actor->unk_1C, (u8 *)monster + 0xC);
-    } else if (flags & 0x800) {
-        monster->unk_14 = flags & 0x8FFF;
+    } else if (model_flags & 0x800) {
+        monster->unk_14 = model_flags & 0x8FFF;
     } else {
-        monster->unk_14 = flags | 0x7000;
+        monster->unk_14 = model_flags | 0x7000;
     }
 
     motion->unk_00.s32 += motion->unk_0C;
     motion->unk_04.s32 += motion->unk_10;
 
     if (entity->unk_9A == 14) {
-        s16 timer;
-        timer = (s16)(--entity->unk_A0.u16);
-        if (timer == 2) {
-            s32 index;
+        s16 hop_timer;
+        hop_timer = (s16)(--entity->unk_A0.u16);
+        if (hop_timer == 2) {
+            s32 hop_direction_offset;
             entity->unk_98 |= 1;
             *(u8 **)((u8 *)monster + 0x2C) = D_800E260C;
-            index = ((D_80083228 + actor->unk_2A + 0x100) >> 7) & 0x1C;
-            func_8003DB94(monster, *(void **)(D_800E260C + index), 0);
+            hop_direction_offset = ((D_80083228 + actor->unk_2A + 0x100) >> 7) & 0x1C;
+            func_8003DB94(monster, *(void **)(D_800E260C + hop_direction_offset), 0);
         }
 
         if (entity->unk_A0.s16 == 0) {
@@ -220,17 +221,16 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
             ((s8)entity->unk_9D * 5) << 14;
         entity->unk_9D++;
     }
-    ASM_USE(entity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     entity->unk_90.s32 += motion->unk_14;
 
     if (!(entity->unk_98 & 4)) {
-        floor = func_800BCB04(motion->unk_00.half.unk_02,
-                              motion->unk_04.half.unk_06,
-                              (s16)(actor->unk_88.u16 - 0x20));
-        if (floor < 0x200) {
-            if (entity->unk_90.half.unk_92.s16 + actor->unk_88.s16 < floor) {
+        floor_height = func_800BCB04(motion->unk_00.half.unk_02,
+                                   motion->unk_04.half.unk_06,
+                                   (s16)(actor->unk_88.u16 - 0x20));
+        if (floor_height < 0x200) {
+            if (entity->unk_90.half.unk_92.s16 + actor->unk_88.s16 < floor_height) {
                 actor->unk_1C &= 0xF7FFFFFF;
-            } else if (floor >= actor->unk_88.s16) {
+            } else if (floor_height >= actor->unk_88.s16) {
                 entity->unk_90.s32 = 0;
                 motion->unk_14 = 0;
                 actor->unk_1C |= 0x08000000;
@@ -239,16 +239,16 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
                 motion->unk_14 = 0;
                 actor->unk_1C |= 0x08000000;
                 entity->unk_9D = 0;
-                entity->unk_90.half.unk_92.u16 = floor - actor->unk_88.u16;
+                entity->unk_90.half.unk_92.u16 = floor_height - actor->unk_88.u16;
             }
 
             if (actor->unk_1C & 0x40000000) {
                 actor->unk_1C &= 0xBFFFFFFF;
-                floor = func_800BCB04((monster->unk_24 << 6) | 0x20,
-                                      (monster->unk_25 << 6) | 0x20,
-                                      (s16)(actor->unk_88.u16 - 0x20));
-                entity->unk_90.half.unk_92.u16 += actor->unk_88.u16 - floor;
-                actor->unk_88.u16 = floor;
+                floor_height = func_800BCB04((monster->unk_24 << 6) | 0x20,
+                                           (monster->unk_25 << 6) | 0x20,
+                                           (s16)(actor->unk_88.u16 - 0x20));
+                entity->unk_90.half.unk_92.u16 += actor->unk_88.u16 - floor_height;
+                actor->unk_88.u16 = floor_height;
             }
             goto finish;
         }
@@ -259,6 +259,6 @@ finish:
     motion->unk_0A =
         actor->unk_88.u16 + entity->unk_90.half.unk_92.u16;
     monster->unk_14 |= 0x40;
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entity);
+    ASM_KEEP(motion);
 }

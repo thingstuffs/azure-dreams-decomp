@@ -131,10 +131,10 @@ typedef struct S_80171D74_21 {
 typedef struct { u32 v; } __attribute__((packed)) UA32;
 typedef struct { UA32 word[8]; } __attribute__((packed)) Table32;
 
-#define SP1_X(a) M2C_FIELD((u8 *)&sp18 + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
-#define SP1_Y(a) M2C_FIELD((u8 *)&sp18 + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
-#define SP2_X(a) M2C_FIELD((u8 *)&sp38 + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
-#define SP2_Y(a) M2C_FIELD((u8 *)&sp38 + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
+#define SP1_X(a) M2C_FIELD((u8 *)&offset_table + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
+#define SP1_Y(a) M2C_FIELD((u8 *)&offset_table + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
+#define SP2_X(a) M2C_FIELD((u8 *)&direction_table + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
+#define SP2_Y(a) M2C_FIELD((u8 *)&direction_table + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
 #define SP1_X_AT(base, a) M2C_FIELD((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
 #define SP1_Y_AT(base, a) M2C_FIELD((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
 #define SP2_X_AT(base, a) M2C_FIELD((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
@@ -173,10 +173,11 @@ extern void *D_80175D50[3];
 extern void *D_80175D54[3];
 extern void *D_80175DB8[16];
 
-void func_80171D74(void *arg0_in, void *arg1_in, void *arg2_in) {
-    Table32 sp18;
-    Table32 sp38;
-    static void *const jt_keep[] = {
+/* Advances a scripted movement sequence and updates the sprite facing. */
+void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
+    Table32 offset_table;
+    Table32 direction_table;
+    static void *const phase_labels[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6,
         &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13,
         &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17, &&jt_c18, &&jt_c19, &&jt_c20,
@@ -185,684 +186,665 @@ void func_80171D74(void *arg0_in, void *arg1_in, void *arg2_in) {
         &&jt_c35, &&jt_c36, &&jt_c37, &&jt_c38, &&jt_c39, &&jt_c40, &&jt_c41,
         &&jt_c42, &&jt_c43, &&jt_c44, &&jt_c45, &&jt_c46, &&jt_c47, &&jt_c48
     };
-    M2C_UNK *var_v0_2;
-    s16 temp_a0_11;
-    s16 temp_a0_13;
-    s16 temp_a0_5;
-    s16 temp_s2_2;
-    s16 temp_v1_2;
-    s16 temp_v1_6;
-    s16 temp_v1_7;
-    s16 var_v1_6;
-    s16 var_v1_8;
-    s32 temp_a1_4;
-    s32 temp_a1_8;
-    void *arg0;
-    register void *arg1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *arg2;
+    s16 right_angle;
+    s16 quarter_turn;
+    s16 sprite_dir;
+    s16 turn_frame;
+    s16 spin_frame;
+    s16 owner_height;
+    s16 turn_value;
+    s16 facing_angle;
+    s32 move_component;
+    s32 speed;
+    void *state;
+    register void *motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *sprite;
     Table32 *copy_base;
-    register s32 *base833c ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 *map_info ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 map_tiles;
     u8 tail_phase;
-    s32 temp_v1_3;
-    u16 temp_a0_12;
-    u16 temp_a0_14;
-    u16 temp_a0_2;
-    u16 temp_a0_4;
-    u16 temp_a0_7;
-    u16 temp_a0_8;
-    u16 temp_v0;
-    u16 temp_v0_10;
-    u16 temp_v0_11;
-    u16 temp_v0_21;
-    u16 temp_v0_22;
-    u16 temp_v0_23;
-    u16 temp_v0_24;
-    u16 temp_v0_25;
-    u16 temp_v0_26;
-    u16 temp_v0_27;
-    u16 temp_v0_28;
-    u16 temp_v0_29;
-    u16 temp_v0_2;
-    u16 temp_v0_30;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    u16 temp_v0_5;
-    u16 temp_v0_6;
-    u16 temp_v0_7;
-    u16 temp_v0_8;
-    u16 temp_v0_9;
-    u16 temp_v1;
-    u16 var_v1;
-    u16 var_v1_3;
-    u16 var_v1_4;
-    u16 var_v1_5;
-    u16 var_v1_7;
-    u16 var_v1_9;
-    s32 temp_a0;
-    s32 temp_a0_10;
-    s32 temp_a0_9;
-    S_80171D74_8 *temp_a1_2;
-    s32 temp_a1_3;
-    s32 temp_a1_5;
-    s32 temp_a1_6;
-    s32 temp_a1_7;
-    S_80171D74_4 *temp_s3;
-    register void *temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_80171D74_13 *temp_v0_12;
-    S_80171D74_14 *temp_v0_13;
-    S_80171D74_15 *temp_v0_14;
-    S_80171D74_16 *temp_v0_15;
-    S_80171D74_17 *temp_v0_16;
-    S_80171D74_18 *temp_v0_17;
-    S_80171D74_19 *temp_v0_18;
-    S_80171D74_20 *temp_v0_19;
-    S_80171D74_21 *temp_v0_20;
-    s32 temp_v1_4;
-    s32 temp_v1_5;
+    u16 left_angle;
+    u16 wait_frame;
+    u16 return_frames;
+    u16 arc_frame;
+    u16 approach_frames;
+    u16 bounce_frame;
+    u16 spin_up_frame;
+    u16 launch_frame;
+    u16 hop_frame;
+    u16 wobble_frame;
+    u16 frame_or_height;
+    u16 spiral_frame;
+    u16 effect_wait_frame;
+    u16 rise_frame;
+    u16 finish_frame;
+    u16 pause_frame;
+    u16 sway_frame;
+    u16 lift_frame;
+    u16 slide_frame;
+    u16 appear_frame;
+    u16 travel_frame;
+    u16 turned_angle;
+    u16 old_angle;
+    s32 phase;
+    s32 hop_vel_y;
+    s32 launch_vel_y;
+    S_80171D74_8 *target_state;
+    s32 launch_vel_z;
+    s32 hop_vel_z;
+    S_80171D74_4 *owner_state;
+    register void *target_pos ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_80171D74_13 *tile_nw;
+    S_80171D74_14 *tile_n;
+    S_80171D74_15 *tile_ne;
+    S_80171D74_16 *tile_w;
+    S_80171D74_17 *tile_center;
+    S_80171D74_18 *tile_e;
+    S_80171D74_19 *tile_sw;
+    S_80171D74_20 *tile_s;
+    S_80171D74_21 *tile_se;
 
-    arg0 = arg0_in;
-    arg1 = arg1_in;
-    arg2 = arg2_in;
-    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    state = state_in;
+    motion = motion_in;
+    sprite = sprite_in;
+    ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(motion);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     copy_base = &D_8016482C;
-    sp18 = *copy_base;
+    offset_table = *copy_base;
     copy_base = &D_80164AC0;
-    sp38 = *copy_base;
-    base833c = D_8008333C;
-    temp_s2 = ((S_80171D74_0 *)D_8008333C)->unk_00;
-    temp_s3 = D_80175D54[0] + 0x20;
-    func_800478B8(arg2);
-    temp_a0 = ((S_80171D74_1 *)arg0)->unk_9A;
-    temp_s4 = ((S_80171D74_2 *)(D_80175D50[0]))->unk_08;
-    temp_a1_2 = D_80175D50[0] + 0x20;
-    if ((u32)temp_a0 >= 49U) {
-        goto block_152;
+    direction_table = *copy_base;
+    map_info = D_8008333C;
+    map_tiles = ((S_80171D74_0 *)D_8008333C)->unk_00;
+    owner_state = D_80175D54[0] + 0x20;
+    func_800478B8(sprite);
+    phase = ((S_80171D74_1 *)state)->unk_9A;
+    target_pos = ((S_80171D74_2 *)(D_80175D50[0]))->unk_08;
+    target_state = D_80175D50[0] + 0x20;
+    if ((u32)phase >= 49U) {
+        goto update_sprite;
     }
-    (void)jt_keep;
-    goto *D_80164AE0[(u32)temp_a0];
+    (void)phase_labels;
+    goto *D_80164AE0[(u32)phase];
 jt_c0:
-        temp_v0 = ((S_80171D74_1 *)arg0)->unk_96;
-        ((S_80171D74_1 *)arg0)->unk_96 = (u16) (temp_v0 + 1);
-        if ((s16) temp_v0 >= 0x1E) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_3 *)arg1)->unk_10.n = (s32) 0xFFF80000;
-            goto block_147;
+        wait_frame = ((S_80171D74_1 *)state)->unk_96;
+        ((S_80171D74_1 *)state)->unk_96 = (u16) (wait_frame + 1);
+        if ((s16) wait_frame >= 0x1E) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_3 *)motion)->unk_10.n = (s32) 0xFFF80000;
+            goto update_height;
         }
-        goto block_147;
+        goto update_height;
 jt_c1:
-        ((S_80171D74_3 *)arg1)->unk_04.at00.v = ((S_80171D74_3 *)arg1)->unk_04.at00.v + ((S_80171D74_3 *)arg1)->unk_10.n;
-        temp_v0_2 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_2;
-        if ((s16) temp_v0_2 >= 0x38) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
+        ((S_80171D74_3 *)motion)->unk_04.at00.v = ((S_80171D74_3 *)motion)->unk_04.at00.v + ((S_80171D74_3 *)motion)->unk_10.n;
+        rise_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = rise_frame;
+        if ((s16) rise_frame >= 0x38) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
             ASM_SCHED_BARRIER(); /* MATCH: preserve the distinct case tail and its delay-slot store. */
-            ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
-            goto block_147;
+            ((S_80171D74_3 *)motion)->unk_0C.n = 0;
+            goto update_height;
         }
-        goto block_147;
+        goto update_height;
 jt_c2:
-        temp_v0_3 = ((S_80171D74_1 *)arg0)->unk_96;
-        ((S_80171D74_1 *)arg0)->unk_96 = (u16) (temp_v0_3 + 1);
-        if ((s16) temp_v0_3 >= 0x1E) {
-            u8 phase2;
-            phase2 = ((S_80171D74_1 *)arg0)->unk_9A;
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            phase2 = phase2 + 1;
+        pause_frame = ((S_80171D74_1 *)state)->unk_96;
+        ((S_80171D74_1 *)state)->unk_96 = (u16) (pause_frame + 1);
+        if ((s16) pause_frame >= 0x1E) {
+            u8 next_phase;
+            next_phase = ((S_80171D74_1 *)state)->unk_9A;
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            next_phase = next_phase + 1;
             ASM_SCHED_BARRIER(); /* MATCH: preserve the distinct case tail and its delay-slot store. */
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) phase2;
-            goto block_147;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) next_phase;
+            goto update_height;
         }
-        goto block_147;
+        goto update_height;
 jt_c3:
-        temp_v0_4 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_4;
-        if ((s16) temp_v0_4 == 3) {
-            temp_s3->unk_2A.n = (u16) (temp_s3->unk_2A.n + 0x200);
+        sway_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = sway_frame;
+        if ((s16) sway_frame == 3) {
+            owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n + 0x200);
         }
-        if ((s16) ((S_80171D74_1 *)arg0)->unk_96 == 4) {
-            temp_s3->unk_2A.n = (u16) (temp_s3->unk_2A.n + 0x200);
+        if ((s16) ((S_80171D74_1 *)state)->unk_96 == 4) {
+            owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n + 0x200);
         }
-        if ((s16) ((S_80171D74_1 *)arg0)->unk_96 == 0x12) {
-            temp_s3->unk_2A.n = (u16) (temp_s3->unk_2A.n - 0x200);
+        if ((s16) ((S_80171D74_1 *)state)->unk_96 == 0x12) {
+            owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n - 0x200);
         }
-        if ((s16) ((S_80171D74_1 *)arg0)->unk_96 == 0x14) {
-            temp_s3->unk_2A.n = (u16) (temp_s3->unk_2A.n - 0x200);
+        if ((s16) ((S_80171D74_1 *)state)->unk_96 == 0x14) {
+            owner_state->unk_2A.n = (u16) (owner_state->unk_2A.n - 0x200);
         }
-        if ((s16) ((S_80171D74_1 *)arg0)->unk_96 == 0x1E) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
-            ((S_80171D74_3 *)arg1)->unk_10.n = (s32) 0xFFF80000;
-            goto block_147;
+        if ((s16) ((S_80171D74_1 *)state)->unk_96 == 0x1E) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_3 *)motion)->unk_0C.n = 0;
+            ((S_80171D74_3 *)motion)->unk_10.n = (s32) 0xFFF80000;
+            goto update_height;
         }
-        goto block_147;
+        goto update_height;
 jt_c4:
-        ((S_80171D74_3 *)arg1)->unk_04.at00.v = ((S_80171D74_3 *)arg1)->unk_04.at00.v + ((S_80171D74_3 *)arg1)->unk_10.n;
-        temp_v0_5 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_5;
-        if ((s16) temp_v0_5 >= 0x10) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
-            goto block_147;
+        ((S_80171D74_3 *)motion)->unk_04.at00.v = ((S_80171D74_3 *)motion)->unk_04.at00.v + ((S_80171D74_3 *)motion)->unk_10.n;
+        lift_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = lift_frame;
+        if ((s16) lift_frame >= 0x10) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_3 *)motion)->unk_0C.n = 0;
+            goto update_height;
         }
-        goto block_147;
+        goto update_height;
 jt_c6:
-        ((S_80171D74_5 *)arg2)->unk_2C.p = &D_80173DAC;
-        func_80047784(arg2, D_80173DAC[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) temp_s3->unk_2A.n + 0x100) >> 9) & 7], 3);
-        ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-        ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-        ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) 0x00020000;
-        goto block_152;
+        ((S_80171D74_5 *)sprite)->unk_2C.p = &D_80173DAC;
+        func_80047784(sprite, D_80173DAC[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 3);
+        ((S_80171D74_1 *)state)->unk_96 = 0U;
+        ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+        ((S_80171D74_3 *)motion)->unk_0C.n = (s32) 0x00020000;
+        goto update_sprite;
 jt_c7:
-        ((S_80171D74_3 *)arg1)->unk_00.at00.v = (s32) (((S_80171D74_3 *)arg1)->unk_00.at00.v + ((S_80171D74_3 *)arg1)->unk_0C.n);
-        temp_v0_6 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_6;
-        if ((s16) temp_v0_6 >= 8) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
-            ((S_80171D74_5 *)arg2)->unk_14 = (u16) (((S_80171D74_5 *)arg2)->unk_14 | 0x80);
-            ((S_80171D74_3 *)arg1)->unk_04.at02.v = 1;
-            ((S_80171D74_3 *)arg1)->unk_00.at02.v = 1U;
+        ((S_80171D74_3 *)motion)->unk_00.at00.v = (s32) (((S_80171D74_3 *)motion)->unk_00.at00.v + ((S_80171D74_3 *)motion)->unk_0C.n);
+        slide_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = slide_frame;
+        if ((s16) slide_frame >= 8) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_3 *)motion)->unk_0C.n = 0;
+            ((S_80171D74_5 *)sprite)->unk_14 = (u16) (((S_80171D74_5 *)sprite)->unk_14 | 0x80);
+            ((S_80171D74_3 *)motion)->unk_04.at02.v = 1;
+            ((S_80171D74_3 *)motion)->unk_00.at02.v = 1U;
         }
-        if ((s16) ((S_80171D74_1 *)arg0)->unk_96 == 3) {
-            func_80166F3C(temp_s4, 0);
-            func_80166F3C(temp_s4, 1);
-            func_8016738C(temp_s4);
-            func_801676CC(temp_s4);
-            goto block_152;
+        if ((s16) ((S_80171D74_1 *)state)->unk_96 == 3) {
+            func_80166F3C(target_pos, 0);
+            func_80166F3C(target_pos, 1);
+            func_8016738C(target_pos);
+            func_801676CC(target_pos);
+            goto update_sprite;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c9:
-        func_801677FC(temp_a0, temp_a1_2);
-        tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
-        ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ((S_80171D74_1 *)arg0)->unk_96 = 0;
-        goto tail_73074;
+        func_801677FC(phase, target_state);
+        tail_phase = ((S_80171D74_1 *)state)->unk_9A;
+        ((S_80171D74_1 *)state)->unk_96 = 0;
+        goto advance_phase;
 jt_c10:
-        temp_v0_7 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_7;
-        if ((s16) temp_v0_7 >= 2) {
-            u8 *sp1_base = (u8 *)&sp18;
-            u8 *sp2_base;
+        appear_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = appear_frame;
+        if ((s16) appear_frame >= 2) {
+            u8 *offset_base = (u8 *)&offset_table;
+            u8 *direction_base;
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
             register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_5 *)arg2)->unk_14 = (u16) (((S_80171D74_5 *)arg2)->unk_14 & 0xFF7F);
-            ((S_80171D74_3 *)arg1)->unk_00.at02.v = (u16) (((S_80171D74_7 *)temp_s4)->unk_00.at02.v + (SP1_X_AT(sp1_base, temp_a1_2->unk_2A) * 0x28));
-            ((S_80171D74_3 *)arg1)->unk_04.at02.v = (s16) (((S_80171D74_7 *)temp_s4)->unk_04.at02.v + ((s16) SP1_Y_AT(sp1_base, temp_a1_2->unk_2A) * 0x28));
-            ((S_80171D74_1 *)arg0)->unk_92.s = -0x18;
-            ((S_80171D74_1 *)arg0)->unk_9E = 0;
-            ((S_80171D74_1 *)arg0)->unk_A0.at00.v = 0;
-            angle_input = temp_a1_2->unk_2A;
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_5 *)sprite)->unk_14 = (u16) (((S_80171D74_5 *)sprite)->unk_14 & 0xFF7F);
+            ((S_80171D74_3 *)motion)->unk_00.at02.v = (u16) (((S_80171D74_7 *)target_pos)->unk_00.at02.v + (SP1_X_AT(offset_base, target_state->unk_2A) * 0x28));
+            ((S_80171D74_3 *)motion)->unk_04.at02.v = (s16) (((S_80171D74_7 *)target_pos)->unk_04.at02.v + ((s16) SP1_Y_AT(offset_base, target_state->unk_2A) * 0x28));
+            ((S_80171D74_1 *)state)->unk_92.s = -0x18;
+            ((S_80171D74_1 *)state)->unk_9E = 0;
+            ((S_80171D74_1 *)state)->unk_A0.at00.v = 0;
+            angle_input = target_state->unk_2A;
             angle_tmp = angle_input - 0x400;
             angle_result = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
                 angle_result = angle_tmp + 0x1000;
             }
-            temp_s3->unk_2A.n = angle_result;
-            ((S_80171D74_1 *)arg0)->unk_94 = 1;
-            ((S_80171D74_5 *)arg2)->unk_2C.p = &D_80173DB4;
-            func_80047784(arg2, D_80173DB4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) temp_s3->unk_2A.n + 0x100) >> 9) & 7], 0);
-            sp2_base = (u8 *)&sp38;
-            ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) (0 - (SP2_X_AT(sp2_base, temp_s3->unk_2A.n) << 0x10));
-            ((S_80171D74_3 *)arg1)->unk_10.n = (void *) (0 - (SP2_Y_AT(sp2_base, temp_s3->unk_2A.n) << 0x10));
+            owner_state->unk_2A.n = angle_result;
+            ((S_80171D74_1 *)state)->unk_94 = 1;
+            ((S_80171D74_5 *)sprite)->unk_2C.p = &D_80173DB4;
+            func_80047784(sprite, D_80173DB4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            direction_base = (u8 *)&direction_table;
+            ((S_80171D74_3 *)motion)->unk_0C.n = (s32) (0 - (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x10));
+            ((S_80171D74_3 *)motion)->unk_10.n = (void *) (0 - (SP2_Y_AT(direction_base, owner_state->unk_2A.n) << 0x10));
             func_801715D0();
-            goto block_147;
+            goto update_height;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c11:
         {
-            s32 pos_x = ((S_80171D74_3 *)arg1)->unk_00.at00.v;
-            s32 vel_x = ((S_80171D74_3 *)arg1)->unk_0C.n;
-            s32 pos_y = ((S_80171D74_3 *)arg1)->unk_04.at00.v;
-            s32 vel_y = ((S_80171D74_3 *)arg1)->unk_10.n;
-            ((S_80171D74_3 *)arg1)->unk_00.at00.v = pos_x + vel_x;
-            ((S_80171D74_3 *)arg1)->unk_04.at00.v = pos_y + vel_y;
+            s32 pos_x = ((S_80171D74_3 *)motion)->unk_00.at00.v;
+            s32 vel_x = ((S_80171D74_3 *)motion)->unk_0C.n;
+            s32 pos_y = ((S_80171D74_3 *)motion)->unk_04.at00.v;
+            s32 vel_y = ((S_80171D74_3 *)motion)->unk_10.n;
+            ((S_80171D74_3 *)motion)->unk_00.at00.v = pos_x + vel_x;
+            ((S_80171D74_3 *)motion)->unk_04.at00.v = pos_y + vel_y;
         }
-        temp_v0_8 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_8;
-        if ((s16) temp_v0_8 >= 0x14) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            goto block_147;
+        travel_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = travel_frame;
+        if ((s16) travel_frame >= 0x14) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            goto update_height;
         }
-        goto block_147;
+        goto update_height;
 jt_c13:
-        temp_v1 = temp_s3->unk_2A.n;
-        temp_v0_9 = temp_v1 + 0x200;
-        temp_s3->unk_2A.n = temp_v0_9;
-        if ((s16) temp_v0_9 >= 0x1000) {
-            temp_s3->unk_2A.n = (u16) (temp_v1 - 0xE00);
+        old_angle = owner_state->unk_2A.n;
+        turned_angle = old_angle + 0x200;
+        owner_state->unk_2A.n = turned_angle;
+        if ((s16) turned_angle >= 0x1000) {
+            owner_state->unk_2A.n = (u16) (old_angle - 0xE00);
         }
-        ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-        ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-        temp_a1_2->unk_27 = 3;
-        goto block_147;
+        ((S_80171D74_1 *)state)->unk_96 = 0U;
+        ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+        target_state->unk_27 = 3;
+        goto update_height;
 jt_c15:
-        ((S_80171D74_1 *)arg0)->unk_96 = 0x1EU;
-        ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
+        ((S_80171D74_1 *)state)->unk_96 = 0x1EU;
+        ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
         /* fallthrough */
 jt_c16:
         {
             s32 target_x = ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at00_vs32.v;
-            temp_a1_4 = ((S_80171D74_3 *)arg1)->unk_00.at00u.v;
-            ((S_80171D74_3 *)arg1)->unk_0C.n = (target_x - temp_a1_4) / (s16) ((S_80171D74_1 *)arg0)->unk_96;
+            move_component = ((S_80171D74_3 *)motion)->unk_00.at00u.v;
+            ((S_80171D74_3 *)motion)->unk_0C.n = (target_x - move_component) / (s16) ((S_80171D74_1 *)state)->unk_96;
         }
         {
-            s32 next_y = (((Rec_D_800E3D7C *)(&D_80083780))->unk_04.at00_s32.v - ((S_80171D74_3 *)arg1)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)arg0)->unk_96;
-            s32 vel_x = ((S_80171D74_3 *)arg1)->unk_0C.v;
-            s32 pos_y = ((S_80171D74_3 *)arg1)->unk_04.at00u.v;
+            s32 next_y = (((Rec_D_800E3D7C *)(&D_80083780))->unk_04.at00_s32.v - ((S_80171D74_3 *)motion)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state)->unk_96;
+            s32 vel_x = ((S_80171D74_3 *)motion)->unk_0C.v;
+            s32 pos_y = ((S_80171D74_3 *)motion)->unk_04.at00u.v;
             s32 next_x;
-            ((S_80171D74_3 *)arg1)->unk_10.v = next_y;
-            next_x = temp_a1_4;
-            temp_a1_4 = ((S_80171D74_3 *)arg1)->unk_10.v;
-            ((S_80171D74_3 *)arg1)->unk_00.at00.v = next_x + vel_x;
-            ((S_80171D74_3 *)arg1)->unk_04.at00.v = pos_y + temp_a1_4;
+            ((S_80171D74_3 *)motion)->unk_10.v = next_y;
+            next_x = move_component;
+            move_component = ((S_80171D74_3 *)motion)->unk_10.v;
+            ((S_80171D74_3 *)motion)->unk_00.at00.v = next_x + vel_x;
+            ((S_80171D74_3 *)motion)->unk_04.at00.v = pos_y + move_component;
         }
-        temp_v0_10 = ((S_80171D74_1 *)arg0)->unk_96 - 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_10;
-        if ((temp_v0_10 << 0x10) <= 0) {
-            u8 *sp2_base16;
-            register s32 angle_input16 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            s32 angle_tmp16;
-            register s32 angle_result16 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            register u32 angle_index16 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
+        return_frames = ((S_80171D74_1 *)state)->unk_96 - 1;
+        ((S_80171D74_1 *)state)->unk_96 = return_frames;
+        if ((return_frames << 0x10) <= 0) {
+            u8 *direction_entry;
+            register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            s32 angle_tmp;
+            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            register u32 direction_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
             ((S_80171D74_10 *)(D_80175DB8[0]))->unk_32 = 3;
-            ((S_80171D74_5 *)arg2)->unk_2C.p = &D_80173DA4;
-            func_80047784(arg2, D_80173DA4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) temp_s3->unk_2A.n + 0x100) >> 9) & 7], 0);
-            angle_input16 = temp_s3->unk_2A.n;
-            angle_tmp16 = angle_input16 + 0x200;
-            angle_result16 = angle_tmp16;
-            if ((s16) angle_tmp16 >= 0x1000) {
-                angle_result16 = angle_tmp16 - 0x1000;
+            ((S_80171D74_5 *)sprite)->unk_2C.p = &D_80173DA4;
+            func_80047784(sprite, D_80173DA4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            angle_input = owner_state->unk_2A.n;
+            angle_tmp = angle_input + 0x200;
+            angle_result = angle_tmp;
+            if ((s16) angle_tmp >= 0x1000) {
+                angle_result = angle_tmp - 0x1000;
             }
-            angle_index16 = ((u16) angle_result16 >> 7) & 0x1C;
-            sp2_base16 = (u8 *)&sp38;
-            sp2_base16 += angle_index16;
-            ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) (((S_80171D74_11 *)sp2_base16)->unk_00 << 0x10);
-            ((S_80171D74_3 *)arg1)->unk_10.n = (s32) (((S_80171D74_11 *)sp2_base16)->unk_02 << 0x10);
-            goto block_147;
+            direction_offset = ((u16) angle_result >> 7) & 0x1C;
+            direction_entry = (u8 *)&direction_table;
+            direction_entry += direction_offset;
+            ((S_80171D74_3 *)motion)->unk_0C.n = (s32) (((S_80171D74_11 *)direction_entry)->unk_00 << 0x10);
+            ((S_80171D74_3 *)motion)->unk_10.n = (s32) (((S_80171D74_11 *)direction_entry)->unk_02 << 0x10);
+            goto update_height;
         }
-        goto block_147;
+        goto update_height;
 jt_c17:
         {
-            s32 pos_x = ((S_80171D74_3 *)arg1)->unk_00.at00.v;
-            s32 vel_x = ((S_80171D74_3 *)arg1)->unk_0C.n;
-            s32 pos_y = ((S_80171D74_3 *)arg1)->unk_04.at00.v;
-            s32 vel_y = ((S_80171D74_3 *)arg1)->unk_10.n;
-            ((S_80171D74_3 *)arg1)->unk_00.at00.v = pos_x + vel_x;
-            ((S_80171D74_3 *)arg1)->unk_04.at00.v = pos_y + vel_y;
+            s32 pos_x = ((S_80171D74_3 *)motion)->unk_00.at00.v;
+            s32 vel_x = ((S_80171D74_3 *)motion)->unk_0C.n;
+            s32 pos_y = ((S_80171D74_3 *)motion)->unk_04.at00.v;
+            s32 vel_y = ((S_80171D74_3 *)motion)->unk_10.n;
+            ((S_80171D74_3 *)motion)->unk_00.at00.v = pos_x + vel_x;
+            ((S_80171D74_3 *)motion)->unk_04.at00.v = pos_y + vel_y;
         }
         {
-            u16 pitch17;
-            u16 phase17;
-            pitch17 = ((S_80171D74_1 *)arg0)->unk_92.u;
-            phase17 = ((S_80171D74_1 *)arg0)->unk_96;
-            pitch17 = pitch17 - 2;
-            ASM_KEEP_NV(pitch17);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            phase17 = phase17 + 1;
-            temp_v0_11 = phase17;
-            ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_11;
-            ((S_80171D74_1 *)arg0)->unk_92.u = pitch17;
+            u16 height_offset;
+            u16 next_frame;
+            height_offset = ((S_80171D74_1 *)state)->unk_92.u;
+            next_frame = ((S_80171D74_1 *)state)->unk_96;
+            height_offset = height_offset - 2;
+            ASM_KEEP_NV(height_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            next_frame = next_frame + 1;
+            arc_frame = next_frame;
+            ((S_80171D74_1 *)state)->unk_96 = arc_frame;
+            ((S_80171D74_1 *)state)->unk_92.u = height_offset;
         }
-        if ((s16) temp_v0_11 >= 0x28) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_3 *)arg1)->unk_10.n = NULL;
-            ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
+        if ((s16) arc_frame >= 0x28) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_3 *)motion)->unk_10.n = NULL;
+            ((S_80171D74_3 *)motion)->unk_0C.n = 0;
         }
-        temp_v1_2 = (s16) ((S_80171D74_1 *)arg0)->unk_96;
-        if ((temp_v1_2 == 0xA) || (temp_v1_2 == 0x14) || (temp_v1_2 == 0x1E)) {
+        turn_frame = (s16) ((S_80171D74_1 *)state)->unk_96;
+        if ((turn_frame == 0xA) || (turn_frame == 0x14) || (turn_frame == 0x1E)) {
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
             register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            angle_input = temp_s3->unk_2A.n;
+            angle_input = owner_state->unk_2A.n;
             angle_tmp = angle_input - 0x200;
             angle_result = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
                 angle_result = angle_tmp + 0x1000;
             }
-            temp_s3->unk_2A.n = angle_result;
-            if ((s16) ((S_80171D74_1 *)arg0)->unk_96 == 0x1E) {
+            owner_state->unk_2A.n = angle_result;
+            if ((s16) ((S_80171D74_1 *)state)->unk_96 == 0x1E) {
                 func_800A56E0(0x81A);
-                goto block_147;
+                goto update_height;
             }
-            goto block_147;
+            goto update_height;
         }
-        goto block_147;
+        goto update_height;
 jt_c19:
-        ((S_80171D74_1 *)arg0)->unk_96 = 0x14U;
-        ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-        temp_v0_12 = ((0x1F << ((S_80171D74_12 *)base833c)->unk_14) * 6) + temp_s2 + 0xBA;
-        temp_v0_12->unk_04 = (u16) (temp_v0_12->unk_04 & 0x7FFF);
-        temp_v0_13 = ((0x1F << ((S_80171D74_12 *)base833c)->unk_14) * 6) + temp_s2 + 0xC0;
-        temp_v0_13->unk_04 = (u16) (temp_v0_13->unk_04 & 0x7FFF);
-        temp_v0_14 = ((0x1F << ((S_80171D74_12 *)base833c)->unk_14) * 6) + temp_s2 + 0xC6;
-        temp_v0_14->unk_04 = (u16) (temp_v0_14->unk_04 & 0x7FFF);
-        temp_v0_15 = ((0x20 << ((S_80171D74_12 *)base833c)->unk_14) * 6) + temp_s2 + 0xBA;
-        temp_v0_15->unk_04 = (u16) (temp_v0_15->unk_04 & 0x7FFF);
-        temp_v0_16 = ((0x20 << ((S_80171D74_12 *)base833c)->unk_14) * 6) + temp_s2 + 0xC0;
-        temp_v0_16->unk_04 = (u16) (temp_v0_16->unk_04 & 0x7FFF);
-        temp_v0_17 = ((0x20 << ((S_80171D74_12 *)base833c)->unk_14) * 6) + temp_s2 + 0xC6;
-        temp_v0_17->unk_04 = (u16) (temp_v0_17->unk_04 & 0x7FFF);
-        temp_v0_18 = ((0x21 << ((S_80171D74_12 *)base833c)->unk_14) * 6) + temp_s2 + 0xBA;
-        temp_v0_18->unk_04 = (u16) (temp_v0_18->unk_04 & 0x7FFF);
-        temp_v0_19 = ((0x21 << ((S_80171D74_12 *)base833c)->unk_14) * 6) + temp_s2 + 0xC0;
-        temp_v0_19->unk_04 = (u16) (temp_v0_19->unk_04 & 0x7FFF);
-        temp_v0_20 = ((0x21 << ((S_80171D74_12 *)base833c)->unk_14) * 6) + temp_s2 + 0xC6;
-        temp_v0_20->unk_04 = (u16) (temp_v0_20->unk_04 & 0x7FFF);
-        ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) ((S_80171D74_7 *)temp_s4)->unk_00.at00.v;
-        ((S_80171D74_3 *)arg1)->unk_10.n = (void *) ((S_80171D74_7 *)temp_s4)->unk_04.at00.v;
-        ((S_80171D74_3 *)arg1)->unk_14 = (void *) ((S_80171D74_7 *)temp_s4)->unk_08;
+        ((S_80171D74_1 *)state)->unk_96 = 0x14U;
+        ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+        tile_nw = ((0x1F << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xBA;
+        tile_nw->unk_04 = (u16) (tile_nw->unk_04 & 0x7FFF);
+        tile_n = ((0x1F << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC0;
+        tile_n->unk_04 = (u16) (tile_n->unk_04 & 0x7FFF);
+        tile_ne = ((0x1F << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC6;
+        tile_ne->unk_04 = (u16) (tile_ne->unk_04 & 0x7FFF);
+        tile_w = ((0x20 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xBA;
+        tile_w->unk_04 = (u16) (tile_w->unk_04 & 0x7FFF);
+        tile_center = ((0x20 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC0;
+        tile_center->unk_04 = (u16) (tile_center->unk_04 & 0x7FFF);
+        tile_e = ((0x20 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC6;
+        tile_e->unk_04 = (u16) (tile_e->unk_04 & 0x7FFF);
+        tile_sw = ((0x21 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xBA;
+        tile_sw->unk_04 = (u16) (tile_sw->unk_04 & 0x7FFF);
+        tile_s = ((0x21 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC0;
+        tile_s->unk_04 = (u16) (tile_s->unk_04 & 0x7FFF);
+        tile_se = ((0x21 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC6;
+        tile_se->unk_04 = (u16) (tile_se->unk_04 & 0x7FFF);
+        ((S_80171D74_3 *)motion)->unk_0C.n = (s32) ((S_80171D74_7 *)target_pos)->unk_00.at00.v;
+        ((S_80171D74_3 *)motion)->unk_10.n = (void *) ((S_80171D74_7 *)target_pos)->unk_04.at00.v;
+        ((S_80171D74_3 *)motion)->unk_14 = (void *) ((S_80171D74_7 *)target_pos)->unk_08;
         /* fallthrough */
 jt_c20:
-        ((S_80171D74_3 *)arg1)->unk_00.at00.v += (((S_80171D74_3 *)arg1)->unk_0C.n - ((S_80171D74_3 *)arg1)->unk_00.at00.v) / (s16) ((S_80171D74_1 *)arg0)->unk_96;
-        ((S_80171D74_3 *)arg1)->unk_04.at00.v += (((S_80171D74_3 *)arg1)->unk_10.n - ((S_80171D74_3 *)arg1)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)arg0)->unk_96;
-        ((S_80171D74_3 *)arg1)->unk_08.at00.v += (((S_80171D74_3 *)arg1)->unk_14 - ((S_80171D74_3 *)arg1)->unk_08.at00.v) / (s16) ((S_80171D74_1 *)arg0)->unk_96;
-        temp_v0_21 = ((S_80171D74_1 *)arg0)->unk_96 - 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_21;
-        if ((temp_v0_21 << 0x10) <= 0) {
-            tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
+        ((S_80171D74_3 *)motion)->unk_00.at00.v += (((S_80171D74_3 *)motion)->unk_0C.n - ((S_80171D74_3 *)motion)->unk_00.at00.v) / (s16) ((S_80171D74_1 *)state)->unk_96;
+        ((S_80171D74_3 *)motion)->unk_04.at00.v += (((S_80171D74_3 *)motion)->unk_10.n - ((S_80171D74_3 *)motion)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state)->unk_96;
+        ((S_80171D74_3 *)motion)->unk_08.at00.v += (((S_80171D74_3 *)motion)->unk_14 - ((S_80171D74_3 *)motion)->unk_08.at00.v) / (s16) ((S_80171D74_1 *)state)->unk_96;
+        approach_frames = ((S_80171D74_1 *)state)->unk_96 - 1;
+        ((S_80171D74_1 *)state)->unk_96 = approach_frames;
+        if ((approach_frames << 0x10) <= 0) {
+            tail_phase = ((S_80171D74_1 *)state)->unk_9A;
             ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ((S_80171D74_1 *)arg0)->unk_96 = 0;
-            goto tail_73074;
+            ((S_80171D74_1 *)state)->unk_96 = 0;
+            goto advance_phase;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c21:
-        if (((S_80171D74_5 *)arg2)->unk_04 == 0) {
-            ((S_80171D74_5 *)arg2)->unk_14 = (u16) (((S_80171D74_5 *)arg2)->unk_14 | 0x800);
-            goto block_152;
+        if (((S_80171D74_5 *)sprite)->unk_04 == 0) {
+            ((S_80171D74_5 *)sprite)->unk_14 = (u16) (((S_80171D74_5 *)sprite)->unk_14 | 0x800);
+            goto update_sprite;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c22:
         {
-            u16 phase22;
-        if (((S_80171D74_5 *)arg2)->unk_04 == 0) {
-            ((S_80171D74_5 *)arg2)->unk_14 = (u16) (((S_80171D74_5 *)arg2)->unk_14 | 0x800);
+            u16 next_frame;
+            if (((S_80171D74_5 *)sprite)->unk_04 == 0) {
+                ((S_80171D74_5 *)sprite)->unk_14 = (u16) (((S_80171D74_5 *)sprite)->unk_14 | 0x800);
+            }
+            bounce_frame = ((S_80171D74_1 *)state)->unk_96;
+            next_frame = bounce_frame + 1;
+            ASM_KEEP_NV(next_frame);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ((S_80171D74_1 *)state)->unk_96 = next_frame;
+            if ((u32) (bounce_frame - 0xA) < 8U) {
+                ((S_80171D74_1 *)state)->unk_A0.at00.v = (s32) (func_800644B8(((s32) (next_frame << 0x10) >> 8) - 0xA00) << 8);
+                ((S_80171D74_3 *)motion)->unk_08.at02.v = (u16) (owner_state->unk_88 - ((S_80171D74_1 *)state)->unk_A0.at02.v);
+            }
         }
-        temp_v0_22 = ((S_80171D74_1 *)arg0)->unk_96;
-        phase22 = temp_v0_22 + 1;
-        ASM_KEEP_NV(phase22);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ((S_80171D74_1 *)arg0)->unk_96 = phase22;
-        if ((u32) (temp_v0_22 - 0xA) < 8U) {
-            ((S_80171D74_1 *)arg0)->unk_A0.at00.v = (s32) (func_800644B8(((s32) (phase22 << 0x10) >> 8) - 0xA00) << 8);
-            ((S_80171D74_3 *)arg1)->unk_08.at02.v = (u16) (temp_s3->unk_88 - ((S_80171D74_1 *)arg0)->unk_A0.at02.v);
-        }
-        }
-        temp_v1_6 = (s16) ((S_80171D74_1 *)arg0)->unk_96;
-        if ((temp_v1_6 == 0x19) || (temp_v1_6 == 0x1E) || (temp_v1_6 == 0x23) || (temp_v1_6 == 0x28)) {
+        spin_frame = (s16) ((S_80171D74_1 *)state)->unk_96;
+        if ((spin_frame == 0x19) || (spin_frame == 0x1E) || (spin_frame == 0x23) || (spin_frame == 0x28)) {
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
             register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            angle_input = temp_s3->unk_2A.n;
+            angle_input = owner_state->unk_2A.n;
             angle_tmp = angle_input - 0x200;
             angle_result = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
                 angle_result = angle_tmp + 0x1000;
             }
-            temp_s3->unk_2A.n = angle_result;
+            owner_state->unk_2A.n = angle_result;
         }
-        if ((s16) ((S_80171D74_1 *)arg0)->unk_96 >= 0x2D) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_92.s = -0x18;
-            ((S_80171D74_1 *)arg0)->unk_9E = 0;
-            ((S_80171D74_1 *)arg0)->unk_A0.at00.v = 0;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_3 *)arg1)->unk_08.at02.v = temp_s3->unk_88;
-            goto block_152;
+        if ((s16) ((S_80171D74_1 *)state)->unk_96 >= 0x2D) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_92.s = -0x18;
+            ((S_80171D74_1 *)state)->unk_9E = 0;
+            ((S_80171D74_1 *)state)->unk_A0.at00.v = 0;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_3 *)motion)->unk_08.at02.v = owner_state->unk_88;
+            goto update_sprite;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c24:
-        temp_v0_23 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_23;
-        if (((s16) temp_v0_23 == 5) || ((s16) temp_v0_23 == 0xA) || ((s16) temp_v0_23 == 0xF) || ((s16) temp_v0_23 == 0x14)) {
+        spin_up_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = spin_up_frame;
+        if (((s16) spin_up_frame == 5) || ((s16) spin_up_frame == 0xA) || ((s16) spin_up_frame == 0xF) || ((s16) spin_up_frame == 0x14)) {
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
             register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            angle_input = temp_s3->unk_2A.n;
+            angle_input = owner_state->unk_2A.n;
             angle_tmp = angle_input - 0x200;
             angle_result = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
                 angle_result = angle_tmp + 0x1000;
             }
-            temp_s3->unk_2A.n = angle_result;
+            owner_state->unk_2A.n = angle_result;
         }
-        if ((s16) ((S_80171D74_1 *)arg0)->unk_96 >= 0x18) {
-            u8 *sp2_base24;
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_5 *)arg2)->unk_2C.p = &D_80173DA4;
-            ((S_80171D74_5 *)arg2)->unk_14 = (u16) (((S_80171D74_5 *)arg2)->unk_14 & 0xF7FF);
-            func_80047784(arg2, D_80173DA4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) temp_s3->unk_2A.n + 0x100) >> 9) & 7], 0);
-            sp2_base24 = (u8 *)&sp38;
-            ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) (SP2_X_AT(sp2_base24, temp_s3->unk_2A.n) << 0x14);
-            ((S_80171D74_3 *)arg1)->unk_10.n = (s32) (SP2_Y_AT(sp2_base24, temp_s3->unk_2A.n) << 0x14);
-            ((S_80171D74_3 *)arg1)->unk_14 = (void *)0xFFF00000;
-            goto block_152;
+        if ((s16) ((S_80171D74_1 *)state)->unk_96 >= 0x18) {
+            u8 *direction_base;
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_5 *)sprite)->unk_2C.p = &D_80173DA4;
+            ((S_80171D74_5 *)sprite)->unk_14 = (u16) (((S_80171D74_5 *)sprite)->unk_14 & 0xF7FF);
+            func_80047784(sprite, D_80173DA4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            direction_base = (u8 *)&direction_table;
+            ((S_80171D74_3 *)motion)->unk_0C.n = (s32) (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x14);
+            ((S_80171D74_3 *)motion)->unk_10.n = (s32) (SP2_Y_AT(direction_base, owner_state->unk_2A.n) << 0x14);
+            ((S_80171D74_3 *)motion)->unk_14 = (void *)0xFFF00000;
+            goto update_sprite;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c25:
-        temp_a0_9 = ((S_80171D74_3 *)arg1)->unk_10.n;
-        temp_a1_6 = ((S_80171D74_3 *)arg1)->unk_14;
-        ((S_80171D74_3 *)arg1)->unk_00.at00.v = (s32) (((S_80171D74_3 *)arg1)->unk_00.at00.v + ((S_80171D74_3 *)arg1)->unk_0C.n);
-        ((S_80171D74_3 *)arg1)->unk_04.at00.v = (void *) (((S_80171D74_3 *)arg1)->unk_04.at00.v + temp_a0_9);
-        ((S_80171D74_3 *)arg1)->unk_08.at00.v = (void *) (((S_80171D74_3 *)arg1)->unk_08.at00.v + temp_a1_6);
-        temp_v0_24 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_24;
-        if ((s16) temp_v0_24 >= 0x28) {
-            tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
+        launch_vel_y = ((S_80171D74_3 *)motion)->unk_10.n;
+        launch_vel_z = ((S_80171D74_3 *)motion)->unk_14;
+        ((S_80171D74_3 *)motion)->unk_00.at00.v = (s32) (((S_80171D74_3 *)motion)->unk_00.at00.v + ((S_80171D74_3 *)motion)->unk_0C.n);
+        ((S_80171D74_3 *)motion)->unk_04.at00.v = (void *) (((S_80171D74_3 *)motion)->unk_04.at00.v + launch_vel_y);
+        ((S_80171D74_3 *)motion)->unk_08.at00.v = (void *) (((S_80171D74_3 *)motion)->unk_08.at00.v + launch_vel_z);
+        launch_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = launch_frame;
+        if ((s16) launch_frame >= 0x28) {
+            tail_phase = ((S_80171D74_1 *)state)->unk_9A;
             ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ((S_80171D74_1 *)arg0)->unk_96 = 0;
-            goto tail_73074;
+            ((S_80171D74_1 *)state)->unk_96 = 0;
+            goto advance_phase;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c30: {
-        u8 *sp2_base30;
-        u16 angle30;
-        u16 y30;
-        angle30 = temp_s3->unk_2A.v;
-        sp2_base30 = (u8 *)&sp38;
-        ((S_80171D74_3 *)arg1)->unk_0C.n = (s32) (SP2_X_AT(sp2_base30, angle30) << 0x13);
-        y30 = SP2_Y_AT(sp2_base30, temp_s3->unk_2A.n);
-        ((S_80171D74_3 *)arg1)->unk_14 = (void *)0xFFFB0000;
-        ((S_80171D74_3 *)arg1)->unk_10.n = (void *) (y30 << 0x13);
-        tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
+        u8 *direction_base;
+        u16 angle;
+        u16 direction_y;
+        angle = owner_state->unk_2A.v;
+        direction_base = (u8 *)&direction_table;
+        ((S_80171D74_3 *)motion)->unk_0C.n = (s32) (SP2_X_AT(direction_base, angle) << 0x13);
+        direction_y = SP2_Y_AT(direction_base, owner_state->unk_2A.n);
+        ((S_80171D74_3 *)motion)->unk_14 = (void *)0xFFFB0000;
+        ((S_80171D74_3 *)motion)->unk_10.n = (void *) (direction_y << 0x13);
+        tail_phase = ((S_80171D74_1 *)state)->unk_9A;
         ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ((S_80171D74_1 *)arg0)->unk_96 = 0;
-        goto tail_73074;
+        ((S_80171D74_1 *)state)->unk_96 = 0;
+        goto advance_phase;
     }
 jt_c31:
-        temp_a0_10 = ((S_80171D74_3 *)arg1)->unk_10.n;
-        temp_a1_7 = ((S_80171D74_3 *)arg1)->unk_14;
-        ((S_80171D74_3 *)arg1)->unk_00.at00.v = (s32) (((S_80171D74_3 *)arg1)->unk_00.at00.v + ((S_80171D74_3 *)arg1)->unk_0C.n);
-        ((S_80171D74_3 *)arg1)->unk_04.at00.v = (void *) (((S_80171D74_3 *)arg1)->unk_04.at00.v + temp_a0_10);
-        ((S_80171D74_3 *)arg1)->unk_08.at00.v = (void *) (((S_80171D74_3 *)arg1)->unk_08.at00.v + temp_a1_7);
-        temp_v0_25 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_25;
-        if ((s16) temp_v0_25 >= 5) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_3 *)arg1)->unk_14 = NULL;
-            ((S_80171D74_3 *)arg1)->unk_10.n = NULL;
-            ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
-            goto block_152;
+        hop_vel_y = ((S_80171D74_3 *)motion)->unk_10.n;
+        hop_vel_z = ((S_80171D74_3 *)motion)->unk_14;
+        ((S_80171D74_3 *)motion)->unk_00.at00.v = (s32) (((S_80171D74_3 *)motion)->unk_00.at00.v + ((S_80171D74_3 *)motion)->unk_0C.n);
+        ((S_80171D74_3 *)motion)->unk_04.at00.v = (void *) (((S_80171D74_3 *)motion)->unk_04.at00.v + hop_vel_y);
+        ((S_80171D74_3 *)motion)->unk_08.at00.v = (void *) (((S_80171D74_3 *)motion)->unk_08.at00.v + hop_vel_z);
+        hop_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = hop_frame;
+        if ((s16) hop_frame >= 5) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_3 *)motion)->unk_14 = NULL;
+            ((S_80171D74_3 *)motion)->unk_10.n = NULL;
+            ((S_80171D74_3 *)motion)->unk_0C.n = 0;
+            goto update_sprite;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c32:
-        temp_v0_26 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_26;
-        if (((s16) temp_v0_26 == 2) || ((s16) temp_v0_26 == 8) || ((s16) temp_v0_26 == 0xA) || ((s16) temp_v0_26 == 0x10) || ((s16) temp_v0_26 == 0x12)) {
-            var_v1_6 = temp_s3->unk_2A.n;
-            temp_a0_11 = var_v1_6 + 0x200;
-            var_v1_6 = temp_a0_11;
-            if (temp_a0_11 >= 0x1000) {
-                var_v1_6 = temp_a0_11 - 0x1000;
+        wobble_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = wobble_frame;
+        if (((s16) wobble_frame == 2) || ((s16) wobble_frame == 8) || ((s16) wobble_frame == 0xA) || ((s16) wobble_frame == 0x10) || ((s16) wobble_frame == 0x12)) {
+            turn_value = owner_state->unk_2A.n;
+            right_angle = turn_value + 0x200;
+            turn_value = right_angle;
+            if (right_angle >= 0x1000) {
+                turn_value = right_angle - 0x1000;
             }
-            temp_s3->unk_2A.n = (u16) var_v1_6;
+            owner_state->unk_2A.n = (u16) turn_value;
         }
-        var_v1_6 = (s16) ((S_80171D74_1 *)arg0)->unk_96;
-        if ((var_v1_6 == 4) || (var_v1_6 == 6) || (var_v1_6 == 0xC) || (var_v1_6 == 0xE) || (var_v1_6 == 0x14)) {
-            var_v1_6 = temp_s3->unk_2A.n;
-            temp_a0_12 = var_v1_6 - 0x200;
-            var_v1_6 = temp_a0_12;
-            if ((s16) temp_a0_12 < 0) {
-                var_v1_6 = temp_a0_12 + 0x1000;
+        turn_value = (s16) ((S_80171D74_1 *)state)->unk_96;
+        if ((turn_value == 4) || (turn_value == 6) || (turn_value == 0xC) || (turn_value == 0xE) || (turn_value == 0x14)) {
+            turn_value = owner_state->unk_2A.n;
+            left_angle = turn_value - 0x200;
+            turn_value = left_angle;
+            if ((s16) left_angle < 0) {
+                turn_value = left_angle + 0x1000;
             }
-            temp_s3->unk_2A.n = var_v1_6;
+            owner_state->unk_2A.n = turn_value;
         }
-        var_v1_6 = (s16) ((S_80171D74_1 *)arg0)->unk_96;
-        if (var_v1_6 == 0x1A) {
-            ((S_80171D74_5 *)arg2)->unk_2C.p = &D_80173DA4;
-            ((S_80171D74_5 *)arg2)->unk_14 = (u16) (((S_80171D74_5 *)arg2)->unk_14 & 0xF7FF);
-            func_80047784(arg2, D_80173DA4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) temp_s3->unk_2A.n + 0x100) >> 9) & 7], 0);
+        turn_value = (s16) ((S_80171D74_1 *)state)->unk_96;
+        if (turn_value == 0x1A) {
+            ((S_80171D74_5 *)sprite)->unk_2C.p = &D_80173DA4;
+            ((S_80171D74_5 *)sprite)->unk_14 = (u16) (((S_80171D74_5 *)sprite)->unk_14 & 0xF7FF);
+            func_80047784(sprite, D_80173DA4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
         }
-        if ((s16) ((S_80171D74_1 *)arg0)->unk_96 >= 0x1E) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            ((S_80171D74_3 *)arg1)->unk_14 = (void *)0xFFF80000;
-            goto block_152;
+        if ((s16) ((S_80171D74_1 *)state)->unk_96 >= 0x1E) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            ((S_80171D74_3 *)motion)->unk_14 = (void *)0xFFF80000;
+            goto update_sprite;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c33:
-        ((S_80171D74_3 *)arg1)->unk_08.at00.v = (void *) (((S_80171D74_3 *)arg1)->unk_08.at00.v + ((S_80171D74_3 *)arg1)->unk_14);
-        temp_v0_27 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_27;
-        if ((s16) temp_v0_27 >= 0xA) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
-            temp_v0_27 = ((S_80171D74_3 *)arg1)->unk_08.at02.v;
-            ((S_80171D74_3 *)arg1)->unk_14 = NULL;
-            ((S_80171D74_3 *)arg1)->unk_10.n = NULL;
-            ((S_80171D74_3 *)arg1)->unk_0C.n = 0;
-            temp_v1_7 = temp_s3->unk_88;
-            ((S_80171D74_1 *)arg0)->unk_9E = 0;
-            ((S_80171D74_1 *)arg0)->unk_A0.at00.v = 0;
-            ((S_80171D74_1 *)arg0)->unk_92.u = (u16) (temp_v0_27 - temp_v1_7);
-            var_v1_8 = temp_s3->unk_2A.n;
-            temp_a0_13 = var_v1_8 + 0x400;
-            var_v1_8 = temp_a0_13;
-            if (temp_a0_13 >= 0x1000) {
-                var_v1_8 = temp_a0_13 - 0x1000;
+        ((S_80171D74_3 *)motion)->unk_08.at00.v = (void *) (((S_80171D74_3 *)motion)->unk_08.at00.v + ((S_80171D74_3 *)motion)->unk_14);
+        frame_or_height = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = frame_or_height;
+        if ((s16) frame_or_height >= 0xA) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
+            frame_or_height = ((S_80171D74_3 *)motion)->unk_08.at02.v;
+            ((S_80171D74_3 *)motion)->unk_14 = NULL;
+            ((S_80171D74_3 *)motion)->unk_10.n = NULL;
+            ((S_80171D74_3 *)motion)->unk_0C.n = 0;
+            owner_height = owner_state->unk_88;
+            ((S_80171D74_1 *)state)->unk_9E = 0;
+            ((S_80171D74_1 *)state)->unk_A0.at00.v = 0;
+            ((S_80171D74_1 *)state)->unk_92.u = (u16) (frame_or_height - owner_height);
+            facing_angle = owner_state->unk_2A.n;
+            quarter_turn = facing_angle + 0x400;
+            facing_angle = quarter_turn;
+            if (quarter_turn >= 0x1000) {
+                facing_angle = quarter_turn - 0x1000;
             }
-            temp_s3->unk_2A.n = (u16) var_v1_8;
-            func_80047784(arg2, *(((S_80171D74_5 *)arg2)->unk_2C.p2 + (((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + var_v1_8 + 0x100) >> 9) & 7)), 0);
+            owner_state->unk_2A.n = (u16) facing_angle;
+            func_80047784(sprite, *(((S_80171D74_5 *)sprite)->unk_2C.p2 + (((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + facing_angle + 0x100) >> 9) & 7)), 0);
         }
-        goto block_152;
+        goto update_sprite;
 jt_c34: {
-        temp_v0_28 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_28;
-        if ((temp_v0_28 & 3) == 3) {
+        spiral_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = spiral_frame;
+        if ((spiral_frame & 3) == 3) {
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
             register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            angle_input = temp_s3->unk_2A.n;
+            angle_input = owner_state->unk_2A.n;
             angle_tmp = angle_input - 0x200;
             angle_result = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
                 angle_result = angle_tmp + 0x1000;
             }
-            temp_s3->unk_2A.n = angle_result;
+            owner_state->unk_2A.n = angle_result;
         }
-        temp_a1_8 = ((0x61 - (s16) ((S_80171D74_1 *)arg0)->unk_96) * 0x60000) / 97;
+        speed = ((0x61 - (s16) ((S_80171D74_1 *)state)->unk_96) * 0x60000) / 97;
         {
-            u8 *base34 = (u8 *)&sp38;
-            s32 comp_x = SP2_X_AT(base34, temp_s3->unk_2A.n);
-            ((S_80171D74_3 *)arg1)->unk_0C.n = temp_a1_8 * comp_x;
-            base34 = (u8 *)&sp38;
+            u8 *direction_base = (u8 *)&direction_table;
+            s32 direction_x = SP2_X_AT(direction_base, owner_state->unk_2A.n);
+            ((S_80171D74_3 *)motion)->unk_0C.n = speed * direction_x;
+            direction_base = (u8 *)&direction_table;
             {
-                s16 comp_y = (s16) SP2_Y_AT(base34, temp_s3->unk_2A.n);
-                ((S_80171D74_3 *)arg1)->unk_10.n = temp_a1_8 * comp_y;
+                s16 direction_y = (s16) SP2_Y_AT(direction_base, owner_state->unk_2A.n);
+                ((S_80171D74_3 *)motion)->unk_10.n = speed * direction_y;
             }
-            ((S_80171D74_3 *)arg1)->unk_00.at00.v += ((S_80171D74_3 *)arg1)->unk_0C.n;
-            ((S_80171D74_3 *)arg1)->unk_04.at00.v += ((S_80171D74_3 *)arg1)->unk_10.n;
+            ((S_80171D74_3 *)motion)->unk_00.at00.v += ((S_80171D74_3 *)motion)->unk_0C.n;
+            ((S_80171D74_3 *)motion)->unk_04.at00.v += ((S_80171D74_3 *)motion)->unk_10.n;
         }
-        if ((s16) ((S_80171D74_1 *)arg0)->unk_96 >= 0x58) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
+        if ((s16) ((S_80171D74_1 *)state)->unk_96 >= 0x58) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
             {
                 u16 *reset_base = (u16 *)D_80083780;
-                ((S_80171D74_3 *)arg1)->unk_00.at02.v = reset_base[1];
-                ((S_80171D74_3 *)arg1)->unk_04.at02u.v = reset_base[3];
+                ((S_80171D74_3 *)motion)->unk_00.at02.v = reset_base[1];
+                ((S_80171D74_3 *)motion)->unk_04.at02u.v = reset_base[3];
             }
-            goto block_147;
+            goto update_height;
         }
-        goto block_147;
+        goto update_height;
     }
 jt_c40:
-        if ((func_800F685C(temp_a0, temp_a1_2) << 0x10) != 0) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
+        if ((func_800F685C(phase, target_state) << 0x10) != 0) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
             D_80083460[5] = (u16) (D_80083460[5] + 1);
         }
-        goto block_152;
+        goto update_sprite;
 jt_c41:
-        temp_v0_29 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_29;
-        if ((s16) temp_v0_29 >= 0x3C) {
-            tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
+        effect_wait_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = effect_wait_frame;
+        if ((s16) effect_wait_frame >= 0x3C) {
+            tail_phase = ((S_80171D74_1 *)state)->unk_9A;
             ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ((S_80171D74_1 *)arg0)->unk_96 = 0;
-            goto tail_73074;
+            ((S_80171D74_1 *)state)->unk_96 = 0;
+            goto advance_phase;
         }
-        goto block_152;
+        goto update_sprite;
 jt_c45:
-        if ((func_800F685C(temp_a0, temp_a1_2) << 0x10) != 0) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
+        if ((func_800F685C(phase, target_state) << 0x10) != 0) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
             D_80083460[5] = (u16) (D_80083460[5] + 1);
         }
-        goto block_146;
+        goto update_motion;
 jt_c46:
-        temp_v0_30 = ((S_80171D74_1 *)arg0)->unk_96 + 1;
-        ((S_80171D74_1 *)arg0)->unk_96 = temp_v0_30;
-        if ((s16) temp_v0_30 >= 0x3C) {
-            ((S_80171D74_1 *)arg0)->unk_96 = 0U;
-            ((S_80171D74_1 *)arg0)->unk_9A = (u8) (((S_80171D74_1 *)arg0)->unk_9A + 1);
+        finish_frame = ((S_80171D74_1 *)state)->unk_96 + 1;
+        ((S_80171D74_1 *)state)->unk_96 = finish_frame;
+        if ((s16) finish_frame >= 0x3C) {
+            ((S_80171D74_1 *)state)->unk_96 = 0U;
+            ((S_80171D74_1 *)state)->unk_9A = (u8) (((S_80171D74_1 *)state)->unk_9A + 1);
         }
-        goto block_146;
+        goto update_motion;
 jt_c35:
-block_146:
-        func_8016F79C(arg0, arg1, arg2);
-        goto block_147;
+update_motion:
+        func_8016F79C(state, motion, sprite);
+        goto update_height;
 jt_c5:
 jt_c12:
 jt_c14:
 jt_c18:
-block_147:
-    func_8016F5D8(arg0, arg1, arg2);
-    goto block_152;
+update_height:
+    func_8016F5D8(state, motion, sprite);
+    goto update_sprite;
 
 jt_c42:
 jt_c47:
-        func_800945E8(D_800E3D7C[0], temp_a1_2);
+        func_800945E8(D_800E3D7C[0], target_state);
         {
-            s32 fwd_a0;
-            s32 fwd_a1;
-            s32 fwd_a2;
-            s32 fwd_a3;
-            ASM_SET(fwd_a0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            ASM_SET(fwd_a1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            ASM_SET(fwd_a2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            ASM_SET(fwd_a3);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            func_800948BC(fwd_a0, fwd_a1, fwd_a2, fwd_a3);
+            s32 effect_arg_0;
+            s32 effect_arg_1;
+            s32 effect_arg_2;
+            s32 effect_arg_3;
+            ASM_SET(effect_arg_0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ASM_SET(effect_arg_1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ASM_SET(effect_arg_2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ASM_SET(effect_arg_3);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            func_800948BC(effect_arg_0, effect_arg_1, effect_arg_2, effect_arg_3);
         }
         D_80082E76[0] = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
-        tail_phase = ((S_80171D74_1 *)arg0)->unk_9A;
-tail_73074:
-        ((S_80171D74_1 *)arg0)->unk_9A = (u8) (tail_phase + 1);
-        goto block_152;
+        tail_phase = ((S_80171D74_1 *)state)->unk_9A;
+advance_phase:
+        ((S_80171D74_1 *)state)->unk_9A = (u8) (tail_phase + 1);
+        goto update_sprite;
 jt_c8:
 jt_c23:
 jt_c26:
@@ -876,21 +858,21 @@ jt_c39:
 jt_c43:
 jt_c44:
 jt_c48:
-block_152:
+update_sprite:
     if (D_80175D54[0] != 0) {
-        temp_s2_2 = ((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) temp_s3->unk_2A.n + 0x100) >> 9) & 7;
-        if (((S_80171D74_1 *)arg0)->unk_94 != temp_s2_2) {
-            func_80047738(arg2, *(((S_80171D74_5 *)arg2)->unk_2C.p2 + temp_s2_2), ((S_80171D74_5 *)arg2)->unk_04);
-            ((S_80171D74_1 *)arg0)->unk_94 = temp_s2_2;
+        sprite_dir = ((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
+        if (((S_80171D74_1 *)state)->unk_94 != sprite_dir) {
+            func_80047738(sprite, *(((S_80171D74_5 *)sprite)->unk_2C.p2 + sprite_dir), ((S_80171D74_5 *)sprite)->unk_04);
+            ((S_80171D74_1 *)state)->unk_94 = sprite_dir;
         }
         {
-            u16 tail_flag;
-            if ((*(u8 *)((u8 *)D_8006CCF8 + temp_s2_2)) != 0) {
-                tail_flag = ((S_80171D74_5 *)arg2)->unk_14 | 1;
+            u16 sprite_flags;
+            if ((*(u8 *)((u8 *)D_8006CCF8 + sprite_dir)) != 0) {
+                sprite_flags = ((S_80171D74_5 *)sprite)->unk_14 | 1;
             } else {
-                tail_flag = ((S_80171D74_5 *)arg2)->unk_14 & 0xFFFE;
+                sprite_flags = ((S_80171D74_5 *)sprite)->unk_14 & 0xFFFE;
             }
-            ((S_80171D74_5 *)arg2)->unk_14 = tail_flag;
+            ((S_80171D74_5 *)sprite)->unk_14 = sprite_flags;
         }
     }
     return;

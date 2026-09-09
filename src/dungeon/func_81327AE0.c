@@ -71,58 +71,59 @@ typedef struct S_8016F2E0_5 {
     s32 unk_14;
 } S_8016F2E0_5;   /* arg1 in func_8016F2E0 */
 
-void func_8016F2E0(void *a0, void *a1, void *a2)
+/* Updates actor callbacks, facing, movement, and floor contact. */
+void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
 {
-    void *arg0 = a0;
-    void *arg1 = a1;
-    register void *arg2 ASM_REG("$19") = a2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *entity = actor_arg;
+    void *motion = motion_arg;
+    register void *sprite = sprite_arg;
+    register void *actor ASM_REG("$17") = entity;
     s32 old_direction;
-    register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    Callback callback;
-    s32 floor;
+    register s32 direction_copy ASM_REG("$21");
+    Callback paused_callback;
+    s32 floor_height;
     s16 actor_height;
-    register u16 actor_height_u ASM_REG("$4"); /* MATCH: retain the unsigned height in a0 across the shared height-update arms. */
+    register u16 actor_height_u ASM_REG("$4");
     s32 direction_check;
     s32 direction_value;
     u8 *tile_slot;
-    register u8 *direction_slot ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 return_flags;
-    u16 flags;
-    u16 new_flags;
+    register u8 *direction_slot ASM_REG("$2");
+    u16 facing_flags;
+    u16 sprite_flags;
+    u16 updated_flags;
     s32 previous_direction;
-    s32 tile_map;
-    s32 i;
-    u8 *slot;
-    void *node;
-    S_8016F2E0_2 *record;
+    s32 direction_tiles;
+    s32 slot_index;
+    u8 *actor_slot;
+    void *actor_node;
+    S_8016F2E0_2 *actor_record;
 
-    if ((*(s32 *)((u8 *)arg0 + (0x14))) & 0x00800000) {
-        (*(s32 *)((u8 *)arg0 + (0x14))) &= 0xFF7FFFFF;
+    if ((*(s32 *)((u8 *)entity + (0x14))) & 0x00800000) {
+        (*(s32 *)((u8 *)entity + (0x14))) &= 0xFF7FFFFF;
         func_800353F4(&D_800F8BBC);
-        (*(u8 *)((u8 *)arg0 + (0x6D))) = 0;
-        (*(u8 *)((u8 *)arg0 + (0x9B))) = 0;
-        (*(u8 *)((u8 *)arg0 + (0x71))) &= 0x7F;
+        (*(u8 *)((u8 *)entity + (0x6D))) = 0;
+        (*(u8 *)((u8 *)entity + (0x9B))) = 0;
+        (*(u8 *)((u8 *)entity + (0x71))) &= 0x7F;
     }
 
     if (D_80013714 & 8) {
-        i = 1;
-        slot = D_800E3D7C + 4;
+        slot_index = 1;
+        actor_slot = D_800E3D7C + 4;
         do {
-            node = ((S_8016F2E0_0 *)slot)->unk_AC;
-            if (node != 0) {
-                record = ((S_8016F2E0_1_pre *)node)[-1].unk_00;
-                record->unk_14 &= 0xFFBF;
+            actor_node = ((S_8016F2E0_0 *)actor_slot)->unk_AC;
+            if (actor_node != 0) {
+                actor_record = ((S_8016F2E0_1_pre *)actor_node)[-1].unk_00;
+                actor_record->unk_14 &= 0xFFBF;
             }
-            i--;
-            slot -= 4;
-        } while (i >= 0);
+            slot_index--;
+            actor_slot -= 4;
+        } while (slot_index >= 0);
     }
 
     if (D_80083462 & 0x2000) {
-        callback = (*(Callback *)((u8 *)arg0 + (0x8C)));
-        if (callback == (Callback)&D_8016F78C) {
-            callback(arg0, arg1, arg2, actor);
+        paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
+        if (paused_callback == (Callback)&D_8016F78C) {
+            paused_callback(entity, motion, sprite, actor);
             return;
         }
         ((S_8016F2E0_3 *)actor)->unk_71 &= 0x7F;
@@ -131,112 +132,110 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
 
     old_direction = ((S_8016F2E0_3 *)actor)->unk_6D.v;
     old_direction = (old_direction << 24) >> 24;
-    if (func_800A9E70(arg0, arg1, arg2, actor) != 0) {
+    if (func_800A9E70(entity, motion, sprite, actor) != 0) {
         return;
     }
 
     {
-        Callback callback2 = (*(Callback *)((u8 *)arg0 + (0x8C)));
-        if (callback2 != 0) {
-            callback2(arg0, arg1, arg2, actor);
+        Callback update_callback = (*(Callback *)((u8 *)entity + (0x8C)));
+        if (update_callback != 0) {
+            update_callback(entity, motion, sprite, actor);
         }
     }
-    D_80174AD4[(*(u8 *)((u8 *)arg0 + (0x9A)))](arg0, arg1, arg2, actor);
+    D_80174AD4[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
 
-    ASM_KEEP(old_direction);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     direction_check = (s16)old_direction;
     if (direction_check != ((S_8016F2E0_3 *)actor)->unk_6D.n) {
-        func_800AA36C(arg0, arg1, arg2, actor);
+        func_800AA36C(entity, motion, sprite, actor);
     }
 
-    flags = ((S_8016F2E0_4 *)arg2)->unk_14.n;
-    new_flags = flags & 0x8000;
-    if (new_flags == 0) {
+    sprite_flags = ((S_8016F2E0_4 *)sprite)->unk_14.n;
+    updated_flags = sprite_flags & 0x8000;
+    if (updated_flags == 0) {
         old_direction = ((D_80083228 + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
-        previous_direction = (*(s16 *)((u8 *)arg0 + (0x94)));
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        previous_direction = (*(s16 *)((u8 *)entity + (0x94)));
+        ASM_SCHED_BARRIER();
         direction_value = old_direction;
-        ASM_KEEP(old_direction);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(old_direction);
         direction_copy = old_direction;
         if (previous_direction != direction_value) {
-            tile_map = ((S_8016F2E0_4 *)arg2)->unk_2C;
-            if (tile_map != 0) {
-                tile_slot = (u8 *)tile_map + direction_value;
-                func_80047738(arg2,
+            direction_tiles = ((S_8016F2E0_4 *)sprite)->unk_2C;
+            if (direction_tiles != 0) {
+                tile_slot = (u8 *)direction_tiles + direction_value;
+                func_80047738(sprite,
                     *tile_slot,
-                    ((S_8016F2E0_4 *)arg2)->unk_04);
+                    ((S_8016F2E0_4 *)sprite)->unk_04);
             }
-            (*(s16 *)((u8 *)arg0 + (0x94))) = old_direction;
+            (*(s16 *)((u8 *)entity + (0x94))) = old_direction;
         }
 
         direction_slot = D_8006CCF8 + direction_copy;
-        ASM_KEEP(direction_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(direction_slot);
         if (*direction_slot != 0) {
-            return_flags = ((S_8016F2E0_4 *)arg2)->unk_14.n;
-            return_flags |= 1;
+            facing_flags = ((S_8016F2E0_4 *)sprite)->unk_14.n;
+            facing_flags |= 1;
         } else {
-            return_flags = ((S_8016F2E0_4 *)arg2)->unk_14.v & 0xFFFE;
+            facing_flags = ((S_8016F2E0_4 *)sprite)->unk_14.v & 0xFFFE;
         }
-        ((S_8016F2E0_4 *)arg2)->unk_14.v = return_flags;
+        ((S_8016F2E0_4 *)sprite)->unk_14.v = facing_flags;
         if (!(((S_8016F2E0_3 *)actor)->unk_1C & 0x20)) {
-            if (!(((S_8016F2E0_4 *)arg2)->unk_14.v & 0x40)) {
-                func_800478B8(arg2);
+            if (!(((S_8016F2E0_4 *)sprite)->unk_14.v & 0x40)) {
+                func_800478B8(sprite);
             }
         } else {
-            ((S_8016F2E0_4 *)arg2)->unk_14.v |= 0x7000;
+            ((S_8016F2E0_4 *)sprite)->unk_14.v |= 0x7000;
         }
 
-        func_800A020C(((S_8016F2E0_3 *)actor)->unk_1C, (u8 *)arg2 + 0xC);
+        func_800A020C(((S_8016F2E0_3 *)actor)->unk_1C, (u8 *)sprite + 0xC);
     } else {
-        new_flags = flags & 0x0800;
-        if (new_flags != 0) {
-            new_flags = flags & 0x8FFF;
+        updated_flags = sprite_flags & 0x0800;
+        if (updated_flags != 0) {
+            updated_flags = sprite_flags & 0x8FFF;
         } else {
-            new_flags = flags | 0x7000;
+            updated_flags = sprite_flags | 0x7000;
         }
-        ((S_8016F2E0_4 *)arg2)->unk_14.n = new_flags;
+        ((S_8016F2E0_4 *)sprite)->unk_14.n = updated_flags;
     }
 
-    ((S_8016F2E0_5 *)arg1)->unk_00.at00.v += ((S_8016F2E0_5 *)arg1)->unk_0C;
-    ((S_8016F2E0_5 *)arg1)->unk_04.at00.v += ((S_8016F2E0_5 *)arg1)->unk_10;
+    ((S_8016F2E0_5 *)motion)->unk_00.at00.v += ((S_8016F2E0_5 *)motion)->unk_0C;
+    ((S_8016F2E0_5 *)motion)->unk_04.at00.v += ((S_8016F2E0_5 *)motion)->unk_10;
 
-    if ((*(u16 *)((u8 *)arg0 + (0x98))) & 8) {
-        (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
+    if ((*(u16 *)((u8 *)entity + (0x98))) & 8) {
+        (*(u8 *)((u8 *)entity + (0x9D))) = 0;
     } else {
-        ((S_8016F2E0_5 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + (0x9D))) * 0x14000;
-        (*(volatile u8 *)((u8 *)arg0 + (0x9D)))++;
+        ((S_8016F2E0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
+        (*(volatile u8 *)((u8 *)entity + (0x9D)))++;
     }
-    (*(s32 *)((u8 *)arg0 + (0x90))) += ((S_8016F2E0_5 *)arg1)->unk_14;
+    (*(s32 *)((u8 *)entity + (0x90))) += ((S_8016F2E0_5 *)motion)->unk_14;
 
-    if (!((*(volatile u16 *)((u8 *)arg0 + (0x98))) & 4)) {
-        floor = func_800BCB04(((S_8016F2E0_5 *)arg1)->unk_00.at02.v,
-                              ((S_8016F2E0_5 *)arg1)->unk_04.at02.v,
+    if (!((*(volatile u16 *)((u8 *)entity + (0x98))) & 4)) {
+        floor_height = func_800BCB04(((S_8016F2E0_5 *)motion)->unk_00.at02.v,
+                              ((S_8016F2E0_5 *)motion)->unk_04.at02.v,
                               (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
-        ASM_SCHED_BARRIER(); /* MATCH: keep the floor guard ahead of the fallback mask load. */
-        if ((s16)floor < 0x200) {
+        if ((s16)floor_height < 0x200) {
             actor_height = ((S_8016F2E0_3 *)actor)->unk_88.s;
             actor_height_u = (*(volatile u16 *)((u8 *)actor + 0x88));
-            if ((*(s16 *)((u8 *)arg0 + (0x92))) + actor_height < (s16)floor) {
+            if ((*(s16 *)((u8 *)entity + (0x92))) + actor_height < (s16)floor_height) {
                 ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
             } else {
-                if ((s16)floor >= actor_height) {
-                    (*(s32 *)((u8 *)arg0 + (0x90))) = 0;
+                if ((s16)floor_height >= actor_height) {
+                    (*(s32 *)((u8 *)entity + (0x90))) = 0;
                 } else {
-                    (*(s16 *)((u8 *)arg0 + (0x92))) = floor - actor_height_u;
-                    ASM_KEEP(actor_height_u); /* MATCH: keep the original height live while the difference is stored through v0. */
+                    (*(s16 *)((u8 *)entity + (0x92))) = floor_height - actor_height_u;
+                    ASM_KEEP(actor_height_u);
                 }
-                ((S_8016F2E0_5 *)arg1)->unk_14 = 0;
+                ((S_8016F2E0_5 *)motion)->unk_14 = 0;
                 ((S_8016F2E0_3 *)actor)->unk_1C |= 0x08000000;
-                (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
+                (*(u8 *)((u8 *)entity + (0x9D))) = 0;
             }
 
             if (((S_8016F2E0_3 *)actor)->unk_1C & 0x40000000) {
                 ((S_8016F2E0_3 *)actor)->unk_1C &= 0xBFFFFFFF;
-                floor = func_800BCB04((((S_8016F2E0_4 *)arg2)->unk_24 << 6) | 0x20,
-                                      (((S_8016F2E0_4 *)arg2)->unk_25 << 6) | 0x20,
+                floor_height = func_800BCB04((((S_8016F2E0_4 *)sprite)->unk_24 << 6) | 0x20,
+                                      (((S_8016F2E0_4 *)sprite)->unk_25 << 6) | 0x20,
                                       (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)arg0 + (0x92))) += ((S_8016F2E0_3 *)actor)->unk_88.u - floor;
-                ((S_8016F2E0_3 *)actor)->unk_88.u = floor;
+                (*(s16 *)((u8 *)entity + (0x92))) += ((S_8016F2E0_3 *)actor)->unk_88.u - floor_height;
+                ((S_8016F2E0_3 *)actor)->unk_88.u = floor_height;
             }
             goto finish;
         }
@@ -245,9 +244,6 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
 
 finish:
-    ((S_8016F2E0_5 *)arg1)->unk_0A = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)arg0 + (0x92)));
-    ((S_8016F2E0_4 *)arg2)->unk_14.n |= 0x40;
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ((S_8016F2E0_5 *)motion)->unk_0A = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + (0x92)));
+    ((S_8016F2E0_4 *)sprite)->unk_14.n |= 0x40;
 }

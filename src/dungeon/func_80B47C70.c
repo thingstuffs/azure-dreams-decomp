@@ -104,91 +104,92 @@ typedef struct S_80175470_5 {
     u16 unk_2A;
 } S_80175470_5;   /* ((S_80175470_1 *)arg3)->unk_60 in func_80175470 */
 
-void func_80175470(void *arg0, void *arg1, Rec_D_80082E80 *arg2, void *arg3) {
-    static void *const jt_keep[] = {
+/* Advance the actor's effect sequence, fading colors and restoring its model and facing. */
+void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void *actor) {
+    static void *const state_labels[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
         &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8
     };
-    u8 *color = D_80083160;
+    u8 *scene_color = D_80083160;
     S_80175470_2 *node;
     S_80175470_3 *model;
     void *child;
-    u8 *target;
+    u8 *target_color;
     s32 direction;
-    s32 index;
-    s32 raw_index;
-    u32 fill;
+    s32 color_index;
+    s32 effect_choice;
+    u32 model_color;
     u32 state;
-    u8 ready;
+    u8 cd_ready;
     u16 timer;
     u16 next_timer;
-    u16 *counter_base;
+    u16 *counters;
     s32 next_state;
-    register s32 rem_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 effect_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    state = ((S_80175470_0 *)arg0)->unk_9B.n;
+    state = ((S_80175470_0 *)sequence)->unk_9B.n;
     if (state >= 9U) {
         return;
     }
-    (void)jt_keep;
+    (void)state_labels;
     goto *D_80170858[state];
 
 jt_c0:
-    next_state = ((S_80175470_0 *)arg0)->unk_9B.v + 1;
+    next_state = ((S_80175470_0 *)sequence)->unk_9B.v + 1;
     goto store_next_state;
 
 jt_c1:
     func_80041588(D_80175B0C, &D_80175B24, 0);
-    ((S_80175470_0 *)arg0)->unk_AC = 0;
-    ((S_80175470_0 *)arg0)->unk_9B.n++;
-    ((S_80175470_1 *)arg3)->unk_8A = ((S_80175470_1 *)arg3)->unk_2A.u;
+    ((S_80175470_0 *)sequence)->unk_AC = 0;
+    ((S_80175470_0 *)sequence)->unk_9B.n++;
+    ((S_80175470_1 *)actor)->unk_8A = ((S_80175470_1 *)actor)->unk_2A.u;
     return;
 
 jt_c2:
-    direction = ((D_80083228 + ((S_80175470_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7;
+    direction = ((D_80083228 + ((S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
     if (D_80175B24 == 0) {
-        goto block_non_special;
+        goto check_facing;
     }
     if (direction == 2) {
-        goto block_special;
+        goto start_effect;
     }
-block_non_special:
+check_facing:
     if (direction == 2) {
         return;
     }
-    ((S_80175470_1 *)arg3)->unk_2A.u += 0x200;
+    ((S_80175470_1 *)actor)->unk_2A.u += 0x200;
     return;
 
-block_special:
+start_effect:
     func_80041588(D_80175B0C, &D_80175B24, 1);
     func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
     Control_CD(0x15, func_800445E0(), 0);
     D_80175B25 = 0;
     Control_CD(0xFF, D_8003E140, &D_80175B25);
-    func_800C77D0((u8 *)arg3 - 0x20, arg1, 8, 0x300);
-    ((S_80175470_0 *)arg0)->unk_96.u = 0x10;
-    ((S_80175470_0 *)arg0)->unk_9B.n++;
-    func_80175180(arg0, arg1, arg2);
+    func_800C77D0((u8 *)actor - 0x20, position, 8, 0x300);
+    ((S_80175470_0 *)sequence)->unk_96.u = 0x10;
+    ((S_80175470_0 *)sequence)->unk_9B.n++;
+    func_80175180(sequence, position, record);
 
 jt_c3:
-    timer = ((S_80175470_0 *)arg0)->unk_96.u;
+    timer = ((S_80175470_0 *)sequence)->unk_96.u;
     next_timer = timer - 1;
-    ((S_80175470_0 *)arg0)->unk_96.u = next_timer;
+    ((S_80175470_0 *)sequence)->unk_96.u = next_timer;
     if ((s16)next_timer <= 0) {
-        ready = D_80175B25;
-        ((S_80175470_0 *)arg0)->unk_96.u = timer;
-        if (ready == 0) {
+        cd_ready = D_80175B25;
+        ((S_80175470_0 *)sequence)->unk_96.u = timer;
+        if (cd_ready == 0) {
             return;
         }
-        ((S_80175470_0 *)arg0)->unk_9B.n++;
+        ((S_80175470_0 *)sequence)->unk_9B.n++;
         func_800A56E0(0x300);
         return;
     }
-    index = func_800498A0(arg3);
-    target = D_800DCEEC[index];
-    color[0xA8] += ((s32)target[0] - color[0xA8]) / ((S_80175470_0 *)arg0)->unk_96.s;
-    color[0xA9] += ((s32)target[1] - color[0xA9]) / ((S_80175470_0 *)arg0)->unk_96.s;
-    color[0xAA] += ((s32)target[2] - color[0xAA]) / ((S_80175470_0 *)arg0)->unk_96.s;
+    color_index = func_800498A0(actor);
+    target_color = D_800DCEEC[color_index];
+    scene_color[0xA8] += ((s32)target_color[0] - scene_color[0xA8]) / ((S_80175470_0 *)sequence)->unk_96.s;
+    scene_color[0xA9] += ((s32)target_color[1] - scene_color[0xA9]) / ((S_80175470_0 *)sequence)->unk_96.s;
+    scene_color[0xAA] += ((s32)target_color[2] - scene_color[0xAA]) / ((S_80175470_0 *)sequence)->unk_96.s;
     return;
 
 jt_c4:
@@ -198,84 +199,84 @@ jt_c4:
     }
     node->unk_10.p = D_80175318;
     func_8004491C(node, D_8017458C);
-    ((S_80175470_0 *)arg0)->unk_A8 = node;
-    fill = 0x00808080;
-    *(s32 *)node->unk_08 = ((s32 *)arg1)[0];
-    ((s32 *)node->unk_08)[1] = ((s32 *)arg1)[1];
-    ((s32 *)node->unk_08)[2] = ((s32 *)arg1)[2];
+    ((S_80175470_0 *)sequence)->unk_A8 = node;
+    model_color = 0x00808080;
+    *(s32 *)node->unk_08 = ((s32 *)position)[0];
+    ((s32 *)node->unk_08)[1] = ((s32 *)position)[1];
+    ((s32 *)node->unk_08)[2] = ((s32 *)position)[2];
     D_80175B20 = -12;
     model = node->unk_0C;
     model->unk_1E = 0x1000;
     model->unk_1C = 0x1000;
-    model->unk_0C = fill;
-    raw_index = func_800498A0(arg3) - 1;
-    rem_index = raw_index;
-    ASM_KEEP_NV(raw_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if ((s16)raw_index < 0) {
-        rem_index = func_80069EF8() % 3;
+    model->unk_0C = model_color;
+    effect_choice = func_800498A0(actor) - 1;
+    effect_index = effect_choice;
+    ASM_KEEP_NV(effect_choice);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot model_color; the source shape that makes it unnecessary has not been found */
+    if ((s16)effect_choice < 0) {
+        effect_index = func_80069EF8() % 3;
     }
-    func_8003DB94(model, D_8014A000 + D_80175B14[(s16)rem_index], 0);
-    arg2->unk_14.at00_u16.v |= 0x80;
-    ((S_80175470_0 *)arg0)->unk_96.u = 0;
-    next_state = ((S_80175470_0 *)arg0)->unk_9B.n + 1;
+    func_8003DB94(model, D_8014A000 + D_80175B14[(s16)effect_index], 0);
+    record->unk_14.at00_u16.v |= 0x80;
+    ((S_80175470_0 *)sequence)->unk_96.u = 0;
+    next_state = ((S_80175470_0 *)sequence)->unk_9B.n + 1;
 store_next_state:
-    ((S_80175470_0 *)arg0)->unk_9B.n = next_state;
+    ((S_80175470_0 *)sequence)->unk_9B.n = next_state;
     return;
 
 jt_c5:
-    node = ((S_80175470_0 *)arg0)->unk_A8;
+    node = ((S_80175470_0 *)sequence)->unk_A8;
     model = node->unk_0C;
     if (model->unk_14 & 0xE000) {
-        ((S_80175470_0 *)arg0)->unk_96.u = 0x10;
-        ((S_80175470_0 *)arg0)->unk_9B.n++;
-        func_800A18E8(((S_80175470_1 *)arg3)->unk_13, 3);
-        func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-        func_8009A028(arg3);
-        node = (u8 *)arg3 - 0x20;
+        ((S_80175470_0 *)sequence)->unk_96.u = 0x10;
+        ((S_80175470_0 *)sequence)->unk_9B.n++;
+        func_800A18E8(((S_80175470_1 *)actor)->unk_13, 3);
+        func_8009A3D0(record->unk_24, record->unk_25, 0x300);
+        func_8009A028(actor);
+        node = (u8 *)actor - 0x20;
         node->unk_10.i |= 0x80000000;
     }
 
 jt_c6:
-    if (((S_80175470_0 *)arg0)->unk_9B.n != 6) {
+    if (((S_80175470_0 *)sequence)->unk_9B.n != 6) {
         return;
     }
-    if (!func_800ADC4C(arg1, D_80175B28, D_80175B20, &D_800DCF5C)) {
+    if (!func_800ADC4C(position, D_80175B28, D_80175B20, &D_800DCF5C)) {
         return;
     }
-    ((S_80175470_0 *)arg0)->unk_96.u = 0x10;
-    ((S_80175470_0 *)arg0)->unk_9B.n++;
-    func_800A18E8(((S_80175470_1 *)arg3)->unk_13, 3);
-    func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-    func_8009A028(arg3);
-    node = (u8 *)arg3 - 0x20;
+    ((S_80175470_0 *)sequence)->unk_96.u = 0x10;
+    ((S_80175470_0 *)sequence)->unk_9B.n++;
+    func_800A18E8(((S_80175470_1 *)actor)->unk_13, 3);
+    func_8009A3D0(record->unk_24, record->unk_25, 0x300);
+    func_8009A028(actor);
+    node = (u8 *)actor - 0x20;
     node->unk_10.i |= 0x80000000;
     return;
 
 jt_c7:
-    ((S_80175470_1 *)arg3)->unk_60 = func_800A504C(arg2, arg3);
-    if (((S_80175470_1 *)arg3)->unk_60 == 0) {
+    ((S_80175470_1 *)actor)->unk_60 = func_800A504C(record, actor);
+    if (((S_80175470_1 *)actor)->unk_60 == 0) {
         return;
     }
-    ((S_80175470_0 *)arg0)->unk_96.u = 0x10;
-    ((S_80175470_0 *)arg0)->unk_9B.n++;
-    ((S_80175470_5 *)(((S_80175470_1 *)arg3)->unk_60))->unk_2A = ((S_80175470_1 *)arg3)->unk_2A.u;
-    model = ((S_80175470_5_pre *)(((S_80175470_1 *)arg3)->unk_60))[-1].unk_00;
-    node = ((S_80175470_1 *)arg3)->unk_60;
+    ((S_80175470_0 *)sequence)->unk_96.u = 0x10;
+    ((S_80175470_0 *)sequence)->unk_9B.n++;
+    ((S_80175470_5 *)(((S_80175470_1 *)actor)->unk_60))->unk_2A = ((S_80175470_1 *)actor)->unk_2A.u;
+    model = ((S_80175470_5_pre *)(((S_80175470_1 *)actor)->unk_60))[-1].unk_00;
+    node = ((S_80175470_1 *)actor)->unk_60;
     func_80047738(model, ((u8 *)model->unk_2C)[
                   ((D_80083228 + node->unk_2A + 0x100) >> 9) & 7],
                   model->unk_04);
     model->unk_14 &= 0xFFFE;
 
 jt_c8:
-    next_timer = ((S_80175470_0 *)arg0)->unk_96.u - 1;
-    ((S_80175470_0 *)arg0)->unk_96.u = next_timer;
+    next_timer = ((S_80175470_0 *)sequence)->unk_96.u - 1;
+    ((S_80175470_0 *)sequence)->unk_96.u = next_timer;
     if ((s16)next_timer > 0) {
         return;
     }
-    ((S_80175470_5 *)(((S_80175470_1 *)arg3)->unk_60))->unk_2A = ((S_80175470_1 *)arg3)->unk_8A;
-    ((S_80175470_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    ((S_80175470_5 *)(((S_80175470_1 *)actor)->unk_60))->unk_2A = ((S_80175470_1 *)actor)->unk_8A;
+    ((S_80175470_0_pre *)sequence)[-1].unk_00 |= 0x8000;
     D_800814A0 |= 0x8000;
-    counter_base = (u16 *)&D_80083460;
-    counter_base[5]--;
-    ((S_80175470_1 *)arg3)->unk_6D = 0;
+    counters = (u16 *)&D_80083460;
+    counters[5]--;
+    ((S_80175470_1 *)actor)->unk_6D = 0;
 }

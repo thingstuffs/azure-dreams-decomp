@@ -111,207 +111,204 @@ M2C_UNK func_800A56E0();
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083780;
 
-void func_800C4F20(void *arg0, S_800C4F20_5 *arg1, void *arg2_in) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17 };
-    register S_800C4F20_1 *arg2 ASM_REG("$20") = arg2_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 temp_a0_4;
-    s16 temp_a0_5;
-    s16 temp_a0_6;
-    s16 temp_a1;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_7;
-    s32 temp_v1;
-    s16 temp_v1_5;
-    s16 var_v1;
-    u16 tail_v0;
-    s32 temp_a0_3;
-    s32 temp_a1_3;
-    s32 temp_s0;
-    s32 temp_v0_8;
-    s32 var_s0;
-    u16 temp_a0;
-    u16 temp_a0_2;
-    u16 temp_v0;
-    u16 temp_v0_5;
-    u16 temp_v0_6;
-    u16 temp_v1_2;
-    u16 temp_v1_3;
-    u16 temp_v1_6;
-    u16 temp_v1_7;
-    u16 temp_v1_8;
-    S_800C4F20_8 *temp_a0_7;
-    S_800C4F20_2 *temp_a1_2;
-    S_800C4F20_7 *temp_a1_4;
-    S_800C4F20_4 *temp_s3;
-    void *temp_v1_4;
+/* Updates an object's staged scale and position animation. */
+void func_800C4F20(void *anim, S_800C4F20_5 *position, void *transform_in) {
+    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17 };
+    register S_800C4F20_1 *transform ASM_REG("$20") = transform_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 exit_mode;
+    s16 move_ticks;
+    s16 rise_ticks;
+    s16 grow_ticks;
+    s16 grow_left;
+    s16 orbit_left;
+    s16 move_left;
+    s16 finish_left;
+    s32 state_or_mode;
+    s16 shrink_ticks;
+    s16 next_ticks;
+    u16 state;
+    s32 height_delta;
+    s32 target_y;
+    s32 target_x;
+    s32 orbit_offset;
+    s32 x_delta;
+    u16 grow_scale;
+    u16 grown_scale;
+    u16 grow_height;
+    u16 shrink_scale;
+    u16 shrunk_scale;
+    u16 start_scale;
+    u16 next_scale;
+    u16 stretch_height;
+    u16 end_scale;
+    u16 final_scale;
+    S_800C4F20_8 *owner;
+    S_800C4F20_2 *grow_target;
+    S_800C4F20_7 *shrink_target;
+    S_800C4F20_4 *orbit_center;
 
-    temp_v1 = ((S_800C4F20_0 *)arg0)->unk_28.s;
-    if ((u32) temp_v1 >= 0x12U) {
-        goto block_24;
+    state_or_mode = ((S_800C4F20_0 *)anim)->unk_28.s;
+    if ((u32) state_or_mode >= 0x12U) {
+        goto sync_position;
     }
-    (void)jt_keep; goto *D_800893E4[(u32)(temp_v1)];
+    (void)state_labels; goto *D_800893E4[(u32)(state_or_mode)];
 jt_c0:
-    temp_a1 = ((S_800C4F20_0 *)arg0)->unk_2A;
-    if (temp_a1 == 0) {
-        goto block_4;
+    grow_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
+    if (grow_ticks == 0) {
+        goto tick_grow;
     }
-    temp_a0 = arg2->unk_1E;
-    temp_a0_2 = temp_a0 + ((s32) (0x1000 - temp_a0) / temp_a1);
-    temp_v0 = arg2->unk_20;
-    arg2->unk_1E = temp_a0_2;
-    arg2->unk_1C = temp_a0_2;
-    arg2->unk_20 = (u16) (temp_v0 + ((s32) (0x1000 - temp_v0) / (s16) ((S_800C4F20_0 *)arg0)->unk_2A));
-    temp_a1_2 = ((S_800C4F20_0 *)arg0)->unk_20;
-    temp_v1_2 = temp_a1_2->unk_1E;
-    temp_v1_3 = temp_v1_2 + ((s32) (0x400 - temp_v1_2) / (s16) ((S_800C4F20_0 *)arg0)->unk_2A);
-    temp_a1_2->unk_1E = temp_v1_3;
-    temp_a1_2->unk_1C = temp_v1_3;
-    ((S_800C4F20_0 *)arg0)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)arg0)->unk_32 - ((s16) ((S_800C4F20_0 *)arg0)->unk_32 / (s16) ((S_800C4F20_0 *)arg0)->unk_2A));
-block_4:
-    temp_v0_2 = (u16) ((S_800C4F20_0 *)arg0)->unk_2A - 1;
-    ((S_800C4F20_0 *)arg0)->unk_2A = temp_v0_2;
-    if ((temp_v0_2 << 0x10) > 0) {
-        goto block_24;
+    grow_scale = transform->unk_1E;
+    grown_scale = grow_scale + ((s32) (0x1000 - grow_scale) / grow_ticks);
+    grow_height = transform->unk_20;
+    transform->unk_1E = grown_scale;
+    transform->unk_1C = grown_scale;
+    transform->unk_20 = (u16) (grow_height + ((s32) (0x1000 - grow_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+    grow_target = ((S_800C4F20_0 *)anim)->unk_20;
+    start_scale = grow_target->unk_1E;
+    next_scale = start_scale + ((s32) (0x400 - start_scale) / (s16) ((S_800C4F20_0 *)anim)->unk_2A);
+    grow_target->unk_1E = next_scale;
+    grow_target->unk_1C = next_scale;
+    ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32 - ((s16) ((S_800C4F20_0 *)anim)->unk_32 / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+tick_grow:
+    grow_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
+    ((S_800C4F20_0 *)anim)->unk_2A = grow_left;
+    if ((grow_left << 0x10) > 0) {
+        goto sync_position;
     }
-    arg2->unk_1E = 0x1000U;
-    arg2->unk_1C = 0x1000U;
-    arg2->unk_20 = 0x1000U;
+    transform->unk_1E = 0x1000U;
+    transform->unk_1C = 0x1000U;
+    transform->unk_20 = 0x1000U;
     {
-        S_800C4F20_3 *tail_ptr = ((S_800C4F20_0 *)arg0)->unk_20;
-        tail_ptr->unk_1E = 0x800U;
-        tail_ptr->unk_1C = 0x800U;
+        S_800C4F20_3 *target_transform = ((S_800C4F20_0 *)anim)->unk_20;
+        target_transform->unk_1E = 0x800U;
+        target_transform->unk_1C = 0x800U;
     }
     {
-        register u32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        tail_v0 = ((S_800C4F20_0 *)arg0)->unk_28.u;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        tail_v1 = 0x20;
-        ASM_KEEP(tail_v1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ((S_800C4F20_0 *)arg0)->unk_32 = 0;
-        var_v1 = tail_v1;
-        goto block_17;
+        register u32 orbit_ticks;
+        state = ((S_800C4F20_0 *)anim)->unk_28.u;
+        orbit_ticks = 0x20;
+        ((S_800C4F20_0 *)anim)->unk_32 = 0;
+        next_ticks = orbit_ticks;
+        goto advance_state;
     }
 jt_c1:
-    temp_v0_8 = func_80064584(((S_800C4F20_0 *)arg0)->unk_2E);
-    temp_s3 = &D_80083780;
-    temp_s0 = temp_s3->unk_02 + (temp_v0_8 >> 6);
-    temp_a1_3 = temp_s3->unk_06 + (func_800644B8(((S_800C4F20_0 *)arg0)->unk_2E) >> 6);
-    var_s0 = temp_s0 - arg1->unk_02;
-    if (var_s0 >= 0) {
-        goto block_8;
+    orbit_offset = func_80064584(((S_800C4F20_0 *)anim)->unk_2E);
+    orbit_center = &D_80083780;
+    target_x = orbit_center->unk_02 + (orbit_offset >> 6);
+    target_y = orbit_center->unk_06 + (func_800644B8(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
+    x_delta = target_x - position->unk_02;
+    if (x_delta >= 0) {
+        goto move_orbit;
     }
-    var_s0 += 3;
-block_8:
-    arg1->unk_02 = (s16) ((u16) arg1->unk_02 + (var_s0 >> 2));
-    arg1->unk_06 = (s16) ((u16) arg1->unk_06 + ((s32) (temp_a1_3 - arg1->unk_06) / 4));
-    temp_v0_8 = (func_800644B8(((S_800C4F20_0 *)arg0)->unk_2C << 5, temp_a1_3) >> 6) + 0x40;
-    temp_a0_3 = temp_s3->unk_0A - arg1->unk_0A;
-    arg1->unk_0A = (s16) ((u16) arg1->unk_0A + ((s32) (temp_a0_3 - temp_v0_8) / 4));
-    ((S_800C4F20_0 *)arg0)->unk_2E = (s16) ((u16) ((S_800C4F20_0 *)arg0)->unk_2E + 0x40 + (func_80069EF8(temp_a0_3) & 0x1F));
-    temp_a0_4 = ((S_800C4F20_0 *)arg0)->unk_36;
-    if (temp_a0_4 == 0) {
-        goto block_24;
+    x_delta += 3;
+move_orbit:
+    position->unk_02 = (s16) ((u16) position->unk_02 + (x_delta >> 2));
+    position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (target_y - position->unk_06) / 4));
+    orbit_offset = (func_800644B8(((S_800C4F20_0 *)anim)->unk_2C << 5, target_y) >> 6) + 0x40;
+    height_delta = orbit_center->unk_0A - position->unk_0A;
+    position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (height_delta - orbit_offset) / 4));
+    ((S_800C4F20_0 *)anim)->unk_2E = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2E + 0x40 + (func_80069EF8(height_delta) & 0x1F));
+    exit_mode = ((S_800C4F20_0 *)anim)->unk_36;
+    if (exit_mode == 0) {
+        goto sync_position;
     }
-    temp_v0_3 = (u16) ((S_800C4F20_0 *)arg0)->unk_2A - 1;
-    ((S_800C4F20_0 *)arg0)->unk_2A = temp_v0_3;
-    if ((temp_v0_3 << 0x10) > 0) {
-        goto block_24;
+    orbit_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
+    ((S_800C4F20_0 *)anim)->unk_2A = orbit_left;
+    if ((orbit_left << 0x10) > 0) {
+        goto sync_position;
     }
-    temp_v1 = temp_a0_4;
-    if (temp_v1 == 1) {
-        goto block_16;
+    state_or_mode = exit_mode;
+    if (state_or_mode == 1) {
+        goto prepare_next_state;
     }
-    if (temp_v1 == 3) {
-        goto block_16;
+    if (state_or_mode == 3) {
+        goto prepare_next_state;
     }
-    ((S_800C4F20_0 *)arg0)->unk_2A = 0x20;
-    ((S_800C4F20_0 *)arg0)->unk_28.s = (s16) ((u16) ((S_800C4F20_0 *)arg0)->unk_28.s + 0x10);
+    ((S_800C4F20_0 *)anim)->unk_2A = 0x20;
+    ((S_800C4F20_0 *)anim)->unk_28.s = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_28.s + 0x10);
     func_800A56E0(0x518);
-    goto block_24;
+    goto sync_position;
 jt_c2:
-    temp_a0_5 = ((S_800C4F20_0 *)arg0)->unk_2A;
-    if (temp_a0_5 == 0) {
-        goto block_15;
+    move_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
+    if (move_ticks == 0) {
+        goto tick_move;
     }
     {
-        s32 c2_v0;
-        s32 c2_v1;
+        s32 x_work;
+        s32 x_step;
 
-        c2_v0 = (s32) ((S_800C4F20_0 *)arg0)->unk_20;
-        c2_v1 = ((S_800C4F20_6 *)((void *) c2_v0))->unk_24;
-        c2_v0 = arg1->unk_02;
-        c2_v1 <<= 6;
-        c2_v0 -= 0x20;
-        c2_v1 -= c2_v0;
-        c2_v1 /= temp_a0_5;
-        arg1->unk_02 = (s16) ((u16) arg1->unk_02 + c2_v1);
+        x_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
+        x_step = ((S_800C4F20_6 *)((void *) x_work))->unk_24;
+        x_work = position->unk_02;
+        x_step <<= 6;
+        x_work -= 0x20;
+        x_step -= x_work;
+        x_step /= move_ticks;
+        position->unk_02 = (s16) ((u16) position->unk_02 + x_step);
     }
     {
-        s32 c2_v0;
-        s32 c2_v1;
-        register s32 c2_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 y_work;
+        s32 y_step;
+        register s32 move_ticks_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        c2_v0 = (s32) ((S_800C4F20_0 *)arg0)->unk_20;
-        c2_a0 = ((S_800C4F20_0 *)arg0)->unk_2A;
-        c2_v1 = ((S_800C4F20_6 *)((void *) c2_v0))->unk_25;
-        c2_v0 = arg1->unk_06;
-        c2_v1 <<= 6;
-        c2_v0 -= 0x20;
-        c2_v1 -= c2_v0;
-        c2_v1 /= c2_a0;
-        arg1->unk_06 = (s16) ((u16) arg1->unk_06 + c2_v1);
+        y_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
+        move_ticks_y = ((S_800C4F20_0 *)anim)->unk_2A;
+        y_step = ((S_800C4F20_6 *)((void *) y_work))->unk_25;
+        y_work = position->unk_06;
+        y_step <<= 6;
+        y_work -= 0x20;
+        y_step -= y_work;
+        y_step /= move_ticks_y;
+        position->unk_06 = (s16) ((u16) position->unk_06 + y_step);
     }
-    arg1->unk_0A = (s16) ((u16) arg1->unk_0A + ((s32) (((S_800C4F20_11 *)(((S_800C4F20_10 *)arg0)->unk_24))->unk_88 - arg1->unk_0A) / (s16) ((S_800C4F20_0 *)arg0)->unk_2A));
-block_15:
-    temp_v0_4 = (u16) ((S_800C4F20_0 *)arg0)->unk_2A - 1;
-    ((S_800C4F20_0 *)arg0)->unk_2A = temp_v0_4;
-    if ((temp_v0_4 << 0x10) > 0) {
-        goto block_24;
+    position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_88 - position->unk_0A) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+tick_move:
+    move_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
+    ((S_800C4F20_0 *)anim)->unk_2A = move_left;
+    if ((move_left << 0x10) > 0) {
+        goto sync_position;
     }
-block_16:
-    tail_v0 = ((S_800C4F20_0 *)arg0)->unk_28.u;
-    var_v1 = 0x10;
-block_17:
-    ((S_800C4F20_0 *)arg0)->unk_2A = var_v1;
+prepare_next_state:
+    state = ((S_800C4F20_0 *)anim)->unk_28.u;
+    next_ticks = 0x10;
+advance_state:
+    ((S_800C4F20_0 *)anim)->unk_2A = next_ticks;
     ASM_SCHED_BARRIER(); /* MATCH: keep the shared count store before the state increment. */
-    ((S_800C4F20_0 *)arg0)->unk_28.s = (s16) (tail_v0 + 1);
-    goto block_24;
+    ((S_800C4F20_0 *)anim)->unk_28.s = (s16) (state + 1);
+    goto sync_position;
 jt_c3:
-    temp_v1_5 = ((S_800C4F20_0 *)arg0)->unk_2A;
-    if (temp_v1_5 == 0) {
-        goto block_22;
+    shrink_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
+    if (shrink_ticks == 0) {
+        goto tick_finish;
     }
-    temp_v0_5 = arg2->unk_1E;
-    temp_v0_6 = temp_v0_5 - ((s32) temp_v0_5 / temp_v1_5);
-    arg2->unk_1E = temp_v0_6;
-    arg2->unk_1C = temp_v0_6;
-    temp_v1_6 = arg2->unk_20;
-    arg2->unk_20 = (u16) (temp_v1_6 + ((s32) (0x2000 - temp_v1_6) / (s16) ((S_800C4F20_0 *)arg0)->unk_2A));
-    temp_a1_4 = ((S_800C4F20_0 *)arg0)->unk_20;
-    temp_v1_7 = temp_a1_4->unk_1E;
-    temp_v1_8 = temp_v1_7 + ((s32) (0x1000 - temp_v1_7) / (s16) ((S_800C4F20_0 *)arg0)->unk_2A);
-    temp_a1_4->unk_1E = temp_v1_8;
-    temp_a1_4->unk_1C = temp_v1_8;
-    ((S_800C4F20_0 *)arg0)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)arg0)->unk_32 + ((s32) (0x400 - ((S_800C4F20_0 *)arg0)->unk_32) / (s16) ((S_800C4F20_0 *)arg0)->unk_2A));
-    goto block_22;
+    shrink_scale = transform->unk_1E;
+    shrunk_scale = shrink_scale - ((s32) shrink_scale / shrink_ticks);
+    transform->unk_1E = shrunk_scale;
+    transform->unk_1C = shrunk_scale;
+    stretch_height = transform->unk_20;
+    transform->unk_20 = (u16) (stretch_height + ((s32) (0x2000 - stretch_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+    shrink_target = ((S_800C4F20_0 *)anim)->unk_20;
+    end_scale = shrink_target->unk_1E;
+    final_scale = end_scale + ((s32) (0x1000 - end_scale) / (s16) ((S_800C4F20_0 *)anim)->unk_2A);
+    shrink_target->unk_1E = final_scale;
+    shrink_target->unk_1C = final_scale;
+    ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32 + ((s32) (0x400 - ((S_800C4F20_0 *)anim)->unk_32) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+    goto tick_finish;
 jt_c17:
-    temp_a0_6 = ((S_800C4F20_0 *)arg0)->unk_2A;
-    if (temp_a0_6 == 0) {
-        goto block_22;
+    rise_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
+    if (rise_ticks == 0) {
+        goto tick_finish;
     }
-    arg1->unk_0A = (s16) ((u16) arg1->unk_0A + ((s32) (-0x400 - arg1->unk_0A) / temp_a0_6));
-block_22:
-    temp_v0_7 = (u16) ((S_800C4F20_0 *)arg0)->unk_2A - 1;
-    ((S_800C4F20_0 *)arg0)->unk_2A = temp_v0_7;
-    if ((temp_v0_7 << 0x10) > 0) {
-        goto block_24;
+    position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (-0x400 - position->unk_0A) / rise_ticks));
+tick_finish:
+    finish_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
+    ((S_800C4F20_0 *)anim)->unk_2A = finish_left;
+    if ((finish_left << 0x10) > 0) {
+        goto sync_position;
     }
-    temp_a0_7 = ((S_800C4F20_0 *)arg0)->unk_24;
-    temp_a0_7->unk_14 = (s32) (temp_a0_7->unk_14 & 0xFFEFFFFF);
-    ((S_800C4F20_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    owner = ((S_800C4F20_0 *)anim)->unk_24;
+    owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
+    ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
     (*(s32 *)&D_800814A0) = (s32) (((S_800C4F20_9 *)(&D_800814A0))->unk_00 | 0x8000);
     return;
 jt_c4:
@@ -327,15 +324,15 @@ jt_c13:
 jt_c14:
 jt_c15:
 jt_c16:
-block_24:
-    if (!(((S_800C4F20_11 *)(((S_800C4F20_10 *)arg0)->unk_24))->unk_14 & 0x100000)) {
-        goto block_26;
+sync_position:
+    if (!(((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_14 & 0x100000)) {
+        goto tick_animation;
     }
-    ((S_800C4F20_12 *)(((S_800C4F20_10 *)arg0)->unk_1C))->unk_02 = (u16) arg1->unk_02;
-    ((S_800C4F20_12 *)(((S_800C4F20_10 *)arg0)->unk_1C))->unk_06 = (u16) arg1->unk_06;
-    ((S_800C4F20_12 *)(((S_800C4F20_10 *)arg0)->unk_1C))->unk_0A = (u16) arg1->unk_0A;
-block_26:
-    ((S_800C4F20_0 *)arg0)->unk_2C = (s16) ((u16) ((S_800C4F20_0 *)arg0)->unk_2C + 1);
-    arg2->unk_1A = (u16) (arg2->unk_1A - 0x80);
+    ((S_800C4F20_12 *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_02 = (u16) position->unk_02;
+    ((S_800C4F20_12 *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_06 = (u16) position->unk_06;
+    ((S_800C4F20_12 *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_0A = (u16) position->unk_0A;
+tick_animation:
+    ((S_800C4F20_0 *)anim)->unk_2C = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2C + 1);
+    transform->unk_1A = (u16) (transform->unk_1A - 0x80);
     return;
 }

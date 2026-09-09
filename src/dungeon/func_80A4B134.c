@@ -77,33 +77,36 @@ extern u8 D_8017489C[12];
 extern u8 D_801748F0[12];
 extern u8 D_80175910[12];
 
-void func_80174934(u8 *arg0, Vec3w *arg1, u8 *arg2)
+/* Updates a fading effect, builds four strips, and marks completion when its timer expires. */
+void func_80174934(u8 *effect, Vec3w *origin, u8 *render_data)
 {
     s16 phase;
-    u16 phase_u;
-    s16 i;
-    s16 color_i;
-    s16 color_next;
-    s16 row_i;
-    s16 row_next;
-    s16 col_i;
-    s16 col_next;
-    s16 counter;
+    u16 phase_bits;
+    s16 strip_index;
+    s16 vertex_index;
+    s16 next_vertex;
+    s16 row_index;
+    s16 next_row;
+    s16 axis_index;
+    s16 next_axis;
+    s16 frames_left;
     s16 top;
     s16 bottom;
-    s32 shade;
-    s32 random_low;
-    u8 *obj;
-    u8 *call_obj;
-    u8 *work;
-    u8 *ctl;
-    u8 *pos;
-    u8 *vec;
+    s32 fade_level;
+    s32 random_offset;
+    s32 particle_variant;
+    s32 particle_strength;
+    u8 *strip_obj;
+    u8 *init_obj;
+    u8 *strip_data;
+    u8 *render_ctl;
+    u8 *position;
+    u8 *frame_data;
     void *callback;
-    u32 *color;
+    u32 *vertex_color;
 
-    phase = ((S_80174934_0 *)arg0)->unk_16.s;
-    phase_u = ((S_80174934_0 *)arg0)->unk_16.u;
+    phase = ((S_80174934_0 *)effect)->unk_16.s;
+    phase_bits = ((S_80174934_0 *)effect)->unk_16.u;
     if (phase != 1) {
         if (phase < 2) {
             if (phase == 0)
@@ -118,136 +121,136 @@ void func_80174934(u8 *arg0, Vec3w *arg1, u8 *arg2)
         }
 
 phase_zero:
-        arg2[0xC] = (u8)((arg0[4] *
-            (0x32 - ((S_80174934_0 *)arg0)->unk_1A.s)) / 10);
-        arg2[0xD] = (u8)((arg0[5] *
-            (0x32 - ((S_80174934_0 *)arg0)->unk_1A.s)) / 10);
-        shade = 0x32 - ((S_80174934_0 *)arg0)->unk_1A.s;
-        arg2[0xE] = (u8)((arg0[6] * shade) / 10);
-        if (((S_80174934_0 *)arg0)->unk_1A.s < 0x29) {
-            ((S_80174934_0 *)arg0)->unk_16.p =
-                ((S_80174934_0 *)arg0)->unk_16.u + 1;
+        render_data[0xC] = (u8)((effect[4] *
+            (0x32 - ((S_80174934_0 *)effect)->unk_1A.s)) / 10);
+        render_data[0xD] = (u8)((effect[5] *
+            (0x32 - ((S_80174934_0 *)effect)->unk_1A.s)) / 10);
+        fade_level = 0x32 - ((S_80174934_0 *)effect)->unk_1A.s;
+        render_data[0xE] = (u8)((effect[6] * fade_level) / 10);
+        if (((S_80174934_0 *)effect)->unk_1A.s < 0x29) {
+            ((S_80174934_0 *)effect)->unk_16.p =
+                ((S_80174934_0 *)effect)->unk_16.u + 1;
             goto build_objects;
         }
 
         goto build_objects;
     }
 
-    if (((S_80174934_0 *)arg0)->unk_1A.s < 0xC) {
-        ((S_80174934_0 *)arg0)->unk_16.s = phase_u + 1;
+    if (((S_80174934_0 *)effect)->unk_1A.s < 0xC) {
+        ((S_80174934_0 *)effect)->unk_16.s = phase_bits + 1;
     }
 
     if (func_80069EF8() & 1) {
-        work = (u8 *)(func_80069EF8() & 7);
-        obj = (u8 *)(func_80069EF8() & 0xFF);
-        obj = (u8 *)((s32)obj | 0x80);
-        random_low = func_80069EF8();
-        func_80174214(arg0 - 0x20, (s32)work, 0xF0, (s32)obj,
-            ((S_80174934_0 *)arg0)->unk_64, ((S_80174934_0 *)arg0)->unk_66,
-            (s16)(-0x70 - (random_low & 0x1F)));
+        particle_variant = func_80069EF8() & 7;
+        particle_strength = func_80069EF8() & 0xFF;
+        particle_strength = particle_strength | 0x80;
+        random_offset = func_80069EF8();
+        func_80174214(effect - 0x20, particle_variant, 0xF0, particle_strength,
+            ((S_80174934_0 *)effect)->unk_64, ((S_80174934_0 *)effect)->unk_66,
+            (s16)(-0x70 - (random_offset & 0x1F)));
     } else {
-        work = (u8 *)(func_80069EF8() & 7);
-        obj = (u8 *)(func_80069EF8() & 0xFF);
-        obj = (u8 *)((s32)obj | 0x80);
-        random_low = func_80069EF8();
-        func_80174214(arg0 - 0x20, (s32)work, 0xF0, (s32)obj,
-            ((S_80174934_0 *)arg0)->unk_64, ((S_80174934_0 *)arg0)->unk_66,
-            (s16)(-0x40 - (random_low & 0x1F)));
+        particle_variant = func_80069EF8() & 7;
+        particle_strength = func_80069EF8() & 0xFF;
+        particle_strength = particle_strength | 0x80;
+        random_offset = func_80069EF8();
+        func_80174214(effect - 0x20, particle_variant, 0xF0, particle_strength,
+            ((S_80174934_0 *)effect)->unk_64, ((S_80174934_0 *)effect)->unk_66,
+            (s16)(-0x40 - (random_offset & 0x1F)));
     }
     goto build_objects;
 
 phase_two:
-    arg2[0xC] = (u8)((arg0[4] * ((S_80174934_0 *)arg0)->unk_1A.s) / 10);
-    arg2[0xD] = (u8)((arg0[5] * ((S_80174934_0 *)arg0)->unk_1A.s) / 10);
-    arg2[0xE] = (u8)((arg0[6] * ((S_80174934_0 *)arg0)->unk_1A.s) / 10);
+    render_data[0xC] = (u8)((effect[4] * ((S_80174934_0 *)effect)->unk_1A.s) / 10);
+    render_data[0xD] = (u8)((effect[5] * ((S_80174934_0 *)effect)->unk_1A.s) / 10);
+    render_data[0xE] = (u8)((effect[6] * ((S_80174934_0 *)effect)->unk_1A.s) / 10);
 
 build_objects:
-        ((S_80174934_0 *)arg0)->unk_20 = ((S_80174934_0 *)arg0)->unk_20 + 1;
-        i = 0;
-        do {
-            obj = func_8003FC64(0x12);
-            if (obj != 0) {
-                call_obj = obj;
-                ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                callback = D_8017489C;
-                ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                work = obj + 0x20;
-                ((S_80174934_1 *)work)->unk_1A = 1;
-                ((S_80174934_1 *)work)->unk_1C = 1;
-                ((S_80174934_2 *)obj)->unk_10 = D_801748F0;
-                func_8004491C(call_obj, callback);
+    ((S_80174934_0 *)effect)->unk_20 = ((S_80174934_0 *)effect)->unk_20 + 1;
+    strip_index = 0;
+    do {
+        strip_obj = func_8003FC64(0x12);
+        if (strip_obj != 0) {
+            init_obj = strip_obj;
+            ASM_KEEP(init_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            callback = D_8017489C;
+            ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            strip_data = strip_obj + 0x20;
+            ((S_80174934_1 *)strip_data)->unk_1A = 1;
+            ((S_80174934_1 *)strip_data)->unk_1C = 1;
+            ((S_80174934_2 *)strip_obj)->unk_10 = D_801748F0;
+            func_8004491C(init_obj, callback);
 
-                ctl = ((S_80174934_2 *)obj)->unk_0C;
-                ((S_80174934_3 *)ctl)->unk_10 = 0x20;
-                ((S_80174934_3 *)ctl)->unk_14 |= 0xC;
+            render_ctl = ((S_80174934_2 *)strip_obj)->unk_0C;
+            ((S_80174934_3 *)render_ctl)->unk_10 = 0x20;
+            ((S_80174934_3 *)render_ctl)->unk_14 |= 0xC;
 
-                pos = ((S_80174934_2 *)obj)->unk_08;
-                ((S_80174934_4 *)pos)->unk_00 = arg1->x;
-                ((S_80174934_4 *)pos)->unk_04 = arg1->y;
-                ((S_80174934_4 *)pos)->unk_08 = arg1->z;
+            position = ((S_80174934_2 *)strip_obj)->unk_08;
+            ((S_80174934_4 *)position)->unk_00 = origin->x;
+            ((S_80174934_4 *)position)->unk_04 = origin->y;
+            ((S_80174934_4 *)position)->unk_08 = origin->z;
 
-                ctl = ((S_80174934_2 *)obj)->unk_0C;
-                ((S_80174934_3 *)ctl)->unk_1E = 0x1000;
-                ((S_80174934_3 *)ctl)->unk_1C = 0x1000;
-                ctl[0xE] = 0x80;
-                ctl[0xD] = 0x80;
-                ctl[0xC] = 0x80;
+            render_ctl = ((S_80174934_2 *)strip_obj)->unk_0C;
+            ((S_80174934_3 *)render_ctl)->unk_1E = 0x1000;
+            ((S_80174934_3 *)render_ctl)->unk_1C = 0x1000;
+            render_ctl[0xE] = 0x80;
+            render_ctl[0xD] = 0x80;
+            render_ctl[0xC] = 0x80;
 
-                color_i = 0;
-                do {
-                    color = (u32 *)work + color_i;
-                    ((u8 *)color)[4] = arg2[0xC];
-                    ((u8 *)color)[5] = arg2[0xD];
-                    color_next = color_i + 1;
-                    color_i = color_next;
-                    ((u8 *)color)[6] = arg2[0xE];
-                } while (color_next < 4);
+            vertex_index = 0;
+            do {
+                vertex_color = (u32 *)strip_data + vertex_index;
+                ((u8 *)vertex_color)[4] = render_data[0xC];
+                ((u8 *)vertex_color)[5] = render_data[0xD];
+                next_vertex = vertex_index + 1;
+                vertex_index = next_vertex;
+                ((u8 *)vertex_color)[6] = render_data[0xE];
+            } while (next_vertex < 4);
 
-                if (i == 3) {
-                    work[0xA] = 0;
-                    work[9] = 0;
-                    work[8] = 0;
-                    work[6] = 0;
-                    work[5] = 0;
-                    work[4] = 0;
-                }
-
-                ((S_80174934_3 *)ctl)->unk_06 = 0;
-                memcpy(work + 0x28, D_80175910, 12);
-                vec = work + 0x28;
-                ((S_80174934_3 *)ctl)->unk_08 = vec;
-                vec[8] = (u8)(vec[8] + ((S_80174934_0 *)arg0)->unk_1E * 4);
-                vec = ((S_80174934_3 *)ctl)->unk_08;
-                vec[9] = (u8)(vec[9] + ((((S_80174934_0 *)arg0)->unk_20 & 3) * 8));
-
-                row_i = 0;
-                do {
-                    col_i = 0;
-                    do {
-                        ((Rows *)work)->row[row_i][col_i] =
-                            ((Rows *)arg0)->row[row_i][col_i];
-                        col_next = col_i + 1;
-                        col_i = col_next;
-                    } while (col_next < 3);
-                    row_next = row_i + 1;
-                    row_i = row_next;
-                } while (row_next < 4);
-
-                top = 0 - ((i + 1) * 0x10);
-                bottom = 0 - (i * 0x10);
-                ((S_80174934_1 *)work)->unk_6E = top;
-                ((S_80174934_1 *)work)->unk_68 = top;
-                ((S_80174934_1 *)work)->unk_7A = bottom;
-                ((S_80174934_1 *)work)->unk_74 = bottom;
+            if (strip_index == 3) {
+                strip_data[0xA] = 0;
+                strip_data[9] = 0;
+                strip_data[8] = 0;
+                strip_data[6] = 0;
+                strip_data[5] = 0;
+                strip_data[4] = 0;
             }
-            i++;
-        } while (i < 4);
 
-        counter = ((S_80174934_0 *)arg0)->unk_1A.u - 1;
-        ((S_80174934_0 *)arg0)->unk_1A.s = counter;
-        if (counter <= 0) {
-            (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            ((S_80174934_3 *)render_ctl)->unk_06 = 0;
+            memcpy(strip_data + 0x28, D_80175910, 12);
+            frame_data = strip_data + 0x28;
+            ((S_80174934_3 *)render_ctl)->unk_08 = frame_data;
+            frame_data[8] = (u8)(frame_data[8] + ((S_80174934_0 *)effect)->unk_1E * 4);
+            frame_data = ((S_80174934_3 *)render_ctl)->unk_08;
+            frame_data[9] = (u8)(frame_data[9] + ((((S_80174934_0 *)effect)->unk_20 & 3) * 8));
+
+            row_index = 0;
+            do {
+                axis_index = 0;
+                do {
+                    ((Rows *)strip_data)->row[row_index][axis_index] =
+                        ((Rows *)effect)->row[row_index][axis_index];
+                    next_axis = axis_index + 1;
+                    axis_index = next_axis;
+                } while (next_axis < 3);
+                next_row = row_index + 1;
+                row_index = next_row;
+            } while (next_row < 4);
+
+            top = 0 - ((strip_index + 1) * 0x10);
+            bottom = 0 - (strip_index * 0x10);
+            ((S_80174934_1 *)strip_data)->unk_6E = top;
+            ((S_80174934_1 *)strip_data)->unk_68 = top;
+            ((S_80174934_1 *)strip_data)->unk_7A = bottom;
+            ((S_80174934_1 *)strip_data)->unk_74 = bottom;
         }
-        return;
+        strip_index++;
+    } while (strip_index < 4);
+
+    frames_left = ((S_80174934_0 *)effect)->unk_1A.u - 1;
+    ((S_80174934_0 *)effect)->unk_1A.s = frames_left;
+    if (frames_left <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+        D_800814A0 |= 0x8000;
+    }
+    return;
 }

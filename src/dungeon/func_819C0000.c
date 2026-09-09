@@ -44,97 +44,97 @@ extern s16 D_8002992E[5];
 extern s32 D_800814A0;
 extern u8 *D_800814A8;
 
-void func_80025800(void *arg0_in, void *arg1_in, void *arg2_in)
+/* Updates an owner-following effect or its fade, wait, and rising phases. */
+void func_80025800(void *effect_in, void *position_in, void *visual_in)
 {
-    register void *arg0 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *arg1 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    LocalPoints local;
-    register u8 *src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *src_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *dst ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u8 *end;
-    u8 *object;
-    u8 *node;
-    u8 *tile;
+    register void *effect ASM_REG("$18");
+    register void *position ASM_REG("$19");
+    register void *visual ASM_REG("$17");
+    LocalPoints offsets;
+    register u8 *copy_src ASM_REG("$6");
+    register u8 *source_page ASM_REG("$2");
+    register u8 *copy_dst ASM_REG("$7");
+    u8 *copy_end;
+    u8 *owner;
+    u8 *owner_pos;
+    u8 *owner_visual;
     u8 *world;
-    s32 w0;
-    s32 w1;
-    s32 w2;
-    s32 w3;
+    s32 word_0;
+    s32 word_1;
+    s32 word_2;
+    s32 word_3;
     s32 fade;
-    s32 thirtytwo;
+    s32 half_tile;
     u16 flags;
     s32 state;
-    s32 sum;
-    u32 align;
-    s16 outer;
-    s16 inner;
-    s16 next;
-    u16 count30;
-    s32 count32;
+    s32 rise_speed;
+    u32 misalignment;
+    s16 column;
+    s16 row;
+    s16 next_tick;
+    u16 move_ticks;
+    s32 anim_ticks;
     LocalPoint *point;
 
-    arg0 = arg0_in;
-    arg1 = arg1_in;
-    arg2 = arg2_in;
-    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    dst = (u8 *)&local;
+    effect = effect_in;
+    position = position_in;
+    visual = visual_in;
+    ASM_KEEP_NV(effect);
+    ASM_KEEP_NV(position);
+    ASM_KEEP_NV(visual);
+    copy_dst = (u8 *)&offsets;
 #ifdef NON_MATCHING
-    src = (u8 *)&D_80024004;
+    copy_src = (u8 *)&D_80024004;
 #else
-    src_page = (u8 *)0x80020000;
-    ASM_KEEP_NV(src_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    src = src_page + 0x4004;
+    source_page = (u8 *)0x80020000;
+    ASM_KEEP_NV(source_page);
+    copy_src = source_page + 0x4004;
 #endif
-    ASM_KEEP_NV(src);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    align = (u32)src & 3;
-    if (align) {
-        end = src + 0x20;
+    ASM_KEEP_NV(copy_src);
+    misalignment = (u32)copy_src & 3;
+    if (misalignment) {
+        copy_end = copy_src + 0x20;
         do {
-            w0 = PACKED_AT(src, 0);
-            w1 = PACKED_AT(src, 4);
-            w2 = PACKED_AT(src, 8);
-            w3 = PACKED_AT(src, 0xC);
-            PACKED_AT(dst, 0) = w0;
-            PACKED_AT(dst, 4) = w1;
-            PACKED_AT(dst, 8) = w2;
-            PACKED_AT(dst, 0xC) = w3;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            src += 0x10;
-            dst += 0x10;
-        } while (src != end);
+            word_0 = PACKED_AT(copy_src, 0);
+            word_1 = PACKED_AT(copy_src, 4);
+            word_2 = PACKED_AT(copy_src, 8);
+            word_3 = PACKED_AT(copy_src, 0xC);
+            PACKED_AT(copy_dst, 0) = word_0;
+            PACKED_AT(copy_dst, 4) = word_1;
+            PACKED_AT(copy_dst, 8) = word_2;
+            PACKED_AT(copy_dst, 0xC) = word_3;
+            ASM_SCHED_BARRIER();
+            copy_src += 0x10;
+            copy_dst += 0x10;
+        } while (copy_src != copy_end);
     } else {
-        end = src + 0x20;
+        copy_end = copy_src + 0x20;
         do {
-            w0 = S32_AT(src, 0);
-            w1 = S32_AT(src, 4);
-            w2 = S32_AT(src, 8);
-            w3 = S32_AT(src, 0xC);
-            S32_AT(dst, 0) = w0;
-            S32_AT(dst, 4) = w1;
-            S32_AT(dst, 8) = w2;
-            S32_AT(dst, 0xC) = w3;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            src += 0x10;
-            dst += 0x10;
-        } while (src != end);
+            word_0 = S32_AT(copy_src, 0);
+            word_1 = S32_AT(copy_src, 4);
+            word_2 = S32_AT(copy_src, 8);
+            word_3 = S32_AT(copy_src, 0xC);
+            S32_AT(copy_dst, 0) = word_0;
+            S32_AT(copy_dst, 4) = word_1;
+            S32_AT(copy_dst, 8) = word_2;
+            S32_AT(copy_dst, 0xC) = word_3;
+            ASM_SCHED_BARRIER();
+            copy_src += 0x10;
+            copy_dst += 0x10;
+        } while (copy_src != copy_end);
     }
-    ASM_KEEP_NV(dst);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    PACKED_AT(dst, 0) = PACKED_AT(src, 0);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    PACKED_AT(copy_dst, 0) = PACKED_AT(copy_src, 0);
+    ASM_SCHED_BARRIER();
 
     D_8002992E[0] = 1;
-    thirtytwo = 0x20;
-    S16_AT(arg2, 0x10) = thirtytwo;
-    U16_AT(arg2, 0x14) |= 0xC;
-    object = PTR_AT(arg0, 0x20);
+    half_tile = 0x20;
+    S16_AT(visual, 0x10) = half_tile;
+    U16_AT(visual, 0x14) |= 0xC;
+    owner = PTR_AT(effect, 0x20);
     world = D_800814A8;
 
-    if (object == 0) {
-        state = S16_AT(arg0, 0x2C);
+    if (owner == 0) {
+        state = S16_AT(effect, 0x2C);
         if (state == 1) {
             goto state_one;
         }
@@ -145,156 +145,155 @@ void func_80025800(void *arg0_in, void *arg1_in, void *arg2_in)
             goto function_done;
         }
 
-        ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (state == 2) {
             goto state_two;
         }
         goto function_done;
 
 state_zero:
-                count30 = U16_AT(arg0, 0x30);
-                count32 = U16_AT(arg0, 0x32);
-                ASM_KEEP_NV(count30);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(count32);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                count30--;
-                count32++;
-                ASM_KEEP_NV(count30);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                VU16_AT(arg0, 0x32) = count32;
-                count32 = (count32 << 16) >> 16;
-                VU16_AT(arg0, 0x30) = count30;
-                if (count32 < 0x19) {
-                    fade = count32 << 8;
-                    U16_AT(arg2, 0x20) = fade;
-                    U16_AT(arg2, 0x1E) = fade;
-                    U16_AT(arg2, 0x1C) = fade;
-                    S16_AT(arg0, 0x3A) = 0;
-                    S16_AT(arg0, 0x38) = 1;
-                    S16_AT(arg0, 0x34) = 1;
-                    func_80026060(arg2, (u8 *)arg0 + 0x34,
-                                  S16_AT(arg0, 0x3A), S16_AT(arg0, 0x38));
-                    func_80025FB0(arg0, S32_AT(arg2, 0));
-                    goto function_done;
-                }
-                U16_AT(arg0, 0x30) = 0;
-                U16_AT(arg0, 0x32) = 0;
-                U16_AT(arg0, 0x2C) = U16_AT(arg0, 0x2C) + 1;
-                goto function_done;
+        move_ticks = U16_AT(effect, 0x30);
+        anim_ticks = U16_AT(effect, 0x32);
+        ASM_KEEP_NV(move_ticks);
+        ASM_KEEP_NV(anim_ticks);
+        move_ticks--;
+        anim_ticks++;
+        ASM_KEEP_NV(move_ticks);
+        VU16_AT(effect, 0x32) = anim_ticks;
+        anim_ticks = (anim_ticks << 16) >> 16;
+        VU16_AT(effect, 0x30) = move_ticks;
+        if (anim_ticks < 0x19) {
+            fade = anim_ticks << 8;
+            U16_AT(visual, 0x20) = fade;
+            U16_AT(visual, 0x1E) = fade;
+            U16_AT(visual, 0x1C) = fade;
+            S16_AT(effect, 0x3A) = 0;
+            S16_AT(effect, 0x38) = 1;
+            S16_AT(effect, 0x34) = 1;
+            func_80026060(visual, (u8 *)effect + 0x34,
+                          S16_AT(effect, 0x3A), S16_AT(effect, 0x38));
+            func_80025FB0(effect, S32_AT(visual, 0));
+            goto function_done;
+        }
+        U16_AT(effect, 0x30) = 0;
+        U16_AT(effect, 0x32) = 0;
+        U16_AT(effect, 0x2C) = U16_AT(effect, 0x2C) + 1;
+        goto function_done;
 
 state_one:
-            next = U16_AT(arg0, 0x32) + 1;
-            U16_AT(arg0, 0x32) = next;
-            if (next & 1) {
-                S16_AT(arg0, 0x3A) = state;
-                S16_AT(arg0, 0x38) = 0xF;
-                S16_AT(arg0, 0x34) = state;
-                func_80026060(arg2, (u8 *)arg0 + 0x34,
-                              S16_AT(arg0, 0x3A), S16_AT(arg0, 0x38));
-                func_80025FB0(arg0, S32_AT(arg2, 0));
-            }
-            if (S16_AT(D_800814A8, 0x96) == 0) {
-                U16_AT(arg0, 0x30) = 0;
-                S32_AT(arg0, 0x50) = 0x200000;
-                S32_AT(arg0, 0x5C) = 0;
-                U16_AT(arg0, 0x2C) = U16_AT(arg0, 0x2C) + 1;
-                goto function_done;
-            }
-            goto state_done;
+        next_tick = U16_AT(effect, 0x32) + 1;
+        U16_AT(effect, 0x32) = next_tick;
+        if (next_tick & 1) {
+            S16_AT(effect, 0x3A) = state;
+            S16_AT(effect, 0x38) = 0xF;
+            S16_AT(effect, 0x34) = state;
+            func_80026060(visual, (u8 *)effect + 0x34,
+                          S16_AT(effect, 0x3A), S16_AT(effect, 0x38));
+            func_80025FB0(effect, S32_AT(visual, 0));
+        }
+        if (S16_AT(D_800814A8, 0x96) == 0) {
+            U16_AT(effect, 0x30) = 0;
+            S32_AT(effect, 0x50) = 0x200000;
+            S32_AT(effect, 0x5C) = 0;
+            U16_AT(effect, 0x2C) = U16_AT(effect, 0x2C) + 1;
+            goto function_done;
+        }
+        goto state_done;
 
 state_two:
-            {
-            s32 xbase;
-            register s32 ybase ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 coordx;
-            s32 coordy;
-            register s32 xadj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 yadj ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        {
+            s32 base_x;
+            register s32 base_y ASM_REG("$22");
+            s32 pos_x;
+            s32 pos_y;
+            register s32 biased_x ASM_REG("$4");
+            register s32 biased_y ASM_REG("$2");
 
-            S32_AT(arg1, 0x14) = S32_AT(arg1, 8);
-            sum = S32_AT(arg0, 0x50) + S32_AT(arg0, 0x5C);
-            S32_AT(arg0, 0x50) = sum;
-            S32_AT(arg1, 8) += sum;
-            coordx = S16_AT(arg1, 2);
-            xadj = coordx - 0x20;
-            if (xadj < 0) {
-                xadj = coordx + 0x1F;
+            S32_AT(position, 0x14) = S32_AT(position, 8);
+            rise_speed = S32_AT(effect, 0x50) + S32_AT(effect, 0x5C);
+            S32_AT(effect, 0x50) = rise_speed;
+            S32_AT(position, 8) += rise_speed;
+            pos_x = S16_AT(position, 2);
+            biased_x = pos_x - 0x20;
+            if (biased_x < 0) {
+                biased_x = pos_x + 0x1F;
             }
-            coordy = S16_AT(arg1, 6);
-            yadj = coordy - 0x20;
-            if (yadj < 0) {
-                yadj = coordy + 0x1F;
+            pos_y = S16_AT(position, 6);
+            biased_y = pos_y - 0x20;
+            if (biased_y < 0) {
+                biased_y = pos_y + 0x1F;
             }
-            xbase = (u32)xadj >> 6;
-            ybase = (u32)yadj >> 6;
+            base_x = (u32)biased_x >> 6;
+            base_y = (u32)biased_y >> 6;
 
-            outer = 0;
+            column = 0;
             do {
-                ASM_SCHED_BARRIER(); /* MATCH: Keep the inner counter reset out of the outer branch delay slot. */
-                inner = 0;
+                ASM_SCHED_BARRIER();
+                row = 0;
                 do {
-                    s32 pointoff;
-                    s32 signedx;
-                    register u32 callx ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    register u16 cally ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                    pointoff = outer * sizeof(LocalPoint) +
-                               inner * 3 * sizeof(LocalPoint);
-                    point = (LocalPoint *)((u8 *)&local + pointoff);
-                    ASM_KEEP_NV(point);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    callx = point->x;
-                    cally = point->y;
-                    callx = (xbase + callx) & 0xFFFF;
-                    cally = ybase + cally;
+                    s32 point_offset;
+                    s32 offset_x;
+                    register u32 tile_x ASM_REG("$5");
+                    register u16 tile_y ASM_REG("$6");
+                    point_offset = column * sizeof(LocalPoint) +
+                                   row * 3 * sizeof(LocalPoint);
+                    point = (LocalPoint *)((u8 *)&offsets + point_offset);
+                    ASM_KEEP_NV(point);
+                    tile_x = point->x;
+                    tile_y = point->y;
+                    tile_x = (base_x + tile_x) & 0xFFFF;
+                    tile_y = base_y + tile_y;
                     func_80025710(world,
-                                  callx,
-                                  cally,
-                                  S16_AT(arg1, 0xA),
-                                  (s16)(U16_AT(arg1, 0xA) - 0x40));
-                    signedx = S16_AT(point, 0);
-                    func_80025648((u8 *)arg0 - 0x20,
-                                  (s16)(U16_AT(arg1, 2) + (signedx << 6)),
-                                  (s16)(U16_AT(arg1, 6) + ((s32)(point->y << 16) >> 10)),
-                                  S16_AT(arg1, 0xA), S16_AT(arg1, 0x16));
-                    inner++;
-                } while (inner < 3);
-                outer++;
-            } while (outer < 3);
+                                  tile_x,
+                                  tile_y,
+                                  S16_AT(position, 0xA),
+                                  (s16)(U16_AT(position, 0xA) - 0x40));
+                    offset_x = S16_AT(point, 0);
+                    func_80025648((u8 *)effect - 0x20,
+                                  (s16)(U16_AT(position, 2) + (offset_x << 6)),
+                                  (s16)(U16_AT(position, 6) + ((s32)(point->y << 16) >> 10)),
+                                  S16_AT(position, 0xA), S16_AT(position, 0x16));
+                    row++;
+                } while (row < 3);
+                column++;
+            } while (column < 3);
 
-            next = U16_AT(arg0, 0x30) + 1;
-            U16_AT(arg0, 0x30) = next;
-            if (next >= 0x28) {
+            next_tick = U16_AT(effect, 0x30) + 1;
+            U16_AT(effect, 0x30) = next_tick;
+            if (next_tick >= 0x28) {
                 D_8002992C = 0;
                 D_80028630 = 0;
                 goto object_dead;
             }
-            }
+        }
 state_done:
-            ;
+        ;
     } else {
-        if (U16_AT(object, 0x1E) & 0x8000) {
+        if (U16_AT(owner, 0x1E) & 0x8000) {
 object_dead:
-            U16_AT(arg0, -2) |= 0x8000;
+            U16_AT(effect, -2) |= 0x8000;
             D_800814A0 |= 0x8000;
             goto function_done;
         }
 
-        node = PTR_AT(object, 8);
-        S16_AT(arg1, 2) = U16_AT(node, 2);
-        S16_AT(arg1, 6) = U16_AT(node, 6);
-        S16_AT(arg1, 0xA) = U16_AT(node, 0xA);
-        object = PTR_AT(arg0, 0x20);
-        flags = U16_AT(arg2, 0x14);
-        tile = PTR_AT(object, 0xC);
+        owner_pos = PTR_AT(owner, 8);
+        S16_AT(position, 2) = U16_AT(owner_pos, 2);
+        S16_AT(position, 6) = U16_AT(owner_pos, 6);
+        S16_AT(position, 0xA) = U16_AT(owner_pos, 0xA);
+        owner = PTR_AT(effect, 0x20);
+        flags = U16_AT(visual, 0x14);
+        owner_visual = PTR_AT(owner, 0xC);
         flags |= 0xC;
-        U16_AT(arg2, 0x14) = flags;
-        S16_AT(arg2, 0x10) = thirtytwo;
-        func_8002612C(arg2, S8_AT(tile, 4));
-        func_80025FB0(arg0, S32_AT(arg2, 0));
-        U16_AT(arg2, 0x1C) = U16_AT(tile, 0x1C);
-        U16_AT(arg2, 0x1E) = U16_AT(tile, 0x1E);
-        U16_AT(arg2, 0x20) = U16_AT(tile, 0x20);
-        S32_AT(arg2, 0xC) = S32_AT(tile, 0xC);
-        U16_AT(arg2, 0x16) = U16_AT(tile, 0x16);
-        U16_AT(arg2, 0x18) = U16_AT(tile, 0x18);
-        U16_AT(arg2, 0x1A) = U16_AT(tile, 0x1A);
+        U16_AT(visual, 0x14) = flags;
+        S16_AT(visual, 0x10) = half_tile;
+        func_8002612C(visual, S8_AT(owner_visual, 4));
+        func_80025FB0(effect, S32_AT(visual, 0));
+        U16_AT(visual, 0x1C) = U16_AT(owner_visual, 0x1C);
+        U16_AT(visual, 0x1E) = U16_AT(owner_visual, 0x1E);
+        U16_AT(visual, 0x20) = U16_AT(owner_visual, 0x20);
+        S32_AT(visual, 0xC) = S32_AT(owner_visual, 0xC);
+        U16_AT(visual, 0x16) = U16_AT(owner_visual, 0x16);
+        U16_AT(visual, 0x18) = U16_AT(owner_visual, 0x18);
+        U16_AT(visual, 0x1A) = U16_AT(owner_visual, 0x1A);
     }
 function_done:
     ;

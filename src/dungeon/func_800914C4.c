@@ -27,152 +27,139 @@ extern void func_800A67F4(void);
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define P32(p, o) (*(void **)((u8 *)(p) + (o)))
 
-void func_80096C24(void *obj, s32 arg1, void *actor, void *map)
+/* Moves the actor and updates its animation, movement state, and map flags. */
+void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
 {
     register u8 *globals;
-    register s16 kind;
-    register s32 result ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u16 *state;
-    register u16 *state2;
+    register s16 move_kind;
+    register s32 move_result;
+    register u16 *move_state;
+    register u16 *updated_state;
     register u8 *state_base;
-    register u8 *handler;
-    register s32 n;
+    register u8 *anim_table;
+    register s32 facing_offset;
     void *tail_obj;
-    static void *const keepalive[] = {
-        &&after_positive_9701C,
-        &&after_nonpositive_9701C,
-    };
 
-    ASM_USE_NV(obj); /* MATCH: Preserve obj's retail saved-register allocation when the handler call is shared. */
+    ASM_USE_NV(obj);
     globals = D_80083160;
     func_800A67F4();
-    result = func_8009ABA0(S16(map, 0x2A), arg1, actor, S16(map, 0x88), 0x20);
-    kind = (s16)result;
-    if (kind > 0) {
+    move_result = func_8009ABA0(S16(map, 0x2A), move_mode, actor, S16(map, 0x88), 0x20);
+    move_kind = (s16)move_result;
+    if (move_kind > 0) {
+        U8(obj, 0x9B) = 0;
+        func_8009A3D0(U8(actor, 0x24), U8(actor, 0x25), 0x300);
+        {
+            register u8 *x_offsets ASM_REG("$3");
+            s32 step_index;
 
-    U8(obj, 0x9B) = 0;
-    func_8009A3D0(U8(actor, 0x24), U8(actor, 0x25), 0x300);
-    {
-        register u8 *adjust_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 index;
+            x_offsets = D_8006CCD8;
+            step_index = (U16(map, 0x2A) >> 8) & 0xE;
+            U8(actor, 0x24) = U8(actor, 0x24) + x_offsets[step_index];
+            U8(actor, 0x25) = U8(actor, 0x25) + D_8006CCE8[step_index];
+        }
+        func_8009A21C(U8(actor, 0x24), U8(actor, 0x25), 0x300);
 
-        adjust_base = D_8006CCD8;
-        index = (U16(map, 0x2A) >> 8) & 0xE;
-        U8(actor, 0x24) = U8(actor, 0x24) + adjust_base[index];
-        U8(actor, 0x25) = U8(actor, 0x25) + D_8006CCE8[index];
-    }
-    func_8009A21C(U8(actor, 0x24), U8(actor, 0x25), 0x300);
+        state_base = (u8 *)&D_80083460;
+        move_state = (u16 *)state_base;
+        move_state[1] |= 8;
+        S32(obj, 0x8C) = 0;
 
-    state_base = (u8 *)&D_80083460;
-    state = (u16 *)state_base;
-    state[1] |= 8;
-    S32(obj, 0x8C) = 0;
+        if (move_kind != 4) {
+            if (D_80013714[0] & 2) {
+                void *anim_entry;
 
-    if (kind != 4) {
-        if (D_80013714[0] & 2) {
-            void *entry;
-            register void *call_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                move_state[1] |= 0x80;
+                anim_table = D_800DD274;
+                if (P32(actor, 0x2C) != anim_table) {
+                    P32(actor, 0x2C) = anim_table;
+                    facing_offset = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
+                    anim_entry = anim_table + (facing_offset & 0x1C);
+                    func_8003DB94(actor, *(void **)anim_entry, 0);
+                }
+            } else if ((S32(globals, 8) & 0x20) && func_800A5C70()) {
+                register u8 *alternate_anim;
 
-            state[1] |= 0x80;
-            handler = D_800DD274;
-            if (P32(actor, 0x2C) != handler) {
-                P32(actor, 0x2C) = handler;
-                call_actor = actor;
-                n = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
-                entry = handler + (n & 0x1C);
-                func_8003DB94(call_actor, *(void **)entry, 0);
+                move_state[1] |= 0x80;
+                alternate_anim = D_800DD274;
+                P32(actor, 0x2C) = alternate_anim;
+                facing_offset = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
+                func_8003DB94(actor, *(void **)(alternate_anim + (facing_offset & 0x1C)), 0);
+            } else {
+                move_result = 5;
+                U8(obj, 0x9B) = 10;
             }
-        } else if ((S32(globals, 8) & 0x20) && func_800A5C70()) {
-            register u8 *second_handler;
-
-            state[1] |= 0x80;
-            second_handler = D_800DD274;
-            P32(actor, 0x2C) = second_handler;
-            n = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
-            func_8003DB94(actor, *(void **)(second_handler + (n & 0x1C)), 0);
-        } else {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            do {
-                result = 5;
-            } while (0);
-            U8(obj, 0x9B) = 10;
         }
-    }
 
-    {
-        s16 kind;
-        register u8 *late_handler ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        {
+            s16 move_kind;
+            register u8 *next_anim ASM_REG("$5");
 
-        state2 = (u16 *)&D_80083460;
-        kind = (s16)result;
-        if ((state2[1] & 0x80) || kind == 1) {
-        func_80099F70(S32(map, 0x5C));
-        func_80099F04(S32(map, 0x5C));
-        if (!(state2[1] & 0x80)) {
-            late_handler = D_800DD274;
-            P32(actor, 0x2C) = late_handler;
-            n = (D_80083228 + S16(map, 0x2A) + 0x100) >> 7;
-            func_8003DB94(actor, *(void **)(late_handler + (n & 0x1C)), 0);
+            updated_state = (u16 *)&D_80083460;
+            move_kind = (s16)move_result;
+            if ((updated_state[1] & 0x80) || move_kind == 1) {
+                func_80099F70(S32(map, 0x5C));
+                func_80099F04(S32(map, 0x5C));
+                if (!(updated_state[1] & 0x80)) {
+                    next_anim = D_800DD274;
+                    P32(actor, 0x2C) = next_anim;
+                    facing_offset = (D_80083228 + S16(map, 0x2A) + 0x100) >> 7;
+                    func_8003DB94(actor, *(void **)(next_anim + (facing_offset & 0x1C)), 0);
+                }
+                U8(obj, 0x9A) = 0x35;
+                updated_state[2] = 8;
+                goto update_map;
+            }
+
+            U16(obj, 0x98) |= 0xC;
+            next_anim = D_800DD274 + 0x20;
+            P32(actor, 0x2C) = next_anim;
+            facing_offset = (D_80083228 + S16(map, 0x2A) + 0x100) >> 7;
+            func_8003DB94(actor, *(void **)(next_anim + (facing_offset & 0x1C)), 0);
+            if (move_kind < 4) {
+                U16(obj, 0xA2) |= 1;
+            } else if (move_kind == 2 || move_kind == 4) {
+                U8(obj, 0x9B) = 8;
+            }
+            func_80094ED4(obj, move_mode, actor, map);
+            {
+                D_80083464 = 8;
+                U8(obj, 0x9A) = 0x36;
+                U16(obj, 0x96) = 2;
+                S32(map, 0x1C) |= 0x40000000;
+                func_8009F644(map, 8, 0, 0);
+            }
+            return;
+update_map:
+            func_8009F644(map, 8, 0, 0);
+            tail_obj = obj;
+            goto finish_move;
         }
-        U8(obj, 0x9A) = 0x35;
-        state2[2] = 8;
-            goto after_positive_9701C;
-    }
-
-    U16(obj, 0x98) |= 0xC;
-    late_handler = D_800DD274 + 0x20;
-    P32(actor, 0x2C) = late_handler;
-    n = (D_80083228 + S16(map, 0x2A) + 0x100) >> 7;
-    func_8003DB94(actor, *(void **)(late_handler + (n & 0x1C)), 0);
-    if (kind < 4) {
-        U16(obj, 0xA2) |= 1;
-    } else if (kind == 2 || kind == 4) {
-        U8(obj, 0x9B) = 8;
-    }
-    func_80094ED4(obj, arg1, actor, map);
-    {
-        register void *call_map ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-
-        call_map = map;
-        D_80083464 = 8;
-        U8(obj, 0x9A) = 0x36;
-        U16(obj, 0x96) = 2;
-        S32(call_map, 0x1C) |= 0x40000000;
-        func_8009F644(call_map, 8, 0, 0);
-    }
-        return;
-after_positive_9701C:
-        func_8009F644(map, 8, 0, 0);
-        tail_obj = obj;
-        goto after_nonpositive_9701C;
-    }
-
     } else {
-    u8 *nonpositive_handler;
-    s32 map_flags;
+        u8 *idle_anim;
+        s32 map_flags;
 
-    nonpositive_handler = D_800DD274;
-    P32(actor, 0x2C) = nonpositive_handler;
-    n = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
-    func_8003DB94(actor, *(void **)(nonpositive_handler + (n & 0x1C)), 0);
-    S32(obj, 0x8C) = (s32)D_80096384;
-    return;
-after_nonpositive_9701C:
-    func_80094ED4(tail_obj, arg1, actor, map);
-    map_flags = S32(map, 0x1C);
-    {
-        register s32 map_flag_mask ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        idle_anim = D_800DD274;
+        P32(actor, 0x2C) = idle_anim;
+        facing_offset = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
+        func_8003DB94(actor, *(void **)(idle_anim + (facing_offset & 0x1C)), 0);
+        S32(obj, 0x8C) = (s32)D_80096384;
+        return;
+finish_move:
+        func_80094ED4(tail_obj, move_mode, actor, map);
+        map_flags = S32(map, 0x1C);
+        {
+            register s32 map_flag_mask ASM_REG("$3");
 
-        map_flag_mask = 0x40000000;
-        map_flags |= map_flag_mask;
-    }
-    state_base = (u8 *)&D_80083460;
-    {
-        register u8 *final_state_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            map_flag_mask = 0x40000000;
+            map_flags |= map_flag_mask;
+        }
+        state_base = (u8 *)&D_80083460;
+        {
+            register u8 *final_state_base ASM_REG("$3");
 
-        final_state_base = state_base;
-        S32(map, 0x1C) = map_flags;
-        ((u16 *)final_state_base)[1] |= 0x812;
-    }
+            final_state_base = state_base;
+            S32(map, 0x1C) = map_flags;
+            ((u16 *)final_state_base)[1] |= 0x812;
+        }
     }
 }

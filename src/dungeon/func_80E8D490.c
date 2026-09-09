@@ -95,36 +95,36 @@ extern u8 D_801710F4[];
 extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
 
-void func_80172C90(void *arg0, S_80172C90_2 *arg1, Rec_D_80082E80 *arg2, void *arg3)
+/* Updates the actor action sequence, including movement, landing, and recovery. */
+void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, void *actor)
 {
-    u32 directionOffset;
+    u32 dir_offset;
     u16 angle;
-    s16 *directionXBase;
-    s32 directionX;
-    s32 directionY;
+    s16 *dir_x_table;
+    s32 dir_x;
+    s32 dir_y;
     u16 timer;
     u32 state;
     register u8 *selector ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 special;
     register s32 tail_state ASM_REG("$2"); /* MATCH: the shared state store receives its value in v0. */
     u16 position[3];
-    static void *const keepalive[] = {
+    static void *const dispatch_labels[] = {
         &&L0, &&L1, &&L2, &&L3, &&L4, &&L5, &&L6, &&L16,
         &&I1, &&I2, &&I3, &&I4, &&I5, &&I6, &&I7
     };
 
-    ASM_KEEP4_NV(arg0, arg1, arg2, arg3);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_DEP_NV(special, arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    directionXBase = D_8006CCD8;
-    angle = ((S_80172C90_0 *)arg3)->unk_2A.s;
-    directionOffset = angle >> 8;
+    ASM_KEEP_DEP_NV(special, actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    dir_x_table = D_8006CCD8;
+    angle = ((S_80172C90_0 *)actor)->unk_2A.s;
+    dir_offset = angle >> 8;
     ASM_USE2_NV(angle, special);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    directionOffset &= 0xE;
-    directionX = *(s16 *)((u8 *)directionXBase + directionOffset);
-    directionY = *(s16 *)((u8 *)D_8006CCE8 + directionOffset);
-    timer = ((S_80172C90_1 *)arg0)->unk_96.s;
-    state = ((S_80172C90_1 *)arg0)->unk_9B;
-    ((S_80172C90_1 *)arg0)->unk_96.s = timer - 1;
+    dir_offset &= 0xE;
+    dir_x = *(s16 *)((u8 *)dir_x_table + dir_offset);
+    dir_y = *(s16 *)((u8 *)D_8006CCE8 + dir_offset);
+    timer = ((S_80172C90_1 *)action)->unk_96.s;
+    state = ((S_80172C90_1 *)action)->unk_9B;
+    ((S_80172C90_1 *)action)->unk_96.s = timer - 1;
     special = 0;
     if ((u32)state >= 17U) {
         return;
@@ -132,17 +132,17 @@ void func_80172C90(void *arg0, S_80172C90_2 *arg1, Rec_D_80082E80 *arg2, void *a
     goto *(((void **)D_80170838)[state]);
 
 L0:
-    ((S_80172C90_1 *)arg0)->unk_AC.s = arg1->unk_0A.s;
-    if (((S_80172C90_0 *)arg3)->unk_1C & 0x2000) {
-        u16 tableKind;
-        u32 tableIndex;
+    ((S_80172C90_1 *)action)->unk_AC.s = motion->unk_0A.s;
+    if (((S_80172C90_0 *)actor)->unk_1C & 0x2000) {
+        u16 action_kind;
+        u32 action_index;
 
-        tableKind = ((S_80172C90_0 *)arg3)->unk_46 & 0x3FFF;
-        tableIndex = tableKind - 1;
-        if (tableIndex >= 7U) {
+        action_kind = ((S_80172C90_0 *)actor)->unk_46 & 0x3FFF;
+        action_index = action_kind - 1;
+        if (action_index >= 7U) {
             goto I4;
         }
-        goto *(((void **)D_80170880)[tableIndex]);
+        goto *(((void **)D_80170880)[action_index]);
     }
     goto IDirect;
 
@@ -158,10 +158,10 @@ I5:
 
 IDirect:
     {
-    u16 directKind;
+    u16 action_kind;
 
-    directKind = ((S_80172C90_0 *)arg3)->unk_46 & 0x3FFF;
-    switch (directKind) {
+    action_kind = ((S_80172C90_0 *)actor)->unk_46 & 0x3FFF;
+    switch (action_kind) {
     case 1:
         goto I1;
     case 2:
@@ -175,168 +175,165 @@ IDirect:
     }
 
 I3:
-    selector = (u8 *)arg3 + 0xE;
+    selector = (u8 *)actor + 0xE;
     goto IEnd;
 I2:
-    selector = (u8 *)arg3 + 0xB;
+    selector = (u8 *)actor + 0xB;
     goto IEnd;
 I1:
-    selector = (u8 *)arg3 + 8;
+    selector = (u8 *)actor + 8;
     goto IEnd;
 I4:
     selector = 0;
 
 IEnd:
     if (*selector != 0) {
-        void *localOwner;
-        register void *localLinked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 specialCheck;
-        s32 moveResult;
+        void *owner;
+        register void *owner_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 use_owner;
+        s32 move_result;
 
-        ((S_80172C90_1 *)arg0)->unk_98 &= 0xFF7F;
-        specialCheck = special;
-        ASM_KEEP_NV(specialCheck);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (specialCheck) {
-            localOwner = D_800814A8[0];
-            ((S_80172C90_0 *)arg3)->unk_60 = localOwner;
+        ((S_80172C90_1 *)action)->unk_98 &= 0xFF7F;
+        use_owner = special;
+        ASM_KEEP_NV(use_owner);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        if (use_owner) {
+            owner = D_800814A8[0];
+            ((S_80172C90_0 *)actor)->unk_60 = owner;
             goto OwnerLinked;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (D_8006DE24[*selector].type == 2) {
-            localOwner = ((S_80172C90_0 *)arg3)->unk_60;
-            if (localOwner != 0) {
+            owner = ((S_80172C90_0 *)actor)->unk_60;
+            if (owner != 0) {
 OwnerLinked:
-                localLinked = ((S_80172C90_3_pre *)localOwner)[-1].unk_00;
-                ((S_80172C90_0 *)arg3)->unk_72.s = ((S_80172C90_4 *)localLinked)->unk_24;
-                ((S_80172C90_0 *)arg3)->unk_73.s = ((S_80172C90_4 *)localLinked)->unk_25;
+                owner_sprite = ((S_80172C90_3_pre *)owner)[-1].unk_00;
+                ((S_80172C90_0 *)actor)->unk_72.s = ((S_80172C90_4 *)owner_sprite)->unk_24;
+                ((S_80172C90_0 *)actor)->unk_73.s = ((S_80172C90_4 *)owner_sprite)->unk_25;
                 goto OwnerDone;
             }
         } else {
-            s32 deltaX;
-            s32 deltaY;
+            s32 delta_x;
+            s32 delta_y;
 
-            ((S_80172C90_0 *)arg3)->unk_60 = func_800A05A4(arg3,
-                arg2->unk_24,
-                arg2->unk_25,
-                ((S_80172C90_0 *)arg3)->unk_2A.u, 16);
+            ((S_80172C90_0 *)actor)->unk_60 = func_800A05A4(actor,
+                sprite->unk_24,
+                sprite->unk_25,
+                ((S_80172C90_0 *)actor)->unk_2A.u, 16);
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            deltaX = ((S_80172C90_0 *)arg3)->unk_72.u;
-            deltaY = ((S_80172C90_0 *)arg3)->unk_73.u;
-            if (deltaX < 0) {
-                deltaX = -deltaX;
+            delta_x = ((S_80172C90_0 *)actor)->unk_72.u;
+            delta_y = ((S_80172C90_0 *)actor)->unk_73.u;
+            if (delta_x < 0) {
+                delta_x = -delta_x;
             }
-            if (deltaY < 0) {
-                deltaY = -deltaY;
+            if (delta_y < 0) {
+                delta_y = -delta_y;
             }
-            ((S_80172C90_0 *)arg3)->unk_72.u = deltaX;
-            ((S_80172C90_0 *)arg3)->unk_73.u = deltaY;
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ((S_80172C90_0 *)actor)->unk_72.u = delta_x;
+            ((S_80172C90_0 *)actor)->unk_73.u = delta_y;
 OwnerDone:
             {
-                register void *edgeActor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                register void *linked_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
-                edgeActor = arg3;
-                ASM_USE_NV(edgeActor);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                linked_actor = actor;
+                ASM_USE_NV(linked_actor);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             }
         }
 
         {
-            void *finalActor;
+            void *move_actor;
 
-            finalActor = arg3;
-            ASM_UNDEF(finalActor);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            position[0] = arg1->unk_02.s;
-            position[1] = arg1->unk_06.s;
-            position[2] = arg1->unk_0A.s;
-            moveResult = func_800A94A0(finalActor, selector, special,
-                                      (u8 *)arg0 + 0x98);
+            move_actor = actor;
+            ASM_UNDEF(move_actor);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            position[0] = motion->unk_02.s;
+            position[1] = motion->unk_06.s;
+            position[2] = motion->unk_0A.s;
+            move_result = func_800A94A0(move_actor, selector, special,
+                                      (u8 *)action + 0x98);
         }
-        if (!moveResult) {
+        if (!move_result) {
             return;
         }
-        arg2->unk_14.at00_u16.v &= 0xF7FF;
+        sprite->unk_14.at00_u16.v &= 0xF7FF;
         func_800A56E0(0x703);
-        func_800DB2DC(arg1, arg2, arg3, 10);
-        ((S_80172C90_1 *)arg0)->unk_90 = 0;
-        ((S_80172C90_1 *)arg0)->unk_96.s = 2;
-        ((S_80172C90_1 *)arg0)->unk_98 |= 8;
+        func_800DB2DC(motion, sprite, actor, 10);
+        ((S_80172C90_1 *)action)->unk_90 = 0;
+        ((S_80172C90_1 *)action)->unk_96.s = 2;
+        ((S_80172C90_1 *)action)->unk_98 |= 8;
         {
-            s32 negativeX;
-            s32 negativeY;
+            s32 back_x;
+            s32 back_y;
 
-            negativeX = -directionX;
-            negativeY = -directionY;
-            arg1->unk_0C.s =
-                (negativeX << 18) + (negativeX << 19);
-            arg1->unk_10.s =
-                (negativeY << 18) + (negativeY << 19);
+            back_x = -dir_x;
+            back_y = -dir_y;
+            motion->unk_0C.s =
+                (back_x << 18) + (back_x << 19);
+            motion->unk_10.s =
+                (back_y << 18) + (back_y << 19);
         }
-        arg1->unk_14.s = (s32)0xFFF30000;
+        motion->unk_14.s = (s32)0xFFF30000;
         {
-            tail_state = ((S_80172C90_1 *)arg0)->unk_9B;
-            ASM_SCHED_BARRIER(); /* MATCH: retain separate state loads for L0 and L1. */
+            tail_state = ((S_80172C90_1 *)action)->unk_9B;
             tail_state++;
             goto StoreState;
         }
     }
 
-    arg1->unk_14.s = 0;
-    arg1->unk_10.s = 0;
-    arg1->unk_0C.s = 0;
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
+    motion->unk_14.s = 0;
+    motion->unk_10.s = 0;
+    motion->unk_0C.s = 0;
+    func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
     {
-        void *localOwner;
+        void *owner;
 
-        localOwner = D_800814A8[0];
+        owner = D_800814A8[0];
         D_8008346C[0] = 0;
-        ((S_80172C90_3 *)localOwner)->unk_A6--;
+        ((S_80172C90_3 *)owner)->unk_A6--;
     }
-    func_800A4ACC(arg3);
-    ((S_80172C90_0 *)arg3)->unk_6D.s--;
-    ((S_80172C90_1 *)arg0)->unk_8C = D_801710F4;
-    ((S_80172C90_0 *)arg3)->unk_73.s = 0;
-    ((S_80172C90_0 *)arg3)->unk_72.s = 0;
-    ((S_80172C90_0 *)arg3)->unk_46 &= 0x7FFF;
+    func_800A4ACC(actor);
+    ((S_80172C90_0 *)actor)->unk_6D.s--;
+    ((S_80172C90_1 *)action)->unk_8C = D_801710F4;
+    ((S_80172C90_0 *)actor)->unk_73.s = 0;
+    ((S_80172C90_0 *)actor)->unk_72.s = 0;
+    ((S_80172C90_0 *)actor)->unk_46 &= 0x7FFF;
     return;
 
 L1:
-    if (arg2->unk_14.at00_u16.v & 0x8000) {
-        ((S_80172C90_1 *)arg0)->unk_9B = 16;
-        ((S_80172C90_1 *)arg0)->unk_98 |= 0x80;
+    if (sprite->unk_14.at00_u16.v & 0x8000) {
+        ((S_80172C90_1 *)action)->unk_9B = 16;
+        ((S_80172C90_1 *)action)->unk_98 |= 0x80;
         return;
     }
-    if (((S_80172C90_1 *)arg0)->unk_96.u <= 0) {
-        arg1->unk_0C.u = 0;
-        arg1->unk_0C.s = directionX << 18;
-        arg1->unk_10.u = 0;
-        arg1->unk_10.s = directionY << 18;
-        arg1->unk_14.u = 0;
-        arg1->unk_14.s = (s32)0xFFF30000;
+    if (((S_80172C90_1 *)action)->unk_96.u <= 0) {
+        motion->unk_0C.u = 0;
+        motion->unk_0C.s = dir_x << 18;
+        motion->unk_10.u = 0;
+        motion->unk_10.s = dir_y << 18;
+        motion->unk_14.u = 0;
+        motion->unk_14.s = (s32)0xFFF30000;
         {
-            tail_state = ((S_80172C90_1 *)arg0)->unk_9B + 1;
+            tail_state = ((S_80172C90_1 *)action)->unk_9B + 1;
             goto StoreState;
         }
     }
-    arg1->unk_0C.s *= 2;
-    arg1->unk_10.s *= 2;
+    motion->unk_0C.s *= 2;
+    motion->unk_10.s *= 2;
     return;
 
 L2:
     if (func_8003F270()) {
-        arg2->unk_14.at00_u16.v |= 0x0800;
+        sprite->unk_14.at00_u16.v |= 0x0800;
         return;
     }
-    arg2->unk_14.at00_u16.v &= 0xF7FF;
-    ((S_80172C90_1 *)arg0)->unk_9B++;
+    sprite->unk_14.at00_u16.v &= 0xF7FF;
+    ((S_80172C90_1 *)action)->unk_9B++;
 
 L3:
-    arg1->unk_14.s += 0x30000;
-    if (arg2->unk_04.as_s8 == 4) {
-        if (arg2->unk_14.at00_u16.v & 0x1000) {
+    motion->unk_14.s += 0x30000;
+    if (sprite->unk_04.as_s8 == 4) {
+        if (sprite->unk_14.at00_u16.v & 0x1000) {
             goto L3Activate;
         }
     }
-    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
+    if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
 L3Activate:
@@ -344,128 +341,126 @@ L3Activate:
         u16 tail_flags;
         register u8 tail_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        arg1->unk_0C.s = directionX << 19;
-        arg1->unk_10.s = directionY << 19;
-        tail_flags = ((S_80172C90_1 *)arg0)->unk_98;
-        tail_state = ((S_80172C90_1 *)arg0)->unk_9B;
+        motion->unk_0C.s = dir_x << 19;
+        motion->unk_10.s = dir_y << 19;
+        tail_flags = ((S_80172C90_1 *)action)->unk_98;
+        tail_state = ((S_80172C90_1 *)action)->unk_9B;
         tail_flags |= 0x80;
         goto UpdateFlags;
 
 L4:
-    arg1->unk_14.s += 0x20000;
-    if (((S_80172C90_0 *)arg3)->unk_1C & 0x08000000) {
-        if (arg1->unk_0A.u <= ((S_80172C90_1 *)arg0)->unk_AC.u) {
+    motion->unk_14.s += 0x20000;
+    if (((S_80172C90_0 *)actor)->unk_1C & 0x08000000) {
+        if (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u) {
             goto L4Activate;
         }
     }
-    if (arg1->unk_0A.u <= ((S_80172C90_1 *)arg0)->unk_AC.u) {
+    if (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u) {
         return;
     }
 L4Activate:
     {
     u8 *effect;
 
-    arg1->unk_14.s = 0;
-    arg1->unk_10.s = 0;
-    arg1->unk_0C.s = 0;
-    ((S_80172C90_1 *)arg0)->unk_96.s = 4;
-    arg2->unk_1C.at00_u16.v = 0x1400;
-    arg2->unk_1C.at02_u16.v = 0x0C00;
+    motion->unk_14.s = 0;
+    motion->unk_10.s = 0;
+    motion->unk_0C.s = 0;
+    ((S_80172C90_1 *)action)->unk_96.s = 4;
+    sprite->unk_1C.at00_u16.v = 0x1400;
+    sprite->unk_1C.at02_u16.v = 0x0C00;
     effect = D_80174F00;
-    arg2->unk_2C.as_pu8 = effect;
-    func_80047784(arg2,
-        effect[((D_80083228[0] + ((S_80172C90_0 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
+    sprite->unk_2C.as_pu8 = effect;
+    func_80047784(sprite,
+        effect[((D_80083228[0] + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
-    tail_flags = ((S_80172C90_1 *)arg0)->unk_98;
-    tail_state = ((S_80172C90_1 *)arg0)->unk_9B;
+    tail_flags = ((S_80172C90_1 *)action)->unk_98;
+    tail_state = ((S_80172C90_1 *)action)->unk_9B;
     tail_flags &= 0xFFF7;
 UpdateFlags:
-    ASM_SCHED_BARRIER(); /* MATCH: keep the state increment in the shared flags tail. */
     tail_state++;
-    ((S_80172C90_1 *)arg0)->unk_98 = tail_flags;
-    ((S_80172C90_1 *)arg0)->unk_9B = tail_state;
+    ((S_80172C90_1 *)action)->unk_98 = tail_flags;
+    ((S_80172C90_1 *)action)->unk_9B = tail_state;
     return;
     }
     }
 
 L5:
     {
-        s32 squareInput;
-        s32 square;
+        s32 ticks;
+        s32 ticks_squared;
 
-        squareInput = ((S_80172C90_1 *)arg0)->unk_96.u;
-        square = squareInput * squareInput;
-        ASM_USE_NV(squareInput);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        arg2->unk_1C.at00_u16.v = 0x1000 + square * 300;
+        ticks = ((S_80172C90_1 *)action)->unk_96.u;
+        ticks_squared = ticks * ticks;
+        ASM_USE_NV(ticks);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        sprite->unk_1C.at00_u16.v = 0x1000 + ticks_squared * 300;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        arg2->unk_1C.at02_u16.v = 0x1000 - square * 200;
+        sprite->unk_1C.at02_u16.v = 0x1000 - ticks_squared * 200;
     }
-    if (((S_80172C90_1 *)arg0)->unk_96.u > 0) {
+    if (((S_80172C90_1 *)action)->unk_96.u > 0) {
         return;
     }
-    arg2->unk_2C.as_pu8 = D_80174EF8;
-    func_80047784(arg2,
-        D_80174EF8[((D_80083228[0] + ((S_80172C90_0 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
+    sprite->unk_2C.as_pu8 = D_80174EF8;
+    func_80047784(sprite,
+        D_80174EF8[((D_80083228[0] + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
-    ((S_80172C90_1 *)arg0)->unk_96.s = 10;
-    tail_state = ((S_80172C90_1 *)arg0)->unk_9B + 1;
+    ((S_80172C90_1 *)action)->unk_96.s = 10;
+    tail_state = ((S_80172C90_1 *)action)->unk_9B + 1;
 StoreState:
-    ASM_SCHED_BARRIER(); /* MATCH: keep the state store at the shared L5 tail. */
-    ((S_80172C90_1 *)arg0)->unk_9B = tail_state;
+    ((S_80172C90_1 *)action)->unk_9B = tail_state;
     return;
 
 L6:
     {
-        s32 rawCoordinate;
-        s32 targetCoordinate;
-        s32 currentCoordinate;
+        s32 tile_coord;
+        s32 target_coord;
+        s32 current_coord;
 
-        rawCoordinate = arg2->unk_24;
-        currentCoordinate = arg1->unk_02.u;
-        targetCoordinate = rawCoordinate << 6;
-        ASM_USE_NV(targetCoordinate);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        currentCoordinate -= 0x20;
-        arg1->unk_0C.s =
-            (targetCoordinate - currentCoordinate) << 14;
+        tile_coord = sprite->unk_24;
+        current_coord = motion->unk_02.u;
+        target_coord = tile_coord << 6;
+        ASM_USE_NV(target_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        current_coord -= 0x20;
+        motion->unk_0C.s =
+            (target_coord - current_coord) << 14;
     }
     {
-        s32 rawCoordinate;
-        s32 targetCoordinate;
-        s32 currentCoordinate;
+        s32 tile_coord;
+        s32 target_coord;
+        s32 current_coord;
 
-        rawCoordinate = arg2->unk_25;
-        currentCoordinate = arg1->unk_06.u;
-        targetCoordinate = rawCoordinate << 6;
-        ASM_USE_NV(targetCoordinate);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        currentCoordinate -= 0x20;
-        arg1->unk_10.s =
-            (targetCoordinate - currentCoordinate) << 14;
+        tile_coord = sprite->unk_25;
+        current_coord = motion->unk_06.u;
+        target_coord = tile_coord << 6;
+        ASM_USE_NV(target_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        current_coord -= 0x20;
+        motion->unk_10.s =
+            (target_coord - current_coord) << 14;
     }
-    if (((S_80172C90_1 *)arg0)->unk_96.u > 0) {
+    if (((S_80172C90_1 *)action)->unk_96.u > 0) {
         return;
     }
-    arg1->unk_14.s = 0;
-    arg1->unk_10.s = 0;
-    arg1->unk_0C.s = 0;
-    arg2->unk_14.at00_u16.v |= 0x6000;
-    ((S_80172C90_1 *)arg0)->unk_9B = 16;
+    motion->unk_14.s = 0;
+    motion->unk_10.s = 0;
+    motion->unk_0C.s = 0;
+    sprite->unk_14.at00_u16.v |= 0x6000;
+    ((S_80172C90_1 *)action)->unk_9B = 16;
     return;
 
 L16:
     {
     u8 *counter;
 
-    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
+    if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    arg1->unk_14.s = 0;
-    arg1->unk_10.s = 0;
-    arg1->unk_0C.s = 0;
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-    if (arg2->unk_2C.as_pu8 != D_80174F00) {
-        arg2->unk_2C.as_pu8 = D_80174F00;
-        func_80047784(arg2,
-            D_80174F00[((D_80083228[0] + ((S_80172C90_0 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
+    motion->unk_14.s = 0;
+    motion->unk_10.s = 0;
+    motion->unk_0C.s = 0;
+    func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
+    if (sprite->unk_2C.as_pu8 != D_80174F00) {
+        sprite->unk_2C.as_pu8 = D_80174F00;
+        func_80047784(sprite,
+            D_80174F00[((D_80083228[0] + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
             0);
     }
     counter = D_80083460;
@@ -473,15 +468,15 @@ L16:
         return;
     }
     ((S_80172C90_6 *)counter)->unk_0A--;
-    arg2->unk_14.at00_u16.v &= 0xF7FF;
-    ((S_80172C90_1 *)arg0)->unk_8C = D_801710F4;
-    func_800A4ACC(arg3);
-    if (((S_80172C90_0 *)arg3)->unk_6D.u > 0) {
-        ((S_80172C90_0 *)arg3)->unk_6D.s--;
+    sprite->unk_14.at00_u16.v &= 0xF7FF;
+    ((S_80172C90_1 *)action)->unk_8C = D_801710F4;
+    func_800A4ACC(actor);
+    if (((S_80172C90_0 *)actor)->unk_6D.u > 0) {
+        ((S_80172C90_0 *)actor)->unk_6D.s--;
     }
-    ((S_80172C90_0 *)arg3)->unk_73.s = 0;
-    ((S_80172C90_0 *)arg3)->unk_72.s = 0;
-    ((S_80172C90_0 *)arg3)->unk_46 &= 0x7FFF;
+    ((S_80172C90_0 *)actor)->unk_73.s = 0;
+    ((S_80172C90_0 *)actor)->unk_72.s = 0;
+    ((S_80172C90_0 *)actor)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
     }
 }

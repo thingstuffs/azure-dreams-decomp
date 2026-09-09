@@ -176,38 +176,35 @@ extern u8 D_800E3DF0[];
 extern u8 D_800E3E40[];
 extern u8 D_8014A000[];
 
-s32 func_800A504C(s32 unused, void *arg1)
+/* Advances staged entity loading and replaces the entity while transferring its state. */
+s32 func_800A504C(s32 unused, void *source_entity)
 {
-    register u8 *entity ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *entity ASM_REG("$19") = source_entity;
     u8 *base = (u8 *)&D_80083460;
     s32 count = ((S_800A504C_0 *)base)->unk_0A.s;
     s32 offset;
-    register s32 load_result ASM_REG("$2"); /* MATCH: both loading paths feed the shared store directly from the call-result register. */
-    register u8 *load_spawned ASM_REG("$5"); /* MATCH: each loading arm prepares the shared call argument before the join, filling the jump delay slot. */
-    s32 saved5c;
-    s32 saved58;
+    register s32 load_result ASM_REG("$2");
+    register u8 *load_spawned ASM_REG("$5");
+    s32 saved_word_5c;
+    s32 saved_word_58;
     s32 angle;
     s32 global_flags;
-    u16 role_flags;
+    u16 data_flags;
     u16 remaining_count;
-    u32 call_index;
-    register s32 mask ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 first_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 tail_zero ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 entity_id;
+    register s32 flags_mask ASM_REG("$7");
+    register s32 update_flags ASM_REG("$3");
+    register s32 flags_result ASM_REG("$2");
     u8 *global_page;
-    register u8 *mode_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *first_mask_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 first_mask_call_zero;
-    s32 first_store_value;
-    register u8 *second_mask_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 second_mask_call_zero ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 second_zero_delay ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 second_zero_kind;
-    register s32 first_zero_delay ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 first_two_delay;
-    register s32 second_two_delay ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *mode_page ASM_REG("$4");
+    register u8 *copy_call_entity ASM_REG("$4");
+    s32 copy_call_zero;
+    s32 scale;
+    register u8 *replace_call_entity ASM_REG("$4");
+    register s32 replace_call_zero ASM_REG("$6");
+    s32 load_kind;
     u8 *spawned;
-    register u8 *role1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *entity_data;
     u8 *record;
     u8 *record_data;
     u8 *tail_dst;
@@ -223,27 +220,25 @@ s32 func_800A504C(s32 unused, void *arg1)
         return 0;
     }
 
-    role1 = (u8 *)0x800E0000;
+    entity_data = (u8 *)0x800E0000;
     if (!(((S_800A504C_1 *)entity)->unk_14 & 0x4000)) {
-        goto second_dispatch;
+        goto dispatch_replace;
     }
-    if (((S_800A504C_2_pre *)role1)[-1].unk_00 == count) {
-        goto first_equal;
+    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == count) {
+        goto wait_copy;
     }
-    if (((S_800A504C_2_pre *)role1)[-1].unk_00 < 2) {
-        if (((S_800A504C_2_pre *)role1)[-1].unk_00 == 0) {
-            goto first_zero;
+    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 < 2) {
+        if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == 0) {
+            goto load_copy;
         }
         return 0;
     }
-    if (((S_800A504C_2_pre *)role1)[-1].unk_00 == 2) {
-        goto first_two;
+    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == 2) {
+        goto spawn_copy;
     }
     return 0;
 
-first_zero:
-    first_zero_delay = 0;
-    ASM_KEEP(first_zero_delay);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+load_copy:
     if (func_80053EF0(4) != 0) {
         return 0;
     }
@@ -251,37 +246,35 @@ first_zero:
     if (spawned == NULL) {
         return 0;
     }
-    call_index = ((S_800A504C_1 *)entity)->unk_13;
-    load_result = func_80047DB8(call_index);
+    entity_id = ((S_800A504C_1 *)entity)->unk_13;
+    load_result = func_80047DB8(entity_id);
     load_spawned = spawned;
     goto start_loading;
 
-first_equal:
+wait_copy:
     if (D_800E3E40[0] != 0) {
         func_80047E30();
         goto increment_mode;
     }
     return 0;
 
-first_two:
-    first_two_delay = 0;
-    ASM_KEEP(first_two_delay);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+spawn_copy:
     spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
     if (spawned == NULL) {
         goto done;
     }
-    role1 = ((S_800A504C_1_pre *)entity)[-1].unk_00;
+    entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
     spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
-    spawned = spawn(6, role1[0x24], role1[0x25],
+    spawned = spawn(6, entity_data[0x24], entity_data[0x25],
                     (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
     if (spawned == NULL) {
         goto done;
     }
     base = entity;
     tail_dst = spawned;
-    ASM_KEEP4_NV(base, tail_dst, entity, spawned);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    saved5c = ((S_800A504C_3 *)tail_dst)->unk_5C;
-    saved58 = ((S_800A504C_3 *)tail_dst)->unk_58;
+    ASM_KEEP4_NV(base, tail_dst, entity, spawned);
+    saved_word_5c = ((S_800A504C_3 *)tail_dst)->unk_5C;
+    saved_word_58 = ((S_800A504C_3 *)tail_dst)->unk_58;
     copy_dst = tail_dst;
     copy_src = entity;
     copy_end = entity + 0x80;
@@ -293,26 +286,26 @@ first_two:
     *(EntityCopyTail *)copy_dst = *(EntityCopyTail *)copy_src;
     ((S_800A504C_4 *)spawned)->unk_4C = 0;
     ((S_800A504C_4 *)spawned)->unk_50 = 0;
-    ((S_800A504C_4 *)spawned)->unk_5C = saved5c;
-    ((S_800A504C_4 *)spawned)->unk_58 = saved58;
+    ((S_800A504C_4 *)spawned)->unk_5C = saved_word_5c;
+    ((S_800A504C_4 *)spawned)->unk_58 = saved_word_58;
     func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
 
-    first_mask_call_arg = spawned;
-    first_mask_call_zero = 0;
-    first_store_value = 0x1000;
-    ASM_KEEP4_NV(first_mask_call_arg, first_mask_call_zero,
-                 first_store_value, spawned);
-    role1 = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
-    ASM_SET(mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_800A504C_2 *)role1)->unk_1C = first_store_value;
-    ((S_800A504C_2 *)role1)->unk_1E = first_store_value;
-    mask = -8;
-    ((S_800A504C_4 *)spawned)->unk_14 &= mask;
-    ((S_800A504C_4 *)spawned)->unk_1C &= mask;
+    copy_call_entity = spawned;
+    copy_call_zero = 0;
+    scale = 0x1000;
+    ASM_KEEP4_NV(copy_call_entity, copy_call_zero,
+                 scale, spawned);
+    entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
+    ASM_SET(flags_mask);
+    ((S_800A504C_2 *)entity_data)->unk_1C = scale;
+    ((S_800A504C_2 *)entity_data)->unk_1E = scale;
+    flags_mask = -8;
+    ((S_800A504C_4 *)spawned)->unk_14 &= flags_mask;
+    ((S_800A504C_4 *)spawned)->unk_1C &= flags_mask;
     ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
     ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
-    func_800424E0(first_mask_call_arg, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
-                  first_mask_call_zero, mask);
+    func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
+                  copy_call_zero, flags_mask);
     func_80042710(spawned, entity);
     ((S_800A504C_4 *)spawned)->unk_14 &= ~0x4000;
 
@@ -329,47 +322,44 @@ first_two:
     offset += (s32)record;
     record = (u8 *)offset;
     ((S_800A504C_5 *)record)->unk_AC = spawned;
-    func_8009A3D0(role1[0x24], role1[0x25], 0x300);
+    func_8009A3D0(entity_data[0x24], entity_data[0x25], 0x300);
     func_8009A028(spawned);
     spawned -= 0x20;
     func_80044A50(spawned);
-    first_value = 0x80000000;
-    tail_zero = ((S_800A504C_4 *)spawned)->unk_10.at00.v;
+    update_flags = 0x80000000;
+    flags_result = ((S_800A504C_4 *)spawned)->unk_10.at00.v;
     global_page = (u8 *)0x80080000;
-    ((S_800A504C_4 *)spawned)->unk_10.at00.v = tail_zero | first_value;
-    first_value = ((S_800A504C_1_pre *)entity)[-1].unk_12;
-    ASM_SET(mode_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ((S_800A504C_4 *)spawned)->unk_10.at00.v = flags_result | update_flags;
+    update_flags = ((S_800A504C_1_pre *)entity)[-1].unk_12;
+    ASM_SET(mode_page);
     mode_page = (u8 *)0x800E0000;
-    ((S_800A504C_1_pre *)entity)[-1].unk_12 = first_value | 0x8000;
-    first_value = ((S_800A504C_6 *)global_page)->unk_14A0;
-    ASM_SET(tail_zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    tail_zero = 0;
-    ASM_KEEP(tail_zero);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ((S_800A504C_1_pre *)entity)[-1].unk_12 = update_flags | 0x8000;
+    update_flags = ((S_800A504C_6 *)global_page)->unk_14A0;
+    ASM_SET(flags_result);
+    flags_result = 0;
     ((S_800A504C_7_pre *)mode_page)[-1].unk_00 = 0;
-    ((S_800A504C_6 *)global_page)->unk_14A0 = first_value | 0x8000;
-    return tail_zero;
+    ((S_800A504C_6 *)global_page)->unk_14A0 = update_flags | 0x8000;
+    return flags_result;
 
-second_dispatch:
-    if (((S_800A504C_2_pre *)role1)[-1].unk_00 == count) {
-        goto second_equal;
+dispatch_replace:
+    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == count) {
+        goto wait_replacement;
     }
-    if (((S_800A504C_2_pre *)role1)[-1].unk_00 < 2) {
-        second_zero_delay = 0;
-        if (((S_800A504C_2_pre *)role1)[-1].unk_00 == 0) {
-            goto second_zero;
+    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 < 2) {
+        if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == 0) {
+            goto load_replacement;
         }
         return 0;
     }
-    if (((S_800A504C_2_pre *)role1)[-1].unk_00 == 2) {
-        goto second_two;
+    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == 2) {
+        goto spawn_replacement;
     }
     return 0;
 
-second_zero:
-    ASM_KEEP(second_zero_delay);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    second_zero_kind = 3;
+load_replacement:
+    load_kind = 3;
     spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13 - 1,
-                                   second_zero_kind);
+                                   load_kind);
     if (spawned == NULL) {
         goto increment_mode;
     }
@@ -386,7 +376,7 @@ start_loading:
     Control_CD(0xFF, D_8003E140, D_800E3E40);
     goto increment_mode;
 
-second_equal:
+wait_replacement:
     if (D_800E3E40[0] == 0) {
         goto done;
     }
@@ -395,19 +385,17 @@ second_equal:
     }
 
 increment_mode:
-    ((S_800A504C_2_pre *)role1)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)role1)[-1].unk_00 + 1);
+    ((S_800A504C_2_pre *)entity_data)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)entity_data)[-1].unk_00 + 1);
     goto done;
 
-second_two:
-    second_two_delay = 0;
-    ASM_KEEP(second_two_delay);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+spawn_replacement:
     spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 3);
     if (spawned == NULL) {
         goto done;
     }
-    role1 = ((S_800A504C_1_pre *)entity)[-1].unk_00;
+    entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
     spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
-    spawned = spawn(1, role1[0x24], role1[0x25],
+    spawned = spawn(1, entity_data[0x24], entity_data[0x25],
                     (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
     if (spawned == NULL) {
         goto done;
@@ -423,40 +411,40 @@ second_two:
     record_data[0] = ((S_800A504C_1 *)entity)->unk_13;
     (*(u8 * *)((u8 *)D_800E3DF0 + (record_data[3] & 0x1F) * 4)) = spawned;
 
-    role1 = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
-    ((S_800A504C_2 *)role1)->unk_1E = 0x1000;
-    ((S_800A504C_2 *)role1)->unk_1C = 0x1000;
+    entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
+    ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
+    ((S_800A504C_2 *)entity_data)->unk_1C = 0x1000;
     func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
-    second_mask_call_arg = spawned;
-    second_mask_call_zero = 0;
-    ASM_KEEP4_NV(second_mask_call_arg, second_mask_call_zero,
-                 spawned, role1);
-    mask = -8;
-    ((S_800A504C_4 *)spawned)->unk_14 &= mask;
-    ((S_800A504C_4 *)spawned)->unk_1C &= mask;
+    replace_call_entity = spawned;
+    replace_call_zero = 0;
+    ASM_KEEP4_NV(replace_call_entity, replace_call_zero,
+                 spawned, entity_data);
+    flags_mask = -8;
+    ((S_800A504C_4 *)spawned)->unk_14 &= flags_mask;
+    ((S_800A504C_4 *)spawned)->unk_1C &= flags_mask;
     ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
     ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
-    func_800424E0(second_mask_call_arg, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
-                  second_mask_call_zero, mask);
+    func_800424E0(replace_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
+                  replace_call_zero, flags_mask);
     func_80042710(spawned, entity);
 
     if (((S_800A504C_4 *)spawned)->unk_43.v < 0x40) {
-        TablePage *page = (TablePage *)0x80010000;
-        u8 index = ((S_800A504C_4 *)spawned)->unk_43.n;
-        u8 value = ((S_800A504C_4 *)spawned)->unk_10.at03.v;
-        page->table84[index].value = value;
-        page->table4[index].value = value;
+        TablePage *table_page = (TablePage *)0x80010000;
+        u8 table_index = ((S_800A504C_4 *)spawned)->unk_43.n;
+        u8 table_value = ((S_800A504C_4 *)spawned)->unk_10.at03.v;
+        table_page->table84[table_index].value = table_value;
+        table_page->table4[table_index].value = table_value;
     }
     func_800A152C(((S_800A504C_4 *)spawned)->unk_10.at03.v, 3);
     func_80042560(spawned);
     angle = ((S_800A504C_1 *)entity)->unk_2A;
     (*(u16 *)((u8 *)spawned + 0x2A)) = angle;
     offset = ((D_80083228 + (s16)angle + 0x100) >> 9) & 7;
-    func_80047738(role1, ((u8 *)((S_800A504C_2 *)role1)->unk_2C)[offset],
-                  ((S_800A504C_2 *)role1)->unk_04);
-    role_flags = ((S_800A504C_2 *)role1)->unk_14;
+    func_80047738(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
+                  ((S_800A504C_2 *)entity_data)->unk_04);
+    data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
     D_80080A90 = D_8014A000;
-    ((S_800A504C_2 *)role1)->unk_14 = role_flags & 0xFFFE;
+    ((S_800A504C_2 *)entity_data)->unk_14 = data_flags & 0xFFFE;
     remaining_count = ((S_800A504C_0 *)base)->unk_0A.u;
     D_800DCF5C = count;
     ((S_800A504C_0 *)base)->unk_0A.s = (s16)(remaining_count - 1);

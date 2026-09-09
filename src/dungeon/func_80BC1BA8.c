@@ -44,147 +44,146 @@ typedef struct S_801713A8_2 {
     u16 unk_88;
 } S_801713A8_2;   /* base in func_801713A8 */
 
-void func_801713A8(void *arg0, S_801713A8_0 *arg1, void *arg2)
+/* Update entity callbacks, movement, sprite direction, and ground-relative height. */
+void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
 {
-    register void *base ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s16 old_state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 old_raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    void *call_arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *call_arg1;
-    void *call_arg2;
-    s32 motion_value;
-    register u32 motion_raw ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 index;
-    s16 value;
-    s32 flags;
-    register s32 amount ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u16 initial_mode;
-    u16 mode;
-    s32 tail_sum;
-    register u16 tail_mode ASM_REG("$4"); /* MATCH: both sum arms feed the shared mode test in a0. */
+    register void *entity_base ASM_REG("$19") = entity;
+    register s16 old_state ASM_REG("$16");
+    register u8 old_state_byte ASM_REG("$2");
+    void *call_entity;
+    void *call_motion;
+    void *call_sprite;
+    s32 height_offset;
+    register u32 height_bits ASM_REG("$3");
+    s16 direction;
+    s16 ground_height;
+    s32 entity_flags;
+    s32 height_work;
+    u16 initial_flags;
+    u16 sprite_flags;
+    s32 height_accum;
+    register u16 motion_flags ASM_REG("$4");
 
     if (D_80083462 & 0x2000) {
-        void *entry_self = arg0;
+        void *entry_entity = entity;
         Callback entry_callback;
 
-        entry_callback = (*(Callback *)((u8 *)arg0 + (0x8C)));
+        entry_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (entry_callback == (Callback)&D_801719DC) {
-            ASM_KEEP(entry_self);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            entry_callback(entry_self, arg1, arg2, entry_self);
+            ASM_KEEP(entry_entity);
+            entry_callback(entry_entity, motion, sprite, entry_entity);
             return;
         }
-        (*(u8 *)((u8 *)arg0 + (0x71))) &= 0x7F;
+        (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         return;
     }
 
-    call_arg0 = arg0;
-    call_arg1 = arg1;
-    call_arg2 = arg2;
-    ASM_KEEP4(call_arg0, call_arg1, call_arg2, base);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    old_raw = (*(u8 *)((u8 *)arg0 + (0x6D)));
-    old_state = (s8)old_raw;
-    if (func_800A9E70(call_arg0, call_arg1, call_arg2, arg0) != 0) {
+    call_entity = entity;
+    call_motion = motion;
+    call_sprite = sprite;
+    ASM_KEEP4(call_entity, call_motion, call_sprite, entity_base);
+    old_state_byte = (*(u8 *)((u8 *)entity + 0x6D));
+    old_state = (s8)old_state_byte;
+    if (func_800A9E70(call_entity, call_motion, call_sprite, entity) != 0) {
         return;
     }
 
     {
-        Callback ordinary_callback = (*(Callback *)((u8 *)arg0 + (0x8C)));
+        Callback update_callback = (*(Callback *)((u8 *)entity + 0x8C));
 
-        if (ordinary_callback != 0) {
-            ordinary_callback(arg0, arg1, arg2, arg0);
+        if (update_callback != 0) {
+            update_callback(entity, motion, sprite, entity);
         }
     }
-    D_801746A0[(*(u8 *)((u8 *)arg0 + (0x9A)))](arg0, arg1, arg2, arg0);
+    D_801746A0[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     {
-        register s32 old_compare ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register s32 state_compare ASM_REG("$2");
 
-        old_compare = (u32)(u16)old_state << 16;
-        ASM_KEEP_NV(old_compare);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        old_compare >>= 16;
-        if (old_compare != (*(s8 *)((u8 *)arg0 + (0x6D)))) {
-            func_800AA36C(arg0, arg1, arg2, arg0);
+        state_compare = (u32)(u16)old_state << 16;
+        ASM_KEEP_NV(state_compare);
+        state_compare >>= 16;
+        if (state_compare != (*(s8 *)((u8 *)entity + 0x6D))) {
+            func_800AA36C(entity, motion, sprite, entity);
         }
     }
 
-    arg1->unk_00.at00.v += arg1->unk_0C;
-    arg1->unk_04.at00.v += arg1->unk_10;
+    motion->unk_00.at00.v += motion->unk_0C;
+    motion->unk_04.at00.v += motion->unk_10;
 
-    if (!((*(s32 *)((u8 *)arg0 + (0x1C))) & 0x40000) &&
-        !((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
-        arg1->unk_14 += (*(s8 *)((u8 *)arg0 + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)arg0 + (0x9D)))++;
+    if (!((*(s32 *)((u8 *)entity + 0x1C)) & 0x40000) &&
+        !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+        motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
+        (*(u8 *)((u8 *)entity + 0x9D))++;
     } else {
-        (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
+        (*(u8 *)((u8 *)entity + 0x9D)) = 0;
     }
-    (*(s32 *)((u8 *)arg0 + (0x90))) += arg1->unk_14;
-    initial_mode = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
+    (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
+    initial_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
 
-    if (!(initial_mode & 0x8000)) {
-        index = ((D_80083228 + ((S_801713A8_2 *)base)->unk_2A + 0x100) >> 9) & 7;
-        if ((*(s16 *)((u8 *)arg0 + (0x94))) != index) {
-            func_80047738(arg2,
-                *(u8 *)(((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 + index),
-                ((Rec_D_80082E80 *)arg2)->unk_04.as_s8);
-            (*(s16 *)((u8 *)arg0 + (0x94))) = index;
+    if (!(initial_flags & 0x8000)) {
+        direction = ((D_80083228 + ((S_801713A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
+        if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
+            func_80047738(sprite,
+                *(u8 *)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 + direction),
+                ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
+            (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
         {
-            u32 tail_value;
+            u32 facing_flags;
 
-            if (D_8006CCF8[index] != 0) {
-                tail_value = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 1;
+            if (D_8006CCF8[direction] != 0) {
+                facing_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 1;
             } else {
-                tail_value = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xFFFE;
+                facing_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFFFE;
             }
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = tail_value;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = facing_flags;
         }
-        func_800A020C(((S_801713A8_2 *)base)->unk_1C, (u8 *)arg2 + 0xC);
-        if (!(((S_801713A8_2 *)base)->unk_1C & 0x20)) {
-            if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x40)) {
-                func_800478B8(arg2);
-                goto clear_8000000;
+        func_800A020C(((S_801713A8_2 *)entity_base)->unk_1C, (u8 *)sprite + 0xC);
+        if (!(((S_801713A8_2 *)entity_base)->unk_1C & 0x20)) {
+            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
+                func_800478B8(sprite);
             }
         } else {
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x7000;
-            ((S_801713A8_2 *)base)->unk_1C &= 0xFFFBFFFF;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x7000;
+            ((S_801713A8_2 *)entity_base)->unk_1C &= 0xFFFBFFFF;
         }
 
-clear_8000000:
-        ((S_801713A8_2 *)base)->unk_1C &= 0xF7FFFFFF;
-        flags = ((S_801713A8_2 *)base)->unk_1C;
-        if (flags & 0x40000) {
-            mode = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
-            if (!(mode & 0x40)) {
-                u8 *kind = ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8;
+        ((S_801713A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
+        entity_flags = ((S_801713A8_2 *)entity_base)->unk_1C;
+        if (entity_flags & 0x40000) {
+            sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+            if (!(sprite_flags & 0x40)) {
+                u8 *frame_table = ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8;
 
-                if (kind == D_80174634) {
-                    if (((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 3 && (mode & 0x1000)) {
-                        (*(s32 *)((u8 *)arg0 + (0xAC))) = 0x60000;
-                        (*(s32 *)((u8 *)arg0 + (0xB0))) = (s32)0xFFFF3000;
+                if (frame_table == D_80174634) {
+                    if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3 && (sprite_flags & 0x1000)) {
+                        (*(s32 *)((u8 *)entity + 0xAC)) = 0x60000;
+                        (*(s32 *)((u8 *)entity + 0xB0)) = (s32)0xFFFF3000;
                     }
-                    (*(s32 *)((u8 *)arg0 + (0xA4))) += (*(s32 *)((u8 *)arg0 + (0xAC)));
-                    (*(s32 *)((u8 *)arg0 + (0xAC))) += (*(s32 *)((u8 *)arg0 + (0xB0)));
-                    if ((*(s32 *)((u8 *)arg0 + (0xA4))) <= 0) {
-                        (*(s32 *)((u8 *)arg0 + (0xA4))) = 0;
+                    (*(s32 *)((u8 *)entity + 0xA4)) += (*(s32 *)((u8 *)entity + 0xAC));
+                    (*(s32 *)((u8 *)entity + 0xAC)) += (*(s32 *)((u8 *)entity + 0xB0));
+                    if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
+                        (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                     }
-                } else if (kind == D_80174644 || kind == D_8017466C) {
-                    (*(s32 *)((u8 *)arg0 + (0xA4))) -= 0x40000;
-                    if ((*(s32 *)((u8 *)arg0 + (0xA4))) <= 0) {
-                        (*(s32 *)((u8 *)arg0 + (0xA4))) = 0;
+                } else if (frame_table == D_80174644 || frame_table == D_8017466C) {
+                    (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
+                    if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
+                        (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                     }
-                } else if (kind != D_80174654 && kind != D_8017465C &&
-                           kind != D_80174664) {
-                    (*(s32 *)((u8 *)arg0 + (0xA4))) = 0;
+                } else if (frame_table != D_80174654 && frame_table != D_8017465C &&
+                           frame_table != D_80174664) {
+                    (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                 }
             }
 
-            amount = (*(u16 *)((u8 *)arg0 + (0x98))) & 8;
-            if (amount == 0) {
-                motion_value = (*(s16 *)((u8 *)arg0 + (0x92)));
-                motion_raw = (*(u16 *)((u8 *)arg0 + (0x92)));
-                if (amount < motion_value) {
-                    amount = motion_raw - 8;
-                    ASM_SCHED_BARRIER(); /* MATCH: keep the first motion arm separate from the later adjustment. */
-                    (*(s16 *)((u8 *)arg0 + (0x92))) = amount;
+            height_work = (*(u16 *)((u8 *)entity + 0x98)) & 8;
+            if (height_work == 0) {
+                height_offset = (*(s16 *)((u8 *)entity + 0x92));
+                height_bits = (*(u16 *)((u8 *)entity + 0x92));
+                if (height_work < height_offset) {
+                    height_work = height_bits - 8;
+                    ASM_SCHED_BARRIER();
+                    (*(s16 *)((u8 *)entity + 0x92)) = height_work;
                     goto finish_motion;
                 }
                 goto adjust_positive;
@@ -193,102 +192,102 @@ clear_8000000:
         }
 
         {
-            amount = (*(s32 *)((u8 *)arg0 + (0xA4)));
-            tail_sum = (*(s32 *)((u8 *)arg0 + (0x90)));
-            tail_mode = (*(u16 *)((u8 *)arg0 + (0x98)));
-            (*(s16 *)((u8 *)arg0 + (0xB8))) = 0;
-            (*(s32 *)((u8 *)arg0 + (0xA4))) = 0;
-            tail_sum += amount;
-            goto store_tail_sum;
+            height_work = (*(s32 *)((u8 *)entity + 0xA4));
+            height_accum = (*(s32 *)((u8 *)entity + 0x90));
+            motion_flags = (*(u16 *)((u8 *)entity + 0x98));
+            (*(s16 *)((u8 *)entity + 0xB8)) = 0;
+            (*(s32 *)((u8 *)entity + 0xA4)) = 0;
+            height_accum += height_work;
+            goto store_height;
         }
     }
 
-    if (initial_mode & 0x800) {
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = initial_mode & 0x8FFF;
+    if (initial_flags & 0x800) {
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_flags & 0x8FFF;
     } else {
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = initial_mode | 0x7000;
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_flags | 0x7000;
     }
-    ((S_801713A8_2 *)base)->unk_1C &= 0xF7FFFFFF;
-    flags = ((S_801713A8_2 *)base)->unk_1C;
+    ((S_801713A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
+    entity_flags = ((S_801713A8_2 *)entity_base)->unk_1C;
 
-    if (!(flags & 0x40000)) {
-        amount = (*(s32 *)((u8 *)arg0 + (0xA4)));
-        tail_sum = (*(s32 *)((u8 *)arg0 + (0x90)));
-        tail_mode = (*(u16 *)((u8 *)arg0 + (0x98)));
-        (*(s16 *)((u8 *)arg0 + (0xB8))) = 0;
-        (*(s32 *)((u8 *)arg0 + (0xA4))) = 0;
-        tail_sum -= amount;
-store_tail_sum:
-        (*(s32 *)((u8 *)arg0 + (0x90))) = tail_sum;
-        if (!(tail_mode & 8)) {
-            value = func_800BCB04(arg1->unk_00.at02.v,
-                                  arg1->unk_04.at02.v,
-                                  (s16)(((S_801713A8_2 *)base)->unk_88 - 0x20)) -
-                    ((S_801713A8_2 *)base)->unk_88;
-            if (value < (*(s16 *)((u8 *)arg0 + (0x92)))) {
-                (*(s16 *)((u8 *)arg0 + (0x92))) = value;
-                (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
-                arg1->unk_14 = 0;
-                ((S_801713A8_2 *)base)->unk_1C |= 0x08000000;
+    if (!(entity_flags & 0x40000)) {
+        height_work = (*(s32 *)((u8 *)entity + 0xA4));
+        height_accum = (*(s32 *)((u8 *)entity + 0x90));
+        motion_flags = (*(u16 *)((u8 *)entity + 0x98));
+        (*(s16 *)((u8 *)entity + 0xB8)) = 0;
+        (*(s32 *)((u8 *)entity + 0xA4)) = 0;
+        height_accum -= height_work;
+store_height:
+        (*(s32 *)((u8 *)entity + 0x90)) = height_accum;
+        if (!(motion_flags & 8)) {
+            ground_height = func_800BCB04(motion->unk_00.at02.v,
+                                  motion->unk_04.at02.v,
+                                  (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20)) -
+                    ((S_801713A8_2 *)entity_base)->unk_88;
+            if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
+                (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
+                (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                motion->unk_14 = 0;
+                ((S_801713A8_2 *)entity_base)->unk_1C |= 0x08000000;
                 goto finish_motion;
             }
         }
         goto finish_motion;
     }
 
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x40)) {
-        u8 *kind = ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8;
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
+        u8 *frame_table = ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8;
 
-        if (kind == D_80174634) {
-            (*(s32 *)((u8 *)arg0 + (0xAC))) = 0;
+        if (frame_table == D_80174634) {
+            (*(s32 *)((u8 *)entity + 0xAC)) = 0;
             goto clear_height;
         }
-        if (kind == D_80174644 || kind == D_8017466C) {
-            (*(s32 *)((u8 *)arg0 + (0xA4))) -= 0x40000;
-            if ((*(s32 *)((u8 *)arg0 + (0xA4))) <= 0) {
-                (*(s32 *)((u8 *)arg0 + (0xA4))) = 0;
+        if (frame_table == D_80174644 || frame_table == D_8017466C) {
+            (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
+            if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
+                (*(s32 *)((u8 *)entity + 0xA4)) = 0;
             }
-        } else if (kind != D_80174654 && kind != D_8017465C &&
-                   kind != D_80174664) {
+        } else if (frame_table != D_80174654 && frame_table != D_8017465C &&
+                   frame_table != D_80174664) {
 clear_height:
-            (*(s32 *)((u8 *)arg0 + (0xA4))) = 0;
+            (*(s32 *)((u8 *)entity + 0xA4)) = 0;
         }
     }
 
-    amount = (*(u16 *)((u8 *)arg0 + (0x98))) & 8;
-    if (amount == 0) {
-        motion_value = (*(s16 *)((u8 *)arg0 + (0x92)));
-        motion_raw = (*(u16 *)((u8 *)arg0 + (0x92)));
-        if (amount < motion_value) {
-            amount = motion_raw - 8;
+    height_work = (*(u16 *)((u8 *)entity + 0x98)) & 8;
+    if (height_work == 0) {
+        height_offset = (*(s16 *)((u8 *)entity + 0x92));
+        height_bits = (*(u16 *)((u8 *)entity + 0x92));
+        if (height_work < height_offset) {
+            height_work = height_bits - 8;
             goto store_adjustment;
         }
 adjust_positive:
-        amount = motion_value < -8;
-        if (amount != 0) {
-            amount = motion_raw + 8;
+        height_work = height_offset < -8;
+        if (height_work != 0) {
+            height_work = height_bits + 8;
         } else {
             goto finish_motion;
         }
 store_adjustment:
-        (*(s16 *)((u8 *)arg0 + (0x92))) = amount;
+        (*(s16 *)((u8 *)entity + 0x92)) = height_work;
     }
 finish_motion:
-    flags = ((S_801713A8_2 *)base)->unk_1C;
-    if (flags & 0x40000000) {
-        ((S_801713A8_2 *)base)->unk_1C = flags & 0xBFFFFFFF;
-        value = func_800BCB04((((Rec_D_80082E80 *)arg2)->unk_24 << 6) | 0x20,
-                              (((Rec_D_80082E80 *)arg2)->unk_25 << 6) | 0x20,
-                              (s16)(((S_801713A8_2 *)base)->unk_88 - 0x20));
-        if (value < 0x200) {
-            (*(s16 *)((u8 *)arg0 + (0x92))) =
-                (u16)(*(s16 *)((u8 *)arg0 + (0x92))) +
-                (((S_801713A8_2 *)base)->unk_88 - value);
-            ((S_801713A8_2 *)base)->unk_88 = value;
+    entity_flags = ((S_801713A8_2 *)entity_base)->unk_1C;
+    if (entity_flags & 0x40000000) {
+        ((S_801713A8_2 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;
+        ground_height = func_800BCB04((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
+                              (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,
+                              (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20));
+        if (ground_height < 0x200) {
+            (*(s16 *)((u8 *)entity + 0x92)) =
+                (u16)(*(s16 *)((u8 *)entity + 0x92)) +
+                (((S_801713A8_2 *)entity_base)->unk_88 - ground_height);
+            ((S_801713A8_2 *)entity_base)->unk_88 = ground_height;
         }
     }
-    arg1->unk_0A = ((S_801713A8_2 *)base)->unk_88 +
-                             (u16)(*(s16 *)((u8 *)arg0 + (0x92))) -
-                             (*(u16 *)((u8 *)arg0 + (0xA6)));
-    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x40;
+    motion->unk_0A = ((S_801713A8_2 *)entity_base)->unk_88 +
+                             (u16)(*(s16 *)((u8 *)entity + 0x92)) -
+                             (*(u16 *)((u8 *)entity + 0xA6));
+    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x40;
 }

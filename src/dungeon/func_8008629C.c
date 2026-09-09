@@ -74,118 +74,118 @@ extern void func_8009F644();
 extern s32 func_800A5C70();
 extern void func_800A67F4();
 
-void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
-    u8 *state = D_80083160;
-    u8 *alt_callback;
+/* Update movement state, position, and animation from the movement result. */
+void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprite, Rec_D_800E3D7C *actor) {
+    u8 *dungeon_state = D_80083160;
+    u8 *alt_anim;
     u16 *flags;
     u16 *check_flags;
-    s16 temp_v0;
-    u16 index;
-    register s32 mask ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 flag_word;
-    u16 temp_v0_2;
+    s16 move_result;
+    u16 direction_index;
+    register s32 update_mask;
+    s32 actor_flags;
+    u16 blocked_ticks;
 
-    temp_v0 = func_8009ABA0(arg3->unk_2A.as_s16, arg1, arg2,
-                            arg3->unk_88.as_s16, 0x20);
-    if (temp_v0 > 0) {
-        arg0->unk_9B = 0;
-        func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-        index = ((u16)arg3->unk_2A.as_s16 >> 8) & 0xE;
+    move_result = func_8009ABA0(actor->unk_2A.as_s16, actor_id, sprite,
+                            actor->unk_88.as_s16, 0x20);
+    if (move_result > 0) {
+        move_state->unk_9B = 0;
+        func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);
+        direction_index = ((u16)actor->unk_2A.as_s16 >> 8) & 0xE;
         {
-            u8 x = arg2->unk_24;
+            u8 x = sprite->unk_24;
             u8 *movement_x = D_8006CCD8;
-            x = (u8)(x + movement_x[index]);
-            arg2->unk_24 = x;
+            x = (u8)(x + movement_x[direction_index]);
+            sprite->unk_24 = x;
         }
-        arg2->unk_25 =
-            (u8)(arg2->unk_25 + D_8006CCE8[index]);
-        func_8009A21C(arg2->unk_24, arg2->unk_25, 0x300);
+        sprite->unk_25 =
+            (u8)(sprite->unk_25 + D_8006CCE8[direction_index]);
+        func_8009A21C(sprite->unk_24, sprite->unk_25, 0x300);
         flags = D_80083460;
         flags[1] |= 8;
-        arg0->unk_8C.s = 0;
+        move_state->unk_8C.s = 0;
 
-        if (temp_v0 != 4) {
+        if (move_result != 4) {
             if ((D_80013714[0] & 2) ||
-                (((((S_8008B9FC_3 *)state)->unk_08 & 0x20) != 0) &&
-                 ((arg0->unk_A2 & 0x100) == 0) &&
+                (((((S_8008B9FC_3 *)dungeon_state)->unk_08 & 0x20) != 0) &&
+                 ((move_state->unk_A2 & 0x100) == 0) &&
                  func_800A5C70())) {
                 flags[1] |= 0x80;
-                if (arg2->unk_2C.as_pu8 != D_800DCFC0) {
-                    arg2->unk_2C.as_pu8 = D_800DCFC0;
+                if (sprite->unk_2C.as_pu8 != D_800DCFC0) {
+                    sprite->unk_2C.as_pu8 = D_800DCFC0;
                     func_80048A44(
-                        arg2,
-                        D_800DCFC0[((s32)(((S_8008B9FC_3 *)state)->unk_C8 +
-                                         arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                        sprite,
+                        D_800DCFC0[((s32)(((S_8008B9FC_3 *)dungeon_state)->unk_C8 +
+                                         actor->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0, 1);
                 }
             }
         }
 
         check_flags = D_80083460;
-        if ((check_flags[1] & 0x80) || (temp_v0 == 1)) {
-            func_80099F70(arg3->unk_5C);
-            func_80099F04(arg3->unk_5C);
+        if ((check_flags[1] & 0x80) || (move_result == 1)) {
+            func_80099F70(actor->unk_5C);
+            func_80099F04(actor->unk_5C);
             if (!(check_flags[1] & 0x80) &&
                 ((D_800E3544[0] == 8) || (D_800E3544[0] == 0))) {
-                if (arg2->unk_2C.as_pu8 != D_800DCFB8) {
-                    void *callback_call;
-                    callback_call = arg2;
-                    ASM_KEEP(callback_call);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    arg2->unk_2C.as_pu8 = D_800DCFB8;
+                if (sprite->unk_2C.as_pu8 != D_800DCFB8) {
+                    void *anim_sprite;
+                    anim_sprite = sprite;
+                    sprite->unk_2C.as_pu8 = D_800DCFB8;
                     func_80048A44(
-                        callback_call,
+                        anim_sprite,
                         D_800DCFB8[((s32)(D_80083228[0] +
-                                         arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                                         actor->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0, 1);
                 }
             }
-            arg0->unk_9A = 0xF;
+            move_state->unk_9A = 0xF;
             D_80083464[0] = 8;
-            goto block_80086620;
+            goto finish_step;
         }
 
-        arg0->unk_98 |= 0xC;
-        if (temp_v0 < 4) {
-            arg0->unk_A2 |= 1;
-        } else if ((temp_v0 == 2) || (temp_v0 == 4)) {
-            arg0->unk_9B = 8;
+        move_state->unk_98 |= 0xC;
+        if (move_result < 4) {
+            move_state->unk_A2 |= 1;
+        } else if ((move_result == 2) || (move_result == 4)) {
+            move_state->unk_9B = 8;
         }
-        func_80094ED4(arg0, arg1, arg2, arg3);
+        func_80094ED4(move_state, actor_id, sprite, actor);
         D_80083464[0] = 8;
-        if (arg2->unk_2C.as_pu8 == D_800DCFB8) {
-            arg2->unk_14.at00_u16.v |= 0x6000;
-            func_8008E264(arg0, arg1, arg2, arg3);
+        if (sprite->unk_2C.as_pu8 == D_800DCFB8) {
+            sprite->unk_14.at00_u16.v |= 0x6000;
+            func_8008E264(move_state, actor_id, sprite, actor);
         } else {
-            arg2->unk_2C.as_pu8 = D_800DD030;
+            sprite->unk_2C.as_pu8 = D_800DD030;
             func_80048A44(
-                arg2,
-                D_800DD030[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
+                sprite,
+                D_800DD030[((s32)(D_80083228[0] + actor->unk_2A.as_s16 +
                                   0x100) >> 9) & 7],
                 0, 1);
         }
-        arg0->unk_9A = 0x10;
+        move_state->unk_9A = 0x10;
         {
-            register void *tail_word_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            tail_word_obj = arg3;
-            ((S_8008B9FC_4 *)tail_word_obj)->unk_1C |= 0x40000000;
+            register void *flag_actor;
+            flag_actor = actor;
+            ((S_8008B9FC_4 *)flag_actor)->unk_1C |= 0x40000000;
         }
-        func_8009F644(arg3, 8, 0, 0);
+        func_8009F644(actor, 8, 0, 0);
         return;
 
-block_80086620:
-        func_8009F644(arg3, 8, 0, 0);
-        mask = 0x40000000;
-        goto block_80086704;
+finish_step:
+        func_8009F644(actor, 8, 0, 0);
+        update_mask = 0x40000000;
+        goto update_step;
     }
 
-    if (temp_v0 < 0) {
+    if (move_result < 0) {
         if ((D_80013714[0] & 1) ||
-            (temp_v0_2 = arg0->unk_96 + 1,
-             arg0->unk_96 = temp_v0_2,
-             (s16)temp_v0_2 >= 0x15)) {
-            func_8008CD4C(arg0, arg1, arg2, arg3, (s32)temp_v0);
-            if (arg0->unk_9B >= 0x10) {
-                arg3->unk_1C.as_s32 |= 0x40000000;
+            (blocked_ticks = move_state->unk_96 + 1,
+             move_state->unk_96 = blocked_ticks,
+             (s16)blocked_ticks >= 0x15)) {
+            func_8008CD4C(move_state, actor_id, sprite, actor, (s32)move_result);
+            if (move_state->unk_9B >= 0x10) {
+                actor->unk_1C.as_s32 |= 0x40000000;
                 return;
             }
         }
@@ -193,43 +193,43 @@ block_80086620:
     }
 
     {
-        register void *callback_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        callback_obj = arg2;
-        ((S_8008B9FC_5 *)callback_obj)->unk_2C = D_800DCFB0;
+        register void *idle_sprite;
+        idle_sprite = sprite;
+        ((S_8008B9FC_5 *)idle_sprite)->unk_2C = D_800DCFB0;
         func_80048A44(
-            callback_obj,
-            D_800DCFB0[((s32)(((S_8008B9FC_3 *)state)->unk_C8 +
-                              arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            idle_sprite,
+            D_800DCFB0[((s32)(((S_8008B9FC_3 *)dungeon_state)->unk_C8 +
+                              actor->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0, 1);
     }
-    arg0->unk_8C.u = D_8008ACDC;
+    move_state->unk_8C.u = D_8008ACDC;
     return;
 
-block_80086704:
-    flag_word = arg3->unk_1C.as_s32 | mask;
-    arg3->unk_1C.as_s32 = flag_word;
-    ASM_KEEP(flag_word);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+update_step:
+    actor_flags = actor->unk_1C.as_s32 | update_mask;
+    actor->unk_1C.as_s32 = actor_flags;
+    ASM_KEEP(actor_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     flags = D_80083460;
     flags[1] |= 0x812;
     func_800A67F4();
-    func_80094ED4(arg0, arg1, arg2, arg3);
+    func_80094ED4(move_state, actor_id, sprite, actor);
     if (!(D_80013714[0] & 8)) {
         return;
     }
 
     if (D_800E3544[0] == 0xF0) {
-        if (arg2->unk_2C.as_pu8 == D_800DCFC0) {
+        if (sprite->unk_2C.as_pu8 == D_800DCFC0) {
             goto halve_flags;
         }
         {
-            void *callback_obj_f0;
-            callback_obj_f0 = arg2;
-            ((S_8008B9FC_6 *)callback_obj_f0)->unk_2C = D_800DCFC0;
+            void *turn_sprite;
+            turn_sprite = sprite;
+            ((S_8008B9FC_6 *)turn_sprite)->unk_2C = D_800DCFC0;
             func_80048A44(
-                callback_obj_f0,
+                turn_sprite,
                 *(volatile u8 *)(D_800DCFC0 +
                     (((s32)(((S_8008B9FC_7_pre *)D_80083464)[-1].unk_00 +
-                              arg3->unk_2A.as_s16 + 0x100) >> 9) & 7)),
+                              actor->unk_2A.as_s16 + 0x100) >> 9) & 7)),
                 0, 1);
         }
         ASM_SCHED_BARRIER(); /* MATCH: keep the F0 callback call separate from the F8 arm. */
@@ -237,54 +237,54 @@ block_80086704:
     }
 
     if (D_800E3544[0] == 0xF8) {
-        alt_callback = D_800DCFB8 + 8;
-        arg0->unk_A2 |= 0x100;
+        alt_anim = D_800DCFB8 + 8;
+        move_state->unk_A2 |= 0x100;
         flags[5]++;
-        if (arg2->unk_2C.as_pu8 == alt_callback) {
+        if (sprite->unk_2C.as_pu8 == alt_anim) {
             goto halve_flags;
         }
-        arg2->unk_2C.as_pu8 = alt_callback;
+        sprite->unk_2C.as_pu8 = alt_anim;
         func_80048A44(
-            arg2,
-            alt_callback[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
+            sprite,
+            alt_anim[((s32)(D_80083228[0] + actor->unk_2A.as_s16 +
                                  0x100) >> 9) & 7],
             0, 1);
         goto halve_flags;
     }
 
     if (D_800E3544[0] == 0xE8) {
-        arg2->unk_2C.as_pu8 = D_800DCFE8;
+        sprite->unk_2C.as_pu8 = D_800DCFE8;
         func_80048A44(
-            arg2,
-            D_800DCFE8[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
+            sprite,
+            D_800DCFE8[((s32)(D_80083228[0] + actor->unk_2A.as_s16 +
                                0x100) >> 9) & 7],
             1, 1);
-        func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-        index = ((u16)arg3->unk_2A.as_s16 >> 8) & 0xE;
-        arg2->unk_24 -= ((s16 *)(void *)D_8006CCD8)[index / 2] * 2;
-        arg2->unk_25 -= ((s16 *)(void *)D_8006CCE8)[index / 2] * 2;
-        func_8009A21C(arg2->unk_24, arg2->unk_25, 0x300);
+        func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);
+        direction_index = ((u16)actor->unk_2A.as_s16 >> 8) & 0xE;
+        sprite->unk_24 -= ((s16 *)(void *)D_8006CCD8)[direction_index / 2] * 2;
+        sprite->unk_25 -= ((s16 *)(void *)D_8006CCE8)[direction_index / 2] * 2;
+        func_8009A21C(sprite->unk_24, sprite->unk_25, 0x300);
 halve_flags:
         flags[2] = (s16)flags[2] >> 1;
         return;
     }
 
     if (D_800E3544[0] == 0xE0) {
-        arg2->unk_2C.as_pu8 = D_800DD0D0;
+        sprite->unk_2C.as_pu8 = D_800DD0D0;
         func_80048A44(
-            arg2,
-            D_800DD0D0[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
+            sprite,
+            D_800DD0D0[((s32)(D_80083228[0] + actor->unk_2A.as_s16 +
                                0x100) >> 9) & 7],
             1, 1);
-        func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-        index = ((u16)arg3->unk_2A.as_s16 >> 8) & 0xE;
+        func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);
+        direction_index = ((u16)actor->unk_2A.as_s16 >> 8) & 0xE;
         {
-            u8 x = arg2->unk_24;
+            u8 x = sprite->unk_24;
             u8 *movement_x = D_8006CCD8;
-            x = (u8)(x - movement_x[index]);
-            arg2->unk_24 = x;
+            x = (u8)(x - movement_x[direction_index]);
+            sprite->unk_24 = x;
         }
-        arg2->unk_25 -= D_8006CCE8[index];
-        func_8009A21C(arg2->unk_24, arg2->unk_25, 0x300);
+        sprite->unk_25 -= D_8006CCE8[direction_index];
+        func_8009A21C(sprite->unk_24, sprite->unk_25, 0x300);
     }
 }

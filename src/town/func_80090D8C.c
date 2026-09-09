@@ -68,154 +68,172 @@ extern s32 D_800FE484;
 
 extern s32 func_8008CE08(Scratch *);
 
-s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
+/* Find the lowest qualifying surface height among neighboring map cells. */
+s32 func_8008E4EC(s32 world_x, s32 world_y, u16 world_z)
 {
-    Scratch *sc = (Scratch *)0x1F800000;
+    Scratch *scratch = (Scratch *)0x1F800000;
     u16 *grid;
     Vec8 *vertices;
-    register s16 scan_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s16 scan_x;
     s16 scan_y;
     s32 base_y;
     GlobalState *global;
     MapInfo *map;
 
-    scan_x = arg0;
-    scan_y = arg1;
-    base_y = (s16)(arg1 & -0x40);
-    sc->best = 0x7FFF;
-    sc->lower = ((s16)arg1 - base_y) - 0x14;
-    sc->base_y = base_y;
-    sc->x = arg0 & 0x3F;
-    sc->z = arg2;
-    sc->y = arg1 & 0x3F;
-    sc->base_x = arg0 & 0x3F;
+    scan_x = world_x;
+    scan_y = world_y;
+    base_y = (s16)(world_y & -0x40);
+    scratch->best = 0x7FFF;
+    scratch->lower = ((s16)world_y - base_y) - 0x14;
+    scratch->base_y = base_y;
+    scratch->x = world_x & 0x3F;
+    scratch->z = world_z;
+    scratch->y = world_y & 0x3F;
+    scratch->base_x = world_x & 0x3F;
     global = &D_80083160;
     map = &D_80083160.map;
-    sc->planes = map->planes;
+    scratch->planes = map->planes;
     grid = global->map.grid;
     vertices = map->vertices;
 
-    if (sc->x >= 0x20) {
-        sc->step_x = 0x40;
+    if (scratch->x >= 0x20) {
+        scratch->step_x = 0x40;
     } else {
-        sc->step_x = -0x40;
-    }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-
-    if ((s16)sc->y >= 0x20) {
-        sc->step_y = 0x40;
-    } else {
-        register s32 nv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        nv = -0x40;
-        sc->step_y = nv;
+        scratch->step_x = -0x40;
     }
 
-    sc->outer_count = 0;
-    sc->scan_x = scan_x;
-    sc->scan_y = scan_y;
-    sc->outer_delta = 0;
+    if ((s16)scratch->y >= 0x20) {
+        scratch->step_y = 0x40;
+    } else {
+        register s32 negative_step;
+        negative_step = -0x40;
+        scratch->step_y = negative_step;
+    }
 
-    while (sc->outer_count < 2) {
-        s32 ty = (u16)sc->scan_y + (u16)sc->outer_delta;
-        scan_y = ty;
-        if (sc->step_y >= 0) {
-            if ((s16)ty >= D_800FE484) {
+    scratch->outer_count = 0;
+    scratch->scan_x = scan_x;
+    scratch->scan_y = scan_y;
+    scratch->outer_delta = 0;
+
+    while (scratch->outer_count < 2) {
+        s32 next_y = (u16)scratch->scan_y + (u16)scratch->outer_delta;
+        scan_y = next_y;
+        if (scratch->step_y >= 0) {
+            if ((s16)next_y >= D_800FE484) {
                 break;
             }
-        } else if ((s16)ty < 0) {
+        } else if ((s16)next_y < 0) {
             break;
         }
 
-        sc->inner_count = 0;
-        sc->inner_delta = 0;
-        sc->outer_bias = sc->outer_delta;
+        scratch->inner_count = 0;
+        scratch->inner_delta = 0;
+        scratch->outer_bias = scratch->outer_delta;
 
-        while (sc->inner_count < 2) {
-            s32 tx = (u16)sc->scan_x + (u16)sc->inner_delta;
-            scan_x = tx;
-            if (sc->step_x >= 0) {
-                if ((s16)tx >= D_800FE480) {
+        while (scratch->inner_count < 2) {
+            s32 next_x = (u16)scratch->scan_x + (u16)scratch->inner_delta;
+            scan_x = next_x;
+            if (scratch->step_x >= 0) {
+                if ((s16)next_x >= D_800FE480) {
                     break;
                 }
-            } else if ((s16)tx < 0) {
+            } else if ((s16)next_x < 0) {
                 break;
             }
 
             {
-                s32 xq;
-                s32 yq;
+                s32 cell_x;
+                s32 cell_y;
                 u16 cell;
-                { register s32 t2 ASM_REG("$2"); t2 = ((s32)scan_x) << 16; xq = t2 >> 16; }
-
-                if (xq < 0) {
-                    xq += 0x3F;
+                {
+                    register s32 shifted_x;
+                    shifted_x = ((s32)scan_x) << 16;
+                    cell_x = shifted_x >> 16;
                 }
-                yq = scan_y;
-                { u16 xm; s32 xs; xm = map->x_mask; xs = xq >> 6; sc->cell = xm & xs; }
-                if (yq < 0) {
-                    yq += 0x3F;
-                }
-                cell = sc->cell + ((s16)(map->y_mask & (yq >> 6)) << map->shift);
-                sc->cell = cell;
 
-                if (grid[sc->cell] != 0) {
+                if (cell_x < 0) {
+                    cell_x += 0x3F;
+                }
+                cell_y = scan_y;
+                {
+                    u16 x_mask;
+                    s32 column;
+                    x_mask = map->x_mask;
+                    column = cell_x >> 6;
+                    scratch->cell = x_mask & column;
+                }
+                if (cell_y < 0) {
+                    cell_y += 0x3F;
+                }
+                cell = scratch->cell + ((s16)(map->y_mask & (cell_y >> 6)) << map->shift);
+                scratch->cell = cell;
+
+                if (grid[scratch->cell] != 0) {
                     CellRecord *record;
-                    u8 *end;
+                    u8 *flags_ptr;
                     u16 grid_value;
 
-                    sc->x = sc->base_x - sc->inner_delta;
-                    grid_value = grid[sc->cell];
+                    scratch->x = scratch->base_x - scratch->inner_delta;
+                    grid_value = grid[scratch->cell];
                     record = map->records[grid_value & 0x3FFF];
-                    end = (u8 *)record + 0x16;
+                    flags_ptr = (u8 *)record + 0x16;
 
                     for (;;) {
-                        ASM_KEEP(end);   /* MATCH: keep one end pointer through the record loop, preventing an extra induction pointer. */
-                        if ((sc->planes[*(u16 *)(end - 6)].y < 0) && !(*(end + 1) & 1)) {
-                            s32 value;
+                        ASM_KEEP(flags_ptr);   /* MATCH: keep one flags_ptr pointer through the record loop, preventing an extra induction pointer. */
+                        if ((scratch->planes[*(u16 *)(flags_ptr - 6)].y < 0) && !(*(flags_ptr + 1) & 1)) {
+                            s32 height;
                             u32 vertex_index;
-                            register s16 qtmp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                            Scratch *call_arg;
-                            call_arg = sc;
-                            ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                            register s16 quad_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                            Scratch *quad_scratch;
+                            quad_scratch = scratch;
+                            ASM_KEEP(quad_scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-                            vertex_index = *(u16 *)(end - 0x12);
-                            qtmp = vertices[vertex_index].x; sc->quad[0] = qtmp - *(volatile s16 *)&sc->x;
-                            vertex_index = *(u16 *)(end - 0x12);
-                            qtmp = vertices[vertex_index].z; sc->quad[1] = qtmp - *(volatile s16 *)&sc->z;
-                            vertex_index = *(u16 *)(end - 0x10);
-                            qtmp = vertices[vertex_index].x; sc->quad[2] = qtmp - *(volatile s16 *)&sc->x;
-                            vertex_index = *(u16 *)(end - 0x10);
-                            qtmp = vertices[vertex_index].z; sc->quad[3] = qtmp - *(volatile s16 *)&sc->z;
-                            vertex_index = *(u16 *)(end - 0x14);
-                            qtmp = vertices[vertex_index].x; sc->quad[4] = qtmp - *(volatile s16 *)&sc->x;
-                            vertex_index = *(u16 *)(end - 0x14);
-                            qtmp = vertices[vertex_index].z; sc->quad[5] = qtmp - *(volatile s16 *)&sc->z;
+                            vertex_index = *(u16 *)(flags_ptr - 0x12);
+                            quad_coord = vertices[vertex_index].x;
+                            scratch->quad[0] = quad_coord - *(volatile s16 *)&scratch->x;
+                            vertex_index = *(u16 *)(flags_ptr - 0x12);
+                            quad_coord = vertices[vertex_index].z;
+                            scratch->quad[1] = quad_coord - *(volatile s16 *)&scratch->z;
+                            vertex_index = *(u16 *)(flags_ptr - 0x10);
+                            quad_coord = vertices[vertex_index].x;
+                            scratch->quad[2] = quad_coord - *(volatile s16 *)&scratch->x;
+                            vertex_index = *(u16 *)(flags_ptr - 0x10);
+                            quad_coord = vertices[vertex_index].z;
+                            scratch->quad[3] = quad_coord - *(volatile s16 *)&scratch->z;
+                            vertex_index = *(u16 *)(flags_ptr - 0x14);
+                            quad_coord = vertices[vertex_index].x;
+                            scratch->quad[4] = quad_coord - *(volatile s16 *)&scratch->x;
+                            vertex_index = *(u16 *)(flags_ptr - 0x14);
+                            quad_coord = vertices[vertex_index].z;
+                            scratch->quad[5] = quad_coord - *(volatile s16 *)&scratch->z;
                             vertex_index = record->vertex0;
-                            qtmp = vertices[vertex_index].x; sc->quad[6] = qtmp - *(volatile s16 *)&sc->x;
+                            quad_coord = vertices[vertex_index].x;
+                            scratch->quad[6] = quad_coord - *(volatile s16 *)&scratch->x;
                             vertex_index = record->vertex0;
-                            qtmp = vertices[vertex_index].z; sc->quad[7] = qtmp - *(volatile s16 *)&sc->z;
+                            quad_coord = vertices[vertex_index].z;
+                            scratch->quad[7] = quad_coord - *(volatile s16 *)&scratch->z;
 
-                            if (func_8008CE08(call_arg) != 0) {
+                            if (func_8008CE08(quad_scratch) != 0) {
                                 {
-                                    register s32 vx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                                    register s32 pv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                                    value = ((pv = sc->planes[*(u16 *)(end - 6)].x) * ((vx = vertices[record->vertex0].x) - (s16)sc->x)
-                                           + sc->planes[*(u16 *)(end - 6)].z * ((vx = vertices[record->vertex0].z) - (s16)sc->z)
-                                           + sc->planes[*(u16 *)(end - 6)].y * vertices[record->vertex0].y) / sc->planes[*(u16 *)(end - 6)].y;
+                                    register s32 vertex_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                                    register s32 normal_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                                    height = ((normal_x = scratch->planes[*(u16 *)(flags_ptr - 6)].x) * ((vertex_coord = vertices[record->vertex0].x) - (s16)scratch->x)
+                                           + scratch->planes[*(u16 *)(flags_ptr - 6)].z * ((vertex_coord = vertices[record->vertex0].z) - (s16)scratch->z)
+                                           + scratch->planes[*(u16 *)(flags_ptr - 6)].y * vertices[record->vertex0].y) / scratch->planes[*(u16 *)(flags_ptr - 6)].y;
                                 }
-                                sc->y = value;
-                                sc->y += sc->outer_bias;
-                                if ((sc->y >= sc->lower) && (sc->y < sc->best)) {
-                                    sc->best = sc->y;
+                                scratch->y = height;
+                                scratch->y += scratch->outer_bias;
+                                if ((scratch->y >= scratch->lower) && (scratch->y < scratch->best)) {
+                                    scratch->best = scratch->y;
                                 }
                             }
                         }
 
                         {
-                            u16 fl;
-                            fl = *(u16 *)end & 0x80FF;
-                            end += 0x18;
-                            if (fl != 0x8001) {
+                            u16 flags;
+                            flags = *(u16 *)flags_ptr & 0x80FF;
+                            flags_ptr += 0x18;
+                            if (flags != 0x8001) {
                                 record = (CellRecord *)((u8 *)record + 0x18);
                                 continue;
                             }
@@ -225,16 +243,16 @@ s32 func_8008E4EC(s32 arg0, s32 arg1, u16 arg2)
                 }
             }
 
-            sc->inner_count++;
-            sc->inner_delta += sc->step_x;
+            scratch->inner_count++;
+            scratch->inner_delta += scratch->step_x;
         }
 
-        sc->outer_count++;
-        sc->outer_delta += sc->step_y;
+        scratch->outer_count++;
+        scratch->outer_delta += scratch->step_y;
     }
 
-    if (sc->best != 0x7FFF) {
-        return (s16)(sc->base_y + sc->best);
+    if (scratch->best != 0x7FFF) {
+        return (s16)(scratch->base_y + scratch->best);
     }
     return 0x7FFF;
 }

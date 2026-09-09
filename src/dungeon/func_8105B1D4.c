@@ -76,26 +76,27 @@ typedef struct S_801729D4_6 {
     s32 unk_0C;
 } S_801729D4_6;   /* status in func_801729D4 */
 
-void func_801729D4(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advance the actor animation state and reset movement when it finishes. */
+void func_801729D4(void *action, void *motion, void *sprite, void *actor)
 {
-    static void *const jt_keep[] = {
+    static void *const anim_labels[] = {
         &&jt_1, &&jt_2, &&jt_3, &&jt_4, &&jt_5, &&jt_6, &&jt_7
     };
-    u16 pos[3];
-    u8 *anim;
-    register s32 mode ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 mode_test;
+    u16 position[3];
+    u8 *animation;
+    register s32 reuse_target ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 reuse_test;
     s32 state;
-    s32 kind;
-    void *root;
-    void *source;
-    void *created;
+    s32 anim_kind;
+    void *target_root;
+    void *target_source;
+    void *new_target;
     u8 *status;
-    s32 x;
-    s32 y;
+    s32 target_x;
+    s32 target_y;
 
-    state = ((S_801729D4_0 *)arg0)->unk_9B;
-    mode = 0;
+    state = ((S_801729D4_0 *)action)->unk_9B;
+    reuse_target = 0;
     if (state == 1) {
         goto state_1;
     }
@@ -105,175 +106,172 @@ void func_801729D4(void *arg0, void *arg1, void *arg2, void *arg3)
         }
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }
     return;
 
 state_0:
-    if (!(((S_801729D4_1 *)arg3)->unk_1C & 0x2000)) {
+    if (!(((S_801729D4_1 *)actor)->unk_1C & 0x2000)) {
         goto no_special;
     }
-    kind = (((S_801729D4_1 *)arg3)->unk_46 & 0x3FFF) - 1;
-    if ((u32)kind >= 7U) {
+    anim_kind = (((S_801729D4_1 *)actor)->unk_46 & 0x3FFF) - 1;
+    if ((u32)anim_kind >= 7U) {
         goto jt_4;
     }
-    (void)jt_keep;
-    goto *(((void **)D_80170838)[kind]);
+    (void)anim_labels;
+    goto *(((void **)D_80170838)[anim_kind]);
 
 jt_7:
-    mode = 1;
+    reuse_target = 1;
     goto no_3;
 jt_6:
-    mode = 1;
+    reuse_target = 1;
     goto no_2;
 jt_5:
-    mode = 1;
+    reuse_target = 1;
     goto no_1;
 
 no_special:
-    kind = ((S_801729D4_1 *)arg3)->unk_46 & 0x3FFF;
-    if (kind == 2) {
+    anim_kind = ((S_801729D4_1 *)actor)->unk_46 & 0x3FFF;
+    if (anim_kind == 2) {
         goto no_2;
     }
-    if (kind < 3) {
-        if (kind == 1) {
+    if (anim_kind < 3) {
+        if (anim_kind == 1) {
             goto no_1;
         }
-        anim = 0;
-        ASM_KEEP(anim);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        animation = 0;
+        ASM_KEEP(animation);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         goto selected;
     }
-    if (kind == 3) {
+    if (anim_kind == 3) {
         goto no_3;
     }
-    anim = 0;
+    animation = 0;
     goto selected;
 
 no_3:
 jt_3:
-    anim = (u8 *)arg3 + 0xE;
+    animation = (u8 *)actor + 0xE;
     goto selected;
 no_2:
 jt_2:
-    anim = (u8 *)arg3 + 0xB;
+    animation = (u8 *)actor + 0xB;
     goto selected;
 no_1:
 jt_1:
-    anim = (u8 *)arg3 + 8;
+    animation = (u8 *)actor + 8;
     goto selected;
 jt_4:
-    anim = 0;
+    animation = 0;
 
 selected:
-    if (*anim == 0) {
+    if (*animation == 0) {
         goto empty_anim;
     }
-    ((S_801729D4_0 *)arg0)->unk_98 &= 0xFF7F;
-    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    mode_test = mode;
-    ASM_KEEP(mode_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if (mode_test != 0) {
-        root = D_800814A8;
-        ((S_801729D4_1 *)arg3)->unk_60 = root;
-        source = ((S_801729D4_2_pre *)root)[-1].unk_00;
-        ((S_801729D4_1 *)arg3)->unk_72.u = ((S_801729D4_3 *)source)->unk_24;
-        ((S_801729D4_1 *)arg3)->unk_73.u = ((S_801729D4_3 *)source)->unk_25;
-        goto position;
+    ((S_801729D4_0 *)action)->unk_98 &= 0xFF7F;
+    ASM_KEEP(reuse_target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    reuse_test = reuse_target;
+    ASM_KEEP(reuse_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    if (reuse_test != 0) {
+        target_root = D_800814A8;
+        ((S_801729D4_1 *)actor)->unk_60 = target_root;
+        target_source = ((S_801729D4_2_pre *)target_root)[-1].unk_00;
+        ((S_801729D4_1 *)actor)->unk_72.u = ((S_801729D4_3 *)target_source)->unk_24;
+        ((S_801729D4_1 *)actor)->unk_73.u = ((S_801729D4_3 *)target_source)->unk_25;
+        goto set_position;
     }
 
+    new_target = func_800A05A4(
+        actor, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25,
+        ((S_801729D4_1 *)actor)->unk_2A, 0x10);
+    ((S_801729D4_1 *)actor)->unk_60 = new_target;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    created = func_800A05A4(
-        arg3, ((S_801729D4_4 *)arg2)->unk_24, ((S_801729D4_4 *)arg2)->unk_25,
-        ((S_801729D4_1 *)arg3)->unk_2A, 0x10);
-    ((S_801729D4_1 *)arg3)->unk_60 = created;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    x = ((S_801729D4_1 *)arg3)->unk_72.s;
-    y = ((S_801729D4_1 *)arg3)->unk_73.s;
-    if (x < 0) {
-        x = -x;
+    target_x = ((S_801729D4_1 *)actor)->unk_72.s;
+    target_y = ((S_801729D4_1 *)actor)->unk_73.s;
+    if (target_x < 0) {
+        target_x = -target_x;
     }
-    if (y < 0) {
-        y = -y;
+    if (target_y < 0) {
+        target_y = -target_y;
     }
-    ((S_801729D4_1 *)arg3)->unk_72.u = x;
-    ((S_801729D4_1 *)arg3)->unk_73.u = y;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    ((S_801729D4_1 *)actor)->unk_72.u = target_x;
+    ((S_801729D4_1 *)actor)->unk_73.u = target_y;
 
-position:
-    pos[0] = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
-    pos[1] = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
-    pos[2] = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
-    if (func_800A94A0(arg3, anim, mode, (u8 *)arg0 + 0x98) != 0) {
-        ((S_801729D4_4 *)arg2)->unk_14 &= 0xF7FF;
+set_position:
+    position[0] = ((Rec_D_800E3D7C *)motion)->unk_00.at02_u16.v;
+    position[1] = ((Rec_D_800E3D7C *)motion)->unk_04.at02_u16.v;
+    position[2] = ((Rec_D_800E3D7C *)motion)->unk_08.at02_u16.v;
+    if (func_800A94A0(actor, animation, reuse_target, (u8 *)action + 0x98) != 0) {
+        ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
         func_800A56E0(0x703);
-        func_800DA840(pos, (s16)((*anim - 1) % 3));
-        ((S_801729D4_0 *)arg0)->unk_9B++;
+        func_800DA840(position, (s16)((*animation - 1) % 3));
+        ((S_801729D4_0 *)action)->unk_9B++;
         return;
     }
     goto done;
 
 empty_anim:
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_801729D4_4 *)arg2)->unk_24, ((S_801729D4_4 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
     D_8008346C = 0;
     (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
-    func_800A4ACC(arg3);
-    ((S_801729D4_1 *)arg3)->unk_6D.u--;
-    ((S_801729D4_0 *)arg0)->unk_8C = &D_80170F68;
-    ((S_801729D4_1 *)arg3)->unk_73.u = 0;
-    ((S_801729D4_1 *)arg3)->unk_72.u = 0;
-    ((S_801729D4_1 *)arg3)->unk_46 &= 0x7FFF;
+    func_800A4ACC(actor);
+    ((S_801729D4_1 *)actor)->unk_6D.u--;
+    ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
+    ((S_801729D4_1 *)actor)->unk_73.u = 0;
+    ((S_801729D4_1 *)actor)->unk_72.u = 0;
+    ((S_801729D4_1 *)actor)->unk_46 &= 0x7FFF;
     return;
 
 state_1:
     if (func_8003F270() != 0) {
-        ((S_801729D4_4 *)arg2)->unk_14 |= 0x800;
+        ((S_801729D4_4 *)sprite)->unk_14 |= 0x800;
         return;
     }
-    ((S_801729D4_4 *)arg2)->unk_14 &= 0xF7FF;
-    ((S_801729D4_0 *)arg0)->unk_9B++;
+    ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
+    ((S_801729D4_0 *)action)->unk_9B++;
 
 state_2:
-    if ((((S_801729D4_4 *)arg2)->unk_04 == 8 &&
-         (((S_801729D4_4 *)arg2)->unk_14 & 0x1000)) ||
-        (((S_801729D4_4 *)arg2)->unk_14 & 0xE000)) {
-        ((S_801729D4_4 *)arg2)->unk_14 |= 0x800;
-        ((S_801729D4_0 *)arg0)->unk_96 = 3;
-        ((S_801729D4_0 *)arg0)->unk_98 |= 0x80;
+    if ((((S_801729D4_4 *)sprite)->unk_04 == 8 &&
+         (((S_801729D4_4 *)sprite)->unk_14 & 0x1000)) ||
+        (((S_801729D4_4 *)sprite)->unk_14 & 0xE000)) {
+        ((S_801729D4_4 *)sprite)->unk_14 |= 0x800;
+        ((S_801729D4_0 *)action)->unk_96 = 3;
+        ((S_801729D4_0 *)action)->unk_98 |= 0x80;
     }
-    ((S_801729D4_0 *)arg0)->unk_96--;
-    if ((s16)((S_801729D4_0 *)arg0)->unk_96 <= 0) {
-        ((S_801729D4_0 *)arg0)->unk_96 = 0;
-        ((S_801729D4_4 *)arg2)->unk_14 &= 0xF7FF;
+    ((S_801729D4_0 *)action)->unk_96--;
+    if ((s16)((S_801729D4_0 *)action)->unk_96 <= 0) {
+        ((S_801729D4_0 *)action)->unk_96 = 0;
+        ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
     }
-    if (((S_801729D4_4 *)arg2)->unk_14 & 0xE000) {
-        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, ((S_801729D4_4 *)arg2)->unk_24, ((S_801729D4_4 *)arg2)->unk_25);
-        if (((S_801729D4_4 *)arg2)->unk_2C != D_80173FB8) {
-            (*(void * *)((u8 *)arg2 + (0x2C))) = D_80173FB8;
+    if (((S_801729D4_4 *)sprite)->unk_14 & 0xE000) {
+        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
+        if (((S_801729D4_4 *)sprite)->unk_2C != D_80173FB8) {
+            (*(void * *)((u8 *)sprite + (0x2C))) = D_80173FB8;
             func_80047784(
-                arg2,
-                D_80173FB8[((D_80083228 + ((S_801729D4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                sprite,
+                D_80173FB8[((D_80083228 + ((S_801729D4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         status = (u8 *)&D_80083460;
         if (((S_801729D4_6 *)status)->unk_0C == 0) {
             ((S_801729D4_6 *)status)->unk_0A--;
-            ((S_801729D4_4 *)arg2)->unk_14 &= 0xF7FF;
-            ((S_801729D4_0 *)arg0)->unk_8C = &D_80170F68;
-            func_800A4ACC(arg3);
-            if (((S_801729D4_1 *)arg3)->unk_6D.s > 0) {
-                ((S_801729D4_1 *)arg3)->unk_6D.u--;
+            ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
+            ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
+            func_800A4ACC(actor);
+            if (((S_801729D4_1 *)actor)->unk_6D.s > 0) {
+                ((S_801729D4_1 *)actor)->unk_6D.u--;
             }
-            ((S_801729D4_1 *)arg3)->unk_73.u = 0;
-            ((S_801729D4_1 *)arg3)->unk_72.u = 0;
-            ((S_801729D4_1 *)arg3)->unk_46 &= 0x7FFF;
+            ((S_801729D4_1 *)actor)->unk_73.u = 0;
+            ((S_801729D4_1 *)actor)->unk_72.u = 0;
+            ((S_801729D4_1 *)actor)->unk_46 &= 0x7FFF;
             func_800A56E0(0xB4);
         }
     }
@@ -281,7 +279,3 @@ state_2:
 done:
     return;
 }
-
-/* MECHANISM: The s4 guard is delayed until its body use so the entry assignment
-   can fill retail's state-dispatch branch slot without splitting the save block.
-   Fences stop slot theft; distinct root/source/call ranges preserve v0/v1 roles. */

@@ -54,225 +54,226 @@ typedef struct S_80173510_3 {
     s32 unk_14;
 } S_80173510_3;   /* arg1 in func_80173510 */
 
-void func_80173510(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates a staged movement animation and returns the entity to its tile center. */
+void func_80173510(void *action, void *motion, void *record, void *actor)
 {
-    static void *const jt_keep[] = { &&L0, &&L1, &&L2, &&L3, &&L4, &&L5 };
+    static void *const state_labels[] = { &&init, &&wait_start, &&move, &&stop, &&wait_return, &&return_to_tile };
     u8 state;
-    u32 state_step;
+    u32 next_timer;
 
-    state = ((S_80173510_0 *)arg0)->unk_9B.n;
+    state = ((S_80173510_0 *)action)->unk_9B.n;
     if ((u32)state >= 6) {
         return;
     }
-    (void)jt_keep;
+    (void)state_labels;
     goto *D_80170850[state];
 
-L0:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-        u8 *model;
+init:
+    if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
+        u8 *animation_ids;
 
-        ((S_80173510_0 *)arg0)->unk_9B.n = 5;
-        ((S_80173510_0 *)arg0)->unk_96.u = 0;
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(arg3, arg2, ((S_80173510_2 *)arg3)->unk_2A.s, 1);
+        ((S_80173510_0 *)action)->unk_9B.n = 5;
+        ((S_80173510_0 *)action)->unk_96.u = 0;
+        ((Rec_D_80082E80 *)record)->unk_14.at00_u16.v |= 0x6000;
+        func_8009C12C(actor, record, ((S_80173510_2 *)actor)->unk_2A.s, 1);
 
-        model = D_800E23E0;
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = model;
-        func_80047784(arg2,
-            model[((D_80083228 + ((S_80173510_2 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+        animation_ids = D_800E23E0;
+        (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
+        func_80047784(record,
+            animation_ids[((D_80083228 + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
-        if (((S_80173510_0 *)arg0)->unk_B0 != 0) {
+        if (((S_80173510_0 *)action)->unk_B0 != 0) {
             return;
         }
-        func_801708B8(arg0, arg1, arg2);
+        func_801708B8(action, motion, record);
         return;
     }
 
-    ((S_80173510_3 *)arg1)->unk_14 = 0;
-    ((S_80173510_3 *)arg1)->unk_10 = 0;
-    ((S_80173510_3 *)arg1)->unk_0C = 0;
-    ((S_80173510_0 *)arg0)->unk_96.u = 2;
-    ((S_80173510_0 *)arg0)->unk_98 &= 0xFFF7;
-    ((S_80173510_0 *)arg0)->unk_9B.n++;
+    ((S_80173510_3 *)motion)->unk_14 = 0;
+    ((S_80173510_3 *)motion)->unk_10 = 0;
+    ((S_80173510_3 *)motion)->unk_0C = 0;
+    ((S_80173510_0 *)action)->unk_96.u = 2;
+    ((S_80173510_0 *)action)->unk_98 &= 0xFFF7;
+    ((S_80173510_0 *)action)->unk_9B.n++;
     return;
 
-L1:
+wait_start:
     {
-        s16 *base_x;
-        s16 *base_y;
+        s16 *direction_x;
+        s16 *direction_y;
         u16 timer;
 
-        timer = ((S_80173510_0 *)arg0)->unk_96.u;
-        ((S_80173510_0 *)arg0)->unk_96.u = timer - 1;
-        if ((s16)timer > 0 && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+        timer = ((S_80173510_0 *)action)->unk_96.u;
+        ((S_80173510_0 *)action)->unk_96.u = timer - 1;
+        if ((s16)timer > 0 && !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
 
-        ((S_80173510_0 *)arg0)->unk_96.u = 0x12;
-        base_x = (s16 *)&D_8006CCD8;
-        ((S_80173510_0 *)arg0)->unk_9B.n++;
-        base_y = (s16 *)&D_8006CCE8;
-        ((S_80173510_3 *)arg1)->unk_0C =
-            -*(s16 *)((u8 *)base_x +
-              ((((S_80173510_2 *)arg3)->unk_2A.u >> 8) & 0xE)) << 18;
-        ((S_80173510_3 *)arg1)->unk_10 =
-            -*(s16 *)((u8 *)base_y +
-              ((((S_80173510_2 *)arg3)->unk_2A.u >> 8) & 0xE)) << 18;
+        ((S_80173510_0 *)action)->unk_96.u = 0x12;
+        direction_x = (s16 *)&D_8006CCD8;
+        ((S_80173510_0 *)action)->unk_9B.n++;
+        direction_y = (s16 *)&D_8006CCE8;
+        ((S_80173510_3 *)motion)->unk_0C =
+            -*(s16 *)((u8 *)direction_x +
+              ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
+        ((S_80173510_3 *)motion)->unk_10 =
+            -*(s16 *)((u8 *)direction_y +
+              ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
         return;
     }
 
-L2:
+move:
     {
-        s16 *base_x;
-        s16 *base_y;
+        s16 *direction_x;
+        s16 *direction_y;
         s32 eight;
-        s8 kind;
+        s8 entity_kind;
         u16 timer;
 
-        if (((S_80173510_0 *)arg0)->unk_96.s == 0xB) {
-            ((S_80173510_3 *)arg1)->unk_0C = 0;
-            ((S_80173510_3 *)arg1)->unk_10 = 0;
+        if (((S_80173510_0 *)action)->unk_96.s == 0xB) {
+            ((S_80173510_3 *)motion)->unk_0C = 0;
+            ((S_80173510_3 *)motion)->unk_10 = 0;
         }
 
         eight = 8;
-        if (((S_80173510_0 *)arg0)->unk_96.s == eight) {
-            u8 *model;
+        if (((S_80173510_0 *)action)->unk_96.s == eight) {
+            u8 *animation_ids;
 
-            model = D_800E2400;
-            (*(u8 * *)((u8 *)arg2 + (0x2C))) = model;
-            func_80047784(arg2,
-                model[((D_80083228 + ((S_80173510_2 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+            animation_ids = D_800E2400;
+            (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
+            func_80047784(record,
+                animation_ids[((D_80083228 + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 1);
 
-            base_x = (s16 *)&D_8006CCD8;
-            base_y = (s16 *)&D_8006CCE8;
-            ((S_80173510_3 *)arg1)->unk_0C =
-                *(s16 *)((u8 *)base_x +
-                  ((((S_80173510_2 *)arg3)->unk_2A.u >> 8) & 0xE)) << 19;
-            ((S_80173510_3 *)arg1)->unk_10 =
-                *(s16 *)((u8 *)base_y +
-                  ((((S_80173510_2 *)arg3)->unk_2A.u >> 8) & 0xE)) << 19;
+            direction_x = (s16 *)&D_8006CCD8;
+            direction_y = (s16 *)&D_8006CCE8;
+            ((S_80173510_3 *)motion)->unk_0C =
+                *(s16 *)((u8 *)direction_x +
+                  ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 19;
+            ((S_80173510_3 *)motion)->unk_10 =
+                *(s16 *)((u8 *)direction_y +
+                  ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 19;
         }
 
-        kind = ((Rec_D_80082E80 *)arg2)->unk_04.as_s8;
-        if (kind == 4 || kind == eight) {
-            s32 i;
+        entity_kind = ((Rec_D_80082E80 *)record)->unk_04.as_s8;
+        if (entity_kind == 4 || entity_kind == eight) {
+            s32 particles_left;
 
             func_800A56E0(0x706);
-            i = 0x14;
+            particles_left = 0x14;
             do {
-                s32 random;
+                s32 particle_random;
 
-                i--;
-                random = rand();
-                func_800D5DCC((u8 *)arg0 - 0x20,
-                    ((S_80173510_2 *)arg3)->unk_2A.s, 0x8080FF,
-                    (random & 0xFF) | 0x80);
-            } while (i >= 0);
+                particles_left--;
+                particle_random = rand();
+                func_800D5DCC((u8 *)action - 0x20,
+                    ((S_80173510_2 *)actor)->unk_2A.s, 0x8080FF,
+                    (particle_random & 0xFF) | 0x80);
+            } while (particles_left >= 0);
         }
 
-        timer = ((S_80173510_0 *)arg0)->unk_96.u;
-        ((S_80173510_0 *)arg0)->unk_96.u = timer - 1;
-        if ((s16)timer <= 0 || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-            ((S_80173510_0 *)arg0)->unk_96.u = 4;
-            ((S_80173510_0 *)arg0)->unk_9B.n++;
+        timer = ((S_80173510_0 *)action)->unk_96.u;
+        ((S_80173510_0 *)action)->unk_96.u = timer - 1;
+        if ((s16)timer <= 0 || (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+            ((S_80173510_0 *)action)->unk_96.u = 4;
+            ((S_80173510_0 *)action)->unk_9B.n++;
         }
 
-        if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_800E2400) {
+        if (((Rec_D_80082E80 *)record)->unk_2C.as_pu8 != D_800E2400) {
             return;
         }
-        ((Rec_D_80082E80 *)arg2)->unk_05.as_u8 = 0;
+        ((Rec_D_80082E80 *)record)->unk_05.as_u8 = 0;
         return;
     }
 
-L3:
+stop:
     {
         s16 timer;
 
-        timer = ((S_80173510_0 *)arg0)->unk_96.u - 1;
-        ((S_80173510_0 *)arg0)->unk_96.u = timer;
-        if (timer == 3 || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-            u8 *model;
+        timer = ((S_80173510_0 *)action)->unk_96.u - 1;
+        ((S_80173510_0 *)action)->unk_96.u = timer;
+        if (timer == 3 || (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+            u8 *animation_ids;
 
-            ((S_80173510_3 *)arg1)->unk_14 = 0;
-            ((S_80173510_3 *)arg1)->unk_10 = 0;
-            ((S_80173510_3 *)arg1)->unk_0C = 0;
-            func_8009C12C(arg3, arg2, ((S_80173510_2 *)arg3)->unk_2A.s, 1);
+            ((S_80173510_3 *)motion)->unk_14 = 0;
+            ((S_80173510_3 *)motion)->unk_10 = 0;
+            ((S_80173510_3 *)motion)->unk_0C = 0;
+            func_8009C12C(actor, record, ((S_80173510_2 *)actor)->unk_2A.s, 1);
 
-            model = D_800E23E0;
-            (*(u8 * *)((u8 *)arg2 + (0x2C))) = model;
-            func_80047784(arg2,
-                model[((D_80083228 + ((S_80173510_2 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+            animation_ids = D_800E23E0;
+            (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
+            func_80047784(record,
+                animation_ids[((D_80083228 + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
-            ((S_80173510_0 *)arg0)->unk_92 = -0x20;
-            if (((S_80173510_0 *)arg0)->unk_B0 == 0) {
-                func_801708B8(arg0, arg1, arg2);
+            ((S_80173510_0 *)action)->unk_92 = -0x20;
+            if (((S_80173510_0 *)action)->unk_B0 == 0) {
+                func_801708B8(action, motion, record);
             }
         }
 
-        if (((S_80173510_0 *)arg0)->unk_96.s > 0 &&
-            !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+        if (((S_80173510_0 *)action)->unk_96.s > 0 &&
+            !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
-        state = ((S_80173510_0 *)arg0)->unk_9B.n;
-        state_step = 2;
-        goto state_tail;
+        state = ((S_80173510_0 *)action)->unk_9B.n;
+        next_timer = 2;
+        goto advance_state;
     }
 
-L4:
+wait_return:
     {
         u16 timer;
 
-        timer = ((S_80173510_0 *)arg0)->unk_96.u;
-        ((S_80173510_0 *)arg0)->unk_96.u = timer - 1;
-        if ((s16)timer > 0 && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+        timer = ((S_80173510_0 *)action)->unk_96.u;
+        ((S_80173510_0 *)action)->unk_96.u = timer - 1;
+        if ((s16)timer > 0 && !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
-        state = ((S_80173510_0 *)arg0)->unk_9B.n;
-        state_step = 6;
-state_tail:
-        ((S_80173510_0 *)arg0)->unk_96.u = state_step;
+        state = ((S_80173510_0 *)action)->unk_9B.n;
+        next_timer = 6;
+advance_state:
+        ((S_80173510_0 *)action)->unk_96.u = next_timer;
         ASM_SCHED_BARRIER(); /* MATCH: Keep the timer store before the shared state increment. */
-        ((S_80173510_0 *)arg0)->unk_9B.n = state + 1;
+        ((S_80173510_0 *)action)->unk_9B.n = state + 1;
         return;
     }
 
-L5:
+return_to_tile:
     {
-        s32 delta;
-        s32 position;
+        s32 distance;
+        s32 axis_position;
         s16 timer;
 
-        timer = ((S_80173510_0 *)arg0)->unk_96.s;
+        timer = ((S_80173510_0 *)action)->unk_96.s;
         if (timer != 0) {
-            delta = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
-            position = ((S_80173510_3 *)arg1)->unk_02;
-            position -= 0x20;
-            delta -= position;
-            ((S_80173510_3 *)arg1)->unk_0C = (delta << 16) / timer;
+            distance = ((Rec_D_80082E80 *)record)->unk_24 << 6;
+            axis_position = ((S_80173510_3 *)motion)->unk_02;
+            axis_position -= 0x20;
+            distance -= axis_position;
+            ((S_80173510_3 *)motion)->unk_0C = (distance << 16) / timer;
 
-            position = ((S_80173510_3 *)arg1)->unk_06;
-            delta = ((Rec_D_80082E80 *)arg2)->unk_25 << 6;
-            position -= 0x20;
-            delta -= position;
-            ((S_80173510_3 *)arg1)->unk_10 =
-                (delta << 16) / ((S_80173510_0 *)arg0)->unk_96.s;
+            axis_position = ((S_80173510_3 *)motion)->unk_06;
+            distance = ((Rec_D_80082E80 *)record)->unk_25 << 6;
+            axis_position -= 0x20;
+            distance -= axis_position;
+            ((S_80173510_3 *)motion)->unk_10 =
+                (distance << 16) / ((S_80173510_0 *)action)->unk_96.s;
         }
 
-        ((S_80173510_0 *)arg0)->unk_96.u--;
-        if (((S_80173510_0 *)arg0)->unk_96.s > 0 &&
-            !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+        ((S_80173510_0 *)action)->unk_96.u--;
+        if (((S_80173510_0 *)action)->unk_96.s > 0 &&
+            !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
 
-        func_800AD594(arg3, 0x100);
-        ((S_80173510_0 *)arg0)->unk_8C = D_80171A80;
+        func_800AD594(actor, 0x100);
+        ((S_80173510_0 *)action)->unk_8C = D_80171A80;
         D_8008346C = 0;
-        func_800A4ACC(arg3);
-        ((S_80173510_3 *)arg1)->unk_0C = 0;
-        ((S_80173510_3 *)arg1)->unk_10 = 0;
-        ((S_80173510_3 *)arg1)->unk_02 = ((Rec_D_80082E80 *)arg2)->unk_24 * 0x40 + 0x20;
-        ((S_80173510_3 *)arg1)->unk_06 = ((Rec_D_80082E80 *)arg2)->unk_25 * 0x40 + 0x20;
-        ((S_80173510_2 *)arg3)->unk_46 &= 0x7FFF;
+        func_800A4ACC(actor);
+        ((S_80173510_3 *)motion)->unk_0C = 0;
+        ((S_80173510_3 *)motion)->unk_10 = 0;
+        ((S_80173510_3 *)motion)->unk_02 = ((Rec_D_80082E80 *)record)->unk_24 * 0x40 + 0x20;
+        ((S_80173510_3 *)motion)->unk_06 = ((Rec_D_80082E80 *)record)->unk_25 * 0x40 + 0x20;
+        ((S_80173510_2 *)actor)->unk_46 &= 0x7FFF;
     }
 }

@@ -68,174 +68,164 @@ typedef struct S_80171514_3 {
     u16 unk_0C;
 } S_80171514_3;   /* entry in func_80171514 */
 
-void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
+/* Updates object animation, dispatches its action, and adjusts its facing. */
+void func_80171514(void *obj, void *motion, void *part, void *state)
 {
-    static void *const keepalive[] = {
+    static void *const dispatch_labels[] = {
         &&case_stop, &&case_callback, &&case_action, &&case_default
     };
-    void *obj = arg0_;
-    void *motion = arg1_;
-    void *part = arg2_;
-    void *state = arg3_;
-#define arg0 obj
-#define arg1 motion
-#define arg2 part
-#define arg3 state
     u32 entry_status = D_80083462;
-    s32 flags;
-    s32 result;
-    s32 kind;
+    s32 state_flags;
+    s32 query_result;
+    s32 action_kind;
     s32 jump_index;
     s32 entry_index;
     u8 *entry_base;
     u8 *entry;
-    u8 *animation;
+    u8 *target_part;
     s16 distance;
-    void *tail_arg;
+    void *callback_state;
 
     if (entry_status & 0x1000) {
-        (*(u8 *)((u8 *)arg0 + (0x9A))) = 14;
-        func_801719C0(arg0);
+        (*(u8 *)((u8 *)obj + (0x9A))) = 14;
+        func_801719C0(obj);
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    if (((S_80171514_0 *)arg3)->unk_1C & 0x200) {
-        if (((S_80171514_1 *)arg2)->unk_2C == D_80173EC4) {
-            (*(u8 *)((u8 *)arg0 + (0x9A))) = 13;
-            (*(u8 *)((u8 *)arg0 + (0x9B))) = 1;
-            (*(u32 *)((u8 *)arg0 + (0x8C))) = 0;
-            ((S_80171514_0 *)arg3)->unk_1C &= ~0x40000;
+
+    if (((S_80171514_0 *)state)->unk_1C & 0x200) {
+        if (((S_80171514_1 *)part)->unk_2C == D_80173EC4) {
+            (*(u8 *)((u8 *)obj + (0x9A))) = 13;
+            (*(u8 *)((u8 *)obj + (0x9B))) = 1;
+            (*(u32 *)((u8 *)obj + (0x8C))) = 0;
+            ((S_80171514_0 *)state)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(arg0, arg1, arg2, D_80173E94) != 0) {
+        if (func_800AA924(obj, motion, part, D_80173E94) != 0) {
             return;
         }
     }
 
     if ((D_80083462 & 0x2000) == 0) {
-        if (((S_80171514_0 *)arg3)->unk_1C & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        if (((S_80171514_0 *)state)->unk_1C & 0x100) {
+            func_800AA258(obj, motion, part, state);
             return;
         }
 
-           /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        if ((*(u8 *)((u8 *)arg0 + (0x9A))) != 14) {
-            (*(u8 *)((u8 *)arg0 + (0x9A))) = 14;
+        if ((*(u8 *)((u8 *)obj + (0x9A))) != 14) {
+            (*(u8 *)((u8 *)obj + (0x9A))) = 14;
         }
-        if (((S_80171514_1 *)arg2)->unk_2C != D_80173E8C) {
-            (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80173E8C;
+        if (((S_80171514_1 *)part)->unk_2C != D_80173E8C) {
+            (*(u8 * *)((u8 *)part + (0x2C))) = D_80173E8C;
             func_80047784(
-                arg2,
-                D_80173E8C[((D_80083228 + ((S_80171514_0 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                part,
+                D_80173E8C[((D_80083228 + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            ((S_80171514_1 *)arg2)->unk_05 = 1;
-            (*(s16 *)((u8 *)arg0 + (0xA2))) = 0;
-            (*(s16 *)((u8 *)arg0 + (0x9E))) = 0;
+            ((S_80171514_1 *)part)->unk_05 = 1;
+            (*(s16 *)((u8 *)obj + (0xA2))) = 0;
+            (*(s16 *)((u8 *)obj + (0x9E))) = 0;
         }
 
-        ((S_80171514_0 *)arg3)->unk_1C |= 0x40000;
-        (*(u16 *)((u8 *)arg0 + (0x98))) &= 0xFFF7;
+        ((S_80171514_0 *)state)->unk_1C |= 0x40000;
+        (*(u16 *)((u8 *)obj + (0x98))) &= 0xFFF7;
 
-        if (((S_80171514_0 *)arg3)->unk_64 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, D_80173EE4) != 0) {
+        if (((S_80171514_0 *)state)->unk_64 != 0) {
+            if (func_800AA6B4(obj, motion, part, D_80173EE4) != 0) {
                 return;
             }
         }
 
-        if (((S_80171514_0 *)arg3)->unk_1C & 0x80000) {
-            u16 old_value;
-            u16 amount;
+        if (((S_80171514_0 *)state)->unk_1C & 0x80000) {
+            u16 previous_amount;
+            u16 pending_amount;
 
-            func_800AA888(arg0, arg1, arg2, arg3);
-            old_value = (*(u16 *)((u8 *)arg0 + (0x92)));
-            amount = (*(u16 *)((u8 *)arg0 + (0xA2)));
-            (*(s16 *)((u8 *)arg0 + (0xA2))) = 0;
-            (*(s16 *)((u8 *)arg0 + (0x9E))) = 0;
-            (*(u16 *)((u8 *)arg0 + (0x92))) = old_value - amount;
-            func_801736B8(arg0, arg1, arg2, arg3);
+            func_800AA888(obj, motion, part, state);
+            previous_amount = (*(u16 *)((u8 *)obj + (0x92)));
+            pending_amount = (*(u16 *)((u8 *)obj + (0xA2)));
+            (*(s16 *)((u8 *)obj + (0xA2))) = 0;
+            (*(s16 *)((u8 *)obj + (0x9E))) = 0;
+            (*(u16 *)((u8 *)obj + (0x92))) = previous_amount - pending_amount;
+            func_801736B8(obj, motion, part, state);
             return;
         }
 
-        if ((s16)func_800A1C58(arg3) != 0) {
-            func_800AAB10(arg0, arg1, arg2, arg3);
+        if ((s16)func_800A1C58(state) != 0) {
+            func_800AAB10(obj, motion, part, state);
         }
     }
 
-    result = func_8009FB34(((S_80171514_1 *)arg2)->unk_24.at00.v, ((S_80171514_1 *)arg2)->unk_24.at01.v);
-    ((S_80171514_1 *)arg2)->unk_26 = result;
+    query_result = func_8009FB34(((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v);
+    ((S_80171514_1 *)part)->unk_26 = query_result;
 
-    if (((S_80171514_0 *)arg3)->unk_6D > 0) {
-        if (((S_80171514_0 *)arg3)->unk_1C & 0x20) {
+    if (((S_80171514_0 *)state)->unk_6D > 0) {
+        if (((S_80171514_0 *)state)->unk_1C & 0x20) {
             goto case_stop;
         }
 
-        if (((S_80171514_1 *)arg2)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto case_default;
         }
 
-        if ((((S_80171514_0 *)arg3)->unk_46 & 0x8000) == 0) {
+        if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
             if (D_80083462 & 0x2000) {
                 if ((s16)func_8009A180(
-                        arg3, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                        state, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
             }
 
             if (D_80013714 & 8) {
-                u8 tail_flags;
+                u8 callback_flags;
 
-                func_80173D6C(arg0, arg1, arg2);
-                tail_flags = ((S_80171514_0 *)arg3)->unk_71;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                tail_arg = arg3;
-                ASM_KEEP(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                tail_flags &= 0x7F;
-                ((S_80171514_0 *)arg3)->unk_71 = tail_flags;
+                func_80173D6C(obj, motion, part);
+                callback_flags = ((S_80171514_0 *)state)->unk_71;
+                callback_state = state;
+                callback_flags &= 0x7F;
+                ((S_80171514_0 *)state)->unk_71 = callback_flags;
                 goto case_callback_tail;
             }
 
-            if ((s16)func_80172330(arg0, arg1, arg2, 0) == 0) {
+            if ((s16)func_80172330(obj, motion, part, 0) == 0) {
                 return;
             }
-            ((S_80171514_0 *)arg3)->unk_46 |= 0x4000;
-            if ((((S_80171514_0 *)arg3)->unk_46 & 0x8000) == 0) {
+            ((S_80171514_0 *)state)->unk_46 |= 0x4000;
+            if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
                 goto case_default;
             }
         }
 
-        kind = ((S_80171514_0 *)arg3)->unk_46 & 0x3FFF;
-        jump_index = kind - 1;
+        action_kind = ((S_80171514_0 *)state)->unk_46 & 0x3FFF;
+        jump_index = action_kind - 1;
         if ((u32)jump_index >= 12U) {
             goto case_default;
         }
-        (void)keepalive;
+        (void)dispatch_labels;
         goto *D_80170808[jump_index];
 
 case_stop:
-        func_800A9A0C(arg3);
+        func_800A9A0C(state);
         return;
 
 case_callback:
-        tail_arg = arg3;
-        (*(void * volatile *)((u8 *)arg0 + (0x8C))) = &D_80171514;
+        callback_state = state;
+        (*(void * volatile *)((u8 *)obj + (0x8C))) = &D_80171514;
 case_callback_tail:
-        func_800A9A0C(tail_arg);
-        ((S_80171514_0 *)arg3)->unk_46 &= 0x7FFF;
+        func_800A9A0C(callback_state);
+        ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
         return;
 
 case_action:
-        func_800AAF00(arg0, arg1, arg2, 0, &D_80171514);
+        func_800AAF00(obj, motion, part, 0, &D_80171514);
         return;
 
 case_default:
-        func_80171BE0(arg0, arg1, arg2, arg3);
+        func_80171BE0(obj, motion, part, state);
         return;
     }
 
-    flags = ((S_80171514_0 *)arg3)->unk_1C;
-    if ((flags & 0x2000) == 0) {
-        entry_index = (s8)result;
+    state_flags = ((S_80171514_0 *)state)->unk_1C;
+    if ((state_flags & 0x2000) == 0) {
+        entry_index = (s8)query_result;
         if (entry_index >= 0) {
             entry_base = D_800E2970;
             entry = entry_index * 20 + entry_base;
@@ -243,25 +233,16 @@ case_default:
                 return;
             }
         }
-        if ((flags & 0x430) == 0) {
-            animation = D_80082E80;
+        if ((state_flags & 0x430) == 0) {
+            target_part = D_80082E80;
             if ((s16)func_8009FD7C(
-                    ((S_80171514_1 *)arg2)->unk_24.at00.v, ((S_80171514_1 *)arg2)->unk_24.at01.v,
-                    animation[0x24], animation[0x25]) != 0) {
-                result = func_800A0818(
-                    ((S_80171514_1 *)arg2)->unk_24.at00.v, ((S_80171514_1 *)arg2)->unk_24.at01.v,
-                    animation[0x24], animation[0x25], &distance);
-                ((S_80171514_0 *)arg3)->unk_2A = result;
+                    ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
+                    target_part[0x24], target_part[0x25]) != 0) {
+                query_result = func_800A0818(
+                    ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
+                    target_part[0x24], target_part[0x25], &distance);
+                ((S_80171514_0 *)state)->unk_2A = query_result;
             }
         }
     }
 }
-#undef arg0
-#undef arg1
-#undef arg2
-#undef arg3
-
-/* MECHANISM: Natural entry-status initialization plus long-lived pinned arguments yields the retail 0x38 frame/save order.
-   A volatile callback-pointer lvalue preserves retail's sw; jal; nop sequence and removes the displacement cascade.
-   Separate entry-base/result locals keep the table base in v0 and coalesce the indexed address into v1.
-   A scoped a0 tail argument, value barrier, and scheduler fence retain the s0 delay-store base with the move in the load slot. */

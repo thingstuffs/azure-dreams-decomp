@@ -119,403 +119,386 @@ typedef struct S_8009C12C_7 {
     u16 unk_88;
 } S_8009C12C_7;   /* table_v0 in func_8009C12C */
 
-void *func_8009C12C(void *arg0_in, void *arg1_in, s16 arg2, s16 arg3) {
-    void *arg0 = arg0_in;
-    S_8009C12C_2 *arg1 = arg1_in;
-    s16 temp_v0;
-    s16 temp_v0_5;
-    s32 var_a2;
-    s16 var_s6;
-    s32 temp_a2;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    register s32 temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 temp_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 temp_v0_3 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 temp_v0_6;
-    s8 temp_s8;
-    s32 temp_v1;
-    s32 temp_v1_3;
-    s32 temp_v1_7;
-    register s32 temp_v1_5 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_a3;
-    u32 bf_arg;
-    register s32 var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 var_v0_2;
-    s32 var_v0_3;
-    register s32 var_v0_4 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_v0_5;
-    u16 *temp_v0_4;
-    u16 temp_v1_2;
-    u16 temp_v1_4;
-    register u8 temp_v0_7 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    S_8009C12C_4 *temp_ptr;
-    register s16 *table_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 *table_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 table_raw ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 table_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 table_step ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 table_a1;
-    register s32 table_b0 ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 table_x ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 table_y;
-    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Resolve an attack against the linked target and display its damage and effects. */
+void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance) {
+    void *attacker = attacker_in;
+    S_8009C12C_2 *tile = tile_in;
+    s16 tile_result;
+    s16 height_diff;
+    s32 damage;
+    s16 message_state;
+    s32 direction_offset;
+    s32 target_flags;
+    register s32 target_elements ASM_REG("$19");
+    register s32 attack_elements ASM_REG("$23");
+    register s32 message_start ASM_REG("$21");
+    s32 attack_bonus;
+    s8 attacker_kind;
+    s32 half_delta;
+    s32 attacker_blocked;
+    s32 quarter_delta;
+    register s32 opposite_offset ASM_REG("$3");
+    s32 effect_elements;
+    u32 effect_flags;
+    register s32 message_cursor ASM_REG("$16");
+    register s32 modifier ASM_REG("$18");
+    s32 element_match;
+    s32 element_check;
+    register s32 scaled_modifier ASM_REG("$2");
+    s32 signed_value;
+    u16 *attack_script;
+    u16 target_traits;
+    register u8 kind_check ASM_REG("$4");
+    S_8009C12C_4 *target_data;
+    register s16 *opposite_x_ptr ASM_REG("$5");
+    register s16 *direction_ptr ASM_REG("$2");
+    register u16 direction_value ASM_REG("$12");
+    register s32 effect_x ASM_REG("$4");
+    register s32 step_distance ASM_REG("$9");
+    s32 x_offset;
+    register s32 y_step ASM_REG("$10");
+    register s32 x_step ASM_REG("$11");
+    s32 effect_y;
+    register s32 zero ASM_REG("$0");
     struct {
         volatile u16 arg2;
         u8 gap[6];
         u16 arg3;
     } homes;
-    register void **var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *temp_s1;
-    void *var_a0;
-    void *var_v0;
+    register void **actor_page ASM_REG("$3");
+    void *target;
+    void *blocked_actor;
+    void *null_result;
 
-    var_s2 = 0;
+    modifier = 0;
 #ifdef NON_MATCHING
-    hard_zero = 0;
+    zero = 0;
 #endif
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_8009C12C_0 *)arg0)->unk_73 = 0;
-    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_8009C12C_0 *)arg0)->unk_72 = 0;
-    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    homes.arg2 = arg2;
-    temp_s1 = ((S_8009C12C_0 *)arg0)->unk_60;
-    var_s6 = var_s2;
-    homes.arg3 = arg3;
-    if (temp_s1 == NULL) {
+    ASM_KEEP(attacker);
+    ((S_8009C12C_0 *)attacker)->unk_73 = 0;
+    ASM_KEEP(tile);
+    ((S_8009C12C_0 *)attacker)->unk_72 = 0;
+    ASM_KEEP(direction);
+    homes.arg2 = direction;
+    target = ((S_8009C12C_0 *)attacker)->unk_60;
+    message_state = modifier;
+    homes.arg3 = distance;
+    if (target == NULL) {
         S_8009C12C_1 *entry_page;
         entry_page = (void *)0x800E0000;
-        var_v0 = NULL;
-        if (arg0 == entry_page->unk_3D7C) {
-            temp_v0 = func_800B5ED0(arg1->unk_24, arg1->unk_25, arg2, ((S_8009C12C_0 *)arg0)->unk_88);
-            var_v0 = NULL;
-            if (temp_v0 >= 0) {
-                s32 table_a0;
-                s32 table_v1;
-                s32 built;
-                temp_v0_3 = func_800990FC();
-                built = func_8009929C(8, temp_v0_3);
-                table_a0 = temp_v0 << 2;
-                table_v1 = (s32)&D_800E3648;
-                table_a0 += table_v1;
-                built = func_8009955C(table_a0, built);
-                built = func_80099194(&D_800E0D7B, built);
-                func_80099290(built);
-                func_800A5720(temp_v0_3);
+        null_result = NULL;
+        if (attacker == entry_page->unk_3D7C) {
+            tile_result = func_800B5ED0(tile->unk_24, tile->unk_25, direction, ((S_8009C12C_0 *)attacker)->unk_88);
+            null_result = NULL;
+            if (tile_result >= 0) {
+                s32 tile_text;
+                s32 tile_text_base;
+                s32 tile_message;
+                message_start = func_800990FC();
+                tile_message = func_8009929C(8, message_start);
+                tile_text = tile_result << 2;
+                tile_text_base = (s32)&D_800E3648;
+                tile_text += tile_text_base;
+                tile_message = func_8009955C(tile_text, tile_message);
+                tile_message = func_80099194(&D_800E0D7B, tile_message);
+                func_80099290(tile_message);
+                func_800A5720(message_start);
                 func_800A56E0(0x700);
-                func_800A2D68(arg0, 8);
-                func_800B4C7C(0x82, arg0, 8, 1);
+                func_800A2D68(attacker, 8);
+                func_800B4C7C(0x82, attacker, 8, 1);
             }
         }
         return NULL;
     }
-    temp_v0_3 = func_800990FC();
-    var_s0 = temp_v0_3;
-    temp_s8 = ((S_8009C12C_0 *)arg0)->unk_13;
-    temp_v0_7 = *(volatile u8 *)((s8 *)arg0 + 0x13);
-    if (temp_s8 >= 0) {
-        temp_ptr = ((S_8009C12C_3_pre *)temp_s1)[-1].unk_00;
-        temp_v1_2 = temp_ptr->unk_14;
-        if (!(arg1->unk_14 & temp_v1_2 & 0x8000) || ((temp_v0_7 == 0x23) && (((S_8009C12C_0 *)arg0)->unk_A6 != 0) && !(temp_v1_2 & 0x8000))) {
-            var_s0 = func_8009929C(0xA, func_80099194(&D_800E0D92, func_80099734(arg0, temp_v0_3)));
+    message_start = func_800990FC();
+    message_cursor = message_start;
+    attacker_kind = ((S_8009C12C_0 *)attacker)->unk_13;
+    kind_check = *(volatile u8 *)((s8 *)attacker + 0x13);
+    if (attacker_kind >= 0) {
+        target_data = ((S_8009C12C_3_pre *)target)[-1].unk_00;
+        target_traits = target_data->unk_14;
+        if (!(tile->unk_14 & target_traits & 0x8000) || ((kind_check == 0x23) && (((S_8009C12C_0 *)attacker)->unk_A6 != 0) && !(target_traits & 0x8000))) {
+            message_cursor = func_8009929C(0xA, func_80099194(&D_800E0D92, func_80099734(attacker, message_start)));
         } else {
-            temp_v1_3 = ((S_8009C12C_0 *)arg0)->unk_14.s32 & 0x4000;
-            if ((temp_v1_3 != 0) || (var_s6 = -1, ((((S_8009C12C_3 *)temp_s1)->unk_14 & 0x4000) != 0))) {
-                var_a0 = temp_s1;
-                if (temp_v1_3 != 0) {
-                    var_a0 = arg0;
+            attacker_blocked = ((S_8009C12C_0 *)attacker)->unk_14.s32 & 0x4000;
+            if ((attacker_blocked != 0) || (message_state = -1, ((((S_8009C12C_3 *)target)->unk_14 & 0x4000) != 0))) {
+                blocked_actor = target;
+                if (attacker_blocked != 0) {
+                    blocked_actor = attacker;
                 }
-                var_s0 = func_80099194(&D_800E0D9E, func_80099734(var_a0, var_s0));
-                var_s6 = 1;
+                message_cursor = func_80099194(&D_800E0D9E, func_80099734(blocked_actor, message_cursor));
+                message_state = 1;
             }
         }
-        goto block_17;
     }
-block_17:
-    ((S_8009C12C_3 *)temp_s1)->unk_14 = (s32) (((S_8009C12C_3 *)temp_s1)->unk_14 | 0x01000000);
-    if (((S_8009C12C_0 *)arg0)->unk_14.s32 & 0x04000000) {
-        func_800B4C7C(3, temp_s1, -1, 0);
-        if (((S_8009C12C_0 *)arg0)->unk_13 >= 0) {
-            var_v0_5 = var_s6 << 16;
-            var_s2 = var_v0_5 >> 16;
-            if (var_s2 == 0) {
-                var_s0 = func_80099194(&D_800E0DB8, func_80099734(temp_s1, var_s0));
+    ((S_8009C12C_3 *)target)->unk_14 = (s32) (((S_8009C12C_3 *)target)->unk_14 | 0x01000000);
+    if (((S_8009C12C_0 *)attacker)->unk_14.s32 & 0x04000000) {
+        func_800B4C7C(3, target, -1, 0);
+        if (((S_8009C12C_0 *)attacker)->unk_13 >= 0) {
+            signed_value = message_state << 16;
+            modifier = signed_value >> 16;
+            if (modifier == 0) {
+                message_cursor = func_80099194(&D_800E0DB8, func_80099734(target, message_cursor));
             }
-            var_v0 = NULL;
-            if (var_s2 >= 0) {
-                func_80099290(var_s0);
-                func_800A5720(temp_v0_3);
-                return (void *)hard_zero;
+            null_result = NULL;
+            if (modifier >= 0) {
+                func_80099290(message_cursor);
+                func_800A5720(message_start);
+                return (void *)zero;
             }
-            return var_v0;
+            return null_result;
         }
-        return (void *)hard_zero;
+        return (void *)zero;
     }
-    temp_v0_4 = ((S_8009C12C_0 *)arg0)->unk_4C;
-    if ((temp_v0_4 != NULL) && (*temp_v0_4 == 0xF0D)) {
-        ((S_8009C12C_3 *)temp_s1)->unk_22.n = ((S_8009C12C_3 *)temp_s1)->unk_27;
+    attack_script = ((S_8009C12C_0 *)attacker)->unk_4C;
+    if ((attack_script != NULL) && (*attack_script == 0xF0D)) {
+        ((S_8009C12C_3 *)target)->unk_22.n = ((S_8009C12C_3 *)target)->unk_27;
     } else {
-        ((S_8009C12C_3 *)temp_s1)->unk_22.v = (u16) (((S_8009C12C_3 *)temp_s1)->unk_27 + func_80098250(temp_s1));
+        ((S_8009C12C_3 *)target)->unk_22.v = (u16) (((S_8009C12C_3 *)target)->unk_27 + func_80098250(target));
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if ((func_80042900(temp_s1, 0xA) << 0x10) != 0) {
-        ((S_8009C12C_3 *)temp_s1)->unk_22.n = (u16) ((s32) (((S_8009C12C_3 *)temp_s1)->unk_22.n << 0x10) >> 0x11);
+    if ((func_80042900(target, 0xA) << 0x10) != 0) {
+        ((S_8009C12C_3 *)target)->unk_22.n = (u16) ((s32) (((S_8009C12C_3 *)target)->unk_22.n << 0x10) >> 0x11);
     }
     {
-        s16 field_22 = ((S_8009C12C_3 *)temp_s1)->unk_22.n2;
-        u16 field_22_u = ((S_8009C12C_3 *)temp_s1)->unk_22.v;
-        if (field_22 == 0) {
-            ((S_8009C12C_3 *)temp_s1)->unk_22.n = (u16) (field_22_u + 1);
+        s16 defense = ((S_8009C12C_3 *)target)->unk_22.n2;
+        u16 defense_raw = ((S_8009C12C_3 *)target)->unk_22.v;
+        if (defense == 0) {
+            ((S_8009C12C_3 *)target)->unk_22.n = (u16) (defense_raw + 1);
         }
     }
-    temp_s7 = func_8009CD58(arg0, 7, 1);
-    temp_s3 = func_8009CD58(temp_s1, 7, 0);
-    if (temp_s7 & 1) {
-        if ((func_80042900(temp_s1, 0x13) << 0x10) != 0) {
-            ((S_8009C12C_0 *)arg0)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)arg0)->unk_20.n << 0x10) >> 0x12);
+    attack_elements = func_8009CD58(attacker, 7, 1);
+    target_elements = func_8009CD58(target, 7, 0);
+    if (attack_elements & 1) {
+        if ((func_80042900(target, 0x13) << 0x10) != 0) {
+            ((S_8009C12C_0 *)attacker)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker)->unk_20.n << 0x10) >> 0x12);
         } else {
-            if (temp_s3 & 4) {
-                var_s2 += 1;
+            if (target_elements & 4) {
+                modifier += 1;
             }
-            var_v0_2 = temp_s3 & 2;
-            if (var_v0_2) {
-                var_s2 -= 2;
-                goto block_41;
+            element_match = target_elements & 2;
+            if (element_match) {
+                modifier -= 2;
             }
-            goto block_42;
         }
     }
-block_41:
-block_42:
-    var_v0_2 = temp_s7 & 2;
-    if (var_v0_2 != 0) {
-        if ((func_80042900(temp_s1, 0x14) << 0x10) != 0) {
-            ((S_8009C12C_0 *)arg0)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)arg0)->unk_20.n << 0x10) >> 0x12);
+    element_match = attack_elements & 2;
+    if (element_match != 0) {
+        if ((func_80042900(target, 0x14) << 0x10) != 0) {
+            ((S_8009C12C_0 *)attacker)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker)->unk_20.n << 0x10) >> 0x12);
         } else {
-            if (temp_s3 & 1) {
-                var_s2 += 1;
+            if (target_elements & 1) {
+                modifier += 1;
             }
-            var_v0_3 = temp_s3 & 4;
-            if (var_v0_3) {
-                var_s2 -= 2;
-                goto block_50;
+            element_check = target_elements & 4;
+            if (element_check) {
+                modifier -= 2;
             }
-            goto block_51;
         }
     }
-block_50:
-block_51:
-    var_v0_3 = temp_s7 & 4;
-    if (var_v0_3 != 0) {
-        if ((func_80042900(temp_s1, 0x12) << 0x10) != 0) {
-            ((S_8009C12C_0 *)arg0)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)arg0)->unk_20.n << 0x10) >> 0x12);
+    element_check = attack_elements & 4;
+    if (element_check != 0) {
+        if ((func_80042900(target, 0x12) << 0x10) != 0) {
+            ((S_8009C12C_0 *)attacker)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker)->unk_20.n << 0x10) >> 0x12);
         } else {
-            var_v0_3 = temp_s3 & 2;
-            if (var_v0_3) {
-                var_s2 += 1;
+            element_check = target_elements & 2;
+            if (element_check) {
+                modifier += 1;
             }
-            var_v0_3 = temp_s3 & 1;
-            if (var_v0_3) {
-                var_s2 -= 2;
+            element_check = target_elements & 1;
+            if (element_check) {
+                modifier -= 2;
             }
-            goto block_59;
         }
     }
-block_59:
-    temp_v0_5 = (u16) ((S_8009C12C_0 *)arg0)->unk_88 - ((S_8009C12C_3 *)temp_s1)->unk_88;
-    if (temp_v0_5 >= 0x20) {
-        var_s2 -= 1;
+    height_diff = (u16) ((S_8009C12C_0 *)attacker)->unk_88 - ((S_8009C12C_3 *)target)->unk_88;
+    if (height_diff >= 0x20) {
+        modifier -= 1;
     } else {
-        var_v0_4 = temp_v0_5 < -0x1F;
-        if (var_v0_4 == 0) {
-            var_v0_4 = var_s2 << 0x10;
+        scaled_modifier = height_diff < -0x1F;
+        if (scaled_modifier == 0) {
+            scaled_modifier = modifier << 0x10;
         } else {
-            var_s2 += 1;
-            var_v0_4 = var_s2 << 0x10;
+            modifier += 1;
+            scaled_modifier = modifier << 0x10;
         }
     }
-    var_v0_4 = var_s2 << 0x10;
+    scaled_modifier = modifier << 0x10;
     {
-        s32 first_lhs;
-        register s32 first_product ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u16 first_current;
-        register void *first_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        first_lhs = (s16)((S_8009C12C_0 *)arg0)->unk_20.n;
-        ASM_KEEP(first_lhs);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        first_product = first_lhs * (var_v0_4 >> 0x10);
-        first_call_arg = arg0;
-        first_current = ((S_8009C12C_0 *)arg0)->unk_20.v;
-        ASM_KEEP4(first_call_arg, first_current, first_product, first_lhs);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        first_lhs = first_product >> 3;
-        ((S_8009C12C_0 *)arg0)->unk_20.n = (u16)(first_current + first_lhs);
-        temp_v0_6 = func_800C82B8(first_call_arg);
+        s32 attack_value;
+        register s32 element_product ASM_REG("$12");
+        u16 attack_raw;
+        register void *bonus_actor ASM_REG("$4");
+        attack_value = (s16)((S_8009C12C_0 *)attacker)->unk_20.n;
+        ASM_KEEP(attack_value);
+        element_product = attack_value * (scaled_modifier >> 0x10);
+        bonus_actor = attacker;
+        attack_raw = ((S_8009C12C_0 *)attacker)->unk_20.v;
+        ASM_KEEP4(bonus_actor, attack_raw, element_product, attack_value);
+        attack_value = element_product >> 3;
+        ((S_8009C12C_0 *)attacker)->unk_20.n = (u16)(attack_raw + attack_value);
+        attack_bonus = func_800C82B8(bonus_actor);
     }
-    if (temp_v0_6 != 0) {
-        u16 second_current;
-        register s32 second_scaled ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 second_product ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        second_current = ((S_8009C12C_0 *)arg0)->unk_20.n;
-        second_scaled = (s32)(second_current << 0x10) >> 0x13;
-        second_product = second_scaled * temp_v0_6;
-        ((S_8009C12C_0 *)arg0)->unk_20.n = (u16)(second_current + second_product);
+    if (attack_bonus != 0) {
+        u16 bonus_base;
+        register s32 bonus_scale ASM_REG("$2");
+        register s32 bonus_product ASM_REG("$12");
+        bonus_base = ((S_8009C12C_0 *)attacker)->unk_20.n;
+        bonus_scale = (s32)(bonus_base << 0x10) >> 0x13;
+        bonus_product = bonus_scale * attack_bonus;
+        ((S_8009C12C_0 *)attacker)->unk_20.n = (u16)(bonus_base + bonus_product);
     }
-    if (((S_8009C12C_0 *)arg0)->unk_1C & 0x01000000) {
-        temp_v1 = (s32) ((s16) ((S_8009C12C_3 *)temp_s1)->unk_22.n - (s16) ((S_8009C12C_0 *)arg0)->unk_20.n) / 2;
-        temp_v1_7 = (s32) ((s16) temp_v1 + ((u32) (temp_v1 << 0x10) >> 0x1F)) >> 1;
-        ((S_8009C12C_3 *)temp_s1)->unk_64.n = (s16) (temp_v1 + temp_v1_7);
+    if (((S_8009C12C_0 *)attacker)->unk_1C & 0x01000000) {
+        half_delta = (s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n - (s16) ((S_8009C12C_0 *)attacker)->unk_20.n) / 2;
+        quarter_delta = (s32) ((s16) half_delta + ((u32) (half_delta << 0x10) >> 0x1F)) >> 1;
+        ((S_8009C12C_3 *)target)->unk_64.n = (s16) (half_delta + quarter_delta);
     } else {
-        ((S_8009C12C_3 *)temp_s1)->unk_64.v = (s16) ((s32) ((s16) ((S_8009C12C_3 *)temp_s1)->unk_22.n - (s16) ((S_8009C12C_0 *)arg0)->unk_20.n) / 2);
+        ((S_8009C12C_3 *)target)->unk_64.v = (s16) ((s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n - (s16) ((S_8009C12C_0 *)attacker)->unk_20.n) / 2);
     }
-    if (((S_8009C12C_3 *)temp_s1)->unk_64.n >= 0) {
-        ((S_8009C12C_3 *)temp_s1)->unk_64.n = -1;
+    if (((S_8009C12C_3 *)target)->unk_64.n >= 0) {
+        ((S_8009C12C_3 *)target)->unk_64.n = -1;
     }
-    var_s2 = func_80042900(temp_s1, 0x1D);
-    var_v0_5 = var_s6 << 0x10;
-    if (var_v0_5 == 0) {
-        var_s0 = func_80099734(temp_s1, var_s0);
+    modifier = func_80042900(target, 0x1D);
+    signed_value = message_state << 0x10;
+    if (signed_value == 0) {
+        message_cursor = func_80099734(target, message_cursor);
         {
-            void *c6a4_arg;
-            if (((S_8009C12C_0 *)arg0)->unk_14.s32 & 0x2000) {
-                c6a4_arg = (void *)0x800E0000;
-                ASM_KEEP(c6a4_arg); /* MATCH: split the address so its offset fills the jump delay slot. */
-                c6a4_arg += 0xDD0;
+            void *attack_text;
+            if (((S_8009C12C_0 *)attacker)->unk_14.s32 & 0x2000) {
+                attack_text = (void *)0x800E0000;
+                ASM_KEEP(attack_text);
+                attack_text += 0xDD0;
             } else {
-                c6a4_arg = &D_800E0DDD;
+                attack_text = &D_800E0DDD;
             }
-            var_s0 = func_80099194(c6a4_arg, var_s0);
+            message_cursor = func_80099194(attack_text, message_cursor);
         }
         {
-            s32 ad08_a0;
-            register s32 ad08_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            if ((var_s2 << 0x10) != 0) {
-                ad08_a0 = 0;
-                ad08_a1 = var_s0;
+            s32 display_damage;
+            s32 damage_message;
+            if ((modifier << 0x10) != 0) {
+                display_damage = 0;
+                damage_message = message_cursor;
             } else {
-                ad08_a0 = ((S_8009C12C_3 *)temp_s1)->unk_64.n;
-                ad08_a1 = var_s0;
-                ad08_a0 = 0 - ad08_a0;
+                display_damage = ((S_8009C12C_3 *)target)->unk_64.n;
+                damage_message = message_cursor;
+                display_damage = 0 - display_damage;
             }
-            ASM_USE2(ad08_a0, ad08_a1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            var_s0 = func_8003AD08(ad08_a0, ad08_a1);
+            message_cursor = func_8003AD08(display_damage, damage_message);
         }
-        ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        var_s0 = func_80099194(&D_800E0DEA, var_s0);
-        ASM_KEEP(var_s6);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        var_v0_5 = var_s6 << 0x10;
-        goto block_79;
+        ASM_KEEP(message_cursor);
+        message_cursor = func_80099194(&D_800E0DEA, message_cursor);
+        ASM_KEEP(message_state);
+        signed_value = message_state << 0x10;
     }
-block_79:
-    if (var_v0_5 >= 0) {
-        func_80099290(var_s0);
-        func_800A5720(temp_v0_3);
+    if (signed_value >= 0) {
+        func_80099290(message_cursor);
+        func_800A5720(message_start);
     }
     {
-        register u16 late_arg3 ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 late_signed ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 late_one;
-        late_arg3 = *(volatile u16 *)&homes.arg3;
-        late_one = 1;
-        late_signed = (s16)late_arg3;
-        if (late_signed == late_one) {
-            func_800C7DEC(arg0, temp_s1);
+        register u16 distance_raw ASM_REG("$12");
+        register s32 signed_distance ASM_REG("$2");
+        s32 one;
+        distance_raw = *(volatile u16 *)&homes.arg3;
+        one = 1;
+        signed_distance = (s16)distance_raw;
+        if (signed_distance == one) {
+            func_800C7DEC(attacker, target);
         }
     }
-    bf_arg = 0xDFFFFFFF;
-    temp_ptr = (void *)0x800E0000;
-    ASM_KEEP_DEP_NV(temp_ptr, bf_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_s0_2 = ((S_8009C12C_3 *)temp_s1)->unk_1C & bf_arg;
-    temp_ptr = temp_ptr->unk_3D7C;
-    ((S_8009C12C_3 *)temp_s1)->unk_1C = temp_s0_2;
-    if (temp_s1 == temp_ptr) {
-        func_8009BFF8(temp_s1, arg0);
+    effect_flags = 0xDFFFFFFF;
+    target_data = (void *)0x800E0000;
+    ASM_KEEP_DEP_NV(target_data, effect_flags);
+    target_flags = ((S_8009C12C_3 *)target)->unk_1C & effect_flags;
+    target_data = target_data->unk_3D7C;
+    ((S_8009C12C_3 *)target)->unk_1C = target_flags;
+    if (target == target_data) {
+        func_8009BFF8(target, attacker);
     }
-    var_v0_5 = var_s2 << 0x10;
-    var_a2 = 0;
-    if (var_v0_5 == 0) {
-        var_v0_5 = 0 - (u16) ((S_8009C12C_3 *)temp_s1)->unk_64.n;
-        var_v0_5 <<= 0x10;
-        var_a2 = var_v0_5 >> 0x10;
+    signed_value = modifier << 0x10;
+    damage = 0;
+    if (signed_value == 0) {
+        signed_value = 0 - (u16) ((S_8009C12C_3 *)target)->unk_64.n;
+        signed_value <<= 0x10;
+        damage = signed_value >> 0x10;
     }
-    func_800B4C7C(3, temp_s1, var_a2, 0);
-    var_s0 = 0x800E0000;
-    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    var_v1 = (void **)0x80080000;
-    if (temp_s1 == ((S_8009C12C_5 *)((void *)var_s0))->unk_3D7C) {
+    func_800B4C7C(3, target, damage, 0);
+    message_cursor = 0x800E0000;
+    ASM_KEEP(message_cursor);
+    actor_page = (void **)0x80080000;
+    if (target == ((S_8009C12C_5 *)((void *)message_cursor))->unk_3D7C) {
         func_80094E34();
-        var_v1 = (void **)0x80080000;
+        actor_page = (void **)0x80080000;
     }
-    ((S_8009C12C_3 *)temp_s1)->unk_60 = arg0;
-    ((S_8009C12C_0 *)arg0)->unk_60 = temp_s1;
-    ((S_8009C12C_6 *)var_v1)->unk_3470 = temp_s1 - 0x20;
-    if (((S_8009C12C_0 *)arg0)->unk_1C & 0x01000000) {
-        register s32 bf_four ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ((S_8009C12C_3 *)target)->unk_60 = attacker;
+    ((S_8009C12C_0 *)attacker)->unk_60 = target;
+    ((S_8009C12C_6 *)actor_page)->unk_3470 = target - 0x20;
+    if (((S_8009C12C_0 *)attacker)->unk_1C & 0x01000000) {
+        register s32 effect_mode ASM_REG("$5");
         func_800A56E0(0x700);
-        bf_arg = ((S_8009C12C_0 *)arg0)->unk_14.u16;
-        bf_four = 4;
-        bf_arg &= 0x2000;
-        bf_arg <<= 0x10;
-        ASM_KEEP(bf_arg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        bf_arg >>= 0x10;
-        func_8009BF7C(bf_arg, bf_four);
+        effect_flags = ((S_8009C12C_0 *)attacker)->unk_14.u16;
+        effect_mode = 4;
+        effect_flags &= 0x2000;
+        effect_flags <<= 0x10;
+        ASM_KEEP(effect_flags);
+        effect_flags >>= 0x10;
+        func_8009BF7C(effect_flags, effect_mode);
     }
     func_800A56E0(0x601);
-    if (!(arg1->unk_14 & 0x8000)) {
+    if (!(tile->unk_14 & 0x8000)) {
         func_800419EC(8, 0x10);
     }
-    var_a3 = temp_s7 << 0x10;
-    if (arg0 == ((S_8009C12C_5 *)((void *)var_s0))->unk_3D7C) {
-        if (((S_8009C12C_0 *)arg0)->unk_A8 != 0) {
-            return temp_s1;
+    effect_elements = attack_elements << 0x10;
+    if (attacker == ((S_8009C12C_5 *)((void *)message_cursor))->unk_3D7C) {
+        if (((S_8009C12C_0 *)attacker)->unk_A8 != 0) {
+            return target;
         }
     }
-    var_a3 = temp_s7 << 0x10;
-    var_a3 >>= 0x10;
-    table_base = (s16 *)0x80070000;
-    ASM_KEEP(table_base);
-    table_raw = homes.arg2;
-    table_base = (s16 *)((s32)table_base - 0x3328);
-    temp_v1_5 = (table_raw >> 9) & 7;
-    temp_a2 = temp_v1_5 * 2;
-    table_v0 = (s16 *)(temp_a2 + (s32)table_base);
-    ASM_KEEP(table_v0);
-    temp_v1_5 = (temp_v1_5 + 4) & 7;
-    temp_v1_5 *= 2;
-    table_base = (s16 *)(temp_v1_5 + (s32)table_base);
-    table_raw = homes.arg3;
-    ASM_KEEP(table_raw);
-    table_a0 = *table_v0;
-    table_v0 = (s16 *)0x80070000;
-    ASM_KEEP(table_v0);
-    table_step = (s16)table_raw;
-    table_x = table_a0 * table_step;
-    table_v0 = (s16 *)((s32)table_v0 - 0x3318);
-    temp_a2 += (s32)table_v0;
-    temp_v1_5 += (s32)table_v0;
-    table_a1 = *table_base;
-    table_y = arg1->unk_25;
-    table_b0 = *(s16 *)temp_a2;
-    table_v0 = (s16 *)((S_8009C12C_0 *)arg0)->unk_60;
-    temp_v1_5 = *(s16 *)temp_v1_5;
-    table_a1 <<= 5;
-    table_a1 += 0x20;
-    temp_v1_5 <<= 5;
-    temp_v1_5 += 0x20;
-    table_a0 = arg1->unk_24;
-    temp_a2 = ((S_8009C12C_7 *)table_v0)->unk_88 - 0x30;
-    temp_a2 = (s16)temp_a2;
-    table_v0 = (s16 *)(s32)((S_8009C12C_0 *)arg0)->unk_2A;
-    table_a0 += table_x;
-    table_a0 <<= 6;
-    table_a0 += table_a1;
-    table_a0 = (s16)table_a0;
-    table_step = table_b0 * table_step;
-    table_y += table_step;
-    table_y <<= 6;
-    table_y += temp_v1_5;
-    table_y = (s16)table_y;
-    func_80099C58(table_a0, table_y, temp_a2, var_a3, (s32)table_v0);
-    ASM_SET(table_b0);
-    return temp_s1;
+    effect_elements = attack_elements << 0x10;
+    effect_elements >>= 0x10;
+    opposite_x_ptr = (s16 *)0x80070000;
+    ASM_KEEP(opposite_x_ptr);
+    direction_value = homes.arg2;
+    opposite_x_ptr = (s16 *)((s32)opposite_x_ptr - 0x3328);
+    opposite_offset = (direction_value >> 9) & 7;
+    direction_offset = opposite_offset * 2;
+    direction_ptr = (s16 *)(direction_offset + (s32)opposite_x_ptr);
+    ASM_KEEP(direction_ptr);
+    opposite_offset = (opposite_offset + 4) & 7;
+    opposite_offset *= 2;
+    opposite_x_ptr = (s16 *)(opposite_offset + (s32)opposite_x_ptr);
+    direction_value = homes.arg3;
+    ASM_KEEP(direction_value);
+    effect_x = *direction_ptr;
+    direction_ptr = (s16 *)0x80070000;
+    ASM_KEEP(direction_ptr);
+    step_distance = (s16)direction_value;
+    x_step = effect_x * step_distance;
+    direction_ptr = (s16 *)((s32)direction_ptr - 0x3318);
+    direction_offset += (s32)direction_ptr;
+    opposite_offset += (s32)direction_ptr;
+    x_offset = *opposite_x_ptr;
+    effect_y = tile->unk_25;
+    y_step = *(s16 *)direction_offset;
+    direction_ptr = (s16 *)((S_8009C12C_0 *)attacker)->unk_60;
+    opposite_offset = *(s16 *)opposite_offset;
+    x_offset <<= 5;
+    x_offset += 0x20;
+    opposite_offset <<= 5;
+    opposite_offset += 0x20;
+    effect_x = tile->unk_24;
+    direction_offset = ((S_8009C12C_7 *)direction_ptr)->unk_88 - 0x30;
+    direction_offset = (s16)direction_offset;
+    direction_ptr = (s16 *)(s32)((S_8009C12C_0 *)attacker)->unk_2A;
+    effect_x += x_step;
+    effect_x <<= 6;
+    effect_x += x_offset;
+    effect_x = (s16)effect_x;
+    step_distance = y_step * step_distance;
+    effect_y += step_distance;
+    effect_y <<= 6;
+    effect_y += opposite_offset;
+    effect_y = (s16)effect_y;
+    func_80099C58(effect_x, effect_y, direction_offset, effect_elements, (s32)direction_ptr);
+    ASM_SET(y_step);
+    return target;
 }

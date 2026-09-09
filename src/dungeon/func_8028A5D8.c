@@ -32,166 +32,166 @@ extern void func_8001DD08(DungeonCell *cell, s16 value);
 extern void func_8001DD48(DungeonCell *cell, s16 value);
 extern s32 func_800A6D30(void);
 
-void func_8001D5D8(DungeonRect *arg0) {
-    register u32 value = arg0->value;
-    s16 x0;
-    u16 y0;
+/* Fills a dungeon rectangle and applies randomly sized patches of two cell styles. */
+void func_8001D5D8(DungeonRect *rect) {
+    register u32 value = rect->value;
+    s16 left;
+    u16 top;
     u16 width;
     u16 height;
-    u16 x1;
-    s16 y1;
-    s16 x;
-    s16 y;
-    s16 start_x;
-    s16 start_y;
-    s16 current_x;
-    s32 attempts;
-    s16 x_count;
-    s16 y_count;
-    s16 remaining_x;
-    s16 remaining_y;
+    u16 right;
+    s16 bottom;
+    s16 patch_x;
+    s16 patch_y;
+    s16 scan_x;
+    s16 scan_y;
+    s16 cell_x;
+    s32 patches_left;
+    s16 patch_width;
+    s16 patch_height;
+    s16 cols_left;
+    s16 rows_left;
     s16 signed_width;
     s16 signed_height;
-    s32 area;
-    s32 attempt_init;
-    s16 flag0;
-    s16 flag1;
-    register s16 fill_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 value_40_shift ASM_REG("$18"); /* MATCH: Retain the retail fill value register at the shared call. */
+    s32 size_sum;
+    s32 patch_count;
+    s16 swap_styles;
+    s16 patch_style;
+    register s16 fill_value ASM_REG("$8");
+    register s32 style_value_hi ASM_REG("$18");
     DungeonCell *cell;
-    register s32 row ASM_REG("$23"); /* MATCH: Retain the retail row register at the shared call. */
-    s32 raw_bound;
-    register u32 dead_page ASM_REG("$2") = 0x80080000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    DungeonState *page = &D_8008333C;
+    register s32 patch_row ASM_REG("$23");
+    s32 right_hi;
+    register u32 col_hi ASM_REG("$2") = 0x80080000;
+    DungeonState *state = &D_8008333C;
 
-    ASM_KEEP(dead_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    y0 = arg0->y;
-    start_y = y0;
+    ASM_KEEP(col_hi);
+    ASM_KEEP_NV(value);
+    top = rect->y;
+    scan_y = top;
     fill_value = value - 0x80;
-    x0 = arg0->x;
-    width = arg0->width;
-    height = arg0->height;
-    x1 = x0 + width;
-    y1 = y0 + height;
+    left = rect->x;
+    width = rect->width;
+    height = rect->height;
+    right = left + width;
+    bottom = top + height;
 
-    if ((s16)y0 < (s16)y1) {
+    if ((s16)top < (s16)bottom) {
         do {
-            start_x = x0;
-            if (((s32)(s16)x0 << 16) <
-                (raw_bound = (s32)(s16)x1 << 16)) {
-                s32 signed_row;
-                s32 signed_bound;
+            scan_x = left;
+            if (((s32)(s16)left << 16) <
+                (right_hi = (s32)(s16)right << 16)) {
+                s32 fill_row;
+                s32 fill_right;
 
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                signed_row = (s16)start_y;
-                signed_bound = raw_bound >> 16;
+                ASM_SCHED_BARRIER();
+                fill_row = (s16)scan_y;
+                fill_right = right_hi >> 16;
 
                 do {
-                    s16 next_col;
+                    s16 next_x;
 
-                    dead_page = (u32)(u16)start_x << 16;
-                    next_col = start_x + 1;
-                    start_x = next_col;
+                    col_hi = (u32)(u16)scan_x << 16;
+                    next_x = scan_x + 1;
+                    scan_x = next_x;
                     cell = &D_800EA000[
-                        (signed_row << page->stride) +
-                        ((s32)dead_page >> 16)];
+                        (fill_row << state->stride) +
+                        ((s32)col_hi >> 16)];
                     cell->kind = 25;
                     cell->value = fill_value;
                     cell->flags = 6;
-                } while ((s16)start_x < signed_bound);
+                } while ((s16)scan_x < fill_right);
             }
-            start_y++;
-        } while ((s16)start_y < (s16)y1);
+            scan_y++;
+        } while ((s16)scan_y < (s16)bottom);
     }
-    flag0 = func_800A6D30() & 1;
+    swap_styles = func_800A6D30() & 1;
     signed_width = (s16)width;
     signed_height = (s16)height;
-    area = signed_width + signed_height;
+    size_sum = signed_width + signed_height;
 
-    if (area < 0) {
-        area += 3;
+    if (size_sum < 0) {
+        size_sum += 3;
     }
-    attempt_init = area >> 2;
+    patch_count = size_sum >> 2;
     {
         DungeonPage *level_page = (DungeonPage *)0x80080000;
 
-        ASM_KEEP_NV(level_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_NV(level_page);
         if (level_page->level < 5) {
-            attempt_init = area >> 4;
+            patch_count = size_sum >> 4;
         }
     }
-    attempts = attempt_init;
-    if (attempt_init > 0) {
+    patches_left = patch_count;
+    if (patch_count > 0) {
         do {
-            x = (s16)x0 + ((func_800A6D30() & 0xFFFF) % signed_width);
-            y = (s16)y0 + ((func_800A6D30() & 0xFFFF) % signed_height);
-            start_x = x;
-            start_y = y;
-            x_count = ((signed_width - (x - (s16)x0)) / 2 +
+            patch_x = (s16)left + ((func_800A6D30() & 0xFFFF) % signed_width);
+            patch_y = (s16)top + ((func_800A6D30() & 0xFFFF) % signed_height);
+            scan_x = patch_x;
+            scan_y = patch_y;
+            patch_width = ((signed_width - (patch_x - (s16)left)) / 2 +
                 (func_800A6D30() & 7)) - 4;
-            y_count = ((signed_height - (y - (s16)y0)) / 2 +
+            patch_height = ((signed_height - (patch_y - (s16)top)) / 2 +
                 (func_800A6D30() & 7)) - 4;
-            flag1 = (func_800A6D30() & 7) != 0;
+            patch_style = (func_800A6D30() & 7) != 0;
 
-            remaining_y = y_count;
-            if (y_count > 0) {
+            rows_left = patch_height;
+            if (patch_height > 0) {
                 do {
-                    register s32 signed_bound ASM_REG("$2") = (s32)start_y << 16; /* MATCH: Keep guard truncation in the retail scratch register. */
-                    register s32 signed_row ASM_REG("$3") = signed_bound >> 16; /* MATCH: Keep the guard input separate from the saved row. */
-                    if (signed_row < (s16)y1) {
-                        remaining_x = x_count;
-                        current_x = start_x;
+                    register s32 coord_hi = (s32)scan_y << 16;
+                    register s32 coord = coord_hi >> 16;
+                    if (coord < (s16)bottom) {
+                        cols_left = patch_width;
+                        cell_x = scan_x;
 
-                        if (remaining_x > 0) {
-                            s32 current_flag;
+                        if (cols_left > 0) {
+                            s32 row_style;
 
-                            register s32 val_40 ASM_REG("$2"); /* MATCH: Keep fill subtraction and row scaling in the retail scratch register. */
+                            register s32 row_offset ASM_REG("$2");
 
-                            row = signed_row;
-                            current_flag = flag1;
-                            val_40 = value - 0x40;
-                            value_40_shift = val_40 << 16;
+                            patch_row = coord;
+                            row_style = patch_style;
+                            row_offset = value - 0x40;
+                            style_value_hi = row_offset << 16;
                             do {
-                                s32 tail_value;
-                                DungeonCell *tail_cell;
-                                signed_bound = (s32)current_x << 16;
-                                signed_row = signed_bound >> 16;
-                                if (signed_row < (s16)x1) {
-                                    val_40 = row << D_8008333C.stride;
-                                    cell = &D_800EA000[val_40 + signed_row];
-                                    if (flag0 != 0) {
-                                        tail_cell = cell;
-                                        if (current_flag != 0) {
-                                            func_8001DD08(tail_cell, value_40_shift >> 16);
+                                s32 alt_value;
+                                DungeonCell *patch_cell;
+                                coord_hi = (s32)cell_x << 16;
+                                coord = coord_hi >> 16;
+                                if (coord < (s16)right) {
+                                    row_offset = patch_row << D_8008333C.stride;
+                                    cell = &D_800EA000[row_offset + coord];
+                                    if (swap_styles != 0) {
+                                        patch_cell = cell;
+                                        if (row_style != 0) {
+                                            func_8001DD08(patch_cell, style_value_hi >> 16);
                                         } else {
-                                            tail_value = value - 0xC0;
-                                            goto apply_tail;
+                                            alt_value = value - 0xC0;
+                                            goto apply_alt;
                                         }
                                     } else {
-                                        tail_cell = cell;
-                                        if (current_flag != 0) {
-                                            tail_value = value - 0xC0;
-                                        apply_tail:
-                                            func_8001DD48(tail_cell, (s16)tail_value);
-                                            ASM_USE_NV(current_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                                        patch_cell = cell;
+                                        if (row_style != 0) {
+                                            alt_value = value - 0xC0;
+                                        apply_alt:
+                                            func_8001DD48(patch_cell, (s16)alt_value);
                                         } else {
-                                            func_8001DD08(tail_cell, value_40_shift >> 16);
+                                            func_8001DD08(patch_cell, style_value_hi >> 16);
                                         }
                                     }
                                 }
-                                remaining_x--;
-                                current_x++;
-                            } while (remaining_x > 0);
+                                cols_left--;
+                                cell_x++;
+                            } while (cols_left > 0);
                         }
                     }
-                    remaining_y--;
-                    start_y++;
-                } while (remaining_y > 0);
+                    rows_left--;
+                    scan_y++;
+                } while (rows_left > 0);
             }
-            attempts--;
-        } while (attempts > 0);
+            patches_left--;
+        } while (patches_left > 0);
     }
-    ASM_USE_G_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    func_8001D9CC((s16)x0, (s16)y0, (s16)x1, (s16)y1, (s16)value);
+    ASM_USE_G_NV(state);
+    func_8001D9CC((s16)left, (s16)top, (s16)right, (s16)bottom, (s16)value);
 }

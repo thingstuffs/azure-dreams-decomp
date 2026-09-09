@@ -3,7 +3,6 @@
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
 
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_8009FB34(u8, u8);
@@ -38,10 +37,6 @@ extern u8 D_8017386C[];
 extern u8 D_80173874[];
 extern u8 D_8017389C[];
 
-
-
-
-
 typedef struct S_80170E68_3 {
     u8 pad_00[0x9A];
     u8 unk_9A;
@@ -52,176 +47,175 @@ typedef struct S_80170E68_4 {
     u16 unk_0C;
 } S_80170E68_4;   /* entry in func_80170E68 */
 
-void func_80170E68(Rec_func_800A9E70_arg0 *arg0, void *arg1, void *arg2, Rec_D_800E3D7C *arg3)
+/* Dispatch actor behavior and update its facing animation from dungeon state. */
+void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, Rec_D_800E3D7C *state)
 {
-    static void *const keepalive[] = {
+    static void *const case_labels[] = {
         &&case_9, &&case_8, &&case_5_7, &&case_1_3,
         &&case_12, &&case_default
     };
-    volatile u16 *status;
+    volatile u16 *dungeon_status;
     s32 initial_flags;
     s32 flags;
     s32 result;
-    s32 kind;
-    s32 switch_index;
-    s32 tail_index;
+    s32 action_kind;
+    s32 action_index;
+    s32 entry_index;
     u8 *entry_base;
     u8 *entry;
-    u8 *animation;
+    u8 *player_sprite;
     S_80170E68_3 *player;
     volatile s16 distance;
     u16 status_flags;
 
-    status = (volatile u16 *)&D_80083460;
-    if (status[1] & 0x1000) {
-        arg0->unk_9A.as_u8 = 14;
-        func_80171388(arg0);
+    dungeon_status = (volatile u16 *)&D_80083460;
+    if (dungeon_status[1] & 0x1000) {
+        actor->unk_9A.as_u8 = 14;
+        func_80171388(actor);
         return;
     }
 
-    if (arg3->unk_24.at01_u8.v == 0) {
+    if (state->unk_24.at01_u8.v == 0) {
         result = -0x201;
-        func_800AA79C(arg0, arg1, arg2, arg3);
+        func_800AA79C(actor, context, sprite, state);
         (void)result;
         goto tail_animation;
     }
 
-    initial_flags = arg3->unk_1C.as_u32;
-    arg3->unk_1C.as_u32 = initial_flags & -0x201;
+    initial_flags = state->unk_1C.as_u32;
+    state->unk_1C.as_u32 = initial_flags & -0x201;
 
-    status_flags = status[1];
-    
+    status_flags = dungeon_status[1];
+
     if ((status_flags & 0x2000) == 0) {
         if (initial_flags & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+            func_800AA258(actor, context, sprite, state);
             return;
         }
 
-        
-           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        if (arg0->unk_9A.as_u8 != 14) {
-            if ((*(u8 * *)((u8 *)arg2 + (0x2C))) != D_8017386C) {
-                (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_8017386C;
+        if (actor->unk_9A.as_u8 != 14) {
+            if (*(u8 **)((u8 *)sprite + 0x2C) != D_8017386C) {
+                *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
                 func_80047784(
-                    arg2,
-                    D_8017386C[((D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    sprite,
+                    D_8017386C[((D_80083228 + state->unk_2A.as_s16 + 0x100) >> 9) & 7],
                     0);
             }
-            arg0->unk_9A.as_u8 = 14;
+            actor->unk_9A.as_u8 = 14;
         }
 
-        arg0->unk_98 &= 0xFFF3;
+        actor->unk_98 &= 0xFFF3;
 
-        if (arg3->unk_64.as_s16 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, D_80173874) != 0) {
+        if (state->unk_64.as_s16 != 0) {
+            if (func_800AA6B4(actor, context, sprite, D_80173874) != 0) {
                 return;
             }
         }
 
-        if (arg3->unk_1C.as_u32 & 0x80000) {
-            func_800AA888(arg0, arg1, arg2, arg3);
-            func_80173478(arg0, arg1, arg2, arg3);
+        if (state->unk_1C.as_u32 & 0x80000) {
+            func_800AA888(actor, context, sprite, state);
+            func_80173478(actor, context, sprite, state);
             return;
         }
 
-        if ((s16)func_800A1C58(arg3) != 0) {
-            func_800AAB10(arg0, arg1, arg2, arg3);
+        if ((s16)func_800A1C58(state) != 0) {
+            func_800AAB10(actor, context, sprite, state);
         }
     }
 
-    result = func_8009FB34((*(u8 *)((u8 *)arg2 + (0x24))), (*(u8 *)((u8 *)arg2 + (0x25))));
-    (*(u8 *)((u8 *)arg2 + (0x26))) = result;
+    result = func_8009FB34(*(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
+    *(u8 *)((u8 *)sprite + 0x26) = result;
 
-    if (arg3->unk_6D.as_s8 > 0) {
-        if (arg3->unk_1C.as_u32 & 0x20) {
+    if (state->unk_6D.as_s8 > 0) {
+        if (state->unk_1C.as_u32 & 0x20) {
             goto case_12;
         }
 
-        if ((*(u16 *)((u8 *)arg2 + (0x24))) == *(u16 *)&D_80082EA4) {
+        if (*(u16 *)((u8 *)sprite + 0x24) == *(u16 *)&D_80082EA4) {
             goto case_default;
         }
 
-        if ((arg3->unk_44.at02_u16.v & 0x8000) == 0) {
+        if ((state->unk_44.at02_u16.v & 0x8000) == 0) {
             if (D_80083462 & 0x2000) {
-                if ((s16)func_8009A180(arg3, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                if ((s16)func_8009A180(state, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
             }
 
-            if ((s16)func_801720E0(arg0, arg1, arg2, 0) == 0) {
+            if ((s16)func_801720E0(actor, context, sprite, 0) == 0) {
                 return;
             }
-            arg3->unk_44.at02_u16.v |= 0x4000;
-            if ((arg3->unk_44.at02_u16.v & 0x8000) == 0) {
+            state->unk_44.at02_u16.v |= 0x4000;
+            if ((state->unk_44.at02_u16.v & 0x8000) == 0) {
                 goto case_default;
             }
         }
 
-        kind = arg3->unk_44.at02_u16.v & 0x3FFF;
-        switch_index = kind - 1;
-        if ((u32)switch_index >= 12U) {
+        action_kind = state->unk_44.at02_u16.v & 0x3FFF;
+        action_index = action_kind - 1;
+        if ((u32)action_index >= 12U) {
             goto case_default;
         }
-        (void)keepalive;
-        goto *D_80170808[switch_index];
+        (void)case_labels;
+        goto *D_80170808[action_index];
 
 case_9:
-        arg0->unk_98 |= 0x8000;
+        actor->unk_98 |= 0x8000;
 
 case_8:
-        if ((arg3->unk_1C.as_u32 & 0x2000) &&
-            ((arg3->unk_44.at02_u16.v & 0x3FFF) == 8)) {
-            arg0->unk_98 &= 0x7FFF;
+        if ((state->unk_1C.as_u32 & 0x2000) &&
+            ((state->unk_44.at02_u16.v & 0x3FFF) == 8)) {
+            actor->unk_98 &= 0x7FFF;
         }
-        if ((s16)func_80171D80(arg0, arg1, arg2, arg3) != 0) {
+        if ((s16)func_80171D80(actor, context, sprite, state) != 0) {
             return;
         }
-        func_80171F90(arg0, arg1, arg2, arg3);
+        func_80171F90(actor, context, sprite, state);
         return;
 
 case_5_7:
         result = func_800A0818(
-            (*(u8 *)((u8 *)arg2 + (0x24))), (*(u8 *)((u8 *)arg2 + (0x25))),
+            *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
             D_80082E80[0x24], D_80082E80[0x25], (s16 *)&distance);
         player = D_800814A8;
-        arg3->unk_2A.as_s16 = result;
+        state->unk_2A.as_s16 = result;
         if (player->unk_9A == 0x11) {
             goto case_1_3_common;
         }
 
 case_12:
-        func_800A9A0C(arg3);
+        func_800A9A0C(state);
         return;
 
 case_1_3:
 case_1_3_common:
-        func_800AAF00(arg0, arg1, arg2, D_8017389C, D_80170E68);
+        func_800AAF00(actor, context, sprite, D_8017389C, D_80170E68);
         return;
 
 case_default:
-        func_801715CC(arg0, arg1, arg2, arg3);
+        func_801715CC(actor, context, sprite, state);
         return;
     }
 
-    flags = arg3->unk_1C.as_u32;
+    flags = state->unk_1C.as_u32;
     if ((flags & 0x2000) == 0) {
-        tail_index = (s8)result;
-        if (tail_index >= 0) {
+        entry_index = (s8)result;
+        if (entry_index >= 0) {
             entry_base = (u8 *)D_800E2970;
-            entry = entry_base + tail_index * 20;
+            entry = entry_base + entry_index * 20;
             if (((S_80170E68_4 *)entry)->unk_0C & 2) {
                 goto tail_checks;
             }
         }
         if ((flags & 0x430) == 0) {
-            animation = D_80082E80;
+            player_sprite = D_80082E80;
             if ((s16)func_8009FD7C(
-                    (*(u8 *)((u8 *)arg2 + (0x24))), (*(u8 *)((u8 *)arg2 + (0x25))),
-                    animation[0x24], animation[0x25]) != 0) {
+                    *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
+                    player_sprite[0x24], player_sprite[0x25]) != 0) {
                 result = func_800A0818(
-                    (*(u8 *)((u8 *)arg2 + (0x24))), (*(u8 *)((u8 *)arg2 + (0x25))),
-                    animation[0x24], animation[0x25], (s16 *)&distance);
-                arg3->unk_2A.as_s16 = result;
+                    *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
+                    player_sprite[0x24], player_sprite[0x25], (s16 *)&distance);
+                state->unk_2A.as_s16 = result;
             }
         }
     }
@@ -230,20 +224,16 @@ tail_checks:
     if (D_80083462 & 0x2000) {
         return;
     }
-    if ((*(u16 *)((u8 *)arg2 + (0x14))) & 0x40) {
+    if (*(u16 *)((u8 *)sprite + 0x14) & 0x40) {
         return;
     }
 tail_animation:
-    if ((*(u8 * volatile *)((u8 *)arg2 + (0x2C))) != D_8017386C) {
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_8017386C;
+    if (*(u8 * volatile *)((u8 *)sprite + 0x2C) != D_8017386C) {
+        *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
         func_80047784(
-            arg2,
-            D_8017386C[((D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            sprite,
+            D_8017386C[((D_80083228 + state->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
     }
 }
 
-/* MECHANISM: Returning func_801715CC plus explicit return restored the missing local-exit edge.
-   A post-flags schedule barrier moved s4=14 from the branch slot into retail's load-delay slot.
-   Split switch/tail indices and base/result pointers fixed the tail register roles.
-   Pinning only initial_flags to v1 made the overlapping status base naturally use a0 via v0. */

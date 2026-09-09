@@ -58,32 +58,33 @@ typedef struct S_if_0 {
     s16 unk_2A;
 } S_if_0;   /* actor2 in if */
 
-void func_80170BB8(void *arg0, void *arg1, void *arg2)
+/* Update actor callbacks, motion, directional animation, and ground-relative height. */
+void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
 {
     u16 initial_flags = D_80083462;
-    register void *actor ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *motion = arg1;
-    void *object = arg2;
+    register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *motion = motion_arg;
+    void *object = object_arg;
     s32 bob = 0;
-    register void *actor2 ASM_REG("$18") = actor;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 index;
+    register void *actor_state ASM_REG("$18") = actor;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 previous_index;
     register s16 direction ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 ground;
-    s32 ground32;
-    s32 result;
-    s32 final_value;
+    s32 ground_offset;
+    s32 bob_wave;
+    s32 height;
     EntityCallback callback;
-    u8 *palette;
-    u16 object_flags;
-    u16 common_flags;
+    u8 *animation_table;
+    u16 status_flags;
+    u16 movement_flags;
     register u32 actor_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     if (initial_flags & 0x2000) {
         EntityCallback early_callback = (*(EntityCallback *)((u8 *)actor + (0x8C)));
         if ((void *)early_callback == (void *)D_801713A8) {
-            register void *entry_arg0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(entry_arg0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            early_callback(arg0, arg1, arg2, entry_arg0);
+            register void *callback_actor ASM_REG("$4") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(callback_actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            early_callback(actor_arg, motion_arg, object_arg, callback_actor);
             return;
         } else {
             (*(u8 *)((u8 *)actor + (0x71))) &= 0x7F;
@@ -95,7 +96,7 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
     ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    index = (s8)(*(u8 *)((u8 *)actor + (0x6D)));
+    previous_index = (s8)(*(u8 *)((u8 *)actor + (0x6D)));
     if (func_800A9E70(actor, motion, object, actor) != 0) {
         return;
     }
@@ -105,7 +106,7 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
         callback(actor, motion, object, actor);
     }
     D_80174504[(*(u8 *)((u8 *)actor + (0x9A)))](actor, motion, object, actor);
-    if ((s16)index != (s8)(*(u8 *)((u8 *)actor + (0x6D)))) {
+    if ((s16)previous_index != (s8)(*(u8 *)((u8 *)actor + (0x6D)))) {
         func_800AA36C(actor, motion, object, actor);
     }
 
@@ -122,13 +123,13 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
         } while (0);
     }
     (*(s32 *)((u8 *)actor + (0x90))) += ((S_80170BB8_0 *)motion)->unk_14;
-    object_flags = ((S_80170BB8_1 *)object)->unk_14;
+    status_flags = ((S_80170BB8_1 *)object)->unk_14;
 
-    if (!(object_flags & 0x8000)) {
+    if (!(status_flags & 0x8000)) {
         {
-            register s32 dir_calc ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            dir_calc = (D_80083228 + ((S_80170BB8_2 *)actor2)->unk_2A + 0x100) >> 9;
-            direction = dir_calc & 7;
+            register s32 view_direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            view_direction = (D_80083228 + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9;
+            direction = view_direction & 7;
         }
         if ((*(s16 *)((u8 *)actor + (0x94))) != direction) {
             func_80047738(object, ((S_80170BB8_1 *)object)->unk_2C[direction],
@@ -136,46 +137,45 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
             (*(s16 *)((u8 *)actor + (0x94))) = direction;
         }
         {
-            u32 tail_v0;
+            u32 flip_flags;
             if (D_8006CCF8[direction] != 0) {
-                tail_v0 = ((S_80170BB8_1 *)object)->unk_14 | 1;
+                flip_flags = ((S_80170BB8_1 *)object)->unk_14 | 1;
             } else {
-                tail_v0 = ((S_80170BB8_1 *)object)->unk_14 & 0xFFFE;
+                flip_flags = ((S_80170BB8_1 *)object)->unk_14 & 0xFFFE;
             }
-            ((S_80170BB8_1 *)object)->unk_14 = tail_v0;
+            ((S_80170BB8_1 *)object)->unk_14 = flip_flags;
         }
         if ((*(u8 *)((u8 *)actor + (0x9A))) != 8) {
-            func_800A020C(((S_80170BB8_2 *)actor2)->unk_1C.s, (u8 *)object + 0xC);
+            func_800A020C(((S_80170BB8_2 *)actor_state)->unk_1C.s, (u8 *)object + 0xC);
         }
 
-        if (!(((S_80170BB8_2 *)actor2)->unk_1C.u & 0x20)) {
+        if (!(((S_80170BB8_2 *)actor_state)->unk_1C.u & 0x20)) {
             if (!(((S_80170BB8_1 *)object)->unk_14 & 0x40)) {
                 func_800478B8(object);
             }
         } else {
             ((S_80170BB8_1 *)object)->unk_14 |= 0x7000;
-            ((S_80170BB8_2 *)actor2)->unk_1C.u &= 0xFFFBFFFF;
+            ((S_80170BB8_2 *)actor_state)->unk_1C.u &= 0xFFFBFFFF;
         }
 
-        actor_flags = ((S_80170BB8_2 *)actor2)->unk_1C.u & 0xF7FFFFFF;
-        ((S_80170BB8_2 *)actor2)->unk_1C.u = actor_flags;
+        actor_flags = ((S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF;
+        ((S_80170BB8_2 *)actor_state)->unk_1C.u = actor_flags;
         if (actor_flags & 0x40000) {
             if (!(((S_80170BB8_1 *)object)->unk_14 & 0x40)) {
-                object_flags = (*(u16 *)((u8 *)actor + (0x98)));
-                if (object_flags & 0x8000) {
-                    (*(u16 *)((u8 *)actor + (0x98))) = object_flags & 0x7FFF;
-                    palette = ((S_80170BB8_1 *)object)->unk_2C;
-                    if (palette == D_8017449C) {
+                status_flags = (*(u16 *)((u8 *)actor + (0x98)));
+                if (status_flags & 0x8000) {
+                    (*(u16 *)((u8 *)actor + (0x98))) = status_flags & 0x7FFF;
+                    animation_table = ((S_80170BB8_1 *)object)->unk_2C;
+                    if (animation_table == D_8017449C) {
                         (*(u8 * *)((u8 *)object + (0x2C))) = D_80174494;
                         func_80047784(object,
-                            D_80174494[((D_80083228 + ((S_if_0 *)actor2)->unk_2A + 0x100) >> 9) & 7],
+                            D_80174494[((D_80083228 + ((S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                             0);
                     }
-                    else if (palette == D_80174494) {
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                    else if (animation_table == D_80174494) {
                         (*(u8 * *)((u8 *)object + (0x2C))) = D_8017449C;
                         func_80047784(object,
-                            D_8017449C[((D_80083228 + ((S_if_0 *)actor2)->unk_2A + 0x100) >> 9) & 7],
+                            D_8017449C[((D_80083228 + ((S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                             0);
                     }
                 }
@@ -185,10 +185,10 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                         (*(s16 *)((u8 *)actor + (0xA8))) = 0;
                     }
                 }
-                result = func_800644B8(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
-                bob = result >> 8;
+                bob_wave = func_800644B8(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
+                bob = bob_wave >> 8;
                 if ((*(u8 *)((u8 *)actor + (0x9A))) == 0x12) {
-                    bob = result >> 10;
+                    bob = bob_wave >> 10;
                 }
                 (*(s16 *)((u8 *)actor + (0xA8)))++;
             }
@@ -196,32 +196,31 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
             if (!((*(u16 *)((u8 *)actor + (0x98))) & 8)) {
                 ground = (s16)(func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
                     ((S_80170BB8_0 *)motion)->unk_04.at02.v,
-                    (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20)) -
-                    ((S_80170BB8_2 *)actor2)->unk_88.u);
+                    (s16)(((S_80170BB8_2 *)actor_state)->unk_88.u - 0x20)) -
+                    ((S_80170BB8_2 *)actor_state)->unk_88.u);
                 if ((*(s16 *)((u8 *)actor + (0x92))) > ground - 0x30) {
                     (*(s16 *)((u8 *)actor + (0x92))) = (*(s16 *)((u8 *)actor + (0x92))) - 8;
                     goto common_tail;
                 }
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 if (ground - 0x3A > (*(s16 *)((u8 *)actor + (0x92)))) {
                     (*(s16 *)((u8 *)actor + (0x92))) = (*(s16 *)((u8 *)actor + (0x92))) + 8;
                     goto common_tail;
                 }
-        }
+            }
         } else {
-            common_flags = (*(u16 *)((u8 *)actor + (0x98)));
+            movement_flags = (*(u16 *)((u8 *)actor + (0x98)));
             (*(s16 *)((u8 *)actor + (0xA8))) = 0;
-            (*(u16 *)((u8 *)actor + (0x98))) = common_flags & 0x7FFF;
-            if (!(common_flags & 8)) {
-                ground32 = func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
+            (*(u16 *)((u8 *)actor + (0x98))) = movement_flags & 0x7FFF;
+            if (!(movement_flags & 8)) {
+                ground_offset = func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
                     ((S_80170BB8_0 *)motion)->unk_04.at02.v,
-                    (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20)) -
-                    ((S_80170BB8_2 *)actor2)->unk_88.s;
-                if (ground32 < (*(s16 *)((u8 *)actor + (0x92)))) {
-                    (*(s16 *)((u8 *)actor + (0x92))) = ground32;
+                    (s16)(((S_80170BB8_2 *)actor_state)->unk_88.u - 0x20)) -
+                    ((S_80170BB8_2 *)actor_state)->unk_88.s;
+                if (ground_offset < (*(s16 *)((u8 *)actor + (0x92)))) {
+                    (*(s16 *)((u8 *)actor + (0x92))) = ground_offset;
                     (*(u8 *)((u8 *)actor + (0x9D))) = 0;
                     ((S_80170BB8_0 *)motion)->unk_14 = 0;
-                    ((S_80170BB8_2 *)actor2)->unk_1C.u |= 0x08000000;
+                    ((S_80170BB8_2 *)actor_state)->unk_1C.u |= 0x08000000;
                     goto common_tail;
                 }
             }
@@ -229,46 +228,45 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
         goto common_tail;
     }
 
-    if (!(object_flags & 0x800)) {
-        ((S_80170BB8_1 *)object)->unk_14 = object_flags | 0x7000;
+    if (!(status_flags & 0x800)) {
+        ((S_80170BB8_1 *)object)->unk_14 = status_flags | 0x7000;
     } else {
-        ((S_80170BB8_1 *)object)->unk_14 = object_flags & 0x8FFF;
+        ((S_80170BB8_1 *)object)->unk_14 = status_flags & 0x8FFF;
     }
-    actor_flags = ((S_80170BB8_2 *)actor2)->unk_1C.u & 0xF7FFFFFF;
-    ((S_80170BB8_2 *)actor2)->unk_1C.u = actor_flags;
+    actor_flags = ((S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF;
+    ((S_80170BB8_2 *)actor_state)->unk_1C.u = actor_flags;
 
     if (!(actor_flags & 0x40000)) {
         (*(s16 *)((u8 *)actor + (0xA8))) = 0;
         (*(s16 *)((u8 *)actor + (0x92))) -= bob;
         bob = 0;
         if (!((*(u16 *)((u8 *)actor + (0x98))) & 8)) {
-            ground32 = func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
+            ground_offset = func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
                 ((S_80170BB8_0 *)motion)->unk_04.at02.v,
-                (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20)) -
-                ((S_80170BB8_2 *)actor2)->unk_88.s;
-            if (ground32 < (*(s16 *)((u8 *)actor + (0x92)))) {
-                (*(s16 *)((u8 *)actor + (0x92))) = ground32;
+                (s16)(((S_80170BB8_2 *)actor_state)->unk_88.u - 0x20)) -
+                ((S_80170BB8_2 *)actor_state)->unk_88.s;
+            if (ground_offset < (*(s16 *)((u8 *)actor + (0x92)))) {
+                (*(s16 *)((u8 *)actor + (0x92))) = ground_offset;
                 (*(u8 *)((u8 *)actor + (0x9D))) = 0;
                 ((S_80170BB8_0 *)motion)->unk_14 = 0;
-                ((S_80170BB8_2 *)actor2)->unk_1C.u |= 0x08000000;
+                ((S_80170BB8_2 *)actor_state)->unk_1C.u |= 0x08000000;
             }
         }
     } else {
         if (!(((S_80170BB8_1 *)object)->unk_14 & 0x40)) {
-            object_flags = (*(u16 *)((u8 *)actor + (0x98)));
-            if (object_flags & 0x8000) {
-                (*(u16 *)((u8 *)actor + (0x98))) = object_flags & 0x7FFF;
-                palette = ((S_80170BB8_1 *)object)->unk_2C;
-                if (palette == D_8017449C) {
+            status_flags = (*(u16 *)((u8 *)actor + (0x98)));
+            if (status_flags & 0x8000) {
+                (*(u16 *)((u8 *)actor + (0x98))) = status_flags & 0x7FFF;
+                animation_table = ((S_80170BB8_1 *)object)->unk_2C;
+                if (animation_table == D_8017449C) {
                     (*(u8 * *)((u8 *)object + (0x2C))) = D_80174494;
                     func_80047784(object,
-                        D_80174494[((D_80083228 + ((S_80170BB8_2 *)actor2)->unk_2A + 0x100) >> 9) & 7],
+                        D_80174494[((D_80083228 + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                         0);
-                } else if (palette == D_80174494) {
-                    ASM_KEEP(palette);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                } else if (animation_table == D_80174494) {
                     (*(u8 * *)((u8 *)object + (0x2C))) = D_8017449C;
                     func_80047784(object,
-                        D_8017449C[((D_80083228 + ((S_80170BB8_2 *)actor2)->unk_2A + 0x100) >> 9) & 7],
+                        D_8017449C[((D_80083228 + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
             }
@@ -278,10 +276,10 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                     (*(s16 *)((u8 *)actor + (0xA8))) = 0;
                 }
             }
-            result = func_800644B8(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
-            bob = result >> 8;
+            bob_wave = func_800644B8(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
+            bob = bob_wave >> 8;
             if ((*(u8 *)((u8 *)actor + (0x9A))) == 0x12) {
-                bob = result >> 10;
+                bob = bob_wave >> 10;
             }
             (*(s16 *)((u8 *)actor + (0xA8)))++;
         }
@@ -289,8 +287,8 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
         if (!((*(u16 *)((u8 *)actor + (0x98))) & 8)) {
             ground = (s16)(func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
                 ((S_80170BB8_0 *)motion)->unk_04.at02.v,
-                (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20)) -
-                ((S_80170BB8_2 *)actor2)->unk_88.u);
+                (s16)(((S_80170BB8_2 *)actor_state)->unk_88.u - 0x20)) -
+                ((S_80170BB8_2 *)actor_state)->unk_88.u);
             if ((*(s16 *)((u8 *)actor + (0x92))) > ground - 0x30) {
                 (*(s16 *)((u8 *)actor + (0x92))) = (*(s16 *)((u8 *)actor + (0x92))) - 8;
             } else if (ground - 0x3A > (*(s16 *)((u8 *)actor + (0x92)))) {
@@ -304,19 +302,19 @@ cleanup_tail:
     (*(u16 *)((u8 *)actor + (0x98))) &= 0x7FFF;
 
 common_tail:
-    if (((S_80170BB8_2 *)actor2)->unk_1C.u & 0x40000000) {
-        ((S_80170BB8_2 *)actor2)->unk_1C.u = ((S_80170BB8_2 *)actor2)->unk_1C.u & 0xBFFFFFFF;
+    if (((S_80170BB8_2 *)actor_state)->unk_1C.u & 0x40000000) {
+        ((S_80170BB8_2 *)actor_state)->unk_1C.u = ((S_80170BB8_2 *)actor_state)->unk_1C.u & 0xBFFFFFFF;
         ground = func_800BCB04((((S_80170BB8_1 *)object)->unk_24 << 6) | 0x20,
             (((S_80170BB8_1 *)object)->unk_25 << 6) | 0x20,
-            (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20));
+            (s16)(((S_80170BB8_2 *)actor_state)->unk_88.u - 0x20));
         if (ground < 0x200) {
-            (*(s16 *)((u8 *)actor + (0x92))) += ((S_80170BB8_2 *)actor2)->unk_88.u - ground;
-            ((S_80170BB8_2 *)actor2)->unk_88.u = ground;
+            (*(s16 *)((u8 *)actor + (0x92))) += ((S_80170BB8_2 *)actor_state)->unk_88.u - ground;
+            ((S_80170BB8_2 *)actor_state)->unk_88.u = ground;
         }
     }
-    final_value = ((S_80170BB8_2 *)actor2)->unk_88.u +
+    height = ((S_80170BB8_2 *)actor_state)->unk_88.u +
         (u16)(*(s16 *)((u8 *)actor + (0x92)));
-    final_value += bob;
-    ((S_80170BB8_0 *)motion)->unk_0A = final_value;
+    height += bob;
+    ((S_80170BB8_0 *)motion)->unk_0A = height;
     ((S_80170BB8_1 *)object)->unk_14 |= 0x40;
 }

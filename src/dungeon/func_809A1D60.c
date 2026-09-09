@@ -84,243 +84,223 @@ typedef struct S_80173560_4 {
 } S_80173560_4;   /* arg2 in func_80173560 */
 
 
-void func_80173560(void *arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
+/* Advance an item action through targeting, audio playback, and animation cleanup. */
+void func_80173560(void *action, void *motion, void *sprite_arg, void *actor_arg) {
     static void *const state_labels[] = {
-        &&state0, &&state1, &&state2, &&state3, &&state4
+        &&prepare_item, &&start_audio, &&wait_audio, &&finish_animation, &&reset_action
     };
     static void *const item_labels[] = {
-        &&item_a, &&item_b, &&item_c, &&item_default
+        &&item_at_0e, &&item_at_0b, &&item_at_08, &&item_default
     };
-    void *arg2 = raw_arg2;
-    void *arg3 = raw_arg3;
+    void *sprite = sprite_arg;
+    void *actor = actor_arg;
     s32 state;
-    register s32 key ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 cond;
-    register s32 sound_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s32 s0;
-    register s32 s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 temp;
-    s32 index;
-    s32 value;
-    s32 tval;
-    s32 vidx;
-    s32 sv;
-    register s32 raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    void *ptr;
-    void *outer;
+    register s32 action_value ASM_REG("$2");
+    s32 has_item;
+    register s32 sound_id ASM_REG("$4");
+    s32 item_addr;
+    register s32 item_or_audio_base ASM_REG("$17");
+    s32 item_id;
+    s32 direction;
+    s32 cd_param;
+    s32 item_type;
+    s32 item_index;
+    s32 audio_index;
+    register s32 audio_result ASM_REG("$2");
+    void *resource;
+    void *target;
 
-    state = ((S_80173560_0 *)arg0)->unk_9B.n;
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    state = ((S_80173560_0 *)action)->unk_9B.n;
+    ASM_KEEP(state);
     if ((u32)state >= 5) {
         return;
     }
-    s1 = 0;
-    ASM_KEEP(s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    item_or_audio_base = 0;
+    ASM_KEEP(item_or_audio_base);
     (void)state_labels;
     goto *D_80170880[state];
 
-state0:
-    key = ((S_80173560_1 *)arg3)->unk_46 & 0x3FFF;
-    state = key - 1;
+prepare_item:
+    action_value = ((S_80173560_1 *)actor)->unk_46 & 0x3FFF;
+    state = action_value - 1;
     if ((u32)state >= 7) {
         goto item_default;
     }
     (void)item_labels;
     goto *D_80170898[state];
 
-item_a:
-    s1 = 1;
-    ASM_KEEP(s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s0 = (s32)((u8 *)arg3 + 0xE);
+item_at_0e:
+    item_or_audio_base = 1;
+    item_addr = (s32)((u8 *)actor + 0xE);
     goto item_ready;
 
-item_b:
-    s1 = 1;
-    ASM_KEEP(s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s0 = (s32)((u8 *)arg3 + 0xB);
+item_at_0b:
+    item_or_audio_base = 1;
+    item_addr = (s32)((u8 *)actor + 0xB);
     goto item_ready;
 
-item_c:
-    s1 = 1;
-    ASM_KEEP(s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s0 = (s32)((u8 *)arg3 + 8);
+item_at_08:
+    item_or_audio_base = 1;
+    item_addr = (s32)((u8 *)actor + 8);
     goto item_ready;
 
 item_default:
-    s0 = 0;
-    ASM_KEEP(s0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    item_addr = 0;
 item_ready:
-    key = ((S_80173560_0 *)arg0)->unk_98;
-    cond = s1;
-    ((S_80173560_0 *)arg0)->unk_98 = key & 0xFF7F;
-    state = *(u8 *)s0;
-    if (cond != 0) {
+    action_value = ((S_80173560_0 *)action)->unk_98;
+    has_item = item_or_audio_base;
+    ((S_80173560_0 *)action)->unk_98 = action_value & 0xFF7F;
+    state = *(u8 *)item_addr;
+    if (has_item != 0) {
         state |= 0x80;
     }
     D_80175F6E = state;
-    if (cond != 0) {
-        outer = D_800814A8;
-        ((S_80173560_1 *)arg3)->unk_60 = outer;
-        goto copy_inner;
+    if (has_item != 0) {
+        target = D_800814A8;
+        ((S_80173560_1 *)actor)->unk_60 = target;
+        goto copy_target_pos;
     }
 
-    vidx = *(u8 *)s0;
-    tval = D_8006DE24[vidx * 20 + 0x12];
-    if (tval == 2) {
-        register void *a0v ASM_REG("$4") = arg3;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        outer = ((S_80173560_1 *)arg3)->unk_60;
-        if (outer != 0) {
-copy_inner:
+    item_index = *(u8 *)item_addr;
+    item_type = D_8006DE24[item_index * 20 + 0x12];
+    if (item_type == 2) {
+        target = ((S_80173560_1 *)actor)->unk_60;
+        if (target != 0) {
+copy_target_pos:
             {
-                register void *inner ASM_REG("$3") = ((S_80173560_2_pre *)outer)[-1].unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                ((S_80173560_1 *)arg3)->unk_72.u = ((S_80173560_3 *)inner)->unk_24;
-                ((S_80173560_1 *)arg3)->unk_73.u = ((S_80173560_3 *)inner)->unk_25;
+                register void *target_pos ASM_REG("$3") = ((S_80173560_2_pre *)target)[-1].unk_00;
+                ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)target_pos)->unk_24;
+                ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)target_pos)->unk_25;
             }
         }
     } else {
-        register s32 abs_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        s32 abs_temp;
-        ptr = func_800A05A4(arg3, ((S_80173560_4 *)arg2)->unk_24,
-                            ((S_80173560_4 *)arg2)->unk_25, ((S_80173560_1 *)arg3)->unk_2A, 0x10);
-        ((S_80173560_1 *)arg3)->unk_60 = ptr;
-        abs_value = ((S_80173560_1 *)arg3)->unk_72.s;
-        abs_temp = ((S_80173560_1 *)arg3)->unk_73.s;
-        if (abs_value < 0) {
-            abs_value = -abs_value;
+        register s32 target_x ASM_REG("$2");
+        s32 target_y;
+        resource = func_800A05A4(actor, ((S_80173560_4 *)sprite)->unk_24,
+                            ((S_80173560_4 *)sprite)->unk_25, ((S_80173560_1 *)actor)->unk_2A, 0x10);
+        ((S_80173560_1 *)actor)->unk_60 = resource;
+        target_x = ((S_80173560_1 *)actor)->unk_72.s;
+        target_y = ((S_80173560_1 *)actor)->unk_73.s;
+        if (target_x < 0) {
+            target_x = -target_x;
         }
-        if (abs_temp < 0) {
-            abs_temp = -abs_temp;
+        if (target_y < 0) {
+            target_y = -target_y;
         }
-        ((S_80173560_1 *)arg3)->unk_72.u = abs_value;
-        ((S_80173560_1 *)arg3)->unk_73.u = abs_temp;
+        ((S_80173560_1 *)actor)->unk_72.u = target_x;
+        ((S_80173560_1 *)actor)->unk_73.u = target_y;
     }
 
-    if (func_800A94A0(arg3, (void *)s0, s1, (u8 *)arg0 + 0x98) == 0) {
+    if (func_800A94A0(actor, (void *)item_addr, item_or_audio_base, (u8 *)action + 0x98) == 0) {
         return;
     }
-    if (s1 != 0) {
-        D_800DCF50 = *(u8 *)s0;
-        ((S_80173560_1 *)arg3)->unk_13 |= 0x80;
+    if (item_or_audio_base != 0) {
+        D_800DCF50 = *(u8 *)item_addr;
+        ((S_80173560_1 *)actor)->unk_13 |= 0x80;
     }
-    index = ((D_80083228 + ((S_80173560_1 *)arg3)->unk_2A + 0x100) >> 9) & 7;
-    func_80047784(arg2, ((u8 *)((S_80173560_4 *)arg2)->unk_2C)[index], 2);
-    ((S_80173560_4 *)arg2)->unk_14 |= 0x800;
-    if (s1 != 0 && !(((S_80173560_1 *)arg3)->unk_13 & 0x80)) {
-        func_80175814(arg3);
-        func_80175D7C(arg3);
+    direction = ((D_80083228 + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    func_80047784(sprite, ((u8 *)((S_80173560_4 *)sprite)->unk_2C)[direction], 2);
+    ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
+    if (item_or_audio_base != 0 && !(((S_80173560_1 *)actor)->unk_13 & 0x80)) {
+        func_80175814(actor);
+        func_80175D7C(actor);
     } else {
-        ((S_80173560_1 *)arg3)->unk_13 &= 0x7F;
+        ((S_80173560_1 *)actor)->unk_13 &= 0x7F;
         *(u16 *)&D_80175E40[0x12E] &= 0xFF7F;
-        func_800BB044(arg3);
+        func_800BB044(actor);
     }
-    ((S_80173560_0 *)arg0)->unk_9B.n++;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s0 = (s32)&D_80175F6E;
-    if (*(u16 *)s0 & 0x80) {
+    ((S_80173560_0 *)action)->unk_9B.n++;
+    ASM_SCHED_BARRIER();
+    item_addr = (s32)&D_80175F6E;
+    if (*(u16 *)item_addr & 0x80) {
         if (func_8003F270() != 0) {
             return;
         }
         func_800A56E0(0x300);
-        key = (s16)func_800A9400(*(u16 *)s0 & 0x7F);
-        ((S_80173560_0 *)arg0)->unk_96.s = D_80175F40[key] - 0x10;
-        ((S_80173560_0 *)arg0)->unk_9B.n++;
+        action_value = (s16)func_800A9400(*(u16 *)item_addr & 0x7F);
+        ((S_80173560_0 *)action)->unk_96.s = D_80175F40[action_value] - 0x10;
+        ((S_80173560_0 *)action)->unk_9B.n++;
         return;
     }
-    key = ((S_80173560_0 *)arg0)->unk_9B.v;
-    key += 2;
-    ((S_80173560_0 *)arg0)->unk_9B.n = key;
+    action_value = ((S_80173560_0 *)action)->unk_9B.v;
+    action_value += 2;
+    ((S_80173560_0 *)action)->unk_9B.n = action_value;
     return;
 
-state1:
-    ((S_80173560_0 *)arg0)->unk_96.u -= D_80080A84;
-    if (((S_80173560_0 *)arg0)->unk_96.s < 3) {
-        ((S_80173560_4 *)arg2)->unk_14 &= 0xF7FF;
+start_audio:
+    ((S_80173560_0 *)action)->unk_96.u -= D_80080A84;
+    if (((S_80173560_0 *)action)->unk_96.s < 3) {
+        ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
     }
-    if (((S_80173560_0 *)arg0)->unk_96.s > 0) {
+    if (((S_80173560_0 *)action)->unk_96.s > 0) {
         return;
     }
-    temp = D_80175F6E & 0x7F;
-    s1 = (s32)D_800DDAB8;
-    raw = func_800A9400(temp);
-    sound_arg = 0x1300;
-    ASM_USE(sound_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    sv = raw << 16;
-    sv >>= 16;
-    func_800A56E0(sound_arg);
+    item_id = D_80175F6E & 0x7F;
+    item_or_audio_base = (s32)D_800DDAB8;
+    audio_result = func_800A9400(item_id);
+    sound_id = 0x1300;
+    ASM_USE(sound_id);
+    audio_index = audio_result << 16;
+    audio_index >>= 16;
+    func_800A56E0(sound_id);
     func_8003F540(0, D_8006CD58[0],
-                  ((s32 *)(((sv << 17) >> 14) + s1))[0],
-                  ((s32 *)(((sv << 17) >> 14) + s1))[1]);
-    value = func_800445E0();
-    Control_CD(0x15, value, 0);
-    ((S_80173560_0 *)arg0)->unk_9B.n++;
+                  ((s32 *)(((audio_index << 17) >> 14) + item_or_audio_base))[0],
+                  ((s32 *)(((audio_index << 17) >> 14) + item_or_audio_base))[1]);
+    cd_param = func_800445E0();
+    Control_CD(0x15, cd_param, 0);
+    ((S_80173560_0 *)action)->unk_9B.n++;
 
-state2:
+wait_audio:
     if (func_8003F270() != 0) {
-        ((S_80173560_4 *)arg2)->unk_14 |= 0x800;
+        ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
         return;
     }
-    ((S_80173560_4 *)arg2)->unk_14 &= 0xF7FF;
-    ((S_80173560_0 *)arg0)->unk_9B.n++;
+    ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
+    ((S_80173560_0 *)action)->unk_9B.n++;
 
-state3:
-    if (!(((S_80173560_0 *)arg0)->unk_98 & 0x80)) {
-        ((S_80173560_4 *)arg2)->unk_05--;
+finish_animation:
+    if (!(((S_80173560_0 *)action)->unk_98 & 0x80)) {
+        ((S_80173560_4 *)sprite)->unk_05--;
     }
 
-state4:
-    if (((S_80173560_4 *)arg2)->unk_04 == 4) {
-        if (!(((S_80173560_4 *)arg2)->unk_14 & 0x1000)) {
+reset_action:
+    if (((S_80173560_4 *)sprite)->unk_04 == 4) {
+        if (!(((S_80173560_4 *)sprite)->unk_14 & 0x1000)) {
             goto check_high_flags;
         }
     } else {
 check_high_flags:
-        if (!(((S_80173560_4 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
             return;
         }
     }
-    ((S_80173560_0 *)arg0)->unk_98 |= 0x80;
-    if (!(((S_80173560_4 *)arg2)->unk_14 & 0xE000)) {
+    ((S_80173560_0 *)action)->unk_98 |= 0x80;
+    if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_80173560_4 *)arg2)->unk_24, ((S_80173560_4 *)arg2)->unk_25);
-    ptr = D_80175E40;
-    if (((S_80173560_4 *)arg2)->unk_2C != ptr) {
-        (*(void * *)((u8 *)arg2 + (0x2C))) = ptr;
-        index = ((D_80083228 + ((S_80173560_1 *)arg3)->unk_2A + 0x100) >> 9) & 7;
-        func_80047784(arg2, D_80175E40[index], 0);
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, ((S_80173560_4 *)sprite)->unk_24, ((S_80173560_4 *)sprite)->unk_25);
+    resource = D_80175E40;
+    if (((S_80173560_4 *)sprite)->unk_2C != resource) {
+        (*(void * *)((u8 *)sprite + (0x2C))) = resource;
+        direction = ((D_80083228 + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        func_80047784(sprite, D_80175E40[direction], 0);
     }
     {
-        s32 *blk = &D_80083460;
-        if (blk[3] != 0) {
+        s32 *action_status = &D_80083460;
+        if (action_status[3] != 0) {
             return;
         }
-        ((u16 *)blk)[5]--;
+        ((u16 *)action_status)[5]--;
     }
-    ((S_80173560_0 *)arg0)->unk_8C = D_801710EC;
-    func_800A4ACC(arg3);
-    ((S_80173560_1 *)arg3)->unk_6D--;
-    ((S_80173560_1 *)arg3)->unk_46 &= 0x7FFF;
-    ((S_80173560_0 *)arg0)->unk_98 &= 0xFFBF;
-    ((S_80173560_1 *)arg3)->unk_73.u = 0;
-    ((S_80173560_1 *)arg3)->unk_72.u = 0;
+    ((S_80173560_0 *)action)->unk_8C = D_801710EC;
+    func_800A4ACC(actor);
+    ((S_80173560_1 *)actor)->unk_6D--;
+    ((S_80173560_1 *)actor)->unk_46 &= 0x7FFF;
+    ((S_80173560_0 *)action)->unk_98 &= 0xFFBF;
+    ((S_80173560_1 *)actor)->unk_73.u = 0;
+    ((S_80173560_1 *)actor)->unk_72.u = 0;
     func_800A56E0(0xB4);
 }
-
-/* MECHANISM: computed-goto dispatch through the RETAIL jtbls D_80170880/D_80170898
-   (local label arrays are keepalive only). Four levers closed this row, each proven in a
-   <=20-line /tmp microprobe before a metered eval: (1) $a0 ROLE SPLIT -- the shared
-   `move a0,s2` is a BLOCK-SCOPED `void *a0v = arg3;` declared at the
-   head of the ==2 arm (function-scope or a plain local both fail: a pseudo copy makes cse
-   canonicalize the 0x72/0x73 store base onto $a0, and a function-scope hard-reg local steals
-   $a0 from the D_8006DE24 index temp); (2) the pre-call D_80175F6E RMW is written through the
-   neighbour symbol D_80175E40[0x12E] (same address) so gcc cannot CSE its %hi with the held
-   post-call base in $s0, and ASM_SCHED_BARRIER() keeps that base's lui out of the 0x9B++
-   load-delay; (3) state1 pins the func_800A9400 result in $v0 (`raw`) so `sll s0,v0,16` needs
-   no copy, with ASM_USE(sound_arg) holding `li a0,0x1300` above the shifts; (4) the
-   D_800DDAB8 row address is written INLINE in the func_8003F540 arg list (arg1's lui is then
-   emitted first and the scheduler sinks its lw past the shift chain) with a state1-LOCAL `sv`
-   so local-alloc can recycle $s0 for the address temp. `&D_80083460` is held in a plain
-   pointer (DEPIN) -- a hard-reg pin fuses lui/addiu into one register, retail splits v0/v1. */

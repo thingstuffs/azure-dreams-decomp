@@ -55,41 +55,42 @@ extern void func_80065820(void *, void *);
 extern void func_8006658C(s32, void *);
 extern void func_80067EF4();
 
-void func_800B9144(void *arg0, void *arg1, s32 arg2, s16 arg3)
+/* Build transformed textured quads from sprite parts and append them to the draw list. */
+void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
 {
     s32 (*callback)(void *, s32, void *, void *, void *);
     Scratch *scratch = (Scratch *)0x1F800000;
-    u8 *s3 = P32(arg1, -0x14);
-    s32 s6 = S32(arg1, -0x18);
-    register s16 saved_arg3 ASM_REG("$23") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *sprite = P32(context, -0x14);
+    s32 callback_arg = S32(context, -0x18);
+    register s16 saved_mode ASM_REG("$23") = draw_mode;
     Root *root = D_80083160[0];
-    Record *s2 = P32(s3, 8);
+    Record *part = P32(sprite, 8);
     Root **global_slot = D_80083160;
     u8 *scratch_base;
-    u8 *s1;
-    s32 flags;
+    u8 *packet;
+    s32 mode_bits;
 
     VU16(scratch, 0x8C) = 0;
     VU16(scratch, 0x84) = 0;
     VU16(scratch, 0x7C) = 0;
     VU16(scratch, 0x74) = 0;
-    s1 = root->record;
-    flags = arg3 << 16;
-    S32(scratch, 0x20) = arg2;
+    packet = root->record;
+    mode_bits = draw_mode << 16;
+    S32(scratch, 0x20) = depth;
     S32(scratch, 0xC0) = 0;
-    if (flags != 0) {
-        func_80067EF4(s1, 0, 0, flags);
-        func_8006658C(S32(scratch, 0x20), s1);
-        s1 += 12;
+    if (mode_bits != 0) {
+        func_80067EF4(packet, 0, 0, mode_bits);
+        func_8006658C(S32(scratch, 0x20), packet);
+        packet += 12;
     }
     func_800649A0();
 
     {
-        u16 *input = arg0;
-        register s32 x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 y ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 temp0;
-        register s32 temp1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        u16 *input = position;
+        register s32 x ASM_REG("$6");
+        register s32 y ASM_REG("$7");
+        s32 x_component;
+        register s32 y_component ASM_REG("$3");
 
         x = U16(input, 0);
         S16(scratch, 0x00) = x;
@@ -97,151 +98,151 @@ void func_800B9144(void *arg0, void *arg1, s32 arg2, s16 arg3)
         x = (s16)x;
         S16(scratch, 0x02) = y;
         scratch_base = (u8 *)0x1F800000;
-        temp0 = U16(s3, 0x1C);
+        x_component = U16(sprite, 0x1C);
         y = (s16)y;
-        S32(scratch, 0x30) = temp0;
-        temp1 = U16(s3, 0x1E);
-        temp0 = 0x1000;
-        S32(scratch, 0x38) = temp0;
-        S32(scratch, 0x34) = temp1;
-        temp0 = U16(s3, 0x20);
-        U16(scratch, 0x108) = temp0;
-        temp0 = (s16)temp0;
-        temp1 = U16(s3, 0x22);
-        x += temp0;
+        S32(scratch, 0x30) = x_component;
+        y_component = U16(sprite, 0x1E);
+        x_component = 0x1000;
+        S32(scratch, 0x38) = x_component;
+        S32(scratch, 0x34) = y_component;
+        x_component = U16(sprite, 0x20);
+        U16(scratch, 0x108) = x_component;
+        x_component = (s16)x_component;
+        y_component = U16(sprite, 0x22);
+        x += x_component;
         S32(scratch, 0x40) = x;
         S32(scratch, 0x48) = 0;
-        U16(scratch, 0x10A) = temp1;
-        temp1 = (s16)temp1;
-        y += temp1;
+        U16(scratch, 0x10A) = y_component;
+        y_component = (s16)y_component;
+        y += y_component;
         S32(scratch, 0x44) = y;
         func_80064B90((u8 *)scratch + 0x50, (u8 *)scratch + 0x40,
                       x, y);
-        func_80065820(s3 + 0x16, scratch_base + 0x50);
+        func_80065820(sprite + 0x16, scratch_base + 0x50);
         func_80064BC0(scratch_base + 0x50, (u8 *)scratch + 0x30);
         func_80064CF0(scratch_base + 0x50);
         func_80064D80(scratch_base + 0x50);
-        U16(scratch, 0x24) = U16(s3, 0x14);
+        U16(scratch, 0x24) = U16(sprite, 0x14);
         scratch_base += 0x94;
     }
 
-loop:
-    if (!(U8(s2, 0) & 0x20)) {
-        S32(scratch, 8) = U8(s2, 8);
-        S32(scratch, 0xC) = U8(s2, 9);
-        S32(scratch, 0x10) = U8(s2, 0xA);
-        S32(scratch, 0x14) = U8(s2, 0xB);
+next_part:
+    if (!(U8(part, 0) & 0x20)) {
+        S32(scratch, 8) = U8(part, 8);
+        S32(scratch, 0xC) = U8(part, 9);
+        S32(scratch, 0x10) = U8(part, 0xA);
+        S32(scratch, 0x14) = U8(part, 0xB);
 
         {
-            register s32 v ASM_REG("$2"); /* MATCH: Both coordinate arms merge in retail v0. */
-            if (((U8(s2, 0) ^ U16(scratch, 0x24)) & 1) != 0) {
-                register s32 width ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                s32 addend;
-
-                v = VU8(s2, 2);
-                width = U16(scratch, 0x108);
-                addend = U16(scratch, 0x10);
-                v = (s8)v;
-                v = -v - width;
-                U16(scratch, 0x80) = v;
-                U16(scratch, 0x70) = v;
-                v -= addend;
-            } else {
+            register s32 edge ASM_REG("$2");
+            if (((U8(part, 0) ^ U16(scratch, 0x24)) & 1) != 0) {
+                register s32 origin_x ASM_REG("$3");
                 s32 width;
-                s32 addend;
 
-                v = VU8(s2, 2);
-                width = U16(scratch, 0x108);
-                addend = U16(scratch, 0x10);
-                v = (s8)v;
-                v -= width;
-                U16(scratch, 0x80) = v;
-                U16(scratch, 0x70) = v;
-                v += addend;
+                edge = VU8(part, 2);
+                origin_x = U16(scratch, 0x108);
+                width = U16(scratch, 0x10);
+                edge = (s8)edge;
+                edge = -edge - origin_x;
+                U16(scratch, 0x80) = edge;
+                U16(scratch, 0x70) = edge;
+                edge -= width;
+            } else {
+                s32 origin_x;
+                s32 width;
+
+                edge = VU8(part, 2);
+                origin_x = U16(scratch, 0x108);
+                width = U16(scratch, 0x10);
+                edge = (s8)edge;
+                edge -= origin_x;
+                U16(scratch, 0x80) = edge;
+                U16(scratch, 0x70) = edge;
+                edge += width;
             }
-            U16(scratch, 0x88) = v;
-            U16(scratch, 0x78) = v;
+            U16(scratch, 0x88) = edge;
+            U16(scratch, 0x78) = edge;
         }
 
         {
-            register s32 v ASM_REG("$2"); /* MATCH: Both coordinate arms merge in retail v0. */
-            if (((U8(s2, 0) ^ U16(scratch, 0x24)) & 2) != 0) {
-                register s32 height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                s32 addend;
-
-                v = VU8(s2, 3);
-                height = U16(scratch, 0x10A);
-                addend = U16(scratch, 0x14);
-                v = (s8)v;
-                v = -v - height;
-                U16(scratch, 0x7A) = v;
-                U16(scratch, 0x72) = v;
-                v -= addend;
-            } else {
+            register s32 edge ASM_REG("$2");
+            if (((U8(part, 0) ^ U16(scratch, 0x24)) & 2) != 0) {
+                register s32 origin_y ASM_REG("$3");
                 s32 height;
-                s32 addend;
 
-                v = VU8(s2, 3);
-                height = U16(scratch, 0x10A);
-                addend = U16(scratch, 0x14);
-                v = (s8)v;
-                v -= height;
-                U16(scratch, 0x7A) = v;
-                U16(scratch, 0x72) = v;
-                v += addend;
+                edge = VU8(part, 3);
+                origin_y = U16(scratch, 0x10A);
+                height = U16(scratch, 0x14);
+                edge = (s8)edge;
+                edge = -edge - origin_y;
+                U16(scratch, 0x7A) = edge;
+                U16(scratch, 0x72) = edge;
+                edge -= height;
+            } else {
+                s32 origin_y;
+                s32 height;
+
+                edge = VU8(part, 3);
+                origin_y = U16(scratch, 0x10A);
+                height = U16(scratch, 0x14);
+                edge = (s8)edge;
+                edge -= origin_y;
+                U16(scratch, 0x7A) = edge;
+                U16(scratch, 0x72) = edge;
+                edge += height;
             }
-            U16(scratch, 0x8A) = v;
-            U16(scratch, 0x82) = v;
+            U16(scratch, 0x8A) = edge;
+            U16(scratch, 0x82) = edge;
         }
 
-        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(scratch);
         func_80065320((u16 *)scratch + 0x38, (u16 *)scratch + 0x4C, scratch_base);
         func_80065320((u16 *)scratch + 0x3C, (u16 *)scratch + 0x50, scratch_base);
         func_80065320((u16 *)scratch + 0x40, (u16 *)scratch + 0x54, scratch_base);
         func_80065320((u16 *)scratch + 0x44, (u16 *)scratch + 0x58, scratch_base);
 
         {
-            s32 out0;
-            register s32 out1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s32 vertex_xy;
+            register s32 last_vertex_xy ASM_REG("$3");
 
-            out0 = S32(scratch, 0x98);
-            S32(s1, 8) = out0;
-            out0 = S32(scratch, 0xA0);
-            S32(s1, 0x10) = out0;
-            out0 = S32(scratch, 0xA8);
-            S32(s1, 0x18) = out0;
-            out1 = S32(scratch, 0xB0);
-            out0 = 9;
-            U8(s1, 3) = out0;
-            S32(s1, 0x20) = out1;
+            vertex_xy = S32(scratch, 0x98);
+            S32(packet, 8) = vertex_xy;
+            vertex_xy = S32(scratch, 0xA0);
+            S32(packet, 0x10) = vertex_xy;
+            vertex_xy = S32(scratch, 0xA8);
+            S32(packet, 0x18) = vertex_xy;
+            last_vertex_xy = S32(scratch, 0xB0);
+            vertex_xy = 9;
+            U8(packet, 3) = vertex_xy;
+            S32(packet, 0x20) = last_vertex_xy;
         }
 
         {
-            s32 v0;
-            register s32 v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s32 tex_extent;
+            register s32 tex_end ASM_REG("$3");
 
-            v0 = S32(scratch, 0x10);
-            v1 = S32(scratch, 8);
-            v0 -= 1;
-            v1 = v0 + v1;
-            S32(scratch, 0x10) = v1;
-            if (v1 & 0x100) {
-                v0 = v1 - 1;
-                S32(scratch, 0x10) = v0;
+            tex_extent = S32(scratch, 0x10);
+            tex_end = S32(scratch, 8);
+            tex_extent -= 1;
+            tex_end = tex_extent + tex_end;
+            S32(scratch, 0x10) = tex_end;
+            if (tex_end & 0x100) {
+                tex_extent = tex_end - 1;
+                S32(scratch, 0x10) = tex_extent;
             }
         }
         {
-            s32 v0;
-            register s32 v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s32 tex_extent;
+            register s32 tex_end ASM_REG("$3");
 
-            v0 = S32(scratch, 0x14);
-            v1 = S32(scratch, 0xC);
-            v0 -= 1;
-            v1 = v0 + v1;
-            S32(scratch, 0x14) = v1;
-            if (v1 & 0x100) {
-                v0 = v1 - 1;
-                S32(scratch, 0x14) = v0;
+            tex_extent = S32(scratch, 0x14);
+            tex_end = S32(scratch, 0xC);
+            tex_extent -= 1;
+            tex_end = tex_extent + tex_end;
+            S32(scratch, 0x14) = tex_end;
+            if (tex_end & 0x100) {
+                tex_extent = tex_end - 1;
+                S32(scratch, 0x14) = tex_extent;
             }
         }
 
@@ -249,128 +250,128 @@ loop:
         S32(scratch, 0xC) <<= 8;
 
         {
-            register s32 tail_value ASM_REG("$2"); /* MATCH: Retain retail operand order in the merged addition. */
-            s32 count = U16(s3, 0x12);
-            if (count != 0) {
+            register s32 clut ASM_REG("$2");
+            s32 clut_offset = U16(sprite, 0x12);
+            if (clut_offset != 0) {
                 if (U16(scratch, 0x24) & 0x100) {
-                    U16(s1, 0x0E) = count;
+                    U16(packet, 0x0E) = clut_offset;
                 } else {
-                    tail_value = U16(s2, 6);
-                    tail_value = count + tail_value;
-                    U16(s1, 0x0E) = tail_value;
+                    clut = U16(part, 6);
+                    clut = clut_offset + clut;
+                    U16(packet, 0x0E) = clut;
                 }
             } else {
-                tail_value = U16(s2, 6);
-                U16(s1, 0x0E) = tail_value;
+                clut = U16(part, 6);
+                U16(packet, 0x0E) = clut;
             }
         }
 
-        S16(s1, 0x0C) = U16(scratch, 0xC) + U16(scratch, 8);
-        S16(s1, 0x14) = U16(scratch, 0xC) + U16(scratch, 0x10);
+        S16(packet, 0x0C) = U16(scratch, 0xC) + U16(scratch, 8);
+        S16(packet, 0x14) = U16(scratch, 0xC) + U16(scratch, 0x10);
 
         {
-            register s32 tail_value ASM_REG("$2"); /* MATCH: Retain retail operand order in the merged addition. */
-            s32 count = U16(s3, 0x10);
-            if (count != 0) {
-                tail_value = U16(s2, 4);
-                tail_value &= 0xFF9F;
-                tail_value = count + tail_value;
+            register s32 tex_page ASM_REG("$2");
+            s32 page_offset = U16(sprite, 0x10);
+            if (page_offset != 0) {
+                tex_page = U16(part, 4);
+                tex_page &= 0xFF9F;
+                tex_page = page_offset + tex_page;
             } else {
-                tail_value = U16(s2, 4);
+                tex_page = U16(part, 4);
             }
-            U16(s1, 0x16) = tail_value;
+            U16(packet, 0x16) = tex_page;
         }
         {
-            register s32 v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 v1;
-            register s32 a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 edge_work ASM_REG("$2");
+            s32 uv_work;
+            register s32 right_u ASM_REG("$4");
+            register s32 left_x ASM_REG("$5");
 
-            v0 = U16(scratch, 0x14);
-            v1 = U16(scratch, 8);
-            a1 = S16(s1, 8);
-            v0 |= v1;
-            S16(s1, 0x1C) = v0;
-            v1 = U16(scratch, 0x14);
-            a0 = U16(scratch, 0x10);
-            v0 = S16(s1, 0x20);
-            v1 |= a0;
-            v0 = v0 < a1;
-            S16(s1, 0x24) = v1;
-            if (v0 != 0) {
-                v1 = U8(s1, 0x24);
-                v0 = v1 + 0xFF;
-                U8(s1, 0x24) = v0;
-                U8(s1, 0x14) = v1;
+            edge_work = U16(scratch, 0x14);
+            uv_work = U16(scratch, 8);
+            left_x = S16(packet, 8);
+            edge_work |= uv_work;
+            S16(packet, 0x1C) = edge_work;
+            uv_work = U16(scratch, 0x14);
+            right_u = U16(scratch, 0x10);
+            edge_work = S16(packet, 0x20);
+            uv_work |= right_u;
+            edge_work = edge_work < left_x;
+            S16(packet, 0x24) = uv_work;
+            if (edge_work != 0) {
+                uv_work = U8(packet, 0x24);
+                edge_work = uv_work + 0xFF;
+                U8(packet, 0x24) = edge_work;
+                U8(packet, 0x14) = uv_work;
             }
         }
         {
-            s32 v0;
-            s32 v1;
-            v1 = S16(s1, 0x0A);
-            v0 = S16(s1, 0x22);
-            if (v0 < v1) {
-                v1 = U8(s1, 0x25);
-                v0 = v1 + 0xFF;
-                U8(s1, 0x25) = v0;
-                U8(s1, 0x1D) = v1;
+            s32 bottom_y;
+            s32 top_y;
+            top_y = S16(packet, 0x0A);
+            bottom_y = S16(packet, 0x22);
+            if (bottom_y < top_y) {
+                top_y = U8(packet, 0x25);
+                bottom_y = top_y + 0xFF;
+                U8(packet, 0x25) = bottom_y;
+                U8(packet, 0x1D) = top_y;
             }
         }
 
         {
-            register s32 v ASM_REG("$4") = U8(s2, 1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s32 result;
-            s32 bits;
-            U8(s3, 0x0F) = v;
-            bits = U16(scratch, 0x24);
-            result = bits & 8;
-            if (result != 0) {
-                result = bits & 4;
-                if (result == 0) {
-                    result = v & 0xFD;
+            register s32 part_code ASM_REG("$4") = U8(part, 1);
+            s32 draw_code;
+            s32 draw_flags;
+            U8(sprite, 0x0F) = part_code;
+            draw_flags = U16(scratch, 0x24);
+            draw_code = draw_flags & 8;
+            if (draw_code != 0) {
+                draw_code = draw_flags & 4;
+                if (draw_code == 0) {
+                    draw_code = part_code & 0xFD;
                 } else {
-                    result = v | 2;
+                    draw_code = part_code | 2;
                 }
-                U8(s3, 0x0F) = result;
+                U8(sprite, 0x0F) = draw_code;
             }
         }
 
         {
-            u8 *call_record;
-            s32 stored;
-            stored = S32(s3, 0x0C);
-            call_record = s1;
-            S32(s1, 4) = stored;
-            func_8006658C(S32(scratch, 0x20), call_record);
-            s1 += 40;
-            ASM_KEEP(s1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u8 *draw_packet;
+            s32 color_code;
+            color_code = S32(sprite, 0x0C);
+            draw_packet = packet;
+            S32(packet, 4) = color_code;
+            func_8006658C(S32(scratch, 0x20), draw_packet);
+            packet += 40;
+
         }
     } else {
-        callback = P32(s2, 8);
+        callback = P32(part, 8);
         if (callback != 0) {
-            register s32 result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            result = callback(arg1, s6, s3, s2, s1);
-            if (result > 0) {
-                u32 tag = 0x80000000;
-                s2 = (Record *)(result | tag);
+            register s32 callback_result;
+            callback_result = callback(context, callback_arg, sprite, part, packet);
+            if (callback_result > 0) {
+                u32 cached_base = 0x80000000;
+                part = (Record *)(callback_result | cached_base);
             } else {
-                s1 = (u8 *)result;
+                packet = (u8 *)callback_result;
             }
         }
     }
 
-    if ((s8)U8(s2++, 0) >= 0) {
-        goto loop;
+    if ((s8)U8(part++, 0) >= 0) {
+        goto next_part;
     }
     {
-        register s32 tail_flags ASM_REG("$2") = saved_arg3 << 16;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        if (tail_flags != 0) {
-            func_80067EF4(s1, 0, 1);
-            func_8006658C(S32(scratch, 0x20), s1);
-            s1 += 12;
+        register s32 end_mode_bits ASM_REG("$2") = saved_mode << 16;
+        if (end_mode_bits != 0) {
+            func_80067EF4(packet, 0, 1);
+            func_8006658C(S32(scratch, 0x20), packet);
+            packet += 12;
         }
     }
     func_80064A40();
-    (*global_slot)->record = s1;
+    (*global_slot)->record = packet;
     return;
 }

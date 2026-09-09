@@ -90,7 +90,8 @@ typedef struct S_8017256C_6 {
     s32 unk_0C;
 } S_8017256C_6;   /* global in func_8017256C */
 
-void func_8017256C(void *in0, void *in1, void *in2, void *in3)
+/* Advances an actor's action state, updating its target, animation, and completion. */
+void func_8017256C(void *action_data, void *motion_data, void *sprite_data, void *actor_data)
 {
     static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state3, &&state4,
@@ -101,37 +102,36 @@ void func_8017256C(void *in0, void *in1, void *in2, void *in3)
         &&kind8_special, &&kind11_special, &&kind14_special,
         &&kind8_special
     };
-    register void *arg0 ASM_REG("$18") = in0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *arg1 = in1;
-    void *arg2 = in2;
-    void *arg3 = in3;
-    register s32 special ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *kind_ptr ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *action ASM_REG("$18") = action_data;
+    void *motion = motion_data;
+    void *sprite = sprite_data;
+    void *actor = actor_data;
+    register s32 is_special;
+    register u8 *action_entry ASM_REG("$17");
     u32 state;
-    u32 increment_state_value;
+    u32 prior_state;
     s32 kind;
     u32 kind_index;
-    u16 count;
-    u16 next_count;
-    u8 *linked;
+    u16 ticks;
+    u16 next_ticks;
+    u8 *target_link;
 
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(action);
 
-    state = ((S_8017256C_0 *)arg0)->unk_9B;
+    state = ((S_8017256C_0 *)action)->unk_9B;
     if (state >= 9) {
         return;
     }
-    special = 0;
-    ASM_KEEP(special);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    is_special = 0;
+    ASM_KEEP(is_special);
     (void)state_labels;
     goto *D_80170838[state];
 
 state0:
-    if (!(((S_8017256C_1 *)arg3)->unk_1C & 0x2000)) {
+    if (!(((S_8017256C_1 *)actor)->unk_1C & 0x2000)) {
         goto kind_normal;
     }
-    kind_index = (((S_8017256C_1 *)arg3)->unk_46 & 0x3FFF) - 1;
+    kind_index = (((S_8017256C_1 *)actor)->unk_46 & 0x3FFF) - 1;
     if (kind_index >= 7) {
         goto kind_default;
     }
@@ -139,17 +139,17 @@ state0:
     goto *D_80170860[kind_index];
 
 kind14_special:
-    special = 1;
+    is_special = 1;
     goto kind3;
 kind11_special:
-    special = 1;
+    is_special = 1;
     goto kind2;
 kind8_special:
-    special = 1;
+    is_special = 1;
     goto kind1;
 
 kind_normal:
-    kind = ((S_8017256C_1 *)arg3)->unk_46 & 0x3FFF;
+    kind = ((S_8017256C_1 *)actor)->unk_46 & 0x3FFF;
     if (kind == 2) {
         goto kind2;
     }
@@ -157,219 +157,216 @@ kind_normal:
         if (kind == 1) {
             goto kind1;
         }
-        kind_ptr = 0;
-        ASM_KEEP(kind_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        action_entry = 0;
+
         goto kind_chosen;
     }
     if (kind != 3) {
-        kind_ptr = 0;
+        action_entry = 0;
         goto kind_chosen;
     }
 
 kind3:
-    kind_ptr = (u8 *)arg3 + 0xE;
+    action_entry = (u8 *)actor + 0xE;
     goto kind_chosen;
 kind2:
-    kind_ptr = (u8 *)arg3 + 0xB;
+    action_entry = (u8 *)actor + 0xB;
     goto kind_chosen;
 kind1:
-    kind_ptr = (u8 *)arg3 + 8;
+    action_entry = (u8 *)actor + 8;
     goto kind_chosen;
 
 kind_default:
-    kind_ptr = 0;
+    action_entry = 0;
 kind_chosen:
-    if (*kind_ptr == 0) {
+    if (*action_entry == 0) {
         goto state0_empty;
     }
 
-    ((S_8017256C_0 *)arg0)->unk_98 &= 0xFF7F;
+    ((S_8017256C_0 *)action)->unk_98 &= 0xFF7F;
     {
-        s32 special_copy = special;
+        s32 use_player_target = is_special;
 
-        ASM_KEEP(special_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        if (special_copy) {
-            linked = D_800814A8;
-            ((S_8017256C_1 *)arg3)->unk_60.p = linked;
+        ASM_KEEP(use_player_target);
+        if (use_player_target) {
+            target_link = D_800814A8;
+            ((S_8017256C_1 *)actor)->unk_60.p = target_link;
             goto state0_linked;
         }
     }
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (D_8006DE24[*kind_ptr * 20 + 0x12] == 2) {
-        linked = ((S_8017256C_1 *)arg3)->unk_60.p2;
-        if (linked != 0) {
-            register u8 *src ASM_REG("$3");
-state0_linked:
-            src = ((S_8017256C_2_pre *)linked)[-1].unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            ((S_8017256C_1 *)arg3)->unk_72.u = ((S_8017256C_3 *)src)->unk_24;
-            ((S_8017256C_1 *)arg3)->unk_73.u = ((S_8017256C_3 *)src)->unk_25;
+    if (D_8006DE24[*action_entry * 20 + 0x12] == 2) {
+        target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
+        if (target_link != 0) {
+            register u8 *target_sprite ASM_REG("$3");
+state0_linked:
+            target_sprite = ((S_8017256C_2_pre *)target_link)[-1].unk_00;
+
+            ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)target_sprite)->unk_24;
+            ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)target_sprite)->unk_25;
             goto state0_copy;
         }
     } else {
-        register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register s32 x ASM_REG("$2");
         s32 y;
 
-        ((S_8017256C_1 *)arg3)->unk_60.p = func_800A05A4(
-            arg3,
-            ((S_8017256C_4 *)arg2)->unk_24,
-            ((S_8017256C_4 *)arg2)->unk_25,
-            ((S_8017256C_1 *)arg3)->unk_2A,
+        ((S_8017256C_1 *)actor)->unk_60.p = func_800A05A4(
+            actor,
+            ((S_8017256C_4 *)sprite)->unk_24,
+            ((S_8017256C_4 *)sprite)->unk_25,
+            ((S_8017256C_1 *)actor)->unk_2A,
             0x10);
-        x = ((S_8017256C_1 *)arg3)->unk_72.s;
-        y = ((S_8017256C_1 *)arg3)->unk_73.s;
+        x = ((S_8017256C_1 *)actor)->unk_72.s;
+        y = ((S_8017256C_1 *)actor)->unk_73.s;
         if (x < 0) {
             x = -x;
         }
         if (y < 0) {
             y = -y;
         }
-        ((S_8017256C_1 *)arg3)->unk_72.u = x;
-        ((S_8017256C_1 *)arg3)->unk_73.u = y;
+        ((S_8017256C_1 *)actor)->unk_72.u = x;
+        ((S_8017256C_1 *)actor)->unk_73.u = y;
     }
 
 state0_copy:
-    if (func_800A94A0(arg3, kind_ptr, special, (u8 *)arg0 + 0x98) == 0) {
+    if (func_800A94A0(actor, action_entry, is_special, (u8 *)action + 0x98) == 0) {
         return;
     }
-    ((S_8017256C_0 *)arg0)->unk_96 = 0;
-    ((S_8017256C_0 *)arg0)->unk_9B++;
-    ((S_8017256C_5 *)arg1)->unk_14 = 0;
-    ((S_8017256C_5 *)arg1)->unk_10 = 0;
-    ((S_8017256C_5 *)arg1)->unk_0C = 0;
+    ((S_8017256C_0 *)action)->unk_96 = 0;
+    ((S_8017256C_0 *)action)->unk_9B++;
+    ((S_8017256C_5 *)motion)->unk_14 = 0;
+    ((S_8017256C_5 *)motion)->unk_10 = 0;
+    ((S_8017256C_5 *)motion)->unk_0C = 0;
     return;
 
 state0_empty:
-    ((S_8017256C_5 *)arg1)->unk_14 = 0;
-    ((S_8017256C_5 *)arg1)->unk_10 = 0;
-    ((S_8017256C_5 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_8017256C_4 *)arg2)->unk_24, ((S_8017256C_4 *)arg2)->unk_25);
+    ((S_8017256C_5 *)motion)->unk_14 = 0;
+    ((S_8017256C_5 *)motion)->unk_10 = 0;
+    ((S_8017256C_5 *)motion)->unk_0C = 0;
+    func_800A2B04(motion, ((S_8017256C_4 *)sprite)->unk_24, ((S_8017256C_4 *)sprite)->unk_25);
     D_8008346C = 0;
     (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
-    func_800A4ACC(arg3);
-    ((S_8017256C_1 *)arg3)->unk_6D--;
-    ((S_8017256C_0 *)arg0)->unk_8C = &D_80171514;
-    ((S_8017256C_1 *)arg3)->unk_73.u = 0;
-    ((S_8017256C_1 *)arg3)->unk_72.u = 0;
-    ((S_8017256C_1 *)arg3)->unk_46 &= 0x7FFF;
+    func_800A4ACC(actor);
+    ((S_8017256C_1 *)actor)->unk_6D--;
+    ((S_8017256C_0 *)action)->unk_8C = &D_80171514;
+    ((S_8017256C_1 *)actor)->unk_73.u = 0;
+    ((S_8017256C_1 *)actor)->unk_72.u = 0;
+    ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
     return;
 
 state1:
     if (func_8003F270() != 0) {
-        ((S_8017256C_4 *)arg2)->unk_14 |= 0x800;
+        ((S_8017256C_4 *)sprite)->unk_14 |= 0x800;
         return;
     }
-    ((S_8017256C_4 *)arg2)->unk_14 &= 0xF7FF;
-    ((S_8017256C_0 *)arg0)->unk_9B++;
+    ((S_8017256C_4 *)sprite)->unk_14 &= 0xF7FF;
+    ((S_8017256C_0 *)action)->unk_9B++;
     func_800A56E0(0x703);
-    count = ((S_8017256C_0 *)arg0)->unk_96;
-    next_count = count + 1;
-    ASM_KEEP(next_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ((S_8017256C_0 *)arg0)->unk_96 = next_count;
-    if ((s16)count < 8 && !(((S_8017256C_4 *)arg2)->unk_14 & 0x8000)) {
+    ticks = ((S_8017256C_0 *)action)->unk_96;
+    next_ticks = ticks + 1;
+    ASM_KEEP(next_ticks);
+    ((S_8017256C_0 *)action)->unk_96 = next_ticks;
+    if ((s16)ticks < 8 && !(((S_8017256C_4 *)sprite)->unk_14 & 0x8000)) {
         return;
     }
-    increment_state_value = ((S_8017256C_0 *)arg0)->unk_9B;
-    ASM_KEEP(increment_state_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ((S_8017256C_0 *)arg0)->unk_96 = 0;
+    prior_state = ((S_8017256C_0 *)action)->unk_9B;
+
+    ((S_8017256C_0 *)action)->unk_96 = 0;
     goto increment_state;
 
 state2:
-    if (((S_8017256C_0 *)arg0)->unk_A2 != 0) {
-        count = ((S_8017256C_0 *)arg0)->unk_96;
-        next_count = count + 1;
-        ASM_KEEP(next_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ((S_8017256C_0 *)arg0)->unk_96 = next_count;
-        if ((s16)count < 15 && !(((S_8017256C_4 *)arg2)->unk_14 & 0x8000)) {
+    if (((S_8017256C_0 *)action)->unk_A2 != 0) {
+        ticks = ((S_8017256C_0 *)action)->unk_96;
+        next_ticks = ticks + 1;
+        ASM_KEEP(next_ticks);
+        ((S_8017256C_0 *)action)->unk_96 = next_ticks;
+        if ((s16)ticks < 15 && !(((S_8017256C_4 *)sprite)->unk_14 & 0x8000)) {
             return;
         }
     }
-    ((S_8017256C_0 *)arg0)->unk_96 = 0;
-    ((S_8017256C_0 *)arg0)->unk_9B++;
+    ((S_8017256C_0 *)action)->unk_96 = 0;
+    ((S_8017256C_0 *)action)->unk_9B++;
     func_800A56E0(0x703);
-    (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80173EDC;
+    (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173EDC;
     func_80047784(
-        arg2,
-        D_80173EDC[((D_80083228 + ((S_8017256C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        sprite,
+        D_80173EDC[((D_80083228 + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     return;
 
 state3:
-    func_80170E18(arg0, arg1, arg2, arg3);
-    count = ((S_8017256C_0 *)arg0)->unk_96;
-    next_count = count + 1;
-    ASM_KEEP(next_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ((S_8017256C_0 *)arg0)->unk_96 = next_count;
-    if ((s16)count < 3 && !(((S_8017256C_4 *)arg2)->unk_14 & 0xE000)) {
+    func_80170E18(action, motion, sprite, actor);
+    ticks = ((S_8017256C_0 *)action)->unk_96;
+    next_ticks = ticks + 1;
+    ASM_KEEP(next_ticks);
+    ((S_8017256C_0 *)action)->unk_96 = next_ticks;
+    if ((s16)ticks < 3 && !(((S_8017256C_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    ((S_8017256C_4 *)arg2)->unk_14 |= 0x800;
-    increment_state_value = ((S_8017256C_0 *)arg0)->unk_9B;
+    ((S_8017256C_4 *)sprite)->unk_14 |= 0x800;
+    prior_state = ((S_8017256C_0 *)action)->unk_9B;
 increment_state:
-    ((S_8017256C_0 *)arg0)->unk_9B = increment_state_value + 1;
+    ((S_8017256C_0 *)action)->unk_9B = prior_state + 1;
     return;
 
 state4:
-    ((S_8017256C_4 *)arg2)->unk_14 |= 0x800;
-    count = ((S_8017256C_0 *)arg0)->unk_96;
-    next_count = count + 1;
-    ASM_KEEP(next_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ((S_8017256C_0 *)arg0)->unk_96 = next_count;
-    if ((s16)count < 10 && !(((S_8017256C_4 *)arg2)->unk_14 & 0x8000)) {
+    ((S_8017256C_4 *)sprite)->unk_14 |= 0x800;
+    ticks = ((S_8017256C_0 *)action)->unk_96;
+    next_ticks = ticks + 1;
+    ASM_KEEP(next_ticks);
+    ((S_8017256C_0 *)action)->unk_96 = next_ticks;
+    if ((s16)ticks < 10 && !(((S_8017256C_4 *)sprite)->unk_14 & 0x8000)) {
         return;
     }
-    ((S_8017256C_0 *)arg0)->unk_96 = 0;
-    ((S_8017256C_0 *)arg0)->unk_9B++;
-    ((S_8017256C_4 *)arg2)->unk_14 &= 0xF7FF;
+    ((S_8017256C_0 *)action)->unk_96 = 0;
+    ((S_8017256C_0 *)action)->unk_9B++;
+    ((S_8017256C_4 *)sprite)->unk_14 &= 0xF7FF;
     return;
 
 state5:
 state6:
-    ((S_8017256C_0 *)arg0)->unk_98 |= 0x80;
-    ((S_8017256C_0 *)arg0)->unk_96 = 0;
-    ((S_8017256C_0 *)arg0)->unk_9B++;
+    ((S_8017256C_0 *)action)->unk_98 |= 0x80;
+    ((S_8017256C_0 *)action)->unk_96 = 0;
+    ((S_8017256C_0 *)action)->unk_9B++;
     return;
 
 state7:
-    if (!(((S_8017256C_4 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((S_8017256C_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    ((S_8017256C_5 *)arg1)->unk_14 = 0;
-    ((S_8017256C_5 *)arg1)->unk_10 = 0;
-    ((S_8017256C_5 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_8017256C_4 *)arg2)->unk_24, ((S_8017256C_4 *)arg2)->unk_25);
-    ((S_8017256C_0 *)arg0)->unk_9B++;
-    if (((S_8017256C_4 *)arg2)->unk_2C == D_80173E8C) {
+    ((S_8017256C_5 *)motion)->unk_14 = 0;
+    ((S_8017256C_5 *)motion)->unk_10 = 0;
+    ((S_8017256C_5 *)motion)->unk_0C = 0;
+    func_800A2B04(motion, ((S_8017256C_4 *)sprite)->unk_24, ((S_8017256C_4 *)sprite)->unk_25);
+    ((S_8017256C_0 *)action)->unk_9B++;
+    if (((S_8017256C_4 *)sprite)->unk_2C == D_80173E8C) {
         return;
     }
-    (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80173E8C;
+    (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173E8C;
     func_80047784(
-        arg2,
-        D_80173E8C[((D_80083228 + ((S_8017256C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        sprite,
+        D_80173E8C[((D_80083228 + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ((S_8017256C_0 *)arg0)->unk_9E = 0;
-    ((S_8017256C_0 *)arg0)->unk_92 = -0x20;
+    ((S_8017256C_0 *)action)->unk_9E = 0;
+    ((S_8017256C_0 *)action)->unk_92 = -0x20;
     return;
 
 state8:
     {
-        u8 *global = (u8 *)&D_80083460;
+        u8 *action_status = (u8 *)&D_80083460;
 
-        if (((S_8017256C_6 *)global)->unk_0C != 0) {
+        if (((S_8017256C_6 *)action_status)->unk_0C != 0) {
             return;
         }
-        ((S_8017256C_6 *)global)->unk_0A--;
-        ((S_8017256C_0 *)arg0)->unk_8C = &D_80171514;
-        func_800A4ACC(arg3);
-        ((S_8017256C_1 *)arg3)->unk_6D--;
-        ((S_8017256C_1 *)arg3)->unk_73.u = 0;
-        ((S_8017256C_1 *)arg3)->unk_72.u = 0;
-        ((S_8017256C_1 *)arg3)->unk_46 &= 0x7FFF;
+        ((S_8017256C_6 *)action_status)->unk_0A--;
+        ((S_8017256C_0 *)action)->unk_8C = &D_80171514;
+        func_800A4ACC(actor);
+        ((S_8017256C_1 *)actor)->unk_6D--;
+        ((S_8017256C_1 *)actor)->unk_73.u = 0;
+        ((S_8017256C_1 *)actor)->unk_72.u = 0;
+        ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
         func_800A56E0(0xB4);
     }
 }
 
-/* MECHANISM: The 0x38 frame holds s2/s4/s3/s0 args plus s5 special and s1 kind, with v0 pinned only for the shared increment.
-   Named noreturn continuations recover all 18 retail absolute jumps; LEAD28 pins retain the s5/s1 delay-slot values.
-   A scheduling barrier keeps the D_8006DE24 page load below the special-path branch. */

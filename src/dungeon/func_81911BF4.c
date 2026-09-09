@@ -31,38 +31,37 @@ extern void func_80024ACC(Obj81911BF4 *, s32 *, s32, s32);
 extern void func_8002539C(Obj81911BF4 *);
 extern s32 D_800814A0;
 
-void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
+/* Update the five orbiting points and advance the effect animation. */
+void func_800253F4(Obj81911BF4 *effect, s32 *position)
 {
-    Obj81911BF4 *obj = arg0;
-    s32 *base = arg1;
-    s32 phase;
-    volatile Obj81911BF4 *out;
-    s32 i;
-    register u8 fade45 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 value ASM_REG("$2"); /* MATCH: Carry the state in v0 into the shared increment. */
-    u16 step45;
-    u16 scale45;
-    u16 duration_value;
-    s16 sum;
-    s32 signed_sum;
-    register s32 modulo45 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u8 byte_value;
+    Obj81911BF4 *obj = effect;
+    s32 *origin = position;
+    s32 phase_offset;
+    volatile Obj81911BF4 *point;
+    s32 point_index;
+    register u8 brightness ASM_REG("$3");
+    register u16 state_value;
+    u16 angle_step;
+    u16 scale;
+    s16 angle_sum;
+    s32 signed_angle;
+    register s32 angle_dividend ASM_REG("$9");
     s32 state;
 
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(origin);
     obj->inner->field14++;
     obj->timer++;
 
-    i = 0;
-    out = obj;
-    phase = 0;
+    point_index = 0;
+    point = obj;
+    phase_offset = 0;
     do {
-        out->x[0] = base[0] + (((func_800644B8(phase + obj->angle) >> 4) * obj->scale) << 8);
-        out->y[0] = base[1] + (((func_80064584(phase + obj->angle) >> 4) * obj->scale) << 8);
-        i++;
-        phase += 0x333;
-        out = (volatile Obj81911BF4 *)((u8 *)out + 4);
-    } while (i < 5);
+        point->x[0] = origin[0] + (((func_800644B8(phase_offset + obj->angle) >> 4) * obj->scale) << 8);
+        point->y[0] = origin[1] + (((func_80064584(phase_offset + obj->angle) >> 4) * obj->scale) << 8);
+        point_index++;
+        phase_offset += 0x333;
+        point = (volatile Obj81911BF4 *)((u8 *)point + 4);
+    } while (point_index < 5);
 
     state = obj->state;
     if ((u32)state >= 7U) {
@@ -71,45 +70,43 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
 
     switch (state) {
     case 0:
-        func_8002429C(obj, base, obj->timer, obj->duration);
+        func_8002429C(obj, origin, obj->timer, obj->duration);
         if (obj->timer < obj->duration) {
             return;
         }
-        base[2] = obj->field14 << 16;
+        origin[2] = obj->field14 << 16;
         goto advance;
 
     case 1:
-        func_800246C0(obj, base, obj->timer, obj->duration);
+        func_800246C0(obj, origin, obj->timer, obj->duration);
         if (obj->timer < obj->duration) {
             return;
         }
         {
-            register u16 duration_c1 ASM_REG("$3") = 4;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(duration_c1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            value = *(volatile u16 *)&obj->state;
+            register u16 next_duration ASM_REG("$3") = 4;
+            ASM_KEEP(next_duration);
+            state_value = *(volatile u16 *)&obj->state;
             obj->timer = 0;
-            ASM_SCHED_BARRIER(); /* MATCH: Keep this arm's duration store in its jump delay slot. */
-            obj->duration = duration_c1;
+            obj->duration = next_duration;
             goto increment;
         }
         return;
 
     case 2:
-        func_800246C0(obj, base, 0, 0);
-        func_80024ACC(obj, base, obj->timer, obj->duration);
+        func_800246C0(obj, origin, 0, 0);
+        func_80024ACC(obj, origin, obj->timer, obj->duration);
         if (obj->timer < obj->duration) {
             return;
         }
         {
-            u16 value_c2 = 3;
-            register u16 duration_c2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            value = value_c2;
-            obj->field12 = value;
-            value = *(volatile u16 *)&obj->state;
-            duration_c2 = 0x10;
+            register u16 next_duration ASM_REG("$3");
+            state_value = 3;
+            obj->field12 = state_value;
+            state_value = *(volatile u16 *)&obj->state;
+            next_duration = 0x10;
             obj->timer = 0;
-            ASM_SCHED_BARRIER(); /* MATCH: Keep this arm's duration store in its jump delay slot. */
-            obj->duration = duration_c2;
+            ASM_SCHED_BARRIER();
+            obj->duration = next_duration;
             goto increment;
         }
         return;
@@ -117,94 +114,93 @@ void func_800253F4(Obj81911BF4 *arg0, s32 *arg1)
     case 3:
         obj->angle_step += 0x10;
         obj->angle += obj->angle_step;
-        signed_sum = obj->angle;
+        signed_angle = obj->angle;
         obj->field10 += 0x10;
-        obj->angle = signed_sum % 0x1000;
-        func_800246C0(obj, base, 0, 0);
-        func_80024ACC(obj, base, 0, 0);
+        obj->angle = signed_angle % 0x1000;
+        func_800246C0(obj, origin, 0, 0);
+        func_80024ACC(obj, origin, 0, 0);
         if (obj->timer < obj->duration) {
             return;
         }
         goto advance;
 
     case 4:
-        step45 = obj->angle_step;
-        sum = (u16)obj->angle;
-        fade45 = obj->field42;
-        step45 += 0x10;
-        sum += step45;
-        signed_sum = (s16)sum;
-        modulo45 = signed_sum;
-        ASM_USE(modulo45);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        scale45 = (u16)obj->scale;
-        fade45 += 0x0C;
-        obj->field42 = fade45;
-        obj->field41 = fade45;
-        obj->angle_step = step45;
-        obj->angle = sum;
-        obj->scale = scale45 - 4;
-        obj->angle = signed_sum % 0x1000;
-        func_800246C0(obj, base, 0, 0);
-        func_80024ACC(obj, base, 0, 0);
+        angle_step = obj->angle_step;
+        angle_sum = (u16)obj->angle;
+        brightness = obj->field42;
+        angle_step += 0x10;
+        angle_sum += angle_step;
+        signed_angle = (s16)angle_sum;
+        angle_dividend = signed_angle;
+        ASM_USE(angle_dividend);
+        scale = (u16)obj->scale;
+        brightness += 0x0C;
+        obj->field42 = brightness;
+        obj->field41 = brightness;
+        obj->angle_step = angle_step;
+        obj->angle = angle_sum;
+        obj->scale = scale - 4;
+        obj->angle = signed_angle % 0x1000;
+        func_800246C0(obj, origin, 0, 0);
+        func_80024ACC(obj, origin, 0, 0);
         if (obj->timer < obj->duration) {
             return;
         }
         func_8002539C(obj);
         {
-            u16 state_c4;
-            register u16 duration_c4 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            value = *(volatile u16 *)&obj->state;
-            duration_c4 = 0x20;
+            register u16 next_duration ASM_REG("$3");
+            state_value = *(volatile u16 *)&obj->state;
+            next_duration = 0x20;
             obj->timer = 0;
-            ASM_SCHED_BARRIER(); /* MATCH: Keep this arm's duration store in its jump delay slot. */
-            obj->duration = duration_c4;
+            ASM_SCHED_BARRIER();
+            obj->duration = next_duration;
             goto increment;
         }
         return;
 
     case 5:
-        step45 = obj->angle_step;
-        sum = (u16)obj->angle;
-        fade45 = obj->field42;
-        step45 += 0x10;
-        sum += step45;
-        signed_sum = (s16)sum;
-        modulo45 = signed_sum;
-        ASM_USE(modulo45);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        scale45 = (u16)obj->scale;
-        fade45 -= 6;
-        obj->field42 = fade45;
-        obj->field41 = fade45;
-        obj->field40 = fade45;
-        obj->angle_step = step45;
-        obj->angle = sum;
-        obj->scale = scale45 + 0x0C;
-        obj->angle = signed_sum % 0x1000;
-        func_800246C0(obj, base, 0, 0);
+        angle_step = obj->angle_step;
+        angle_sum = (u16)obj->angle;
+        brightness = obj->field42;
+        angle_step += 0x10;
+        angle_sum += angle_step;
+        signed_angle = (s16)angle_sum;
+        angle_dividend = signed_angle;
+        ASM_USE(angle_dividend);
+        scale = (u16)obj->scale;
+        brightness -= 6;
+        obj->field42 = brightness;
+        obj->field41 = brightness;
+        obj->field40 = brightness;
+        obj->angle_step = angle_step;
+        obj->angle = angle_sum;
+        obj->scale = scale + 0x0C;
+        obj->angle = signed_angle % 0x1000;
+        func_800246C0(obj, origin, 0, 0);
         obj->scale = (u16)obj->scale * 2;
 
-        i = 0;
-        out = obj;
-        phase = 0;
+        point_index = 0;
+        point = obj;
+        phase_offset = 0;
         do {
-            out->x[0] = base[0] + (((func_800644B8(phase + obj->angle) >> 4) * obj->scale) << 9);
-            out->y[0] = base[1] + (((func_80064584(phase + obj->angle) >> 4) * obj->scale) << 9);
-            i++;
-            phase += 0x333;
-            out = (volatile Obj81911BF4 *)((u8 *)out + 4);
-        } while (i < 5);
+            point->x[0] = origin[0] + (((func_800644B8(phase_offset + obj->angle) >> 4) * obj->scale) << 9);
+            point->y[0] = origin[1] + (((func_80064584(phase_offset + obj->angle) >> 4) * obj->scale) << 9);
+            point_index++;
+            phase_offset += 0x333;
+            point = (volatile Obj81911BF4 *)((u8 *)point + 4);
+        } while (point_index < 5);
 
-        func_80024ACC(obj, base, 0, 0);
+        func_80024ACC(obj, origin, 0, 0);
         obj->scale = ((s32)(u16)obj->scale << 16) >> 17;
         if (obj->timer < obj->duration) {
             return;
         }
 
 advance:
-        value = obj->state;
+        state_value = obj->state;
         obj->timer = 0;
 increment:
-        obj->state = value + 1;
+        obj->state = state_value + 1;
         return;
 
     case 6:

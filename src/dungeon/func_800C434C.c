@@ -50,27 +50,28 @@ typedef struct S_800C9AAC_2 {
     u16 unk_88;
 } S_800C9AAC_2;   /* secondary in func_800C9AAC */
 
-void func_800C9AAC(void *arg0, void *arg1, void *arg2)
+/* Updates object callbacks, motion, sprite direction, and height. */
+void func_800C9AAC(void *object_state, void *object_motion, void *object_part)
 {
-    u32 entry_value = D_80083462;
-    register void *state ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *motion ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *part ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u32 update_flags = D_80083462;
+    register void *state ASM_REG("$17") = object_state;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *motion ASM_REG("$21") = object_motion;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *part ASM_REG("$19") = object_part;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *secondary = state;
     Callback callback;
     s16 direction;
     s16 direction_index;
-    s32 flags;
+    s32 part_flags;
     s32 adjusted_flags;
-    s16 target;
+    s16 target_height;
     u16 old_height;
 
-    if (entry_value & 0x2000) {
+    if (update_flags & 0x2000) {
         Callback early_callback = (*(Callback *)((u8 *)state + (0x8C)));
         if (early_callback == (Callback)&D_800C9F34) {
-            register void *incoming_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(incoming_a0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            early_callback(incoming_a0, motion, part, incoming_a0);
+            register void *callback_state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(callback_state);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            early_callback(callback_state, motion, part, callback_state);
             return;
         } else {
             (*(u8 *)((u8 *)state + (0x71))) &= 0x7F;
@@ -79,16 +80,16 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
     }
 
     {
-        register void *call_a0 ASM_REG("$4") = state;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        register void *call_a1 ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        register void *call_a2 ASM_REG("$6") = part;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(call_a2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        call_a0 = state;
-        call_a1 = motion;
-        call_a2 = part;
-        if (func_800A9E70(call_a0, call_a1, call_a2, state) != 0) {
+        register void *check_state ASM_REG("$4") = state;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        register void *check_motion ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register void *check_part ASM_REG("$6") = part;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(check_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(check_motion);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(check_part);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        check_state = state;
+        check_motion = motion;
+        check_part = part;
+        if (func_800A9E70(check_state, check_motion, check_part, state) != 0) {
             return;
         }
     }
@@ -112,8 +113,8 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
     ((S_800C9AAC_1 *)motion)->unk_04.at00.v += ((S_800C9AAC_1 *)motion)->unk_10;
     (*(s32 *)((u8 *)state + (0x90))) += ((S_800C9AAC_1 *)motion)->unk_14;
 
-    flags = ((S_800C9AAC_0 *)part)->unk_14;
-    adjusted_flags = flags & 0x8000;
+    part_flags = ((S_800C9AAC_0 *)part)->unk_14;
+    adjusted_flags = part_flags & 0x8000;
     if (!adjusted_flags) {
         direction = ((D_80083228 + ((S_800C9AAC_2 *)secondary)->unk_2A + 0x100) >> 9) & 7;
         direction_index = direction;
@@ -149,12 +150,12 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
             }
 
             if (!((*(u16 *)((u8 *)state + (0x98))) & 8)) {
-                s32 lower_bound = -0x20;
+                s32 min_height = -0x20;
                 s16 height;
                 func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v, ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
                     (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
                 height = (*(s16 *)((u8 *)state + (0x92)));
-                if (lower_bound < height) {
+                if (min_height < height) {
                     (*(u16 *)((u8 *)state + (0x92))) -= 8;
                 }
                 else if (height < -0x28) {
@@ -162,35 +163,35 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
                 }
             }
         } else {
-            register s32 accumulated ASM_REG("$2") = (*(s32 *)((u8 *)state + (0xA0)));   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 position = (*(s32 *)((u8 *)state + (0x90)));
+            register s32 height_adjustment ASM_REG("$2") = (*(s32 *)((u8 *)state + (0xA0)));   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 height_position = (*(s32 *)((u8 *)state + (0x90)));
             register u32 motion_flags ASM_REG("$4") = (*(u16 *)((u8 *)state + (0x98)));   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             (*(u16 *)((u8 *)state + (0x9E))) = 0;
             (*(s32 *)((u8 *)state + (0xA0))) = 0;
-            position -= accumulated;
-            (*(s32 *)((u8 *)state + (0x90))) = position;
+            height_position -= height_adjustment;
+            (*(s32 *)((u8 *)state + (0x90))) = height_position;
 
             if (!(motion_flags & 8)) {
-                target = func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v, ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
+                target_height = func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v, ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
                     (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20)) -
                     ((S_800C9AAC_2 *)secondary)->unk_88;
                 old_height = (*(u16 *)((u8 *)state + (0x92)));
-                if ((*(s16 *)((u8 *)state + (0x92))) < target) {
+                if ((*(s16 *)((u8 *)state + (0x92))) < target_height) {
                     (*(u16 *)((u8 *)state + (0x92))) = old_height + 8;
-                    if (target < (*(s16 *)((u8 *)state + (0x92)))) {
-                        (*(s16 *)((u8 *)state + (0x92))) = target;
+                    if (target_height < (*(s16 *)((u8 *)state + (0x92)))) {
+                        (*(s16 *)((u8 *)state + (0x92))) = target_height;
                     }
                 } else {
-                    (*(s16 *)((u8 *)state + (0x92))) = target;
+                    (*(s16 *)((u8 *)state + (0x92))) = target_height;
                 }
             }
         }
     } else {
-        adjusted_flags = flags & 0x800;
+        adjusted_flags = part_flags & 0x800;
         if (adjusted_flags) {
-            adjusted_flags = flags & 0x8FFF;
+            adjusted_flags = part_flags & 0x8FFF;
         } else {
-            adjusted_flags = flags | 0x7000;
+            adjusted_flags = part_flags | 0x7000;
         }
         ((S_800C9AAC_0 *)part)->unk_14 = adjusted_flags;
     }
@@ -199,24 +200,20 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
         s32 object_flags;
         object_flags = ((S_800C9AAC_2 *)secondary)->unk_1C;
         if (object_flags & 0x40000000) {
-        adjusted_flags = object_flags & 0xBFFFFFFF;
-        ((S_800C9AAC_2 *)secondary)->unk_1C = adjusted_flags;
-        target = func_800BCB04(
-            (((S_800C9AAC_0 *)part)->unk_24 << 6) | 0x20,
-            (((S_800C9AAC_0 *)part)->unk_25 << 6) | 0x20,
-            (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
-        if (target < 0x200) {
-            (*(u16 *)((u8 *)state + (0x92))) += ((S_800C9AAC_2 *)secondary)->unk_88 - target;
-            ((S_800C9AAC_2 *)secondary)->unk_88 = target;
+            adjusted_flags = object_flags & 0xBFFFFFFF;
+            ((S_800C9AAC_2 *)secondary)->unk_1C = adjusted_flags;
+            target_height = func_800BCB04(
+                (((S_800C9AAC_0 *)part)->unk_24 << 6) | 0x20,
+                (((S_800C9AAC_0 *)part)->unk_25 << 6) | 0x20,
+                (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
+            if (target_height < 0x200) {
+                (*(u16 *)((u8 *)state + (0x92))) += ((S_800C9AAC_2 *)secondary)->unk_88 - target_height;
+                ((S_800C9AAC_2 *)secondary)->unk_88 = target_height;
+            }
         }
-    }
     }
 
     ((S_800C9AAC_1 *)motion)->unk_0A = ((S_800C9AAC_2 *)secondary)->unk_88 +
         (*(u16 *)((u8 *)state + (0x92))) - (*(u16 *)((u8 *)state + (0xA2)));
     ((S_800C9AAC_0 *)part)->unk_14 |= 0x40;
 }
-
-/* MECHANISM: A real D_80083462 halfword read emits the two-word pre-frame preamble;
-   the 0x30 frame holds s1/s5/s3/s2/s4/s0 in retail order, with guarded base pins.
-   Reusing the $v0 flags local preserves the retail mask/store destination pair. */

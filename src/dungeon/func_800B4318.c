@@ -80,91 +80,92 @@ extern void func_800478B8();
 extern void func_8009F644();
 extern void func_800C77D0();
 
-void func_800B9A78(Work *w, Out *out, Render *render_arg)
+/* Updates entity selection, interpolates its position, and animates the rendered output. */
+void func_800B9A78(Work *work, Out *out, Render *render_arg)
 {
     register Render *render;
     u8 *controls_page;
     u8 *controls;
     u8 *counter_base;
-    s32 n;
-    s32 t;
-    s32 r;
+    s32 result;
+    s32 height_step;
+    s32 trig_value;
     u32 input;
 
-    ASM_KEEP_NV(render);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(render);
     controls_page = (u8 *)0x80080000;
-    ASM_KEEP_DEP_NV(controls_page, render);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_DEP_NV(controls_page, render);
     render = render_arg;
     controls = controls_page + 0x3160;
 
     {
-    Node *node;
-    s32 *target;
-    node = w->node;
-    target = *(s32 **)((u8 *)node->entity - 0x18);
-    if (w->timer != 0) {
-        w->cur_x += (target[0] - w->cur_x) / w->timer;
-        w->cur_y += (target[1] - w->cur_y) / w->timer;
-        if (w->mode != 2) {
-            u8 *height_base;
-            register Entity *height_entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 current_y;
-            r = func_800644B8(w->timer << 8);
-            height_base = (u8 *)w->node;
-            current_y = w->y.whole;
-            height_entity = ((Node *)height_base)->entity;
-            height_base = (u8 *)0x800E0000;
-            ASM_KEEP_NV(height_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            height_entity = (Entity *)(u32)height_entity->kind;
-            height_base -= 0x23C0;
-            height_entity = (Entity *)((u8 *)height_entity + (u32)height_base);
-            ASM_KEEP_NV(height_entity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            t = (target[2] - ((s32)*(u8 *)height_entity << 16) - current_y) / w->timer;
-            t -= (r * w->timer) << 6;
-            w->y.whole += t;
-            if (w->node->entity->flags & 0x80000) {
-                w->y.half.angle -= 0x80;
+        Node *node;
+        s32 *target_pos;
+        node = work->node;
+        target_pos = *(s32 **)((u8 *)node->entity - 0x18);
+        if (work->timer != 0) {
+            work->cur_x += (target_pos[0] - work->cur_x) / work->timer;
+            work->cur_y += (target_pos[1] - work->cur_y) / work->timer;
+            if (work->mode != 2) {
+                u8 *height_base;
+                register Entity *height_entity ASM_REG("$4");
+                s32 current_height;
+                trig_value = func_800644B8(work->timer << 8);
+                height_base = (u8 *)work->node;
+                current_height = work->y.whole;
+                height_entity = ((Node *)height_base)->entity;
+                height_base = (u8 *)0x800E0000;
+                ASM_KEEP_NV(height_base);
+                height_entity = (Entity *)(u32)height_entity->kind;
+                height_base -= 0x23C0;
+                height_entity = (Entity *)((u8 *)height_entity + (u32)height_base);
+                ASM_KEEP_NV(height_entity);
+                height_step = (target_pos[2] - ((s32)*(u8 *)height_entity << 16) - current_height) / work->timer;
+                height_step -= (trig_value * work->timer) << 6;
+                work->y.whole += height_step;
+                if (work->node->entity->flags & 0x80000) {
+                    work->y.half.angle -= 0x80;
+                }
+            } else {
+                work->y.whole += (((s32)work->node->entity->height << 16) - work->y.whole) / work->timer;
             }
-        } else {
-            w->y.whole += (((s32)w->node->entity->height << 16) - w->y.whole) / w->timer;
+        }
+
+        if (--work->timer <= 0) {
+            work->cur_x = target_pos[0];
+            work->cur_y = target_pos[1];
+            if (work->mode != 2) {
+                u8 *height_base;
+                register Entity *entity ASM_REG("$4");
+                register u8 *height_addr ASM_REG("$3");
+                s32 target_height;
+                height_base = (u8 *)work->node;
+                entity = ((Node *)height_base)->entity;
+                height_base = (u8 *)0x800E0000;
+                ASM_KEEP_NV(height_base);
+                height_base -= 0x23C0;
+                height_addr = (u8 *)(u32)entity->kind;
+                target_height = entity->height;
+                height_addr += (u32)height_base;
+                ASM_KEEP_NV(height_addr);
+                height_base = (u8 *)(u32)*height_addr;
+                target_height -= (s32)(u32)height_base;
+                if (entity->flags & 0x40000) {
+                    target_height -= 0x40;
+                }
+                work->y.half.angle = target_height;
+                if (work->node->entity->flags & 0x80000) {
+                    work->y.half.angle = target_height - 0x80;
+                }
+            } else {
+                work->y.half.angle = work->node->entity->height;
+            }
+            work->timer = 0;
         }
     }
 
-    if (--w->timer <= 0) {
-        w->cur_x = target[0];
-        w->cur_y = target[1];
-        if (w->mode != 2) {
-            u8 *height_base;
-            register Entity *entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register u8 *height_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            s32 angle;
-            height_base = (u8 *)w->node;
-            entity = ((Node *)height_base)->entity;
-            height_base = (u8 *)0x800E0000;
-            ASM_KEEP_NV(height_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            height_base -= 0x23C0;
-            height_addr = (u8 *)(u32)entity->kind;
-            angle = entity->height;
-            height_addr += (u32)height_base;
-            ASM_KEEP_NV(height_addr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            height_base = (u8 *)(u32)*height_addr;
-            angle -= (s32)(u32)height_base;
-            if (entity->flags & 0x40000) {
-                angle -= 0x40;
-            }
-            w->y.half.angle = angle;
-            if (w->node->entity->flags & 0x80000) {
-                w->y.half.angle = angle - 0x80;
-            }
-        } else {
-            w->y.half.angle = w->node->entity->height;
-        }
-        w->timer = 0;
-    }
-    }
-
-    if (w->state == 0) {
-        if (w->timer == 0) {
+    if (work->state == 0) {
+        if (work->timer == 0) {
             if ((*(u32 *)(controls + 0x10) & 2) != 0) {
                 u8 *objects_page;
                 u8 *status_page;
@@ -172,17 +173,17 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *left;
                 objects_page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(objects_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(objects_page);
                 left = (*(GlobalObj **)(objects_page + 0x3D7C))->left;
                 if (func_800BA33C(left)) {
                     status_page = (u8 *)0x80080000;
-                    ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                    if ((*(GlobalObj **)(status_page + 0x14A8))->left != w->node->entity) {
+                    ASM_KEEP_NV(status_page);
+                    if ((*(GlobalObj **)(status_page + 0x14A8))->left != work->node->entity) {
                         new_timer = 8;
                         object = *(GlobalObj **)(objects_page + 0x3D7C);
-                        w->timer = new_timer;
-                        w->node = (Node *)&object->left;
-                        if (w->mode == 2) {
+                        work->timer = new_timer;
+                        work->node = (Node *)&object->left;
+                        if (work->mode == 2) {
                             ((Render *)render)->flags = 0x00101080;
                         }
                     }
@@ -195,17 +196,17 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *right;
                 objects_page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(objects_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(objects_page);
                 right = (*(GlobalObj **)(objects_page + 0x3D7C))->right;
                 if (func_800BA33C(right)) {
                     status_page = (u8 *)0x80080000;
-                    ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                    if ((*(GlobalObj **)(status_page + 0x14A8))->right != w->node->entity) {
+                    ASM_KEEP_NV(status_page);
+                    if ((*(GlobalObj **)(status_page + 0x14A8))->right != work->node->entity) {
                         new_timer = 8;
                         object = *(GlobalObj **)(objects_page + 0x3D7C);
-                        w->timer = new_timer;
-                        w->node = (Node *)&object->right;
-                        if (w->mode == 2) {
+                        work->timer = new_timer;
+                        work->node = (Node *)&object->right;
+                        if (work->mode == 2) {
                             ((Render *)render)->flags = 0x00801010;
                         }
                     }
@@ -215,70 +216,70 @@ void func_800B9A78(Work *w, Out *out, Render *render_arg)
 
         input = *(u32 *)(controls + 0x10);
         if (input & 0x20) {
-            register u8 *tail_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            if (w->mode != 0) {
+            register u8 *counter_page ASM_REG("$3");
+            if (work->mode != 0) {
                 goto finish;
             }
-            tail_base = (u8 *)0x80080000;
-            ASM_KEEP_NV(tail_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            tail_base += 0x3460;
-            counter_base = tail_base;
+            counter_page = (u8 *)0x80080000;
+            ASM_KEEP_NV(counter_page);
+            counter_page += 0x3460;
+            counter_base = counter_page;
             goto decrement_counter;
         }
         if (input & 0x40) {
-            w->state = 1;
-            if (w->mode == 0) {
-                if (w->node->entity->kind == 0) {
+            work->state = 1;
+            if (work->mode == 0) {
+                if (work->node->entity->kind == 0) {
                     u8 *objects_page;
                     s32 action;
-                    register s32 amount ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                    register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    register s32 amount ASM_REG("$6");
+                    register s32 amount_high ASM_REG("$2");
                     GlobalObj *object;
-                    n = func_80098C80(w->handle);
+                    result = func_80098C80(work->handle);
                     action = 0x48;
-                    ASM_KEEP_DEP_NV(action, n);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    shifted = (s32)((u32)n << 16);
-                    amount = shifted >> 16;
+                    ASM_KEEP_DEP_NV(action, result);
+                    amount_high = (s32)((u32)result << 16);
+                    amount = amount_high >> 16;
                     objects_page = (u8 *)0x800E0000;
-                    ASM_KEEP_DEP_NV(objects_page, amount);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    ASM_KEEP_DEP_NV(objects_page, amount);
                     object = *(GlobalObj **)(objects_page + 0x3D7C);
                     func_8009F644(object, action, amount, 0);
                 } else {
                     u8 *objects_page;
-                    register s32 amount ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    register s32 amount ASM_REG("$7");
                     GlobalObj *object;
-                    n = func_80098C80(w->handle);
-                    amount = (s16)n;
+                    result = func_80098C80(work->handle);
+                    amount = (s16)result;
                     objects_page = (u8 *)0x800E0000;
-                    ASM_KEEP_DEP_NV(objects_page, amount);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    ASM_KEEP_DEP_NV(objects_page, amount);
                     object = *(GlobalObj **)(objects_page + 0x3D7C);
                     func_8009F644(object, 0x50,
-                                   w->node->entity == object->right, amount);
+                                   work->node->entity == object->right, amount);
                 }
             }
         }
     } else {
-        if (w->mode == 0) {
+        if (work->mode == 0) {
             Node *state_node;
             s32 count;
             Entity *entity;
-            s32 *target;
+            s32 *target_pos;
             count = 8;
-            ASM_KEEP_NV(count);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            state_node = w->node;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(count);
+            state_node = work->node;
+            ASM_SCHED_BARRIER();
             counter_base = (u8 *)0x800E0000;
-            ASM_KEEP_NV(counter_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(counter_base);
             entity = state_node->entity;
-            target = *(s32 **)((u8 *)entity - 0x18);
-            func_800C77D0((u8 *)entity - 0x20, target, count,
+            target_pos = *(s32 **)((u8 *)entity - 0x18);
+            func_800C77D0((u8 *)entity - 0x20, target_pos, count,
                            *(s16 *)(counter_base - 0x319A));
-            n = func_80098920(w->node->entity, w->handle, 0x15, 0);
-            if ((s16)n < 0) {
+            result = func_80098920(work->node->entity, work->handle, 0x15, 0);
+            if ((s16)result < 0) {
                 goto done;
             }
             counter_base = (u8 *)0x80080000;
-            ASM_KEEP(counter_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(counter_base);
             counter_base += 0x3460;
 decrement_counter:
             (*(s16 *)(counter_base + 10))--;
@@ -287,40 +288,39 @@ finish:
         {
             u8 *flags_page;
             u16 work_flags;
-            work_flags = ((u16 *)w)[-1];
-            ASM_KEEP(work_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            work_flags = ((u16 *)work)[-1];
+            ASM_KEEP(work_flags);
             flags_page = (u8 *)0x80080000;
-            ASM_KEEP_NV(flags_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((u16 *)w)[-1] = work_flags | 0x8000;
+            ASM_KEEP_NV(flags_page);
+            ((u16 *)work)[-1] = work_flags | 0x8000;
             *(u32 *)(flags_page + 0x14A0) |= 0x8000;
         }
         return;
     }
 
-    w->counter++;
-    if (w->mode == 2) {
+    work->counter++;
+    if (work->mode == 2) {
         render->rot_y += 0x40;
     } else {
-        r = func_800644B8((s16)w->counter << 7);
-        w->x += r << 5;
+        trig_value = func_800644B8((s16)work->counter << 7);
+        work->x += trig_value << 5;
     }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (w->mode == 0) {
-        w->phase &= 0x1F;
-        if ((s16)w->phase < 0x10) {
+    if (work->mode == 0) {
+        work->phase &= 0x1F;
+        if ((s16)work->phase < 0x10) {
             render->rot_x += 0x80;
         }
         render->rot_x = ((render->rot_x + 0x400) & 0x7FF) - 0x400;
-        w->phase++;
+        work->phase++;
     }
     if (render->primitive != 0) {
         func_800478B8(render);
     }
-    r = func_80064584(*(s16 *)(controls + 0xC8));
-    out->x = (r * w->amp >> 11) + *(u16 *)((u8 *)&w->cur_x + 2);
-    r = func_800644B8(*(s16 *)(controls + 0xC8));
-    out->y = (r * w->amp >> 11) + *(u16 *)((u8 *)&w->cur_y + 2);
-    out->z = w->x + w->y.whole + (w->bias << 15);
+    trig_value = func_80064584(*(s16 *)(controls + 0xC8));
+    out->x = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
+    trig_value = func_800644B8(*(s16 *)(controls + 0xC8));
+    out->y = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_y + 2);
+    out->z = work->x + work->y.whole + (work->bias << 15);
 done:
     return;
 }

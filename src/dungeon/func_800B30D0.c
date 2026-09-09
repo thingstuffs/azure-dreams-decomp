@@ -113,21 +113,22 @@ typedef struct S_800B8830_12 {
     void * unk_0C;
 } S_800B8830_12;   /* ((S_800B8830_0 *)arg0)->unk_04 in func_800B8830 */
 
-void func_800B8830(void *arg0, S_800B8830_3 *arg1, S_800B8830_1 *arg2) {
+/* Follows the source position, then moves along an arc to the target and marks completion. */
+void func_800B8830(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
     ShortVec delta;
-    s32 target[3];
-    ShortVec current;
+    s32 target_pos[3];
+    ShortVec current_pos;
     s16 state;
     s16 one;
     void *source;
     register void *page_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    S_800B8830_4 *position;
+    S_800B8830_4 *source_pos;
     s32 curve;
-    u16 flags;
-    u16 count;
+    u16 render_flags;
+    u16 counter;
 
     one = 1;
-    state = ((S_800B8830_0 *)arg0)->unk_20.s;
+    state = ((S_800B8830_0 *)motion)->unk_20.s;
     if (state != one) {
         if (state < 2) {
             if (state == 0) {
@@ -142,118 +143,117 @@ void func_800B8830(void *arg0, S_800B8830_3 *arg1, S_800B8830_1 *arg2) {
         goto done;
 
 state_zero:
-        arg2->unk_0C = arg2->unk_0D = arg2->unk_0E = 0x80;
-        flags = arg2->unk_14;
-        arg2->unk_1C = arg2->unk_1E = 0x1000;
-        arg2->unk_14 = flags | 0xC;
-        func_8004491C((u8 *)arg0 - 0x20, &D_80045340);
-        ((S_800B8830_0 *)arg0)->unk_20.u++;
+        render->unk_0C = render->unk_0D = render->unk_0E = 0x80;
+        render_flags = render->unk_14;
+        render->unk_1C = render->unk_1E = 0x1000;
+        render->unk_14 = render_flags | 0xC;
+        func_8004491C((u8 *)motion - 0x20, &D_80045340);
+        ((S_800B8830_0 *)motion)->unk_20.u++;
     }
 
-    source = ((S_800B8830_10 *)(((S_800B8830_0 *)arg0)->unk_00))->unk_0C;
+    source = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_0C;
     if ((((S_800B8830_2 *)source)->unk_14 & 0x8000) ||
         func_8003DE58(((S_800B8830_2 *)source)->unk_08, source, &delta, 0) != NULL) {
-        u16 z;
+        u16 source_z;
 
-        position = ((S_800B8830_10 *)(((S_800B8830_0 *)arg0)->unk_00))->unk_08;
-        arg1->unk_00.at02.v = position->unk_02;
-        arg1->unk_04.at02.v = position->unk_06;
-        z = position->unk_0A;
-        arg1->unk_08.at02.v = z;
+        source_pos = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_08;
+        coords->unk_00.at02.v = source_pos->unk_02;
+        coords->unk_04.at02.v = source_pos->unk_06;
+        source_z = source_pos->unk_0A;
+        coords->unk_08.at02.v = source_z;
 
         if (!(((S_800B8830_2 *)source)->unk_14 & 0x8000)) {
-            u16 w;
+            u16 offset_z;
 
-            arg1->unk_00.at02.v += (u16)delta.x;
-            arg1->unk_04.at02.v += (u16)delta.y;
-            w = arg1->unk_08.at02.v + (u16)delta.z;
-            arg1->unk_08.at02.v = w;
+            coords->unk_00.at02.v += (u16)delta.x;
+            coords->unk_04.at02.v += (u16)delta.y;
+            offset_z = coords->unk_08.at02.v + (u16)delta.z;
+            coords->unk_08.at02.v = offset_z;
         } else {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            arg1->unk_08.at02.v = z - 0x20;
+            coords->unk_08.at02.v = source_z - 0x20;
         }
     }
 
-    if (!(((S_800B8830_11 *)(((S_800B8830_0 *)arg0)->unk_08))->unk_00 & 0x80)) {
+    if (!(((S_800B8830_11 *)(((S_800B8830_0 *)motion)->unk_08))->unk_00 & 0x80)) {
         goto done;
     }
-    ((S_800B8830_0 *)arg0)->unk_26.s = 9;
-    ((S_800B8830_0 *)arg0)->unk_20.u++;
+    ((S_800B8830_0 *)motion)->unk_26.s = 9;
+    ((S_800B8830_0 *)motion)->unk_20.u++;
     goto done;
 
 state_two:
 {
     register void *target_node ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *entry;
-    s32 index;
+    s32 entry_addr;
     s32 start_x;
     s32 start_y;
     s32 start_z;
 
-    target_node = ((S_800B8830_12 *)(((S_800B8830_0 *)arg0)->unk_04))->unk_08;
-    start_x = arg1->unk_00.at02u.v;
-    start_y = arg1->unk_04.at02u.v;
-    start_z = arg1->unk_08.at02u.v;
-    target[0] = ((S_800B8830_5 *)target_node)->unk_00;
-    target[1] = ((S_800B8830_5 *)target_node)->unk_04;
-    target[2] = (((S_800B8830_0 *)arg0)->unk_32 - 0x50) << 16;
+    target_node = ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_08;
+    start_x = coords->unk_00.at02u.v;
+    start_y = coords->unk_04.at02u.v;
+    start_z = coords->unk_08.at02u.v;
+    target_pos[0] = ((S_800B8830_5 *)target_node)->unk_00;
+    target_pos[1] = ((S_800B8830_5 *)target_node)->unk_04;
+    target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
 
-    index = ((((S_800B8830_6 *)page_base)->unk_3228 +
+    entry_addr = ((((S_800B8830_6 *)page_base)->unk_3228 +
               ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C;
-    index += (s32)D_800E3D18;
-    entry = ((S_800B8830_8 *)((void *)index))->unk_00;
-    if (func_8003DE58(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)arg0)->unk_04))->unk_0C, &delta, 0) != NULL) {
-        target[0] += (s32)delta.x << 16;
-        target[1] += (s32)delta.y << 16;
-        target[2] += (s32)delta.z << 16;
+    entry_addr += (s32)D_800E3D18;
+    entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;
+    if (func_8003DE58(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_0C, &delta, 0) != NULL) {
+        target_pos[0] += (s32)delta.x << 16;
+        target_pos[1] += (s32)delta.y << 16;
+        target_pos[2] += (s32)delta.z << 16;
     }
 
-    arg1->unk_00.at00.v += (target[0] - arg1->unk_00.at00.v) / ((S_800B8830_0 *)arg0)->unk_26.s;
-    arg1->unk_04.at00.v += (target[1] - arg1->unk_04.at00.v) / ((S_800B8830_0 *)arg0)->unk_26.s;
-    curve = func_800644B8(((S_800B8830_0 *)arg0)->unk_26.s * 170);
-    arg1->unk_08.at00.v +=
-        (target[2] - arg1->unk_08.at00.v) / ((S_800B8830_0 *)arg0)->unk_26.s - (curve << 7);
+    coords->unk_00.at00.v += (target_pos[0] - coords->unk_00.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
+    coords->unk_04.at00.v += (target_pos[1] - coords->unk_04.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
+    curve = func_800644B8(((S_800B8830_0 *)motion)->unk_26.s * 170);
+    coords->unk_08.at00.v +=
+        (target_pos[2] - coords->unk_08.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s - (curve << 7);
 
-    current.x = arg1->unk_00.at02.v;
-    current.y = arg1->unk_04.at02.v;
-    current.z = arg1->unk_08.at02.v;
-    func_800B8EA8((u8 *)arg0 - 0x20, start_x, start_y, start_z, &current,
-                  ((S_800B8830_0 *)arg0)->unk_0C, 4, 0x1000, one);
+    current_pos.x = coords->unk_00.at02.v;
+    current_pos.y = coords->unk_04.at02.v;
+    current_pos.z = coords->unk_08.at02.v;
+    func_800B8EA8((u8 *)motion - 0x20, start_x, start_y, start_z, &current_pos,
+                  ((S_800B8830_0 *)motion)->unk_0C, 4, 0x1000, one);
 
-    count = ((S_800B8830_0 *)arg0)->unk_26.u - 1;
-    ((S_800B8830_0 *)arg0)->unk_26.u = count;
-    if ((s16)count > 0) {
+    counter = ((S_800B8830_0 *)motion)->unk_26.u - 1;
+    ((S_800B8830_0 *)motion)->unk_26.u = counter;
+    if ((s16)counter > 0) {
         goto done;
     }
 
-    arg1->unk_00.at00.v = target[0];
-    arg1->unk_04.at00.v = target[1];
-    arg1->unk_08.at00.v = target[2];
-    func_800B8D64(arg1->unk_00.at02u.v, arg1->unk_04.at02u.v, arg1->unk_08.at02u.v);
+    coords->unk_00.at00.v = target_pos[0];
+    coords->unk_04.at00.v = target_pos[1];
+    coords->unk_08.at00.v = target_pos[2];
+    func_800B8D64(coords->unk_00.at02u.v, coords->unk_04.at02u.v, coords->unk_08.at02u.v);
     {
         void *flags_page;
         register s32 final_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u16 object_flags;
 
-        object_flags = ((S_800B8830_0_pre *)arg0)[-1].unk_00;
+        object_flags = ((S_800B8830_0_pre *)motion)[-1].unk_00;
         ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         flags_page = (void *)0x80080000;
         ASM_KEEP_NV(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         object_flags |= 0x8000;
-        ((S_800B8830_0_pre *)arg0)[-1].unk_00 = object_flags;
+        ((S_800B8830_0_pre *)motion)[-1].unk_00 = object_flags;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        count = ((S_800B8830_0 *)arg0)->unk_20.u;
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        counter = ((S_800B8830_0 *)motion)->unk_20.u;
+        ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         final_flags = ((S_800B8830_9 *)flags_page)->unk_14A0;
-        count += 1;
+        counter += 1;
         final_flags |= 0x8000;
         ASM_KEEP(final_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_800B8830_0 *)arg0)->unk_20.u = count;
+        ((S_800B8830_0 *)motion)->unk_20.u = counter;
         ((S_800B8830_9 *)flags_page)->unk_14A0 = final_flags;
     }
     return;
 
 done:
-    ((S_800B8830_0 *)arg0)->unk_28++;
+    ((S_800B8830_0 *)motion)->unk_28++;
 }
 }

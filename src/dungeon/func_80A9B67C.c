@@ -28,7 +28,7 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern s32 func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_801715B4(void);
+extern void func_801715B4(void *, void *, void *, void *);
 extern void func_801717F8(void *, void *, void *, void *);
 extern s32 func_80171FA4(void *, void *, void *, void *);
 extern void func_80172168(void *, void *, void *, void *);
@@ -113,163 +113,157 @@ typedef struct S_80170E7C_9 {
     u16 unk_0A;
 } S_80170E7C_9;   /* ((S_80170E7C_2 *)arg2)->unk_08 in func_80170E7C */
 
-void func_80170E7C(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates actor behavior, directional animation, and its attached visual effect. */
+void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
 {
-    static void *const jt_keep[] = {
+    static void *const case_labels[] = {
         &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
         &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
         &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
     };
-    s32 scratch;
-    s16 offset[3];
-    s8 result;
-    u16 state;
-    u8 *table;
-    register u8 *next_state ASM_REG("$5"); /* MATCH: both paths merge the table address in a1. */
+    s32 distance;
+    s16 effect_offset[3];
+    s8 room_id;
+    u16 action_state;
+    u8 *anim_table;
+    register u8 *next_anim ASM_REG("$5");
 
     if (D_80083462 & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
-        func_801715B4();
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
+        func_801715B4(actor, position, object, actor_data);
         return;
     }
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
-        func_800AA79C(arg0, arg1, arg2, arg3);
-        if (((S_80170E7C_2 *)arg2)->unk_2C == D_80174C8C) {
+    if (((Rec_D_800E3D7C *)actor_data)->unk_24.at01_u8.v == 0) {
+        func_800AA79C(actor, position, object, actor_data);
+        if (((S_80170E7C_2 *)object)->unk_2C == D_80174C8C) {
             return;
         }
-        next_state = D_80174C84;
+        next_anim = D_80174C84;
         goto set_high_table;
     }
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x200) {
-        if (((S_80170E7C_2 *)arg2)->unk_2C == D_80174C8C) {
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xD;
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_u8 = 1;
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
-            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= 0xFFFBFFFF;
+    if (((Rec_D_800E3D7C *)actor_data)->unk_1C.as_u32 & 0x200) {
+        if (((S_80170E7C_2 *)object)->unk_2C == D_80174C8C) {
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+            ((Rec_D_800E3D7C *)actor_data)->unk_1C.as_u32 &= 0xFFFBFFFF;
             return;
         }
-        if (func_800AA924(arg0, arg1, arg2, D_80174C84) != 0) {
+        if (func_800AA924(actor, position, object, D_80174C84) != 0) {
             return;
         }
     }
 
     if (!(D_80083462 & 0x2000)) {
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        if (((Rec_D_800E3D7C *)actor_data)->unk_1C.as_u32 & 0x100) {
+            func_800AA258(actor, position, object, actor_data);
             return;
         }
 
         {
-            u32 current_state = ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8;
-            u32 actor_state;
+            u32 current_state = ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8;
+            u32 idle_state;
 
-               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            actor_state = 0xE;
-#ifndef __mips__
-#endif
-            if (current_state != actor_state) {
-                table = D_80174C3C;
-                if (((S_80170E7C_2 *)arg2)->unk_2C != table) {
-                    (*(void * *)((u8 *)arg2 + (0x2C))) = table;
-                    func_80047784(arg2,
-                        table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            idle_state = 0xE;
+            if (current_state != idle_state) {
+                anim_table = D_80174C3C;
+                if (((S_80170E7C_2 *)object)->unk_2C != anim_table) {
+                    (*(void * *)((u8 *)object + (0x2C))) = anim_table;
+                    func_80047784(object,
+                        anim_table[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0);
                 }
-                ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = actor_state;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = idle_state;
             }
         }
 
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 &= 0xFFF3;
-        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, D_80174C44) != 0) {
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
+        if (((Rec_D_800E3D7C *)actor_data)->unk_64.as_s16 != 0) {
+            if (func_800AA6B4(actor, position, object, D_80174C44) != 0) {
                 return;
             }
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
-            u8 *high_table;
+        if (((Rec_D_800E3D7C *)actor_data)->unk_1C.as_u32 & 0x80000) {
+            u8 *selected_anim;
 
-            func_800AA888(arg0, arg1, arg2, arg3);
-            func_80173F20(arg0, arg1, arg2, arg3);
-            next_state = D_80174C34;
-#ifndef __mips__
-#endif
+            func_800AA888(actor, position, object, actor_data);
+            func_80173F20(actor, position, object, actor_data);
+            next_anim = D_80174C34;
 set_high_table:
-            high_table = next_state;
-            (*(void * *)((u8 *)arg2 + (0x2C))) = high_table;
-            func_80047784(arg2,
-                *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)high_table),
+            selected_anim = next_anim;
+            (*(void * *)((u8 *)object + (0x2C))) = selected_anim;
+            func_80047784(object,
+                *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)selected_anim),
                 0);
             return;
         }
 
-        if ((func_800A1C58(arg3) << 16) != 0) {
-            if ((func_800AAB10(arg0, arg1, arg2, arg3) << 16) != 0) {
-                func_80174470(arg0, arg1, arg2, arg3);
+        if ((func_800A1C58(actor_data) << 16) != 0) {
+            if ((func_800AAB10(actor, position, object, actor_data) << 16) != 0) {
+                func_80174470(actor, position, object, actor_data);
             }
         }
     }
 
-    result = func_8009FB34(((S_80170E7C_2 *)arg2)->unk_24.at00.v, ((S_80170E7C_2 *)arg2)->unk_24.at01.v);
-    ((S_80170E7C_2 *)arg2)->unk_26 = result;
+    room_id = func_8009FB34(((S_80170E7C_2 *)object)->unk_24.at00.v, ((S_80170E7C_2 *)object)->unk_24.at01.v);
+    ((S_80170E7C_2 *)object)->unk_26 = room_id;
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) {
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x20) {
+    if (((Rec_D_800E3D7C *)actor_data)->unk_6D.as_s8 > 0) {
+        if (((Rec_D_800E3D7C *)actor_data)->unk_1C.as_u32 & 0x20) {
             goto case_12;
         }
-        if (((S_80170E7C_2 *)arg2)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80170E7C_2 *)object)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto generic;
         }
-        if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000)) {
+        if (!(((Rec_D_800E3D7C *)actor_data)->unk_44.at02_u16.v & 0x8000)) {
             if (D_80083462 & 0x2000) {
-                if ((func_8009A180(arg3,
+                if ((func_8009A180(actor_data,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;
                 }
             }
-            if ((func_80172280(arg0, arg1, arg2, 0) << 16) == 0) {
+            if ((func_80172280(actor, position, object, 0) << 16) == 0) {
                 return;
             }
-            state = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v | 0x4000;
-            ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = state;
-            if (!(state & 0x8000)) {
+            action_state = ((Rec_D_800E3D7C *)actor_data)->unk_44.at02_u16.v | 0x4000;
+            ((Rec_D_800E3D7C *)actor_data)->unk_44.at02_u16.v = action_state;
+            if (!(action_state & 0x8000)) {
                 goto generic;
             }
         }
 
-        state = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x3FFF;
-        if ((u32)(state - 1) >= 12) {
+        action_state = ((Rec_D_800E3D7C *)actor_data)->unk_44.at02_u16.v & 0x3FFF;
+        if ((u32)(action_state - 1) >= 12) {
             goto generic;
         }
-        (void)jt_keep;
-        goto *D_80170808[(u32)(state - 1)];
+        (void)case_labels;
+        goto *D_80170808[(u32)(action_state - 1)];
 
 jt_c8:
 jt_c9:
-        if ((func_80171FA4(arg0, arg1, arg2, arg3) << 16) != 0) {
+        if ((func_80171FA4(actor, position, object, actor_data) << 16) != 0) {
             return;
         }
-        func_80172168(arg0, arg1, arg2, arg3);
+        func_80172168(actor, position, object, actor_data);
         return;
 
 jt_c5:
 jt_c6:
 jt_c7:
         {
-            u8 *origin = D_80082E80;
+            u8 *player_pos = D_80082E80;
             void *player;
-            s16 coordinate;
+            s16 facing;
 
-            coordinate = func_800A0818(
-                ((S_80170E7C_2 *)arg2)->unk_24.at00.v, ((S_80170E7C_2 *)arg2)->unk_24.at01.v,
-                ((S_80170E7C_4 *)origin)->unk_24, ((S_80170E7C_4 *)origin)->unk_25,
-                &scratch);
+            facing = func_800A0818(
+                ((S_80170E7C_2 *)object)->unk_24.at00.v, ((S_80170E7C_2 *)object)->unk_24.at01.v,
+                ((S_80170E7C_4 *)player_pos)->unk_24, ((S_80170E7C_4 *)player_pos)->unk_25,
+                &distance);
             player = D_800814A8;
-#ifndef __mips__
-#endif
-            ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = coordinate;
+            ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 = facing;
             if (((S_80170E7C_5 *)player)->unk_9A == 0x11) {
                 goto case_123;
             }
@@ -277,38 +271,38 @@ jt_c7:
 
 jt_c12:
 case_12:
-        func_800A9A0C(arg3);
+        func_800A9A0C(actor_data);
         return;
 
 jt_c1:
 jt_c2:
 jt_c3:
 case_123:
-        func_800AAF00(arg0, arg1, arg2, D_80174C34, &D_80170E7C);
+        func_800AAF00(actor, position, object, D_80174C34, &D_80170E7C);
         return;
 
 jt_c4:
 jt_c10:
 jt_c11:
 generic:
-        func_801717F8(arg0, arg1, arg2, arg3);
+        func_801717F8(actor, position, object, actor_data);
         return;
     }
 
-    if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x2000)) {
-        s32 index = result;
+    if (!(((Rec_D_800E3D7C *)actor_data)->unk_1C.as_u32 & 0x2000)) {
+        s32 room_index = room_id;
 
-        if ((index < 0) || !(D_800E2970[index].flags & 2)) {
-            if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x430)) {
-                u8 *origin = D_80082E80;
+        if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
+            if (!(((Rec_D_800E3D7C *)actor_data)->unk_1C.as_u32 & 0x430)) {
+                u8 *player_pos = D_80082E80;
 
                 if ((func_8009FD7C(
-                        ((S_80170E7C_2 *)arg2)->unk_24.at00.v, ((S_80170E7C_2 *)arg2)->unk_24.at01.v,
-                        ((S_80170E7C_4 *)origin)->unk_24, ((S_80170E7C_4 *)origin)->unk_25) << 16) != 0) {
-                    ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
-                        ((S_80170E7C_2 *)arg2)->unk_24.at00.v, ((S_80170E7C_2 *)arg2)->unk_24.at01.v,
-                        ((S_80170E7C_4 *)origin)->unk_24, ((S_80170E7C_4 *)origin)->unk_25,
-                        &scratch);
+                        ((S_80170E7C_2 *)object)->unk_24.at00.v, ((S_80170E7C_2 *)object)->unk_24.at01.v,
+                        ((S_80170E7C_4 *)player_pos)->unk_24, ((S_80170E7C_4 *)player_pos)->unk_25) << 16) != 0) {
+                    ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 = func_800A0818(
+                        ((S_80170E7C_2 *)object)->unk_24.at00.v, ((S_80170E7C_2 *)object)->unk_24.at01.v,
+                        ((S_80170E7C_4 *)player_pos)->unk_24, ((S_80170E7C_4 *)player_pos)->unk_25,
+                        &distance);
                 }
             }
         }
@@ -317,82 +311,79 @@ generic:
     if (D_80083462 & 0x2000) {
         return;
     }
-    if (((S_80170E7C_2 *)arg2)->unk_14 & 0x40) {
+    if (((S_80170E7C_2 *)object)->unk_14 & 0x40) {
         return;
     }
 
-    table = D_80174C3C;
-    if ((((S_80170E7C_2 *)arg2)->unk_2C != table) &&
-        (((S_80170E7C_2 *)arg2)->unk_2C != D_80174C34)) {
-        (*(void * *)((u8 *)arg2 + (0x2C))) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+    anim_table = D_80174C3C;
+    if ((((S_80170E7C_2 *)object)->unk_2C != anim_table) &&
+        (((S_80170E7C_2 *)object)->unk_2C != D_80174C34)) {
+        (*(void * *)((u8 *)object + (0x2C))) = anim_table;
+        func_80047784(object,
+            anim_table[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = 1;
-    } else if (((S_80170E7C_2 *)arg2)->unk_14 & 0x6000) {
-        void *next_state;
-        s16 timer = ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA - 1;
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_AA = 1;
+    } else if (((S_80170E7C_2 *)object)->unk_14 & 0x6000) {
+        void *next_anim;
+        s16 anim_timer = ((Rec_func_800A9E70_arg0 *)actor)->unk_AA - 1;
 
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = timer;
-        if (timer < 0) {
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = (rand() & 0x1F) + 0x20;
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_AA = anim_timer;
+        if (anim_timer < 0) {
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_AA = (rand() & 0x1F) + 0x20;
         }
-        if (((Rec_func_800A9E70_arg0 *)arg0)->unk_AA < 2) {
-            next_state = D_80174C3C;
+        if (((Rec_func_800A9E70_arg0 *)actor)->unk_AA < 2) {
+            next_anim = D_80174C3C;
         } else {
-            next_state = D_80174C34;
+            next_anim = D_80174C34;
         }
-        ((S_80170E7C_2 *)arg2)->unk_2C = next_state;
-        func_80047784(arg2,
-            ((u8 *)*(u8 * volatile *)((u8 *)arg2 + 0x2C))[
-                ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        ((S_80170E7C_2 *)object)->unk_2C = next_anim;
+        func_80047784(object,
+            ((u8 *)*(u8 * volatile *)((u8 *)object + 0x2C))[
+                ((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
     }
 
-    if (!func_8003DE58(((S_80170E7C_2 *)arg2)->unk_08, arg2, offset, 1)) {
+    if (!func_8003DE58(((S_80170E7C_2 *)object)->unk_08, object, effect_offset, 1)) {
         return;
     }
-    if (((S_80170E7C_2 *)arg2)->unk_2C != D_80174C3C) {
+    if (((S_80170E7C_2 *)object)->unk_2C != D_80174C3C) {
         return;
     }
 
     {
-        void *created;
-        void *sub;
-        void *color;
-        u8 *base;
+        void *effect;
+        void *sprite;
+        void *tint;
+        u8 *sprite_data;
 
-        created = func_8003FD64(0x112, D_80083498);
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_A0.at00_pv.v = created;
-        arg2 = created;
-        if (arg2 == 0) {
+        effect = func_8003FD64(0x112, D_80083498);
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_pv.v = effect;
+        object = effect;
+        if (object == 0) {
             return;
         }
-        func_8004491C(arg2, &D_80045340);
-        color = (void *)0x00808080;
-        ((S_80170E7C_2 *)arg2)->unk_10 = D_800D79B0;
-        ((S_80170E7C_9 *)(((S_80170E7C_2 *)arg2)->unk_08))->unk_02 =
-            ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v + offset[0];
-        ((S_80170E7C_9 *)(((S_80170E7C_2 *)arg2)->unk_08))->unk_06 =
-            ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v + offset[1];
-        ((S_80170E7C_9 *)(((S_80170E7C_2 *)arg2)->unk_08))->unk_0A =
-            ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v + offset[2];
-        sub = ((S_80170E7C_2 *)arg2)->unk_0C;
-        base = D_800DEA68;
-        ((S_80170E7C_2 *)arg2)->unk_BB = 0;
-        ((S_80170E7C_7 *)sub)->unk_1E = 0xC00;
-        ((S_80170E7C_7 *)sub)->unk_1C = 0xC00;
-        ((S_80170E7C_7 *)sub)->unk_0C = color;
-        ((S_80170E7C_7 *)sub)->unk_00 = base;
-        ((S_80170E7C_7 *)sub)->unk_14 |= 0xC;
+        func_8004491C(object, &D_80045340);
+        tint = (void *)0x00808080;
+        ((S_80170E7C_2 *)object)->unk_10 = D_800D79B0;
+        ((S_80170E7C_9 *)(((S_80170E7C_2 *)object)->unk_08))->unk_02 =
+            ((Rec_D_800E3D7C *)position)->unk_00.at02_u16.v + effect_offset[0];
+        ((S_80170E7C_9 *)(((S_80170E7C_2 *)object)->unk_08))->unk_06 =
+            ((Rec_D_800E3D7C *)position)->unk_04.at02_u16.v + effect_offset[1];
+        ((S_80170E7C_9 *)(((S_80170E7C_2 *)object)->unk_08))->unk_0A =
+            ((Rec_D_800E3D7C *)position)->unk_08.at02_u16.v + effect_offset[2];
+        sprite = ((S_80170E7C_2 *)object)->unk_0C;
+        sprite_data = D_800DEA68;
+        ((S_80170E7C_2 *)object)->unk_BB = 0;
+        ((S_80170E7C_7 *)sprite)->unk_1E = 0xC00;
+        ((S_80170E7C_7 *)sprite)->unk_1C = 0xC00;
+        ((S_80170E7C_7 *)sprite)->unk_0C = tint;
+        ((S_80170E7C_7 *)sprite)->unk_00 = sprite_data;
+        ((S_80170E7C_7 *)sprite)->unk_14 |= 0xC;
         {
-            /* one-read temp BEFORE the byte clears: source order = retail
-               emission order (ori,sh,lw,sb,sb,sw) and the two sb sit in the
-               lw load-delay shadow with no scheduler motion needed */
-            s32 anim = ((S_80170E7C_8 *)base)->unk_04;
-            ((S_80170E7C_7 *)sub)->unk_04 = 0;
-            ((S_80170E7C_7 *)sub)->unk_05 = 0;
-            ((S_80170E7C_7 *)sub)->unk_08 = anim;
+            s32 anim_data = ((S_80170E7C_8 *)sprite_data)->unk_04;
+            ((S_80170E7C_7 *)sprite)->unk_04 = 0;
+            ((S_80170E7C_7 *)sprite)->unk_05 = 0;
+            ((S_80170E7C_7 *)sprite)->unk_08 = anim_data;
         }
     }
 }

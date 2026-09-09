@@ -152,212 +152,205 @@ typedef struct {
     s16 sp2A;
 } StackArgs;
 
-void func_800C2824(void *arg0, void *arg1, void *arg2) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c16, &&jt_c17 };
-    StackArgs sp;
-    M2C_UNK var_a2;
-    M2C_UNK var_a2_2;
-    s16 temp_v0_4;
-    s16 temp_v0_8;
-    s32 temp_v1;
-    register s16 var_v0 ASM_REG("$2"); /* MATCH: all state-update arms join with the value in v0. */
-    register u8 *c3_page ASM_REG("$4"); /* MATCH: retain the shared flag page in retail a0. */
-    void *temp_v0_5;
-    s32 var_v1;
-    s32 temp_v1_9;
-    s32 temp_v0_9;
-    register s32 bba_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1_4;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u8 temp_v1_3;
-    void *temp_a1;
-    void *temp_a1_2;
-    void *temp_a1_3;
-    void *temp_s0;
-    register void *temp_v0_7 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    void *temp_v1_2;
-    void *temp_v1_5;
-    void *temp_v1_6;
-    void *temp_v1_7;
-    void *temp_v1_8;
-    register u8 *temp_a1_4 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    void *c2_object;
-    u32 c2_coord;
-    s32 c2_status;
-    s32 c2_x;
-    void *c17_object;
-    u32 c17_coord;
-    s32 c17_status;
-    s32 c17_x;
-    void *c17_final_ptr;
-    register s32 c17_flags ASM_REG("$3"); /* MATCH: both flag paths feed the shared tail in v1. */
-    u16 c17_field;
-    void *temp_t0;
-    u8 *page_base;
+/* Advance the object effect through fading, tile cleanup, and completion. */
+void func_800C2824(void *effect, void *vertices, void *sprite) {
+    static void *const state_labels[] = { &&state_init, &&state_fade, &&state_release, &&state_finish, &&state_start_wait, &&state_wait };
+    StackArgs effect_args;
+    M2C_UNK object_slot;
+    M2C_UNK release_flags;
+    M2C_UNK tile_flags;
+    s16 fade_ticks;
+    s16 wait_ticks;
+    s32 state;
+    register s16 next_state ASM_REG("$2"); /* MATCH: all state-update arms join with the value in v0. */
+    register u8 *flags_page ASM_REG("$4"); /* MATCH: retain the shared flag page in retail a0. */
+    void *linked_object;
+    s32 effect_param;
+    register s32 effect_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 faded_shade;
+    u16 vertex_x;
+    u16 vertex_y;
+    u16 vertex_z;
+    u8 shade;
+    void *object_coords;
+    void *object_base;
+    register void *source_object ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    void *object_vertices;
+    void *finished_object;
+    register u8 *player_coords ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *release_object;
+    u32 release_coord;
+    s32 release_status;
+    s32 release_x;
+    void *expired_object;
+    u32 expired_coord;
+    s32 expired_status;
+    s32 expired_x;
+    void *final_object;
+    register s32 global_flags ASM_REG("$3"); /* MATCH: both flag paths feed the shared tail in v1. */
+    u16 final_flags;
+    void *effect_object;
+    u8 *slots_page;
 
-    temp_v1 = ((S_800C2824_0 *)arg0)->unk_04;
-    if ((u32) temp_v1 >= 0x12U) {
-        goto block_27;
+    state = ((S_800C2824_0 *)effect)->unk_04;
+    if ((u32) state >= 0x12U) {
+        goto done;
     }
-    (void)jt_keep; goto *D_8008938C[(u32)(temp_v1)];
-jt_c0:
-    if (((S_800C2824_16 *)(((S_800C2824_0 *)arg0)->unk_00))->unk_14 & 0x4000) {
-        goto block_4;
+    (void)state_labels; goto *D_8008938C[(u32)(state)];
+state_init:
+    if (((S_800C2824_16 *)(((S_800C2824_0 *)effect)->unk_00))->unk_14 & 0x4000) {
+        goto init_fade;
     }
-    ((S_800C2824_0 *)arg0)->unk_04 = 0x10;
+    ((S_800C2824_0 *)effect)->unk_04 = 0x10;
     return;
-block_4:
-    sp.sp20 = 0x01800340;
-    sp.sp24 = 0x400040;
-    sp.sp28 = 0x360;
-    sp.sp2A = 0x1B8;
-    func_800B8FC8(((S_800C2824_0 *)arg0)->unk_00, &sp.sp20, &sp.sp28, 1, 2);
-    temp_s0 = ((S_800C2824_0 *)arg0)->unk_00 - 0x20;
-    func_80044A50(temp_s0);
-    func_800BC318(temp_s0);
-    temp_v1_2 = ((S_800C2824_1 *)temp_s0)->unk_08;
-    temp_v0 = ((S_800C2824_2 *)temp_v1_2)->unk_02;
-    ((S_800C2824_3 *)arg1)->unk_02 = temp_v0;
-    ((S_800C2824_3 *)arg1)->unk_0E = temp_v0;
-    temp_v0_2 = ((S_800C2824_2 *)temp_v1_2)->unk_06;
-    ((S_800C2824_3 *)arg1)->unk_06 = temp_v0_2;
-    ((S_800C2824_3 *)arg1)->unk_12 = temp_v0_2;
-    temp_v0_3 = ((S_800C2824_2 *)temp_v1_2)->unk_0A;
-    ((S_800C2824_3 *)arg1)->unk_0A = temp_v0_3;
-    ((S_800C2824_3 *)arg1)->unk_16 = temp_v0_3;
-    func_8004491C(arg0 - 0x20, &D_800CEF54);
-    ((S_800C2824_4 *)arg2)->unk_10 = 0x20;
-    ((S_800C2824_4 *)arg2)->unk_08 = &D_800DF4A4;
-    ((S_800C2824_4 *)arg2)->unk_0C.at00.v = 0x808080;
-    ((S_800C2824_4 *)arg2)->unk_1E = 0x1000;
-    ((S_800C2824_4 *)arg2)->unk_1C = 0x1000;
-    ((S_800C2824_4 *)arg2)->unk_14 = (u16) (((S_800C2824_4 *)arg2)->unk_14 | 0xC);
-    ((S_800C2824_0 *)arg0)->unk_06 = 0x10;
+init_fade:
+    effect_args.sp20 = 0x01800340;
+    effect_args.sp24 = 0x400040;
+    effect_args.sp28 = 0x360;
+    effect_args.sp2A = 0x1B8;
+    func_800B8FC8(((S_800C2824_0 *)effect)->unk_00, &effect_args.sp20, &effect_args.sp28, 1, 2);
+    object_base = ((S_800C2824_0 *)effect)->unk_00 - 0x20;
+    func_80044A50(object_base);
+    func_800BC318(object_base);
+    object_vertices = ((S_800C2824_1 *)object_base)->unk_08;
+    vertex_x = ((S_800C2824_2 *)object_vertices)->unk_02;
+    ((S_800C2824_3 *)vertices)->unk_02 = vertex_x;
+    ((S_800C2824_3 *)vertices)->unk_0E = vertex_x;
+    vertex_y = ((S_800C2824_2 *)object_vertices)->unk_06;
+    ((S_800C2824_3 *)vertices)->unk_06 = vertex_y;
+    ((S_800C2824_3 *)vertices)->unk_12 = vertex_y;
+    vertex_z = ((S_800C2824_2 *)object_vertices)->unk_0A;
+    ((S_800C2824_3 *)vertices)->unk_0A = vertex_z;
+    ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
+    func_8004491C(effect - 0x20, &D_800CEF54);
+    ((S_800C2824_4 *)sprite)->unk_10 = 0x20;
+    ((S_800C2824_4 *)sprite)->unk_08 = &D_800DF4A4;
+    ((S_800C2824_4 *)sprite)->unk_0C.at00.v = 0x808080;
+    ((S_800C2824_4 *)sprite)->unk_1E = 0x1000;
+    ((S_800C2824_4 *)sprite)->unk_1C = 0x1000;
+    ((S_800C2824_4 *)sprite)->unk_14 = (u16) (((S_800C2824_4 *)sprite)->unk_14 | 0xC);
+    ((S_800C2824_0 *)effect)->unk_06 = 0x10;
     func_800A56E0(1);
-    ((S_800C2824_0 *)arg0)->unk_04 = (s16) ((u16) ((S_800C2824_0 *)arg0)->unk_04 + 1);
-jt_c1:
-    temp_v1_3 = (u8) ((S_800C2824_4 *)arg2)->unk_0C.at00.v;
-    temp_v1_4 = temp_v1_3 - ((s32) temp_v1_3 / (s16) ((S_800C2824_0 *)arg0)->unk_06);
-    ((S_800C2824_4 *)arg2)->unk_0C.at00u.v = temp_v1_4;
-    ((S_800C2824_4 *)arg2)->unk_0C.at02.v = temp_v1_4;
-    ((S_800C2824_4 *)arg2)->unk_0C.at01.v = temp_v1_4;
-    temp_v0_4 = (u16) ((S_800C2824_0 *)arg0)->unk_06 - 1;
-    ((S_800C2824_0 *)arg0)->unk_06 = temp_v0_4;
-    if ((temp_v0_4 << 0x10) > 0) {
-        goto block_27;
+    ((S_800C2824_0 *)effect)->unk_04 = (s16) ((u16) ((S_800C2824_0 *)effect)->unk_04 + 1);
+state_fade:
+    shade = (u8) ((S_800C2824_4 *)sprite)->unk_0C.at00.v;
+    faded_shade = shade - ((s32) shade / (s16) ((S_800C2824_0 *)effect)->unk_06);
+    ((S_800C2824_4 *)sprite)->unk_0C.at00u.v = faded_shade;
+    ((S_800C2824_4 *)sprite)->unk_0C.at02.v = faded_shade;
+    ((S_800C2824_4 *)sprite)->unk_0C.at01.v = faded_shade;
+    fade_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
+    ((S_800C2824_0 *)effect)->unk_06 = fade_ticks;
+    if ((fade_ticks << 0x10) > 0) {
+        goto done;
     }
-    var_v0 = (u16) ((S_800C2824_0 *)arg0)->unk_04 + 1;
-    goto block_20;
-jt_c2:
-    temp_v0_5 = func_800A32A4(((S_800C2824_0 *)arg0)->unk_00);
-    if (temp_v0_5 == 0) {
-        goto block_10;
+    next_state = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+    goto store_state;
+state_release:
+    linked_object = func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
+    if (linked_object == 0) {
+        goto release_tile;
     }
-    var_a2 = func_800A6620(temp_v0_5, 0);
-    if (var_a2 >= 0x40) {
-        goto block_10;
+    object_slot = func_800A6620(linked_object, 0);
+    if (object_slot >= 0x40) {
+        goto release_tile;
     }
-    page_base = (u8 *)0x80010000;
-    ((S_800C2824_5 *)(page_base + (var_a2 * 0x54)))->unk_A93 = 0;
-    ((s32 *)0x80010980)[var_a2] = 0;
-block_10:
-    if ((func_80042900(((S_800C2824_0 *)arg0)->unk_00, 0x1B) << 0x10) != 0) {
-        goto block_14;
+    slots_page = (u8 *)0x80010000;
+    ((S_800C2824_5 *)(slots_page + (object_slot * 0x54)))->unk_A93 = 0;
+    ((s32 *)0x80010980)[object_slot] = 0;
+release_tile:
+    if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
+        goto finish_release;
     }
-    c2_object = ((S_800C2824_0 *)arg0)->unk_00;
-    c2_status = ((S_800C2824_6 *)c2_object)->unk_1C;
-    c2_coord = (u32)((S_800C2824_6_pre *)c2_object)[-1].unk_00;
-    c2_status &= 0x2000;
-    c2_x = ((S_800C2824_7 *)((void *)c2_coord))->unk_24;
-    c2_coord = ((S_800C2824_7 *)((void *)c2_coord))->unk_25;
-    var_a2 = 0x3000;
-    if (!c2_status) {
-        goto block_13;
+    release_object = ((S_800C2824_0 *)effect)->unk_00;
+    release_status = ((S_800C2824_6 *)release_object)->unk_1C;
+    release_coord = (u32)((S_800C2824_6_pre *)release_object)[-1].unk_00;
+    release_status &= 0x2000;
+    release_x = ((S_800C2824_7 *)((void *)release_coord))->unk_24;
+    release_coord = ((S_800C2824_7 *)((void *)release_coord))->unk_25;
+    release_flags = 0x3000;
+    if (!release_status) {
+        goto clear_release_tile;
     }
-    var_a2 = 0x300;
-block_13:
-    func_8009A3D0(c2_x, c2_coord, var_a2);
-block_14:
-    func_8009A028(((S_800C2824_0 *)arg0)->unk_00);
-    func_80099844(((S_800C2824_0 *)arg0)->unk_00, &D_800E1640);
-    var_v0 = (u16) ((S_800C2824_0 *)arg0)->unk_04 + 1;
-    goto block_20;
-jt_c3: {
-    register u8 *c3_82_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register void *c3_object ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 c3_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    release_flags = 0x300;
+clear_release_tile:
+    func_8009A3D0(release_x, release_coord, release_flags);
+finish_release:
+    func_8009A028(((S_800C2824_0 *)effect)->unk_00);
+    func_80099844(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
+    next_state = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+    goto store_state;
+state_finish: {
+    register u8 *coords_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register void *active_object ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    c3_82_page = (u8 *)0x80080000;
-    ASM_KEEP(c3_82_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    temp_a1_4 = c3_82_page + 0x2E80;
-    temp_t0 = D_800E3D7C;
-    D_800DF55C = temp_t0;
-    bba_flags = 0x208020;
-    if (func_800BBA40(temp_a1_4[0x24], temp_a1_4[0x25], ((S_800C2824_8 *)temp_t0)->unk_88, &D_800DF45C, 0x2800, bba_flags, &D_800C0180) == 0) {
-        goto block_27;
+    coords_page = (u8 *)0x80080000;
+    ASM_KEEP(coords_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    player_coords = coords_page + 0x2E80;
+    effect_object = D_800E3D7C;
+    D_800DF55C = effect_object;
+    effect_flags = 0x208020;
+    if (func_800BBA40(player_coords[0x24], player_coords[0x25], ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, effect_flags, &D_800C0180) == 0) {
+        goto done;
     }
-    c3_page = (u8 *)0x80080000;
-    c3_object = ((S_800C2824_0 *)arg0)->unk_00;
-    ((S_800C2824_9_pre *)c3_object)[-1].unk_00 = (u16) (((S_800C2824_9_pre *)c3_object)[-1].unk_00 | 0x8000);
-    c17_flags = ((S_800C2824_10 *)c3_page)->unk_14A0 | 0x8000;
-    ((S_800C2824_10 *)c3_page)->unk_14A0 = c17_flags;
-    goto block_26;
+    flags_page = (u8 *)0x80080000;
+    active_object = ((S_800C2824_0 *)effect)->unk_00;
+    ((S_800C2824_9_pre *)active_object)[-1].unk_00 = (u16) (((S_800C2824_9_pre *)active_object)[-1].unk_00 | 0x8000);
+    global_flags = ((S_800C2824_10 *)flags_page)->unk_14A0 | 0x8000;
+    ((S_800C2824_10 *)flags_page)->unk_14A0 = global_flags;
+    goto mark_done;
 }
-jt_c16:
-    temp_v0_7 = ((S_800C2824_0 *)arg0)->unk_00;
-    temp_t0 = temp_v0_7;
-    temp_a1_2 = (*(void **)((u8 *)temp_t0 + -0x14));
-    temp_v0_9 = ((S_800C2824_8 *)temp_t0)->unk_88;
-    D_800DF55C = temp_t0;
-    bba_flags = 0x208020;
-    if (func_800BBA40(((S_800C2824_11 *)temp_a1_2)->unk_24, ((S_800C2824_11 *)temp_a1_2)->unk_25, temp_v0_9, &D_800DF45C, 0x2800, bba_flags, &D_800C27F0) == 0) {
-        goto block_27;
+state_start_wait:
+    source_object = ((S_800C2824_0 *)effect)->unk_00;
+    effect_object = source_object;
+    object_coords = (*(void **)((u8 *)effect_object + -0x14));
+    effect_param = ((S_800C2824_8 *)effect_object)->unk_88;
+    D_800DF55C = effect_object;
+    effect_flags = 0x208020;
+    if (func_800BBA40(((S_800C2824_11 *)object_coords)->unk_24, ((S_800C2824_11 *)object_coords)->unk_25, effect_param, &D_800DF45C, 0x2800, effect_flags, &D_800C27F0) == 0) {
+        goto done;
     }
-    ((S_800C2824_0 *)arg0)->unk_06 = 0x3C;
-    var_v0 = (u16) ((S_800C2824_0 *)arg0)->unk_04 + 1;
-block_20:
-    ASM_SCHED_BARRIER(); /* MATCH: keep the shared state store at its local landing. */
-    ((S_800C2824_0 *)arg0)->unk_04 = var_v0;
+    ((S_800C2824_0 *)effect)->unk_06 = 0x3C;
+    next_state = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+store_state:
+    ((S_800C2824_0 *)effect)->unk_04 = next_state;
     return;
-jt_c17:
-    temp_v0_8 = (u16) ((S_800C2824_0 *)arg0)->unk_06 - 1;
-    ((S_800C2824_0 *)arg0)->unk_06 = temp_v0_8;
-    if ((temp_v0_8 << 0x10) > 0) {
-        goto block_27;
+state_wait:
+    wait_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
+    ((S_800C2824_0 *)effect)->unk_06 = wait_ticks;
+    if ((wait_ticks << 0x10) > 0) {
+        goto done;
     }
-    func_800A32A4(((S_800C2824_0 *)arg0)->unk_00);
-    if ((func_80042900(((S_800C2824_0 *)arg0)->unk_00, 0x1B) << 0x10) != 0) {
-        goto block_25;
+    func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
+    if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
+        goto finish_expired;
     }
-    c17_object = ((S_800C2824_0 *)arg0)->unk_00;
-    c17_status = ((S_800C2824_12 *)c17_object)->unk_1C;
-    c17_coord = (u32)((S_800C2824_12_pre *)c17_object)[-1].unk_00;
-    c17_status &= 0x2000;
-    c17_x = ((S_800C2824_13 *)((void *)c17_coord))->unk_24;
-    c17_coord = ((S_800C2824_13 *)((void *)c17_coord))->unk_25;
-    var_a2_2 = 0x3000;
-    if (!c17_status) {
-        goto block_24;
+    expired_object = ((S_800C2824_0 *)effect)->unk_00;
+    expired_status = ((S_800C2824_12 *)expired_object)->unk_1C;
+    expired_coord = (u32)((S_800C2824_12_pre *)expired_object)[-1].unk_00;
+    expired_status &= 0x2000;
+    expired_x = ((S_800C2824_13 *)((void *)expired_coord))->unk_24;
+    expired_coord = ((S_800C2824_13 *)((void *)expired_coord))->unk_25;
+    tile_flags = 0x3000;
+    if (!expired_status) {
+        goto clear_expired_tile;
     }
-    var_a2_2 = 0x300;
-block_24:
-    func_8009A3D0(c17_x, c17_coord, var_a2_2);
-block_25:
-    func_8009A028(((S_800C2824_0 *)arg0)->unk_00);
-    temp_v1_8 = ((S_800C2824_0 *)arg0)->unk_00;
-    (*(u16 *)((u8 *)temp_v1_8 + -2)) = (u16) (((S_800C2824_14_pre *)temp_v1_8)[-1].unk_00 | 0x8000);
-    c17_final_ptr = D_800DF560;
-    c3_page = (u8 *)0x80080000;
-    c17_flags = ((S_800C2824_10 *)c3_page)->unk_14A0;
-    c17_field = ((S_800C2824_15 *)c17_final_ptr)->unk_1E;
-    c17_flags |= 0x8000;
-    ((S_800C2824_10 *)c3_page)->unk_14A0 = c17_flags;
-    ((S_800C2824_15 *)c17_final_ptr)->unk_1E = (u16)(c17_field | 0x8000);
-block_26:
-    (*(u16 *)((u8 *)arg0 + -2)) = (u16) ((*(u16 *)((u8 *)arg0 + -2)) | 0x8000);
-    ((S_800C2824_10 *)c3_page)->unk_14A0 = c17_flags;
-block_27:
+    tile_flags = 0x300;
+clear_expired_tile:
+    func_8009A3D0(expired_x, expired_coord, tile_flags);
+finish_expired:
+    func_8009A028(((S_800C2824_0 *)effect)->unk_00);
+    finished_object = ((S_800C2824_0 *)effect)->unk_00;
+    (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
+    final_object = D_800DF560;
+    flags_page = (u8 *)0x80080000;
+    global_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
+    final_flags = ((S_800C2824_15 *)final_object)->unk_1E;
+    global_flags |= 0x8000;
+    ((S_800C2824_10 *)flags_page)->unk_14A0 = global_flags;
+    ((S_800C2824_15 *)final_object)->unk_1E = (u16)(final_flags | 0x8000);
+mark_done:
+    (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
+    ((S_800C2824_10 *)flags_page)->unk_14A0 = global_flags;
+done:
     return;
 }

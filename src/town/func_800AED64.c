@@ -241,623 +241,618 @@ typedef struct S_func_800AED64_17 {
     u16 unk_1A;
 } S_func_800AED64_17;
 
+/* Render visible town map tiles as shaded polygons in the ordering table. */
 void func_800AC4C4(void) {
-    s32 temp_a3;
-    s32 c0idx;
-    s32 temp_t0;
-    s32 init_t1;
-    s32 init_t2;
-    s32 init_t3;
-    s32 init_v0;
-    void *init_v1;
-    u8 init_t4;
-    u32 init_byte;
-    s32 *temp_a0;
-    s32 *temp_v1_9;
-    s8 *temp_s2;
-    s8 *temp_s3;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v0_6;
-    s32 temp_v0_7;
-    s32 temp_v0_8;
-    s32 temp_v0_9;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 temp_v1_4;
-    s32 temp_v1_5;
-    s32 temp_v1_6;
-    s32 temp_v1_7;
-    register s32 temp_v1_8 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_a0_2;
-    M2C_UNK * var_a0_3;
-    register s32 var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 var_a2_2;
-    s8 *var_s6;
-    s32 var_v1;
-    u16 temp_v1_10;
-    u32 temp_v0_5;
-    M2C_UNK * var_s0;
-    void *temp_s0;
-    register S_func_800AED64_2 *temp_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    S_func_800AED64_10 *temp_t6;
-    S_func_800AED64_7 *var_a0;
-    S_func_800AED64_7 *var_a1;
-    register S_func_800AED64_13 *var_a2_3 ASM_REG("$6"); /* MATCH: the polygon loop keeps its cursor in a2, sharing the outer loop counter register. */
-    void *var_a3;
-    void *var_t0;
-    S_func_800AED64_7 *var_v1_2;
-    S_func_800AED64_7 *inner_p;
-    register s32 inner_add ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 inner_sub ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 width_shift;
+    s32 tile_index;
+    s32 height_shift;
+    s32 max_column;
+    s32 max_row;
+    s32 flat_color;
+    s32 base_color;
+    void *ordering_table;
+    u8 draw_mode;
+    u32 draw_flags;
+    s32 *depth_bucket;
+    s8 *vertices;
+    s8 *normals;
+    s32 tile_id;
+    s32 tile_flags;
+    s32 next_x;
+    s32 row_progress;
+    s32 edge_x;
+    s32 span_x;
+    s32 edge_error;
+    s32 stepped_x;
+    s32 span_end_x;
+    s32 row_index;
+    register s32 work_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 work_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 column_rounding;
+    M2C_UNK * lookup_value;
+    register s32 edge_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 span_edge_index;
+    s8 *tile_map;
+    s32 row_rounding;
+    u16 normal_index;
+    M2C_UNK * packet;
+    void *view_bounds;
+    register S_func_800AED64_2 *map_data ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_800AED64_10 *tile_uvs;
+    S_func_800AED64_7 *start_edge;
+    S_func_800AED64_7 *span_edge;
+    register S_func_800AED64_13 *polygon ASM_REG("$6"); /* MATCH: the polygon loop keeps its cursor in a2, sharing the outer loop counter register. */
+    void *packet_color;
+    void *packet_xy3;
+    S_func_800AED64_7 *end_edge;
+    S_func_800AED64_7 *step_edge;
+    register s32 x_step ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 error_step ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 row_limit;
-    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    void *call_a1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *call_a2;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    S_func_800AED64_6 *call_a3;
+    register void *work_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    void *coord_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *edge_count;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    S_func_800AED64_6 *render_buffer;
     u32 tag_low_mask;
     u32 tag_high_mask;
     s32 one;
-    S_func_800AED64_4 *gte;
-    register void *gte_input ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register S_func_800AED64_1 *d_80083160 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_800AED64_4 *scratch;
+    register void *vertex_input;
+    register S_func_800AED64_1 *render_state ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     {
-        register u8 *page8008 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        page8008 = (u8 *)0x80080000;
-        ASM_KEEP_NV(page8008);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        d_80083160 = page8008 + 0x3160;
+        register u8 *state_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        state_page = (u8 *)0x80080000;
+        ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        render_state = state_page + 0x3160;
     }
-    ASM_KEEP_NV(d_80083160);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    temp_s5 = (u8 *)d_80083160 + 0x1DC;
-    var_s6 = d_80083160->unk_1DC;
-    temp_s2 = temp_s5->unk_08;
-    temp_s3 = temp_s5->unk_0C;
-    func_80064D50((u8 *)d_80083160 + 0x70);
+    ASM_KEEP_NV(render_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    map_data = (u8 *)render_state + 0x1DC;
+    tile_map = render_state->unk_1DC;
+    vertices = map_data->unk_08;
+    normals = map_data->unk_0C;
+    func_80064D50((u8 *)render_state + 0x70);
     {
-        S_func_800AED64_3 *base18;
-        base18 = (u8 *)d_80083160 + 0x18;
-        func_80064624(base18->unk_84, base18->unk_88);
+        S_func_800AED64_3 *view_params;
+        view_params = (u8 *)render_state + 0x18;
+        func_80064624(view_params->unk_84, view_params->unk_88);
     }
-    gte = (s8 *)0x1F800000;
-    ASM_KEEP_NV(gte);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    func_80064D20((u8 *)d_80083160 + 0x50);
+    scratch = (s8 *)0x1F800000;
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    func_80064D20((u8 *)render_state + 0x50);
     if (D_800D1554[0] != 0) {
-        d_80083160->unk_1A = -0xB8;
-        tail_v0 = 0x1DA;
+        render_state->unk_1A = -0xB8;
+        work_value = 0x1DA;
     } else {
-        ASM_KEEP(d_80083160);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        d_80083160->unk_1A = -0x88;
-        tail_v0 = 0x1AA;
+
+        render_state->unk_1A = -0x88;
+        work_value = 0x1AA;
     }
-    d_80083160->unk_1E = tail_v0;
+    render_state->unk_1E = work_value;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_s0 = (u8 *)d_80083160 + 0x20;
-    func_80046884((u8 *)d_80083160 + 0x18, temp_s0, 0);
-    call_a0 = temp_s0;
-    call_a1 = (void *) ((u32) gte | 0x1C);
-    init_v0 = d_80083160->unk_A8;
-    call_a2 = (void *) ((u32) gte | 0x174);
-    gte->unk_00 = init_v0;
-    init_v1 = d_80083160->unk_00;
-    temp_a3 = temp_s5->unk_14;
-    temp_t0 = temp_s5->unk_16;
-    init_t1 = temp_s5->unk_18;
-    init_t2 = temp_s5->unk_1A;
+    view_bounds = (u8 *)render_state + 0x20;
+    func_80046884((u8 *)render_state + 0x18, view_bounds, 0);
+    work_ptr = view_bounds;
+    coord_offset = (void *) ((u32) scratch | 0x1C);
+    base_color = render_state->unk_A8;
+    edge_count = (void *) ((u32) scratch | 0x174);
+    scratch->unk_00 = base_color;
+    ordering_table = render_state->unk_00;
+    width_shift = map_data->unk_14;
+    height_shift = map_data->unk_16;
+    max_column = map_data->unk_18;
+    max_row = map_data->unk_1A;
     {
-        S_func_800AED64_5 *page;
-        page = (u8 *)0x80010000;
-        init_t3 = page->unk_3180;
-        init_t4 = page->unk_3184;
-        init_byte = page->unk_3185;
+        S_func_800AED64_5 *draw_settings;
+        draw_settings = (u8 *)0x80010000;
+        flat_color = draw_settings->unk_3180;
+        draw_mode = draw_settings->unk_3184;
+        draw_flags = draw_settings->unk_3185;
     }
-    init_v1 += 0xB0;
-    gte->unk_124 = (s32) temp_a3;
-    ((volatile S_func_800AED64_4 *)(gte))->unk_178 = init_byte;
-    gte->unk_BC = init_v1;
-    gte->unk_128 = (s32) temp_t0;
-    gte->unk_114 = 0x40 << gte->unk_124;
-    gte->unk_11C = (s32) init_t1;
-    gte->unk_120 = (s32) init_t2;
-    gte->unk_110 = init_t3;
-    gte->unk_176 = init_t4;
-    call_a3 = d_80083160->unk_00;
-    gte->unk_118 = 0x40 << gte->unk_128;
-    var_s0 = call_a3->unk_8D0;
-    gte->unk_14C = 0xFFFF;
-    gte->unk_174 = 4;
-    gte->unk_164 = (u8 *) var_s0 + 0xCCCC;
-    gte->unk_0C = (s16) func_80046C20(call_a0, call_a1, call_a2, call_a3);
-    if (gte->unk_174 != 0) {
+    ordering_table += 0xB0;
+    scratch->unk_124 = (s32) width_shift;
+    ((volatile S_func_800AED64_4 *)(scratch))->unk_178 = draw_flags;
+    scratch->unk_BC = ordering_table;
+    scratch->unk_128 = (s32) height_shift;
+    scratch->unk_114 = 0x40 << scratch->unk_124;
+    scratch->unk_11C = (s32) max_column;
+    scratch->unk_120 = (s32) max_row;
+    scratch->unk_110 = flat_color;
+    scratch->unk_176 = draw_mode;
+    render_buffer = render_state->unk_00;
+    scratch->unk_118 = 0x40 << scratch->unk_128;
+    packet = render_buffer->unk_8D0;
+    scratch->unk_14C = 0xFFFF;
+    scratch->unk_174 = 4;
+    scratch->unk_164 = (u8 *) packet + 0xCCCC;
+    scratch->unk_0C = (s16) func_80046C20(work_ptr, coord_offset, edge_count, render_buffer);
+    if (scratch->unk_174 != 0) {
         one = 1;
-        gte_input = (u8 *)gte + 0xE0;
-        temp_t6 = D_800D1548;
+        vertex_input = (u8 *)scratch + 0xE0;
+        tile_uvs = D_800D1548;
         tag_low_mask = 0xFFFFFF;
         tag_high_mask = 0xFF000000;
-loop_5:
-        var_a2 = 3;
-        var_a0 = (s32 *)((u8 *)gte + 0x78);
+scan_row:
+        edge_index = 3;
+        start_edge = (s32 *)((u8 *)scratch + 0x78);
         do {
-            if (var_a0->unk_38 == 0) {
-                temp_v1_8 = var_a0->unk_34;
-                tail_v0 = gte->unk_0C;
-                if (tail_v0 >= temp_v1_8) {
-                    var_a0->unk_38 = one;
+            if (start_edge->unk_38 == 0) {
+                work_bits = start_edge->unk_34;
+                work_value = scratch->unk_0C;
+                if (work_value >= work_bits) {
+                    start_edge->unk_38 = one;
                 }
             }
-            var_a2 -= 1;
-            var_a0 = (S_func_800AED64_7 *)((u8 *)var_a0 - 0x28);
-        } while (var_a2 >= 0);
-        var_a2_2 = 3;
-        var_a1 = (s32 *)((u8 *)gte + 0x78);
-        gte->unk_14.s32 = 0x7FFF;
-        gte->unk_18 = -0x7FFF;
+            edge_index -= 1;
+            start_edge = (S_func_800AED64_7 *)((u8 *)start_edge - 0x28);
+        } while (edge_index >= 0);
+        span_edge_index = 3;
+        span_edge = (s32 *)((u8 *)scratch + 0x78);
+        scratch->unk_14.s32 = 0x7FFF;
+        scratch->unk_18 = -0x7FFF;
         do {
-            if (var_a1->unk_38 > 0) {
-                temp_v1 = var_a1->unk_1C;
-                gte->unk_08 = temp_v1;
-                if (temp_v1 < gte->unk_14.s32) {
-                    gte->unk_14.s32 = temp_v1;
+            if (span_edge->unk_38 > 0) {
+                edge_x = span_edge->unk_1C;
+                scratch->unk_08 = edge_x;
+                if (edge_x < scratch->unk_14.s32) {
+                    scratch->unk_14.s32 = edge_x;
                 }
-                temp_v1_2 = gte->unk_08;
-                if (gte->unk_18 < temp_v1_2) {
-                    gte->unk_18 = temp_v1_2;
+                span_x = scratch->unk_08;
+                if (scratch->unk_18 < span_x) {
+                    scratch->unk_18 = span_x;
                 }
-                temp_v1_3 = var_a1->unk_2C + var_a1->unk_24;
-                var_a1->unk_2C = temp_v1_3;
-                if (temp_v1_3 >= 0) {
-                    inner_p = var_a1;
-                    inner_add = var_a1->unk_30;
-                    inner_sub = var_a1->unk_20;
-loop_18:
-                    tail_v0 = inner_p->unk_1C;
-                    temp_v1_8 = inner_p->unk_3C;
-                    tail_v0 += inner_add;
-                    inner_p->unk_1C = tail_v0;
-                    tail_v0 = inner_p->unk_2C;
-                    temp_v1_8 -= 0x40;
-                    inner_p->unk_3C = temp_v1_8;
-                    tail_v0 -= inner_sub;
-                    inner_p->unk_2C = tail_v0;
-                    if (temp_v1_8 > 0) {
-                        if (tail_v0 >= 0) {
-                            goto loop_18;
+                edge_error = span_edge->unk_2C + span_edge->unk_24;
+                span_edge->unk_2C = edge_error;
+                if (edge_error >= 0) {
+                    step_edge = span_edge;
+                    x_step = span_edge->unk_30;
+                    error_step = span_edge->unk_20;
+step_span:
+                    work_value = step_edge->unk_1C;
+                    work_bits = step_edge->unk_3C;
+                    work_value += x_step;
+                    step_edge->unk_1C = work_value;
+                    work_value = step_edge->unk_2C;
+                    work_bits -= 0x40;
+                    step_edge->unk_3C = work_bits;
+                    work_value -= error_step;
+                    step_edge->unk_2C = work_value;
+                    if (work_bits > 0) {
+                        if (work_value >= 0) {
+                            goto step_span;
                         }
                     }
                 }
-                temp_v1_5 = var_a1->unk_1C;
-                gte->unk_08 = temp_v1_5;
-                if (temp_v1_5 < gte->unk_14.s32) {
-                    gte->unk_14.s32 = temp_v1_5;
+                stepped_x = span_edge->unk_1C;
+                scratch->unk_08 = stepped_x;
+                if (stepped_x < scratch->unk_14.s32) {
+                    scratch->unk_14.s32 = stepped_x;
                 }
-                temp_v1_6 = gte->unk_08;
-                if (gte->unk_18 < temp_v1_6) {
-                    gte->unk_18 = temp_v1_6;
+                span_end_x = scratch->unk_08;
+                if (scratch->unk_18 < span_end_x) {
+                    scratch->unk_18 = span_end_x;
                 }
             }
-            var_a2_2 -= 1;
-            var_a1 = (S_func_800AED64_7 *)((u8 *)var_a1 - 0x28);
-        } while (var_a2_2 >= 0);
-        gte->unk_14.s32 = (gte->unk_14.s32 - 0x20) & ~0x3F;
-        var_a0_2 = ((volatile S_func_800AED64_4 *)gte)->unk_14.s32;
-        gte->unk_18 = (gte->unk_18 + 0x20) & ~0x3F;
-        if (var_a0_2 < 0) {
-            var_a0_2 += 0x3F;
+            span_edge_index -= 1;
+            span_edge = (S_func_800AED64_7 *)((u8 *)span_edge - 0x28);
+        } while (span_edge_index >= 0);
+        scratch->unk_14.s32 = (scratch->unk_14.s32 - 0x20) & ~0x3F;
+        column_rounding = ((volatile S_func_800AED64_4 *)scratch)->unk_14.s32;
+        scratch->unk_18 = (scratch->unk_18 + 0x20) & ~0x3F;
+        if (column_rounding < 0) {
+            column_rounding += 0x3F;
         }
-        var_v1 = gte->unk_0C;
-        gte->unk_134 = var_a0_2 >> 6;
-        if (var_v1 < 0) {
-            var_v1 += 0x3F;
+        row_rounding = scratch->unk_0C;
+        scratch->unk_134 = column_rounding >> 6;
+        if (row_rounding < 0) {
+            row_rounding += 0x3F;
         }
-        temp_v1_7 = var_v1 >> 6;
-        gte->unk_138 = temp_v1_7;
-        if (temp_v1_7 < 0) {
-            gte->unk_138 = 0;
+        row_index = row_rounding >> 6;
+        scratch->unk_138 = row_index;
+        if (row_index < 0) {
+            scratch->unk_138 = 0;
         } else {
-            row_limit = gte->unk_120;
-            if (temp_v1_7 >= row_limit) {
-                tail_v0 = row_limit << gte->unk_124;
+            row_limit = scratch->unk_120;
+            if (row_index >= row_limit) {
+                work_value = row_limit << scratch->unk_124;
             } else {
-                tail_v0 = temp_v1_7 << gte->unk_124;
+                work_value = row_index << scratch->unk_124;
             }
-            gte->unk_138 = tail_v0;
+            scratch->unk_138 = work_value;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_v1_8 = gte->unk_14.s32;
-        tail_v0 = gte->unk_18;
-        var_a2_3 = (void *)3;
-        if (tail_v0 >= temp_v1_8) {
-            var_t0 = (s8 *) var_s0 + 0x20;
-loop_37:
-            temp_v1_8 = gte->unk_134;
-            if (temp_v1_8 < 0) {
-                tail_v0 = gte->unk_138;
-                temp_v1_8 &= 3;
+
+        work_bits = scratch->unk_14.s32;
+        work_value = scratch->unk_18;
+        polygon = (void *)3;
+        if (work_value >= work_bits) {
+            packet_xy3 = (s8 *) packet + 0x20;
+scan_column:
+            work_bits = scratch->unk_134;
+            if (work_bits < 0) {
+                work_value = scratch->unk_138;
+                work_bits &= 3;
             } else {
-                var_a0_3 = gte->unk_11C;
-                if (temp_v1_8 >= (s32) var_a0_3) {
-                    tail_v0 = gte->unk_138;
-                    temp_v1_8 &= 3;
-                    tail_v0 += (s32) var_a0_3;
-                    tail_v0 += temp_v1_8;
-                    tail_v0 -= 3;
+                lookup_value = scratch->unk_11C;
+                if (work_bits >= (s32) lookup_value) {
+                    work_value = scratch->unk_138;
+                    work_bits &= 3;
+                    work_value += (s32) lookup_value;
+                    work_value += work_bits;
+                    work_value -= 3;
                     goto store_column;
                 }
-                tail_v0 = gte->unk_138;
+                work_value = scratch->unk_138;
             }
-            tail_v0 += temp_v1_8;
+            work_value += work_bits;
 store_column:
-            gte->unk_144 = tail_v0;
-            temp_v0_3 = ((S_func_800AED64_8 *)(var_s6 + (((volatile S_func_800AED64_4 *)(gte))->unk_144 * 2)))->unk_00 & 0x3FFF;
-            gte->unk_C0 = temp_v0_3;
-            if (temp_v0_3 != 0) {
-                temp_v0_4 = ((S_func_800AED64_8 *)(var_s6 + (gte->unk_144 * 2)))->unk_00 & 0xC000;
-                gte->unk_17C = temp_v0_4;
-                if (temp_v0_4 != 0) {
-                    gte->unk_FC = 0;
-                    gte->unk_F4 = 0;
-                    gte->unk_EC = 0;
-                    gte->unk_E4.s16 = 0;
-                    gte->unk_E0 = (u16) gte->unk_14.s32 | (gte->unk_0C << 0x10);
-                    gte->unk_E8 = ((((volatile S_func_800AED64_4 *)(gte))->unk_14.u16 + 0x40) & 0xFFFF) | (gte->unk_0C << 0x10);
-                    gte->unk_F0 = (u16) gte->unk_14.s32 | ((gte->unk_0C + 0x40) << 0x10);
-                    gte->unk_F8 = ((((volatile S_func_800AED64_4 *)(gte))->unk_14.u16 + 0x40) & 0xFFFF) | ((gte->unk_0C + 0x40) << 0x10);
-                    gte_ldv3(gte_input, (u8 *)gte + 0xE8, (u8 *)gte + 0xF0);
-                    ((S_func_800AED64_9 *)((u8 *)var_t0 - 0x20))->unk_04 = 0x2C404040;
+            scratch->unk_144 = work_value;
+            tile_id = ((S_func_800AED64_8 *)(tile_map + (((volatile S_func_800AED64_4 *)(scratch))->unk_144 * 2)))->unk_00 & 0x3FFF;
+            scratch->unk_C0 = tile_id;
+            if (tile_id != 0) {
+                tile_flags = ((S_func_800AED64_8 *)(tile_map + (scratch->unk_144 * 2)))->unk_00 & 0xC000;
+                scratch->unk_17C = tile_flags;
+                if (tile_flags != 0) {
+                    scratch->unk_FC = 0;
+                    scratch->unk_F4 = 0;
+                    scratch->unk_EC = 0;
+                    scratch->unk_E4.s16 = 0;
+                    scratch->unk_E0 = (u16) scratch->unk_14.s32 | (scratch->unk_0C << 0x10);
+                    scratch->unk_E8 = ((((volatile S_func_800AED64_4 *)(scratch))->unk_14.u16 + 0x40) & 0xFFFF) | (scratch->unk_0C << 0x10);
+                    scratch->unk_F0 = (u16) scratch->unk_14.s32 | ((scratch->unk_0C + 0x40) << 0x10);
+                    scratch->unk_F8 = ((((volatile S_func_800AED64_4 *)(scratch))->unk_14.u16 + 0x40) & 0xFFFF) | ((scratch->unk_0C + 0x40) << 0x10);
+                    gte_ldv3(vertex_input, (u8 *)scratch + 0xE8, (u8 *)scratch + 0xF0);
+                    ((S_func_800AED64_9 *)((u8 *)packet_xy3 - 0x20))->unk_04 = 0x2C404040;
                     gte_rtpt_nn();
                     gte_avsz3();
-                    gte_stotz((u8 *)gte + 0xC8);
-                    gte_stsxy3_g3(var_s0);
-                    gte_ldv0((u8 *)gte + 0xF8);
-                    ((S_func_800AED64_9 *)((u8 *)var_t0 - 0x20))->unk_0C = (s32) D_800D1548[0];
+                    gte_stotz((u8 *)scratch + 0xC8);
+                    gte_stsxy3_g3(packet);
+                    gte_ldv0((u8 *)scratch + 0xF8);
+                    ((S_func_800AED64_9 *)((u8 *)packet_xy3 - 0x20))->unk_0C = (s32) D_800D1548[0];
                     gte_rtps_nn();
-                    gte_stsxy(var_t0);
-                    ((S_func_800AED64_9 *)((u8 *)var_t0 - 0x20))->unk_14 = (s32) temp_t6->unk_04;
-                    ((S_func_800AED64_9 *)((u8 *)var_t0 - 0x20))->unk_1C = (u16) temp_t6->unk_08;
-                    ((S_func_800AED64_9 *)((u8 *)var_t0 - 0x20))->unk_24 = (u16) temp_t6->unk_0A;
-                    gte_stszotz((u8 *)gte + 0xD4);
-                    call_a0 = (void *)gte->unk_D4;
-                    tail_v0 = gte->unk_C8;
-                    temp_v1_8 = tail_v0 << 1;
-                    tail_v0 += temp_v1_8;
-                    tail_v0 += (s32)call_a0;
-                    tail_v0 += 3;
-                    tail_v0 >>= 2;
-                    tail_v0 += 4;
-                    gte->unk_C8 = tail_v0;
-                    if ((u32)tail_v0 >= 0x200U) {
-                        gte->unk_C8 = 0x1FF;
+                    gte_stsxy(packet_xy3);
+                    ((S_func_800AED64_9 *)((u8 *)packet_xy3 - 0x20))->unk_14 = (s32) tile_uvs->unk_04;
+                    ((S_func_800AED64_9 *)((u8 *)packet_xy3 - 0x20))->unk_1C = (u16) tile_uvs->unk_08;
+                    ((S_func_800AED64_9 *)((u8 *)packet_xy3 - 0x20))->unk_24 = (u16) tile_uvs->unk_0A;
+                    gte_stszotz((u8 *)scratch + 0xD4);
+                    work_ptr = (void *)scratch->unk_D4;
+                    work_value = scratch->unk_C8;
+                    work_bits = work_value << 1;
+                    work_value += work_bits;
+                    work_value += (s32)work_ptr;
+                    work_value += 3;
+                    work_value >>= 2;
+                    work_value += 4;
+                    scratch->unk_C8 = work_value;
+                    if ((u32)work_value >= 0x200U) {
+                        scratch->unk_C8 = 0x1FF;
                     }
-                    ((S_func_800AED64_9 *)((u8 *)var_t0 - 0x20))->unk_03 = 9;
-                    var_t0 += 0x28;
-                    var_a0_3 = (s32) var_s0 & tag_low_mask;
-                    *var_s0 = (s32) ((*var_s0 & tag_high_mask) | (((S_func_800AED64_11 *)((s8 *)gte->unk_BC + (gte->unk_C8 * 4)))->unk_00 & tag_low_mask));
-                    temp_v1_9 = (gte->unk_C8 * 4) + gte->unk_BC;
-                    var_s0 = (s32 *)((s8 *)var_s0 + 0x28);
-                    *temp_v1_9 = (*temp_v1_9 & tag_high_mask) | (s32) var_a0_3;
+                    ((S_func_800AED64_9 *)((u8 *)packet_xy3 - 0x20))->unk_03 = 9;
+                    packet_xy3 += 0x28;
+                    lookup_value = (s32) packet & tag_low_mask;
+                    *packet = (s32) ((*packet & tag_high_mask) | (((S_func_800AED64_11 *)((s8 *)scratch->unk_BC + (scratch->unk_C8 * 4)))->unk_00 & tag_low_mask));
+                    depth_bucket = (scratch->unk_C8 * 4) + scratch->unk_BC;
+                    packet = (s32 *)((s8 *)packet + 0x28);
+                    *depth_bucket = (*depth_bucket & tag_high_mask) | (s32) lookup_value;
                 }
-                c0idx = gte->unk_C0;
-                ASM_USE_NV(c0idx);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                var_a3 = (s8 *)var_s0 + 4;
-                ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                gte->unk_12C.s32 = 0;
-                var_a2_3 = ((S_func_800AED64_12 *)((s8 *)temp_s5->unk_04 + (c0idx * 4)))->unk_00;
+                tile_index = scratch->unk_C0;
+                ASM_USE_NV(tile_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                packet_color = (s8 *)packet + 4;
+
+                scratch->unk_12C.s32 = 0;
+                polygon = ((S_func_800AED64_12 *)((s8 *)map_data->unk_04 + (tile_index * 4)))->unk_00;
                 for (;;) {
-                    if (var_a2_3->unk_0C != 0) {
-                        tail_v0 = var_a2_3->unk_10;
-                        call_a0 = (void *) (u32) gte->unk_14.u16;
-                        gte->unk_170 = tail_v0;
-                        tail_v0 = var_a2_3->unk_00;
-                        temp_v1_8 = var_a2_3->unk_14.s32;
-                        tail_v0 <<= 3;
-                        tail_v0 += (s32) temp_s2;
-                        gte->unk_16C.s32 = temp_v1_8;
-                        tail_v0 = ((S_func_800AED64_15 *)((void *) tail_v0))->unk_00;
-                        temp_v1_8 = gte->unk_12C.u16;
-                        gte->unk_168.s32 = tail_v0;
-                        tail_v0 = var_a2_3->unk_00;
-                        call_a1 = (void *) (u32) gte->unk_168.u16;
-                        tail_v0 <<= 3;
-                        tail_v0 += (s32) temp_s2;
-                        call_a0 = (void *) ((u32) call_a0 + (u32) call_a1);
-                        tail_v0 = ((S_func_800AED64_15 *)((void *) tail_v0))->unk_04;
-                        call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
-                        tail_v0 -= temp_v1_8;
-                        gte->unk_E4.s16 = tail_v0;
-                        tail_v0 = gte->unk_168.at_16A.unk_16A;
-                        temp_v1_8 = gte->unk_0C;
+                    if (polygon->unk_0C != 0) {
+                        work_value = polygon->unk_10;
+                        work_ptr = (void *) (u32) scratch->unk_14.u16;
+                        scratch->unk_170 = work_value;
+                        work_value = polygon->unk_00;
+                        work_bits = polygon->unk_14.s32;
+                        work_value <<= 3;
+                        work_value += (s32) vertices;
+                        scratch->unk_16C.s32 = work_bits;
+                        work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
+                        work_bits = scratch->unk_12C.u16;
+                        scratch->unk_168.s32 = work_value;
+                        work_value = polygon->unk_00;
+                        coord_offset = (void *) (u32) scratch->unk_168.u16;
+                        work_value <<= 3;
+                        work_value += (s32) vertices;
+                        work_ptr = (void *) ((u32) work_ptr + (u32) coord_offset);
+                        work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
+                        work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
+                        work_value -= work_bits;
+                        scratch->unk_E4.s16 = work_value;
+                        work_value = scratch->unk_168.at_16A.unk_16A;
+                        work_bits = scratch->unk_0C;
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        ASM_KEEP_NV(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        tail_v0 = (s32) (tail_v0 << 0x10) >> 0x10;
-                        temp_v1_8 += tail_v0;
-                        temp_v1_8 <<= 0x10;
-                        tail_v0 = var_a2_3->unk_02;
-                        call_a0 = (void *) ((u32) call_a0 | (u32) temp_v1_8);
-                        gte->unk_E0 = (s32) call_a0;
-                        call_a0 = (void *) (u32) gte->unk_14.u16;
-                        temp_v1_8 = gte->unk_12C.u16;
-                        tail_v0 <<= 3;
-                        tail_v0 += (s32) temp_s2;
-                        tail_v0 = ((S_func_800AED64_15 *)((void *) tail_v0))->unk_00;
-                        gte->unk_168.s32 = tail_v0;
-                        tail_v0 = var_a2_3->unk_02;
-                        call_a1 = (void *) (u32) gte->unk_168.u16;
-                        tail_v0 <<= 3;
-                        tail_v0 += (s32) temp_s2;
-                        call_a0 = (void *) ((u32) call_a0 + (u32) call_a1);
-                        tail_v0 = ((S_func_800AED64_15 *)((void *) tail_v0))->unk_04;
-                        call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
-                        tail_v0 -= temp_v1_8;
-                        gte->unk_EC = tail_v0;
-                        tail_v0 = gte->unk_168.at_16A.unk_16A;
-                        temp_v1_8 = gte->unk_0C;
+                        ASM_KEEP_NV(work_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        work_value = (s32) (work_value << 0x10) >> 0x10;
+                        work_bits += work_value;
+                        work_bits <<= 0x10;
+                        work_value = polygon->unk_02;
+                        work_ptr = (void *) ((u32) work_ptr | (u32) work_bits);
+                        scratch->unk_E0 = (s32) work_ptr;
+                        work_ptr = (void *) (u32) scratch->unk_14.u16;
+                        work_bits = scratch->unk_12C.u16;
+                        work_value <<= 3;
+                        work_value += (s32) vertices;
+                        work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
+                        scratch->unk_168.s32 = work_value;
+                        work_value = polygon->unk_02;
+                        coord_offset = (void *) (u32) scratch->unk_168.u16;
+                        work_value <<= 3;
+                        work_value += (s32) vertices;
+                        work_ptr = (void *) ((u32) work_ptr + (u32) coord_offset);
+                        work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
+                        work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
+                        work_value -= work_bits;
+                        scratch->unk_EC = work_value;
+                        work_value = scratch->unk_168.at_16A.unk_16A;
+                        work_bits = scratch->unk_0C;
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        ASM_KEEP_NV(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        tail_v0 = (s32) (tail_v0 << 0x10) >> 0x10;
-                        temp_v1_8 += tail_v0;
-                        temp_v1_8 <<= 0x10;
-                        tail_v0 = var_a2_3->unk_04;
-                        call_a0 = (void *) ((u32) call_a0 | (u32) temp_v1_8);
-                        gte->unk_E8 = (s32) call_a0;
-                        call_a0 = (void *) (u32) gte->unk_14.u16;
-                        tail_v0 <<= 3;
-                        tail_v0 += (s32) temp_s2;
-                        tail_v0 = ((S_func_800AED64_15 *)((void *) tail_v0))->unk_00;
-                        gte->unk_168.s32 = tail_v0;
-                        tail_v0 = gte->unk_168.u16;
-                        temp_v1_8 = ((volatile S_func_800AED64_4 *)(gte))->unk_168.at_16A.unk_16A;
-                        call_a0 = (void *) ((u32) call_a0 + (u32) tail_v0);
-                        call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
-                        temp_v1_8 <<= 0x10;
-                        tail_v0 = gte->unk_0C;
-                        temp_v1_8 >>= 0x10;
-                        tail_v0 += temp_v1_8;
-                        tail_v0 <<= 0x10;
-                        call_a0 = (void *) ((u32) call_a0 | (u32) tail_v0);
-                        gte->unk_F0 = (s32) call_a0;
-                        tail_v0 = var_a2_3->unk_04;
-                        tail_v0 <<= 3;
-                        tail_v0 += (s32) temp_s2;
-                        temp_v1_8 = ((S_func_800AED64_15 *)((void *) tail_v0))->unk_04;
-                        tail_v0 = gte->unk_12C.u16;
-                        temp_v1_8 -= tail_v0;
-                        gte->unk_F4 = temp_v1_8;
-                        gte_ldv3(gte_input, (u8 *)gte + 0xE8, (u8 *)gte + 0xF0);
+                        ASM_KEEP_NV(work_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        work_value = (s32) (work_value << 0x10) >> 0x10;
+                        work_bits += work_value;
+                        work_bits <<= 0x10;
+                        work_value = polygon->unk_04;
+                        work_ptr = (void *) ((u32) work_ptr | (u32) work_bits);
+                        scratch->unk_E8 = (s32) work_ptr;
+                        work_ptr = (void *) (u32) scratch->unk_14.u16;
+                        work_value <<= 3;
+                        work_value += (s32) vertices;
+                        work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
+                        scratch->unk_168.s32 = work_value;
+                        work_value = scratch->unk_168.u16;
+                        work_bits = ((volatile S_func_800AED64_4 *)(scratch))->unk_168.at_16A.unk_16A;
+                        work_ptr = (void *) ((u32) work_ptr + (u32) work_value);
+                        work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
+                        work_bits <<= 0x10;
+                        work_value = scratch->unk_0C;
+                        work_bits >>= 0x10;
+                        work_value += work_bits;
+                        work_value <<= 0x10;
+                        work_ptr = (void *) ((u32) work_ptr | (u32) work_value);
+                        scratch->unk_F0 = (s32) work_ptr;
+                        work_value = polygon->unk_04;
+                        work_value <<= 3;
+                        work_value += (s32) vertices;
+                        work_bits = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
+                        work_value = scratch->unk_12C.u16;
+                        work_bits -= work_value;
+                        scratch->unk_F4 = work_bits;
+                        gte_ldv3(vertex_input, (u8 *)scratch + 0xE8, (u8 *)scratch + 0xF0);
                         gte_rtpt();
                         gte_nclip();
-                        gte_stopz((u8 *)gte + 0xDC);
-                        if (gte->unk_DC >= 0) {
-                            tail_v0 = var_a2_3->unk_06;
-                            tail_v0 <<= 3;
-                            tail_v0 += (s32) temp_s2;
-                            temp_v1_8 = ((S_func_800AED64_15 *)((void *) tail_v0))->unk_04;
-                            tail_v0 = gte->unk_12C.u16;
-                            temp_v1_8 -= tail_v0;
-                            gte->unk_FC = temp_v1_8;
-                            gte_stsxy3_g3(var_s0);
+                        gte_stopz((u8 *)scratch + 0xDC);
+                        if (scratch->unk_DC >= 0) {
+                            work_value = polygon->unk_06;
+                            work_value <<= 3;
+                            work_value += (s32) vertices;
+                            work_bits = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
+                            work_value = scratch->unk_12C.u16;
+                            work_bits -= work_value;
+                            scratch->unk_FC = work_bits;
+                            gte_stsxy3_g3(packet);
                             gte_avsz3();
-                            gte_stotz((u8 *)gte + 0xC8);
-                            temp_v1_10 = (u16) gte->unk_170;
-                            if (gte->unk_14C != temp_v1_10) {
-                                gte->unk_14C = (s32) temp_v1_10;
-                                gte_ldrgb(gte);
-                                gte_ldv0(temp_s3 + (temp_v1_10 * 8));
+                            gte_stotz((u8 *)scratch + 0xC8);
+                            normal_index = (u16) scratch->unk_170;
+                            if (scratch->unk_14C != normal_index) {
+                                scratch->unk_14C = (s32) normal_index;
+                                gte_ldrgb(scratch);
+                                gte_ldv0(normals + (normal_index * 8));
                                 gte_nccs();
-                                gte_strgb((u8 *)gte + 4);
+                                gte_strgb((u8 *)scratch + 4);
                             }
-                            tail_v0 = var_a2_3->unk_06;
-                            call_a0 = (void *) (u32) gte->unk_14.u16;
-                            tail_v0 <<= 3;
-                            tail_v0 += (s32) temp_s2;
-                            tail_v0 = ((S_func_800AED64_15 *)((void *) tail_v0))->unk_00;
-                            gte->unk_168.s32 = tail_v0;
-                            tail_v0 = gte->unk_168.u16;
-                            temp_v1_8 = ((volatile S_func_800AED64_4 *)(gte))->unk_168.at_16A.unk_16A;
-                            call_a0 = (void *) ((u32) call_a0 + (u32) tail_v0);
-                            call_a0 = (void *) ((u32) call_a0 & 0xFFFF);
-                            temp_v1_8 <<= 0x10;
-                            tail_v0 = gte->unk_0C;
-                            temp_v1_8 >>= 0x10;
-                            tail_v0 += temp_v1_8;
-                            tail_v0 <<= 0x10;
-                            call_a0 = (void *) ((u32) call_a0 | (u32) tail_v0);
-                            gte->unk_F8 = (s32) call_a0;
-                            gte_ldv0((u8 *)gte + 0xF8);
-                            ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_0C = (s32) var_a2_3->unk_08;
+                            work_value = polygon->unk_06;
+                            work_ptr = (void *) (u32) scratch->unk_14.u16;
+                            work_value <<= 3;
+                            work_value += (s32) vertices;
+                            work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
+                            scratch->unk_168.s32 = work_value;
+                            work_value = scratch->unk_168.u16;
+                            work_bits = ((volatile S_func_800AED64_4 *)(scratch))->unk_168.at_16A.unk_16A;
+                            work_ptr = (void *) ((u32) work_ptr + (u32) work_value);
+                            work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
+                            work_bits <<= 0x10;
+                            work_value = scratch->unk_0C;
+                            work_bits >>= 0x10;
+                            work_value += work_bits;
+                            work_value <<= 0x10;
+                            work_ptr = (void *) ((u32) work_ptr | (u32) work_value);
+                            scratch->unk_F8 = (s32) work_ptr;
+                            gte_ldv0((u8 *)scratch + 0xF8);
+                            ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_0C = (s32) polygon->unk_08;
                             gte_rtps_nn();
-                            ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_14 = (s32) var_a2_3->unk_0C;
-                            ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_1C = (u16) *(s32 *)((u8 *)(u8 *)gte + 0x172);
-                            ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_24 = (u16) gte->unk_16C.s32;
-                            gte_stsxy(var_t0);
-                            gte_stszotz((u8 *)gte + 0xD4);
-                            call_a0 = (void *)gte->unk_D4;
-                            tail_v0 = gte->unk_C8;
-                            temp_v1_8 = tail_v0 << 1;
-                            tail_v0 += temp_v1_8;
-                            tail_v0 += (s32)call_a0;
-                            tail_v0 += 3;
-                            tail_v0 >>= 2;
-                            gte->unk_C8 = tail_v0;
-                            if ((u32) tail_v0 >= 0x200U) {
-                                gte->unk_C8 = 0x1FF;
+                            ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_14 = (s32) polygon->unk_0C;
+                            ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_1C = (u16) *(s32 *)((u8 *)(u8 *)scratch + 0x172);
+                            ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_24 = (u16) scratch->unk_16C.s32;
+                            gte_stsxy(packet_xy3);
+                            gte_stszotz((u8 *)scratch + 0xD4);
+                            work_ptr = (void *)scratch->unk_D4;
+                            work_value = scratch->unk_C8;
+                            work_bits = work_value << 1;
+                            work_value += work_bits;
+                            work_value += (s32)work_ptr;
+                            work_value += 3;
+                            work_value >>= 2;
+                            scratch->unk_C8 = work_value;
+                            if ((u32) work_value >= 0x200U) {
+                                scratch->unk_C8 = 0x1FF;
                             }
-                            if ((((s32) gte->unk_C8 < 0x1C1) || ((s32) (gte->unk_E4.u16 << 0x10) >= 0) || ((tail_v0 = gte->unk_14C, tail_v0 <<= 3, call_a0 = (void *)(tail_v0 + (s32)temp_s3), var_a0_3 = call_a0, (((S_func_800AED64_16 *)(var_a0_3))->unk_04 < 0)) && !(((S_func_800AED64_16 *)(var_a0_3))->unk_00 & 0x0FFF0FFF))) && ((u32) gte->unk_C8 < 0x200U)) {
-                                ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_03 = 9;
-                                ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_04.s32 = (s32) gte->unk_04;
-                                if (gte->unk_16C.at_16F.unk_16F & 1) {
-                                    ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_04.at_07.unk_07 |= 2;
+                            if ((((s32) scratch->unk_C8 < 0x1C1) || ((s32) (scratch->unk_E4.u16 << 0x10) >= 0) || ((work_value = scratch->unk_14C, work_value <<= 3, work_ptr = (void *)(work_value + (s32)normals), lookup_value = work_ptr, (((S_func_800AED64_16 *)(lookup_value))->unk_04 < 0)) && !(((S_func_800AED64_16 *)(lookup_value))->unk_00 & 0x0FFF0FFF))) && ((u32) scratch->unk_C8 < 0x200U)) {
+                                ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_03 = 9;
+                                ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_04.s32 = (s32) scratch->unk_04;
+                                if (scratch->unk_16C.at_16F.unk_16F & 1) {
+                                    ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_04.at_07.unk_07 |= 2;
                                 } else {
-                                    tail_v0 = 0xC000;
-                                    temp_v1_8 = gte->unk_17C & 0xC000;
-                                    if (temp_v1_8 == tail_v0) {
-                                        tail_v0 = ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_10;
-                                        temp_v1_8 = ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_18;
-                                        call_a0 = ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_20;
-                                        var_t0 += 0x28;
-                                        ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_0C = tail_v0;
-                                        ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_10 = temp_v1_8;
-                                        ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_14 = (s32) call_a0;
-                                        temp_v1_8 = gte->unk_110;
-                                        tail_v0 = 5;
-                                        ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_03 = tail_v0;
-                                        ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_04.s32 = temp_v1_8;
-                                        var_a3 += 0x28;
-                                        tail_v0 = gte->unk_C8;
-                                        temp_v1_8 = gte->unk_BC;
-                                        tail_v0 <<= 2;
-                                        tail_v0 += temp_v1_8;
-                                        temp_v1_8 = *var_s0;
-                                        tail_v0 = ((S_func_800AED64_11 *)((void *)tail_v0))->unk_00;
-                                        temp_v1_8 &= tag_high_mask;
-                                        tail_v0 &= tag_low_mask;
-                                        temp_v1_8 |= tail_v0;
-                                        *var_s0 = temp_v1_8;
-                                        call_a0 = (void *)(gte->unk_C8 * 4);
-                                        tail_v0 = gte->unk_BC;
-                                        call_a0 = (void *)((s32)call_a0 + tail_v0);
-                                        tail_v0 = (s32) var_s0 & tag_low_mask;
-                                        temp_v1_8 = ((S_func_800AED64_11 *)(call_a0))->unk_00;
-                                        var_s0 = (s32 *)((s8 *)var_s0 + 0x28);
-                                        temp_v1_8 &= tag_high_mask;
-                                        temp_v1_8 |= tail_v0;
-                                        ((S_func_800AED64_11 *)(call_a0))->unk_00 = temp_v1_8;
-                                        ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_03 = one;
-                                        temp_v1_8 = gte->unk_176;
-                                        tail_v0 = 0xE1000000;
-                                        temp_v1_8 &= 0x9FF;
-                                        temp_v1_8 |= tail_v0;
-                                        ((S_func_800AED64_14 *)((u8 *)var_a3 - 0x4))->unk_04.s32 = temp_v1_8;
+                                    work_value = 0xC000;
+                                    work_bits = scratch->unk_17C & 0xC000;
+                                    if (work_bits == work_value) {
+                                        work_value = ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_10;
+                                        work_bits = ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_18;
+                                        work_ptr = ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_20;
+                                        packet_xy3 += 0x28;
+                                        ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_0C = work_value;
+                                        ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_10 = work_bits;
+                                        ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_14 = (s32) work_ptr;
+                                        work_bits = scratch->unk_110;
+                                        work_value = 5;
+                                        ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_03 = work_value;
+                                        ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_04.s32 = work_bits;
+                                        packet_color += 0x28;
+                                        work_value = scratch->unk_C8;
+                                        work_bits = scratch->unk_BC;
+                                        work_value <<= 2;
+                                        work_value += work_bits;
+                                        work_bits = *packet;
+                                        work_value = ((S_func_800AED64_11 *)((void *)work_value))->unk_00;
+                                        work_bits &= tag_high_mask;
+                                        work_value &= tag_low_mask;
+                                        work_bits |= work_value;
+                                        *packet = work_bits;
+                                        work_ptr = (void *)(scratch->unk_C8 * 4);
+                                        work_value = scratch->unk_BC;
+                                        work_ptr = (void *)((s32)work_ptr + work_value);
+                                        work_value = (s32) packet & tag_low_mask;
+                                        work_bits = ((S_func_800AED64_11 *)(work_ptr))->unk_00;
+                                        packet = (s32 *)((s8 *)packet + 0x28);
+                                        work_bits &= tag_high_mask;
+                                        work_bits |= work_value;
+                                        ((S_func_800AED64_11 *)(work_ptr))->unk_00 = work_bits;
+                                        ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_03 = one;
+                                        work_bits = scratch->unk_176;
+                                        work_value = 0xE1000000;
+                                        work_bits &= 0x9FF;
+                                        work_bits |= work_value;
+                                        ((S_func_800AED64_14 *)((u8 *)packet_color - 0x4))->unk_04.s32 = work_bits;
                                     }
                                 }
-                                var_a3 += 0x28;
-                                ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                                var_t0 += 0x28;
-                                tail_v0 = gte->unk_C8;
-                                temp_v1_8 = gte->unk_BC;
-                                tail_v0 <<= 2;
-                                tail_v0 += temp_v1_8;
-                                temp_v1_8 = *var_s0;
-                                tail_v0 = ((S_func_800AED64_11 *)((void *)tail_v0))->unk_00;
-                                temp_v1_8 &= tag_high_mask;
-                                tail_v0 &= tag_low_mask;
-                                temp_v1_8 |= tail_v0;
-                                *var_s0 = temp_v1_8;
-                                call_a0 = (void *)(gte->unk_C8 * 4);
-                                tail_v0 = gte->unk_BC;
-                                call_a0 = (void *)((s32)call_a0 + tail_v0);
-                                temp_v1_8 = ((S_func_800AED64_11 *)(call_a0))->unk_00;
-                                tail_v0 = (s32) var_s0 & tag_low_mask;
-                                var_s0 = (s32 *)((s8 *)var_s0 + 0x28);
-                                temp_v1_8 &= tag_high_mask;
-                                temp_v1_8 |= tail_v0;
-                                ((S_func_800AED64_11 *)(call_a0))->unk_00 = temp_v1_8;
-                                temp_v1_8 = gte->unk_16C.at_16E.unk_16E;
-                                if ((temp_v1_8 & 0xF) == one) {
-                                    tail_v0 = gte->unk_16C.at_16F.unk_16F;
-                                    tail_v0 <<= 0x18;
-                                    if (tail_v0 >= 0) {
-                                        temp_v1_8 = (u32) temp_v1_8 >> 4;
-                                        tail_v0 = temp_v1_8 * 3;
-                                        tail_v0 *= 8;
-                                        tail_v0 += 0x18;
-                                        var_a2_3 = (s8 *) (u8 *)var_a2_3 + tail_v0;
+                                packet_color += 0x28;
+
+                                packet_xy3 += 0x28;
+                                work_value = scratch->unk_C8;
+                                work_bits = scratch->unk_BC;
+                                work_value <<= 2;
+                                work_value += work_bits;
+                                work_bits = *packet;
+                                work_value = ((S_func_800AED64_11 *)((void *)work_value))->unk_00;
+                                work_bits &= tag_high_mask;
+                                work_value &= tag_low_mask;
+                                work_bits |= work_value;
+                                *packet = work_bits;
+                                work_ptr = (void *)(scratch->unk_C8 * 4);
+                                work_value = scratch->unk_BC;
+                                work_ptr = (void *)((s32)work_ptr + work_value);
+                                work_bits = ((S_func_800AED64_11 *)(work_ptr))->unk_00;
+                                work_value = (s32) packet & tag_low_mask;
+                                packet = (s32 *)((s8 *)packet + 0x28);
+                                work_bits &= tag_high_mask;
+                                work_bits |= work_value;
+                                ((S_func_800AED64_11 *)(work_ptr))->unk_00 = work_bits;
+                                work_bits = scratch->unk_16C.at_16E.unk_16E;
+                                if ((work_bits & 0xF) == one) {
+                                    work_value = scratch->unk_16C.at_16F.unk_16F;
+                                    work_value <<= 0x18;
+                                    if (work_value >= 0) {
+                                        work_bits = (u32) work_bits >> 4;
+                                        work_value = work_bits * 3;
+                                        work_value *= 8;
+                                        work_value += 0x18;
+                                        polygon = (s8 *) (u8 *)polygon + work_value;
                                         continue;
                                     }
-                                    goto block_80;
+                                    goto finish_tile;
                                 }
-                                goto tail_aca88_18;
+                                goto next_polygon;
                             }
-                            goto block_80;
+                            goto finish_tile;
                         }
-                        if (((S_func_800AED64_16 *)((((u16) gte->unk_170 * 8) + temp_s3)))->unk_04 < 0) {
-                            if (gte->unk_16C.at_16E.unk_16E == one) {
-                                tail_v0 = (s32) gte->unk_16C.at_16F.unk_16F << 0x18;
+                        if (((S_func_800AED64_16 *)((((u16) scratch->unk_170 * 8) + normals)))->unk_04 < 0) {
+                            if (scratch->unk_16C.at_16E.unk_16E == one) {
+                                work_value = (s32) scratch->unk_16C.at_16F.unk_16F << 0x18;
                                 goto check_polygon_end;
                             }
-                            goto tail_aca88_18;
+                            goto next_polygon;
                         }
-                        temp_v1_8 = gte->unk_16C.at_16E.unk_16E;
-                        if (temp_v1_8 & 0xF0) {
-                            goto tail_aca88_scaled;
+                        work_bits = scratch->unk_16C.at_16E.unk_16E;
+                        if (work_bits & 0xF0) {
+                            goto skip_polygons;
                         }
-                        tail_v0 = gte->unk_16C.at_16F.unk_16F;
-                        tail_v0 <<= 0x18;
-                        if (tail_v0 >= 0) {
-tail_aca88_scaled:
-                            temp_v1_8 &= 0xF;
-                            tail_v0 = temp_v1_8 * 3;
-                            tail_v0 *= 8;
-                            var_a2_3 = (s8 *) (u8 *)var_a2_3 + tail_v0;
+                        work_value = scratch->unk_16C.at_16F.unk_16F;
+                        work_value <<= 0x18;
+                        if (work_value >= 0) {
+skip_polygons:
+                            work_bits &= 0xF;
+                            work_value = work_bits * 3;
+                            work_value *= 8;
+                            polygon = (s8 *) (u8 *)polygon + work_value;
                             continue;
                         }
-                        goto block_80;
+                        goto finish_tile;
                     }
-                    if (var_a2_3->unk_14.at_16.unk_16 != one) {
-                        goto tail_aca88_18;
+                    if (polygon->unk_14.at_16.unk_16 != one) {
+                        goto next_polygon;
                     }
-                    tail_v0 = var_a2_3->unk_14.at_17.unk_17;
+                    work_value = polygon->unk_14.at_17.unk_17;
 check_polygon_end:
-                    if (tail_v0 >= 0) {
-tail_aca88_18:
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        var_a2_3 = (s8 *) (u8 *)var_a2_3 + 0x18;
+                    if (work_value >= 0) {
+next_polygon:
+
+                        polygon = (s8 *) (u8 *)polygon + 0x18;
                         continue;
                     }
                     break;
                 }
-block_80:
-                if ((u32) gte->unk_164 >= var_s0) {
-                    goto block_81;
+finish_tile:
+                if ((u32) scratch->unk_164 >= packet) {
+                    goto advance_column;
                 }
-                goto block_89;
+                goto finish_draw;
             }
-block_81:
-            gte->unk_134 += 1;
-            temp_v0_8 = gte->unk_14.s32 + 0x40;
-            gte->unk_14.s32 = temp_v0_8;
-            if (gte->unk_18 < temp_v0_8) {
-                var_a2_3 = (void *)3;
-                goto block_83;
+advance_column:
+            scratch->unk_134 += 1;
+            next_x = scratch->unk_14.s32 + 0x40;
+            scratch->unk_14.s32 = next_x;
+            if (scratch->unk_18 < next_x) {
+                polygon = (void *)3;
+                goto advance_row;
             }
-            goto loop_37;
+            goto scan_column;
         }
-block_83:
-        var_a0_2 = -1;
-        temp_v0_9 = gte->unk_0C;
-        var_v1_2 = (s32 *)((u8 *)gte + 0x78);
-        temp_v0_9 += 0x40;
-        gte->unk_0C = temp_v0_9;
+advance_row:
+        column_rounding = -1;
+        row_progress = scratch->unk_0C;
+        end_edge = (s32 *)((u8 *)scratch + 0x78);
+        row_progress += 0x40;
+        scratch->unk_0C = row_progress;
         do {
-            if (var_v1_2->unk_38 > 0) {
-                temp_v0_9 = var_v1_2->unk_28 - 0x40;
-                var_v1_2->unk_28 = temp_v0_9;
-                if (temp_v0_9 <= 0) {
-                    var_v1_2->unk_38 = var_a0_2;
-                    gte->unk_174 = gte->unk_174 - 1;
+            if (end_edge->unk_38 > 0) {
+                row_progress = end_edge->unk_28 - 0x40;
+                end_edge->unk_28 = row_progress;
+                if (row_progress <= 0) {
+                    end_edge->unk_38 = column_rounding;
+                    scratch->unk_174 = scratch->unk_174 - 1;
                 }
             }
-            var_a2_3 = (S_func_800AED64_13 *)((u8 *)var_a2_3 - 1);
-            var_v1_2 = (S_func_800AED64_7 *)((u8 *)var_v1_2 - 0x28);
-        } while ((s32) var_a2_3 >= 0);
-        if (gte->unk_174 == 0) {
-            goto block_89;
+            polygon = (S_func_800AED64_13 *)((u8 *)polygon - 1);
+            end_edge = (S_func_800AED64_7 *)((u8 *)end_edge - 0x28);
+        } while ((s32) polygon >= 0);
+        if (scratch->unk_174 == 0) {
+            goto finish_draw;
         }
-        goto loop_5;
+        goto scan_row;
     }
-block_89:
-    ((S_func_800AED64_6 *)(d_80083160->unk_00))->unk_8D0 = var_s0;
+finish_draw:
+    ((S_func_800AED64_6 *)(render_state->unk_00))->unk_8D0 = packet;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     {
-        u8 *page8007;
-        S_func_800AED64_17 *adbc;
-        page8007 = (u8 *)0x80070000;
-        ASM_KEEP_NV(page8007);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        adbc = page8007 - 0x5244;
-        if ((adbc->unk_18 == 0xC) && ((u32) (adbc->unk_1A - 0x25) >= 5U) && ((s16) adbc->unk_1A != 0x34)) {
-            func_800AD138(gte->unk_164);
+        u8 *scene_page;
+        S_func_800AED64_17 *scene_state;
+        scene_page = (u8 *)0x80070000;
+        ASM_KEEP_NV(scene_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        scene_state = scene_page - 0x5244;
+        if ((scene_state->unk_18 == 0xC) && ((u32) (scene_state->unk_1A - 0x25) >= 5U) && ((s16) scene_state->unk_1A != 0x34)) {
+            func_800AD138(scratch->unk_164);
         }
     }
 }

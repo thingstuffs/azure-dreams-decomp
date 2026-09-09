@@ -50,29 +50,30 @@ typedef struct S_80171964_2 {
     u16 unk_88;
 } S_80171964_2;   /* base in func_80171964 */
 
-void func_80171964(void *arg0, void *arg1, void *arg2)
+/* Updates object callbacks, motion, sprite direction, and ground-relative height. */
+void func_80171964(void *object_arg, void *motion_arg, void *part_arg)
 {
-    void *obj = arg0;
-    register void *motion ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *part ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *obj = object_arg;
+    register void *motion ASM_REG("$21") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *part ASM_REG("$20") = part_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *base = obj;
     Callback first_callback;
     Callback dispatch_callback;
     s32 flags;
-    s32 velocity;
-    s16 floor;
-    s32 floor_limit;
-    s32 floor_value;
-    register u32 raw_floor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 bob_offset;
+    s16 ground_height;
+    s32 height_adjust;
+    s32 height;
+    register u32 raw_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 part_flags;
 
     if (D_80083462[0] & 0x2000) {
         first_callback = (*(Callback *)((u8 *)obj + (0x8C)));
         if (first_callback == (Callback)D_80171F1C) {
             {
-                void *entryArg0 = arg0;
+                void *entry_obj = object_arg;
 
-                first_callback(entryArg0, arg1, arg2, entryArg0);
+                first_callback(entry_obj, motion_arg, part_arg, entry_obj);
             }
             return;
         }
@@ -115,19 +116,19 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
     part_flags = ((S_80171964_1 *)part)->unk_14;
 
     if (!(part_flags & 0x8000)) {
-        s32 direction;
-        s32 index;
+        s32 view_direction;
+        s32 direction_index;
         register s32 page_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         register u8 *page_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        direction = (D_80083228[0] + ((S_80171964_2 *)base)->unk_2A + 0x100) >> 9;
-        index = direction & 7;
-        page_index = index;
+        view_direction = (D_80083228[0] + ((S_80171964_2 *)base)->unk_2A + 0x100) >> 9;
+        direction_index = view_direction & 7;
+        page_index = direction_index;
         if ((*(s16 *)((u8 *)obj + (0x94))) != (s16)page_index) {
             func_80047738(part,
                 (*(u8 *)((u8 *)(((S_80171964_1 *)part)->unk_2C) + (page_index))),
                 ((S_80171964_1 *)part)->unk_04.s8);
-            (*(s16 *)((u8 *)obj + (0x94))) = index;
+            (*(s16 *)((u8 *)obj + (0x94))) = direction_index;
         }
         page_table = D_8006CCF8;
         if (page_table[page_index] != 0) {
@@ -160,19 +161,19 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
                 (*(u16 *)((u8 *)obj + (0x9E))) = 0;
             }
             {
-                u16 counter = (*(u16 *)((u8 *)obj + (0x9E)));
+                u16 bob_frame = (*(u16 *)((u8 *)obj + (0x9E)));
 
-                (*(u16 *)((u8 *)obj + (0x9E))) = counter + 1;
-                (*(s32 *)((u8 *)obj + (0xA0))) = -func_800644B8((s16)counter * 0xC3) << 7;
+                (*(u16 *)((u8 *)obj + (0x9E))) = bob_frame + 1;
+                (*(s32 *)((u8 *)obj + (0xA0))) = -func_800644B8((s16)bob_frame * 0xC3) << 7;
             }
         }
         if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
-            floor_limit = -0x20;
-            floor_value = *(s16 *)((u8 *)obj + 0x92);
-            raw_floor = *(volatile u16 *)((u8 *)obj + 0x92);
-            if (floor_limit < floor_value) {
-                floor_limit = raw_floor - 8;
-                *(s16 *)((u8 *)obj + 0x92) = floor_limit;
+            height_adjust = -0x20;
+            height = *(s16 *)((u8 *)obj + 0x92);
+            raw_height = *(volatile u16 *)((u8 *)obj + 0x92);
+            if (height_adjust < height) {
+                height_adjust = raw_height - 8;
+                *(s16 *)((u8 *)obj + 0x92) = height_adjust;
                 goto common_tail;
             }
             goto raise_floor;
@@ -191,17 +192,17 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
     flags &= 0x40000;
     if (!flags) {
 clear_velocity:
-        velocity = (*(s32 *)((u8 *)obj + (0xA0)));
+        bob_offset = (*(s32 *)((u8 *)obj + (0xA0)));
         (*(u16 *)((u8 *)obj + (0x9E))) = 0;
         (*(s32 *)((u8 *)obj + (0xA0))) = 0;
-        (*(s32 *)((u8 *)obj + (0x90))) -= velocity;
+        (*(s32 *)((u8 *)obj + (0x90))) -= bob_offset;
         if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
-            floor = func_800BCB04(((S_80171964_0 *)motion)->unk_00.at02.v,
+            ground_height = func_800BCB04(((S_80171964_0 *)motion)->unk_00.at02.v,
                                   ((S_80171964_0 *)motion)->unk_04.at02.v,
                                   (s16)(((S_80171964_2 *)base)->unk_88 - 0x20)) -
                     ((S_80171964_2 *)base)->unk_88;
-            if (floor < (*(s16 *)((u8 *)obj + (0x92)))) {
-                (*(s16 *)((u8 *)obj + (0x92))) = floor;
+            if (ground_height < (*(s16 *)((u8 *)obj + (0x92)))) {
+                (*(s16 *)((u8 *)obj + (0x92))) = ground_height;
                 (*(u8 *)((u8 *)obj + (0x9D))) = 0;
                 ((S_80171964_0 *)motion)->unk_14 = 0;
                 ((S_80171964_2 *)base)->unk_1C.u |= 0x08000000;
@@ -217,25 +218,25 @@ clear_velocity:
             (*(u16 *)((u8 *)obj + (0x9E))) = 0;
         }
         {
-            u16 counter = (*(u16 *)((u8 *)obj + (0x9E)));
+            u16 bob_frame = (*(u16 *)((u8 *)obj + (0x9E)));
 
-            (*(u16 *)((u8 *)obj + (0x9E))) = counter + 1;
-            (*(s32 *)((u8 *)obj + (0xA0))) = -func_800644B8((s16)counter * 0xC3) << 7;
+            (*(u16 *)((u8 *)obj + (0x9E))) = bob_frame + 1;
+            (*(s32 *)((u8 *)obj + (0xA0))) = -func_800644B8((s16)bob_frame * 0xC3) << 7;
         }
     }
     if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
-        floor_limit = -0x20;
-        floor_value = *(s16 *)((u8 *)obj + 0x92);
-        raw_floor = *(volatile u16 *)((u8 *)obj + 0x92);
-        if (floor_limit < floor_value) {
-            floor_limit = raw_floor - 8;
-            *(s16 *)((u8 *)obj + 0x92) = floor_limit;
+        height_adjust = -0x20;
+        height = *(s16 *)((u8 *)obj + 0x92);
+        raw_height = *(volatile u16 *)((u8 *)obj + 0x92);
+        if (height_adjust < height) {
+            height_adjust = raw_height - 8;
+            *(s16 *)((u8 *)obj + 0x92) = height_adjust;
         } else {
 raise_floor:
-            floor_limit = floor_value < -0x28;
-            if (floor_limit) {
-                floor_limit = raw_floor + 8;
-                *(s16 *)((u8 *)obj + 0x92) = floor_limit;
+            height_adjust = height < -0x28;
+            if (height_adjust) {
+                height_adjust = raw_height + 8;
+                *(s16 *)((u8 *)obj + 0x92) = height_adjust;
             }
         }
     }
@@ -244,13 +245,13 @@ common_tail:
     flags = ((S_80171964_2 *)base)->unk_1C.u;
     if (flags & 0x40000000) {
         ((S_80171964_2 *)base)->unk_1C.u = flags & 0xBFFFFFFF;
-        floor = func_800BCB04(
+        ground_height = func_800BCB04(
             (((S_80171964_1 *)part)->unk_24 << 6) | 0x20,
             (((S_80171964_1 *)part)->unk_25 << 6) | 0x20,
             (s16)(((S_80171964_2 *)base)->unk_88 - 0x20));
-        if (floor < 0x200) {
-            (*(u16 *)((u8 *)obj + (0x92))) += ((S_80171964_2 *)base)->unk_88 - floor;
-            ((S_80171964_2 *)base)->unk_88 = floor;
+        if (ground_height < 0x200) {
+            (*(u16 *)((u8 *)obj + (0x92))) += ((S_80171964_2 *)base)->unk_88 - ground_height;
+            ((S_80171964_2 *)base)->unk_88 = ground_height;
         }
     }
     if ((*(u8 *)((u8 *)obj + (0x9A))) != 0x18) {
