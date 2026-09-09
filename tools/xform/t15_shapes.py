@@ -190,6 +190,54 @@ def dup_after_if_candidates(text):
     return out
 
 
+SELF_RE = re.compile(r"^(?P<i>[ \t]*)(?P<x>[A-Za-z_]\w*)\s*=\s*(?P<a>[^;=][^;]*?)\s*;\s*$")
+SELF2_RE = re.compile(r"^[ \t]*(?P<x>[A-Za-z_]\w*)\s*=\s*(?P=x)\s*(?P<op>[-+*/|&^]|<<|>>)\s*(?P<b>[^;]+?)\s*;\s*$")
+COMMUTE_RE = re.compile(r"(?P<l>\b[A-Za-z_]\w*(?:\s*(?:->|\.)\s*\w+)*|\b0x[0-9A-Fa-f]+\b|\b\d+\b)\s*(?P<op>[+*|&^])\s*(?P<r>\b[A-Za-z_]\w*(?:\s*(?:->|\.)\s*\w+)*|\b0x[0-9A-Fa-f]+\b|\b\d+\b)")
+
+
+def collapse_selfassign_candidates(text):
+    """`x = A; x = x op B;` becomes `x = A op B;`.
+
+    Harvested from a code-motion lane, where it turned a six-word reorder residue into an exact
+    match.  It removes an intermediate RTL definition point rather than moving one, which is a
+    different lever from every other entry in this menu.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    for i in range(len(lines) - 1):
+        a = SELF_RE.match(masked[i].rstrip("\n"))
+        b = SELF2_RE.match(masked[i + 1].rstrip("\n"))
+        if not a or not b or a.group("x") != b.group("x"):
+            continue
+        rhs_a = lines[i].split("=", 1)[1].rsplit(";", 1)[0].strip()
+        rhs_b = lines[i + 1].split("=", 1)[1].rsplit(";", 1)[0].strip()
+        # `x = x op B` -> the ` op B` tail
+        tail = rhs_b[len(a.group("x")):].strip()
+        if not tail:
+            continue
+        new = f"{a.group('i')}{a.group('x')} = {rhs_a} {tail};\n"
+        out.append(("collapse:%s" % a.group("x"), "".join(lines[:i] + [new] + lines[i + 2:])))
+    return out
+
+
+def commute_candidates(text):
+    """Swap the operands of one commutative binary op.
+
+    Also from the code-motion lane: `a + b` where retail compiled `b + a` costs real words, because
+    the operand order in the source decides the rs/rt encoding independently of everything else.
+    """
+    out = []
+    masked = mask(text)
+    for m in COMMUTE_RE.finditer(masked):
+        l, op, r = text[m.start("l"):m.end("l")], m.group("op"), text[m.start("r"):m.end("r")]
+        if l == r:
+            continue
+        cand = text[:m.start()] + f"{r} {op} {l}" + text[m.end():]
+        out.append(("commute:%s%s%s" % (l[:12], op, r[:12]), cand))
+    return out
+
+
 class T:
     name = "t15_shapes"
     level = 1
@@ -235,8 +283,10 @@ class T:
         best_label = "strip"
         seen = {sha_text(base)}
         for rnd in range(ROUNDS):
-            cands = (maskfold_candidates(cur) + mask2cast_candidates(cur)
-                     + dup_after_if_candidates(cur) + narrow_candidates(cur) + fence_candidates(cur))
+            cands = (collapse_selfassign_candidates(cur) + maskfold_candidates(cur)
+                     + mask2cast_candidates(cur) + commute_candidates(cur)
+                     + dup_after_if_candidates(cur) + narrow_candidates(cur)
+                     + fence_candidates(cur))
             round_best = None
             for label, cand in cands:
                 if tried >= BUDGET:
