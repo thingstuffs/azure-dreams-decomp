@@ -31,65 +31,64 @@ extern void func_800A63B8(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 extern void func_800D5460(void *, u32, s32);
 
-s32 func_800BDC98(void *arg0, s32 arg1, s16 arg2) {
-    s16 state;
-    s32 value;
-    u16 table_value;
-    u8 count;
+/* Applies an entity action, updates its state, and displays the result. */
+s32 func_800BDC98(void *entity, s32 action_id, s16 action_arg) {
+    s16 match_state;
+    s32 message_id;
+    u16 type_flags;
+    u8 update_count;
 
-    state = 0;
-    if (arg0 == D_800E3D7C[0]) {
-        *(s32 *)((u8 *)arg0 + 0x110) = arg1;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+    match_state = 0;
+    if (entity == D_800E3D7C[0]) {
+        *(s32 *)((u8 *)entity + 0x110) = action_id;
+        func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFFU) {
-        func_800A63B8(arg0, arg1, arg2);
+    if ((u32)entity <= 0x9FFFFFFFU) {
+        func_800A63B8(entity, action_id, action_arg);
 
-        if (((u8 *)arg0)[0x25] == ((u8 *)arg0)[0x66]) {
-            state = 1;
+        if (((u8 *)entity)[0x25] == ((u8 *)entity)[0x66]) {
+            match_state = 1;
         }
 
-        table_value = D_800DDE84[((u8 *)arg0)[0x13]];
-        if ((func_800AD6FC(arg0, ((u32)table_value >> 8) & 3, arg1) << 16) == 0) {
-            func_800A5F38(arg0, arg1);
+        type_flags = D_800DDE84[((u8 *)entity)[0x13]];
+        if ((func_800AD6FC(entity, ((u32)type_flags >> 8) & 3, action_id) << 16) == 0) {
+            func_800A5F38(entity, action_id);
             return 1;
         }
 
-        if (state != 0) {
-            count = ((u8 *)arg0)[4];
-            if (count < 0xFF) {
-                ((u8 *)arg0)[4] = count + 1;
-                func_80041E70(arg0);
+        if (match_state != 0) {
+            update_count = ((u8 *)entity)[4];
+            if (update_count < 0xFF) {
+                ((u8 *)entity)[4] = update_count + 1;
+                func_80041E70(entity);
             }
         }
 
-        if ((*(u32 *)((u8 *)arg0 + 0x14) & 0x4000) != 0) {
-            if (state == 0) {
-                if (((u8 *)arg0)[0x25] != ((u8 *)arg0)[0x66]) {
-                    state = -1;
+        if ((*(u32 *)((u8 *)entity + 0x14) & 0x4000) != 0) {
+            if (match_state == 0) {
+                if (((u8 *)entity)[0x25] != ((u8 *)entity)[0x66]) {
+                    match_state = -1;
                 }
             }
 
-            value = func_800990FC();
-            if (state < 0) {
+            message_id = func_800990FC();
+            if (match_state < 0) {
                 func_80099290(func_80099194(D_800E0F2D,
-                                            func_80099734(arg0, value)));
-            } else if (state != 0) { /* state>=0 here, so !=0 <=> >0; matches retail beqz */
-                ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                                            func_80099734(entity, message_id)));
+            } else if (match_state != 0) {
                 func_80099290(func_80099194(D_800E0F44,
-                                            func_80099734(arg0, value)));
+                                            func_80099734(entity, message_id)));
             } else {
-                ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 func_80099290(func_80099194(D_800E0F65,
-                                            func_80099734(arg0, value)));
+                                            func_80099734(entity, message_id)));
             }
-            func_800A5720(value);
+            func_800A5720(message_id);
         }
 
-        func_800D5460((u8 *)arg0 - 0x20, 0x20A0A0, 0x702);
-        func_80098B38(arg1);
+        func_800D5460((u8 *)entity - 0x20, 0x20A0A0, 0x702);
+        func_80098B38(action_id);
     } else {
         func_800997FC(D_800E0F85);
         func_800A56E0(0x506);
@@ -98,6 +97,3 @@ s32 func_800BDC98(void *arg0, s32 arg1, s16 arg2) {
     return 1;
 }
 
-/* MECHANISM: The natural C preserves retail's 40-byte frame and s0/s3/s2/s1 roles.
-   Seam-local $a0 clobbers split the positive/zero call live ranges, retaining each
-   move a0,s0 and collapsing the one-word branch-displacement cascade to exact. */

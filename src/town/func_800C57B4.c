@@ -2,33 +2,28 @@
 
 extern u8 D_80083160[];
 
-s32 func_800C2F14(s32 arg0, s16 arg1) {
-    u8 *base;
+/* Return whether the rounded, wrapped angle difference exceeds half the divisions. */
+s32 func_800C2F14(s32 angle, s16 divisions) {
+    u8 *angle_data;
     s16 step;
-    s32 shifted_arg1;
-    s32 signed_arg1;
+    s32 shifted_divisions;
+    s32 division_count;
     s32 distance;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 result ASM_REG("$2");
 
-    base = D_80083160;
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    shifted_arg1 = arg1 << 16;
-    signed_arg1 = shifted_arg1 >> 16;
-    result = signed_arg1 < 2;
+    angle_data = D_80083160;
+    ASM_KEEP(angle_data);
+    shifted_divisions = divisions << 16;
+    division_count = shifted_divisions >> 16;
+    result = division_count < 2;
     if (result) {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         return 0;
     }
 
     result = 0x1000;
-    step = (s16)(result / signed_arg1);
-    distance = (*(s16 *)(base + 0xC8) + (step / 2) - arg0) & 0xFFF;
+    step = (s16)(result / division_count);
+    distance = (*(s16 *)(angle_data + 0xC8) + (step / 2) - angle) & 0xFFF;
     distance /= step;
-    result = (signed_arg1 / 2) < distance;
+    result = (division_count / 2) < distance;
     return result;
 }
-
-/* MECHANISM: A kept global-base local plus named shifted/signed arguments gives
-   the retail argument lifetimes; one pinned $v0 carries guard, numerator, and result.
-   A taken-block scheduler fence preserves li 0x1000 in the branch delay, while
-   LEAD 19/22/28 remove the frame and sink the final slt into the tail-j slot. */

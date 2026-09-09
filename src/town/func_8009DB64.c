@@ -50,67 +50,52 @@ typedef struct S_8009B2C4_1 {
 } S_8009B2C4_1;   /* entry in func_8009B2C4 */
 
 
-s32 func_8009B2C4(TownObject *arg0, void *arg1, void *arg2) {
+/* Dispatches town object actions for the active script and owner state. */
+s32 func_8009B2C4(TownObject *object, void *owner, void *context) {
     register TownControl *control ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register TownControl *initial_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    TownControl *var_v0;
-    TownControl *base;
+    TownControl *control_page;
+    TownControl *owner_control;
     register u8 *entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 *page;
-    s32 temp_v1;
+    s32 active_script;
 
     initial_page = (TownControl *)0x800D0000;
     ASM_KEEP_NV(initial_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     control = (TownControl *)((u8 *)initial_page - 0x34C);
 
-    if (control->field_10 == arg1) {
+    if (control->field_10 == owner) {
         register s32 index ASM_REG("$8") = control->index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        if (((S_8009B2C4_0 *)((u8 *)arg1 + D_800CFDD8[index]))->unk_3A != 0) {
+        if (((S_8009B2C4_0 *)((u8 *)owner + D_800CFDD8[index]))->unk_3A != 0) {
             entry = (u8 *)(index + (s32)control);
             if (((S_8009B2C4_1 *)entry)->unk_3A == 1) {
                 if (D_800834B8 == (s32)&D_800924EC) {
-                    arg0->vtable->func0();
+                    object->vtable->func0();
                     return 1;
                 }
-                goto block_7;
             }
-block_7:
             if (D_800834B8 == (s32)&D_80092698) {
-                func_8009C120(arg0, arg1, arg2);
-                return 1;
-                   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                func_8009C120(object, owner, context);
                 return 1;
             }
-            var_v0 = (TownControl *)0x800D0000;
             if (D_800834B8 == (s32)&D_800927EC) {
-                var_v0 = (TownControl *)0x800D0000;
                 if (D_800CFCCC == 0) {
-                    func_8009C148(arg0, arg1, arg2);
-                    return 1;
-                       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    func_8009C148(object, owner, context);
                     return 1;
                 }
             }
-            goto block_15;
         }
-        goto block_15;
     }
-block_15:
-    var_v0 = (TownControl *)0x800D0000;
-    ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    base = (TownControl *)((u8 *)var_v0 - 0x34C);
-    if ((base->state == 0) || (base->owner != arg1)) {
-        if ((((Rec_D_800CFCB4 *)arg1)->unk_3B != 0) && (((Rec_D_800CFCB4 *)arg1)->unk_20 == base)) {
-            goto block_20;
-        }
-    } else {
-block_20:
-        page = (s32 *)0x80080000;
-        temp_v1 = D_800834B8;
-        if ((temp_v1 == (s32)&D_80091F64) ||
-            (temp_v1 == (s32)&D_800920F4) ||
-            (temp_v1 == (s32)&D_8009204C)) {
-            arg0->vtable->func18();
+    control_page = (TownControl *)0x800D0000;
+    ASM_KEEP(control_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    owner_control = (TownControl *)((u8 *)control_page - 0x34C);
+    if (((owner_control->state != 0) && (owner_control->owner == owner)) ||
+        ((((Rec_D_800CFCB4 *)owner)->unk_3B != 0) &&
+         (((Rec_D_800CFCB4 *)owner)->unk_20 == owner_control))) {
+        active_script = D_800834B8;
+        if ((active_script == (s32)&D_80091F64) ||
+            (active_script == (s32)&D_800920F4) ||
+            (active_script == (s32)&D_8009204C)) {
+            object->vtable->func18();
         }
     }
     return 0;

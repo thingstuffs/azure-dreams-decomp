@@ -25,128 +25,123 @@ extern u16 D_80083462;
 extern void *D_800E262C[];
 extern s8 D_800E2970[];
 
-
 typedef struct {
     u8 pad0[0xC];
     u16 flags;
     u8 padE[6];
 } DungeonRecord;
 
-
-
-
-
-
 typedef struct S_800D8C64_4 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800D8C64_4;   /* origin in func_800D8C64 */
+} S_800D8C64_4;   /* target in func_800D8C64 */
 
-void func_800D8C64(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates actor state, facing, and directional animation. */
+void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
 {
-    void **table;
-    s32 result;
-    s32 scratch;
+    void **anim_table;
+    s32 cell_record;
+    s32 direction_aux;
 
     if (D_80083462 & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
-        func_800D904C(arg0, arg1, arg2, arg3);
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
+        func_800D904C(actor, motion, sprite, status);
         return;
     }
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
-        void *current;
+    if (((Rec_D_800E3D7C *)status)->unk_24.at01_u8.v == 0) {
+        void *current_anim;
 
-        func_800AA79C(arg0, arg1, arg2, arg3);
-        current = ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv;
-        table = D_800E262C;
-        if (current == table) {
+        func_800AA79C(actor, motion, sprite, status);
+        current_anim = ((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv;
+        anim_table = D_800E262C;
+        if (current_anim == anim_table) {
             return;
         }
     } else {
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x200) {
-            if (((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv == D_800E262C) {
-                ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xD;
-                ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_u8 = 1;
-                ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
-                ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x40000;
+        if (((Rec_D_800E3D7C *)status)->unk_1C.as_u32 & 0x200) {
+            if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv == D_800E262C) {
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+                ((Rec_D_800E3D7C *)status)->unk_1C.as_u32 &= ~0x40000;
                 return;
             }
-            if (func_800AA924(arg0, arg1, arg2, 0)) {
+            if (func_800AA924(actor, motion, sprite, 0)) {
                 return;
             }
         }
 
         if (!(D_80083462 & 0x2000)) {
-            if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
-                func_800AA258(arg0, arg1, arg2, arg3);
+            if (((Rec_D_800E3D7C *)status)->unk_1C.as_u32 & 0x100) {
+                func_800AA258(actor, motion, sprite, status);
                 return;
             }
 
-            if (((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 != 0xE) {
-                u8 state = 0xE;
+            if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
+                u8 next_state = 0xE;
 
-                table = D_800E262C;
-                if (((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv != table) {
-                    (*(void * *)((u8 *)arg2 + (0x2C))) = table;
-                    func_8003DB94(arg2,
-                        *(void **)((u8 *)table +
-                            (((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)),
+                anim_table = D_800E262C;
+                if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv != anim_table) {
+                    (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
+                    func_8003DB94(sprite,
+                        *(void **)((u8 *)anim_table +
+                            (((D_80083228 + ((Rec_D_800E3D7C *)status)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)),
                         0);
                 }
-                ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = state;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = next_state;
             }
 
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 &= 0xFFF3;
-            if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
-                if (func_800AA6B4(arg0, arg1, arg2, 0)) {
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
+            if (((Rec_D_800E3D7C *)status)->unk_64.as_s16 != 0) {
+                if (func_800AA6B4(actor, motion, sprite, 0)) {
                     return;
                 }
             }
 
-            if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
-                ((Rec_func_800A9E70_arg0 *)arg0)->unk_90.at00_s32.v = 0;
-                ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 &= 0xFFFE;
-                ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-                func_800AA888(arg0, arg1, arg2, arg3);
-                func_800DA660(arg0, arg1, arg2, arg3);
+            if (((Rec_D_800E3D7C *)status)->unk_1C.as_u32 & 0x80000) {
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_90.at00_s32.v = 0;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFFE;
+                ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+                func_800AA888(actor, motion, sprite, status);
+                func_800DA660(actor, motion, sprite, status);
                 return;
             }
 
-            if ((s16)func_800A1C58(arg3) != 0) {
-                func_800AAB10(arg0, arg1, arg2, arg3);
+            if ((s16)func_800A1C58(status) != 0) {
+                func_800AAB10(actor, motion, sprite, status);
             }
         }
 
-        result = func_8009FB34(((Rec_func_800AA258_arg2 *)arg2)->unk_24, ((Rec_func_800AA258_arg2 *)arg2)->unk_25);
-        ((Rec_func_800AA258_arg2 *)arg2)->unk_26.as_u8 = result;
+        cell_record = func_8009FB34(((Rec_func_800AA258_arg2 *)sprite)->unk_24, ((Rec_func_800AA258_arg2 *)sprite)->unk_25);
+        ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_u8 = cell_record;
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) {
-            if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x20) {
-                func_800A9A0C(arg3);
+        if (((Rec_D_800E3D7C *)status)->unk_6D.as_s8 > 0) {
+            if (((Rec_D_800E3D7C *)status)->unk_1C.as_u32 & 0x20) {
+                func_800A9A0C(status);
                 return;
             }
-            func_800D92C0(arg0, arg1, arg2, arg3);
+            func_800D92C0(actor, motion, sprite, status);
             return;
         }
 
-        if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x2000)) {
-            s32 index = (s8)result;
+        if (!(((Rec_D_800E3D7C *)status)->unk_1C.as_u32 & 0x2000)) {
+            s32 record_index = (s8)cell_record;
 
-            if ((index < 0) ||
-                !(((DungeonRecord *)D_800E2970)[index].flags & 2)) {
-                if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x430)) {
-                    u8 *origin = D_80082E80;
+            if ((record_index < 0) ||
+                !(((DungeonRecord *)D_800E2970)[record_index].flags & 2)) {
+                if (!(((Rec_D_800E3D7C *)status)->unk_1C.as_u32 & 0x430)) {
+                    u8 *target = D_80082E80;
 
-                    if ((s16)func_8009FD7C(((Rec_func_800AA258_arg2 *)arg2)->unk_24,
-                            ((Rec_func_800AA258_arg2 *)arg2)->unk_25, ((S_800D8C64_4 *)origin)->unk_24,
-                            ((S_800D8C64_4 *)origin)->unk_25) != 0) {
-                        ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
-                            ((Rec_func_800AA258_arg2 *)arg2)->unk_24, ((Rec_func_800AA258_arg2 *)arg2)->unk_25,
-                            ((S_800D8C64_4 *)origin)->unk_24, ((S_800D8C64_4 *)origin)->unk_25,
-                            &scratch);
+                    if ((s16)func_8009FD7C(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
+                            ((Rec_func_800AA258_arg2 *)sprite)->unk_25, ((S_800D8C64_4 *)target)->unk_24,
+                            ((S_800D8C64_4 *)target)->unk_25) != 0) {
+                        ((Rec_D_800E3D7C *)status)->unk_2A.as_s16 = func_800A0818(
+                            ((Rec_func_800AA258_arg2 *)sprite)->unk_24, ((Rec_func_800AA258_arg2 *)sprite)->unk_25,
+                            ((S_800D8C64_4 *)target)->unk_24, ((S_800D8C64_4 *)target)->unk_25,
+                            &direction_aux);
                     }
                 }
             }
@@ -155,20 +150,20 @@ void func_800D8C64(void *arg0, void *arg1, void *arg2, void *arg3)
         if (D_80083462 & 0x2000) {
             return;
         }
-        if (((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0x40) {
+        if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x40) {
             return;
         }
-        table = D_800E262C;
-        if (((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv == table) {
+        anim_table = D_800E262C;
+        if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv == anim_table) {
             return;
         }
-        if (((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 1) {
+        if (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 1) {
             return;
         }
     }
-    (*(void * *)((u8 *)arg2 + (0x2C))) = table;
-    func_8003DB94(arg2,
-        *(void **)((((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C) +
-            (u32)table),
+    (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
+    func_8003DB94(sprite,
+        *(void **)((((D_80083228 + ((Rec_D_800E3D7C *)status)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C) +
+            (u32)anim_table),
         0);
 }

@@ -2,25 +2,22 @@
 #include "m2c_compat.h"
 
 s32 func_80033B2C();
-s32 func_800A98F8(s32 arg0)
+/* Returns the selected query result, testing for zero for check type 3. */
+s32 func_800A98F8(s32 check_type)
 {
-  if (arg0 == 2)
+  if (check_type == 2)
   {
     goto case_2;
   }
-  if (arg0 < 3)
+  if (check_type < 3)
   {
-    if (arg0 == 0)
+    if (check_type == 0)
     {
       goto case_0;
     }
-    {
-      s32 zero_result;
-      zero_result = 0;
-      return zero_result;
-    }
+    return 0;
   }
-  if (arg0 == 3)
+  if (check_type == 3)
   {
     goto case_3;
   }
@@ -33,5 +30,4 @@ s32 func_800A98F8(s32 arg0)
   return func_80033B2C(0x4FA) == 0;
   tail:
   return 0;
-
 }

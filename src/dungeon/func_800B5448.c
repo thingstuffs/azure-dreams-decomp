@@ -67,106 +67,106 @@ extern void func_8006658C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s16 func_80069EF8(void);
 
-s32 func_800BABA8(DungeonObject *object, u16 *input) {
+/* Advances particle levels and emits colored effect primitives into the dungeon display list. */
+s32 func_800BABA8(DungeonObject *object, u16 *position) {
     DungeonRoot *root =
         *(DungeonRoot **)D_80083160;
-    void *global_field =
+    void *root_slot =
         (void *)D_80083160;
-    s32 cursor = root->cursor;
+    s32 packet_cursor = root->cursor;
     Scratch *scratch;
-    s16 i = 0;
-    u8 *scratch_a = (u8 *)0x1F800090;
-    u8 *scratch_b;
-    void *dst;
+    s16 particle = 0;
+    u8 *scratch_90 = (u8 *)0x1F800090;
+    u8 *scratch_94;
+    void *packet;
 
     object->count = 0;
     scratch = (Scratch *)0x1F800000;
-    scratch->base = *(u8 **)global_field + 0xB0;
-    scratch->values[0] = input[1];
-    scratch_b = (u8 *)scratch;
-    scratch->values[1] = input[3];
-    scratch_b = (u8 *)((u32)scratch_b | 0x94);
-    scratch->values[2] = input[5];
-    dst = (void *)(cursor + 7);
+    scratch->base = *(u8 **)root_slot + 0xB0;
+    scratch->values[0] = position[1];
+    scratch_94 = (u8 *)scratch;
+    scratch->values[1] = position[3];
+    scratch_94 = (u8 *)((u32)scratch_94 | 0x94);
+    scratch->values[2] = position[5];
+    packet = (void *)(packet_cursor + 7);
     do {
         {
-            DungeonObject *row = (DungeonObject *)((u8 *)object + (s16)i);
-            row->level += 4;
-            if ((s8)row->level >= 48) {
+            DungeonObject *level_entry = (DungeonObject *)((u8 *)object + (s16)particle);
+            level_entry->level += 4;
+            if ((s8)level_entry->level >= 48) {
                 if (object->active != 0) {
-                    row->level = 48;
+                    level_entry->level = 48;
                     goto next_iteration;
                 }
-                row->level = 0;
+                level_entry->level = 0;
             }
         }
         {
-        s32 index = i;
-        (*(s32 *)((u8 *)dst + -3)) = 0;
-        (*(s32 *)((u8 *)dst + 5)) = 0;
-        scratch->x70 = scratch->values[0] +
-            ((func_80064584((index + (object->coord << 6)) << 7) << 4) >> 11);
-        scratch->x78 = scratch->x70;
-        scratch->y72 = scratch->values[1] +
-            ((func_800644B8((index + (object->coord << 6)) << 7) << 4) >> 11);
-        scratch->y7A = scratch->y72;
-        scratch->z74 = scratch->values[2] -
-            *(s8 *)((u8 *)object + index + 0x12) * 2;
-        scratch->z7C = scratch->z74 + 64;
+            s32 particle_index = particle;
+            (*(s32 *)((u8 *)packet + -3)) = 0;
+            (*(s32 *)((u8 *)packet + 5)) = 0;
+            scratch->x70 = scratch->values[0] +
+                ((func_80064584((particle_index + (object->coord << 6)) << 7) << 4) >> 11);
+            scratch->x78 = scratch->x70;
+            scratch->y72 = scratch->values[1] +
+                ((func_800644B8((particle_index + (object->coord << 6)) << 7) << 4) >> 11);
+            scratch->y7A = scratch->y72;
+            scratch->z74 = scratch->values[2] -
+                *(s8 *)((u8 *)object + particle_index + 0x12) * 2;
+            scratch->z7C = scratch->z74 + 64;
 
-        {
-            s16 value = func_80069EF8();
-            s8 level = *(s8 *)((u8 *)object + index + 0x12);
-            if (level >= 33) {
-                value = value / (level - 32);
-            } else if (level < 16) {
-                value = value / (16 - level);
+            {
+                s16 intensity = func_80069EF8();
+                s8 particle_level = *(s8 *)((u8 *)object + particle_index + 0x12);
+                if (particle_level >= 33) {
+                    intensity = intensity / (particle_level - 32);
+                } else if (particle_level < 16) {
+                    intensity = intensity / (16 - particle_level);
+                }
+                ((S_800BABA8_0 *)packet)->unk_0D = (*(s32 *)((u8 *)object->state + 0x14) & 1) ? intensity : 0;
+                ((S_800BABA8_0 *)packet)->unk_15 = ((S_800BABA8_0 *)packet)->unk_0D;
+                ((S_800BABA8_0 *)packet)->unk_0E = (*(s32 *)((u8 *)object->state + 0x14) & 4) ? intensity : 0;
+                ((S_800BABA8_0 *)packet)->unk_16 = ((S_800BABA8_0 *)packet)->unk_0E;
+                ((S_800BABA8_0 *)packet)->unk_0F = (*(s32 *)((u8 *)object->state + 0x14) & 2) ? intensity : 0;
+                ((S_800BABA8_0 *)packet)->unk_17 = ((S_800BABA8_0 *)packet)->unk_0F;
             }
-            ((S_800BABA8_0 *)dst)->unk_0D = (*(s32 *)((u8 *)object->state + 0x14) & 1) ? value : 0;
-            ((S_800BABA8_0 *)dst)->unk_15 = ((S_800BABA8_0 *)dst)->unk_0D;
-            ((S_800BABA8_0 *)dst)->unk_0E = (*(s32 *)((u8 *)object->state + 0x14) & 4) ? value : 0;
-            ((S_800BABA8_0 *)dst)->unk_16 = ((S_800BABA8_0 *)dst)->unk_0E;
-            ((S_800BABA8_0 *)dst)->unk_0F = (*(s32 *)((u8 *)object->state + 0x14) & 2) ? value : 0;
-            ((S_800BABA8_0 *)dst)->unk_17 = ((S_800BABA8_0 *)dst)->unk_0F;
-        }
 
-        scratch->length = func_80065420(&scratch->x70, (void *)(cursor + 8),
-            scratch_a, scratch_b);
-        (*(s32 *)((u8 *)dst + 9)) = (*(s32 *)((u8 *)dst + 1));
-        (*(u16 *)((u8 *)dst + 9)) += 4;
-        scratch->length += func_80065420(&scratch->x78, (void *)(cursor + 24),
-            scratch_a, scratch_b);
-        (*(s32 *)((u8 *)dst + 25)) = (*(s32 *)((u8 *)dst + 17));
-        (*(u16 *)((u8 *)dst + 25)) += 2;
-        scratch->length >>= 1;
-        ((S_800BABA8_0_pre *)dst)[-1].unk_00 = 8;
-        ((S_800BABA8_0 *)dst)->unk_00 = 58;
-        dst = (void *)((s8 *)dst + 36);
-        ASM_KEEP_NV(dst);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        dst = (void *)((s8 *)dst + 12);
-        func_8006658C((void *)(scratch->base + scratch->length * 4),
-            (void *)cursor);
-        cursor += 36;
-        func_80067F20((void *)cursor, 0, 0, 96, 0);
-        func_8006658C((void *)(scratch->base + scratch->length * 4),
-            (void *)cursor);
-        {
-            u8 count = object->count;
-            cursor += 12;
-            object->count = count + 1;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        }
-        next_iteration:
-        {
-            s16 next_i = i + 1;
-            i = next_i;
-            if (next_i >= 32) {
-                break;
+            scratch->length = func_80065420(&scratch->x70, (void *)(packet_cursor + 8),
+                scratch_90, scratch_94);
+            (*(s32 *)((u8 *)packet + 9)) = (*(s32 *)((u8 *)packet + 1));
+            (*(u16 *)((u8 *)packet + 9)) += 4;
+            scratch->length += func_80065420(&scratch->x78, (void *)(packet_cursor + 24),
+                scratch_90, scratch_94);
+            (*(s32 *)((u8 *)packet + 25)) = (*(s32 *)((u8 *)packet + 17));
+            (*(u16 *)((u8 *)packet + 25)) += 2;
+            scratch->length >>= 1;
+            ((S_800BABA8_0_pre *)packet)[-1].unk_00 = 8;
+            ((S_800BABA8_0 *)packet)->unk_00 = 58;
+            packet = (void *)((s8 *)packet + 36);
+            ASM_KEEP_NV(packet);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            packet = (void *)((s8 *)packet + 12);
+            func_8006658C((void *)(scratch->base + scratch->length * 4),
+                (void *)packet_cursor);
+            packet_cursor += 36;
+            func_80067F20((void *)packet_cursor, 0, 0, 96, 0);
+            func_8006658C((void *)(scratch->base + scratch->length * 4),
+                (void *)packet_cursor);
+            {
+                u8 drawn_count = object->count;
+                packet_cursor += 12;
+                object->count = drawn_count + 1;
             }
-        }
+            next_iteration:
+            {
+                s16 next_particle = particle + 1;
+                particle = next_particle;
+                if (next_particle >= 32) {
+                    break;
+                }
+            }
         }
     } while (1);
-    ((S_800BABA8_1 *)(*(DungeonRoot **)global_field))->unk_8D0 = cursor;
+    ((S_800BABA8_1 *)(*(DungeonRoot **)root_slot))->unk_8D0 = packet_cursor;
     {
         s32 result = 0;
         ASM_KEEP_NV(result); /* MATCH: Initialize the return value before the epilogue restores. */

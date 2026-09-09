@@ -36,38 +36,39 @@ typedef struct S_800D2664_2 {
     u8 unk_25;
 } S_800D2664_2;   /* ent in func_800D2664 */
 
-void func_800D2664(void *arg0, void *arg1, void *arg2) {
-    void *obj = arg0;
-    void *pos = arg1;
-    void *ent = arg2;
-    register void *work ASM_REG("$16") = obj;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+/* Runs object callbacks, applies movement and gravity, and updates ground height. */
+void func_800D2664(void *object, void *motion, void *entity) {
+    void *obj = object;
+    void *pos = motion;
+    void *ent = entity;
+    register void *update_obj ASM_REG("$16") = obj;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     DungeonCallback callback;
     s32 x;
     s32 y;
     s32 dx;
     s32 dy;
-    s32 fall_accum;
-    s32 fall_delta;
+    s32 fall_offset;
+    s32 fall_speed;
     u16 fall_flags;
-    s16 result;
-    s16 height;
-    s32 uheight;
+    s16 ground_height;
+    s16 base_height;
+    s32 base_height_u;
 
     if (D_80083462 & 0x2000) {
-        (*(u8 *)((u8 *)work + (0x71))) &= 0x7F;
+        (*(u8 *)((u8 *)update_obj + (0x71))) &= 0x7F;
         return;
     }
 
     ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(pos);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(ent);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(update_obj);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
-    callback = (*(DungeonCallback *)((u8 *)work + (0x8C)));
+    callback = (*(DungeonCallback *)((u8 *)update_obj + (0x8C)));
     if (callback != 0) {
-        callback(work, pos, ent, work);
+        callback(update_obj, pos, ent, update_obj);
     }
-    D_800E2228[(*(u8 *)((u8 *)work + (0x9A)))](work, pos, ent, work);
+    D_800E2228[(*(u8 *)((u8 *)update_obj + (0x9A)))](update_obj, pos, ent, update_obj);
 
     x = ((S_800D2664_0 *)pos)->unk_00.at00.v;
     dx = ((S_800D2664_0 *)pos)->unk_0C;
@@ -76,63 +77,63 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
     ((S_800D2664_0 *)pos)->unk_00.at00.v = x + dx;
     ((S_800D2664_0 *)pos)->unk_04.at00.v = y + dy;
 
-    if ((*(u16 *)((u8 *)work + (0x98))) & 8) {
-        (*(u8 *)((u8 *)work + (0x9D))) = 0;
+    if ((*(u16 *)((u8 *)update_obj + (0x98))) & 8) {
+        (*(u8 *)((u8 *)update_obj + (0x9D))) = 0;
     } else {
-        ((S_800D2664_0 *)pos)->unk_14 += (*(s8 *)((u8 *)work + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)work + (0x9D)))++;
+        ((S_800D2664_0 *)pos)->unk_14 += (*(s8 *)((u8 *)update_obj + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)update_obj + (0x9D)))++;
     }
-    fall_accum = ((S_800D2664_1 *)obj)->unk_90.at00.v;
-    fall_delta = ((S_800D2664_0 *)pos)->unk_14;
+    fall_offset = ((S_800D2664_1 *)obj)->unk_90.at00.v;
+    fall_speed = ((S_800D2664_0 *)pos)->unk_14;
     fall_flags = ((S_800D2664_1 *)obj)->unk_98;
-    ((S_800D2664_1 *)obj)->unk_90.at00.v = fall_accum + fall_delta;
+    ((S_800D2664_1 *)obj)->unk_90.at00.v = fall_offset + fall_speed;
 
     if (fall_flags & 4) {
         goto clear_fall_flag;
     }
 
-    result = func_800BCB04(
+    ground_height = func_800BCB04(
         ((S_800D2664_0 *)pos)->unk_00.at02.v,
         ((S_800D2664_0 *)pos)->unk_04.at02.v,
-        (s16)((*(u16 *)((u8 *)work + (0x88))) - 0x20));
-    if (result >= 0x200) {
+        (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
+    if (ground_height >= 0x200) {
         goto clear_fall_flag;
     }
 
-    uheight = (*(u16 *)((u8 *)work + (0x88)));
-    height = (*(s16 *)((u8 *)work + (0x88)));
-    if (((S_800D2664_1 *)obj)->unk_90.at02.v + height < result) {
-        u16 tail_flags = ((S_800D2664_1 *)obj)->unk_98;
-        ASM_KEEP(tail_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    base_height_u = (*(u16 *)((u8 *)update_obj + (0x88)));
+    base_height = (*(s16 *)((u8 *)update_obj + (0x88)));
+    if (((S_800D2664_1 *)obj)->unk_90.at02.v + base_height < ground_height) {
+        u16 object_flags = ((S_800D2664_1 *)obj)->unk_98;
+        ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     } else {
-        if (result >= height) {
+        if (ground_height >= base_height) {
             ((S_800D2664_1 *)obj)->unk_90.at00.v = 0;
         } else {
-            ((S_800D2664_1 *)obj)->unk_90.at02.v = result - uheight;
+            ((S_800D2664_1 *)obj)->unk_90.at02.v = ground_height - base_height_u;
         }
         ((S_800D2664_0 *)pos)->unk_14 = 0;
-        (*(u32 *)((u8 *)work + (0x1C))) |= 0x08000000;
+        (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x08000000;
         ((S_800D2664_1 *)obj)->unk_9D = 0;
     }
 
-    if ((*(u32 *)((u8 *)work + (0x1C))) & 0x40000000) {
+    if ((*(u32 *)((u8 *)update_obj + (0x1C))) & 0x40000000) {
         s32 tile_x;
         s32 tile_y;
-        (*(u32 *)((u8 *)work + (0x1C))) &= ~0x40000000;
+        (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x40000000;
         tile_x = (((S_800D2664_2 *)ent)->unk_24 << 6) | 0x20;
         tile_y = (((S_800D2664_2 *)ent)->unk_25 << 6) | 0x20;
-        result = func_800BCB04(
-            tile_x, tile_y, (s16)((*(u16 *)((u8 *)work + (0x88))) - 0x20));
-        ((S_800D2664_1 *)obj)->unk_90.at02.v += (*(u16 *)((u8 *)work + (0x88))) - result;
-        (*(s16 *)((u8 *)work + (0x88))) = result;
+        ground_height = func_800BCB04(
+            tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
+        ((S_800D2664_1 *)obj)->unk_90.at02.v += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
+        (*(s16 *)((u8 *)update_obj + (0x88))) = ground_height;
     }
     goto finish;
 
 clear_fall_flag:
-    (*(u32 *)((u8 *)work + (0x1C))) &= ~0x08000000;
+    (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;
 
 finish:
-    ((S_800D2664_0 *)pos)->unk_0A = (*(u16 *)((u8 *)work + (0x88))) + ((S_800D2664_1 *)obj)->unk_90.at02u.v;
+    ((S_800D2664_0 *)pos)->unk_0A = (*(u16 *)((u8 *)update_obj + (0x88))) + ((S_800D2664_1 *)obj)->unk_90.at02u.v;
     ((S_800D2664_2 *)ent)->unk_14 |= 0x40;
-    (*(u32 *)((u8 *)work + (0x1C))) |= 0x200;
+    (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x200;
 }

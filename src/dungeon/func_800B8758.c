@@ -55,109 +55,105 @@ typedef struct S_800BDEB8_1 {
     s16 unk_06;
 } S_800BDEB8_1;   /* ((S_800BDEB8_0_pre *)var_s2)[-1].unk_00 in func_800BDEB8 */
 
-s32 func_800BDEB8(void *arg0, s32 arg1, s16 arg2) {
+/* Applies an interaction to an entity and displays the outcome. */
+s32 func_800BDEB8(void *target, s32 action, s16 mode) {
     void *current_entity = D_800E3D7C;
-    void *var_s2 = arg0;
-    s32 var_s5 = arg1;
-    register s32 var_s3 ASM_REG("$19") = 0;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 var_s1 ASM_REG("$17"); /* MATCH: Keep the shared-tail value in s1 after merging the two call paths. */
-    register s32 var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *entry_ra ASM_REG("$31");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u32 id;
-    s32 temp_v0;
+    void *entity = target;
+    s32 action_id = action;
+    register s32 special_case ASM_REG("$19") = 0;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 original_id;
+    register s32 message_handle ASM_REG("$17"); /* MATCH: Keep the shared-tail value in s1 after merging the two call paths. */
+    register s32 saved_id ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *return_address ASM_REG("$31");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u32 entity_id;
+    s32 result;
     u32 flag_mask;
 
-    ASM_KEEP4_NV(var_s2, var_s5, var_s3, entry_ra);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP4_NV(var_s2, var_s5, var_s3, var_s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP4_NV(var_s2, var_s5, var_s3, var_s1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (var_s2 == current_entity) {
-        ((S_800BDEB8_0 *)var_s2)->unk_110 = var_s5;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+    ASM_KEEP4_NV(entity, action_id, special_case, return_address);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP4_NV(entity, action_id, special_case, original_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    if (entity == current_entity) {
+        ((S_800BDEB8_0 *)entity)->unk_110 = action_id;
+        func_8008D330(target, D_80083780, D_80082E80, target);
         return 0;
     }
 
-    if ((u32)var_s2 <= 0x9FFFFFFF) {
-        func_800A63B8(var_s2, var_s5, arg2);
-        if (func_800AD6FC(var_s2, (D_800DDE84[((S_800BDEB8_0 *)var_s2)->unk_13] >> 6) & 3, 0) == 0) {
-            func_800A5F38(var_s2, var_s5);
+    if ((u32)entity <= 0x9FFFFFFF) {
+        func_800A63B8(entity, action_id, mode);
+        if (func_800AD6FC(entity, (D_800DDE84[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
+            func_800A5F38(entity, action_id);
             return 1;
         }
     }
 
-    id = ((S_800BDEB8_0 *)var_s2)->unk_13;
-    if (id >= 0x2E) {
-        goto set_s3;
+    entity_id = ((S_800BDEB8_0 *)entity)->unk_13;
+    if (entity_id >= 0x2E) {
+        goto set_special;
     }
-    if (id == 0x1E) {
-        if ((((S_800BDEB8_0 *)var_s2)->unk_A4 != 0) || (((S_800BDEB8_0 *)var_s2)->unk_AA != 0)) {
-            var_s3 = 1;
+    if (entity_id == 0x1E) {
+        if ((((S_800BDEB8_0 *)entity)->unk_A4 != 0) || (((S_800BDEB8_0 *)entity)->unk_AA != 0)) {
+            special_case = 1;
         }
     }
-    temp_v0 = var_s3;
-    ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if (temp_v0 != 0) {
-        goto special;
+    result = special_case;
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    if (result != 0) {
+        goto show_special;
     }
 
     flag_mask = 0x80000;
-    var_s4 = ((S_800BDEB8_0 *)var_s2)->unk_13;
-    if (((S_800BDEB8_0 *)var_s2)->unk_1C & flag_mask) {
-        ((S_800BDEB8_1 *)(((S_800BDEB8_0_pre *)var_s2)[-1].unk_00))->unk_06 = 0;
+    original_id = ((S_800BDEB8_0 *)entity)->unk_13;
+    if (((S_800BDEB8_0 *)entity)->unk_1C & flag_mask) {
+        ((S_800BDEB8_1 *)(((S_800BDEB8_0_pre *)entity)[-1].unk_00))->unk_06 = 0;
     }
     {
-        register u8 *call_a0 ASM_REG("$4"); /* MATCH: Keep the merged message address in retail's argument register. */
-        register s32 call_a1 ASM_REG("$5"); /* MATCH: Both arms supply the shared call through a1 before the tail jump. */
-        temp_v0 = func_800A48F0(var_s2, 10, 0x20);
-        if ((s16)temp_v0 >= 0) {
-            var_s0 = ((S_800BDEB8_0 *)var_s2)->unk_13;
-            var_s1 = func_800990FC();
-            ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            ((S_800BDEB8_0 *)var_s2)->unk_13 = var_s4;
-            temp_v0 = func_80099734(var_s2, var_s1);
-            ((S_800BDEB8_0 *)var_s2)->unk_13 = var_s0;
-            call_a0 = D_800E0FA4;
-            call_a1 = temp_v0;
+        register u8 *message ASM_REG("$4"); /* MATCH: Keep the merged message address in retail's argument register. */
+        register s32 message_arg ASM_REG("$5"); /* MATCH: Both arms supply the shared call through a1 before the tail jump. */
+        result = func_800A48F0(entity, 10, 0x20);
+        if ((s16)result >= 0) {
+            saved_id = ((S_800BDEB8_0 *)entity)->unk_13;
+            message_handle = func_800990FC();
+            ((S_800BDEB8_0 *)entity)->unk_13 = original_id;
+            result = func_80099734(entity, message_handle);
+            ((S_800BDEB8_0 *)entity)->unk_13 = saved_id;
+            message = D_800E0FA4;
+            message_arg = result;
         } else {
-            var_s1 = func_800990FC();
-            ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            call_a0 = D_800E0FB9;
-            call_a1 = var_s1;
-            ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            message_handle = func_800990FC();
+            message = D_800E0FB9;
+            message_arg = message_handle;
         }
-        ASM_KEEP(call_a1); /* MATCH: Preserve the argument move before the shared call. */
-        temp_v0 = func_80099194(call_a0, call_a1);
+        result = func_80099194(message, message_arg);
     }
-    func_80099290(temp_v0);
-    func_800A5720(var_s1);
-    func_800D5460((u8 *)var_s2 - 0x20, 0x20A0A0, 0x613);
-    temp_v0 = var_s3;
-    goto check_s3;
+    func_80099290(result);
+    func_800A5720(message_handle);
+    func_800D5460((u8 *)entity - 0x20, 0x20A0A0, 0x613);
+    result = special_case;
+    goto check_special;
 
-set_s3:
-    var_s3 = 1;
-    ASM_KEEP(var_s3);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    temp_v0 = var_s3;
-check_s3:
-    if (temp_v0 == 0) {
-        goto common;
+set_special:
+    special_case = 1;
+    ASM_KEEP(special_case);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    result = special_case;
+check_special:
+    if (result == 0) {
+        goto finish;
     }
-special:
-        temp_v0 = func_800990FC();
-        {
-            register u8 *call_a0 ASM_REG("$4") = D_800E0FD7;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 call_a1 ASM_REG("$5") = temp_v0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            var_s0 = call_a1;
-            temp_v0 = func_80099194(call_a0, call_a1);
-        }
-        temp_v0 = func_80099734(var_s2, temp_v0);
-        temp_v0 = func_80099194(D_80089358, temp_v0);
-        func_80099290(temp_v0);
-        func_800A5720(var_s0);
+show_special:
+    result = func_800990FC();
+    {
+        register u8 *message ASM_REG("$4") = D_800E0FD7;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register s32 message_arg ASM_REG("$5") = result;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(message_arg);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        saved_id = message_arg;
+        result = func_80099194(message, message_arg);
+    }
+    result = func_80099734(entity, result);
+    result = func_80099194(D_80089358, result);
+    func_80099290(result);
+    func_800A5720(saved_id);
 
-common:
-    func_80098B38(var_s5);
+finish:
+    func_80098B38(action_id);
     D_80083460.field_A--;
     return 1;
 }

@@ -38,13 +38,14 @@ extern u8 D_80027DD0[];
 extern u8 D_800287E8[];
 
 static __inline__ void set_handler(u8 *base) {
-    register u8 *out ASM_REG("$2") = base;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *handler_base ASM_REG("$2") = base;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ((S_set_handler_0 *)out)->unk_10 = D_80022CD8;
+    ASM_KEEP(handler_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ((S_set_handler_0 *)handler_base)->unk_10 = D_80022CD8;
 }
 
-void func_80022D60(s32 arg0, void *arg1, void *arg2, s32 arg3) {
+/* Creates or resets the entity, initializes its nodes and record, and installs its handler. */
+void func_80022D60(s32 value_14, void *entry_index, void *value_0c, s32 value_20) {
     u8 *base;
     u8 *context;
 
@@ -52,7 +53,6 @@ void func_80022D60(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     context = base + 0x20;
     if (func_8004B4A8(base) == 0) {
         base = func_8003FE78(0, base, 0x27A);
-        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8004491C(base, D_80027DD0);
     } else {
         func_800231E4(((S_80022D60_0 *)context)->unk_0C != 2);
@@ -61,12 +61,11 @@ void func_80022D60(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     }
     func_80022B48(context, 7);
     {
-        register u8 *body ASM_REG("$17") = context;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        u8 *body = context;
 
-        ASM_KEEP(body);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_80022D60_1 *)base)->unk_0C = body + 0x8BC;
         ((S_80022D60_2 *)body)->unk_8C8 = func_80022B20(body + 0x8CC);
-        func_80022C90(body, arg0, arg1, arg2, arg3);
+        func_80022C90(body, value_14, entry_index, value_0c, value_20);
     }
     set_handler(base);
 }

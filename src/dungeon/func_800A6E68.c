@@ -40,14 +40,15 @@ typedef struct S_800AC5C8_3 {
     u8 unk_25;
 } S_800AC5C8_3;   /* arg2 in func_800AC5C8 */
 
-s32 func_800AC5C8(S_800AC5C8_0 *arg0, Rec_D_800E3D7C *arg1, S_800AC5C8_3 *arg2, void *arg3) {
+/* Advance the object's timed animation and perform its final cleanup. */
+s32 func_800AC5C8(S_800AC5C8_0 *animation, Rec_D_800E3D7C *position, S_800AC5C8_3 *tile, void *object) {
     s32 force;
-    u16 count;
+    u16 ticks_left;
     s32 state;
-    u8 x;
-    u8 y;
+    u8 tile_x;
+    u8 tile_y;
 
-    state = arg0->unk_9B;
+    state = animation->unk_9B;
     if (state == 1) {
         goto state_1;
     }
@@ -57,104 +58,85 @@ s32 func_800AC5C8(S_800AC5C8_0 *arg0, Rec_D_800E3D7C *arg1, S_800AC5C8_3 *arg2, 
     if (state == 0) {
         goto state_0;
     }
-    {
-        s32 rv_low;
-
-        rv_low = 0;
-        ASM_KEEP(rv_low);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return rv_low;
-    }
+    return 0;
 
 state_ge_2:
     if (state == 2) {
         goto state_2;
     }
-    {
-        s32 rv_high;
-
-        rv_high = 0;
-        ASM_KEEP(rv_high);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return rv_high;
-    }
+    return 0;
 
 state_0:
-        ((Rec_D_80082E80 *)arg3)->unk_6A = ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v & 0xFFF;
-        arg0->unk_9B++;
-        /* fall through */
+    ((Rec_D_80082E80 *)object)->unk_6A = ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v & 0xFFF;
+    animation->unk_9B++;
+    /* fall through */
 
 state_1:
-        ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v += 0x200;
-        arg1->unk_14.as_s32 -= 0x10000;
+    ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
+    position->unk_14.as_s32 -= 0x10000;
 
-        count = arg0->unk_96 - 1;
-        arg0->unk_96 = count;
-        if ((s16)count > 0) {
-            return 0;
-        }
+    ticks_left = animation->unk_96 - 1;
+    animation->unk_96 = ticks_left;
+    if ((s16)ticks_left > 0) {
+        return 0;
+    }
 
-        arg1->unk_14.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-        arg0->unk_96 = 0x10;
+    position->unk_14.as_s32 = 0;
+    func_800A2B04(position, tile->unk_24, tile->unk_25);
+    animation->unk_96 = 0x10;
 
-        if (!(((Rec_D_80082E80 *)arg3)->unk_14.at00_s32.v & 0x4000)) {
-            D_80083460.field_A--;
-            func_800A32A4(arg3);
-            func_8009A028(arg3);
-            ((S_800AC5C8_1_pre *)arg3)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
-            goto return_zero;
-        }
-
-        ((Rec_D_80082E80 *)arg3)->unk_88.as_u16 = func_800BCB04(
-            (arg2->unk_24 << 6) | 0x20,
-            (arg2->unk_25 << 6) | 0x20,
-            -0x400);
-        arg0->unk_98 &= 0xFFF7;
-        ((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v &= 0xFFFEFFFF;
-        arg0->unk_96 = 0x10;
-        arg0->unk_9B++;
+    if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {
+        D_80083460.field_A--;
+        func_800A32A4(object);
+        func_8009A028(object);
+        ((S_800AC5C8_1_pre *)object)[-1].unk_00 |= 0x8000;
+        D_800814A0[0] |= 0x8000;
         goto return_zero;
+    }
+
+    ((Rec_D_80082E80 *)object)->unk_88.as_u16 = func_800BCB04(
+        (tile->unk_24 << 6) | 0x20,
+        (tile->unk_25 << 6) | 0x20,
+        -0x400);
+    animation->unk_98 &= 0xFFF7;
+    ((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v &= 0xFFFEFFFF;
+    animation->unk_96 = 0x10;
+    animation->unk_9B++;
+    goto return_zero;
 
 state_2:
-        ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v += 0x200;
-        count = arg0->unk_96 - 1;
-        arg0->unk_96 = count;
-        if ((s16)count > 0) {
-            return 0;
-        }
+    ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
+    ticks_left = animation->unk_96 - 1;
+    animation->unk_96 = ticks_left;
+    if ((s16)ticks_left > 0) {
+        return 0;
+    }
 
-        arg0->unk_90 = 0;
-        x = arg2->unk_24;
-        y = arg2->unk_25;
-        if (((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v & 0x2000) {
-            force = 0x300;
-        } else {
-            force = 0x3000;
-        }
-        func_8009A21C(x, y, force);
-        {
-            D_80083460_t *status;
+    animation->unk_90 = 0;
+    tile_x = tile->unk_24;
+    tile_y = tile->unk_25;
+    if (((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v & 0x2000) {
+        force = 0x300;
+    } else {
+        force = 0x3000;
+    }
+    func_8009A21C(tile_x, tile_y, force);
+    {
+        D_80083460_t *status;
 
-            status = &D_80083460;
-            status->field_A--;
-        }
-        {
-            u16 restored;
-            register s32 rv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        status = &D_80083460;
+        status->field_A--;
+    }
+    {
+        u16 saved_angle;
+        register s32 finished ASM_REG("$2");
 
-            restored = ((Rec_D_80082E80 *)arg3)->unk_6A;
-            ASM_USE(restored);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            rv = 1;
-            ASM_USE(rv);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v = restored;
-            return rv;
-        }
+        saved_angle = ((Rec_D_80082E80 *)object)->unk_6A;
+        ASM_USE(saved_angle);
+        finished = 1;
+        ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v = saved_angle;
+        return finished;
+    }
 return_zero:
-    ASM_SCHED_BARRIER(); /* MATCH: keep the zero assignment in the shared tail after both state-1 stores. */
     return 0;
 }
-
-/* MECHANISM: vars=0 frame holds arg0/arg2/arg3 and 0x10 in s1/s2/s0/s3.
-   A signed ladder duplicates the two v0=0 noreturn default tails instead of merging them.
-   Non-overlap v0 status/rv and v1 restored pins reproduce the case-2 live ranges.
-   Ordered ASM_USE plus the returning alias/return 0 retains lhu;li;j;sh and dead move v0,zero. */

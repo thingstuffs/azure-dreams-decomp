@@ -3,51 +3,47 @@
 extern s16 func_80042900(void *, s32);
 extern s32 D_800835E8[];
 extern u8 *D_800E3D7C[];
-s32 func_800A1C58(void *a) {
-    s16 r = 0;
-    s32 *table;
-    u8 *entry;
+/* Checks whether an entity can level up with its current experience. */
+s32 func_800A1C58(void *entity) {
+    s16 can_level_up = 0;
+    s32 *exp_table;
+    u8 *exp_entry;
     u8 *global_page;
-    u8 index;
-    u32 offset;
+    u8 level;
+    u32 table_offset;
 
-    if (F(a,s8,0x13) < 0) {
+    if (F(entity, s8, 0x13) < 0) {
+        return 0;
+    }
+    if (F(entity, u8, 0x11) >= 0x63) {
+        return 0;
+    }
+    if ((func_80042900(entity,  10) << 16) != 0) {
         ASM_SCHED_BARRIER(); /* MATCH: retain the shared early-zero return block. */
         return 0;
     }
-    if (F(a,u8,0x11) >= 0x63) {
-        ASM_SCHED_BARRIER(); /* MATCH: retain the shared early-zero return block. */
-        return 0;
+    if (F(entity, u32, 0x1C) & 0x80000) {
+        return can_level_up;
     }
-    if ((func_80042900(a, 10) << 16) != 0) {
-        ASM_SCHED_BARRIER(); /* MATCH: retain the shared early-zero return block. */
-        return 0;
-    }
-    if (F(a,u32,0x1C) & 0x80000) {
-        return r;
-    }
-    if (F(a,u8,0x13) == 0) {
+    if (F(entity, u8, 0x13) == 0) {
         global_page = (u8 *)0x800E0000;
-        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (F(F(global_page,u8 *,0x3D7C),u8,0x9A) == 0x22) {
-            return r;
+        ASM_KEEP(global_page); /* Required for byte-exact code generation. */
+        if (F(F(global_page, u8 *, 0x3D7C), u8, 0x9A) == 0x22) {
+            return can_level_up;
         }
     }
-    if (F(a,u32,0x1C) & 0x228) {
-        return r;
+    if (F(entity, u32, 0x1C) & 0x228) {
+        return can_level_up;
     }
-    table = (s32 *)0x80080000;
-    ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    index = F(a,u8,0x11);
-    offset = index << 2;
-    table = (s32 *)((u8 *)table + 0x35E8);
-    entry = (u8 *)(offset + (u32)table);
-    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    if (*(u32 *)entry <= F(a,u32,0x18)) {
-        r++;
+    exp_table = (s32 *)0x80080000;
+    ASM_KEEP(exp_table); /* Required for byte-exact code generation. */
+    level = F(entity, u8, 0x11);
+    table_offset = level << 2;
+    exp_table = (s32 *)((u8 *)exp_table + 0x35E8);
+    exp_entry = (u8 *)(table_offset + (u32)exp_table);
+    ASM_KEEP(exp_entry); /* Required for byte-exact code generation. */
+    if (*(u32 *)exp_entry <= F(entity, u32, 0x18)) {
+        can_level_up++;
     }
-    return r;
+    return can_level_up;
 }
-/* MECHANISM: Nested early-zero CFG yields the 0x20 s0/s1 frame and LEAD22 tail-zero pair.
-   Split 0x800E/0x8008 page bases fill both load delays; s16 r preserves return shifts.
-   Guarded v1/v0 roles plus scaled-index-first integer addition fix the final addu ordering. */

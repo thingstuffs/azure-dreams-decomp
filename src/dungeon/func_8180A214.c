@@ -65,33 +65,34 @@ extern u8 D_8006CCF8[];
 extern u8 D_80082E80[];
 extern u8 D_800DD008[];
 
-void func_80025A14(void *arg0, void *arg1, void *arg2)
+/* Updates the object fade and selects its animation and render flags by direction. */
+void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
 {
-    register void *obj ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *obj ASM_REG("$17") = obj_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u16 counter;
-    register void *var_a0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register void *buffer ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u16 tail_value;
-    u8 *template;
+    u16 update_count;
+    s32 fade_ticks;
+    void *buffer = buffer_arg;
+    u16 render_flags;
+    u8 *obj_template;
     s8 phase;
     u8 fade_in_value;
     u8 fade_out_value;
-    u8 phase_value;
-    s16 init_value;
-    s16 index;
-    void *p;
+    u8 current_phase;
+    s16 unit_scale;
+    s16 direction;
+    void *owner;
 
-    counter = D_8002715C;
-    state = arg0;
-    counter++;
-    D_8002715C = counter;
+    update_count = D_8002715C;
+    state = state_arg;
+    update_count++;
+    D_8002715C = update_count;
     phase = ((S_80025A14_0 *)state)->unk_72.s;
     if (phase == 1) {
         goto fade_in;
     }
     if (phase < 2) {
-        init_value = 0x1000;
+        unit_scale = 0x1000;
         if (phase != 0) {
             ASM_SCHED_BARRIER(); /* MATCH: preserve dispatch layout and jump to the shared epilogue. */
             goto end;
@@ -110,24 +111,24 @@ init:
     ((S_80025A14_1 *)buffer)->unk_02 = 0;
     ((S_80025A14_1 *)buffer)->unk_06 = 0;
     ((S_80025A14_1 *)buffer)->unk_0A = 0;
-    ((S_80025A14_2 *)obj)->unk_1E = init_value;
-    ((S_80025A14_2 *)obj)->unk_1C = init_value;
+    ((S_80025A14_2 *)obj)->unk_1E = unit_scale;
+    ((S_80025A14_2 *)obj)->unk_1C = unit_scale;
     ((S_80025A14_2 *)obj)->unk_0E = 0;
     ((S_80025A14_2 *)obj)->unk_0D = 0;
     ((S_80025A14_2 *)obj)->unk_0C = 0;
-    template = D_80082E80;
-    ((S_80025A14_2 *)obj)->unk_28 = ((S_80025A14_3 *)template)->unk_28;
-    ((S_80025A14_2 *)obj)->unk_14 = ((S_80025A14_3 *)template)->unk_14 & 0xFFFC;
+    obj_template = D_80082E80;
+    ((S_80025A14_2 *)obj)->unk_28 = ((S_80025A14_3 *)obj_template)->unk_28;
+    ((S_80025A14_2 *)obj)->unk_14 = ((S_80025A14_3 *)obj_template)->unk_14 & 0xFFFC;
     ((S_80025A14_2 *)obj)->unk_2C = D_800DD008;
     ((S_80025A14_2 *)obj)->unk_14 |= 0x200;
     ((S_80025A14_0 *)state)->unk_73.s = 8;
     ((S_80025A14_0 *)state)->unk_72.s = ((S_80025A14_0 *)state)->unk_72.u + 1;
 
 fade_in:
-    var_a0 = (void *)(s32)((S_80025A14_0 *)state)->unk_73.s;
-    if (var_a0 != 0) {
+    fade_ticks = (s32)((S_80025A14_0 *)state)->unk_73.s;
+    if (fade_ticks != 0) {
         fade_in_value = ((S_80025A14_2 *)obj)->unk_0E;
-        fade_in_value += (0x40 - fade_in_value) / (s32)var_a0;
+        fade_in_value += (0x40 - fade_in_value) / fade_ticks;
         ((S_80025A14_2 *)obj)->unk_0E = fade_in_value;
         ((S_80025A14_2 *)obj)->unk_0D = fade_in_value;
         ((S_80025A14_2 *)obj)->unk_0C = fade_in_value;
@@ -140,9 +141,9 @@ fade_in:
     ((S_80025A14_2 *)obj)->unk_0E = 0x40;
     ((S_80025A14_2 *)obj)->unk_0D = 0x40;
     ((S_80025A14_2 *)obj)->unk_0C = 0x40;
-    phase_value = ((S_80025A14_0 *)state)->unk_72.u;
+    current_phase = ((S_80025A14_0 *)state)->unk_72.u;
     ((S_80025A14_0 *)state)->unk_73.u = 0;
-    ((S_80025A14_0 *)state)->unk_72.u = phase_value + 1;
+    ((S_80025A14_0 *)state)->unk_72.u = current_phase + 1;
 
 check_stop:
     if (D_8002715A != 0) {
@@ -153,10 +154,10 @@ check_stop:
     goto final_update;
 
 fade_out:
-    var_a0 = (void *)(s32)((S_80025A14_0 *)state)->unk_73.s;
-    if (var_a0 != 0) {
+    fade_ticks = (s32)((S_80025A14_0 *)state)->unk_73.s;
+    if (fade_ticks != 0) {
         fade_out_value = ((S_80025A14_2 *)obj)->unk_0E;
-        fade_out_value += (0 - fade_out_value) / (s32)var_a0;
+        fade_out_value += (0 - fade_out_value) / fade_ticks;
         ((S_80025A14_2 *)obj)->unk_0E = fade_out_value;
         ((S_80025A14_2 *)obj)->unk_0D = fade_out_value;
         ((S_80025A14_2 *)obj)->unk_0C = fade_out_value;
@@ -165,26 +166,26 @@ fade_out:
     ((S_80025A14_0 *)state)->unk_73.u = fade_out_value;
     if ((s8)fade_out_value <= 0) {
 advance_phase:
-        phase_value = ((S_80025A14_0 *)state)->unk_72.u;
-        ((S_80025A14_0 *)state)->unk_72.u = phase_value + 1;
+        current_phase = ((S_80025A14_0 *)state)->unk_72.u;
+        ((S_80025A14_0 *)state)->unk_72.u = current_phase + 1;
     }
 
 final_update:
-    p = ((S_80025A14_0 *)state)->unk_58;
-    p = ((S_80025A14_4_pre *)p)[-1].unk_00;
-    index = ((((S_80025A14_4 *)p)->unk_1A + 0x500) >> 9) & 7;
-    if (((S_80025A14_0 *)state)->unk_46 != index) {
-        ((S_80025A14_0 *)state)->unk_46 = index;
-        func_800489F4(obj, ((u8 *)((S_80025A14_2 *)obj)->unk_2C)[index],
+    owner = ((S_80025A14_0 *)state)->unk_58;
+    owner = ((S_80025A14_4_pre *)owner)[-1].unk_00;
+    direction = ((((S_80025A14_4 *)owner)->unk_1A + 0x500) >> 9) & 7;
+    if (((S_80025A14_0 *)state)->unk_46 != direction) {
+        ((S_80025A14_0 *)state)->unk_46 = direction;
+        func_800489F4(obj, ((u8 *)((S_80025A14_2 *)obj)->unk_2C)[direction],
                        ((S_80025A14_2 *)obj)->unk_04, 2);
     }
     func_80048AC8(obj, 2);
-    if (D_8006CCF8[index] != 0) {
-        tail_value = ((S_80025A14_2 *)obj)->unk_14 | 1;
+    if (D_8006CCF8[direction] != 0) {
+        render_flags = ((S_80025A14_2 *)obj)->unk_14 | 1;
     } else {
-        tail_value = ((S_80025A14_2 *)obj)->unk_14 & 0xFFFE;
+        render_flags = ((S_80025A14_2 *)obj)->unk_14 & 0xFFFE;
     }
-    ((S_80025A14_2 *)obj)->unk_14 = tail_value;
+    ((S_80025A14_2 *)obj)->unk_14 = render_flags;
 end:
     return;
 }

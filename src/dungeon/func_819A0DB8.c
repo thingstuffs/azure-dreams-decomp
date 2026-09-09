@@ -33,61 +33,62 @@ extern u8 D_80080000[];
 extern void *jtbl_80024008[];
 __asm__(".set jtbl_80024008, 0x80024008");
 
-void func_800245B8(void *arg0)
+/* Updates paired fields for the current countdown step and flags completion. */
+void func_800245B8(void *object_data)
 {
-    s32 index;
-    s32 tail_value;
-    S_func_819A0DB8_0 *self = arg0;
-    register u8 *page ASM_REG("$4") = (u8 *)0x80020000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    static void *const keepalive[] = {
+    s32 phase_index;
+    s32 pair_offset;
+    S_func_819A0DB8_0 *object = object_data;
+    register u8 *global_page ASM_REG("$4") = (u8 *)0x80020000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    static void *const phase_labels[] = {
         &&L0, &&L1, &&L2, &&L3
     };
 
-    (void)keepalive;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    index = (s16)(self->unk_3A - 3);
-    ((S_func_819A0DB8_1 *)page)->unk_61B0 = 1;
-    if ((u32)index < 11) {
-        void **table = jtbl_80024008;
-        goto *table[index];
+    (void)phase_labels;
+    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    phase_index = (s16)(object->unk_3A - 3);
+    ((S_func_819A0DB8_1 *)global_page)->unk_61B0 = 1;
+    if ((u32)phase_index < 11) {
+        void **phase_table = jtbl_80024008;
+        goto *phase_table[phase_index];
     }
     goto tail;
 
 L0:
-    self->unk_92 -= 0x60;
-    self->unk_9E -= 0x60;
-    self->unk_93 += 0x20;
-    self->unk_9F += 0x20;
+    object->unk_92 -= 0x60;
+    object->unk_9E -= 0x60;
+    object->unk_93 += 0x20;
+    object->unk_9F += 0x20;
     goto tail;
 L1:
-    self->unk_92 += 0x20;
-    self->unk_9E += 0x20;
-    self->unk_8C -= 1;
-    self->unk_98 += 1;
+    object->unk_92 += 0x20;
+    object->unk_9E += 0x20;
+    object->unk_8C -= 1;
+    object->unk_98 += 1;
     goto tail;
 L2:
-    self->unk_95 = 24;
-    self->unk_A1 = 24;
+    object->unk_95 = 24;
+    object->unk_A1 = 24;
     ASM_SCHED_BARRIER(); /* MATCH: keep each arm's stores before the shared tail. */
-    tail_value = -12;
+    pair_offset = -12;
     goto shared;
 L3:
-    self->unk_95 = 16;
-    self->unk_A1 = 16;
+    object->unk_95 = 16;
+    object->unk_A1 = 16;
     ASM_SCHED_BARRIER(); /* MATCH: keep each arm's stores before the shared tail. */
-    tail_value = -8;
+    pair_offset = -8;
 shared:
-    self->unk_8D = tail_value;
-    self->unk_99 = tail_value;
-    self->unk_92 += 0x20;
-    self->unk_9E += 0x20;
+    object->unk_8D = pair_offset;
+    object->unk_99 = pair_offset;
+    object->unk_92 += 0x20;
+    object->unk_9E += 0x20;
 
 tail:
     {
-        u16 state = self->unk_3A - 1;
-        self->unk_3A = state;
-        if ((s16)state <= 0) {
-            *(u16 *)((u8 *)self - 2) |= 0x8000;
+        u16 remaining_steps = object->unk_3A - 1;
+        object->unk_3A = remaining_steps;
+        if ((s16)remaining_steps <= 0) {
+            *(u16 *)((u8 *)object - 2) |= 0x8000;
             *(s32 *)((u8 *)D_80080000 + 0x14A0) |= 0x8000;
         }
     }

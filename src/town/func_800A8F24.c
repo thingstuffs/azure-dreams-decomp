@@ -34,64 +34,63 @@ typedef struct S_800A6684_0 {
 } S_800A6684_0;   /* arg2 in func_800A6684 */
 
 
-void func_800A6684(void *arg0, Rec_D_800E3D7C *arg1, S_800A6684_0 *arg2)
+/* Update the entity sprite and trigger effects when it crosses the height threshold. */
+void func_800A6684(void *entity, Rec_D_800E3D7C *position, S_800A6684_0 *sprite)
 {
-    StackRecord rec;
-    s32 index;
-    register s32 above ASM_REG("$3"); /* MATCH: keep the shared height predicate in retail's v1 across both guards. */
-    register s32 value ASM_REG("$2"); /* MATCH: load the height in v0 before producing the shared predicate in v1. */
-    void *call_a0;
-    u32 tail_value;
+    StackRecord effect_pos;
+    s32 frame_index;
+    register s32 above_height ASM_REG("$3"); /* MATCH: keep the shared height predicate in retail's v1 across both guards. */
+    register s32 height_or_shade;
+    u32 sprite_flags;
 
-    (*(EntityCallback *)((u8 *)arg0 + 0x50))(arg0, arg0, arg1, arg2);
-    if (!((*(u16 *)((u8 *)arg0 + -2)) & 0x8000)) {
-        func_800970AC(func_80096FF4(arg1), arg0);
+    (*(EntityCallback *)((u8 *)entity + 0x50))(entity, entity, position, sprite);
+    if (!((*(u16 *)((u8 *)entity + -2)) & 0x8000)) {
+        func_800970AC(func_80096FF4(position), entity);
 
-        index = func_800C2E1C((*(s16 *)((u8 *)arg0 + 0x72)), (*(s16 *)((u8 *)arg0 + 0x64)));
-        if ((*(s16 *)((u8 *)arg0 + 0x74)) != index) {
-            func_8003DB94(arg2, (*(void ** *)((u8 *)arg0 + 0x78))[index], arg2->unk_04);
-            (*(s16 *)((u8 *)arg0 + 0x74)) = index;
+        frame_index = func_800C2E1C((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64)));
+        if ((*(s16 *)((u8 *)entity + 0x74)) != frame_index) {
+            func_8003DB94(sprite, (*(void ** *)((u8 *)entity + 0x78))[frame_index], sprite->unk_04);
+            (*(s16 *)((u8 *)entity + 0x74)) = frame_index;
         }
 
-        if ((func_800C2F14((*(s16 *)((u8 *)arg0 + 0x72)), (*(s16 *)((u8 *)arg0 + 0x64))) << 0x10) != 0) {
-            tail_value = arg2->unk_14 | 1;
+        if ((func_800C2F14((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64))) << 0x10) != 0) {
+            sprite_flags = sprite->unk_14 | 1;
         } else {
-            tail_value = arg2->unk_14 & 0xFFFE;
+            sprite_flags = sprite->unk_14 & 0xFFFE;
         }
-        arg2->unk_14 = tail_value;
+        sprite->unk_14 = sprite_flags;
         ASM_SCHED_BARRIER();   /* MATCH: keep the flags store before call argument setup. */
-        call_a0 = arg2;
-        func_800478B8(call_a0);
+        func_800478B8(sprite);
 
-        value = arg1->unk_04.at00_s32.v;
-        above = value > 0x06500000;
-        if (!above && (*(s32 *)((u8 *)arg0 + 0xA0)) > 0x06500000) {
-            arg2->unk_0C = arg2->unk_0D = arg2->unk_0E = 0xFF;
-            rec.unk0 = arg1->unk_00.at00_s32.v;
-            rec.unk4 = 0x06400000;
-            rec.unk8 = arg1->unk_08.at00_s32.v - 0x00280000;
-            func_800A6A94(&rec);
-        } else if (above && (*(s32 *)((u8 *)arg0 + 0xA0)) <= 0x06500000 &&
-            (*(s32 *)((u8 *)arg0 + 0xA4)) <= 0x06500000) {
-            arg2->unk_0C = arg2->unk_0D = arg2->unk_0E = 0xFF;
-            rec.unk0 = arg1->unk_00.at00_s32.v;
-            rec.unk4 = 0x06600000;
-            rec.unk8 = arg1->unk_08.at00_s32.v - 0x00280000;
-            func_800A6B70(&rec);
+        height_or_shade = position->unk_04.at00_s32.v;
+        above_height = height_or_shade > 0x06500000;
+        if (!above_height && (*(s32 *)((u8 *)entity + 0xA0)) > 0x06500000) {
+            sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;
+            effect_pos.unk0 = position->unk_00.at00_s32.v;
+            effect_pos.unk4 = 0x06400000;
+            effect_pos.unk8 = position->unk_08.at00_s32.v - 0x00280000;
+            func_800A6A94(&effect_pos);
+        } else if (above_height && (*(s32 *)((u8 *)entity + 0xA0)) <= 0x06500000 &&
+            (*(s32 *)((u8 *)entity + 0xA4)) <= 0x06500000) {
+            sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;
+            effect_pos.unk0 = position->unk_00.at00_s32.v;
+            effect_pos.unk4 = 0x06600000;
+            effect_pos.unk8 = position->unk_08.at00_s32.v - 0x00280000;
+            func_800A6B70(&effect_pos);
         } else {
-            value = arg2->unk_0C - 8;
-            arg2->unk_0C = value;
-            if ((u32)(value & 0xFF) < 0x80U) {
-                arg2->unk_0C = 0x80;
+            height_or_shade = sprite->unk_0C - 8;
+            sprite->unk_0C = height_or_shade;
+            if ((u32)(height_or_shade & 0xFF) < 0x80U) {
+                sprite->unk_0C = 0x80;
             }
-            value = arg2->unk_0D - 0x10;
-            arg2->unk_0D = value;
-            if ((u32)(value & 0xFF) < 0x80U) {
-                arg2->unk_0D = 0x80;
+            height_or_shade = sprite->unk_0D - 0x10;
+            sprite->unk_0D = height_or_shade;
+            if ((u32)(height_or_shade & 0xFF) < 0x80U) {
+                sprite->unk_0D = 0x80;
             }
-            arg2->unk_0E = arg2->unk_0D;
+            sprite->unk_0E = sprite->unk_0D;
         }
-        (*(s32 *)((u8 *)arg0 + 0xA4)) = (*(s32 *)((u8 *)arg0 + 0xA0));
-        (*(s32 *)((u8 *)arg0 + 0xA0)) = arg1->unk_04.at00_s32.v;
+        (*(s32 *)((u8 *)entity + 0xA4)) = (*(s32 *)((u8 *)entity + 0xA0));
+        (*(s32 *)((u8 *)entity + 0xA0)) = position->unk_04.at00_s32.v;
     }
 }

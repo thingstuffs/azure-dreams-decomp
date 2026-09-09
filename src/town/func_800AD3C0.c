@@ -21,40 +21,40 @@ typedef struct S_800AAB20_0_pre {
 
 
 
-void func_800AAB20(void *arg0, M2C_UNK arg1, Rec_D_80082E80 *arg2) {
-    s32 temp_v0_2;
-    s8 *temp_v0;
+/* Updates an object and its display state, or removes it when requested. */
+void func_800AAB20(void *object, M2C_UNK update_ctx, Rec_D_80082E80 *display) {
+    s32 frame_index;
+    s8 *active_flag;
 
-    if (func_8009CFE0(arg0, arg1) != 0) {
-        func_8008F134(arg0);
-        temp_v0 = ((Rec_D_80082D58 *)arg0)->unk_98.as_ps8;
-        if (temp_v0 != NULL) {
-            *temp_v0 = 0;
+    if (func_8009CFE0(object, update_ctx) != 0) {
+        func_8008F134(object);
+        active_flag = ((Rec_D_80082D58 *)object)->unk_98.as_ps8;
+        if (active_flag != NULL) {
+            *active_flag = 0;
         }
-        func_80033D08(arg0);
-        ((S_800AAB20_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800AAB20_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        func_80033D08(object);
+        ((S_800AAB20_0_pre *)object)[-1].unk_00 = (u16) (((S_800AAB20_0_pre *)object)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
         return;
     }
-    func_8009706C(arg1);
-    ((Rec_D_80082D58 *)arg0)->unk_50.as_xcdccad(arg0, arg0, arg1, arg2);
-    if (!(((S_800AAB20_0_pre *)arg0)[-1].unk_00 & 0x8000)) {
-        temp_v0_2 = func_800C2E1C(((Rec_D_80082D58 *)arg0)->unk_72, ((Rec_D_80082D58 *)arg0)->unk_64);
-        if (((Rec_D_80082D58 *)arg0)->unk_74 != temp_v0_2) {
-            func_8003DB94(arg2, ((Rec_D_80082D58 *)arg0)->unk_78[temp_v0_2], arg2->unk_04.as_s8);
-            ((Rec_D_80082D58 *)arg0)->unk_74 = temp_v0_2;
+    func_8009706C(update_ctx);
+    ((Rec_D_80082D58 *)object)->unk_50.as_xcdccad(object, object, update_ctx, display);
+    if (!(((S_800AAB20_0_pre *)object)[-1].unk_00 & 0x8000)) {
+        frame_index = func_800C2E1C(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64);
+        if (((Rec_D_80082D58 *)object)->unk_74 != frame_index) {
+            func_8003DB94(display, ((Rec_D_80082D58 *)object)->unk_78[frame_index], display->unk_04.as_s8);
+            ((Rec_D_80082D58 *)object)->unk_74 = frame_index;
         }
         {
-            s32 tail_v0;
+            s32 display_flags;
 
-            if ((func_800C2F14(((Rec_D_80082D58 *)arg0)->unk_72, ((Rec_D_80082D58 *)arg0)->unk_64) << 0x10) != 0) {
-                tail_v0 = arg2->unk_14.at00_u16.v | 1;
+            if ((func_800C2F14(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64) << 0x10) != 0) {
+                display_flags = display->unk_14.at00_u16.v | 1;
             } else {
-                tail_v0 = arg2->unk_14.at00_u16.v & 0xFFFE;
+                display_flags = display->unk_14.at00_u16.v & 0xFFFE;
             }
-            arg2->unk_14.at00_u16.v = (u16) tail_v0;
+            display->unk_14.at00_u16.v = (u16) display_flags;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800478B8(arg2);
+        func_800478B8(display);
     }
 }

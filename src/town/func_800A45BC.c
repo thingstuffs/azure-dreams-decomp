@@ -65,73 +65,70 @@ typedef struct S_800A1D1C_5 {
     u16 unk_0A;
 } S_800A1D1C_5;   /* arg1 in func_800A1D1C */
 
-void func_800A1D1C(void *arg0, S_800A1D1C_5 *arg1, void *arg2) {
-    s32 temp_s0;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v0_3;
+/* Update primitive shading and transform object coordinates, or mark it inactive. */
+void func_800A1D1C(void *object, S_800A1D1C_5 *coords, void *primitive) {
+    s32 matrix_index;
+    s32 red_scaled;
+    s32 green_scaled;
+    s32 blue_scaled;
     u8 *global_page;
-    register void *arg2_local ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *saved_primitive ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *scratch ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *temp_a0;
-    void *temp_s0_2;
-    void *temp_s1;
+    void *position;
+    void *matrix;
+    void *render_state;
 
-    temp_s1 = ((S_800A1D1C_0 *)arg0)->unk_10;
-    arg2_local = arg2;
+    render_state = ((S_800A1D1C_0 *)object)->unk_10;
+    saved_primitive = primitive;
     scratch = (u8 *)0x1F800000;
-    if (((S_800A1D1C_1 *)temp_s1)->unk_0A != 0) {
-        ((S_800A1D1C_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800A1D1C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    if (((S_800A1D1C_1 *)render_state)->unk_0A != 0) {
+        ((S_800A1D1C_0_pre *)object)[-1].unk_00 = (u16) (((S_800A1D1C_0_pre *)object)[-1].unk_00 | 0x8000);
         global_page = (u8 *)0x80080000;
         ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         ((S_800A1D1C_2 *)global_page)->unk_14A0 |= 0x8000;
         return;
     }
-    ASM_KEEP(arg2_local);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ((S_800A1D1C_0 *)arg0)->unk_00(arg0, arg1, arg2_local);
-    if (((S_800A1D1C_0 *)arg0)->unk_3C != 0) {
-        ((S_800A1D1C_3 *)arg2_local)->unk_0C.u = ((S_800A1D1C_1 *)temp_s1)->unk_10.u8;
+    ASM_KEEP(saved_primitive);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    ((S_800A1D1C_0 *)object)->unk_00(object, coords, saved_primitive);
+    if (((S_800A1D1C_0 *)object)->unk_3C != 0) {
+        ((S_800A1D1C_3 *)saved_primitive)->unk_0C.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
-        var_v0 = ((S_800A1D1C_1 *)temp_s1)->unk_10.s16 * 3;
-        if (var_v0 < 0) {
-            var_v0 += 3;
+        red_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
+        if (red_scaled < 0) {
+            red_scaled += 3;
         }
-        ((S_800A1D1C_3 *)arg2_local)->unk_0C.s = (s8) (var_v0 >> 2);
+        ((S_800A1D1C_3 *)saved_primitive)->unk_0C.s = (s8) (red_scaled >> 2);
     }
-    if (((S_800A1D1C_0 *)arg0)->unk_3D != 0) {
-        ((S_800A1D1C_3 *)arg2_local)->unk_0D.u = ((S_800A1D1C_1 *)temp_s1)->unk_10.u8;
+    if (((S_800A1D1C_0 *)object)->unk_3D != 0) {
+        ((S_800A1D1C_3 *)saved_primitive)->unk_0D.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
-        var_v0_2 = ((S_800A1D1C_1 *)temp_s1)->unk_10.s16 * 3;
-        if (var_v0_2 < 0) {
-            var_v0_2 += 3;
+        green_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
+        if (green_scaled < 0) {
+            green_scaled += 3;
         }
-        ((S_800A1D1C_3 *)arg2_local)->unk_0D.s = (s8) (var_v0_2 >> 2);
+        ((S_800A1D1C_3 *)saved_primitive)->unk_0D.s = (s8) (green_scaled >> 2);
     }
-    if (((S_800A1D1C_0 *)arg0)->unk_3E != 0) {
-        ((S_800A1D1C_3 *)arg2_local)->unk_0E.u = ((S_800A1D1C_1 *)temp_s1)->unk_10.u8;
+    if (((S_800A1D1C_0 *)object)->unk_3E != 0) {
+        ((S_800A1D1C_3 *)saved_primitive)->unk_0E.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
-        var_v0_3 = ((S_800A1D1C_1 *)temp_s1)->unk_10.s16 * 3;
-        if (var_v0_3 < 0) {
-            var_v0_3 += 3;
+        blue_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
+        if (blue_scaled < 0) {
+            blue_scaled += 3;
         }
-        ((S_800A1D1C_3 *)arg2_local)->unk_0E.s = (s8) (var_v0_3 >> 2);
+        ((S_800A1D1C_3 *)saved_primitive)->unk_0E.s = (s8) (blue_scaled >> 2);
     }
-    ((S_800A1D1C_4 *)scratch)->unk_2C = ((S_800A1D1C_0 *)arg0)->unk_24;
-    ((S_800A1D1C_4 *)scratch)->unk_2E = ((S_800A1D1C_0 *)arg0)->unk_28;
-    ((S_800A1D1C_4 *)scratch)->unk_30 = ((S_800A1D1C_0 *)arg0)->unk_2C;
-    temp_s0 = ((S_800A1D1C_0 *)arg0)->unk_22 != 0;
+    ((S_800A1D1C_4 *)scratch)->unk_2C = ((S_800A1D1C_0 *)object)->unk_24;
+    ((S_800A1D1C_4 *)scratch)->unk_2E = ((S_800A1D1C_0 *)object)->unk_28;
+    ((S_800A1D1C_4 *)scratch)->unk_30 = ((S_800A1D1C_0 *)object)->unk_2C;
+    matrix_index = ((S_800A1D1C_0 *)object)->unk_22 != 0;
     func_800649A0();
-    temp_s0_2 = temp_s1 + ((temp_s0 << 5) + 0x14);
-    func_80064CF0(temp_s0_2);
-    func_80064D80(temp_s0_2);
-    temp_a0 = scratch + 0x2C;
-    func_80065320(temp_a0, temp_a0, (void *)((u32)scratch | 0x98));
+    matrix = render_state + ((matrix_index << 5) + 0x14);
+    func_80064CF0(matrix);
+    func_80064D80(matrix);
+    position = scratch + 0x2C;
+    func_80065320(position, position, (void *)((u32)scratch | 0x98));
     func_80064A40();
-    arg1->unk_02 = ((S_800A1D1C_4 *)scratch)->unk_2C;
-    arg1->unk_06 = ((S_800A1D1C_4 *)scratch)->unk_2E;
-    arg1->unk_0A = ((S_800A1D1C_4 *)scratch)->unk_30;
+    coords->unk_02 = ((S_800A1D1C_4 *)scratch)->unk_2C;
+    coords->unk_06 = ((S_800A1D1C_4 *)scratch)->unk_2E;
+    coords->unk_0A = ((S_800A1D1C_4 *)scratch)->unk_30;
 }
-/* MECHANISM: Pinned s3 scratch and s2 arg2 holds produce the five-register 0x28 frame.
-   A held 0x80080000 page base recovers the v1 RMW; signed halfword loads and tail-arm byte copies recover the body.
-   Assigning scratch before the branch but fencing both holds at fallthrough fills retail's load and branch delay slots. */

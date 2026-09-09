@@ -74,68 +74,68 @@ extern void *D_800814A8;
 extern u8 D_80083160[];
 extern s32 D_80083460;
 
-void func_80024078(State *arg0)
+/* Advances the screen transition, updates fade timers, and releases completed state. */
+void func_80024078(State *ctx)
 {
     u8 *screen = D_80083160;
-    register s16 discarded_state ASM_REG("$3");   /* MATCH: case 0 and case 2 share the state increment in v1. */
+    register s16 previous_state ASM_REG("$3");
 
-    switch (arg0->state) {
+    switch (ctx->state) {
     case 0: {
-        s32 rect[2];
+        s32 rect_words[2];
         s32 phase;
-        s32 duration;
-        register void *parent ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 fade_duration;
+        register void *parent ASM_REG("$5");
         void *object;
         void *child;
 
-        rect[0] = 0x010003A0;
-        rect[1] = 0x00400020;
-        func_80040490(D_80028F68, (Rect *)rect);
+        rect_words[0] = 0x010003A0;
+        rect_words[1] = 0x00400020;
+        func_80040490(D_80028F68, (Rect *)rect_words);
         func_8003F80C(D_8002964C, 0x7AC0, 1, 2);
         D_8002966C[0] = 1;
-        D_8002966E[0] = arg0->field_9;
-        D_80029670[0] = (s32)arg0->field_0;
+        D_8002966E[0] = ctx->field_9;
+        D_80029670[0] = (s32)ctx->field_0;
 
         object = D_800814A8;
         ((S_80024078_0 *)object)->unk_F4 = D_800281FC;
         ((S_80024078_0 *)object)->unk_96 = 0x14;
-        ((S_80024078_0 *)object)->unk_A8 = arg0->field_8;
+        ((S_80024078_0 *)object)->unk_A8 = ctx->field_8;
         ((Rec_D_800814A8 *)D_800814A8)->unk_102 = 1;
 
-        arg0->state++;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        if ((*arg0->field_4 & 0x80) == 0) {
+        ctx->state++;
+        ASM_MEM_BARRIER();
+        if ((*ctx->field_4 & 0x80) == 0) {
             break;
         }
 
-        parent = arg0->field_0;
+        parent = ctx->field_0;
         child = func_80024578(((S_80024078_2_pre *)parent)[-1].unk_00);
-        arg0->child = child;
+        ctx->child = child;
         if (child == 0) {
             break;
         }
 
-        duration = 0x20;
+        fade_duration = 0x20;
         {
-            discarded_state = ((S_80024078_3 *)arg0)->unk_0A;
-            ASM_KEEP(discarded_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            previous_state = ((S_80024078_3 *)ctx)->unk_0A;
         }
         phase = -1;
-        arg0->timer_1A = duration;
-        arg0->phase_20 = phase;
-        arg0->timer_22 = duration;
+        ctx->timer_1A = fade_duration;
+        ctx->phase_20 = phase;
+        ctx->timer_22 = fade_duration;
         goto advance_initial_state;
     }
 
     case 1:
-        if (((S_80024078_4 *)(arg0->child))->unk_2C != 1) {
+        if (((S_80024078_4 *)(ctx->child))->unk_2C != 1) {
             break;
         }
-        arg0->timer_1C = 0x18;
-        arg0->state++;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        arg0->timer_1C--;
-        if (arg0->timer_1C >= 0xB) {
+        ctx->timer_1C = 0x18;
+        ctx->state++;
+        ASM_MEM_BARRIER();
+        ctx->timer_1C--;
+        if (ctx->timer_1C >= 0xB) {
             break;
         }
         ((Rec_D_800814A8 *)D_800814A8)->unk_A6--;
@@ -146,35 +146,35 @@ void func_80024078(State *arg0)
         if (D_8002966C[0] != 0) {
             break;
         }
-        discarded_state = arg0->state;
-        arg0->timer_1A = 0x20;
-        arg0->phase_20 = 0;
+        previous_state = ctx->state;
+        ctx->timer_1A = 0x20;
+        ctx->phase_20 = 0;
 advance_initial_state:
-        arg0->state = discarded_state + 1;
+        ctx->state = previous_state + 1;
         break;
 
     case 3:
-        screen[0xA9] += (0x80 - screen[0xA9]) / arg0->timer_1A;
-        screen[0xAA] += (0x80 - screen[0xAA]) / arg0->timer_1A;
-        arg0->timer_1A--;
-        if (arg0->timer_1A > 0) {
+        screen[0xA9] += (0x80 - screen[0xA9]) / ctx->timer_1A;
+        screen[0xAA] += (0x80 - screen[0xAA]) / ctx->timer_1A;
+        ctx->timer_1A--;
+        if (ctx->timer_1A > 0) {
             break;
         }
         screen[0xA9] = 0x80;
         screen[0xAA] = 0x80;
 advance_state:
-        arg0->state++;
+        ctx->state++;
         break;
 
     case 4:
         if ((s16)D_800281F8[0] != 0) {
             break;
         } else {
-            GlobalState *state = (GlobalState *)&D_80083460;
-            state->field_C = 0;
-            state->count_A--;
+            GlobalState *global_state = (GlobalState *)&D_80083460;
+            global_state->field_C = 0;
+            global_state->count_A--;
         }
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        (*(u16 *)((u8 *)ctx + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
         break;
 
@@ -184,17 +184,13 @@ advance_state:
         break;
     }
 
-    if (arg0->phase_20 < 0) {
-        screen[0xA9] += (0x20 - screen[0xA9]) / arg0->timer_22;
-        screen[0xAA] += (0x20 - screen[0xAA]) / arg0->timer_22;
-        arg0->timer_22--;
-        if (arg0->timer_22 <= 0) {
-            arg0->phase_20 = 0;
+    if (ctx->phase_20 < 0) {
+        screen[0xA9] += (0x20 - screen[0xA9]) / ctx->timer_22;
+        screen[0xAA] += (0x20 - screen[0xAA]) / ctx->timer_22;
+        ctx->timer_22--;
+        if (ctx->timer_22 <= 0) {
+            ctx->phase_20 = 0;
         }
     }
     D_800281F8[0] = 0;
 }
-
-/* MECHANISM: The 0x28 frame comes from two sibling rect words plus held s0=state and s1=screen.
-   Memory barriers retain the post-store pointer reload and the state-1 timer reload/order.
-   Guarded a0/a1/v1 roles plus a separate phase scalar close the dead read and final store order. */

@@ -7,30 +7,43 @@
 extern s32 func_800A6D30(void *, s32, s32, s32); extern s32 func_800A48F0(); extern void func_800C5BBC();
 extern void func_800A56E0(s32); extern void func_80099844();
 extern u8 D_800E3D40; extern u8 D_800E1BBC[];
-s32 func_800CC058(void *p, s32 arg1, s32 arg2, s32 arg3) {
- s32 r=0, q; register s32 i ASM_REG("$2"); /* MATCH: Keep the shared gate and tail values in retail's v0. */
- void *x;
- if (!D_800E3D40 && (q=func_800A6D30(p, arg1, arg2, arg3)&0xffff, U8(p,3))) {
-   register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-   remainder=q%U8(p,3);
-   ASM_KEEP(remainder);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-   i=remainder;
- } else {
-  i=0;
- }
- ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
- if (i<0x30 && (func_800A48F0(p,7,-0x10)<<16)>=0) {
-  x=P32(p,-0x14); if (!(U16(x,0x14)&0x8000)) { func_800C5BBC((U8(x,0x24)<<6)|0x20,(U8(x,0x25)<<6)|0x20,S16(p,0x88),0x202020,0x40,0); func_800A56E0(0x615); }
-  if (U32(p,0x14)&0x4000) { func_80099844(p,D_800E1BBC); }
- } else {
-  i=U8(p,0x13)==0;
-  ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  r=i;
- }
- i=r;
- ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
- if (i) func_800A6508(); return 1;
+/* Attempts a random status effect and plays its visual and sound effects on success. */
+s32 func_800CC058(void *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_c)
+{
+    s32 notify_failure = 0, random_value;
+    register s32 roll_or_failure ASM_REG("$2");
+    void *parent;
+
+    if (!D_800E3D40 &&
+        (random_value = func_800A6D30(entity, rng_input_a, rng_input_b, rng_input_c) & 0xffff,
+         U8(entity, 3))) {
+        register s32 remainder ASM_REG("$3");
+
+        remainder = random_value % U8(entity, 3);
+        roll_or_failure = remainder;
+    } else {
+        roll_or_failure = 0;
+    }
+    if (roll_or_failure < 0x30 && (func_800A48F0(entity, 7, -0x10) << 16) >= 0) {
+        parent = P32(entity, -0x14);
+        if (!(U16(parent, 0x14) & 0x8000)) {
+            func_800C5BBC((U8(parent, 0x24) << 6) | 0x20,
+                          (U8(parent, 0x25) << 6) | 0x20,
+                          S16(entity, 0x88), 0x202020, 0x40, 0);
+            func_800A56E0(0x615);
+        }
+        if (U32(entity, 0x14) & 0x4000) {
+            func_80099844(entity, D_800E1BBC);
+        }
+    } else {
+        roll_or_failure = U8(entity, 0x13) == 0;
+        ASM_KEEP(roll_or_failure);
+        notify_failure = roll_or_failure;
+    }
+    roll_or_failure = notify_failure;
+    ASM_KEEP(roll_or_failure);
+    if (roll_or_failure) {
+        func_800A6508();
+    }
+    return 1;
 }
-/* MECHANISM: The natural p/r lifetimes produce the 0x28 frame with s0/s1/ra saves.
-   Split v0 temporaries plus ASM_KEEP restore the three-word gate and two merge copies.
-   A guarded v1 remainder pin with a void tail call yields mfhi v1; j; move v0,v1. */

@@ -32,33 +32,34 @@ typedef struct S_800B6B10_1 {
     s32 unk_00;
 } S_800B6B10_1;   /* *var_s0 in func_800B6B10 */
 
-void func_800B6B10(void **arg0) {
-    s32 var_s1;
-    s32 var_s2;
-    u8 temp_v1;
-    void **var_s0;
-    S_800B6B10_0 *temp_a0;
+/* Processes 24 entries by type and clears the handle and type of handled entries. */
+void func_800B6B10(void **entries) {
+    s32 entry_index;
+    s32 type_two;
+    u8 entry_type;
+    void **entry_slot;
+    S_800B6B10_0 *entry;
 
-    var_s1 = 0;
-    var_s2 = 2;
-    var_s0 = arg0;
-loop_1:
-    temp_a0 = *var_s0;
-    temp_v1 = ((S_800B6B10_4 *)(((S_800B6B10_2 *)temp_a0)->unk_04))->unk_0E;
-    if (temp_v1 == var_s2) {
-        func_8004E99C(temp_a0->unk_00);
-    } else if (temp_v1 == 1) {
-        func_8004B1A4(temp_a0->unk_00);
+    entry_index = 0;
+    type_two = 2;
+    entry_slot = entries;
+process_entry:
+    entry = *entry_slot;
+    entry_type = ((S_800B6B10_4 *)(((S_800B6B10_2 *)entry)->unk_04))->unk_0E;
+    if (entry_type == type_two) {
+        func_8004E99C(entry->unk_00);
+    } else if (entry_type == 1) {
+        func_8004B1A4(entry->unk_00);
     } else {
-        goto next;
+        goto next_entry;
     }
-    ((S_800B6B10_1 *)(*var_s0))->unk_00 = 0;
-    ((S_800B6B10_5 *)(((S_800B6B10_3 *)(*var_s0))->unk_04))->unk_0E = 0;
-next:
-    var_s1 += 1;
-    var_s0 = (void **)((s8 *)((void **)((s8 *)var_s0 + 4)));
-    if (var_s1 >= 0x18) {
+    ((S_800B6B10_1 *)(*entry_slot))->unk_00 = 0;
+    ((S_800B6B10_5 *)(((S_800B6B10_3 *)(*entry_slot))->unk_04))->unk_0E = 0;
+next_entry:
+    entry_index += 1;
+    entry_slot = (void **)((s8 *)((void **)((s8 *)entry_slot + 4)));
+    if (entry_index >= 0x18) {
         return;
     }
-    goto loop_1;
+    goto process_entry;
 }

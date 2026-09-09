@@ -34,48 +34,42 @@ typedef struct S_800B3178_2 {
     u8 unk_01;
 } S_800B3178_2;   /* *var_s1 in func_800B3178 */
 
-void func_800B3178(void **arg0, S_800B3178_0 *arg1, s32 arg2) {
-    s32 sp10;
-    s32 temp_v1;
-    s32 var_s2;
-    s32 var_s3;
-    s32 var_s4;
-    s32 var_s5;
-    void **var_s0;
-    void **var_s1;
+/* Populate up to ten page entries and set their type-dependent brightness. */
+void func_800B3178(void **entries, S_800B3178_0 *page_info, s32 source_table) {
+    s32 lookup_param;
+    s32 page_index;
+    s32 source_index;
+    s32 entry_count;
+    s32 normal_shade;
+    s32 dim_shade;
+    void **entry;
+    void **source;
 
-    var_s3 = 0;
-    var_s5 = 0x40;
-    var_s4 = 0x80;
-    temp_v1 = arg1->unk_00;
-    var_s0 = arg0;
-    var_s2 = temp_v1 * 0xA;
-    var_s1 = (temp_v1 * 0x28) + arg2;
-loop_1:
-    if (var_s2 < arg1->unk_0C) {
-        ((S_800B3178_1 *)(*var_s0))->unk_00 = func_8004DC14(func_8004AC3C(*var_s1, &sp10), sp10);
-        if (((S_800B3178_2 *)(*var_s1))->unk_01 == 0x13) {
-            *((S_800B3178_1 *)(*var_s0))->unk_04 = var_s5;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_01 = var_s5;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_02 = var_s5;
+    entry_count = 0;
+    dim_shade = 0x40;
+    normal_shade = 0x80;
+    page_index = page_info->unk_00;
+    entry = entries;
+    source_index = page_index * 0xA;
+    source = (page_index * 0x28) + source_table;
+next_entry:
+    if (source_index < page_info->unk_0C) {
+        ((S_800B3178_1 *)(*entry))->unk_00 = func_8004DC14(func_8004AC3C(*source, &lookup_param), lookup_param);
+        if (((S_800B3178_2 *)(*source))->unk_01 == 0x13) {
+            *((S_800B3178_1 *)(*entry))->unk_04 = dim_shade;
+            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_01 = dim_shade;
+            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_02 = dim_shade;
         } else {
-            *((S_800B3178_1 *)(*var_s0))->unk_04 = var_s4;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_01 = var_s4;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*var_s0))->unk_04))->unk_02 = var_s4;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            *((S_800B3178_1 *)(*entry))->unk_04 = normal_shade;
+            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_01 = normal_shade;
+            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_02 = normal_shade;
         }
-        var_s0 = (void **)((s8 *)((void **)((s8 *)var_s0 + 4)));
-        var_s3 += 1;
-        var_s1 = (void **)((s8 *)((void **)((s8 *)var_s1 + 4)));
-        var_s2 += 1;
-        if (var_s3 >= 0xA) {
-
-        } else {
-            goto loop_1;
+        entry += 1;
+        entry_count += 1;
+        source += 1;
+        source_index += 1;
+        if (entry_count < 0xA) {
+            goto next_entry;
         }
     }
 }
-
-/* MECHANISM: Named 0x40/0x80 locals span the loop and force s5/s4, completing the 0x38 hold-set.
-   The third 0x40 byte store supplies the tail-j delay slot while arg1 naturally occupies s6.
-   ASM_SCHED_BARRIER after the third 0x80 store keeps the four induction updates at the retail tail. */

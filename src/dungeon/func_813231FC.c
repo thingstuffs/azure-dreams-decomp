@@ -25,94 +25,93 @@ typedef struct S_8016A9FC_1 {
     u16 unk_0A;
 } S_8016A9FC_1;   /* counter_base in func_8016A9FC */
 
-void func_8016A9FC(void *arg0) {
+/* Handles a timed fade-out and fade-in, then marks the effect complete. */
+void func_8016A9FC(void *effect) {
     s32 state;
-    register s32 state_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 call_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u16 counter;
-    u8 fade_a9;
-    u8 fade_aa;
-    u8 *base;
-    u8 *counter_base;
-    s32 value;
-    s32 first_value;
+    register s32 state_arg ASM_REG("$4");
+    register s32 call_result ASM_REG("$5");
+    u16 frames;
+    u8 fade_green;
+    u8 fade_blue;
+    u8 *fade_colors;
+    u8 *effect_counts;
+    s32 result;
+    s32 first_result;
 
-    state = ((S_8016A9FC_0 *)arg0)->unk_12.s;
-    state_arg = ((S_8016A9FC_0 *)arg0)->unk_12.u;
-    base = D_80083160;
+    state = ((S_8016A9FC_0 *)effect)->unk_12.s;
+    state_arg = ((S_8016A9FC_0 *)effect)->unk_12.u;
+    fade_colors = D_80083160;
 
     if (state == 1) {
-        goto state_1;
+        goto wait_frames;
     }
     if (state >= 2) {
-        goto state_ge_2;
+        goto check_fade_in;
     }
     if (state == 0) {
-        goto state_0;
+        goto fade_out;
     }
     return;
 
-state_ge_2:
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+check_fade_in:
     if (state == 2) {
-        goto state_2;
+        goto fade_in;
     }
     return;
 
-state_0:
-    if (base[0xA8] >= 0x65) {
-        base[0xA8] -= 4;
-        fade_a9 = base[0xA9] - 4;
-        fade_aa = base[0xAA] - 4;
+fade_out:
+    if (fade_colors[0xA8] >= 0x65) {
+        fade_colors[0xA8] -= 4;
+        fade_green = fade_colors[0xA9] - 4;
+        fade_blue = fade_colors[0xAA] - 4;
         goto store_fades;
     }
-    ((S_8016A9FC_0 *)arg0)->unk_12.u = state_arg + 1;
-    ((S_8016A9FC_0 *)arg0)->unk_1A = 0;
-    value = func_800990FC(state_arg, base, arg0);
+    ((S_8016A9FC_0 *)effect)->unk_12.u = state_arg + 1;
+    ((S_8016A9FC_0 *)effect)->unk_1A = 0;
+    result = func_800990FC(state_arg, fade_colors, effect);
     state_arg = 0xA;
-    ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    call_arg = value;
-    first_value = call_arg;
-    value = func_8009929C(state_arg, call_arg);
-    value = func_8009929C(0xA, value);
-    value = func_80099194(D_8016A808, value);
-    value = func_8009929C(0xA, value);
-    value = func_8009929C(0xA, value);
-    value = func_8009929C(0xA, value);
-    value = func_8009929C(1, value);
-    func_80099290(value);
-    func_800A5720(first_value);
+    ASM_KEEP_NV(result);
+    call_result = result;
+    first_result = call_result;
+    result = func_8009929C(state_arg, call_result);
+    result = func_8009929C(0xA, result);
+    result = func_80099194(D_8016A808, result);
+    result = func_8009929C(0xA, result);
+    result = func_8009929C(0xA, result);
+    result = func_8009929C(0xA, result);
+    result = func_8009929C(1, result);
+    func_80099290(result);
+    func_800A5720(first_result);
     return;
 
-state_1:
-    counter = ((S_8016A9FC_0 *)arg0)->unk_1A;
-    ((S_8016A9FC_0 *)arg0)->unk_1A = counter + 1;
-    if ((s16)counter < 0x3C) {
+wait_frames:
+    frames = ((S_8016A9FC_0 *)effect)->unk_1A;
+    ((S_8016A9FC_0 *)effect)->unk_1A = frames + 1;
+    if ((s16)frames < 0x3C) {
         goto finish;
     }
-    ((S_8016A9FC_0 *)arg0)->unk_1A = 0;
-    ((S_8016A9FC_0 *)arg0)->unk_12.u++;
+    ((S_8016A9FC_0 *)effect)->unk_1A = 0;
+    ((S_8016A9FC_0 *)effect)->unk_12.u++;
     return;
 
-state_2:
-    value = base[0xA8];
-    ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if ((u32)(value & 0xFF) < 0x80) {
-        base[0xA8] = value + 4;
-        fade_a9 = base[0xA9] + 4;
-        fade_aa = base[0xAA] + 4;
+fade_in:
+    result = fade_colors[0xA8];
+    ASM_KEEP_NV(result);
+    if ((u32)(result & 0xFF) < 0x80) {
+        fade_colors[0xA8] = result + 4;
+        fade_green = fade_colors[0xA9] + 4;
+        fade_blue = fade_colors[0xAA] + 4;
 store_fades:
-        base[0xA9] = fade_a9;
-        base[0xAA] = fade_aa;
+        fade_colors[0xA9] = fade_green;
+        fade_colors[0xAA] = fade_blue;
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    base[0xAA] = 0x80;
-    base[0xA9] = 0x80;
-    base[0xA8] = 0x80;
-    counter_base = D_80083460;
-    ((S_8016A9FC_1 *)counter_base)->unk_0A--;
-    (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
+    fade_colors[0xAA] = 0x80;
+    fade_colors[0xA9] = 0x80;
+    fade_colors[0xA8] = 0x80;
+    effect_counts = D_80083460;
+    ((S_8016A9FC_1 *)effect_counts)->unk_0A--;
+    (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 finish:

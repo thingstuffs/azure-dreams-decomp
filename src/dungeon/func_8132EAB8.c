@@ -41,52 +41,53 @@ typedef struct S_80165AB8_2 {
     u16 unk_1E;
 } S_80165AB8_2;   /* arg2 in func_80165AB8 */
 
-void func_80165AB8(u8 *arg0, u8 *arg1, u8 *arg2)
+/* Updates object motion, landing, and fading before marking it finished. */
+void func_80165AB8(u8 *object, u8 *motion, u8 *sprite)
 {
     static void *const keep_cases[] __attribute__((used)) = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4
     };
-    s32 old_height;
+    s32 height;
     u32 state;
-    s32 condition;
-    s32 next_counter;
+    s32 counter_check;
+    s32 next_tick;
 
-    state = ((S_80165AB8_0 *)arg0)->unk_17;
+    state = ((S_80165AB8_0 *)object)->unk_17;
     if (state >= 5) {
         goto done;
     }
     goto *D_80164808[state];
 
 case_0:
-        ((S_80165AB8_1 *)arg1)->unk_00.at00.v += ((S_80165AB8_1 *)arg1)->unk_0C;
-        ((S_80165AB8_1 *)arg1)->unk_04.at00.v += ((S_80165AB8_1 *)arg1)->unk_10;
-        ((S_80165AB8_1 *)arg1)->unk_08.at00.v += ((S_80165AB8_1 *)arg1)->unk_14;
+        ((S_80165AB8_1 *)motion)->unk_00.at00.v += ((S_80165AB8_1 *)motion)->unk_0C;
+        ((S_80165AB8_1 *)motion)->unk_04.at00.v += ((S_80165AB8_1 *)motion)->unk_10;
+        ((S_80165AB8_1 *)motion)->unk_08.at00.v += ((S_80165AB8_1 *)motion)->unk_14;
 
-        old_height = ((S_80165AB8_1 *)arg1)->unk_08.at02.v;
-        ((S_80165AB8_1 *)arg1)->unk_14 += ((S_80165AB8_0 *)arg0)->unk_60;
-        if ((func_800BCB04(((S_80165AB8_1 *)arg1)->unk_00.at02.v,
-                           ((S_80165AB8_1 *)arg1)->unk_04.at02.v,
-                           (s16)(((S_80165AB8_1 *)arg1)->unk_08.at02u.v - 4)) - 15) < old_height) {
-            ((S_80165AB8_0 *)arg0)->unk_54 = 0;
-            ((S_80165AB8_1 *)arg1)->unk_08.at02.v =
-                func_800BCB04(((S_80165AB8_1 *)arg1)->unk_00.at02.v,
-                              ((S_80165AB8_1 *)arg1)->unk_04.at02.v,
-                              (s16)(((S_80165AB8_1 *)arg1)->unk_08.at02u.v - 4)) - 2;
-            ((S_80165AB8_1 *)arg1)->unk_08.at00u.v = 0;
-            ((S_80165AB8_0 *)arg0)->unk_32.s = 0;
-            ((S_80165AB8_0 *)arg0)->unk_17++;
+        height = ((S_80165AB8_1 *)motion)->unk_08.at02.v;
+        ((S_80165AB8_1 *)motion)->unk_14 += ((S_80165AB8_0 *)object)->unk_60;
+        if ((func_800BCB04(((S_80165AB8_1 *)motion)->unk_00.at02.v,
+                           ((S_80165AB8_1 *)motion)->unk_04.at02.v,
+                           (s16)(((S_80165AB8_1 *)motion)->unk_08.at02u.v - 4)) - 15) < height) {
+            ((S_80165AB8_0 *)object)->unk_54 = 0;
+            ((S_80165AB8_1 *)motion)->unk_08.at02.v =
+                func_800BCB04(((S_80165AB8_1 *)motion)->unk_00.at02.v,
+                              ((S_80165AB8_1 *)motion)->unk_04.at02.v,
+                              (s16)(((S_80165AB8_1 *)motion)->unk_08.at02u.v - 4)) - 2;
+            ((S_80165AB8_1 *)motion)->unk_08.at00u.v = 0;
+            ((S_80165AB8_0 *)object)->unk_32.s = 0;
+            ((S_80165AB8_0 *)object)->unk_17++;
         }
-        condition = ((S_80165AB8_0 *)arg0)->unk_32.u;
-        next_counter = condition + 1;
-        condition = (s16)condition < 60;
+        counter_check = ((S_80165AB8_0 *)object)->unk_32.u;
+        next_tick = counter_check + 1;
+        counter_check = (s16)counter_check < 60;
         goto check_counter;
 
 case_1: {
-        register s32 tripled ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 tripled_size ASM_REG("$3");
 
-        tripled = ((S_80165AB8_2 *)arg2)->unk_1E * 3;
-        ((S_80165AB8_2 *)arg2)->unk_1E = tripled;
-        ((S_80165AB8_2 *)arg2)->unk_1C = tripled;
+        tripled_size = ((S_80165AB8_2 *)sprite)->unk_1E * 3;
+        ((S_80165AB8_2 *)sprite)->unk_1E = tripled_size;
+        ((S_80165AB8_2 *)sprite)->unk_1C = tripled_size;
         goto advance_state;
     }
 
@@ -97,33 +98,33 @@ case_2:
         goto advance_state;
 
 case_3:
-        if ((s16)((S_80165AB8_0 *)arg0)->unk_32.u++ < 20) {
+        if ((s16)((S_80165AB8_0 *)object)->unk_32.u++ < 20) {
             goto done;
         }
-        ((S_80165AB8_2 *)arg2)->unk_10 = 0;
-        ((S_80165AB8_2 *)arg2)->unk_14 |= 0xC;
+        ((S_80165AB8_2 *)sprite)->unk_10 = 0;
+        ((S_80165AB8_2 *)sprite)->unk_14 |= 0xC;
 
 advance_state:
-        ((S_80165AB8_0 *)arg0)->unk_32.s = 0;
-        ((S_80165AB8_0 *)arg0)->unk_17++;
+        ((S_80165AB8_0 *)object)->unk_32.s = 0;
+        ((S_80165AB8_0 *)object)->unk_17++;
         return;
 
 case_4:
-        ((S_80165AB8_2 *)arg2)->unk_0C =
-            ((10 - ((S_80165AB8_0 *)arg0)->unk_32.s) * 255) / 10;
-        ((S_80165AB8_2 *)arg2)->unk_0D = ((S_80165AB8_2 *)arg2)->unk_0E =
-            ((10 - ((S_80165AB8_0 *)arg0)->unk_32.s) * 32) / 10;
-        condition = ((S_80165AB8_0 *)arg0)->unk_32.u;
-        next_counter = condition + 1;
-        condition = (s16)condition < 10;
+        ((S_80165AB8_2 *)sprite)->unk_0C =
+            ((10 - ((S_80165AB8_0 *)object)->unk_32.s) * 255) / 10;
+        ((S_80165AB8_2 *)sprite)->unk_0D = ((S_80165AB8_2 *)sprite)->unk_0E =
+            ((10 - ((S_80165AB8_0 *)object)->unk_32.s) * 32) / 10;
+        counter_check = ((S_80165AB8_0 *)object)->unk_32.u;
+        next_tick = counter_check + 1;
+        counter_check = (s16)counter_check < 10;
 check_counter:
-        ((S_80165AB8_0 *)arg0)->unk_32.u = next_counter;
-        if (condition) {
+        ((S_80165AB8_0 *)object)->unk_32.u = next_tick;
+        if (counter_check) {
             goto done;
         }
 
 finish:
-    (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
+    (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 done:

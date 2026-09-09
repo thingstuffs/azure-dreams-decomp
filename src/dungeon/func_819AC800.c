@@ -57,17 +57,18 @@ extern void func_800A56E0(s32);
 #define BODY_LINKAGE
 #endif
 
-BODY_LINKAGE void BODY_NAME(EventState *arg0);
+BODY_LINKAGE void BODY_NAME(EventState *event);
 
-BODY_LINKAGE void BODY_NAME(EventState *arg0) {
+/* Advances a dungeon event through setup, activation, timed color fades, and cleanup. */
+BODY_LINKAGE void BODY_NAME(EventState *event) {
 #ifdef __mips__
-    static void *const jt_keep[] __asm__("func_80024000")
+    static void *const state_table[] __asm__("func_80024000")
         __attribute__((section(".text.func_80024000"), aligned(4))) = {
         (void *)BODY_NAME, 0,
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5
     };
 #else
-    static void *const jt_keep[] = {
+    static void *const state_table[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5
     };
 #endif
@@ -76,16 +77,16 @@ BODY_LINKAGE void BODY_NAME(EventState *arg0) {
     s32 state;
 
     colors = D_80083160;
-    state = arg0->state;
+    state = event->state;
     if ((u32)state >= 6) {
         goto common_tail;
     }
-    (void)jt_keep;
+    (void)state_table;
     goto *D_80024008[(u32)state];
 
 jt_c0: {
         DungeonObject *object;
-        u8 state9;
+        u8 event_option;
 
         setup[0] = 0x010003A0;
         setup[1] = 0x00400020;
@@ -93,37 +94,37 @@ jt_c0: {
         func_8003F80C(D_80028780, 0x7AC0, 1, 2);
         object = D_800814A8;
         D_800287A0 = 1;
-        state9 = ((u8 *)arg0)[9];
+        event_option = ((u8 *)event)[9];
         D_8002744C = 0;
-        D_800287A2 = state9;
-        D_800287A4 = *(s32 *)arg0;
+        D_800287A2 = event_option;
+        D_800287A4 = *(s32 *)event;
         object->resultF4 = 0;
-        object->colorA8 = ((u8 *)arg0)[8];
+        object->colorA8 = ((u8 *)event)[8];
         ((DungeonObject *)D_800814A8)->flag102 = 1;
-        arg0->state++;
+        event->state++;
     }
 jt_c1:
-        if ((**(u16 **)((u8 *)arg0 + 4) & 0x80) == 0) {
+        if ((**(u16 **)((u8 *)event + 4) & 0x80) == 0) {
             goto common_tail;
         }
-        arg0->result = (s32)func_800244C4(*(void **)(*(u8 **)arg0 - 0x18), *(void **)arg0);
-        if (arg0->result == 0) {
+        event->result = (s32)func_800244C4(*(void **)(*(u8 **)event - 0x18), *(void **)event);
+        if (event->result == 0) {
             goto common_tail;
         }
-        arg0->mode20 = -1;
-        arg0->timer22 = 0x20;
-        arg0->timer1C = 0x10;
+        event->mode20 = -1;
+        event->timer22 = 0x20;
+        event->timer1C = 0x10;
         ((DungeonObject *)D_800814A8_count)->countA6--;
-        arg0->state++;
+        event->state++;
         func_800A56E0(0x300);
         goto common_tail;
 
 jt_c2: {
-        s16 timer;
+        s16 wait_ticks;
 
-        timer = (s16)(arg0->timer1C - 1);
-        arg0->timer1C = timer;
-        if (timer >= 0) {
+        wait_ticks = (s16)(event->timer1C - 1);
+        event->timer1C = wait_ticks;
+        if (wait_ticks >= 0) {
             goto common_tail;
         }
         goto advance_state;
@@ -131,26 +132,26 @@ jt_c2: {
 
 jt_c3:
         D_800287A0 = 0;
-        arg0->timer1A = 0x20;
-        arg0->mode20 = 0;
-        arg0->state++;
+        event->timer1A = 0x20;
+        event->mode20 = 0;
+        event->state++;
         goto common_tail;
 
 jt_c4: {
-        s16 timer;
+        s16 fade_ticks;
 
-        colors[0xA8] += (u8)((0x80 - colors[0xA8]) / arg0->timer1A);
-        colors[0xAA] += (u8)((0x80 - colors[0xAA]) / arg0->timer1A);
-        timer = (s16)(arg0->timer1A - 1);
-        arg0->timer1A = timer;
-        if (timer > 0) {
+        colors[0xA8] += (u8)((0x80 - colors[0xA8]) / event->timer1A);
+        colors[0xAA] += (u8)((0x80 - colors[0xAA]) / event->timer1A);
+        fade_ticks = (s16)(event->timer1A - 1);
+        event->timer1A = fade_ticks;
+        if (fade_ticks > 0) {
             goto common_tail;
         }
         colors[0xAA] = 0x80;
         colors[0xA8] = 0x80;
     }
 advance_state:
-        arg0->state++;
+        event->state++;
         goto common_tail;
 
 jt_c5:
@@ -158,23 +159,23 @@ jt_c5:
             goto common_tail;
         }
         {
-            GlobalState *state = (GlobalState *)&D_80083460;
-            state->result = 0;
-            state->state--;
+            GlobalState *global_state = (GlobalState *)&D_80083460;
+            global_state->result = 0;
+            global_state->state--;
         }
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+        *(u16 *)((u8 *)event - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
 
 common_tail:
-    if (arg0->mode20 < 0) {
-        s16 timer;
+    if (event->mode20 < 0) {
+        s16 fade_ticks;
 
-        colors[0xA8] += (u8)((0x20 - colors[0xA8]) / arg0->timer22);
-        colors[0xAA] += (u8)((0x20 - colors[0xAA]) / arg0->timer22);
-        timer = (s16)(arg0->timer22 - 1);
-        arg0->timer22 = timer;
-        if (timer <= 0) {
-            arg0->mode20 = 0;
+        colors[0xA8] += (u8)((0x20 - colors[0xA8]) / event->timer22);
+        colors[0xAA] += (u8)((0x20 - colors[0xAA]) / event->timer22);
+        fade_ticks = (s16)(event->timer22 - 1);
+        event->timer22 = fade_ticks;
+        if (fade_ticks <= 0) {
+            event->mode20 = 0;
         }
     }
     *(s16 *)D_80027452 = 0;

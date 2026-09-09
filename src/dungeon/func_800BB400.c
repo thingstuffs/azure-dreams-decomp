@@ -1,14 +1,5 @@
 #include "common.h"
 
-/* Aliased dungeon-engine row: true link base is 0x800C0B60 (all four external
- * j targets resolve to this function's own local joins there:
- *   0x800C0E68 -> local epilogue (return path)
- *   0x800C0CBC -> case join (sw flags; jal func_800D4FC8 continuation)
- *   0x800C0D9C -> loop join (sb slot; loop tail)
- *   0x800C0E2C -> message-chain merge (addiu %lo(D_80089380); ...)
- * At the synthetic base 0x800BB400 these are only reachable as sibcall tails;
- * all four callees are in config/sibcall_syms.dungeon.txt. */
-
 extern void func_8008D330();
 extern void func_800A63B8();
 extern s32 func_800AD6FC();
@@ -34,27 +25,27 @@ extern u8 D_800E1426[];
 extern u8 D_80089380[];
 extern u8 D_80083460[];
 
-s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
+/* Changes the entity's element, updates its slots, and displays the result. */
+s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
 {
-    u8 *a0keep = arg0;
-    register u8 *entity ASM_REG("$17") = a0keep;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u8 *event = arg1;
-    s32 saved;
+    u8 *target_copy = target;
+    register u8 *entity ASM_REG("$17") = target_copy;
+    u8 *event = event_data;
+    s32 message_start;
     u8 *message;
-    s32 t;
-    s32 r;
-    register s32 i ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 message_buffer;
+    s32 message_end;
+    register s32 slot_index;
     u8 *slot;
 
     if (entity == D_800E3D7C[0]) {
         *(u8 **)(entity + 0x110) = event;
-        ASM_KEEP_NV(a0keep);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        func_8008D330(a0keep, D_80083780, D_80082E80, a0keep);
+        ASM_KEEP_NV(target_copy);
+        func_8008D330(target_copy, D_80083780, D_80082E80, target_copy);
         return 0;
     }
-    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    ASM_CLOBBER("$4");
     if ((u32)entity <= 0x9FFFFFFF) {
-        do { } while (0);
         func_800A63B8(entity, event, (s16)value);
         if (func_800AD6FC(entity, (D_800DDE84[entity[0x13]] >> 6) & 3, 0) == 0) {
             func_800A5F38(entity, event);
@@ -62,137 +53,118 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
         }
         *(s32 *)(entity + 0x14) &= -8;
         *(s32 *)(entity + 0x1C) &= -8;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        ASM_MEM_BARRIER();
         {
-        u8 *pa0;
-        s32 pa1;
-        s32 pa2;
-        s32 pv0;
-        s32 pv1;
-        s32 ev0;
-        ev0 = event[0];
-        if (ev0 == 5) {
-            {
-                u8 *page;
-                page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                message = page + 0x13FB;
+            u8 *effect_target;
+            s32 color_mask;
+            s32 effect_code;
+            s32 entity_flags;
+            s32 base_flags;
+            s32 event_type;
+            event_type = event[0];
+            if (event_type == 5) {
+                {
+                    u8 *message_page;
+                    message_page = (u8 *)0x800E0000;
+                    ASM_KEEP_NV(message_page);
+                    message = message_page + 0x13FB;
+                }
+                {
+                    effect_target = entity - 32;
+                    color_mask = 0xF0;
+                    effect_code = 0x81C;
+                    entity_flags = *(s32 *)(entity + 0x14) | 1;
+                    base_flags = *(s32 *)(entity + 0x1C) | 1;
+                }
+            } else if (event_type == 6) {
+                ASM_SCHED_BARRIER();
+                {
+                    u8 *message_page;
+                    message_page = (u8 *)0x800E0000;
+                    ASM_KEEP_NV(message_page);
+                    message = message_page + 0x1402;
+                }
+                {
+                    effect_target = entity - 32;
+                    color_mask = 0xF00000;
+                    effect_code = 0x81C;
+                    entity_flags = *(s32 *)(entity + 0x14) | 2;
+                    base_flags = *(s32 *)(entity + 0x1C) | 2;
+                }
+            } else {
+                {
+                    u8 *message_page;
+                    message_page = (u8 *)0x800E0000;
+                    ASM_KEEP_NV(message_page);
+                    message = message_page + 0x140A;
+                }
+                effect_target = entity - 32;
+                color_mask = 0xF000;
+                effect_code = 0x81C;
+                entity_flags = *(s32 *)(entity + 0x14) | 4;
+                base_flags = *(s32 *)(entity + 0x1C) | 4;
             }
-            {
-                pa0 = entity - 32;
-                pa1 = 0xF0;
-                pa2 = 0x81C;
-                ASM_USE(message);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(pa1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(pa2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                pv0 = *(s32 *)(entity + 0x14) | 1;
-                pv1 = *(s32 *)(entity + 0x1C) | 1;
-            }
-        } else if (ev0 == 6) {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            {
-                u8 *page;
-                page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                message = page + 0x1402;
-            }
-            {
-                pa0 = entity - 32;
-                pa1 = 0xF00000;
-                pa2 = 0x81C;
-                ASM_USE(message);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(pa1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(pa2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                pv0 = *(s32 *)(entity + 0x14) | 2;
-                pv1 = *(s32 *)(entity + 0x1C) | 2;
-            }
-        } else {
-            {
-                u8 *page;
-                page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                message = page + 0x140A;
-            }
-            pa0 = entity - 32;
-            pa1 = 0xF000;
-            pa2 = 0x81C;
-            pv0 = *(s32 *)(entity + 0x14) | 4;
-            pv1 = *(s32 *)(entity + 0x1C) | 4;
-        }
-        *(s32 *)(entity + 0x14) = pv0;
-        *(s32 *)(entity + 0x1C) = pv1;
-        func_800D4FC8(pa0, pa1, pa2);
+            *(s32 *)(entity + 0x14) = entity_flags;
+            *(s32 *)(entity + 0x1C) = base_flags;
+            func_800D4FC8(effect_target, color_mask, effect_code);
         }
         func_80042984(entity);
 
         slot = entity + 8;
-        for (i = 0; i < 3; i++, slot += 3) {
+        for (slot_index = 0; slot_index < 3; slot_index++, slot += 3) {
             if (slot[0] != 0) {
                 s32 item = slot[0];
                 s32 flags = *(s32 *)(entity + 0x14);
 
                 if (((D_8006DE24[item * 20 + 16] & 7) & flags) == 0) {
                     if (flags & 1) {
-                        s32 pv1;
-                        pv1 = ((item - 1) / 3) * 3 + 1;
-                        slot[0] = pv1;
-                    } else {
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                        if (flags & 2) {
-                            s32 pv1;
-                            pv1 = ((item - 1) / 3) * 3 + 2;
-                            slot[0] = pv1;
-                        } else {
-                            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                            if (flags & 4) {
-                                slot[0] = ((item - 1) / 3) * 3 + 3;
-                            }
-                        }
+                        slot[0] = ((item - 1) / 3) * 3 + 1;
+                    } else if (flags & 2) {
+                        slot[0] = ((item - 1) / 3) * 3 + 2;
+                    } else if (flags & 4) {
+                        slot[0] = ((item - 1) / 3) * 3 + 3;
                     }
                 }
             }
         }
 
         if (*(s32 *)(entity + 0x14) & 0x4000) {
-            t = func_800990FC();
+            message_buffer = func_800990FC();
             {
-                register u8 *pa0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                register s32 ta ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                pa0 = entity;
-                ta = t;
-                saved = ta;
-                r = func_80099734(pa0, ta);
+                register u8 *message_entity ASM_REG("$4");
+                register s32 text_buffer ASM_REG("$5");
+                message_entity = entity;
+                text_buffer = message_buffer;
+                message_start = text_buffer;
+                message_end = func_80099734(message_entity, text_buffer);
             }
-            r = func_80099194(D_800E1411, r);
-            r = func_80099194(message, r);
-            ASM_USE(saved);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            message_end = func_80099194(D_800E1411, message_end);
+            message_end = func_80099194(message, message_end);
             goto message_join;
         }
     } else {
-        t = func_800990FC();
+        message_buffer = func_800990FC();
         {
-            u8 *pa0;
-            register s32 ta ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            pa0 = D_800E1426;
-            ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            ta = t;
-            saved = ta;
-            r = func_80099194(pa0, ta);
+            u8 *message_prefix;
+            register s32 text_buffer ASM_REG("$5");
+            message_prefix = D_800E1426;
+            ASM_KEEP(message_prefix);
+            text_buffer = message_buffer;
+            message_start = text_buffer;
+            message_end = func_80099194(message_prefix, text_buffer);
         }
-        r = func_80099734(entity, r);
+        message_end = func_80099734(entity, message_end);
 message_join:
-        r = func_80099194(D_80089380, r);
-        func_80099290(r);
-        func_800A5720(saved);
+        message_end = func_80099194(D_80089380, message_end);
+        func_80099290(message_end);
+        func_800A5720(message_start);
     }
 
     func_80098B38(event);
     {
-        u8 *counter;
-        counter = D_80083460;
-        *(u16 *)(counter + 0xA) -= 1;
+        u8 *event_state;
+        event_state = D_80083460;
+        *(u16 *)(event_state + 0xA) -= 1;
     }
     return 1;
 }

@@ -11,20 +11,21 @@ extern void func_80024390(S_80011A50 *arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80024818(S_80011A50 *arg0);
 extern void func_800249B4(S_80011A50 *arg0);
 
-void func_80024A50(S_80011A50 *arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Dispatch to a handler based on the object's table entry and state. */
+void func_80024A50(S_80011A50 *object, s32 handler_arg1, s32 handler_arg2, s32 handler_arg3)
 {
-    u8 *base;
-    register s32 unk80 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *entry_table;
+    register s32 state;
 
-    base = &D_80083E98;
-    if (*(s32 *)(base + (arg0->unk7C << 7)) != 0) {
-        func_80024390(arg0, arg1, arg2, arg3);
+    entry_table = &D_80083E98;
+    if (*(s32 *)(entry_table + (object->unk7C << 7)) != 0) {
+        func_80024390(object, handler_arg1, handler_arg2, handler_arg3);
         return;
     }
-    unk80 = arg0->unk80;
-    if ((unk80 != 0) && (unk80 != 2)) {
-        func_80024818(arg0);
+    state = object->unk80;
+    if ((state != 0) && (state != 2)) {
+        func_80024818(object);
         return;
     }
-    func_800249B4(arg0);
+    func_800249B4(object);
 }

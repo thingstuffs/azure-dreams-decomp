@@ -37,73 +37,70 @@ typedef struct {
 M2C_UNK func_800478B8();                      /* extern */
 extern s32 D_800814A0[3];
 
-s32 func_800BC00C(void *arg0, S_800BC00C_2 *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_v1;
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_v0_2;
-    s32 temp_v1_2;
-    s32 var_v0;
-    s32 state0_v0;
-    u16 temp_v0;
+/* Update effect motion, size and brightness, then mark it finished. */
+s32 func_800BC00C(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *sprite) {
+    s16 state;
+    s32 fade_end_state;
+    s32 global_flags;
+    s32 grow_end_state;
+    u16 size;
 
-    ((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_4A = (u16) (((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_4A - 1);
-    func_800478B8(arg2);
-    temp_v1 = ((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_4E;
-    if (temp_v1 == 1) {
-        goto state_1;
+    ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A - 1);
+    func_800478B8(sprite);
+    state = ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E;
+    if (state == 1) {
+        goto fade;
     }
-    if (temp_v1 >= 2) {
-        goto check_ff;
+    if (state >= 2) {
+        goto check_finished;
     }
-    if (temp_v1 == 0) {
-        goto state_0;
+    if (state == 0) {
+        goto grow;
     }
     return;
 
-check_ff:
-       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (temp_v1 == 0xFF) {
-        goto state_ff;
+check_finished:
+    if (state == 0xFF) {
+        goto finished;
     }
     return 255;
 
-state_0:
-    temp_v0 = arg2->unk_1C.at02_u16.v + 0x80;
-    arg2->unk_1C.at02_u16.v = temp_v0;
-    arg2->unk_1C.at00_u16.v = temp_v0;
-    arg2->unk_0C.at00_s32.v = (s32) (arg2->unk_0C.at00_s32.v + 0x80808);
-    arg1->unk_02 = (s16) ((u16) arg1->unk_02 + ((s32) (((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_0E - arg1->unk_02) >> 2));
-    arg1->unk_06 = (s16) ((u16) arg1->unk_06 + ((s32) (((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_10 - arg1->unk_06) >> 2));
-    arg1->unk_0A = (s16) ((u16) arg1->unk_0A + ((s32) (((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_12 - arg1->unk_0A) >> 2));
-    state0_v0 = 0xFF;
-    if ((s16) ((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_4A > 0) {
-        goto state_0_done;
+grow:
+    size = sprite->unk_1C.at02_u16.v + 0x80;
+    sprite->unk_1C.at02_u16.v = size;
+    sprite->unk_1C.at00_u16.v = size;
+    sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0x80808);
+    position->unk_02 = (s16) ((u16) position->unk_02 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_0E - position->unk_02) >> 2));
+    position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_10 - position->unk_06) >> 2));
+    position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_12 - position->unk_0A) >> 2));
+    grow_end_state = 0xFF;
+    if ((s16) ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A > 0) {
+        goto grow_done;
     }
-    ((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_4E = state0_v0;
-state_0_done:
-    return state0_v0;
+    ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = grow_end_state;
+grow_done:
+    return grow_end_state;
 
-state_1:
+fade:
     {
-        State1 *p = (State1 *)arg1;
-        p->f0 = p->f0 + p->fc;
-        p->f4 = p->f4 + p->f10;
-        p->f8 = p->f8 + p->f14;
-        p->fc = p->fc - (p->fc >> 3);
-        p->f10 = p->f10 - (p->f10 >> 3);
-        p->f14 = p->f14 - (p->f14 >> 3);
+        State1 *motion = (State1 *)position;
+        motion->f0 = motion->f0 + motion->fc;
+        motion->f4 = motion->f4 + motion->f10;
+        motion->f8 = motion->f8 + motion->f14;
+        motion->fc = motion->fc - (motion->fc >> 3);
+        motion->f10 = motion->f10 - (motion->f10 >> 3);
+        motion->f14 = motion->f14 - (motion->f14 >> 3);
     }
-    arg2->unk_0C.at00_s32.v = (s32) (arg2->unk_0C.at00_s32.v + 0xFFF7F7F8);
-    temp_v0_2 = 0xFF;
-    if ((u8) arg2->unk_0C.at00_s32.v == 0) {
-        return (((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_4E = temp_v0_2);
+    sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0xFFF7F7F8);
+    fade_end_state = 0xFF;
+    if ((u8) sprite->unk_0C.at00_s32.v == 0) {
+        return (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = fade_end_state);
     }
-    return temp_v0_2;
+    return fade_end_state;
 
-state_ff:
-    ((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_800BC00C_0 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
-    var_v0 = D_800814A0[0] | 0x8000;
-    D_800814A0[0] = var_v0;
-    return var_v0;
+finished:
+    ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 | 0x8000);
+    global_flags = D_800814A0[0] | 0x8000;
+    D_800814A0[0] = global_flags;
+    return global_flags;
 }

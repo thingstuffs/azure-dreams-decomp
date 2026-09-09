@@ -16,76 +16,73 @@ extern s32 func_800644B8(s32);
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-void func_800A5828(void *arg0, s32 arg1, void *arg2)
+/* Fades and pulses the effect, restoring the linked primitive when the fade ends. */
+void func_800A5828(void *effect, s32 unused, void *render_state)
 {
-    s32 step;
-    s32 color;
-    s32 angle;
-    s16 current;
-    u16 oscillation;
-    void *prim;
-    GlobalState *global = &D_80083160;
+    s32 fade_step;
+    s32 brightness;
+    s32 pulse_scale;
+    s16 current_brightness;
+    u16 tilt;
+    void *linked_prim;
+    GlobalState *global_state = &D_80083160;
 
-    if (S16_AT(arg0, 0x64) == 0) {
-        if (global->flags & 1) {
-            color = (s16)U16_AT(arg0, 0x6A) >> 1;
+    if (S16_AT(effect, 0x64) == 0) {
+        if (global_state->flags & 1) {
+            brightness = (s16)U16_AT(effect, 0x6A) >> 1;
         } else {
-            current = U16_AT(arg0, 0x6A);
-            U16_AT(arg0, 0x6A) =
-                U16_AT(arg0, 0x6A) + (192 - current) / S16_AT(arg0, 0x66);
-            color = U8_AT(arg0, 0x6A);
+            current_brightness = U16_AT(effect, 0x6A);
+            U16_AT(effect, 0x6A) =
+                U16_AT(effect, 0x6A) + (192 - current_brightness) / S16_AT(effect, 0x66);
+            brightness = U8_AT(effect, 0x6A);
         }
-        U8_AT(arg2, 0xE) = color;
-        U8_AT(arg2, 0xD) = color;
-        U8_AT(arg2, 0xC) = color;
+        U8_AT(render_state, 0xE) = brightness;
+        U8_AT(render_state, 0xD) = brightness;
+        U8_AT(render_state, 0xC) = brightness;
 
-        U16_AT(arg0, 0x66)--;
-        if (S16_AT(arg0, 0x66) <= 0) {
-            U16_AT(arg0, 0x66) = 16;
-            U16_AT(arg0, 0x64)++;
+        U16_AT(effect, 0x66)--;
+        if (S16_AT(effect, 0x66) <= 0) {
+            U16_AT(effect, 0x66) = 16;
+            U16_AT(effect, 0x64)++;
         }
     } else {
-        if (global->flags & 1) {
-            S32_AT(arg2, 0xC) = 0;
+        if (global_state->flags & 1) {
+            S32_AT(render_state, 0xC) = 0;
         } else {
-            step = S16_AT(arg0, 0x6A) / S16_AT(arg0, 0x66);
-            U16_AT(arg0, 0x6A) -= step;
-            color = U8_AT(arg0, 0x6A);
-            U8_AT(arg2, 0xE) = color;
-            U8_AT(arg2, 0xD) = color;
-            U8_AT(arg2, 0xC) = color;
+            fade_step = S16_AT(effect, 0x6A) / S16_AT(effect, 0x66);
+            U16_AT(effect, 0x6A) -= fade_step;
+            brightness = U8_AT(effect, 0x6A);
+            U8_AT(render_state, 0xE) = brightness;
+            U8_AT(render_state, 0xD) = brightness;
+            U8_AT(render_state, 0xC) = brightness;
         }
 
-        U16_AT(arg0, 0x66)--;
-        if (S16_AT(arg0, 0x66) <= 0) {
-            prim = *(void **)((u8 *)(*(void **)((u8 *)arg0 + 4)) - 0x14);
-            U8_AT(prim, 0xC) = 0x80;
-            U8_AT(prim, 0xD) = 0x80;
-            U8_AT(prim, 0xE) = 0x80;
-            U16_AT(arg0, -2) |= 0x8000;
+        U16_AT(effect, 0x66)--;
+        if (S16_AT(effect, 0x66) <= 0) {
+            linked_prim = *(void **)((u8 *)(*(void **)((u8 *)effect + 4)) - 0x14);
+            U8_AT(linked_prim, 0xC) = 0x80;
+            U8_AT(linked_prim, 0xD) = 0x80;
+            U8_AT(linked_prim, 0xE) = 0x80;
+            U16_AT(effect, -2) |= 0x8000;
             D_800814A0[0] |= 0x8000;
             return;
         }
     }
 
-    U16_AT(arg0, 0x68)++;
-    angle = (func_800644B8((s16)U16_AT(arg0, 0x68) << 9) >> 4) + 0x1000;
-    S16_AT(arg2, 0x1C) = angle;
-    S16_AT(arg2, 0x1E) = angle;
+    U16_AT(effect, 0x68)++;
+    pulse_scale = (func_800644B8((s16)U16_AT(effect, 0x68) << 9) >> 4) + 0x1000;
+    S16_AT(render_state, 0x1C) = pulse_scale;
+    S16_AT(render_state, 0x1E) = pulse_scale;
 
-    oscillation = 0xFFC0;
-    if (U16_AT(arg0, 0x68) & 1) {
-        oscillation = 64;
+    tilt = 0xFFC0;
+    if (U16_AT(effect, 0x68) & 1) {
+        tilt = 64;
     }
-    S16_AT(arg2, 0x1A) = oscillation;
+    S16_AT(render_state, 0x1A) = tilt;
 
-    color = ((U16_AT(arg0, 0x68) & 3) << 4) + 64;
-    prim = *(void **)((u8 *)(*(void **)((u8 *)arg0 + 4)) - 0x14);
-    U8_AT(prim, 0xC) = color;
-    U8_AT(prim, 0xD) = color;
-    U8_AT(prim, 0xE) = color;
+    brightness = ((U16_AT(effect, 0x68) & 3) << 4) + 64;
+    linked_prim = *(void **)((u8 *)(*(void **)((u8 *)effect + 4)) - 0x14);
+    U8_AT(linked_prim, 0xC) = brightness;
+    U8_AT(linked_prim, 0xD) = brightness;
+    U8_AT(linked_prim, 0xE) = brightness;
 }
-
-/* MECHANISM: A held global base yields the 0x20 s0/s1/ra prologue and shared page load.
-   Nested fade arithmetic preserves retail's v1/a0/v0 roles; a guarded v0 carrier sinks sra into the zero-arg noreturn tail.
-   The joined u16 oscillation local reproduces the branch polarity and ori 0xFFC0 materialization. */

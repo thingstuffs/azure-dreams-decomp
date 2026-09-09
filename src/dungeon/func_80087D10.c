@@ -80,103 +80,103 @@ extern s32 func_8003DE58();
 extern s32 func_800644B8();
 extern s32 func_800A8E74();
 
-void func_8008D470(void *arg0, S_8008D470_4 *arg1, S_8008D470_3 *arg2) {
+/* Move the effect toward its target, pulse its brightness, and handle expiration. */
+void func_8008D470(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
     s16 offsets[3];
     s16 state;
-    s32 mode;
-    s16 light;
-    s32 current0;
-    s32 current1;
-    s32 current2;
-    register s32 result ASM_REG("$2"); /* MATCH: retain the shared-tail completed-to-result copy before the return guard. */
-    s32 spawned;
-    register s32 completed ASM_REG("$19"); /* MATCH: shared-tail liveness otherwise swaps completed and arg2 registers. */
-    u16 next;
-    u8 color;
+    s32 expiry_mode;
+    s16 brightness;
+    s32 current_x;
+    s32 current_y;
+    s32 current_z;
+    register s32 update_result;
+    s32 spawn_handle;
+    register s32 position_updated ASM_REG("$19"); /* MATCH: shared-tail liveness otherwise swaps position_updated and visual registers. */
+    u16 steps_left;
+    u8 intensity;
     S_8008D470_1 *target;
     S_8008D470_5 *entity;
 
-    state = ((S_8008D470_0 *)arg0)->unk_A2.s;
-    completed = 0;
+    state = ((S_8008D470_0 *)effect)->unk_A2.s;
+    position_updated = 0;
     if (state != 0) {
         if (state != 1) {
             goto update_light;
         }
     } else {
-        ((S_8008D470_0 *)arg0)->unk_A4.s = 6;
-        ((S_8008D470_0 *)arg0)->unk_A2.s = ((S_8008D470_0 *)arg0)->unk_A2.u + 1;
+        ((S_8008D470_0 *)effect)->unk_A4.s = 6;
+        ((S_8008D470_0 *)effect)->unk_A2.s = ((S_8008D470_0 *)effect)->unk_A2.u + 1;
     }
 
-    target = ((S_8008D470_0 *)arg0)->unk_90;
+    target = ((S_8008D470_0 *)effect)->unk_90;
     if (func_8003DE58(target->unk_08, target, offsets, 0) != 0 &&
         ((S_8008D470_2 *)(D_800E3D7C[0]))->unk_124 != 0) {
-        arg2->unk_1C = 0x1000;
-        next = ((S_8008D470_0 *)arg0)->unk_A4.s - 1;
-        ((S_8008D470_0 *)arg0)->unk_A4.s = next;
-        if ((s16)next > 0) {
-            current0 = arg1->unk_00.at00.v;
-            arg1->unk_00.at00.v = current0 +
-                (((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_00.at00.v +
-                 (offsets[0] << 16) - current0) / (s16)next;
+        visual->unk_1C = 0x1000;
+        steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
+        ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;
+        if ((s16)steps_left > 0) {
+            current_x = position->unk_00.at00.v;
+            position->unk_00.at00.v = current_x +
+                (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at00.v +
+                 (offsets[0] << 16) - current_x) / (s16)steps_left;
 
-            current1 = arg1->unk_04.at00.v;
-            arg1->unk_04.at00.v = current1 +
-                (((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_04.at00.v +
-                 (offsets[1] << 16) - current1) / ((S_8008D470_0 *)arg0)->unk_A4.u;
+            current_y = position->unk_04.at00.v;
+            position->unk_04.at00.v = current_y +
+                (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at00.v +
+                 (offsets[1] << 16) - current_y) / ((S_8008D470_0 *)effect)->unk_A4.u;
 
-            current2 = arg1->unk_08.at00.v;
-            arg1->unk_08.at00.v = current2 +
-                (((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_08.at00.v +
-                 (offsets[2] << 16) - (((S_8008D470_0 *)arg0)->unk_A4.u << 21) - current2) /
-                ((S_8008D470_0 *)arg0)->unk_A4.u;
+            current_z = position->unk_08.at00.v;
+            position->unk_08.at00.v = current_z +
+                (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at00.v +
+                 (offsets[2] << 16) - (((S_8008D470_0 *)effect)->unk_A4.u << 21) - current_z) /
+                ((S_8008D470_0 *)effect)->unk_A4.u;
         } else {
-            ((S_8008D470_0 *)arg0)->unk_A4.s = 0;
-            arg1->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_00.at02.v + (u16)offsets[0];
-            arg1->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_04.at02.v + (u16)offsets[1];
-            arg1->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)arg0)->unk_8C))->unk_08.at02.v + (u16)offsets[2];
+            ((S_8008D470_0 *)effect)->unk_A4.s = 0;
+            position->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at02.v + (u16)offsets[0];
+            position->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at02.v + (u16)offsets[1];
+            position->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at02.v + (u16)offsets[2];
         }
-        if (((S_8008D470_0 *)arg0)->unk_AA == 0) {
-            ((S_8008D470_0 *)arg0)->unk_AA = 1;
-            completed = 1;
+        if (((S_8008D470_0 *)effect)->unk_AA == 0) {
+            ((S_8008D470_0 *)effect)->unk_AA = 1;
+            position_updated = 1;
         } else {
-            completed = 1;
+            position_updated = 1;
         }
     } else {
-        state = ((S_8008D470_0 *)arg0)->unk_AA;
+        state = ((S_8008D470_0 *)effect)->unk_AA;
         if (state != 0) {
             goto nonzero_state;
         }
-        arg2->unk_1C = 0;
+        visual->unk_1C = 0;
         goto update_light;
 nonzero_state:
         if (state == 1) {
-            if (((S_8008D470_0 *)arg0)->unk_AE == 0) {
-                ((S_8008D470_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+            if (((S_8008D470_0 *)effect)->unk_AE == 0) {
+                ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
                 D_800814A0[0] |= 0x8000;
             }
         }
     }
 
 update_light:
-    if (((S_8008D470_0 *)arg0)->unk_AE != 0) {
-        light = (func_800644B8(((S_8008D470_0 *)arg0)->unk_B4.s << 8) >> 6) + 0x80;
-        color = arg2->unk_0C;
-        color += (light - color) >> 2;
-        arg2->unk_0C = color;
-        arg2->unk_0D = color;
-        arg2->unk_0E = color;
+    if (((S_8008D470_0 *)effect)->unk_AE != 0) {
+        brightness = (func_800644B8(((S_8008D470_0 *)effect)->unk_B4.s << 8) >> 6) + 0x80;
+        intensity = visual->unk_0C;
+        intensity += (brightness - intensity) >> 2;
+        visual->unk_0C = intensity;
+        visual->unk_0D = intensity;
+        visual->unk_0E = intensity;
     }
 
-    ((S_8008D470_0 *)arg0)->unk_B4.u++;
-    ((S_8008D470_0 *)arg0)->unk_A8.s--;
-    if (((S_8008D470_0 *)arg0)->unk_A8.u <= 0) {
-        mode = ((S_8008D470_0 *)arg0)->unk_AC;
-        ((S_8008D470_0 *)arg0)->unk_A8.s = 0;
-        if (mode == 1) {
-            spawned = func_800A8E74(arg0, arg1, arg2, D_800814A8[0], ((S_8008D470_0 *)arg0)->unk_9C, -1);
-            ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            if (spawned != 0) {
-                entity = (void *)(spawned + 0x20);
+    ((S_8008D470_0 *)effect)->unk_B4.u++;
+    ((S_8008D470_0 *)effect)->unk_A8.s--;
+    if (((S_8008D470_0 *)effect)->unk_A8.u <= 0) {
+        expiry_mode = ((S_8008D470_0 *)effect)->unk_AC;
+        ((S_8008D470_0 *)effect)->unk_A8.s = 0;
+        if (expiry_mode == 1) {
+            spawn_handle = func_800A8E74(effect, position, visual, D_800814A8[0], ((S_8008D470_0 *)effect)->unk_9C, -1);
+            if (spawn_handle != 0) {
+                entity = (void *)(spawn_handle + 0x20);
                 target = D_800E3D7C[0];
                 target->unk_124 = entity;
                 entity->unk_9C = D_80081484;
@@ -186,19 +186,19 @@ update_light:
                 goto set_flag;
             }
         } else {
-            if (mode == 2) {
+            if (expiry_mode == 2) {
                 goto set_flag;
             }
-            if (mode != 0) {
+            if (expiry_mode != 0) {
                 return;
             }
-            result = completed;
-            ASM_KEEP(result); /* MATCH: materialize the retail v0 copy before testing completed. */
-            if (result != 0) {
+            update_result = position_updated;
+            ASM_KEEP(update_result); /* MATCH: materialize the retail v0 copy before testing position_updated. */
+            if (update_result != 0) {
                 return;
             }
 set_flag:
-            ((S_8008D470_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+            ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
             D_800814A0[0] |= 0x8000;
         }
     }

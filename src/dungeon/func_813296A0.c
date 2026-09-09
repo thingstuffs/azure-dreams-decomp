@@ -53,94 +53,86 @@ extern void func_80047784(Sub *, u8, s32);
 extern void func_80170CE0(s32, s32, s32, s32);
 extern void func_800478B8(Sub *);
 
+/* Delays an effect, then moves and fades its sprite before finishing. */
 void func_80170EA0(void) {
-    Extra *s0;
-    Vec3 *s1;
-    register Sub *s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    Extra *s3;
+    Extra *effect;
+    Vec3 *position;
+    register Sub *sprite ASM_REG("$18");
+    Extra *direction_data;
     Node *node;
-    s32 lo;
-    u16 temp_v0;
+    s32 intensity;
+    u16 elapsed;
     s32 state;
 
     node = D_80174CDC;
-    s0 = (Extra *)((u8 *)node + 0x20);
-    s1 = node->position;
-    state = s0->field_9A;
-    s2 = node->sub;
-    s3 = s0;
+    effect = (Extra *)((u8 *)node + 0x20);
+    position = node->position;
+    state = effect->field_9A;
+    sprite = node->sub;
+    direction_data = effect;
 
     if (state == 1) {
-        goto block_1;
+        goto delay;
     }
     if (state >= 2) {
-        goto block_ge2;
+        goto check_fade;
     }
     if (state == 0) {
-        goto block_0;
+        goto init;
     }
-    goto block_exit;
+    goto update_sprite;
 
-block_ge2:
+check_fade:
     if (state == 2) {
-        goto block_2;
+        goto fade;
     }
-    goto block_exit;
+    goto update_sprite;
 
-block_0:
-    s0->field_9A = 1;
-    s0->field_96 = 0;
+init:
+    effect->field_9A = 1;
+    effect->field_96 = 0;
 
-block_1:
-    temp_v0 = s0->field_96++;
-    if ((s16)temp_v0 >= 0x24) {
-        s0->field_96 = 0x14;
-        s0->field_9E = 0x14;
-        s0->field_9A++;
+delay:
+    elapsed = effect->field_96++;
+    if ((s16)elapsed >= 0x24) {
+        effect->field_96 = 0x14;
+        effect->field_9E = 0x14;
+        effect->field_9A++;
         func_800419EC(6, 12);
-        func_80170DCC(s0, s1, s2);
+        func_80170DCC(effect, position, sprite);
         func_800A56E0(0x601);
-        s1->field_0C = -0x200000;
-        s2->field_10 = 0x20;
-        s2->field_2C = D_80174B30;
-        s2->flags_14 |= 0xC;
-        func_80047784(s2, D_80174B30[((D_80083228[0] + s3->field_2A + 0x100) >> 9) & 7], 0);
-        goto block_exit;
+        position->field_0C = -0x200000;
+        sprite->field_10 = 0x20;
+        sprite->field_2C = D_80174B30;
+        sprite->flags_14 |= 0xC;
+        func_80047784(sprite, D_80174B30[((D_80083228[0] + direction_data->field_2A + 0x100) >> 9) & 7], 0);
+        goto update_sprite;
     }
-    goto block_exit;
+    goto update_sprite;
 
-block_2: {
-    register s32 a0 ASM_REG("$4") = s1->field_0C;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 v1 = s1->field_00;
-    register s32 v0 ASM_REG("$2") = a0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's
-     * `jal 0x80170CE0` at 0x8017102C forwards $a3 untouched from this row's
-     * entry; the row never reads it, so m2c had no name for it (section 22).
-     * `need` is a positional SET, so the call carries positions 0..3
-     * (section 21).  Position 0 is NOT a fresh uninitialised pin: an unset $4
-     * pin stays live across the divide above and evicts retail's own a0 scratch
-     * (`lh a0,158(s0)` / `div zero,v0,a0` became t0).  Retail leaves field_9E in
-     * a0 at the call, so the existing $4 pin carries the divisor and is the
-     * position-0 forwarder -- byte-neutral. */
-    register s32 fa1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    register s32 fa2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    register s32 fa3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    v1 += a0;
-    s1->field_00 = v1;
-    ASM_KEEP(v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    v0 /= 2;
-    s1->field_0C = v0;
-    a0 = s0->field_9E;
-    lo = ((s32)(s16)(s0->field_96 - 1) << 7) / a0;
-    s0->field_96--;
-    s2->field_0E = (s8)lo;
-    s2->field_0D = (s8)lo;
-    s2->field_0C = (s8)lo;
-    if ((s16)s0->field_96 <= 0) {
-        func_80170CE0(a0, fa1, fa2, fa3);
+fade: {
+    register s32 step_or_duration ASM_REG("$4") = position->field_0C;
+    s32 coordinate = position->field_00;
+    register s32 step ASM_REG("$2") = step_or_duration;
+    register s32 forward_arg1 ASM_REG("$5");
+    register s32 forward_arg2 ASM_REG("$6");
+    register s32 forward_arg3 ASM_REG("$7");
+    coordinate += step_or_duration;
+    position->field_00 = coordinate;
+    ASM_KEEP(step);
+    step /= 2;
+    position->field_0C = step;
+    step_or_duration = effect->field_9E;
+    intensity = ((s32)(s16)(effect->field_96 - 1) << 7) / step_or_duration;
+    effect->field_96--;
+    sprite->field_0E = (s8)intensity;
+    sprite->field_0D = (s8)intensity;
+    sprite->field_0C = (s8)intensity;
+    if ((s16)effect->field_96 <= 0) {
+        func_80170CE0(step_or_duration, forward_arg1, forward_arg2, forward_arg3);
     }
 }
 
-block_exit:
-    func_800478B8(s2);
+update_sprite:
+    func_800478B8(sprite);
 }

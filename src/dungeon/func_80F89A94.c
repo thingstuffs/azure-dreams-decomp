@@ -52,48 +52,49 @@ extern s32 D_800814A0;
 extern s32 D_80083460;
 extern s16 D_8008346A;
 
-void func_80173294(void *arg0, void *arg1, void *arg2, void *arg3) {
-    u8 *p0;
-    u8 *p1;
-    u8 *p2;
-    register u8 *p3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 index;
-    register s32 table_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *table_y_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 table_y;
-    register s32 table_bias ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+/* Advance the object removal animation, fade its sprite, and release it when finished. */
+void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
+    u8 *effect;
+    u8 *motion;
+    u8 *sprite;
+    register u8 *object ASM_REG("$17");
+    s32 direction_offset;
+    register s32 direction_x ASM_REG("$4");
+    register u8 *direction_y_table ASM_REG("$2");
+    s32 direction_y;
+    register s32 motion_step ASM_REG("$5");
     s32 state;
-    s32 field14;
-    s32 state_lt_2;
-    register s32 state_next ASM_REG("$2");   /* MATCH: both state arms feed the shared byte store in v0. */
+    s32 motion_value;
+    s32 is_low_state;
+    register s32 next_state ASM_REG("$2");
 
-    p0 = arg0;
-    p1 = arg1;
-    p2 = arg2;
-    p3 = arg3;
-    table_x = (s32)(unsigned long)&D_8006CCD8;
-    table_y_base = &D_8006CCE8;
-    index = (((S_80173294_0 *)p3)->unk_6A >> 8) & 0xE;
-    table_bias = 0xC000;
-    table_x = *(s16 *)(unsigned long)(u32)(index + table_x);
-    index += (s32)(unsigned long)table_y_base;
-    ASM_KEEP(table_bias);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    field14 = ((S_80173294_1 *)p1)->unk_14;
-    table_y = *(s16 *)(unsigned long)(u32)index;
-    field14 += table_bias;
-    ((S_80173294_1 *)p1)->unk_14 = field14;
-    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    state = ((S_80173294_2 *)p0)->unk_9B;
+    effect = effect_data;
+    motion = motion_data;
+    sprite = sprite_data;
+    object = object_data;
+    direction_x = (s32)(unsigned long)&D_8006CCD8;
+    direction_y_table = &D_8006CCE8;
+    direction_offset = (((S_80173294_0 *)object)->unk_6A >> 8) & 0xE;
+    motion_step = 0xC000;
+    direction_x = *(s16 *)(unsigned long)(u32)(direction_offset + direction_x);
+    direction_offset += (s32)(unsigned long)direction_y_table;
+    ASM_KEEP(motion_step);
+    motion_value = ((S_80173294_1 *)motion)->unk_14;
+    direction_y = *(s16 *)(unsigned long)(u32)direction_offset;
+    motion_value += motion_step;
+    ((S_80173294_1 *)motion)->unk_14 = motion_value;
+    ASM_KEEP(motion);
+    state = ((S_80173294_2 *)effect)->unk_9B;
 
     if (state == 1) goto state_1;
-    state_lt_2 = state < 2;
-    if (!state_lt_2) goto high_states;
-    ASM_KEEP(state_lt_2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    is_low_state = state < 2;
+    if (!is_low_state) goto high_states;
+    ASM_KEEP(is_low_state);
     if (state == 0) {
         state = 0xFFFE0000;
         goto state_0;
     }
-    ASM_SCHED_BARRIER();   /* MATCH: keep the low-state guard and its separate exit jump. */
+    ASM_SCHED_BARRIER();
     goto done;
 
 high_states:
@@ -103,99 +104,98 @@ high_states:
 
 state_0:
     state |= 0x8000;
-    field14 = table_x << 16;
-    ((S_80173294_1 *)p1)->unk_0C = field14;
-    field14 = table_y << 16;
-    (*(s32 *)((u8 *)p1 + 0x10)) = field14;
-    (*(s32 *)((u8 *)p1 + 0x14)) = state;
+    motion_value = direction_x << 16;
+    ((S_80173294_1 *)motion)->unk_0C = motion_value;
+    motion_value = direction_y << 16;
+    (*(s32 *)((u8 *)motion + 0x10)) = motion_value;
+    (*(s32 *)((u8 *)motion + 0x14)) = state;
     if (D_8008346A != 0) goto done;
-    ((S_80173294_2 *)p0)->unk_9B++;
+    ((S_80173294_2 *)effect)->unk_9B++;
 
 state_1:
     {
         s32 flags;
         s32 object_flags;
-        u16 x;
-        u16 y;
+        u16 sprite_x;
+        u16 sprite_flags;
         u16 status;
         volatile u8 *state_byte;
-        register s32 mask_a0 ASM_REG("$4");   /* MATCH: preserve the mask register formerly imposed by the label pseudo-call. */
-        s32 mask_v1;
+        register s32 clear_bit_27;
+        s32 clear_bit_18;
 
-        flags = ((S_80173294_0 *)p3)->unk_14;
+        flags = ((S_80173294_0 *)object)->unk_14;
         if (flags & 0x4000) {
-            if (!(flags & 0x20000000)) func_800ACF88(p3);
+            if (!(flags & 0x20000000)) func_800ACF88(object);
         }
         func_800A56E0(0x805);
-        mask_a0 = 0xF7FFFFFF;
-        status = ((S_80173294_2 *)p0)->unk_98;
-        mask_v1 = 0xFFFBFFFF;
+        clear_bit_27 = 0xF7FFFFFF;
+        status = ((S_80173294_2 *)effect)->unk_98;
+        clear_bit_18 = 0xFFFBFFFF;
         status |= 8;
-        ((S_80173294_2 *)p0)->unk_98 = status;
-        object_flags = ((S_80173294_0 *)p3)->unk_1C;
-        object_flags &= mask_a0;
-        object_flags &= mask_v1;
-        ((S_80173294_0 *)p3)->unk_1C = object_flags;
-        ASM_KEEP(mask_a0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        ((S_80173294_3 *)p2)->unk_10 = 0x60;
-        x = ((S_80173294_3 *)p2)->unk_12;
-        y = ((S_80173294_3 *)p2)->unk_14;
-        x -= 0x80;
-        y |= 0xC;
-        ((S_80173294_3 *)p2)->unk_12 = x;
-        ((S_80173294_3 *)p2)->unk_14 = y;
-        state_byte = (volatile u8 *)((u8 *)p0 + 0x9B);
-        state_next = *state_byte + 1;
+        ((S_80173294_2 *)effect)->unk_98 = status;
+        object_flags = ((S_80173294_0 *)object)->unk_1C;
+        object_flags &= clear_bit_27;
+        object_flags &= clear_bit_18;
+        ((S_80173294_0 *)object)->unk_1C = object_flags;
+
+        ((S_80173294_3 *)sprite)->unk_10 = 0x60;
+        sprite_x = ((S_80173294_3 *)sprite)->unk_12;
+        sprite_flags = ((S_80173294_3 *)sprite)->unk_14;
+        sprite_x -= 0x80;
+        sprite_flags |= 0xC;
+        ((S_80173294_3 *)sprite)->unk_12 = sprite_x;
+        ((S_80173294_3 *)sprite)->unk_14 = sprite_flags;
+        state_byte = (volatile u8 *)((u8 *)effect + 0x9B);
+        next_state = *state_byte + 1;
         goto store_state;
     }
 
 state_2:
-    if (!(((S_80173294_3 *)p2)->unk_14 & 0x6000)) goto done;
-    ((S_80173294_2 *)p0)->unk_96.s16 = 0x80;
-    state_next = ((S_80173294_2 *)p0)->unk_9B + 1;
+    if (!(((S_80173294_3 *)sprite)->unk_14 & 0x6000)) goto done;
+    ((S_80173294_2 *)effect)->unk_96.s16 = 0x80;
+    next_state = ((S_80173294_2 *)effect)->unk_9B + 1;
 store_state:
-    ASM_SCHED_BARRIER();   /* MATCH: share the state store instead of duplicating it in each arm. */
-    ((S_80173294_2 *)p0)->unk_9B = state_next;
+    ((S_80173294_2 *)effect)->unk_9B = next_state;
     goto done;
 
 state_3:
     {
-        u8 value;
-        u16 timer;
-        s32 *global_base;
-        s32 linked;
+        u8 brightness;
+        u16 fade_level;
+        s32 *link_base;
+        s32 linked_object;
         s32 flags;
-        s32 mode;
-        u8 coord_x;
-        u8 coord_y;
+        s32 tile_mask;
+        u8 tile_x;
+        u8 tile_y;
 
-        ((S_80173294_0 *)p3)->unk_1C |= 0x10000000;
-        value = ((S_80173294_2 *)p0)->unk_96.u8;
-        ((S_80173294_3 *)p2)->unk_0E = value;
-        ((S_80173294_3 *)p2)->unk_0D = value;
-        ((S_80173294_3 *)p2)->unk_0C = value;
-        timer = ((S_80173294_2 *)p0)->unk_96.u16 - 0x10;
-        ((S_80173294_2 *)p0)->unk_96.u16 = timer;
-        if ((s16)timer >= 0x10) goto done;
-        global_base = &D_80083460;
-        linked = global_base[4];
-        if (linked == (s32)(p3 - 0x20)) global_base[4] = linked & 0x7FFFFFFF;
-        func_800A2FE0(p3);
-        func_800A32A4(p3);
-        flags = ((S_80173294_0 *)p3)->unk_1C;
-        coord_x = ((S_80173294_3 *)p2)->unk_24;
-        coord_y = ((S_80173294_3 *)p2)->unk_25;
-        mode = 0x3000;
-        if (flags & 0x2000) mode = 0x300;
-        func_8009A3D0(coord_x, coord_y, mode);
-        func_8009A028(p3);
-        (*(u16 *)((u8 *)p3 + -2)) |= 0x8000;
+        ((S_80173294_0 *)object)->unk_1C |= 0x10000000;
+        brightness = ((S_80173294_2 *)effect)->unk_96.u8;
+        ((S_80173294_3 *)sprite)->unk_0E = brightness;
+        ((S_80173294_3 *)sprite)->unk_0D = brightness;
+        ((S_80173294_3 *)sprite)->unk_0C = brightness;
+        fade_level = ((S_80173294_2 *)effect)->unk_96.u16 - 0x10;
+        ((S_80173294_2 *)effect)->unk_96.u16 = fade_level;
+        if ((s16)fade_level >= 0x10) goto done;
+        link_base = &D_80083460;
+        linked_object = link_base[4];
+        if (linked_object == (s32)(object - 0x20)) link_base[4] = linked_object & 0x7FFFFFFF;
+        func_800A2FE0(object);
+        func_800A32A4(object);
+        flags = ((S_80173294_0 *)object)->unk_1C;
+        tile_x = ((S_80173294_3 *)sprite)->unk_24;
+        tile_y = ((S_80173294_3 *)sprite)->unk_25;
+        tile_mask = 0x3000;
+        if (flags & 0x2000) tile_mask = 0x300;
+        func_8009A3D0(tile_x, tile_y, tile_mask);
+        func_8009A028(object);
+        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 
 done:
-    ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(effect);
+    ASM_KEEP(sprite);
+    ASM_KEEP(object);
     return;
 }

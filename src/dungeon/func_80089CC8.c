@@ -79,79 +79,81 @@ typedef struct S_8008F428_6 {
     s32 unk_1C;
 } S_8008F428_6;   /* ((S_8008F428_0 *)arg0)->unk_124 in func_8008F428 */
 
-void func_8008F428(void *arg0, void *arg1, void *arg2, void *arg3) {
-    s32 value;
-    s32 saved;
-    u16 half;
+/* Updates the timed effect state, entity flags, and directional animation. */
+void func_8008F428(void *effect_state, void *unused, void *animation, void *owner) {
+    s32 effect_result;
+    u16 ticks_left;
     u8 state;
-    register u8 *effect ASM_REG("$2"); /* MATCH: the merged effect pointer occupies retail v0. */
-    register u8 *table ASM_REG("$5"); /* MATCH: both table-address halves and the shared lookup use retail a1. */
-    void *call_arg;
-    register s32 next_state ASM_REG("$2"); /* MATCH: both state-update paths merge in retail v0. */
+    u8 *effect;
+    register u8 *direction_table ASM_REG("$5");
+    void *target;
+    register s32 next_state ASM_REG("$2");
 
-    if (((S_8008F428_0 *)arg0)->unk_124 != 0) {
-        if (!(((S_8008F428_1 *)arg2)->unk_14 & 0x6000)) {
+    if (((S_8008F428_0 *)effect_state)->unk_124 != 0) {
+        if (!(((S_8008F428_1 *)animation)->unk_14 & 0x6000)) {
             return;
         }
 
-        state = ((S_8008F428_0 *)arg0)->unk_9B;
+        state = ((S_8008F428_0 *)effect_state)->unk_9B;
         if (state == 0) {
-            void *effect_arg;
+            void *effect_target;
+            s32 entity_flags;
+            s32 wait_roll;
 
             D_800E3DA8[0] = 0;
             D_800E3DA8[1] = 0;
-            value = ((S_8008F428_6 *)(((S_8008F428_0 *)arg0)->unk_124))->unk_1C;
-            effect_arg = arg2;
-            if (value & 0x2000) {
+            entity_flags = ((S_8008F428_6 *)(((S_8008F428_0 *)effect_state)->unk_124))->unk_1C;
+            effect_target = animation;
+            if (entity_flags & 0x2000) {
                 goto use_effect;
             }
-            if (value & 0x228) {
+            if (entity_flags & 0x228) {
                 goto use_effect;
             }
-            value = func_800A6DA4(0, 0x10);
-            effect_arg = arg2;
-            if ((s16)value < 6) {
+            wait_roll = func_800A6DA4(0, 0x10);
+            effect_target = animation;
+            if ((s16)wait_roll < 6) {
                 goto start_wait;
             }
 use_effect:
             effect = D_8008EAC8;
-            call_arg = effect_arg;
-            table = D_800DD0B8;
+            target = effect_target;
+            direction_table = D_800DD0B8;
             goto set_effect;
         }
 
         if (state == 1) {
             D_800E3DA8[0] = (rand() & 0xF) - 8;
             D_800E3DA8[1] = (rand() & 0xF) - 8;
-            half = ((S_8008F428_0 *)arg0)->unk_96 - 1;
-            ((S_8008F428_0 *)arg0)->unk_96 = half;
-            if ((s16)half > 0) {
+            ticks_left = ((S_8008F428_0 *)effect_state)->unk_96 - 1;
+            ((S_8008F428_0 *)effect_state)->unk_96 = ticks_left;
+            if ((s16)ticks_left > 0) {
                 return;
             }
             func_800A56E0(0x510);
-            func_80099844(((S_8008F428_0 *)arg0)->unk_124, D_800E0523);
+            func_80099844(((S_8008F428_0 *)effect_state)->unk_124, D_800E0523);
             {
                 void *entity;
-                s32 old_value;
-                register u32 mask1 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                u32 mask2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                u8 *old_value_page;
-                register s32 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                s32 saved_global;
+                u32 entity_mask;
+                u32 owner_mask;
+                u8 *global_page;
+                register s32 flags ASM_REG("$2");
 
-                mask1 = 0xFFF7FFFF;
-                mask2 = 0xFFEF0000;
-                old_value_page = (u8 *)0x80080000;
-                entity = ((S_8008F428_0 *)arg0)->unk_124;
-                old_value = ((S_8008F428_2 *)old_value_page)->unk_1484;
+                entity_mask = 0xFFF7FFFF;
+                owner_mask = 0xFFEF0000;
+                global_page = (u8 *)0x80080000;
+                entity = ((S_8008F428_0 *)effect_state)->unk_124;
+                saved_global = ((S_8008F428_2 *)global_page)->unk_1484;
                 flags = ((S_8008F428_3 *)entity)->unk_1C;
-                mask2 |= 0xFFFF;
-                ((S_8008F428_2 *)old_value_page)->unk_1484 = 0;
-                ((S_8008F428_3 *)entity)->unk_1C = flags & mask1;
-                flags = ((S_8008F428_4 *)arg3)->unk_1C;
-                D_800E3540 = old_value;
-                ((S_8008F428_4 *)arg3)->unk_1C = flags & mask2;
+                owner_mask |= 0xFFFF;
+                ((S_8008F428_2 *)global_page)->unk_1484 = 0;
+                ((S_8008F428_3 *)entity)->unk_1C = flags & entity_mask;
+                flags = ((S_8008F428_4 *)owner)->unk_1C;
+                D_800E3540 = saved_global;
+                ((S_8008F428_4 *)owner)->unk_1C = flags & owner_mask;
             }
-            next_state = ((S_8008F428_0 *)arg0)->unk_9B + 1;
+            next_state = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
             goto store_state;
         }
 
@@ -160,59 +162,54 @@ use_effect:
 
             ((S_8008F428_5 *)flags_base)->unk_02 |= 0x412;
         }
-        func_80099F70(((S_8008F428_4 *)arg3)->unk_5C);
-        func_80099F04(((S_8008F428_4 *)arg3)->unk_5C);
-        call_arg = arg2;
+        func_80099F70(((S_8008F428_4 *)owner)->unk_5C);
+        func_80099F04(((S_8008F428_4 *)owner)->unk_5C);
+        target = animation;
         goto reset_effect;
     }
 
-    state = ((S_8008F428_0 *)arg0)->unk_9B;
+    state = ((S_8008F428_0 *)effect_state)->unk_9B;
     if (state == 0) {
-        if (((S_8008F428_1 *)arg2)->unk_04 < 2) {
+        if (((S_8008F428_1 *)animation)->unk_04 < 2) {
             return;
         }
-        ((S_8008F428_1 *)arg2)->unk_14 |= 0x800;
+        ((S_8008F428_1 *)animation)->unk_14 |= 0x800;
 start_wait:
-        ((S_8008F428_0 *)arg0)->unk_96 = 0x10;
-        next_state = ((S_8008F428_0 *)arg0)->unk_9B + 1;
+        ((S_8008F428_0 *)effect_state)->unk_96 = 0x10;
+        next_state = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
 store_state:
-        ((S_8008F428_0 *)arg0)->unk_9B = next_state;
+        ((S_8008F428_0 *)effect_state)->unk_9B = next_state;
         return;
     }
 
-    half = ((S_8008F428_0 *)arg0)->unk_96 - 1;
-    ((S_8008F428_0 *)arg0)->unk_96 = half;
-    if ((s16)half > 0) {
+    ticks_left = ((S_8008F428_0 *)effect_state)->unk_96 - 1;
+    ((S_8008F428_0 *)effect_state)->unk_96 = ticks_left;
+    if ((s16)ticks_left > 0) {
         return;
     }
-    ((S_8008F428_1 *)arg2)->unk_14 &= 0xF7FF;
+    ((S_8008F428_1 *)animation)->unk_14 &= 0xF7FF;
     func_800A56E0(0x506);
     {
-        register s32 pass_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 saved_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        register s32 effect_id ASM_REG("$5");
+        register s32 saved_effect_id ASM_REG("$16");
 
-        value = func_800990FC();
-        call_arg = ((S_8008F428_0 *)arg0)->unk_11C;
-        pass_value = value;
-        saved_value = pass_value;
+        effect_result = func_800990FC();
+        target = ((S_8008F428_0 *)effect_state)->unk_11C;
+        effect_id = effect_result;
+        saved_effect_id = effect_id;
         func_80099290(func_80099194(D_800E0683,
-            func_80099734(call_arg, pass_value)));
-        func_800A5720(saved_value);
-        call_arg = arg2;
+            func_80099734(target, effect_id)));
+        func_800A5720(saved_effect_id);
+        target = animation;
 reset_effect:
         effect = (u8 *)&D_8008ACDC;
-        table = D_800DCFB0;
+        direction_table = D_800DCFB0;
 set_effect:
-        ((S_8008F428_0 *)arg0)->unk_8C = effect;
-        (*(u8 * *)((u8 *)call_arg + (0x2C))) = table;
-        effect = (u8 *)((((D_80083228 + ((S_8008F428_4 *)arg3)->unk_2A + 0x100) >> 9) & 7) + (u32)table);
-        func_80048A44(call_arg,
+        ((S_8008F428_0 *)effect_state)->unk_8C = effect;
+        (*(u8 * *)((u8 *)target + (0x2C))) = direction_table;
+        effect = (u8 *)((((D_80083228 + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7) + (u32)direction_table);
+        func_80048A44(target,
             *effect,
             0, 1);
     }
 }
-
-/* MECHANISM: The retail 0x28 frame follows from held s1/s2/s3 arguments and the
-   late s0 return value; edge-live a0 and LEAD28 preserve both tail-call slots.
-   A pinned 0x80080000 page, v0 flag local, held D_80083460 base, and loading the
-   arg3 flags before the D_800E3540 store reproduce the exact remat order. */

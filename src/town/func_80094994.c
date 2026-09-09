@@ -18,35 +18,33 @@ extern u8 D_800CFCEF;
 extern M2C_UNK D_800D00B8;
 extern M2C_UNK D_800FE488;
 
+/* Advance the state counter and update the entity, handling threshold and flag transitions. */
+void func_800920F4(Rec_func_80094268_arg0 *state, Rec_D_800E3D7C *entity, M2C_UNK context) {
+    s16 threshold;
+    u16 counter;
 
-
-
-void func_800920F4(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    s16 temp_v0_2;
-    u16 temp_v0;
-
-    temp_v0 = arg0->unk_0A.as_u16 + 1;
-    arg0->unk_0A.as_u16 = temp_v0;
-    if ((s16) temp_v0 == 6) {
-        func_80094984(&D_800D00B8, arg0);
+    counter = state->unk_0A.as_u16 + 1;
+    state->unk_0A.as_u16 = counter;
+    if ((s16) counter == 6) {
+        func_80094984(&D_800D00B8, state);
     }
-    func_80095C80(arg1);
-    func_80094C1C(arg0);
-    func_80094C74(arg1);
-    temp_v0_2 = func_80095978(arg1, &D_800FE488);
-    if (arg1->unk_08.at02_s16.v >= temp_v0_2) {
+    func_80095C80(entity);
+    func_80094C1C(state);
+    func_80094C74(entity);
+    threshold = func_80095978(entity, &D_800FE488);
+    if (entity->unk_08.at02_s16.v >= threshold) {
         func_80094910();
-        func_80095A94(arg1, temp_v0_2, &D_800FE488);
-        func_800ABD74(arg1);
+        func_80095A94(entity, threshold, &D_800FE488);
+        func_800ABD74(entity);
         goto shared_tail;
     }
     if (D_800CFCEF != 0) {
         func_80094910();
-        arg1->unk_14.as_s32 = 0;
-        func_800954F4(arg1);
+        entity->unk_14.as_s32 = 0;
+        func_800954F4(entity);
 shared_tail:
-        func_80094330(arg0, arg1, arg2);
+        func_80094330(state, entity, context);
         return;
     }
-    func_80095388(arg1);
+    func_80095388(entity);
 }

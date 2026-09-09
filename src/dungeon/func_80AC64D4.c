@@ -37,11 +37,12 @@ typedef struct S_80171CD4_4 {
     u8 unk_7C;
 } S_80171CD4_4;   /* (u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s in func_80171CD4 */
 
-void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register void *state ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+/* Advance the entity along its stored path and update movement timing. */
+void func_80171CD4(void *movement, void *motion, void *entity, void *path_state) {
+    register void *state ASM_REG("$17") = path_state;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 move_flags;
-    s16 action;
-    s16 result;
+    s16 heading;
+    s16 move_result;
     s32 x;
     s32 y;
 
@@ -49,50 +50,50 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
         return;
     }
 
-    if (((Rec_func_80171CD4_arg0 *)arg0)->unk_9A.as_u8 != 0xF) {
-        ((Rec_func_80171CD4_arg0 *)arg0)->unk_90 = 0;
-        ((Rec_func_80171CD4_arg1 *)arg1)->unk_14 = 0;
-        ((Rec_func_80171CD4_arg0 *)arg0)->unk_9D = 0;
+    if (((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 != 0xF) {
+        ((Rec_func_80171CD4_arg0 *)movement)->unk_90 = 0;
+        ((Rec_func_80171CD4_arg1 *)motion)->unk_14 = 0;
+        ((Rec_func_80171CD4_arg0 *)movement)->unk_9D = 0;
     }
 
     if (((S_80171CD4_0 *)state)->unk_71.u <= ((S_80171CD4_0 *)state)->unk_8A.s) {
         return;
     }
 
-    if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_80174DE4) {
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80174DE4;
+    if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != D_80174DE4) {
+        (*(u8 * *)((u8 *)entity + (0x2C))) = D_80174DE4;
         func_80047784(
-            arg2,
+            entity,
             D_80174DE4[((D_80083228 + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    x = ((Rec_D_80082E80 *)arg2)->unk_24;
-    y = ((Rec_D_80082E80 *)arg2)->unk_25;
+    x = ((Rec_D_80082E80 *)entity)->unk_24;
+    y = ((Rec_D_80082E80 *)entity)->unk_25;
     move_flags = 0x3000;
     if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
         move_flags = 0x300;
     }
     func_8009A3D0(x, y, move_flags);
 
-    action = func_800A0818(
+    heading = func_800A0818(
         x,
         y,
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74,
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_7C,
-        (u8 *)arg0 + 0x98);
-    result = func_8009A66C(action, arg2, state, 0x20);
+        (u8 *)movement + 0x98);
+    move_result = func_8009A66C(heading, entity, state, 0x20);
 
-    ((Rec_D_80082E80 *)arg2)->unk_24 =
+    ((Rec_D_80082E80 *)entity)->unk_24 =
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74;
     move_flags = 0x3000;
-    ((Rec_D_80082E80 *)arg2)->unk_25 =
+    ((Rec_D_80082E80 *)entity)->unk_25 =
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_7C;
     ((S_80171CD4_0 *)state)->unk_8A.u++;
 
     {
-        s32 next_x = ((Rec_D_80082E80 *)arg2)->unk_24;
-        s32 next_y = ((Rec_D_80082E80 *)arg2)->unk_25;
+        s32 next_x = ((Rec_D_80082E80 *)entity)->unk_24;
+        s32 next_y = ((Rec_D_80082E80 *)entity)->unk_25;
 
         if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
             move_flags = 0x300;
@@ -100,30 +101,30 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
         func_8009A21C(next_x, next_y, move_flags);
     }
 
-    ((S_80171CD4_0 *)state)->unk_2A = action;
-    if (result == 3) {
-        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-            func_80172688(arg0, arg1, arg2, state);
-            ((Rec_func_80171CD4_arg0 *)arg0)->unk_8C = 0;
+    ((S_80171CD4_0 *)state)->unk_2A = heading;
+    if (move_result == 3) {
+        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+            func_80172688(movement, motion, entity, state);
+            ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
         } else {
-            ((Rec_func_80171CD4_arg0 *)arg0)->unk_9A.as_u8 = 0xF;
-            ((Rec_func_80171CD4_arg0 *)arg0)->unk_8C = 0;
+            ((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 = 0xF;
+            ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
         }
     } else {
-        ((Rec_func_80171CD4_arg0 *)arg0)->unk_9A.as_u8 = 0xF;
-        ((Rec_func_80171CD4_arg0 *)arg0)->unk_8C = 0;
+        ((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 = 0xF;
+        ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
     }
     (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
     if (D_80083462 & 0x80) {
-        ((Rec_func_80171CD4_arg0 *)arg0)->unk_96 = 0;
+        ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 0;
         return;
     }
 
-    ((Rec_func_80171CD4_arg0 *)arg0)->unk_96 = 8;
+    ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 8;
     {
-        s32 count = ((S_80171CD4_0 *)state)->unk_71.u;
-        if (count > 0) {
-            ((Rec_func_80171CD4_arg0 *)arg0)->unk_96 = 8 / count;
+        s32 step_count = ((S_80171CD4_0 *)state)->unk_71.u;
+        if (step_count > 0) {
+            ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 8 / step_count;
         }
     }
 }

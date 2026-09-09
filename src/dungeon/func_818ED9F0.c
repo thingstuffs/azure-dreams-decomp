@@ -25,74 +25,75 @@ typedef struct S_800251F0_1 {
 extern void *D_80024028[8];
 extern s32 D_800814A0;
 
-void func_800251F0(void *arg0)
+/* Advance object counters and animation values, and flag expiration. */
+void func_800251F0(void *object_ptr)
 {
-    static void *const jt_keep[] = {
+    static void *const state_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_2,
         &&case_2, &&case_2, &&case_2, &&case_2
     };
     register u8 *page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *arg1;
-    u16 old_counter;
-    s32 i;
+    u8 *object_bytes;
+    u16 remaining_ticks;
+    s32 value_index;
 
-    arg1 = arg0;
+    object_bytes = object_ptr;
     page = (u8 *)0x80020000;
     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    old_counter = ((S_800251F0_0 *)arg1)->unk_02.s;
+    remaining_ticks = ((S_800251F0_0 *)object_bytes)->unk_02.s;
     ((S_800251F0_1 *)page)->unk_6428 = 1;
-    ((S_800251F0_0 *)arg1)->unk_02.s = old_counter - 1;
-    ((S_800251F0_0 *)arg1)->unk_8C += 200;
-    ((S_800251F0_0 *)arg1)->unk_0A++;
-    if ((s16)((S_800251F0_0 *)arg1)->unk_0A < 2) {
+    ((S_800251F0_0 *)object_bytes)->unk_02.s = remaining_ticks - 1;
+    ((S_800251F0_0 *)object_bytes)->unk_8C += 200;
+    ((S_800251F0_0 *)object_bytes)->unk_0A++;
+    if ((s16)((S_800251F0_0 *)object_bytes)->unk_0A < 2) {
         goto counter_done;
     }
-    ((S_800251F0_0 *)arg1)->unk_0A = 0;
-    ((S_800251F0_0 *)arg1)->unk_0C.s++;
+    ((S_800251F0_0 *)object_bytes)->unk_0A = 0;
+    ((S_800251F0_0 *)object_bytes)->unk_0C.s++;
 counter_done:
-    if (((S_800251F0_0 *)arg1)->unk_0C.u >= 33) {
-        ((S_800251F0_0 *)arg1)->unk_0C.u = 32;
+    if (((S_800251F0_0 *)object_bytes)->unk_0C.u >= 33) {
+        ((S_800251F0_0 *)object_bytes)->unk_0C.u = 32;
     }
 
-    i = 0;
-    while (i < ((S_800251F0_0 *)arg1)->unk_0C.u) {
-        u8 *elem;
+    value_index = 0;
+    while (value_index < ((S_800251F0_0 *)object_bytes)->unk_0C.u) {
+        u8 *value_base;
 
-        elem = arg1 + i;
-        elem[0x50] += 2;
-        i++;
+        value_base = object_bytes + value_index;
+        value_base[0x50] += 2;
+        value_index++;
     }
 
     {
         s32 state;
 
-        state = *(s16 *)(arg1 + 0x1E);
+        state = *(s16 *)(object_bytes + 0x1E);
         if ((u32)state >= 8) {
             goto done;
         }
-        (void)jt_keep;
+        (void)state_labels;
         goto *D_80024028[(u32)state];
     }
 
 case_0:
-    ((S_800251F0_0 *)arg1)->unk_1E++;
-    ((S_800251F0_0 *)arg1)->unk_28 += 0x10;
+    ((S_800251F0_0 *)object_bytes)->unk_1E++;
+    ((S_800251F0_0 *)object_bytes)->unk_28 += 0x10;
     goto done;
 
 case_1:
-    ((S_800251F0_0 *)arg1)->unk_1E++;
-    ((S_800251F0_0 *)arg1)->unk_28 -= 0x30;
-    ((S_800251F0_0 *)arg1)->unk_29 += 0x20;
+    ((S_800251F0_0 *)object_bytes)->unk_1E++;
+    ((S_800251F0_0 *)object_bytes)->unk_28 -= 0x30;
+    ((S_800251F0_0 *)object_bytes)->unk_29 += 0x20;
     goto done;
 
 case_2:
-    ((S_800251F0_0 *)arg1)->unk_28 -= 0x30;
-    ((S_800251F0_0 *)arg1)->unk_29 -= 0x20;
-    ((S_800251F0_0 *)arg1)->unk_1E = 0;
+    ((S_800251F0_0 *)object_bytes)->unk_28 -= 0x30;
+    ((S_800251F0_0 *)object_bytes)->unk_29 -= 0x20;
+    ((S_800251F0_0 *)object_bytes)->unk_1E = 0;
 
 done:
-    if (((S_800251F0_0 *)arg1)->unk_02.u <= 0) {
-        (*(u16 *)((u8 *)arg1 + -2)) |= 0x8000;
+    if (((S_800251F0_0 *)object_bytes)->unk_02.u <= 0) {
+        (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

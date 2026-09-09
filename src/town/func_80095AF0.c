@@ -19,28 +19,29 @@ extern s16 func_80095978(TownObject *, void *);
 extern void func_80095A94(TownObject *, s16, void *);
 extern void func_80095C80(TownObject *);
 
-void func_80093250(void *arg0, TownObject *arg1, void *arg2)
+/* Updates a town object based on its computed threshold and the global flag. */
+void func_80093250(void *context, TownObject *object, void *update_data)
 {
-    s16 value;
-    u8 *data;
+    s16 threshold;
+    u8 *threshold_data;
 
-    func_80095C80(arg1);
-    func_80094C1C(arg0);
-    func_80094C74(arg1);
-    data = D_800FE488;
-    value = func_80095978(arg1, data);
+    func_80095C80(object);
+    func_80094C1C(context);
+    func_80094C74(object);
+    threshold_data = D_800FE488;
+    threshold = func_80095978(object, threshold_data);
 
-    if (arg1->field_A >= value) {
-        func_80095A94(arg1, value, data);
-        func_80093D48(arg0, arg1, arg2);
+    if (object->field_A >= threshold) {
+        func_80095A94(object, threshold, threshold_data);
+        func_80093D48(context, object, update_data);
         return;
     }
 
     if (D_800CFCEF != 0) {
-        arg1->field_14 = 0;
-        func_800954F4(arg1);
-        func_80093D48(arg0, arg1, arg2);
+        object->field_14 = 0;
+        func_800954F4(object);
+        func_80093D48(context, object, update_data);
     } else {
-        func_80095388(arg1);
+        func_80095388(object);
     }
 }

@@ -97,40 +97,38 @@ typedef struct S_8008FA7C_10 {
     u8 unk_85;
 } S_8008FA7C_10;   /* ((S_8008FA7C_3 *)arg0)->unk_124.p in func_8008FA7C */
 
-void func_8008FA7C(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3) {
+/* Advances an actor's action state, updating linked-object flags and directional animation. */
+void func_8008FA7C(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
     s16 countdown;
-    s32 index;
+    s32 direction;
     s16 state;
-    u8 *table;
+    u8 *anim_table;
 #ifndef NON_MATCHING
-    register s32 saved ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 result;
-    u8 *dead_v0;
-    register u8 *state3_arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    u32 state1_a1;
-    u32 state1_v1;
-    register u8 *state0_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 saved_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 action_result;
+    u8 *table_base;
+    register u8 *final_anim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    u32 mask_or_base;
+    u32 object_or_base;
+    register u8 *init_anim ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #else
-    s32 saved;
-    s16 result;
-    u8 *state3_arg2;
-    u8 *state0_call_arg;
+    s32 saved_value;
+    s16 action_result;
+    u8 *final_anim;
+    u8 *init_anim;
 #endif
 
-    state = arg0[0x9B];
+    state = actor[0x9B];
     if (state == 1) {
         goto state_1;
     }
     if (state < 2) {
-        state0_call_arg = arg2;
+        init_anim = animation;
         if (state == 0) {
             goto state_0;
         }
-#ifndef NON_MATCHING
-#endif
         return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }
@@ -140,225 +138,220 @@ void func_8008FA7C(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3) {
     return;
 
 state_0:
-        ((S_8008FA7C_0 *)arg1)->unk_14 = 0xFFEA0000;
-        ((S_8008FA7C_1 *)state0_call_arg)->unk_2C = D_800DD0C8;
-        {
+    ((S_8008FA7C_0 *)motion)->unk_14 = 0xFFEA0000;
+    ((S_8008FA7C_1 *)init_anim)->unk_2C = D_800DD0C8;
+    {
 #ifndef NON_MATCHING
-            s32 state0_index;
-            u8 state0_byte;
+        s32 init_entry;
+        u8 init_frame;
 
-            state0_index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
-            state0_index += (u32)D_800DD0C8;
-            state0_byte = *(volatile u8 *)state0_index;
-            ASM_SCHED_BARRIER(); /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
-            func_80048A44(state0_call_arg, state0_byte, 0, 1);
-            arg0[0x9B]++;
+        init_entry = ((D_80083228[0] + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        init_entry += (u32)D_800DD0C8;
+        init_frame = *(volatile u8 *)init_entry;
+        ASM_SCHED_BARRIER(); /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
+        func_80048A44(init_anim, init_frame, 0, 1);
+        actor[0x9B]++;
 #else
-            u8 *lookup_v0;
-            u8 lookup_byte;
-            index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
-            lookup_v0 = &D_800DD0C8[index];
-            lookup_byte = *lookup_v0;
-            func_80048A44(state0_call_arg, lookup_byte, 0, 1);
-            arg0[0x9B]++;
+        u8 *frame_ptr;
+        u8 frame;
+        direction = ((D_80083228[0] + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        frame_ptr = &D_800DD0C8[direction];
+        frame = *frame_ptr;
+        func_80048A44(init_anim, frame, 0, 1);
+        actor[0x9B]++;
 #endif
-        }
-        return;
+    }
+    return;
 
 state_1:
-        countdown = ((S_8008FA7C_3 *)arg0)->unk_96 - 1;
-        ((S_8008FA7C_3 *)arg0)->unk_96 = countdown;
-        if (countdown > 0) {
-            return;
-        }
-
-        result = func_8009AF18(((S_8008FA7C_2 *)arg3)->unk_2A, arg1, arg2, 8);
-#ifndef NON_MATCHING
-#endif
-        if (result == 0) {
-            goto increment_state;
-        }
-        {
-            u32 clear_mask;
-            u32 set_mask;
-            u32 object_flags;
-            u8 *object;
-            u8 *object2;
-            u8 *call_arg;
-            u8 *table_a1;
-            u8 *lookup_v0;
-#ifndef NON_MATCHING
-            register s32 state1_angle ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#else
-            s32 state1_angle;
-#endif
-            s32 state1_index;
-            s32 state1_byte;
-            u32 masked_flags;
-
-#ifndef NON_MATCHING
-            state1_a1 = 0xFFEF0000;
-            ASM_KEEP(state1_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-#else
-            clear_mask = 0xFFEF0000;
-#endif
-            object = ((S_8008FA7C_3 *)arg0)->unk_124.p;
-#ifndef NON_MATCHING
-            ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-#endif
-            set_mask = 0x200000;
-#ifndef NON_MATCHING
-            ASM_KEEP(set_mask);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-#endif
-            object_flags = ((S_8008FA7C_4 *)object)->unk_1C;
-#ifndef NON_MATCHING
-            ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-#endif
-#ifndef NON_MATCHING
-            state1_a1 |= 0xFFFF;
-#else
-            clear_mask |= 0xFFFF;
-#endif
-            object_flags |= set_mask;
-            ((S_8008FA7C_4 *)object)->unk_1C = object_flags;
-            object2 = ((S_8008FA7C_3 *)arg0)->unk_124.p;
-#ifndef NON_MATCHING
-            ASM_KEEP(object2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-#endif
-            call_arg = arg2;
-#ifndef NON_MATCHING
-            ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-#endif
-            ((S_8008FA7C_5 *)object2)->unk_8A = result;
-#ifndef NON_MATCHING
-            state1_byte = 0x78;
-            state1_v1 = ((S_8008FA7C_3 *)arg0)->unk_124.i;
-            ASM_KEEP(state1_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_84 = state1_byte;
-            state1_v1 = ((S_8008FA7C_3 *)arg0)->unk_124.i;
-            ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_85 = 2;
-#else
-            ((S_8008FA7C_10 *)(((S_8008FA7C_3 *)arg0)->unk_124.p))->unk_84 = 0x78;
-            ((S_8008FA7C_10 *)(((S_8008FA7C_3 *)arg0)->unk_124.p))->unk_85 = 2;
-#endif
-#ifndef NON_MATCHING
-            masked_flags = ((S_8008FA7C_2 *)arg3)->unk_1C;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            state1_v1 = 0x80080000;
-            ASM_KEEP(state1_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            masked_flags &= state1_a1;
-            state1_a1 = 0x80080000;
-            saved = ((S_8008FA7C_7 *)((u8 *)state1_a1))->unk_1484;
-            state1_v1 += 0x3460;
-            ((S_8008FA7C_7 *)((u8 *)state1_a1))->unk_1484 = 0;
-            state1_a1 = 0x800E0000;
-            ASM_KEEP(state1_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((S_8008FA7C_2 *)arg3)->unk_1C = masked_flags;
-            countdown = ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_0A;
-            state1_a1 -= 0x3030;
-            countdown++;
-            ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_0A = countdown;
-            ((S_8008FA7C_8 *)call_arg)->unk_2C = (u8 *)state1_a1;
-            state1_index = D_80083228[0];
-            state1_angle = ((S_8008FA7C_2 *)arg3)->unk_2A;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            state1_v1 = 0x800E0000;
-            ASM_KEEP(state1_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_3540 = saved;
-            state1_index += state1_angle;
-            state1_index += 0x100;
-            state1_index >>= 9;
-            state1_index &= 7;
-            state1_index += state1_a1;
-            func_80048A44(call_arg, *(u8 *)state1_index, 5, 1);
-            arg0[0x9B]++;
-#else
-            ((S_8008FA7C_2 *)arg3)->unk_1C &= clear_mask;
-            saved = D_80081484[0];
-            D_80081484[0] = 0;
-            D_80083460.fieldA++;
-            table_a1 = D_800DCFD0;
-            ((S_8008FA7C_8 *)call_arg)->unk_2C = table_a1;
-            D_800E3540[0] = saved;
-            index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
-            lookup_v0 = &table_a1[index];
-#ifndef NON_MATCHING
-#endif
-            func_80048A44(call_arg, *lookup_v0, 5, 1);
-            arg0[0x9B]++;
-#endif
-        }
+    countdown = ((S_8008FA7C_3 *)actor)->unk_96 - 1;
+    ((S_8008FA7C_3 *)actor)->unk_96 = countdown;
+    if (countdown > 0) {
         return;
+    }
+
+    action_result = func_8009AF18(((S_8008FA7C_2 *)entity)->unk_2A, motion, animation, 8);
+    if (action_result == 0) {
+        goto increment_state;
+    }
+    {
+        u32 clear_mask;
+        u32 set_mask;
+        u32 linked_flags;
+        u8 *linked_object;
+        u8 *linked_result;
+        u8 *active_anim;
+        u8 *active_table;
+        u8 *frame_ptr;
+#ifndef NON_MATCHING
+        register s32 entity_angle ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+#else
+        s32 entity_angle;
+#endif
+        s32 active_entry;
+        s32 effect_duration;
+        u32 entity_flags;
+
+#ifndef NON_MATCHING
+        mask_or_base = 0xFFEF0000;
+        ASM_KEEP(mask_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+#else
+        clear_mask = 0xFFEF0000;
+#endif
+        linked_object = ((S_8008FA7C_3 *)actor)->unk_124.p;
+#ifndef NON_MATCHING
+        ASM_KEEP(linked_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+#endif
+        set_mask = 0x200000;
+#ifndef NON_MATCHING
+        ASM_KEEP(set_mask);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+#endif
+        linked_flags = ((S_8008FA7C_4 *)linked_object)->unk_1C;
+#ifndef NON_MATCHING
+        ASM_KEEP(linked_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+#endif
+#ifndef NON_MATCHING
+        mask_or_base |= 0xFFFF;
+#else
+        clear_mask |= 0xFFFF;
+#endif
+        linked_flags |= set_mask;
+        ((S_8008FA7C_4 *)linked_object)->unk_1C = linked_flags;
+        linked_result = ((S_8008FA7C_3 *)actor)->unk_124.p;
+#ifndef NON_MATCHING
+        ASM_KEEP(linked_result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+#endif
+        active_anim = animation;
+#ifndef NON_MATCHING
+        ASM_KEEP(active_anim);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+#endif
+        ((S_8008FA7C_5 *)linked_result)->unk_8A = action_result;
+#ifndef NON_MATCHING
+        effect_duration = 0x78;
+        object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
+        ASM_KEEP(object_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_84 = effect_duration;
+        object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
+        ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_85 = 2;
+#else
+        ((S_8008FA7C_10 *)(((S_8008FA7C_3 *)actor)->unk_124.p))->unk_84 = 0x78;
+        ((S_8008FA7C_10 *)(((S_8008FA7C_3 *)actor)->unk_124.p))->unk_85 = 2;
+#endif
+#ifndef NON_MATCHING
+        entity_flags = ((S_8008FA7C_2 *)entity)->unk_1C;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        object_or_base = 0x80080000;
+        ASM_KEEP(object_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        entity_flags &= mask_or_base;
+        mask_or_base = 0x80080000;
+        saved_value = ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484;
+        object_or_base += 0x3460;
+        ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484 = 0;
+        mask_or_base = 0x800E0000;
+        ASM_KEEP(mask_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ((S_8008FA7C_2 *)entity)->unk_1C = entity_flags;
+        countdown = ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_0A;
+        mask_or_base -= 0x3030;
+        countdown++;
+        ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_0A = countdown;
+        ((S_8008FA7C_8 *)active_anim)->unk_2C = (u8 *)mask_or_base;
+        active_entry = D_80083228[0];
+        entity_angle = ((S_8008FA7C_2 *)entity)->unk_2A;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        object_or_base = 0x800E0000;
+        ASM_KEEP(object_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_3540 = saved_value;
+        active_entry += entity_angle;
+        active_entry += 0x100;
+        active_entry >>= 9;
+        active_entry &= 7;
+        active_entry += mask_or_base;
+        func_80048A44(active_anim, *(u8 *)active_entry, 5, 1);
+        actor[0x9B]++;
+#else
+        ((S_8008FA7C_2 *)entity)->unk_1C &= clear_mask;
+        saved_value = D_80081484[0];
+        D_80081484[0] = 0;
+        D_80083460.fieldA++;
+        active_table = D_800DCFD0;
+        ((S_8008FA7C_8 *)active_anim)->unk_2C = active_table;
+        D_800E3540[0] = saved_value;
+        direction = ((D_80083228[0] + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        frame_ptr = &active_table[direction];
+        func_80048A44(active_anim, *frame_ptr, 5, 1);
+        actor[0x9B]++;
+#endif
+    }
+    return;
 
 state_2:
     {
-        u8 *state2_call_arg;
+        u8 *next_anim;
 
-        if (!(((S_8008FA7C_3 *)arg0)->unk_A2 & 0x10)) {
+        if (!(((S_8008FA7C_3 *)actor)->unk_A2 & 0x10)) {
             return;
         }
-        ((S_8008FA7C_0 *)arg1)->unk_14 = 0;
-        state2_call_arg = arg2;
-        if (((S_8008FA7C_2 *)arg3)->unk_1C & 0x100000) {
+        ((S_8008FA7C_0 *)motion)->unk_14 = 0;
+        next_anim = animation;
+        if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
             goto increment_state;
         }
-        ASM_KEEP(state2_call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        ((S_8008FA7C_9 *)state2_call_arg)->unk_2C = D_800DD060;
+        ((S_8008FA7C_9 *)next_anim)->unk_2C = D_800DD060;
         {
 #ifndef NON_MATCHING
-            s32 state2_index;
+            s32 next_entry;
 
-            state2_index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
-            state2_index += (u32)D_800DD060;
-            func_80048A44(state2_call_arg, *(u8 *)state2_index, 0, 1);
-            arg0[0x9B]++;
+            next_entry = ((D_80083228[0] + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+            next_entry += (u32)D_800DD060;
+            func_80048A44(next_anim, *(u8 *)next_entry, 0, 1);
+            actor[0x9B]++;
 #else
-            u8 *lookup_v0;
-            index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
-            lookup_v0 = &D_800DD060[index];
-            func_80048A44(state2_call_arg, *lookup_v0, 0, 1);
-            arg0[0x9B]++;
+            u8 *frame_ptr;
+            direction = ((D_80083228[0] + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+            frame_ptr = &D_800DD060[direction];
+            func_80048A44(next_anim, *frame_ptr, 0, 1);
+            actor[0x9B]++;
 #endif
         }
         return;
     }
 
 state_3:
-        state3_arg2 = arg2;
-        if (D_80083460.fieldA != 0) {
-            return;
-        }
-        D_80083460.field2 |= 0x412;
-        func_80099F70(((S_8008FA7C_2 *)arg3)->unk_5C);
-        func_80099F04(((S_8008FA7C_2 *)arg3)->unk_5C);
-        if (((S_8008FA7C_2 *)arg3)->unk_1C & 0x100000) {
+    final_anim = animation;
+    if (D_80083460.fieldA != 0) {
+        return;
+    }
+    D_80083460.field2 |= 0x412;
+    func_80099F70(((S_8008FA7C_2 *)entity)->unk_5C);
+    func_80099F04(((S_8008FA7C_2 *)entity)->unk_5C);
+    if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
 #ifndef NON_MATCHING
-            dead_v0 = (u8 *)0x80090000;
-            ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            ((S_8008FA7C_3 *)arg0)->unk_8C.p = dead_v0 - 0x1538;
-            dead_v0 = (u8 *)0x800E0000;
-            ASM_KEEP(dead_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            dead_v0 -= 0x2F48;
-            table = dead_v0;
+        table_base = (u8 *)0x80090000;
+        ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        ((S_8008FA7C_3 *)actor)->unk_8C.p = table_base - 0x1538;
+        table_base = (u8 *)0x800E0000;
+        ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        table_base -= 0x2F48;
+        anim_table = table_base;
 #else
-            ((S_8008FA7C_3 *)arg0)->unk_8C.p = D_8008EAC8;
-            table = D_800DD0B8;
+        ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
+        anim_table = D_800DD0B8;
 #endif
-        } else {
+    } else {
 #ifndef NON_MATCHING
-            dead_v0 = (u8 *)0x80090000;
+        table_base = (u8 *)0x80090000;
 #endif
-            ((S_8008FA7C_3 *)arg0)->unk_8C.p2 = &D_8008ACDC;
-            table = D_800DCFB0;
-        }
-        (*(u8 * *)((u8 *)state3_arg2 + (0x2C))) = table;
+        ((S_8008FA7C_3 *)actor)->unk_8C.p2 = &D_8008ACDC;
+        anim_table = D_800DCFB0;
+    }
+    (*(u8 * *)((u8 *)final_anim + (0x2C))) = anim_table;
 #ifndef NON_MATCHING
-        ASM_KEEP(state3_arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(final_anim);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #endif
-        index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
-        func_80048A44(state3_arg2, (*(u8 * volatile *)((u8 *)state3_arg2 + (0x2C)))[index], 0, 1);
-        goto increment_state;
+    direction = ((D_80083228[0] + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+    func_80048A44(final_anim, (*(u8 * volatile *)((u8 *)final_anim + (0x2C)))[direction], 0, 1);
+    goto increment_state;
 
 increment_state:
-    arg0[0x9B]++;
+    actor[0x9B]++;
 }

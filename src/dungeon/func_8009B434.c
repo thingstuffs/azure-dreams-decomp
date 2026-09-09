@@ -10,74 +10,70 @@ extern u8 D_80164800[];
 extern u8 D_8016A800[];
 extern u8 D_80170800[];
 
-s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
-    u8 *entry = arg1;
-    s32 value = arg0;
-    s32 mode = arg2;
+/* Loads or reuses entry resource data, optionally waiting for the CD read. */
+s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
+    u8 *entry = resource_entry;
+    s32 asset_id = resource_id;
+    s32 wait_mode = wait_for_read;
     s32 result = 0;
     u8 *data;
-    u8 *scratch;
-    s32 magnitude;
-    register s32 raw_magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 first_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 shifted_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 signed_value;
-    s32 block_size;
-    s32 call_tag;
-    register s32 tile ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 delta;
-    register s32 term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *cd_params;
+    s32 cached_id_abs;
+    register s32 compare_id ASM_REG("$2");
+    register s32 requested_id;
+    register s32 id_high;
+    s32 loaded_id;
+    s32 read_size;
+    s32 disc_offset;
+    register s32 slot_base ASM_REG("$4") = resource_id;
+    s32 asset_index;
+    register s32 asset_offset;
+    register s32 slot;
+    ASM_KEEP_NV(entry);
 
     if (entry[0] != 2) {
-        raw_magnitude = D_800E3DA0[entry[3]];
-        magnitude = raw_magnitude;
-        if (raw_magnitude < 0) {
-            magnitude = -magnitude;
+        compare_id = D_800E3DA0[entry[3]];
+        cached_id_abs = compare_id;
+        if (compare_id < 0) {
+            cached_id_abs = -cached_id_abs;
         }
-        raw_magnitude = (s16)tile;
-        if ((magnitude == raw_magnitude) && (magnitude != 0x39)) {
-            entry[1] = value;
+        compare_id = (s16)slot_base;
+        if ((cached_id_abs == compare_id) && (cached_id_abs != 0x39)) {
+            entry[1] = asset_id;
         }
     }
 
     if (entry[1] == 0) {
-        shifted_value = (u32)value << 0x10;
-        first_value = shifted_value >> 0x10;
-        if (first_value == 0x38) {
+        id_high = (u32)asset_id << 0x10;
+        requested_id = id_high >> 0x10;
+        if (requested_id == 0x38) {
             data = D_80164800;
-            call_tag = 0x56B1;
-            ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(call_tag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            block_size = 0x24;
-        } else if (first_value == 0x31) {
+            disc_offset = 0x56B1;
+            ASM_KEEP(data);
+            read_size = 0x24;
+        } else if (requested_id == 0x31) {
             data = D_8016A800;
-            call_tag = 0x569C;
-            ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(call_tag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            block_size = 0x18;
+            disc_offset = 0x569C;
+            read_size = 0x18;
         } else {
-            index = entry[3];
-            ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            block_size = 0xC;
-            ASM_KEEP(block_size);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            tile = index * 3;
-            data = D_80170800 - (tile << 13);
-            delta = first_value - 1;
-            term = delta * 0x54;
-            ASM_KEEP(first_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            tile = (tile << 2) + 0x4340;
-            call_tag = term + tile;
+            slot = entry[3];
+            read_size = 0xC;
+            slot_base = slot * 3;
+            data = D_80170800 - (slot_base << 13);
+            asset_index = requested_id - 1;
+            asset_offset = asset_index * 0x54;
+            ASM_KEEP(requested_id);
+            slot_base = (slot_base << 2) + 0x4340;
+            disc_offset = asset_offset + slot_base;
         }
-        scratch = D_800E58A8;
-        func_8003F6D4(block_size, data, scratch, call_tag);
-        Control_CD(6, scratch, 0);
+        cd_params = D_800E58A8;
+        func_8003F6D4(read_size, data, cd_params, disc_offset);
+        Control_CD(6, cd_params, 0);
 
-        if ((mode << 0x10) != 0) {
+        if ((wait_mode << 0x10) != 0) {
             func_8003F320();
             if (entry[0] != 2) {
-                D_800E3DA0[entry[3]] = value;
+                D_800E3DA0[entry[3]] = asset_id;
             }
             result = *(s32 *)data;
             *(s32 *)(entry + 4) = result;
@@ -85,19 +81,19 @@ s32 func_800A0B94(s32 arg0, u8 *arg1, s32 arg2) {
         }
 
         if (entry[0] != 2) {
-            D_800E3DA0[entry[3]] = -value;
+            D_800E3DA0[entry[3]] = -asset_id;
             goto done;
         }
         goto done;
     }
 
     if (entry[0] != 2) {
-        D_800E3DA0[entry[3]] = value;
+        D_800E3DA0[entry[3]] = asset_id;
     }
-    signed_value = (s16)value;
-    if (signed_value == 0x38) {
+    loaded_id = (s16)asset_id;
+    if (loaded_id == 0x38) {
         data = D_80164800;
-    } else if (signed_value == 0x31) {
+    } else if (loaded_id == 0x31) {
         data = D_8016A800;
     } else {
         data = D_80170800 - (entry[3] * 0x6000);

@@ -18,21 +18,22 @@ typedef struct TownVec {
 extern s8 D_800CFCE9;
 void func_800954F4(TownObj *arg0);
 
-void func_80095A94(TownObj *arg0, s32 arg1, TownVec **arg2)
+/* Computes and clamps a vector-based adjustment, then updates the town object. */
+void func_80095A94(TownObj *obj, s32 base_value, TownVec **vec_ptr)
 {
     TownVec *vec;
-    register s32 x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 x ASM_REG("$7");
     s32 y;
     s32 divisor;
-    s32 absX;
-    register s32 absY ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 value;
-    s32 clampValue;
+    s32 abs_x;
+    register s32 abs_y ASM_REG("$2");
+    s32 adjustment;
+    s32 clamp_value;
 
     D_800CFCE9 = 1;
-    arg1 <<= 16;
-    arg0->value8 = arg1;
-    vec = *arg2;
+    base_value <<= 16;
+    obj->value8 = base_value;
+    vec = *vec_ptr;
     x = vec->x;
     if (x == 0 && vec->y == 0) {
         goto zero_value;
@@ -43,37 +44,33 @@ void func_80095A94(TownObj *arg0, s32 arg1, TownVec **arg2)
     }
 
 zero_value:
-    arg0->value14 = 0;
+    obj->value14 = 0;
     goto finish;
 
 calculate:
     y = vec->y;
-    absX = (x < 0) ? -x : x;
-    absY = y;
+    abs_x = (x < 0) ? -x : x;
+    abs_y = y;
     if (y < 0) {
-        absY = -absY;
+        abs_y = -abs_y;
     }
-    if (absY < absX) {
-        value = (((-arg0->valueC) << 8) / divisor) * x;
+    if (abs_y < abs_x) {
+        adjustment = (((-obj->valueC) << 8) / divisor) * x;
     } else {
-        value = (((-arg0->value10) << 8) / divisor) * y;
+        adjustment = (((-obj->value10) << 8) / divisor) * y;
     }
-    if (value < 0) {
-        value += 0xFF;
+    if (adjustment < 0) {
+        adjustment += 0xFF;
     }
-    value >>= 8;
-    arg0->value14 = value;
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    clampValue = *(volatile s32 *)&arg0->value14;
-    if (clampValue > 0xCC000) {
-        arg0->value14 = 0xCC000;
-    } else if (clampValue < -0xCC000) {
-        arg0->value14 = -0xCC000;
+    adjustment >>= 8;
+    obj->value14 = adjustment;
+    ASM_KEEP(adjustment);
+    clamp_value = *(volatile s32 *)&obj->value14;
+    if (clamp_value > 0xCC000) {
+        obj->value14 = 0xCC000;
+    } else if (clamp_value < -0xCC000) {
+        obj->value14 = -0xCC000;
     }
 finish:
-    func_800954F4(arg0);
+    func_800954F4(obj);
 }
-
-/* MECHANISM: True-space jumps are local joins, yielding the retail 0x18 ra-only frame.
-   Signed halfword roles use pinned x/$a3 and absY,value/$v0 lifetimes across both arms.
-   A post-store value keep plus volatile reread orders retail's sw/lui/lw clamp sequence. */

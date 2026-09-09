@@ -62,89 +62,90 @@ extern s32 D_800814A0;
 extern u8 D_80174C8C[];
 extern s32 D_80174CE0;
 
-void func_80172874(void *arg0, Rec_D_800E3D7C *arg1, S_80172874_2 *arg2)
+/* Advances the effect through growth, position tracking, and shrinkage. */
+void func_80172874(void *effect, Rec_D_800E3D7C *position, S_80172874_2 *transform)
 {
-    void *base = arg0;
+    void *base = effect;
     S_80172874_6 *source;
     S_80172874_3 *owner;
-    s16 temp_a0_3;
-    s16 temp_v1;
-    s32 temp_lo;
-    s32 temp_lo_2;
-    u16 temp_a0;
-    u16 temp_a0_2;
-    u16 temp_v0;
-    u16 temp_v1_2;
-    u16 temp_v1_3;
+    s16 duration;
+    s16 mode;
+    s32 grow_scale;
+    s32 shrink_scale;
+    u16 angle;
+    u16 current_mode;
+    u16 next_angle;
+    u16 grow_step;
+    u16 shrink_step;
     u16 owner_value;
     void *parent;
 
     parent = ((S_80172874_0 *)base)->unk_20;
     source = ((S_80172874_0 *)base)->unk_24;
     owner = ((S_80172874_1_pre *)parent)[-1].unk_00;
-    temp_a0 = arg2->unk_1A;
+    angle = transform->unk_1A;
     owner_value = owner->unk_06;
-    temp_v0 = temp_a0 + 0x190;
-    arg2->unk_1A = temp_v0;
-    arg2->unk_06 = owner_value;
-    if ((u16)temp_v0 >= 0x1001U) {
-        arg2->unk_1A = temp_a0 - 0xE70;
+    next_angle = angle + 0x190;
+    transform->unk_1A = next_angle;
+    transform->unk_06 = owner_value;
+    if ((u16)next_angle >= 0x1001U) {
+        transform->unk_1A = angle - 0xE70;
     }
 
-    temp_v1 = ((S_80172874_0 *)base)->unk_12.s;
-    temp_a0_2 = ((S_80172874_0 *)base)->unk_12.u;
-    switch (temp_v1) {
+    mode = ((S_80172874_0 *)base)->unk_12.s;
+    current_mode = ((S_80172874_0 *)base)->unk_12.u;
+    switch (mode) {
     case 0:
-        goto mode_zero;
+        goto grow;
     case 1:
-        goto mode_one;
+        goto track;
     case 2:
-        goto mode_two;
+        goto shrink;
     default:
         goto done;
     }
 
-mode_zero:
-    temp_v1_2 = ((S_80172874_0 *)base)->unk_16.s + 1;
-    temp_a0_3 = ((S_80172874_0 *)base)->unk_18;
-    temp_lo = ((s32)(temp_v1_2 << 16) >> 9) / temp_a0_3;
-    ((S_80172874_0 *)base)->unk_16.s = temp_v1_2;
-    arg2->unk_0C = temp_lo;
-    arg2->unk_0D = temp_lo;
-    arg2->unk_0E = temp_lo;
+grow:
+    grow_step = ((S_80172874_0 *)base)->unk_16.s + 1;
+    duration = ((S_80172874_0 *)base)->unk_18;
+    grow_scale = ((s32)(grow_step << 16) >> 9) / duration;
+    ((S_80172874_0 *)base)->unk_16.s = grow_step;
+    transform->unk_0C = grow_scale;
+    transform->unk_0D = grow_scale;
+    transform->unk_0E = grow_scale;
     if (((S_80172874_0 *)base)->unk_16.u >= 5) {
         ((S_80172874_0 *)base)->unk_12.p = ((S_80172874_0 *)base)->unk_12.p + 1;
         goto done;
     }
     goto done;
 
-mode_one:
+track:
     {
-    u32 flag_base;
-    flag_base = 0x80170000;
-    if (((S_80172874_4 *)flag_base)->unk_4CE0 == 0) {
-        ((S_80172874_0 *)base)->unk_12.s = temp_a0_2 + 1;
-        ((S_80172874_0 *)base)->unk_18 = 0x14;
-        ((S_80172874_0 *)base)->unk_16.s = 0x14;
-    }
-    if (owner->unk_2C == D_80174C8C) {
-        ((S_80172874_0 *)base)->unk_18 = 0x14;
-        ((S_80172874_0 *)base)->unk_16.s = 0x14;
-        ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;
-    }
-    arg1->unk_00.at00_s32.v = source->unk_00;
-    arg1->unk_04.at00_s32.v = source->unk_04;
-    arg1->unk_08.at00_s32.v = source->unk_08;
-    goto done;
+        u32 flag_base;
+        flag_base = 0x80170000;
+        if (((S_80172874_4 *)flag_base)->unk_4CE0 == 0) {
+            ((S_80172874_0 *)base)->unk_12.s = current_mode + 1;
+            ((S_80172874_0 *)base)->unk_18 = 0x14;
+            ((S_80172874_0 *)base)->unk_16.s = 0x14;
+        }
+        if (owner->unk_2C == D_80174C8C) {
+            ((S_80172874_0 *)base)->unk_18 = 0x14;
+            ((S_80172874_0 *)base)->unk_16.s = 0x14;
+            ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;
+        }
+        position->unk_00.at00_s32.v = source->unk_00;
+        position->unk_04.at00_s32.v = source->unk_04;
+        position->unk_08.at00_s32.v = source->unk_08;
+        goto done;
     }
 
-mode_two:
-    temp_v1_3 = ((S_80172874_0 *)base)->unk_16.s - 1;
-    temp_lo_2 = ((s32)(temp_v1_3 << 16) >> 9) / ((S_80172874_0 *)base)->unk_18;
-    ((S_80172874_0 *)base)->unk_16.s = temp_v1_3;
-    arg2->unk_0C = temp_lo_2;
-    arg2->unk_0D = temp_lo_2;
-    arg2->unk_0E = temp_lo_2;
+shrink:
+    shrink_step = ((S_80172874_0 *)base)->unk_16.s - 1;
+    shrink_scale = ((s32)(shrink_step << 16) >> 9) / ((S_80172874_0 *)base)->unk_18;
+    ((S_80172874_0 *)base)->unk_16.s = shrink_step;
+    transform->unk_0C = shrink_scale;
+    transform->unk_0D = shrink_scale;
+    transform->unk_0E = shrink_scale;
     if (((S_80172874_0 *)base)->unk_16.u <= 0) {
         register s32 *global_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         global_base = (s32 *)0x80080000;

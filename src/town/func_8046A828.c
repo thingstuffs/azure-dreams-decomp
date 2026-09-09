@@ -28,57 +28,53 @@ extern u8 D_80017774[];
 extern u8 D_8001914C[];
 extern u8 *D_8001E950;
 
-void *func_8001B828(s32 arg0, void *arg1, s32 arg2) {
-    /* MATCH: Keep the entry arguments in a0/a1 for the call before either register is clobbered. */
-    register s32 call_arg0 ASM_REG("$4") = arg0;
-    register void *call_arg1 ASM_REG("$5") = arg1;
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u8 stored_value;
-    s32 result;
-    void *obj;
-    S_8001B828_1 *final_obj;
-    void *ret;
+/* Dispatches requests by mode, refreshing the state code before selecting a response. */
+void *func_8001B828(s32 request, void *data, s32 mode) {
+    register s32 call_request ASM_REG("$4") = request;
+    register void *call_data ASM_REG("$5") = data;
+    register s32 state_code ASM_REG("$2");
+    u8 new_code;
+    s32 status;
+    void *context;
+    S_8001B828_1 *state;
+    void *response;
 
-    if (arg2 == 0) {
+    if (mode == 0) {
         func_8001E5F0(0x402);
-        obj = D_8001E950;
-        result = func_8001A58C(((S_8001B828_0 *)obj)->unk_04);
-        if (result == 0) {
-            obj = D_80016000;
-            obj = ((S_8001B828_0 *)obj)->unk_20;
-            result = (*(Callback **)((u8 *)obj + 0x2D4))(0);
-            if (result != 2) {
+        context = D_8001E950;
+        status = func_8001A58C(((S_8001B828_0 *)context)->unk_04);
+        if (status == 0) {
+            context = D_80016000;
+            context = ((S_8001B828_0 *)context)->unk_20;
+            status = (*(Callback **)((u8 *)context + 0x2D4))(0);
+            if (status != 2) {
                 return D_8001914C;
             }
-            stored_value = func_8001A4F0();
-            D_8001E950[4] = stored_value;
+            new_code = func_8001A4F0();
+            D_8001E950[4] = new_code;
         }
-        final_obj = D_8001E950;
-        value = final_obj->unk_04;
-        ASM_KEEP(final_obj);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        if (value != 0) {
-            return func_8001B6E4(value);
+        state = D_8001E950;
+        state_code = state->unk_04;
+        ASM_KEEP(state);
+        if (state_code != 0) {
+            return func_8001B6E4(state_code);
         }
         return D_8001914C;
     }
-    if (arg2 == 1) {
-        func_80019730(call_arg0, call_arg1);
-        return func_8001B6F8(arg0, arg1, 1);
+    if (mode == 1) {
+        func_80019730(call_request, call_data);
+        return func_8001B6F8(request, data, 1);
     }
-    if (arg2 == 5) {
+    if (mode == 5) {
         return D_80017774;
     }
-    if (arg2 == 4) {
+    if (mode == 4) {
         goto mode_4;
     }
-    ret = func_8001B6F8(arg0, arg1);
+    response = func_8001B6F8(request, data);
     goto done;
 mode_4:
-    ret = &D_8001601C;
+    response = &D_8001601C;
 done:
-    return ret;
+    return response;
 }
-
-/* MECHANISM: The ordered if-chain and explicit result merge reproduce the 0x20 s0/s1/ra frame
-   and recover every apparent 0x8001B948 call as a local epilogue edge.  A guarded v0 byte
-   live range restores the missing call-slot move; scope-splitting its v1 pointer closes coloring. */

@@ -9,28 +9,25 @@ extern void func_8004B1A4();
 extern u8 D_8004CAA0[];
 extern s32 D_800814A0;
 
-void *func_80026A64(s32 arg0, s32 arg1, s32 arg2) {
-    u8 *obj;
-    u8 *sub;
+/* Allocate and initialize a child object, releasing its resource if initialization fails. */
+void *func_80026A64(s32 parent_object, s32 type_code, s32 config_value) {
+    u8 *object;
+    u8 *state;
 
-    obj = func_8003FC64(0);
-    sub = obj + 0x20;
-    if (obj != 0) {
-        if (func_800269E8(sub) != 0) {
-            *(void **)(obj + 0xC) = obj + 0x80;
-            *(s32 *)(sub + 0x6C) = func_800267B0(*(s32 *)(sub + 0x70));
-            func_800269A0(sub, arg0, arg1, arg2);
-            func_8004491C(obj, D_8004CAA0);
+    object = func_8003FC64(0);
+    state = object + 0x20;
+    if (object != 0) {
+        if (func_800269E8(state) != 0) {
+            *(void **)(object + 0xC) = object + 0x80;
+            *(s32 *)(state + 0x6C) = func_800267B0(*(s32 *)(state + 0x70));
+            func_800269A0(state, parent_object, type_code, config_value);
+            func_8004491C(object, D_8004CAA0);
         } else {
-            func_8004B1A4(*(s32 *)(sub + 0x74));
-            *(u16 *)(obj + 0x1E) |= 0x8000;
-            obj = 0;
+            func_8004B1A4(*(s32 *)(state + 0x74));
+            *(u16 *)(object + 0x1E) |= 0x8000;
+            object = 0;
             D_800814A0 |= 0x8000;
         }
     }
-    return obj;
+    return object;
 }
-
-/* MECHANISM: The unchanged seed preserves retail's 0x28 frame and s2/s3/s4/s1/s0 save order.
-   A short-lived $v0 tail carrier holds obj only after the last call; LEAD 28b sinks move v0,s0
-   into the converted noreturn j delay slot, closing the sole delay-slot substitution. */

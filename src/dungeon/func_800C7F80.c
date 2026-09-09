@@ -87,113 +87,111 @@ typedef struct S_800CD6E0_7 {
     u16 unk_0A;
 } S_800CD6E0_7;   /* link in func_800CD6E0 */
 
-s32 func_800CD6E0(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    void *obj;
+/* Conditionally creates four sprites around the source owner. */
+s32 func_800CD6E0(void *source, s32 passthrough_1, s32 passthrough_2, s32 passthrough_3) {
+    void *effect;
     S_800CD6E0_1 *owner;
-    S_800CD6E0_4 *prim;
-    S_800CD6E0_6 *spr;
-    S_800CD6E0_7 *link;
-    s16 *xpos;
-    u16 *counter;
-    s32 i;
-    s32 random;
-    register s32 call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    S_800CD6E0_4 *position;
+    S_800CD6E0_6 *sprite;
+    S_800CD6E0_7 *effect_link;
+    s16 *x_offsets;
+    u16 *effect_counts;
+    s32 effect_index;
+    register s32 random_or_effect_id ASM_REG("$4");
     s32 divisor;
-    register s32 gate ASM_REG("$2");   /* MATCH: the merged gate value occupies v0 in the jump delay slot. */
-    register s32 color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 spawn_roll ASM_REG("$2");
+    register s32 color ASM_REG("$7");
+    register s32 roll_value ASM_REG("$3");
     s32 owner_coord;
     s32 coord;
-    register s32 table_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *callback_base;
+    register s32 y_entry ASM_REG("$5");
+    void *update_callback;
 
     if (D_800E3D40 == 0) {
-        call_arg = func_800A6D30(arg0, arg1, arg2, arg3) & 0xFFFF;
-        count = ((S_800CD6E0_0 *)arg0)->unk_03;
-        if (count != 0) {
-            divisor = count;
-            ASM_KEEP(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            count = call_arg % divisor;
-            gate = count;
+        random_or_effect_id = func_800A6D30(source, passthrough_1, passthrough_2, passthrough_3) & 0xFFFF;
+        roll_value = ((S_800CD6E0_0 *)source)->unk_03;
+        if (roll_value != 0) {
+            divisor = roll_value;
+            ASM_KEEP(divisor);
+            roll_value = random_or_effect_id % divisor;
+            spawn_roll = roll_value;
             goto check_gate;
         }
     }
 
-    gate = 0;
-    ASM_KEEP(gate);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    spawn_roll = 0;
 check_gate:
-    ASM_SCHED_BARRIER();   /* MATCH: keep the shared comparison after the gate merge. */
-    if (gate < 0x30) {
-        owner = ((S_800CD6E0_0_pre *)arg0)[-1].unk_00;
+    if (spawn_roll < 0x30) {
+        owner = ((S_800CD6E0_0_pre *)source)[-1].unk_00;
         if (owner->unk_14 & 0x8000) {
-            func_800CD6AC(arg0, 0x10);
+            func_800CD6AC(source, 0x10);
             return 1;
         }
         if (func_8003FA44(4) == 0) {
             return 0;
         }
 
-        i = 0;
+        effect_index = 0;
         coord = 0x800D0000;
-        ASM_KEEP_NV(coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        callback_base = (void *)(coord - 0x2B8C);
-        counter = D_80083460;
-        xpos = D_8006CCD8;
+        ASM_KEEP_NV(coord);
+        update_callback = (void *)(coord - 0x2B8C);
+        effect_counts = D_80083460;
+        x_offsets = D_8006CCD8;
         do {
-            ((S_800CD6E0_2 *)((obj = func_8003FC64(2))))->unk_10 = callback_base;
-            func_8004491C(obj, D_80045C34);
+            ((S_800CD6E0_2 *)((effect = func_8003FC64(2))))->unk_10 = update_callback;
+            func_8004491C(effect, D_80045C34);
             color = 0x808080;
-            call_arg = 0x50D;
-            ASM_KEEP_NV(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            table_offset = i << 2;
+            random_or_effect_id = 0x50D;
+            ASM_KEEP_NV(random_or_effect_id);
+            y_entry = effect_index << 2;
 
             owner_coord = owner->unk_24;
-            coord = *xpos;
-            prim = ((S_800CD6E0_3 *)obj)->unk_08;
+            coord = *x_offsets;
+            position = ((S_800CD6E0_3 *)effect)->unk_08;
             owner_coord <<= 6;
             coord = (coord << 5) + 0x20;
             owner_coord += coord;
             coord = (u32)D_8006CCE8;
-            table_offset += coord;
-            prim->unk_02 = owner_coord;
+            y_entry += coord;
+            position->unk_02 = owner_coord;
             owner_coord = owner->unk_25;
-            coord = ((S_800CD6E0_5 *)((void *)table_offset))->unk_00;
+            coord = ((S_800CD6E0_5 *)((void *)y_entry))->unk_00;
             owner_coord <<= 6;
             coord = (coord << 5) + 0x20;
             owner_coord += coord;
-            prim->unk_06 = owner_coord;
-            xpos += 2;
-            prim->unk_0A = ((S_800CD6E0_0 *)arg0)->unk_88 - 0x200;
+            position->unk_06 = owner_coord;
+            x_offsets += 2;
+            position->unk_0A = ((S_800CD6E0_0 *)source)->unk_88 - 0x200;
 
-            spr = ((S_800CD6E0_3 *)obj)->unk_0C;
+            sprite = ((S_800CD6E0_3 *)effect)->unk_0C;
             coord = 0x1000;
-            spr->unk_1C = coord;
+            sprite->unk_1C = coord;
             coord = 0x2000;
-            spr->unk_1E = coord;
+            sprite->unk_1E = coord;
             coord = (s32)D_800E03E0;
-            spr->unk_08 = (void *)coord;
-            spr->unk_10 = 0x20;
-            spr->unk_16 = 0x400;
-            spr->unk_0C = color;
-            spr->unk_18 = (i << 10) + 0x400;
-            spr->unk_14 |= 0xC;
+            sprite->unk_08 = (void *)coord;
+            sprite->unk_10 = 0x20;
+            sprite->unk_16 = 0x400;
+            sprite->unk_0C = color;
+            sprite->unk_18 = (effect_index << 10) + 0x400;
+            sprite->unk_14 |= 0xC;
 
-            link = (u8 *)obj + 0x20;
-            link->unk_0A = ((S_800CD6E0_0 *)arg0)->unk_88;
-            ((S_800CD6E0_3 *)obj)->unk_20 = arg0;
-            link->unk_06 = 0xC;
-            link->unk_08 = i;
-            ((S_800CD6E0_3 *)obj)->unk_20 = arg0;
-            i++;
-            counter[5]++;
-            func_800A56E0(call_arg, spr, prim, color);
-        } while (i < 4);
+            effect_link = (u8 *)effect + 0x20;
+            effect_link->unk_0A = ((S_800CD6E0_0 *)source)->unk_88;
+            ((S_800CD6E0_3 *)effect)->unk_20 = source;
+            effect_link->unk_06 = 0xC;
+            effect_link->unk_08 = effect_index;
+            ((S_800CD6E0_3 *)effect)->unk_20 = source;
+            effect_index++;
+            effect_counts[5]++;
+            func_800A56E0(random_or_effect_id, sprite, position, color);
+        } while (effect_index < 4);
 
         return 1;
     }
 
-    if (((S_800CD6E0_0 *)arg0)->unk_13 == 0) {
-        func_800A6508(call_arg);
+    if (((S_800CD6E0_0 *)source)->unk_13 == 0) {
+        func_800A6508(random_or_effect_id);
     }
     return 1;
 }

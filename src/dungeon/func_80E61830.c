@@ -15,32 +15,29 @@ typedef struct {
 
 extern s32 D_800814A0[3];
 
-void func_80171030(Obj0 *arg0, s32 unused, Obj2 *arg2)
+/* Decrement the countdown, adjust both state values, and flag completion or cancellation. */
+void func_80171030(Obj0 *countdown, s32 unused, Obj2 *state)
 {
-    u16 value;
+    u16 next_value;
 
-    value = arg0->count - 1;
-    arg0->count = value;
-    if ((s16)value >= 5) {
-        value = arg2->value1E + 0x200;
+    next_value = countdown->count - 1;
+    countdown->count = next_value;
+    if ((s16)next_value >= 5) {
+        next_value = state->value1E + 0x200;
     } else {
-        value = arg2->value1E - 0x200;
+        next_value = state->value1E - 0x200;
     }
 
-    arg2->value1E = value;
-    arg2->value1C = value;
+    state->value1E = next_value;
+    state->value1C = next_value;
 
-    if ((s16)arg0->count <= 0) {
-        ((u16 *)arg0)[-1] |= 0x8000;
+    if ((s16)countdown->count <= 0) {
+        ((u16 *)countdown)[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 
-    if (arg2->flags14 & 0x8000) {
-        ((u16 *)arg0)[-1] |= 0x8000;
+    if (state->flags14 & 0x8000) {
+        ((u16 *)countdown)[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }
-
-/* MECHANISM: The frameless seed already matched the body and control flow.
-   A branch-local $v0 value retains arg2->value1E + 0x200.
-   ASM_TAILSLOT_PIN lets LEAD28 sink the addiu into the noreturn j delay slot. */

@@ -18,35 +18,36 @@ typedef struct {
 extern u16 func_800C2B38(void *arg0);
 extern void func_800C4174(void *arg0, void *arg1, s32 arg2);
 
-void func_800C3FFC(void *arg0, void *arg1, s32 arg2) {
+/* Moves the position toward its target over the remaining steps and updates its angle. */
+void func_800C3FFC(void *work_data, void *position_data, s32 completion_arg) {
     Position *pos;
     Work *work;
-    u16 temp_v0;
+    u16 remaining_count;
     s32 remaining;
 
-    work = arg0;
-    pos = arg1;
-    temp_v0 = work->count - 1;
-    work->count = temp_v0;
-    remaining = (s16)temp_v0;
+    work = work_data;
+    pos = position_data;
+    remaining_count = work->count - 1;
+    work->count = remaining_count;
+    remaining = (s16)remaining_count;
     if (remaining <= 0) {
         pos->x = work->target_x << 16;
         pos->y = work->target_y << 16;
-        func_800C4174(work, pos, arg2);
+        func_800C4174(work, pos, completion_arg);
     } else {
         {
-            s32 value;
+            s32 current_x;
 
-            value = pos->x;
-            pos->x = value +
-                ((work->target_x << 16) - value) / remaining;
+            current_x = pos->x;
+            pos->x = current_x +
+                ((work->target_x << 16) - current_x) / remaining;
         }
         {
-            s32 value_y;
+            s32 current_y;
 
-            value_y = pos->y;
-            *(volatile s32 *)&pos->y = value_y +
-                ((work->target_y << 16) - value_y) / (s16)work->count;
+            current_y = pos->y;
+            *(volatile s32 *)&pos->y = current_y +
+                ((work->target_y << 16) - current_y) / (s16)work->count;
         }
     }
 

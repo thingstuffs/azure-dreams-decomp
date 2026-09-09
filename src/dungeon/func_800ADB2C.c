@@ -47,51 +47,49 @@ s32 func_8003DE58();     /* extern */
 M2C_UNK func_800B8EA8(); /* extern */
 extern M2C_UNK D_800814A0;
 
-void func_800B328C(void *arg0, void *arg1) {
-    u16 sp28[3];
-    u16 sp30[3];
-    s16 temp_a1_2;
-    s16 temp_a2;
-    s32 temp_a3;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    void *temp_a0;
-    void *temp_a1;
+/* Update the position from a base and offset, and mark completion or timeout. */
+void func_800B328C(void *state, void *position) {
+    u16 offset[3];
+    u16 new_position[3];
+    s16 old_x;
+    s16 old_y;
+    s32 old_z_shifted;
+    u16 new_x;
+    u16 new_y;
+    u16 new_z;
+    u16 ticks_left;
+    void *base_position;
+    void *offset_source;
 
-    temp_a1 = ((S_800B328C_4 *)(((S_800B328C_0 *)arg0)->unk_00))->unk_0C;
-    if (func_8003DE58(((S_800B328C_1 *)temp_a1)->unk_08, temp_a1, sp28, 0) != 0) {
-        temp_a0 = ((S_800B328C_4 *)(((S_800B328C_0 *)arg0)->unk_00))->unk_08;
-        if (((S_800B328C_0 *)arg0)->unk_8C != 0) {
-            temp_a1_2 = (s16) ((S_800B328C_2 *)arg1)->unk_02;
-            temp_a2 = (s16) ((S_800B328C_2 *)arg1)->unk_06;
-            temp_a3 = ((S_800B328C_2 *)arg1)->unk_0A << 0x10;
-            temp_v0 = ((S_800B328C_3 *)temp_a0)->unk_02 + sp28[0];
-            ((S_800B328C_2 *)arg1)->unk_02 = temp_v0;
-            sp30[0] = temp_v0;
-            temp_v0_2 = ((S_800B328C_3 *)temp_a0)->unk_06 + sp28[1];
-            ((S_800B328C_2 *)arg1)->unk_06 = temp_v0_2;
-            sp30[1] = temp_v0_2;
-            temp_v0_3 = ((S_800B328C_3 *)temp_a0)->unk_0A + sp28[2];
-            ((S_800B328C_2 *)arg1)->unk_0A = temp_v0_3;
-            sp30[2] = temp_v0_3;
-            func_800B8EA8(((S_800B328C_0 *)arg0)->unk_00, temp_a1_2, temp_a2, temp_a3 >> 0x10, sp30, ((S_800B328C_0 *)arg0)->unk_04, 2, 0x800, 1);
+    offset_source = ((S_800B328C_4 *)(((S_800B328C_0 *)state)->unk_00))->unk_0C;
+    if (func_8003DE58(((S_800B328C_1 *)offset_source)->unk_08, offset_source, offset, 0) != 0) {
+        base_position = ((S_800B328C_4 *)(((S_800B328C_0 *)state)->unk_00))->unk_08;
+        if (((S_800B328C_0 *)state)->unk_8C != 0) {
+            old_x = (s16) ((S_800B328C_2 *)position)->unk_02;
+            old_y = (s16) ((S_800B328C_2 *)position)->unk_06;
+            old_z_shifted = ((S_800B328C_2 *)position)->unk_0A << 0x10;
+            new_x = ((S_800B328C_3 *)base_position)->unk_02 + offset[0];
+            ((S_800B328C_2 *)position)->unk_02 = new_x;
+            new_position[0] = new_x;
+            new_y = ((S_800B328C_3 *)base_position)->unk_06 + offset[1];
+            ((S_800B328C_2 *)position)->unk_06 = new_y;
+            new_position[1] = new_y;
+            new_z = ((S_800B328C_3 *)base_position)->unk_0A + offset[2];
+            ((S_800B328C_2 *)position)->unk_0A = new_z;
+            new_position[2] = new_z;
+            func_800B8EA8(((S_800B328C_0 *)state)->unk_00, old_x, old_y, old_z_shifted >> 0x10, new_position, ((S_800B328C_0 *)state)->unk_04, 2, 0x800, 1);
         } else {
-            ((S_800B328C_2 *)arg1)->unk_02 = (u16) (((S_800B328C_3 *)temp_a0)->unk_02 + sp28[0]);
-            ((S_800B328C_2 *)arg1)->unk_06 = (u16) (((S_800B328C_3 *)temp_a0)->unk_06 + sp28[1]);
-            ((S_800B328C_2 *)arg1)->unk_0A = (u16) (((S_800B328C_3 *)temp_a0)->unk_0A + sp28[2]);
-            ((S_800B328C_0 *)arg0)->unk_8C = 1;
+            ((S_800B328C_2 *)position)->unk_02 = (u16) (((S_800B328C_3 *)base_position)->unk_02 + offset[0]);
+            ((S_800B328C_2 *)position)->unk_06 = (u16) (((S_800B328C_3 *)base_position)->unk_06 + offset[1]);
+            ((S_800B328C_2 *)position)->unk_0A = (u16) (((S_800B328C_3 *)base_position)->unk_0A + offset[2]);
+            ((S_800B328C_0 *)state)->unk_8C = 1;
         }
-    } else if (((S_800B328C_0 *)arg0)->unk_8C != 0) {
-        goto mark;
+    } else if (((S_800B328C_0 *)state)->unk_8C != 0) {
+        goto mark_finished;
     }
-    if (temp_v0_4 = ((S_800B328C_0 *)arg0)->unk_8E - 1, ((S_800B328C_0 *)arg0)->unk_8E = temp_v0_4, ((s16) temp_v0_4 < 0)) {
-mark:
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_800B328C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    if (ticks_left = ((S_800B328C_0 *)state)->unk_8E - 1, ((S_800B328C_0 *)state)->unk_8E = ticks_left, ((s16) ticks_left < 0)) {
+mark_finished:
+        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 }
-/* MECHANISM: Sibling u16[3] objects at sp+0x28/sp+0x30 produce the 0x48 frame and s1/s0 hold set.
-   Early signed call-argument reads fix scheduling; the restored flag store fixes the two-word CFG cascade.
-   A signed halfword decrement test and direct D_800814A0 RMW close the exact tail. */

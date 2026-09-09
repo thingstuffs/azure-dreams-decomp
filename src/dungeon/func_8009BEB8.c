@@ -4,117 +4,115 @@ extern void func_80048224(s16, s32, s32, s32);
 extern u8 D_800E3DA0[];
 extern u8 D_800E3DB0[];
 extern u8 D_800E3DE0[];
-u8 *func_800A1618(s32 arg0, s32 arg1) {
-    u8 *r_v0;
-    register u8 *r_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *r_a0;
-    s32 var_a1;
-    s32 var_a3;
-    register s32 in_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_t0;
-    register s32 var_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 var_a2;
-    u8 *var_a0;
-    u8 *var_s0;
-    u8 *var_v1;
-    var_t0 = arg0;
-    var_s0 = 0;
-    var_t1 = arg1;
-    ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    var_a1 = arg1;
-    in_a0 = arg0;
-    ASM_KEEP_NV(in_a0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    in_a0 = (s16)in_a0;
-    if (in_a0 == 0x38) {
-        r_v1 = D_800E3DB0;
-        r_v0 = r_v1 + 0x10;
-        r_a0 = (u8 *)0x800E0000;
-        ASM_KEEP4(r_v0, r_v1, r_a0, var_t1);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        r_v1[0x11] = 0;
-        r_v1 = r_a0 + 0x3DA0;
-        ASM_KEEP(r_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        r_v1[2] = 0;
+/* Selects a slot by type and ID, clearing flags for special IDs. */
+u8 *func_800A1618(s32 requested_id, s32 requested_type) {
+    u8 *result;
+    register u8 *table ASM_REG("$3");
+    u8 *ram_base;
+    s32 slot_type;
+    s32 match_id;
+    register s32 short_id ASM_REG("$4");
+    s32 slot_id;
+    register s32 saved_type ASM_REG("$9");
+    s32 slot_index;
+    u8 *entry_id;
+    u8 *candidate;
+    u8 *entry;
+    slot_id = requested_id;
+    candidate = 0;
+    saved_type = requested_type;
+    slot_type = requested_type;
+    short_id = requested_id;
+    ASM_KEEP_NV(short_id);
+    short_id = (s16)short_id;
+    if (short_id == 0x38) {
+        table = D_800E3DB0;
+        result = table + 0x10;
+        ram_base = (u8 *)0x800E0000;
+        ASM_KEEP4(result, table, ram_base, saved_type);
+        table[0x11] = 0;
+        table = ram_base + 0x3DA0;
+        table[2] = 0;
         goto clear_flags;
     }
-    var_a3 = 0x31;
-    if (in_a0 == 0x31) {
-        r_v1 = D_800E3DB0;
-        r_v0 = r_v1 + 8;
-        r_a0 = (u8 *)0x800E0000;
-        ASM_KEEP4(r_v0, r_v1, r_a0, var_t1);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        r_v1[9] = 0;
-        r_v1 = r_a0 + 0x3DA0;
-        ASM_KEEP(r_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    match_id = 0x31;
+    if (short_id == 0x31) {
+        table = D_800E3DB0;
+        result = table + 8;
+        ram_base = (u8 *)0x800E0000;
+        ASM_KEEP4(result, table, ram_base, saved_type);
+        table[9] = 0;
+        table = ram_base + 0x3DA0;
 clear_flags:
-        r_v1[1] = 0;
-        r_a0[0x3DA0] = 0;
-        return r_v0;
+        table[1] = 0;
+        ram_base[0x3DA0] = 0;
+        return result;
     }
-    if (in_a0 == 0x39) var_t0 = 2;
-    if ((s16)var_a1 == 3) {
-        u8 *r_v0;
-        register u8 *r_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        r_v0 = (u8 *)0x800E0000;
-        ASM_KEEP(r_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        r_v1 = r_v0 + 0x3DD0;
-        ASM_KEEP_DEP_NV(r_v1, r_v0); /* MATCH: keep the address base in v0 and merged scan pointer in v1. */
-        var_v1 = r_v1;
-        var_a2 = 4;
+    if (short_id == 0x39) slot_id = 2;
+    if ((s16)slot_type == 3) {
+        u8 *scan_base;
+        register u8 *scan_start ASM_REG("$3");
+        scan_base = (u8 *)0x800E0000;
+        ASM_KEEP(scan_base);
+        scan_start = scan_base + 0x3DD0;
+        ASM_KEEP_DEP_NV(scan_start, scan_base);
+        entry = scan_start;
+        slot_index = 4;
         goto scan;
     }
-    if ((s16)var_a1 == 2) {
-        u8 *r_v0;
-        r_v0 = D_800E3DE0;
-        return r_v0;
+    if ((s16)slot_type == 2) {
+        u8 *result;
+        result = D_800E3DE0;
+        return result;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    var_v1 = D_800E3DB0;
-    if (var_v1[0x11] == 0x38) {
-        register s32 r_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        r_a2 = 3;
-        ASM_KEEP(r_a2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        var_v1 += 0x18;
-        var_a2 = r_a2;
+    entry = D_800E3DB0;
+    if (entry[0x11] == 0x38) {
+        register s32 start_index ASM_REG("$6");
+        start_index = 3;
+        entry += 0x18;
+        slot_index = start_index;
         goto scan;
     }
-    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    var_a2 = 0;
-    if (var_v1[9] == 0x31) {
-        var_v1 += 0x10;
-        var_a2 = 2;
+    ASM_KEEP(candidate);
+    slot_index = 0;
+    if (entry[9] == 0x31) {
+        entry += 0x10;
+        slot_index = 2;
         goto scan;
     }
-    ASM_KEEP(var_a2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(slot_index);
 scan:
-    if (var_a2 < 6) {
-        s32 r_t4;
-        s32 r_t3;
-        s32 r_t2;
-        s8 *data;
-        var_a1 = (s16)var_t1;
-        r_t4 = 1;
-        r_t3 = 3;
-        ASM_USE(var_t1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        var_a3 = (s16)var_t0;
-        r_t2 = 2;
-        data = (s8 *)D_800E3DA0;
-        var_a0 = var_v1 + 1;
+    if (slot_index < 6) {
+        s32 type_one;
+        s32 type_three;
+        s32 type_two;
+        s8 *slot_ids;
+        slot_type = (s16)saved_type;
+        type_one = 1;
+        type_three = 3;
+        ASM_USE(saved_type);
+        match_id = (s16)slot_id;
+        type_two = 2;
+        slot_ids = (s8 *)D_800E3DA0;
+        entry_id = entry + 1;
         do {
-        if (((var_a1 != r_t4) && (var_a1 != r_t3)) || (*var_v1 == var_a1)) {
-            if ((*var_a0 == 0) || (*var_a0 == var_a3)) {
-                if (var_a1 == r_t2) {
-                    register u8 *r_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    D_800E3DA0[6] = 0;
-                    r_v0 = var_v1;
-                    return r_v0;
+            if (((slot_type != type_one) && (slot_type != type_three)) || (*entry == slot_type)) {
+                if ((*entry_id == 0) || (*entry_id == match_id)) {
+                    if (slot_type == type_two) {
+                        register u8 *result;
+                        D_800E3DA0[6] = 0;
+                        result = entry;
+                        return result;
+                    }
+                    candidate = entry;
+                    if ((*entry_id == match_id) || (*(s8 *)((unsigned long)slot_index + (unsigned long)slot_ids) == match_id)) break;
                 }
-                var_s0 = var_v1;
-                if ((*var_a0 == var_a3) || (*(s8 *)((unsigned long)var_a2 + (unsigned long)data) == var_a3)) break;
-            }
-        } else break;
-            var_a2++; var_a0 += 8; var_v1 += 8;
-        } while (var_a2 < 6);
+            } else break;
+            slot_index++;
+            entry_id += 8;
+            entry += 8;
+        } while (slot_index < 6);
     }
-    if (var_s0) func_80048224((s16)var_t0, var_a1, var_a2, var_a3);
-    return var_s0;
+    if (candidate) func_80048224((s16)slot_id, slot_type, slot_index, match_id);
+    return candidate;
 }

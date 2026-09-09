@@ -31,51 +31,52 @@ extern s32 rand();
 extern u8 D_800249BC[];
 extern u32 D_800814A0;
 
+/* Initializes, animates, and retires a jittering five-point effect. */
 void func_80024C40(Entity *entity)
 {
-    s32 i;
+    s32 point_index;
     s16 state;
-    s32 coord;
-    s16 result;
+    s32 jitter_coord;
+    s16 random_value;
 
     *(u16 *)((u8 *)entity->object + 0x52) |= 0x8000;
     state = entity->state4A;
     if (state == 1) {
-        goto state_one;
+        goto animate;
     }
     if (state < 2) {
         if (state == 0) {
-            goto state_zero;
+            goto initialize;
         }
         goto end;
     }
     if (state == 2) {
-        goto state_two;
+        goto finish;
     }
     goto end;
 
-state_zero:
+initialize:
     entity->timer48--;
     if ((s16)entity->timer48 > 0) {
         return;
     }
     {
-        void *call_arg;
+        void *entity_base;
         u8 *data_page;
-        call_arg = (u8 *)entity - 0x20;
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        entity_base = (u8 *)entity - 0x20;
+        ASM_KEEP(entity_base);
         data_page = (u8 *)0x80020000;
-        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_8004491C(call_arg, data_page + 0x49BC);
+        ASM_KEEP(data_page);
+        func_8004491C(entity_base, data_page + 0x49BC);
     }
     entity->value34 = 0x00C0C0C0;
     entity->field40 = func_80066460(0, 1, 0x2C0, 0x100);
-    result = func_8006649C(0xA0, 0x1F7);
-    i = 1;
+    random_value = func_8006649C(0xA0, 0x1F7);
+    point_index = 1;
     {
-        register u8 *cursor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        cursor = (u8 *)entity + 8;
-        entity->field42 = result;
+        register u8 *point_cursor ASM_REG("$3");
+        point_cursor = (u8 *)entity + 8;
+        entity->field42 = random_value;
         entity->field3E = 0x1F;
         entity->field3C = 0x1F;
         entity->field38 = 0x80;
@@ -83,55 +84,55 @@ state_zero:
         entity->field3A = 0;
         entity->delta44 = -0x1C;
         do {
-            *(u16 *)(cursor + 4) = entity->points[0].x;
-            *(u16 *)(cursor + 6) = entity->points[0].y;
-            *(u16 *)(cursor + 8) = entity->points[0].z + entity->delta44 * i;
-            cursor += 8;
-            i++;
-        } while (i < 5);
+            *(u16 *)(point_cursor + 4) = entity->points[0].x;
+            *(u16 *)(point_cursor + 6) = entity->points[0].y;
+            *(u16 *)(point_cursor + 8) = entity->points[0].z + entity->delta44 * point_index;
+            point_cursor += 8;
+            point_index++;
+        } while (point_index < 5);
     }
     state = (u16)entity->state4A + 1;
     goto store_state;
 
-state_one:
-    i = 1;
+animate:
+    point_index = 1;
     if ((s16)entity->timer48 < 6) {
         do {
-            coord = entity->points[0].x + rand() % 95 - 0x30;
-            entity->points[i].x = coord;
-            coord = entity->points[0].y + rand(coord) % 95 - 0x30;
-            entity->points[i].y = coord;
-            i++;
-        } while (i < 5);
-        i = 1;
+            jitter_coord = entity->points[0].x + rand() % 95 - 0x30;
+            entity->points[point_index].x = jitter_coord;
+            jitter_coord = entity->points[0].y + rand(jitter_coord) % 95 - 0x30;
+            entity->points[point_index].y = jitter_coord;
+            point_index++;
+        } while (point_index < 5);
+        point_index = 1;
     } else {
-        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        i++;
-        while (i < 5) {
-            i++;
+        ASM_KEEP(point_index);
+        point_index++;
+        while (point_index < 5) {
+            point_index++;
         }
-        i = 1;
+        point_index = 1;
     }
-    i = 1;
+    point_index = 1;
     do {
-        entity->points[i].z = entity->points[0].z + entity->delta44 * i;
-        i++;
-    } while (i < 5);
+        entity->points[point_index].z = entity->points[0].z + entity->delta44 * point_index;
+        point_index++;
+    } while (point_index < 5);
     {
-        register s32 amount ASM_REG("$4"); /* MATCH: retain retail a0 allocation after removing the internal-label calls. */
-        register s32 delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 masked;
-        amount = entity->timer48;
-        delta = (u16)entity->delta44;
-        amount++;
-        entity->timer48 = amount;
-        amount <<= 1;
-        masked = entity->timer48;
-        delta -= amount;
-        entity->delta44 = delta;
-        delta = entity->timer48;
-        entity->field38 = ((masked & 3) << 5) + 0x80;
-        entity->field3A = ((s16)delta >> 2) << 5;
+        register s32 timer_step ASM_REG("$4");
+        register s32 update_value ASM_REG("$3");
+        s32 timer_bits;
+        timer_step = entity->timer48;
+        update_value = (u16)entity->delta44;
+        timer_step++;
+        entity->timer48 = timer_step;
+        timer_step <<= 1;
+        timer_bits = entity->timer48;
+        update_value -= timer_step;
+        entity->delta44 = update_value;
+        update_value = entity->timer48;
+        entity->field38 = ((timer_bits & 3) << 5) + 0x80;
+        entity->field3A = ((s16)update_value >> 2) << 5;
         if ((s16)entity->timer48 >= 8) {
             entity->value34 = 0;
             state = (u16)entity->state4A + 1;
@@ -139,18 +140,18 @@ store_state:
             entity->state4A = state;
             goto end;
         }
-        delta = 0xFFEFEFF0;
-        entity->value34 += delta;
+        update_value = 0xFFEFEFF0;
+        entity->value34 += update_value;
         goto end;
     }
 
-state_two:
+finish:
     {
-        register u32 *page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        page = (u32 *)0x80080000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register u32 *flags_page ASM_REG("$3");
+        flags_page = (u32 *)0x80080000;
+        ASM_KEEP(flags_page);
         *(u16 *)((u8 *)entity - 2) |= 0x8000;
-        page[0x528] |= 0x8000;
+        flags_page[0x528] |= 0x8000;
     }
 end:
     return;

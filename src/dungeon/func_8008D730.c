@@ -78,112 +78,109 @@ typedef struct S_80092E90_9 {
     s8 unk_26;
 } S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in func_80092E90 */
 
-void func_80092E90(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Move toward the target tile, process matching list entries, and advance the effect state. */
+void func_80092E90(void *controller, void *motion, void *actor, void *entry)
 {
-    register void *savedArg3 ASM_REG("$21") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *actorBase;
-    s32 found;
-    s32 adjusted;
-    s32 pixel;
-    register s32 initArg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    register s32 loopResult ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 count;
-    s16 divisor;
-    s16 *global;
-    u16 rawCount;
+    register void *list_head ASM_REG("$21") = entry;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *player;
+    s32 found_match;
+    s32 tile_origin;
+    s32 target_pos;
+    register s32 effect_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    register s32 match_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 frames_left;
+    s16 move_frames;
+    s16 *move_state;
+    u16 frame_count;
     u8 state;
-    void *countBase;
-    void *endBase;
+    void *count_state;
+    void *end_state;
     void *node;
 
-    global = (s16 *)&D_80083460;
-    divisor = ((S_80092E90_0 *)global)->unk_04;
-    if (divisor != 0) {
-        pixel = ((S_80092E90_1 *)arg2)->unk_24 << 6;
-        adjusted = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
-            ((pixel - adjusted) << 16) / divisor;
-        adjusted = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v;
-        adjusted -= 0x20;
-        pixel = ((S_80092E90_1 *)arg2)->unk_25 << 6;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
-            ((pixel - adjusted) << 16) / ((S_80092E90_0 *)global)->unk_04;
+    move_state = (s16 *)&D_80083460;
+    move_frames = ((S_80092E90_0 *)move_state)->unk_04;
+    if (move_frames != 0) {
+        target_pos = ((S_80092E90_1 *)actor)->unk_24 << 6;
+        tile_origin = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
+            ((target_pos - tile_origin) << 16) / move_frames;
+        tile_origin = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v;
+        tile_origin -= 0x20;
+        target_pos = ((S_80092E90_1 *)actor)->unk_25 << 6;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+            ((target_pos - tile_origin) << 16) / ((S_80092E90_0 *)move_state)->unk_04;
     } else {
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    countBase = &D_80083460_count;
-    count = ((S_80092E90_3 *)countBase)->unk_04.n;
-    rawCount = ((S_80092E90_3 *)countBase)->unk_04.v;
-    if (count != 0) {
-        ((S_80092E90_3 *)countBase)->unk_04.n2 = rawCount - 1;
+    count_state = &D_80083460_count;
+    frames_left = ((S_80092E90_3 *)count_state)->unk_04.n;
+    frame_count = ((S_80092E90_3 *)count_state)->unk_04.v;
+    if (frames_left != 0) {
+        ((S_80092E90_3 *)count_state)->unk_04.n2 = frame_count - 1;
     }
 
-    state = ((S_80092E90_4 *)arg0)->unk_9B;
+    state = ((S_80092E90_4 *)controller)->unk_9B;
     if (state == 0) {
-        goto state0;
+        goto start_effect;
     }
     if (state == 1) {
-        goto state1;
+        goto finish_effect;
     }
     return;
 
-state0:
-        initArg = 0x10;
-        if (!(((S_80092E90_1 *)arg2)->unk_14 & 0xE000)) {
-            return;
-        }
-        func_800419EC(initArg, 8);
-        (*(void * *)((u8 *)arg2 + (0x2C))) = D_800DCFF8;
-        func_80048A44(
-            arg2,
-            D_800DCFF8[((D_80083228 + ((S_80092E90_5 *)savedArg3)->unk_2A + 0x100) >> 9) & 7],
-            0,
-            1);
-        ((S_80092E90_4 *)arg0)->unk_9B++;
+start_effect:
+    effect_id = 0x10;
+    if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
         return;
+    }
+    func_800419EC(effect_id, 8);
+    (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
+    func_80048A44(
+        actor,
+        D_800DCFF8[((D_80083228 + ((S_80092E90_5 *)list_head)->unk_2A + 0x100) >> 9) & 7],
+        0,
+        1);
+    ((S_80092E90_4 *)controller)->unk_9B++;
+    return;
 
-state1:
-        if (!(((S_80092E90_1 *)arg2)->unk_14 & 0xE000)) {
-            return;
-        }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+finish_effect:
+    if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
+        return;
+    }
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-        found = 0;
-        if (!(D_80013714 & 8)) {
-            node = (u8 *)((S_80092E90_5 *)savedArg3)->unk_5C + 0x20;
-            actorBase = D_80082E80;
-            do {
-                if ((((S_80092E90_6 *)actorBase)->unk_26 ==
-                     ((S_80092E90_9 *)(((S_80092E90_7_pre *)node)[-1].unk_00))->unk_26) &&
-                    ((func_80042900(node, 1) << 16) != 0)) {
-                    func_80042B68(node, 1);
-                    found = 1;
-                }
-                node = (u8 *)((S_80092E90_7 *)node)->unk_5C + 0x20;
-            } while (node != savedArg3);
-
-            loopResult = found;
-            {
-                void *message;
-                if (loopResult != 0) {
-                    message = &D_800E0597;
-                } else {
-                    message = &D_800E05C3;
-                }
-                func_800997FC(message);
+    found_match = 0;
+    if (!(D_80013714 & 8)) {
+        node = (u8 *)((S_80092E90_5 *)list_head)->unk_5C + 0x20;
+        player = D_80082E80;
+        do {
+            if ((((S_80092E90_6 *)player)->unk_26 ==
+                 ((S_80092E90_9 *)(((S_80092E90_7_pre *)node)[-1].unk_00))->unk_26) &&
+                ((func_80042900(node, 1) << 16) != 0)) {
+                func_80042B68(node, 1);
+                found_match = 1;
             }
+            node = (u8 *)((S_80092E90_7 *)node)->unk_5C + 0x20;
+        } while (node != list_head);
+
+        match_result = found_match;
+        {
+            void *message;
+            if (match_result != 0) {
+                message = &D_800E0597;
+            } else {
+                message = &D_800E05C3;
+            }
+            func_800997FC(message);
         }
+    }
 
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_80092E90_1 *)arg2)->unk_24, ((S_80092E90_1 *)arg2)->unk_25);
-    ((S_80092E90_4 *)arg0)->unk_8C = &D_8008ACDC;
-    endBase = &D_80083460;
-    ((S_80092E90_8 *)endBase)->unk_0A--;
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
+    ((S_80092E90_4 *)controller)->unk_8C = &D_8008ACDC;
+    end_state = &D_80083460;
+    ((S_80092E90_8 *)end_state)->unk_0A--;
 }
-
-/* MECHANISM: A reload barrier plus a same-address alias/fence rematerializes the count base after the zero stores.
-   Explicit state labels remove the late default block; held a0 arguments fill the case-0 slot and preserve the func_800997FC nop. */

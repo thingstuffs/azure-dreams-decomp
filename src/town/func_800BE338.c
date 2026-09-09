@@ -31,68 +31,66 @@ void func_800478B8();
 s32 rand(void);
 extern s32 D_800814A0[3];
 
-void func_800BBA98(void *arg0, void *arg1, void *arg2) {
-    s16 temp_v0_2;
-    s16 temp_v1;
-    s32 temp_v0;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 temp_a0;
-    void *temp_a3;
-    State *temp_s0;
-    s32 var_a0;
-    void *var_a1;
-    register void *call_arg ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *held_arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+/* Updates the effect's motion and fade state, then refreshes its display. */
+void func_800BBA98(void *effect, void *motion_data, void *display_data) {
+    s16 ticks_left;
+    s16 phase_value;
+    s32 random_drop;
+    s32 x_velocity;
+    s32 height;
+    void *effect_data;
+    State *motion;
+    s32 x_decay;
+    void *fade_step;
+    register void *display;
 
-    temp_a3 = arg0;
-    temp_s0 = (State *)arg1;
-    held_arg2 = arg2;
-    temp_v1 = ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4E.s;
-    if (temp_v1 == 0) {
-        goto zero_state;
+    effect_data = effect;
+    motion = (State *)motion_data;
+    display = display_data;
+    phase_value = ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E.s;
+    if (phase_value == 0) {
+        goto advance_motion;
     }
-    if (temp_v1 == 1) {
-        goto type1;
+    if (phase_value == 1) {
+        goto fade_motion;
     }
-    ASM_SCHED_BARRIER(); /* MATCH: retain the dispatch jump to the shared tail. */
-    goto zero_shared;
-zero_state:
-    temp_s0->f0 += (temp_s0->fc / (s16) ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4A);
-    temp_s0->f4 += (temp_s0->f10 / (s16) ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4A);
-    temp_v0_2 = (u16) ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4A - 1;
-    ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4A = temp_v0_2;
-    temp_v1 = 0x60;
-    if ((temp_v0_2 << 0x10) <= 0) {
-        ((Arg2State *)held_arg2)->f10 = temp_v1;
-        ((Arg2State *)held_arg2)->f14 |= 0xC;
-        ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_4E.u += 1;
-        goto zero_shared;
+    goto update_display;
+advance_motion:
+    motion->f0 += (motion->fc / (s16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A);
+    motion->f4 += (motion->f10 / (s16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A);
+    ticks_left = (u16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A - 1;
+    ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A = ticks_left;
+    phase_value = 0x60;
+    if ((ticks_left << 0x10) <= 0) {
+        ((Arg2State *)display)->f10 = phase_value;
+        ((Arg2State *)display)->f14 |= 0xC;
+        ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E.u += 1;
+        goto update_display;
     }
-    goto zero_shared;
-type1:
-        temp_s0->f0 += temp_s0->fc;
-        temp_s0->f4 += temp_s0->f10;
-        temp_v1_2 = temp_s0->fc;
-        var_a0 = temp_v1_2 >> 1;
-        temp_s0->fc = temp_v1_2 - var_a0;
-        temp_s0->f10 -= (temp_s0->f10 >> 1);
-        var_a1 = (void *)0xFFEFEFF0;
-        ((Arg2State *)held_arg2)->fc += (s32)var_a1;
-        if ((u8) ((Arg2State *)held_arg2)->fc < 0x11U) {
-            ((S_800BBA98_0 *)((u8 *)temp_a3 - 0x2))->unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
-        }
-        temp_v0 = (rand() & 7) << 0xF;
-        temp_v1_3 = temp_s0->f8;
-        temp_v1_3 -= temp_v0;
-        temp_s0->f8 = temp_v1_3;
-        func_800478B8(held_arg2);
-        return;
-zero_shared:
-    temp_v0 = (rand() & 7) << 0xF;
-    temp_v1_3 = temp_s0->f8;
-    temp_v1_3 -= temp_v0;
-    temp_s0->f8 = temp_v1_3;
-    func_800478B8(held_arg2);
+    goto update_display;
+fade_motion:
+    motion->f0 += motion->fc;
+    motion->f4 += motion->f10;
+    x_velocity = motion->fc;
+    x_decay = x_velocity >> 1;
+    motion->fc = x_velocity - x_decay;
+    motion->f10 -= (motion->f10 >> 1);
+    fade_step = (void *)0xFFEFEFF0;
+    ((Arg2State *)display)->fc += (s32)fade_step;
+    if ((u8) ((Arg2State *)display)->fc < 0x11U) {
+        ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_00 |= 0x8000;
+        D_800814A0[0] |= 0x8000;
+    }
+    random_drop = (rand() & 7) << 0xF;
+    height = motion->f8;
+    height -= random_drop;
+    motion->f8 = height;
+    func_800478B8(display);
+    return;
+update_display:
+    random_drop = (rand() & 7) << 0xF;
+    height = motion->f8;
+    height -= random_drop;
+    motion->f8 = height;
+    func_800478B8(display);
 }

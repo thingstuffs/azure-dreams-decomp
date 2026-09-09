@@ -4,52 +4,44 @@ extern s32 func_80042900(void *arg0, s32 arg1);
 extern s32 D_8008ACDC;
 
 #ifndef NON_MATCHING
-register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #define KEEP_DISPATCH() \
     ASM_KEEP(dispatch_result)
 #endif
 
-void func_80096088(void *arg0in, void *arg1in) {
-#ifndef NON_MATCHING
-    void *arg0;
-    void *arg1;
-#else
-    void *arg0;
-    void *arg1;
-#endif
-    arg0 = arg0in;
-    arg1 = arg1in;
+/* Selects the target dispatch pointer from the source type and flags. */
+void func_80096088(void *target, void *source) {
+    u8 *dispatch_result;
 
 #ifndef NON_MATCHING
     {
-        register s32 cond1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        cond1 = func_80042900(arg1, 10) << 16;
-        if (cond1 != 0) {
+        s32 type_match;
+        type_match = func_80042900(source, 10) << 16;
+        if (type_match != 0) {
             dispatch_result = (u8 *)0x80090000;
             KEEP_DISPATCH();
             dispatch_result += 0x6384;
-            *(void **)((u8 *)arg0 + 0x8C) = dispatch_result;
+            *(void **)((u8 *)target + 0x8C) = dispatch_result;
         } else {
             dispatch_result = (u8 *)0x80090000;
             KEEP_DISPATCH();
 
             {
-                register s32 cond2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                cond2 = *(s32 *)((u8 *)arg1 + 0x1C);
-                cond2 &= 0x100000;
-                if (cond2 != 0) {
+                s32 source_flags;
+                source_flags = *(s32 *)((u8 *)source + 0x1C);
+                source_flags &= 0x100000;
+                if (source_flags != 0) {
                     dispatch_result = (u8 *)0x80090000;
                     KEEP_DISPATCH();
                     dispatch_result -= 5432;
-                    *(void **)((u8 *)arg0 + 0x8C) = dispatch_result;
+                    *(void **)((u8 *)target + 0x8C) = dispatch_result;
                 } else {
                     dispatch_result = (u8 *)0x80090000;
                     KEEP_DISPATCH();
 
                     {
-                        register u8 *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                        result = (u8 *)&D_8008ACDC;
-                        *(void **)((u8 *)arg0 + 0x8C) = result;
+                        u8 *default_dispatch;
+                        default_dispatch = (u8 *)&D_8008ACDC;
+                        *(void **)((u8 *)target + 0x8C) = default_dispatch;
                     }
                 }
             }
@@ -57,12 +49,12 @@ void func_80096088(void *arg0in, void *arg1in) {
     }
 
 #else
-    if ((func_80042900(arg1, 10) << 16) != 0) {
-        *(void **)((u8 *)arg0 + 0x8C) = (u8 *)0x80096384;
-    } else if ((*(s32 *)((u8 *)arg1 + 0x1C) & 0x100000) != 0) {
-        *(void **)((u8 *)arg0 + 0x8C) = (u8 *)0x8008EAC8;
+    if ((func_80042900(source, 10) << 16) != 0) {
+        *(void **)((u8 *)target + 0x8C) = (u8 *)0x80096384;
+    } else if ((*(s32 *)((u8 *)source + 0x1C) & 0x100000) != 0) {
+        *(void **)((u8 *)target + 0x8C) = (u8 *)0x8008EAC8;
     } else {
-        *(void **)((u8 *)arg0 + 0x8C) = &D_8008ACDC;
+        *(void **)((u8 *)target + 0x8C) = &D_8008ACDC;
     }
 #endif
 }

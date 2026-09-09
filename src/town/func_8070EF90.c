@@ -11,20 +11,20 @@ extern char *func_80016E48(s32, s32, s32, s32);
 extern void func_8001A554(u32);
 extern s32 func_8001A64C(u32);
 
-char *func_80017F90(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Selects text by ID, setting event 0x948 for selector 12. */
+char *func_80017F90(s32 unused, s32 passthru_1, s32 selector_id, s32 passthru_3)
 {
-    register s32 selector ASM_REG("$4") = arg2;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u32 index;
-    static void *const keepalive[] = {
+    register s32 selector ASM_REG("$4") = selector_id;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u32 case_index;
+    static void *const case_labels[] = {
         &&L_case19, &&L_case18, &&L_case12, &&L_case52, &&L_default
     };
 
-    index = selector - 12;
-    if (index >= 43) {
+    case_index = selector - 12;
+    if (case_index >= 43) {
         goto L_default;
     }
-    ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    goto *D_800167B0[index];
+    goto *D_800167B0[case_index];
 
 L_case19:
     return D_8001C018;
@@ -39,7 +39,7 @@ L_case12:
     return D_8001D000;
 
 L_case52:
-    return func_80016E48(selector, arg1, arg2, arg3);
+    return func_80016E48(selector, passthru_1, selector_id, passthru_3);
 
 L_default:
     return D_8001B14C;

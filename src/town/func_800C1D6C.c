@@ -31,93 +31,92 @@ register s32 state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rem
 static s32 state;
 #endif
 
-void func_800BF4CC(S0 *self, s32 *arg1, S1 *arg2) {
-    S0 *obj = self;
-    s32 limit;
-    s32 value;
-    s32 addend;
-    static void *const keepalive[4] = {&&L_A, &&L_B, &&L_C, &&L_D};
+/* Updates the object state, position, and timed target adjustments. */
+void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
+    S0 *object = self;
+    s32 y_limit;
+    s32 next_value;
+    s32 base_y;
+    static void *const state_labels[4] = {&&L_CHECK_DISTANCE, &&L_MOVE, &&L_CHECK_STATE, &&L_RAISE_TARGET};
 
     {
         s32 countdown;
 
-        countdown = (u16)obj->f6C;
-        addend = arg1[1];
-        state = obj->f68;
+        countdown = (u16)object->f6C;
+        base_y = position[1];
+        state = object->f68;
         countdown--;
-        obj->f6C = countdown;
+        object->f6C = countdown;
         ASM_KEEP(countdown);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     }
-    value = 0x800000;
-    limit = addend + value;
-    ASM_KEEP(addend);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    next_value = 0x800000;
+    y_limit = base_y + next_value;
+    ASM_KEEP(base_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if ((u32)state < 6) {
         goto *D_80089900[state];
     }
     return;
 
-L_A: {
-        register s32 threshold ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 d ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 rhs;
+L_CHECK_DISTANCE: {
+        register s32 threshold;
+        register s32 x_distance;
+        s32 target_x;
 
-        d = D_80083780.field0;
-        rhs = arg1[0];
-        d -= rhs;
+        x_distance = D_80083780.field0;
+        target_x = position[0];
+        x_distance -= target_x;
         threshold = 0x3FFFFF;
         ASM_KEEP(threshold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        if (d < 0) {
-            d = -d;
+        if (x_distance < 0) {
+            x_distance = -x_distance;
         }
-        threshold = threshold < d;
+        threshold = threshold < x_distance;
         if (threshold != 0) {
             return;
         }
-        if (func_800352FC(rhs, arg1, arg2) == 0) {
+        if (func_800352FC(target_x, position, target) == 0) {
             return;
         }
-        if (func_800C2AB4(obj) == 0) {
+        if (func_800C2AB4(object) == 0) {
             return;
         }
         SD_Call(0x50B);
-        value = (u16)obj->f68;
-        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        next_value = (u16)object->f68;
         threshold = 32;
-        obj->f6C = threshold;
-        goto L_INCREMENT;
+        object->f6C = threshold;
+        goto L_NEXT_STATE;
     }
 
-L_B: {
-    s32 below;
+L_MOVE: {
+        s32 below_limit;
 
-    below = D_80083780.field4 < limit;
-    if (below != 0) {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        D_80083780.field4 += 0x40000;
+        below_limit = D_80083780.field4 < y_limit;
+        if (below_limit != 0) {
+            D_80083780.field4 += 0x40000;
+        }
+        next_value = target->f1A - 32;
+        goto L_STORE_TARGET;
     }
-    value = arg2->f1A - 32;
-    goto L_STORE;
-}
 
-L_C:
-    if (func_800352FC((s32)self, arg1, arg2) != 0) {
-        if (func_800C2AB4(obj) != 0) {
+L_CHECK_STATE:
+    if (func_800352FC((s32)self, position, target) != 0) {
+        if (func_800C2AB4(object) != 0) {
             goto L_EXIT;
         }
     }
-    obj->f68 = (obj->f68 + 1) % 6;
+    object->f68 = (object->f68 + 1) % 6;
     return;
 
-L_D:
-    value = arg2->f1A + 32;
-L_STORE:
-    arg2->f1A = value;
-    if (obj->f6C > 0) {
+L_RAISE_TARGET:
+    next_value = target->f1A + 32;
+L_STORE_TARGET:
+    target->f1A = next_value;
+    if (object->f6C > 0) {
         goto L_EXIT;
     }
-    value = (u16)obj->f68;
-L_INCREMENT:
-    obj->f68 = value + 1;
+    next_value = (u16)object->f68;
+L_NEXT_STATE:
+    object->f68 = next_value + 1;
 L_EXIT:
     return;
 }

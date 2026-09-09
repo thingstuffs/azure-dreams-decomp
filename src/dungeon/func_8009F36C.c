@@ -16,40 +16,41 @@ extern void func_800A5DFC();
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-s32 func_800A4ACC(void *arg0) {
-    s32 var_s1;
-    s8 temp_v1;
-    s8 temp_v1_2;
-    u8 temp_a1;
-    void *var_s0;
+/* Advance four status timers toward zero and clear expired statuses. */
+s32 func_800A4ACC(void *record) {
+    s32 slot_index;
+    s8 status;
+    s8 duration;
+    u8 expired_status;
+    void *status_slot;
 
-    var_s1 = 3;
-    var_s0 = arg0 + 6;
-loop_1:
-    temp_v1 = ((S_800A4ACC_0 *)var_s0)->unk_2C;
-    if (temp_v1 != 0) {
-        if (temp_v1 == 5) {
-            func_800A5DFC(arg0, ((S_800A4ACC_1 *)((u8 *)arg0 - 0x18))->unk_00);
+    slot_index = 3;
+    status_slot = record + 6;
+next_status:
+    status = ((S_800A4ACC_0 *)status_slot)->unk_2C;
+    if (status != 0) {
+        if (status == 5) {
+            func_800A5DFC(record, ((S_800A4ACC_1 *)((u8 *)record - 0x18))->unk_00);
         }
-        temp_v1_2 = ((S_800A4ACC_0 *)var_s0)->unk_2D;
-        if (temp_v1_2 != 0) {
-            if (temp_v1_2 > 0) {
-                ((S_800A4ACC_0 *)var_s0)->unk_2D =
-                    (s8)((u8)((S_800A4ACC_0 *)var_s0)->unk_2D - 1);
-            } else if (temp_v1_2 < 0) {
-                ((S_800A4ACC_0 *)var_s0)->unk_2D =
-                    (s8)((u8)((S_800A4ACC_0 *)var_s0)->unk_2D + 1);
+        duration = ((S_800A4ACC_0 *)status_slot)->unk_2D;
+        if (duration != 0) {
+            if (duration > 0) {
+                ((S_800A4ACC_0 *)status_slot)->unk_2D =
+                    (s8)((u8)((S_800A4ACC_0 *)status_slot)->unk_2D - 1);
+            } else if (duration < 0) {
+                ((S_800A4ACC_0 *)status_slot)->unk_2D =
+                    (s8)((u8)((S_800A4ACC_0 *)status_slot)->unk_2D + 1);
             }
-            if (((S_800A4ACC_0 *)var_s0)->unk_2D == 0) {
-                temp_a1 = (u8)((S_800A4ACC_0 *)var_s0)->unk_2C;
-                ((S_800A4ACC_0 *)var_s0)->unk_2C = 0;
-                func_80042BDC(arg0, (s8)temp_a1);
+            if (((S_800A4ACC_0 *)status_slot)->unk_2D == 0) {
+                expired_status = (u8)((S_800A4ACC_0 *)status_slot)->unk_2C;
+                ((S_800A4ACC_0 *)status_slot)->unk_2C = 0;
+                func_80042BDC(record, (s8)expired_status);
             }
         }
     }
-    var_s1 -= 1;
-    var_s0 -= 2;
-    if (var_s1 >= 0) {
-        goto loop_1;
+    slot_index -= 1;
+    status_slot -= 2;
+    if (slot_index >= 0) {
+        goto next_status;
     }
 }

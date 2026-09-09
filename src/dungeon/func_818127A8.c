@@ -48,116 +48,112 @@ typedef struct S_800277A8_1 {
     s32 unk_88;
 } S_800277A8_1;   /* arg0 in func_800277A8 */
 
-void func_800277A8(void *arg0) {
+/* Handle menu buttons and move the selection, refreshing the page when needed. */
+void func_800277A8(void *menu) {
     u8 *input = D_80083160;
-    s32 input_word;
-    s32 flags;
-    s32 delta = 0;
-    s32 counter;
-    s32 new_pos;
-    s32 old_pos;
-    s32 limit;
-    s32 remaining;
-    s32 tail_flags;
+    s32 held_buttons;
+    s32 buttons;
+    s32 cursor_step = 0;
+    s32 repeat_count;
+    s32 new_offset;
+    s32 old_offset;
+    s32 row_count;
+    s32 rows_left;
 
-    input_word = ((S_800277A8_0 *)input)->unk_08.n;
-    if (input_word == 0) {
+    held_buttons = ((S_800277A8_0 *)input)->unk_08.n;
+    if (held_buttons == 0) {
         return;
     }
 
-    flags = ((S_800277A8_0 *)input)->unk_10;
-    if (flags & 0x20) {
+    buttons = ((S_800277A8_0 *)input)->unk_10;
+    if (buttons & 0x20) {
         SD_Call(0x515);
-        ((S_800277A8_1_pre *)arg0)[-1].unk_00 = &D_80027E10;
-        ((S_800277A8_1 *)arg0)->unk_00 = ((S_800277A8_1 *)arg0)->unk_04;
-        func_80028620((u8 *)arg0 - 0x20);
-        func_80025598(((S_800277A8_1 *)arg0)->unk_44);
+        ((S_800277A8_1_pre *)menu)[-1].unk_00 = &D_80027E10;
+        ((S_800277A8_1 *)menu)->unk_00 = ((S_800277A8_1 *)menu)->unk_04;
+        func_80028620((u8 *)menu - 0x20);
+        func_80025598(((S_800277A8_1 *)menu)->unk_44);
         return;
     }
 
-    if (flags & 0x10) {
+    if (buttons & 0x10) {
         SD_Call(0x503);
-        func_800274A8(arg0);
-        func_800255AC(((S_800277A8_1 *)arg0)->unk_44);
+        func_800274A8(menu);
+        func_800255AC(((S_800277A8_1 *)menu)->unk_44);
         return;
     }
 
-    if (flags & 0x40) {
+    if (buttons & 0x40) {
         SD_Call(0x503);
-        func_80027454((u8 *)arg0 + 0x38, ((S_800277A8_1 *)arg0)->unk_14,
-                     (((S_800277A8_1 *)arg0)->unk_08 / 72) * 72,
-                     ((S_800277A8_1 *)arg0)->unk_28);
-        func_8002661C(func_8002553C(((S_800277A8_1 *)arg0)->unk_44),
-                     ((S_800277A8_1 *)arg0)->unk_40 +
-                         (((S_800277A8_1 *)arg0)->unk_08 % 72) * 2);
+        func_80027454((u8 *)menu + 0x38, ((S_800277A8_1 *)menu)->unk_14,
+                     (((S_800277A8_1 *)menu)->unk_08 / 72) * 72,
+                     ((S_800277A8_1 *)menu)->unk_28);
+        func_8002661C(func_8002553C(((S_800277A8_1 *)menu)->unk_44),
+                     ((S_800277A8_1 *)menu)->unk_40 +
+                         (((S_800277A8_1 *)menu)->unk_08 % 72) * 2);
         return;
     }
 
-    if (!(input_word & 0x5000)) {
+    if (!(held_buttons & 0x5000)) {
         goto check_delta;
     }
 
-    if (flags & 0x5000) {
-        ((S_800277A8_1 *)arg0)->unk_0C = 0;
-        flags = ((S_800277A8_0 *)input)->unk_10;
-        if (flags & 0x1000) {
+    if (buttons & 0x5000) {
+        ((S_800277A8_1 *)menu)->unk_0C = 0;
+        buttons = ((S_800277A8_0 *)input)->unk_10;
+        if (buttons & 0x1000) {
             goto dispatch_negative;
         }
         goto test_positive;
     }
 
-    counter = ((S_800277A8_1 *)arg0)->unk_0C;
-    if (counter < 9) {
+    repeat_count = ((S_800277A8_1 *)menu)->unk_0C;
+    if (repeat_count < 9) {
         goto increment_count;
     }
 
-    ((S_800277A8_1 *)arg0)->unk_0C = counter - 1;
-    flags = ((S_800277A8_0 *)input)->unk_08.v;
-    if (!(flags & 0x1000)) {
+    ((S_800277A8_1 *)menu)->unk_0C = repeat_count - 1;
+    buttons = ((S_800277A8_0 *)input)->unk_08.v;
+    if (!(buttons & 0x1000)) {
         goto test_positive;
     }
 
 dispatch_negative:
-    delta = -9;
+    cursor_step = -9;
     goto check_delta;
 
 test_positive:
-    if (!(flags & 0x4000)) {
+    if (!(buttons & 0x4000)) {
         goto check_delta;
     }
 
 dispatch_positive:
-    delta = 9;
+    cursor_step = 9;
     goto check_delta;
 
 increment_count:
-    ((S_800277A8_1 *)arg0)->unk_0C = counter + 1;
+    ((S_800277A8_1 *)menu)->unk_0C = repeat_count + 1;
 
 check_delta:
-    if (delta == 0) {
+    if (cursor_step == 0) {
         return;
     }
 
     SD_Call(0x502);
-    new_pos = ((S_800277A8_1 *)arg0)->unk_08 + delta;
-    limit = ((S_800277A8_1 *)arg0)->unk_3C;
-    remaining = limit - new_pos / 9;
-    if (remaining <= 0 || limit < remaining) {
+    new_offset = ((S_800277A8_1 *)menu)->unk_08 + cursor_step;
+    row_count = ((S_800277A8_1 *)menu)->unk_3C;
+    rows_left = row_count - new_offset / 9;
+    if (rows_left <= 0 || row_count < rows_left) {
         return;
     }
 
-    old_pos = new_pos - delta;
-    ((S_800277A8_1 *)arg0)->unk_08 = new_pos;
-    if (new_pos / 72 != old_pos / 72) {
-        func_80026CD8(((S_800277A8_1 *)arg0)->unk_88);
-        ((S_800277A8_1_pre *)arg0)[-1].unk_00 = &D_80027E84;
-        ((S_800277A8_1 *)arg0)->unk_00 = ((S_800277A8_1 *)arg0)->unk_04;
+    old_offset = new_offset - cursor_step;
+    ((S_800277A8_1 *)menu)->unk_08 = new_offset;
+    if (new_offset / 72 != old_offset / 72) {
+        func_80026CD8(((S_800277A8_1 *)menu)->unk_88);
+        ((S_800277A8_1_pre *)menu)[-1].unk_00 = &D_80027E84;
+        ((S_800277A8_1 *)menu)->unk_00 = ((S_800277A8_1 *)menu)->unk_04;
         return;
     }
 
-    func_80026D0C(((S_800277A8_1 *)arg0)->unk_88);
+    func_80026D0C(((S_800277A8_1 *)menu)->unk_88);
 }
-
-/* MECHANISM: cdk-G0 gives the retail 0x20 frame and held D_80083160 base in a1.
-   A volatile input+8 reread restores the two-word CSE gap; a distinct kept tail_flags
-   fills word 90 in v0, while LEAD28 sinks the dead s0=-9/+9 values into tail-j slots. */

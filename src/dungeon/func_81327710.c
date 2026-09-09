@@ -48,23 +48,24 @@ extern u8 D_801746FC[];
 extern u8 *D_80174CCC[];
 extern s16 D_80174CD0[];
 
-s32 func_8016EF10(u8 *arg0, s32 arg1, u8 *arg2) {
-    u8 *actor = arg0;
-    u8 *entity = arg2;
-    u8 *stream;
+/* Executes the current actor script command and advances its repeat counter. */
+s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
+    u8 *actor = actor_arg;
+    u8 *entity = entity_arg;
+    u8 *command_stream;
     u16 command;
     s32 command_wide;
-    u8 limit;
-    s16 counter;
-    s32 kind;
-    s32 index;
+    u8 repeat_limit;
+    s16 repeat_count;
+    s32 opcode;
+    s32 direction_index;
 
     if (((S_8016EF10_0 *)entity)->unk_14 & 0x40) {
         return 0;
     }
 
-    stream = D_80174CCC[0];
-    command = stream[1];
+    command_stream = D_80174CCC[0];
+    command = command_stream[1];
     command_wide = command;
     if (command_wide == 0) {
         ((S_8016EF10_1 *)actor)->unk_B2 = 0;
@@ -72,50 +73,50 @@ s32 func_8016EF10(u8 *arg0, s32 arg1, u8 *arg2) {
         return 0;
     }
 
-    limit = stream[0];
-    counter = D_80174CD0[0] + 1;
-    D_80174CD0[0] = counter;
-    if (limit < counter) {
-        D_80174CCC[0] = stream + 2;
+    repeat_limit = command_stream[0];
+    repeat_count = D_80174CD0[0] + 1;
+    D_80174CD0[0] = repeat_count;
+    if (repeat_limit < repeat_count) {
+        D_80174CCC[0] = command_stream + 2;
         D_80174CD0[0] = 0;
     }
 
     ((S_8016EF10_1 *)actor)->unk_2A = (command & 7) << 9;
     ((S_8016EF10_1 *)actor)->unk_46 |= 0x8000;
-    kind = command_wide & 0xF8;
+    opcode = command_wide & 0xF8;
 
-    switch (kind) {
+    switch (opcode) {
     default:
         func_800A9A0C(actor);
         return 0;
 
     case 8:
-        func_8016BF74(actor, arg1, entity, actor);
+        func_8016BF74(actor, action_context, entity, actor);
         return 0;
 
     case 0x10:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_8017467C) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_8017467C;
-            index = ((D_80083228[0] + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-            func_80047784(entity, D_8017467C[index], 0);
+            direction_index = ((D_80083228[0] + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            func_80047784(entity, D_8017467C[direction_index], 0);
         }
         break;
 
     case 0xF8:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_801746FC) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_801746FC;
-            index = ((D_80083228[0] + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-            func_80047784(entity, D_801746FC[index], 0);
+            direction_index = ((D_80083228[0] + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            func_80047784(entity, D_801746FC[direction_index], 0);
         }
         break;
 
     case 0xF0:
         if (((S_8016EF10_1 *)actor)->unk_9B == 0) {
-            ((S_8016EF10_1 *)actor)->unk_2A = func_8016A928(arg1) << 9;
+            ((S_8016EF10_1 *)actor)->unk_2A = func_8016A928(action_context) << 9;
             if (((S_8016EF10_0 *)entity)->unk_2C != D_80174694) {
                 ((S_8016EF10_0 *)entity)->unk_2C = D_80174694;
-                index = ((D_80083228[0] + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-                func_80047784(entity, D_80174694[index], 0);
+                direction_index = ((D_80083228[0] + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+                func_80047784(entity, D_80174694[direction_index], 0);
             }
             if (func_800BBA40(((S_8016EF10_0 *)entity)->unk_24,
                               ((S_8016EF10_0 *)entity)->unk_25,

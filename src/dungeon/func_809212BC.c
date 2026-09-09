@@ -25,35 +25,36 @@ s32 func_800644B8();                             /* extern */
 extern s32 D_800814A0;
 extern u8 D_80173AF8;
 
-void func_800F62BC(void *arg0, s32 arg1, void *arg2) {
-    s16 temp_v0_2;
-    s32 temp_v0;
-    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 temp_v1_2;
-    void *state = arg0;
-    void *actor = arg2;
+/* Pulses the actor color, then fades it out and marks completion. */
+void func_800F62BC(void *state_data, s32 unused, void *actor_data) {
+    s16 fade_ticks;
+    s32 pulse;
+    register s32 pulse_color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 fade_color;
+    void *state = state_data;
+    void *actor = actor_data;
 
     if (((S_800F62BC_0 *)state)->unk_00.s == 0) {
-        temp_v0 = func_800644B8(((S_800F62BC_0 *)state)->unk_04 << 7) >> 6;
-        temp_v1 = temp_v0 + 0x80;
-        temp_v0 = (s32) (temp_v0 << 0x10) >> 0x11;
-        temp_v1 += temp_v0;
-        ((S_800F62BC_1 *)actor)->unk_0D = temp_v1;
-        ((S_800F62BC_1 *)actor)->unk_0E = temp_v1;
-        ((S_800F62BC_1 *)actor)->unk_0C = temp_v1;
+        pulse = func_800644B8(((S_800F62BC_0 *)state)->unk_04 << 7) >> 6;
+        pulse_color = pulse + 0x80;
+        pulse = (s32) (pulse << 0x10) >> 0x11;
+        pulse_color += pulse;
+        ((S_800F62BC_1 *)actor)->unk_0D = pulse_color;
+        ((S_800F62BC_1 *)actor)->unk_0E = pulse_color;
+        ((S_800F62BC_1 *)actor)->unk_0C = pulse_color;
         if (D_80173AF8 != 0) {
             ((S_800F62BC_0 *)state)->unk_02 = 0x20;
             ((S_800F62BC_0 *)state)->unk_00.u = (u16) (((S_800F62BC_0 *)state)->unk_00.u + 1);
         }
     } else {
-        temp_v1_2 = ((S_800F62BC_1 *)actor)->unk_0C;
-        temp_v1_2 -= (s32) temp_v1_2 / ((S_800F62BC_0 *)state)->unk_02;
-        ((S_800F62BC_1 *)actor)->unk_0C = temp_v1_2;
-        ((S_800F62BC_1 *)actor)->unk_0D = temp_v1_2;
-        ((S_800F62BC_1 *)actor)->unk_0E = temp_v1_2;
-        temp_v0_2 = (u16) ((S_800F62BC_0 *)state)->unk_02 - 1;
-        ((S_800F62BC_0 *)state)->unk_02 = temp_v0_2;
-        if ((temp_v0_2 << 0x10) <= 0) {
+        fade_color = ((S_800F62BC_1 *)actor)->unk_0C;
+        fade_color -= (s32) fade_color / ((S_800F62BC_0 *)state)->unk_02;
+        ((S_800F62BC_1 *)actor)->unk_0C = fade_color;
+        ((S_800F62BC_1 *)actor)->unk_0D = fade_color;
+        ((S_800F62BC_1 *)actor)->unk_0E = fade_color;
+        fade_ticks = (u16) ((S_800F62BC_0 *)state)->unk_02 - 1;
+        ((S_800F62BC_0 *)state)->unk_02 = fade_ticks;
+        if ((fade_ticks << 0x10) <= 0) {
             (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800F62BC_0_pre *)state)[-1].unk_00 | 0x8000);
             D_800814A0 |= 0x8000;
         }
@@ -61,6 +62,3 @@ void func_800F62BC(void *arg0, s32 arg1, void *arg2) {
     ((S_800F62BC_1 *)actor)->unk_1A = (u16) (((S_800F62BC_1 *)actor)->unk_1A + 0x40);
     ((S_800F62BC_0 *)state)->unk_04 = (s16) ((u16) ((S_800F62BC_0 *)state)->unk_04 + 1);
 }
-/* MECHANISM: Restored the dead middle arg so state/actor naturally hold in s0/s1 with frame 0x20.
-   Rebuilt the shared-tail CFG and fade quotient; the noreturn helper exposes the retail tail j.
-   A staged v1 color pin, kept before its stores, preserves +0x80 and hoists the global page load. */

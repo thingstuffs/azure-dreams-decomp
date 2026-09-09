@@ -46,49 +46,50 @@ extern s16 D_80083228;
 extern u8 D_80083460[];
 extern u8 D_80175AA4[];
 
+/* Advances the entity fade effect, updates its countdown, and cleans up when fading ends. */
 void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *object) {
     s32 state;
-    s32 state1_flags;
-    s32 state1_masked;
-    s32 index;
-    s32 delta;
+    s32 object_status;
+    s32 status_mask;
+    s32 direction_index;
+    s32 fade_delta;
     s32 strength;
     s16 countdown;
     u16 timer;
     u8 x;
     u8 y;
-    u8 *global_base;
+    u8 *global_data;
 
     state = effect->state;
     if (state == 1) {
-        goto state_1;
+        goto start_fade;
     }
     if (state < 2) {
         if (state == 0) {
-            goto state_0;
+            goto wait_ready;
         }
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+
     if (state == 2) {
-        goto state_2;
+        goto wait_transition;
     }
     if (state == 3) {
-        goto state_3;
+        goto finish_fade;
     }
     return;
 
-state_0:
+wait_ready:
     if (*(s16 *)(D_80083460 + 0xA) != 0) {
         goto done;
     }
     effect->state = 1;
 
-state_1:
-    state1_flags = object->field14;
-    if (state1_flags & 0x4000) {
-        state1_masked = state1_flags & 0x20000000;
-        if (state1_masked == 0) {
+start_fade:
+    object_status = object->field14;
+    if (object_status & 0x4000) {
+        status_mask = object_status & 0x20000000;
+        if (status_mask == 0) {
             func_800ACF88(object);
         }
     }
@@ -100,7 +101,7 @@ state_1:
     entity->value = 0x808080;
     goto advance_state;
 
-state_2:
+wait_transition:
     entity->value += 0xFFF7F7F8;
     if (!(entity->flags & 0x6000)) {
         goto done;
@@ -109,16 +110,16 @@ state_2:
     entity->table = D_80175AA4;
     effect->timer = 0x80;
     *(volatile u16 *)&effect->countdown = 0;
-    index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
-    func_80047784(entity, entity->table[index], 0);
+    direction_index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
+    func_80047784(entity, entity->table[direction_index], 0);
 advance_state:
     effect->state++;
     return;
 
-state_3:
-    delta = 0xFFF7F7F8;
+finish_fade:
+    fade_delta = 0xFFF7F7F8;
     object->flags |= 0x10000000;
-    entity->value += delta;
+    entity->value += fade_delta;
     if ((entity->field10 == 0x20) && ((u8)entity->value < 0x40)) {
         entity->field10 = 0x60;
         entity->value = 0xF0F0F0;
@@ -135,13 +136,13 @@ state_3:
     effect->countdown = (u16)((s32)(timer << 16) >> 24);
 countdown_done:
     if ((entity->type == 2) && (entity->flags & 0x1000)) {
-        index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
-        func_80047784(entity, entity->table[index], 0);
+        direction_index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
+        func_80047784(entity, entity->table[direction_index], 0);
     }
     if ((u8)entity->value < 0x11) {
-        global_base = D_80083460;
-        if (*(s32 *)(global_base + 0x10) == (s32)((u8 *)object - 0x20)) {
-            *(s32 *)(global_base + 0x10) &= 0x7FFFFFFF;
+        global_data = D_80083460;
+        if (*(s32 *)(global_data + 0x10) == (s32)((u8 *)object - 0x20)) {
+            *(s32 *)(global_data + 0x10) &= 0x7FFFFFFF;
         }
         func_800A2FE0(object);
         func_800A32A4(object);

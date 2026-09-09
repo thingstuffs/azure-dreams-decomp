@@ -10,25 +10,25 @@ extern void func_800241D4(void *arg0, s32 arg1);
 extern void func_80024274(void *arg0);
 extern void func_80024F3C(void *arg0, s32 arg1, s32 arg2);
 
-void func_80025DC8(void *arg0) {
-    void *p;
-    s32 i;
+/* Update the five entries according to the selected index. */
+void func_80025DC8(void *state) {
+    void *entry_cursor;
+    s32 entry_index;
 
-    i = 0;
-    p = arg0;
+    entry_index = 0;
+    entry_cursor = state;
 loop:
-    if (i == *(s32 *)((u8 *)arg0 + 0x2C)) {
-        func_800241D4(*(void **)((u8 *)p + 0xC), 1);
-        do { p = (u8 *)p + 4; } while (0);
+    if (entry_index == *(s32 *)((u8 *)state + 0x2C)) {
+        func_800241D4(*(void **)((u8 *)entry_cursor + 0xC), 1);
+        do { entry_cursor = (u8 *)entry_cursor + 4; } while (0);
     } else {
-        func_80024274(*(void **)((u8 *)p + 0xC));
-        do { p = (u8 *)p + 4; } while (0);
+        func_80024274(*(void **)((u8 *)entry_cursor + 0xC));
+        do { entry_cursor = (u8 *)entry_cursor + 4; } while (0);
     }
-    /* MATCH: Keep the pointer advance before the shared counter update. */
-    KEEP_VALUE(p);
-    i++;
-    if (i >= 5) {
-        func_80024F3C(*(void **)((u8 *)arg0 + 4), *(s32 *)((u8 *)arg0 + 0x2C), 3);
+    KEEP_VALUE(entry_cursor);
+    entry_index++;
+    if (entry_index >= 5) {
+        func_80024F3C(*(void **)((u8 *)state + 4), *(s32 *)((u8 *)state + 0x2C), 3);
         return;
     }
     goto loop;

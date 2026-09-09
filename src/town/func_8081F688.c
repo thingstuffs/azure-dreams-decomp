@@ -37,31 +37,29 @@ extern u8 D_800243F0[];
 extern s32 D_80024438[];
 extern s32 D_80024444[];
 
-void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_2 *arg2) {
+/* Updates the object transition state, height, and display values. */
+void func_80021E88(S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, S_80021E88_2 *display) {
     s16 state;
-    s32 value;
-    s32 transition_value;
-    s32 one;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 transition ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 transition_pending;
+    s32 transition;
     u16 flags;
     S_80021E88_1 *object;
 
-    object = arg0->unk_04;
+    object = controller->unk_04;
     transition = 0;
     if (object->unk_18 == 0) {
-        arg0->unk_00 = 0;
+        controller->unk_00 = 0;
     }
     if (D_80012D5C >= 100U) {
-        if (func_800A2A18(D_800243F0, arg1) != 0) {
+        if (func_800A2A18(D_800243F0, position) != 0) {
             transition = 1;
         } else {
-            arg2->unk_08 = D_80024438[arg0->unk_54.s];
+            display->unk_08 = D_80024438[controller->unk_54.s];
         }
     }
 
-    one = 1;
-    state = arg0->unk_00;
-    if (state == one) {
+    state = controller->unk_00;
+    if (state == 1) {
         goto state_1;
     }
     if (state < 2) {
@@ -70,7 +68,6 @@ void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_
         }
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }
@@ -80,40 +77,39 @@ void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_
     return;
 
 state_0:
-    arg1->unk_08 += 0xFFF80000;
-    if (arg1->unk_08 > 0) {
+    position->unk_08 += 0xFFF80000;
+    if (position->unk_08 > 0) {
         goto done;
     }
-    arg1->unk_08 = 0;
-    arg2->unk_0C = 0x808080;
-    arg0->unk_00 = one;
+    position->unk_08 = 0;
+    display->unk_0C = 0x808080;
+    controller->unk_00 = 1;
     return;
 
 state_1:
-    transition_value = transition;
-    ASM_KEEP(transition_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if (transition_value) {
-        if (((S_80021E88_4 *)(arg0->unk_04))->unk_22 == 3) {
+    transition_pending = transition;
+    ASM_KEEP(transition_pending);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    if (transition_pending) {
+        if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == 3) {
             object->unk_20 |= 1;
-            arg2->unk_08 = D_80024444[arg0->unk_54.s];
-            object->unk_22 = arg0->unk_54.u;
+            display->unk_08 = D_80024444[controller->unk_54.s];
+            object->unk_22 = controller->unk_54.u;
         }
     }
-    one = 3;
-    if (object->unk_22 == one) {
+    if (object->unk_22 == 3) {
         goto done;
     }
-    if (((S_80021E88_4 *)(arg0->unk_04))->unk_22 == arg0->unk_54.s) {
-        arg0->unk_00 = one;
+    if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == controller->unk_54.s) {
+        controller->unk_00 = 3;
         return;
     }
-    arg0->unk_00 = 2;
+    controller->unk_00 = 2;
     return;
 
 state_2:
-    arg1->unk_08 += 0x80000;
-    if (arg1->unk_08 > 0x3FFFFF) {
-        arg1->unk_08 = 0x400000;
+    position->unk_08 += 0x80000;
+    if (position->unk_08 > 0x3FFFFF) {
+        position->unk_08 = 0x400000;
         return;
     }
     goto done;
@@ -122,7 +118,7 @@ state_3:
     flags = object->unk_20;
     if (flags & 1) {
         object->unk_20 = flags | 1;
-        arg2->unk_08 = D_80024444[arg0->unk_54.s];
+        display->unk_08 = D_80024444[controller->unk_54.s];
     }
 
 done:

@@ -24,34 +24,35 @@ extern u8 D_800E10C0[];
 extern u8 D_800E10F2[];
 extern void *D_800E3D7C;
 
-s32 func_800BE9E4(void *arg0, s32 arg1, s16 arg2)
+/* Applies an item effect with randomized duration and handles item consumption. */
+s32 func_800BE9E4(void *target, s32 item, s16 message_kind)
 {
-    s32 value;
+    s32 random_value;
 
-    if (arg0 == D_800E3D7C) {
-        *(s32 *)((u8 *)arg0 + 0x110) = arg1;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+    if (target == D_800E3D7C) {
+        *(s32 *)((u8 *)target + 0x110) = item;
+        func_8008D330(target, D_80083780, D_80082E80, target);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A63B8(arg0, arg1, arg2);
+    if ((u32)target <= 0x9FFFFFFF) {
+        func_800A63B8(target, item, message_kind);
         if (func_800AD6FC(
-                arg0, (D_800DDE84[*((u8 *)arg0 + 0x13)] >> 6) & 3, 0) == 0) {
-            func_800A5F38(arg0, arg1);
+                target, (D_800DDE84[*((u8 *)target + 0x13)] >> 6) & 3, 0) == 0) {
+            func_800A5F38(target, item);
             return 1;
         }
 
-        value = func_800A6D30();
-        func_800A48F0(arg0, 15, (value & 0x1F) | 0x20);
-        if (*(s32 *)((u8 *)arg0 + 0x14) & 0x4000) {
-            func_80099844(arg0, D_800E10C0);
+        random_value = func_800A6D30();
+        func_800A48F0(target, 15, (random_value & 0x1F) | 0x20);
+        if (*(s32 *)((u8 *)target + 0x14) & 0x4000) {
+            func_80099844(target, D_800E10C0);
         }
-        func_800D5460((u8 *)arg0 - 0x20, 0x804040, 0x612);
+        func_800D5460((u8 *)target - 0x20, 0x804040, 0x612);
     } else {
         func_800997FC(D_800E10F2);
     }
-    func_80098B38(arg1);
+    func_80098B38(item);
     D_80083460.fieldA--;
     return 1;
 }

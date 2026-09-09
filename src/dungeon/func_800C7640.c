@@ -51,80 +51,77 @@ typedef struct {
 extern D_80083460_t D_80083460;
 extern u8 *D_800E3D7C;
 
-void func_800CCDA0(void *arg0, void *arg1, void *arg2)
+/* Updates a bouncing effect's motion, rotation, and fading until its lifetime expires. */
+void func_800CCDA0(void *effect, void *motion, void *sprite)
 {
-    u16 value;
-    u8 *base;
+    u16 ticks_or_angle;
+    u8 *direction_data;
 
-    if (((S_800CCDA0_0 *)arg0)->unk_04.s == 0) {
-        ((S_800CCDA0_1 *)arg1)->unk_14 += 0x20000;
+    if (((S_800CCDA0_0 *)effect)->unk_04.s == 0) {
+        ((S_800CCDA0_1 *)motion)->unk_14 += 0x20000;
 
-        value = ((S_800CCDA0_0 *)arg0)->unk_06.s - 1;
-        ((S_800CCDA0_0 *)arg0)->unk_06.s = value;
-        if ((value << 16) == 0) {
+        ticks_or_angle = ((S_800CCDA0_0 *)effect)->unk_06.s - 1;
+        ((S_800CCDA0_0 *)effect)->unk_06.s = ticks_or_angle;
+        if ((ticks_or_angle << 16) == 0) {
             func_800A56E0(0x701);
         }
 
-        if (((S_800CCDA0_0 *)arg0)->unk_0A < ((S_800CCDA0_1 *)arg1)->unk_08.at02.v) {
-            func_8009CE1C(((S_800CCDA0_0 *)arg0)->unk_00, 10,
+        if (((S_800CCDA0_0 *)effect)->unk_0A < ((S_800CCDA0_1 *)motion)->unk_08.at02.v) {
+            func_8009CE1C(((S_800CCDA0_0 *)effect)->unk_00, 10,
                           D_800E3D7C[0x11], 8,
-                          (((S_800CCDA0_0 *)arg0)->unk_08 << 25) >> 16, 0, 2);
+                          (((S_800CCDA0_0 *)effect)->unk_08 << 25) >> 16, 0, 2);
 
-            base = D_80083160;
-            ((S_800CCDA0_1 *)arg1)->unk_14 = -((S_800CCDA0_1 *)arg1)->unk_14;
-            ((S_800CCDA0_1 *)arg1)->unk_0C =
-                func_80064584(((S_800CCDA0_2 *)base)->unk_C8) << 8;
-            ((S_800CCDA0_1 *)arg1)->unk_10 =
-                func_800644B8(((S_800CCDA0_2 *)base)->unk_C8) << 8;
+            direction_data = D_80083160;
+            ((S_800CCDA0_1 *)motion)->unk_14 = -((S_800CCDA0_1 *)motion)->unk_14;
+            ((S_800CCDA0_1 *)motion)->unk_0C =
+                func_80064584(((S_800CCDA0_2 *)direction_data)->unk_C8) << 8;
+            ((S_800CCDA0_1 *)motion)->unk_10 =
+                func_800644B8(((S_800CCDA0_2 *)direction_data)->unk_C8) << 8;
 
-            ((S_800CCDA0_3 *)arg2)->unk_14 |= 0xC;
-            ((S_800CCDA0_0 *)arg0)->unk_06.s = 12;
-            ((S_800CCDA0_0 *)arg0)->unk_04.u++;
+            ((S_800CCDA0_3 *)sprite)->unk_14 |= 0xC;
+            ((S_800CCDA0_0 *)effect)->unk_06.s = 12;
+            ((S_800CCDA0_0 *)effect)->unk_04.u++;
         }
     } else {
         u16 angle;
-        s16 divisor;
+        s16 ticks_left;
 
-        ((S_800CCDA0_1 *)arg1)->unk_14 += 0x80000;
-        angle = ((S_800CCDA0_3 *)arg2)->unk_1A.s;
-        divisor = ((S_800CCDA0_0 *)arg0)->unk_06.u;
-        angle += (0x400 - angle) / divisor;
-        ((S_800CCDA0_3 *)arg2)->unk_1A.s = angle;
+        ((S_800CCDA0_1 *)motion)->unk_14 += 0x80000;
+        angle = ((S_800CCDA0_3 *)sprite)->unk_1A.s;
+        ticks_left = ((S_800CCDA0_0 *)effect)->unk_06.u;
+        angle += (0x400 - angle) / ticks_left;
+        ((S_800CCDA0_3 *)sprite)->unk_1A.s = angle;
 
         {
-            u16 nextAngle;
+            u16 wobble_angle;
 
-            value = ((S_800CCDA0_0 *)arg0)->unk_06.s;
-            nextAngle = ((S_800CCDA0_3 *)arg2)->unk_1A.u;
-            if (value & 1) {
-                value = nextAngle + 0x100;
+            ticks_or_angle = ((S_800CCDA0_0 *)effect)->unk_06.s;
+            wobble_angle = ((S_800CCDA0_3 *)sprite)->unk_1A.u;
+            if (ticks_or_angle & 1) {
+                ticks_or_angle = wobble_angle + 0x100;
             } else {
-                value = nextAngle - 0x100;
+                ticks_or_angle = wobble_angle - 0x100;
             }
-            ((S_800CCDA0_3 *)arg2)->unk_1A.u = value;
+            ((S_800CCDA0_3 *)sprite)->unk_1A.u = ticks_or_angle;
         }
 
-        ((S_800CCDA0_3 *)arg2)->unk_0C -=
-            ((S_800CCDA0_3 *)arg2)->unk_0C / ((S_800CCDA0_0 *)arg0)->unk_06.u;
-        ((S_800CCDA0_3 *)arg2)->unk_0D -=
-            ((S_800CCDA0_3 *)arg2)->unk_0D / ((S_800CCDA0_0 *)arg0)->unk_06.u;
-        ((S_800CCDA0_3 *)arg2)->unk_0E -=
-            ((S_800CCDA0_3 *)arg2)->unk_0E / ((S_800CCDA0_0 *)arg0)->unk_06.u;
+        ((S_800CCDA0_3 *)sprite)->unk_0C -=
+            ((S_800CCDA0_3 *)sprite)->unk_0C / ((S_800CCDA0_0 *)effect)->unk_06.u;
+        ((S_800CCDA0_3 *)sprite)->unk_0D -=
+            ((S_800CCDA0_3 *)sprite)->unk_0D / ((S_800CCDA0_0 *)effect)->unk_06.u;
+        ((S_800CCDA0_3 *)sprite)->unk_0E -=
+            ((S_800CCDA0_3 *)sprite)->unk_0E / ((S_800CCDA0_0 *)effect)->unk_06.u;
 
-        value = ((S_800CCDA0_0 *)arg0)->unk_06.s - 1;
-        ((S_800CCDA0_0 *)arg0)->unk_06.s = value;
-        if ((value << 16) == 0) {
+        ticks_or_angle = ((S_800CCDA0_0 *)effect)->unk_06.s - 1;
+        ((S_800CCDA0_0 *)effect)->unk_06.s = ticks_or_angle;
+        if ((ticks_or_angle << 16) == 0) {
             D_80083460.fieldA--;
-            (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
     }
 
-    ((S_800CCDA0_1 *)arg1)->unk_00 += ((S_800CCDA0_1 *)arg1)->unk_0C;
-    ((S_800CCDA0_1 *)arg1)->unk_04 += ((S_800CCDA0_1 *)arg1)->unk_10;
-    ((S_800CCDA0_1 *)arg1)->unk_08.at00.v += ((S_800CCDA0_1 *)arg1)->unk_14;
+    ((S_800CCDA0_1 *)motion)->unk_00 += ((S_800CCDA0_1 *)motion)->unk_0C;
+    ((S_800CCDA0_1 *)motion)->unk_04 += ((S_800CCDA0_1 *)motion)->unk_10;
+    ((S_800CCDA0_1 *)motion)->unk_08.at00.v += ((S_800CCDA0_1 *)motion)->unk_14;
 }
-
-/* MECHANISM: Keep the retail 0x38 frame and long-lived s1/s2/s3 argument roles.
-   A nested second-angle u16 separates its lifetime from the first angle/divisor pair.
-   Reusing value for parity/result emits the bnez delay-slot select without length drift. */

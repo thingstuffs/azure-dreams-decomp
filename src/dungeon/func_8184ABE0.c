@@ -46,30 +46,31 @@ extern M2C_UNK D_80024374;
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DE870;
 
-void *func_800243E0(S_800243E0_3 *arg0) {
-    S_800243E0_1 *temp_s0;
-    S_800243E0_0 *temp_v0;
-    S_800243E0_2 *temp_v1;
+/* Creates a type 0x212 object, initializes its appearance, and copies the supplied components. */
+void *func_800243E0(S_800243E0_3 *source) {
+    S_800243E0_1 *appearance;
+    S_800243E0_0 *object;
+    S_800243E0_2 *components;
     register void *result ASM_REG("$2"); /* MATCH: Keep the merged return value in v0 for the shared epilogue. */
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 == 0) {
+    object = func_8003FC64(0x212);
+    if (object == 0) {
         result = 0;
     } else {
-        temp_v0->unk_10 = &D_80024374;
-        temp_s0 = temp_v0->unk_0C;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        func_8003DB94(temp_s0, &D_800DE870, 0);
-        temp_s0->unk_1E = 0x2000;
-        temp_s0->unk_1C = 0x2000;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1 = temp_v0->unk_08;
-        temp_v1->unk_02 = arg0->unk_02;
-        temp_v1->unk_06 = arg0->unk_06;
-        temp_v1->unk_0A = arg0->unk_0A;
-        result = temp_v0;
+        object->unk_10 = &D_80024374;
+        appearance = object->unk_0C;
+        appearance->unk_0E = 0x80;
+        appearance->unk_0D = 0x80;
+        appearance->unk_0C = 0x80;
+        func_8003DB94(appearance, &D_800DE870, 0);
+        appearance->unk_1E = 0x2000;
+        appearance->unk_1C = 0x2000;
+        func_8004491C(object, &D_80045340);
+        components = object->unk_08;
+        components->unk_02 = source->unk_02;
+        components->unk_06 = source->unk_06;
+        components->unk_0A = source->unk_0A;
+        result = object;
     }
     return result;
 }

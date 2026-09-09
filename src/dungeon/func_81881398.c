@@ -36,56 +36,53 @@ typedef struct S_80024B98_2 {
     s32 unk_14;
 } S_80024B98_2;   /* arg1 in func_80024B98 */
 
-void func_80024B98(void *arg0, void *arg1, void *arg2) {
+/* Advance an effect through its delay, motion, brightness changes, and periodic emissions. */
+void func_80024B98(void *effect, void *motion, void *primitive) {
     s16 state;
-    s32 damage;
-    u16 v;
+    s32 wave_value;
+    u16 frame_count;
 
     D_800257CE++;
-    state = ((S_80024B98_0 *)arg0)->unk_0A.s;
+    state = ((S_80024B98_0 *)effect)->unk_0A.s;
     if (state != 2) {
         if (state == 0) {
-            v = ((S_80024B98_0 *)arg0)->unk_1E - 1;
-            ((S_80024B98_0 *)arg0)->unk_1E = v;
-            if ((s16)v <= 0) {
-                ((S_80024B98_0 *)arg0)->unk_0A.u++;
-                goto advance;
+            frame_count = ((S_80024B98_0 *)effect)->unk_1E - 1;
+            ((S_80024B98_0 *)effect)->unk_1E = frame_count;
+            if ((s16)frame_count <= 0) {
+                ((S_80024B98_0 *)effect)->unk_0A.u++;
+                goto advance_frame;
             }
         } else {
-advance:
-            v = ((S_80024B98_0 *)arg0)->unk_1C + 1;
-            ((S_80024B98_0 *)arg0)->unk_1C = v;
-            if ((s16)v >= 0x41) {
-                ((S_80024B98_0 *)arg0)->unk_0A.u = 2;
+advance_frame:
+            frame_count = ((S_80024B98_0 *)effect)->unk_1C + 1;
+            ((S_80024B98_0 *)effect)->unk_1C = frame_count;
+            if ((s16)frame_count >= 0x41) {
+                ((S_80024B98_0 *)effect)->unk_0A.u = 2;
             }
-            goto common;
+            goto update_effect;
         }
     } else {
-        ((S_80024B98_1 *)arg2)->unk_0C.s32 += 0xFFFBFBFC;
-        if (((S_80024B98_1 *)arg2)->unk_0C.u8 < 4) {
+        ((S_80024B98_1 *)primitive)->unk_0C.s32 += 0xFFFBFBFC;
+        if (((S_80024B98_1 *)primitive)->unk_0C.u8 < 4) {
             D_800257CC--;
-            (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
+            (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
             D_800814A0 |= 0x8000;
             return;
         }
-common:
-        ((S_80024B98_2 *)arg1)->unk_08.at00.v += ((S_80024B98_2 *)arg1)->unk_14;
-        ((S_80024B98_2 *)arg1)->unk_14 += 0x10000;
-        if (((S_80024B98_2 *)arg1)->unk_08.at02.v > ((S_80024B98_0 *)arg0)->unk_14)
-            ((S_80024B98_2 *)arg1)->unk_08.at02.v = ((S_80024B98_0 *)arg0)->unk_14;
-        damage = func_800644B8((s16)((S_80024B98_0 *)arg0)->unk_1C << 6);
-        ((S_80024B98_1 *)arg2)->unk_0C.s32 += 0x20202;
-        ((S_80024B98_1 *)arg2)->unk_1E -= damage >> 5;
-        if (((S_80024B98_1 *)arg2)->unk_0C.u8 >= 0x41)
-            ((S_80024B98_1 *)arg2)->unk_0C.s32 = 0x404040;
-        func_800478B8(arg2);
-        if (!(((S_80024B98_0 *)arg0)->unk_1C & 0x1F))
-            func_80024FD8(arg1, ((S_80024B98_0 *)arg0)->unk_14, ((S_80024B98_0 *)arg0)->unk_24);
-        if (!(((S_80024B98_0 *)arg0)->unk_1C & 3))
-            func_800254C4(arg1, (((S_80024B98_0 *)arg0)->unk_24 << 24) >> 16, 0x10, 0);
+update_effect:
+        ((S_80024B98_2 *)motion)->unk_08.at00.v += ((S_80024B98_2 *)motion)->unk_14;
+        ((S_80024B98_2 *)motion)->unk_14 += 0x10000;
+        if (((S_80024B98_2 *)motion)->unk_08.at02.v > ((S_80024B98_0 *)effect)->unk_14)
+            ((S_80024B98_2 *)motion)->unk_08.at02.v = ((S_80024B98_0 *)effect)->unk_14;
+        wave_value = func_800644B8((s16)((S_80024B98_0 *)effect)->unk_1C << 6);
+        ((S_80024B98_1 *)primitive)->unk_0C.s32 += 0x20202;
+        ((S_80024B98_1 *)primitive)->unk_1E -= wave_value >> 5;
+        if (((S_80024B98_1 *)primitive)->unk_0C.u8 >= 0x41)
+            ((S_80024B98_1 *)primitive)->unk_0C.s32 = 0x404040;
+        func_800478B8(primitive);
+        if (!(((S_80024B98_0 *)effect)->unk_1C & 0x1F))
+            func_80024FD8(motion, ((S_80024B98_0 *)effect)->unk_14, ((S_80024B98_0 *)effect)->unk_24);
+        if (!(((S_80024B98_0 *)effect)->unk_1C & 3))
+            func_800254C4(motion, (((S_80024B98_0 *)effect)->unk_24 << 24) >> 16, 0x10, 0);
     }
 }
-
-/* MECHANISM: The 0x20 frame follows from holding the three argument bases in s0/s2/s1.
-   Restored state=2 and D_800814A0 RMW stores close both tail paths and the four-word cascade.
-   Split call-result liveness, reversed compare operands, and a signed shift pair fix scheduling/lh. */

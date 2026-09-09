@@ -36,83 +36,73 @@ extern void func_800A5720(s32);
 extern void func_800954E0(Actor *, s32, s32, s32);
 extern s16 func_800B627C(s32, s32, s16, s32);
 
-void func_80095DFC(Actor *a0, s32 a1, s32 a2, s32 arg3) {
-    register u8 *entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    int st = a0->state;
-    s32 a3 = arg3;
-    if (st != 1) {
-        if (st >= 2) {
+/* Advance the actor's entry action and clear pending state when it finishes. */
+void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
+    register u8 *entry ASM_REG("$3");
+    int state = actor->state;
+    s32 target = target_arg;
+    if (state != 1) {
+        if (state >= 2) {
             return;
         }
-        if (st != 0) {
+        if (state != 0) {
             return;
         }
         if (D_80083460.f2 & 0x1000) {
             return;
         }
-        if ((s16) func_800A2B5C(a3) != 0) {
+        if ((s16) func_800A2B5C(target) != 0) {
             return;
         }
-        entry = &D_800E3648[a0->h100 * 4];
+        entry = &D_800E3648[actor->h100 * 4];
         if (entry[0] == 0) {
-            func_80096088(a0, a3);
+            func_80096088(actor, target);
             D_80083460.fC = 0;
             D_80083460.f14--;
             D_80083460.f2 &= 0xFFF7;
             return;
         }
         if (!(entry[3] & 0x40)) {
-            /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22):
-             * retail's `jal 0x800990FC` at 0x80095EDC has a nop delay slot and
-             * zero argument setup -- it forwards $a3 through (section 22 pins
-             * are the missing name), and `need` is a positional SET so the call
-             * carries positions 0..3 (section 21).
-             * A BARE $4 pin does not work here: with no def, $4 is live from
-             * function entry, which forbids hoisting `move a0,s3` into the
-             * delay slot of the `bnez` 17 insns earlier -- one indel, 129 words
-             * off (the known signature from the earlier shape of this row).
-             * ASM_SET gives fa0 a zero-byte def inside this block, ending that
-             * live range after the branch; the delay-slot fill comes back and
-             * the row is byte-exact. */
-            s32 fa0;
-            register s32 fa1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            register s32 fa2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            register s32 fa3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            s32 t;
-            s32 h;
-            s32 s0;
-            s32 t2;
-            ASM_SET(fa0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            t = func_800990FC(fa0, fa1, fa2, fa3);
-            h = t;
-            t = func_80099978(func_80099194(D_800E0B39, func_8009929C(8, t)));
-            s0 = t - 2;
-            t = func_80099194(D_80088B14, t);
-            t2 = t;
-            t = func_80099368(&D_800E3648[a0->h100 * 4], t2);
-            func_800998C0(s0, t2);
-            func_80099290(func_800999B0(func_80099194(D_800E0B4C, func_8009929C(10, t))));
-            func_800A5720(h);
+
+            s32 call_actor;
+            register s32 call_context_a ASM_REG("$5");
+            register s32 call_context_b ASM_REG("$6");
+            register s32 call_target ASM_REG("$7");
+            s32 cursor;
+            s32 buffer_start;
+            s32 patch_pos;
+            s32 entry_pos;
+            ASM_SET(call_actor);
+            cursor = func_800990FC(call_actor, call_context_a, call_context_b, call_target);
+            buffer_start = cursor;
+            cursor = func_80099978(func_80099194(D_800E0B39, func_8009929C(8, cursor)));
+            patch_pos = cursor - 2;
+            cursor = func_80099194(D_80088B14, cursor);
+            entry_pos = cursor;
+            cursor = func_80099368(&D_800E3648[actor->h100 * 4], entry_pos);
+            func_800998C0(patch_pos, entry_pos);
+            func_80099290(func_800999B0(func_80099194(D_800E0B4C, func_8009929C(10, cursor))));
+            func_800A5720(buffer_start);
         }
-        a0->state++;
-        func_800954E0(a0, a1, a2, a3);
+        actor->state++;
+        func_800954E0(actor, context_a, context_b, target);
     }
-    if (D_800E3648[a0->h100 * 4] == 0) {
-        func_80096088(a0, a3);
+    if (D_800E3648[actor->h100 * 4] == 0) {
+        func_80096088(actor, target);
         D_80083460.fC = 0;
         D_80083460.f14--;
         D_80083460.f2 &= 0xFFF7;
         return;
     } else {
-        s16 r = (s16) func_800B627C(D_800E3648[a0->h100 * 4], a3, a0->h100, 0);
-        if (r != 0) {
+        s16 result = (s16) func_800B627C(D_800E3648[actor->h100 * 4], target, actor->h100, 0);
+        if (result != 0) {
             D_80083460.fC = 0;
             D_80083460.f14--;
             D_80083460.f2 &= 0xFFF7;
-            if (r > 0) {
-                func_80096088(a0, a3);
+            if (result > 0) {
+                func_80096088(actor, target);
             }
-            a0->state++;
+            actor->state++;
         }
     }
 }

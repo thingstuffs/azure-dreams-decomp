@@ -103,40 +103,41 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 D_80083160[];
 
-void func_80174618(S_80174618_4 *arg0, S_80174618_1 *arg1, void *arg2, s16 arg3)
+/* Transform a line and add its drawing packets to the ordering table. */
+void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render_params, s16 depth_bias)
 {
-    u8 *packet;
+    u8 *line_packet;
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *packet2;
+    u8 *draw_packet;
     u8 *context;
     register u8 *global_page ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *packet8;
-    u8 *packetC;
-    u8 *call_arg0;
-    u8 *arg9;
-    u8 *arg10;
+    u8 *screen_start;
+    u8 *screen_end;
+    u8 *start_vertex;
+    u8 *depth_cue;
+    u8 *transform_flags;
     u16 flags;
-    u16 value;
-    s32 packet_payload;
-    u16 final_value;
-    s32 index;
+    u16 field_value;
+    s32 color_word;
+    u16 end_z;
+    s32 depth_index;
     MATRIX matrix;
     EMPTY_ARG no_arg;
 
     ((S_80174618_0 *)scratch)->unk_24.s = *(u8 **)D_80083160 + 0xB0;
-    ((S_80174618_0 *)scratch)->unk_88 = arg1->unk_02;
-    ((S_80174618_0 *)scratch)->unk_8C = arg1->unk_06;
-    ((S_80174618_0 *)scratch)->unk_90 = arg1->unk_0A;
-    ((S_80174618_2 *)arg2)->unk_14 |= 0x8000;
+    ((S_80174618_0 *)scratch)->unk_88 = position->unk_02;
+    ((S_80174618_0 *)scratch)->unk_8C = position->unk_06;
+    ((S_80174618_0 *)scratch)->unk_90 = position->unk_0A;
+    ((S_80174618_2 *)render_params)->unk_14 |= 0x8000;
 
     func_800649A0();
 
     ((S_80174618_0 *)scratch)->unk_3C = 0x2000;
     ((S_80174618_0 *)scratch)->unk_38 = 0x2000;
     ((S_80174618_0 *)scratch)->unk_34 = 0x2000;
-    ((S_80174618_0 *)scratch)->unk_A4 = ((S_80174618_2 *)arg2)->unk_16;
-    ((S_80174618_0 *)scratch)->unk_A8 = ((S_80174618_2 *)arg2)->unk_1A;
-    ((S_80174618_0 *)scratch)->unk_A6 = ((S_80174618_2 *)arg2)->unk_18;
+    ((S_80174618_0 *)scratch)->unk_A4 = ((S_80174618_2 *)render_params)->unk_16;
+    ((S_80174618_0 *)scratch)->unk_A8 = ((S_80174618_2 *)render_params)->unk_1A;
+    ((S_80174618_0 *)scratch)->unk_A6 = ((S_80174618_2 *)render_params)->unk_18;
     func_80065820(scratch + 0xA4, scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
@@ -144,101 +145,101 @@ void func_80174618(S_80174618_4 *arg0, S_80174618_1 *arg1, void *arg2, s16 arg3)
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    arg9 = scratch + 0xD0;
-    arg10 = scratch + 0xD4;
-    call_arg0 = scratch + 0xB0;
+    depth_cue = scratch + 0xD0;
+    transform_flags = scratch + 0xD4;
+    start_vertex = scratch + 0xB0;
 
-    value = ((S_80174618_2 *)arg2)->unk_14;
+    field_value = ((S_80174618_2 *)render_params)->unk_14;
     context = *(u8 **)D_80083160;
-    ((S_80174618_0 *)scratch)->unk_28 = value;
-    packet = ((S_80174618_3 *)context)->unk_8D0;
-    ((S_80174618_3 *)context)->unk_8D0 = packet + 0x10;
+    ((S_80174618_0 *)scratch)->unk_28 = field_value;
+    line_packet = ((S_80174618_3 *)context)->unk_8D0;
+    ((S_80174618_3 *)context)->unk_8D0 = line_packet + 0x10;
 
-    value = arg0->unk_64;
-    ((S_80174618_0 *)scratch)->unk_C0 = value;
-    ((S_80174618_0 *)scratch)->unk_B0 = value;
-    value = arg0->unk_6A;
-    ((S_80174618_0 *)scratch)->unk_C8 = value;
-    ((S_80174618_0 *)scratch)->unk_B8 = value;
-    value = arg0->unk_66;
-    ((S_80174618_0 *)scratch)->unk_C2 = value;
-    ((S_80174618_0 *)scratch)->unk_B2 = value;
-    value = arg0->unk_6C;
-    ((S_80174618_0 *)scratch)->unk_CA = value;
-    ((S_80174618_0 *)scratch)->unk_BA = value;
-    value = arg0->unk_68;
-    ((S_80174618_0 *)scratch)->unk_C4 = value;
-    ((S_80174618_0 *)scratch)->unk_B4 = value;
-    final_value = arg0->unk_6E;
-    packet8 = packet + 8;
-    packetC = packet + 0xC;
-    index = func_80065590(call_arg0, scratch + 0xB8,
+    field_value = endpoints->unk_64;
+    ((S_80174618_0 *)scratch)->unk_C0 = field_value;
+    ((S_80174618_0 *)scratch)->unk_B0 = field_value;
+    field_value = endpoints->unk_6A;
+    ((S_80174618_0 *)scratch)->unk_C8 = field_value;
+    ((S_80174618_0 *)scratch)->unk_B8 = field_value;
+    field_value = endpoints->unk_66;
+    ((S_80174618_0 *)scratch)->unk_C2 = field_value;
+    ((S_80174618_0 *)scratch)->unk_B2 = field_value;
+    field_value = endpoints->unk_6C;
+    ((S_80174618_0 *)scratch)->unk_CA = field_value;
+    ((S_80174618_0 *)scratch)->unk_BA = field_value;
+    field_value = endpoints->unk_68;
+    ((S_80174618_0 *)scratch)->unk_C4 = field_value;
+    ((S_80174618_0 *)scratch)->unk_B4 = field_value;
+    end_z = endpoints->unk_6E;
+    screen_start = line_packet + 8;
+    screen_end = line_packet + 0xC;
+    depth_index = func_80065590(start_vertex, scratch + 0xB8,
                           scratch + 0xC0, scratch + 0xC8,
-                          packet8, packetC,
-                          packet8, packetC,
-                          arg9, arg10,
-                          (((S_80174618_0 *)scratch)->unk_CC = final_value,
-                           ((S_80174618_0 *)scratch)->unk_BC = final_value,
+                          screen_start, screen_end,
+                          screen_start, screen_end,
+                          depth_cue, transform_flags,
+                          (((S_80174618_0 *)scratch)->unk_CC = end_z,
+                           ((S_80174618_0 *)scratch)->unk_BC = end_z,
                            no_arg));
-    index = index - arg3 - 6;
+    depth_index = depth_index - depth_bias - 6;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_80174618_0 *)scratch)->unk_100 = index;
+    ((S_80174618_0 *)scratch)->unk_100 = depth_index;
     flags = ((S_80174618_0 *)scratch)->unk_28;
     global_page = D_80083160 - 0x3160;
     ASM_SET(global_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    packet2 = global_page + 0x3160;
+    draw_packet = global_page + 0x3160;
 
     if (flags & 8) {
-        u8 tail_value;
+        u8 color_code;
         if (flags & 4) {
-            tail_value = ((S_80174618_2 *)arg2)->unk_0C.at03.v | 2;
+            color_code = ((S_80174618_2 *)render_params)->unk_0C.at03.v | 2;
         } else {
-            tail_value = ((S_80174618_2 *)arg2)->unk_0C.at03.v & 0xFD;
+            color_code = ((S_80174618_2 *)render_params)->unk_0C.at03.v & 0xFD;
         }
-        ((S_80174618_2 *)arg2)->unk_0C.at03.v = tail_value;
+        ((S_80174618_2 *)render_params)->unk_0C.at03.v = color_code;
     }
 
-    packet_payload = ((S_80174618_2 *)arg2)->unk_0C.at00.v;
-    ((S_80174618_5 *)packet)->unk_00.at03.v = 3;
-    ((S_80174618_5 *)packet)->unk_04.at00.v = packet_payload;
-    ((S_80174618_5 *)packet)->unk_04.at03.v = 0x40;
+    color_word = ((S_80174618_2 *)render_params)->unk_0C.at00.v;
+    ((S_80174618_5 *)line_packet)->unk_00.at03.v = 3;
+    ((S_80174618_5 *)line_packet)->unk_04.at00.v = color_word;
+    ((S_80174618_5 *)line_packet)->unk_04.at03.v = 0x40;
     flags = ((S_80174618_0 *)scratch)->unk_28;
     if (flags & 8) {
-        s32 packet_type = flags & 4;
-        if (packet_type) {
-            packet_type = 0x42;
+        s32 line_code = flags & 4;
+        if (line_code) {
+            line_code = 0x42;
         } else {
-            packet_type = 0x40;
+            line_code = 0x40;
         }
-        ((S_80174618_5 *)packet)->unk_04.at03.v = packet_type;
+        ((S_80174618_5 *)line_packet)->unk_04.at03.v = line_code;
     }
 
     {
-    register u32 low_mask ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 zero;
-    register u32 high_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    low_mask = 0x00FFFFFF;
-    zero = 0;
-    ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    high_mask = 0xFF000000;
-    ((S_80174618_5 *)packet)->unk_00.at00.v = (((S_80174618_5 *)packet)->unk_00.at00.v & high_mask) |
-                            (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & low_mask);
-    ((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] =
-        (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & high_mask) |
-        ((u32)packet & low_mask);
+        register u32 addr_mask ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 zero;
+        register u32 size_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        addr_mask = 0x00FFFFFF;
+        zero = 0;
+        ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        size_mask = 0xFF000000;
+        ((S_80174618_5 *)line_packet)->unk_00.at00.v = (((S_80174618_5 *)line_packet)->unk_00.at00.v & size_mask) |
+                                (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & addr_mask);
+        ((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] =
+            (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & size_mask) |
+            ((u32)line_packet & addr_mask);
 
-    context = *(u8 **)packet2;
-    packet2 = ((S_80174618_3 *)context)->unk_8D0;
-    ((S_80174618_3 *)context)->unk_8D0 = packet2 + 0xC;
-    func_80067F20(packet2, 0, 0, (u16)func_80066460(zero, 1, zero, zero), 0);
+        context = *(u8 **)draw_packet;
+        draw_packet = ((S_80174618_3 *)context)->unk_8D0;
+        ((S_80174618_3 *)context)->unk_8D0 = draw_packet + 0xC;
+        func_80067F20(draw_packet, 0, 0, (u16)func_80066460(zero, 1, zero, zero), 0);
 
-    ((S_80174618_6 *)packet2)->unk_00 = (((S_80174618_6 *)packet2)->unk_00 & high_mask) |
-                             (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & low_mask);
-    packet2 = (u8 *)((u32)packet2 & low_mask);
-    ((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] =
-        (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & high_mask) |
-        (u32)packet2;
+        ((S_80174618_6 *)draw_packet)->unk_00 = (((S_80174618_6 *)draw_packet)->unk_00 & size_mask) |
+                                 (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & addr_mask);
+        draw_packet = (u8 *)((u32)draw_packet & addr_mask);
+        ((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] =
+            (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & size_mask) |
+            (u32)draw_packet;
 
-    func_80064A40();
+        func_80064A40();
     }
 }

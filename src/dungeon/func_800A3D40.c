@@ -112,123 +112,122 @@ extern u8 D_800DD8B4[];
 extern M2C_UNK D_800E1C58;
 extern u8 D_800E3D68;
 
-void *func_800A94A0(void *arg0, Rec_D_800E3D7C *arg1, s16 arg2, void *arg3) {
-    s32 temp_s0_2;
-    s32 tail_arg0;
-    s32 temp_v0_2;
-    register s32 temp_v0_5 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 temp_v0_5_result;
-    M2C_UNK temp_v1_2;
-    s16 temp_v0_6;
-    s32 entry_arg2;
-    u16 temp_a0;
-    s32 temp_a1;
-    s32 temp_a1_2;
-    register void *temp_a0_3 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u8 temp_a0_2;
-    register s16 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    S_800A94A0_4 *temp_s0;
-    S_800A94A0_7 *temp_s5;
-    void *temp_v0;
-    S_800A94A0_3 *temp_v0_3;
-    void *temp_v0_4;
-    S_800A94A0_5 *temp_v1;
-    u8 *temp_t0;
+/* Creates an effect for an actor, sets its position and scale, and builds its message. */
+void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *context) {
+    s32 message;
+    s32 name_text;
+    s32 effect_data;
+    register s32 text_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 new_text_context;
+    M2C_UNK direction_offset;
+    s16 name_index;
+    s32 effect_mode;
+    u16 effect_flags;
+    s32 global_flags;
+    s32 effect_scale;
+    register void *actor_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 variant;
+    register s16 effect_id ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    S_800A94A0_4 *effect_position;
+    S_800A94A0_7 *actor_state;
+    void *effect;
+    S_800A94A0_3 *effect_state;
+    void *linked_object;
+    S_800A94A0_5 *actor_position;
+    u8 *map_state;
 
-    temp_s5 = ((S_800A94A0_0 *)((u8 *)arg0 - 0x18))->unk_04;
-    temp_v0 = func_8003FD64(0x12, D_80083498);
-    if (temp_v0 != NULL) {
-        entry_arg2 = ((s32) arg2 << 0x10) >> 0x10;
+    actor_state = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04;
+    effect = func_8003FD64(0x12, D_80083498);
+    if (effect != NULL) {
+        effect_mode = ((s32) mode << 0x10) >> 0x10;
         {
-            register s32 entry_a1 ASM_REG("$5") = entry_arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            u8 entry_v1;
-            do { temp_s2 = arg1->unk_00.at00_u8.v; } while (0);
-            entry_v1 = arg1->unk_00.at01_u8.v;
-            D_800E3D68 = entry_v1;
-            temp_v0_2 = func_800A982C((u8) temp_s2, entry_a1, ((S_800A94A0_0 *)((u8 *)arg0 - 0x18))->unk_2B);
+            register s32 mode_arg ASM_REG("$5") = effect_mode;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            u8 entry_variant;
+            effect_id = effect_record->unk_00.at00_u8.v;
+            entry_variant = effect_record->unk_00.at01_u8.v;
+            D_800E3D68 = entry_variant;
+            effect_data = func_800A982C((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
         }
-        ASM_KEEP_NV(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        if (temp_v0_2 == 0) {
-            temp_a0 = ((S_800A94A0_2 *)temp_v0)->unk_1E | 0x8000;
-            temp_a1 = D_800814A0[0] | 0x8000;
-            ((S_800A94A0_2 *)temp_v0)->unk_1E = temp_a0;
-            D_800814A0[0] = temp_a1;
+        ASM_KEEP_NV(effect_id);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        if (effect_data == 0) {
+            effect_flags = ((S_800A94A0_2 *)effect)->unk_1E | 0x8000;
+            global_flags = D_800814A0[0] | 0x8000;
+            ((S_800A94A0_2 *)effect)->unk_1E = effect_flags;
+            D_800814A0[0] = global_flags;
             return NULL;
         }
-        ((S_800A94A0_2 *)temp_v0)->unk_10 = temp_v0_2;
-        temp_v0_3 = temp_v0 + 0x20;
-        ((S_800A94A0_2 *)temp_v0)->unk_20 = arg0;
-        temp_v0_3->unk_04 = arg3;
-        temp_v0_3->unk_08 = temp_s2;
-        D_800E3CC8[0] = temp_s2;
-        temp_a0_2 = arg1->unk_00.at01_u8.v;
-        temp_v0_3->unk_09 = temp_a0_2;
-        D_800E3CC8[1] = temp_a0_2;
-        if (arg2 == 0) {
-            temp_v1 = ((S_800A94A0_0 *)((u8 *)arg0 - 0x18))->unk_00;
-            temp_s0 = ((S_800A94A0_2 *)temp_v0)->unk_08;
-            temp_s0->unk_02 = (u16) temp_v1->unk_02;
-            temp_s0->unk_06 = (u16) temp_v1->unk_06;
-            temp_s0->unk_0A = (u16) temp_v1->unk_0A;
-            temp_v0_5 = func_80069EF8();
+        ((S_800A94A0_2 *)effect)->unk_10 = effect_data;
+        effect_state = effect + 0x20;
+        ((S_800A94A0_2 *)effect)->unk_20 = actor;
+        effect_state->unk_04 = context;
+        effect_state->unk_08 = effect_id;
+        D_800E3CC8[0] = effect_id;
+        variant = effect_record->unk_00.at01_u8.v;
+        effect_state->unk_09 = variant;
+        D_800E3CC8[1] = variant;
+        if (mode == 0) {
+            actor_position = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_00;
+            effect_position = ((S_800A94A0_2 *)effect)->unk_08;
+            effect_position->unk_02 = (u16) actor_position->unk_02;
+            effect_position->unk_06 = (u16) actor_position->unk_06;
+            effect_position->unk_0A = (u16) actor_position->unk_0A;
+            text_context = func_80069EF8();
             if (!((u16) *D_80013714 & 1)) {
-                temp_v0_4 = ((S_800A94A0_0 *)((u8 *)arg0 - 0x18))->unk_78;
-                if (temp_v0_4 != NULL) {
-                    func_8009FD40(((S_800A94A0_0 *)((u8 *)arg0 - 0x18))->unk_04, ((S_800A94A0_6 *)((u8 *)temp_v0_4 - 0x14))->unk_00);
+                linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;
+                if (linked_object != NULL) {
+                    func_8009FD40(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04, ((S_800A94A0_6 *)((u8 *)linked_object - 0x14))->unk_00);
                 }
             }
-            func_800C77D0(temp_v0, temp_s0, 8, 0x300);
-            ASM_KEEP(temp_v0_5);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            goto block_21;
+            func_800C77D0(effect, effect_position, 8, 0x300);
+            ASM_KEEP(text_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            goto set_effect_scale;
         }
-        temp_t0 = D_80082E80;
-        if (!(temp_s5->unk_14 & 0x8000)) {
-            if (!(((S_800A94A0_8 *)temp_t0)->unk_14 & 0x8000)) {
-                func_800C7A3C(temp_t0, temp_s5, ((S_800A94A0_9 *)(*D_800E3D7C))->unk_88, ((S_800A94A0_0 *)((u8 *)arg0 - 0x18))->unk_A0, 8, 0x300);
-                goto block_21;
+        map_state = D_80082E80;
+        if (!(actor_state->unk_14 & 0x8000)) {
+            if (!(((S_800A94A0_8 *)map_state)->unk_14 & 0x8000)) {
+                func_800C7A3C(map_state, actor_state, ((S_800A94A0_9 *)(*D_800E3D7C))->unk_88, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
+                goto set_effect_scale;
             }
-            goto block_16;
         }
-block_16:
-        temp_v1_2 = ((u16) ((S_800A94A0_9 *)(*D_800E3D7C))->unk_2A >> 8) & 0xE;
-        func_800C78A0(arg0 - 0x20, (((S_800A94A0_8 *)temp_t0)->unk_24 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + temp_v1_2) << 0x10) >> 0x11) + 0x20, (((S_800A94A0_8 *)temp_t0)->unk_25 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + temp_v1_2) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(*D_800E3D7C))->unk_88, 8, 0x300);
-block_21:
-        if ((arg2 << 0x10) != 0) {
-            register s32 lookup_index ASM_REG("$2") = temp_s2;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            temp_a1_2 = D_800DD8B4[lookup_index];
-            temp_a0_3 = arg0;
-            temp_a1_2 <<= 6;
+        direction_offset = ((u16) ((S_800A94A0_9 *)(*D_800E3D7C))->unk_2A >> 8) & 0xE;
+        func_800C78A0(actor - 0x20, (((S_800A94A0_8 *)map_state)->unk_24 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset) << 0x10) >> 0x11) + 0x20, (((S_800A94A0_8 *)map_state)->unk_25 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(*D_800E3D7C))->unk_88, 8, 0x300);
+set_effect_scale:
+        if ((mode << 0x10) != 0) {
+            register s32 lookup_index ASM_REG("$2") = effect_id;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            effect_scale = D_800DD8B4[lookup_index];
+            actor_arg = actor;
+            effect_scale <<= 6;
         } else {
-            register s32 lookup_index ASM_REG("$2") = temp_s2;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            temp_a1_2 = D_800DD880[lookup_index];
-            temp_a0_3 = arg0;
-            temp_a1_2 <<= 8;
+            register s32 lookup_index ASM_REG("$2") = effect_id;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            effect_scale = D_800DD880[lookup_index];
+            actor_arg = actor;
+            effect_scale <<= 8;
         }
-        func_800AD594(temp_a0_3, temp_a1_2);
-        if ((temp_v0 != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)arg0 - 0x18))->unk_2B > 0)) {
-            temp_v0_5_result = func_800990FC();
-            temp_a0_3 = arg0;
-            temp_v0_5 = temp_v0_5_result;
-            temp_s0_2 = func_80099194(&D_800E1C58, func_80099734(temp_a0_3, temp_v0_5));
-            if (((u32)(u16)arg2 << 0x10) != 0) {
-                temp_v0_6 = func_800A9400(((s32)temp_s2 << 0x10) >> 0x10);
-                tail_arg0 = D_8006DE24[temp_v0_6].unk8;
+        func_800AD594(actor_arg, effect_scale);
+        if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
+            new_text_context = func_800990FC();
+            actor_arg = actor;
+            text_context = new_text_context;
+            message = func_80099194(&D_800E1C58, func_80099734(actor_arg, text_context));
+            if (((u32)(u16)mode << 0x10) != 0) {
+                name_index = func_800A9400(((s32)effect_id << 0x10) >> 0x10);
+                name_text = D_8006DE24[name_index].unk8;
             } else {
-                register s32 entry_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                S_8006DE24_Entry *entry_base;
-                entry_index = (s32)temp_s2 << 0x10;
-                entry_base = D_8006DE24;
-                entry_index >>= 0x10;
-                tail_arg0 = entry_base[entry_index].unk0;
+                register s32 effect_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                S_8006DE24_Entry *name_table;
+                effect_index = (s32)effect_id << 0x10;
+                name_table = D_8006DE24;
+                effect_index >>= 0x10;
+                name_text = name_table[effect_index].unk0;
             }
-            temp_s0_2 = func_80099194(tail_arg0, temp_s0_2);
-            func_80099290(func_80099194(&D_80089080, temp_s0_2));
-            ASM_KEEP(temp_s0_2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_800A5720(temp_v0_5);
-            goto block_25;
+            message = func_80099194(name_text, message);
+            func_80099290(func_80099194(&D_80089080, message));
+            ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            func_800A5720(text_context);
+            goto return_effect;
         }
-        return temp_v0;
+        return effect;
     }
-block_25:
-    return temp_v0;
+return_effect:
+    return effect;
 }

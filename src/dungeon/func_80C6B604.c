@@ -34,72 +34,73 @@ typedef struct S_80172E04_3 {
     s32 unk_14;
 } S_80172E04_3;   /* arg1 in func_80172E04 */
 
-void func_80172E04(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advance the timed actor animation sequence and restore actor state on completion. */
+void func_80172E04(void *action, void *motion, void *sprite, void *actor)
 {
     u8 state;
-    static void *const keepalive[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
+    static void *const state_labels[] = { &&initialize, &&start_animation, &&wait_animation, &&update_actor, &&finish_action };
 
-    state = ((S_80172E04_0 *)arg0)->unk_9B;
+    state = ((S_80172E04_0 *)action)->unk_9B;
     if ((u32)state >= 5) {
         return;
     }
     goto *(((void **)D_80170838)[state]);
 
-L0:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-        ((S_80172E04_0 *)arg0)->unk_9B = 4;
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+initialize:
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        ((S_80172E04_0 *)action)->unk_9B = 4;
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
         return;
     }
-    ((S_80172E04_3 *)arg1)->unk_14 = 0;
-    ((S_80172E04_3 *)arg1)->unk_10 = 0;
-    ((S_80172E04_3 *)arg1)->unk_0C = 0;
-    goto LReset;
+    ((S_80172E04_3 *)motion)->unk_14 = 0;
+    ((S_80172E04_3 *)motion)->unk_10 = 0;
+    ((S_80172E04_3 *)motion)->unk_0C = 0;
+    goto advance_state;
 
-L1:
-    if ((s16)++((S_80172E04_0 *)arg0)->unk_96.u == 4 ||
-        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_801742F0;
-        func_80047784(arg2,
-            D_801742F0[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+start_animation:
+    if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 4 ||
+        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        (*(u8 **)((u8 *)sprite + 0x2C)) = D_801742F0;
+        func_80047784(sprite,
+            D_801742F0[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
     }
-    if (((S_80172E04_0 *)arg0)->unk_96.s == 7 ||
-        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
-        goto LReset;
+    if (((S_80172E04_0 *)action)->unk_96.s == 7 ||
+        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        goto advance_state;
     }
     return;
 
-L2:
-    if ((s16)++((S_80172E04_0 *)arg0)->unk_96.u == 2) {
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
+wait_animation:
+    if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 2) {
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
     }
-    if (((S_80172E04_0 *)arg0)->unk_96.s == 8 ||
-        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
+    if (((S_80172E04_0 *)action)->unk_96.s == 8 ||
+        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         func_800A56E0(0x808);
-LReset:
-        ((S_80172E04_0 *)arg0)->unk_96.u = 0;
-        ((S_80172E04_0 *)arg0)->unk_9B++;
+advance_state:
+        ((S_80172E04_0 *)action)->unk_96.u = 0;
+        ((S_80172E04_0 *)action)->unk_9B++;
         return;
     }
     return;
 
-L3:
-    if ((s16)++((S_80172E04_0 *)arg0)->unk_96.u == 2) {
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
-        ((S_80172E04_0 *)arg0)->unk_9B++;
+update_actor:
+    if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 2) {
+        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        ((S_80172E04_0 *)action)->unk_9B++;
     }
 
-L4:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(arg3, 0x100);
-        ((S_80172E04_0 *)arg0)->unk_8C = D_80171650;
+finish_action:
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        func_800AD594(actor, 0x100);
+        ((S_80172E04_0 *)action)->unk_8C = D_80171650;
         D_8008346C = 0;
-        func_800A4ACC(arg3);
-        ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
+        func_800A4ACC(actor);
+        ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
     }
 }

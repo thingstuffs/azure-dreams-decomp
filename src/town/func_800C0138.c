@@ -20,25 +20,26 @@ extern s32 D_800814A0;
 extern s32 D_800E9E14[];
 extern s32 D_800E9E34[];
 
-void func_800BD898(Actor *arg0, Motion *arg1, s32 arg2) {
-    u16 temp_v0;
+/* Advance motion, update every eighth tick, and flag zero horizontal velocity. */
+void func_800BD898(Actor *actor, Motion *motion, s32 actor_id) {
+    u16 tick;
 
-    func_800478B8(arg2);
-    arg1->x += arg1->dx;
-    arg1->y += arg1->dy;
-    arg1->z += arg1->dz;
+    func_800478B8(actor_id);
+    motion->x += motion->dx;
+    motion->y += motion->dy;
+    motion->z += motion->dz;
 
-    temp_v0 = (arg0->counter + 1) & 7;
-    arg0->counter = temp_v0;
-    if (temp_v0 == 0) {
-        if (arg1->dz < 0) {
-            func_8003DB94(arg2, D_800E9E34, 0);
+    tick = (actor->counter + 1) & 7;
+    actor->counter = tick;
+    if (tick == 0) {
+        if (motion->dz < 0) {
+            func_8003DB94(actor_id, D_800E9E34, 0);
         } else {
-            func_8003DB94(arg2, D_800E9E14, 0);
+            func_8003DB94(actor_id, D_800E9E14, 0);
         }
     }
-    if (arg1->dx == 0) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    if (motion->dx == 0) {
+        *(u16 *)((u8 *)actor - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

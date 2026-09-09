@@ -32,44 +32,44 @@ extern s32 D_800D046C;
 
 extern s16 func_80094BC8(s32, s16);
 
-s32 func_8009567C(void *arg0)
+/* Selects an available entry matching the current direction and returns its status. */
+s32 func_8009567C(void *record)
 {
-    s16 *var_a0;
-    s16 temp_v0;
-    s32 *var_a1;
-    s32 temp_a3;
-    s32 temp_v1;
-    u8 temp_v1_2;
-    s32 temp_t0;
-    s32 var_a2;
-    S_8009567C_3 *temp_v0_2;
+    s16 *direction_ptr;
+    s16 angle;
+    s32 *slot_ptr;
+    s32 direction;
+    s32 slot;
+    u8 entry_type;
+    s32 special_type;
+    s32 direction_index;
+    S_8009567C_3 *entry;
 
-    temp_v0 = func_80094BC8(D_80083160.field_08, D_80083160.field_C8);
-    if (temp_v0 != -1) {
-        var_a2 = 0;
-        temp_a3 = ((temp_v0 + 0x100) / 0x200) & 7;
-        temp_t0 = 1;
-        var_a1 = &D_800D046C;
-        var_a0 = &D_800D0464;
+    angle = func_80094BC8(D_80083160.field_08, D_80083160.field_C8);
+    if (angle != -1) {
+        direction_index = 0;
+        direction = ((angle + 0x100) / 0x200) & 7;
+        special_type = 1;
+        slot_ptr = &D_800D046C;
+        direction_ptr = &D_800D0464;
 loop:
-        if (temp_a3 == *var_a0) {
-            temp_v1 = *var_a1;
-            if (((S_8009567C_0 *)((u8 *)arg0 + temp_v1))->unk_3A != 0) {
-                temp_v0_2 = ((S_8009567C_1 *)((u8 *)arg0 + temp_v1 * 4))->unk_1C;
-                ((Rec_D_800CFCB4 *)arg0)->unk_18 = temp_v1;
-                ((Rec_D_800CFCB4 *)arg0)->unk_10 = temp_v0_2;
-                temp_v1_2 = temp_v0_2->unk_14;
-                ASM_USE(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                if (temp_v1_2 == temp_t0) {
+        if (direction == *direction_ptr) {
+            slot = *slot_ptr;
+            if (((S_8009567C_0 *)((u8 *)record + slot))->unk_3A != 0) {
+                entry = ((S_8009567C_1 *)((u8 *)record + slot * 4))->unk_1C;
+                ((Rec_D_800CFCB4 *)record)->unk_18 = slot;
+                ((Rec_D_800CFCB4 *)record)->unk_10 = entry;
+                entry_type = entry->unk_14;
+                if (entry_type == special_type) {
                     return -1;
                 }
                 return 1;
             }
         }
-        var_a1++;
-        var_a2++;
-        var_a0++;
-        if (var_a2 < 4) {
+        slot_ptr++;
+        direction_index++;
+        direction_ptr++;
+        if (direction_index < 4) {
             goto loop;
         }
     }

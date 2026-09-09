@@ -49,41 +49,38 @@ typedef struct S_80024264_2 {
 } S_80024264_2;   /* temp_a0 in func_80024264 */
 
 
-void *func_80024264(s32 arg0, Rec_func_80024264_arg1 *arg1)
+/* Creates a type 0x212 object with default appearance and an offset copy of the supplied state. */
+void *func_80024264(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
 {
-    S_80024264_2 *temp_a0;
-    S_80024264_1 *temp_s0;
-    S_80024264_0 *temp_v0;
-    register void *dispatch_result ASM_REG("$2"); /* MATCH: keep the merged return value in v0 for the shared epilogue. */
+    S_80024264_2 *state;
+    S_80024264_1 *appearance;
+    S_80024264_0 *object;
+    register void *result ASM_REG("$2");
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 == NULL) {
-        dispatch_result = NULL;
+    object = func_8003FC64(0x212);
+    if (object == NULL) {
+        result = NULL;
     } else {
-        temp_v0->unk_10 = &D_800241D8;
-        temp_s0 = temp_v0->unk_0C;
-        temp_v0->unk_20 = arg0;
-        temp_v0->unk_24 = 0;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        func_8003DB94(temp_s0, &D_80024EF4, 0);
-        temp_s0->unk_1C = 0x2000;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1A = 0xC00;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a0 = temp_v0->unk_08;
-        temp_a0->unk_00 = arg1->unk_00.at00_s32.v;
-        temp_a0->unk_04 = arg1->unk_04.at00_s32.v;
-        temp_a0->unk_08 = arg1->unk_08.at00_s32.v + 0x500000;
-        temp_a0->unk_0C = arg1->unk_0C.at00_s32.v;
-        temp_a0->unk_10 = arg1->unk_10.at00_s32.v;
-        temp_a0->unk_14 = arg1->unk_14;
-        dispatch_result = temp_v0;
+        object->unk_10 = &D_800241D8;
+        appearance = object->unk_0C;
+        object->unk_20 = object_tag;
+        object->unk_24 = 0;
+        appearance->unk_0E = 0x80;
+        appearance->unk_0D = 0x80;
+        appearance->unk_0C = 0x80;
+        func_8003DB94(appearance, &D_80024EF4, 0);
+        appearance->unk_1C = 0x2000;
+        appearance->unk_1E = 0x1000;
+        appearance->unk_1A = 0xC00;
+        func_8004491C(object, &D_80045340);
+        state = object->unk_08;
+        state->unk_00 = initial_state->unk_00.at00_s32.v;
+        state->unk_04 = initial_state->unk_04.at00_s32.v;
+        state->unk_08 = initial_state->unk_08.at00_s32.v + 0x500000;
+        state->unk_0C = initial_state->unk_0C.at00_s32.v;
+        state->unk_10 = initial_state->unk_10.at00_s32.v;
+        state->unk_14 = initial_state->unk_14;
+        result = object;
     }
-    return dispatch_result;
+    return result;
 }
-
-/* MECHANISM: The aligned-2 seed already had the exact 0x28 frame, saved-register roles, and CFG.
-   Unsigned byte fields materialize retail's +0x80; a guarded $v0 null carrier plus
-   ASM_TAILSLOT_PIN sinks move v0,zero into the LEAD-18 noreturn-j delay slot. */

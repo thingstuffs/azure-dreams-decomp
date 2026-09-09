@@ -91,125 +91,117 @@ extern u8 D_800E08E5[];
 extern u8 D_800E08F1[];
 extern u8 D_800E0919[];
 
-void *func_80098CF8(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Check the item, report restrictions, and create an action object for the actor and target. */
+void *func_80098CF8(void *actor_arg, s32 action_id, void *target_arg, void *item_arg)
 {
-    register void *message ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    /* MATCH: Reuse the a0 pin to pass the incoming argument without a redundant move. */
-    register void *s3 ASM_REG("$19") = message;   /* MATCH: Preserve the incoming object in retail s3. */
-    s32 s6 = arg1;
-    void *s5 = arg2;
-    register void *s2 ASM_REG("$18") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *s4;
-    register void *s0;
-    s32 s1;
-    void *object;
+    register void *message ASM_REG("$4") = actor_arg;
+
+    register void *actor ASM_REG("$19") = message;
+    s32 action = action_id;
+    void *target = target_arg;
+    register void *item ASM_REG("$18") = item_arg;
+    void *actor_state;
+    register void *result;
+    s32 message_id;
     void *primitive;
     void *state;
-    s32 value;
+    s32 text_cursor;
 
-    ASM_KEEP_NV(s3);   /* MATCH: Preserve the retail s3-to-s4 copy while passing a0 explicitly. */
-    s4 = s3;
-    s0 = D_80081484;
-    if ((s2 != s0) && (((S_80098CF8_0 *)s0)->unk_01 != 0)) {
-        s1 = func_800990FC(message, arg1, arg2, arg3);
-        value = func_8009929C(8, s1);
-        value = func_80099368(s2, value);
-        value = func_80099194(D_800E08CC, value);
-        value = func_80099368(s0, value);
+    ASM_KEEP_NV(actor);
+    actor_state = actor;
+    result = D_80081484;
+    if ((item != result) && (((S_80098CF8_0 *)result)->unk_01 != 0)) {
+        message_id = func_800990FC(message, action_id, target_arg, item_arg);
+        text_cursor = func_8009929C(8, message_id);
+        text_cursor = func_80099368(item, text_cursor);
+        text_cursor = func_80099194(D_800E08CC, text_cursor);
+        text_cursor = func_80099368(result, text_cursor);
         message = D_800E08E5;
 print_message:
-        value = func_80099194(message, value);
-        func_80099290(value);
-        func_800A5720(s1);
-        ASM_KEEP(s3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(s6);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(s5);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(s2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        text_cursor = func_80099194(message, text_cursor);
+        func_80099290(text_cursor);
+        func_800A5720(message_id);
+
+        ASM_KEEP(action);
+        ASM_KEEP(target);
+        ASM_KEEP(item);
+        ASM_KEEP(actor_state);
         goto return_zero;
     }
 
-    if (((S_80098CF8_1 *)s2)->unk_00.at03.v & 0x20) {
-        s1 = func_800990FC(message, arg1, arg2, arg3);
-        s0 = (void *)func_8009929C(8, s1);
-        if (((S_80098CF8_1 *)s2)->unk_00.at03.v & 0x40) {
+    if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x20) {
+        message_id = func_800990FC(message, action_id, target_arg, item_arg);
+        result = (void *)func_8009929C(8, message_id);
+        if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x40) {
             func_800A56E0(0x70A);
-            value = func_80099368(s2, s0);
+            text_cursor = func_80099368(item, result);
             message = D_800E08F1;
             goto print_message;
         }
 
-        value = func_80099368(s2, s0);
-        value = func_80099194(D_800E0919, value);
-        func_80099290(value);
-        func_800A5720(s1);
-        if (((S_80098CF8_1 *)s2)->unk_00.at01.v == 0x11) {
-            func_80098614(s4, s2);
-            goto allocate;
+        text_cursor = func_80099368(item, result);
+        text_cursor = func_80099194(D_800E0919, text_cursor);
+        func_80099290(text_cursor);
+        func_800A5720(message_id);
+        if (((S_80098CF8_1 *)item)->unk_00.at01.v == 0x11) {
+            func_80098614(actor_state, item);
+        } else {
+            func_800982A8(actor_state, item);
         }
-        func_800982A8(s4, s2);
-        goto allocate;
     }
-    goto allocate;
 
-allocate:
-    object = func_800A8608((u8 *)s3 - 0x20, s2, 0, 0, 0);
-    s0 = object;
-    if (s0 == 0) {
+    result = func_800A8608((u8 *)actor - 0x20, item, 0, 0, 0);
+    if (result == 0) {
         goto return_zero;
     }
 
     {
-    s32 coord;
+        s32 height;
 
-    ((S_80098CF8_0 *)s0)->unk_10 = D_8008D470;
-    primitive = ((S_80098CF8_0 *)s0)->unk_08;
-    ((S_80098CF8_2 *)primitive)->unk_02 = (((S_80098CF8_3 *)s5)->unk_24 << 6) + 0x20;
-    ((S_80098CF8_2 *)primitive)->unk_06 = (((S_80098CF8_3 *)s5)->unk_25 << 6) + 0x20;
-    coord = ((S_80098CF8_4 *)s4)->unk_88;
-    message = s5;
-    ((S_80098CF8_2 *)primitive)->unk_0A = coord - 0x30;
+        ((S_80098CF8_0 *)result)->unk_10 = D_8008D470;
+        primitive = ((S_80098CF8_0 *)result)->unk_08;
+        ((S_80098CF8_2 *)primitive)->unk_02 = (((S_80098CF8_3 *)target)->unk_24 << 6) + 0x20;
+        ((S_80098CF8_2 *)primitive)->unk_06 = (((S_80098CF8_3 *)target)->unk_25 << 6) + 0x20;
+        height = ((S_80098CF8_4 *)actor_state)->unk_88;
+        message = target;
+        ((S_80098CF8_2 *)primitive)->unk_0A = height - 0x30;
 
-    state = (u8 *)s0 + 0x20;
-    {
-    register s32 a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 a2;
+        state = (u8 *)result + 0x20;
+        {
+            register s32 data_word ASM_REG("$5");
+            s32 item_word;
 
-    a1 = ((S_80098CF8_1 *)s2)->unk_00.at00.v;
-    ((S_80098CF8_5 *)state)->unk_AC = 1;
-    ((S_80098CF8_5 *)state)->unk_90 = message;
-    ((S_80098CF8_5 *)state)->unk_8C = s6;
-    ((S_80098CF8_5 *)state)->unk_A8 = 6;
-    ((S_80098CF8_5 *)state)->unk_98 = a1;
-    a1 = 0x80080000;
-    ASM_KEEP(a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((S_80098CF8_6 *)s3)->unk_BC = s2;
-    a2 = ((S_80098CF8_1 *)s2)->unk_00.at00.v;
-    ((S_80098CF8_5 *)state)->unk_9C = (u8 *)a1 + 0x1484;
-    ((S_80098CF8_6 *)s3)->unk_8C = 0;
-    ((S_80098CF8_6 *)s3)->unk_124 = 0;
-    ((S_80098CF8_7 *)((void *)a1))->unk_1484 = a2;
-    a1 = (s32)D_800DD0B8;
-    ((S_80098CF8_6 *)s3)->unk_9A = 0x1B;
-    ((S_80098CF8_6 *)s3)->unk_9B = 0;
-    (*(void * *)((u8 *)message + 0x2C)) = (void *)a1;
+            data_word = ((S_80098CF8_1 *)item)->unk_00.at00.v;
+            ((S_80098CF8_5 *)state)->unk_AC = 1;
+            ((S_80098CF8_5 *)state)->unk_90 = message;
+            ((S_80098CF8_5 *)state)->unk_8C = action;
+            ((S_80098CF8_5 *)state)->unk_A8 = 6;
+            ((S_80098CF8_5 *)state)->unk_98 = data_word;
+            data_word = 0x80080000;
+            ASM_KEEP(data_word);
+            ((S_80098CF8_6 *)actor)->unk_BC = item;
+            item_word = ((S_80098CF8_1 *)item)->unk_00.at00.v;
+            ((S_80098CF8_5 *)state)->unk_9C = (u8 *)data_word + 0x1484;
+            ((S_80098CF8_6 *)actor)->unk_8C = 0;
+            ((S_80098CF8_6 *)actor)->unk_124 = 0;
+            ((S_80098CF8_7 *)((void *)data_word))->unk_1484 = item_word;
+            data_word = (s32)D_800DD0B8;
+            ((S_80098CF8_6 *)actor)->unk_9A = 0x1B;
+            ((S_80098CF8_6 *)actor)->unk_9B = 0;
+            (*(void * *)((u8 *)message + 0x2C)) = (void *)data_word;
 
-    func_80048A44(
-        message,
-        ((u8 *)a1)[((D_80083228 + ((S_80098CF8_4 *)s4)->unk_2A + 0x100) >> 9) & 7],
-        0,
-        1);
-    func_800A56E0(0x511);
-    ((S_80098CF8_4 *)s4)->unk_1C |= 0x100000;
-    func_80098B38(s2);
+            func_80048A44(
+                message,
+                ((u8 *)data_word)[((D_80083228 + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                0,
+                1);
+            func_800A56E0(0x511);
+            ((S_80098CF8_4 *)actor_state)->unk_1C |= 0x100000;
+            func_80098B38(item);
+        }
     }
-    }
-    return s0;
+    return result;
 
 return_zero:
     return 0;
 }
-
-/* MECHANISM: The true-space CFG places the shared message tail above its backward caller.
-   Scoped guarded pins reproduce the s3/s6/s5/s2/s4 and a0/a1/a2 live ranges.
-   A held 0x80080000 page base plus named fences preserves the retail tail order. */

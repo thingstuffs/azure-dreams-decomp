@@ -30,43 +30,43 @@ extern s32 D_800D046C;
 
 extern s16 func_80094BC8(s32, s16);
 
-s32 func_80095760(void *arg0)
+/* Returns the status of the active entry matching the current direction. */
+s32 func_80095760(void *entries)
 {
-    s16 *var_a0;
-    s16 temp_v0;
-    s32 *var_a1;
-    s32 temp_a3;
-    s32 temp_v1;
-    u8 temp_v1_2;
-    s32 temp_t0;
-    s32 var_a2;
-    S_80095760_2 *temp_v0_2;
+    s16 *direction_ptr;
+    s16 angle;
+    s32 *slot_ptr;
+    s32 direction;
+    s32 slot;
+    u8 state;
+    s32 blocked_state;
+    s32 entry_index;
+    S_80095760_2 *entry;
 
-    temp_v0 = func_80094BC8(D_80083160.field_08, D_80083160.field_C8);
-    if (temp_v0 != -1) {
-        var_a2 = 0;
-        temp_a3 = ((temp_v0 + 0x100) / 0x200) & 7;
-        temp_t0 = 1;
-        var_a1 = &D_800D046C;
-        var_a0 = &D_800D0464;
+    angle = func_80094BC8(D_80083160.field_08, D_80083160.field_C8);
+    if (angle != -1) {
+        entry_index = 0;
+        direction = ((angle + 0x100) / 0x200) & 7;
+        blocked_state = 1;
+        slot_ptr = &D_800D046C;
+        direction_ptr = &D_800D0464;
 loop:
-        if (temp_a3 == *var_a0) {
-            temp_v1 = *var_a1;
-            if (((S_80095760_0 *)((u8 *)arg0 + temp_v1))->unk_3A != 0) {
-                temp_v0_2 = ((S_80095760_1 *)((u8 *)arg0 + temp_v1 * 4))->unk_1C;
-                temp_v1_2 = temp_v0_2->unk_14;
-                ASM_USE(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                ASM_USE2(var_a0, var_a1); /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
-                if (temp_v1_2 == temp_t0) {
+        if (direction == *direction_ptr) {
+            slot = *slot_ptr;
+            if (((S_80095760_0 *)((u8 *)entries + slot))->unk_3A != 0) {
+                entry = ((S_80095760_1 *)((u8 *)entries + slot * 4))->unk_1C;
+                state = entry->unk_14;
+                ASM_USE2(direction_ptr, slot_ptr); /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
+                if (state == blocked_state) {
                     return -1;
                 }
                 return 1;
             }
         }
-        var_a1++;
-        var_a2++;
-        var_a0++;
-        if (var_a2 < 4) {
+        slot_ptr++;
+        entry_index++;
+        direction_ptr++;
+        if (entry_index < 4) {
             goto loop;
         }
     }

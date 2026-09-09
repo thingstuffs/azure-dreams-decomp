@@ -55,105 +55,94 @@ typedef struct S_8016BD14_5 {
     u8 unk_7C;
 } S_8016BD14_5;   /* (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s in func_8016BD14 */
 
-void func_8016BD14(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register void *ctx ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 index;
-    s32 mode;
-    s16 next;
-    s32 result;
-    s32 raw;
-    register u8 *row ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 mode2;
-    s32 x;
-    s32 y;
-    s32 fifteen;
-    s32 tmp;
+/* Advance the entity along its path and update its heading and movement state. */
+void func_8016BD14(void *actor, void *action, void *entity, void *path_arg) {
+    register void *path;
+    s32 step_index;
+    s32 old_tile_flags;
+    s16 heading;
+    s32 move_result;
+    s32 raw_result;
+    register u8 *step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 new_tile_flags;
+    s32 tile_x;
+    s32 tile_y;
+    s32 move_state;
+    s32 next_x;
 
-    ctx = arg3;
+    path = path_arg;
 
-    if (((S_8016BD14_0 *)ctx)->unk_71.s <= 0) {
+    if (((S_8016BD14_0 *)path)->unk_71.s <= 0) {
         return;
     }
 
-    fifteen = 15;
-    if (((S_8016BD14_1 *)arg0)->unk_9A != fifteen) {
-        ((S_8016BD14_1 *)arg0)->unk_90 = 0;
-        ((S_8016BD14_2 *)arg1)->unk_14 = 0;
-        ((S_8016BD14_1 *)arg0)->unk_9D = 0;
+    move_state = 15;
+    if (((S_8016BD14_1 *)actor)->unk_9A != move_state) {
+        ((S_8016BD14_1 *)actor)->unk_90 = 0;
+        ((S_8016BD14_2 *)action)->unk_14 = 0;
+        ((S_8016BD14_1 *)actor)->unk_9D = 0;
     }
 
-    if (((S_8016BD14_0 *)ctx)->unk_71.u <= ((S_8016BD14_0 *)ctx)->unk_8A.s) {
+    if (((S_8016BD14_0 *)path)->unk_71.u <= ((S_8016BD14_0 *)path)->unk_8A.s) {
         return;
     }
 
-    if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_80174674) {
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80174674;
+    if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != D_80174674) {
+        (*(u8 * *)((u8 *)entity + (0x2C))) = D_80174674;
         func_80047784(
-            arg2,
-            D_80174674[((D_80083228 + ((S_8016BD14_0 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+            entity,
+            D_80174674[((D_80083228 + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    mode = ((S_8016BD14_0 *)ctx)->unk_1C;
-    x = ((Rec_D_80082E80 *)arg2)->unk_24;
-    y = ((Rec_D_80082E80 *)arg2)->unk_25;
-    mode = mode & 0x2000;
-    func_8009A3D0(x, y, mode ? 0x300 : 0x3000);
+    old_tile_flags = ((S_8016BD14_0 *)path)->unk_1C;
+    tile_x = ((Rec_D_80082E80 *)entity)->unk_24;
+    tile_y = ((Rec_D_80082E80 *)entity)->unk_25;
+    old_tile_flags = old_tile_flags & 0x2000;
+    func_8009A3D0(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
 
-    next = func_800A0818(x, y,
-                         ((S_8016BD14_5 *)((u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s))->unk_74,
-                         ((S_8016BD14_5 *)((u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s))->unk_7C,
-                         (u8 *)arg0 + 0x98);
-    raw = func_8009A66C(next, arg2, ctx, 0x20);
+    heading = func_800A0818(tile_x, tile_y,
+                         ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74,
+                         ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_7C,
+                         (u8 *)actor + 0x98);
+    raw_result = func_8009A66C(heading, entity, path, 0x20);
 
-    tmp = ((S_8016BD14_5 *)((u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s))->unk_74;
-    raw = raw << 16;
-    ((Rec_D_80082E80 *)arg2)->unk_24 = tmp;
-    row = (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s;
-    result = raw >> 16;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((Rec_D_80082E80 *)arg2)->unk_25 = ((S_8016BD14_4 *)row)->unk_7C;
-    index = ((S_8016BD14_0 *)ctx)->unk_8A.u;
-    mode2 = ((S_8016BD14_0 *)ctx)->unk_1C;
-    index = index + 1;
-    mode2 = mode2 & 0x2000;
-    ((S_8016BD14_0 *)ctx)->unk_8A.u = index;
-    func_8009A21C(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
-                  mode2 ? 0x300 : 0x3000);
-    ((S_8016BD14_0 *)ctx)->unk_2A = next;
+    next_x = ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74;
+    raw_result = raw_result << 16;
+    ((Rec_D_80082E80 *)entity)->unk_24 = next_x;
+    step = (u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s;
+    move_result = raw_result >> 16;
+    ASM_KEEP(move_result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ((Rec_D_80082E80 *)entity)->unk_25 = ((S_8016BD14_4 *)step)->unk_7C;
+    step_index = ((S_8016BD14_0 *)path)->unk_8A.u;
+    new_tile_flags = ((S_8016BD14_0 *)path)->unk_1C;
+    step_index = step_index + 1;
+    new_tile_flags = new_tile_flags & 0x2000;
+    ((S_8016BD14_0 *)path)->unk_8A.u = step_index;
+    func_8009A21C(((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25,
+                  new_tile_flags ? 0x300 : 0x3000);
+    ((S_8016BD14_0 *)path)->unk_2A = heading;
 
-    if (result == 3) {
-        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-            func_8016C698(arg0, arg1, arg2, ctx);
+    if (move_result == 3) {
+        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+            func_8016C698(actor, action, entity, path);
         } else {
-            ((S_8016BD14_1 *)arg0)->unk_9A = 15;
+            ((S_8016BD14_1 *)actor)->unk_9A = 15;
         }
     } else {
-        ((S_8016BD14_1 *)arg0)->unk_9A = fifteen;
+        ((S_8016BD14_1 *)actor)->unk_9A = move_state;
     }
 
-    ((S_8016BD14_1 *)arg0)->unk_8C = 0;
-    (*(s32 *)((u8 *)ctx + (0x1C))) |= 0x40000000;
+    ((S_8016BD14_1 *)actor)->unk_8C = 0;
+    (*(s32 *)((u8 *)path + (0x1C))) |= 0x40000000;
     if (D_80083462 & 0x80) {
-        ((S_8016BD14_1 *)arg0)->unk_96 = 0;
+        ((S_8016BD14_1 *)actor)->unk_96 = 0;
         return;
     }
 
-    ((S_8016BD14_1 *)arg0)->unk_96 = 8;
-    x = ((S_8016BD14_0 *)ctx)->unk_71.u;
-    if (x > 0) {
-        ((S_8016BD14_1 *)arg0)->unk_96 = 8 / x;
+    ((S_8016BD14_1 *)actor)->unk_96 = 8;
+    tile_x = ((S_8016BD14_0 *)path)->unk_71.u;
+    if (tile_x > 0) {
+        ((S_8016BD14_1 *)actor)->unk_96 = 8 / tile_x;
     }
 }
-
-/* MECHANISM: gcc's pre-reload scheduler (sched1) sinks a low-priority sll/sra
-   pair to the end of the block, so the (s16) narrowing of func_8009A66C's
-   return must be nailed down: split it into raw<<16 and raw>>16 and BRACKET it
-   with ASM_KEEP barriers (after the 0x74 byte load, after the sll, after the
-   sra).  sched1 then fills the two load-delay slots exactly as retail does --
-   sll after lbu 0x74, sra after the reloaded lh 0x8A -- which also frees $v0 in
-   time for lbu 0x7C.  Frame objects: arg3 held in a pinned $s1 (unpinning it
-   rebuilds the frame at -0x40/16 saved regs); the 0x7C row base pinned to $v1
-   because the $s1 hard-reg pin makes gcc allocate a fresh $v0 for that addu;
-   the two (x & 0x2000) mode flags are SEPARATE locals (one shared local forces
-   one register and loses retail's $v0/$v1 split). */

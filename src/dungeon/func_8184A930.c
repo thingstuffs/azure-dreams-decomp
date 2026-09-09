@@ -48,48 +48,43 @@ extern u8 D_80024048[9];
 extern u8 D_80045340[9];
 extern u8 D_800DE8E8[9];
 
-s32 func_80024130(s32 arg0, S_80024130_3 *arg1)
+/* Creates an object with the given context and position and randomized rotation. */
+s32 func_80024130(s32 context, S_80024130_3 *position)
 {
-    s32 temp_v1;
-    s32 var_v0;
-    S_80024130_1 *temp_s0;
-    S_80024130_0 *temp_v0;
-    S_80024130_2 *temp_v1_2;
-    s32 temp_a0;
-    register void *temp_ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 random_value;
+    s32 rounded_value;
+    S_80024130_1 *visual;
+    S_80024130_0 *object;
+    S_80024130_2 *object_pos;
+    s32 pos_z;
+    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != 0) {
-        temp_v0->unk_10 = D_80024048;
-        temp_s0 = temp_v0->unk_0C;
-        temp_v0->unk_2C = arg0;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        func_8003DB94(temp_s0, D_800DE8E8, 0);
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        var_v0 = rand();
-        temp_v1 = var_v0;
-        if (temp_v1 < 0) {
-            var_v0 = temp_v1 + 0xFFF;
+    object = func_8003FC64(0x212);
+    if (object != 0) {
+        object->unk_10 = D_80024048;
+        visual = object->unk_0C;
+        object->unk_2C = context;
+        visual->unk_0E = 0x80;
+        visual->unk_0D = 0x80;
+        visual->unk_0C = 0x80;
+        func_8003DB94(visual, D_800DE8E8, 0);
+        visual->unk_1E = 0x1000;
+        visual->unk_1C = 0x1000;
+        rounded_value = rand();
+        random_value = rounded_value;
+        if (random_value < 0) {
+            rounded_value = random_value + 0xFFF;
         }
-        temp_s0->unk_1A = temp_v1 - ((var_v0 >> 0xC) << 0xC);
-        func_8004491C(temp_v0, D_80045340);
-        temp_v1_2 = temp_v0->unk_08;
-        temp_v1_2->unk_02 = arg1->unk_02;
-        temp_v1_2->unk_06 = arg1->unk_06;
-        temp_a0 = arg1->unk_0A;
-        ASM_SCHED_BARRIER(); /* MATCH: keep the object-result move after the halfword loads. */
-        temp_ret = temp_v0;
-        ASM_KEEP(temp_ret);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        temp_v1_2->unk_0A = temp_a0;
+        visual->unk_1A = random_value - ((rounded_value >> 0xC) << 0xC);
+        func_8004491C(object, D_80045340);
+        object_pos = object->unk_08;
+        object_pos->unk_02 = position->unk_02;
+        object_pos->unk_06 = position->unk_06;
+        pos_z = position->unk_0A;
+        result = object;
+        object_pos->unk_0A = pos_z;
     } else {
-        temp_ret = 0;
+        result = 0;
     }
-    return (s32)temp_ret;
+    return (s32)result;
 }
-
-/* MECHANISM: The 0x28 frame follows from holding arg0/arg1 and the two object bases in s3/s2/s1/s0.
-   Guarded a0 and v0 carriers retain the final halfword copy and object result across the dispatcher.
-   LEAD 22 then emits j with the sh delay slot; u8 color fields preserve the +0x80 materialization. */

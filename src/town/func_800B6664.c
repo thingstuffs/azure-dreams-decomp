@@ -1,33 +1,34 @@
 #include "common.h"
 
-void func_800B3DC4(void *arg0) {
-    void **p;
-    void **q;
-    u8 *s1;
-    u8 *s2;
-    if (*((s32 *)(*(void ***)arg0) + 3) == 0) {
-        void *dead0;
-        void *dead1;
+/* Set the two entries' RGB values to bright or dim gray according to the object's flag. */
+void func_800B3DC4(void *object) {
+    void **dim_entry;
+    void **bright_entry;
+    u8 *bright_rgb;
+    u8 *dim_rgb;
+    if (*((s32 *)(*(void ***)object) + 3) == 0) {
+        void *first_entry;
+        void *second_entry;
 
-        p = *(void ***)((u8 *)arg0 + 0x5C);
-        dead0 = *(void **)p;
-        dead1 = *((void **)p + 1);
-        q = dead0;
-        p = dead1;
+        dim_entry = *(void ***)((u8 *)object + 0x5C);
+        first_entry = *(void **)dim_entry;
+        second_entry = *((void **)dim_entry + 1);
+        bright_entry = first_entry;
+        dim_entry = second_entry;
     } else {
 
-        p = *(void ***)((u8 *)arg0 + 0x5C);
-        q = *((void **)p + 1);
-        p = *(void **)p;
+        dim_entry = *(void ***)((u8 *)object + 0x5C);
+        bright_entry = *((void **)dim_entry + 1);
+        dim_entry = *(void **)dim_entry;
     }
     {
-        s1 = *((void **)q + 1);
-        s2 = *((void **)p + 1);
-        s1[0] = 0x80;
-        s1[1] = 0x80;
-        s1[2] = 0x80;
-        s2[0] = 0x40;
-        s2[1] = 0x40;
-        s2[2] = 0x40;
+        bright_rgb = *((void **)bright_entry + 1);
+        dim_rgb = *((void **)dim_entry + 1);
+        bright_rgb[0] = 0x80;
+        bright_rgb[1] = 0x80;
+        bright_rgb[2] = 0x80;
+        dim_rgb[0] = 0x40;
+        dim_rgb[1] = 0x40;
+        dim_rgb[2] = 0x40;
     }
 }

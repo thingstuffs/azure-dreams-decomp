@@ -30,16 +30,17 @@ extern void *D_80100E24_R;
 
 __asm__(".set D_80100E24_R, 0x80100E24");
 
+/* Creates and initializes the enabled town object using its saved or default position. */
 void func_800A64C0(void) {
-    s8 *temp_obj;
-    s8 *temp_s0;
-    s8 *temp_s1;
-    s32 *temp_s2;
-    s32 temp_s4;
-    s32 *temp_v0;
-    s32 temp_v1;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
+    s8 *object;
+    s8 *position;
+    s8 *state;
+    s32 *saved_position;
+    s32 object_resource;
+    s32 *default_position;
+    s32 coordinate;
+    s32 default_z;
+    s32 position_y;
 
     if (func_80033B2C(0xD) != 0) {
         if (func_80033B2C(0xE) != 0) {
@@ -51,37 +52,37 @@ void func_800A64C0(void) {
             D_80100E28 = D_800D0CE8;
             D_80100E20 = 0x1C0000;
         }
-        temp_obj = func_8009C390(D_80083498, 0, D_800A6684, 0);
-        if (temp_obj != NULL) {
-            temp_s0 = *(s8 **)(temp_obj + 8);
-            temp_s4 = *(s32 *)(temp_obj + 0xC);
-            temp_s2 = D_800D0C78;
-            *(s32 *)(temp_s0 + 0) = D_800D0C78[0];
-            temp_s1 = temp_obj + 0x20;
-            *(s32 *)(temp_s0 + 4) = temp_s2[1];
-            *(s32 *)(temp_s0 + 8) = temp_s2[2];
-            *(s16 *)(temp_s0 + 0xA) = func_800C2AE8(temp_s0);
+        object = func_8009C390(D_80083498, 0, D_800A6684, 0);
+        if (object != NULL) {
+            position = *(s8 **)(object + 8);
+            object_resource = *(s32 *)(object + 0xC);
+            saved_position = D_800D0C78;
+            *(s32 *)(position + 0) = D_800D0C78[0];
+            state = object + 0x20;
+            *(s32 *)(position + 4) = saved_position[1];
+            *(s32 *)(position + 8) = saved_position[2];
+            *(s16 *)(position + 0xA) = func_800C2AE8(position);
 
-            if ((u32)(*(s32 *)(temp_s0 + 8) + 0x300000) > 0x400000U) {
-                temp_v0 = D_800D0C60;
-                temp_v1 = temp_v0[0];
-                D_800D0C78[0] = temp_v1;
-                *(s32 *)(temp_s0 + 0) = temp_v1;
-                temp_v1 = temp_v0[1];
-                temp_s2[1] = temp_v1;
-                *(s32 *)(temp_s0 + 4) = temp_v1;
-                temp_v0_3 = temp_v0[2];
-                temp_s2[2] = temp_v0_3;
-                *(s32 *)(temp_s0 + 8) = temp_v0_3;
+            if ((u32)(*(s32 *)(position + 8) + 0x300000) > 0x400000U) {
+                default_position = D_800D0C60;
+                coordinate = default_position[0];
+                D_800D0C78[0] = coordinate;
+                *(s32 *)(position + 0) = coordinate;
+                coordinate = default_position[1];
+                saved_position[1] = coordinate;
+                *(s32 *)(position + 4) = coordinate;
+                default_z = default_position[2];
+                saved_position[2] = default_z;
+                *(s32 *)(position + 8) = default_z;
             }
 
-            temp_v0_4 = *(s32 *)(temp_s0 + 4);
-            *(s32 *)(temp_s1 + 0xA4) = temp_v0_4;
-            *(s32 *)(temp_s1 + 0xA0) = temp_v0_4;
-            func_8008F01C(temp_s1, temp_s0, D_800D0CAC);
-            func_8009B218(temp_s1, temp_s0, temp_s4, D_800D0C90);
-            func_800C2E84(temp_s1, temp_s4, D_80100E24_R);
-            *(s8 **)(temp_s1 - 0x10) = D_800A6684;
+            position_y = *(s32 *)(position + 4);
+            *(s32 *)(state + 0xA4) = position_y;
+            *(s32 *)(state + 0xA0) = position_y;
+            func_8008F01C(state, position, D_800D0CAC);
+            func_8009B218(state, position, object_resource, D_800D0C90);
+            func_800C2E84(state, object_resource, D_80100E24_R);
+            *(s8 **)(state - 0x10) = D_800A6684;
             func_800A6328(D_800D0D54, 0);
         }
     }

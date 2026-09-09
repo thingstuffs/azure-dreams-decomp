@@ -72,30 +72,31 @@ extern u8 D_80175DC0;
 extern u8 D_80175DC1;
 extern void *D_80164948[];
 
-void func_8016BE20(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances the actor sequence, then resets its state and updates world objects. */
+void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_arg)
 {
-    void *state = arg0;
-    void *work = arg1;
-    void *actor = arg2;
-    void *ctx = arg3;
+    void *state = state_arg;
+    void *work = work_arg;
+    void *actor = actor_arg;
+    void *ctx = ctx_arg;
     u8 *world;
-    u8 *table;
+    u8 *anim_table;
     u8 *control;
-    u8 *header;
+    u8 *object_header;
     void *object;
-    register void *setup ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u32 mask;
-    s32 i;
+    register void *setup_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u32 object_flag;
+    s32 object_index;
     u16 timer;
-    u16 flags;
+    u16 global_flags;
     u16 control_count;
     u8 state_index;
 
-    static void *const jt_keep[] = {
+    static void *const state_labels[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5
     };
 
-    (void)jt_keep;
+    (void)state_labels;
     state_index = ((S_8016BE20_0 *)state)->unk_9B.n;
     if ((u32)state_index >= 6) {
         return;
@@ -113,11 +114,11 @@ jt_c0:
 
 jt_c1:
     {
-        register u8 *table ASM_REG("$5"); /* MATCH: keep the merged table address in a1 across both arms. */
+        register u8 *anim_table ASM_REG("$5"); /* MATCH: keep the merged anim_table address in a1 across both arms. */
         if (D_80175DC1 == 0) {
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
-            table = D_80173A40;
+            anim_table = D_80173A40;
         } else {
             if (D_80175DC0 == 0) {
                 return;
@@ -125,11 +126,11 @@ jt_c1:
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
             func_800A56E0(0x300);
-            table = D_80173A40;
+            anim_table = D_80173A40;
         }
-        (*(u8 * *)((u8 *)actor + 0x2C)) = table;
+        (*(u8 * *)((u8 *)actor + 0x2C)) = anim_table;
         func_80047784(actor,
-            *(u8 *)((((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7) + (u32)table),
+            *(u8 *)((((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
             0);
         return;
     }
@@ -152,11 +153,11 @@ jt_c3:
         if (!(((S_8016BE20_3 *)actor)->unk_14 & 0xE000)) {
             return;
         }
-        table = D_801739B8;
-        if (((S_8016BE20_3 *)actor)->unk_2C != table) {
-            (*(u8 * *)((u8 *)actor + 0x2C)) = table;
+        anim_table = D_801739B8;
+        if (((S_8016BE20_3 *)actor)->unk_2C != anim_table) {
+            (*(u8 * *)((u8 *)actor + 0x2C)) = anim_table;
             func_80047784(actor,
-                table[((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         if (D_80175DC1 != 0) {
@@ -187,35 +188,34 @@ jt_c5:
             goto case5_failure;
         }
 
-        setup = D_80175392;
+        setup_data = D_80175392;
         ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
         control = (u8 *)&D_80083460;
         control_count = ((S_8016BE20_5 *)control)->unk_0A;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        i = 0;
-        ASM_KEEP_NV(i);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        object_index = 0;
         ((S_8016BE20_5 *)control)->unk_0C = 0;
         control_count++;
         ((S_8016BE20_5 *)control)->unk_0A = control_count;
         ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
-        flags = D_80013714;
+        global_flags = D_80013714;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        mask = 0x80000000;
-        ASM_USE(mask);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        D_80013714 = flags | 8;
-        func_800353F4(setup, work);
+        object_flag = 0x80000000;
+        ASM_USE(object_flag);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        D_80013714 = global_flags | 8;
+        func_800353F4(setup_data, work);
         ((S_8016BE20_2 *)ctx)->unk_6D = 0;
         ((S_8016BE20_0 *)state)->unk_9B.n = 0;
 
         for (;;) {
-            object = (*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + i * 4));
+            object = (*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + object_index * 4));
             if (object != 0) {
                 func_80164BA4(object);
-                header = (u8 *)(*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + i * 4)) - 0x20;
-                ((S_8016BE20_6 *)header)->unk_10 |= mask;
+                object_header = (u8 *)(*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + object_index * 4)) - 0x20;
+                ((S_8016BE20_6 *)object_header)->unk_10 |= object_flag;
             }
-            i++;
-            if (i >= 2) {
+            object_index++;
+            if (object_index >= 2) {
                 return;
             }
         }

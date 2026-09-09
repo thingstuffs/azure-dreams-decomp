@@ -19,120 +19,118 @@ extern s32 func_800A48F0__self_recurse(void *, s8, s8) __asm__("func_800A48F0");
 M2C_UNK func_800A4B88(void *, s8);
 M2C_UNK func_80042B68(void *, s32);
 
-s16 func_800A48F0(void *arg0, s32 arg1, s32 arg2) {
-    s32 var_a3;
-    s32 tail_value;
-    s32 var_s1;
-    s32 temp_a1;
-    s32 temp_v0;
-    s8 temp_v1;
-    register void *held_arg0 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 signed_arg1;
-    s32 first_arg1;
-    s32 second_arg1;
-    void *var_s0;
-    void *var_s0_2;
-    s32 signed_arg2;
+/* Updates or inserts a four-slot entry, clearing conflicts or evicting an entry when full. */
+s16 func_800A48F0(void *object, s32 id, s32 value) {
+    s32 min_id;
+    s32 result_shift;
+    s32 slot_index;
+    s32 slot_id;
+    s32 sign_diff;
+    s8 used_id;
+    register void *entry_owner ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 entry_id ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 entry_value ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 id_shift;
+    s32 match_id;
+    s32 insert_id;
+    void *match_slot;
+    void *free_slot;
+    s32 signed_value;
 
-    held_arg0 = arg0;
-    temp_a1 = arg1;
-    signed_arg2 = arg2;
-    held_arg1 = temp_a1;
-    held_arg2 = signed_arg2;
-    var_a3 = 0x100;
-    ASM_KEEP4_NV(held_arg0, held_arg1, held_arg2, var_a3);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    var_s1 = 3;
-    signed_arg1 = temp_a1 << 24;
-    first_arg1 = signed_arg1 >> 24;
-    signed_arg2 <<= 24;
-    signed_arg2 >>= 24;
-    var_s0 = held_arg0 + 6;
-loop_1:
-    temp_a1 = ((S_800A48F0_0 *)var_s0)->unk_2C;
-    if (temp_a1 == first_arg1) {
-        temp_v0 = ((S_800A48F0_0 *)var_s0)->unk_2D.s;
-        temp_v0 = (held_arg2 ^ temp_v0) & 0x80;
-        if (temp_v0 || (signed_arg2 == 0)) {
-            func_80042BDC(held_arg0, temp_a1, signed_arg2, var_a3);
-            ((S_800A48F0_0 *)var_s0)->unk_2C = 0;
-            ((S_800A48F0_0 *)var_s0)->unk_2D.u = 0;
+    entry_owner = object;
+    slot_id = id;
+    signed_value = value;
+    entry_id = slot_id;
+    entry_value = signed_value;
+    min_id = 0x100;
+    ASM_KEEP4_NV(entry_owner, entry_id, entry_value, min_id);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    slot_index = 3;
+    id_shift = slot_id << 24;
+    match_id = id_shift >> 24;
+    signed_value <<= 24;
+    signed_value >>= 24;
+    match_slot = entry_owner + 6;
+find_match:
+    slot_id = ((S_800A48F0_0 *)match_slot)->unk_2C;
+    if (slot_id == match_id) {
+        sign_diff = ((S_800A48F0_0 *)match_slot)->unk_2D.s;
+        sign_diff = (entry_value ^ sign_diff) & 0x80;
+        if (sign_diff || (signed_value == 0)) {
+            func_80042BDC(entry_owner, slot_id, signed_value, min_id);
+            ((S_800A48F0_0 *)match_slot)->unk_2C = 0;
+            ((S_800A48F0_0 *)match_slot)->unk_2D.u = 0;
         } else {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            ((S_800A48F0_0 *)var_s0)->unk_2D.s = (u8) held_arg2;
+            ((S_800A48F0_0 *)match_slot)->unk_2D.s = (u8) entry_value;
         }
-        func_800A4B88(held_arg0, (s8)(signed_arg1 >> 24));
+        func_800A4B88(entry_owner, (s8)(id_shift >> 24));
         ASM_SCHED_BARRIER(); /* MATCH: preserve the separate call and shared return tail. */
-        tail_value = var_s1 << 16;
+        result_shift = slot_index << 16;
         goto return_tail;
     }
-    var_s1 -= 1;
-    var_s0 -= 2;
-    if (var_s1 < 0) {
-        var_s1 = 3;
-        signed_arg1 = held_arg1 << 24;
-        second_arg1 = signed_arg1 >> 24;
-        var_s0_2 = held_arg0 + 6;
-loop_10:
-        temp_v1 = ((S_800A48F0_1 *)var_s0_2)->unk_2C;
-        if (temp_v1 == 0) {
+    slot_index -= 1;
+    match_slot -= 2;
+    if (slot_index < 0) {
+        slot_index = 3;
+        id_shift = entry_id << 24;
+        insert_id = id_shift >> 24;
+        free_slot = entry_owner + 6;
+find_free:
+        used_id = ((S_800A48F0_1 *)free_slot)->unk_2C;
+        if (used_id == 0) {
             {
-                void *call_arg0;
-                register s32 one ASM_REG("$5"); /* MATCH: merge the argument at the shared call. */
-                if (second_arg1 == 1) {
-                    call_arg0 = held_arg0;
-                    one = 4;
+                void *clear_owner;
+                register s32 conflict_id;
+                if (insert_id == 1) {
+                    clear_owner = entry_owner;
+                    conflict_id = 4;
                 } else {
-                    if (second_arg1 != 4) {
-                        goto skip_clear;
+                    if (insert_id != 4) {
+                        goto insert_entry;
                     }
-                    call_arg0 = held_arg0;
-                    one = 1;
-                    ASM_KEEP_DEP_NV(call_arg0, one);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                    clear_owner = entry_owner;
+                    conflict_id = 1;
                 }
-                func_80042B68(call_arg0, one);
+                func_80042B68(clear_owner, conflict_id);
             }
-skip_clear:
-            ((S_800A48F0_1 *)var_s0_2)->unk_2C = held_arg1;
-            ((S_800A48F0_1 *)var_s0_2)->unk_2D = held_arg2;
-            func_800A4B88(held_arg0, (s8)(signed_arg1 >> 24));
-            tail_value = var_s1 << 16;
+insert_entry:
+            ((S_800A48F0_1 *)free_slot)->unk_2C = entry_id;
+            ((S_800A48F0_1 *)free_slot)->unk_2D = entry_value;
+            func_800A4B88(entry_owner, (s8)(id_shift >> 24));
+            result_shift = slot_index << 16;
             goto return_tail;
         }
-        if (temp_v1 < (s16) var_a3) {
-            var_a3 = temp_v1;
+        if (used_id < (s16) min_id) {
+            min_id = used_id;
         }
-        var_s1 -= 1;
-        var_s0_2 -= 2;
-        if (var_s1 < 0) {
-            register s32 final_arg1_shift ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 final_min;
-            s32 final_arg1;
+        slot_index -= 1;
+        free_slot -= 2;
+        if (slot_index < 0) {
+            register s32 retry_id_shift ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 lowest_id;
+            s32 retry_id;
 
-            ASM_KEEP_NV(held_arg1);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            final_arg1_shift = held_arg1 << 24;
-            final_min = (s16) var_a3;
-            final_arg1 = final_arg1_shift >> 24;
+            ASM_KEEP_NV(entry_id);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            retry_id_shift = entry_id << 24;
+            lowest_id = (s16) min_id;
+            retry_id = retry_id_shift >> 24;
 
-            ASM_KEEP_NV(final_arg1_shift);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(final_min);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(final_arg1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            if (final_arg1 < final_min) {
-                goto final_less;
+            ASM_KEEP_NV(retry_id_shift);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(lowest_id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(retry_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            if (retry_id < lowest_id) {
+                goto replace_entry;
             }
 
-            ASM_SCHED_BARRIER(); /* MATCH: keep the guard before the recursive arm. */
             return -1;
 
-final_less:
-            func_80042B68(held_arg0, (s8) var_a3);
-            tail_value = func_800A48F0__self_recurse(held_arg0, (s8)(final_arg1_shift >> 24), (s8)held_arg2) << 16;
+replace_entry:
+            func_80042B68(entry_owner, (s8) min_id);
+            result_shift = func_800A48F0__self_recurse(entry_owner, (s8)(retry_id_shift >> 24), (s8)entry_value) << 16;
             goto return_tail;
         }
-        goto loop_10;
+        goto find_free;
     }
-    goto loop_1;
+    goto find_match;
 return_tail:
-    return tail_value >> 16;
+    return result_shift >> 16;
 }

@@ -57,110 +57,106 @@ extern Counter D_80026472;
 extern Flag D_80026474;
 extern Flags D_800814A0;
 
-void func_80024CD4(void *arg0, S_80024CD4_2 *arg1, S_80024CD4_1 *arg2) {
+/* Advance the effect state, update its ramp and color, and apply its transform. */
+void func_80024CD4(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) {
     s16 state;
-    u16 temp_a3;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v1_2;
-    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 call_a1;
+    u16 rising_value;
+    u16 ramp_or_red;
+    u16 delay_left;
+    u16 final_ramp;
+    u16 decaying_value;
+    register void *call_transform ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 base_value;
 
     D_80026472.value++;
-    state = ((S_80024CD4_0 *)arg0)->unk_0A.s;
+    state = ((S_80024CD4_0 *)effect)->unk_0A.s;
     if (state == 1) {
-        goto state_1;
+        goto wait_signal;
     }
     if (state < 2) {
         if (state == 0) {
-            goto state_0;
+            goto ramp_up;
         }
-        temp_v0 = 0x20;
-        arg2->unk_0C = temp_v0;
+        ramp_or_red = 0x20;
+        visual->unk_0C = ramp_or_red;
         goto finish_colors;
     }
     if (state == 2) {
-        goto state_2;
+        goto wait_delay;
     }
     if (state == 3) {
-        goto state_3;
+        goto ramp_out;
     }
 
-    temp_v0 = 0x20;
-    arg2->unk_0C = temp_v0;
+    ramp_or_red = 0x20;
+    visual->unk_0C = ramp_or_red;
     goto finish_colors;
 
-state_0:
-    temp_v0 = arg2->unk_06.s + 0x80;
-    arg2->unk_06.s = temp_v0;
-    if ((s16) temp_v0 < 0x101) {
-        temp_v0 = 0x20;
+ramp_up:
+    ramp_or_red = visual->unk_06.s + 0x80;
+    visual->unk_06.s = ramp_or_red;
+    if ((s16) ramp_or_red < 0x101) {
+        ramp_or_red = 0x20;
         goto finish;
     }
-    arg2->unk_06.s = 0x100U;
-    if (((S_80024CD4_0 *)arg0)->unk_22 < 0x61) {
-        call_a0 = arg1;
-        call_a1 = ((S_80024CD4_0 *)arg0)->unk_16;
-        temp_v1_2 = ((S_80024CD4_0 *)arg0)->unk_18.s;
-        temp_a3 = ((S_80024CD4_0 *)arg0)->unk_1C;
-        ASM_USE2(temp_v1_2, temp_a3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_v1_2 =
-            (u16) (temp_v1_2 - ((s32) (temp_v1_2 << 0x10) >> 0x13));
-        temp_a3 += 0x80;
-        ASM_USE(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ((S_80024CD4_0 *)arg0)->unk_1C = temp_a3;
-        ((S_80024CD4_0 *)arg0)->unk_18.u = temp_v1_2;
-        func_8002522C(call_a0, call_a1,
-            ((S_80024CD4_0 *)arg0)->unk_18.p, (s16) temp_a3,
-            arg0 - 0x20);
+    visual->unk_06.s = 0x100U;
+    if (((S_80024CD4_0 *)effect)->unk_22 < 0x61) {
+        call_transform = transform;
+        base_value = ((S_80024CD4_0 *)effect)->unk_16;
+        decaying_value = ((S_80024CD4_0 *)effect)->unk_18.s;
+        rising_value = ((S_80024CD4_0 *)effect)->unk_1C;
+        ASM_USE2(decaying_value, rising_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        decaying_value =
+            (u16) (decaying_value - ((s32) (decaying_value << 0x10) >> 0x13));
+        rising_value += 0x80;
+        ASM_USE(rising_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ((S_80024CD4_0 *)effect)->unk_1C = rising_value;
+        ((S_80024CD4_0 *)effect)->unk_18.u = decaying_value;
+        func_8002522C(call_transform, base_value,
+            ((S_80024CD4_0 *)effect)->unk_18.p, (s16) rising_value,
+            effect - 0x20);
     }
-    ((S_80024CD4_0 *)arg0)->unk_0A.u++;
-    if (((S_80024CD4_0 *)arg0)->unk_22 != 0x6F) {
-        temp_v0 = 0x20;
+    ((S_80024CD4_0 *)effect)->unk_0A.u++;
+    if (((S_80024CD4_0 *)effect)->unk_22 != 0x6F) {
+        ramp_or_red = 0x20;
         goto finish;
     }
     D_80026474.value = 1;
-    goto set_20;
+    goto set_red;
 
-state_1:
+wait_signal:
     if (D_80026474.value == 0) {
-        goto set_20;
+        goto set_red;
     }
-    arg2->unk_06.u = -0x100;
-    ((S_80024CD4_0 *)arg0)->unk_1A = 0x10U;
-    ((S_80024CD4_0 *)arg0)->unk_0A.u++;
-    goto set_20;
+    visual->unk_06.u = -0x100;
+    ((S_80024CD4_0 *)effect)->unk_1A = 0x10U;
+    ((S_80024CD4_0 *)effect)->unk_0A.u++;
+    goto set_red;
 
-state_2:
-    temp_v0_2 = ((S_80024CD4_0 *)arg0)->unk_1A - 1;
-    ((S_80024CD4_0 *)arg0)->unk_1A = temp_v0_2;
-    if ((temp_v0_2 << 0x10) > 0) {
-        temp_v0 = 0x20;
+wait_delay:
+    delay_left = ((S_80024CD4_0 *)effect)->unk_1A - 1;
+    ((S_80024CD4_0 *)effect)->unk_1A = delay_left;
+    if ((delay_left << 0x10) > 0) {
+        ramp_or_red = 0x20;
         goto finish;
     }
-    ((S_80024CD4_0 *)arg0)->unk_0A.u++;
+    ((S_80024CD4_0 *)effect)->unk_0A.u++;
 
-state_3:
-    temp_v0_3 = arg2->unk_06.s + 0x80;
-    arg2->unk_06.s = temp_v0_3;
-    if ((s16) temp_v0_3 >= 0) {
-        ((S_80024CD4_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+ramp_out:
+    final_ramp = visual->unk_06.s + 0x80;
+    visual->unk_06.s = final_ramp;
+    if ((s16) final_ramp >= 0) {
+        ((S_80024CD4_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0.value |= 0x8000;
     }
 
-set_20:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    temp_v0 = 0x20;
+set_red:
+    ramp_or_red = 0x20;
 
 finish:
-    arg2->unk_0C = temp_v0;
+    visual->unk_0C = ramp_or_red;
 finish_colors:
-    arg2->unk_0D = 0xE0;
-    arg2->unk_0E = 0x40;
-    func_800262AC(arg1->unk_02, arg1->unk_06, arg1->unk_0A);
+    visual->unk_0D = 0xE0;
+    visual->unk_0E = 0x40;
+    func_800262AC(transform->unk_02, transform->unk_06, transform->unk_0A);
 }
-
-/* MECHANISM: Padded globals force retail hi/lo bases; goto layout preserves the state CFG and noreturn tails.
-   A volatile u16 store forces the sh/lh narrowing round trip, while the set_20 fence fixes its delay-slot edge.
-   Guarded a0/a1 pins plus zero-byte liveness fences reproduce the final call-argument schedule. */

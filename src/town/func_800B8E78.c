@@ -40,52 +40,51 @@ typedef struct S_800B65D8_3 {
     s32 * unk_5C;
 } S_800B65D8_3;   /* base in func_800B65D8 */
 
-void func_800B65D8(void *arg0, s32 arg1) {
+/* Updates two display entries for the mode and adjusts their spacing. */
+void func_800B65D8(void *display, s32 display_mode) {
     S_800B65D8_3 *base;
     s32 mode;
-    s32 var_s3;
-    s32 var_s2;
+    s32 total_width;
+    s32 entry_index;
     u8 *lookup;
-    void *var_s4;
-    s32 temp_v0_2;
-    register s32 temp_v0 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 var_a1;
-    s32 var_s0;
-    S_800B65D8_1 *temp_s1;
-    S_800B65D8_2 *temp_ptr;
+    void *entry_slot;
+    s32 x_offset;
+    register s32 width ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 spacing;
+    s32 entry_id;
+    S_800B65D8_1 *entry;
+    S_800B65D8_2 *position;
 
-    base = arg0;
-    mode = arg1;
-    var_s2 = (var_s3 = 0);
+    base = display;
+    mode = display_mode;
+    entry_index = (total_width = 0);
     lookup = D_80089344;
-    var_s4 = base;
+    entry_slot = base;
     ASM_KEEP(lookup);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     do {
-        temp_s1 = ((S_800B65D8_0 *)var_s4)->unk_50;
-        var_s0 = func_80048DA0(mode, *(u8 *)((s32)var_s2 + (s32)lookup));
-        if ((var_s2 == 0) && (mode == 4)) {
-            var_s0 -= 1;
+        entry = ((S_800B65D8_0 *)entry_slot)->unk_50;
+        entry_id = func_80048DA0(mode, *(u8 *)((s32)entry_index + (s32)lookup));
+        if ((entry_index == 0) && (mode == 4)) {
+            entry_id -= 1;
         }
-        temp_s1->unk_00 = func_80048DCC(var_s0);
-        temp_v0 = func_80048DE8(var_s0);
-        if (temp_v0 == 0x10) {
-            ((S_800B65D8_5 *)(((S_800B65D8_4 *)temp_s1)->unk_04))->unk_0A = 0;
+        entry->unk_00 = func_80048DCC(entry_id);
+        width = func_80048DE8(entry_id);
+        if (width == 0x10) {
+            ((S_800B65D8_5 *)(((S_800B65D8_4 *)entry)->unk_04))->unk_0A = 0;
         } else {
-            temp_v0_2 = var_s3 - (var_s2 * 8);
-            temp_ptr = temp_s1->unk_04;
-            ASM_KEEP(temp_ptr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            var_s3 += temp_v0;
-            temp_ptr->unk_0A = temp_v0_2;
-            ASM_KEEP(temp_ptr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            x_offset = total_width - (entry_index * 8);
+            position = entry->unk_04;
+            total_width += width;
+            position->unk_0A = x_offset;
         }
-        var_s2 += 1;
-        var_s4 += 4;
-    } while (var_s2 < 2);
-    var_a1 = 0;
-    if (var_s3 != 0) {
-        var_a1 = var_s3 - 0x14;
+        entry_index += 1;
+        entry_slot += 4;
+    } while (entry_index < 2);
+    spacing = 0;
+    if (total_width != 0) {
+        spacing = total_width - 0x14;
     }
-    func_800B6580(*base->unk_5C, var_a1);
+    func_800B6580(*base->unk_5C, spacing);
 }

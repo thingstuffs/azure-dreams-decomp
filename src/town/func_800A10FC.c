@@ -51,55 +51,48 @@ extern M2C_UNK D_80045340;
 extern M2C_UNK D_8006E240;
 extern s32 D_800D09C8[];
 
-void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
-    u8 *page = (u8 *)0x80010000;
+/* Initialize the entity from its table entry and invoke its callback. */
+void func_8009E85C(void *entity, S_8009E85C_1 *placement, S_8009E85C_2 *state) {
+    u8 *table_page = (u8 *)0x80010000;
     s32 *active_base;
     s32 active;
     s32 init_flags;
-    S_8009E85C_4 *tail_self;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register M2C_UNK (*callback)(void *, void *, void *) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *call_a0;
-    void *call_a1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *call_a2;
+    S_8009E85C_4 *tail_entity;
+    register M2C_UNK (*callback)(void *, void *, void *) ASM_REG("$3");
+    void *callback_entity;
+    void *callback_placement;
+    void *callback_state;
     u16 flags;
-    u8 temp_v1;
+    u8 entry_type;
 
-    ((S_8009E85C_0_pre *)arg0)[-1].unk_00 = D_8009E714;
-    ((Rec_func_80094268_arg0 *)arg0)->unk_A0 = 0xFFE00000;
-    arg1->unk_08 = 0xFFE00000;
-    ((Rec_func_80094268_arg0 *)arg0)->unk_4C = page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x980];
-    temp_v1 = page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x981];
-    ((Rec_func_80094268_arg0 *)arg0)->unk_4D = temp_v1;
-    if (temp_v1 == 0x12) {
-        arg2->unk_08 = &D_8006E240;
+    ((S_8009E85C_0_pre *)entity)[-1].unk_00 = D_8009E714;
+    ((Rec_func_80094268_arg0 *)entity)->unk_A0 = 0xFFE00000;
+    placement->unk_08 = 0xFFE00000;
+    ((Rec_func_80094268_arg0 *)entity)->unk_4C = table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4) + 0x980];
+    entry_type = table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4) + 0x981];
+    ((Rec_func_80094268_arg0 *)entity)->unk_4D = entry_type;
+    if (entry_type == 0x12) {
+        state->unk_08 = &D_8006E240;
     } else {
-        func_8009DC8C(arg0, arg2, ((Rec_func_80094268_arg0 *)arg0)->unk_4C, ((S_8009E85C_6 *)(page + ((page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x983] & 0x3F) * 0x54)))->unk_A94);
+        func_8009DC8C(entity, state, ((Rec_func_80094268_arg0 *)entity)->unk_4C, ((S_8009E85C_6 *)(table_page + ((table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4) + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
-    func_80033CD8(arg0, &D_80045340);
+    func_80033CD8(entity, &D_80045340);
     init_flags = 0x20;
     active_base = (s32 *)0x800D0000;
-    arg2->unk_10 = init_flags;
-    flags = arg2->unk_14.s;
+    state->unk_10 = init_flags;
+    flags = state->unk_14.s;
     active = ((S_8009E85C_3 *)active_base)->unk_9C8;
-    arg2->unk_14.u = (u16)(flags | 0x1C);
-    tail_self = arg0;
+    state->unk_14.u = (u16)(flags | 0x1C);
+    tail_entity = entity;
     if (active == 0) {
-        ((Rec_func_80094268_arg0 *)arg0)->unk_6C.as_s16 = func_800374F4(0x1000);
+        ((Rec_func_80094268_arg0 *)entity)->unk_6C.as_s16 = func_800374F4(0x1000);
     } else {
-        /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        tail_self->unk_6C = 0;
+        tail_entity->unk_6C = 0;
     }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    call_a0 = tail_self;
-    call_a1 = arg1;
-    call_a2 = arg2;
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    callback = ((S_8009E85C_5_pre *)call_a0)[-1].unk_00;
+    callback_entity = tail_entity;
+    callback_placement = placement;
+    callback_state = state;
+    callback = ((S_8009E85C_5_pre *)callback_entity)[-1].unk_00;
     D_800D09C8[0] = 0;
-    callback(call_a0, call_a1, call_a2);
+    callback(callback_entity, callback_placement, callback_state);
 }
-
-/* MECHANISM: A held 0x80010000 page recreates retail's shared a1 table base and argument lifetimes.
-   A split volatile RMW plus guarded v0/v1 roles interleaves the flag and global loads without a nop.
-   Pinned tail ABI roles and ASM_MEM_BARRIER keep the s0 store before a0-a2 setup and the global clear
-   in the indirect-call delay slot. */

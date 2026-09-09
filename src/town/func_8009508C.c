@@ -58,73 +58,74 @@ typedef struct S_800927EC_5 {
     s32 unk_50;
 } S_800927EC_5;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_2C in func_800927EC */
 
-void func_800927EC(void *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    u8 *state = D_80083160;
-    M2C_UNK *var_v0;
-    s16 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v1;
+/* Update the actor and dispatch town movement and interaction input. */
+void func_800927EC(void *actor, Rec_D_800E3D7C *position, M2C_UNK context) {
+    u8 *input = D_80083160;
+    M2C_UNK *interaction;
+    s16 ground_height;
+    s32 interaction_result;
+    s32 target_handler;
 
-    func_80095C80(arg1);
-    func_80094C1C(arg0);
-    func_80095094(arg1);
-    temp_v0 = func_80095978(arg1, &D_800FE488);
-    if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
+    func_80095C80(position);
+    func_80094C1C(actor);
+    func_80095094(position);
+    ground_height = func_80095978(position, &D_800FE488);
+    if ((ground_height - position->unk_08.at02_s16.v) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            func_80094660(arg0, arg1, arg2);
+            func_80094660(actor, position, context);
             return;
         }
-        goto block_6;
+        goto handle_input;
     }
     if (D_800CFCEF[0] == 0) {
-        func_80095A94(arg1, temp_v0, &D_800FE488);
+        func_80095A94(position, ground_height, &D_800FE488);
     }
-block_6:
-    if (((S_800927EC_1 *)state)->unk_10 & 0x10) {
-        func_800945B8(arg0, arg1, arg2);
+handle_input:
+    if (((S_800927EC_1 *)input)->unk_10 & 0x10) {
+        func_800945B8(actor, position, context);
         return;
     }
-    if (((S_800927EC_1 *)state)->unk_10 & 0x80) {
+    if (((S_800927EC_1 *)input)->unk_10 & 0x80) {
         if ((D_800CFCC4 != NULL) && (((Rec_D_800CFCC4 *)D_800CFCC4)->unk_14 == 4)) {
-            func_8009550C(arg1);
-            func_80094774(arg0, arg1, arg2);
+            func_8009550C(position);
+            func_80094774(actor, position, context);
             D_800FE518[0] = 1;
             return;
         }
-        func_80099754(arg1);
-        func_8009550C(arg1);
-        if (func_80094B0C(arg0 - 0x20) != 0) {
-            func_80093D38(arg0, arg1, arg2);
+        func_80099754(position);
+        func_8009550C(position);
+        if (func_80094B0C(actor - 0x20) != 0) {
+            func_80093D38(actor, position, context);
             D_800FE5D8 = &D_80093B00;
             return;
         }
     } else {
-        if (((S_800927EC_1 *)state)->unk_10 & 0x40) {
-            func_800946A0(arg0, arg1, arg2);
+        if (((S_800927EC_1 *)input)->unk_10 & 0x40) {
+            func_800946A0(actor, position, context);
             return;
         }
         if ((func_80095760(&D_800CFCB4) == -1) && (func_8009FF50() == 0)) {
             func_8009567C(&D_800CFCB4);
-            func_80094C1C(arg0);
-            func_800988C8(arg0, arg1, arg2);
-            temp_v1 = ((S_800927EC_5 *)(((Rec_func_80094268_arg0 *)arg0)->unk_2C))->unk_50;
-            if ((temp_v1 != &D_8009B828) && (temp_v1 != &D_8009B8E8)) {
-                if (temp_v1 != &D_8009B9BC) {
-                    ((Rec_func_80094268_arg0 *)arg0)->unk_2C = NULL;
+            func_80094C1C(actor);
+            func_800988C8(actor, position, context);
+            target_handler = ((S_800927EC_5 *)(((Rec_func_80094268_arg0 *)actor)->unk_2C))->unk_50;
+            if ((target_handler != &D_8009B828) && (target_handler != &D_8009B8E8)) {
+                if (target_handler != &D_8009B9BC) {
+                    ((Rec_func_80094268_arg0 *)actor)->unk_2C = NULL;
                 }
             }
-            var_v0 = &D_800CFCB4;
-            temp_v0_2 = func_800A9D74(((S_800927EC_4 *)var_v0)->unk_10, ((Rec_func_80094268_arg0 *)arg0)->unk_2C);
-            if (temp_v0_2 != 0) {
-                func_80035208(temp_v0_2);
+            interaction = &D_800CFCB4;
+            interaction_result = func_800A9D74(((S_800927EC_4 *)interaction)->unk_10, ((Rec_func_80094268_arg0 *)actor)->unk_2C);
+            if (interaction_result != 0) {
+                func_80035208(interaction_result);
             } else {
-                func_8008B158(((S_800927EC_4 *)var_v0)->unk_10);
+                func_8008B158(((S_800927EC_4 *)interaction)->unk_10);
             }
             D_800FE5D8 = &D_80093B00;
             return;
         }
-        if (((S_800927EC_1 *)state)->unk_08 & 0xF000) {
-            func_8009455C(arg0, arg1, arg2);
+        if (((S_800927EC_1 *)input)->unk_08 & 0xF000) {
+            func_8009455C(actor, position, context);
         }
     }
 }

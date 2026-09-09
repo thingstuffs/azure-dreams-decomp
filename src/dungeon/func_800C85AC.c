@@ -17,54 +17,53 @@ extern void func_800A56E0(s32);
 extern void func_800C8DB0(void *, s32, s32);
 extern void func_800C5E5C(s32, s32, s32, void *, s32);
 
-s32 func_800CDD0C(void *arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Applies a chance-based effect, with visual and sound feedback for unflagged entries. */
+s32 func_800CDD0C(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
 {
-    register s32 result ASM_REG("$2"); /* MATCH: Keep the divisor and merged tail value in retail v0. */
-    register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 random ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 range;
-    s32 amount;
+    register s32 roll ASM_REG("$2");
+    register s32 remainder ASM_REG("$3");
+    register s32 random_value ASM_REG("$4");
+    s32 roll_range;
+    s32 effect_amount;
     Entry *entry;
 
     if (D_800E3D40[0] != 0) {
-        goto main_path;
+        goto zero_roll;
     }
-    random = func_800A6D30(arg0, arg1, arg2, arg3) & 0xFFFF;
-    range = *(u8 *)((u8 *)arg0 + 3);
-    if (range == 0) {
-        goto main_path;
+    random_value = func_800A6D30(state, rng_arg1, rng_arg2, rng_arg3) & 0xFFFF;
+    roll_range = *(u8 *)((u8 *)state + 3);
+    if (roll_range == 0) {
+        goto zero_roll;
     }
-    result = range;
-    ASM_USE(range);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    remainder = random % result;
-    ASM_USE(remainder);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    result = remainder;
-    goto shared_tail;
+    roll = roll_range;
+    ASM_USE(roll_range);
+    remainder = random_value % roll;
+    roll = remainder;
+    goto check_roll;
 
-main_path:
-    result = 0;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+zero_roll:
+    roll = 0;
 
-shared_tail:
-    if (result < 0x30) {
-        amount = 0x20;
+check_roll:
+    if (roll < 0x30) {
+        effect_amount = 0x20;
         if (D_800E3D40[0] != 0) {
-            amount = 0x400;
+            effect_amount = 0x400;
         }
-        func_800C8DB0(arg0, amount, 0x10);
+        func_800C8DB0(state, effect_amount, 0x10);
 
-        entry = *(Entry **)((u8 *)arg0 - 0x14);
+        entry = *(Entry **)((u8 *)state - 0x14);
         if (!(entry->flags & 0x8000)) {
             func_800C5E5C((entry->x << 6) | 0x20,
                           (entry->y << 6) | 0x20,
-                          *(s16 *)((u8 *)arg0 + 0x88), D_800DF870, 0);
+                          *(s16 *)((u8 *)state + 0x88), D_800DF870, 0);
             func_800A56E0(0x70A);
             return 1;
         }
         return 1;
     }
 
-    if (*(u8 *)((u8 *)arg0 + 0x13) == 0) {
+    if (*(u8 *)((u8 *)state + 0x13) == 0) {
         func_800A6508();
     }
     return 1;

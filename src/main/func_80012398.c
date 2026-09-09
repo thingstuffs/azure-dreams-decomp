@@ -29,39 +29,40 @@ typedef struct S_80025398_1 {
     s32 unk_04;
 } S_80025398_1;   /* var_s0 in func_80025398 */
 
-void func_80025398(void *arg0) {
-    s32 temp_a0;
-    s32 var_s1;
-    void *var_a0;
-    void *var_s0;
+/* Process five context entries if checks pass, or schedule the fallback callback. */
+void func_80025398(void *context) {
+    s32 entry_value;
+    s32 entry_count;
+    void *owner;
+    void *entry_cursor;
 
-    if (func_80021FF0(((S_80025398_0 *)arg0)->unk_2C, 0x80010000, 0) == 0) {
-        var_a0 = (u8 *)arg0 - 0x20;
+    if (func_80021FF0(((S_80025398_0 *)context)->unk_2C, 0x80010000, 0) == 0) {
+        owner = (u8 *)context - 0x20;
         goto tail;
     }
-    func_80025358(0x80010000, ((S_80025398_0 *)arg0)->unk_28);
-    if (func_80021F18(((S_80025398_0 *)arg0)->unk_28, 0x80010000) == 0) {
-        var_a0 = (u8 *)arg0 - 0x20;
+    func_80025358(0x80010000, ((S_80025398_0 *)context)->unk_28);
+    if (func_80021F18(((S_80025398_0 *)context)->unk_28, 0x80010000) == 0) {
+        owner = (u8 *)context - 0x20;
         goto tail;
     }
     func_8002519C(0x80010000);
-    var_s1 = 0;
+    entry_count = 0;
     func_800220DC();
-    var_s0 = arg0;
+    entry_cursor = context;
     do {
-        temp_a0 = ((S_80025398_1 *)var_s0)->unk_04;
-        var_s0 = (u8 *)var_s0 + 4;
-        var_s1 += 1;
-        func_80024298(temp_a0);
-    } while (var_s1 < 5);
-    func_80024FFC(arg0);
+        entry_value = ((S_80025398_1 *)entry_cursor)->unk_04;
+        entry_cursor = (u8 *)entry_cursor + 4;
+        entry_count += 1;
+        func_80024298(entry_value);
+    } while (entry_count < 5);
+    func_80024FFC(context);
     goto finish;
 
 tail:
-    *(void (**)(void))((u8 *)arg0 + 0x34) = (void (*)(void))func_80024FFC;
-    func_800230F4(var_a0);
-    *(void * volatile *)((u8 *)arg0 - 0x10) = (void *)D_80024F7C;
+    *(void (**)(void))((u8 *)context + 0x34) = (void (*)(void))func_80024FFC;
+    func_800230F4(owner);
+    *(void * volatile *)((u8 *)context - 0x10) = (void *)D_80024F7C;
 finish:
     func_80020984();
-    ((S_80025398_0 *)arg0)->unk_40 = 0;
+    ((S_80025398_0 *)context)->unk_40 = 0;
 }

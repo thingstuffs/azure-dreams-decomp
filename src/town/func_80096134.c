@@ -81,39 +81,40 @@ typedef struct S_80093894_4 {
     void * unk_2C;
 } S_80093894_4;   /* object in func_80093894 */
 
+/* Checks the current selection, displays rejection messages, or creates and selects an object. */
 void func_80093894(void) {
     Unk96134Work work;
     u8 *data;
     u8 *context;
     u8 *object;
-    S_80093894_2 *arg1;
-    void *arg2;
-    void *result;
-    u32 byte1;
-    s32 delta;
+    S_80093894_2 *position;
+    void *callback_data;
+    void *created_entry;
+    u32 state_code;
+    s32 state_index;
     s32 state_is_12_or_13;
-    s32 check;
+    s32 is_available;
     s32 mode;
 
     data = D_80083498;
     object = data + 0x20;
     context = D_80110EB8;
-    arg1 = ((S_80093894_0 *)data)->unk_08;
-    arg2 = ((S_80093894_0 *)data)->unk_0C;
+    position = ((S_80093894_0 *)data)->unk_08;
+    callback_data = ((S_80093894_0 *)data)->unk_0C;
 
     if (((S_80093894_1 *)context)->unk_08 == 3) {
         Unk96134Bytes *source = ((S_80093894_1 *)context)->unk_00;
 
         work.bytes.unk0 = source->unk0;
-        byte1 = source->unk1;
-        work.bytes.unk1 = byte1;
+        state_code = source->unk1;
+        work.bytes.unk1 = state_code;
         work.bytes.unk2 = source->unk2;
         work.bytes.unk3 = source->unk3;
-        delta = byte1 - 0x12;
-        state_is_12_or_13 = (u32)delta < 2;
-        check = func_8009FF50(delta) == 1;
+        state_index = state_code - 0x12;
+        state_is_12_or_13 = (u32)state_index < 2;
+        is_available = func_8009FF50(state_index) == 1;
 
-        if (!check) {
+        if (!is_available) {
             register void *message ASM_REG("$4"); /* MATCH: keep the merged message address in the retail argument register. */
             void *callback_slot;
             register void (*callback)(void *, void *, void *) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -129,7 +130,7 @@ void func_80093894(void) {
                 message = D_80088C8C;
             }
             func_8008B5D8(message, 0x11);
-            func_800947BC(object, arg1, arg2);
+            func_800947BC(object, position, callback_data);
             callback_slot = &D_800FE5D8;
             callback = (void (*)(void *, void *, void *))&D_80093D48;
             *(void (**)(void *, void *, void *))callback_slot = callback;
@@ -150,7 +151,7 @@ void func_80093894(void) {
                 message = D_80088D04;
             }
             func_8008B5D8(message, 0x11);
-            func_800947BC(object, arg1, arg2);
+            func_800947BC(object, position, callback_data);
             D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
 reset:
             D_800FE518 = 0;
@@ -158,9 +159,9 @@ reset:
         }
 
 process:
-        work.pos.unk0 = arg1->unk_00;
-        work.pos.unk4 = arg1->unk_04;
-        work.pos.unk8 = arg1->unk_08 + D_800D0428;
+        work.pos.unk0 = position->unk_00;
+        work.pos.unk4 = position->unk_04;
+        work.pos.unk8 = position->unk_08 + D_800D0428;
         mode = 0;
         if (state_is_12_or_13) {
             register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -169,23 +170,23 @@ process:
             zero = 0;
 #else
 #endif
-            mode = (u32)zero < (u32)check;
+            mode = (u32)zero < (u32)is_available;
         }
-        result = func_8009DFD8(((S_80093894_3 *)(&D_80110EB8))->unk_00, &work.pos, mode);
-        if (result != 0) {
+        created_entry = func_8009DFD8(((S_80093894_3 *)(&D_80110EB8))->unk_00, &work.pos, mode);
+        if (created_entry != 0) {
             Unk96134State *state = (Unk96134State *)D_800CFCB4;
-            void *next;
+            void *next_object;
 
-            next = (u8 *)result + 0x20;
-            ((S_80093894_4 *)object)->unk_2C = next;
-            state->unk10 = next;
+            next_object = (u8 *)created_entry + 0x20;
+            ((S_80093894_4 *)object)->unk_2C = next_object;
+            state->unk10 = next_object;
             state->unk18 = 0;
-            func_8009451C(object, arg1, arg2);
+            func_8009451C(object, position, callback_data);
             return;
         }
-        func_80093D48(object, arg1, arg2);
+        func_80093D48(object, position, callback_data);
         return;
     }
 
-    D_800FE5D8(object, arg1, arg2);
+    D_800FE5D8(object, position, callback_data);
 }

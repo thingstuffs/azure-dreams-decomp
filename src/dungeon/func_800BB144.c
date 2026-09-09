@@ -56,111 +56,107 @@ extern M2C_UNK D_8008937C;
 extern M2C_UNK D_800E13DA;
 extern M2C_UNK D_800E13E9;
 
-s32 func_800C08A4(u8 *arg0, u8 *arg1, s16 arg2, M2C_UNK arg3) {
-    s32 temp_s1_2;
-    s32 temp_s1_3;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v0_5;
-    s32 temp_v0_6;
-    u8 *temp_v0_7;
-    s32 temp_s2;
-    u8 *temp_s1;
-    S_800C08A4_1 *temp_s0;
-    s32 temp_s0_2;
+/* Applies an entity action to a target and updates the pending count. */
+s32 func_800C08A4(u8 *source, u8 *target, s16 action, M2C_UNK context) {
+    s32 entity_value;
+    s32 event_value;
+    s32 external_entity_value;
+    s32 external_event_value;
+    u8 *compare_ptr;
+    s32 script;
+    u8 *entity;
+    S_800C08A4_1 *position;
 
-    temp_s1 = arg0;
-    if (arg2 == 0xD) {
-        if (((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_2B == 0x16) {
-            ASM_KEEP_NV(arg2); /* MATCH: retain the existing a2 value across the argument setup. */
-            if ((func_800A6D30(arg1, arg1, arg2, arg3) & 1) == 0) {
+    entity = source;
+    if (action == 0xD) {
+        if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B == 0x16) {
+            ASM_KEEP_NV(action); /* MATCH: retain the existing a2 value across the argument setup. */
+            if ((func_800A6D30(target, target, action, context) & 1) == 0) {
                 goto main_path;
             }
         }
-        return func_80098864(arg1, arg3);
+        return func_80098864(target, context);
     }
 main_path:
-    temp_v0_7 = D_800E3D7C;
-    if (temp_s1 == temp_v0_7) {
-        ((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_128 = arg1;
-        func_8008D344(temp_s1, D_80083780, D_80082E80, temp_s1);
+    compare_ptr = D_800E3D7C;
+    if (entity == compare_ptr) {
+        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_128 = target;
+        func_8008D344(entity, D_80083780, D_80082E80, entity);
         return 0;
     }
-    temp_v0_7 = (u8 *) 0x9FFFFFFF;
-    if ((u32) temp_s1 <= (u32) temp_v0_7) {
-        if (((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_2B != 0x16) {
-            func_800A6480(temp_s1, arg1);
-            if (func_800AD6FC(temp_s1, (D_800DDE84[((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
-                func_800A5F38(temp_s1, arg1);
+    compare_ptr = (u8 *) 0x9FFFFFFF;
+    if ((u32) entity <= (u32) compare_ptr) {
+        if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) {
+            func_800A6480(entity, target);
+            if (func_800AD6FC(entity, (D_800DDE84[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
+                func_800A5F38(entity, target);
                 return 1;
             }
-            func_80098B38(arg1);
+            func_80098B38(target);
             goto decrement;
         }
-        temp_s0 = ((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_00;
-        ((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_63 & 0xDF);
-        func_800A7A7C((u16) temp_s0->unk_02 >> 6, (u16) temp_s0->unk_06 >> 6, temp_s0->unk_0A, func_8004A658(((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_61, ((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_60), temp_s1 + 0x48);
-        ((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_60 = (u8) *arg1;
-        ((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)temp_s1 - 0x18))->unk_63 | 0x20);
-        temp_s2 = func_800990FC();
-        temp_v0 = func_80099734(temp_s1, temp_s2);
-        temp_v0_2 = func_80099194(&D_800E13DA, temp_v0);
+        position = ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_00;
+        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 & 0xDF);
+        func_800A7A7C((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A, func_8004A658(((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_61, ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60), entity + 0x48);
+        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60 = (u8) *target;
+        ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 | 0x20);
+        script = func_800990FC();
+        entity_value = func_80099734(entity, script);
+        event_value = func_80099194(&D_800E13DA, entity_value);
         {
             s32 node;
-            s32 offset;
-            s32 captured;
+            s32 node_offset;
+            s32 saved_node;
             s32 result;
 
-            node = func_80099978(temp_v0_2);
-            captured = func_80099194(&D_80089378, node);
-            offset = node - 2;
-            ASM_KEEP_DEP_NV(offset, node);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(captured);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            node = captured;
-            result = func_80099368(arg1, node);
+            node = func_80099978(event_value);
+            saved_node = func_80099194(&D_80089378, node);
+            node_offset = node - 2;
+            ASM_KEEP_DEP_NV(node_offset, node);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(saved_node);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            node = saved_node;
+            result = func_80099368(target, node);
             {
-                register s32 pass ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                register s32 node_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-                pass = node;
+                node_arg = node;
                 node = result;
                 ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                func_800998C0(offset, pass);
+                func_800998C0(node_offset, node_arg);
             }
             func_80099290(func_80099194(&D_8008937C, node));
         }
-        func_800A5720(temp_s2);
-        func_80098B38(arg1);
+        func_800A5720(script);
+        func_80098B38(target);
         goto decrement;
     }
-    temp_s2 = func_800990FC();
-    temp_v0_4 = func_80099734(temp_s1, temp_s2);
-    temp_v0_5 = func_80099194(&D_800E13E9, temp_v0_4);
+    script = func_800990FC();
+    external_entity_value = func_80099734(entity, script);
+    external_event_value = func_80099194(&D_800E13E9, external_entity_value);
     {
         s32 node;
-        s32 offset;
-        s32 captured;
+        s32 node_offset;
+        s32 saved_node;
         s32 result;
 
-        node = func_80099978(temp_v0_5);
-        captured = func_80099194(&D_80089378, node);
-        offset = node - 2;
-        ASM_KEEP_DEP_NV(offset, node);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(captured);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        node = captured;
-        result = func_80099368(arg1, node);
+        node = func_80099978(external_event_value);
+        saved_node = func_80099194(&D_80089378, node);
+        node_offset = node - 2;
+        ASM_KEEP_DEP_NV(node_offset, node);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_node);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        node = saved_node;
+        result = func_80099368(target, node);
         {
-            register s32 pass ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            register s32 node_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-            pass = node;
+            node_arg = node;
             node = result;
             ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            func_800998C0(offset, pass);
+            func_800998C0(node_offset, node_arg);
         }
         func_80099290(func_80099194(&D_8008937C, node));
     }
-    func_800A5720(temp_s2);
+    func_800A5720(script);
 decrement:
     {
         u8 *counter_base = (u8 *) D_80083460;

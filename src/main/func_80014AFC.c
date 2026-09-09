@@ -28,19 +28,20 @@ extern void func_80027C90(void *a0);
 extern void bzero(void *a0, s32 a1);
 extern void func_80027A68(void *a0, s32 a1, s32 a2);
 
-Node8002BB08 *func_80027AFC(s32 arg0, s32 arg1) {
+/* Create or reset the shared node and initialize its request and mode. */
+Node8002BB08 *func_80027AFC(s32 request, s32 mode) {
     Node8002BB08 *node = &D_8002BB08;
-    void *temp = (u8 *)node + 0x20;
+    void *node_data = (u8 *)node + 0x20;
 
     if (func_8004B4A8(node) == 0) {
         node = func_8003FE78(0, node, 25);
     } else {
         func_80027C90(node);
         node->field_1E &= 0x7FFF;
-        bzero(temp, 0x44);
+        bzero(node_data, 0x44);
     }
     D_80082E60[0xF] |= 0x80;
-    func_80027A68(temp, arg0, arg1);
+    func_80027A68(node_data, request, mode);
     node->field_10 = &D_80027A9C[0];
     return node;
 }

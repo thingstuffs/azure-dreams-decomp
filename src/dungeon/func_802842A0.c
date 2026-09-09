@@ -56,56 +56,57 @@ typedef struct S_800172A0_4 {
     u16 unk_0A;
 } S_800172A0_4;   /* counter in func_800172A0 */
 
-void func_800172A0(S_800172A0_0 *arg0, s16 arg1) {
-    s16 temp_v0;
-    s16 temp_v1;
-    s16 temp_v1_2;
+/* Initialize a bounded random position and its associated effect state. */
+void func_800172A0(S_800172A0_0 *source, s16 base_offset) {
+    s16 state_offset;
+    s16 position_x;
+    s16 position_y;
     u8 *state;
-    void *temp_s1;
-    s32 temp_s2;
-    S_800172A0_2 *temp_s5;
+    void *effect;
+    s32 random_angle;
+    S_800172A0_2 *bounds;
     u16 *counter;
-    s16 direction;
-    s32 temp_rand;
+    s16 rotation_step;
+    s32 random_bits;
 
     state = (u8 *)&D_80083178;
-    temp_s5 = state + 0x1C4;
-    temp_s1 = state + 0xB8;
-    temp_s2 = (rand() & 0x1FFF) - 0x1000;
+    bounds = state + 0x1C4;
+    effect = state + 0xB8;
+    random_angle = (rand() & 0x1FFF) - 0x1000;
     if (!((u16) *D_80013714 & 2)) {
-        temp_v1 = arg0->unk_02 + (func_80064584(temp_s2) * 2);
-        ((S_800172A0_1 *)state)->unk_A4 = temp_v1;
-        if (temp_v1 < 0) {
+        position_x = source->unk_02 + (func_80064584(random_angle) * 2);
+        ((S_800172A0_1 *)state)->unk_A4 = position_x;
+        if (position_x < 0) {
             ((S_800172A0_1 *)state)->unk_A4 = 0;
-        } else if (temp_v1 >= temp_s5->unk_1C) {
-            ((S_800172A0_1 *)state)->unk_A4 = (s16) ((u16) temp_s5->unk_1C - 1);
+        } else if (position_x >= bounds->unk_1C) {
+            ((S_800172A0_1 *)state)->unk_A4 = (s16) ((u16) bounds->unk_1C - 1);
         }
-        temp_v1_2 = arg0->unk_06 + (func_800644B8(temp_s2) * 2);
-        ((S_800172A0_1 *)state)->unk_A6 = temp_v1_2;
-        if (temp_v1_2 < 0) {
+        position_y = source->unk_06 + (func_800644B8(random_angle) * 2);
+        ((S_800172A0_1 *)state)->unk_A6 = position_y;
+        if (position_y < 0) {
             ((S_800172A0_1 *)state)->unk_A6 = 0;
-        } else if (temp_v1_2 >= temp_s5->unk_1E) {
-            ((S_800172A0_1 *)state)->unk_A6 = (s16) ((u16) temp_s5->unk_1E - 1);
+        } else if (position_y >= bounds->unk_1E) {
+            ((S_800172A0_1 *)state)->unk_A6 = (s16) ((u16) bounds->unk_1E - 1);
         }
-        temp_v0 = (s16) (arg0->unk_0A - 0x400);
+        state_offset = (s16) (source->unk_0A - 0x400);
         ((S_800172A0_1 *)state)->unk_AC = 0;
-        ((S_800172A0_1 *)state)->unk_A8 = temp_v0;
-        temp_rand = rand();
-        direction = -0x800;
-        if (temp_rand & 1) {
-            direction = 0x800;
+        ((S_800172A0_1 *)state)->unk_A8 = state_offset;
+        random_bits = rand();
+        rotation_step = -0x800;
+        if (random_bits & 1) {
+            rotation_step = 0x800;
         }
-        ((S_800172A0_1 *)state)->unk_B0 = direction;
-        ((S_800172A0_3 *)temp_s1)->unk_00 = (void *) (temp_s1 + 4);
-        ((S_800172A0_3 *)temp_s1)->unk_14 = 1;
-        ((S_800172A0_3 *)temp_s1)->unk_24 = 0x40;
-        ((S_800172A0_3 *)temp_s1)->unk_0C = arg0;
-        ((S_800172A0_3 *)temp_s1)->unk_18 = 0;
-        ((S_800172A0_3 *)temp_s1)->unk_26 = arg1;
+        ((S_800172A0_1 *)state)->unk_B0 = rotation_step;
+        ((S_800172A0_3 *)effect)->unk_00 = (void *) (effect + 4);
+        ((S_800172A0_3 *)effect)->unk_14 = 1;
+        ((S_800172A0_3 *)effect)->unk_24 = 0x40;
+        ((S_800172A0_3 *)effect)->unk_0C = source;
+        ((S_800172A0_3 *)effect)->unk_18 = 0;
+        ((S_800172A0_3 *)effect)->unk_26 = base_offset;
         ((S_800172A0_1 *)state)->unk_B4 = &D_800C7B38;
-        temp_v0 = arg1 + ((((S_800172A0_3 *)temp_s1)->unk_24 + 1) * 0x30);
-        ((S_800172A0_1 *)state)->unk_98 = temp_v0;
-        ((S_800172A0_3 *)temp_s1)->unk_10 = (s32) temp_v0;
+        state_offset = base_offset + ((((S_800172A0_3 *)effect)->unk_24 + 1) * 0x30);
+        ((S_800172A0_1 *)state)->unk_98 = state_offset;
+        ((S_800172A0_3 *)effect)->unk_10 = (s32) state_offset;
         counter = (u16 *)D_80083460;
         ((S_800172A0_4 *)counter)->unk_0A = (u16) (((S_800172A0_4 *)counter)->unk_0A + 1);
     }

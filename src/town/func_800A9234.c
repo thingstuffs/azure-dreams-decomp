@@ -37,35 +37,31 @@ extern s32 D_800D0C78;
 extern M2C_UNK D_800D0D54;
 extern s32 D_80100E24;
 
-void func_800A6994(void *arg0, M2C_UNK arg1, void *arg2, M2C_UNK arg3) {
-    u32 tail_value;
-    u8 *temp_a0;
-    s32 *temp_v0;
-    s32 *temp_v0_2;
+/* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
+void func_800A6994(void *actor, M2C_UNK update_context, void *position, M2C_UNK setup_context) {
+    u32 heading;
+    u8 *state;
+    s32 *saved_position;
+    s32 *fixed_position;
 
-    temp_a0 = D_80083498;
-    if (((S_800A6994_0 *)temp_a0)->unk_10 != &D_800A5638) {
+    state = D_80083498;
+    if (((S_800A6994_0 *)state)->unk_10 != &D_800A5638) {
         func_800A6328(&D_800D0D54, 0);
-        D_800D0C78 = ((Rec_D_800E3D7C *)arg2)->unk_00.at00_s32.v;
-        temp_v0 = &D_800D0C78;
-        (*(s32 *)((u8 *)temp_v0 + 4)) = ((Rec_D_800E3D7C *)arg2)->unk_04.at00_s32.v;
-        ((S_800A6994_2 *)temp_v0)->unk_08 = (*(s32 *)((u8 *)arg2 + 8));
-        func_800C2E84(arg0, arg3, D_80100E24);
-        func_8009BFD8(arg0, arg1, arg2, arg3);
-        tail_value = ((Rec_func_80094268_arg0 *)arg0)->unk_72.as_u16;
-        tail_value += 0x200;
-        tail_value &= 0xFC00;
+        D_800D0C78 = ((Rec_D_800E3D7C *)position)->unk_00.at00_s32.v;
+        saved_position = &D_800D0C78;
+        (*(s32 *)((u8 *)saved_position + 4)) = ((Rec_D_800E3D7C *)position)->unk_04.at00_s32.v;
+        ((S_800A6994_2 *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
+        func_800C2E84(actor, setup_context, D_80100E24);
+        func_8009BFD8(actor, update_context, position, setup_context);
+        heading = ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16;
+        heading += 0x200;
+        heading &= 0xFC00;
     } else {
-        temp_v0_2 = &D_80083780;
-        ((Rec_D_800E3D7C *)arg2)->unk_00.at00_s32.v = D_80083780;
-        ((Rec_D_800E3D7C *)arg2)->unk_04.at00_s32.v = ((S_800A6994_4 *)temp_v0_2)->unk_04;
-        ((Rec_D_800E3D7C *)arg2)->unk_08.at00_s32.v = ((S_800A6994_4 *)temp_v0_2)->unk_08;
-        tail_value = ((S_800A6994_0 *)temp_a0)->unk_38;
+        fixed_position = &D_80083780;
+        ((Rec_D_800E3D7C *)position)->unk_00.at00_s32.v = D_80083780;
+        ((Rec_D_800E3D7C *)position)->unk_04.at00_s32.v = ((S_800A6994_4 *)fixed_position)->unk_04;
+        ((Rec_D_800E3D7C *)position)->unk_08.at00_s32.v = ((S_800A6994_4 *)fixed_position)->unk_08;
+        heading = ((S_800A6994_0 *)state)->unk_38;
     }
-    ((Rec_func_80094268_arg0 *)arg0)->unk_72.as_u16 = tail_value;
+    ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16 = heading;
 }
-
-/* MECHANISM: A held byte-pointer base for D_80083498 forces the retail two-register la,
-   schedules the ra save and arg3-to-s2 move in their exact prologue/branch slots.
-   A guarded v0 tail value plus ASM_TAILSLOT_PIN preserves the dead lhu/addiu/andi chain
-   and sinks the mask into the func_800A6A6C sibcall delay slot. */

@@ -81,69 +81,69 @@ extern u8 D_800DFD0C[];
 extern u8 D_800DFD30[];
 extern u8 D_800E3D40;
 
-s32 func_800CD004(void *arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Spawn a sprite effect for the source or invoke its fallback action. */
+s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
 {
-    s32 random;
-    s32 numerator;
-    register s32 denominator ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 divisor;
-    s32 first_coord;
-    void *object;
+    s32 random_value;
+    s32 random_low;
+    register s32 roll_modulus ASM_REG("$2");
+    register s32 roll_remainder ASM_REG("$3");
+    register s32 roll_or_data ASM_REG("$2");
+    s32 roll_range;
+    s32 tile_x;
+    void *effect;
     S_800CD004_3 *quad;
-    S_800CD004_5 *tail;
+    S_800CD004_5 *effect_state;
     S_800CD004_4 *sprite;
     S_800CD004_2 *map;
     void *texture;
     s32 color;
     s32 variant;
-    register s32 table_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 table_delta;
-    s32 result;
+    register s32 height_offset ASM_REG("$3");
+    s32 height_delta;
     u8 *counter;
-    register void *call_object ASM_REG("$4"); /* MATCH: Set the first argument in the allocation guard delay slot. */
+    register void *init_effect ASM_REG("$4");
 
     if (D_800E3D40 == 0) {
-        random = func_800A6D30(arg0, arg1, arg2, arg3);
-        divisor = ((S_800CD004_0 *)arg0)->unk_03;
-        if (divisor != 0) {
-            numerator = (u16)random;
-            denominator = divisor;
-            ASM_KEEP(numerator);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            remainder = numerator % denominator;
-            value = remainder;
+        random_value = func_800A6D30(source, rng_arg_1, rng_arg_2, rng_arg_3);
+        roll_range = ((S_800CD004_0 *)source)->unk_03;
+        if (roll_range != 0) {
+            random_low = (u16)random_value;
+            roll_modulus = roll_range;
+            ASM_KEEP(random_low);
+            roll_remainder = random_low % roll_modulus;
+            roll_or_data = roll_remainder;
         } else {
-            value = 0;
+            roll_or_data = 0;
         }
     } else {
-        value = 0;
+        roll_or_data = 0;
     }
 
-    if (value < 0x30) {
-        object = func_8003FC64(2);
-        if (object == NULL) {
+    if (roll_or_data < 0x30) {
+        effect = func_8003FC64(2);
+        if (effect == NULL) {
             goto return_object;
         }
-        call_object = object;
-        value = (s32)&D_800CCDA0; /* MATCH: Reuse the v0 pin to preserve initializer emission order. */
-        ((S_800CD004_1 *)object)->unk_10 = (void *)value;
-        func_8004491C(call_object, &D_80045340);
+        init_effect = effect;
+        roll_or_data = (s32)&D_800CCDA0;
+        ((S_800CD004_1 *)effect)->unk_10 = (void *)roll_or_data;
+        func_8004491C(init_effect, &D_80045340);
 
-        map = ((S_800CD004_0_pre *)arg0)[-1].unk_00;
-        first_coord = map->unk_24;
-        ASM_KEEP(first_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        quad = ((S_800CD004_1 *)object)->unk_08;
-        ASM_KEEP(quad);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        quad->unk_02 = (first_coord << 6) + 0x20;
+        map = ((S_800CD004_0_pre *)source)[-1].unk_00;
+        tile_x = map->unk_24;
+        ASM_KEEP(tile_x);
+        quad = ((S_800CD004_1 *)effect)->unk_08;
+        ASM_KEEP(quad);
+        quad->unk_02 = (tile_x << 6) + 0x20;
         quad->unk_06 = (map->unk_25 << 6) + 0x20;
-        quad->unk_0A = ((S_800CD004_0 *)arg0)->unk_88 - 0x200;
+        quad->unk_0A = ((S_800CD004_0 *)source)->unk_88 - 0x200;
 
-        sprite = ((S_800CD004_1 *)object)->unk_0C;
+        sprite = ((S_800CD004_1 *)effect)->unk_0C;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         color = 0x808080;
-        ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(color);
         sprite->unk_0C = color;
 
         variant = func_80069EF8(color);
@@ -155,13 +155,13 @@ s32 func_800CD004(void *arg0, s32 arg1, s32 arg2, s32 arg3)
         sprite->unk_08 = texture;
         sprite->unk_10 = 0x20;
 
-        table_value = D_800DDC40[((S_800CD004_0 *)arg0)->unk_13];
-        table_delta = ((S_800CD004_0 *)arg0)->unk_88 - table_value;
-        tail = (u8 *)object + 0x20;
-        ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        tail->unk_0A = table_delta;
-        ((S_800CD004_1 *)object)->unk_20 = arg0;
-        tail->unk_06 = 0xC;
+        height_offset = D_800DDC40[((S_800CD004_0 *)source)->unk_13];
+        height_delta = ((S_800CD004_0 *)source)->unk_88 - height_offset;
+        effect_state = (u8 *)effect + 0x20;
+        ASM_KEEP(effect_state);
+        effect_state->unk_0A = height_delta;
+        ((S_800CD004_1 *)effect)->unk_20 = source;
+        effect_state->unk_06 = 0xC;
 
         counter = D_80083460;
         ((S_800CD004_6 *)counter)->unk_0A = ((S_800CD004_6 *)counter)->unk_0A + 1;
@@ -169,32 +169,20 @@ s32 func_800CD004(void *arg0, s32 arg1, s32 arg2, s32 arg3)
         goto return_object;
     }
 
-    if (((S_800CD004_0 *)arg0)->unk_13 == 0) {
-        /* PASSTHRU (audit `need` = $a3): retail forwards the current $a3
-           through this call. The existing pins name the registers here,
-           after the earlier RNG call may have clobbered them.
-           decomp_issues.md sections 20-22. */
-        s32 fa0;
-        register s32 fa1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register s32 fa2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        register s32 fa3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    if (((S_800CD004_0 *)source)->unk_13 == 0) {
+        s32 fallback_arg_0;
+        s32 fallback_arg_1;
+        s32 fallback_arg_2;
+        s32 fallback_arg_3;
 
-        ASM_SET(fa0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        /* MATCH: Bound the existing register pins to this call after the RNG clobbers them. */
-        ASM_SET(fa1);
-        ASM_SET(fa2);
-        ASM_SET(fa3);
-        func_800A6508(fa0, fa1, fa2, fa3);
+        ASM_SET(fallback_arg_0);
+        ASM_SET(fallback_arg_1);
+        ASM_SET(fallback_arg_2);
+        ASM_SET(fallback_arg_3);
+        func_800A6508(fallback_arg_0, fallback_arg_1, fallback_arg_2, fallback_arg_3);
     }
-    result = 1;
-    goto done;
+    return 1;
 
 return_object:
-    return object != NULL;
-done:
-    return result;
+    return effect != NULL;
 }
-
-/* MECHANISM: The natural long-lived arg/object/sprite locals encode retail's
-   s2/s1/s0 roles and 0x20 frame. Split RNG-return and merged-value names keep
-   the remainder CFG in v0; texture and byte-table paths preserve its joins. */

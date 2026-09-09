@@ -47,72 +47,68 @@ extern Rect D_80024048;
 extern s16 D_80026428;
 extern s32 D_800814A0;
 
-void func_80025360(void *arg0, void *arg1, void *arg2)
+/* Updates a timed rectangle effect, fading its color in and out and marking completion. */
+void func_80025360(void *effect_arg, void *unused, void *sprite_arg)
 {
-    Work sp18;
-    s16 temp_v0;
-    s16 temp_v1;
-    s16 temp_v1_2;
-    void *obj;
-    void *dest;
+    Work work;
+    s16 next_frame;
+    s16 state;
+    s16 frame;
+    void *effect;
+    void *sprite;
     s32 one;
-    register s16 rect_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u16 mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    Rect *data;
+    register s16 rect_x ASM_REG("$2");
+    register u16 flags ASM_REG("$2");
+    Rect *rect_template;
 
-    obj = arg0;
-    dest = arg2;
-    data = &D_80024048;
-    sp18.rect = *data;
-    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(dest);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    effect = effect_arg;
+    sprite = sprite_arg;
+    rect_template = &D_80024048;
+    work.rect = *rect_template;
+    ASM_KEEP(effect);
+    ASM_KEEP(sprite);
     D_80026428 = 1;
-    temp_v1 = ((S_80025360_0 *)obj)->unk_00;
-    if (temp_v1 != 0) {
-        if (temp_v1 != 1) {
-            ASM_SCHED_BARRIER(); /* MATCH: keep the early exit as a jump to the shared epilogue. */
+    state = ((S_80025360_0 *)effect)->unk_00;
+    if (state != 0) {
+        if (state != 1) {
+            ASM_SCHED_BARRIER();
             return;
         }
         rect_x = 0x340;
-        goto block_5;
+        goto draw_effect;
     }
-    ((S_80025360_0 *)obj)->unk_00 = (s16)((u16)((S_80025360_0 *)obj)->unk_00 + 1);
-    mask = ((S_80025360_1 *)dest)->unk_14;
-    mask &= 0xFF7F;
-    ((S_80025360_1 *)dest)->unk_14 = mask;
+    ((S_80025360_0 *)effect)->unk_00 = (s16)((u16)((S_80025360_0 *)effect)->unk_00 + 1);
+    flags = ((S_80025360_1 *)sprite)->unk_14;
+    flags &= 0xFF7F;
+    ((S_80025360_1 *)sprite)->unk_14 = flags;
     rect_x = 0x340;
-    ASM_KEEP(rect_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-block_5:
-    sp18.rect.x = rect_x;
-    sp18.rect.y = 0x100;
-    sp18.rect.w = 0x60;
-    sp18.rect.h = 0x40;
-    sp18.x = 0x370;
-    sp18.y = 0x120;
+draw_effect:
+    work.rect.x = rect_x;
+    work.rect.y = 0x100;
+    work.rect.w = 0x60;
+    work.rect.h = 0x40;
+    work.x = 0x370;
+    work.y = 0x120;
     one = 1;
-    func_80024A5C(((S_80025360_0 *)obj)->unk_48, &sp18.rect, &sp18.x, one, one);
-    temp_v1_2 = ((S_80025360_0 *)obj)->unk_02;
-    if (temp_v1_2 < 0x15) {
-        ((S_80025360_1 *)dest)->unk_0E = (s8)((temp_v1_2 << 7) / 20);
-        ((S_80025360_1 *)dest)->unk_0D = (s8)((((S_80025360_0 *)obj)->unk_02 << 7) / 20);
-        ((S_80025360_1 *)dest)->unk_0C = (s8)((((S_80025360_0 *)obj)->unk_02 << 7) / 20);
+    func_80024A5C(((S_80025360_0 *)effect)->unk_48, &work.rect, &work.x, one, one);
+    frame = ((S_80025360_0 *)effect)->unk_02;
+    if (frame < 0x15) {
+        ((S_80025360_1 *)sprite)->unk_0E = (s8)((frame << 7) / 20);
+        ((S_80025360_1 *)sprite)->unk_0D = (s8)((((S_80025360_0 *)effect)->unk_02 << 7) / 20);
+        ((S_80025360_1 *)sprite)->unk_0C = (s8)((((S_80025360_0 *)effect)->unk_02 << 7) / 20);
     }
-    if (((S_80025360_0 *)obj)->unk_02 >= 0x51) {
-        ((S_80025360_1 *)dest)->unk_0E = (s8)(((0x64 - ((S_80025360_0 *)obj)->unk_02) << 7) / 20);
-        ((S_80025360_1 *)dest)->unk_0D = (s8)(((0x64 - ((S_80025360_0 *)obj)->unk_02) << 7) / 20);
-        ((S_80025360_1 *)dest)->unk_0C = (s8)(((0x64 - ((S_80025360_0 *)obj)->unk_02) << 7) / 20);
+    if (((S_80025360_0 *)effect)->unk_02 >= 0x51) {
+        ((S_80025360_1 *)sprite)->unk_0E = (s8)(((0x64 - ((S_80025360_0 *)effect)->unk_02) << 7) / 20);
+        ((S_80025360_1 *)sprite)->unk_0D = (s8)(((0x64 - ((S_80025360_0 *)effect)->unk_02) << 7) / 20);
+        ((S_80025360_1 *)sprite)->unk_0C = (s8)(((0x64 - ((S_80025360_0 *)effect)->unk_02) << 7) / 20);
     }
-    temp_v0 = (u16)((S_80025360_0 *)obj)->unk_02 + 1;
-    ((S_80025360_0 *)obj)->unk_02 = temp_v0;
-    if (temp_v0 >= 0x65) {
-        ((S_80025360_0 *)obj)->unk_02 = 0;
-        ((S_80025360_0 *)obj)->unk_00 = (s16)((u16)((S_80025360_0 *)obj)->unk_00 + 1);
-        ((S_80025360_2 *)(((S_80025360_0 *)obj)->unk_40))->unk_9C = one;
-        (*(u16 *)((u8 *)obj + -2)) = (u16)(((S_80025360_0_pre *)obj)[-1].unk_00 | 0x8000);
+    next_frame = (u16)((S_80025360_0 *)effect)->unk_02 + 1;
+    ((S_80025360_0 *)effect)->unk_02 = next_frame;
+    if (next_frame >= 0x65) {
+        ((S_80025360_0 *)effect)->unk_02 = 0;
+        ((S_80025360_0 *)effect)->unk_00 = (s16)((u16)((S_80025360_0 *)effect)->unk_00 + 1);
+        ((S_80025360_2 *)(((S_80025360_0 *)effect)->unk_40))->unk_9C = one;
+        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_80025360_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 }
-
-/* MECHANISM: A 16-byte Work aggregate plus held s0/s1/s2 roles fixes the 0x38 frame and unaligned copy.
-   Rerouting to 2.7.2-cdk-G0 colors that copy a2/v1/a0; the zero-arg noreturn call becomes the retail tail j.
-   A fixed-v0 rect_x/mask with a state-0-only ASM_KEEP yields both 0x340 loads and the single joined store. */

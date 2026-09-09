@@ -43,93 +43,92 @@ typedef struct Context {
     s32 y;
 } Context;
 
-void *func_8009B5AC(Source *arg0, s32 arg1, s32 arg2) {
-    Source **p814a8;
-    Spawned *obj;
-    u8 *elem;
+/* Spawns an object at the target position and updates the active source state. */
+void *func_8009B5AC(Source *source, s32 target_x, s32 target_y) {
+    Source **active_source;
+    Spawned *spawned;
+    u8 *entry;
     s32 x;
     s32 y;
-    s32 ry;
-    s32 v1;
+    s32 entry_index;
+    s32 state_code;
     s32 probe_result;
-    s32 index;
-    register s32 tail34 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 tail3c;
-    s32 elem_value;
-    register u8 *dead_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 tx ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 ty ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 direction;
+    register s32 flags34 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 flags3c;
+    s32 entry_value;
+    register u8 *result_bytes ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 spawn_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 spawn_y ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    index = (arg0->index_field >> 9) & 7;
+    direction = (source->index_field >> 9) & 7;
 
-    probe_result = func_8009A540(index,
-                                 (s16)(arg1 - D_8006CCD8[index]),
-                                 (s16)(arg2 - D_8006CCE8[index]),
-                                 (s16)(arg0->height - 0x20));
-    tx = (u16)arg1;
-    ty = (u16)arg2;
+    probe_result = func_8009A540(direction,
+                                (s16)(target_x - D_8006CCD8[direction]),
+                                (s16)(target_y - D_8006CCE8[direction]),
+                                (s16)(source->height - 0x20));
+    spawn_x = (u16)target_x;
+    spawn_y = (u16)target_y;
     probe_result <<= 0x10;
-    p814a8 = &D_800814A8;
+    active_source = &D_800814A8;
     if (probe_result == 0) {
-        goto ret_null;
+        goto return_null;
     }
 
-    obj = func_8009B25C(arg0, tx, ty,
-                        arg0->height);
-    if (obj != (void *)0) {
-        if ((obj->flags & 0x80000) && arg0 == *p814a8) {
-            D_80081484[0] = obj->kind;
+    spawned = func_8009B25C(source, spawn_x, spawn_y,
+                           source->height);
+    if (spawned != (void *)0) {
+        if ((spawned->flags & 0x80000) && source == *active_source) {
+            D_80081484[0] = spawned->kind;
             D_80081484[1] = 0x13;
-            v1 = 0x14;
-            if (obj->flags & 0x4000) {
-                v1 = func_800A4298(obj);
-                if ((s16)v1 < 0) {
-                    v1 = 0x14;
+            state_code = 0x14;
+            if (spawned->flags & 0x4000) {
+                state_code = func_800A4298(spawned);
+                if ((s16)state_code < 0) {
+                    state_code = 0x14;
                 }
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            dead_state = D_80081484;
-            dead_state[3] = (u8)v1;
-            dead_state[2] = 0;
-            dead_state = (u8 *)obj;
-            return dead_state;
+            result_bytes = D_80081484;
+            result_bytes[3] = (u8)state_code;
+            result_bytes[2] = 0;
+            result_bytes = (u8 *)spawned;
+            return result_bytes;
         }
-        return obj;
+        return spawned;
     }
 
-    x = (s16)arg1;
-    y = (s16)arg2;
-    ry = (s16)func_800A70E4(x, y, arg0->height);
-    if (ry < 0) {
-        goto ret_null;
+    x = (s16)target_x;
+    y = (s16)target_y;
+    entry_index = (s16)func_800A70E4(x, y, source->height);
+    if (entry_index < 0) {
+        goto return_null;
     }
-    elem = &D_800E3548[ry * 4];
-    obj = func_800A8E74(arg0,
-                        ((Context *)((u8 *)arg0 - 0x20))->x,
-                        ((Context *)((u8 *)arg0 - 0x20))->y,
-                        arg0, elem, ry);
-    if (obj == (void *)0) {
+    entry = &D_800E3548[entry_index * 4];
+    spawned = func_800A8E74(source,
+                           ((Context *)((u8 *)source - 0x20))->x,
+                           ((Context *)((u8 *)source - 0x20))->y,
+                           source, entry, entry_index);
+    if (spawned == (void *)0) {
         return (void *)1;
     }
-    obj->parent = arg0;
-    if (arg0 == *p814a8) {
-        elem_value = *(s32 *)elem;
-        obj->fieldbc = D_80081484;
-        *(s32 *)D_80081484 = elem_value;
+    spawned->parent = source;
+    if (source == *active_source) {
+        entry_value = *(s32 *)entry;
+        spawned->fieldbc = D_80081484;
+        *(s32 *)D_80081484 = entry_value;
     }
-    elem[1] = 0;
-    elem[0] = 0;
+    entry[1] = 0;
+    entry[0] = 0;
     func_8009A3D0(x, y, 0x800);
-    dead_state = (u8 *)obj + 0x20;
-    tail34 = obj->value34;
-    tail3c = obj->value3c;
-    tail34 |= 0x80000;
-    tail3c |= 0x2000;
-    ASM_USE_NV(dead_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    obj->value34 = tail34;
-    obj->value3c = tail3c;
-    return dead_state;
+    result_bytes = (u8 *)spawned + 0x20;
+    flags34 = spawned->value34;
+    flags3c = spawned->value3c;
+    flags34 |= 0x80000;
+    flags3c |= 0x2000;
+    spawned->value34 = flags34;
+    spawned->value3c = flags3c;
+    return result_bytes;
 
-ret_null:
+return_null:
     return (void *)0;
 }

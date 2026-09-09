@@ -18,55 +18,56 @@ typedef struct S_80174600_1 {
 
 extern s32 D_800814A0;
 
-void func_80174600(void *arg0, s32 arg1, void *arg2)
+/* Animate primitive colors and mark the effect finished when its timer expires. */
+void func_80174600(void *effect_state, s32 unused, void *primitive)
 {
-    u8 *p = arg0;
-    s16 timer;
-    s32 value;
-    s32 diff;
-    u8 channel;
+    u8 *state = effect_state;
+    s16 frames_left;
+    s32 scaled_color;
+    s32 color_step;
+    u8 color;
 
-    ((S_80174600_0 *)arg2)->unk_1A += 0x320;
+    ((S_80174600_0 *)primitive)->unk_1A += 0x320;
 
-    if (((S_80174600_1 *)p)->unk_1A.s >= 0x33) {
-        ((S_80174600_0 *)arg2)->unk_0C = (p[0] * (0x41 - ((S_80174600_1 *)p)->unk_1A.s)) / 14;
-        ((S_80174600_0 *)arg2)->unk_0D = (p[1] * (0x41 - ((S_80174600_1 *)p)->unk_1A.s)) / 14;
-        ((S_80174600_0 *)arg2)->unk_0E = (p[2] * (0x41 - ((S_80174600_1 *)p)->unk_1A.s)) / 14;
-    } else if (((S_80174600_1 *)p)->unk_1A.s < 0x1A) {
-        if (((S_80174600_1 *)p)->unk_1A.s >= 0x10) {
-            diff = (p[0] - p[1]) / (((S_80174600_1 *)p)->unk_1A.s - 0xF);
-            channel = p[1] + diff;
-            p[1] = channel;
-            ((S_80174600_0 *)arg2)->unk_0D = channel;
+    if (((S_80174600_1 *)state)->unk_1A.s >= 0x33) {
+        ((S_80174600_0 *)primitive)->unk_0C = (state[0] * (0x41 - ((S_80174600_1 *)state)->unk_1A.s)) / 14;
+        ((S_80174600_0 *)primitive)->unk_0D = (state[1] * (0x41 - ((S_80174600_1 *)state)->unk_1A.s)) / 14;
+        ((S_80174600_0 *)primitive)->unk_0E = (state[2] * (0x41 - ((S_80174600_1 *)state)->unk_1A.s)) / 14;
+    } else if (((S_80174600_1 *)state)->unk_1A.s < 0x1A) {
+        if (((S_80174600_1 *)state)->unk_1A.s >= 0x10) {
+            color_step = (state[0] - state[1]) / (((S_80174600_1 *)state)->unk_1A.s - 0xF);
+            color = state[1] + color_step;
+            state[1] = color;
+            ((S_80174600_0 *)primitive)->unk_0D = color;
 
-            diff = (p[0] - p[2]) / (((S_80174600_1 *)p)->unk_1A.s - 0xF);
-            channel = p[2] + diff;
-            p[2] = channel;
-            ((S_80174600_0 *)arg2)->unk_0E = channel;
-        } else if (((S_80174600_1 *)p)->unk_1A.s >= 8) {
-            value = p[0] * (((S_80174600_1 *)p)->unk_1A.s - 8);
-            if (value < 0) {
-                value += 7;
+            color_step = (state[0] - state[2]) / (((S_80174600_1 *)state)->unk_1A.s - 0xF);
+            color = state[2] + color_step;
+            state[2] = color;
+            ((S_80174600_0 *)primitive)->unk_0E = color;
+        } else if (((S_80174600_1 *)state)->unk_1A.s >= 8) {
+            scaled_color = state[0] * (((S_80174600_1 *)state)->unk_1A.s - 8);
+            if (scaled_color < 0) {
+                scaled_color += 7;
             }
-            ((S_80174600_0 *)arg2)->unk_0C = value >> 3;
+            ((S_80174600_0 *)primitive)->unk_0C = scaled_color >> 3;
 
-            value = p[1] * (((S_80174600_1 *)p)->unk_1A.s - 8);
-            if (value < 0) {
-                value += 7;
+            scaled_color = state[1] * (((S_80174600_1 *)state)->unk_1A.s - 8);
+            if (scaled_color < 0) {
+                scaled_color += 7;
             }
-            ((S_80174600_0 *)arg2)->unk_0D = value >> 3;
+            ((S_80174600_0 *)primitive)->unk_0D = scaled_color >> 3;
 
-            value = p[2] * (((S_80174600_1 *)p)->unk_1A.s - 8);
-            ((S_80174600_0 *)arg2)->unk_0E = value / 8;
+            scaled_color = state[2] * (((S_80174600_1 *)state)->unk_1A.s - 8);
+            ((S_80174600_0 *)primitive)->unk_0E = scaled_color / 8;
         } else {
-            ((S_80174600_1 *)p)->unk_1A.s = 0;
+            ((S_80174600_1 *)state)->unk_1A.s = 0;
         }
     }
 
-    timer = ((S_80174600_1 *)p)->unk_1A.u - 1;
-    ((S_80174600_1 *)p)->unk_1A.s = timer;
-    if ((timer << 16) <= 0) {
-        (*(u16 *)((u8 *)p + -2)) |= 0x8000;
+    frames_left = ((S_80174600_1 *)state)->unk_1A.u - 1;
+    ((S_80174600_1 *)state)->unk_1A.s = frames_left;
+    if ((frames_left << 16) <= 0) {
+        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

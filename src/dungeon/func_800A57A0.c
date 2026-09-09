@@ -68,112 +68,111 @@ extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 *D_800E3D7C;
 
-void func_800AAF00(void *arg0, s32 arg1, void *arg2, u8 *arg3, s32 arg4) {
-    void *owner = arg0;
-    s32 call_arg = arg1;
-    void *other = arg2;
-    void *obj;
-    register u8 *table ASM_REG("$21") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 special ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *state;
-    u8 *state2;
-    u8 *slot;
-    u8 *entry;
-    u8 *entry_base;
-    volatile u16 *field_46;
-    u16 input;
-    s32 index;
-    s32 table_index;
+/* Updates the object action state and applies direction data to its target. */
+void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state) {
+    void *action_owner = actor;
+    s32 effect_arg = effect_param;
+    void *action_target = target;
+    void *object;
+    register u8 *direction_map ASM_REG("$21") = direction_table;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 special_action ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *action_state;
+    u8 *updated_state;
+    u8 *slot_data;
+    u8 *type_data;
+    u8 *type_table;
+    volatile u16 *slot_flags;
+    u16 input_flags;
+    s32 slot_offset;
+    s32 type_index;
 
-    obj = owner;
-    ((S_800AAF00_0 *)obj)->unk_71 &= 0x7F;
-    state = (u8 *)&D_80083460;
-    input = ((S_800AAF00_1 *)state)->unk_02;
-    special = 0;
+    object = action_owner;
+    ((S_800AAF00_0 *)object)->unk_71 &= 0x7F;
+    action_state = (u8 *)&D_80083460;
+    input_flags = ((S_800AAF00_1 *)action_state)->unk_02;
+    special_action = 0;
 
-    if (!(input & 0x2008)) {
-        if ((((S_800AAF00_0 *)obj)->unk_1C & 0x2000) &&
-            ((((S_800AAF00_0 *)obj)->unk_46 & 0x3FFF) >= 5)) {
-            special = 1;
+    if (!(input_flags & 0x2008)) {
+        if ((((S_800AAF00_0 *)object)->unk_1C & 0x2000) &&
+            ((((S_800AAF00_0 *)object)->unk_46 & 0x3FFF) >= 5)) {
+            special_action = 1;
             if (((((S_800AAF00_2 *)D_800E3D7C)->unk_98.s32 & 0x3000) == 0x2000) &&
                 (((S_800AAF00_2 *)D_800E3D7C)->unk_A6 == 0)) {
                 ((S_800AAF00_2 *)D_800E3D7C)->unk_98.u16 |= 0x1000;
                 ((S_800AAF00_2 *)D_800E3D7C)->unk_A6++;
-                ((S_800AAF00_1 *)state)->unk_0A++;
-                /* Jump to the shared body. */
+                ((S_800AAF00_1 *)action_state)->unk_0A++;
+
                 goto shared_body;
             }
-            func_800A4ACC(obj);
-            ((S_800AAF00_0 *)obj)->unk_6D--;
-            ((S_800AAF00_3 *)owner)->unk_8C = arg4;
-            /* Jump to the epilogue. */
+            func_800A4ACC(object);
+            ((S_800AAF00_0 *)object)->unk_6D--;
+            ((S_800AAF00_3 *)action_owner)->unk_8C = next_state;
+
             return;
         }
 
-        if (!(input & 8) && ((func_800A2B5C(obj) << 16) == 0)) {
-            func_800C77D0((u8 *)obj - 0x20, call_arg, 8, 0x300);
-            if ((func_800A2B5C(obj) << 16) == 0) {
+        if (!(input_flags & 8) && ((func_800A2B5C(object) << 16) == 0)) {
+            func_800C77D0((u8 *)object - 0x20, effect_arg, 8, 0x300);
+            if ((func_800A2B5C(object) << 16) == 0) {
 shared_body:
-                if (!special) {
-                    if (((S_800AAF00_0 *)obj)->unk_1C & 0x400) {
-                        register s32 field14 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                        s32 high_bit;
+                if (!special_action) {
+                    if (((S_800AAF00_0 *)object)->unk_1C & 0x400) {
+                        register s32 object_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        s32 sign_bit;
 
-                        field14 = ((S_800AAF00_0 *)obj)->unk_14;
-                        if (field14 >= 0) {
-                            high_bit = 0x80000000;
-                            ((S_800AAF00_0 *)obj)->unk_14 = field14 | high_bit;
-                            ((S_800AAF00_0 *)obj)->unk_2A.u += (func_800A6D30() & 7) << 9;
+                        object_flags = ((S_800AAF00_0 *)object)->unk_14;
+                        if (object_flags >= 0) {
+                            sign_bit = 0x80000000;
+                            ((S_800AAF00_0 *)object)->unk_14 = object_flags | sign_bit;
+                            ((S_800AAF00_0 *)object)->unk_2A.u += (func_800A6D30() & 7) << 9;
                         }
                     }
 
-                    field_46 = (volatile u16 *)((u8 *)obj + 0x46);
-                    if (!(*field_46 & 0x4000)) {
-                        index = *field_46 & 0x3FFF;
-                        table_index = index;
-                        table_index--;
-                        entry_base = D_8006DE24;
-                        index = table_index * 3;
-                        slot = obj;
-                        slot += index;
-                        table_index = slot[8];
-                        entry = entry_base + table_index * 20;
-                        if ((entry[0x12] == 2) && (((S_800AAF00_0 *)obj)->unk_60 == 0)) {
-                            ((S_800AAF00_0 *)obj)->unk_60 = func_800A05A4(
-                                obj,
-                                ((S_800AAF00_4 *)other)->unk_24,
-                                ((S_800AAF00_4 *)other)->unk_25,
-                                ((S_800AAF00_0 *)obj)->unk_2A.s,
-                                entry[0x13]);
-                            /* Jump to the shared tail. */
-                            goto shared_tail;
+                    slot_flags = (volatile u16 *)((u8 *)object + 0x46);
+                    if (!(*slot_flags & 0x4000)) {
+                        slot_offset = *slot_flags & 0x3FFF;
+                        type_index = slot_offset;
+                        type_index--;
+                        type_table = D_8006DE24;
+                        slot_offset = type_index * 3;
+                        slot_data = object;
+                        slot_data += slot_offset;
+                        type_index = slot_data[8];
+                        type_data = type_table + type_index * 20;
+                        if ((type_data[0x12] == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
+                            ((S_800AAF00_0 *)object)->unk_60 = func_800A05A4(
+                                object,
+                                ((S_800AAF00_4 *)action_target)->unk_24,
+                                ((S_800AAF00_4 *)action_target)->unk_25,
+                                ((S_800AAF00_0 *)object)->unk_2A.s,
+                                type_data[0x13]);
+
                         }
                     }
                 } else {
-                    ((S_800AAF00_2 *)D_800E3D7C)->unk_11C = obj;
+                    ((S_800AAF00_2 *)D_800E3D7C)->unk_11C = object;
                 }
 
-shared_tail:
-                ((S_800AAF00_3 *)owner)->unk_9A = 0x12;
-                ((S_800AAF00_3 *)owner)->unk_9B = 0;
-                ((S_800AAF00_3 *)owner)->unk_8C = 0;
-                if (table != 0) {
-                    (*(u8 * *)((u8 *)other + 0x2C)) = table;
+                ((S_800AAF00_3 *)action_owner)->unk_9A = 0x12;
+                ((S_800AAF00_3 *)action_owner)->unk_9B = 0;
+                ((S_800AAF00_3 *)action_owner)->unk_8C = 0;
+                if (direction_map != 0) {
+                    (*(u8 * *)((u8 *)action_target + 0x2C)) = direction_map;
                     func_80047784(
-                        other,
-                        table[((D_80083228 + ((S_800AAF00_0 *)obj)->unk_2A.s + 0x100) >> 9) & 7],
+                        action_target,
+                        direction_map[((D_80083228 + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
-                state2 = (u8 *)&D_80083460;
-                ((S_800AAF00_4 *)other)->unk_14 |= 0x800;
-                ((S_800AAF00_5 *)state2)->unk_0A++;
+                updated_state = (u8 *)&D_80083460;
+                ((S_800AAF00_4 *)action_target)->unk_14 |= 0x800;
+                ((S_800AAF00_5 *)updated_state)->unk_0A++;
             }
         }
     }
 
-    ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(action_owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(effect_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(action_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(direction_map);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

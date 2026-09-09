@@ -110,174 +110,175 @@ typedef struct S_800927E4_11 {
     u16 unk_02;
 } S_800927E4_11;   /* flagsBase in func_800927E4 */
 
-void func_800927E4(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, S_800927E4_3 *arg3) {
-    u16 pos[3];
-    register void *obj ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    S_800927E4_8 *prim;
+/* Advances a directional animation, spawns its effect and message, and handles completion. */
+void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, S_800927E4_3 *actor) {
+    u16 offset[3];
+    void *effect_obj;
+    S_800927E4_8 *effect_prim;
     S_800927E4_9 *effect;
     S_800927E4_10 *entity;
     s32 text;
-    s32 root;
-    s32 state;
+    s32 text_root;
+    s32 state_or_text;
     u16 timer;
-    u8 *pageHi;
-    s16 *page;
-    register s32 tailValue ASM_REG("$2"); /* MATCH: keep the shared-tail store value in retail's v0. */
-    u8 *flagsBase;
+    u8 *angle_hi;
+    s16 *angle_page;
+    register s32 tail_value ASM_REG("$2"); /* MATCH: keep the shared-tail store value in retail's v0. */
+    u8 *flags_base;
 
-    state = ((S_800927E4_0 *)arg0)->unk_9B;
-    if (state == 1) {
+    state_or_text = ((S_800927E4_0 *)action)->unk_9B;
+    if (state_or_text == 1) {
         goto state_one;
     }
-    if (state < 2) {
-        ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        if (state == 0) {
+    if (state_or_text < 2) {
+        ASM_CLOBBER("$2");   /* Pin: removal changes a delay-slot fill. */
+        if (state_or_text == 0) {
             goto state_zero;
         }
-        goto dflt;
-    } else if (state == 2) {
+        goto done;
+    } else if (state_or_text == 2) {
         goto state_two;
     }
-dflt:
+done:
     return;
 
 state_zero:
-        if (((S_800927E4_0 *)arg0)->unk_9A == 0x2C) {
-            register void *callArg ASM_REG("$4") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            u8 *table = D_800DD0B8;
-            u8 *hitBase;
+    if (((S_800927E4_0 *)action)->unk_9A == 0x2C) {
+        register void *anim_sprite ASM_REG("$4") = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
+        u8 *anim_table = D_800DD0B8;
+        u8 *angle_base;
 
-            ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            hitBase = (u8 *)0x80080000;
-            ASM_KEEP(hitBase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ((S_800927E4_1 *)callArg)->unk_2C = table;
-            func_80048A44(
-                callArg,
-                table[((((S_800927E4_2 *)hitBase)->unk_3228 +
-                        arg3->unk_2A.s + 0x100) >> 9) & 7],
-                0,
-                1);
-            tailValue = ((S_800927E4_0 *)arg0)->unk_9B + 1;
-            goto state_advance;
-        }
+        ASM_CLOBBER("$2");   /* Pin: removal changes a delay-slot fill. */
+        angle_base = (u8 *)0x80080000;
+        ASM_KEEP(angle_base);   /* Pin: removal reorders the instructions (same instructions, different order). */
+        ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
+        func_80048A44(
+            anim_sprite,
+            anim_table[((((S_800927E4_2 *)angle_base)->unk_3228 +
+                    actor->unk_2A.s + 0x100) >> 9) & 7],
+            0,
+            1);
+        tail_value = ((S_800927E4_0 *)action)->unk_9B + 1;
+        goto state_advance;
+    }
 
-        pageHi = (u8 *)0x80080000;
-        ASM_KEEP(pageHi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        page = (s16 *)(pageHi + 0x3160);
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        {
-            s32 pageCoord = ((S_800927E4_4 *)page)->unk_C8;
-            s32 coordSigned = arg3->unk_2A.s;
-            register s32 coordUnsigned ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 nextCoord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    angle_hi = (u8 *)0x80080000;
+    ASM_KEEP(angle_hi);   /* Pin: removal changes the whole function shape. */
+    angle_page = (s16 *)(angle_hi + 0x3160);
+    ASM_KEEP(angle_page);   /* Pin: removal changes a delay-slot fill. */
+    {
+        s32 base_angle = ((S_800927E4_4 *)angle_page)->unk_C8;
+        s32 signed_angle = actor->unk_2A.s;
+        s32 angle_or_sprite;
+        s32 next_angle;
 
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            coordUnsigned = arg3->unk_2A.u;
-            if ((((pageCoord + coordSigned + 0x100) >> 9) & 7) == 2) {
-            coordUnsigned = (s32)arg2;
+        ASM_MEM_BARRIER();   /* Pin: removal changes the callee-saved set / frame layout. */
+        angle_or_sprite = actor->unk_2A.u;
+        if ((((base_angle + signed_angle + 0x100) >> 9) & 7) == 2) {
+            angle_or_sprite = (s32)sprite;
             {
-            register u8 *table ASM_REG("$3") = D_800DD0B8;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                register u8 *anim_table ASM_REG("$3") = D_800DD0B8;   /* Pin: removal changes the instruction count (a copy retail keeps is dropped or added). */
 
-            ((S_800927E4_5 *)((void *)coordUnsigned))->unk_2C = table;
-            func_80048A44(
-                (void *)coordUnsigned,
-                table[((((S_800927E4_4 *)page)->unk_C8 +
-                        arg3->unk_2A.s + 0x100) >> 9) & 7],
-                0,
-                1);
-            tailValue = ((S_800927E4_0 *)arg0)->unk_9B + 1;
-            goto state_advance;
+                ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
+                func_80048A44(
+                    (void *)angle_or_sprite,
+                    anim_table[((((S_800927E4_4 *)angle_page)->unk_C8 +
+                            actor->unk_2A.s + 0x100) >> 9) & 7],
+                    0,
+                    1);
+                tail_value = ((S_800927E4_0 *)action)->unk_9B + 1;
+                goto state_advance;
             }
-            }
-
-            nextCoord = coordUnsigned + 0x200;
-            arg3->unk_2A.u = nextCoord;
         }
-        return;
+
+        next_angle = angle_or_sprite + 0x200;
+        actor->unk_2A.u = next_angle;
+    }
+    return;
 
 state_one:
-        if (func_8003DE58(arg2->unk_08, arg2, pos, 0) == 0 &&
-            !(arg2->unk_14.at00_u16.v & 0x8000)) {
-            return;
-        }
-
-        if (!(arg3->unk_1C & 0x100000)) {
-            void *callA0 = (u8 *)arg0 - 0x20;
-            register s32 zero ASM_REG("$6") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(callA0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(zero);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            obj = func_800A8608(
-                callA0, ((S_800927E4_0 *)arg0)->unk_110, zero, zero, 0);
-            if (obj != 0) {
-                u8 *handler = (u8 *)0x80090000;
-
-                ASM_KEEP(handler);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                handler -= 0x2B90;
-                ((S_800927E4_7 *)obj)->unk_10 = handler;
-                prim = ((S_800927E4_7 *)obj)->unk_08;
-                prim->unk_02 = (arg2->unk_24 << 6) + 0x20;
-                prim->unk_06 = (arg2->unk_25 << 6) + 0x20;
-
-                if (arg2->unk_14.at00_u16.v & 0x8000) {
-                    effect = (u8 *)obj + 0x20;
-                    tailValue = arg3->unk_88 - 0x50;
-                } else {
-                    effect = (u8 *)obj + 0x20;
-                    ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                    prim->unk_02 += pos[0];
-                    prim->unk_06 += pos[1];
-                    tailValue = pos[2];
-                    tailValue += arg3->unk_88;
-                }
-                prim->unk_0A = tailValue;
-                effect->unk_A8 = 0x1E;
-                effect->unk_AA = 2;
-                effect->unk_90 = arg2;
-                effect->unk_8C = arg1;
-                effect->unk_9C = (u8 *)arg0 + 0x108;
-
-                entity = ((S_800927E4_0 *)arg0)->unk_110;
-                if (entity != 0 && entity->unk_01 == 4 &&
-                    entity->unk_02 != 0) {
-                    effect->unk_AE = 1;
-                    effect->unk_A8 = 0x3C;
-                }
-            }
-
-            root = func_800990FC();
-            state = func_80099734(arg3, func_8009929C(8, root));
-            state = func_80099194(D_800E06EE, state);
-            state = func_80099368(((S_800927E4_0 *)arg0)->unk_110, state);
-            text = func_80099194(D_800E06F7, state);
-            entity = ((S_800927E4_0 *)arg0)->unk_110;
-            if (entity->unk_01 != 4) {
-                text = func_8009965C(entity, text);
-            }
-            func_80099290(text);
-            func_800A5720(root);
-        }
-
-        ((S_800927E4_0 *)arg0)->unk_96 = 0x1E;
-        tailValue = ((S_800927E4_0 *)arg0)->unk_9B + 1;
-state_advance:
-        ((S_800927E4_0 *)arg0)->unk_9B = tailValue;
+    if (func_8003DE58(sprite->unk_08, sprite, offset, 0) == 0 &&
+        !(sprite->unk_14.at00_u16.v & 0x8000)) {
         return;
+    }
+
+    if (!(actor->unk_1C & 0x100000)) {
+        void *owner_obj = (u8 *)action - 0x20;
+        register s32 zero ASM_REG("$6") = 0;   /* Pin: removal changes the whole function shape. */
+        ASM_KEEP_NV(owner_obj);   /* Pin: removal reorders the instructions (same instructions, different order). */
+        ASM_KEEP_NV(zero);   /* Pin: removal changes the register colouring. */
+        effect_obj = func_800A8608(
+            owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
+        if (effect_obj != 0) {
+            u8 *handler = (u8 *)0x80090000;
+
+            ASM_KEEP(handler);   /* Pin: removal rematerialises a constant retail keeps in a register. */
+            handler -= 0x2B90;
+            ((S_800927E4_7 *)effect_obj)->unk_10 = handler;
+            effect_prim = ((S_800927E4_7 *)effect_obj)->unk_08;
+            effect_prim->unk_02 = (sprite->unk_24 << 6) + 0x20;
+            effect_prim->unk_06 = (sprite->unk_25 << 6) + 0x20;
+
+            if (sprite->unk_14.at00_u16.v & 0x8000) {
+                effect = (u8 *)effect_obj + 0x20;
+                tail_value = actor->unk_88 - 0x50;
+            } else {
+                effect = (u8 *)effect_obj + 0x20;
+                ASM_KEEP(effect);   /* Pin: removal changes the address form (%hi/%lo vs base+offset). */
+                effect_prim->unk_02 += offset[0];
+                effect_prim->unk_06 += offset[1];
+                tail_value = offset[2];
+                tail_value += actor->unk_88;
+            }
+            effect_prim->unk_0A = tail_value;
+            effect->unk_A8 = 0x1E;
+            effect->unk_AA = 2;
+            effect->unk_90 = sprite;
+            effect->unk_8C = actor_id;
+            effect->unk_9C = (u8 *)action + 0x108;
+
+            entity = ((S_800927E4_0 *)action)->unk_110;
+            if (entity != 0 && entity->unk_01 == 4 &&
+                entity->unk_02 != 0) {
+                effect->unk_AE = 1;
+                effect->unk_A8 = 0x3C;
+            }
+        }
+
+        text_root = func_800990FC();
+        state_or_text = func_80099734(actor, func_8009929C(8, text_root));
+        state_or_text = func_80099194(D_800E06EE, state_or_text);
+        state_or_text = func_80099368(((S_800927E4_0 *)action)->unk_110, state_or_text);
+        text = func_80099194(D_800E06F7, state_or_text);
+        entity = ((S_800927E4_0 *)action)->unk_110;
+        if (entity->unk_01 != 4) {
+            text = func_8009965C(entity, text);
+        }
+        func_80099290(text);
+        func_800A5720(text_root);
+    }
+
+    ((S_800927E4_0 *)action)->unk_96 = 0x1E;
+    tail_value = ((S_800927E4_0 *)action)->unk_9B + 1;
+state_advance:
+    ((S_800927E4_0 *)action)->unk_9B = tail_value;
+    return;
 
 state_two:
-        if ((arg2->unk_14.at00_u16.v & 0x8000) ||
-            (timer = ((S_800927E4_0 *)arg0)->unk_96 - 1,
-             ((S_800927E4_0 *)arg0)->unk_96 = timer,
-             (s32)(timer << 16) <= 0)) {
-            if (((S_800927E4_0 *)arg0)->unk_110 != 0) {
-                func_80091934(arg0, arg1, arg2, arg3);
-                return;
-            }
-            func_80099F70(arg3->unk_5C);
-            func_80099F04(arg3->unk_5C);
-            flagsBase = D_80083460;
-            ASM_KEEP(flagsBase);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_800927E4_11 *)flagsBase)->unk_02 |= 0x812;
-            ((S_800927E4_0 *)arg0)->unk_8C = D_8008ACDC;
+    if ((sprite->unk_14.at00_u16.v & 0x8000) ||
+        (timer = ((S_800927E4_0 *)action)->unk_96 - 1,
+         ((S_800927E4_0 *)action)->unk_96 = timer,
+         (s32)(timer << 16) <= 0)) {
+        if (((S_800927E4_0 *)action)->unk_110 != 0) {
+            func_80091934(action, actor_id, sprite, actor);
+            return;
         }
-        return;
+        func_80099F70(actor->unk_5C);
+        func_80099F04(actor->unk_5C);
+        flags_base = D_80083460;
+        ASM_KEEP(flags_base);   /* Pin: removal changes the whole function shape. */
+        ((S_800927E4_11 *)flags_base)->unk_02 |= 0x812;
+        ((S_800927E4_0 *)action)->unk_8C = D_8008ACDC;
+    }
+    return;
 }

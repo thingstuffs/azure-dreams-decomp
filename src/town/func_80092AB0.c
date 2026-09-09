@@ -40,44 +40,45 @@ extern M2C_UNK D_80097D54;
 extern u8 D_800D0078[];
 extern s32 D_800D0438;
 
+/* Synchronizes the mode flag, updates state, and runs the pending callback. */
 void func_80090210(void) {
-    s32 temp_s0;
-    s32 temp_s0_2;
-    register s32 temp_v0 ASM_REG("$2"); /* MATCH: Keep the merged call result in v0 for the shared stores. */
-    u8 *base_83780 = (u8 *)&D_80083780;
-    u8 *base_82E80 = D_80082E80;
-    u8 *base_834B8 = (u8 *)&D_800834B8;
+    s32 disabled_flag;
+    s32 enabled_flag;
+    register s32 mode_result ASM_REG("$2"); /* MATCH: Keep the merged call result in v0 for the shared stores. */
+    u8 *work_state = (u8 *)&D_80083780;
+    u8 *update_state = D_80082E80;
+    u8 *handler_state = (u8 *)&D_800834B8;
     u8 *callback_page;
     M2C_UNK (*callback)();
 
-    if (((S_80090210_0 *)((u8 *)base_834B8 - 0x10))->unk_00 != D_8008FFC0) {
+    if (((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_00 != D_8008FFC0) {
         if (func_80033B2C(0x1202) == 0) {
-            ((S_80090210_0 *)((u8 *)base_834B8 - 0x10))->unk_26 = 0;
-            temp_s0 = func_80033B2C(0x1202);
-            if (temp_s0 != func_80033B2C(0x9D)) {
-                temp_v0 = func_80048D20();
-                D_80080A80 = temp_v0;
-                ((S_80090210_1 *)base_82E80)->unk_28 = temp_v0;
+            ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 0;
+            disabled_flag = func_80033B2C(0x1202);
+            if (disabled_flag != func_80033B2C(0x9D)) {
+                mode_result = func_80048D20();
+                D_80080A80 = mode_result;
+                ((S_80090210_1 *)update_state)->unk_28 = mode_result;
             }
-            goto block_7;
+            goto sync_mode_flag;
         }
-        ((S_80090210_0 *)((u8 *)base_834B8 - 0x10))->unk_26 = 1;
-        temp_s0_2 = func_80033B2C(0x1202);
-        if (temp_s0_2 != func_80033B2C(0x9D)) {
-            temp_v0 = func_80048D40();
-            D_80080A80 = temp_v0;
-            ((S_80090210_1 *)base_82E80)->unk_28 = temp_v0;
+        ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
+        enabled_flag = func_80033B2C(0x1202);
+        if (enabled_flag != func_80033B2C(0x9D)) {
+            mode_result = func_80048D40();
+            D_80080A80 = mode_result;
+            ((S_80090210_1 *)update_state)->unk_28 = mode_result;
         }
-block_7:
+sync_mode_flag:
         if (func_80033B2C(0x1202) != 0) {
             func_80033AA8(0x9D);
         } else {
             func_80033AE8(0x9D);
         }
-        func_80094984(D_800D0078, base_834B8, base_82E80);
-        func_80099764(base_834B8);
-        func_80098868(base_834B8, base_83780, base_82E80);
-        func_80098928(base_834B8, base_83780, base_82E80);
+        func_80094984(D_800D0078, handler_state, update_state);
+        func_80099764(handler_state);
+        func_80098868(handler_state, work_state, update_state);
+        func_80098928(handler_state, work_state, update_state);
         {
             u8 *handler_page;
 
@@ -86,9 +87,9 @@ block_7:
             callback_page = (u8 *)0x800D0000;
             callback = ((S_80090210_2 *)callback_page)->unk_438.s;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ((S_80090210_0 *)((u8 *)base_834B8 - 0x10))->unk_14 =
+            ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_14 =
                 (M2C_UNK *)(handler_page + 0x7D54);
-            ((S_80090210_0 *)((u8 *)base_834B8 - 0x10))->unk_1A = 0x10;
+            ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_1A = 0x10;
             if (callback != NULL) {
                 callback();
                 ((S_80090210_2 *)callback_page)->unk_438.u = 0;
@@ -96,7 +97,3 @@ block_7:
         }
     }
 }
-
-/* MECHANISM: Early pointer locals force the 0x28 frame and s3/s2/s1 held bases; s0 is reused for the callback page.
-   LEAD-27 page pins supply the two dead lui fillers consumed by the LEAD-22 sibling-call jumps.
-   A guarded v0 0x80090000 page plus a scheduling seam orders the callback load before the handler low-half/store. */

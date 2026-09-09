@@ -142,89 +142,6 @@ __asm__(".globl func_8014C800\n"
 #define BODY_NAME func_8014C800
 #endif
 
-#if 0
-void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3) {
-    s32 unksp28;
-    s32 sp28;
-    s16 sp10[4];
-    s16 temp_v0_2;
-    s32 temp_v1;
-    u32 temp_v1_2;
-    void *pin_arg0;
-    s8 pin_arg1;
-    s8 pin_arg2;
-    s16 pin_arg3;
-    void *temp_s1;
-    S_80FD5000_3 *temp_s2;
-    S_80FD5000_2 *temp_s6;
-    void *var_s7;
-    S_80FD5000_1 *var_s0;
-
-    pin_arg0 = arg0;
-    pin_arg1 = arg1;
-    pin_arg2 = arg2;
-    pin_arg3 = arg3;
-    var_s0 = NULL;
-    unksp28 = (s32) *(s8 *)-0x1158;
-    temp_s1 = func_8003FD64(0x112, &D_80083498);
-    if (temp_s1 != NULL) {
-        var_s7 = pin_arg0;
-        var_s0 = temp_s1 + 0x20;
-        ((S_80FD5000_0 *)temp_s1)->unk_10 = &D_8014CB40;
-        var_s0->unk_13 = 0x27;
-        func_8004491C(temp_s1, &D_80045340);
-        temp_s6 = ((S_80FD5000_0 *)temp_s1)->unk_08;
-        temp_s6->unk_0A = pin_arg3;
-        temp_s2 = ((S_80FD5000_0 *)temp_s1)->unk_0C;
-        temp_v1 = (s32) pin_arg0 & 3;
-        temp_s2->unk_25 = pin_arg2;
-        temp_s2->unk_2C = &D_80151258;
-        temp_s2->unk_24 = pin_arg1;
-        if (temp_v1 == 1) {
-            return func_8014C984();
-        }
-        if (temp_v1 >= 2) {
-            var_s0->unk_14 = (s32) (var_s0->unk_14 | 0x2000);
-            goto finish_kind;
-        }
-        if ((((s32) pin_arg0 & ~3) << 0x10) == 0) {
-            if (!(var_s0->unk_14 & 0x200)) {
-                if (func_800A6D30(temp_s1, temp_s6) & 1) {
-                    var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x200);
-                    func_800A48F0(var_s0, 1, (func_800A6D30(temp_s1) & 0x3F) | 0x20);
-                    temp_s2->unk_2C = &D_80151298;
-                }
-            }
-        }
-finish_kind:
-        func_800A9C18(temp_s1, temp_s6, temp_s2, (s16) var_s7);
-        var_s0->unk_9A = 0xFF;
-        var_s0->unk_9C = -1;
-        var_s0->unk_8C = &D_8014CF6C;
-        var_s0->unk_AE = (u16) temp_s2->unk_12;
-        if (((S_80FD5000_4 *)temp_s2->unk_08)->unk_00 & 0x20) {
-            return func_8014CA40();
-        }
-        sp10[2] = 0x100;
-        sp10[0] = 0;
-        sp10[3] = 1;
-        temp_v1_2 = (u16) ((S_80FD5000_4 *)((0 * 2 * 4) + temp_s2->unk_08))->unk_06 >> 6;
-        sp10[1] = (s16) temp_v1_2;
-        func_800673A0(sp10, 0, temp_v1_2 - 1);
-        sp10[2] = 0x10;
-        sp10[0] = 0x30;
-        sp10[1] -= 1;
-        do {
-            func_800673A0(sp10, sp10[0] - 0x30, (s16) sp10[1]);
-            temp_v0_2 = (u16) sp10[0] + 0x40;
-            sp10[0] = temp_v0_2;
-        } while (temp_v0_2 < 0x100);
-        func_800AA36C(var_s0, temp_s6, temp_s2, var_s0);
-        return var_s0;
-    }
-    return var_s0;
-}
-#endif
 
 typedef struct {
     s16 x;
@@ -233,132 +150,133 @@ typedef struct {
     s16 h;
 } Rect;
 
-void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3)
+/* Creates a monster actor and initializes its state, placement, and palette. */
+void *BODY_NAME(void *spawn_flags, s8 tile_x, s8 tile_y, s16 heading)
 {
-    s8 arg1_role;
-    register s8 arg2_role ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 arg3_role ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
+    register s8 saved_y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 saved_heading ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_80FD5000_0 *created;
-    register S_80FD5000_1 *work ASM_REG("$16") = 0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register S_80FD5000_1 *actor_state ASM_REG("$16") = 0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_80FD5000_2 *position;
     register S_80FD5000_3 *monster ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register S_80FD5000_1 *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 call_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *call_definition ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 kind;
-    Rect rect;
+    s32 spawn_kind;
+    Rect palette_strip;
 
     call_id = 0x112;
-    arg1_role = arg1;
-    ASM_KEEP_DEP_NV(arg1_role, call_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    saved_x = tile_x;
+    ASM_KEEP_DEP_NV(saved_x, call_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_definition = &D_80083498;
-    ASM_KEEP_DEP_NV(call_definition, arg1_role);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    arg3_role = arg3;
-    arg2_role = arg2;
+    ASM_KEEP_DEP_NV(call_definition, saved_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    saved_heading = heading;
+    saved_y = tile_y;
     created = func_8003FD64(call_id, call_definition);
     if (created != 0) {
-        register s32 arg0_copy ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        s32 flags0;
-        s32 flags1;
+        register s32 saved_flags ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 actor_flags;
+        s32 state_flags;
         register void *call_created ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         register S_80FD5000_2 *call_position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        s32 value;
+        s32 random_bits;
+        s32 appearance_id;
+        s32 palette_y;
         S_80FD5000_4 *entry;
-        s32 i;
-        s32 doubled;
-        Rect *rectp;
+        s32 entry_index;
+        s32 twice_index;
+        Rect *palette_rect;
         S_80FD5000_4 *selected;
 
-        work = (S_80FD5000_1 *)((u8 *)created + 0x20);
-        arg0_copy = (s32)arg0;
-        ASM_KEEP(arg0_copy);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        actor_state = (S_80FD5000_1 *)((u8 *)created + 0x20);
+        saved_flags = (s32)spawn_flags;
+        ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         created->unk_10 = &D_8014CB40;
-        work->unk_13 = 0x27;
+        actor_state->unk_13 = 0x27;
         func_8004491C(created, &D_80045340);
 
         position = created->unk_08;
-        position->unk_0A = arg3_role;
+        position->unk_0A = saved_heading;
         monster = created->unk_0C;
-        monster->unk_25 = arg2_role;
-        actor = work;
+        monster->unk_25 = saved_y;
+        actor = actor_state;
         monster->unk_2C = &D_80151258;
-        monster->unk_24 = arg1_role;
+        monster->unk_24 = saved_x;
 
-        kind = (s32)arg0 & 3;
-        if (kind == 1) {
-            flags0 = work->unk_14 | 0x6000;
-            flags1 = work->unk_1C | 0x6000;
+        spawn_kind = (s32)spawn_flags & 3;
+        if (spawn_kind == 1) {
+            actor_flags = actor_state->unk_14 | 0x6000;
+            state_flags = actor_state->unk_1C | 0x6000;
             goto finish_kind;
         }
-        if (kind >= 2) {
-            flags0 = work->unk_14 | 0x2000;
-            flags1 = work->unk_1C | 0x2000;
+        if (spawn_kind >= 2) {
+            actor_flags = actor_state->unk_14 | 0x2000;
+            state_flags = actor_state->unk_1C | 0x2000;
 finish_kind:
-            work->unk_14 = flags0;
-            work->unk_1C = flags1;
+            actor_state->unk_14 = actor_flags;
+            actor_state->unk_1C = state_flags;
             goto finish_kind_args;
         }
         call_created = created;
-        if (((s32)arg0 & ~3) << 16 != 0)
+        if (((s32)spawn_flags & ~3) << 16 != 0)
             goto have_call_position;
         call_position = position;
-        if (work->unk_14 & 0x200)
+        if (actor_state->unk_14 & 0x200)
             goto have_call_args;
-        value = func_800A6D30(call_created, call_position);
+        random_bits = func_800A6D30(call_created, call_position);
         call_created = created;
-        if (!(value & 1))
+        if (!(random_bits & 1))
             goto have_call_position;
-        work->unk_1C |= 0x200;
-        value = func_800A6D30(created);
-        func_800A48F0(work, 1, (value & 0x3F) | 0x20);
+        actor_state->unk_1C |= 0x200;
+        random_bits = func_800A6D30(created);
+        func_800A48F0(actor_state, 1, (random_bits & 0x3F) | 0x20);
         monster->unk_2C = &D_80151298;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
 finish_kind_args:
         call_created = created;
 have_call_position:
         call_position = position;
 have_call_args:
-        func_800A9C18(call_created, call_position, monster, (s16)arg0_copy);
+        func_800A9C18(call_created, call_position, monster, (s16)saved_flags);
 
-        i = 0;
-        value = monster->unk_12;
+        entry_index = 0;
+        appearance_id = monster->unk_12;
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8014CF6C;
-        actor->unk_AE = value;
+        actor->unk_AE = appearance_id;
 
         entry = (S_80FD5000_4 *)monster->unk_08;
 scan_entry:
-        doubled = i << 1;
+        twice_index = entry_index << 1;
         if (entry->unk_00 & 0x20) {
             entry = (S_80FD5000_4 *)((u8 *)entry + 12);
-            i++;
+            entry_index++;
             goto scan_entry;
-        } else {
         }
 
-        rectp = &rect;
-        ASM_KEEP(rectp);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        selected = (S_80FD5000_4 *)(doubled + i);
+        palette_rect = &palette_strip;
+        ASM_KEEP(palette_rect);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        selected = (S_80FD5000_4 *)(twice_index + entry_index);
         selected = (S_80FD5000_4 *)((s32)selected * 4);
         selected = (S_80FD5000_4 *)((u8 *)selected + (s32)monster->unk_08);
-        value = selected->unk_06 >> 6;
-        rect.x = 0;
-        rect.y = value;
-        rect.w = 0x100;
-        rect.h = 1;
-        func_800673A0(rectp, 0, value - 1);
+        palette_y = selected->unk_06 >> 6;
+        palette_strip.x = 0;
+        palette_strip.y = palette_y;
+        palette_strip.w = 0x100;
+        palette_strip.h = 1;
+        func_800673A0(palette_rect, 0, palette_y - 1);
 
-        rect.w = 0x10;
-        rect.x = 0x30;
-        rect.y--;
+        palette_strip.w = 0x10;
+        palette_strip.x = 0x30;
+        palette_strip.y--;
         do {
-            func_800673A0(&rect, rect.x - 0x30, rect.y);
-            rect.x += 0x40;
-        } while (rect.x < 0x100);
+            func_800673A0(&palette_strip, palette_strip.x - 0x30, palette_strip.y);
+            palette_strip.x += 0x40;
+        } while (palette_strip.x < 0x100);
 
-        func_800AA36C(actor, position, monster, work);
+        func_800AA36C(actor, position, monster, actor_state);
     }
-    return work;
+    return actor_state;
 }

@@ -59,13 +59,14 @@ extern s32 D_80025E48;
 extern s32 D_80026490;
 extern s32 D_800CEEFC[3];
 
-void *func_800262AC(s16 arg0, s16 arg1, s16 arg2)
+/* Creates three groups of sixteen objects at the supplied coordinates. */
+void *func_800262AC(s16 x, s16 y, s16 z)
 {
-    register s32 outer ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 inner;
-    s32 kind;
-    register s32 state_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 render_value;
+    s32 group_index;
+    s32 object_index;
+    s32 object_flags;
+    register s32 init_value ASM_REG("$2");
+    u16 render_flags;
     void *object;
     S_800262AC_1 *coords;
     S_800262AC_2 *render;
@@ -76,67 +77,58 @@ void *func_800262AC(s16 arg0, s16 arg1, s16 arg2)
     if (func_8003FA44(0x30) == 0) {
         return 0;
     }
-    outer = 2;
+    group_index = 2;
 
     callback = &D_80025E48;
     texture = &D_80026490;
 
-outer_loop:
-    inner = 15;
-inner_loop:
-    kind = 2;
-    if (inner != 0) {
-        kind = 0x202;
-    }
-    object = func_8003FC64(kind);
-    if (object != 0) {
-        ((S_800262AC_0 *)object)->unk_10 = callback;
-        func_8004491C(object, &D_800CEEFC);
-        coords = ((S_800262AC_0 *)object)->unk_08;
-        coords->unk_0E = arg0;
-        coords->unk_02 = arg0;
-        coords->unk_12 = arg1;
-        coords->unk_06 = arg1;
-        coords->unk_16 = arg2;
-        coords->unk_0A = arg2;
-        render = ((S_800262AC_0 *)object)->unk_0C;
-        render->unk_06 = 0x10;
-        if (outer != 0) {
-            ASM_SCHED_BARRIER(); /* MATCH: Keep the two render modes as arms feeding the shared store. */
-            state_value = 0x100;
-        } else {
-            state_value = 0x800;
-        }
-        render->unk_1E.s = state_value;
-        render_value = render->unk_1E.u;
-        render->unk_14 = 0xC;
-        render->unk_10 = 0x20;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        state_value = 8;
-        render->unk_08 = texture;
-        render->unk_1C = render_value;
-        state = (u8 *)object + 0x20;
-        state->unk_1A = state_value;
-        state->unk_64 = state_value;
-        state->unk_22 = inner;
-        state->unk_24 = outer;
-        state->unk_5C = arg0;
-        state->unk_5E = arg1;
-        state->unk_60 = arg2;
-    }
+    do {
+        object_index = 15;
+        do {
+            object_flags = 2;
+            if (object_index != 0) {
+                object_flags = 0x202;
+            }
+            object = func_8003FC64(object_flags);
+            if (object != 0) {
+                ((S_800262AC_0 *)object)->unk_10 = callback;
+                func_8004491C(object, &D_800CEEFC);
+                coords = ((S_800262AC_0 *)object)->unk_08;
+                coords->unk_0E = x;
+                coords->unk_02 = x;
+                coords->unk_12 = y;
+                coords->unk_06 = y;
+                coords->unk_16 = z;
+                coords->unk_0A = z;
+                render = ((S_800262AC_0 *)object)->unk_0C;
+                render->unk_06 = 0x10;
+                if (group_index != 0) {
+                    ASM_SCHED_BARRIER();
+                    init_value = 0x100;
+                } else {
+                    init_value = 0x800;
+                }
+                render->unk_1E.s = init_value;
+                render_flags = render->unk_1E.u;
+                render->unk_14 = 0xC;
+                render->unk_10 = 0x20;
+                ASM_SCHED_BARRIER();
+                init_value = 8;
+                render->unk_08 = texture;
+                render->unk_1C = render_flags;
+                state = (u8 *)object + 0x20;
+                state->unk_1A = init_value;
+                state->unk_64 = init_value;
+                state->unk_22 = object_index;
+                state->unk_24 = group_index;
+                state->unk_5C = x;
+                state->unk_5E = y;
+                state->unk_60 = z;
+            }
 
-    inner--;
-    if (inner >= 0) {
-        goto inner_loop;
-    }
-    outer--;
-    if (outer >= 0) {
-        goto outer_loop;
-    }
+            object_index--;
+        } while (object_index >= 0);
+        group_index--;
+    } while (group_index >= 0);
     return object;
 }
-
-/* MECHANISM: Descending s2/s1 loops plus two held bases force the retail 0x38 nine-save frame.
-   LEAD28 sinks a pinned zero into the first noreturn-j slot; LEAD22 preserves the second tail.
-   A volatile u16 reread, two barriers, and a short v0=8 pin recover retail's v0/v1 schedule.
-   Pinning outer to s2 before ASM_KEEP defeats zero-equivalence CSE without rotating the counters. */

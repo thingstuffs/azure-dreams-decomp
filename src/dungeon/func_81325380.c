@@ -47,139 +47,128 @@ typedef struct S_8016CB80_4 {
     s16 unk_08;
 } S_8016CB80_4;   /* temp_a0_2 in func_8016CB80 */
 
-void func_8016CB80(void *arg0, void *arg1, void *arg2, void *arg3) {
-    void *base1 = arg1;
-    register void *base2 ASM_REG("$17") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *base3 = arg3;
-    M2C_UNK sp18;
-    s32 temp_a0;
-    s32 temp_v1_2;
-    s32 scaled;
-    s32 delta;
-    s32 temp_v1_3;
-    u16 temp_v0;
-    u16 temp_v1_4;
-    s32 temp_v1;
-    u8 *temp_a0_2;
-    register void *temp_v1_dispatch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 temp_v0_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *temp_a1;
+/* Updates movement, directional animation, and action completion. */
+void func_8016CB80(void *state, void *motion_arg, void *actor_arg, void *entity_arg) {
+    void *motion = motion_arg;
+    register void *actor ASM_REG("$17") = actor_arg;
+    void *entity = entity_arg;
+    M2C_UNK direction_info;
+    s32 move_ticks;
+    s32 next_move_ticks;
+    s32 tile_x;
+    s32 pixel_offset;
+    s32 entity_flags;
+    u16 action_ticks;
+    u16 status_flags;
+    s32 phase;
+    u8 *action_counter;
+    register void *current_anims;
+    register u32 anim_page;
+    u8 *anims;
 
-#define arg1 base1
-#define arg2 base2
-#define arg3 base3
-
-    temp_v1 = ((S_8016CB80_0 *)arg0)->unk_9B;
-    if (temp_v1 == 1) {
-        goto block_10;
+    phase = ((S_8016CB80_0 *)state)->unk_9B;
+    if (phase == 1) {
+        goto update_move;
     }
-    if ((s32) temp_v1 < 2) {
-        if (temp_v1 == 0) {
-            goto block_0;
+    if ((s32) phase < 2) {
+        if (phase == 0) {
+            goto start_move;
         }
-        goto block_22;
+        goto update_timer;
     }
-    if (temp_v1 == 2) {
-        goto block_14;
+    if (phase == 2) {
+        goto finish_move;
     }
-    if (temp_v1 == 3) {
-        goto block_18;
+    if (phase == 3) {
+        goto update_animation;
     }
-    goto block_22;
-block_0:
-    ((S_8016CB80_0 *)arg0)->unk_98 = (u16) (((S_8016CB80_0 *)arg0)->unk_98 | 8);
-    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0xF7FFFFFF);
-    ((S_8016CB80_0 *)arg0)->unk_9E = 5;
-    ((S_8016CB80_0 *)arg0)->unk_A0 = 0;
-    ((S_8016CB80_0 *)arg0)->unk_9B = (u8) (((S_8016CB80_0 *)arg0)->unk_9B + 1);
-block_10:
-    temp_a0 = ((S_8016CB80_0 *)arg0)->unk_9E;
-    ((S_8016CB80_0 *)arg0)->unk_90 = (s32) (((S_8016CB80_0 *)arg0)->unk_90 - ((S_8016CB80_0 *)arg0)->unk_A0);
-    if (temp_a0 != 0) {
-        scaled = ((S_8016CB80_2 *)arg2)->unk_24;
-        ASM_KEEP(scaled);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        delta = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = (s32) ((s32) (((scaled << 6) - delta) << 0x10) / temp_a0);
-        delta = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = (s32) ((s32) (((((S_8016CB80_2 *)arg2)->unk_25 << 6) - delta) << 0x10) / (s16) ((S_8016CB80_0 *)arg0)->unk_9E);
-        ((S_8016CB80_0 *)arg0)->unk_A0 = (s32) ((0 - func_800644B8(((S_8016CB80_0 *)arg0)->unk_9E * 0x199)) << 0xA);
+    goto update_timer;
+start_move:
+    ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 | 8);
+    ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0xF7FFFFFF);
+    ((S_8016CB80_0 *)state)->unk_9E = 5;
+    ((S_8016CB80_0 *)state)->unk_A0 = 0;
+    ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
+update_move:
+    move_ticks = ((S_8016CB80_0 *)state)->unk_9E;
+    ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 - ((S_8016CB80_0 *)state)->unk_A0);
+    if (move_ticks != 0) {
+        tile_x = ((S_8016CB80_2 *)actor)->unk_24;
+        ASM_KEEP(tile_x);
+        pixel_offset = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) ((s32) (((tile_x << 6) - pixel_offset) << 0x10) / move_ticks);
+        pixel_offset = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) ((s32) (((((S_8016CB80_2 *)actor)->unk_25 << 6) - pixel_offset) << 0x10) / (s16) ((S_8016CB80_0 *)state)->unk_9E);
+        ((S_8016CB80_0 *)state)->unk_A0 = (s32) ((0 - func_800644B8(((S_8016CB80_0 *)state)->unk_9E * 0x199)) << 0xA);
     }
-    ((S_8016CB80_0 *)arg0)->unk_90 = (s32) (((S_8016CB80_0 *)arg0)->unk_90 + ((S_8016CB80_0 *)arg0)->unk_A0);
-    temp_v1_2 = (u16) ((S_8016CB80_0 *)arg0)->unk_9E - 1;
-    ((S_8016CB80_0 *)arg0)->unk_9E = temp_v1_2;
-    if ((temp_v1_2 << 0x10) < 0) {
-        ((S_8016CB80_0 *)arg0)->unk_90 = 0;
-        ((S_8016CB80_0 *)arg0)->unk_98 = (u16) (((S_8016CB80_0 *)arg0)->unk_98 & 0xFFF7);
-        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 | 0x08000000);
-        ((S_8016CB80_0 *)arg0)->unk_9B = (u8) (((S_8016CB80_0 *)arg0)->unk_9B + 1);
+    ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 + ((S_8016CB80_0 *)state)->unk_A0);
+    next_move_ticks = (u16) ((S_8016CB80_0 *)state)->unk_9E - 1;
+    ((S_8016CB80_0 *)state)->unk_9E = next_move_ticks;
+    if ((next_move_ticks << 0x10) < 0) {
+        ((S_8016CB80_0 *)state)->unk_90 = 0;
+        ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 & 0xFFF7);
+        ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 | 0x08000000);
+        ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
     }
-block_14:
-    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x08000000) {
-        ((S_8016CB80_0 *)arg0)->unk_98 = (u16) (((S_8016CB80_0 *)arg0)->unk_98 & 0xFFF7);
-        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, ((S_8016CB80_2 *)arg2)->unk_24, ((S_8016CB80_2 *)arg2)->unk_25);
-        ((S_8016CB80_0 *)arg0)->unk_9B = (u8) (((S_8016CB80_0 *)arg0)->unk_9B + 1);
-        goto block_22;
+finish_move:
+    if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x08000000) {
+        ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 & 0xFFF7);
+        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, ((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25);
+        ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
+        goto update_timer;
     }
-    goto block_22;
-block_18:
-    if (((S_8016CB80_0 *)arg0)->unk_B3 == 0) {
-        temp_v1_dispatch = ((S_8016CB80_2 *)arg2)->unk_2C.p;
-        ASM_KEEP(temp_v1_dispatch);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        temp_v0_page = 0x80170000;
-        ASM_KEEP(temp_v0_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_a1 = (u8 *)temp_v0_page + 0x467C;
+    goto update_timer;
+update_animation:
+    if (((S_8016CB80_0 *)state)->unk_B3 == 0) {
+        current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
+        anim_page = 0x80170000;
+        ASM_KEEP(anim_page);
+        anims = (u8 *)anim_page + 0x467C;
     } else {
-        temp_v1_dispatch = ((S_8016CB80_2 *)arg2)->unk_2C.p;
-        temp_a1 = D_80174684;
+        current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
+        anims = D_80174684;
     }
-    if (temp_v1_dispatch != temp_a1) {
-        (*(u8 **)((u8 *)arg2 + 0x2C)) = temp_a1;
-        func_80047784(arg2, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)temp_a1), 0);
+    if (current_anims != anims) {
+        (*(u8 **)((u8 *)actor + 0x2C)) = anims;
+        func_80047784(actor, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anims), 0);
     }
-block_22:
-    temp_v0 = ((S_8016CB80_0 *)arg0)->unk_96 - 1;
-    ((S_8016CB80_0 *)arg0)->unk_96 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, ((S_8016CB80_2 *)arg2)->unk_24, ((S_8016CB80_2 *)arg2)->unk_25);
-        func_800A4ACC(arg3);
-        temp_a0_2 = D_80083460;
-        if (((S_8016CB80_4 *)temp_a0_2)->unk_08 != 0) {
-            ((S_8016CB80_4 *)temp_a0_2)->unk_08 = (s16) ((u16) ((S_8016CB80_4 *)temp_a0_2)->unk_08 - 1);
+update_timer:
+    action_ticks = ((S_8016CB80_0 *)state)->unk_96 - 1;
+    ((S_8016CB80_0 *)state)->unk_96 = action_ticks;
+    if ((action_ticks << 0x10) <= 0) {
+        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, ((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25);
+        func_800A4ACC(entity);
+        action_counter = D_80083460;
+        if (((S_8016CB80_4 *)action_counter)->unk_08 != 0) {
+            ((S_8016CB80_4 *)action_counter)->unk_08 = (s16) ((u16) ((S_8016CB80_4 *)action_counter)->unk_08 - 1);
         }
-        temp_v1_3 = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
-        if (temp_v1_3 & 0x2000) {
-            temp_v1_4 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v;
-            if (!(temp_v1_4 & 0x8000)) {
-                goto block_32;
+        entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32;
+        if (entity_flags & 0x2000) {
+            status_flags = ((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v;
+            if (!(status_flags & 0x8000)) {
+                goto finish_action;
             }
-            ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = temp_v1_4 & 0x7FFF;
-            goto block_32;
+            ((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v = status_flags & 0x7FFF;
+            goto finish_action;
         }
-        if (temp_v1_3 & 0x410) {
-            goto block_32;
+        if (entity_flags & 0x410) {
+            goto finish_action;
         }
-        if (!(temp_v1_3 & 0x20000)) {
-            goto block_32;
+        if (!(entity_flags & 0x20000)) {
+            goto finish_action;
         }
-        ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(((S_8016CB80_2 *)arg2)->unk_24, ((S_8016CB80_2 *)arg2)->unk_25, D_80082E80[0x24], D_80082E80[0x25], &sp18);
-block_32:
-        if ((func_800AD9B4(arg2, arg3) << 0x10) > 0) {
-            ((S_8016CB80_0 *)arg0)->unk_8C = D_8016B778;
-            func_800A9A04(arg3);
+        ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 = func_800A0818(((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25, D_80082E80[0x24], D_80082E80[0x25], &direction_info);
+finish_action:
+        if ((func_800AD9B4(actor, entity) << 0x10) > 0) {
+            ((S_8016CB80_0 *)state)->unk_8C = D_8016B778;
+            func_800A9A04(entity);
         }
     }
 }
 
-#undef arg1
-#undef arg2
-#undef arg3
-
-/* MECHANISM: The 0x38 frame holds arg0/arg1/arg2/arg3 in s0/s2/s1/s3, with the s3 copy in the first branch slot.
-   Promoted temporaries and statement boundaries reproduce the signed loads, interpolation order, and countdown CFG.
-   Restoring the state increment closed the three-word cascade; v1/page carriers plus the tail-slot pin close the dispatcher j. */

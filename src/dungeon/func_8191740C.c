@@ -27,90 +27,90 @@ typedef struct S_80024C0C_1 {
 
 
 
-void func_80024C0C(void *arg0, void *arg1, void *arg2) {
-    register s32 x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 a0;
-    s32 a1;
-    s32 a2;
-    s32 d0;
-    register s32 cmp ASM_REG("$2");   /* MATCH: keep the merged comparison in retail's result register. */
-    u16 value;
-    u8 byte;
+/* Move the effect toward its target, then expand and fade it until completion. */
+void func_80024C0C(void *motion, void *position, void *effect) {
+    register s32 direction_scale ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 target_x;
+    s32 current_x;
+    s32 next_x;
+    s32 next_distance;
+    register s32 past_target ASM_REG("$2");   /* MATCH: keep the merged comparison in retail's result register. */
+    u16 size;
+    u8 intensity;
     void *object;
-    s32 *global;
+    s32 *global_flags;
     s16 state;
 
-    object = ((S_80024C0C_0 *)arg0)->unk_00;
+    object = ((S_80024C0C_0 *)motion)->unk_00;
     ((S_80024C0C_1 *)object)->unk_14++;
-    state = ((S_80024C0C_0 *)arg0)->unk_04.s;
+    state = ((S_80024C0C_0 *)motion)->unk_04.s;
     if (state == 0) {
-        goto state0;
+        goto moving;
     }
     if (state == 1) {
-        goto state1;
+        goto fading;
     }
     return;
 
-state0:
-    ((Rec_D_80082E80 *)arg2)->unk_1A.as_u16 += 0x200;
-    x = func_800644B8(((S_80024C0C_0 *)arg0)->unk_0E);
-    x = (x >> 4) * (func_800644B8(((S_80024C0C_0 *)arg0)->unk_10) >> 4);
-    ((Rec_func_80024600_arg1 *)arg1)->unk_00 += x * 0x1C;
-    x = func_800644B8(((S_80024C0C_0 *)arg0)->unk_0E);
-    x = (x >> 4) * (func_80064584(((S_80024C0C_0 *)arg0)->unk_10) >> 4);
-    ((Rec_func_80024600_arg1 *)arg1)->unk_04 += x * 0x1C;
-    ((Rec_func_80024600_arg1 *)arg1)->unk_08 += (func_80064584(((S_80024C0C_0 *)arg0)->unk_0E) >> 4) * 0x1C00;
-    x = func_800644B8(((S_80024C0C_0 *)arg0)->unk_0E);
-    x = (x >> 4) * (func_800644B8(((S_80024C0C_0 *)arg0)->unk_10) >> 4);
-    a1 = ((Rec_func_80024600_arg1 *)arg1)->unk_00;
-    state = ((S_80024C0C_0 *)arg0)->unk_12;
-    a2 = a1 + x * 0x1C;
+moving:
+    ((Rec_D_80082E80 *)effect)->unk_1A.as_u16 += 0x200;
+    direction_scale = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
+    direction_scale = (direction_scale >> 4) * (func_800644B8(((S_80024C0C_0 *)motion)->unk_10) >> 4);
+    ((Rec_func_80024600_arg1 *)position)->unk_00 += direction_scale * 0x1C;
+    direction_scale = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
+    direction_scale = (direction_scale >> 4) * (func_80064584(((S_80024C0C_0 *)motion)->unk_10) >> 4);
+    ((Rec_func_80024600_arg1 *)position)->unk_04 += direction_scale * 0x1C;
+    ((Rec_func_80024600_arg1 *)position)->unk_08 += (func_80064584(((S_80024C0C_0 *)motion)->unk_0E) >> 4) * 0x1C00;
+    direction_scale = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
+    direction_scale = (direction_scale >> 4) * (func_800644B8(((S_80024C0C_0 *)motion)->unk_10) >> 4);
+    current_x = ((Rec_func_80024600_arg1 *)position)->unk_00;
+    state = ((S_80024C0C_0 *)motion)->unk_12;
+    next_x = current_x + direction_scale * 0x1C;
     if (state != 0) {
-        a0 = ((Rec_func_80024600_arg1 *)arg1)->unk_0C;
-        cmp = a0 < a1;
+        target_x = ((Rec_func_80024600_arg1 *)position)->unk_0C;
+        past_target = target_x < current_x;
     } else {
-        a0 = ((Rec_func_80024600_arg1 *)arg1)->unk_0C;
-        cmp = a1 < a0;
+        target_x = ((Rec_func_80024600_arg1 *)position)->unk_0C;
+        past_target = current_x < target_x;
     }
-    if (cmp) {
-        register s32 d1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    if (past_target) {
+        s32 distance;
 
-        d1 = a1 - a0;
-        if (d1 < 0) {
-            d1 = -d1;
+        distance = current_x - target_x;
+        if (distance < 0) {
+            distance = -distance;
         }
-        ASM_KEEP(d1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        d0 = a2 - a0;
-        if (d0 < 0) {
-            d0 = -d0;
+        ASM_KEEP(distance);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        next_distance = next_x - target_x;
+        if (next_distance < 0) {
+            next_distance = -next_distance;
         }
-        if (d0 < d1) {
+        if (next_distance < distance) {
             goto done;
         }
-        ASM_KEEP(d1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
-    func_80024A34(arg0, arg1, arg2);
-    ((S_80024C0C_0 *)arg0)->unk_04.u++;
+    func_80024A34(motion, position, effect);
+    ((S_80024C0C_0 *)motion)->unk_04.u++;
     return;
 
-state1:
-    if (((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v != 0) {
-        byte = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v - 0x20;
-        ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = byte;
-        ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = byte;
-        ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = byte;
+fading:
+    if (((Rec_D_80082E80 *)effect)->unk_0C.at00_u8.v != 0) {
+        intensity = ((Rec_D_80082E80 *)effect)->unk_0C.at02_u8.v - 0x20;
+        ((Rec_D_80082E80 *)effect)->unk_0C.at02_u8.v = intensity;
+        ((Rec_D_80082E80 *)effect)->unk_0C.at01_u8.v = intensity;
+        ((Rec_D_80082E80 *)effect)->unk_0C.at00_u8.v = intensity;
     }
-    value = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + 0x400;
-    ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = value;
-    ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = value;
-    func_800478B8(arg2);
-    func_800478B8(arg2);
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
-        object = ((S_80024C0C_0 *)arg0)->unk_00;
+    size = ((Rec_D_80082E80 *)effect)->unk_1C.at02_u16.v + 0x400;
+    ((Rec_D_80082E80 *)effect)->unk_1C.at02_u16.v = size;
+    ((Rec_D_80082E80 *)effect)->unk_1C.at00_u16.v = size;
+    func_800478B8(effect);
+    func_800478B8(effect);
+    if (((Rec_D_80082E80 *)effect)->unk_14.at00_u16.v & 0x6000) {
+        object = ((S_80024C0C_0 *)motion)->unk_00;
         ((S_80024C0C_1 *)object)->unk_16++;
-        global = &D_800814A0;
-        (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
-        *global |= 0x8000;
+        global_flags = &D_800814A0;
+        (*(u16 *)((u8 *)motion + (-2))) |= 0x8000;
+        *global_flags |= 0x8000;
     }
 
 done:

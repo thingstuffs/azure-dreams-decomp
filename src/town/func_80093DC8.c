@@ -74,103 +74,104 @@ extern u8 D_80083160[];
 extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
-void func_80091528(void *arg0, void *arg1, s32 arg2)
+/* Updates the actor and dispatches town actions from input and interaction state. */
+void func_80091528(void *action_state, void *actor, s32 context)
 {
-  u8 *state_base = D_80083160;
-  register s32 saved_arg2;
-  u8 *work;
-  u8 *menu_base;
-  s16 value;
+  u8 *input_state = D_80083160;
+  register s32 saved_context;
+  u8 *map_work;
+  u8 *menu_state;
+  s16 sampled_height;
   u16 timer;
-  s32 input;
-  s32 result;
-  func_80095C80(arg1);
-  func_800951B4(arg1);
-  work = D_800FE488;
-  value = func_80095978(arg1, work);
-  if ((value - (*((s16 *) (((u8 *) arg1) + 0xA)))) >= 4)
+  s32 buttons;
+  s32 action_result;
+  func_80095C80(actor);
+  func_800951B4(actor);
+  map_work = D_800FE488;
+  sampled_height = func_80095978(actor, map_work);
+  if ((sampled_height - (*((s16 *) (((u8 *) actor) + 0xA)))) >= 4)
   {
     if (D_800CFCEF == 0)
     {
-      func_80094378(arg0, arg1, arg2);
+      func_80094378(action_state, actor, context);
       return;
     }
   }
   else
     if (D_800CFCEF == 0)
   {
-    func_80095A94(arg1, value, work);
+    func_80095A94(actor, sampled_height, map_work);
   }
-  timer = (*((u16 *) (((u8 *) arg0) + 0xA))) - 1;
-  *((u16 *) (((u8 *) arg0) + 0xA)) = timer;
+  timer = (*((u16 *) (((u8 *) action_state) + 0xA))) - 1;
+  *((u16 *) (((u8 *) action_state) + 0xA)) = timer;
   if (((s16) timer) <= 0)
   {
     timer = func_800374F4(4) + 6;
-    *((u16 *) (((u8 *) arg0) + 0xA)) = timer;
-    func_80097844(arg1, ((u16) func_800374F4(2)) + 2);
+    *((u16 *) (((u8 *) action_state) + 0xA)) = timer;
+    func_80097844(actor, ((u16) func_800374F4(2)) + 2);
   }
-  input = *((s32 *) (state_base + 0x10));
-  if (input & 0x10)
+  buttons = *((s32 *) (input_state + 0x10));
+  if (buttons & 0x10)
   {
-    func_800942B0(arg0, arg1, arg2);
+    func_800942B0(action_state, actor, context);
     return;
   }
-  if (input & 0x40)
+  if (buttons & 0x40)
   {
-    result = func_80095840(arg0, &D_800CFCB4);
-    if (result != 0)
+    action_result = func_80095840(action_state, &D_800CFCB4);
+    if (action_result != 0)
     {
-      if (result == 2)
+      if (action_result == 2)
       {
-        func_8009451C(arg0, arg1, arg2);
+        func_8009451C(action_state, actor, context);
         return;
       }
-      func_800944BC(arg0, arg1, arg2);
+      func_800944BC(action_state, actor, context);
       return;
     }
     if (func_80033B2C(0xA4) != 0)
     {
-      func_80094088(arg0, arg1, arg2);
+      func_80094088(action_state, actor, context);
       return;
     }
     return;
   }
-  menu_base = (u8 *) (&D_800CFCB4);
-  result = func_8009567C(menu_base);
-  if (result != 0)
+  menu_state = (u8 *) (&D_800CFCB4);
+  action_result = func_8009567C(menu_state);
+  if (action_result != 0)
   {
-    if (result == (-1))
+    if (action_result == (-1))
     {
-      func_80094C1C(arg0);
-      func_80098868(arg0, arg1, arg2);
-      *((s32 *) (((u8 *) arg0) + 0x2C)) = 0;
-      func_8008B158(*((s32 *) (menu_base + 0x10)));
+      func_80094C1C(action_state);
+      func_80098868(action_state, actor, context);
+      *((s32 *) (((u8 *) action_state) + 0x2C)) = 0;
+      func_8008B158(*((s32 *) (menu_state + 0x10)));
       return;
     }
-    func_800943B8(arg0, arg1, arg2);
+    func_800943B8(action_state, actor, context);
     return;
   }
-  input = *((s32 *) (state_base + 8));
-  if (!(input & 0x20))
+  buttons = *((s32 *) (input_state + 8));
+  if (!(buttons & 0x20))
   {
-    func_80093ED8(arg0, arg1, arg2);
+    func_80093ED8(action_state, actor, context);
     goto finish;
   }
-  if (input & 0xF000)
+  if (buttons & 0xF000)
   {
-    timer = (*((u16 *) (((u8 *) arg0) + 0x3E))) - 1;
-    *((u16 *) (((u8 *) arg0) + 0x3E)) = timer;
+    timer = (*((u16 *) (((u8 *) action_state) + 0x3E))) - 1;
+    *((u16 *) (((u8 *) action_state) + 0x3E)) = timer;
     func_80094944((s16) timer, 8);
 finish:
-    func_80094C1C(arg0);
-    func_8009503C(arg1);
+    func_80094C1C(action_state);
+    func_8009503C(actor);
     return;
   }
-  result = func_8003BD84(*((s32 *) (((u8 *) arg1) + 0xC)), *((s32 *) (((u8 *) arg1) + 0x10)));
-  if (result > 0xFFFFF)
+  action_result = func_8003BD84(*((s32 *) (((u8 *) actor) + 0xC)), *((s32 *) (((u8 *) actor) + 0x10)));
+  if (action_result > 0xFFFFF)
   {
-    func_80093E18(arg0, arg1, arg2);
+    func_80093E18(action_state, actor, context);
     return;
   }
-  func_80093D48(arg0, arg1, arg2);
+  func_80093D48(action_state, actor, context);
 }

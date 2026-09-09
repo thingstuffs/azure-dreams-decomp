@@ -1,13 +1,10 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
 
-
 typedef struct S_800A05A4_1 {
     u8 pad_00[0x88];
     s16 unk_88;
 } S_800A05A4_1;   /* found in func_800A05A4 */
-
-
 
 extern s16 D_8006CCD8[];
 extern s16 D_8006CCE8[];
@@ -16,135 +13,131 @@ extern void *func_8009B4B0(void *, u16, u16);
 extern s32 func_800A0548(s16, s16);
 extern s16 func_800A44E0(u16, u16, s16, u32);
 
-void *func_800A05A4(void *arg0, s32 arg1, s32 arg2, u32 arg3, volatile s32 arg4)
+/* Scans along a heading for an object within the height range and records the stopping coordinates. */
+void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatile s32 max_steps)
 {
     s32 direction;
     volatile u8 frame_slots[16];
-    register s32 slot2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 radius ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *found ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 slot5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *xstep;
-    s32 slot7;
-    register s32 initial_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 initial_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 limit_or_y_step ASM_REG("$18");
+    register s16 height_range ASM_REG("$19");
+    register void *found ASM_REG("$20");
+    register s32 offset_or_x_step ASM_REG("$21");
+    u8 *x_step;
+    s32 y_step_or_count;
+    register s32 initial_x ASM_REG("$4");
+    register s32 initial_y ASM_REG("$5");
     s32 x;
     s32 y;
     s32 signed_limit;
-    register u8 *xbase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *x_table ASM_REG("$2");
     s16 blocked;
 
     found = 0;
-    direction = (arg3 >> 9) & 7;
-    ASM_KEEP_NV(direction);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    xbase = (u8 *)D_8006CCD8;
-    slot5 = direction * 2;
-    xstep = xbase + slot5;
-    ASM_KEEP_NV(xstep);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    radius = 0x20;
+    direction = (heading >> 9) & 7;
+    ASM_KEEP_NV(direction);
+    x_table = (u8 *)D_8006CCD8;
+    offset_or_x_step = direction * 2;
+    x_step = x_table + offset_or_x_step;
+    ASM_KEEP_NV(x_step);
+    height_range = 0x20;
     {
-        u8 *ybase;
+        u8 *y_table;
 
-        ybase = (u8 *)D_8006CCE8;
-        slot7 = (s32)(ybase + slot5);
+        y_table = (u8 *)D_8006CCE8;
+        y_step_or_count = (s32)(y_table + offset_or_x_step);
     }
 
-    initial_x = *(u16 *)xstep + arg1;
-    slot2 = arg4;
+    initial_x = *(u16 *)x_step + start_x;
+    limit_or_y_step = max_steps;
     x = initial_x;
-    ASM_KEEP_NV(initial_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    initial_y = *(u16 *)(u32)slot7 + arg2;
+    ASM_KEEP_NV(initial_x);
+    initial_y = *(u16 *)(u32)y_step_or_count + start_y;
     y = initial_y;
-    ASM_KEEP_NV(initial_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    *(volatile u16 *)&frame_slots[8] = slot2;
+    ASM_KEEP_NV(initial_y);
+    *(volatile u16 *)&frame_slots[8] = limit_or_y_step;
     *(volatile u16 *)&frame_slots[0] = direction;
-    if (0) {
-    }
     if (func_800A0548(initial_x, initial_y) == 0) {
         goto start;
     }
 
     {
-        register volatile s32 out0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register volatile s32 out1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register volatile s32 x_result ASM_REG("$2");
+        register volatile s32 y_result ASM_REG("$3");
 
-        if (0) {   }
-        out0 = *(u8 *)xstep;
-        out0 -= x;
-        ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = out0;
-        out1 = *(u8 *)(u32)slot7;
-        ASM_CLOBBER("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(out1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        out0 = 0;
+        x_result = *(u8 *)x_step;
+        x_result -= x;
+        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = x_result;
+        y_result = *(u8 *)(u32)y_step_or_count;
+        ASM_KEEP(y_result);
+        x_result = 0;
         goto collision_tail;
 
 collision_exit:
-        out0 = *(u8 *)(u32)slot5;
-        out0 -= x;
-        ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = out0;
-        out1 = *(u8 *)(u32)slot2;
-        ASM_KEEP_NV(out1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        out0 = 0;
+        x_result = *(u8 *)(u32)offset_or_x_step;
+        x_result -= x;
+        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = x_result;
+        y_result = *(u8 *)(u32)limit_or_y_step;
+        ASM_KEEP_NV(y_result);
+        x_result = 0;
 collision_tail:
-        out1 -= y;
-        ((Rec_D_800E3D7C *)arg0)->unk_73.as_s8 = out1;
-        return (void *)out0;
+        y_result -= y;
+        ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = y_result;
+        return (void *)x_result;
     }
 
 blocked_exit:
     {
-        register volatile s32 out0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register volatile s32 out1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register volatile s32 null_result ASM_REG("$2");
+        register volatile s32 coord_result ASM_REG("$3");
 
-        if (0) {   }
-        out0 = 0;
-        ASM_KEEP(out0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        out1 = -x;
-        ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = out1;
-        out1 = -y;
-        ((Rec_D_800E3D7C *)arg0)->unk_73.as_s8 = out1;
-        return (void *)out0;
+        null_result = 0;
+        ASM_KEEP(null_result);
+        coord_result = -x;
+        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = coord_result;
+        coord_result = -y;
+        ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = coord_result;
+        return (void *)null_result;
     }
 
 start:
-    signed_limit = (s16)slot2;
-    ASM_KEEP(slot2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    signed_limit = (s16)limit_or_y_step;
+    ASM_KEEP(limit_or_y_step);
     if ((s32)found < signed_limit) {
-        register u16 loop_limit ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 signed_loop_limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register u16 loop_limit ASM_REG("$8");
+        register s32 signed_loop_limit ASM_REG("$2");
 
-        slot7 = 0;
-        *(volatile s32 *)&frame_slots[16] = slot5;
-        slot5 = (s32)xstep;
+        y_step_or_count = 0;
+        *(volatile s32 *)&frame_slots[16] = offset_or_x_step;
+        offset_or_x_step = (s32)x_step;
         do {
-            found = func_8009B4B0(arg0, (u16)x, (u16)y);
+            found = func_8009B4B0(source, (u16)x, (u16)y);
             if (found != 0) {
-                s32 delta;
+                s32 height_delta;
 
-                delta = ((S_800A05A4_1 *)found)->unk_88 - ((Rec_D_800E3D7C *)arg0)->unk_88.as_s16;
-                if (delta < 0) {
-                    delta = -delta;
+                height_delta = ((S_800A05A4_1 *)found)->unk_88 - ((Rec_D_800E3D7C *)source)->unk_88.as_s16;
+                if (height_delta < 0) {
+                    height_delta = -height_delta;
                 }
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                if (!((s16)radius < delta)) {
+                ASM_SCHED_BARRIER();
+                if (!((s16)height_range < height_delta)) {
                     break;
                 }
             }
 
             {
-                register u8 *loop_ybase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                register s32 loop_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                register s32 next_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                register u8 *loop_y_table ASM_REG("$2");
+                register s32 loop_offset ASM_REG("$8");
+                register s32 next_x ASM_REG("$4");
+                register s32 next_y ASM_REG("$5");
 
-                loop_ybase = (u8 *)D_8006CCE8;
-                next_x = *(u16 *)(u32)slot5;
+                loop_y_table = (u8 *)D_8006CCE8;
+                next_x = *(u16 *)(u32)offset_or_x_step;
                 loop_offset = *(volatile s32 *)&frame_slots[16];
                 next_x = x + next_x;
                 next_x = (s32)((u32)next_x << 16);
-                ASM_KEEP(next_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                slot2 = (s32)(loop_ybase + loop_offset);
-                next_y = *(u16 *)(u32)slot2;
+                ASM_KEEP(next_x);
+                limit_or_y_step = (s32)(loop_y_table + loop_offset);
+                next_y = *(u16 *)(u32)limit_or_y_step;
                 next_y = y + next_y;
                 if (func_800A0548(next_x >> 16, (s16)next_y) != 0) {
                     goto collision_exit;
@@ -152,38 +145,38 @@ start:
             }
 
             {
-                register u16 call_direction ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register u16 call_direction ASM_REG("$8");
 
                 call_direction = *(volatile u16 *)&frame_slots[0];
                 blocked = func_800A44E0((u16)(x << 6),
-                                   (u16)(y << 6),
-                                   (s16)(*(u16 *)((u8 *)arg0 + 0x88) - radius),
-                                   call_direction << 9);
+                                      (u16)(y << 6),
+                                      (s16)(*(u16 *)((u8 *)source + 0x88) - height_range),
+                                      call_direction << 9);
             }
-            radius += 0x20;
+            height_range += 0x20;
             if (blocked != 0) {
                 goto blocked_exit;
             }
 
-            slot7++;
+            y_step_or_count++;
             {
                 s32 x_delta;
-                register s32 y_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                register s32 y_delta ASM_REG("$3");
 
-                x_delta = *(volatile u16 *)(u32)slot5;
-                y_delta = *(volatile u16 *)(u32)slot2;
+                x_delta = *(volatile u16 *)(u32)offset_or_x_step;
+                y_delta = *(volatile u16 *)(u32)limit_or_y_step;
                 loop_limit = *(volatile u16 *)&frame_slots[8];
-                ASM_KEEP_NV(x_delta);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(y_delta);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(loop_limit);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(x_delta);
+                ASM_KEEP_NV(y_delta);
+                ASM_KEEP_NV(loop_limit);
                 x += x_delta;
                 y += y_delta;
             }
             signed_loop_limit = (s16)loop_limit;
-        } while (slot7 < signed_loop_limit);
+        } while (y_step_or_count < signed_loop_limit);
     }
 
-    ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = x;
-    ((Rec_D_800E3D7C *)arg0)->unk_73.as_s8 = y;
+    ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = x;
+    ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = y;
     return found;
 }

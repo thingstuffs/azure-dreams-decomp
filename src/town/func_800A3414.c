@@ -1,4 +1,3 @@
-/* cfail-repair: unary-star typing only */
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -6,21 +5,22 @@ extern M2C_UNK change_map();
 extern s32 get_player_homerank();
 extern M2C_UNK func_800B28A0();
 
-void func_800A0B74(void *arg0, s32 *arg1) {
-    u8 temp_v1;
+/* Changes maps using direct map data or a selected table entry. */
+void func_800A0B74(void *map_source, s32 *map_table) {
+    u8 selection_mode;
 
-    temp_v1 = *((u8 *)((s8 *)arg0 + 0x96));
-    if (temp_v1 == 0) {
-        arg0 = arg1;
+    selection_mode = *((u8 *)((s8 *)map_source + 0x96));
+    if (selection_mode == 0) {
+        map_source = map_table;
     } else {
-        s32 temp_v0;
+        s32 map_index;
 
-        if (temp_v1 == 1) {
-            temp_v0 = func_800B28A0();
+        if (selection_mode == 1) {
+            map_index = func_800B28A0();
         } else {
-            temp_v0 = get_player_homerank();
+            map_index = get_player_homerank();
         }
-        arg0 = (void *)arg1[temp_v0];
+        map_source = (void *)map_table[map_index];
     }
-    change_map(arg0);
+    change_map(map_source);
 }

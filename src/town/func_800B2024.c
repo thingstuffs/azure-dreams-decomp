@@ -23,27 +23,28 @@ typedef struct {
 extern u8 D_800786DC[];
 extern u8 D_800786E8[];
 
+/* Updates both outputs and their flags from the current state and limit. */
 void func_800AF784(Object *obj)
 {
-    register State *state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 mask;
+    register State *state;
+    s32 clear_mask;
 
     if (obj->state->current > 0) {
-        u32 value;
+        u32 flags;
 
         *obj->outputs->primary = D_800786DC;
-        value = obj->flags;
-        value &= ~2;
-        obj->flags = value;
+        flags = obj->flags;
+        flags &= ~2;
+        obj->flags = flags;
     } else {
         *obj->outputs->primary = 0;
         obj->flags |= 2;
     }
     state = obj->state;
     if (state->current < state->limit) {
-        mask = -2;
+        clear_mask = -2;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        obj->flags &= mask;
+        obj->flags &= clear_mask;
         *obj->outputs->secondary = D_800786E8;
         return;
     }

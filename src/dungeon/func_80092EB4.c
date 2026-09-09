@@ -30,103 +30,98 @@ typedef struct S_80098614_0 {
     u8 unk_86;
 } S_80098614_0;   /* arg0 in func_80098614 */
 
-void func_80098614(S_80098614_0 *arg0, u8 *arg1)
+/* Changes the actor's equipped item and displays status messages. */
+void func_80098614(S_80098614_0 *actor, u8 *requested_item)
 {
-    u8 *current;
-    u8 *object;
-    u8 *table;
-    s32 flags;
-    s32 id;
-    s32 check;
-    s32 result;
+    u8 *item;
+    u8 *equipped_item;
+    u8 *item_lookup;
+    s32 item_flags;
+    s32 item_id;
+    s32 had_equipped;
+    s32 text_end;
     s32 state;
 
-    current = arg1;
+    item = requested_item;
     state = 0;
 
-    if (current != 0) {
-        current = func_80097F84(current, D_800E07C0, D_800E07D3, 0);
-        if (current == 0) {
+    if (item != 0) {
+        item = func_80097F84(item, D_800E07C0, D_800E07D3, 0);
+        if (item == 0) {
             return;
         }
     }
 
-    object = arg0->unk_50.p;
-    if (object != 0) {
-        flags = object[3];
-        if (flags & 0x40) {
+    equipped_item = actor->unk_50.p;
+    if (equipped_item != 0) {
+        item_flags = equipped_item[3];
+        if (item_flags & 0x40) {
             func_800A56E0(0x70A);
             state = func_800990FC();
-            result = func_8009929C(8, state);
-            result = func_80099368(object, result);
-            result = func_80099194(D_800E0874, result);
-            func_80099290(result);
+            text_end = func_8009929C(8, state);
+            text_end = func_80099368(equipped_item, text_end);
+            text_end = func_80099194(D_800E0874, text_end);
+            func_80099290(text_end);
             func_800A5720(state);
             return;
         }
-        object[3] = flags & 0xDF;
-        if (object == current) {
-            current = 0;
+        equipped_item[3] = item_flags & 0xDF;
+        if (equipped_item == item) {
+            item = 0;
         }
         state = 1;
     }
 
-    check = state;
-    if (current != 0) {
-        current[3] &= 0x7F;
-        id = current[0];
+    had_equipped = state;
+    if (item != 0) {
+        item[3] &= 0x7F;
+        item_id = item[0];
         state = func_800990FC();
-        result = func_8009929C(8, state);
-        result = func_80099368(current, result);
-        result = func_80099194(D_800E089C, result);
-        func_80099290(result);
+        text_end = func_8009929C(8, state);
+        text_end = func_80099368(item, text_end);
+        text_end = func_80099194(D_800E089C, text_end);
+        func_80099290(text_end);
         func_800A5720(state);
 
-        if (current[3] & 0x40) {
-            arg0->unk_1C |= 0x800;
+        if (item[3] & 0x40) {
+            actor->unk_1C |= 0x800;
             func_800A56E0(0x70A);
             state = func_800990FC();
-            result = func_80099368(current, state);
-            result = func_80099194(D_800E08AB, result);
-            func_80099290(result);
+            text_end = func_80099368(item, state);
+            text_end = func_80099194(D_800E08AB, text_end);
+            func_80099290(text_end);
             func_800A5720(state);
         }
 
-        ASM_KEEP(id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        current[3] |= 0x20;
+        item[3] |= 0x20;
     } else {
-        ASM_KEEP(check);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(current);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        id = 0;
-        if (check != 0) {
+        ASM_KEEP(had_equipped);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        item_id = 0;
+        if (had_equipped != 0) {
             state = func_800990FC();
-            result = func_8009929C(8, state);
-            result = func_80099368(arg0->unk_50.p2, result);
-            result = func_80099194(D_800E08BA, result);
-            func_80099290(result);
+            text_end = func_8009929C(8, state);
+            text_end = func_80099368(actor->unk_50.p2, text_end);
+            text_end = func_80099194(D_800E08BA, text_end);
+            func_80099290(text_end);
             func_800A5720(state);
         }
 
     }
 
-    arg0->unk_50.p = current;
+    actor->unk_50.p = item;
     func_800A56E0(0x508);
     {
-        s32 call_id;
+        s32 lookup_id;
 
-        call_id = id;
-        ASM_KEEP(call_id);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        table = D_800DD2EC;
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        arg0->unk_86 = *(u8 *)((u32)call_id + (u32)table);
-        if (call_id != 0) {
-            func_800485B8(call_id);
+        lookup_id = item_id;
+        ASM_KEEP(lookup_id);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        item_lookup = D_800DD2EC;
+        ASM_KEEP(item_lookup);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        actor->unk_86 = *(u8 *)((u32)lookup_id + (u32)item_lookup);
+        if (lookup_id != 0) {
+            func_800485B8(lookup_id);
             return;
         }
     }
     func_800483AC(0);
 }
-
-/* MECHANISM: Ordered zero-byte check/current fences preserve the $v0 predicate copy
-   and invalidate current==0 before the delayed $s1 literal while retaining the 0x28 frame.
-   An index-first u32 address sum fixes the tail addu; ASM_CLOBBER reloads the final $a0. */

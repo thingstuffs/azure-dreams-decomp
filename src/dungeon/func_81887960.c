@@ -60,21 +60,22 @@ extern Global26326 D_80026326;
 extern Global26328 D_80026328;
 extern Global814A0 D_800814A0;
 
-void func_80025160(void *arg0, s32 arg1, S_80025160_1 *arg2) {
+/* Advances the effect state, updates its motion, and sets its display color. */
+void func_80025160(void *effect, s32 context, S_80025160_1 *visual) {
     s16 state;
     s32 one;
     u16 value;
     u16 angle;
-    u16 next;
-    s32 call_a1;
-    s32 signed_angle;
-    void *call_arg5;
+    u16 damped_value;
+    s32 effect_param;
+    s32 angle_shifted;
+    void *owner;
     u8 *flag_page;
     u8 *flags_page;
 
     one = 1;
     COUNTER = COUNTER + 1;
-    state = ((S_80025160_0 *)arg0)->unk_0A.s;
+    state = ((S_80025160_0 *)effect)->unk_0A.s;
 
     if (state == one) {
         goto state_1;
@@ -86,7 +87,7 @@ void func_80025160(void *arg0, s32 arg1, S_80025160_1 *arg2) {
     if (state == 0) {
         goto state_0;
     }
-    arg2->unk_0C = 0x20;
+    visual->unk_0C = 0x20;
     goto set_remaining_colors;
 
 state_ge_2:
@@ -98,33 +99,33 @@ state_ge_2:
     if (state == value) {
         goto state_3;
     }
-    arg2->unk_0C = 0x20;
+    visual->unk_0C = 0x20;
     goto set_remaining_colors;
 
 state_0:
-    value = arg2->unk_06.s + 0x80;
-    arg2->unk_06.s = value;
+    value = visual->unk_06.s + 0x80;
+    visual->unk_06.s = value;
     if ((s16)value <= 0x100) {
         goto set_colors;
     }
-    arg2->unk_06.s = 0x100;
-    if (((S_80025160_0 *)arg0)->unk_22 < 0x61) {
-        next = ((S_80025160_0 *)arg0)->unk_18.s;
-        angle = ((S_80025160_0 *)arg0)->unk_1C.s;
-        call_a1 = ((S_80025160_0 *)arg0)->unk_16;
-        next = next - ((s32)(next << 16) >> 19);
+    visual->unk_06.s = 0x100;
+    if (((S_80025160_0 *)effect)->unk_22 < 0x61) {
+        damped_value = ((S_80025160_0 *)effect)->unk_18.s;
+        angle = ((S_80025160_0 *)effect)->unk_1C.s;
+        effect_param = ((S_80025160_0 *)effect)->unk_16;
+        damped_value = damped_value - ((s32)(damped_value << 16) >> 19);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         angle = angle + 0x80;
-        call_arg5 = (u8 *)arg0 - 0x20;
-        ((S_80025160_0 *)arg0)->unk_1C.u = angle;
-        signed_angle = angle << 16;
-        ((S_80025160_0 *)arg0)->unk_18.u = next;
+        owner = (u8 *)effect - 0x20;
+        ((S_80025160_0 *)effect)->unk_1C.u = angle;
+        angle_shifted = angle << 16;
+        ((S_80025160_0 *)effect)->unk_18.u = damped_value;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_8002569C(arg1, call_a1, ((S_80025160_0 *)arg0)->unk_18.p,
-                     signed_angle >> 16, call_arg5);
+        func_8002569C(context, effect_param, ((S_80025160_0 *)effect)->unk_18.p,
+                     angle_shifted >> 16, owner);
     }
-    ((S_80025160_0 *)arg0)->unk_0A.u++;
-    if (((S_80025160_0 *)arg0)->unk_22 == 0x6F) {
+    ((S_80025160_0 *)effect)->unk_0A.u++;
+    if (((S_80025160_0 *)effect)->unk_22 == 0x6F) {
         D_80026328.flag = one;
         goto set_colors;
     }
@@ -135,33 +136,32 @@ state_1:
     if (((S_80025160_2 *)flag_page)->unk_6328 == 0) {
         goto state_1_zero;
     }
-    arg2->unk_06.u = -0x100;
-    ((S_80025160_0 *)arg0)->unk_1A = 0x10;
-    ((S_80025160_0 *)arg0)->unk_0A.u++;
+    visual->unk_06.u = -0x100;
+    ((S_80025160_0 *)effect)->unk_1A = 0x10;
+    ((S_80025160_0 *)effect)->unk_0A.u++;
     goto set_colors;
 
 state_2:
-    value = ((S_80025160_0 *)arg0)->unk_1A - 1;
-    ((S_80025160_0 *)arg0)->unk_1A = value;
+    value = ((S_80025160_0 *)effect)->unk_1A - 1;
+    ((S_80025160_0 *)effect)->unk_1A = value;
     if ((value << 16) > 0) {
         goto set_colors;
     }
-    ((S_80025160_0 *)arg0)->unk_0A.u++;
+    ((S_80025160_0 *)effect)->unk_0A.u++;
 
 state_3:
-    value = arg2->unk_06.s + 0x80;
-    arg2->unk_06.s = value;
+    value = visual->unk_06.s + 0x80;
+    visual->unk_06.s = value;
     if ((value << 16) >= 0) {
         flags_page = (u8 *)0x80080000;
-        ((S_80025160_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        ((S_80025160_0_pre *)effect)[-1].unk_00 |= 0x8000;
         ((S_80025160_3 *)flags_page)->unk_14A0 |= 0x8000;
     }
 
 state_1_zero:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 set_colors:
-    arg2->unk_0C = 0x20;
+    visual->unk_0C = 0x20;
 set_remaining_colors:
-    arg2->unk_0D = 0x40;
-    arg2->unk_0E = 0xE0;
+    visual->unk_0D = 0x40;
+    visual->unk_0E = 0xE0;
 }

@@ -35,182 +35,180 @@ typedef struct S_80017BEC_4 {
     u16 unk_04;
 } S_80017BEC_4;   /* temp_v0_4 in func_80017BEC */
 
-s32 func_80017BEC(s16 arg0) {
+/* Marks a path through neighboring tiles, retrying within the region when needed. */
+s32 func_80017BEC(s16 region_id) {
     struct {
         s16 sp10;
         s16 sp12;
         s32 pad;
         s16 sp18;
-    } locals;
-    s16 *var_s1;
-    s16 *var_s2;
-    register s16 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s16 temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 var_s0;
-    s16 var_s5;
-    register s16 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 *temp_fp;
-    register s32 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 temp_s7;
-    register s32 temp_v0_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_s3;
-    s32 var_s6;
-    s32 var_v0;
-    s32 bad_value;
-    u16 temp_v1;
-    s32 temp_v1_load;
-    S_80017BEC_2 *temp_a0;
-    S_80017BEC_1 *temp_v0;
-    register S_80017BEC_3 *temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    S_80017BEC_4 *temp_v0_4;
-    register u8 *temp_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u16 *temp_v1_addr;
+    } cursor;
+    s16 *x_step;
+    s16 *y_step;
+    register s16 next_y ASM_REG("$5");
+    register s16 next_x ASM_REG("$6");
+    s32 direction;
+    s16 next_direction;
+    register s16 tile_id ASM_REG("$20");
+    s32 *map_info;
+    register s32 index_work ASM_REG("$4");
+    s32 tiles_base;
+    register s32 coord_work ASM_REG("$2");
+    s32 open_count;
+    s32 steps_left;
+    s32 result;
+    s32 failure;
+    u16 neighbor_flags;
+    s32 value_work;
+    S_80017BEC_2 *neighbor;
+    S_80017BEC_1 *start_tile;
+    register S_80017BEC_3 *next_tile ASM_REG("$2");
+    S_80017BEC_4 *retry_tile;
+    register u8 *lookup_base ASM_REG("$9");
+    u16 *next_x_step;
 
-    temp_s7 = D_8008333C;
-    temp_fp = &D_8008333C;
-    locals.sp18 = arg0;
-    var_s4 = func_80017F88(arg0, &locals.sp10, &locals.sp12, 0);
-    if (var_s4 < 0x200) {
-        goto valid;
+    tiles_base = D_8008333C;
+    map_info = &D_8008333C;
+    cursor.sp18 = region_id;
+    tile_id = func_80017F88(region_id, &cursor.sp10, &cursor.sp12, 0);
+    if (tile_id < 0x200) {
+        goto mark_start;
     }
-bad:
-    ASM_SCHED_BARRIER(); /* MATCH: keep the shared failure return at the guard. */
-    bad_value = 0;
-    return bad_value;
-valid:
+failure_return:
+    ASM_SCHED_BARRIER();
+    failure = 0;
+    return failure;
+mark_start:
     {
-        s32 early_y;
-        s32 early_shift;
-        register s32 early_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        s32 start_y;
+        s32 row_shift;
+        register s32 start_x ASM_REG("$4");
 
-        early_y = locals.sp12;
-        early_shift = ((S_80017BEC_0 *)temp_fp)->unk_14;
-        early_x = locals.sp10;
-        temp_v0 = ((early_x + (early_y << early_shift)) * 6) + temp_s7;
+        start_y = cursor.sp12;
+        row_shift = ((S_80017BEC_0 *)map_info)->unk_14;
+        start_x = cursor.sp10;
+        start_tile = ((start_x + (start_y << row_shift)) * 6) + tiles_base;
     }
-    temp_v0->unk_04 = (u16)(temp_v0->unk_04 | 0x100);
-    var_s6 = func_80017EBC(arg0);
-loop_4:
-    var_s5 = -1;
-    var_s3 = 0;
-    var_s0 = 7;
-    temp_t1 = (u8 *)&D_8006CCE8;
-    var_s2 = (s16 *)(temp_t1 + 0xE);
-    temp_t1 = (u8 *)&D_8006CCD8;
-        var_s1 = (s16 *)(temp_t1 + 0xE);
+    start_tile->unk_04 = (u16)(start_tile->unk_04 | 0x100);
+    steps_left = func_80017EBC(region_id);
+scan_neighbors:
+    next_direction = -1;
+    open_count = 0;
+    direction = 7;
+    lookup_base = (u8 *)&D_8006CCE8;
+    y_step = (s16 *)(lookup_base + 0xE);
+    lookup_base = (u8 *)&D_8006CCD8;
+    x_step = (s16 *)(lookup_base + 0xE);
     do {
-        if ((func_80018304(locals.sp10, locals.sp12, var_s4, (s16)var_s0) << 0x10) != 0) {
-            register s32 loop_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        if ((func_80018304(cursor.sp10, cursor.sp12, tile_id, (s16)direction) << 0x10) != 0) {
+            register s32 neighbor_x ASM_REG("$5");
 
-            loop_x = locals.sp10;
-            temp_v0_2 = *var_s1;
-            temp_v1_load = *var_s2;
-            loop_x += temp_v0_2;
-            temp_v0_2 = locals.sp12;
-            temp_a0_2 = ((S_80017BEC_0 *)temp_fp)->unk_14;
-            temp_v0_2 += temp_v1_load;
-            temp_v0_2 <<= temp_a0_2;
-            temp_a0_2 = loop_x + temp_v0_2;
-            ASM_KEEP_NV(temp_a0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            temp_a0 = (void *)((temp_a0_2 * 6) + temp_s7);
-            temp_v1 = temp_a0->unk_04;
-            if (!(temp_v1 & 0x100)) {
-                temp_a0->unk_04 = (u16)(temp_v1 | 0x200);
-                var_s5 = var_s0;
+            neighbor_x = cursor.sp10;
+            coord_work = *x_step;
+            value_work = *y_step;
+            neighbor_x += coord_work;
+            coord_work = cursor.sp12;
+            index_work = ((S_80017BEC_0 *)map_info)->unk_14;
+            coord_work += value_work;
+            coord_work <<= index_work;
+            index_work = neighbor_x + coord_work;
+            ASM_KEEP_NV(index_work);
+            neighbor = (void *)((index_work * 6) + tiles_base);
+            neighbor_flags = neighbor->unk_04;
+            if (!(neighbor_flags & 0x100)) {
+                neighbor->unk_04 = (u16)(neighbor_flags | 0x200);
+                next_direction = direction;
             }
-            var_s3 += 1;
+            open_count += 1;
         }
-        var_s2 -= 1;
-        var_s0 -= 1;
-        var_s1 -= 1;
-    } while (var_s0 >= 0);
-    if (var_s3 != 0) {
-        temp_v0_2 = (s16)var_s5;
-        if (temp_v0_2 >= 0) {
-            s32 tail_x;
-            s32 tail_y;
+        y_step -= 1;
+        direction -= 1;
+        x_step -= 1;
+    } while (direction >= 0);
+    if (open_count != 0) {
+        coord_work = (s16)next_direction;
+        if (coord_work >= 0) {
+            s32 tile_x;
+            s32 tile_y;
 
-            temp_v0_2 *= 2;
-            temp_t1 = (u8 *)&D_8006CCD8;
-            temp_v1_addr = (u16 *)(temp_t1 + temp_v0_2);
-            temp_t1 = (u8 *)&D_8006CCE8;
-            temp_v0_3 = temp_t1 + temp_v0_2;
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            temp_a2 = (u16)locals.sp10;
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            temp_v1_load = *temp_v1_addr;
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            temp_a1 = (u16)locals.sp12;
-            temp_v0_2 = *(u16 *)temp_v0_3;
-            temp_a2 += temp_v1_load;
-            temp_a1 += temp_v0_2;
-            temp_v0_2 = (u32)(u16)temp_a2 << 16;
+            coord_work *= 2;
+            lookup_base = (u8 *)&D_8006CCD8;
+            next_x_step = (u16 *)(lookup_base + coord_work);
+            lookup_base = (u8 *)&D_8006CCE8;
+            next_tile = lookup_base + coord_work;
+            next_x = (u16)cursor.sp10;
+            value_work = *next_x_step;
+            next_y = (u16)cursor.sp12;
+            coord_work = *(u16 *)next_tile;
+            next_x += value_work;
+            next_y += coord_work;
+            coord_work = (u32)(u16)next_x << 16;
             {
-                register s32 tail_sum ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                register s32 tile_index ASM_REG("$4");
 
-                tail_x = temp_v0_2 >> 16;
-                ASM_KEEP_NV(tail_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                temp_v1_load = (u32)(u16)temp_a1 << 16;
-                temp_v0_2 = ((S_80017BEC_0 *)temp_fp)->unk_14;
-                tail_y = temp_v1_load >> 16;
-                tail_sum = tail_x + (tail_y << temp_v0_2);
-                ASM_KEEP_NV(tail_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                temp_v0_3 = (tail_sum * 6) + temp_s7;
+                tile_x = coord_work >> 16;
+                ASM_KEEP_NV(tile_x);
+                value_work = (u32)(u16)next_y << 16;
+                coord_work = ((S_80017BEC_0 *)map_info)->unk_14;
+                tile_y = value_work >> 16;
+                tile_index = tile_x + (tile_y << coord_work);
+                ASM_KEEP_NV(tile_index);
+                next_tile = (tile_index * 6) + tiles_base;
             }
-            temp_a0_2 = var_s6 - 1;
-            var_s6 = temp_a0_2;
-            ASM_KEEP(var_s6);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            temp_v1_load = temp_v0_3->unk_04;
-            locals.sp10 = temp_a2;
-            locals.sp12 = temp_a1;
-            temp_v0_3->unk_04 = (u16)(temp_v1_load | 0x100);
-            if ((temp_a0_2 << 0x10) > 0) {
-                var_s4 = func_800BCB04(((tail_x << 6) + 0x20) & 0xFFE0, ((tail_y << 6) + 0x20) & 0xFFE0, -0x400, tail_x);
-                goto loop_4;
+            index_work = steps_left - 1;
+            steps_left = index_work;
+            ASM_KEEP(steps_left);
+            value_work = next_tile->unk_04;
+            cursor.sp10 = next_x;
+            cursor.sp12 = next_y;
+            next_tile->unk_04 = (u16)(value_work | 0x100);
+            if ((index_work << 0x10) > 0) {
+                tile_id = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_y << 6) + 0x20) & 0xFFE0, -0x400, tile_x);
+                goto scan_neighbors;
             }
-            goto block_17;
+            goto success;
         }
         {
-            register s16 *retry_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register s16 *retry_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register s32 retry_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            s32 retry_a0;
+            register s16 *out_x ASM_REG("$5");
+            register s16 *out_y ASM_REG("$6");
+            register s32 retry_mode ASM_REG("$7");
+            s32 retry_region;
 
-            temp_t1 = (u8 *)(u32)(u16)locals.sp18;
-            ASM_KEEP_NV(temp_t1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            retry_a1 = &locals.sp10;
-            ASM_KEEP_NV(retry_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            retry_a2 = &locals.sp12;
-            ASM_KEEP_NV(retry_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            retry_a3 = 1;
-            ASM_KEEP_NV(retry_a3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            retry_a0 = (s16)(u32)temp_t1;
-            var_s4 = func_8001816C(retry_a0, retry_a1, retry_a2, retry_a3);
+            lookup_base = (u8 *)(u32)(u16)cursor.sp18;
+            ASM_KEEP_NV(lookup_base);
+            out_x = &cursor.sp10;
+            ASM_KEEP_NV(out_x);
+            out_y = &cursor.sp12;
+            ASM_KEEP_NV(out_y);
+            retry_mode = 1;
+            ASM_KEEP_NV(retry_mode);
+            retry_region = (s16)(u32)lookup_base;
+            tile_id = func_8001816C(retry_region, out_x, out_y, retry_mode);
         }
-        var_v0 = 0;
-        if (var_s4 < 0x200) {
+        result = 0;
+        if (tile_id < 0x200) {
             s32 retry_y;
             s32 retry_shift;
-            register s32 retry_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register s32 retry_x ASM_REG("$4");
 
-            retry_y = locals.sp12;
-            retry_shift = ((S_80017BEC_0 *)temp_fp)->unk_14;
-            retry_x = locals.sp10;
-            temp_v0_4 = ((retry_x + (retry_y << retry_shift)) * 6) + temp_s7;
-            ASM_KEEP(temp_v0_4);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            temp_a0_2 = var_s6 - 1;
-            var_s6 = temp_a0_2;
-            temp_v1_load = temp_v0_4->unk_04;
-            temp_a0_2 <<= 0x10;
-            temp_v0_4->unk_04 = (u16)(temp_v1_load | 0x100);
-            if (temp_a0_2 <= 0) {
-block_17:
-                var_v0 = 1;
-                return var_v0;
+            retry_y = cursor.sp12;
+            retry_shift = ((S_80017BEC_0 *)map_info)->unk_14;
+            retry_x = cursor.sp10;
+            retry_tile = ((retry_x + (retry_y << retry_shift)) * 6) + tiles_base;
+            ASM_KEEP(retry_tile);
+            index_work = steps_left - 1;
+            steps_left = index_work;
+            value_work = retry_tile->unk_04;
+            index_work <<= 0x10;
+            retry_tile->unk_04 = (u16)(value_work | 0x100);
+            if (index_work <= 0) {
+success:
+                result = 1;
+                return result;
             }
-            goto loop_4;
+            goto scan_neighbors;
         }
-        return var_v0;
+        return result;
     }
-    goto bad;
+    goto failure_return;
 }

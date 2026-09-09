@@ -23,40 +23,35 @@ typedef struct S_80019894_0 {
 } S_80019894_0;   /* temp_s1 in func_80019894 */
 
 
-s32 func_80019894(s16 arg0) {
-    s16 temp_v0;
-    s32 temp_a1;
-    u8 *temp_s0;
-    S_80019894_0 *temp_s1;
-    void *temp_arg8;
+/* Loads a resource into its slot unless already loaded, then waits for completion. */
+s32 func_80019894(s16 resource_index) {
+    s16 slot_index;
+    s32 resource_id;
+    u8 *loaded_id;
+    S_80019894_0 *resource;
+    void *cd_data;
 
-    temp_s1 = (arg0 * 0xC) + (s8 *)&D_8006E61C;
-    temp_v0 = temp_s1->unk_00 - 1;
-    temp_s0 = temp_v0 + (u8 *)&D_80080AF0;
-    temp_a1 = arg0 + 1;
-    if (*temp_s0 == temp_a1) {
+    resource = (resource_index * 0xC) + (s8 *)&D_8006E61C;
+    slot_index = resource->unk_00 - 1;
+    loaded_id = slot_index + (u8 *)&D_80080AF0;
+    resource_id = resource_index + 1;
+    if (*loaded_id == resource_id) {
         return 0;
     }
-    SD_Call(0x72, temp_a1);
+    SD_Call(0x72, resource_id);
     func_800542BC();
-    *temp_s0 = arg0 + 1;
+    *loaded_id = resource_index + 1;
     func_80067014(0);
     func_8005FE18(0);
-    temp_arg8 = temp_s1->unk_08;
+    cd_data = resource->unk_08;
     D_80081480 = ((Rec_D_80082E80 *)(&D_8008148C))->unk_00;
-    Control_CD(6, temp_arg8, 0);
-    Control_CD(6, temp_s1->unk_04, 0);
+    Control_CD(6, cd_data, 0);
+    Control_CD(6, resource->unk_04, 0);
     func_8003F320();
     func_8003F5E0(D_8008148C);
-    SD_Call(((2 << temp_v0) | 0x10) & 0xFFFF);
+    SD_Call(((2 << slot_index) | 0x10) & 0xFFFF);
     func_800542BC();
     do {
-
-    } while (func_8005405C((s16) temp_s1->unk_00) != 1);
+    } while (func_8005405C((s16) resource->unk_00) != 1);
     return 1;
 }
-
-/* MECHANISM: Byte-addressed bases preserve the 12-byte record and byte counter indexing,
-   while their lifetimes naturally produce the retail 0x28 frame and s1/s3/s2/s0 saves.
-   A named field8 argument exposes the global-copy jal slot; the zero-arg noreturn contract
-   plus guarded v0 tail-slot pin produces the retail j with move-zero delay. */

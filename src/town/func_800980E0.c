@@ -35,80 +35,75 @@ typedef struct S_80095840_3 {
 
 extern s32 D_800D0484[8];
 
-s32 func_80095840(void *arg0, void *arg1)
+/* Selects an eligible source entry and stores its pointer in the destination. */
+s32 func_80095840(void *destination, void *source)
 {
-    S_80095840_0 *out;
-    void *in;
-    register s32 work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 value;
-    u8 kind;
+    S_80095840_0 *result;
+    void *candidates;
+    register s32 selection ASM_REG("$2");
+    s32 offset;
+    u8 entry_kind;
 
-    out = arg0;
-    in = arg1;
-    value = out->unk_10;
-    work = value + 0x100;
-    if (work >= 0) {
-        work >>= 7;
+    result = destination;
+    candidates = source;
+    offset = result->unk_10;
+    selection = offset + 0x100;
+    if (selection >= 0) {
+        selection >>= 7;
     } else {
-        work = (value + 0x2FF) >> 7;
+        selection = (offset + 0x2FF) >> 7;
     }
 
-    value = (s32)D_800D0484;
-    work &= 0x1C;
-    work += value;
-    value = *(s32 *)work;
-    if (value == -1) {
+    offset = (s32)D_800D0484;
+    selection &= 0x1C;
+    selection += offset;
+    offset = *(s32 *)selection;
+    if (offset == -1) {
         goto none;
     }
 
-    work = ((S_80095840_1 *)in)->unk_3A;
-    if (work != 0) {
-        register void *entry ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    selection = ((S_80095840_1 *)candidates)->unk_3A;
+    if (selection != 0) {
+        register void *entry ASM_REG("$6");
 
-        work = ((S_80095840_1 *)in)->unk_1C;
-        ((S_80095840_1 *)in)->unk_18 = 0;
-        ((S_80095840_1 *)in)->unk_10 = work;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        entry = (void *)work;
-        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        kind = ((S_80095840_2 *)((void *)work))->unk_14;
-        if ((kind == 1) || (kind == 3)) {
+        selection = ((S_80095840_1 *)candidates)->unk_1C;
+        ((S_80095840_1 *)candidates)->unk_18 = 0;
+        ((S_80095840_1 *)candidates)->unk_10 = selection;
+        ASM_SCHED_BARRIER();
+        entry = (void *)selection;
+        ASM_KEEP(entry);
+        entry_kind = ((S_80095840_2 *)((void *)selection))->unk_14;
+        if ((entry_kind == 1) || (entry_kind == 3)) {
             goto none;
         }
-        work = 2;
-        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        out->unk_2C.s = entry;
+        selection = 2;
+        result->unk_2C.s = entry;
         goto done;
     }
 
-    work = (s32)in + value;
-    if (((S_80095840_2 *)((void *)work))->unk_3A != 0) {
-        register void *entry ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    selection = (s32)candidates + offset;
+    if (((S_80095840_2 *)((void *)selection))->unk_3A != 0) {
+        register void *entry ASM_REG("$6");
 
-        work = value * 4;
-        work += (s32)in;
-        work = ((S_80095840_2 *)((void *)work))->unk_1C;
-        ((S_80095840_1 *)in)->unk_18 = value;
-        ((S_80095840_1 *)in)->unk_10 = work;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        entry = (void *)work;
-        kind = ((S_80095840_3 *)entry)->unk_14;
-        if ((kind != 1) && (kind != 3)) {
-            work = 1;
-            ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            out->unk_2C.s = entry;
+        selection = offset * 4;
+        selection += (s32)candidates;
+        selection = ((S_80095840_2 *)((void *)selection))->unk_1C;
+        ((S_80095840_1 *)candidates)->unk_18 = offset;
+        ((S_80095840_1 *)candidates)->unk_10 = selection;
+        ASM_SCHED_BARRIER();
+        entry = (void *)selection;
+        entry_kind = ((S_80095840_3 *)entry)->unk_14;
+        if ((entry_kind != 1) && (entry_kind != 3)) {
+            selection = 1;
+            result->unk_2C.s = entry;
             goto done;
         }
     }
 
 none:
-    out->unk_2C.u = 0;
-    work = 0;
+    result->unk_2C.u = 0;
+    selection = 0;
 done:
-    ASM_SCHED_BARRIER();   /* MATCH: Keep the selector live through the shared return tail. */
-    return work;
+    ASM_SCHED_BARRIER();
+    return selection;
 }
-
-/* MECHANISM: Frameless leaf; v0 carries quotient/address/entry/selector and block-local a2 copies.
-   The shared v1 value and v0 work lifetimes preserve the unscaled masked table-access sequence.
-   Zero-word barriers keep both field stores ahead of their a2 copies; CFG shares the zero return. */

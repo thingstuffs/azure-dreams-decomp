@@ -37,85 +37,86 @@ typedef struct S_800D1E34_2 {
     union { u8 n; s8 n2; volatile u8 v; } unk_9D;   /* accessed as both */
 } S_800D1E34_2;   /* obj in func_800D1E34 */
 
-void func_800D1E34(void *arg0, void *arg1, void *arg2)
+/* Run entity callbacks, advance movement, and resolve floor contact. */
+void func_800D1E34(void *object_arg, void *motion_arg, void *entity_arg)
 {
-    void *obj = arg0;
-    register void *pos ASM_REG("$18") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *ent = arg2;
-    register void *work ASM_REG("$16") = obj;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *object = object_arg;
+    register void *motion = motion_arg;
+    void *entity = entity_arg;
+    register void *object_base ASM_REG("$16") = object;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     EntityCallback callback;
-    s16 floor;
-    u16 flags;
-    u16 globalFlags = D_80083462;
+    s16 floor_height;
+    u16 entity_flags;
+    u16 global_flags = D_80083462;
 
-    if (globalFlags & 0x2000) {
-        (*(u8 *)((u8 *)work + (0x71))) &= 0x7F;
+    if (global_flags & 0x2000) {
+        (*(u8 *)((u8 *)object_base + (0x71))) &= 0x7F;
         return;
     }
 
-    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(pos);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(ent);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(object_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
-    callback = (*(EntityCallback *)((u8 *)work + (0x8C)));
+    callback = (*(EntityCallback *)((u8 *)object_base + (0x8C)));
     if (callback != 0) {
-        callback(work, pos, ent, work);
+        callback(object_base, motion, entity, object_base);
     }
-    D_800E21C0[(*(u8 *)((u8 *)work + (0x9A)))](work, pos, ent, work);
+    D_800E21C0[(*(u8 *)((u8 *)object_base + (0x9A)))](object_base, motion, entity, object_base);
 
-    flags = ((S_800D1E34_0 *)ent)->unk_14;
-    if (!(flags & 0x8000)) {
-        if (!(flags & 0x40)) {
-            func_800478B8(ent);
+    entity_flags = ((S_800D1E34_0 *)entity)->unk_14;
+    if (!(entity_flags & 0x8000)) {
+        if (!(entity_flags & 0x40)) {
+            func_800478B8(entity);
         }
     }
 
-    ((S_800D1E34_1 *)pos)->unk_00.at00.v += ((S_800D1E34_1 *)pos)->unk_0C;
-    ((S_800D1E34_1 *)pos)->unk_04.at00.v += ((S_800D1E34_1 *)pos)->unk_10;
+    ((S_800D1E34_1 *)motion)->unk_00.at00.v += ((S_800D1E34_1 *)motion)->unk_0C;
+    ((S_800D1E34_1 *)motion)->unk_04.at00.v += ((S_800D1E34_1 *)motion)->unk_10;
 
-    if (((S_800D1E34_2 *)obj)->unk_98.n & 8) {
-        ((S_800D1E34_2 *)obj)->unk_9D.n = 0;
+    if (((S_800D1E34_2 *)object)->unk_98.n & 8) {
+        ((S_800D1E34_2 *)object)->unk_9D.n = 0;
     } else {
-        ((S_800D1E34_1 *)pos)->unk_14 += ((S_800D1E34_2 *)obj)->unk_9D.n2 * 0x14000;
-        ((S_800D1E34_2 *)obj)->unk_9D.v++;
+        ((S_800D1E34_1 *)motion)->unk_14 += ((S_800D1E34_2 *)object)->unk_9D.n2 * 0x14000;
+        ((S_800D1E34_2 *)object)->unk_9D.v++;
     }
-    ((S_800D1E34_2 *)obj)->unk_90.at00.v += ((S_800D1E34_1 *)pos)->unk_14;
+    ((S_800D1E34_2 *)object)->unk_90.at00.v += ((S_800D1E34_1 *)motion)->unk_14;
 
-    if (!(((S_800D1E34_2 *)obj)->unk_98.v & 4)) {
-        floor = func_800BCB04(((S_800D1E34_1 *)pos)->unk_00.at02.v, ((S_800D1E34_1 *)pos)->unk_04.at02.v,
-                              (s16)((*(u16 *)((u8 *)work + (0x88))) - 0x20));
-        if (floor < 0x200) {
-            if (((S_800D1E34_2 *)obj)->unk_90.at02.v + (*(s16 *)((u8 *)work + (0x88))) < floor) {
-                (void)((S_800D1E34_2 *)obj)->unk_98.v;
+    if (!(((S_800D1E34_2 *)object)->unk_98.v & 4)) {
+        floor_height = func_800BCB04(((S_800D1E34_1 *)motion)->unk_00.at02.v, ((S_800D1E34_1 *)motion)->unk_04.at02.v,
+                              (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
+        if (floor_height < 0x200) {
+            if (((S_800D1E34_2 *)object)->unk_90.at02.v + (*(s16 *)((u8 *)object_base + (0x88))) < floor_height) {
+                (void)((S_800D1E34_2 *)object)->unk_98.v;
             } else {
-                if (floor >= (*(s16 *)((u8 *)work + (0x88)))) {
-                    ((S_800D1E34_2 *)obj)->unk_90.at00.v = 0;
+                if (floor_height >= (*(s16 *)((u8 *)object_base + (0x88)))) {
+                    ((S_800D1E34_2 *)object)->unk_90.at00.v = 0;
                 } else {
-                    ((S_800D1E34_2 *)obj)->unk_90.at02.v = floor - (*(u16 *)((u8 *)work + (0x88)));
+                    ((S_800D1E34_2 *)object)->unk_90.at02.v = floor_height - (*(u16 *)((u8 *)object_base + (0x88)));
                 }
-                ((S_800D1E34_1 *)pos)->unk_14 = 0;
-                (*(u32 *)((u8 *)work + (0x1C))) |= 0x08000000;
-                ((S_800D1E34_2 *)obj)->unk_9D.n = 0;
+                ((S_800D1E34_1 *)motion)->unk_14 = 0;
+                (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x08000000;
+                ((S_800D1E34_2 *)object)->unk_9D.n = 0;
             }
 
-            if ((*(u32 *)((u8 *)work + (0x1C))) & 0x40000000) {
-                (*(u32 *)((u8 *)work + (0x1C))) &= ~0x40000000;
-                floor = func_800BCB04(
-                    (((S_800D1E34_0 *)ent)->unk_24 << 6) | 0x20,
-                    (((S_800D1E34_0 *)ent)->unk_25 << 6) | 0x20,
-                    (s16)((*(u16 *)((u8 *)work + (0x88))) - 0x20));
-                ((S_800D1E34_2 *)obj)->unk_90.at02u.v += (*(u16 *)((u8 *)work + (0x88))) - floor;
-                (*(u16 *)((u8 *)work + (0x88))) = floor;
+            if ((*(u32 *)((u8 *)object_base + (0x1C))) & 0x40000000) {
+                (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x40000000;
+                floor_height = func_800BCB04(
+                    (((S_800D1E34_0 *)entity)->unk_24 << 6) | 0x20,
+                    (((S_800D1E34_0 *)entity)->unk_25 << 6) | 0x20,
+                    (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
+                ((S_800D1E34_2 *)object)->unk_90.at02u.v += (*(u16 *)((u8 *)object_base + (0x88))) - floor_height;
+                (*(u16 *)((u8 *)object_base + (0x88))) = floor_height;
             }
             goto finish;
         }
     }
 
-    (*(u32 *)((u8 *)work + (0x1C))) &= ~0x08000000;
+    (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x08000000;
 
 finish:
-    ((S_800D1E34_1 *)pos)->unk_0A = (*(u16 *)((u8 *)work + (0x88))) + ((S_800D1E34_2 *)obj)->unk_90.at02u.v;
-    ((S_800D1E34_0 *)ent)->unk_14 |= 0x40;
-    (*(u32 *)((u8 *)work + (0x1C))) |= 0x200;
+    ((S_800D1E34_1 *)motion)->unk_0A = (*(u16 *)((u8 *)object_base + (0x88))) + ((S_800D1E34_2 *)object)->unk_90.at02u.v;
+    ((S_800D1E34_0 *)entity)->unk_14 |= 0x40;
+    (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x200;
 }

@@ -22,54 +22,55 @@ M2C_UNK func_8001A188();     /* extern */
 extern void *D_80016000[3];
 extern u8 D_8001791C[96];
 
-void func_8001A200(void *arg0, s32 *arg1) {
-    u8 *var_a2;
-    s32 temp_a0;
-    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1;
-    void *temp_v0;
-    s32 var_a1;
-    s32 var_a3;
-    register u8 *var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *var_s1;
-    register void *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *split_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 final_status;
-    register s32 final_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Dispatches each record to the first matching kind-table entry. */
+void func_8001A200(void *records, s32 *value_sets) {
+    u8 *kind_entry;
+    s32 record_kind;
+    s32 values_base;
+    s32 table_kind;
+    void *context;
+    s32 value_addr;
+    s32 slot_index;
+    register u8 *kind_table ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *status_ptr;
+    register void *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 next_status;
+    register s32 end_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    var_s0 = arg0;
-    temp_v0 = ((S_8001A200_0 *)(D_80016000[0]))->unk_20;
-    var_s1 = (u8 *)arg1;
-    temp_s2 = *((((S_8001A200_1 *)temp_v0)->unk_2D4(0)) + (s32 *)var_s1);
-    if ((((S_8001A200_2 *)var_s0)->unk_01 & 0xC0) != 0x80) {
-        split_base = (u8 *)0x80010000;
-        ASM_KEEP(split_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        var_s3 = split_base + 0x791C;
-        var_s1 = var_s0 + 1;
-loop_2:
-        var_a3 = 1;
-        var_a1 = temp_s2 + 4;
-        var_a2 = var_s3 + 0xC;
-loop_3:
-        temp_v1 = *(s32 *)var_a2;
-        temp_a0 = (*(s32 *)((u8 *)var_s1 + 0xB));
-        if ((temp_v1 == temp_a0) || ((temp_v1 == 6) && (temp_a0 == 0x64))) {
-            func_8001A188(var_s0, var_a1, var_a2, var_a3);
+    record = records;
+    context = ((S_8001A200_0 *)(D_80016000[0]))->unk_20;
+    status_ptr = (u8 *)value_sets;
+    values_base = *((((S_8001A200_1 *)context)->unk_2D4(0)) + (s32 *)status_ptr);
+    if ((((S_8001A200_2 *)record)->unk_01 & 0xC0) != 0x80) {
+        table_page = (u8 *)0x80010000;
+        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        kind_table = table_page + 0x791C;
+        status_ptr = record + 1;
+next_record:
+        slot_index = 1;
+        value_addr = values_base + 4;
+        kind_entry = kind_table + 0xC;
+next_kind:
+        table_kind = *(s32 *)kind_entry;
+        record_kind = (*(s32 *)((u8 *)status_ptr + 0xB));
+        if ((table_kind == record_kind) || ((table_kind == 6) && (record_kind == 0x64))) {
+            func_8001A188(record, value_addr, kind_entry, slot_index);
         } else {
-            var_a1 += 4;
-            var_a3 += 1;
-            var_a2 += 0xC;
-            if (var_a3 < 8) {
-                goto loop_3;
+            value_addr += 4;
+            slot_index += 1;
+            kind_entry += 0xC;
+            if (slot_index < 8) {
+                goto next_kind;
             }
         }
-        var_s1 += 0x14;
-        var_s0 += 0x14;
-        final_status = *var_s1;
-        final_mask = 0x80;
-        if ((final_status & 0xC0) == final_mask) {
+        status_ptr += 0x14;
+        record += 0x14;
+        next_status = *status_ptr;
+        end_mask = 0x80;
+        if ((next_status & 0xC0) == end_mask) {
         } else {
-            goto loop_2;
+            goto next_record;
         }
     }
 }

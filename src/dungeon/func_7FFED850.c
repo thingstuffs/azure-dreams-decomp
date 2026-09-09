@@ -16,60 +16,60 @@ typedef struct S_8008AFB0_0 {
     s32 unk_04;
 } S_8008AFB0_0;   /* &D_800CF720[0] in func_8008AFB0 */
 
-s32 func_8008AFB0(s8 arg0, s8 arg1, s16 arg2, s32 arg3) {
-    register s32 call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s8 r_arg0 = arg0;
-    s8 r_arg1 = arg1;
-    s16 r_arg2 = arg2;
-    s32 r_arg3 = arg3;
-    u32 *r_ptr;
-    s32 r_size;
-    register s32 r_remaining ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s8 *r_base ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 raw_size;
-    register s32 limit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 call_result;
+/* Loads a resource into the buffer, freeing entries until enough space is available. */
+s32 func_8008AFB0(s8 resource_kind, s8 resource_group, s16 resource_id, s32 entry_index) {
+    register s32 lookup_kind ASM_REG("$4");
+    register s32 lookup_group ASM_REG("$5");
+    register s32 lookup_id ASM_REG("$6");
+    s8 saved_kind = resource_kind;
+    s8 saved_group = resource_group;
+    s16 saved_id = resource_id;
+    s32 entry = entry_index;
+    u32 *resource;
+    s32 alloc_size;
+    register s32 free_bytes;
+    register s8 *entry_ptr ASM_REG("$16");
+    s32 block_count;
+    register s32 capacity;
+    s32 used_bytes;
 
-    r_ptr = func_8008AF2C(call_a0, call_a1, call_a2);
-    ASM_KEEP(r_arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(r_arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(r_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    raw_size = 0;
-    if (r_ptr == NULL)
-        return raw_size;
+    resource = func_8008AF2C(lookup_kind, lookup_group, lookup_id);
+    ASM_KEEP(saved_kind);
+    ASM_KEEP(saved_group);
+    ASM_KEEP(saved_id);
+    block_count = 0;
+    if (resource == NULL)
+        return block_count;
 
-    raw_size = (u32) *r_ptr >> 0xB;
-    r_size = (raw_size + 1) << 0xB;
-    call_result = func_8008ACE8(r_arg3);
-    limit = 0x8000;
-    r_remaining = limit - call_result;
-    if (r_size > 0x7FFF) {
-        r_arg3 = 0;
-        ASM_KEEP(r_arg3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_8008AC84(r_arg3);
-    } else if (r_remaining < r_size) {
-        register s8 *r_page ASM_REG("$2") = D_800CF720;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register s32 r_index ASM_REG("$3") = r_arg3 << 3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        r_base = r_page + r_index;
-        goto first_page;
+    block_count = (u32) *resource >> 0xB;
+    alloc_size = (block_count + 1) << 0xB;
+    used_bytes = func_8008ACE8(entry);
+    capacity = 0x8000;
+    free_bytes = capacity - used_bytes;
+    if (alloc_size > 0x7FFF) {
+        entry = 0;
+        func_8008AC84(entry);
+    } else if (free_bytes < alloc_size) {
+        register s8 *entries ASM_REG("$2") = D_800CF720;
+        register s32 entry_offset ASM_REG("$3") = entry << 3;
+        entry_ptr = entries + entry_offset;
+        goto first_entry;
         do {
-            r_arg3--;
-        first_page:
-            r_remaining += ((s32 *)r_base)[1];
-            func_8008AC84(r_arg3);
-            r_base -= 8;
-        } while (r_remaining < r_size);
-        r_base += 8;
-        ASM_KEEP(r_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            entry--;
+        first_entry:
+            free_bytes += ((s32 *)entry_ptr)[1];
+            func_8008AC84(entry);
+            entry_ptr -= 8;
+        } while (free_bytes < alloc_size);
+        entry_ptr += 8;
+        ASM_KEEP(entry_ptr);
     }
-    func_8008AD90(r_arg3, r_size);
-    func_8008AC84(r_arg3 + 1);
-    D_800CF720[0] = r_arg0;
-    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_01 = r_arg1;
-    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_02 = r_arg2;
-    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_04 = r_size;
-    func_80053CFC(r_ptr, D_801131E4[0]);
+    func_8008AD90(entry, alloc_size);
+    func_8008AC84(entry + 1);
+    D_800CF720[0] = saved_kind;
+    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_01 = saved_group;
+    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_02 = saved_id;
+    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_04 = alloc_size;
+    func_80053CFC(resource, D_801131E4[0]);
     return 0;
 }

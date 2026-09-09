@@ -33,17 +33,17 @@ typedef struct S_80173080_3 {
     s32 unk_14;
 } S_80173080_3;   /* arg1 in func_80173080 */
 
-void func_80173080(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advance the timed action sequence and restore the actor when it finishes. */
+void func_80173080(void *action, void *motion, void *sprite, void *actor)
 {
-    s32 under_two;
+    s32 initial_state;
     u16 timer;
     s32 state;
 
-    state = ((S_80173080_0 *)arg0)->unk_9B;
+    state = ((S_80173080_0 *)action)->unk_9B;
     if (state != 1) {
-        under_two = (s32)state < 2;
-        if (under_two) {
-               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        initial_state = (s32)state < 2;
+        if (initial_state) {
             if (state == 0) {
                 goto state_0;
             }
@@ -61,55 +61,55 @@ void func_80173080(void *arg0, void *arg1, void *arg2, void *arg3)
     goto state_1;
 
 state_0:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-        ((S_80173080_0 *)arg0)->unk_9B = 3;
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        ((S_80173080_0 *)action)->unk_9B = 3;
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
         return;
     }
-    ((S_80173080_3 *)arg1)->unk_14 = 0;
-    ((S_80173080_3 *)arg1)->unk_10 = 0;
-    ((S_80173080_3 *)arg1)->unk_0C = 0;
+    ((S_80173080_3 *)motion)->unk_14 = 0;
+    ((S_80173080_3 *)motion)->unk_10 = 0;
+    ((S_80173080_3 *)motion)->unk_0C = 0;
     goto advance_state;
 
 state_1:
-    timer = ((S_80173080_0 *)arg0)->unk_96.u + 1;
-    ((S_80173080_0 *)arg0)->unk_96.u = timer;
-    if (((s16)timer == 4) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        u8 *table = D_801759C0;
+    timer = ((S_80173080_0 *)action)->unk_96.u + 1;
+    ((S_80173080_0 *)action)->unk_96.u = timer;
+    if (((s16)timer == 4) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        u8 *direction_table = D_801759C0;
 
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = table;
-        func_80047784(arg2,
-                     table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        (*(u8 * *)((u8 *)sprite + (0x2C))) = direction_table;
+        func_80047784(sprite,
+                     direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                      0);
 advance_state:
-        ((S_80173080_0 *)arg0)->unk_96.u = 0;
-        ((S_80173080_0 *)arg0)->unk_9B++;
+        ((S_80173080_0 *)action)->unk_96.u = 0;
+        ((S_80173080_0 *)action)->unk_9B++;
         return;
     }
     goto done;
 
 state_2:
-    timer = ((S_80173080_0 *)arg0)->unk_96.u + 1;
-    ((S_80173080_0 *)arg0)->unk_96.u = timer;
-    if (((s16)timer == 7) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
-        ((S_80173080_0 *)arg0)->unk_96.u = 0;
-        ((S_80173080_0 *)arg0)->unk_9B++;
+    timer = ((S_80173080_0 *)action)->unk_96.u + 1;
+    ((S_80173080_0 *)action)->unk_96.u = timer;
+    if (((s16)timer == 7) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        ((S_80173080_0 *)action)->unk_96.u = 0;
+        ((S_80173080_0 *)action)->unk_9B++;
     }
-    if (((S_80173080_0 *)arg0)->unk_96.s == 5) {
+    if (((S_80173080_0 *)action)->unk_96.s == 5) {
         func_800A56E0(0x808);
         return;
     }
     goto done;
 
 state_3:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(arg3, 0x100);
-        ((S_80173080_0 *)arg0)->unk_8C = D_801717F4;
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        func_800AD594(actor, 0x100);
+        ((S_80173080_0 *)action)->unk_8C = D_801717F4;
         D_8008346C = 0;
-        func_800A4ACC(arg3);
-        ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
+        func_800A4ACC(actor);
+        ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
     }
 
 done:

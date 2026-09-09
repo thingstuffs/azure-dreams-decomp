@@ -73,76 +73,75 @@ extern void func_80099C58(s16, s16, s16, s16, s32);
 extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A56E0(s32);
 
-void func_801745BC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Process nodes at the target tile and height, triggering type-specific effects. */
+void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
 {
-    register void *node ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register void *node ASM_REG("$16") = source;
     OffsetTable offsets = D_80170884;
-    register void *head ASM_REG("$18") = node; /* MATCH: keep head in s2 after the shared loop tail makes it live across both arms. */
-    register void *owner ASM_REG("$17") = head;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 key1 ASM_REG("$23") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *saved = ((S_801745BC_0_pre *)head)[-1].unk_04;
-    register void *next ASM_REG("$2") = ((S_801745BC_0 *)head)->unk_5C;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *head ASM_REG("$18") = node;
+    register void *owner = head;
+    register s32 match_x ASM_REG("$23") = target_x;
+    register void *owner_data = ((S_801745BC_0_pre *)head)[-1].unk_04;
+    register void *next_link ASM_REG("$2") = ((S_801745BC_0 *)head)->unk_5C;
     void *position = ((S_801745BC_0_pre *)head)[-1].unk_00;
-    s32 key2;
-    register s32 angle_arg ASM_REG("$7") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 angle_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 lower ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 match_y;
+    register s32 height_arg ASM_REG("$7") = target_height;
+    register s32 center_height ASM_REG("$20");
+    register s32 min_height ASM_REG("$21");
+    register s32 height_shifted ASM_REG("$2");
 
-    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    node = (u8 *)next + 0x20;
-    key2 = arg2;
+    ASM_KEEP(next_link);
+    node = (u8 *)next_link + 0x20;
+    match_y = target_y;
 
     if (node != head) {
-        shifted = angle_arg << 16;
-        angle_base = shifted >> 16;
-        lower = angle_base - 0x40;
+        height_shifted = height_arg << 16;
+        center_height = height_shifted >> 16;
+        min_height = center_height - 0x40;
         do {
-        S_801745BC_2 *data = ((S_801745BC_1_pre *)node)[-1].unk_04;
-        S_801745BC_3 *node_position = ((S_801745BC_1_pre *)node)[-1].unk_00;
-        s16 height;
+            S_801745BC_2 *node_data = ((S_801745BC_1_pre *)node)[-1].unk_04;
+            S_801745BC_3 *node_position = ((S_801745BC_1_pre *)node)[-1].unk_00;
+            s16 height;
 
-        if ((data->unk_24 == (key1 & 0xFFFF)) &&
-            (data->unk_25 == (key2 & 0xFFFF))) {
-            height = node_position->unk_0A;
-            if (((angle_base + 0x40) >= height) && (lower < height)) {
-                if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
-                    s32 message;
-                    u16 angle;
-                    OffsetPair *offset;
+            if ((node_data->unk_24 == (match_x & 0xFFFF)) &&
+                (node_data->unk_25 == (match_y & 0xFFFF))) {
+                height = node_position->unk_0A;
+                if (((center_height + 0x40) >= height) && (min_height < height)) {
+                    if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
+                        s32 message_id;
+                        u16 angle;
+                        OffsetPair *offset;
 
-                    ((S_801745BC_1 *)node)->unk_28 = 0;
-                    ((S_801745BC_1 *)node)->unk_64 = -1;
-                    func_800419EC(6, 0xC);
-                    message = 0x601;
-                    if (((S_801745BC_1 *)node)->unk_13 == 0x34) {
-                        message = 0x80B;
+                        ((S_801745BC_1 *)node)->unk_28 = 0;
+                        ((S_801745BC_1 *)node)->unk_64 = -1;
+                        func_800419EC(6, 0xC);
+                        message_id = 0x601;
+                        if (((S_801745BC_1 *)node)->unk_13 == 0x34) {
+                            message_id = 0x80B;
+                        }
+                        func_800A56E0(message_id);
+
+                        angle = ((S_801745BC_4 *)owner)->unk_2A;
+                        offset = (OffsetPair *)((u8 *)&offsets +
+                            (((s16)angle >> 7) & 0x1C));
+                        func_80099C58(
+                            (s16)(((S_801745BC_5 *)position)->unk_02 + (offset->x * 32)),
+                            (s16)(((S_801745BC_5 *)position)->unk_06 +
+                                ((s32)(offset->y << 16) >> 11)),
+                            (s16)(((S_801745BC_5 *)position)->unk_0A - 0x20),
+                            ((S_801745BC_4 *)owner)->unk_14,
+                            (s32)(s16)angle);
+                    } else {
+                        func_8009C12C(owner, owner_data,
+                            (s16)((S_801745BC_4 *)owner)->unk_2A, 1);
                     }
-                    func_800A56E0(message);
-
-                    angle = ((S_801745BC_4 *)owner)->unk_2A;
-                    offset = (OffsetPair *)((u8 *)&offsets +
-                        (((s16)angle >> 7) & 0x1C));
-                    func_80099C58(
-                        (s16)(((S_801745BC_5 *)position)->unk_02 + (offset->x * 32)),
-                        (s16)(((S_801745BC_5 *)position)->unk_06 +
-                            ((s32)(offset->y << 16) >> 11)),
-                        (s16)(((S_801745BC_5 *)position)->unk_0A - 0x20),
-                        ((S_801745BC_4 *)owner)->unk_14,
-                        (s32)(s16)angle);
-                } else {
-                    func_8009C12C(owner, saved,
-                        (s16)((S_801745BC_4 *)owner)->unk_2A, 1);
                 }
             }
-        }
-        next = ((S_801745BC_1 *)node)->unk_5C;
-        node = (u8 *)next + 0x20;
+            next_link = ((S_801745BC_1 *)node)->unk_5C;
+            node = (u8 *)next_link + 0x20;
         } while (node != head);
     }
 
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(key2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(owner_data);
+    ASM_KEEP(match_y);
 }

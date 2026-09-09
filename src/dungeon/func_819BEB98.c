@@ -25,95 +25,96 @@ typedef struct S_80024398_2 {
 extern s16 D_8002992E[5];
 extern s32 D_800814A0[3];
 
-void func_80024398(void *arg0)
+/* Adjusts node scale by countdown phase, restoring unity and setting completion flags at the end. */
+void func_80024398(void *effect)
 {
-    u32 x;
-    u32 y;
-    s32 state;
-    s16 counter;
-    u16 old_value;
-    u16 value;
+    u32 scale_x;
+    u32 scale_y;
+    s32 ticks_left;
+    s16 next_ticks;
+    u16 old_scale;
+    u16 new_scale;
     S_80024398_2 *node;
 
-    state = ((S_80024398_0 *)arg0)->unk_28.s;
+    ticks_left = ((S_80024398_0 *)effect)->unk_28.s;
     D_8002992E[0] = 1;
 
     {
-        s32 first_test;
+        s32 below_31;
         S_80024398_1 *parent;
 
-        parent = ((S_80024398_0 *)arg0)->unk_20;
-        first_test = state < 0x1F;
+        parent = ((S_80024398_0 *)effect)->unk_20;
+        below_31 = ticks_left < 0x1F;
         node = parent->unk_0C;
-        if (first_test) {
-            goto below_31;
+        if (below_31) {
+            goto later_phases;
         }
     }
 
     {
-        x = node->unk_1C;
-        y = node->unk_1E;
-        x += 0x88;
+        scale_x = node->unk_1C;
+        scale_y = node->unk_1E;
+        scale_x += 0x88;
         ASM_SCHED_BARRIER(); /* MATCH: keep the two addition arms separate. */
-        y += 0x88;
-        goto store;
+        scale_y += 0x88;
+        goto store_scale;
     }
 
-below_31:
+later_phases:
     {
-        s32 test;
+        s32 below_phase;
 
-        test = state < 0x19;
-        if (!test) {
-            goto decrement;
+        below_phase = ticks_left < 0x19;
+        if (!below_phase) {
+            goto shrink;
         }
-        test = state < 0x10;
-        if (!test) {
-            x = node->unk_1C + 0x88;
-            y = node->unk_1E + 0x88;
-            goto store;
+        below_phase = ticks_left < 0x10;
+        if (!below_phase) {
+            scale_x = node->unk_1C + 0x88;
+            scale_y = node->unk_1E + 0x88;
+            goto store_scale;
         }
-        test = state < 0xA;
-        if (test) {
-            goto inner;
+        below_phase = ticks_left < 0xA;
+        if (below_phase) {
+            goto restore_scale;
         }
 
-decrement:
+shrink:
         {
-            x = node->unk_1C - 0x88;
-            y = node->unk_1E - 0x88;
-store:
-            node->unk_1C = x;
-            node->unk_1E = y;
-            goto tail;
+            scale_x = node->unk_1C - 0x88;
+            scale_y = node->unk_1E - 0x88;
+store_scale:
+            node->unk_1C = scale_x;
+            node->unk_1E = scale_y;
+            goto update_timer;
         }
 
-inner:
-        old_value = node->unk_1C;
-        if (old_value < 0x1000U) {
-            value = old_value + 0x88;
-            node->unk_1C = value;
-            if ((u16)value >= 0x1001U) {
+restore_scale:
+        old_scale = node->unk_1C;
+        if (old_scale < 0x1000U) {
+            new_scale = old_scale + 0x88;
+            node->unk_1C = new_scale;
+            if ((u16)new_scale >= 0x1001U) {
                 node->unk_1C = 0x1000U;
             }
         }
 
-        old_value = node->unk_1E;
-        if (old_value < 0x1000U) {
-            value = old_value + 0x88;
-            node->unk_1E = value;
-            if ((u16)value >= 0x1001U) {
+        old_scale = node->unk_1E;
+        if (old_scale < 0x1000U) {
+            new_scale = old_scale + 0x88;
+            node->unk_1E = new_scale;
+            if ((u16)new_scale >= 0x1001U) {
                 node->unk_1E = 0x1000U;
             }
         }
 
-tail:
-        counter = ((S_80024398_0 *)arg0)->unk_28.u - 1;
-        ((S_80024398_0 *)arg0)->unk_28.s = counter;
-        if ((counter << 16) <= 0) {
+update_timer:
+        next_ticks = ((S_80024398_0 *)effect)->unk_28.u - 1;
+        ((S_80024398_0 *)effect)->unk_28.s = next_ticks;
+        if ((next_ticks << 16) <= 0) {
             node->unk_1E = 0x1000U;
             node->unk_1C = 0x1000U;
-            ((S_80024398_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+            ((S_80024398_0_pre *)effect)[-1].unk_00 |= 0x8000;
             D_800814A0[0] |= 0x8000;
         }
         return;

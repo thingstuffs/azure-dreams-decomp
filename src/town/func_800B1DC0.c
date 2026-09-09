@@ -11,11 +11,6 @@ typedef struct S_800AF520_4 {
     s32 unk_10;
 } S_800AF520_4;   /* ((S_800AF520_3 *)ctx)->unk_00 in func_800AF520 */
 
-
-
-
-
-
 extern s32 func_8004A658();
 
 typedef struct S_800AF520_0 {
@@ -35,64 +30,64 @@ typedef struct S_800AF520_2 {
     u8 unk_01;
 } S_800AF520_2;   /* temp_v0 in func_800AF520 */
 
-void func_800AF520(void *arg0) {
-    s32 *temp_v0_2;
-    void *temp_a0;
-    register s32 temp_s1;
-    s32 temp_index;
-    register s32 temp_product ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_result;
-    register s32 temp_cond ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_s0;
-    s32 cleanup_offset;
-    s32 var_v0;
-    S_800AF520_2 *temp_v0;
-    s32 *temp_v1;
-    register void *temp_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    S_800AF520_1 *temp_struct;
-    S_800AF520_0 *ctx = arg0;
+/* Fill slots 6 through 15 from the current page of entries, then clear unused slots. */
+void func_800AF520(void *context) {
+    s32 *empty_slot;
+    void *slots;
+    register s32 entry_index;
+    s32 page_index;
+    register s32 index_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 value;
+    register s32 has_entry;
+    s32 slot_index;
+    s32 slot_offset;
+    s32 has_slot;
+    S_800AF520_2 *entry;
+    s32 *slot;
+    register void *slot_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_800AF520_1 *entries;
+    S_800AF520_0 *ctx = context;
 
-    temp_index = ((S_800AF520_4 *)(((S_800AF520_3 *)ctx)->unk_00))->unk_10;
+    page_index = ((S_800AF520_4 *)(((S_800AF520_3 *)ctx)->unk_00))->unk_10;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    var_s0 = 6;
-    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    temp_product = temp_index << 2;
-    temp_product += temp_index;
-    temp_s1 = temp_product << 1;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    slot_index = 6;
+    ASM_KEEP(slot_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    index_offset = page_index << 2;
+    index_offset += page_index;
+    entry_index = index_offset << 1;
     for (;;) {
-        temp_struct = ctx->unk_00;
-        temp_cond = temp_s1 < temp_struct->unk_1C;
-        if (temp_cond == 0) {
-            goto block_5;
+        entries = ctx->unk_00;
+        has_entry = entry_index < entries->unk_1C;
+        if (has_entry == 0) {
+            goto check_slots;
         }
-        temp_product = temp_s1 << 2;
-        temp_addr = (void *)(temp_product + temp_struct->unk_20);
-        temp_v0 = *(void **)temp_addr;
-        temp_result = func_8004A658(temp_v0->unk_01, temp_v0->unk_00);
-        temp_s1 += 1;
-        temp_a0 = (void *)ctx->unk_A8;
-        temp_v1 = *((s32 **)((var_s0 * 4) + (u8 *)temp_a0));
-        var_s0 += 1;
-        *temp_v1 = temp_result;
+        index_offset = entry_index << 2;
+        slot_addr = (void *)(index_offset + entries->unk_20);
+        entry = *(void **)slot_addr;
+        value = func_8004A658(entry->unk_01, entry->unk_00);
+        entry_index += 1;
+        slots = (void *)ctx->unk_A8;
+        slot = *((s32 **)((slot_index * 4) + (u8 *)slots));
+        slot_index += 1;
+        *slot = value;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        var_v0 = var_s0 < 0x10;
-        if (var_v0 == 0) {
-            goto block_5;
+        has_slot = slot_index < 0x10;
+        if (has_slot == 0) {
+            goto check_slots;
         }
     }
-block_4:
-    cleanup_offset = var_s0 << 2;
-    temp_addr = (void *)(cleanup_offset + ctx->unk_A8);
-    ASM_KEEP(temp_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    temp_v0_2 = *(s32 **)temp_addr;
-    var_s0 += 1;
-    *temp_v0_2 = 0;
-block_5:
-    var_v0 = var_s0 < 0x10;
-block_6:
-    if (var_v0 != 0) {
-        goto block_4;
+clear_slot:
+    slot_offset = slot_index << 2;
+    slot_addr = (void *)(slot_offset + ctx->unk_A8);
+    ASM_KEEP(slot_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    empty_slot = *(s32 **)slot_addr;
+    slot_index += 1;
+    *empty_slot = 0;
+check_slots:
+    has_slot = slot_index < 0x10;
+clear_remaining:
+    if (has_slot != 0) {
+        goto clear_slot;
     }
     return;
 }

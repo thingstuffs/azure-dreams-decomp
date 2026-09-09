@@ -22,19 +22,20 @@ extern u8 D_80171FA4[];
 extern u8 D_80175C78[];
 extern u8 D_80175CA8[];
 
-void func_80173DD4(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates action movement and directional animation through three states. */
+void func_80173DD4(void *action, void *motion, void *object, void *actor)
 {
     s32 delta_x;
     s32 delta_y;
-    s32 table_off;
-    s32 table_idx;
+    s32 direction_off;
+    s32 facing_idx;
     s32 object_type;
-    register s32 count ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 next_count;
+    register s32 tick_phase ASM_REG("$5");
+    s32 next_tick;
     u16 flags;
     s32 state;
 
-    state = U8(arg0, 0x9B);
+    state = U8(action, 0x9B);
     if (state == 1) {
         goto state_one;
     }
@@ -54,134 +55,133 @@ state_two_test:
 
 state_zero:
 {
-    u8 *byte_table;
-    u8 *phase_page;
+    u8 *anim_table;
+    u8 *facing_ptr;
 
-    flags = U16(arg2, 0x14);
+    flags = U16(object, 0x14);
     if (flags & 0x8000) {
-        U16(arg2, 0x14) = flags | 0x6000;
-        U8(arg0, 0x9B) = 2;
-        func_8009C12C(arg3, arg2, S16(arg3, 0x2A), 1);
+        U16(object, 0x14) = flags | 0x6000;
+        U8(action, 0x9B) = 2;
+        func_8009C12C(actor, object, S16(actor, 0x2A), 1);
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if ((flags & 0x6000) == 0) {
         goto done;
     }
-    byte_table = (u8 *)0x80170000;
-    if (S16(arg0, 0x92) != 0) {
+    anim_table = (u8 *)0x80170000;
+    if (S16(action, 0x92) != 0) {
         goto done;
     }
-    ASM_KEEP_NV(byte_table);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    byte_table += 0x5C78;
-    phase_page = (u8 *)0x80080000;
-    ASM_KEEP(phase_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    PTR(arg2, 0x2C) = byte_table;
-    table_idx = (*(s16 *)(phase_page + 0x3228) + S16(arg3, 0x2A) + 0x100) >> 9;
-    table_idx &= 7;
-    phase_page = (u8 *)(table_idx + (s32)byte_table);
-    func_80047784(arg2, *phase_page, 0);
-    U16(arg0, 0x96) = 0;
+    ASM_KEEP_NV(anim_table);
+    anim_table += 0x5C78;
+    facing_ptr = (u8 *)0x80080000;
+    ASM_KEEP(facing_ptr);
+    PTR(object, 0x2C) = anim_table;
+    facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
+    facing_idx &= 7;
+    facing_ptr = (u8 *)(facing_idx + (s32)anim_table);
+    func_80047784(object, *facing_ptr, 0);
+    U16(action, 0x96) = 0;
     func_800A56E0(0x808);
     goto advance_state;
 }
 
 state_one:
 {
-    register u8 *direction_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 active_x;
-    register s32 active_y ASM_REG("$3"); /* MATCH: keep the merged Y value in retail's shared-store register. */
-    s32 limit;
-    s32 raw_y;
+    register u8 *direction_base ASM_REG("$2");
+    s32 motion_x;
+    register s32 motion_y ASM_REG("$3");
+    s32 signed_tick;
+    s32 direction_y;
 
     direction_base = (u8 *)0x80070000;
-    ASM_KEEP_NV(direction_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    count = U16(arg0, 0x96);
+    ASM_KEEP_NV(direction_base);
+    tick_phase = U16(action, 0x96);
     direction_base -= 0x3328;
-    next_count = count + 1;
-    count -= 3;
-    U16(arg0, 0x96) = next_count;
-    table_off = (U16(arg3, 0x2A) >> 8) & 0xE;
-    count = (u32)count < 8U;
-    direction_base = (u8 *)(table_off + (s32)direction_base);
-    ASM_KEEP_NV(direction_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    next_tick = tick_phase + 1;
+    tick_phase -= 3;
+    U16(action, 0x96) = next_tick;
+    direction_off = (U16(actor, 0x2A) >> 8) & 0xE;
+    tick_phase = (u32)tick_phase < 8U;
+    direction_base = (u8 *)(direction_off + (s32)direction_base);
+    ASM_KEEP_NV(direction_base);
     delta_x = *(s16 *)direction_base;
     direction_base = (u8 *)0x80070000;
-    ASM_KEEP_NV(direction_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(direction_base);
     direction_base -= 0x3318;
-    table_off = table_off + (s32)direction_base;
-    raw_y = *(s16 *)table_off;
+    direction_off = direction_off + (s32)direction_base;
+    direction_y = *(s16 *)direction_off;
     delta_x = -delta_x;
     delta_x <<= 16;
-    raw_y = -raw_y;
-    delta_y = raw_y << 16;
-    if (count) {
-        active_x = S32(arg1, 0xC) - delta_x;
-        active_y = S32(arg1, 0x10) - delta_y;
+    direction_y = -direction_y;
+    delta_y = direction_y << 16;
+    if (tick_phase) {
+        motion_x = S32(motion, 0xC) - delta_x;
+        motion_y = S32(motion, 0x10) - delta_y;
         goto store_movement;
     }
-    limit = (s16)next_count;
-    if (limit < 0x12) {
-        active_x = S32(arg1, 0xC) + delta_x;
-        active_y = S32(arg1, 0x10) + delta_y;
+    signed_tick = (s16)next_tick;
+    if (signed_tick < 0x12) {
+        motion_x = S32(motion, 0xC) + delta_x;
+        motion_y = S32(motion, 0x10) + delta_y;
 store_movement:
-        S32(arg1, 0xC) = active_x;
-        S32(arg1, 0x10) = active_y;
+        S32(motion, 0xC) = motion_x;
+        S32(motion, 0x10) = motion_y;
     } else {
-        ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        S32(arg1, 0x14) = 0;
-        S32(arg1, 0x10) = 0;
-        S32(arg1, 0xC) = 0;
+        ASM_CLOBBER("$5");
+        S32(motion, 0x14) = 0;
+        S32(motion, 0x10) = 0;
+        S32(motion, 0xC) = 0;
     }
-    object_type = S8(arg2, 4);
-    if (object_type == 5 && (U16(arg2, 0x14) & 0x9000)) {
-        func_8009C12C(arg3, arg2, S16(arg3, 0x2A), 1);
+    object_type = S8(object, 4);
+    if (object_type == 5 && (U16(object, 0x14) & 0x9000)) {
+        func_8009C12C(actor, object, S16(actor, 0x2A), 1);
     }
     {
-        u8 *byte_table;
-        u8 *phase_page;
+        u8 *anim_table;
+        u8 *facing_ptr;
 
-        byte_table = (u8 *)0x80170000;
-        if ((U16(arg2, 0x14) & 0x6000) == 0) {
+        anim_table = (u8 *)0x80170000;
+        if ((U16(object, 0x14) & 0x6000) == 0) {
             goto done;
         }
-        ASM_KEEP_NV(byte_table);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        byte_table += 0x5CA8;
-        phase_page = (u8 *)0x80080000;
-        ASM_KEEP(phase_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        PTR(arg2, 0x2C) = byte_table;
-        table_idx = (*(s16 *)(phase_page + 0x3228) + S16(arg3, 0x2A) + 0x100) >> 9;
-        table_idx &= 7;
-        phase_page = (u8 *)(table_idx + (s32)byte_table);
-        func_80047784(arg2, *phase_page, 0);
+        ASM_KEEP_NV(anim_table);
+        anim_table += 0x5CA8;
+        facing_ptr = (u8 *)0x80080000;
+        ASM_KEEP(facing_ptr);
+        PTR(object, 0x2C) = anim_table;
+        facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
+        facing_idx &= 7;
+        facing_ptr = (u8 *)(facing_idx + (s32)anim_table);
+        func_80047784(object, *facing_ptr, 0);
     }
-    S32(arg1, 0x14) = 0;
-    S32(arg1, 0x10) = 0;
-    S32(arg1, 0xC) = 0;
-    func_800A2B04(arg1, U8(arg2, 0x24), U8(arg2, 0x25));
+    S32(motion, 0x14) = 0;
+    S32(motion, 0x10) = 0;
+    S32(motion, 0xC) = 0;
+    func_800A2B04(motion, U8(object, 0x24), U8(object, 0x25));
 advance_state:
-    U8(arg0, 0x9B)++;
+    U8(action, 0x9B)++;
     return;
 }
 
 state_two:
 {
     u8 *global_page;
-    void *call_arg;
+    void *actor_arg;
 
-    if ((U16(arg2, 0x14) & 0xE000) == 0) {
+    if ((U16(object, 0x14) & 0xE000) == 0) {
         goto done;
     }
-    func_800AD594(arg3, 0x100);
-    call_arg = arg3;
-    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    PTR(arg0, 0x8C) = D_80171FA4;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    func_800AD594(actor, 0x100);
+    actor_arg = actor;
+    ASM_KEEP(actor_arg);
+    PTR(action, 0x8C) = D_80171FA4;
+    ASM_SCHED_BARRIER();
     global_page = (u8 *)0x80080000;
-    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(global_page);
     S32(global_page, 0x346C) = 0;
-    func_800A4ACC(call_arg);
-    U16(arg3, 0x46) &= 0x7FFF;
+    func_800A4ACC(actor_arg);
+    U16(actor, 0x46) &= 0x7FFF;
 }
 
 done:

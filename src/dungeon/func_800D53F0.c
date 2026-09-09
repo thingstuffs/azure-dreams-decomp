@@ -58,137 +58,138 @@ extern s32 func_800644B8();
 extern s32 func_80066460();
 extern void func_800DBA90(WorkBlock *);
 
-void func_800DAB50(void *arg0) {
+/* Update the effect vertices, animate their color, and advance the rotation. */
+void func_800DAB50(void *effect_data) {
     WorkBlock work;
-    void *var_s2 = arg0;
-    register s32 var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 var_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 var_a1_2;
-    s32 temp_shifted;
-    register s32 temp_v0_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1;
+    void *effect = effect_data;
+    register s32 index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 vertex_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 color_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 color_value;
+    s32 updated_value;
+    register s32 phase_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 state;
 
     work.unk28 = 0;
     work.unk20 = 0;
-    if (((S_800DAB50_0 *)var_s2)->unk_08 != 0) {
+    if (((S_800DAB50_0 *)effect)->unk_08 != 0) {
         work.unk22 = 0x30;
-        work.unk2A = ((S_800DAB50_0 *)var_s2)->unk_02.s + 0x30;
+        work.unk2A = ((S_800DAB50_0 *)effect)->unk_02.s + 0x30;
     } else {
-        temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_02.s;
+        phase_value = ((S_800DAB50_0 *)effect)->unk_02.s;
         work.unk2A = 0x30;
-        work.unk22 = (temp_v0_2 * 2) + 0x40;
+        work.unk22 = (phase_value * 2) + 0x40;
     }
-    var_s0 = 0;
-    work.unk24 = (s16)(func_800644B8(((s16)((S_800DAB50_0 *)var_s2)->unk_02.s - 0x20) << 6) >> 6);
+    index = 0;
+    work.unk24 = (s16)(func_800644B8(((s16)((S_800DAB50_0 *)effect)->unk_02.s - 0x20) << 6) >> 6);
     work.unk0 = &work.unk20;
     work.unk2C = 0;
     work.unk18 = 2;
-    temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_0A.s;
-    var_s1 = 0x28;
+    phase_value = ((S_800DAB50_0 *)effect)->unk_0A.s;
+    vertex_offset = 0x28;
     work.unk8 = 0;
     work.unk14 = 0;
     work.unk10 = 0;
     work.unk1A = 0;
-    work.unkC = temp_v0_2;
+    work.unkC = phase_value;
     do {
-        work.unk4 = (s16 *)((s8 *)var_s2 + var_s1);
+        work.unk4 = (s16 *)((s8 *)effect + vertex_offset);
         func_800DBA90(&work);
-        temp_v0_2 = work.unkC;
-        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        var_s0 += 1;
-        work.unkC = temp_v0_2 + 0x200;
-        var_s1 += 0x10;
-    } while (var_s0 < 2);
+        phase_value = work.unkC;
+        ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        index += 1;
+        work.unkC = phase_value + 0x200;
+        vertex_offset += 0x10;
+    } while (index < 2);
 
-    var_s0 = 3;
+    index = 3;
     {
-        register s16 *p ASM_REG("$4") = (s16 *)((s8 *)var_s2 + 0x18);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register s16 *vertex ASM_REG("$4") = (s16 *)((s8 *)effect + 0x18);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         do {
-            ((S_800DAB50_1 *)p)->unk_28 = (u16)(((S_800DAB50_1 *)p)->unk_28 + ((S_800DAB50_0 *)var_s2)->unk_20);
-            ((S_800DAB50_1 *)p)->unk_2A = (u16)(((S_800DAB50_1 *)p)->unk_2A + ((S_800DAB50_0 *)var_s2)->unk_22);
-            var_s0 -= 1;
-            ((S_800DAB50_1 *)p)->unk_2C = (u16)(((S_800DAB50_1 *)p)->unk_2C + ((S_800DAB50_0 *)var_s2)->unk_24);
-            p -= 4;
-        } while (var_s0 >= 0);
+            ((S_800DAB50_1 *)vertex)->unk_28 = (u16)(((S_800DAB50_1 *)vertex)->unk_28 + ((S_800DAB50_0 *)effect)->unk_20);
+            ((S_800DAB50_1 *)vertex)->unk_2A = (u16)(((S_800DAB50_1 *)vertex)->unk_2A + ((S_800DAB50_0 *)effect)->unk_22);
+            index -= 1;
+            ((S_800DAB50_1 *)vertex)->unk_2C = (u16)(((S_800DAB50_1 *)vertex)->unk_2C + ((S_800DAB50_0 *)effect)->unk_24);
+            vertex -= 4;
+        } while (index >= 0);
     }
 
-    temp_v1 = ((S_800DAB50_0 *)var_s2)->unk_00.s;
-    switch (temp_v1) {
-    case 0: goto state_0;
-    case 1: goto state_1;
-    case 2: goto state_2;
-    case 3: goto state_3;
-    default: goto block_27;
+    state = ((S_800DAB50_0 *)effect)->unk_00.s;
+    switch (state) {
+    case 0: goto init_color;
+    case 1: goto brighten;
+    case 2: goto dim_color;
+    case 3: goto fade_out;
+    default: goto update_angle;
     }
 
-state_0:
-    ((S_800DAB50_0 *)var_s2)->unk_10.at00.v = 0;
-    ((S_800DAB50_0 *)var_s2)->unk_04 = func_80066460(0, 1, 0x2C0, 0x100);
-    ((S_800DAB50_0 *)var_s2)->unk_0C = 0x242424;
-    ((S_800DAB50_0 *)var_s2)->unk_00.s = (s16)((u16)((S_800DAB50_0 *)var_s2)->unk_00.s + 1);
-    goto state_1;
+init_color:
+    ((S_800DAB50_0 *)effect)->unk_10.at00.v = 0;
+    ((S_800DAB50_0 *)effect)->unk_04 = func_80066460(0, 1, 0x2C0, 0x100);
+    ((S_800DAB50_0 *)effect)->unk_0C = 0x242424;
+    ((S_800DAB50_0 *)effect)->unk_00.s = (s16)((u16)((S_800DAB50_0 *)effect)->unk_00.s + 1);
+    goto brighten;
 
-state_1:
-    ((S_800DAB50_0 *)var_s2)->unk_10.at00.v = ((S_800DAB50_0 *)var_s2)->unk_10.at00.v + ((S_800DAB50_0 *)var_s2)->unk_0C;
-    var_a0_2 = 0;
-    if (((S_800DAB50_0 *)var_s2)->unk_10.at03.v != 0) {
-        temp_v0_2 = func_80066460(0, 3, 0x2C0, 0x100);
-        var_a1_2 = 0xFFFFFF;
-        goto state_update;
+brighten:
+    ((S_800DAB50_0 *)effect)->unk_10.at00.v = ((S_800DAB50_0 *)effect)->unk_10.at00.v + ((S_800DAB50_0 *)effect)->unk_0C;
+    color_step = 0;
+    if (((S_800DAB50_0 *)effect)->unk_10.at03.v != 0) {
+        phase_value = func_80066460(0, 3, 0x2C0, 0x100);
+        color_value = 0xFFFFFF;
+        goto advance_state;
     }
-    goto block_27;
+    goto update_angle;
 
-state_2:
-    ((S_800DAB50_0 *)var_s2)->unk_10.at00.v = ((S_800DAB50_0 *)var_s2)->unk_10.at00.v - ((S_800DAB50_0 *)var_s2)->unk_0C;
-    var_a0_2 = 0;
-    if ((u8)((S_800DAB50_0 *)var_s2)->unk_10.at00.v == 0x7F) {
-        temp_v0_2 = func_80066460(0, 3, 0x2C0, 0x100);
-        var_a1_2 = 0xA0A0A0;
-state_update:
-        var_a0_2 = 0x101010;
-        temp_v1 = ((S_800DAB50_0 *)var_s2)->unk_00.u;
-        ((S_800DAB50_0 *)var_s2)->unk_04 = temp_v0_2;
-        ((S_800DAB50_0 *)var_s2)->unk_10.at00.v = var_a1_2;
-        ASM_KEEP(var_a1_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ((S_800DAB50_0 *)var_s2)->unk_0C = var_a0_2;
-        temp_v1 += 1;
-        ((S_800DAB50_0 *)var_s2)->unk_00.s = temp_v1;
-        goto block_27;
-    }
-    goto block_27;
+dim_color:
+    ((S_800DAB50_0 *)effect)->unk_10.at00.v = ((S_800DAB50_0 *)effect)->unk_10.at00.v - ((S_800DAB50_0 *)effect)->unk_0C;
+    color_step = 0;
+    if ((u8)((S_800DAB50_0 *)effect)->unk_10.at00.v == 0x7F) {
+        phase_value = func_80066460(0, 3, 0x2C0, 0x100);
+        color_value = 0xA0A0A0;
+advance_state:
+        color_step = 0x101010;
+        state = ((S_800DAB50_0 *)effect)->unk_00.u;
+        ((S_800DAB50_0 *)effect)->unk_04 = phase_value;
+        ((S_800DAB50_0 *)effect)->unk_10.at00.v = color_value;
 
-state_3:
-    var_a0_2 = ((S_800DAB50_0 *)var_s2)->unk_0C;
-    var_a1_2 = var_a0_2;
-    temp_shifted = ((S_800DAB50_0 *)var_s2)->unk_10.at00.v - var_a0_2;
-    ((S_800DAB50_0 *)var_s2)->unk_10.at00.v = temp_shifted;
-    if (var_a1_2 > 0x80808) {
-        ((S_800DAB50_0 *)var_s2)->unk_0C = var_a1_2 + 0xFFFEFEFF;
+        ((S_800DAB50_0 *)effect)->unk_0C = color_step;
+        state += 1;
+        ((S_800DAB50_0 *)effect)->unk_00.s = state;
+        goto update_angle;
     }
-    if (((S_800DAB50_0 *)var_s2)->unk_10.at00.v < 0) {
-        ((S_800DAB50_0 *)var_s2)->unk_10.at00.v = 0;
-        ((S_800DAB50_0_pre *)var_s2)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)var_s2)[-1].unk_00 | 0x8000);
+    goto update_angle;
+
+fade_out:
+    color_step = ((S_800DAB50_0 *)effect)->unk_0C;
+    color_value = color_step;
+    updated_value = ((S_800DAB50_0 *)effect)->unk_10.at00.v - color_step;
+    ((S_800DAB50_0 *)effect)->unk_10.at00.v = updated_value;
+    if (color_value > 0x80808) {
+        ((S_800DAB50_0 *)effect)->unk_0C = color_value + 0xFFFEFEFF;
+    }
+    if (((S_800DAB50_0 *)effect)->unk_10.at00.v < 0) {
+        ((S_800DAB50_0 *)effect)->unk_10.at00.v = 0;
+        ((S_800DAB50_0_pre *)effect)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
     }
 
-    ASM_USE_NV(var_a0_2); /* MATCH: keep a0 live so the subtraction uses a0 after the a1 copy. */
+    ASM_USE_NV(color_step); /* MATCH: keep a0 live so the subtraction uses a0 after the a1 copy. */
 
-block_27:
-    temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_02.u;
-    temp_v0_2 <<= 0x10;
-    temp_shifted = temp_v0_2 >> 0xE;
-    temp_v0_2 >>= 0x11;
-    var_s0 = temp_shifted + temp_v0_2;
-    temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_08;
-    temp_shifted = ((S_800DAB50_0 *)var_s2)->unk_0A.u;
-    if (temp_v0_2 == 0) {
-        temp_shifted -= var_s0;
+update_angle:
+    phase_value = ((S_800DAB50_0 *)effect)->unk_02.u;
+    phase_value <<= 0x10;
+    updated_value = phase_value >> 0xE;
+    phase_value >>= 0x11;
+    index = updated_value + phase_value;
+    phase_value = ((S_800DAB50_0 *)effect)->unk_08;
+    updated_value = ((S_800DAB50_0 *)effect)->unk_0A.u;
+    if (phase_value == 0) {
+        updated_value -= index;
     } else {
-        temp_shifted += var_s0;
-        ASM_KEEP(temp_shifted);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        updated_value += index;
+
     }
-    temp_v0_2 = ((S_800DAB50_0 *)var_s2)->unk_02.u;
-    ((S_800DAB50_0 *)var_s2)->unk_0A.s = temp_shifted;
-    ((S_800DAB50_0 *)var_s2)->unk_02.s = temp_v0_2 - 1;
+    phase_value = ((S_800DAB50_0 *)effect)->unk_02.u;
+    ((S_800DAB50_0 *)effect)->unk_0A.s = updated_value;
+    ((S_800DAB50_0 *)effect)->unk_02.s = phase_value - 1;
 }

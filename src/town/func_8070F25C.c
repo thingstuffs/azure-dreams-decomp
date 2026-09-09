@@ -11,20 +11,20 @@ extern char D_800227FB[];
 extern char *func_80016E48(s32);
 extern s32 func_8001A64C(u32);
 
-char *func_8001825C(s32 arg0, s32 arg1, s32 arg2)
+/* Selects a string, with a state-dependent choice for selector 12. */
+char *func_8001825C(s32 unused_0, s32 unused_1, s32 text_id)
 {
-    register s32 selector ASM_REG("$4") = arg2;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u32 index;
-    static void *const keepalive[] = {
+    register s32 selector = text_id;
+    u32 table_index;
+    static void *const case_labels[] = {
         &&L_case19, &&L_case18, &&L_case12, &&L_case52, &&L_default
     };
 
-    index = selector - 12;
-    if (index >= 43) {
+    table_index = selector - 12;
+    if (table_index >= 43) {
         goto L_default;
     }
-    ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    goto *D_80016910[index];
+    goto *D_80016910[table_index];
 
 L_case19:
     return D_8001C018;

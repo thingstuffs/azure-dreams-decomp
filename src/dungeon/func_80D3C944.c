@@ -62,100 +62,92 @@ typedef struct S_80172144_4 {
     u8 unk_7C;
 } S_80172144_4;   /* (u8 *)state + ((S_80172144_0 *)state)->unk_8A in func_80172144 */
 
-void func_80172144(void *arg0, s32 arg1, void *arg2, void *arg3) {
-    register void *state ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *entity ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 var_a2_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s32 temp_v0;
-    u8 temp_s0;
-    u8 temp_s3;
-    s32 temp_v1;
-    S_80172144_3 *temp_v0_2;
+/* Advance the entity along its path and update its movement state. */
+void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_arg) {
+    register void *state ASM_REG("$17") = state_arg;
+    register void *entity ASM_REG("$18") = entity_arg;
+    s32 tile_flags;
+    s16 direction;
+    s16 move_result;
+    s32 effect_status;
+    u8 old_x;
+    u8 old_y;
+    s32 step_count;
+    S_80172144_3 *path_step;
 
     if ((((S_80172144_0 *)state)->unk_71.s > 0) &&
         ((s32)((S_80172144_0 *)state)->unk_71.u > ((S_80172144_0 *)state)->unk_8A)) {
-        if ((((S_80172144_1 *)arg0)->unk_B5 == 0) &&
+        if ((((S_80172144_1 *)actor)->unk_B5 == 0) &&
             (((S_80172144_2 *)entity)->unk_2C != D_800E23E0)) {
             ((S_80172144_2 *)entity)->unk_2C = D_800E23E0;
             func_80047784(entity,
                 D_800E23E0[((D_80083228[0] + ((S_80172144_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            if (((S_80172144_1 *)arg0)->unk_B0 == 0) {
-                func_801708B8(arg0, arg1, entity);
+            if (((S_80172144_1 *)actor)->unk_B0 == 0) {
+                func_801708B8(actor, actor_slot, entity);
             }
         }
-        temp_s0 = ((S_80172144_2 *)entity)->unk_24;
-        temp_s3 = ((S_80172144_2 *)entity)->unk_25;
-        temp_v0 = func_80042900(state, 0x1B);
-        if ((temp_v0 << 0x10) == 0) {
-            register s32 call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        old_x = ((S_80172144_2 *)entity)->unk_24;
+        old_y = ((S_80172144_2 *)entity)->unk_25;
+        effect_status = func_80042900(state, 0x1B);
+        if ((effect_status << 0x10) == 0) {
+            register s32 tile_x ASM_REG("$4");
+            register s32 tile_y ASM_REG("$5");
             s32 flags;
             s32 mode;
 
-            call_a0 = temp_s0;
+            tile_x = old_x;
             mode = 0x3000;
             flags = ((S_80172144_0 *)state)->unk_1C;
-            call_a1 = temp_s3;
+            tile_y = old_y;
             if (flags & 0x2000) {
                 mode = 0x300;
             }
-            func_8009A3D0(call_a0, call_a1, mode);
+            func_8009A3D0(tile_x, tile_y, mode);
         }
-        temp_v0_2 = (u8 *)state + ((S_80172144_0 *)state)->unk_8A;
-        temp_v0_3 = func_800A0818(temp_s0, temp_s3,
-            temp_v0_2->unk_74, temp_v0_2->unk_7C,
-            (u8 *)arg0 + 0x98);
-        temp_v0_4 = func_8009A66C(temp_v0_3, entity, state, 0x20);
+        path_step = (u8 *)state + ((S_80172144_0 *)state)->unk_8A;
+        direction = func_800A0818(old_x, old_y,
+            path_step->unk_74, path_step->unk_7C,
+            (u8 *)actor + 0x98);
+        move_result = func_8009A66C(direction, entity, state, 0x20);
         ((S_80172144_2 *)entity)->unk_24 = ((S_80172144_4 *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->unk_74;
         ((S_80172144_2 *)entity)->unk_25 = ((S_80172144_4 *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->unk_7C;
         ((S_80172144_0 *)state)->unk_8A = (u16)((S_80172144_0 *)state)->unk_8A + 1;
-        if ((temp_v0 << 0x10) == 0) {
+        if ((effect_status << 0x10) == 0) {
             s32 new_x;
             s32 new_y;
 
-            var_a2_2 = 0x3000;
+            tile_flags = 0x3000;
             new_x = ((S_80172144_2 *)entity)->unk_24;
             new_y = ((S_80172144_2 *)entity)->unk_25;
             if (((S_80172144_0 *)state)->unk_1C & 0x2000) {
-                var_a2_2 = 0x300;
+                tile_flags = 0x300;
             }
-            func_8009A21C(new_x, new_y, var_a2_2);
+            func_8009A21C(new_x, new_y, tile_flags);
         }
-        ((S_80172144_0 *)state)->unk_2A = temp_v0_3;
-        if (temp_v0_4 == 3) {
-            if ((((S_80172144_1 *)arg0)->unk_B5 == 0) && !(D_80083462[0] & 0x80) &&
+        ((S_80172144_0 *)state)->unk_2A = direction;
+        if (move_result == 3) {
+            if ((((S_80172144_1 *)actor)->unk_B5 == 0) && !(D_80083462[0] & 0x80) &&
                 !(((S_80172144_2 *)entity)->unk_14 & 0x8000)) {
-                func_80172B4C(arg0, arg1, entity, state);
-                ((S_80172144_1 *)arg0)->unk_8C = 0;
-                goto block_22;
+                func_80172B4C(actor, actor_slot, entity, state);
+                ((S_80172144_1 *)actor)->unk_8C = 0;
+                goto finish_step;
             }
-            goto block_21;
+            goto reset_action;
         }
-block_21:
-        ((S_80172144_1 *)arg0)->unk_9A = 0xF;
-        ((S_80172144_1 *)arg0)->unk_8C = 0;
-block_22:
+reset_action:
+        ((S_80172144_1 *)actor)->unk_9A = 0xF;
+        ((S_80172144_1 *)actor)->unk_8C = 0;
+finish_step:
         ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
         if (D_80083462[0] & 0x80) {
-            ((S_80172144_1 *)arg0)->unk_96 = 0;
+            ((S_80172144_1 *)actor)->unk_96 = 0;
             return;
         }
-        ((S_80172144_1 *)arg0)->unk_96 = 8;
-        temp_v1 = ((S_80172144_0 *)state)->unk_71.u;
-        if ((s32)temp_v1 > 0) {
-            ((S_80172144_1 *)arg0)->unk_96 = 8 / (s32)temp_v1;
+        ((S_80172144_1 *)actor)->unk_96 = 8;
+        step_count = ((S_80172144_0 *)state)->unk_71.u;
+        if ((s32)step_count > 0) {
+            ((S_80172144_1 *)actor)->unk_96 = 8 / (s32)step_count;
         }
     }
 }
-
-/* MECHANISM: true-space args stay in s4/s6/s2/s1 (frame -0x38, retail save order);
-   >8B global arrays force the %hi/%lo pairs; the $5 carrier assigned BEFORE the
-   effect-diamond puts `move a1,s3` in the beqz delay (backward-scan fill) and leaves
-   the lw load-delay nop. RESIDUE (1 word, delay-slot): gcc still emits call1's own
-   `move a0,s0` arg setup inside the beqz-target block, and reorg's backward scan
-   hides it in the jal delay slot where retail has a nop -- retail's build emitted
-   only TWO `move a0,s0` (the func_800A0818 setup plus reorg's target-thread copy in
-   the bnez delay), i.e. call1's a0 setup never existed there. */

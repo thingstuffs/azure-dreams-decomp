@@ -12,17 +12,18 @@ extern s32 D_800D0E44;
 extern s32 D_800D0E40[3];
 extern TownRecord D_800F8A70[];
 
-void func_800A833C(void *arg0, void *arg1, void *arg2)
+/* Clears and flags a handled object, or clamps the town index and selects a record. */
+void func_800A833C(void *object, void *check_context, void *record_holder)
 {
-    u8 *field98;
+    u8 *state_byte;
 
-    if (func_8009CFE0(arg0, arg1) != 0) {
-        field98 = *(u8 **)((u8 *)arg0 + 0x98);
-        if (field98 != 0) {
-            *field98 = 0;
+    if (func_8009CFE0(object, check_context) != 0) {
+        state_byte = *(u8 **)((u8 *)object + 0x98);
+        if (state_byte != 0) {
+            *state_byte = 0;
         }
-        func_80033D08(arg0);
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+        func_80033D08(object);
+        *(u16 *)((u8 *)object - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
         return;
     }
@@ -32,5 +33,5 @@ void func_800A833C(void *arg0, void *arg1, void *arg2)
     } else if (D_800D0E44 >= 21) {
         D_800D0E44 = 20;
     }
-    *(TownRecord **)((u8 *)arg2 + 8) = &D_800F8A70[D_800D0E40[1]];
+    *(TownRecord **)((u8 *)record_holder + 8) = &D_800F8A70[D_800D0E40[1]];
 }

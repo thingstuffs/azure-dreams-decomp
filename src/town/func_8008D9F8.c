@@ -28,36 +28,37 @@ extern TownState D_801131B8;
 extern void func_80035208(s32);
 extern void func_8008B0E8(s32, u32, u32, u32);
 
-void func_8008B158(Object *arg0) {
+/* Loads town state from item flags and dispatches the selected object value. */
+void func_8008B158(Object *object) {
     Item *item;
-    u32 mask;
-    u32 arg3;
-    s32 arg0_call;
-    u32 arg1;
-    u32 arg2;
-    register u32 tail_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 tail_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 type_mask;
+    u32 extra_flags;
+    s32 call_value;
+    u32 high_code;
+    u32 low_code;
+    register u32 data_base;
+    register u32 data_offset;
 
-    item = arg0->item98;
-    if (item != 0 && (mask = item->flags0 & 0xC0000000) == 0xC0000000) {
-        D_801131B8.value0 = arg0->value60;
-        arg0_call = (item->flags0 >> 23) & 1;
-        D_801131B8.value4 = arg0_call;
-        arg1 = (item->flags0 & 0x3F000000) >> 24;
-        D_801131B8.value8 = arg1;
-        arg2 = (item->flags0 & 0x007F0000) >> 16;
-        D_801131B8.valueC = arg2;
-        arg3 = item->flags1;
-        if ((arg3 & mask) == mask) {
-            D_801131B8.value10 = (arg3 & 0x3F000000) >> 24;
+    item = object->item98;
+    if (item != 0 && (type_mask = item->flags0 & 0xC0000000) == 0xC0000000) {
+        D_801131B8.value0 = object->value60;
+        call_value = (item->flags0 >> 23) & 1;
+        D_801131B8.value4 = call_value;
+        high_code = (item->flags0 & 0x3F000000) >> 24;
+        D_801131B8.value8 = high_code;
+        low_code = (item->flags0 & 0x007F0000) >> 16;
+        D_801131B8.valueC = low_code;
+        extra_flags = item->flags1;
+        if ((extra_flags & type_mask) == type_mask) {
+            D_801131B8.value10 = (extra_flags & 0x3F000000) >> 24;
             D_801131B8.value14 = (item->flags1 & 0x007F0000) >> 16;
         }
-        func_8008B0E8(arg0_call, arg1, arg2, arg3);
-        tail_base = 0x80016000;
-        tail_offset = *(u16 *)&item->flags0;
-        arg0_call = tail_base + tail_offset;
+        func_8008B0E8(call_value, high_code, low_code, extra_flags);
+        data_base = 0x80016000;
+        data_offset = *(u16 *)&item->flags0;
+        call_value = data_base + data_offset;
     } else {
-        arg0_call = arg0->value48;
+        call_value = object->value48;
     }
-    func_80035208(arg0_call);
+    func_80035208(call_value);
 }

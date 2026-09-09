@@ -25,55 +25,55 @@ extern M2C_UNK D_800D5028;
 extern M2C_UNK D_800D5040;
 extern M2C_UNK D_800D5058;
 
-void func_800C321C(s32 arg0, s32 arg1, void *arg2) {
-    s32 temp_v0;
-    u8 temp_v1;
-    register TargetObj *obj ASM_REG("$17") = (TargetObj *)arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *motion = arg2;
+/* Selects state data, invokes the object callback, and updates motion data and flags. */
+void func_800C321C(s32 obj_addr, s32 callback_arg, void *motion_data) {
+    s32 table_index;
+    u8 state;
+    register TargetObj *obj ASM_REG("$17") = (TargetObj *)obj_addr;
+    void *motion = motion_data;
 
-    u32 ret;
-    u32 tail_result;
+    u32 state_data;
+    u32 motion_flags;
 
-    temp_v1 = obj->state70;
-    if (temp_v1 == 0) {
-        ret = 0x800d0000;
-        ASM_KEEP_NV(ret); /* MATCH: preserve the first selection arm. */
-        ret += 0x5028;
-    } else if (temp_v1 == 1) {
-        ret = 0x800d0000;
-        ASM_KEEP_NV(ret); /* MATCH: keep the high half in the branch delay slot. */
-        ret += 0x5040;
+    state = obj->state70;
+    if (state == 0) {
+        state_data = 0x800d0000;
+        ASM_KEEP_NV(state_data);
+        state_data += 0x5028;
+    } else if (state == 1) {
+        state_data = 0x800d0000;
+        ASM_KEEP_NV(state_data);
+        state_data += 0x5040;
     } else {
-        ret = (u32)&D_800D5058;
+        state_data = (u32)&D_800D5058;
     }
-    obj->field0c = (void *)ret;
-    ASM_KEEP_NV(obj);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    obj->callback(obj, arg1, motion);
+    obj->field0c = (void *)state_data;
+    ASM_KEEP_NV(obj);
+    obj->callback(obj, callback_arg, motion);
     if (!(*(u16 *)((u8 *)obj - 2) & 0x8000)) {
-        temp_v0 = func_800C2E1C(obj->field72, obj->field64);
-        if (obj->field74 != temp_v0) {
-            func_800C2CB0(obj, motion, obj->table78[temp_v0], *(s8 *)((u8 *)motion + 4));
-            obj->field74 = temp_v0;
+        table_index = func_800C2E1C(obj->field72, obj->field64);
+        if (obj->field74 != table_index) {
+            func_800C2CB0(obj, motion, obj->table78[table_index], *(s8 *)((u8 *)motion + 4));
+            obj->field74 = table_index;
         }
         if (!(obj->flags71 & 1)) {
             if ((func_800C2F14(obj->field72, obj->field64) << 0x10) == 0) {
-                tail_result = *(u16 *)((u8 *)motion + 0x14);
-                ASM_KEEP_NV(tail_result); /* MATCH: keep the first clear-bit arm separate. */
-                tail_result &= 0xfffe;
-                goto block_17;
+                motion_flags = *(u16 *)((u8 *)motion + 0x14);
+                ASM_KEEP_NV(motion_flags);
+                motion_flags &= 0xfffe;
+                goto store_motion_flags;
             }
-            goto block_16;
+            goto set_motion_flag;
         }
         if ((func_800C2F14(obj->field72, obj->field64) << 0x10) != 0) {
-            tail_result = *(u16 *)((u8 *)motion + 0x14);
-            tail_result &= 0xfffe;
-            goto block_17;
+            motion_flags = *(u16 *)((u8 *)motion + 0x14);
+            motion_flags &= 0xfffe;
+            goto store_motion_flags;
         }
-block_16:
-        tail_result = *(u16 *)((u8 *)motion + 0x14) | 1;
-block_17:
-        *(u16 *)((u8 *)motion + 0x14) = tail_result;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+set_motion_flag:
+        motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
+store_motion_flags:
+        *(u16 *)((u8 *)motion + 0x14) = motion_flags;
         func_800C2C80(obj, motion, 0, 0);
     }
 }

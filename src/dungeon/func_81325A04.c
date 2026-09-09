@@ -60,186 +60,183 @@ extern s32 func_800AAA54();
 extern s32 func_800AD4D0();
 extern s32 func_80047784();
 
-u8 *func_8016D204(S_func_81325A04_0 *arg0, S_func_81325A04_1 *arg1, S_func_81325A04_2 *arg2, S_func_81325A04_3 *arg3) {
+/* Updates timed movement, returns the entity to its tile, and restores its animation. */
+u8 *func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_81325A04_2 *entity, S_func_81325A04_3 *actor) {
     s32 state;
     s16 timer;
-    s16 next;
-    u16 raw;
-    s32 value;
-    s32 current;
-    s32 below2;
-    s32 x;
-    s32 y;
-    s32 ax;
-    s32 dy;
-    s32 ax2;
-    s32 dy2;
-    s32 *shared;
-    u8 *chosen;
-    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *tail_a1;
+    s16 next_timer;
+    u16 timer_bits;
+    s32 facing;
+    s32 anim_addr;
+    s32 timer_ending;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 tile_x;
+    s32 offset_x;
+    s32 tile_y;
+    s32 offset_y;
+    s32 *shared_state;
+    u8 *final_state;
+    register u32 result_bits ASM_REG("$2");
+    u8 *anim_table;
 
-    state = arg0->unk_9B;
+    state = action->unk_9B;
     if (state == 1) {
-        goto state1_body;
+        goto slow_move;
     }
     if (state < 2) {
         if (state == 0) {
-            goto state0_body;
+            goto start_move;
         }
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+
     if (state == 2) {
-        goto state2_body;
+        goto return_to_tile;
     }
     if (state == 3) {
-        goto state3_body;
+        goto finish_move;
     }
     return;
 
-state0_body:
-    func_800AD4D0(arg3);
-    arg0->unk_96.s = 12;
-    arg0->unk_9B = (u8)(arg0->unk_9B + 1);
-    if (arg3->unk_28 == 0) {
-        arg1->unk_14 = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
-        if (arg0->unk_B4 != 0) {
-            page = (u32)D_8016B778;
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            arg0->unk_9B = 0;
-            goto store_chosen;
+start_move:
+    func_800AD4D0(actor);
+    action->unk_96.s = 12;
+    action->unk_9B = (u8)(action->unk_9B + 1);
+    if (actor->unk_28 == 0) {
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        if (action->unk_B4 != 0) {
+            result_bits = (u32)D_8016B778;
+            action->unk_9B = 0;
+            goto store_handler;
         }
         goto initialize;
     }
-    chosen = (u8 *)3;
-    if (!(arg2->unk_14 & 0x8000)) {
-        return chosen;
+    final_state = (u8 *)3;
+    if (!(entity->unk_14 & 0x8000)) {
+        return final_state;
     }
-    arg0->unk_96.s = 0;
-    arg0->unk_9B = (u32)chosen;
+    action->unk_96.s = 0;
+    action->unk_9B = (u32)final_state;
     return;
 
-state1_body:
-        raw = arg0->unk_96.u;
-        raw--;
-        arg0->unk_96.u = raw;
-        timer = (s16)raw;
-        if (timer >= 11) {
-            arg1->unk_0C =
-                *(s16 *)((u8 *)D_8006CCD8 + ((arg3->unk_6A >> 8) & 0xE)) << 20;
-            arg1->unk_10 =
-                *(s16 *)((u8 *)D_8006CCE8 + ((arg3->unk_6A >> 8) & 0xE)) << 20;
-            arg2->unk_14 |= 0x800;
-            return;
+slow_move:
+    timer_bits = action->unk_96.u;
+    timer_bits--;
+    action->unk_96.u = timer_bits;
+    timer = (s16)timer_bits;
+    if (timer >= 11) {
+        motion->unk_0C =
+            *(s16 *)((u8 *)D_8006CCD8 + ((actor->unk_6A >> 8) & 0xE)) << 20;
+        motion->unk_10 =
+            *(s16 *)((u8 *)D_8006CCE8 + ((actor->unk_6A >> 8) & 0xE)) << 20;
+        entity->unk_14 |= 0x800;
+        return;
+    }
+    if (timer >= 7) {
+        velocity_x = motion->unk_0C;
+        if (velocity_x < 0) {
+            velocity_x += 3;
         }
-        if (timer >= 7) {
-            x = arg1->unk_0C;
-            if (x < 0) {
-                x += 3;
-            }
-            y = arg1->unk_10;
-            arg1->unk_0C = x >> 2;
-            if (y < 0) {
-                y += 3;
-            }
-            arg1->unk_10 = y >> 2;
-            return;
+        velocity_y = motion->unk_10;
+        motion->unk_0C = velocity_x >> 2;
+        if (velocity_y < 0) {
+            velocity_y += 3;
         }
-        below2 = timer < 2;
-        if (!below2) {
-            arg1->unk_10 = 0;
-            arg1->unk_0C = 0;
-            return;
-        }
-        if (timer == state) {
-            arg2->unk_14 &= 0xF7FF;
-            return;
-        }
-        if (timer != 0) {
-            return (u8 *)(u32)below2;
-        }
-        timer = 4;
-        page = arg0->unk_9B;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        arg0->unk_96.s = timer;
-        goto increment_state;
-state2_body:
-    timer = arg0->unk_96.s;
+        motion->unk_10 = velocity_y >> 2;
+        return;
+    }
+    timer_ending = timer < 2;
+    if (!timer_ending) {
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        return;
+    }
+    if (timer == state) {
+        entity->unk_14 &= 0xF7FF;
+        return;
+    }
     if (timer != 0) {
-        ax = arg2->unk_24 << 6;
-        dy = arg1->unk_02 - 32;
-        arg1->unk_0C = ((ax - dy) << 16) / timer;
-        ax2 = arg2->unk_25 << 6;
-        dy2 = arg1->unk_06 - 32;
-        arg1->unk_10 =
-            ((ax2 - dy2) << 16) / arg0->unk_96.s;
+        return (u8 *)(u32)timer_ending;
     }
-    page = arg0->unk_96.u;
-    next = (s16)(page - 1);
-    page <<= 16;
-    arg0->unk_96.s = next;
-    if ((s32)page > 0) {
-            return (u8 *)page;
+    timer = 4;
+    result_bits = action->unk_9B;
+    action->unk_96.s = timer;
+    goto increment_state;
+return_to_tile:
+    timer = action->unk_96.s;
+    if (timer != 0) {
+        tile_x = entity->unk_24 << 6;
+        offset_x = motion->unk_02 - 32;
+        motion->unk_0C = ((tile_x - offset_x) << 16) / timer;
+        tile_y = entity->unk_25 << 6;
+        offset_y = motion->unk_06 - 32;
+        motion->unk_10 =
+            ((tile_y - offset_y) << 16) / action->unk_96.s;
     }
-    arg1->unk_14 = 0;
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
-    page = arg0->unk_9B;
+    result_bits = action->unk_96.u;
+    next_timer = (s16)(result_bits - 1);
+    result_bits <<= 16;
+    action->unk_96.s = next_timer;
+    if ((s32)result_bits > 0) {
+        return (u8 *)result_bits;
+    }
+    motion->unk_14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    result_bits = action->unk_9B;
 increment_state:
-    arg0->unk_9B = (u8)(page + 1);
+    action->unk_9B = (u8)(result_bits + 1);
     return;
 
-state3_body:
-    arg1->unk_14 = 0;
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-    if (arg3->unk_28 != 0) {
-        goto state3_continue;
+finish_move:
+    motion->unk_14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    func_800A2B04(motion, entity->unk_24, entity->unk_25);
+    if (actor->unk_28 != 0) {
+        goto restore_animation;
     }
-    arg1->unk_14 = 0;
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
-    if (arg0->unk_B4 != 0) {
-        goto state3_tail;
+    motion->unk_14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    if (action->unk_B4 != 0) {
+        goto reset_action;
     }
 initialize:
-    arg0->unk_9B = 0;
-    func_800AAA54(arg0, arg1, arg2, D_801746CC);
+    action->unk_9B = 0;
+    func_800AAA54(action, motion, entity, D_801746CC);
     return;
 
-state3_tail:
-    page = (u32)D_8016B778;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    arg0->unk_9B = 0;
-    goto store_chosen;
+reset_action:
+    result_bits = (u32)D_8016B778;
+    ASM_KEEP(result_bits);
+    action->unk_9B = 0;
+    goto store_handler;
 
-state3_continue:
-    current = arg2->unk_2C;
-    if (current == (s32)D_801746C4) {
-        if (arg0->unk_B3 == 0) {
-            page = 0x80170000;
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            tail_a1 = (u8 *)page + 18044;
+restore_animation:
+    anim_addr = entity->unk_2C;
+    if (anim_addr == (s32)D_801746C4) {
+        if (action->unk_B3 == 0) {
+            anim_table = D_8017467C;
         } else {
-            page = (u32)D_80174684;
-            tail_a1 = (u8 *)page;
+            result_bits = (u32)D_80174684;
+            anim_table = (u8 *)result_bits;
         }
-        if (current != (s32)tail_a1) {
-            arg2->unk_2C = (s32)tail_a1;
-            value = D_80083228[0] + arg3->unk_2A;
-            func_80047784(arg2, *(u8 *)((u32)(((value + 0x100) >> 9) & 7) + (u32)tail_a1), 0);
+        if (anim_addr != (s32)anim_table) {
+            entity->unk_2C = (s32)anim_table;
+            facing = D_80083228[0] + actor->unk_2A;
+            func_80047784(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
         }
     }
-    shared = D_80083460;
-    if (shared[4] == (s32)((u8 *)arg3 - 0x20)) {
-        shared[4] &= 0x7FFFFFFF;
+    shared_state = D_80083460;
+    if (shared_state[4] == (s32)((u8 *)actor - 0x20)) {
+        shared_state[4] &= 0x7FFFFFFF;
     }
-    page = (u32)D_8016B778;
-store_chosen:
-    arg0->unk_8C = (u8 *)page;
-    return (u8 *)page;
+    result_bits = (u32)D_8016B778;
+store_handler:
+    action->unk_8C = (u8 *)result_bits;
+    return (u8 *)result_bits;
 }

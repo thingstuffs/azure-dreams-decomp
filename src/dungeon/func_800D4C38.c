@@ -31,11 +31,12 @@ extern DungeonState D_80083460;
 #define S32_AT(p, n) (*(s32 *)((u8 *)(p) + (n)))
 #define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
 
-void func_800DA398(void *arg0, s32 arg1, void *arg2, void *arg3) {
-    s32 flags;
+/* Advance the actor action state, updating its animation and the dungeon action count. */
+void func_800DA398(void *controller, s32 context, void *sprite, void *actor) {
+    s32 actor_flags;
     s32 state;
 
-    state = U8_AT(arg0, 0x9B);
+    state = U8_AT(controller, 0x9B);
     if (state == 1) {
         goto state_one;
     }
@@ -48,21 +49,20 @@ void func_800DA398(void *arg0, s32 arg1, void *arg2, void *arg3) {
     return;
 
 state_high:
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_two;
     }
     return;
 
 state_zero:
-    if (!(U16_AT(arg2, 0x14) & 0xE000)) {
+    if (!(U16_AT(sprite, 0x14) & 0xE000)) {
         goto done;
     }
     D_80083460.count--;
-    PTR_AT(arg2, 0x2C) = D_800E262C;
-    func_8003DB94(arg2,
+    PTR_AT(sprite, 0x2C) = D_800E262C;
+    func_8003DB94(sprite,
         *(void **)((u8 *)D_800E262C +
-            (((D_80083228 + S16_AT(arg3, 0x2A) + 0x100) >> 7) & 0x1C)),
+            (((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
         0);
     goto advance_state;
 
@@ -70,60 +70,60 @@ state_one:
     if (D_80083460.flags & 0x1000) {
         goto done;
     }
-    if (S16_AT(arg3, 0x64) != 0) {
-        if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
+    if (S16_AT(actor, 0x64) != 0) {
+        if (func_800AA6B4(controller, context, sprite, 0) != 0) {
             goto done;
         }
     }
-    if ((func_800A2C34(arg3) << 0x10) != 0) {
+    if ((func_800A2C34(actor) << 0x10) != 0) {
         goto done;
     }
-    flags = S32_AT(arg3, 0x1C);
-    if (flags & 0x100) {
-        func_800AA258(arg0, arg1, arg2, arg3);
+    actor_flags = S32_AT(actor, 0x1C);
+    if (actor_flags & 0x100) {
+        func_800AA258(controller, context, sprite, actor);
         return;
     }
-    if (flags & 0x80000) {
-        func_800AA888(arg0, arg1, arg2, arg3);
-        func_800DA660(arg0, arg1, arg2, arg3);
+    if (actor_flags & 0x80000) {
+        func_800AA888(controller, context, sprite, actor);
+        func_800DA660(controller, context, sprite, actor);
         return;
     }
-    if (S8_AT(arg3, 0x6D) == 0) {
+    if (S8_AT(actor, 0x6D) == 0) {
         goto done;
     }
-    if ((func_800A2C34(arg3) << 0x10) == 0) {
+    if ((func_800A2C34(actor) << 0x10) == 0) {
         goto permitted;
     }
-    if ((func_8009A180(arg3,
+    if ((func_8009A180(actor,
             *(s32 *)((u8 *)D_800814A8 + 0x58) + 0x20) << 0x10) != 0) {
         goto done;
     }
 
 permitted:
-    func_800A9A0C(arg3);
-    func_800A9A04(arg3);
-    if (U8_AT(arg3, 0x25) == 0) {
+    func_800A9A0C(actor);
+    func_800A9A04(actor);
+    if (U8_AT(actor, 0x25) == 0) {
         goto done;
     }
-    PTR_AT(arg2, 0x2C) = D_800E262C;
-    func_8003DB94(arg2,
+    PTR_AT(sprite, 0x2C) = D_800E262C;
+    func_8003DB94(sprite,
         *(void **)((u8 *)D_800E262C +
-            (((D_80083228 + S16_AT(arg3, 0x2A) + 0x100) >> 7) & 0x1C)),
+            (((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
         0);
-    S32_AT(arg3, 0x1C) |= 0x40000;
+    S32_AT(actor, 0x1C) |= 0x40000;
     D_80083460.count++;
 
 advance_state:
-    U8_AT(arg0, 0x9B)++;
+    U8_AT(controller, 0x9B)++;
     return;
 
 state_two:
-    if (!(U16_AT(arg2, 0x14) & 0xE000)) {
+    if (!(U16_AT(sprite, 0x14) & 0xE000)) {
         goto done;
     }
     D_80083460.count--;
-    S32_AT(arg3, 0x1C) &= ~0x208;
-    PTR_AT(arg0, 0x8C) = D_800D8C64;
+    S32_AT(actor, 0x1C) &= ~0x208;
+    PTR_AT(controller, 0x8C) = D_800D8C64;
 
 done:
     return;

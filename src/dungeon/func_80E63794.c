@@ -34,68 +34,69 @@ typedef struct S_80172F94_3 {
     s32 unk_14;
 } S_80172F94_3;   /* arg1 in func_80172F94 */
 
-void func_80172F94(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances an actor's timed animation sequence and handles its completion. */
+void func_80172F94(void *action, void *motion, void *sprite, void *actor)
 {
     u8 state;
-    static void *const keepalive[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
+    static void *const state_labels[] = { &&start_action, &&wait_animation, &&start_followup, &&wait_followup, &&finish_action };
 
-    state = ((S_80172F94_0 *)arg0)->unk_9B;
+    state = ((S_80172F94_0 *)action)->unk_9B;
     if ((u32)state >= 5) {
         return;
     }
     goto *(((void **)D_80170838)[state]);
 
-L0:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-        ((S_80172F94_0 *)arg0)->unk_9B = 4;
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+start_action:
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        ((S_80172F94_0 *)action)->unk_9B = 4;
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
         return;
     }
-    ((S_80172F94_3 *)arg1)->unk_14 = 0;
-    ((S_80172F94_3 *)arg1)->unk_10 = 0;
-    ((S_80172F94_3 *)arg1)->unk_0C = 0;
-    goto reset_state;
+    ((S_80172F94_3 *)motion)->unk_14 = 0;
+    ((S_80172F94_3 *)motion)->unk_10 = 0;
+    ((S_80172F94_3 *)motion)->unk_0C = 0;
+    goto advance_state;
 
-L1:
-    if ((s16)++((S_80172F94_0 *)arg0)->unk_96.u == 4 ||
-        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175584;
-        func_80047784(arg2,
-            D_80175584[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+wait_animation:
+    if ((s16)++((S_80172F94_0 *)action)->unk_96.u == 4 ||
+        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175584;
+        func_80047784(sprite,
+            D_80175584[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
     }
-    if (((S_80172F94_0 *)arg0)->unk_96.s == 7 ||
-        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
-reset_state:
-        ((S_80172F94_0 *)arg0)->unk_96.u = 0;
-        ((S_80172F94_0 *)arg0)->unk_9B++;
+    if (((S_80172F94_0 *)action)->unk_96.s == 7 ||
+        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+advance_state:
+        ((S_80172F94_0 *)action)->unk_96.u = 0;
+        ((S_80172F94_0 *)action)->unk_9B++;
         return;
     }
     return;
 
-L2:
-    ((S_80172F94_0 *)arg0)->unk_96.u = 0;
-    ((S_80172F94_0 *)arg0)->unk_9B++;
+start_followup:
+    ((S_80172F94_0 *)action)->unk_96.u = 0;
+    ((S_80172F94_0 *)action)->unk_9B++;
 
-L3:
-    if ((s16)++((S_80172F94_0 *)arg0)->unk_96.u == 7 ||
-        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+wait_followup:
+    if ((s16)++((S_80172F94_0 *)action)->unk_96.u == 7 ||
+        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
     }
 
-L4:
-    if (((S_80172F94_0 *)arg0)->unk_96.s == 3) {
+finish_action:
+    if (((S_80172F94_0 *)action)->unk_96.s == 3) {
         func_800A56E0(0x814);
     }
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(arg3, 0x100);
-        ((S_80172F94_0 *)arg0)->unk_8C = D_801716F4;
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        func_800AD594(actor, 0x100);
+        ((S_80172F94_0 *)action)->unk_8C = D_801716F4;
         D_8008346C = 0;
-        func_800A4ACC(arg3);
-        ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
+        func_800A4ACC(actor);
+        ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
     }
     return;
 }

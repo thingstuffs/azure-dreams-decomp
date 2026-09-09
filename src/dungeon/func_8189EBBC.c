@@ -62,54 +62,46 @@ typedef struct S_800243BC_4 {
     s32 unk_14;
 } S_800243BC_4;   /* temp_v1_3 in func_800243BC */
 
-s32 func_800243BC(s32 arg0, S_800243BC_3 *arg1)
+/* Creates an object with a random sprite variant and copies its transform. */
+s32 func_800243BC(s32 owner_id, S_800243BC_3 *transform)
 {
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_a3;
-    s32 temp_v0_2;
-    s32 var_a2;
-    register s32 return_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    S_800243BC_2 *temp_s0;
-    void *temp_v0;
-    S_800243BC_1 *temp_v1;
-    S_800243BC_4 *temp_v1_3;
+    s32 random_value;
+    s32 rounded_random;
+    s32 return_value;
+    S_800243BC_2 *sprite;
+    void *object;
+    S_800243BC_1 *state;
+    S_800243BC_4 *object_transform;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != 0) {
-        temp_v1 = temp_v0 + 0x20;
-        ((S_800243BC_0 *)temp_v0)->unk_10 = &D_80024264;
-        temp_v1->unk_08 = arg0;
-        ((S_800243BC_0 *)temp_v0)->unk_20 = 0;
-        temp_v1->unk_02 = 0;
-        temp_v1->unk_04 = 0x10;
-        temp_s0 = ((S_800243BC_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_12 = 0x7E02;
-        temp_s0->unk_0E = 0;
-        temp_s0->unk_0D = 0;
-        temp_s0->unk_0C = 0;
-        temp_s0->unk_1E = 0;
-        temp_s0->unk_1C = 0;
-        temp_s0->unk_14 =
-            (s16)(temp_s0->unk_14 | 0xC);
-        temp_s0->unk_10 =
-            (u16)(temp_s0->unk_10 | 0x20);
-        temp_s0->unk_14 =
-            (u16)(temp_s0->unk_14 | 0x100);
-        temp_v0_2 = rand();
-        var_a2 = temp_v0_2;
-        if (temp_v0_2 < 0) {
-            var_a2 = temp_v0_2 + 0xF;
+    object = func_8003FC64(0x212);
+    if (object != 0) {
+        state = object + 0x20;
+        ((S_800243BC_0 *)object)->unk_10 = &D_80024264;
+        state->unk_08 = owner_id;
+        ((S_800243BC_0 *)object)->unk_20 = 0;
+        state->unk_02 = 0;
+        state->unk_04 = 0x10;
+        sprite = ((S_800243BC_0 *)object)->unk_0C;
+        sprite->unk_12 = 0x7E02;
+        sprite->unk_0E = 0;
+        sprite->unk_0D = 0;
+        sprite->unk_0C = 0;
+        sprite->unk_1E = 0;
+        sprite->unk_1C = 0;
+        sprite->unk_14 = (s16)(sprite->unk_14 | 0xC);
+        sprite->unk_10 = (u16)(sprite->unk_10 | 0x20);
+        sprite->unk_14 = (u16)(sprite->unk_14 | 0x100);
+        random_value = rand();
+        rounded_random = random_value;
+        if (random_value < 0) {
+            rounded_random = random_value + 0xF;
         }
-        func_8003DB94(temp_s0, &D_800DEF08,
-                      (s16)(temp_v0_2 - ((var_a2 >> 4) * 0x10)));
-        func_8004491C(temp_v0, &D_800D36D0);
-        temp_v1_3 = ((S_800243BC_0 *)temp_v0)->unk_08;
-        ASM_KEEP(temp_v1_3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        return_value = (s32)temp_v0;
-        ASM_KEEP(return_value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        *temp_v1_3 = *(S_800243BC_4 *)arg1;
+        func_8003DB94(sprite, &D_800DEF08,
+                      (s16)(random_value - ((rounded_random >> 4) * 0x10)));
+        func_8004491C(object, &D_800D36D0);
+        object_transform = ((S_800243BC_0 *)object)->unk_08;
+        return_value = (s32)object;
+        *object_transform = *(S_800243BC_4 *)transform;
         return return_value;
     }
     return 0;

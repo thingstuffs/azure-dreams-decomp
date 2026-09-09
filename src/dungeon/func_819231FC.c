@@ -24,49 +24,44 @@ extern s32 func_8002406C(s32 arg0);
 extern s16 D_80025B60[5];
 extern s32 D_800814A0[3];
 
-void func_800249FC(void *arg0, s32 arg1, S_800249FC_0 *arg2) {
-    s32 state;
-    s16 timer;
-    s32 result;
+/* Update effect values and flags, then mark the object when its countdown expires. */
+void func_800249FC(void *object, s32 unused, S_800249FC_0 *effect) {
+    s32 ticks_left;
+    s16 next_ticks;
+    s32 check_result;
     u16 flags;
-    u16 value;
+    u16 paired_value;
 
-    arg2->unk_1A += 0x2BC;
-    state = ((S_800249FC_1 *)arg0)->unk_5A.s;
+    effect->unk_1A += 0x2BC;
+    ticks_left = ((S_800249FC_1 *)object)->unk_5A.s;
     D_80025B60[0] = 1;
 
-    if (state >= 0x29) {
-        value = arg2->unk_1E + 0xC8;
-        arg2->unk_1E = value;
-        arg2->unk_1C = value;
+    if (ticks_left >= 0x29) {
+        paired_value = effect->unk_1E + 0xC8;
+        effect->unk_1E = paired_value;
+        effect->unk_1C = paired_value;
     } else {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        if (state < 0x15) {
-            value = arg2->unk_1E - 0xBE;
-            arg2->unk_1E = value;
-            arg2->unk_1C = value;
+        if (ticks_left < 0x15) {
+            paired_value = effect->unk_1E - 0xBE;
+            effect->unk_1E = paired_value;
+            effect->unk_1C = paired_value;
         }
     }
 
-    result = func_8002406C(3);
-    flags = arg2->unk_14;
+    check_result = func_8002406C(3);
+    flags = effect->unk_14;
     if (flags & 0x80) {
-        arg2->unk_14 = flags & 0xFF7F;
-    } else if ((result << 16) != 0) {
-        arg2->unk_14 = flags & 0xFF7F;
+        effect->unk_14 = flags & 0xFF7F;
+    } else if ((check_result << 16) != 0) {
+        effect->unk_14 = flags & 0xFF7F;
     } else {
-        arg2->unk_14 = flags | 0x80;
+        effect->unk_14 = flags | 0x80;
     }
 
-    timer = ((S_800249FC_1 *)arg0)->unk_5A.u - 1;
-    ((S_800249FC_1 *)arg0)->unk_5A.s = timer;
-    if ((timer << 16) <= 0) {
-        ((S_800249FC_1_pre *)arg0)[-1].unk_00 |= 0x8000;
+    next_ticks = ((S_800249FC_1 *)object)->unk_5A.u - 1;
+    ((S_800249FC_1 *)object)->unk_5A.s = next_ticks;
+    if ((next_ticks << 16) <= 0) {
+        ((S_800249FC_1_pre *)object)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }
-
-/* MECHANISM: The natural body holds arg0/arg2 in s1/s0 across the helper call,
-   producing the retail 0x20 frame and save order; s32 state keeps the direct lh.
-   A block barrier retains the first branch nop, while a guarded v0 tail-slot
-   pin preserves the dead +0xC8 value; per-arm stores merge at the v0 join. */

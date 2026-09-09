@@ -51,79 +51,76 @@ extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
 extern u8 D_800A5FDC[];
 
-/* Rowbase-resolved true symbol for catalog row func_800A8698. */
-void func_800A5DF8(void *arg0, void *arg1, M2C_UNK arg2) {
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s32 tail_v0;
-    u16 temp_v0_3;
-    u8 *var_v0;
-    register S_800A5DF8_4 *var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_800A5DF8_0 *var_s0;
-    M2C_UNK var_s4;
-    register u8 *var_s1;
-    register u8 *var_s3;
+/* Updates the actor effect and eases scene values before advancing the state. */
+void func_800A5DF8(void *state_arg, void *actor_arg, M2C_UNK context_arg) {
+    s16 threshold;
+    s16 angle;
+    s32 next_offset;
+    u16 ticks_left;
+    u8 *position;
+    register S_800A5DF8_4 *state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_800A5DF8_0 *actor;
+    M2C_UNK context;
+    register u8 *scene_state;
+    register u8 *effect_data;
 
-    var_s2 = arg0;
-    var_s0 = arg1;
-    var_s4 = arg2;
-    var_s1 = D_80083160;
-    func_80095C80(var_s0);
-    var_s3 = D_800FE488;
-    temp_v0 = func_80095978(var_s0, var_s3);
-    if (var_s0->unk_0A >= temp_v0) {
-        func_80095A94(var_s0, temp_v0, var_s3);
+    state = state_arg;
+    actor = actor_arg;
+    context = context_arg;
+    scene_state = D_80083160;
+    func_80095C80(actor);
+    effect_data = D_800FE488;
+    threshold = func_80095978(actor, effect_data);
+    if (actor->unk_0A >= threshold) {
+        func_80095A94(actor, threshold, effect_data);
     } else if (((S_800A5DF8_1 *)(&D_800CFCEF))->unk_00 != 0) {
-        var_s0->unk_14 = 0;
-        func_800954F4(var_s0, temp_v0);
+        actor->unk_14 = 0;
+        func_800954F4(actor, threshold);
     } else {
-        func_80095388(var_s0, temp_v0);
+        func_80095388(actor, threshold);
     }
-    var_v0 = D_80083780;
+    position = D_80083780;
 
-after_effect:
-    if (func_800C1D44(func_8008C180(((S_800A5DF8_2 *)var_v0)->unk_02, ((S_800A5DF8_2 *)var_v0)->unk_06) & 0xFFFF) != 0) {
-        var_s0->unk_14 = (s32) (var_s0->unk_14 - func_800A5894(var_s0));
+    if (func_800C1D44(func_8008C180(((S_800A5DF8_2 *)position)->unk_02, ((S_800A5DF8_2 *)position)->unk_06) & 0xFFFF) != 0) {
+        actor->unk_14 = (s32) (actor->unk_14 - func_800A5894(actor));
     }
-    func_80095094(var_s0);
-    func_80095094(var_s0);
-    temp_v0_2 = func_80094AA0(((S_800A5DF8_3 *)var_s1)->unk_C8, 0, 0x80);
-    ((S_800A5DF8_3 *)var_s1)->unk_C8 = temp_v0_2;
-    if ((temp_v0_2 & 0xFFF) < 0x80) {
-        ((S_800A5DF8_3 *)var_s1)->unk_C8 = 0;
+    func_80095094(actor);
+    func_80095094(actor);
+    angle = func_80094AA0(((S_800A5DF8_3 *)scene_state)->unk_C8, 0, 0x80);
+    ((S_800A5DF8_3 *)scene_state)->unk_C8 = angle;
+    if ((angle & 0xFFF) < 0x80) {
+        ((S_800A5DF8_3 *)scene_state)->unk_C8 = 0;
     }
-    temp_v0_3 = var_s2->unk_0A.s - 1;
-    var_s2->unk_0A.s = temp_v0_3;
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ticks_left = state->unk_0A.s - 1;
+    state->unk_0A.s = ticks_left;
     {
-        s32 sign_v0;
-        s32 count_a0;
-        register s32 quotient_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        sign_v0 = (s32) temp_v0_3 << 16;
-        count_a0 = sign_v0 >> 16;
-        quotient_v1 = -0x280;
-        if (count_a0 <= 0) {
-            var_s2->unk_0A.u = 0;
+        s32 shifted_ticks;
+        s32 ticks;
+        register s32 offset_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        shifted_ticks = (s32) ticks_left << 16;
+        ticks = shifted_ticks >> 16;
+        offset_step = -0x280;
+        if (ticks <= 0) {
+            state->unk_0A.u = 0;
         }
-        tail_v0 = count_a0 > 0
-            ? (quotient_v1 = (quotient_v1 - ((S_800A5DF8_3 *)var_s1)->unk_C4.s) / count_a0,
-               ((S_800A5DF8_3 *)var_s1)->unk_C4.u + quotient_v1)
+        next_offset = ticks > 0
+            ? (offset_step = (offset_step - ((S_800A5DF8_3 *)scene_state)->unk_C4.s) / ticks,
+               ((S_800A5DF8_3 *)scene_state)->unk_C4.u + offset_step)
             : -0x280;
-        ((S_800A5DF8_3 *)var_s1)->unk_C4.s = tail_v0;
+        ((S_800A5DF8_3 *)scene_state)->unk_C4.s = next_offset;
     }
-    if ((var_s2->unk_0A.u == 0) &&
-        (((S_800A5DF8_3 *)var_s1)->unk_C8 == 0)) {
-        if (var_s2->unk_08 != 0) {
-            func_800A55CC(var_s2, var_s0, var_s4);
-            goto done;
+    if ((state->unk_0A.u == 0) &&
+        (((S_800A5DF8_3 *)scene_state)->unk_C8 == 0)) {
+        if (state->unk_08 != 0) {
+            func_800A55CC(state, actor, context);
+        } else {
+            state->unk_0A.u = 0;
+            state->unk_00 = D_800A5FDC;
         }
-        var_s2->unk_0A.u = 0;
-        var_s2->unk_00 = D_800A5FDC;
     }
 
-done:
-    ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

@@ -23,56 +23,55 @@ extern s32 D_800D0620;
 extern u8 D_8009B0EC[];
 extern u8 D_8009B014[];
 
-void func_8009AE88(Entity *arg0, s32 arg1, s32 arg2) {
-    Entity *entity = arg0;
+/* Update the entity state and handler from global flags and the signed counter. */
+void func_8009AE88(Entity *input_entity, s32 unused_1, s32 unused_2) {
+    Entity *entity = input_entity;
     GlobalState *state = (GlobalState *)D_80083160;
-    register s32 dead ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 state_or_handler ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 adjustment ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (state->flags & 0x40) {
-        Entity *call_a1 = entity;
-        ASM_KEEP(call_a1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        Entity *call_entity = entity;
+        ASM_KEEP(call_entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
-            void *call_a0 = D_800D0190;
-            ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            void *call_data = D_800D0190;
+            ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             entity->unkA = 4;
-            func_80094984(call_a0, call_a1);
+            func_80094984(call_data, call_entity);
         }
 #ifdef NON_MATCHING
-        dead = (s32)D_8009B0EC;
+        state_or_handler = (s32)D_8009B0EC;
 #else
-        dead = (s32)0x800A0000;
-        ASM_KEEP(dead);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        dead += -0x4F14;
+        state_or_handler = (s32)0x800A0000;
+        ASM_KEEP(state_or_handler);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        state_or_handler += -0x4F14;
 #endif
     } else {
-        register void *tail_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register Entity *tail_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register void *tail_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register Entity *tail_entity ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if ((state->flags & 0x1000) && ((value = D_800D0620) >= 0)) {
-            tail_a0 = D_800D0088;
-            tail_a1 = entity;
-            ASM_KEEP(tail_a0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            value--;
-            D_800D0620 = value;
-            value = 0x800;
-            entity->unk10 = value;
-            dead = 4;
-        } else if ((state->flags & 0x4000) && ((value = D_800D0620) <= 0)) {
-            tail_a0 = D_800D0088;
-            tail_a1 = entity;
-            value++;
-            D_800D0620 = value;
-            dead = 4;
+        if ((state->flags & 0x1000) && ((adjustment = D_800D0620) >= 0)) {
+            tail_data = D_800D0088;
+            tail_entity = entity;
+
+            adjustment--;
+            D_800D0620 = adjustment;
+            adjustment = 0x800;
+            entity->unk10 = adjustment;
+            state_or_handler = 4;
+        } else if ((state->flags & 0x4000) && ((adjustment = D_800D0620) <= 0)) {
+            tail_data = D_800D0088;
+            tail_entity = entity;
+            adjustment++;
+            D_800D0620 = adjustment;
+            state_or_handler = 4;
             entity->unk10 = 0;
         } else {
             return;
         }
-        entity->unkA = dead;
-        func_80094984(tail_a0, tail_a1);
-        dead = (s32)D_8009B014;
+        entity->unkA = state_or_handler;
+        func_80094984(tail_data, tail_entity);
+        state_or_handler = (s32)D_8009B014;
     }
-    entity->unk4 = (void *)dead;
+    entity->unk4 = (void *)state_or_handler;
 }

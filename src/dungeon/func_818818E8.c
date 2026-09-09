@@ -37,71 +37,72 @@ extern s32 D_800814A0[3];
 
 __asm__(".set D_800257CE, 0x800257CE");
 
-void func_800250E8(void *arg0, S_800250E8_0 *arg1, void *arg2)
+/* Updates effect motion and marks it inactive when its lifetime or owner expires. */
+void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
 {
-    register void *tail_arg ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 temp_v0;
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_v0_8;
-    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 temp_lo;
+    register void *owner_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 life_left;
+    s32 y_step;
+    s32 z_velocity;
+    s32 z_position;
+    register s32 z_velocity_copy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 y_motion;
     s32 random_value;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 call_arg0;
-    s32 call_arg1;
-    s16 call_arg2;
+    s32 x_direction;
+    s32 y_direction;
+    s32 x;
+    s32 y;
+    s16 probe_z;
     u16 counter;
     u16 *counter_ptr;
 
-    tail_arg = arg2;
-    ASM_KEEP_NV(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    owner_state = owner;
+    ASM_KEEP_NV(owner_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     counter_ptr = D_800257CE;
-    call_arg0 = arg1->unk_00.at02.v;
+    x = motion->unk_00.at02.v;
     counter = counter_ptr[0];
-    call_arg2 = arg1->unk_08.at02.v;
-    call_arg1 = arg1->unk_04.at02.v;
+    probe_z = motion->unk_08.at02.v;
+    y = motion->unk_04.at02.v;
     counter++;
-    call_arg2 -= 2;
+    probe_z -= 2;
     counter_ptr[0] = counter;
-    if (arg1->unk_08.at02u.v <
-        func_800BCB04(call_arg0, call_arg1, call_arg2)) {
-        if (((S_800250E8_1 *)arg0)->unk_26 == 0) {
-            temp_s0 = func_80064584(((S_800250E8_1 *)arg0)->unk_1A);
-            arg1->unk_00.at00.v = (s32)(arg1->unk_00.at00.v +
-                (((s32)(temp_s0 * ((S_800250E8_1 *)arg0)->unk_1C.s) >> 4) +
+    if (motion->unk_08.at02u.v <
+        func_800BCB04(x, y, probe_z)) {
+        if (((S_800250E8_1 *)effect)->unk_26 == 0) {
+            x_direction = func_80064584(((S_800250E8_1 *)effect)->unk_1A);
+            motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
+                (((s32)(x_direction * ((S_800250E8_1 *)effect)->unk_1C.s) >> 4) +
                  (func_80069EF8() & 0xFFFF)));
 
-            temp_s0_2 = func_800644B8(((S_800250E8_1 *)arg0)->unk_1A);
-            temp_a0 = ((temp_s0_2 * ((S_800250E8_1 *)arg0)->unk_1C.s) >> 4) +
+            y_direction = func_800644B8(((S_800250E8_1 *)effect)->unk_1A);
+            y_step = ((y_direction * ((S_800250E8_1 *)effect)->unk_1C.s) >> 4) +
                        (func_80069EF8() & 0xFFFF);
-            arg1->unk_04.at00.v = (s32)(arg1->unk_04.at00.v + temp_a0);
+            motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + y_step);
 
             random_value = func_80069EF8();
-            arg1->unk_08.at00.v = (s32)(arg1->unk_08.at00.v +
+            motion->unk_08.at00.v = (s32)(motion->unk_08.at00.v +
                 (0xFFFE0000 - (random_value & 0xFFF)));
         } else {
-            arg1->unk_00.at00.v = (s32)(arg1->unk_00.at00.v +
-                func_80064584(((S_800250E8_1 *)arg0)->unk_1A) *
-                ((S_800250E8_1 *)arg0)->unk_1C.s * 8);
-            temp_lo = func_800644B8(((S_800250E8_1 *)arg0)->unk_1A) *
-                      ((S_800250E8_1 *)arg0)->unk_1C.s;
-            temp_a0_2 = arg1->unk_14;
-            temp_v1 = temp_a0_2;
-            ASM_KEEP_NV(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            temp_v0_8 = arg1->unk_08.at00.v;
-            arg1->unk_14 = temp_v1 + 0x6000;
-            arg1->unk_08.at00.v = (s32)(temp_v0_8 + temp_a0_2);
-            arg1->unk_04.at00.v = (s32)(arg1->unk_04.at00.v + temp_lo * 8);
+            motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
+                func_80064584(((S_800250E8_1 *)effect)->unk_1A) *
+                ((S_800250E8_1 *)effect)->unk_1C.s * 8);
+            y_motion = func_800644B8(((S_800250E8_1 *)effect)->unk_1A) *
+                      ((S_800250E8_1 *)effect)->unk_1C.s;
+            z_velocity = motion->unk_14;
+            z_velocity_copy = z_velocity;
+            ASM_KEEP_NV(z_velocity_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            z_position = motion->unk_08.at00.v;
+            motion->unk_14 = z_velocity_copy + 0x6000;
+            motion->unk_08.at00.v = (s32)(z_position + z_velocity);
+            motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + y_motion * 8);
         }
     }
 
-    temp_v0 = ((S_800250E8_1 *)arg0)->unk_1C.u - 1;
-    ((S_800250E8_1 *)arg0)->unk_1C.s = temp_v0;
-    if ((temp_v0 << 16) <= 0 ||
-        (((S_800250E8_2 *)tail_arg)->unk_14 & 0x8000)) {
-        ((S_800250E8_1_pre *)arg0)[-1].unk_00 = (u16)(((S_800250E8_1_pre *)arg0)[-1].unk_00 | 0x8000);
+    life_left = ((S_800250E8_1 *)effect)->unk_1C.u - 1;
+    ((S_800250E8_1 *)effect)->unk_1C.s = life_left;
+    if ((life_left << 16) <= 0 ||
+        (((S_800250E8_2 *)owner_state)->unk_14 & 0x8000)) {
+        ((S_800250E8_1_pre *)effect)[-1].unk_00 = (u16)(((S_800250E8_1_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

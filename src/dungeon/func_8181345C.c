@@ -24,7 +24,8 @@ typedef struct {
     Sub8181345C sub;
 } Obj8181345C;
 
-void *func_8002845C(s32 arg0, s32 arg1)
+/* Allocate and initialize a child object, marking allocation failure for cleanup. */
+void *func_8002845C(s32 parent_obj, s32 descriptor_value)
 {
     Obj8181345C *obj;
     Sub8181345C *sub;
@@ -35,7 +36,7 @@ void *func_8002845C(s32 arg0, s32 arg1)
         if (func_80028284(sub, 15) != 0) {
             obj->field0C = (u8 *)obj + 0x98;
             sub->field84 = func_80027FCC(sub->field88);
-            func_8002823C(sub, arg0, arg1);
+            func_8002823C(sub, parent_obj, descriptor_value);
             func_8004491C(obj, D_8004CAA0);
             func_80028620(obj);
         } else {

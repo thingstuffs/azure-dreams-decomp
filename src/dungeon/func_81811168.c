@@ -24,18 +24,19 @@ extern void func_8004B248(void *);
 extern u8 D_8004CAA0[9];
 extern s32 D_800814A0[3];
 
-DungeonObj81811168 *func_80026168(s32 arg0, s32 arg1, s32 arg2)
+/* Allocate and initialize a child object, releasing its resources if setup fails. */
+DungeonObj81811168 *func_80026168(s32 parent_obj, s32 initial_value, s32 text_addr)
 {
     DungeonObj81811168 *obj;
-    DungeonSub81811168 *sub;
+    DungeonSub81811168 *state;
 
     obj = func_8003FC64(0);
-    sub = &obj->sub20;
+    state = &obj->sub20;
     if (obj != 0) {
-        if (func_800260CC(sub, 13) != 0) {
+        if (func_800260CC(state, 13) != 0) {
             obj->field0C = (u8 *)obj + 0x64;
-            sub->value50 = func_80025D74(sub->value54);
-            func_80026084(sub, arg0, arg1, arg2);
+            state->value50 = func_80025D74(state->value54);
+            func_80026084(state, parent_obj, initial_value, text_addr);
             func_8004491C(obj, D_8004CAA0);
             func_80026314(obj);
         } else {

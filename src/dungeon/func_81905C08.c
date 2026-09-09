@@ -34,156 +34,152 @@ extern s16 D_800267B8;
 extern u8 D_80026820[];
 extern s32 D_800814A0;
 
-void func_80025408(void *arg0, void *arg1, void *arg2) {
-    Box rect0;
-    Box rect1;
+/* Builds an inverted pixel mask and updates a timed fade effect. */
+void func_80025408(void *context, void *unused, void *effect_data) {
+    Box image_rect;
+    Box mask_rect;
     Point center;
     s32 state;
-    s32 outer;
-    s32 middle;
-    s32 row;
-    s32 row_value;
-    s32 column;
-    register u16 sentinel ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s16 value;
-    s32 index;
-    register s32 one ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u16 *cursor;
-    register Point *center_ptr ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 tile_column;
+    s32 tile_row;
+    s32 tile_x;
+    s32 mask_x;
+    s32 tile_y;
+    register u16 mask_pixel ASM_REG("$23");
+    s16 frame;
+    s32 pixel_index;
+    register s32 one ASM_REG("$21");
+    register s32 image_width ASM_REG("$2");
+    u16 *pixel;
+    register Point *center_ptr ASM_REG("$20");
     void *effect;
-    u8 *buffer;
-    u8 *copy_page;
-    register Box *source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *pixel_page;
+    u8 *template_page;
+    register Box *rect_template ASM_REG("$6");
 
-    effect = arg2;
-    source = (Box *)(void *)&D_80024004;
-    rect0 = *source;
+    effect = effect_data;
+    rect_template = (Box *)(void *)&D_80024004;
+    image_rect = *rect_template;
 #ifdef NON_MATCHING
-    source = (Box *)(void *)&D_8002400C;
+    rect_template = (Box *)(void *)&D_8002400C;
 #else
-    copy_page = (u8 *)0x80020000;
-    ASM_KEEP_NV(copy_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    source = (Box *)(copy_page + 0x400C);
-    ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    template_page = (u8 *)0x80020000;
+    ASM_KEEP_NV(template_page);
+    rect_template = (Box *)(template_page + 0x400C);
+    ASM_KEEP_NV(rect_template);
 #endif
-    rect1 = *source;
-    ASM_USE2_NV(source, copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    state = *(s16 *)arg0;
+    mask_rect = *rect_template;
+    ASM_USE2_NV(rect_template, template_page);
+    state = *(s16 *)context;
     D_800267B8 = 1;
     if (state != 0) {
         if (state == 1) {
-            goto block_16;
+            goto update_fade;
         }
-        goto block_217;
+        goto update_visibility;
     }
 
-    outer = 0;
-    buffer = (u8 *)0x80020000;
-    ASM_KEEP_NV(buffer);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    sentinel = -1;
-    row = 0x340;
-loop_5:
-    middle = 0;
-    row_value = row;
-    column = 0x154;
-loop_6:
-    rect1.w = 0x18;
-    rect1.x = row_value;
-    rect1.y = column;
-    rect1.h = 0x15;
-    func_8006733C(&rect1, buffer + 0x6820);
+    tile_column = 0;
+    pixel_page = (u8 *)0x80020000;
+    ASM_KEEP_NV(pixel_page);
+    mask_pixel = -1;
+    tile_x = 0x340;
     do {
-    } while (func_80067014(1) != 0);
-    cursor = (u16 *)(buffer + 0x6820);
-    index = 0;
-loop_9:
-    if (*cursor == 0) {
-        *cursor = sentinel;
-    } else {
-        *cursor = 0;
-    }
-    index += 1;
-    cursor += 1;
-    if (index >= 0x1f8) {
-        func_800672D8(&rect1, buffer + 0x6820);
-        middle += 1;
-        column += 0x15;
-        if (middle >= 4) {
-            outer += 1;
-            row += 0x18;
-            if (outer >= 4) {
-                *(s16 *)arg0 = (u16)*(s16 *)arg0 + 1;
-                *(u16 *)((u8 *)effect + 0x14) &= 0xff7f;
-block_16: {
-                Box *call_rect;
-                register Point *call_center ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        tile_row = 0;
+        mask_x = tile_x;
+        tile_y = 0x154;
+        do {
+            mask_rect.w = 0x18;
+            mask_rect.x = mask_x;
+            mask_rect.y = tile_y;
+            mask_rect.h = 0x15;
+            func_8006733C(&mask_rect, pixel_page + 0x6820);
+            do {
+            } while (func_80067014(1) != 0);
+            pixel = (u16 *)(pixel_page + 0x6820);
+            pixel_index = 0;
+            do {
+                if (*pixel == 0) {
+                    *pixel = mask_pixel;
+                } else {
+                    *pixel = 0;
+                }
+                pixel_index += 1;
+                pixel += 1;
+            } while (pixel_index < 0x1f8);
+            func_800672D8(&mask_rect, pixel_page + 0x6820);
+            tile_row += 1;
+            tile_y += 0x15;
+        } while (tile_row < 4);
+        tile_column += 1;
+        tile_x += 0x18;
+    } while (tile_column < 4);
+    *(s16 *)context = (u16)*(s16 *)context + 1;
+    *(u16 *)((u8 *)effect + 0x14) &= 0xff7f;
+update_fade:
+    {
+        Box *call_rect;
+        register Point *call_center ASM_REG("$6");
 
-                call_rect = &rect1;
-                center_ptr = &center;
-                call_center = center_ptr;
-                row = 0x340;
-                buffer = (u8 *)0x100;
-                ASM_KEEP_NV(call_rect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(call_center);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(row);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(buffer);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                width = 0x60;
-                rect1.w = width;
-                rect1.x = row;
-                rect1.y = (s32)buffer;
-                rect1.h = 0x54;
-                center.x = 0x370;
-                center.y = 0x148;
-                one = 1;
-                func_800B8FC8(*(void **)((u8 *)arg0 + 0x44), call_rect, call_center, 0, one);
-}
-{
-                Box *call_rect;
-                register Point *call_center ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-                call_rect = &rect0;
-                call_center = center_ptr;
-                ASM_KEEP_NV(call_rect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(call_center);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                width = 0x60;
-                rect0.w = width;
-                rect0.x = row;
-                rect0.y = (s32)buffer;
-                rect0.h = 0x54;
-                center.x = 0x370;
-                center.y = 0x12a;
-                func_80024B6C(*(void **)((u8 *)arg0 + 0x48), call_rect, call_center, one, one);
-}
-                value = *(s16 *)((u8 *)arg0 + 2);
-                if (value < 0x15) {
-                    *(s8 *)((u8 *)effect + 0xe) = (value << 7) / 20;
-                    *(s8 *)((u8 *)effect + 0xd) = (*(s16 *)((u8 *)arg0 + 2) << 7) / 20;
-                    *(s8 *)((u8 *)effect + 0xc) = (*(s16 *)((u8 *)arg0 + 2) << 7) / 20;
-                }
-                if (*(s16 *)((u8 *)arg0 + 2) >= 0x51) {
-                    *(s8 *)((u8 *)effect + 0xe) = ((0x64 - *(s16 *)((u8 *)arg0 + 2)) << 7) / 20;
-                    *(s8 *)((u8 *)effect + 0xd) = ((0x64 - *(s16 *)((u8 *)arg0 + 2)) << 7) / 20;
-                    *(s8 *)((u8 *)effect + 0xc) = ((0x64 - *(s16 *)((u8 *)arg0 + 2)) << 7) / 20;
-                }
-                value = (u16)*(s16 *)((u8 *)arg0 + 2) + 1;
-                *(s16 *)((u8 *)arg0 + 2) = value;
-                if (value >= 0x65) {
-                    *(s16 *)((u8 *)arg0 + 2) = 0;
-                    *(s16 *)arg0 = (u16)*(s16 *)arg0 + 1;
-                    *(s16 *)(*(u8 **)((u8 *)arg0 + 0x40) + 0x9c) = one;
-                    *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
-                    D_800814A0 |= 0x8000;
-                }
-block_217:
-                if ((u32)(*(u8 *)(*(u8 **)((u8 *)arg0 + 0x3c) + 0x13) - 0x33) < 4U) {
-                    *(u16 *)((u8 *)effect + 0x14) |= 0x80;
-                }
-                return;
-            }
-            goto loop_5;
-        }
-        goto loop_6;
+        call_rect = &mask_rect;
+        center_ptr = &center;
+        call_center = center_ptr;
+        tile_x = 0x340;
+        pixel_page = (u8 *)0x100;
+        ASM_KEEP_NV(call_rect);
+        ASM_KEEP_NV(call_center);
+        ASM_KEEP_NV(tile_x);
+        ASM_KEEP_NV(pixel_page);
+        image_width = 0x60;
+        mask_rect.w = image_width;
+        mask_rect.x = tile_x;
+        mask_rect.y = (s32)pixel_page;
+        mask_rect.h = 0x54;
+        center.x = 0x370;
+        center.y = 0x148;
+        one = 1;
+        func_800B8FC8(*(void **)((u8 *)context + 0x44), call_rect, call_center, 0, one);
     }
-    goto loop_9;
+    {
+        Box *call_rect;
+        register Point *call_center ASM_REG("$6");
+
+        call_rect = &image_rect;
+        call_center = center_ptr;
+        ASM_KEEP_NV(call_rect);
+        ASM_KEEP_NV(call_center);
+        image_width = 0x60;
+        image_rect.w = image_width;
+        image_rect.x = tile_x;
+        image_rect.y = (s32)pixel_page;
+        image_rect.h = 0x54;
+        center.x = 0x370;
+        center.y = 0x12a;
+        func_80024B6C(*(void **)((u8 *)context + 0x48), call_rect, call_center, one, one);
+    }
+    frame = *(s16 *)((u8 *)context + 2);
+    if (frame < 0x15) {
+        *(s8 *)((u8 *)effect + 0xe) = (frame << 7) / 20;
+        *(s8 *)((u8 *)effect + 0xd) = (*(s16 *)((u8 *)context + 2) << 7) / 20;
+        *(s8 *)((u8 *)effect + 0xc) = (*(s16 *)((u8 *)context + 2) << 7) / 20;
+    }
+    if (*(s16 *)((u8 *)context + 2) >= 0x51) {
+        *(s8 *)((u8 *)effect + 0xe) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
+        *(s8 *)((u8 *)effect + 0xd) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
+        *(s8 *)((u8 *)effect + 0xc) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
+    }
+    frame = (u16)*(s16 *)((u8 *)context + 2) + 1;
+    *(s16 *)((u8 *)context + 2) = frame;
+    if (frame >= 0x65) {
+        *(s16 *)((u8 *)context + 2) = 0;
+        *(s16 *)context = (u16)*(s16 *)context + 1;
+        *(s16 *)(*(u8 **)((u8 *)context + 0x40) + 0x9c) = one;
+        *(u16 *)((u8 *)context - 2) |= 0x8000;
+        D_800814A0 |= 0x8000;
+    }
+update_visibility:
+    if ((u32)(*(u8 *)(*(u8 **)((u8 *)context + 0x3c) + 0x13) - 0x33) < 4U) {
+        *(u16 *)((u8 *)effect + 0x14) |= 0x80;
+    }
+    return;
 }

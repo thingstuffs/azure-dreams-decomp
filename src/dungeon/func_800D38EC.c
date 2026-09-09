@@ -49,85 +49,86 @@ typedef struct S_800D904C_4 {
     u8 unk_7C;
 } S_800D904C_4;   /* (u8 *)state + ((S_800D904C_0 *)state)->unk_8A in func_800D904C */
 
-void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Advance the actor along its queued path and update movement timing. */
+void func_800D904C(void *action, s32 action_id, void *actor, void *move_state)
 {
-    register void *state ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *current;
-    s32 mode;
-    s16 first_result;
-    s16 second_result;
+    register void *state ASM_REG("$17") = move_state;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *anim_table;
+    s32 tile_mask;
+    s16 direction;
+    s16 move_result;
     s32 old_x;
     s32 old_y;
-    s32 count;
-    void *entry;
+    s32 step_count;
+    void *step;
 
     if ((((S_800D904C_0 *)state)->unk_71.s > 0) &&
         ((s32)((S_800D904C_0 *)state)->unk_71.u > ((S_800D904C_0 *)state)->unk_8A)) {
-        current = ((Rec_D_80082E80 *)arg2)->unk_2C.as_pv;
-        if (current != D_800E260C) {
-            void *dispatch;
+        anim_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pv;
+        if (anim_table != D_800E260C) {
+            void *anim_slot;
 
-            (*(void * *)((u8 *)arg2 + (0x2C))) = D_800E260C;
-            dispatch = D_800E260C +
+            (*(void * *)((u8 *)actor + (0x2C))) = D_800E260C;
+            anim_slot = D_800E260C +
                 (((D_80083228 + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
-            func_8003DB94(arg2, *(void **)dispatch, 0);
-        } else if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
+            func_8003DB94(actor, *(void **)anim_slot, 0);
+        } else if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x6000) {
             func_8003DB94(
-                arg2,
+                actor,
                 *(void **)(D_800E260C +
                     (((D_80083228 + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C)),
                 0);
         }
 
-        old_x = ((Rec_D_80082E80 *)arg2)->unk_24;
-        old_y = ((Rec_D_80082E80 *)arg2)->unk_25;
-        mode = 0x3000;
+        old_x = ((Rec_D_80082E80 *)actor)->unk_24;
+        old_y = ((Rec_D_80082E80 *)actor)->unk_25;
+        tile_mask = 0x3000;
         if (((S_800D904C_0 *)state)->unk_1C & 0x2000) {
-            mode = 0x300;
+            tile_mask = 0x300;
         }
-        func_8009A3D0(old_x, old_y, mode);
+        func_8009A3D0(old_x, old_y, tile_mask);
 
-        entry = (u8 *)state + ((S_800D904C_0 *)state)->unk_8A;
-        first_result = func_800A0818(old_x, old_y,
-                                    ((S_800D904C_2 *)entry)->unk_74,
-                                    ((S_800D904C_2 *)entry)->unk_7C,
-                                    (u8 *)arg0 + 0x98);
-        second_result = func_8009A66C(first_result, arg2, state, 0x20);
+        step = (u8 *)state + ((S_800D904C_0 *)state)->unk_8A;
+        direction = func_800A0818(old_x, old_y,
+                                    ((S_800D904C_2 *)step)->unk_74,
+                                    ((S_800D904C_2 *)step)->unk_7C,
+                                    (u8 *)action + 0x98);
+        move_result = func_8009A66C(direction, actor, state, 0x20);
 
-        ((Rec_D_80082E80 *)arg2)->unk_24 =
+        ((Rec_D_80082E80 *)actor)->unk_24 =
             ((S_800D904C_4 *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_74;
-        mode = 0x3000;
-        ((Rec_D_80082E80 *)arg2)->unk_25 =
+        tile_mask = 0x3000;
+        ((Rec_D_80082E80 *)actor)->unk_25 =
             ((S_800D904C_4 *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_7C;
         ((S_800D904C_0 *)state)->unk_8A = (u16)((S_800D904C_0 *)state)->unk_8A + 1;
 
         {
-            s32 nx = ((Rec_D_80082E80 *)arg2)->unk_24;
-            s32 ny = ((Rec_D_80082E80 *)arg2)->unk_25;
+            s32 new_x = ((Rec_D_80082E80 *)actor)->unk_24;
+            s32 new_y = ((Rec_D_80082E80 *)actor)->unk_25;
             if (((S_800D904C_0 *)state)->unk_1C & 0x2000) {
-                mode = 0x300;
+                tile_mask = 0x300;
             }
-            func_8009A21C(nx, ny, mode);
+            func_8009A21C(new_x, new_y, tile_mask);
         }
 
-        ((S_800D904C_0 *)state)->unk_2A = first_result;
-        if ((second_result == 3) &&
-            ((D_80083462 & 0x80) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000))) {
-            ((S_800D904C_3 *)arg0)->unk_9A = 0xF;
+        ((S_800D904C_0 *)state)->unk_2A = direction;
+        if ((move_result == 3) &&
+            ((D_80083462 & 0x80) || (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000))) {
+            ((S_800D904C_3 *)action)->unk_9A = 0xF;
         } else {
-            func_800D9820(arg0, arg1, arg2, state);
+            func_800D9820(action, action_id, actor, state);
         }
-        ((S_800D904C_3 *)arg0)->unk_8C = 0;
+        ((S_800D904C_3 *)action)->unk_8C = 0;
         (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
         if (D_80083462 & 0x80) {
-            ((S_800D904C_3 *)arg0)->unk_96 = 0;
+            ((S_800D904C_3 *)action)->unk_96 = 0;
             return;
         }
 
-        ((S_800D904C_3 *)arg0)->unk_96 = 8;
-        count = ((S_800D904C_0 *)state)->unk_71.u;
-        if (count > 0) {
-            ((S_800D904C_3 *)arg0)->unk_96 = 8 / count;
+        ((S_800D904C_3 *)action)->unk_96 = 8;
+        step_count = ((S_800D904C_0 *)state)->unk_71.u;
+        if (step_count > 0) {
+            ((S_800D904C_3 *)action)->unk_96 = 8 / step_count;
         }
     }
 }

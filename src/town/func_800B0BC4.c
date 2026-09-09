@@ -29,16 +29,17 @@ typedef struct S_800AE324_1 {
     s32 unk_20;
 } S_800AE324_1;   /* object in func_800AE324 */
 
-s32 func_800AE324(s32 arg0) {
-    register s32 held_arg ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+/* Create an object and initialize its state, releasing the state if setup fails. */
+s32 func_800AE324(s32 selector) {
+    register s32 object_selector = selector;
     register void *object ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_800AE324_0 *state;
     void *initializer;
     s32 count;
     s32 result;
 
-    if (held_arg != 0) {
-        object = func_8003FD64(0, held_arg);
+    if (object_selector != 0) {
+        object = func_8003FD64(0, object_selector);
     } else {
         object = func_8003FC64(0);
     }
@@ -51,7 +52,7 @@ s32 func_800AE324(s32 arg0) {
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         count = state->unk_1C;
         ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        state->unk_74 = held_arg;
+        state->unk_74 = object_selector;
         if (count != 0) {
             state->unk_14 = (count - 1) / 10;
         }
@@ -75,6 +76,3 @@ failure:
     return 0;
 }
 
-/* MECHANISM: The 0x20 frame holds selector/object/state in s2/s1/s0; the CFG uses two
-   LEAD22 sibcall tails. Pinning only the post-fence count to v1 makes the call result
-   store from v0 first, then copy v0 to v1, closing the word-21 code-motion residue. */

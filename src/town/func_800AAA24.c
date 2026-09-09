@@ -26,36 +26,33 @@ typedef struct S_800A8184_2 {
     s32 unk_08;
 } S_800A8184_2;   /* temp_s1 in func_800A8184 */
 
-void func_800A8184(s32 arg0, s32 arg1) {
-    s32 temp_s3;
-    S_800A8184_1 *temp_s0;
-    S_800A8184_2 *temp_s1;
-    void *temp_v0;
-    register s32 held_arg1 ASM_REG("$18") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+/* Creates an object, selects its data, and initializes its state. */
+void func_800A8184(s32 index, s32 kind) {
+    s32 object_id;
+    S_800A8184_1 *state;
+    S_800A8184_2 *data;
+    void *object;
+    register s32 saved_kind ASM_REG("$18") = kind;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8009C390(0, 0, &D_800A8248, 0);
-    temp_s0 = temp_v0 + 0x20;
-    if (temp_v0 != NULL) {
-        temp_s3 = ((S_800A8184_0 *)temp_v0)->unk_08;
-        temp_s1 = ((S_800A8184_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_4C = arg0;
-        temp_s0->unk_4D = held_arg1;
+    object = func_8009C390(0, 0, &D_800A8248, 0);
+    state = object + 0x20;
+    if (object != NULL) {
+        object_id = ((S_800A8184_0 *)object)->unk_08;
+        data = ((S_800A8184_0 *)object)->unk_0C;
+        state->unk_4C = index;
+        state->unk_4D = saved_kind;
         {
             s32 dispatch_result;
 
-            if ((held_arg1 & 0xFF) == 0x12) {
+            if ((saved_kind & 0xFF) == 0x12) {
                 dispatch_result = (s32)&D_8006E240;
             } else {
-                dispatch_result = func_8004A658(temp_s0->unk_4D, temp_s0->unk_4C);
+                dispatch_result = func_8004A658(state->unk_4D, state->unk_4C);
             }
-            temp_s1->unk_08 = dispatch_result;
+            data->unk_08 = dispatch_result;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        func_80033CD8(temp_s0, &D_80045340);
-        func_800A8248(temp_s0, temp_s3, temp_s1);
+        func_80033CD8(state, &D_80045340);
+        func_800A8248(state, object_id, data);
     }
-    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_kind);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 }
-/* MECHANISM: The 0x28 frame and held s4/s2/s3/s1/s0 roles preserve the exact prologue and ABI lifetimes.
-   A zero-word scheduling fence after the result store prevents delay-slot theft, keeping sw v0,8(s1)
-   before call setup and allowing the D_80045340 low half to fill the following jal delay slot. */

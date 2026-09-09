@@ -65,55 +65,56 @@ typedef struct S_800243C4_5 {
     void * unk_0C;
 } S_800243C4_5;   /* ((S_800243C4_0 *)arg0)->unk_08 in func_800243C4 */
 
-void func_800243C4(void *arg0, Rec_func_800243C4_arg1 *arg1, S_800243C4_4 *arg2)
+/* Updates the effect's position, then brightens and fades its color. */
+void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 *color)
 {
-    s16 temp_v1;
-    u16 temp_a0;
-    S_800243C4_3 *temp_a0_2;
-    S_800243C4_1 *temp_s0;
+    s16 phase;
+    u16 phase_value;
+    S_800243C4_3 *base_position;
+    S_800243C4_1 *source;
 
     D_800281F8.value = D_800281F8.value + 1;
-    temp_v1 = ((S_800243C4_0 *)arg0)->unk_2C.s;
-    temp_a0 = ((S_800243C4_0 *)arg0)->unk_2C.u;
+    phase = ((S_800243C4_0 *)effect)->unk_2C.s;
+    phase_value = ((S_800243C4_0 *)effect)->unk_2C.u;
 
-    if (temp_v1 == 0) {
-        temp_s0 = ((S_800243C4_5 *)(((S_800243C4_0 *)arg0)->unk_08))->unk_0C;
-        if (((S_800243C4_0 *)arg0)->unk_2E == 0) {
-            if (func_8003DE58(temp_s0->unk_08, temp_s0,
-                              (u8 *)arg0 + 0x24, 0) != 0) {
-                ((S_800243C4_0 *)arg0)->unk_2E = 1;
-            } else if (temp_s0->unk_14 & 0x8000) {
-                ((S_800243C4_0 *)arg0)->unk_2E = 1;
-                ((S_800243C4_0 *)arg0)->unk_28.s = -0x40;
+    if (phase == 0) {
+        source = ((S_800243C4_5 *)(((S_800243C4_0 *)effect)->unk_08))->unk_0C;
+        if (((S_800243C4_0 *)effect)->unk_2E == 0) {
+            if (func_8003DE58(source->unk_08, source,
+                              (u8 *)effect + 0x24, 0) != 0) {
+                ((S_800243C4_0 *)effect)->unk_2E = 1;
+            } else if (source->unk_14 & 0x8000) {
+                ((S_800243C4_0 *)effect)->unk_2E = 1;
+                ((S_800243C4_0 *)effect)->unk_28.s = -0x40;
             }
-            if (((S_800243C4_0 *)arg0)->unk_2E == 0) {
+            if (((S_800243C4_0 *)effect)->unk_2E == 0) {
                 goto end;
             }
         }
 
-        temp_a0_2 = ((S_800243C4_5 *)(((S_800243C4_0 *)arg0)->unk_08))->unk_08;
-        arg1->unk_02 =
-            temp_a0_2->unk_02 + ((S_800243C4_0 *)arg0)->unk_24;
-        arg1->unk_06 =
-            temp_a0_2->unk_06 + ((S_800243C4_0 *)arg0)->unk_26;
-        arg1->unk_0A.as_s16 =
-            temp_a0_2->unk_0A + ((S_800243C4_0 *)arg0)->unk_28.u;
-        if (func_80024ED4(arg1) != 0) {
-            func_8004491C((u8 *)arg0 - 0x20, D_80045340);
-            ((S_800243C4_0 *)arg0)->unk_2C.u = ((S_800243C4_0 *)arg0)->unk_2C.u + 1;
+        base_position = ((S_800243C4_5 *)(((S_800243C4_0 *)effect)->unk_08))->unk_08;
+        position->unk_02 =
+            base_position->unk_02 + ((S_800243C4_0 *)effect)->unk_24;
+        position->unk_06 =
+            base_position->unk_06 + ((S_800243C4_0 *)effect)->unk_26;
+        position->unk_0A.as_s16 =
+            base_position->unk_0A + ((S_800243C4_0 *)effect)->unk_28.u;
+        if (func_80024ED4(position) != 0) {
+            func_8004491C((u8 *)effect - 0x20, D_80045340);
+            ((S_800243C4_0 *)effect)->unk_2C.u = ((S_800243C4_0 *)effect)->unk_2C.u + 1;
             return;
         }
-    } else if (temp_v1 == 1) {
-        if (arg2->unk_0C.u8 < 0xC0) {
-            arg2->unk_0C.u32 += 0x202020;
+    } else if (phase == 1) {
+        if (color->unk_0C.u8 < 0xC0) {
+            color->unk_0C.u32 += 0x202020;
             return;
         }
-        ((S_800243C4_0 *)arg0)->unk_2C.u = temp_a0 + 1;
+        ((S_800243C4_0 *)effect)->unk_2C.u = phase_value + 1;
         return;
-    } else if (temp_v1 == 2) {
-        arg2->unk_0C.u32 += 0xFFFBFBFC;
-        if (arg2->unk_0C.u8 == 0) {
-            ((S_800243C4_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    } else if (phase == 2) {
+        color->unk_0C.u32 += 0xFFFBFBFC;
+        if (color->unk_0C.u8 == 0) {
+            ((S_800243C4_0_pre *)effect)[-1].unk_00 |= 0x8000;
             D_800814A0.value |= 0x8000;
         }
     }

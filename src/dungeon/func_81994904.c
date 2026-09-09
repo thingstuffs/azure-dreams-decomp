@@ -77,101 +77,98 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_800B8FC8(void *, Rect16 *, void *, s32, s32);
 
-void func_80024104(void *arg0) {
+/* Creates an object in the first free rectangle slot and decrements the owner timer. */
+void func_80024104(void *owner) {
     s16 center[2];
-    RectTable table;
-    u8 *src;
-    u8 *dst;
-    u8 *end;
-    s16 index;
-    s32 rectOffset;
+    RectTable rect_table;
+    u8 *copy_src;
+    u8 *copy_dst;
+    u8 *copy_end;
+    s16 slot;
+    s32 rect_offset;
     Rect16 *rect;
-    void *obj;
-    u8 *work;
+    void *child;
+    u8 *child_work;
     Display *display;
-    void *from;
-    void *to;
+    void *source_words;
+    void *child_words;
     u16 timer;
 
-    dst = (u8 *)&table;
-    src = (u8 *)&D_80024004;
-    if ((u32)src & 3) {
-        end = src + sizeof(RectTable);
+    copy_dst = (u8 *)&rect_table;
+    copy_src = (u8 *)&D_80024004;
+    if ((u32)copy_src & 3) {
+        copy_end = copy_src + sizeof(RectTable);
         do {
-            *(PackedBlock *)dst = *(PackedBlock *)src;
-            src += sizeof(PackedBlock);
-            dst += sizeof(PackedBlock);
-        } while (src != end);
+            *(PackedBlock *)copy_dst = *(PackedBlock *)copy_src;
+            copy_src += sizeof(PackedBlock);
+            copy_dst += sizeof(PackedBlock);
+        } while (copy_src != copy_end);
     } else {
-        end = src + sizeof(RectTable);
+        copy_end = copy_src + sizeof(RectTable);
         do {
-            *(AlignedBlock *)dst = *(AlignedBlock *)src;
-            src += sizeof(AlignedBlock);
-            dst += sizeof(AlignedBlock);
-        } while (src != end);
+            *(AlignedBlock *)copy_dst = *(AlignedBlock *)copy_src;
+            copy_src += sizeof(AlignedBlock);
+            copy_dst += sizeof(AlignedBlock);
+        } while (copy_src != copy_end);
     }
 
     D_80025384 = 1;
 
-    index = 0;
+    slot = 0;
 slot_loop:
-    if ((*(s16 *)((u8 *)arg0 + 0x46 + (((s32)index << 16) >> 15))) != 0) {
-        index++;
-        if (index < 8) {
+    if ((*(s16 *)((u8 *)owner + 0x46 + (((s32)slot << 16) >> 15))) != 0) {
+        slot++;
+        if (slot < 8) {
             goto slot_loop;
         }
     }
 
-    if (index != 8) {
-        (*(s16 *)((u8 *)arg0 + 0x46 + index * 2)) = 1;
-        rectOffset = (s32)index << 3;
-        rect = (Rect16 *)((u8 *)&table + rectOffset);
+    if (slot != 8) {
+        (*(s16 *)((u8 *)owner + 0x46 + slot * 2)) = 1;
+        rect_offset = (s32)slot << 3;
+        rect = (Rect16 *)((u8 *)&rect_table + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
         func_800B8FC8(D_800814A8, rect, center, 1, 1);
 
-        obj = func_8003FC64(0x212);
-        if (obj != 0) {
-            work = (u8 *)obj + 0x20;
-            ((S_80024104_0 *)work)->unk_2A = 7;
-            ((S_80024104_0 *)work)->unk_2C = 7;
-            ((S_80024104_0 *)work)->unk_32 = index;
-            ((S_80024104_0 *)work)->unk_60 = arg0;
-            ((S_80024104_1 *)obj)->unk_10 = D_8002405C;
-            func_8004491C(obj, D_80045340);
+        child = func_8003FC64(0x212);
+        if (child != 0) {
+            child_work = (u8 *)child + 0x20;
+            ((S_80024104_0 *)child_work)->unk_2A = 7;
+            ((S_80024104_0 *)child_work)->unk_2C = 7;
+            ((S_80024104_0 *)child_work)->unk_32 = slot;
+            ((S_80024104_0 *)child_work)->unk_60 = owner;
+            ((S_80024104_1 *)child)->unk_10 = D_8002405C;
+            func_8004491C(child, D_80045340);
 
-            display = ((S_80024104_1 *)obj)->unk_0C;
+            display = ((S_80024104_1 *)child)->unk_0C;
             display->field6 = 4;
             display->flags &= 0xFFF3;
 
-            from = ((S_80024104_2_pre *)D_800814A8)[-1].unk_00;
-            to = ((S_80024104_1 *)obj)->unk_08;
-            ((s32 *)to)[0] = ((s32 *)from)[0];
-            ((s32 *)to)[1] = ((s32 *)from)[1];
-            ((s32 *)to)[2] = ((s32 *)from)[2];
+            source_words = ((S_80024104_2_pre *)D_800814A8)[-1].unk_00;
+            child_words = ((S_80024104_1 *)child)->unk_08;
+            ((s32 *)child_words)[0] = ((s32 *)source_words)[0];
+            ((s32 *)child_words)[1] = ((s32 *)source_words)[1];
+            ((s32 *)child_words)[2] = ((s32 *)source_words)[2];
 
-            display = ((S_80024104_1 *)obj)->unk_0C;
+            display = ((S_80024104_1 *)child)->unk_0C;
             display->scaleX = 0x1000;
             display->scaleY = 0x1000;
             display->blue = 0x80;
             display->green = 0x80;
             display->red = 0x80;
 
-            *(PackedVec3 *)((u8 *)obj + 0x92) = D_8002533C;
-            display->vector = (u8 *)obj + 0x92;
-            ((S_80024104_0 *)work)->unk_7A = (u8)rect->x - 0x40;
-            ((S_80024104_0 *)work)->unk_7B = (u8)rect->y;
+            *(PackedVec3 *)((u8 *)child + 0x92) = D_8002533C;
+            display->vector = (u8 *)child + 0x92;
+            ((S_80024104_0 *)child_work)->unk_7A = (u8)rect->x - 0x40;
+            ((S_80024104_0 *)child_work)->unk_7B = (u8)rect->y;
         }
     }
 
-    timer = (*(u16 *)((u8 *)arg0 + 0x2A)) - 1;
-    (*(u16 *)((u8 *)arg0 + 0x2A)) = timer;
+    timer = (*(u16 *)((u8 *)owner + 0x2A)) - 1;
+    (*(u16 *)((u8 *)owner + 0x2A)) = timer;
     if ((s16)timer <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }
-
-/* MECHANISM: The 0x80-byte frame, sibling table/center locals, packed copies,
-   held object roles, and noreturn tail shape preserve the seed's 184-word body.
-   A block-local $v1 page pin lets LEAD27 sink lui 0x8002 into the tail-j slot. */

@@ -19,116 +19,113 @@ extern u8 D_800EA000[];
 extern void func_800672D8(PackedPair *, u8 *);
 extern void func_8009BF7C(s32, s32);
 
+/* Pack dungeon cell height levels into nibbles and submit the buffer. */
 void func_8009D8A4(void) {
-    PackedPair sp10;
-    DungeonConfig *temp_t2;
-    u8 *temp_v0;
-    u8 *var_a1;
-    u8 *var_a3;
-    u8 *var_t4;
-    u8 *temp_a0;
-    s32 var_t5;
-    s32 var_t3;
-    s16 var_t1;
-    s32 var_a2;
-    s16 temp_v0_3;
-    register s32 var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_v0_2;
-    s32 temp_a0_3;
-    s16 temp_v0_5;
-    s32 temp_v0_6;
-    u16 temp_v1;
-    s32 temp_a0_2;
-    u8 temp_v1_2;
-    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    PackedPair upload_pair;
+    DungeonConfig *config;
+    u8 *dungeon_data;
+    u8 *buffer;
+    u8 *write_ptr;
+    u8 *cells;
+    u8 *cell;
+    s32 zero;
+    s32 one;
+    s16 row;
+    s32 column;
+    s16 next_row;
+    register s32 row_offset ASM_REG("$3");
+    s32 level;
+    u16 cell_type;
+    s32 packed_levels;
+    u8 packed_empty;
+    register s32 value ASM_REG("$2");
 
-    sp10 = D_80088CB0;
-    var_a1 = D_800E50A8;
-    var_a3 = var_a1;
-    ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    temp_v0 = D_80083160;
-    temp_t2 = (DungeonConfig *)(temp_v0 + 0x1DC);
-    if ((1 << temp_t2->field_16) > 0) {
-        var_t1 = 0;
-        var_t5 = 0;
-        var_t3 = 1;
-        var_t4 = D_800EA000;
-loop_2:
-        var_a2 = 0;
+    upload_pair = D_80088CB0;
+    buffer = D_800E50A8;
+    write_ptr = buffer;
+    ASM_KEEP(write_ptr);
+    dungeon_data = D_80083160;
+    config = (DungeonConfig *)(dungeon_data + 0x1DC);
+    if ((1 << config->field_16) > 0) {
+        row = 0;
+        zero = 0;
+        one = 1;
+        cells = D_800EA000;
+next_row_loop:
+        column = 0;
         {
-            s16 temp_v0_4 = temp_t2->field_14;
-            u16 temp_a0_3;
-            register s32 held_outer ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            temp_a0_3 = *(volatile u16 *)((u8 *)temp_t2 + 0x14);
-            if (!(var_t5 < (var_t3 << temp_v0_4))) {
-                goto block_21;
+            s16 width_shift = config->field_14;
+            u16 stride_shift;
+            register s32 row_index ASM_REG("$8");
+            stride_shift = *(volatile u16 *)((u8 *)config + 0x14);
+            if (!(zero < (one << width_shift))) {
+                goto row_done;
             }
-            var_v0 = (u32) var_t1 << 16;
-            held_outer = var_v0 >> 16;
-            var_v1 = held_outer << temp_a0_3;
-loop_4:
-            temp_a0 = (u8 *)((long)((var_v1 + (s16) var_a2) * 6) + (long)var_t4);
-            temp_v1 = *(u16 *)temp_a0;
-            if ((temp_v1 != 0) && (temp_v1 != 3)) {
-                register u16 clamp_a0 ASM_REG("$4"); /* MATCH: keep the merged clamp value in retail a0. */
-                s32 clamp_v1;
+            value = (u32) row << 16;
+            row_index = value >> 16;
+            row_offset = row_index << stride_shift;
+next_cell:
+            cell = (u8 *)((long)((row_offset + (s16) column) * 6) + (long)cells);
+            cell_type = *(u16 *)cell;
+            if ((cell_type != 0) && (cell_type != 3)) {
+                register u16 clamped_level ASM_REG("$4");
+                s32 raw_level;
 
-                var_v0 = (s16) (*(u16 *)(temp_a0 + 2) + 0x200) / 64;
-                clamp_a0 = var_v0;
-                ASM_KEEP_NV(var_v0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                clamp_v1 = var_v0;
-                if (clamp_v1 >= 0x10) {
-                    clamp_a0 = 15;
-                } else if (clamp_v1 <= 0) {
-                    clamp_a0 = 1;
+                value = (s16) (*(u16 *)(cell + 2) + 0x200) / 64;
+                clamped_level = value;
+                ASM_KEEP_NV(value);
+                raw_level = value;
+                if (raw_level >= 0x10) {
+                    clamped_level = 15;
+                } else if (raw_level <= 0) {
+                    clamped_level = 1;
                 }
-                var_v0 = (u32) clamp_a0 << 16;
-                temp_v0_6 = var_v0 >> 16;
-                temp_a0_2 = *var_a3;
-                if ((s32) var_a2 & 1) {
-                    var_v0 = temp_a0_2 | (temp_v0_6 << 4);
+                value = (u32) clamped_level << 16;
+                level = value >> 16;
+                packed_levels = *write_ptr;
+                if ((s32) column & 1) {
+                    value = packed_levels | (level << 4);
                 } else {
-                    var_v0 = temp_a0_2 | temp_v0_6;
+                    value = packed_levels | level;
                 }
             } else {
-                register s32 var_odd ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+                register s32 odd_column;
 
-                temp_v1_2 = *var_a3;
-                ASM_USE(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                var_odd = var_a2 & 1;
-                if (var_odd) {
-                    var_v0 = temp_v1_2 & 0xF;
+                packed_empty = *write_ptr;
+                odd_column = column & 1;
+                if (odd_column) {
+                    value = packed_empty & 0xF;
                 } else {
-                    var_v0 = temp_v1_2 & 0xF0;
+                    value = packed_empty & 0xF0;
                 }
             }
-            *var_a3 = var_v0;
+            *write_ptr = value;
             {
-                s32 var_odd;
-                var_odd = var_a2 & 1;
-                if (var_odd) {
-                    var_a3 += 1;
+                s32 odd_column;
+                odd_column = column & 1;
+                if (odd_column) {
+                    write_ptr += 1;
                 }
-                var_v0 = var_a2 + 1;
+                value = column + 1;
             }
-            var_a2 = var_v0;
-            ASM_KEEP_NV(var_v0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            var_v0 = (s16) var_v0;
-            temp_v0_4 = temp_t2->field_14;
-            temp_a0_3 = *(volatile u16 *)((u8 *)temp_t2 + 0x14);
-            if (var_v0 >= (var_t3 << temp_v0_4)) {
-                goto block_21;
+            column = value;
+            ASM_KEEP_NV(value);
+            value = (s16) value;
+            width_shift = config->field_14;
+            stride_shift = *(volatile u16 *)((u8 *)config + 0x14);
+            if (value >= (one << width_shift)) {
+                goto row_done;
             }
-            var_v1 = held_outer << temp_a0_3;
-            goto loop_4;
+            row_offset = row_index << stride_shift;
+            goto next_cell;
         }
-block_21:
-        temp_v0_3 = var_t1 + 1;
-        var_t1 = temp_v0_3;
-        if (var_t1 < (var_t3 << temp_t2->field_16)) {
-            goto loop_2;
+row_done:
+        next_row = row + 1;
+        row = next_row;
+        if (row < (one << config->field_16)) {
+            goto next_row_loop;
         }
     }
-    func_800672D8(&sp10, var_a1);
+    func_800672D8(&upload_pair, buffer);
     func_8009BF7C(1, 0x20);
 }

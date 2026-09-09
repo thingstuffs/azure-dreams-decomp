@@ -87,34 +87,35 @@ typedef struct S_8017112C_5 {
     void * unk_2C;
 } S_8017112C_5;   /* monster in func_8017112C */
 
-void func_8017112C(void *arg0, void *arg1, void *arg2)
+/* Updates actor behavior, movement, facing, and height. */
+void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
 {
-    void *entity = arg0;
-    void *motion = arg1;
-    void *monster = arg2;
+    void *entity = entity_arg;
+    void *motion = motion_arg;
+    void *monster = monster_arg;
     void *actor = entity;
-    register s16 state_direction ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 raw_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *call_entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *call_motion ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *call_monster ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 normalized_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s16 state_direction ASM_REG("$17");
+    register u8 raw_state ASM_REG("$2");
+    register void *call_entity ASM_REG("$4");
+    register void *call_motion ASM_REG("$5");
+    register void *call_monster ASM_REG("$6");
+    register s32 saved_state ASM_REG("$2");
     s32 current_state;
-    register s32 direction_calc ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 next_current ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 view_angle ASM_REG("$2");
+    register s32 next_height ASM_REG("$2");
     Callback callback;
     Callback active_callback;
-    s16 floor;
-    s32 target;
-    register s32 current_raw ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 current;
-    s32 distance;
+    s16 floor_height;
+    s32 target_height;
+    register s32 height_bits ASM_REG("$4");
+    s32 height;
+    s32 height_gap;
     u16 global_flags;
     u16 *flag_word;
-    register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 position;
-    s32 division_magic;
-    s32 quotient;
+    register s32 height_delta ASM_REG("$2");
+    s32 height_fixed;
+    s32 divisor_magic;
+    s32 height_step;
     DivProduct product;
     u8 *slot;
     void *node;
@@ -127,11 +128,11 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
         ((S_8017112C_0 *)actor)->unk_9B = 0;
     }
 
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_MEM_BARRIER();
     flag_word = &D_80013714;
     global_flags = *flag_word;
     if (global_flags & 8) {
-        s32 i = 1;
+        s32 slot_index = 1;
         slot = D_800E3D7C[0] + 4;
         do {
             node = ((S_8017112C_1 *)slot)->unk_AC;
@@ -139,9 +140,9 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
                 record = ((S_8017112C_2_pre *)node)[-1].unk_00;
                 ((S_8017112C_3 *)record)->unk_14 &= 0xFFBF;
             }
-            i--;
+            slot_index--;
             slot -= 4;
-        } while (i >= 0);
+        } while (slot_index >= 0);
     }
 
     if (D_80083462 & 0x2000) {
@@ -169,18 +170,18 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
     }
     D_80173EF4[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, monster, actor);
 
-    normalized_state = (s32)state_direction << 16;
+    saved_state = (s32)state_direction << 16;
     current_state = ((S_8017112C_0 *)actor)->unk_6D.n2;
-    normalized_state >>= 16;
-    if (normalized_state != current_state) {
+    saved_state >>= 16;
+    if (saved_state != current_state) {
         func_800AA36C(entity, motion, monster, actor);
     }
 
     ((S_8017112C_4 *)motion)->unk_00 += ((S_8017112C_4 *)motion)->unk_0C;
     (*(s32 *)((u8 *)motion + (4))) += ((S_8017112C_4 *)motion)->unk_10;
 
-    direction_calc = D_80083228 + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
-    state_direction = (direction_calc >> 9) & 7;
+    view_angle = D_80083228 + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
+    state_direction = (view_angle >> 9) & 7;
     if ((*(s16 *)((u8 *)entity + (0x94))) != state_direction) {
         func_80047738(monster,
                      *((u8 *)((S_8017112C_5 *)monster)->unk_2C + state_direction),
@@ -201,37 +202,37 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
     }
 
     if ((*(s16 *)((u8 *)entity + (0xB8))) == 1) {
-        target = ((S_8017112C_4 *)motion)->unk_14.at02.v;
-        ASM_KEEP_NV(target);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        current = ((S_8017112C_4 *)motion)->unk_08.at02.v;
-        ASM_KEEP_NV(current);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        current_raw = ((S_8017112C_4 *)motion)->unk_08.at02u.v;
-        ASM_KEEP_NV(current_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        if (target > current) {
-            distance = target - current;
-            if (distance < 0) {
-                distance = -distance;
+        target_height = ((S_8017112C_4 *)motion)->unk_14.at02.v;
+        ASM_KEEP_NV(target_height);
+        height = ((S_8017112C_4 *)motion)->unk_08.at02.v;
+        ASM_KEEP_NV(height);
+        height_bits = ((S_8017112C_4 *)motion)->unk_08.at02u.v;
+        ASM_KEEP_NV(height_bits);
+        if (target_height > height) {
+            height_gap = target_height - height;
+            if (height_gap < 0) {
+                height_gap = -height_gap;
             }
-            division_magic = 0x66660000;
-            if (distance >= 0x65) {
-                next_current = current_raw + 8;
-                ((S_8017112C_4 *)motion)->unk_08.at02.v = next_current;
+            divisor_magic = 0x66660000;
+            if (height_gap >= 0x65) {
+                next_height = height_bits + 8;
+                ((S_8017112C_4 *)motion)->unk_08.at02.v = next_height;
             } else {
-                ASM_KEEP_NV(division_magic);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                delta = ((S_8017112C_4 *)motion)->unk_14.at00.v;
-                position = ((S_8017112C_4 *)motion)->unk_08.at00.v;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                division_magic |= 0x6667;
-                ASM_KEEP_NV(division_magic);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                delta -= position;
-                if (delta < 0) {
-                    delta = -delta;
+                ASM_KEEP_NV(divisor_magic);
+                height_delta = ((S_8017112C_4 *)motion)->unk_14.at00.v;
+                height_fixed = ((S_8017112C_4 *)motion)->unk_08.at00.v;
+                ASM_SCHED_BARRIER();
+                divisor_magic |= 0x6667;
+                ASM_KEEP_NV(divisor_magic);
+                height_delta -= height_fixed;
+                if (height_delta < 0) {
+                    height_delta = -height_delta;
                 }
-                ASM_KEEP_NV(delta);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                product.value = (long long)delta * division_magic;
-                quotient = (product.word.high >> 2) - (delta >> 31);
-                position += quotient;
-                ((S_8017112C_4 *)motion)->unk_08.at00.v = position;
+                ASM_KEEP_NV(height_delta);
+                product.value = (long long)height_delta * divisor_magic;
+                height_step = (product.word.high >> 2) - (height_delta >> 31);
+                height_fixed += height_step;
+                ((S_8017112C_4 *)motion)->unk_08.at00.v = height_fixed;
             }
         }
     }
@@ -242,17 +243,17 @@ void func_8017112C(void *arg0, void *arg1, void *arg2)
 
     if (((S_8017112C_0 *)actor)->unk_1C & 0x40000000) {
         ((S_8017112C_0 *)actor)->unk_1C &= 0xBFFFFFFF;
-        floor = func_800BCB04((((S_8017112C_5 *)monster)->unk_24 << 6) | 0x20,
+        floor_height = func_800BCB04((((S_8017112C_5 *)monster)->unk_24 << 6) | 0x20,
                               (((S_8017112C_5 *)monster)->unk_25 << 6) | 0x20,
                               (s16)(((S_8017112C_0 *)actor)->unk_88 - 0x20));
-        if (floor < 0x200) {
-            (*(u16 *)((u8 *)entity + (0x92))) += ((S_8017112C_0 *)actor)->unk_88 - floor;
-            ((S_8017112C_0 *)actor)->unk_88 = floor;
+        if (floor_height < 0x200) {
+            (*(u16 *)((u8 *)entity + (0x92))) += ((S_8017112C_0 *)actor)->unk_88 - floor_height;
+            ((S_8017112C_0 *)actor)->unk_88 = floor_height;
         }
     }
 
     ((S_8017112C_5 *)monster)->unk_14 |= 0x40;
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entity);
+    ASM_KEEP(motion);
+    ASM_KEEP(actor);
 }

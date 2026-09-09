@@ -23,63 +23,60 @@ extern s32 func_800CBB98(u8, u8, s16, void *);
 extern u8 D_800E1AE6[];
 extern u8 D_800E3D40;
 
-s32 func_800CBCA0(void *arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Checks an entity's flags and random roll before attempting its parent-based action. */
+s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
 {
     S_800CBCA0_1 *parent;
-    s32 result;
-    s32 value;
+    s32 action_result;
+    s32 roll;
     register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 numerator;
-    void *callArg0 = arg0;
+    s32 random_value;
+    void *rng_entity = entity;
 
-    if (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v == 0) {
+    if (((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v == 0) {
         goto check_global;
     }
-    if (!(((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000)) {
+    if (!(((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000)) {
         goto check_global;
     }
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    value = 1;
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    roll = 1;
     goto done;
 
 check_global:
     if (D_800E3D40 == 0) {
-        numerator = (u16)func_800A6D30(callArg0, arg1, arg2, arg3);
-        divisor = ((Rec_D_800E3D7C *)arg0)->unk_00.at03_u8.v;
+        random_value = (u16)func_800A6D30(rng_entity, input_a, input_b, input_c);
+        divisor = ((Rec_D_800E3D7C *)entity)->unk_00.at03_u8.v;
         if (divisor != 0) {
-            value = divisor;
-            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            divisor = numerator % value;
-            value = divisor;
+            roll = divisor;
+            ASM_KEEP(roll);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            divisor = random_value % roll;
+            roll = divisor;
             goto value_ready;
         }
     }
-    value = 0;
+    roll = 0;
 value_ready:
 
-    if (value < 0x30) {
-        parent = ((S_800CBCA0_0_pre *)arg0)[-1].unk_00;
-        result = func_800CBB98(parent->unk_24,
+    if (roll < 0x30) {
+        parent = ((S_800CBCA0_0_pre *)entity)[-1].unk_00;
+        action_result = func_800CBB98(parent->unk_24,
                                parent->unk_25,
-                               ((Rec_D_800E3D7C *)arg0)->unk_88.as_s16, arg0);
-        if (result != 0) {
-            if (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v == 0) {
+                               ((Rec_D_800E3D7C *)entity)->unk_88.as_s16, entity);
+        if (action_result != 0) {
+            if (((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v == 0) {
                 func_80094E34();
-                func_80099844(arg0, D_800E1AE6);
+                func_80099844(entity, D_800E1AE6);
             }
         }
-        return result != 0;
+        return action_result != 0;
     }
 
-    if (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v == 0) {
+    if (((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v == 0) {
         func_800A6508();
     }
     return 1;
 
 done:
-    return value;
+    return roll;
 }
-
-/* MECHANISM: Recover true-space joins and keep the early success block before its local j.
-   Hold arg0/result in s0/s1; pin RNG value/divisor/numerator to v0/v1/a0 with explicit copies.
-   At 2.8.1-G0 the destructive global lbu closes the final two-word register residue. */

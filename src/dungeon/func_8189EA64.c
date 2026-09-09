@@ -19,18 +19,19 @@ typedef struct S_80024264_1 {
 } S_80024264_1;   /* owner in func_80024264 */
 
 
-void func_80024264(S_80024264_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2)
+/* Advances the timed state sequence and updates the record channels and packed values. */
+void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
 {
     s16 state;
-    s32 tail_value;
+    s32 next_high_word;
     S_80024264_1 *owner;
 
-    owner = arg0->unk_08;
+    owner = sequence->unk_08;
     owner->unk_14++;
-    arg0->unk_02.u++;
-    func_800478B8(arg2);
+    sequence->unk_02.u++;
+    func_800478B8(record);
 
-    state = arg0->unk_00.s;
+    state = sequence->unk_00.s;
     if (state == 1) {
         goto state_1;
     }
@@ -49,72 +50,67 @@ void func_80024264(S_80024264_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2)
     return;
 
 state_0: {
-    u8 value;
-    u16 upper;
-    u16 lower;
+    u8 channel_value;
+    u16 high_word;
+    u16 low_word;
 
-    value = arg2->unk_0C.at02_u8.v;
-    upper = arg2->unk_1C.at02_u16.v;
-    value++;
-    arg2->unk_0C.at02_u8.v = value;
-    arg2->unk_0C.at01_u8.v = value;
-    arg2->unk_0C.at00_u8.v = value;
-    lower = arg2->unk_1C.at00_u16.v;
-    upper += 0x10;
-    arg2->unk_1C.at02_u16.v = upper;
-    lower += 0x100;
-    arg2->unk_1C.at00_u16.v = lower;
+    channel_value = record->unk_0C.at02_u8.v;
+    high_word = record->unk_1C.at02_u16.v;
+    channel_value++;
+    record->unk_0C.at02_u8.v = channel_value;
+    record->unk_0C.at01_u8.v = channel_value;
+    record->unk_0C.at00_u8.v = channel_value;
+    low_word = record->unk_1C.at00_u16.v;
+    high_word += 0x10;
+    record->unk_1C.at02_u16.v = high_word;
+    low_word += 0x100;
+    record->unk_1C.at00_u16.v = low_word;
     goto check_count;
 }
 
 state_1: {
-    u8 value;
-    u16 lower;
+    u8 channel_value;
+    u16 low_word;
 
-    value = arg2->unk_0C.at02_u8.v;
-    lower = arg2->unk_1C.at00_u16.v;
-    value++;
-    lower += 0x80;
-    arg2->unk_0C.at02_u8.v = value;
-    arg2->unk_0C.at01_u8.v = value;
-    arg2->unk_0C.at00_u8.v = value;
-    arg2->unk_1C.at00_u16.v = lower;
-    tail_value = arg0->unk_02.s << 8;
+    channel_value = record->unk_0C.at02_u8.v;
+    low_word = record->unk_1C.at00_u16.v;
+    channel_value++;
+    low_word += 0x80;
+    record->unk_0C.at02_u8.v = channel_value;
+    record->unk_0C.at01_u8.v = channel_value;
+    record->unk_0C.at00_u8.v = channel_value;
+    record->unk_1C.at00_u16.v = low_word;
+    next_high_word = sequence->unk_02.s << 8;
     goto store_upper;
 }
 
 state_2: {
-    u8 value;
-    s32 position;
+    u8 channel_value;
+    s32 frame;
 
-    value = arg2->unk_0C.at02_u8.v + 6;
-    arg2->unk_0C.at02_u8.v = value;
-    arg2->unk_0C.at01_u8.v = value;
-    arg2->unk_0C.at00_u8.v = value;
-    position = arg0->unk_02.s;
-    
-    tail_value = (position + 0x10) << 8;
+    channel_value = record->unk_0C.at02_u8.v + 6;
+    record->unk_0C.at02_u8.v = channel_value;
+    record->unk_0C.at01_u8.v = channel_value;
+    record->unk_0C.at00_u8.v = channel_value;
+    frame = sequence->unk_02.s;
+
+    next_high_word = (frame + 0x10) << 8;
 }
 
 store_upper:
-    arg2->unk_1C.at02_u16.v = tail_value;
+    record->unk_1C.at02_u16.v = next_high_word;
 
 check_count:
-    if (arg0->unk_02.s < arg0->unk_04) {
+    if (sequence->unk_02.s < sequence->unk_04) {
         goto done;
     }
-    arg0->unk_02.u = 0;
-    arg0->unk_00.u++;
+    sequence->unk_02.u = 0;
+    sequence->unk_00.u++;
     return;
 
 state_3:
-    func_800478B8(arg2);
+    func_800478B8(record);
 
 done:
     return;
 }
-
-/* MECHANISM: Forward labels recover the retail dispatch/body order while preserving the 0x20 frame and s1/s0 holds.
-   Case-scoped sibling locals reproduce the interleaved RMW loads without merging allocator live ranges.
-   A scoped tied v0 tail-slot pin exposes the state-1 lh/j/sll continuation contract to maspsx.
-   ASM_KEEP preserves the signed state-2 lh, and its explicit done edge fixes the final branch displacement. */

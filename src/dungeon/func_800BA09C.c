@@ -50,68 +50,63 @@ typedef struct S_800BF7FC_1 {
     s8 unk_26;
 } S_800BF7FC_1;   /* obj in func_800BF7FC */
 
-s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
+/* Handles an item action for a target and updates dungeon record flags. */
+s32 func_800BF7FC(void *target, u8 *item, s16 action, s32 action_param)
 {
     DungeonRecord *record;
-    u8 *obj;
-    s32 raw_value;
-    s32 value;
+    u8 *record_obj;
+    s32 random_value;
+    s32 event_value;
     u8 *message;
-    register s32 call_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s8 index;
+    register s32 message_value ASM_REG("$5");   /* Required for matching register allocation. */
+    s8 record_index;
 
-    if (arg2 == 13) {
-        return func_80098864((s32)arg1, arg3);
+    if (action == 13) {
+        return func_80098864((s32)item, action_param);
     }
 
-    if (arg0 == D_800E3D7C) {
-        ((Rec_D_800E3D7C *)arg0)->unk_110 = (s32)arg1;
-        func_8008D344(arg0, D_80083780, D_80082E80, arg0);
-        return 0;
-           /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    if (target == D_800E3D7C) {
+        ((Rec_D_800E3D7C *)target)->unk_110 = (s32)item;
+        func_8008D344(target, D_80083780, D_80082E80, target);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A6480(arg0, (s32)arg1, arg2);
-        if (func_800AD6FC(arg0,
-                          D_800DDE84[((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v] & 3,
-                          (s32)arg1) == 0) {
-            func_800A5F38(arg0, (s32)arg1);
+    if ((u32)target <= 0x9FFFFFFF) {
+        func_800A6480(target, (s32)item, action);
+        if (func_800AD6FC(target,
+                         D_800DDE84[((Rec_D_800E3D7C *)target)->unk_10.at03_u8.v] & 3,
+                         (s32)item) == 0) {
+            func_800A5F38(target, (s32)item);
             return 1;
         }
     } else {
-        obj = ((S_800BF7FC_0_pre *)arg0)[-1].unk_00;
-        index = ((S_800BF7FC_1 *)obj)->unk_26;
-        if (index >= 0 && !(D_800E2970[index].flags & 2)) {
-            if (func_800C4EB4(((S_800BF7FC_1 *)obj)->unk_24,
-                              ((S_800BF7FC_1 *)obj)->unk_25,
-                              ((Rec_D_800E3D7C *)arg0)->unk_88.as_s16,
-                              arg1[0], index) == 0) {
+        record_obj = ((S_800BF7FC_0_pre *)target)[-1].unk_00;
+        record_index = ((S_800BF7FC_1 *)record_obj)->unk_26;
+        if (record_index >= 0 && !(D_800E2970[record_index].flags & 2)) {
+            if (func_800C4EB4(((S_800BF7FC_1 *)record_obj)->unk_24,
+                             ((S_800BF7FC_1 *)record_obj)->unk_25,
+                             ((Rec_D_800E3D7C *)target)->unk_88.as_s16,
+                             item[0], record_index) == 0) {
                 return 0;
             }
 
-            record = &D_800E2970[((S_800BF7FC_1 *)obj)->unk_26];
+            record = &D_800E2970[((S_800BF7FC_1 *)record_obj)->unk_26];
             record->flags |= 2;
             func_800C4D78(0x20C0C0, 1);
-            raw_value = func_800990FC();
+            random_value = func_800990FC();
             message = D_800E12D6;
-            ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            call_value = raw_value;
-            ASM_KEEP_NV(call_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(message);   /* Required for matching instruction order. */
+            message_value = random_value;
+            ASM_KEEP_NV(message_value);   /* Required for matching register allocation. */
             func_80099290(func_80099194(message,
-                                         value = call_value));
-            func_800A5720(value);
+                                      event_value = message_value));
+            func_800A5720(event_value);
         } else {
             func_800997FC(D_800E1303);
         }
     }
 
     D_80083460.field_A--;
-    func_80098B38((s32)arg1);
+    func_80098B38((s32)item);
     return 1;
 }
-
-/* MECHANISM: The seed's 0x30 frame, saved-register roles, and CFG remain unchanged.
-   The RNG result stays transient while a tied $a0 address precedes a tied $a1 copy;
-   nested assignment then places the saved $s0 copy in func_80099194's delay slot. */

@@ -45,31 +45,32 @@ typedef struct S_800242A0_3 {
     u16 unk_0A;
 } S_800242A0_3;   /* arg1 in func_800242A0 */
 
-void *func_800242A0(s32 arg0, S_800242A0_3 *arg1) {
-    S_800242A0_1 *temp_s0;
-    S_800242A0_0 *temp_v0;
-    S_800242A0_2 *temp_v1;
+/* Allocate and initialize an object with the supplied value and coordinates. */
+void *func_800242A0(s32 object_value, S_800242A0_3 *source_coords) {
+    S_800242A0_1 *sprite;
+    S_800242A0_0 *object;
+    S_800242A0_2 *coords;
     register void *result ASM_REG("$2"); /* MATCH: Merge both return values in retail's v0 register. */
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 == NULL) {
+    object = func_8003FC64(0x212);
+    if (object == NULL) {
         result = NULL;
     } else {
-        temp_v0->unk_10 = &D_80024224;
-        temp_s0 = temp_v0->unk_0C;
-        temp_v0->unk_2C = arg0;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        func_8003DB94(temp_s0, &D_800DE8E8, 0);
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1 = temp_v0->unk_08;
-        temp_v1->unk_02 = (u16)arg1->unk_02;
-        temp_v1->unk_06 = (u16)arg1->unk_06;
-        temp_v1->unk_0A = (u16)arg1->unk_0A;
-        result = temp_v0;
+        object->unk_10 = &D_80024224;
+        sprite = object->unk_0C;
+        object->unk_2C = object_value;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        func_8003DB94(sprite, &D_800DE8E8, 0);
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        func_8004491C(object, &D_80045340);
+        coords = object->unk_08;
+        coords->unk_02 = (u16)source_coords->unk_02;
+        coords->unk_06 = (u16)source_coords->unk_06;
+        coords->unk_0A = (u16)source_coords->unk_0A;
+        result = object;
     }
     return result;
 }

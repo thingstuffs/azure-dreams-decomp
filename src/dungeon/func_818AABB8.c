@@ -76,7 +76,8 @@ extern s32 func_80069EF8(void);
 extern u8 D_800240D8[];
 extern u8 D_800777DC[];
 
-void *func_800243B8(Rec_func_800243B8_arg0 *arg0, S_800243B8_3 *arg1, S_800243B8_4 *arg2)
+/* Creates a sprite effect at the start position with a randomized target around the center. */
+void *func_800243B8(Rec_func_800243B8_arg0 *source, S_800243B8_3 *start, S_800243B8_4 *center)
 {
     s16 amplitude;
     s32 angle_x;
@@ -85,64 +86,64 @@ void *func_800243B8(Rec_func_800243B8_arg0 *arg0, S_800243B8_3 *arg1, S_800243B8
     S_800243B8_1 *data;
     S_800243B8_5 *sprite;
     S_800243B8_6 *position;
-    register void *ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 tail_z ASM_REG("$4");   /* UNRESOLVED C shape (pin): build-fail; the source shape that makes it unnecessary has not been found */
+    register void *result;
+    register s32 start_z ASM_REG("$4");   /* Register pin retained: removing it adds an instruction. */
 
     obj = func_8003FC64(0x212);
     if (obj != NULL) {
         data = (u8 *)obj + 0x20;
         ((S_800243B8_0 *)obj)->unk_10 = D_800240D8;
-        ((S_800243B8_0 *)obj)->unk_20 = arg0;
+        ((S_800243B8_0 *)obj)->unk_20 = source;
         data->unk_34 = 0;
         data->unk_36 = 0;
-        data->unk_3A = arg0->unk_12.as_u16;
+        data->unk_3A = source->unk_12.as_u16;
 
         amplitude = func_80069EF8() % 48;
         angle_x = func_80069EF8() % 0x1000;
         angle_y = func_80069EF8() % 0x1000;
 
-        data->unk_04 = arg1->unk_00;
-        data->unk_08 = arg1->unk_04;
-        data->unk_0C = arg1->unk_08;
+        data->unk_04 = start->unk_00;
+        data->unk_08 = start->unk_04;
+        data->unk_0C = start->unk_08;
 
         {
-            s32 tx, ty;
-            s32 raw_tx;
-            s32 trig_arg;
-            raw_tx = func_800644B8(angle_x);
-            trig_arg = angle_y;
-            tx = raw_tx;
-            ty = func_800644B8(trig_arg);
-            tx >>= 4;
-            ty >>= 4;
-            data->unk_1C = arg2->unk_00 +
-                (tx * ty * amplitude);
+            s32 trig_x, trig_y;
+            s32 raw_trig_x;
+            s32 sample_angle;
+            raw_trig_x = func_800644B8(angle_x);
+            sample_angle = angle_y;
+            trig_x = raw_trig_x;
+            trig_y = func_800644B8(sample_angle);
+            trig_x >>= 4;
+            trig_y >>= 4;
+            data->unk_1C = center->unk_00 +
+                (trig_x * trig_y * amplitude);
         }
 
         {
-            s32 tx, ty;
-            s32 raw_tx;
-            s32 trig_arg;
-            raw_tx = func_800644B8(angle_x);
-            trig_arg = angle_y;
-            tx = raw_tx;
-            ty = func_80064584(trig_arg);
-            tx >>= 4;
-            ty >>= 4;
-            data->unk_20 = arg2->unk_04 +
-                (tx * ty * amplitude);
+            s32 trig_x, trig_y;
+            s32 raw_trig_x;
+            s32 sample_angle;
+            raw_trig_x = func_800644B8(angle_x);
+            sample_angle = angle_y;
+            trig_x = raw_trig_x;
+            trig_y = func_80064584(sample_angle);
+            trig_x >>= 4;
+            trig_y >>= 4;
+            data->unk_20 = center->unk_04 +
+                (trig_x * trig_y * amplitude);
         }
 
         {
             s32 trig_x;
             trig_x = func_80064584(angle_x);
-            data->unk_24 = arg2->unk_08 +
+            data->unk_24 = center->unk_08 +
                 (((trig_x >> 4) * amplitude) << 8);
         }
 
-        data->unk_28 = data->unk_1C - arg1->unk_00;
-        data->unk_2C = data->unk_20 - arg1->unk_04;
-        data->unk_30 = data->unk_24 - arg1->unk_08;
+        data->unk_28 = data->unk_1C - start->unk_00;
+        data->unk_2C = data->unk_20 - start->unk_04;
+        data->unk_30 = data->unk_24 - start->unk_08;
 
         sprite = ((S_800243B8_0 *)obj)->unk_0C;
         sprite->unk_0E = 0xFF;
@@ -158,16 +159,13 @@ void *func_800243B8(Rec_func_800243B8_arg0 *arg0, S_800243B8_3 *arg1, S_800243B8
         sprite->unk_14 |= 0xC;
 
         position = ((S_800243B8_0 *)obj)->unk_08;
-        position->unk_00 = arg1->unk_00;
-        position->unk_04 = arg1->unk_04;
-        tail_z = arg1->unk_08;
-        ASM_UNDEF(ret);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ret = obj;
-        ASM_KEEP4(ret, tail_z, ret, tail_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        position->unk_08 = tail_z;
+        position->unk_00 = start->unk_00;
+        position->unk_04 = start->unk_04;
+        start_z = start->unk_08;
+        result = obj;
+        position->unk_08 = start_z;
     } else {
-        ret = NULL;
+        result = NULL;
     }
-    ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    return ret;
+    return result;
 }

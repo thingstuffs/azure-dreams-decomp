@@ -30,57 +30,53 @@ typedef struct S_8009EF88_1 {
 } S_8009EF88_1;   /* temp_a2 in func_8009EF88 */
 
 
-void func_8009EF88(void *arg0, s32 arg1, void *arg2, s32 arg3) {
-    s32 sp18[5];
-    s32 *temp_a2;
-    s8 *temp_a0;
-    s8 *temp_a0_2;
-    u16 temp_v0_2;
-    u32 temp_v0;
-    s32 temp_v1;
-    u8 temp_s1;
+/* Updates motion toward the target and resolves the entity when its countdown expires. */
+void func_8009EF88(void *entity, s32 context, void *motion, s32 mode) {
+    s32 result[5];
+    s32 *target_pos;
+    s8 *linked_flag;
+    s8 *clear_flag;
+    u16 ticks_left;
+    u32 delta_y;
+    s32 offset_z;
+    u8 slot;
 
-    temp_a2 = D_80083780;
-    ((S_8009EF88_0 *)arg2)->unk_0C = (s32)((s32)(D_80083780[0] - ((S_8009EF88_0 *)arg2)->unk_00.at00.v) / 2);
-    temp_v0 = ((S_8009EF88_1 *)temp_a2)->unk_04 - ((S_8009EF88_0 *)arg2)->unk_04.at00.v;
-    ((S_8009EF88_0 *)arg2)->unk_10 = (s32)((s32)(temp_v0 + (temp_v0 >> 31)) >> 1);
-    temp_v1 = ((S_8009EF88_0 *)arg2)->unk_08 + 0x200000;
-    ((S_8009EF88_0 *)arg2)->unk_14 = (s32)((s32)(((S_8009EF88_1 *)temp_a2)->unk_08 - temp_v1) / 2);
-    func_8009539C(arg2);
-    temp_v0_2 = ((Rec_D_800CFCB4 *)arg0)->unk_6C.as_u16 - 1;
-    ((Rec_D_800CFCB4 *)arg0)->unk_6C.as_u16 = temp_v0_2;
-    if ((temp_v0_2 << 16) <= 0) {
-        temp_s1 = ((Rec_D_800CFCB4 *)arg0)->unk_95;
-        if (func_8009EB9C(arg0, arg1, arg2, arg3, sp18) != 0) {
-            if (((Rec_D_800CFCB4 *)arg0)->unk_4D.as_u8 == 0x13) {
-                u8 *table = (u8 *)0x80010000;
-                s32 index = table[temp_s1 * 4 + 0x983] & 0x3F;
-                table[index * 0x54 + 0xAC4] = 1;
-                temp_a0 = ((Rec_D_800CFCB4 *)arg0)->unk_98;
-                if (temp_a0 != NULL) {
-                    *temp_a0 = 0;
+    target_pos = D_80083780;
+    ((S_8009EF88_0 *)motion)->unk_0C = (s32)((s32)(D_80083780[0] - ((S_8009EF88_0 *)motion)->unk_00.at00.v) / 2);
+    delta_y = ((S_8009EF88_1 *)target_pos)->unk_04 - ((S_8009EF88_0 *)motion)->unk_04.at00.v;
+    ((S_8009EF88_0 *)motion)->unk_10 = (s32)((s32)(delta_y + (delta_y >> 31)) >> 1);
+    offset_z = ((S_8009EF88_0 *)motion)->unk_08 + 0x200000;
+    ((S_8009EF88_0 *)motion)->unk_14 = (s32)((s32)(((S_8009EF88_1 *)target_pos)->unk_08 - offset_z) / 2);
+    func_8009539C(motion);
+    ticks_left = ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 - 1;
+    ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 = ticks_left;
+    if ((ticks_left << 16) <= 0) {
+        slot = ((Rec_D_800CFCB4 *)entity)->unk_95;
+        if (func_8009EB9C(entity, context, motion, mode, result) != 0) {
+            if (((Rec_D_800CFCB4 *)entity)->unk_4D.as_u8 == 0x13) {
+                u8 *state_table = (u8 *)0x80010000;
+                s32 record_index = state_table[slot * 4 + 0x983] & 0x3F;
+                state_table[record_index * 0x54 + 0xAC4] = 1;
+                linked_flag = ((Rec_D_800CFCB4 *)entity)->unk_98;
+                if (linked_flag != NULL) {
+                    *linked_flag = 0;
                 }
                 D_800D09C8[0] = 0;
-                temp_a0_2 = temp_a0;
+                clear_flag = linked_flag;
             } else {
-                (*(s32 *)((u8 *)((temp_s1 * 4)) + (0x80010980))) = 0;
-                temp_a0_2 = ((Rec_D_800CFCB4 *)arg0)->unk_98;
-                if (temp_a0_2 != NULL) {
-                    *temp_a0_2 = 0;
+                (*(s32 *)((u8 *)((slot * 4)) + (0x80010980))) = 0;
+                clear_flag = ((Rec_D_800CFCB4 *)entity)->unk_98;
+                if (clear_flag != NULL) {
+                    *clear_flag = 0;
                 }
             }
-            func_800C0C88(temp_a0_2);
+            func_800C0C88(clear_flag);
             return;
         }
-        ((S_8009EF88_0 *)arg2)->unk_00.at00.v = 0;
-        ((S_8009EF88_0 *)arg2)->unk_04.at00.v = 0;
-        ((S_8009EF88_0 *)arg2)->unk_00.at02.v = ((Rec_D_800CFCB4 *)arg0)->unk_84;
-        ((S_8009EF88_0 *)arg2)->unk_04.at02.v = ((Rec_D_800CFCB4 *)arg0)->unk_86;
-        func_8009F148(arg0, arg1, arg2, arg3);
+        ((S_8009EF88_0 *)motion)->unk_00.at00.v = 0;
+        ((S_8009EF88_0 *)motion)->unk_04.at00.v = 0;
+        ((S_8009EF88_0 *)motion)->unk_00.at02.v = ((Rec_D_800CFCB4 *)entity)->unk_84;
+        ((S_8009EF88_0 *)motion)->unk_04.at02.v = ((Rec_D_800CFCB4 *)entity)->unk_86;
+        func_8009F148(entity, context, motion, mode);
     }
 }
-
-/* MECHANISM: The 0x48 frame comes from the five-word outgoing stack object and
-   four held input roles plus s1. func_8009539C has a one-argument ABI: leaving
-   the 0x200000 value in a1 and D_80083780 base in a2 removes the false a1->a3
-   preservation copy and yields retail's exact prologue schedule and lifetimes. */

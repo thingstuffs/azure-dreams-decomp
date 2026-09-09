@@ -70,55 +70,51 @@ typedef struct S_800A027C_5 {
     u8 unk_03;
 } S_800A027C_5;   /* arg0 in func_800A027C */
 
-void *func_800A027C(S_800A027C_5 *arg0, S_800A027C_2 *arg1) {
-    u8 temp_a0;
-    S_800A027C_4 *temp_s0;
-    S_800A027C_3 *temp_s1;
-    S_800A027C_1 *temp_s2;
-    void *temp_v0;
-    s32 tail_value;
+/* Creates an object at the supplied position and initializes its graphics and state. */
+void *func_800A027C(S_800A027C_5 *config, S_800A027C_2 *position) {
+    u8 type;
+    S_800A027C_4 *state;
+    S_800A027C_3 *render;
+    S_800A027C_1 *coords;
+    void *object;
+    s32 graphic;
 
-    temp_v0 = func_8003FD64(0x136, &D_80083498);
-    if (temp_v0 == NULL) {
+    object = func_8003FD64(0x136, &D_80083498);
+    if (object == NULL) {
         return NULL;
     }
-    temp_s2 = ((S_800A027C_0 *)temp_v0)->unk_08;
-    temp_s1 = ((S_800A027C_0 *)temp_v0)->unk_0C;
-    temp_s2->unk_02 = (u16) arg1->unk_02;
-    temp_s2->unk_06 = (u16) arg1->unk_06;
-    temp_s0 = temp_v0 + 0x20;
-    temp_s2->unk_0A = (u16) arg1->unk_0A;
-    temp_s1->unk_1E = 0x1000;
-    temp_s1->unk_1C = 0x1000;
-    temp_s1->unk_0C = 0x808080;
-    temp_s0->unk_48 = 0;
-    temp_s0->unk_98 = 0;
-    temp_s0->unk_93 = 0;
-    temp_s0->unk_4C = (u8) arg0->unk_00;
-    temp_s0->unk_4D = (u8) arg0->unk_01;
-    temp_s0->unk_4E = (u8) arg0->unk_02;
-    temp_s0->unk_4F = (u8) arg0->unk_03;
-    func_8008F0D4(temp_s0, temp_s2, &D_800D073C);
-    func_8009B218(temp_s0, temp_s2, temp_s1, &D_800D076C);
-    temp_a0 = temp_s0->unk_4D;
-    if (temp_a0 == 0x12) {
-        temp_s0->unk_0C = &D_800D0754;
-        if (temp_a0 == temp_s0->unk_4D) {
-            tail_value = (s32) &D_8006E240;
-            goto tail;
+    coords = ((S_800A027C_0 *)object)->unk_08;
+    render = ((S_800A027C_0 *)object)->unk_0C;
+    coords->unk_02 = (u16) position->unk_02;
+    coords->unk_06 = (u16) position->unk_06;
+    state = object + 0x20;
+    coords->unk_0A = (u16) position->unk_0A;
+    render->unk_1E = 0x1000;
+    render->unk_1C = 0x1000;
+    render->unk_0C = 0x808080;
+    state->unk_48 = 0;
+    state->unk_98 = 0;
+    state->unk_93 = 0;
+    state->unk_4C = (u8) config->unk_00;
+    state->unk_4D = (u8) config->unk_01;
+    state->unk_4E = (u8) config->unk_02;
+    state->unk_4F = (u8) config->unk_03;
+    func_8008F0D4(state, coords, &D_800D073C);
+    func_8009B218(state, coords, render, &D_800D076C);
+    type = state->unk_4D;
+    if (type == 0x12) {
+        state->unk_0C = &D_800D0754;
+        if (type == state->unk_4D) {
+            graphic = (s32) &D_8006E240;
+            goto set_graphic;
         }
     }
-    tail_value = func_8004A658(temp_s0->unk_4D, temp_s0->unk_4C);
-tail:
-    temp_s1->unk_08 = tail_value;
-    ((S_800A027C_0 *)temp_v0)->unk_10 = &D_8009DEBC;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    func_800A022C(temp_s0, temp_s0, temp_s2, temp_s1);
-    
-    return temp_v0;
-}
+    graphic = func_8004A658(state->unk_4D, state->unk_4C);
+set_graphic:
+    render->unk_08 = graphic;
+    ((S_800A027C_0 *)object)->unk_10 = &D_8009DEBC;
+    ASM_SCHED_BARRIER();
+    func_800A022C(state, state, coords, render);
 
-/* MECHANISM: Explicit call-then-constant returns select the retail LEAD-22/18 tail shapes.
-   Pinning only the +8 base to s2 lets the +0xC base fall naturally to s1 and preserves the load-delay fill.
-   A distinct reload plus ASM_TAILSLOT_PIN retains the CSE compare and sinks D_8006E240's low half into the tail-j.
-   ASM_SCHED_BARRIER after the callback store preserves retail's store-before-final-argument order. */
+    return object;
+}

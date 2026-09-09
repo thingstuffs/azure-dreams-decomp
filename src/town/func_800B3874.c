@@ -46,59 +46,54 @@ typedef struct S_800B0FD4_1 {
     u8 unk_01;
 } S_800B0FD4_1;   /* temp_v0 in func_800B0FD4 */
 
-void func_800B0FD4(void *arg0) {
-    register S_800B0FD4_0 *ctx ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    M2C_UNK sp10[8];
-    s32 sp30;
-    s32 temp_v0_2;
-    s32 temp_v1;
-    s32 var_s0;
-    s32 var_s2;
-    s32 var_s3;
-    s32 var_s4;
-    S_800B0FD4_1 *temp_v0;
+/* Populate up to five shop item rows with item details and buy or sell prices. */
+void func_800B0FD4(void *menu) {
+    register S_800B0FD4_0 *ctx ASM_REG("$17") = menu;
+    M2C_UNK price_text[8];
+    s32 item_info;
+    s32 item_value;
+    s32 page;
+    s32 item_offset;
+    s32 row_offset;
+    s32 item_index;
+    s32 row;
+    S_800B0FD4_1 *item;
 
-    func_800B15B8(arg0);
-    var_s4 = 0;
-    temp_v1 = ctx->unk_10;
-    var_s2 = 0;
-    var_s3 = temp_v1 * 5;
-    var_s0 = temp_v1 * 0x14;
-loop_1:
-    if (var_s3 < ctx->unk_0C) {
-        temp_v0 = var_s0 + ctx->unk_24;
-        *((S_800B0FD4_2 *)((var_s2 + ctx->unk_CC)))->unk_10 = func_8004A658(temp_v0->unk_01, temp_v0->unk_00);
-        *((S_800B0FD4_2 *)((var_s2 + ctx->unk_CC)))->unk_38 = func_8004DC14(func_8004AC3C(ctx->unk_24 + var_s0, &sp30), sp30);
-        if (func_800B0F94(ctx->unk_24 + var_s0) != 0) {
+    func_800B15B8(menu);
+    row = 0;
+    page = ctx->unk_10;
+    row_offset = 0;
+    item_index = page * 5;
+    item_offset = page * 0x14;
+next_item:
+    if (item_index < ctx->unk_0C) {
+        item = item_offset + ctx->unk_24;
+        *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_10 = func_8004A658(item->unk_01, item->unk_00);
+        *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_38 = func_8004DC14(func_8004AC3C(ctx->unk_24 + item_offset, &item_info), item_info);
+        if (func_800B0F94(ctx->unk_24 + item_offset) != 0) {
             if (ctx->unk_18 == 0) {
-                temp_v0_2 = get_item_buy_money(ctx->unk_24 + var_s0);
+                item_value = get_item_buy_money(ctx->unk_24 + item_offset);
             } else {
-                temp_v0_2 = get_item_sell_money(ctx->unk_24 + var_s0);
+                item_value = get_item_sell_money(ctx->unk_24 + item_offset);
             }
-            func_8004E5A0(temp_v0_2, 8, &sp10);
-            func_8004E69C(&sp10);
-            strcat(&sp10, &D_800D1600);
-            *((S_800B0FD4_2 *)((var_s2 + ctx->unk_CC)))->unk_4C = func_8004E928(&sp10, 0);
-            goto block_7;
+            func_8004E5A0(item_value, 8, &price_text);
+            func_8004E69C(&price_text);
+            strcat(&price_text, &D_800D1600);
+            *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_4C = func_8004E928(&price_text, 0);
         }
-block_7:
-        var_s4 += 1;
-        var_s3 += 1;
-        temp_v0_2 = func_800B0F30(ctx->unk_24 + var_s0);
-        var_s0 += 4;
-        *((S_800B0FD4_2 *)((var_s2 + ctx->unk_CC)))->unk_60 = temp_v0_2;
-        var_s2 += 4;
-        if (var_s4 >= 5) {
-            /* Duplicate return node #8. Try simplifying control flow for better match */
+        row += 1;
+        item_index += 1;
+        item_value = func_800B0F30(ctx->unk_24 + item_offset);
+        item_offset += 4;
+        *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_60 = item_value;
+        row_offset += 4;
+        if (row >= 5) {
             func_800B0D7C(ctx);
             func_800B0BD0(ctx);
             return;
         }
-        goto loop_1;
+        goto next_item;
     }
     func_800B0D7C(ctx);
     func_800B0BD0(ctx);
 }
-/* MECHANISM: An eight-word stack buffer plus sp30 produces the retail 0x50 frame.
-   The guarded $s1 context pin leaves the byte offset in $s0; its post-call keep
-   preserves the prologue delay slot. The A638 result feeds the B10D4 tail ABI. */

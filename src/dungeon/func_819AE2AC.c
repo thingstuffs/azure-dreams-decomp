@@ -17,58 +17,51 @@ extern void func_800C9088(void *, s32, Entry *, s32);
 register s32 volatile v0_carrier ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
 
-s32 func_80025AAC(void *arg0, s32 arg1, Entry *arg2)
+/* Processes twelve buffer slots for each entry in a linked state chain. */
+s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
 {
-    void *state = arg0;
-    register s32 value ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    Entry *entry = arg2;
-    u8 *base;
-    s32 i;
-    u8 *ptr;
-    void *call_arg;
+    void *state = initial_state;
+    s32 value = initial_value;
+    Entry *entry = initial_entry;
+    u8 *slot_base;
+    s32 slot_index;
+    u8 *slot;
+    void *entry_or_link;
 
 #ifndef NON_MATCHING
     v0_carrier = (s32)0x80020000;
-    base = (u8 *)v0_carrier + 0x74C0;
+    slot_base = (u8 *)v0_carrier + 0x74C0;
 #else
-    base = D_800274C0;
+    slot_base = D_800274C0;
 #endif
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    i = 0;
+    ASM_KEEP(slot_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    slot_index = 0;
     for (;;) {
-        ptr = base;
-        call_arg = entry;
+        slot = slot_base;
+        entry_or_link = entry;
         do {
-            entry->field_8 = ptr;
-            ptr += 0x10;
-            ASM_KEEP(ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            func_8002590C((Entry *)call_arg, entry->field_4);
-            i++;
+            entry->field_8 = slot;
+            slot += 0x10;
+            func_8002590C((Entry *)entry_or_link, entry->field_4);
+            slot_index++;
             func_800257D0(state, entry->field_0);
             func_800C9088(state, value, entry, entry->field_6);
-            call_arg = entry;
+            entry_or_link = entry;
 #ifndef NON_MATCHING
-        } while ((v0_carrier = (i < 12)) != 0);
+        } while ((v0_carrier = (slot_index < 12)) != 0);
 #else
-        } while (i < 12);
+        } while (slot_index < 12);
 #endif
 
-        call_arg = *(void **)((u8 *)state - 8);
-        if (call_arg == 0) {
+        entry_or_link = *(void **)((u8 *)state - 8);
+        if (entry_or_link == 0) {
             break;
         }
-        state = (u8 *)call_arg + 0x20;
-        value = *(s32 *)((u8 *)call_arg + 8);
-        entry = *(Entry **)((u8 *)call_arg + 0xC);
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        state = (u8 *)entry_or_link + 0x20;
+        value = *(s32 *)((u8 *)entry_or_link + 8);
+        entry = *(Entry **)((u8 *)entry_or_link + 0xC);
         ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        i = 0;
+        slot_index = 0;
     }
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return 0;
 }
-
-/* MECHANISM: A guarded volatile $v0 carrier splits the held $s5 base across lui/save/addiu
-   and is reused for the loop test; the $a0 lifetime plus pointer fence fixes both loop slots.
-   Zero-arg noreturn plus the tied $s2 tail pin emits retail's j/move continuation contract. */

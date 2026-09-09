@@ -25,115 +25,114 @@ extern s32 func_800B2400(void *);
 extern void func_800B25D8(void *);
 extern void func_800B2CE8(void *);
 
-void func_800B260C(u8 *arg0) {
-    u8 *base = D_80083160;
-    s32 input = ((S_800B260C_0 *)base)->unk_08;
-    s32 buttons;
-    s32 action = 0;
-    s32 result;
-    s32 count;
-    s32 input2;
+/* Handles menu button actions and directional cursor movement with key repeat. */
+void func_800B260C(u8 *menu) {
+    u8 *pad_state = D_80083160;
+    s32 held_buttons = ((S_800B260C_0 *)pad_state)->unk_08;
+    s32 pressed_buttons;
+    s32 cursor_step = 0;
+    s32 select_result;
+    s32 repeat_ticks;
+    s32 held_directions;
 
-    if (input == 0) {
+    if (held_buttons == 0) {
         goto finish;
     }
 
-    buttons = ((S_800B260C_0 *)base)->unk_10.s;
-    if (buttons & 0x20) {
+    pressed_buttons = ((S_800B260C_0 *)pad_state)->unk_10.s;
+    if (pressed_buttons & 0x20) {
         SD_Call(0x515);
-        func_800B2CE8(arg0 - 0x20);
+        func_800B2CE8(menu - 0x20);
         goto finish;
     }
-    if (buttons & 0x40) {
-        result = func_800B2400(arg0);
-        if (result == 0) {
+    if (pressed_buttons & 0x40) {
+        select_result = func_800B2400(menu);
+        if (select_result == 0) {
             SD_Call(0x503);
             goto update;
         }
-        if (result != 3) {
+        if (select_result != 3) {
             goto finish;
         }
         SD_Call(0x506);
         goto finish;
     }
-    if (buttons & 0x80) {
+    if (pressed_buttons & 0x80) {
         SD_Call(0x503);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         goto finish;
     }
-    if (buttons & 0x10) {
+    if (pressed_buttons & 0x10) {
         SD_Call(0x503);
-        func_800B25D8(arg0);
+        func_800B25D8(menu);
 update:
-        func_800B2068(arg0);
+        func_800B2068(menu);
         goto finish;
     }
-    if (buttons & 4) {
-        func_800B2394(arg0, 0);
+    if (pressed_buttons & 4) {
+        func_800B2394(menu, 0);
         goto finish;
     }
-    if (buttons & 1) {
-        func_800B2394(arg0, 1);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    if (pressed_buttons & 1) {
+        func_800B2394(menu, 1);
         goto finish;
     }
-    if ((input & 0xF000) == 0) {
+    if ((held_buttons & 0xF000) == 0) {
         goto finish;
     }
 
-    if (buttons & 0xF000) {
-        ((S_800B260C_1 *)arg0)->unk_10.s = 0;
-        buttons = ((S_800B260C_0 *)base)->unk_10.u;
-        if (buttons & 0x8000) {
-            action = -5;
+    if (pressed_buttons & 0xF000) {
+        ((S_800B260C_1 *)menu)->unk_10.s = 0;
+        pressed_buttons = ((S_800B260C_0 *)pad_state)->unk_10.u;
+        if (pressed_buttons & 0x8000) {
+            cursor_step = -5;
             goto apply;
         }
-        if (buttons & 0x2000) {
-            action = 5;
+        if (pressed_buttons & 0x2000) {
+            cursor_step = 5;
             goto apply;
         }
-        if (buttons & 0x1000) {
-            action = -1;
+        if (pressed_buttons & 0x1000) {
+            cursor_step = -1;
             goto apply;
         }
-        if (buttons & 0x4000) {
-            action = 1;
+        if (pressed_buttons & 0x4000) {
+            cursor_step = 1;
             goto apply;
         }
     } else {
-        count = ((S_800B260C_1 *)arg0)->unk_10.s;
-        if (count < 5) {
-            ((S_800B260C_1 *)arg0)->unk_10.s = count + 1;
+        repeat_ticks = ((S_800B260C_1 *)menu)->unk_10.s;
+        if (repeat_ticks < 5) {
+            ((S_800B260C_1 *)menu)->unk_10.s = repeat_ticks + 1;
         } else {
-            if (input & 0x8000) {
-                action = -5;
+            if (held_buttons & 0x8000) {
+                cursor_step = -5;
                 goto decrement;
             }
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            if (input & 0x2000) {
-                action = 5;
+            if (held_buttons & 0x2000) {
+                cursor_step = 5;
                 goto decrement;
             }
-            input2 = ((S_800B260C_0 *)base)->unk_08;
-            if (input2 & 0x1000) {
-                action = -1;
+            held_directions = ((S_800B260C_0 *)pad_state)->unk_08;
+            if (held_directions & 0x1000) {
+                cursor_step = -1;
                 goto decrement;
             }
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            if (input2 & 0x4000) {
-                action = 1;
+            if (held_directions & 0x4000) {
+                cursor_step = 1;
             }
 decrement:
-            ((S_800B260C_1 *)arg0)->unk_10.u--;
+            ((S_800B260C_1 *)menu)->unk_10.u--;
         }
     }
 
 apply:
-    if (action != 0) {
+    if (cursor_step != 0) {
         SD_Call(0x502);
-        func_800B1F80(arg0, action);
+        func_800B1F80(menu, cursor_step);
     }
 
 finish:
-    func_800B1DCC(arg0);
+    func_800B1DCC(menu);
 }

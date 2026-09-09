@@ -31,9 +31,10 @@ extern void *func_8004A784(s32 category, s32 index);
 extern void *func_8004A83C(s32 category, s32 index);
 extern char *strncpy(char *dst, const char *src, u32 count);
 
+/* Sets item data from the supplied pointer or a lookup, copying fallback text when needed. */
 void func_800250B4(ItemResult *result, ItemId *item, void *data)
 {
-    void *new_data;
+    void *item_data;
 
     if (data != 0) {
         result->data = data;
@@ -41,25 +42,20 @@ void func_800250B4(ItemResult *result, ItemId *item, void *data)
     }
 
     if (item->category == 19) {
-        s32 tail_data;
+        s32 data_addr;
 
-        tail_data = func_80049330(item) + 52;
-        new_data = (void *)tail_data;
+        data_addr = func_80049330(item) + 52;
+        item_data = (void *)data_addr;
     } else {
-        new_data = func_8004A784(item->category, item->index);
-        if (new_data == 0) {
+        item_data = func_8004A784(item->category, item->index);
+        if (item_data == 0) {
             result->text = itemCategoryTable[item->category].records[item->index].text;
-            new_data = func_8004A83C(item->category, item->index);
-            result->data = new_data;
-            strncpy(new_data, result->text, 12);
+            item_data = func_8004A83C(item->category, item->index);
+            result->data = item_data;
+            strncpy(item_data, result->text, 12);
             return;
         }
     }
 
-    result->data = new_data;
+    result->data = item_data;
 }
-
-/* MECHANISM: A 32-byte frame naturally holds result/item in s1/s0; splitting the
-   incoming data argument from call-result new_data removes the one-word v0 copy.
-   A one-sided barrier preserves the early store/jump, while noreturn true-space
-   tails plus a guarded v0 tail-slot pin reproduce the three local continuations. */

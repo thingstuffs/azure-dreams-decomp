@@ -45,36 +45,37 @@ typedef struct S_8009C390_4 {
     s16 unk_1E;
 } S_8009C390_4;   /* temp_a2 in func_8009C390 */
 
-void *func_8009C390(s32 arg0, S_8009C390_3 *arg1, s32 arg2, s32 arg3) {
-    S_8009C390_1 *temp_a0;
-    S_8009C390_2 *temp_a1;
-    S_8009C390_4 *temp_a2;
-    void *temp_v0;
+/* Creates a type 0x116 object with an optional parent and position, and initializes its rendering. */
+void *func_8009C390(s32 parent, S_8009C390_3 *position, s32 object_value, s32 state_value) {
+    S_8009C390_1 *state;
+    S_8009C390_2 *object_position;
+    S_8009C390_4 *render;
+    void *object;
 
-    if (arg0 != 0) {
-        temp_v0 = (void *)func_8003FD64(0x116, arg0);
-        temp_a0 = temp_v0 + 0x20;
+    if (parent != 0) {
+        object = (void *)func_8003FD64(0x116, parent);
+        state = object + 0x20;
     } else {
-        temp_v0 = func_8003FC64(0x116);
-        temp_a0 = temp_v0 + 0x20;
+        object = func_8003FC64(0x116);
+        state = object + 0x20;
     }
-    if (temp_v0 == NULL) {
+    if (object == NULL) {
         return NULL;
     }
-    temp_a1 = ((S_8009C390_0 *)temp_v0)->unk_08;
-    temp_a2 = ((S_8009C390_0 *)temp_v0)->unk_0C;
-    ((S_8009C390_0 *)temp_v0)->unk_10 = arg2;
-    temp_a0->unk_50 = arg3;
-    if (arg0 != 0) {
-        temp_a0->unk_9C = (s32)(arg0 + 0x20);
+    object_position = ((S_8009C390_0 *)object)->unk_08;
+    render = ((S_8009C390_0 *)object)->unk_0C;
+    ((S_8009C390_0 *)object)->unk_10 = object_value;
+    state->unk_50 = state_value;
+    if (parent != 0) {
+        state->unk_9C = (s32)(parent + 0x20);
     }
-    if (arg1 != NULL) {
-        temp_a1->unk_00 = arg1->unk_00;
-        temp_a1->unk_04 = arg1->unk_04;
-        temp_a1->unk_08 = arg1->unk_08;
+    if (position != NULL) {
+        object_position->unk_00 = position->unk_00;
+        object_position->unk_04 = position->unk_04;
+        object_position->unk_08 = position->unk_08;
     }
-    temp_a2->unk_1E = 0x1000;
-    temp_a2->unk_1C = 0x1000;
-    temp_a2->unk_0C = 0x808080;
-    return temp_v0;
+    render->unk_1E = 0x1000;
+    render->unk_1C = 0x1000;
+    render->unk_0C = 0x808080;
+    return object;
 }

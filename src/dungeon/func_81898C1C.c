@@ -55,44 +55,41 @@ typedef struct S_8002441C_3 {
     s32 unk_14;
 } S_8002441C_3;   /* arg1 in func_8002441C */
 
-void *func_8002441C(s32 arg0, S_8002441C_3 *arg1) {
-    S_8002441C_1 *temp_s0;
-    S_8002441C_0 *temp_v0;
-    S_8002441C_2 *temp_v1;
-    register void *tail_v0 ASM_REG("$2"); /* MATCH: Keep both return values in v0 for the shared epilogue. */
+/* Creates an object with initialized display settings and a copy of the supplied state. */
+void *func_8002441C(s32 object_id, S_8002441C_3 *initial_state) {
+    S_8002441C_1 *display;
+    S_8002441C_0 *object;
+    S_8002441C_2 *state;
+    register void *result ASM_REG("$2");
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 == 0) {
-        tail_v0 = 0;
+    object = func_8003FC64(0x212);
+    if (object == 0) {
+        result = 0;
     } else {
-        temp_v0->unk_10 = &D_80024370;
-        temp_s0 = temp_v0->unk_0C;
-        temp_v0->unk_20 = arg0;
-        temp_v0->unk_24 = 0;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        temp_s0->unk_0E = 0xC0;
-        func_8003DB94(temp_s0, &D_80024E40, 0);
-        temp_s0->unk_1C = 0x2000;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_12 = 0x7DCF;
-        temp_s0->unk_14 = (u16)(temp_s0->unk_14 | 0xC);
-        temp_s0->unk_10 = (u16)(temp_s0->unk_10 | 0x20);
-        temp_s0->unk_14 = (u16)(temp_s0->unk_14 | 0x100);
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1 = temp_v0->unk_08;
-        temp_v1->unk_00 = arg1->unk_00;
-        temp_v1->unk_04 = arg1->unk_04;
-        temp_v1->unk_08 = arg1->unk_08;
-        temp_v1->unk_0C = arg1->unk_0C;
-        temp_v1->unk_10 = arg1->unk_10;
-        temp_v1->unk_14 = arg1->unk_14;
-        tail_v0 = temp_v0;
+        object->unk_10 = &D_80024370;
+        display = object->unk_0C;
+        object->unk_20 = object_id;
+        object->unk_24 = 0;
+        display->unk_0E = 0x80;
+        display->unk_0D = 0x80;
+        display->unk_0C = 0x80;
+        display->unk_0E = 0xC0;
+        func_8003DB94(display, &D_80024E40, 0);
+        display->unk_1C = 0x2000;
+        display->unk_1E = 0x1000;
+        display->unk_12 = 0x7DCF;
+        display->unk_14 = (u16)(display->unk_14 | 0xC);
+        display->unk_10 = (u16)(display->unk_10 | 0x20);
+        display->unk_14 = (u16)(display->unk_14 | 0x100);
+        func_8004491C(object, &D_80045340);
+        state = object->unk_08;
+        state->unk_00 = initial_state->unk_00;
+        state->unk_04 = initial_state->unk_04;
+        state->unk_08 = initial_state->unk_08;
+        state->unk_0C = initial_state->unk_0C;
+        state->unk_10 = initial_state->unk_10;
+        state->unk_14 = initial_state->unk_14;
+        result = object;
     }
-    return tail_v0;
+    return result;
 }
-
-/* MECHANISM: Unsigned byte fields preserve retail's positive 0x80/0xC0 immediates.
-   A scoped $v0 zero plus ASM_TAILSLOT_PIN triggers LEAD 28b, sinking the
-   live-for-compiler/dead-for-callee value into the noreturn tail-j delay slot. */

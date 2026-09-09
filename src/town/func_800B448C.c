@@ -30,34 +30,35 @@ extern void func_800B1890(void);
 extern u8 D_8004CAA0[];
 extern u32 D_800814A0;
 
-void *func_800B1BEC(s32 arg0, s32 arg1, s32 arg2)
+/* Create an object with two buffers and initialize its state and position. */
+void *func_800B1BEC(s32 setup_value, s32 x, s32 y)
 {
     void *object;
     S_800B1BEC_0 *part;
-    void *second;
-    u16 flags;
+    void *second_buffer;
+    u16 object_flags;
     u32 global_flags;
 
     object = func_8003FC64(0);
     if (object != 0) {
         part = (u8 *)object + 0x20;
         part->unk_08 = func_8004B404(0xCC);
-        second = func_8004B404(0xCC);
-        part->unk_0C = second;
+        second_buffer = func_8004B404(0xCC);
+        part->unk_0C = second_buffer;
 
-        if (part->unk_08 != 0 && second != 0) {
+        if (part->unk_08 != 0 && second_buffer != 0) {
             ((S_800B1BEC_1 *)object)->unk_0C = (u8 *)object + 0x58;
             func_800B1B70(part);
             part->unk_44 = func_800B1938((u8 *)object + 0x68);
-            func_800B1B10(part, arg0, arg1, arg2);
+            func_800B1B10(part, setup_value, x, y);
             func_8004491C(object, D_8004CAA0);
             ((S_800B1BEC_1 *)object)->unk_10 = func_800B1890;
         } else {
             func_8004B1A4(part->unk_08);
             func_8004B1A4(part->unk_0C);
-            flags = ((S_800B1BEC_1 *)object)->unk_1E | 0x8000;
+            object_flags = ((S_800B1BEC_1 *)object)->unk_1E | 0x8000;
             global_flags = D_800814A0 | 0x8000;
-            ((S_800B1BEC_1 *)object)->unk_1E = flags;
+            ((S_800B1BEC_1 *)object)->unk_1E = object_flags;
             D_800814A0 = global_flags;
         }
     }

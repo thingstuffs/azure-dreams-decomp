@@ -23,66 +23,67 @@ typedef struct S_800B253C_2 {
     s32 unk_10;
 } S_800B253C_2;   /* state in func_800B253C */
 
-void func_800B253C(Rec_func_800A9E70_arg0 *arg0, s32 arg1, s32 arg2, Rec_D_800E3D7C *arg3) {
-    u8 *state;
-    void *held;
-    s32 flags14;
-    s32 nextState;
+/* Updates actor state from pending entity flags when entity processing is allowed. */
+void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_arg2, Rec_D_800E3D7C *entity) {
+    u8 *shared_state;
+    void *active_entity;
+    s32 entity_flags;
+    s32 next_state;
 
-    if ((arg3->unk_1C.as_s32 & 0x2000) || (arg3->unk_14.as_s32 & 0x4000)) {
-        if ((u32)(arg0->unk_9A.as_u8 - 0x13) >= 2U) {
-            if (arg3->unk_6D.as_s8 == 0) {
+    if ((entity->unk_1C.as_s32 & 0x2000) || (entity->unk_14.as_s32 & 0x4000)) {
+        if ((u32)(actor->unk_9A.as_u8 - 0x13) >= 2U) {
+            if (entity->unk_6D.as_s8 == 0) {
                 if (D_800DCE68 == 0) {
-                    if ((func_800A2BDC(arg3) << 0x10) != 0) {
+                    if ((func_800A2BDC(entity) << 0x10) != 0) {
                         return;
                     }
-                    goto block_16;
+                    goto update_state;
                 }
-                state = D_80083460;
-                held = ((S_800B253C_2 *)state)->unk_0C;
-                if (held != arg3) {
-                    if ((((S_800B253C_2 *)state)->unk_10 == 0) && (held == 0) &&
-                        (((S_800B253C_2 *)state)->unk_08 == 0) &&
-                        !(((S_800B253C_2 *)state)->unk_02 & 0x2008) &&
-                        (arg3->unk_43 == 0xFD)) {
-                        ((S_800B253C_2 *)state)->unk_0C = arg3;
-                        goto block_15;
+                shared_state = D_80083460;
+                active_entity = ((S_800B253C_2 *)shared_state)->unk_0C;
+                if (active_entity != entity) {
+                    if ((((S_800B253C_2 *)shared_state)->unk_10 == 0) && (active_entity == 0) &&
+                        (((S_800B253C_2 *)shared_state)->unk_08 == 0) &&
+                        !(((S_800B253C_2 *)shared_state)->unk_02 & 0x2008) &&
+                        (entity->unk_43 == 0xFD)) {
+                        ((S_800B253C_2 *)shared_state)->unk_0C = entity;
+                        goto check_entity;
                     }
                 } else {
-                block_15:
-                    if (arg3->unk_43 == 0xFD) {
-                    block_16:
-                        if (arg3->unk_1C.as_s32 & 0x400000) {
-                            arg0->unk_8C = 0;
-                            flags14 = arg3->unk_14.as_s32;
-                            arg3->unk_1C.as_s32 &= 0xFFBFFFFF;
-                            if (flags14 & 0x20000000) {
-                                arg3->unk_14.as_s32 = flags14 | 0x400000;
-                                arg0->unk_AD = 0;
-                                func_800ACB98(arg0, arg1, arg2, arg3);
+                check_entity:
+                    if (entity->unk_43 == 0xFD) {
+                    update_state:
+                        if (entity->unk_1C.as_s32 & 0x400000) {
+                            actor->unk_8C = 0;
+                            entity_flags = entity->unk_14.as_s32;
+                            entity->unk_1C.as_s32 &= 0xFFBFFFFF;
+                            if (entity_flags & 0x20000000) {
+                                entity->unk_14.as_s32 = entity_flags | 0x400000;
+                                actor->unk_AD = 0;
+                                func_800ACB98(actor, update_arg1, update_arg2, entity);
                                 return;
                             }
-                            arg3->unk_14.as_s32 = flags14 & 0xFFBFFFFF;
-                            nextState = flags14 & 0x4000;
-                            if (!nextState) {
-                                nextState = 2;
+                            entity->unk_14.as_s32 = entity_flags & 0xFFBFFFFF;
+                            next_state = entity_flags & 0x4000;
+                            if (!next_state) {
+                                next_state = 2;
                             } else {
-                                nextState = 1;
+                                next_state = 1;
                             }
-                            arg0->unk_9A.as_u8 = nextState;
-                            goto block_17;
+                            actor->unk_9A.as_u8 = next_state;
+                            goto reset_phase;
                         }
-                        if (arg3->unk_1C.as_s32 & 0x02000000) {
-                            arg0->unk_8C = 0;
-                            arg3->unk_71.as_u8 = 0;
-                            arg3->unk_1C.as_s32 &= 0xFDFFFFFF;
-                            if (arg3->unk_14.as_s32 & 0x20000000) {
-                                func_800ACD74(arg0, arg1, arg2, arg3);
+                        if (entity->unk_1C.as_s32 & 0x02000000) {
+                            actor->unk_8C = 0;
+                            entity->unk_71.as_u8 = 0;
+                            entity->unk_1C.as_s32 &= 0xFDFFFFFF;
+                            if (entity->unk_14.as_s32 & 0x20000000) {
+                                func_800ACD74(actor, update_arg1, update_arg2, entity);
                                 return;
                             }
-                            arg0->unk_9A.as_u8 = 0;
-                        block_17:
-                            arg0->unk_9B.as_u8 = 0;
+                            actor->unk_9A.as_u8 = 0;
+                        reset_phase:
+                            actor->unk_9B.as_u8 = 0;
                         }
                     }
                 }

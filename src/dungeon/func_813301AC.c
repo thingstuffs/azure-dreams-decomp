@@ -24,58 +24,57 @@ typedef struct S_801671AC_1 {
 
 extern M2C_UNK D_800814A0;
 
-void func_801671AC(void *arg0, void *arg1, void *arg2) {
-    void *obj;
-    s16 temp_v1;
-    s16 temp_v1_2;
-    s32 var_a1;
-    s32 var_t0;
-    s32 var_t1;
-    u16 count;
+/* Pulse the color through three phases and mark the effect finished when its timer expires. */
+void func_801671AC(void *state_data, void *unused, void *color) {
+    void *state;
+    s16 phase;
+    s16 remaining;
+    s32 red;
+    s32 green;
+    s32 blue;
+    u16 ticks_left;
     u16 flags;
-    u16 temp_v0;
+    u16 next_phase;
 
-    flags = ((S_801671AC_0 *)arg2)->unk_14;
+    flags = ((S_801671AC_0 *)color)->unk_14;
     ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    obj = arg0;
-    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((S_801671AC_0 *)arg2)->unk_14 = (u16) (flags & 0xFF7F);
-    count = ((S_801671AC_1 *)obj)->unk_18;
-    temp_v0 = ((S_801671AC_1 *)obj)->unk_1C;
-    count--;
+    state = state_data;
+    ((S_801671AC_0 *)color)->unk_14 = (u16) (flags & 0xFF7F);
+    ticks_left = ((S_801671AC_1 *)state)->unk_18;
+    next_phase = ((S_801671AC_1 *)state)->unk_1C;
+    ticks_left--;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_v0++;
-    ((S_801671AC_1 *)obj)->unk_1C = temp_v0;
-    ((S_801671AC_1 *)obj)->unk_18 = count;
-    if ((s16) temp_v0 == 3) {
-        ((S_801671AC_1 *)obj)->unk_1C = 0U;
+    next_phase++;
+    ((S_801671AC_1 *)state)->unk_1C = next_phase;
+    ((S_801671AC_1 *)state)->unk_18 = ticks_left;
+    if ((s16) next_phase == 3) {
+        ((S_801671AC_1 *)state)->unk_1C = 0U;
     }
-    var_t1 = 0x30;
-    var_t0 = var_t1;
-    temp_v1 = (s16) ((S_801671AC_1 *)obj)->unk_1C;
-    var_a1 = 0x30;
-    if (temp_v1 == 0) {
-        var_a1 = 0x54;
+    blue = 0x30;
+    green = blue;
+    phase = (s16) ((S_801671AC_1 *)state)->unk_1C;
+    red = 0x30;
+    if (phase == 0) {
+        red = 0x54;
     }
-    if (temp_v1 == 1) {
-        var_t0 = 0x54;
+    if (phase == 1) {
+        green = 0x54;
     }
-    if (temp_v1 == 2) {
-        var_t1 = 0x54;
+    if (phase == 2) {
+        blue = 0x54;
     }
-    temp_v1_2 = (s16) ((S_801671AC_1 *)obj)->unk_18;
-    if (temp_v1_2 < 0x14) {
-        ((S_801671AC_0 *)arg2)->unk_0C = (s8) ((var_a1 * temp_v1_2) / 20);
-        ((S_801671AC_0 *)arg2)->unk_0D = (s8) ((var_t0 * (s16) ((S_801671AC_1 *)obj)->unk_18) / 20);
-        ((S_801671AC_0 *)arg2)->unk_0E = (s8) ((var_t1 * (s16) ((S_801671AC_1 *)obj)->unk_18) / 20);
+    remaining = (s16) ((S_801671AC_1 *)state)->unk_18;
+    if (remaining < 0x14) {
+        ((S_801671AC_0 *)color)->unk_0C = (s8) ((red * remaining) / 20);
+        ((S_801671AC_0 *)color)->unk_0D = (s8) ((green * (s16) ((S_801671AC_1 *)state)->unk_18) / 20);
+        ((S_801671AC_0 *)color)->unk_0E = (s8) ((blue * (s16) ((S_801671AC_1 *)state)->unk_18) / 20);
     } else {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_801671AC_0 *)arg2)->unk_0C = (s8) ((var_a1 * (0x1E - temp_v1_2)) / 10);
-        ((S_801671AC_0 *)arg2)->unk_0D = (s8) ((var_t0 * (0x1E - (s16) ((S_801671AC_1 *)obj)->unk_18)) / 10);
-        ((S_801671AC_0 *)arg2)->unk_0E = (s8) ((var_t1 * (0x1E - (s16) ((S_801671AC_1 *)obj)->unk_18)) / 10);
+        ((S_801671AC_0 *)color)->unk_0C = (s8) ((red * (0x1E - remaining)) / 10);
+        ((S_801671AC_0 *)color)->unk_0D = (s8) ((green * (0x1E - (s16) ((S_801671AC_1 *)state)->unk_18)) / 10);
+        ((S_801671AC_0 *)color)->unk_0E = (s8) ((blue * (0x1E - (s16) ((S_801671AC_1 *)state)->unk_18)) / 10);
     }
-    if ((s16) ((S_801671AC_1 *)obj)->unk_18 <= 0) {
-        (*(u16 *)((u8 *)obj + -2)) = (u16) (((S_801671AC_1_pre *)obj)[-1].unk_00 | 0x8000);
+    if ((s16) ((S_801671AC_1 *)state)->unk_18 <= 0) {
+        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_801671AC_1_pre *)state)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 }

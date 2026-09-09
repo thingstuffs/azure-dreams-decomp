@@ -12,59 +12,61 @@ extern M2C_UNK D_80028538_write[] __asm__("D_80028538");
 extern M2C_UNK D_800287D0[];
 extern M2C_UNK D_80084118[];
 
+/* Track consecutive state samples for a slot and apply state updates. */
 s32 func_8002168C(void) {
-    static void *const jt_keep[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&kill_lbl };
-    s32 temp_a0;
-    s32 temp_s0;
-    s32 temp_v1;
-    s32 keep5;
-    s32 *dead_base;
+    static void *const state_labels[] = { &&state_1, &&state_2, &&state_3, &&state_4, &&state_5, &&store_state };
+    s32 slot;
+    s32 state;
+    s32 count_offset;
+    s32 slot_offset;
+    s32 *repeat_counts;
 
-    temp_s0 = func_80021594();
-    temp_a0 = func_8002190C();
-    if (temp_s0 == 0) {
-        goto block_13;
+    state = func_80021594();
+    slot = func_8002190C();
+    if (state == 0) {
+        goto done;
     }
-    if (*(s32 *)((s8 *)&D_80028538_read + temp_a0 * 4) != temp_s0) {
-        goto block_4;
+    if (*(s32 *)((s8 *)&D_80028538_read + slot * 4) != state) {
+        goto reset_count;
     }
-    *(s32 *)((s8 *)&D_80028530 + temp_a0 * 4) += 1;
-    keep5 = temp_a0 * 4;
-    goto kill_lbl;
-block_4:
-    *(s32 *)((s8 *)&D_80028530 + temp_a0 * 4) = 0;
-    keep5 = temp_a0 * 4;
-kill_lbl:
-    *(s32 *)((s8 *)&D_80028538_write + temp_a0 * 4) = temp_s0;
-    if ((u32) (temp_s0 - 1) >= 5U) {
-        goto block_12;
+    *(s32 *)((s8 *)&D_80028530 + slot * 4) += 1;
+    slot_offset = slot * 4;
+    goto store_state;
+reset_count:
+    *(s32 *)((s8 *)&D_80028530 + slot * 4) = 0;
+    slot_offset = slot * 4;
+store_state:
+    *(s32 *)((s8 *)&D_80028538_write + slot * 4) = state;
+    if ((u32) (state - 1) >= 5U) {
+        goto update_slot;
     }
-    (void)jt_keep; goto *D_80020060[(u32)((temp_s0) - 1)];
-jt_c1:
-jt_c2:
-    D_800287D0[temp_a0] = temp_s0;
-    goto block_12;
-jt_c3:
-    dead_base = D_80028530;
-    temp_v1 = temp_a0 * 4;
+    (void)state_labels;
+    goto *D_80020060[(u32)(state - 1)];
+state_1:
+state_2:
+    D_800287D0[slot] = state;
+    goto update_slot;
+state_3:
+    repeat_counts = D_80028530;
+    count_offset = slot * 4;
     goto check_count;
-jt_c4:
-jt_c5:
-    D_80084118[temp_a0] = 0;
-    temp_v1 = temp_a0 * 4;
-    dead_base = D_80028530;
+state_4:
+state_5:
+    D_80084118[slot] = 0;
+    count_offset = slot * 4;
+    repeat_counts = D_80028530;
 check_count:
-    if (*(s32 *)(temp_v1 + (s32)dead_base) < 0xB) {
-        func_80020924(temp_a0, (s32 *)(temp_v1 + (s32)dead_base));
-        goto block_13;
+    if (*(s32 *)(count_offset + (s32)repeat_counts) < 0xB) {
+        func_80020924(slot, (s32 *)(count_offset + (s32)repeat_counts));
+        goto done;
     }
-    *(s32 *)((s8 *)&D_800287D0 + temp_v1) = temp_s0;
-    *(s32 *)(temp_v1 + (s32)dead_base) = 0;
-    *(s32 *)((s8 *)&D_80028538 + temp_v1) = 0;
-    func_80020924(temp_a0, (s32 *)(temp_v1 + (s32)dead_base));
-    goto block_13;
-block_12:
-    func_80020924(temp_a0, (s32 *)keep5);
-block_13:
-    return temp_s0;
+    *(s32 *)((s8 *)&D_800287D0 + count_offset) = state;
+    *(s32 *)(count_offset + (s32)repeat_counts) = 0;
+    *(s32 *)((s8 *)&D_80028538 + count_offset) = 0;
+    func_80020924(slot, (s32 *)(count_offset + (s32)repeat_counts));
+    goto done;
+update_slot:
+    func_80020924(slot, (s32 *)slot_offset);
+done:
+    return state;
 }

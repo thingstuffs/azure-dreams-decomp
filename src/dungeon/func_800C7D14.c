@@ -38,69 +38,70 @@ extern s32 func_800CD6AC();
 extern s32 D_800814A0;
 extern s32 D_80083460;
 
-void func_800CD474(void *arg0, S_800CD474_1 *arg1, S_800CD474_2 *arg2) {
+/* Advance a falling effect through impact, flashing, and fade-out. */
+void func_800CD474(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {
     s16 state;
     s32 color;
-    u16 timer;
-    u16 timer2;
-    u16 timer3;
-    u16 value;
-    s32 *global_base;
+    u16 sound_timer;
+    u16 hold_timer;
+    u16 fade_timer;
+    u16 target_y;
+    s32 *effect_counts;
 
-    state = ((S_800CD474_0 *)arg0)->unk_04;
+    state = ((S_800CD474_0 *)effect)->unk_04;
     if (state == 0) {
-        arg1->unk_14 += 0x20000;
-        timer = ((S_800CD474_0 *)arg0)->unk_06 - 1;
-        ((S_800CD474_0 *)arg0)->unk_06 = timer;
-        if ((timer << 16) == 0) {
+        motion->unk_14 += 0x20000;
+        sound_timer = ((S_800CD474_0 *)effect)->unk_06 - 1;
+        ((S_800CD474_0 *)effect)->unk_06 = sound_timer;
+        if ((sound_timer << 16) == 0) {
             func_800A56E0(0x701);
         }
-        if ((arg1->unk_08.at02.v + 0x10) >= ((S_800CD474_0 *)arg0)->unk_0A.s) {
+        if ((motion->unk_08.at02.v + 0x10) >= ((S_800CD474_0 *)effect)->unk_0A.s) {
             func_800419EC(8, 8);
-            value = ((S_800CD474_0 *)arg0)->unk_0A.u;
-            arg1->unk_14 = 0;
-            arg1->unk_08.at02.v = value;
-            ((S_800CD474_0 *)arg0)->unk_06 = 8;
-            ((S_800CD474_0 *)arg0)->unk_04 = (u16)((S_800CD474_0 *)arg0)->unk_04 + 1;
+            target_y = ((S_800CD474_0 *)effect)->unk_0A.u;
+            motion->unk_14 = 0;
+            motion->unk_08.at02.v = target_y;
+            ((S_800CD474_0 *)effect)->unk_06 = 8;
+            ((S_800CD474_0 *)effect)->unk_04 = (u16)((S_800CD474_0 *)effect)->unk_04 + 1;
             func_800A56E0(0x612);
         }
         color = 0x404040;
-        if (((S_800CD474_0 *)arg0)->unk_0C & 1) {
+        if (((S_800CD474_0 *)effect)->unk_0C & 1) {
             color = 0x808080;
         }
-        arg2->unk_0C.at00.v = color;
+        primitive->unk_0C.at00.v = color;
     } else if (state == 1) {
         color = 0x404040;
-        if (((S_800CD474_0 *)arg0)->unk_0C & 1) {
+        if (((S_800CD474_0 *)effect)->unk_0C & 1) {
             color = 0x808080;
         }
-        arg2->unk_0C.at00.v = color;
-        timer2 = ((S_800CD474_0 *)arg0)->unk_06 - 1;
-        ((S_800CD474_0 *)arg0)->unk_06 = timer2;
-        if ((timer2 << 16) <= 0) {
-            ((S_800CD474_0 *)arg0)->unk_06 = 0x10;
-            arg2->unk_0C.at00.v = 0x808080;
-            ((S_800CD474_0 *)arg0)->unk_04 = (u16)((S_800CD474_0 *)arg0)->unk_04 + 1;
-            if (((S_800CD474_0 *)arg0)->unk_08 == 0) {
-                func_800CD6AC(((S_800CD474_0 *)arg0)->unk_00, 0x10);
+        primitive->unk_0C.at00.v = color;
+        hold_timer = ((S_800CD474_0 *)effect)->unk_06 - 1;
+        ((S_800CD474_0 *)effect)->unk_06 = hold_timer;
+        if ((hold_timer << 16) <= 0) {
+            ((S_800CD474_0 *)effect)->unk_06 = 0x10;
+            primitive->unk_0C.at00.v = 0x808080;
+            ((S_800CD474_0 *)effect)->unk_04 = (u16)((S_800CD474_0 *)effect)->unk_04 + 1;
+            if (((S_800CD474_0 *)effect)->unk_08 == 0) {
+                func_800CD6AC(((S_800CD474_0 *)effect)->unk_00, 0x10);
             }
         }
     } else {
-        arg2->unk_0C.at00u.v = arg2->unk_0C.at00u.v -
-                               (arg2->unk_0C.at00u.v / (s16)((S_800CD474_0 *)arg0)->unk_06);
-        arg2->unk_0C.at01.v = arg2->unk_0C.at01.v -
-                               (arg2->unk_0C.at01.v / (s16)((S_800CD474_0 *)arg0)->unk_06);
-        arg2->unk_0C.at02.v = arg2->unk_0C.at02.v -
-                               (arg2->unk_0C.at02.v / (s16)((S_800CD474_0 *)arg0)->unk_06);
-        timer3 = ((S_800CD474_0 *)arg0)->unk_06 - 1;
-        ((S_800CD474_0 *)arg0)->unk_06 = timer3;
-        if ((timer3 << 16) <= 0) {
-            ((S_800CD474_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        primitive->unk_0C.at00u.v = primitive->unk_0C.at00u.v -
+                               (primitive->unk_0C.at00u.v / (s16)((S_800CD474_0 *)effect)->unk_06);
+        primitive->unk_0C.at01.v = primitive->unk_0C.at01.v -
+                               (primitive->unk_0C.at01.v / (s16)((S_800CD474_0 *)effect)->unk_06);
+        primitive->unk_0C.at02.v = primitive->unk_0C.at02.v -
+                               (primitive->unk_0C.at02.v / (s16)((S_800CD474_0 *)effect)->unk_06);
+        fade_timer = ((S_800CD474_0 *)effect)->unk_06 - 1;
+        ((S_800CD474_0 *)effect)->unk_06 = fade_timer;
+        if ((fade_timer << 16) <= 0) {
+            ((S_800CD474_0_pre *)effect)[-1].unk_00 |= 0x8000;
             D_800814A0 |= 0x8000;
-            global_base = &D_80083460;
-            ((S_800CD474_3 *)global_base)->unk_0A -= 1;
+            effect_counts = &D_80083460;
+            ((S_800CD474_3 *)effect_counts)->unk_0A -= 1;
         }
     }
-    arg1->unk_08.at00.v += arg1->unk_14;
-    ((S_800CD474_0 *)arg0)->unk_0C += 1;
+    motion->unk_08.at00.v += motion->unk_14;
+    ((S_800CD474_0 *)effect)->unk_0C += 1;
 }

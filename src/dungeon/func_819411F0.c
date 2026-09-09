@@ -51,55 +51,51 @@ typedef struct S_800249F0_5 {
     s16 unk_1E;
 } S_800249F0_5;   /* temp_a3_2 in func_800249F0 */
 
-void *func_800249F0(void *arg0, s32 arg1, s32 arg2, void *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
-    u16 temp_v0_2;
-    u16 temp_v1_2;
-    register s32 arg4_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    S_800249F0_3 *temp_a0;
-    register void *temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *temp_a3_2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    S_800249F0_0 *temp_s0;
-    void *temp_v0;
-    S_800249F0_4 *temp_v1;
-    register void *dispatch_result ASM_REG("$2"); /* MATCH: Both arms merge the return value in v0 before the shared epilogue. */
+/* Create an object with copied position and packed data, and initialize its rendering state. */
+void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode) {
+    u16 flags;
+    u16 flags_copy;
+    register s32 render_param_copy ASM_REG("$2");
+    S_800249F0_3 *position;
+    register void *render_state ASM_REG("$7");
+    register void *render_data ASM_REG("$7");
+    S_800249F0_0 *state;
+    void *object;
+    S_800249F0_4 *source_position;
+    register void *result ASM_REG("$2");
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 == NULL) {
-        dispatch_result = NULL;
+    object = func_8003FC64(0x212);
+    if (object == NULL) {
+        result = NULL;
     } else {
-        temp_s0 = temp_v0 + 0x20;
-        temp_s0->unk_2A = 0x3C;
-        (*(M2C_UNK **)((u8 *)temp_v0 + 0x10)) = &D_800249A0;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a3 = (*(void **)((u8 *)temp_v0 + 0xC));
-        temp_v0_2 = ((S_800249F0_1 *)temp_a3)->unk_14 | 0xC;
-        ((S_800249F0_1 *)temp_a3)->unk_14 = temp_v0_2;
-        ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_v1_2 = temp_v0_2;
-        ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        arg4_copy = arg4;
-        ((S_800249F0_1 *)temp_a3)->unk_14 = (u16) (temp_v1_2 | 0x80);
-        ASM_KEEP(arg4_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ((S_800249F0_1 *)temp_a3)->unk_10 = (s16) (arg4_copy << 5);
-        temp_v1 = ((S_800249F0_2_pre *)arg0)[-1].unk_00;
-        temp_a0 = (*(void **)((u8 *)temp_v0 + 8));
-        temp_a0->unk_00 = (s32) temp_v1->unk_00;
-        temp_a0->unk_04 = (s32) temp_v1->unk_04;
-        temp_a0->unk_08 = (s32) temp_v1->unk_08;
-        temp_a3_2 = (*(void **)((u8 *)temp_v0 + 0xC));
-        ((S_800249F0_5 *)temp_a3_2)->unk_1C = (s16) arg5;
-        ((S_800249F0_5 *)temp_a3_2)->unk_1E = (s16) arg6;
-        ((S_800249F0_5 *)temp_a3_2)->unk_0E = 0x80;
-        ((S_800249F0_5 *)temp_a3_2)->unk_0D = 0x80;
-        ((S_800249F0_5 *)temp_a3_2)->unk_0C = (s8) arg7;
-        (*(Packed12 *)((u8 *)temp_v0 + 0x92)) = *(Packed12 *)arg3;
-        ((S_800249F0_5 *)temp_a3_2)->unk_08 = (void *) (temp_v0 + 0x92);
-        dispatch_result = temp_s0;
+        state = object + 0x20;
+        state->unk_2A = 0x3C;
+        (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_800249A0;
+        func_8004491C(object, &D_80045340);
+        render_state = (*(void **)((u8 *)object + 0xC));
+        flags = ((S_800249F0_1 *)render_state)->unk_14 | 0xC;
+        ((S_800249F0_1 *)render_state)->unk_14 = flags;
+        ASM_CLOBBER("$3");
+        flags_copy = flags;
+        ASM_KEEP(flags_copy);
+        render_param_copy = render_param;
+        ((S_800249F0_1 *)render_state)->unk_14 = (u16) (flags_copy | 0x80);
+        ASM_KEEP(render_param_copy);
+        ((S_800249F0_1 *)render_state)->unk_10 = (s16) (render_param_copy << 5);
+        source_position = ((S_800249F0_2_pre *)source)[-1].unk_00;
+        position = (*(void **)((u8 *)object + 8));
+        position->unk_00 = (s32) source_position->unk_00;
+        position->unk_04 = (s32) source_position->unk_04;
+        position->unk_08 = (s32) source_position->unk_08;
+        render_data = (*(void **)((u8 *)object + 0xC));
+        ((S_800249F0_5 *)render_data)->unk_1C = (s16) render_x;
+        ((S_800249F0_5 *)render_data)->unk_1E = (s16) render_y;
+        ((S_800249F0_5 *)render_data)->unk_0E = 0x80;
+        ((S_800249F0_5 *)render_data)->unk_0D = 0x80;
+        ((S_800249F0_5 *)render_data)->unk_0C = (s8) render_mode;
+        (*(Packed12 *)((u8 *)object + 0x92)) = *(Packed12 *)packed_data;
+        ((S_800249F0_5 *)render_data)->unk_08 = (void *) (object + 0x92);
+        result = state;
     }
-    return dispatch_result;
+    return result;
 }
-
-/* MECHANISM: The 0x28 frame follows from held s2/s3 arguments plus s1 object and s0 return.
-   Local a0/v0 dispatcher carriers and the tail-slot pin reproduce the noreturn j path.
-   A fenced split RMW preserves both flag stores and the retail v0/v1 argument lifetimes.
-   Disjoint a3 pointer roles free a0/a1 for the packed copy; u8 fields retain li 0x80. */

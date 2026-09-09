@@ -35,31 +35,32 @@ extern u8 D_80174688[];
 extern u8 D_80174ACC[];
 extern u8 D_80174B14[];
 
-void func_80174260(void *arg0, void *arg1, void *arg2, void *arg3) {
-    void *p0 = arg0;
-    void *p1 = arg1;
-    void *p2 = arg2;
-    void *p3 = arg3;
-    u16 position[3];
-    Record10 first = D_80170868;
-    Record10 second = D_80170874;
-    s32 one = 1;
+/* Updates a timed effect sequence and restores the actor animation when it finishes. */
+void func_80174260(void *state_input, void *motion_input, void *animation_input, void *actor_input) {
+    void *state_data = state_input;
+    void *motion = motion_input;
+    void *animation = animation_input;
+    void *actor = actor_input;
+    u16 spawn_offset[3];
+    Record10 effect_values_1c = D_80170868;
+    Record10 effect_values_1e = D_80170874;
+    s32 active_state = 1;
     s32 state;
-    u16 flags;
+    u16 animation_flags;
     s16 timer;
-    void *object;
-    void *base;
-    s32 effect;
+    void *effect_object;
+    void *spawned_data;
+    s32 effect_data;
     s32 next_state;
 
-    ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    U16_AT(p0, 0xA0)--;
-    state = U8_AT(p0, 0x9B);
+    ASM_KEEP(state_data);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(animation);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    U16_AT(state_data, 0xA0)--;
+    state = U8_AT(state_data, 0x9B);
 
-    if (state == one) {
+    if (state == active_state) {
         goto state_one;
     }
     if (state < 2) {
@@ -68,105 +69,104 @@ void func_80174260(void *arg0, void *arg1, void *arg2, void *arg3) {
         }
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_two;
     }
     return;
 
 state_zero:
-        flags = U16_AT(p2, 0x14);
-        if (flags & 0x8000) {
-            effect = S32_AT(p3, 0x60);
-            if (effect != 0) {
-                func_800C8150(effect, 0x10, 0x10);
-            }
-            U8_AT(p0, 0x9B) = 2;
-            return;
+    animation_flags = U16_AT(animation, 0x14);
+    if (animation_flags & 0x8000) {
+        effect_data = S32_AT(actor, 0x60);
+        if (effect_data != 0) {
+            func_800C8150(effect_data, 0x10, 0x10);
         }
-
-        if (!(flags & 0x6000)) {
-            goto end;
-        }
-
-        if (func_8003DE58(S32_AT(p2, 8), p2, position, 0) == 0) {
-            position[2] = 0;
-            position[1] = 0;
-            position[0] = 0;
-        }
-
-        object = func_8003FD64(0x201, D_80083498);
-        if (object != NULL) {
-            func_8004491C(object, D_80174688);
-            PTR_AT(object, 0x10) = D_801745E0;
-            base = (u8 *)object + 0x20;
-            S16_AT(base, 0x0C) = U16_AT(p1, 2) + position[0];
-            S16_AT(base, 0x0E) = U16_AT(p1, 6) + position[1];
-            S16_AT(base, 0x10) = U16_AT(p1, 0xA) + position[2];
-            S32_AT(base, 0x58) = 0x80;
-            S16_AT(base, 0x48) = one;
-        }
-        func_800A56E0(0x815);
-        {
-            register s32 end_timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            next_state = U8_AT(p0, 0x9B);
-            end_timer = 0x1E;
-            S16_AT(p0, 0x96) = end_timer;
-        }
-        goto advance_state;
-state_one:
-        effect = S32_AT(p3, 0x60);
-        if (effect != 0) {
-            timer = S16_AT(p0, 0x96);
-            if (timer >= 0x12) {
-                object = (u8 *)(long)effect - 0x20;
-                if (timer < 0x17) {
-                    U16_AT(PTR_AT(object, 0x0C), 0x1C) = first.value[timer - 0x12];
-                    U16_AT(PTR_AT(object, 0x0C), 0x1E) = second.value[S16_AT(p0, 0x96) - 0x12];
-                }
-            }
-        }
-
-        if (S16_AT(p0, 0x96) == 0x14) {
-            effect = S32_AT(p3, 0x60);
-            if (effect != 0) {
-                func_800C8150(effect, 0x10, 0x10);
-            }
-        }
-
-        timer = U16_AT(p0, 0x96) - 1;
-        S16_AT(p0, 0x96) = timer;
-        if (timer > 0) {
-            goto end;
-        }
-
-        PTR_AT(p2, 0x2C) = D_80174B14;
-        func_80047784(p2,
-            D_80174B14[((D_80083228 + S16_AT(p3, 0x2A) + 0x100) >> 9) & 7],
-            0);
-        next_state = U8_AT(p0, 0x9B);
-advance_state:
-        U8_AT(p0, 0x9B) = next_state + 1;
+        U8_AT(state_data, 0x9B) = 2;
         return;
-state_two:
-        if (U16_AT(p2, 0x14) & 0xE000) {
-            u16 *global_base;
+    }
 
-            S32_AT(p1, 0x10) = 0;
-            S32_AT(p1, 0x0C) = 0;
-            func_800AD594(p3, 0x800);
-            PTR_AT(p2, 0x2C) = D_80174ACC;
-            func_80047784(p2,
-                D_80174ACC[((D_80083228 + S16_AT(p3, 0x2A) + 0x100) >> 9) & 7],
-                0);
-            global_base = (u16 *)&D_80083460;
-            global_base[5]--;
-            func_800A4ACC(p3);
-            U8_AT(p3, 0x6D) = 0;
-            U16_AT(p3, 0x46) &= 0x7FFF;
-            PTR_AT(p0, 0x8C) = D_80171138;
+    if (!(animation_flags & 0x6000)) {
+        goto end;
+    }
+
+    if (func_8003DE58(S32_AT(animation, 8), animation, spawn_offset, 0) == 0) {
+        spawn_offset[2] = 0;
+        spawn_offset[1] = 0;
+        spawn_offset[0] = 0;
+    }
+
+    effect_object = func_8003FD64(0x201, D_80083498);
+    if (effect_object != NULL) {
+        func_8004491C(effect_object, D_80174688);
+        PTR_AT(effect_object, 0x10) = D_801745E0;
+        spawned_data = (u8 *)effect_object + 0x20;
+        S16_AT(spawned_data, 0x0C) = U16_AT(motion, 2) + spawn_offset[0];
+        S16_AT(spawned_data, 0x0E) = U16_AT(motion, 6) + spawn_offset[1];
+        S16_AT(spawned_data, 0x10) = U16_AT(motion, 0xA) + spawn_offset[2];
+        S32_AT(spawned_data, 0x58) = 0x80;
+        S16_AT(spawned_data, 0x48) = active_state;
+    }
+    func_800A56E0(0x815);
+    {
+        register s32 duration ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
+        next_state = U8_AT(state_data, 0x9B);
+        duration = 0x1E;
+        S16_AT(state_data, 0x96) = duration;
+    }
+    goto advance_state;
+state_one:
+    effect_data = S32_AT(actor, 0x60);
+    if (effect_data != 0) {
+        timer = S16_AT(state_data, 0x96);
+        if (timer >= 0x12) {
+            effect_object = (u8 *)(long)effect_data - 0x20;
+            if (timer < 0x17) {
+                U16_AT(PTR_AT(effect_object, 0x0C), 0x1C) = effect_values_1c.value[timer - 0x12];
+                U16_AT(PTR_AT(effect_object, 0x0C), 0x1E) = effect_values_1e.value[S16_AT(state_data, 0x96) - 0x12];
+            }
         }
+    }
+
+    if (S16_AT(state_data, 0x96) == 0x14) {
+        effect_data = S32_AT(actor, 0x60);
+        if (effect_data != 0) {
+            func_800C8150(effect_data, 0x10, 0x10);
+        }
+    }
+
+    timer = U16_AT(state_data, 0x96) - 1;
+    S16_AT(state_data, 0x96) = timer;
+    if (timer > 0) {
+        goto end;
+    }
+
+    PTR_AT(animation, 0x2C) = D_80174B14;
+    func_80047784(animation,
+        D_80174B14[((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7],
+        0);
+    next_state = U8_AT(state_data, 0x9B);
+advance_state:
+    U8_AT(state_data, 0x9B) = next_state + 1;
+    return;
+state_two:
+    if (U16_AT(animation, 0x14) & 0xE000) {
+        u16 *global_counts;
+
+        S32_AT(motion, 0x10) = 0;
+        S32_AT(motion, 0x0C) = 0;
+        func_800AD594(actor, 0x800);
+        PTR_AT(animation, 0x2C) = D_80174ACC;
+        func_80047784(animation,
+            D_80174ACC[((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7],
+            0);
+        global_counts = (u16 *)&D_80083460;
+        global_counts[5]--;
+        func_800A4ACC(actor);
+        U8_AT(actor, 0x6D) = 0;
+        U16_AT(actor, 0x46) &= 0x7FFF;
+        PTR_AT(state_data, 0x8C) = D_80171138;
+    }
 end:
     return;
 }

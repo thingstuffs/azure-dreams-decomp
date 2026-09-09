@@ -56,10 +56,11 @@ typedef struct S_80176028_6 {
     void * unk_8C;
 } S_80176028_6;   /* owner in func_80176028 */
 
-void func_80176028(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Advances the actor transition state and updates shared actor data and tile flags. */
+void func_80176028(void *owner_data, s32 unused, void *entry_data, void *work_data)
 {
-    register u8 *owner = arg0;
-    u8 *work = arg3;
+    register u8 *owner = owner_data;
+    u8 *work = work_data;
     register s32 state = owner[0x9B];
     register u8 *actor = *(u8 **)(work + 0x60);
     register s32 type_check ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -86,11 +87,11 @@ void func_80176028(void *arg0, s32 arg1, void *arg2, void *arg3)
 
 state_0:
     {
-        if ((((S_80176028_0 *)arg2)->unk_04 == type_check) &&
-            (((S_80176028_0 *)arg2)->unk_14 & 0x1000)) {
+        if ((((S_80176028_0 *)entry_data)->unk_04 == type_check) &&
+            (((S_80176028_0 *)entry_data)->unk_14 & 0x1000)) {
             func_800A56E0(0x808);
         }
-        if (((S_80176028_0 *)arg2)->unk_14 & 0xE000) {
+        if (((S_80176028_0 *)entry_data)->unk_14 & 0xE000) {
             goto advance_state;
         }
         goto done;
@@ -100,33 +101,33 @@ state_1:
     {
         u8 *saved_actor;
         u8 *counter;
-        u8 *value_map;
-        u16 saved_value;
-        u8 value;
-        register u8 *table1;
-        register u8 *table2;
+        u8 *actor_map;
+        u16 saved_index;
+        u8 actor_index;
+        register u8 *primary_table;
+        register u8 *secondary_table;
 
-        saved_value = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16;
+        saved_index = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16;
         saved_actor = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_60.as_pu8;
-        value = func_800A1BD0(actor);
-        table1 = D_80083780;
-        table2 = D_80082E80;
-        value_map = D_800E3D7C;
-        owner[0xA9] = value;
-        ASM_KEEP_DEP_NV(actor, value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        actor_index = func_800A1BD0(actor);
+        primary_table = D_80083780;
+        secondary_table = D_80082E80;
+        actor_map = D_800E3D7C;
+        owner[0xA9] = actor_index;
+        ASM_KEEP_DEP_NV(actor, actor_index);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ASM_JALDELAY_PIN(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((Rec_D_800E3D7C *)D_800E3D7C)->unk_60.as_pu8 = actor;
-        ((S_80176028_2 *)value_map)->unk_8A = value;
-        func_80093E74(D_800E3D7C, table1, table2, D_800E3D7C);
+        ((S_80176028_2 *)actor_map)->unk_8A = actor_index;
+        func_80093E74(D_800E3D7C, primary_table, secondary_table, D_800E3D7C);
         (*(u8 * *)((u8 *)D_800E3D7C + (0x60))) = saved_actor;
-        ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16 = saved_value;
+        ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16 = saved_index;
         counter = (u8 *)&D_80083460;
         ((S_80176028_3 *)counter)->unk_0A--;
     }
 
 advance_state:
-    ((u8 *)arg0)[0x9B]++;
+    ((u8 *)owner_data)[0x9B]++;
     return;
 
 state_2:
@@ -135,7 +136,7 @@ state_2:
         u8 *tile;
         u8 x;
         u8 y;
-        s32 mode;
+        s32 tile_mask;
 
         if (!(((S_80176028_4 *)actor)->unk_1C & 0x00800000)) {
             goto done;
@@ -148,20 +149,20 @@ state_2:
         tile = *(u8 **)(actor - 0x14);
         x = tile[0x24];
         y = tile[0x25];
-        mode = (((S_80176028_4 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000;
-        func_8009A3D0(x, y, mode);
+        tile_mask = (((S_80176028_4 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000;
+        func_8009A3D0(x, y, tile_mask);
         func_8009A028(actor);
         (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
         D_800814A0 |= 0x8000;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         {
-            u8 *map_value;
-            s32 owner_index;
+            u8 *actor_slot;
+            s32 slot_index;
 
-            map_value = D_800E3D7C;
-            owner_index = owner[0xA9];
-            map_value += owner_index;
-            map_value[0xFA] = state;
+            actor_slot = D_800E3D7C;
+            slot_index = owner[0xA9];
+            actor_slot += slot_index;
+            actor_slot[0xFA] = state;
         }
         owner[0xA8] = owner[0xA9] + 1;
         owner[0x9B]++;
@@ -170,7 +171,7 @@ state_2:
 
 state_3:
     {
-        register u8 *entry = arg2;
+        register u8 *entry = entry_data;
 
         func_800AD594(work, 0x800);
         ((S_80176028_5 *)work)->unk_1C |= 0x2000;

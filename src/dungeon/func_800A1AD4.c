@@ -8,69 +8,69 @@ s32 func_800BCB04();
 extern u16 D_800DCE6C[];
 extern u16 D_800DCE8C[];
 
-s32 func_800A7234(s32 arg0, s32 arg1, s32 arg2, s16 *arg3, s16 *arg4, s16 *arg5) {
-    u16 sp10;
-    s32 initial;
-    s32 initial_shifted_x;
-    s32 initial_x;
+/* Finds a nearby unblocked position with a distance below 0x200. */
+s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance) {
+    u16 tile_flags;
+    s32 tile_valid;
+    s32 packed_x;
+    s32 probe_x;
     s32 distance;
-    register s32 shifted_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 shifted_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 scan_x1;
-    s32 scan_y1;
-    s32 scan_y2;
-    register s32 scan_x2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 count8;
-    s32 dir8;
-    register s32 count16 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 dir16 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 shifted_x ASM_REG("$2");
+    register s32 shifted_y ASM_REG("$2");
+    s32 inner_x;
+    s32 inner_y;
+    s32 outer_x;
+    register s32 outer_y ASM_REG("$20");
+    s32 inner_count;
+    s32 inner_dir;
+    register s32 outer_count ASM_REG("$19");
+    register s32 outer_dir ASM_REG("$17");
     s32 call_dir;
-    register s32 call_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 call_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 distance_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 empty_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u16 *sp_arg ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 table_index8;
-    s32 table_index16;
-    register u32 scratch ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 next_dir8;
-    register s32 next_dir16 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 dir_seed ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 base_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 base_y ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 call_x ASM_REG("$4");
+    register s32 call_y ASM_REG("$5");
+    register s32 distance_z ASM_REG("$6");
+    register s32 probe_dir ASM_REG("$6");
+    register u16 *flags_ptr ASM_REG("$7");
+    s32 inner_offset;
+    s32 outer_offset;
+    register u32 addr ASM_REG("$8");
+    s32 zero = 0;
+    s32 next_inner_dir;
+    register s32 next_outer_dir ASM_REG("$2");
+    register u16 dir_seed ASM_REG("$3");
+    register s32 base_x ASM_REG("$22");
+    register s32 base_y ASM_REG("$23");
     s32 base_z;
     u16 *dx;
     u16 *dy;
-    register s32 raw_arg0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 raw_arg1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 raw_arg2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 norm_arg1;
-    register s32 found_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 found_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 found_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 saved_x ASM_REG("$16");
+    register s32 saved_y ASM_REG("$17");
+    register s32 saved_z ASM_REG("$19");
+    s32 probe_y;
+    register s32 found_x ASM_REG("$2");
+    register s32 found_y ASM_REG("$3");
 
-    raw_arg0 = arg0;
-    raw_arg1 = arg1;
-    raw_arg2 = arg2;
-    ASM_KEEP_NV(raw_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    initial_x = (s16)(raw_arg0 - 1);
-    norm_arg1 = (s16)raw_arg1;
-    initial = func_8009A350(initial_x, norm_arg1, 0, &sp10);
-    base_x = raw_arg0;
-    base_y = raw_arg1;
-    base_z = raw_arg2;
-    if ((initial << 0x10) != 0) {
-        if (!(sp10 & 0x8820)) {
-            initial_shifted_x = raw_arg0 << 0x10;
-            distance = func_800BCB04((((initial_shifted_x >> 0xA) + 0x20) & 0xFFE0), ((norm_arg1 << 6) + 0x20) & 0xFFE0, (s16)(raw_arg2 - 0x20));
+    saved_x = x;
+    saved_y = y;
+    saved_z = z;
+    ASM_KEEP_NV(saved_x);
+    probe_x = (s16)(saved_x - 1);
+    probe_y = (s16)saved_y;
+    tile_valid = func_8009A350(probe_x, probe_y, 0, &tile_flags);
+    base_x = saved_x;
+    base_y = saved_y;
+    base_z = saved_z;
+    if ((tile_valid << 0x10) != 0) {
+        if (!(tile_flags & 0x8820)) {
+            packed_x = saved_x << 0x10;
+            distance = func_800BCB04((((packed_x >> 0xA) + 0x20) & 0xFFE0), ((probe_y << 6) + 0x20) & 0xFFE0, (s16)(saved_z - 0x20));
             if ((s16)distance < 0x200) {
-                scratch = (u32)arg3;
-                ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                *(s16 *)scratch = (s16)raw_arg0;
-                scratch = (u32)arg4;
-                ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                *(s16 *)scratch = (s16)raw_arg1;
+                addr = (u32)out_x;
+                ASM_KEEP_NV(addr);
+                *(s16 *)addr = (s16)saved_x;
+                addr = (u32)out_y;
+                ASM_KEEP_NV(addr);
+                *(s16 *)addr = (s16)saved_y;
                 goto store_result;
             }
         }
@@ -79,98 +79,97 @@ s32 func_800A7234(s32 arg0, s32 arg1, s32 arg2, s16 *arg3, s16 *arg4, s16 *arg5)
     goto scan_start;
 found:
     found_x = *dx;
-    ASM_KEEP(found_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    scratch = (u32)arg3;
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(found_x);
+    addr = (u32)out_x;
+    ASM_KEEP_NV(addr);
     found_x = base_x + found_x;
-    *(s16 *)scratch = found_x;
+    *(s16 *)addr = found_x;
     found_y = *dy;
-    ASM_KEEP(found_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    scratch = (u32)arg4;
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(found_y);
+    addr = (u32)out_y;
+    ASM_KEEP_NV(addr);
     found_y = base_y + found_y;
-    *(s16 *)scratch = found_y;
+    *(s16 *)addr = found_y;
 store_result:
-    scratch = (u32)arg5;
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    found_result = 1;
-    *(s16 *)scratch = distance;
-    return found_result;
+    addr = (u32)out_distance;
+    ASM_KEEP(addr);
+    *(s16 *)addr = distance;
+    return 1;
 scan_start:
     shifted_x = base_x << 0x10;
-    scan_x1 = shifted_x >> 0x10;
+    inner_x = shifted_x >> 0x10;
     shifted_y = base_y << 0x10;
-    scan_y1 = shifted_y >> 0x10;
-    count8 = 0;
+    inner_y = shifted_y >> 0x10;
+    inner_count = 0;
     dir_seed = D_8008347E[0];
-    dir8 = dir_seed & 7;
-loop8:
-    call_x = scan_x1;
-    call_y = scan_y1;
-    call_dir = dir8;
-    ASM_KEEP_NV(call_dir);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (((func_8009A350(call_x, call_y, call_dir, &sp10) << 0x10) == 0) || (sp10 & 0x8820)) {
-        goto next8;
+    inner_dir = dir_seed & 7;
+scan_inner:
+    call_x = inner_x;
+    call_y = inner_y;
+    call_dir = inner_dir;
+    ASM_KEEP_NV(call_dir);
+    if (((func_8009A350(call_x, call_y, call_dir, &tile_flags) << 0x10) == 0) || (tile_flags & 0x8820)) {
+        goto next_inner;
     }
-    table_index8 = call_dir << 1;
-    ASM_KEEP_NV(table_index8);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    scratch = (u32)D_8006CCD8;
-    dx = (u16 *)(table_index8 + scratch);
+    inner_offset = call_dir << 1;
+    ASM_KEEP_NV(inner_offset);
+    addr = (u32)D_8006CCD8;
+    dx = (u16 *)(inner_offset + addr);
     distance_z = (s16)(base_z - 0x20);
-    dy = (u16 *)((u8 *)D_8006CCE8 + table_index8);
-    distance = func_800BCB04(((((scan_x1 + (s16)*dx) << 6) + 0x20) & 0xFFE0), ((((scan_y1 + (s16)*dy) << 6) + 0x20) & 0xFFE0), distance_z);
+    dy = (u16 *)((u8 *)D_8006CCE8 + inner_offset);
+    distance = func_800BCB04(((((inner_x + (s16)*dx) << 6) + 0x20) & 0xFFE0), ((((inner_y + (s16)*dy) << 6) + 0x20) & 0xFFE0), distance_z);
     if ((s16)distance < 0x200) {
         goto found;
     }
-next8:
-    count8 += 1;
-    next_dir8 = dir8 + 1;
-    dir8 = next_dir8 & 7;
-    if (count8 < 8) {
-        goto loop8;
+next_inner:
+    inner_count += 1;
+    next_inner_dir = inner_dir + 1;
+    inner_dir = next_inner_dir & 7;
+    if (inner_count < 8) {
+        goto scan_inner;
     }
 
-    count16 = 0;
+    outer_count = 0;
     shifted_x = base_x << 0x10;
-    scan_y2 = shifted_x >> 0x10;
-    ASM_KEEP(scan_y2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    outer_x = shifted_x >> 0x10;
+    ASM_KEEP(outer_x);
     dir_seed = D_8008347E[0];
     shifted_y = base_y << 0x10;
-    scan_x2 = shifted_y >> 0x10;
-    dir16 = dir_seed & 0xF;
-loop16:
-    empty_arg = hard_zero;
-    table_index16 = dir16 << 1;
-    ASM_KEEP_NV(table_index16);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    scratch = (u32)D_800DCE6C;
-    dx = (u16 *)(table_index16 + scratch);
-    sp_arg = &sp10;
-    ASM_KEEP_NV(sp_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    scratch = (u32)D_800DCE8C;
-    dy = (u16 *)(table_index16 + scratch);
+    outer_y = shifted_y >> 0x10;
+    outer_dir = dir_seed & 0xF;
+scan_outer:
+    probe_dir = zero;
+    outer_offset = outer_dir << 1;
+    ASM_KEEP_NV(outer_offset);
+    addr = (u32)D_800DCE6C;
+    dx = (u16 *)(outer_offset + addr);
+    flags_ptr = &tile_flags;
+    ASM_KEEP_NV(flags_ptr);
+    addr = (u32)D_800DCE8C;
+    dy = (u16 *)(outer_offset + addr);
     call_x = *dx;
-    ASM_KEEP_NV(call_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(call_x);
     call_y = *dy;
-    ASM_KEEP_NV(call_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(call_y);
     call_x = (s16)(base_x + call_x - 1);
     call_y = (s16)(base_y + call_y);
-    if (((func_8009A350(call_x, call_y, empty_arg, sp_arg) << 0x10) == 0) || (sp10 & 0x8820)) {
-        goto next16;
+    if (((func_8009A350(call_x, call_y, probe_dir, flags_ptr) << 0x10) == 0) || (tile_flags & 0x8820)) {
+        goto next_outer;
     }
     call_x = (s16)*dx;
     call_y = (s16)*dy;
-    call_x = (((scan_y2 + call_x) << 6) + 0x20) & 0xFFE0;
-    call_y = (((scan_x2 + call_y) << 6) + 0x20) & 0xFFE0;
+    call_x = (((outer_x + call_x) << 6) + 0x20) & 0xFFE0;
+    call_y = (((outer_y + call_y) << 6) + 0x20) & 0xFFE0;
     distance = func_800BCB04(call_x, call_y, (s16)(base_z - 0x20));
     if ((s16)distance < 0x200) {
         goto found;
     }
-next16:
-    count16 += 1;
-    next_dir16 = dir16 + 1;
-    dir16 = next_dir16 & 0xF;
-    if (count16 < 0x10) {
-        goto loop16;
+next_outer:
+    outer_count += 1;
+    next_outer_dir = outer_dir + 1;
+    outer_dir = next_outer_dir & 0xF;
+    if (outer_count < 0x10) {
+        goto scan_outer;
     }
     return 0;
 }

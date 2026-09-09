@@ -62,73 +62,74 @@ typedef struct S_801719C0_4 {
     u8 unk_7C;
 } S_801719C0_4;   /* (u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s in func_801719C0 */
 
-void func_801719C0(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Advances a queued movement step and updates position, direction, and timing. */
+void func_801719C0(void *motion, s32 unused, void *sprite, void *path)
 {
-    s32 mode;
-    s32 count;
+    s32 tile_mask;
+    s32 step_count;
     s32 old_x;
     s32 old_y;
-    u8 *entry;
+    u8 *step;
 
-    if (((S_801719C0_0 *)arg3)->unk_71.s <= 0) {
+    if (((S_801719C0_0 *)path)->unk_71.s <= 0) {
         return;
     }
-    if (((S_801719C0_0 *)arg3)->unk_71.u <= ((S_801719C0_0 *)arg3)->unk_8A.s) {
+    if (((S_801719C0_0 *)path)->unk_71.u <= ((S_801719C0_0 *)path)->unk_8A.s) {
         return;
     }
 
-    if (((S_801719C0_1 *)arg2)->unk_2C != D_80173E8C) {
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80173E8C;
+    if (((S_801719C0_1 *)sprite)->unk_2C != D_80173E8C) {
+        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173E8C;
         func_80047784(
-            arg2,
-            D_80173E8C[((D_80083228 + ((S_801719C0_0 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            sprite,
+            D_80173E8C[((D_80083228 + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((S_801719C0_1 *)arg2)->unk_05 = 1;
-        ((S_801719C0_2 *)arg0)->unk_A2 = 0;
-        ((S_801719C0_2 *)arg0)->unk_9E = 0;
+        ((S_801719C0_1 *)sprite)->unk_05 = 1;
+        ((S_801719C0_2 *)motion)->unk_A2 = 0;
+        ((S_801719C0_2 *)motion)->unk_9E = 0;
     }
 
-    entry = (u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s;
-    if (((S_801719C0_1 *)arg2)->unk_24 == ((S_801719C0_3 *)entry)->unk_74 &&
-        ((S_801719C0_1 *)arg2)->unk_25 == ((S_801719C0_3 *)entry)->unk_7C) {
-        u16 v88 = ((S_801719C0_0 *)arg3)->unk_88;
-        ((S_801719C0_2 *)arg0)->unk_92 += 0x20;
-        ((S_801719C0_0 *)arg3)->unk_88 = v88 - 0x20;
-        ((S_801719C0_0 *)arg3)->unk_8A.u++;
+    step = (u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s;
+    if (((S_801719C0_1 *)sprite)->unk_24 == ((S_801719C0_3 *)step)->unk_74 &&
+        ((S_801719C0_1 *)sprite)->unk_25 == ((S_801719C0_3 *)step)->unk_7C) {
+        u16 remaining_offset = ((S_801719C0_0 *)path)->unk_88;
+        ((S_801719C0_2 *)motion)->unk_92 += 0x20;
+        ((S_801719C0_0 *)path)->unk_88 = remaining_offset - 0x20;
+        ((S_801719C0_0 *)path)->unk_8A.u++;
     } else {
-        old_x = ((S_801719C0_1 *)arg2)->unk_24;
-        old_y = ((S_801719C0_1 *)arg2)->unk_25;
-        mode = 0x3000;
-        if (((S_801719C0_0 *)arg3)->unk_1C & 0x2000) {
-            mode = 0x300;
+        old_x = ((S_801719C0_1 *)sprite)->unk_24;
+        old_y = ((S_801719C0_1 *)sprite)->unk_25;
+        tile_mask = 0x3000;
+        if (((S_801719C0_0 *)path)->unk_1C & 0x2000) {
+            tile_mask = 0x300;
         }
-        func_8009A3D0(old_x, old_y, mode);
+        func_8009A3D0(old_x, old_y, tile_mask);
 
-        ((S_801719C0_1 *)arg2)->unk_24 =
-            ((S_801719C0_4 *)((u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s))->unk_74;
-        ((S_801719C0_1 *)arg2)->unk_25 =
-            ((S_801719C0_4 *)((u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s))->unk_7C;
-        ((S_801719C0_0 *)arg3)->unk_8A.u++;
+        ((S_801719C0_1 *)sprite)->unk_24 =
+            ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_74;
+        ((S_801719C0_1 *)sprite)->unk_25 =
+            ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_7C;
+        ((S_801719C0_0 *)path)->unk_8A.u++;
 
-        func_8009A21C(((S_801719C0_1 *)arg2)->unk_24, ((S_801719C0_1 *)arg2)->unk_25,
-                      (((S_801719C0_0 *)arg3)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+        func_8009A21C(((S_801719C0_1 *)sprite)->unk_24, ((S_801719C0_1 *)sprite)->unk_25,
+                      (((S_801719C0_0 *)path)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
-        ((S_801719C0_0 *)arg3)->unk_2A =
-            func_800A0818(old_x, old_y, ((S_801719C0_1 *)arg2)->unk_24,
-                          ((S_801719C0_1 *)arg2)->unk_25, (u8 *)arg0 + 0x98);
+        ((S_801719C0_0 *)path)->unk_2A =
+            func_800A0818(old_x, old_y, ((S_801719C0_1 *)sprite)->unk_24,
+                          ((S_801719C0_1 *)sprite)->unk_25, (u8 *)motion + 0x98);
     }
-    ((S_801719C0_2 *)arg0)->unk_9A = 0xF;
-    ((S_801719C0_2 *)arg0)->unk_8C = 0;
-    (*(s32 *)((u8 *)arg3 + (0x1C))) |= 0x40000000;
+    ((S_801719C0_2 *)motion)->unk_9A = 0xF;
+    ((S_801719C0_2 *)motion)->unk_8C = 0;
+    (*(s32 *)((u8 *)path + (0x1C))) |= 0x40000000;
 
     if (D_80083462 & 0x80) {
-        ((S_801719C0_2 *)arg0)->unk_96 = 0;
+        ((S_801719C0_2 *)motion)->unk_96 = 0;
         return;
     }
 
-    ((S_801719C0_2 *)arg0)->unk_96 = 8;
-    count = ((S_801719C0_0 *)arg3)->unk_71.u;
-    if (count > 0) {
-        ((S_801719C0_2 *)arg0)->unk_96 = 8 / count;
+    ((S_801719C0_2 *)motion)->unk_96 = 8;
+    step_count = ((S_801719C0_0 *)path)->unk_71.u;
+    if (step_count > 0) {
+        ((S_801719C0_2 *)motion)->unk_96 = 8 / step_count;
     }
 }

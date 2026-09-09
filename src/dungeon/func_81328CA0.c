@@ -18,10 +18,6 @@ typedef struct S_801704A0_0 {
     s32 unk_A4;
 } S_801704A0_0;   /* arg0 in func_801704A0 */
 
-
-
-
-
 M2C_UNK func_80047784();
 s32 func_800644B8();
 s16 func_800A0818();
@@ -44,126 +40,127 @@ extern Global83460 D_80083460;
 extern u8 D_8016F78C[];
 extern u8 D_80174A2C[];
 
-void func_801704A0(S_801704A0_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
-    M2C_UNK sp18;
-    s32 temp_a0;
-    s32 temp_count;
-    s32 temp_div;
-    s32 temp_flag46;
-    s32 temp_pos;
-    s32 temp_v1_3;
-    u16 temp_v0;
-    s32 temp_v1;
-    Global82E80 *temp_82E80;
-    Global83460 *temp_83460;
+/* Updates movement toward a tile and completes the timed action. */
+void func_801704A0(S_801704A0_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, Rec_D_800E3D7C *entity) {
+    M2C_UNK facing_aux;
+    s32 frames_left;
+    s32 next_frame;
+    s32 x_step;
+    s32 status_flags;
+    s32 height;
+    s32 y_offset;
+    s32 entity_flags;
+    u16 action_timer;
+    s32 phase;
+    Global82E80 *target_tile;
+    Global83460 *active_actions;
 
-    temp_v1 = arg0->unk_9B;
-    if (temp_v1 == 1) {
-        goto block_10;
+    phase = action->unk_9B;
+    if (phase == 1) {
+        goto update_motion;
     }
-    if (temp_v1 >= 2) {
-        goto block_ge2;
+    if (phase >= 2) {
+        goto check_later_phase;
     }
-    if (temp_v1 == 0) {
-        goto block_zero;
+    if (phase == 0) {
+        goto start_motion;
     }
-    goto block_19;
-block_ge2:
-    if (temp_v1 == 2) {
-        goto block_14;
+    goto update_timer;
+check_later_phase:
+    if (phase == 2) {
+        goto check_landing;
     }
-    if (temp_v1 == 3) {
-        goto block_three;
+    if (phase == 3) {
+        goto update_animation;
     }
-    goto block_19;
-block_zero:
-    arg0->unk_98 = (u16) (arg0->unk_98 | 8);
-    arg3->unk_1C.as_s32 = (s32) (arg3->unk_1C.as_s32 & 0xF7FFFFFF);
-    arg0->unk_9E.s = 5;
-    arg0->unk_A4 = 0;
-    arg0->unk_9B = (u8) (arg0->unk_9B + 1);
-block_10:
-    temp_a0 = arg0->unk_9E.s;
-    arg0->unk_90 = (s32) (arg0->unk_90 - arg0->unk_A4);
-    if (temp_a0 != 0) {
-        s32 temp_coord;
-        temp_div = arg2->unk_24;
-        
-        temp_coord = arg1->unk_00.at02_s16.v;
-        temp_div <<= 6;
-        temp_coord -= 0x20;
-        
-        temp_div = (s32) ((temp_div - temp_coord) << 0x10) / temp_a0;
-        temp_v1_3 = arg1->unk_04.at02_s16.v - 0x20;
-        arg1->unk_0C.as_s32 = temp_div;
-        arg1->unk_10.at00_s32.v = (s32) ((s32) (((arg2->unk_25 << 6) - temp_v1_3) << 0x10) / (s16) arg0->unk_9E.s);
-        arg0->unk_A4 = (s32) ((0 - func_800644B8(arg0->unk_9E.s * 0x199)) << 0xA);
+    goto update_timer;
+start_motion:
+    action->unk_98 = (u16) (action->unk_98 | 8);
+    entity->unk_1C.as_s32 = (s32) (entity->unk_1C.as_s32 & 0xF7FFFFFF);
+    action->unk_9E.s = 5;
+    action->unk_A4 = 0;
+    action->unk_9B = (u8) (action->unk_9B + 1);
+update_motion:
+    frames_left = action->unk_9E.s;
+    action->unk_90 = (s32) (action->unk_90 - action->unk_A4);
+    if (frames_left != 0) {
+        s32 x_offset;
+        x_step = tile->unk_24;
+
+        x_offset = motion->unk_00.at02_s16.v;
+        x_step <<= 6;
+        x_offset -= 0x20;
+
+        x_step = (s32) ((x_step - x_offset) << 0x10) / frames_left;
+        y_offset = motion->unk_04.at02_s16.v - 0x20;
+        motion->unk_0C.as_s32 = x_step;
+        motion->unk_10.at00_s32.v = (s32) ((s32) (((tile->unk_25 << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
+        action->unk_A4 = (s32) ((0 - func_800644B8(action->unk_9E.s * 0x199)) << 0xA);
     }
-    temp_pos = arg0->unk_90;
-    temp_pos += arg0->unk_A4;
-    temp_count = arg0->unk_9E.u - 1;
-    
-    
-    arg0->unk_9E.s = temp_count;
-    arg0->unk_90 = temp_pos;
-    if ((temp_count << 0x10) < 0) {
-        arg0->unk_90 = 0;
-        arg0->unk_98 = (u16) (arg0->unk_98 & 0xFFF7);
-        arg3->unk_1C.as_s32 = (s32) (arg3->unk_1C.as_s32 | 0x08000000);
-        arg0->unk_9B = (u8) (arg0->unk_9B + 1);
+    height = action->unk_90;
+    height += action->unk_A4;
+    next_frame = action->unk_9E.u - 1;
+
+    action->unk_9E.s = next_frame;
+    action->unk_90 = height;
+    if ((next_frame << 0x10) < 0) {
+        action->unk_90 = 0;
+        action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
+        entity->unk_1C.as_s32 = (s32) (entity->unk_1C.as_s32 | 0x08000000);
+        action->unk_9B = (u8) (action->unk_9B + 1);
     }
-block_14:
-    if (!(arg3->unk_1C.as_s32 & 0x08000000)) {
-        goto block_19;
+check_landing:
+    if (!(entity->unk_1C.as_s32 & 0x08000000)) {
+        goto update_timer;
     }
-    arg0->unk_98 = (u16) (arg0->unk_98 & 0xFFF7);
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-    arg0->unk_9B = arg0->unk_9B + 1;
-    goto block_19;
-block_three:
-    if (arg2->unk_2C.as_pu8 != D_80174A2C) {
-        arg2->unk_2C.as_pu8 = D_80174A2C;
-        func_80047784(arg2, D_80174A2C[((s32) (D_80083228[0] + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
+    motion->unk_14.as_s32 = 0;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, tile->unk_24, tile->unk_25);
+    action->unk_9B = action->unk_9B + 1;
+    goto update_timer;
+update_animation:
+    if (tile->unk_2C.as_pu8 != D_80174A2C) {
+        tile->unk_2C.as_pu8 = D_80174A2C;
+        func_80047784(tile, D_80174A2C[((s32) (D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     }
-block_19:
-    temp_v0 = arg0->unk_96 - 1;
-    arg0->unk_96 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-        func_800A4ACC(arg3);
-        temp_83460 = &D_80083460;
-        if (temp_83460->count != 0) {
-            temp_83460->count = (u16) temp_83460->count - 1;
+update_timer:
+    action_timer = action->unk_96 - 1;
+    action->unk_96 = action_timer;
+    if ((action_timer << 0x10) <= 0) {
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, tile->unk_24, tile->unk_25);
+        func_800A4ACC(entity);
+        active_actions = &D_80083460;
+        if (active_actions->count != 0) {
+            active_actions->count = (u16) active_actions->count - 1;
         }
-        temp_v1_3 = arg3->unk_1C.as_s32;
-        if (!(temp_v1_3 & 0x2000)) {
-            goto block_no_2000;
+        entity_flags = entity->unk_1C.as_s32;
+        if (!(entity_flags & 0x2000)) {
+            goto check_facing;
         }
-        temp_flag46 = arg3->unk_44.at02_u16.v;
-        if (!(temp_flag46 & 0x8000)) {
-            goto block_29;
+        status_flags = entity->unk_44.at02_u16.v;
+        if (!(status_flags & 0x8000)) {
+            goto finish_action;
         }
-        arg3->unk_44.at02_u16.v = temp_flag46 & 0x7FFF;
-        goto block_29;
-block_no_2000:
-        if (temp_v1_3 & 0x410) {
-            goto block_29;
+        entity->unk_44.at02_u16.v = status_flags & 0x7FFF;
+        goto finish_action;
+check_facing:
+        if (entity_flags & 0x410) {
+            goto finish_action;
         }
-        if (!(temp_v1_3 & 0x20000)) {
-            goto block_29;
+        if (!(entity_flags & 0x20000)) {
+            goto finish_action;
         }
-        temp_82E80 = &D_80082E80;
-        arg3->unk_2A.as_s16 = func_800A0818(arg2->unk_24, arg2->unk_25, temp_82E80->x, temp_82E80->y, &sp18);
-block_29:
-        if ((func_800AD9B4(arg2, arg3) << 0x10) > 0) {
-            arg0->unk_8C = D_8016F78C;
-            func_800A9A04(arg3);
+        target_tile = &D_80082E80;
+        entity->unk_2A.as_s16 = func_800A0818(tile->unk_24, tile->unk_25, target_tile->x, target_tile->y, &facing_aux);
+finish_action:
+        if ((func_800AD9B4(tile, entity) << 0x10) > 0) {
+            action->unk_8C = D_8016F78C;
+            func_800A9A04(entity);
         }
     }
 }

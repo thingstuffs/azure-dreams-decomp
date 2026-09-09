@@ -31,18 +31,17 @@ extern void func_80024264_returning(void *arg0);
 extern void func_800478B8(void *arg0);
 extern s32 D_800814A0;
 
-void func_80024370(void *arg0, s32 arg1, void *arg2)
+/* Advance the entry counters, trigger count milestones, and update the target. */
+void func_80024370(void *entry, s32 unused, void *target)
 {
-    register void *saved_arg2 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_80024370_1 *object;
     u16 count;
 
-    saved_arg2 = arg2;
-    object = ((S_80024370_0 *)arg0)->unk_00;
+    object = ((S_80024370_0 *)entry)->unk_00;
     object->unk_14++;
 
-    count = ((S_80024370_0 *)arg0)->unk_04 + 1;
-    ((S_80024370_0 *)arg0)->unk_04 = count;
+    count = ((S_80024370_0 *)entry)->unk_04 + 1;
+    ((S_80024370_0 *)entry)->unk_04 = count;
 
     if ((s16)count == 8) {
         goto count_8;
@@ -53,24 +52,18 @@ void func_80024370(void *arg0, s32 arg1, void *arg2)
     goto done;
 
 count_8:
-    func_80024264_returning(((S_80024370_0 *)arg0)->unk_00);
+    func_80024264_returning(((S_80024370_0 *)entry)->unk_00);
     goto done;
 
 count_16:
     {
-        register s32 *global_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 *global_page ASM_REG("$3");
 
         global_page = (s32 *)0x80080000;
-        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ((S_80024370_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        ASM_KEEP(global_page);
+        ((S_80024370_0_pre *)entry)[-1].unk_00 |= 0x8000;
         ((S_80024370_2 *)global_page)->unk_14A0 |= 0x8000;
-        ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 done:
-    func_800478B8(saved_arg2);
+    func_800478B8(target);
 }
-
-/* MECHANISM: Explicit labels preserve default -> count-8 -> count-16 emission order;
-   the guarded arg2/$s0 hold gives the 0x18 frame and first-beq delay-slot move.
-   A guarded $v1 page base yields the second-delay lui and 0x14A0 RMW, while the
-   no-code returning-site alias keeps func_80024264 as jal despite stale LEAD-18 evidence. */

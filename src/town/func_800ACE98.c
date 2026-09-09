@@ -19,31 +19,32 @@ extern u8 D_80100D60[];
 extern s16 D_80100D80;
 extern s16 D_80100D82;
 
-void func_800AA5F8(void *arg0, void *arg1, s32 arg2) {
-    s32 arg2_local;
+/* Updates input-driven motion and handles object action transitions. */
+void func_800AA5F8(void *controller, void *object, s32 update_arg) {
+    s32 saved_arg;
     u8 *buttons;
     u8 *position;
     s16 angle;
     s32 wave;
     s32 rise;
 
-    arg2_local = arg2;
+    saved_arg = update_arg;
     buttons = D_80083160;
-    func_80095C80(arg1);
-    func_80095094(arg1);
-    angle = func_80095978(arg1, D_800FE488);
-    if (angle - *(s16 *)((u8 *)arg1 + 0xA) >= 4) {
+    func_80095C80(object);
+    func_80095094(object);
+    angle = func_80095978(object, D_800FE488);
+    if (angle - *(s16 *)((u8 *)object + 0xA) >= 4) {
         if (D_800CFCEF == 0) {
-            func_80094378(arg0, arg1, arg2_local);
+            func_80094378(controller, object, saved_arg);
             D_800D0B14 = 0;
             return;
         }
     } else if (D_800CFCEF == 0) {
-        func_80095A94(arg1, angle, D_800FE488);
+        func_80095A94(object, angle, D_800FE488);
     }
 
     if ((*(s32 *)(buttons + 0x10) & 0x40) && D_80100D1C >= 0x800) {
-        func_800AAA58(arg0, arg1, arg2_local);
+        func_800AAA58(controller, object, saved_arg);
         D_800D0B14 = 0;
         return;
     }
@@ -81,7 +82,7 @@ void func_800AA5F8(void *arg0, void *arg1, s32 arg2) {
     wave = func_80064584(*(s16 *)(position + 2) - 0x400);
     *(s32 *)position += 0x500000 - (wave << 10);
     rise = D_80100D1C;
-    *(u16 *)((u8 *)arg0 + 0x10) = *(u16 *)(position + 2);
+    *(u16 *)((u8 *)controller + 0x10) = *(u16 *)(position + 2);
 
     if (rise < 0x800) {
         D_80100D1C = rise + 0x80;
@@ -93,5 +94,5 @@ void func_800AA5F8(void *arg0, void *arg1, s32 arg2) {
     } else {
         D_80100D18 = 0x1000;
     }
-    func_800A9F14(arg1);
+    func_800A9F14(object);
 }

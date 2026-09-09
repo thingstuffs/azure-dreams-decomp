@@ -37,13 +37,14 @@ typedef struct S_800D50FC_3 {
 s32 rand();                                /* extern */
 extern M2C_UNK D_800814A0;
 
-void func_800D50FC(void *arg0, S_800D50FC_1 *arg1, S_800D50FC_2 *arg2) {
-    s32 temp_s0;
-    u16 temp_v0;
-    u32 temp_v1;
+/* Updates effect motion and color, then marks it inactive when its lifetime expires. */
+void func_800D50FC(void *effect, S_800D50FC_1 *motion, S_800D50FC_2 *color) {
+    s32 y_speed;
+    u16 life_left;
+    u32 phase;
 
-    temp_v1 = ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_20 & 7;
-    switch (temp_v1) {
+    phase = ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 & 7;
+    switch (phase) {
     case 1:
     case 2:
     case 5:
@@ -51,36 +52,30 @@ void func_800D50FC(void *arg0, S_800D50FC_1 *arg1, S_800D50FC_2 *arg2) {
         break;
     case 0:
     case 4:
-        arg1->unk_0C = (s32) (((rand() & 0x3FFF) - 0x2000) << 5);
-        temp_s0 = (s32) (((rand() & 0x3FFF) - 0x2000) << 5);
-        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        arg1->unk_10 = temp_s0;
+        motion->unk_0C = (s32) (((rand() & 0x3FFF) - 0x2000) << 5);
+        y_speed = (s32) (((rand() & 0x3FFF) - 0x2000) << 5);
+        motion->unk_10 = y_speed;
         break;
     case 3:
     case 7:
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         break;
     }
-    arg1->unk_00 = (s32) (arg1->unk_00 + arg1->unk_0C);
-    arg1->unk_04 = (s32) (arg1->unk_04 + arg1->unk_10);
-    arg1->unk_08 = (s32) (arg1->unk_08 + arg1->unk_14);
-    arg2->unk_0C = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_0E * (s16) ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_22);
-    arg2->unk_0D = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_0F * (s16) ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_22);
-    arg2->unk_0E = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_10 * (s16) ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_22);
-    temp_v0 = ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_20 - 1;
-    ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_20 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
+    motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
+    motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
+    color->unk_0C = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_0E * (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
+    color->unk_0D = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_0F * (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
+    color->unk_0E = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_10 * (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
+    life_left = ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 - 1;
+    ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 = life_left;
+    if ((life_left << 0x10) <= 0) {
+        register u32 page ASM_REG("$3");
 
         page = 0x80080000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_800D50FC_0 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
+        ASM_KEEP(page);
+        ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_00 = (u16) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_00 | 0x8000);
         ((S_800D50FC_3 *)page)->unk_14A0 = ((S_800D50FC_3 *)page)->unk_14A0 | 0x8000;
     }
 }
-
-/* MECHANISM: Split the second RNG result, then keep all three arguments live across both calls
-   to preserve the 0x20 frame and s1/s0/ra/s2 save order while LEAD 18 forms the continuation j.
-   A guarded $v1 page base emits the branch-slot lui and both 0x14A0($v1) accesses exactly. */

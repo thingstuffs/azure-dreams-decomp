@@ -10,14 +10,15 @@ extern u8 D_8001CA40[];
 extern u8 D_8001CD7B[];
 extern u8 D_8001D244[];
 
-u8 *func_80016C08(void *arg0, s32 arg1, s32 arg2) {
+/* Selects a result address after checking the object, its position, and state. */
+u8 *func_80016C08(void *object, s32 check_input_b, s32 check_input_c) {
     void *pos;
 
-    if (func_800162F8(arg0, arg1, arg2) != 0) {
+    if (func_800162F8(object, check_input_b, check_input_c) != 0) {
         return D_8001D244;
     }
 
-    pos = *(void **)((u8 *)arg0 + 0x14);
+    pos = *(void **)((u8 *)object + 0x14);
     func_80017A8C(*(s16 *)pos, *(s16 *)((u8 *)pos + 2), *(s16 *)((u8 *)pos + 4));
 
     if (func_80018B5C(0x5C1) == 0) {
@@ -25,7 +26,7 @@ u8 *func_80016C08(void *arg0, s32 arg1, s32 arg2) {
         return D_80019DBC;
     }
 
-    pos = *(void **)((u8 *)arg0 + 0x14);
+    pos = *(void **)((u8 *)object + 0x14);
     if (func_80018B5C(*(s16 *)((u8 *)pos + 2)) == 0) {
         return D_8001CA40;
     }

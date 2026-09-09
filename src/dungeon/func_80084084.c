@@ -25,192 +25,183 @@ extern Callback D_800DCF80[];
 extern Callback D_800DCFA4;
 extern s32 D_800E296C;
 
+/* Dispatch eligible entry callbacks according to the current mode. */
 void func_800897E4(void)
 {
     if (D_800E296C & 0x02000000) {
-        register Callback *firstCallback ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register Callback *firstBase;
-        register Callback *firstSpecial;
-        u8 *firstPage;
-        Callback *firstScan;
-        register Callback fn ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        register Entry **firstEntryp;
-        register Entry *entry ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        register Callback *callback_slot ASM_REG("$16");
+        register Callback *callback_base;
+        register Callback *special_start;
+        u8 *table_page;
+        Callback *sentinel_scan;
+        register Callback callback;
+        register Entry **entry_slot;
+        register Entry *entry ASM_REG("$17");
 
-        firstSpecial = D_800DCF80 + 9;
-        firstBase = D_80083360;
-        firstCallback = firstBase;
-        firstEntryp = D_800833E0;
+        special_start = D_800DCF80 + 9;
+        callback_base = D_80083360;
+        callback_slot = callback_base;
+        entry_slot = D_800833E0;
 loop_first:
-        fn = *firstCallback;
-        if (fn != 0) {
-            entry = *firstEntryp;
+        callback = *callback_slot;
+        if (callback != 0) {
+            entry = *entry_slot;
             if (entry != 0) {
                 if (!(entry->flags & 0x800)) {
-                    register Callback *p ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                    register Callback *special_scan;
 
-                    firstPage = (u8 *)0x800E0000;
-                    ASM_KEEP(firstPage);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    firstScan = (Callback *)(firstPage - 0x3080);
-                    p = firstSpecial;
-                    ASM_KEEP(firstScan);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                    ASM_KEEP(p);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    table_page = (u8 *)0x800E0000;
+                    ASM_KEEP(table_page);
+                    sentinel_scan = (Callback *)(table_page - 0x3080);
+                    special_scan = special_start;
 first_scan:
-                    if (*p == fn) {
-                        ASM_KEEP(fn);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        fn(entry->data, entry->arg1, entry->arg2);
-                        ASM_KEEP(firstSpecial);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        ASM_KEEP(firstBase);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        ASM_KEEP(firstEntryp);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        firstCallback++;
+                    if (*special_scan == callback) {
+                        callback(entry->data, entry->arg1, entry->arg2);
+                        callback_slot++;
                         goto first_advance;
                     }
-                    if (*firstScan != 0) {
-                        firstScan++;
-                        ASM_KEEP(firstScan);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                        p++;
+                    if (*sentinel_scan != 0) {
+                        sentinel_scan++;
+                        special_scan++;
                         goto first_scan;
                     }
                 }
             } else {
-                ASM_CLOBBER("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                *firstCallback = 0;
+                ASM_CLOBBER("$17");
+                *callback_slot = 0;
             }
         }
-        firstCallback++;
+        callback_slot++;
 first_advance:
-        firstEntryp++;
-        if ((s32)firstCallback < (s32)(firstBase + 0x20)) {
+        entry_slot++;
+        if ((s32)callback_slot < (s32)(callback_base + 0x20)) {
             goto loop_first;
         }
         return;
     }
 
     if (*(s32 *)((u8 *)D_800814A8 + 0x1C) & 0x10) {
-        register Callback *secondCallback ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register Callback *secondBase;
-        register Callback *secondSpecial ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register u8 *secondPage ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        Callback *secondScan;
-        register Callback fn ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        register Callback specialFn ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register Entry **secondEntryp;
+        register Callback *callback_slot ASM_REG("$18");
+        register Callback *callback_base;
+        register Callback *special_start;
+        register u8 *table_page;
+        Callback *special_scan;
+        register Callback callback ASM_REG("$7");
+        register Callback special_callback ASM_REG("$2");
+        register Entry **entry_slot;
         register Entry *entry;
-        void *specialArg0;
-        s32 specialArg1;
-        s32 specialArg2;
+        void *callback_data;
+        s32 callback_arg1;
+        s32 callback_arg2;
         s32 saved;
 
-        secondPage = (u8 *)0x800E0000;
-        ASM_KEEP(secondPage);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        secondSpecial = (Callback *)(secondPage - 0x3080);
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        secondBase = D_80083360;
-        secondCallback = secondBase;
-        secondEntryp = D_800833E0;
+        table_page = (u8 *)0x800E0000;
+        ASM_KEEP(table_page);
+        special_start = (Callback *)(table_page - 0x3080);
+        callback_base = D_80083360;
+        callback_slot = callback_base;
+        entry_slot = D_800833E0;
 loop_second:
-        fn = *secondCallback;
-        if (fn != 0) {
-            entry = *secondEntryp;
+        callback = *callback_slot;
+        if (callback != 0) {
+            entry = *entry_slot;
             if (entry != 0) {
                 if (!(entry->flags & 0x800)) {
-                    specialFn = *(Callback *)(secondPage - 0x3080);
-                    secondScan = secondSpecial + 1;
-                    if (specialFn != fn) {
+                    special_callback = *(Callback *)(table_page - 0x3080);
+                    special_scan = special_start + 1;
+                    if (special_callback != callback) {
                         goto second_scan_check;
                     }
                     entry = &D_80083498;
                     if (entry->active != 0) {
-                        specialArg0 = entry->data;
-                        specialArg1 = entry->arg1;
-                        specialArg2 = entry->arg2;
+                        callback_data = entry->data;
+                        callback_arg1 = entry->arg1;
+                        callback_arg2 = entry->arg2;
                         saved = entry->saved;
-                        ASM_KEEP(saved);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                        ASM_KEEP(saved);
                         entry->saved = 0;
-                        fn(specialArg0, specialArg1, specialArg2);
-                        ASM_KEEP(secondBase);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                        ASM_KEEP(secondEntryp);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                        callback(callback_data, callback_arg1, callback_arg2);
+                        ASM_KEEP(callback_base);
+                        ASM_KEEP(entry_slot);
                         entry->saved = saved;
                         goto second_next;
                     }
                     goto second_next;
 second_scan_equal:
-                    ASM_KEEP(fn);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    fn(entry->data, entry->arg1, entry->arg2);
-                    secondCallback++;
+                    ASM_KEEP(callback);
+                    callback(entry->data, entry->arg1, entry->arg2);
+                    callback_slot++;
                     goto second_advance;
 second_scan_check:
-                    ASM_KEEP(secondScan);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                    if (*secondScan == fn) {
+                    if (*special_scan == callback) {
                         goto second_scan_equal;
                     }
-                    if (*secondScan == 0) {
+                    if (*special_scan == 0) {
                         goto second_next;
                     }
-                    secondScan++;
-                    ASM_KEEP(secondScan);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                    special_scan++;
                     goto second_scan_check;
                 }
             } else {
-                *secondCallback = 0;
+                *callback_slot = 0;
             }
         }
 second_next:
-        secondCallback++;
+        callback_slot++;
 second_advance:
-        secondEntryp++;
-        if ((s32)secondCallback < (s32)(secondBase + 0x20)) {
+        entry_slot++;
+        if ((s32)callback_slot < (s32)(callback_base + 0x20)) {
             goto loop_second;
         }
         return;
     }
 
     {
-        Callback *thirdCallback;
-        register Callback fn ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        register Entry **thirdEntryp ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register Entry *entry ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s32 i ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register u8 *thirdPage ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 result;
+        Callback *callback_slot;
+        register Callback callback ASM_REG("$7");
+        register Entry **entry_slot;
+        register Entry *entry ASM_REG("$17");
+        register s32 slot_index ASM_REG("$19");
+        register u8 *table_page ASM_REG("$2");
+        s32 stop_dispatch;
 
-    i = 0;
-    thirdPage = (u8 *)0x80080000;
-    ASM_KEEP(thirdPage);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    thirdCallback = (Callback *)(thirdPage + 0x3360);
-    thirdPage = (u8 *)0x80080000;
-    ASM_KEEP(thirdPage);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    thirdEntryp = (Entry **)(thirdPage + 0x33E0);
+        slot_index = 0;
+        table_page = (u8 *)0x80080000;
+        ASM_KEEP(table_page);
+        callback_slot = (Callback *)(table_page + 0x3360);
+        table_page = (u8 *)0x80080000;
+        ASM_KEEP(table_page);
+        entry_slot = (Entry **)(table_page + 0x33E0);
 loop_third:
-    fn = *thirdCallback;
-    if (fn != 0) {
-        entry = *thirdEntryp;
-        if (entry != 0) {
-            if (!(entry->flags & 0x800)) {
-                fn(entry->data, entry->arg1, entry->arg2);
-                result = func_80045310(
-                    *(s32 *)((u8 *)D_80083160[0] + 0x8D0));
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                thirdCallback++;
-                if (result == 0) {
-                    i++;
-                    goto third_advance;
+        callback = *callback_slot;
+        if (callback != 0) {
+            entry = *entry_slot;
+            if (entry != 0) {
+                if (!(entry->flags & 0x800)) {
+                    callback(entry->data, entry->arg1, entry->arg2);
+                    stop_dispatch = func_80045310(
+                        *(s32 *)((u8 *)D_80083160[0] + 0x8D0));
+                    ASM_SCHED_BARRIER();
+                    callback_slot++;
+                    if (stop_dispatch == 0) {
+                        slot_index++;
+                        goto third_advance;
+                    }
+                    goto third_done;
                 }
-                goto third_done;
+            } else {
+                ASM_CLOBBER("$17");
+                *callback_slot = 0;
             }
-        } else {
-            ASM_CLOBBER("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            *thirdCallback = 0;
         }
-    }
-    thirdCallback++;
-    i++;
+        callback_slot++;
+        slot_index++;
 third_advance:
-    thirdEntryp++;
-    if (i < 0x20) {
-        goto loop_third;
-    }
+        entry_slot++;
+        if (slot_index < 0x20) {
+            goto loop_third;
+        }
 third_done:
-    ASM_USE(thirdCallback);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ;
     }
 }

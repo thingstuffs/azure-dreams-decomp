@@ -5,16 +5,17 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define VU16_AT(p, o) (*(volatile u16 *)((u8 *)(p) + (o)))
 
-void func_800BC390(void *arg0)
+/* Advance a timed state sequence, decrease its value, and set completion flags. */
+void func_800BC390(void *object)
 {
     s32 state;
-    s32 next;
-    s32 value;
-    u16 increment;
+    s32 timer;
+    s32 decay_value;
+    u16 prior_state;
 
-    state = S16_AT(arg0, 0);
-    next = U16_AT(arg0, 2) - 1;
-    U16_AT(arg0, 2) = next;
+    state = S16_AT(object, 0);
+    timer = U16_AT(object, 2) - 1;
+    U16_AT(object, 2) = timer;
     if (state == 1) {
         goto state_1;
     }
@@ -36,45 +37,41 @@ state_ge_2:
 
 state_0:
 {
-    register s16 marker ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 phase ASM_REG("$3");
 
-    if ((next << 16) > 0) {
+    if ((timer << 16) > 0) {
         goto done;
     }
-    VU16_AT(arg0, 2) = 12;
-    increment = VU16_AT(arg0, 0);
-    marker = 3;
-    S16_AT(arg0, 0x14) = marker;
+    VU16_AT(object, 2) = 12;
+    prior_state = VU16_AT(object, 0);
+    phase = 3;
+    S16_AT(object, 0x14) = phase;
     goto advance_state;
 }
 
 state_1:
-    value = S32_AT(arg0, 8);
-    if (value > 0) {
-        S32_AT(arg0, 8) = value + (s32)0xFFF7FBFC;
+    decay_value = S32_AT(object, 8);
+    if (decay_value > 0) {
+        S32_AT(object, 8) = decay_value + (s32)0xFFF7FBFC;
     }
-    if (S16_AT(arg0, 2) > 0) {
+    if (S16_AT(object, 2) > 0) {
         goto done;
     }
-    increment = U16_AT(arg0, 0);
+    prior_state = U16_AT(object, 0);
 advance_state:
-    U16_AT(arg0, 0) = increment + 1;
+    U16_AT(object, 0) = prior_state + 1;
     goto done;
 
 state_2:
 {
-    register u32 pagebase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 flag_page ASM_REG("$3");
 
-    pagebase = 0x80080000;
-    ASM_KEEP(pagebase);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    U16_AT(arg0, -2) = U16_AT(arg0, -2) | 0x8000;
-    S32_AT((void *)pagebase, 0x14A0) |= 0x8000;
+    flag_page = 0x80080000;
+    ASM_KEEP(flag_page);
+    U16_AT(object, -2) = U16_AT(object, -2) | 0x8000;
+    S32_AT((void *)flag_page, 0x14A0) |= 0x8000;
 }
 
 done:
     return;
 }
-
-/* MECHANISM: Frameless CFG with the original pointer held in a0 and decremented
-   halfword held in a1 across all three tail-jump sites; signed/unsigned field
-   aliases reproduce the retail lh/lhu split and the 0x8008 page base. */

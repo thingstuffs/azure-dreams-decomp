@@ -38,18 +38,19 @@ extern u8 D_8002417C[];
 extern u8 D_800DEC70[];
 extern u8 D_80045340[];
 
-MainObj *func_800241F8(s32 arg0, VecObj *arg1) {
+/* Creates an object with initialized render state and a copy of the supplied vector. */
+MainObj *func_800241F8(s32 object_value, VecObj *source_vec) {
     MainObj *obj = func_8003FC64(530);
     SubObj *sub;
     VecObj *vec;
-    register MainObj *rv ASM_REG("$2"); /* MATCH: keep the shared return value in v0 across both arms. */
+    register MainObj *result ASM_REG("$2");
 
     if (obj == 0) {
-        rv = 0;
+        result = 0;
     } else {
         obj->callback = D_8002417C;
         sub = obj->sub;
-        obj->arg0 = arg0;
+        obj->arg0 = object_value;
         sub->b = 128;
         sub->g = 128;
         sub->r = 128;
@@ -62,21 +63,11 @@ MainObj *func_800241F8(s32 arg0, VecObj *arg1) {
         func_8004491C(obj, D_80045340);
 
         vec = obj->vec;
-        vec->unk2 = arg1->unk2;
-        vec->unk6 = arg1->unk6;
-        vec->unkA = arg1->unkA;
+        vec->unk2 = source_vec->unk2;
+        vec->unk6 = source_vec->unk6;
+        vec->unkA = source_vec->unkA;
 
-        rv = obj;
+        result = obj;
     }
-    return rv;
+    return result;
 }
-
-/* MECHANISM: retail parks a DEAD `move v0,zero` (the `return NULL` value of the
- * error path, which the noreturn callee never consumes) in the delay slot of the
- * ASPSX-converted tail `j func_800242C0`; gcc-2.8.1 DCEs that copy entirely and
- * maspsx's LEAD 18 conversion leaves a bare `nop` there. Materialising the zero
- * in a pinned $v0 and marking it with the sanctioned LEAD 28b ASM_TAILSLOT_PIN
- * makes maspsx's _rotate_dead_value_into_tail_j_delay (ARM B, empty-slot sink)
- * sink the copy into the nop slot -- the remaining 1-word substitution. Plain
- * ASM_KEEP is NOT enough: it keeps the copy but leaves it standing before the
- * `j`, costing an extra word (59/58, aligned 5). */

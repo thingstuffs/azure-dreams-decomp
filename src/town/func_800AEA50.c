@@ -13,83 +13,84 @@ typedef struct {
 
 extern Config D_8008333C;
 
-s32 func_800AC1B0(s16 arg0, s16 arg1, s16 arg2, s32 arg3) {
-    u16 *sp10;
-    u16 *loaded;
+/* Counts flagged tiles along a direction for up to ten in-bounds positions. */
+s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
+    u16 *tiles;
+    u16 *tile_data;
     Config *config;
-    s32 var_a3;
-    s16 temp_v0;
-    s16 temp_v0_2;
-    register s16 var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 temp_a1;
-    s32 temp_s5;
-    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 arg0_shift;
-    register s32 var_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u16 *temp_s8;
-    u8 *table_base;
+    s32 bounds_one;
+    s16 next_x;
+    s16 next_y;
+    register s16 y ASM_REG("$18");
+    register s16 x ASM_REG("$19");
+    s32 tile_x;
+    s32 direction_offset;
+    register s32 steps_left ASM_REG("$17");
+    register s16 flagged_count ASM_REG("$20");
+    s32 result;
+    s32 x_shifted;
+    s32 direction_shifted;
+    register s32 step_one ASM_REG("$23");
+    u16 *x_step;
+    u8 *x_steps;
 
-    var_a3 = arg3;
-    var_s3 = arg1;
-    var_s2 = arg2;
-    var_s1 = 0xA;
-    var_s4 = 0;
+    bounds_one = unused;
+    x = start_x;
+    y = start_y;
+    steps_left = 0xA;
+    flagged_count = 0;
     config = &D_8008333C;
-    loaded = *(u16 **)&D_8008333C;
-    sp10 = loaded;
-    if (arg1 < 0) {
-        goto block_bad;
+    tile_data = *(u16 **)&D_8008333C;
+    tiles = tile_data;
+    if (start_x < 0) {
+        goto invalid_position;
     }
-    var_a3 = 1;
-    if (arg1 >= (var_a3 << config->field14)) {
-        goto block_bad;
+    bounds_one = 1;
+    if (start_x >= (bounds_one << config->field14)) {
+        goto invalid_position;
     }
-    if (arg2 < 0) {
+    if (start_y < 0) {
         return 0;
     }
-    if (arg2 < (var_a3 << config->field16)) {
-        goto block_8;
+    if (start_y < (bounds_one << config->field16)) {
+        goto scan_start;
     }
-block_bad:
+invalid_position:
     return 0;
-block_8:
-            arg0_shift = arg0 << 0x10;
-            table_base = (u8 *)&D_8006CCD8;
-            temp_s5 = arg0_shift >> 0xF;
-            temp_s8 = (u16 *)(table_base + temp_s5);
-            var_s7 = 1;
-loop_7:
-            var_v0_2 = var_s3 << 0x10;
-            temp_a1 = var_v0_2 >> 0x10;
-            if (!(*(u16 *)((u8 *)sp10 +
-                          ((temp_a1 + (var_s2 << config->field14)) << 1)) & 0x8000) ||
-                (var_s4 += 1,
-                 (func_800ABEEC((s16)(arg0_shift >> 0x10), temp_a1, var_s2) < 2))) {
-                temp_v0 = var_s3 + *temp_s8;
-                var_s3 = temp_v0;
-                if (temp_v0 >= 0) {
-                    if (temp_v0 < (var_s7 << config->field14)) {
-                        temp_v0_2 = var_s2 + *(u16 *)((u8 *)&D_8006CCE8 + temp_s5);
-                        var_s2 = temp_v0_2;
-                        if (temp_v0_2 >= 0) {
-                            if (temp_v0_2 < (var_s7 << config->field16)) {
-                                var_s1 -= 1;
-                                if (var_s1 <= 0) {
-                                    goto block_14;
-                                }
-                                goto loop_7;
-                            }
+scan_start:
+    direction_shifted = direction << 0x10;
+    x_steps = (u8 *)&D_8006CCD8;
+    direction_offset = direction_shifted >> 0xF;
+    x_step = (u16 *)(x_steps + direction_offset);
+    step_one = 1;
+scan_next:
+    x_shifted = x << 0x10;
+    tile_x = x_shifted >> 0x10;
+    if (!(*(u16 *)((u8 *)tiles +
+                  ((tile_x + (y << config->field14)) << 1)) & 0x8000) ||
+        (flagged_count += 1,
+         (func_800ABEEC((s16)(direction_shifted >> 0x10), tile_x, y) < 2))) {
+        next_x = x + *x_step;
+        x = next_x;
+        if (next_x >= 0) {
+            if (next_x < (step_one << config->field14)) {
+                next_y = y + *(u16 *)((u8 *)&D_8006CCE8 + direction_offset);
+                y = next_y;
+                if (next_y >= 0) {
+                    if (next_y < (step_one << config->field16)) {
+                        steps_left -= 1;
+                        if (steps_left <= 0) {
+                            goto scan_done;
                         }
-                    } else {
-block_14:
-                        ;
+                        goto scan_next;
                     }
                 }
+            } else {
+scan_done:
+                ;
             }
-            var_v0 = var_s4;
-            return var_v0;
+        }
+    }
+    result = flagged_count;
+    return result;
 }

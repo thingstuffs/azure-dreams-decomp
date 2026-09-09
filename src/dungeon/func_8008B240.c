@@ -21,74 +21,75 @@ extern u8 D_800DD008[8];
 extern u8 D_800DD010[8];
 extern StateFunc D_800DD168[];
 
-void to_camera_zero_00(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances the camera reset animation and resumes actor state handling. */
+void to_camera_zero_00(void *actor, void *context, void *animation, void *transform)
 {
-    u8 *data = D_80083160;
-    s32 state;
+    u8 *camera = D_80083160;
+    s32 phase;
     Status *status;
 
-    state = *(u8 *)((u8 *)arg0 + 0x9B);
-    if (state == 1) {
+    phase = *(u8 *)((u8 *)actor + 0x9B);
+    if (phase == 1) {
         goto state_1;
     }
-    if (state < 2) {
-        if (state == 0) {
+    if (phase < 2) {
+        if (phase == 0) {
             goto state_0;
         }
         return;
     }
-    if (state == 2) {
+    if (phase == 2) {
         goto state_2;
     }
     return;
 
 state_0:
-        if (*(u16 *)((u8 *)arg2 + 0x14) & 0xE000) {
-            *(u8 **)((u8 *)arg2 + 0x2C) = D_800DD008;
-            func_80048A44(arg2,
-                D_800DD008[((*(s16 *)(data + 0xC8) +
-                    *(s16 *)((u8 *)arg3 + 0x2A) + 0x100) >> 9) & 7], 0, 1);
-            *(u8 *)((u8 *)arg0 + 0x9B) += 1;
-        }
-        return;
+    if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
+        *(u8 **)((u8 *)animation + 0x2C) = D_800DD008;
+        func_80048A44(animation,
+            D_800DD008[((*(s16 *)(camera + 0xC8) +
+                *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
+        *(u8 *)((u8 *)actor + 0x9B) += 1;
+    }
+    return;
 
 state_1:
-        if (*(u16 *)(data + 8) != 0) {
-            *(u8 **)((u8 *)arg2 + 0x2C) = D_800DD010;
-            func_80048A44(arg2,
-                D_800DD010[((*(s16 *)(data + 0xC8) +
-                    *(s16 *)((u8 *)arg3 + 0x2A) + 0x100) >> 9) & 7], 0, 1);
-            *(u8 *)((u8 *)arg0 + 0x9B) += 1;
+    if (*(u16 *)(camera + 8) != 0) {
+        *(u8 **)((u8 *)animation + 0x2C) = D_800DD010;
+        func_80048A44(animation,
+            D_800DD010[((*(s16 *)(camera + 0xC8) +
+                *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
+        *(u8 *)((u8 *)actor + 0x9B) += 1;
 
-            status = &D_80083460;
-            status->flags &= 0xFEFF;
-            if ((s16)func_80094EA4() != 0) {
-                if (status->unkA != 0) {
-                    status->flags |= 4;
-                }
-                func_8008ACDC(arg0, arg1, arg2, arg3);
-                if (*(u8 *)((u8 *)arg0 + 0x9A) != 0x17) {
-                    D_800DD168[*(volatile u8 *)((u8 *)arg0 + 0x9A)](arg0, arg1, arg2, arg3);
-                }
+        status = &D_80083460;
+        status->flags &= 0xFEFF;
+        if ((s16)func_80094EA4() != 0) {
+            if (status->unkA != 0) {
+                status->flags |= 4;
+            }
+            func_8008ACDC(actor, context, animation, transform);
+            if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {
+                D_800DD168[*(volatile u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
             }
         }
-        return;
+    }
+    return;
 
 state_2:
-        if ((s16)func_80094EA4() != 0) {
-            if (D_80083460.unkA != 0) {
-                D_80083460.flags |= 4;
-            }
-            func_8008ACDC(arg0, arg1, arg2, arg3);
-            if (*(u8 *)((u8 *)arg0 + 0x9A) != 0x17) {
-                D_800DD168[*(volatile u8 *)((u8 *)arg0 + 0x9A)](arg0, arg1, arg2, arg3);
-                return;
-            }
+    if ((s16)func_80094EA4() != 0) {
+        if (D_80083460.unkA != 0) {
+            D_80083460.flags |= 4;
         }
+        func_8008ACDC(actor, context, animation, transform);
+        if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {
+            D_800DD168[*(volatile u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
+            return;
+        }
+    }
 
-        if (*(u16 *)((u8 *)arg2 + 0x14) & 0xE000) {
-            *(u8 *)((u8 *)arg0 + 0x9A) = 0xE;
-            *(s16 *)((u8 *)arg0 + 0xA4) = 0;
-            *(s32 *)((u8 *)arg0 + 0x8C) = (s32)&D_8008ACDC;
-        }
+    if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
+        *(u8 *)((u8 *)actor + 0x9A) = 0xE;
+        *(s16 *)((u8 *)actor + 0xA4) = 0;
+        *(s32 *)((u8 *)actor + 0x8C) = (s32)&D_8008ACDC;
+    }
 }

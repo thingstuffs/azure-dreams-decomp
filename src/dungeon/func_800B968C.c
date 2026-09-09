@@ -34,41 +34,40 @@ extern u8 D_800E11AB[];
 extern u8 D_800E11D7[];
 extern u8 *D_800E3D7C[];
 
-s32 func_800BEDEC(u32 arg0, u8 *arg1, s16 arg2, s32 arg3) {
-    register u8 *base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register u32 object ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 chain ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *other;
-    register s32 temp ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register u8 *item ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+/* Applies an item effect to its target and prepares the resulting message. */
+s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_value) {
+    register u8 *actor ASM_REG("$4");
+    register u32 target ASM_REG("$16") = target_addr;
+    register s32 text_cursor;
+    u8 *linked_item;
+    register s32 text_start;
+    register u8 *item ASM_REG("$20") = used_item;
 
-    ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(item);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(target);
+    ASM_KEEP_NV(item);
 
-    if (arg2 == 0xD) {
-        return func_80098864(item, arg3);
+    if (effect_type == 0xD) {
+        return func_80098864(item, effect_value);
     }
 
-    base = D_800E3D7C[0];
-    if ((u8 *)object == base) {
-        u8 flags;
+    actor = D_800E3D7C[0];
+    if ((u8 *)target == actor) {
+        u8 item_flags;
         s32 result;
 
-        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        *(u8 **)(base + 0x110) = item;
-        func_8008D344(base, D_80083780, D_80082E80, base);
-        flags = item[3];
-        ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(actor);
+        *(u8 **)(actor + 0x110) = item;
+        func_8008D344(actor, D_80083780, D_80082E80, actor);
+        item_flags = item[3];
         result = 0;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        item[3] = flags & 0xDF;
+        item[3] = item_flags & 0xDF;
         return result;
     }
 
-    if (object <= 0x9FFFFFFF) {
-        func_800A6480(object, item, arg2);
-        if (func_800AD6FC(object, D_800DDE84[*(u8 *)(object + 0x13)] & 3, 0) == 0) {
-            func_800A5F38(object, item);
+    if (target <= 0x9FFFFFFF) {
+        func_800A6480(target, item, effect_type);
+        if (func_800AD6FC(target, D_800DDE84[*(u8 *)(target + 0x13)] & 3, 0) == 0) {
+            func_800A5F38(target, item);
             return 1;
         }
         D_80083460.fieldA--;
@@ -76,61 +75,56 @@ s32 func_800BEDEC(u32 arg0, u8 *arg1, s16 arg2, s32 arg3) {
         return 1;
     }
 
-    other = *(u8 **)(base + 0x50);
-    if (other != 0) {
+    linked_item = *(u8 **)(actor + 0x50);
+    if (linked_item != 0) {
         if (!(item[3] & 0x20)) {
-            u8 flags;
-            register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u8 item_flags;
+            register s32 result;
 
-            *(s32 *)(base + 0x114) = 0x802020;
-            func_8008D368(base, D_80083780, D_80082E80, D_800DD158, 0);
-            flags = item[3];
-            ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            *(s32 *)(actor + 0x114) = 0x802020;
+            func_8008D368(actor, D_80083780, D_80082E80, D_800DD158, 0);
+            item_flags = item[3];
             result = 0;
-            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            item[3] = flags | 0x20;
+            item[3] = item_flags | 0x20;
             return result;
         }
 
         {
-            s32 message_value;
-            register u8 *message_base ASM_REG("$4"); /* MATCH: merged message addresses are formed in a0 in both arms. */
-            register s32 message_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            s32 text_end;
+            register u8 *message_text ASM_REG("$4");
+            register s32 message_end ASM_REG("$5");
 
-            if (!(other[3] & 0x40)) {
-                s32 next;
-                s32 old_arg;
+            if (!(linked_item[3] & 0x40)) {
+                s32 next_cursor;
+                s32 saved_cursor;
 
-                temp = func_800990FC();
-                ASM_KEEP(temp);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                chain = func_8009955C(other, temp);
-                if (*(s8 *)(other + 2) < 0x63) {
-                    other[2] = other[2] + 1;
+                text_start = func_800990FC();
+                text_cursor = func_8009955C(linked_item, text_start);
+                if (*(s8 *)(linked_item + 2) < 0x63) {
+                    linked_item[2] = linked_item[2] + 1;
                 }
-                chain = func_80099978(func_80099194(D_800E118C, chain));
-                next = func_80099194(D_8008936C, chain);
-                object = chain - 2;
-                chain = next;
-                next = func_80099368(other, chain);
-                old_arg = chain;
-                chain = next;
-                func_800998C0(object, old_arg);
-                message_base = D_80089370;
-                message_arg = chain;
+                text_cursor = func_80099978(func_80099194(D_800E118C, text_cursor));
+                next_cursor = func_80099194(D_8008936C, text_cursor);
+                target = text_cursor - 2;
+                text_cursor = next_cursor;
+                next_cursor = func_80099368(linked_item, text_cursor);
+                saved_cursor = text_cursor;
+                text_cursor = next_cursor;
+                func_800998C0(target, saved_cursor);
+                message_text = D_80089370;
+                message_end = text_cursor;
             } else {
-                temp = func_800990FC();
+                text_start = func_800990FC();
 
-                message_value = func_80099368(other, temp);
-                message_base = D_800E11AB;
-                ASM_KEEP(message_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                message_arg = message_value;
-                ASM_KEEP(message_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                text_end = func_80099368(linked_item, text_start);
+                message_text = D_800E11AB;
+                message_end = text_end;
             }
-            func_80099290(func_80099194(message_base, message_arg));
+            func_80099290(func_80099194(message_text, message_end));
         }
-        func_800A5720(temp);
+        func_800A5720(text_start);
     } else {
-        func_800997FC(D_800E11D7, arg3, arg2);
+        func_800997FC(D_800E11D7, effect_value, effect_type);
     }
     D_80083460.fieldA--;
     func_80098B38(item);

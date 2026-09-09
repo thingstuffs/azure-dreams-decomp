@@ -2,7 +2,6 @@
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-
 extern s32 func_800A9E38(void *arg0);
 extern s32 func_800A2BDC(void *arg0);
 extern void func_8003DB94(void *arg0, s32 arg1, s8 arg2);
@@ -15,9 +14,6 @@ extern s16 D_80083228;
 extern s16 D_800DCE68;
 extern u8 D_8006CCF8[8];
 extern u8 D_80083460[0x14];
-
-
-
 
 typedef struct S_800A9E70_2 {
     u8 pad_00[0x4];
@@ -38,128 +34,121 @@ typedef struct S_800A9E70_3 {
     s32 unk_10;
 } S_800A9E70_3;   /* state in func_800A9E70 */
 
-s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Rec_D_800E3D7C *arg3) {
-    u8 *state;
-    void *held;
-    s32 flags14;
+/* Updates entity facing and applies pending animation changes. */
+s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, Rec_D_800E3D7C *entity) {
+    u8 *interaction_state;
+    void *active_entity;
+    s32 entity_flags;
     s32 direction;
-    s32 held_arg1 = arg1;
-    s32 type;
-    u16 value46;
+    s32 action_type;
+    u16 action_flags;
 
-    if (arg3->unk_14.as_s32 & 0x100000) {
-        direction = ((D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7;
-        if (arg0->unk_94 != direction) {
-            if (func_800A9E38(arg3) != 0) {
-                func_8003DB94(arg2, arg2->unk_2C.p[direction],
-                              arg2->unk_04);
-                arg0->unk_94 = direction;
+    if (entity->unk_14.as_s32 & 0x100000) {
+        direction = ((D_80083228 + entity->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        if (anim->unk_94 != direction) {
+            if (func_800A9E38(entity) != 0) {
+                func_8003DB94(sprite, sprite->unk_2C.p[direction],
+                              sprite->unk_04);
+                anim->unk_94 = direction;
             } else {
-                func_80047738(arg2, arg2->unk_2C.p2[direction],
-                              arg2->unk_04);
-                arg0->unk_94 = direction;
+                func_80047738(sprite, sprite->unk_2C.p2[direction],
+                              sprite->unk_04);
+                anim->unk_94 = direction;
             }
         }
         if (D_8006CCF8[direction] != 0) {
-            arg2->unk_14 |= 1;
+            sprite->unk_14 |= 1;
         } else {
-            ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            arg2->unk_14 &= 0xFFFE;
+            sprite->unk_14 &= 0xFFFE;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        func_800478B8(arg2);
+        func_800478B8(sprite);
         return 1;
     }
 
-    if (arg3->unk_1C.as_s32 & 0x400) {
-        value46 = arg3->unk_44.at02_u16.v;
-        if (value46 & 0x8000) {
-            if (!(value46 & 0x4000)) {
-                type = value46 & 0x3FFF;
-                if (((u32)(type - 5) < 3U) || (type == 0xC)) {
-                    arg3->unk_44.at02_u16.v = value46 & 0x7FFF;
+    if (entity->unk_1C.as_s32 & 0x400) {
+        action_flags = entity->unk_44.at02_u16.v;
+        if (action_flags & 0x8000) {
+            if (!(action_flags & 0x4000)) {
+                action_type = action_flags & 0x3FFF;
+                if (((u32)(action_type - 5) < 3U) || (action_type == 0xC)) {
+                    entity->unk_44.at02_u16.v = action_flags & 0x7FFF;
                 }
             }
         }
     }
 
-    if (!(arg2->unk_14 & 0x8000)) {
-        if (arg0->unk_98 & 0x400) {
-            direction = ((D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7;
-            if (func_800A9E38(arg3) != 0) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                func_8003DB94(arg2, arg2->unk_2C.p[direction],
-                              arg2->unk_04);
+    if (!(sprite->unk_14 & 0x8000)) {
+        if (anim->unk_98 & 0x400) {
+            direction = ((D_80083228 + entity->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            if (func_800A9E38(entity) != 0) {
+                func_8003DB94(sprite, sprite->unk_2C.p[direction],
+                              sprite->unk_04);
             } else {
-                func_80047738(arg2, arg2->unk_2C.p2[direction],
-                              arg2->unk_04);
+                func_80047738(sprite, sprite->unk_2C.p2[direction],
+                              sprite->unk_04);
             }
-            arg0->unk_98 &= 0xFBFF;
+            anim->unk_98 &= 0xFBFF;
         }
     } else {
-        arg0->unk_98 |= 0x400;
+        anim->unk_98 |= 0x400;
     }
 
-    if ((arg3->unk_1C.as_s32 & 0x2000) ||
-        (arg3->unk_14.as_s32 & 0x4000)) {
-        if ((u32)(arg0->unk_9A.as_u8 - 0x13) >= 2U) {
-            if (arg3->unk_6D.as_s8 == 0) {
+    if ((entity->unk_1C.as_s32 & 0x2000) ||
+        (entity->unk_14.as_s32 & 0x4000)) {
+        if ((u32)(anim->unk_9A.as_u8 - 0x13) >= 2U) {
+            if (entity->unk_6D.as_s8 == 0) {
                 if (D_800DCE68 == 0) {
-                    if ((func_800A2BDC(arg3) << 0x10) != 0) {
-                        register s32 tail_zero ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-                        ASM_KEEP(tail_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                        return;
+                    if ((func_800A2BDC(entity) << 0x10) != 0) {
+                        return 0;
                     }
-                    goto block_16;
+                    goto update_anim;
                 }
-                state = D_80083460;
-                held = ((S_800A9E70_3 *)state)->unk_0C;
-                if (held != arg3) {
-                    if ((((S_800A9E70_3 *)state)->unk_10 == 0) && (held == 0) &&
-                        (((S_800A9E70_3 *)state)->unk_08 == 0) &&
-                        !(((S_800A9E70_3 *)state)->unk_02 & 0x2008) &&
-                        (arg3->unk_43 == 0xFD)) {
-                        ((S_800A9E70_3 *)state)->unk_0C = arg3;
-                        goto block_15;
+                interaction_state = D_80083460;
+                active_entity = ((S_800A9E70_3 *)interaction_state)->unk_0C;
+                if (active_entity != entity) {
+                    if ((((S_800A9E70_3 *)interaction_state)->unk_10 == 0) && (active_entity == 0) &&
+                        (((S_800A9E70_3 *)interaction_state)->unk_08 == 0) &&
+                        !(((S_800A9E70_3 *)interaction_state)->unk_02 & 0x2008) &&
+                        (entity->unk_43 == 0xFD)) {
+                        ((S_800A9E70_3 *)interaction_state)->unk_0C = entity;
+                        goto check_active_entity;
                     }
                 } else {
-                block_15:
-                    if (arg3->unk_43 == 0xFD) {
-                    block_16:
-                        if (arg3->unk_1C.as_s32 & 0x400000) {
-                            arg0->unk_8C = 0;
-                            flags14 = arg3->unk_14.as_s32;
-                            arg3->unk_1C.as_s32 &= 0xFFBFFFFF;
-                            if (flags14 & 0x20000000) {
-                                arg3->unk_14.as_s32 = flags14 | 0x400000;
-                                func_800ACB98(arg0, held_arg1, arg2, arg3);
+                check_active_entity:
+                    if (entity->unk_43 == 0xFD) {
+                    update_anim:
+                        if (entity->unk_1C.as_s32 & 0x400000) {
+                            anim->unk_8C = 0;
+                            entity_flags = entity->unk_14.as_s32;
+                            entity->unk_1C.as_s32 &= 0xFFBFFFFF;
+                            if (entity_flags & 0x20000000) {
+                                entity->unk_14.as_s32 = entity_flags | 0x400000;
+                                func_800ACB98(anim, action_arg, sprite, entity);
                                 return 0;
                             }
-                            arg3->unk_14.as_s32 = flags14 & 0xFFBFFFFF;
+                            entity->unk_14.as_s32 = entity_flags & 0xFFBFFFFF;
                             {
-                                u32 tail_value = flags14 & 0x4000;
-                                if (tail_value) {
-                                    tail_value = 1;
+                                u32 next_anim = entity_flags & 0x4000;
+                                if (next_anim) {
+                                    next_anim = 1;
                                 } else {
-                                    tail_value = 2;
+                                    next_anim = 2;
                                 }
-                                ASM_SCHED_BARRIER(); /* MATCH: Keep the selected type's store shared before the tail jump. */
-                                arg0->unk_9A.as_u8 = tail_value;
+                                anim->unk_9A.as_u8 = next_anim;
                             }
-                            goto block_17;
+                            goto reset_anim_step;
                         }
-                        if (arg3->unk_1C.as_s32 & 0x02000000) {
-                            arg0->unk_8C = 0;
-                            arg3->unk_71.as_u8 = 0;
-                            arg3->unk_1C.as_s32 &= 0xFDFFFFFF;
-                            if (arg3->unk_14.as_s32 & 0x20000000) {
-                                func_800ACD74(arg0, held_arg1, arg2, arg3);
+                        if (entity->unk_1C.as_s32 & 0x02000000) {
+                            anim->unk_8C = 0;
+                            entity->unk_71.as_u8 = 0;
+                            entity->unk_1C.as_s32 &= 0xFDFFFFFF;
+                            if (entity->unk_14.as_s32 & 0x20000000) {
+                                func_800ACD74(anim, action_arg, sprite, entity);
                                 return 0;
                             }
-                            arg0->unk_9A.as_u8 = 0;
-                        block_17:
-                            arg0->unk_9B.as_u8 = 0;
+                            anim->unk_9A.as_u8 = 0;
+                        reset_anim_step:
+                            anim->unk_9B.as_u8 = 0;
                         }
                     }
                 }
@@ -168,8 +157,3 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *arg0, s32 arg1, S_800A9E70_2 *arg2, Re
     }
     return 0;
 }
-
-/* MECHANISM: A held arg1 in s4, kept live after the first direction region, preserves
-   the 0x28 s3/s4/s2/s1/s0 frame without fencing either region's retail schedule.
-   Splitting the no-call type local yields a0; the isolated v0-zero edge pin fills
-   func_800A2BDC's branch delay while the two tail-value pins preserve dispatcher tails. */

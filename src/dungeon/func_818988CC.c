@@ -38,27 +38,24 @@ extern u8 D_80024024[];
 extern u8 D_80024E88[];
 extern u8 D_80045340[];
 
-void *func_800240CC(void *arg0, Copy24 *arg1, s16 arg2)
+/* Creates a sprite object with random rotation and copies its initial data. */
+void *func_800240CC(void *context, Copy24 *copy_src, s16 initial_value)
 {
     Object *obj;
     S_800240CC_0 *fields;
     Sprite *sprite;
     Copy24 *dst;
-    s32 copy_a0;
-    s32 copy_a1;
-    s32 copy_a2;
-    s32 copy_a3;
     s32 random_value;
-    register Object *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register Object *result;
     register Object *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
         obj->callback = D_80024024;
         fields = (u8 *)obj + 0x20;
-        do { fields->unk_0C = arg0; } while (0);
+        do { fields->unk_0C = context; } while (0);
         fields->unk_10 = 0;
-        fields->unk_12 = arg2;
+        fields->unk_12 = initial_value;
 
         sprite = obj->sprite;
         sprite->color[2] = 0x80;
@@ -75,7 +72,7 @@ void *func_800240CC(void *arg0, Copy24 *arg1, s16 arg2)
         do { dst = obj->dst; } while (0);
         result = obj;
         ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        *dst = *arg1;
+        *dst = *copy_src;
         return result;
     }
     return 0;

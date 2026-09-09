@@ -61,82 +61,75 @@ typedef struct S_8008C5C4_6 {
     void * unk_60;
 } S_8008C5C4_6;   /* ((S_8008C5C4_2 *)arg0)->unk_124 in func_8008C5C4 */
 
-s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, Rec_D_800E3D7C *arg3) {
-    s32 temp_a3;
-    s32 temp_v0;
-    s32 temp_v1;
-    s32 var_v0;
-    register u32 tail_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Find a target ahead of the actor and initialize the interaction state. */
+s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Rec_D_800E3D7C *actor) {
+    s32 target;
+    s32 target_result;
+    s32 direction_offset;
+    s32 result;
+    register u32 tail_page ASM_REG("$3");
     s32 tail_result;
-    s32 state_value;
-    register s32 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 mode;
+    register s32 target_kind;
 
-    temp_v1 = ((u16)arg3->unk_2A.as_u16 >> 8) & 0xE;
-    temp_v0 = func_8009B5AC(
-        arg3,
-        (s16)(arg2->unk_24 + *(u16 *)(D_8006CCD8 + temp_v1)),
-        (s16)(arg2->unk_25 + *(u16 *)(D_8006CCE8 + temp_v1)));
-    arg0->unk_124 = temp_v0;
-    if (temp_v0 != 0) {
-        var_v0 = -1;
-        if (temp_v0 <= 0) {
-            if (!(((S_8008C5C4_3 *)temp_v0)->unk_14 & 0x80000)) {
-                arg0->unk_11C = temp_v0;
-                arg0->unk_124 = 0;
+    direction_offset = ((u16)actor->unk_2A.as_u16 >> 8) & 0xE;
+    target_result = func_8009B5AC(
+        actor,
+        (s16)(position->unk_24 + *(u16 *)(D_8006CCD8 + direction_offset)),
+        (s16)(position->unk_25 + *(u16 *)(D_8006CCE8 + direction_offset)));
+    action->unk_124 = target_result;
+    if (target_result != 0) {
+        result = -1;
+        if (target_result <= 0) {
+            if (!(((S_8008C5C4_3 *)target_result)->unk_14 & 0x80000)) {
+                action->unk_11C = target_result;
+                action->unk_124 = 0;
             } else {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                state_value = *(s32 *)0x80012090;
-                if (state_value == 1) {
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    temp_v1_2 = ((S_8008C5C4_3 *)temp_v0)->unk_13;
-                    if ((temp_v1_2 == 0x39) || (temp_v1_2 == 2)) {
+                mode = *(s32 *)0x80012090;
+                if (mode == 1) {
+                    target_kind = ((S_8008C5C4_3 *)target_result)->unk_13;
+                    if ((target_kind == 0x39) || (target_kind == 2)) {
                         if (D_80083170[0] & 0x40) {
                             func_800A56E0(0x506);
-                            func_80099844(arg0->unk_124, &D_800E0495);
+                            func_80099844(action->unk_124, &D_800E0495);
                             tail_result = 0;
                         } else {
                             tail_result = 0;
                         }
-                        ASM_KEEP(tail_result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                        ASM_KEEP(tail_result);
                         tail_page = 0x80080000;
-                        ASM_KEEP(tail_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                        ASM_KEEP(tail_page);
                         ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
                         tail_page = 0x80090000;
-                        ASM_KEEP(tail_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                        ASM_KEEP(tail_page);
                         tail_page -= 0x5324;
-                        arg0->unk_124 = 0;
-                        arg0->unk_8C.p = (void *)tail_page;
+                        action->unk_124 = 0;
+                        action->unk_8C.p = (void *)tail_page;
                         return;
                     }
                 }
-                temp_a3 = arg0->unk_124;
-                ((S_8008C5C4_5 *)temp_a3)->unk_1C |= 0x80000;
-                arg3->unk_1C.as_s32 |= 0x100000;
-                ((S_8008C5C4_6 *)(arg0->unk_124))->unk_60 = arg3;
-                func_8009F644(arg3, 0x20, 0, 0);
+                target = action->unk_124;
+                ((S_8008C5C4_5 *)target)->unk_1C |= 0x80000;
+                actor->unk_1C.as_s32 |= 0x100000;
+                ((S_8008C5C4_6 *)(action->unk_124))->unk_60 = actor;
+                func_8009F644(actor, 0x20, 0, 0);
                 func_800A56E0(0x511);
             }
-            arg0->unk_9A = 0x1B;
-            arg0->unk_9B = 0;
-            arg0->unk_8C.p = 0;
-            arg2->unk_2C = D_800DCFC8;
+            action->unk_9A = 0x1B;
+            action->unk_9B = 0;
+            action->unk_8C.p = 0;
+            position->unk_2C = D_800DCFC8;
             func_80048A44(
-                arg2,
+                position,
                 D_800DCFC8[((s32)(D_80083228[0] +
-                                         (s16)arg3->unk_2A.as_u16 + 0x100) >>
-                                  9) &
-                                 7],
+                                 (s16)actor->unk_2A.as_u16 + 0x100) >> 9) & 7],
                 0, 1);
             tail_result = 1;
             return tail_result;
         }
-        return var_v0;
+        return result;
     }
-    arg0->unk_8C.p2 = D_8008ACDC;
-    var_v0 = 0;
-    return var_v0;
+    action->unk_8C.p2 = D_8008ACDC;
+    result = 0;
+    return result;
 }
-
-/* MECHANISM: The natural 0x20 frame holds arg0/arg2/arg3 in s0/s2/s1; v1 locals
-   split the D_80012090 load and tail page bases, with fences at scheduling seams.
-   Branch-local v0 merges and per-site noreturn/tail-slot contracts recover both tails. */

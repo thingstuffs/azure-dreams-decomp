@@ -56,81 +56,75 @@ typedef struct S_80174D48_3 {
 } S_80174D48_3;   /* temp_s1 in func_80174D48 */
 
 
-void func_80174D48(void *arg0, Rec_func_800AD058_arg2 *arg1, void *arg2)
+/* Creates and initializes a display object from the source position and appearance. */
+void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearance)
 {
-    s32 temp_a2;
-    s32 temp_byte;
-    s32 temp_copy;
-    void *first_call_a0;
-    u32 first_call_page;
-    void *call_a0;
-    s32 call_zero;
-    s32 temp_half;
-    S_80174D48_3 *temp_s1;
-    register void *temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *tail_value;
-    void *temp_v0;
-    S_80174D48_2 *temp_v1;
+    s32 coord_z;
+    s32 record_byte;
+    s32 coord_value;
+    void *init_object;
+    u32 init_address;
+    void *active_object;
+    s32 zero;
+    s32 sprite_size;
+    S_80174D48_3 *sprite;
+    register void *data_base ASM_REG("$18");
+    register void *object_data ASM_REG("$19");
+    void *texture;
+    void *object;
+    S_80174D48_2 *transform;
 
-    if (((*(u8 *)((u8 *)arg2 + 0x49)) != 0) &&
-        (temp_v0 = func_8003FC64(0x12), temp_v0 != NULL)) {
-        first_call_a0 = temp_v0;
-        ASM_KEEP(first_call_a0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_v1 = ((S_80174D48_0 *)temp_v0)->unk_08;
-        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_s2 = arg0;
-        temp_copy = ((S_80174D48_1 *)temp_s2)->unk_00;
-        temp_s1 = ((S_80174D48_0 *)temp_v0)->unk_0C;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        first_call_page = 0x80040000;
-        ASM_KEEP(first_call_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        temp_v1->unk_00 = temp_copy;
-        temp_copy = ((S_80174D48_1 *)temp_s2)->unk_04;
-        first_call_page += 0x5340;
-        temp_v1->unk_04 = temp_copy;
-        temp_a2 = ((S_80174D48_1 *)temp_s2)->unk_08;
-        temp_v1->unk_10 = 0;
-        temp_v1->unk_0C = 0;
-        temp_v1->unk_14 = 0xFFEE0000;
-        temp_v1->unk_08 = temp_a2;
-        func_8004491C(first_call_a0, (void *)first_call_page, temp_a2);
-        temp_s1->unk_0C = 0x808080;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_half = 0xC90;
-        ASM_KEEP(temp_half);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_s3 = (u8 *)temp_v0 + 0x20;
-        temp_s1->unk_1E = temp_half;
-        temp_s1->unk_1C = temp_half;
-        temp_s2 = temp_s3;
-        if ((*(u8 *)((u8 *)arg2 + 0x49)) == 0x12) {
-            tail_value = (void *)0x80070000;
-            ASM_KEEP(tail_value); /* MATCH: Split the address so its low half fills the jump delay slot. */
-            tail_value = (u8 *)tail_value - 0x1DC0;
+    if (((*(u8 *)((u8 *)appearance + 0x49)) != 0) &&
+        (object = func_8003FC64(0x12), object != NULL)) {
+        init_object = object;
+        ASM_KEEP(init_object);
+        transform = ((S_80174D48_0 *)object)->unk_08;
+        ASM_KEEP(transform);
+        data_base = source;
+        coord_value = ((S_80174D48_1 *)data_base)->unk_00;
+        sprite = ((S_80174D48_0 *)object)->unk_0C;
+        ASM_SCHED_BARRIER();
+        init_address = 0x80040000;
+        ASM_KEEP(init_address);
+        transform->unk_00 = coord_value;
+        coord_value = ((S_80174D48_1 *)data_base)->unk_04;
+        init_address += 0x5340;
+        transform->unk_04 = coord_value;
+        coord_z = ((S_80174D48_1 *)data_base)->unk_08;
+        transform->unk_10 = 0;
+        transform->unk_0C = 0;
+        transform->unk_14 = 0xFFEE0000;
+        transform->unk_08 = coord_z;
+        func_8004491C(init_object, (void *)init_address, coord_z);
+        sprite->unk_0C = 0x808080;
+        ASM_SCHED_BARRIER();
+        sprite_size = 0xC90;
+        ASM_KEEP(sprite_size);
+        object_data = (u8 *)object + 0x20;
+        sprite->unk_1E = sprite_size;
+        sprite->unk_1C = sprite_size;
+        data_base = object_data;
+        if ((*(u8 *)((u8 *)appearance + 0x49)) == 0x12) {
+            texture = (void *)0x80070000;
+            ASM_KEEP(texture);
+            texture = (u8 *)texture - 0x1DC0;
         } else {
-            tail_value = (void *)func_8004A658((*(volatile u8 *)((u8 *)arg2 + 0x49)),
-                          (*(u8 *)((u8 *)arg2 + 0x48)));
+            texture = (void *)func_8004A658((*(volatile u8 *)((u8 *)appearance + 0x49)),
+                          (*(u8 *)((u8 *)appearance + 0x48)));
         }
-        ASM_KEEP(tail_value); /* MATCH: Keep the merged value live at the shared store. */
-        temp_s1->unk_08 = (s32)tail_value;
-        ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_byte = arg1->unk_24;
-        ASM_KEEP(temp_byte);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        call_a0 = temp_v0;
-        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_80174D48_1 *)temp_s2)->unk_A8 = temp_byte;
-        temp_byte = arg1->unk_25;
-        ASM_KEEP(temp_byte);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        call_zero = 0;
-        ASM_KEEP(call_zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_80174D48_1 *)temp_s2)->unk_AA = temp_byte;
-        ASM_KEEP(temp_s3);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        (*(unaligned_s32 *)((u8 *)temp_s3 + 0x48)) = (*(unaligned_s32 *)((u8 *)arg2 + 0x48));
-        func_800BC26C(call_a0, call_zero, call_zero, call_zero);
-        ((S_80174D48_0 *)temp_v0)->unk_10 = D_80174978;
+        sprite->unk_08 = (s32)texture;
+        record_byte = record->unk_24;
+        ASM_KEEP(record_byte);
+        active_object = object;
+        ASM_KEEP(active_object);
+        ((S_80174D48_1 *)data_base)->unk_A8 = record_byte;
+        record_byte = record->unk_25;
+        ASM_KEEP(record_byte);
+        zero = 0;
+        ASM_KEEP(zero);
+        ((S_80174D48_1 *)data_base)->unk_AA = record_byte;
+        (*(unaligned_s32 *)((u8 *)object_data + 0x48)) = (*(unaligned_s32 *)((u8 *)appearance + 0x48));
+        func_800BC26C(active_object, zero, zero, zero);
+        ((S_80174D48_0 *)object)->unk_10 = D_80174978;
     }
 }
-
-/* MECHANISM: Distinct pinned s2/s3 object bases force the retail 0x30 frame and saved-register roles.
-   A packed four-byte assignment produces lwl/lwr/swl/swr; named call ABI values fill load-delay slots.
-   Fenced split a1 materialization plus the noreturn tail carrier reproduce retail scheduling and tail j. */
