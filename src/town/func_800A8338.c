@@ -114,11 +114,7 @@ after_second_update:
         {
             s32 speed_delta;
             speed_delta = D_80100E20 - speed;
-            if (speed_delta < 0) {
-                speed_delta = -speed_delta;
-            }
-            ASM_SCHED_BARRIER();
-            sound_period = ((speed_delta * 7) / D_80100E20) + 2;
+            sound_period = (((speed_delta < 0 ? -speed_delta : speed_delta) * 7) / D_80100E20) + 2;
         }
         {
             u16 tick_count;

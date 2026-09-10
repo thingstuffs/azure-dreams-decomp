@@ -19,7 +19,7 @@ s32 func_800AAE98(Rec_func_800AAE98_arg0 *coordinates) {
     if ((u32) (lookupCode - 0xCE) < 3U) {
         return 0x18;
     }
-    ASM_KEEP(lookupCode);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    lookupCode = 0;
     return 0x60;
 }
 

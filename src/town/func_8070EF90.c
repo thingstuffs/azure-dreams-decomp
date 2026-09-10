@@ -14,13 +14,14 @@ extern s32 func_8001A64C(u32);
 /* Selects text by ID, setting event 0x948 for selector 12. */
 char *func_80017F90(s32 unused, s32 passthru_1, s32 selector_id, s32 passthru_3)
 {
-    register s32 selector ASM_REG("$4") = selector_id;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 arg2_val;
     u32 case_index;
     static void *const case_labels[] = {
         &&L_case19, &&L_case18, &&L_case12, &&L_case52, &&L_default
     };
 
-    case_index = selector - 12;
+    case_index = selector_id - 12;
+    arg2_val = selector_id;
     if (case_index >= 43) {
         goto L_default;
     }
@@ -39,7 +40,7 @@ L_case12:
     return D_8001D000;
 
 L_case52:
-    return func_80016E48(selector, passthru_1, selector_id, passthru_3);
+    return func_80016E48(selector_id, passthru_1, arg2_val, passthru_3);
 
 L_default:
     return D_8001B14C;
