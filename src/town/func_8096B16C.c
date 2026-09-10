@@ -57,7 +57,7 @@ typedef struct S_80123604_8 {
 
 
 #ifdef NON_MATCHING
-#define TIE_LOCAL(value) ((void)0)
+#define ASM_KEEP(value) ((void)0)
 #else
 #define TIE_LOCAL(value) ASM_KEEP(value)
 #endif
@@ -81,19 +81,19 @@ void func_80123604(void) {
         s16 default_first = 0x10;
         s16 default_second = 0xE0;
 
-        TIE_LOCAL(default_first);
-        TIE_LOCAL(default_second);
+        ASM_KEEP(default_first);
+        ASM_KEEP(default_second);
 #ifdef NON_MATCHING
         object_slot = (void **)(D_80129728 + 0x38);
         source_entry = (volatile SourceEntry *)D_80126A18;
 #else
         address_base = (u8 *)0x80130000;
-        TIE_LOCAL(address_base);
+        ASM_KEEP(address_base);
         address_base -= 0x68D8;
-        TIE_LOCAL(address_base);
+        ASM_KEEP(address_base);
         object_slot = (void **)(address_base + 0x38);
         address_base = (u8 *)0x80120000;
-        TIE_LOCAL(address_base);
+        ASM_KEEP(address_base);
         source_entry = (volatile SourceEntry *)(address_base + 0x6A18);
 #endif
         do {
@@ -117,10 +117,10 @@ void func_80123604(void) {
         source_table = D_80126A18;
 #else
         object_table = (u8 *)0x80130000;
-        TIE_LOCAL(object_table);
+        ASM_KEEP(object_table);
         object_table -= 0x68D8;
         source_table = (u8 *)0x80120000;
-        TIE_LOCAL(source_table);
+        ASM_KEEP(source_table);
         source_table += 0x6A18;
 #endif
         ((S_80123604_7 *)(((S_80123604_5 *)(((S_80123604_1 *)object_table)->unk_68))->unk_08))->unk_06 =

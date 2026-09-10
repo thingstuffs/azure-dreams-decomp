@@ -1,10 +1,8 @@
 #include "common.h"
 
 #if !defined(NON_MATCHING) && __GNUC__ < 3
-#define LEGACY_ASM_KEEP(value) \
-    ASM_KEEP(value)
 #else
-#define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
+#define ASM_KEEP(value) ASM_KEEP(value)
 #endif
 
 extern void func_80047784(void *, s32, s32);
@@ -33,7 +31,7 @@ void func_80174FE4(void *action_state, void *unused, void *animation, void *obje
         *(u8 *)((u8 *)object + 0x71) &= 0x7F;
         ASM_USE(state_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         data_page = (u8 *)0x80080000;
-        LEGACY_ASM_KEEP(data_page);
+        ASM_KEEP(data_page);
         state_data = data_page + 0x3460;
         if (!(*(u16 *)(state_data + 2) & 0x2000)) {
             direction_table = D_801755B4;

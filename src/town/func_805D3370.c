@@ -17,49 +17,8 @@ extern M2C_UNK D_8001A685;
 extern M2C_UNK D_8001A8BC;
 extern M2C_UNK D_8001A91D;
 
-#define DISPATCH(offset) do { \
-    register u32 page ASM_REG("$2"); \
-    register M2C_UNK *tail_result ASM_REG("$3"); \
-    page = 0x80020000; \
-    ASM_KEEP(page); \
-    tail_result = (M2C_UNK *)(page - (offset)); \
-    ASM_TAILSLOT_PIN(tail_result); \
-    func_8001749C(); \
-} while (0)
 
-#define DISPATCH2(offset) do { \
-    register u32 page ASM_REG("$2"); \
-    register M2C_UNK *tail_result ASM_REG("$3"); \
-    ASM_SCHED_BARRIER(); \
-    page = 0x80020000; \
-    ASM_KEEP(page); \
-    tail_result = (M2C_UNK *)(page - (offset)); \
-    ASM_TAILSLOT_PIN(tail_result); \
-    func_8001749C(); \
-} while (0)
 
-#define RUN_CASE(offset, other_label, success_label) do { \
-    register u32 page ASM_REG("$2"); \
-    register M2C_UNK *tail_result ASM_REG("$3"); \
-    status = func_800191E8(arg0); \
-    if (status == -0x30) { \
-        page = 0x80020000; \
-        \
-        goto success_label; \
-    } \
-    status = func_800191E8(); \
-    \
-    if (status != -0x38) { \
-        goto other_label; \
-    } \
-    ASM_SCHED_BARRIER(); \
-    page = 0x80020000; \
-    \
-success_label: \
-    tail_result = (M2C_UNK *)(page - (offset)); \
-    ASM_TAILSLOT_PIN(tail_result); \
-    func_8001749C(); \
-} while (0)
 
 M2C_UNK *func_805D3370(s32 arg0, s32 arg1, s32 arg2) {
     M2C_UNK *var_v1;
@@ -69,25 +28,25 @@ M2C_UNK *func_805D3370(s32 arg0, s32 arg1, s32 arg2) {
     if (arg2 != 0x1B) {
         goto case_2c;
     }
-    RUN_CASE(0x56E3, case_1_other, case_1_success);
+    do {  register u32 page ASM_REG("$2");  register M2C_UNK *tail_result ASM_REG("$3");  status = func_800191E8(arg0);  if (status == -0x30) {  page = 0x80020000;   goto case_1_success;  }  status = func_800191E8();   if (status != -0x38) {  goto case_1_other;  }  ASM_SCHED_BARRIER();  page = 0x80020000;   case_1_success:  tail_result = (M2C_UNK *)(page - (0x56E3));  ASM_TAILSLOT_PIN(tail_result);  func_8001749C();  } while (0);
 case_1_other:
-    DISPATCH2(0x5744);
+    do {  register u32 page ASM_REG("$2");  register M2C_UNK *tail_result ASM_REG("$3");  ASM_SCHED_BARRIER();  page = 0x80020000;  ASM_KEEP(page);  tail_result = (M2C_UNK *)(page - (0x5744));  ASM_TAILSLOT_PIN(tail_result);  func_8001749C();  } while (0);
 
 case_2c:
     if (arg2 != 0x2C) {
         goto case_31;
     }
-    RUN_CASE(0x5D19, case_2_other, case_2_success);
+    do {  register u32 page ASM_REG("$2");  register M2C_UNK *tail_result ASM_REG("$3");  status = func_800191E8(arg0);  if (status == -0x30) {  page = 0x80020000;   goto case_2_success;  }  status = func_800191E8();   if (status != -0x38) {  goto case_2_other;  }  ASM_SCHED_BARRIER();  page = 0x80020000;   case_2_success:  tail_result = (M2C_UNK *)(page - (0x5D19));  ASM_TAILSLOT_PIN(tail_result);  func_8001749C();  } while (0);
 case_2_other:
-    DISPATCH2(0x5DF4);
+    do {  register u32 page ASM_REG("$2");  register M2C_UNK *tail_result ASM_REG("$3");  ASM_SCHED_BARRIER();  page = 0x80020000;  ASM_KEEP(page);  tail_result = (M2C_UNK *)(page - (0x5DF4));  ASM_TAILSLOT_PIN(tail_result);  func_8001749C();  } while (0);
 
 case_31:
     if (arg2 != 0x31) {
         goto case_34;
     }
-    RUN_CASE(0x5ADA, case_3_other, case_3_success);
+    do {  register u32 page ASM_REG("$2");  register M2C_UNK *tail_result ASM_REG("$3");  status = func_800191E8(arg0);  if (status == -0x30) {  page = 0x80020000;   goto case_3_success;  }  status = func_800191E8();   if (status != -0x38) {  goto case_3_other;  }  ASM_SCHED_BARRIER();  page = 0x80020000;   case_3_success:  tail_result = (M2C_UNK *)(page - (0x5ADA));  ASM_TAILSLOT_PIN(tail_result);  func_8001749C();  } while (0);
 case_3_other:
-    DISPATCH2(0x5CB8);
+    do {  register u32 page ASM_REG("$2");  register M2C_UNK *tail_result ASM_REG("$3");  ASM_SCHED_BARRIER();  page = 0x80020000;  ASM_KEEP(page);  tail_result = (M2C_UNK *)(page - (0x5CB8));  ASM_TAILSLOT_PIN(tail_result);  func_8001749C();  } while (0);
 
 case_34:
     if (arg2 != 0x34) {
@@ -100,7 +59,7 @@ case_34:
             goto case_4_other;
         }
     }
-    DISPATCH(0x597B);
+    do {  register u32 page ASM_REG("$2");  register M2C_UNK *tail_result ASM_REG("$3");  page = 0x80020000;  ASM_KEEP(page);  tail_result = (M2C_UNK *)(page - (0x597B));  ASM_TAILSLOT_PIN(tail_result);  func_8001749C();  } while (0);
 case_4_other:
     var_v1 = &D_8001A5E8;
 

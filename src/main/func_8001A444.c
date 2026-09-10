@@ -9,7 +9,7 @@ extern s32 D_80409278[];
 extern s32 D_8040927C[];
 
 #if !defined(NON_MATCHING) && __GNUC__ < 3
-#define LEGACY_ASM_KEEP(value) \
+#define ASM_KEEP(value) \
     __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
 #define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
@@ -23,19 +23,19 @@ s32 func_8001A444(void) {
     if (func_8007C9C8(D_80409270[0]) != 0) {
         var_v0 = 1;
         result = func_804014CC();
-        LEGACY_ASM_KEEP(var_v0);
+        ASM_KEEP(var_v0);
         return result;
     }
     if (func_8007C9C8(D_80409274[0]) != 0) {
         var_v0 = 2;
         result = func_804014CC();
-        LEGACY_ASM_KEEP(var_v0);
+        ASM_KEEP(var_v0);
         return result;
     }
     if (func_8007C9C8(D_80409278[0]) != 0) {
         var_v0 = 3;
         result = func_804014CC();
-        LEGACY_ASM_KEEP(var_v0);
+        ASM_KEEP(var_v0);
         return result;
     }
     if (func_8007C9C8(D_8040927C[0]) != 0) {

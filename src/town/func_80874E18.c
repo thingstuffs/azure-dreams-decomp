@@ -1,14 +1,8 @@
 #include "common.h"
 
 #ifdef NON_MATCHING
-#define OR_ZERO(value) (value)
+#define ({                                                                       register s32 zero ASM_REG("$0");                                   ASM_KEEP(zero);                                                      zero | (value);                                                      }) (value)
 #else
-#define OR_ZERO(value)                                                      \
-    ({                                                                      \
-        register s32 zero ASM_REG("$0");                                  \
-        ASM_KEEP(zero);                                                     \
-        zero | (value);                                                     \
-    })
 #endif
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
@@ -74,7 +68,7 @@ s32 func_80874E18(s32 arg0) {
     }
 
 callback_path:
-    callback = D_80701984[0]->callback(OR_ZERO(2));
+    callback = D_80701984[0]->callback(({                                                                       register s32 zero ASM_REG("$0");                                   ASM_KEEP(zero);                                                      zero | (2);                                                      }));
     tail_arg = 0x40000000;
     if (callback != 0) {
         {
@@ -113,7 +107,7 @@ callback_path:
         goto zero_return;
     }
 
-    callback = D_80701984_ALT[0]->callback(OR_ZERO(2));
+    callback = D_80701984_ALT[0]->callback(({                                                                       register s32 zero ASM_REG("$0");                                   ASM_KEEP(zero);                                                      zero | (2);                                                      }));
     if (callback == 0) {
         goto return_arg;
     }

@@ -163,14 +163,6 @@ extern void func_80024834(void);
 extern void func_80024918(void);
 extern void func_80045340(void);
 
-#define COPY_BLOB12(dst, symbol, low) do { \
-    copy_page = (u8 *)0x80020000; \
-    ASM_KEEP(copy_page); \
-    copy_source = copy_page + (low); \
-    ASM_KEEP(copy_source); \
-    *(Blob12 *)(dst) = *(Blob12 *)copy_source; \
-    ASM_KEEP(copy_page); \
-} while (0)
 
 /* Advance the entity effect sequence, spawning particles and trails before cleanup. */
 void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) {
@@ -316,7 +308,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                         sprite->field16 = (func_80069EF8() & 0xF) << 8;
                         sprite->field18 = (func_80069EF8() & 0xF) << 8;
                         sprite->field1A = (func_80069EF8() & 0xF) << 8;
-                        COPY_BLOB12(task->data, D_80026180, 0x6180);
+                        do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x6180);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
                         sprite->data = task->data;
                         ASM_KEEP(task);
                     }
@@ -357,7 +349,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                     sprite->b = 0x80;
                     sprite->g = 0x80;
                     sprite->r = 0x80;
-                    COPY_BLOB12(task->data, D_8002618C, 0x618C);
+                    do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
                     sprite->data = task->data;
                     ASM_KEEP(task);
                 }
@@ -457,7 +449,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                                 sprite->b = 0x80;
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
-                                COPY_BLOB12(task->data, D_8002618C, 0x618C);
+                                do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
                                 sprite->data = task->data;
                                 ASM_KEEP(task);
                             }
@@ -508,7 +500,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                                 sprite->b = 0x80;
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
-                                COPY_BLOB12(task->data, D_8002618C, 0x618C);
+                                do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
                                 sprite->data = task->data;
                                 ASM_KEEP(task);
                             }
@@ -560,7 +552,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                                 sprite->b = 0x80;
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
-                                COPY_BLOB12(task->data, D_8002618C, 0x618C);
+                                do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
                                 sprite->data = task->data;
                                 ASM_KEEP(task);
                             }
@@ -614,7 +606,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                                     sprite->b = 0x80;
                                     sprite->g = 0x80;
                                     sprite->r = 0x80;
-                                    COPY_BLOB12(task->data, D_8002618C, 0x618C);
+                                    do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
                                     sprite->data = task->data;
                                     ASM_KEEP(task);
                                 }
@@ -668,7 +660,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                                         sprite->b = 0x80;
                                         sprite->g = 0x80;
                                         sprite->r = 0x80;
-                                        COPY_BLOB12(task->data, D_8002618C, 0x618C);
+                                        do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
                                         sprite->data = task->data;
                                         ASM_KEEP(task);
                                     }

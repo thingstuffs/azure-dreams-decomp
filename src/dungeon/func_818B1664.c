@@ -114,8 +114,8 @@ extern Effect *func_8002443C(State *, Motion *, s16, s16);
 extern void func_80024050(void *, u8);
 
 #ifdef NON_MATCHING
-#define LOAD_TABLE_X_BASE(v) ((v) = (s32)D_8006CCD8)
-#define LOAD_TABLE_Y_BASE(v) ((v) = (s32)D_8006CCE8)
+#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)D_8006CCD8)
+#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)D_8006CCE8)
 #else
 #define LOAD_TABLE_X_BASE(v) \
     do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0)
@@ -377,7 +377,7 @@ case_0:
             break;
         }
 
-        LOAD_TABLE_X_BASE(table_addr);
+        do { (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328; } while (0);
         ASM_KEEP(table_addr);
         table_offset = (s16)state->direction;
         probe_height = (u16)entity->height;
@@ -386,7 +386,7 @@ case_0:
         ASM_KEEP(step_x);
         probe_height -= 32;
         probe_height = (s16)probe_height;
-        LOAD_TABLE_Y_BASE(table_addr);
+        do { (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3318; } while (0);
         step_y = (s16 *)(table_offset + table_addr);
         ASM_KEEP(step_y);
         terrain_height = func_800BCB04(
@@ -398,12 +398,12 @@ case_0:
             break;
         }
 
-        LOAD_TABLE_X_BASE(table_addr);
+        do { (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328; } while (0);
         update_offset = (s16)state->direction;
         index++;
         update_offset *= 2;
         update_x = (u16 *)(update_offset + table_addr);
-        LOAD_TABLE_Y_BASE(table_addr);
+        do { (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3318; } while (0);
         update_y = (u16 *)(update_offset + table_addr);
         ASM_KEEP(update_y);
         next_x = tile_x + *update_x;

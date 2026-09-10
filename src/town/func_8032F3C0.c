@@ -1,9 +1,9 @@
 #include "common.h"
 
 #ifdef NON_MATCHING
-#define LEGACY_KEEP(value) ((void)0)
+#define ASM_KEEP(value) ((void)0)
 #elif __GNUC__ < 3
-#define LEGACY_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
+#define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
 #define LEGACY_KEEP(value) ASM_KEEP(value)
 #endif
@@ -19,11 +19,11 @@ void func_80019BC0(void)
     s32 offset;
     s32 index;
 
-    LEGACY_KEEP(page);
+    ASM_KEEP(page);
     index = *(s32 *)(*(u8 **)D_80016000 + 0x14);
-    LEGACY_KEEP(index);
+    ASM_KEEP(index);
     offset = index * 0x1C;
-    LEGACY_KEEP(offset);
+    ASM_KEEP(offset);
     func_8001ACE8(*(s16 *)(offset + *(s32 *)(page - 0x3C90) + 0x18));
 #else
     s32 index = *(s32 *)(*(u8 **)D_80016000 + 0x14);

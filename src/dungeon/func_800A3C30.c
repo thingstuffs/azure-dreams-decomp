@@ -1,10 +1,8 @@
 #include "common.h"
 
 #ifdef NON_MATCHING
-#define TAILSLOT_PIN_272(value) ((void)0)
+#define ASM_TAILSLOT_PIN(value) ((void)0)
 #else
-#define TAILSLOT_PIN_272(value) \
-    ASM_TAILSLOT_PIN(value)
 #endif
 
 typedef struct Inner {
@@ -32,17 +30,17 @@ s32 func_800A9390(s16 index) {
         ASM_KEEP(compare);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (compare == 0x32) {
             result = 0x33;
-            TAILSLOT_PIN_272(result);
+            ASM_TAILSLOT_PIN(result);
             func_800A93F8(value);
             return result;
         } else if (compare == 0x39) {
             result = 0x3A;
-            TAILSLOT_PIN_272(result);
+            ASM_TAILSLOT_PIN(result);
             func_800A93F8(value);
             return result;
         } else if (compare == 0x40) {
             result = 0x42;
-            TAILSLOT_PIN_272(result);
+            ASM_TAILSLOT_PIN(result);
             func_800A93F8(value);
             return result;
         }

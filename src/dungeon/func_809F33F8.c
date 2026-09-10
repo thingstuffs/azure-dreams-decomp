@@ -7,9 +7,8 @@
  * (expression form of ASM_REG+ASM_KEEP_NV). Port build folds to the plain
  * value. */
 #ifdef NON_MATCHING
-#define KEEP_A0_EXPR(v) (v)
+#define ({ register void *actor_value ASM_REG("$4") = (v); ASM_KEEP_NV(actor_value); actor_value; }) (v)
 #else
-#define KEEP_A0_EXPR(v) ({ register void *actor_value ASM_REG("$4") = (v); ASM_KEEP_NV(actor_value); actor_value; })
 #endif
 
 void func_80047738(void *, u8, s8);              /* extern */
@@ -123,7 +122,7 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
     if (initial_flags & 0x2000) {
         paused_callback = ((S_80170BF8_0 *)actor)->unk_8C;
         if (paused_callback == &D_80171400) {
-            paused_callback(actor_arg, motion_arg, object_arg, KEEP_A0_EXPR(actor_arg));
+            paused_callback(actor_arg, motion_arg, object_arg, ({ register void *actor_value ASM_REG("$4") = (actor_arg); ASM_KEEP_NV(actor_value); actor_value; }));
             return;
         }
         ((S_80170BF8_0 *)actor)->unk_71 = (u8) (((S_80170BF8_0 *)actor)->unk_71 & 0x7F);
