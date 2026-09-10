@@ -121,8 +121,13 @@ def facts(row, text, regions_text=""):
         lines.append("- STOP: the residue is a `jal` against retail's `j` beside a noreturn call. "
                      "That is maspsx's automatic tail-jump conversion, which fires ONLY for a "
                      "zero-argument call - and giving the call the argument its address bytes need "
-                     "permanently disqualifies it.  It is assembler-side and pin-gated; no C shape "
-                     "reproduces it.  Record the row and move on rather than spending the budget.")
+                     "permanently disqualifies it - UNLESS the callee is on the arg-carrying "
+                     "sibcall set (LEAD 22, config/sibcall_syms.txt), whose whole purpose is to "
+                     "convert an arg-carrying tail call.  Check both lists before believing this: "
+                     "if the callee is on neither, it is assembler-side and pin-gated and no C "
+                     "shape reproduces it, and the row should be recorded rather than worked.  "
+                     "Note the sibcall set is derived from MAIN.BIN only, so a dungeon callee "
+                     "may be missing from it for want of evidence rather than by nature.")
     got, tgt, has_arg = residue_registers(regions_text)
     if got or tgt:
         lines.append(f"- residue registers: yours {sorted(got) or '-'}, retail's {sorted(tgt) or '-'}")
@@ -136,9 +141,15 @@ def facts(row, text, regions_text=""):
                          "consuming expression instead of storing it to a named intermediate.  That "
                          "recovered the missing register on both rows a lane tried it on.")
         elif got == tgt and got:
-            lines.append("- THE TWO SETS ARE EQUAL: same registers, different roles.  That is a "
-                         "hard-register tie, and five rows of one lane moved not a single word with "
-                         "any C reshaping.  Record it and move on rather than spending the budget.")
+            lines.append("- THE TWO SETS ARE EQUAL: same registers, different roles - a "
+                         "hard-register tie.  One lane moved not a single word on five such rows, "
+                         "so this RANKS A ROW LAST; it is not a verdict.  Two independent lanes "
+                         "broke it on dungeon/func_8132C638 (2026-09-10) by changing the MODE "
+                         "rather than the variable map: the accumulator was declared `u16` instead "
+                         "of `u32` with an explicit `& 0xFFFF`, so the mask combine had folded away "
+                         "came back as the widening u16->s32 at the RETURN, which combine cannot "
+                         "delete.  Try the mode change on the value the residue names before you "
+                         "spend the rest of the budget elsewhere.")
     return "\n".join(lines)
 
 

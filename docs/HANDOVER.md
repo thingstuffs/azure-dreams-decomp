@@ -152,33 +152,50 @@ after every launch — commit your own tree changes (tools, config, ledger) *bef
 they get swept into a campaign commit without their config; a bash `a && b && nohup c &` backgrounds
 the whole list, not just `c`; never print a set of window names.
 
-## PICK UP HERE (2026-09-10)
+## PICK UP HERE (2026-09-10, evening)
 
-**A sweep is running and will be for hours.**  `sweep.py t15_shapes` over all 1,769 pinned rows,
-twelve generators, `T15_WIDE=1 T15_PARTIAL=1 T15_BUDGET=400 T15_ROUNDS=3`, log `work/t15_full.log`,
-journal `ledger/sweeps/t15_shapes.jsonl`.  It writes `src/` as it goes and its landings are **not
-yet committed or gated**.  Monitor with `python3 tools/pin_watch.py [--follow] [--totals]`.
+**The full sweep is done and landed.** `sweep.py t15_shapes` over all 1,769 pinned rows,
+11h45m: noop 1392, refused 288, applied 89. With the wave-4 lane landings, 215 rows lost
+scaffolding this session (148 fully pin-free, 67 partial); the tree went 1,968 -> 1,741 pinned
+rows and 12,543 -> 11,938 sites. Gates green (85 windows re-gated 85/85 MATCH, SLUS SHA-1
+MATCH), committed `12ae2d47`; `docs/PIN_FAMILIES.md` and `ledger/pins_strip.jsonl` refreshed.
 
-**When it finishes (or if you stop it):**
-1. `python3 tools/build/gate_all.py --workers 6` - must be 2,172/2,172 MATCH.  If a window fails,
-   `git checkout` that row's file and re-sweep it with `--force`.
-2. `python3 tools/census.py && python3 tools/levels.py && python3 tools/status.py`, then commit
-   `src ledger docs STATUS.md`.
-3. `python3 tools/pin_probe.py --strip` (refreshes the changed rows), then
-   `python3 tools/pin_probe.py --report > docs/PIN_FAMILIES.md`.
-4. Next run uses the **two-pass schedule** measured above under "Sweep tuning": a cheap pass at
-   budget ~25 over everything, then budget 400 only where `tools/pin_target.py` ranks highly.
+**The SLUS gate is part of the procedure now.** `gate_all.py` covers overlay windows only and
+the last six landings of this sweep were all `slus/w_*` rows. Always follow it with
+`bash tools/build/build_slus.sh -j 6`.
 
-**Astra's `--mode depin` quota returns Sep 15** and is the strongest unused lever: 38 % acceptance
-on rows the sweep and the Opus/Sonnet lanes had both failed, and the packet it gets now carries the
-full `pin_facts` block, which it did not have then.
+**Next run: the two-pass schedule** measured under "Sweep tuning" - a cheap pass at budget ~25
+over everything, then budget 400 only where `tools/pin_target.py` ranks highly. 306 rows are
+now within 8 words of pin-free (93 within 3).
 
-**The rule that decides what to build.**  Every generator was harvested from a lane that closed a
-row by hand, and the ones that generalise are the ones whose lane stated the **precondition** under
-which the shape works.  `depinject` came with one and landed rows; bare shapes harvested without a
-condition mostly sit at zero.  So ask every lane for the precondition, and treat a *negative*
-precondition as equally valuable - two of them are now candidate filters that stop the sweep
-spending probes where it provably cannot win, and two more are stop-rules in `pin_facts`.
+### External-model lanes (new, deliberately OUTSIDE this repo)
+
+`~/or_lane/` (OpenRouter) and `~/agy_lane/` (agy / Antigravity CLI) - see each dir's README.
+Both drive this tree read-only and journal to `~/or_lane/out/journal.jsonl`. Results:
+
+| lane | exact | cost |
+|---|---|---|
+| agy / Gemini 3.8 Flash (High) | 2 / 6 | subscription quota |
+| agy / Claude Opus 4.6 (Thinking) | 1 / 4 (quota cut batch3) | subscription quota |
+| OpenRouter / qwen3-coder-next, agentic 16 turns/row | 0 / 6 | $0.17 |
+
+Both agy exacts landed at `e8440498` on rows the mechanical search had run at full budget and
+failed. Cheap OpenRouter models never beat the text they started from; the strong agy models
+did. **Claude Code's classifier blocks agent-side agy spawns, so the owner launches**
+`! bash ~/agy_lane/go.sh "<model>"`. Unspent and ready: `work/agy_boost`, 27 rows whose FACTS
+carry the fold-the-load recipe.
+
+### The rule that decides what to build, revised
+
+Every generator was harvested from a lane that closed a row by hand, and the ones that
+generalise state the **precondition**. A *negative* precondition is worth as much as a positive
+one - but **a stop-rule is a ranking signal, not a verdict**, and this is now the harder-won
+half. `pin_facts.py` told every lane that a hard-register tie was unreachable from C; two
+models broke one on the first attempt, and on its sibling row the same text talked one of them
+out of spending a single verify. 53 of 54 stopped rows in the near band carried that marker.
+Both stop-rules are reworded: the tie now ranks a row last and names the mode-change that broke
+it, and the jal-vs-j rule now says to check the arg-carrying sibcall set (LEAD 22) before
+believing it, and warns that set is derived from MAIN.BIN only.
 
 ## Session 2026-09-09 (evening) — the pin burn-down, after the Codex credit ran out
 
