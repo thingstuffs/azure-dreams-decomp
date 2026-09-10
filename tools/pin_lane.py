@@ -52,11 +52,18 @@ block-scope the declaration, copies in both arms, self round-trip, dead init, op
 same-mode retyping) produced **byte-identical output every time**.  Two handles do defeat it:
 
 1. **A value-preserving *mode* change on one side of the copy.**  `u16 x = <s32 expr>` is not a
-   REG-REG set in RTL, so cse never enters the two into one quantity.  Choose a narrowing the code
-   already pays for: `(u16)(angle + 0x100) & 0xE00` hides the re-widening inside a mask that was
-   already there and costs zero words, where the `s16` spelling costs two because `sll/sra` cannot
-   be folded.  The same trick stops `record_jump_equiv` merging the cse class of the two operands
-   of an equality test - give them different modes and the later test reads the other register.
+   REG-REG set in RTL, so cse never enters the two into one quantity.  **It is free exactly when the
+   SOURCE OPERANDS feeding the copy already prove a narrow range to combine's sign-bit-copy count**
+   - `delta = 0x80 - value` with `value` a `u8` load gives combine the proof it needs to delete the
+   resulting `sll;sra`, so the mode change costs zero words while still breaking cse's copy
+   equivalence.  gcc 2.7/2.8 does no range analysis, so "the value is small in practice" is not
+   enough: the narrowness has to be provable from a byte load or byte arithmetic *in that
+   expression*.  This is why it fires on a self-negate fed by `0x80 - u8` and cannot fire on a call
+   return, a parameter, a pointer load or a symbol address - none of those carry the proof.  (An
+   earlier version of this brief said the cost hides in a mask at the destination's later use; that
+   was the wrong half of the mechanism.)  The same trick stops `record_jump_equiv` merging the cse
+   class of an equality test's two operands - give them different modes and the later test reads the
+   other register.
 2. **The copy is an m2c artifact of a compiler-generated idiom.**
    `q = x; q >>= n; if (x < 0) q = (x + m) >> n; r = x - (q << n)` is `x % (1 << n)`.  Written back
    as `%`, gcc's own `expand_divmod` re-emits it with an internal copy that is immune to the
@@ -90,6 +97,13 @@ Then, by class:
   becomes `rs` and which `rt`.
 - **delay-slot / slot-rotation** - retail fills a slot your build leaves as `nop`; the filler is
   usually a value computed earlier than your C computes it.
+- **The address-remat detour, `lui $v0` + `addiu <dest>,$v0,off` against retail's `lui <dest>` +
+  `addiu <dest>,<dest>,off`.**  If that is your residue, stop: five rows of one lane carried it
+  identically, whether the destination was a struct store, an array base or a call argument, and
+  tail-duplicating the block to give the allocator a local copy is undone by gcc's own cross-jump
+  merge.  Removing a `volatile`, renaming which local holds the symbol and reordering the enclosing
+  statements are all byte-identical.  It looks like a property of the cell's `reg_equiv_constant`
+  path rather than anything the source shape reaches.  Record it and move on.
 
 Rows whose residue is branch-derived *constant* knowledge (`move $v0,$zero` against
 `move $v0,$s0`) are cse choosing between a literal and a register it has proved holds the same
