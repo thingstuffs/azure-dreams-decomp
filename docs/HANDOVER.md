@@ -260,6 +260,28 @@ row's current text, so a row landed pin-free drops out of the worklist instead o
 phantom candidate.  After this session's landings the near band is **586 rows** (112 at damage 1-3,
 279 at 4-8), down from 624.
 
+**Sweep tuning, measured over 4,368 row-attempts (for the run after this one).**  A win is found
+after a median of **19** probes; 78 of 141 wins landed within 20 and 119 within 60.  A miss costs a
+median of 50 and a p90 of 140.  Across the corpus that is **315,865 probes burned on misses against
+5,674 on wins - 98.2 % of the compute buys nothing.**  Raising the budget from 60 to 400 did buy
+real rows (9 wins past 140 probes), so the tail is not empty; it is just very expensive.
+
+The fix is scheduling, not accuracy - every candidate still gets tried, only the order across passes
+changes:
+
+  * **Pass 1, budget ~25 over every pinned row.**  Captures the ~55 % of wins that land inside 20
+    probes at roughly a sixteenth of the cost: 1,769 rows x 25 is about 44k probes, a couple of
+    hours at ten workers rather than thirty-five.
+  * **Pass 2, budget 400, only on rows pass 1 missed AND that `tools/pin_target.py` ranks highly**
+    (`pins_in == 1` and size <= 256 wins at 23.4 % against a 5.79 % base).  That band is a few
+    hundred rows, so the deep search runs where it converts.
+  * **Pass 3 for the rest, whenever there is idle machine time.**  Nothing is skipped permanently;
+    the low-yield tail is simply not what the first hours should be spent on.
+
+The partial-removal path changes this arithmetic in its own right: a row with three or more pins
+wins at 0.4 %, one with a single pin at 21.4 %, so every partial landing moves a row between those
+bands and makes the next pass cheaper as well as likelier.
+
 **Tried and did not pay inside this session's budget.** None of these is a reachability verdict —
 every terminal verdict this project has issued has later been overturned, and a lane that spends a
 12-verify budget without a hit has measured its budget, not the class. Read the list as "start
