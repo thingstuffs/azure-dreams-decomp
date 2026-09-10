@@ -63,7 +63,7 @@ void func_8016BD14(void *actor, void *action, void *entity, void *path_arg) {
     s16 heading;
     s32 move_result;
     s32 raw_result;
-    register u8 *step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *step;
     s32 new_tile_flags;
     s32 tile_x;
     s32 tile_y;
@@ -112,9 +112,10 @@ void func_8016BD14(void *actor, void *action, void *entity, void *path_arg) {
     ((Rec_D_80082E80 *)entity)->unk_24 = next_x;
     step = (u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s;
     move_result = raw_result >> 16;
-    ASM_KEEP(move_result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((Rec_D_80082E80 *)entity)->unk_25 = ((S_8016BD14_4 *)step)->unk_7C;
-    step_index = ((S_8016BD14_0 *)path)->unk_8A.u;
+    do {
+        ((Rec_D_80082E80 *)entity)->unk_25 = ((S_8016BD14_4 *)step)->unk_7C;
+        step_index = ((S_8016BD14_0 *)path)->unk_8A.u;
+    } while (0);
     new_tile_flags = ((S_8016BD14_0 *)path)->unk_1C;
     step_index = step_index + 1;
     new_tile_flags = new_tile_flags & 0x2000;

@@ -103,8 +103,9 @@ s16 func_8005C2C0(s16 sound_id, s32 voice_id, s16 note, unsigned short note_offs
       voice_attr.field_00 = *voice_mask;
       voice_attr.field_1C = sounds[sound_id].field_10;
       full_volume = 0x7F;
-      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-      voice = &voice_slots[voice_id];
+      do {
+          voice = &voice_slots[voice_id];
+      } while (0);
       voice->field_06 = 0x11;
       voice->field_16 = 0x40;
       voice->field_17 = 0x40;
