@@ -67,6 +67,32 @@ def live_audit(row, text):
             c[s.split("|")[0]] += 1
     return dict(c)
 
+_DW0 = re.compile(r"\bdo\s*\{", re.S)
+
+
+def _dowhile0(text):
+    """Brace-matched count of `do { ... } while (0)`, excluding `#define` macro bodies."""
+    n = 0
+    for m in _DW0.finditer(text):
+        line_start = text.rfind("\n", 0, m.start()) + 1
+        if text[line_start:m.start()].lstrip().startswith("#define"):
+            continue
+        depth, i = 0, m.end() - 1
+        while i < len(text):
+            if text[i] == "{":
+                depth += 1
+            elif text[i] == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+            i += 1
+        if i >= len(text):
+            continue
+        if re.match(r"\s*while\s*\(\s*0\s*\)", text[i + 1:i + 24]):
+            n += 1
+    return n
+
+
 def census_one(row, audit):
     p = raw_path(row)
     if not p.exists():
@@ -103,8 +129,11 @@ def census_one(row, audit):
         "markers": sum(pins.get(k, 0) for k in ("TAILSLOT_PIN", "TAILSLOT_PIN_TIED", "PAGEBASE_PIN", "JALDELAY_PIN", "LIVE_SIBCALL_PIN", "SHAPE_D_SIBCALL_PIN", "BRANCH_LABEL_SPLIT")),
         # a `do { one statement } while (0)` is not a loop: it is a zero-byte scheduling barrier
         # (a bare block does NOT reproduce it - only the loop note does), so it is scaffolding in C
-        # clothing and is counted like a pin, never silently traded for one
-        "dowhile0": len(re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", text, re.S)),
+        # clothing and is counted like a pin, never silently traded for one.  Two corrections from
+        # an audit: the old flat regex missed 15 sites whose body contains nested braces, and it
+        # counted 14 legitimate `#define` macro bodies as debt - `do { ... } while (0)` inside a
+        # macro is ordinary C hygiene, not scaffolding, so those lines are excluded.
+        "dowhile0": _dowhile0(text),
         "volatile": text.count("volatile"), "switch": len(re.findall(r"\bswitch\s*\(", text)),
         "audit": live, "audit_pin": dict(aud), "ndefs": len(defs),
     }
