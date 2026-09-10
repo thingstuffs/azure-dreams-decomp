@@ -104,6 +104,25 @@ def facts(row, text, regions_text=""):
                      "respells an internal jump can be scorer-exact and wrong in the window, or "
                      "right in the window and unscoreable - the WINDOW is the authority, so prove "
                      "such a candidate with tools/verify.py --gate.")
+    # STOP-RULE.  A length-drift lane hit this in 4 of 12 rows: when the residue is a single word
+    # that is `jal` on one side and `j` on the other, next to a call to a noreturn-declared symbol,
+    # the difference is maspsx's automatic tail-jump conversion (LEAD 18/22) - and that conversion
+    # is strictly ZERO-ARGUMENT gated.  Giving the call a real argument, which is usually what the
+    # address bytes need, permanently disqualifies it.  The conversion and its companion delay-slot
+    # sink are assembler-side and pin-gated; no C reshaping reproduces them.
+    jalj = False
+    for line in (regions_text or "").splitlines():
+        if "|" in line:
+            l, _, r = line.partition("|")
+            lw, rw = l.strip().split(), r.strip().split()
+            if lw and rw and {lw[0], rw[0]} == {"jal", "j"}:
+                jalj = True
+    if jalj and re.search(r"__attribute__\s*\(\s*\(\s*noreturn", text):
+        lines.append("- STOP: the residue is a `jal` against retail's `j` beside a noreturn call. "
+                     "That is maspsx's automatic tail-jump conversion, which fires ONLY for a "
+                     "zero-argument call - and giving the call the argument its address bytes need "
+                     "permanently disqualifies it.  It is assembler-side and pin-gated; no C shape "
+                     "reproduces it.  Record the row and move on rather than spending the budget.")
     got, tgt, has_arg = residue_registers(regions_text)
     if got or tgt:
         lines.append(f"- residue registers: yours {sorted(got) or '-'}, retail's {sorted(tgt) or '-'}")

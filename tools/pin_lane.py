@@ -230,6 +230,10 @@ NORETURN_RE = re.compile(
 
 
 def internal_jumps(row, text):
+    # NOTE: this must agree with what the FACTS block says.  A lane found the tsv column showing
+    # `-` while the FACTS block named a LABEL_AS_CALL for the same row, because this used a local
+    # regex over the file's externs while the facts come from the fidelity census.  The census is
+    # the authority; the regex only adds rows it happens to spell differently, so both are used.
     """`func_X@word N` for every "noreturn callee" that is really a label inside this row.
 
     m2c spells retail's plain `j` to an internal label as a call to a symbol declared noreturn.
@@ -244,11 +248,20 @@ def internal_jumps(row, text):
     if not tn:
         return ""
     base = int(tn.replace("func_", ""), 16)
+    found = {m.group(1) for m in NORETURN_RE.finditer(text)}
+    try:                                     # the fidelity census: the authority the FACTS use
+        from census import audit_sites
+        for site in audit_sites().get(row["id"], []):
+            parts = site.split("|")
+            if parts[0] == "LABEL_AS_CALL" and len(parts) > 1 and re.fullmatch(r"func_[0-9A-Fa-f]{8}", parts[1]):
+                found.add(parts[1])
+    except Exception:
+        pass
     out = []
-    for m in NORETURN_RE.finditer(text):
-        tgt = int(m.group(1).replace("func_", ""), 16)
+    for sym in sorted(found):
+        tgt = int(sym.replace("func_", ""), 16)
         if base <= tgt < base + row["size"]:
-            out.append(f"{m.group(1)}@word{(tgt - base) // 4}")
+            out.append(f"{sym}@word{(tgt - base) // 4}")
     return ",".join(out)
 
 
