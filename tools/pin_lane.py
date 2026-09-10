@@ -122,6 +122,11 @@ Then, by class:
   becomes `rs` and which `rt`.
 - **delay-slot / slot-rotation** - retail fills a slot your build leaves as `nop`; the filler is
   usually a value computed earlier than your C computes it.
+- **`&localVar` always loses a scheduling tie.**  The address of a stack local, against any
+  adjacent independently-sourced ready instruction, lost every time - across three unrelated
+  functions and their twins, regardless of C source order, staging through a named or barriered
+  temporary, or which sibling was written first.  Its RTL materialisation point looks fixed
+  independently of the C statement graph in this cell.  If that is your residue, record it.
 - **The address-remat detour, `lui $v0` + `addiu <dest>,$v0,off` against retail's `lui <dest>` +
   `addiu <dest>,<dest>,off`.**  If that is your residue, stop: five rows of one lane carried it
   identically, whether the destination was a struct store, an array base or a call argument, and

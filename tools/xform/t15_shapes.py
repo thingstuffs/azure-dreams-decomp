@@ -120,6 +120,12 @@ def fence_candidates(text):
     for i, ln in enumerate(lines):
         if not movable(masked[i]) or is_decl(masked[i]):
             continue
+        # Measured precondition: a fence only does anything when the statement's own
+        # value-producing insn survives to final code (a real store, a real computation).  On a
+        # plain register-to-register copy, cse/combine delete the insn outright and the fence is a
+        # no-op or a regression - four rows of one lane showed exactly that.
+        if re.fullmatch(r"[A-Za-z_]\w*\s*=\s*[A-Za-z_]\w*\s*;", masked[i].strip()):
+            continue
         nl = "\n" if ln.endswith("\n") else ""
         body = ln[:len(ln) - len(nl)]
         ind = re.match(r"[ \t]*", body).group(0)
@@ -492,6 +498,14 @@ def depinject_candidates(text, max_cands=24):
             continue
         x = t.group("x")
         if x not in scal:
+            continue
+        # A reorder-only lane measured the precondition for FAILURE: when the pinned value is a
+        # bare register copy or a small immediate destined for an argument register, combine folds
+        # the injected round-trip back to the original `move`/`li` BEFORE the post-reload scheduler
+        # runs, so the injection cannot change the order and only costs a stack slot (+8 bytes of
+        # frame, observed three times).  Nothing survives for the UID tie-break to see.
+        rhs = t.group("e").strip()
+        if re.fullmatch(r"[A-Za-z_]\w*", rhs) or re.fullmatch(r"0x[0-9A-Fa-f]{1,3}|\d{1,4}", rhs):
             continue
         for ai, av in anchors:
             if ai >= j or av == x:
