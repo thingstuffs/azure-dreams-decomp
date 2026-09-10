@@ -92,7 +92,9 @@ void *func_80025B78(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_
         ((S_80025B78_0 *)object)->unk_10 = &D_80025A34;
         func_8004491C(object, &D_80025AAC);
         triplet = ((S_80025B78_0 *)object)->unk_08;
-        triplet->unk_02 = source_triplet->unk_02;
+        do {
+            triplet->unk_02 = source_triplet->unk_02;
+        } while (0);
         triplet->unk_06 = source_triplet->unk_06;
         triplet->unk_0A = source_triplet->unk_0A;
         state = ((S_80025B78_0 *)object)->unk_0C;
@@ -118,9 +120,6 @@ void *func_80025B78(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_
             word_1 = ((UnalignedWord *)source_data)[1].value;
             word_2 = ((UnalignedWord *)source_data)[2].value;
             word_3 = ((UnalignedWord *)source_data)[3].value;
-            ASM_KEEP(word_0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(word_1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(word_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((UnalignedWord *)((u8 *)object + 0x20))[0].value = word_0;
             ((UnalignedWord *)((u8 *)object + 0x20))[1].value = word_1;
             ((UnalignedWord *)((u8 *)object + 0x20))[2].value = word_2;

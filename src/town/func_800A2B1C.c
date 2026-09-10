@@ -113,8 +113,9 @@ void *func_800A027C(S_800A027C_5 *config, S_800A027C_2 *position) {
 set_graphic:
     render->unk_08 = graphic;
     ((S_800A027C_0 *)object)->unk_10 = &D_8009DEBC;
-    ASM_SCHED_BARRIER();
-    func_800A022C(state, state, coords, render);
+    do {
+        func_800A022C(state, state, coords, render);
+    } while (0);
 
     return object;
 }
