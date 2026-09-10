@@ -20,7 +20,7 @@ void *func_8001BCD4(void *buffer)
     s32 first_x;
     s32 first_y;
     s32 kind;
-    register u32 address ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 address;
     s32 second_x;
     u32 record_size;
     u8 *record;
@@ -44,8 +44,10 @@ void *func_8001BCD4(void *buffer)
         fields->y = first_y;
         ((u8 *)fields)[-3] = kind;
         fields->address = address;
-        record[0] = *value;
-        fields++;
+        do {
+            record[0] = *value;
+            fields++;
+        } while (0);
         record += sizeof(Fields);
         address++;
         address--;

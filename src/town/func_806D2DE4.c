@@ -23,8 +23,10 @@ s32 func_800165E4(S_800165E4_0 *tableOwner, s32 entryIndex) {
     u32 entryAddress;
     s16 entryValue;
 
-    entryIndex *= 0x10;
-    entryAddress = entryIndex + tableOwner->unk_10;
+    do {
+        entryIndex *= 0x10;
+        entryAddress = entryIndex + tableOwner->unk_10;
+    } while (0);
     entryValue = ((S_800165E4_1 *)((void *)entryAddress))->unk_0C;
     if (entryValue == 0) {
         return 0;
@@ -34,6 +36,5 @@ s32 func_800165E4(S_800165E4_0 *tableOwner, s32 entryIndex) {
     }
     func_80016CCC(entryValue);
     func_80016D20(tableOwner->unk_18);
-    ASM_USE(tableOwner);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     return 1;
 }

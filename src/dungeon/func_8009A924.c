@@ -14,7 +14,8 @@ s32 func_800A0084(u8 *object, s16 *direction_out) {
         s16 neighbor;
 
         neighbor = func_8009FB34((object[0x24] + *x_offsets) & 0xFFFF, (object[0x25] + *y_offsets) & 0xFFFF);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        do {
+        } while (0);
         y_offsets++;
         if (neighbor < 0) {
             goto next;

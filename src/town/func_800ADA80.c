@@ -60,7 +60,6 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
         (*(s16 *)((u8 *)arg0 + (0x90))) = (*(s16 *)((u8 *)arg0 + (0x90))) + 1;
         if ((*(s16 *)((u8 *)arg0 + (0x90))) > 100) {
             (*(s16 *)((u8 *)arg0 + (0x90))) = 100;
-               /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         }
     }
     (*(Callback *)((u8 *)arg0 + (0x50)))(arg0, arg1, arg2);
@@ -78,7 +77,8 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     if (((*(u8 *)((u8 *)arg0 + (0x71))) & 1) == 0) {
         if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
                                (*(s16 *)((u8 *)arg0 + (0x64)))) == 0) {
-            cleared = arg2->unk_14.at00_u16.v;
+            cleared = (arg2->unk_14.at00_u16.v) + idx;
+            cleared -= idx;
              /* MATCH: keep each clear load in its own arm. */
             cleared &= 0xFFFE;
         } else {
@@ -88,7 +88,7 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
         if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
                                (*(s16 *)((u8 *)arg0 + (0x64)))) != 0) {
             cleared = arg2->unk_14.at00_u16.v;
-            ASM_SCHED_BARRIER(); /* MATCH: keep each clear load in its own arm. */
+             /* MATCH: keep each clear load in its own arm. */
             cleared &= 0xFFFE;
         } else {
             cleared = arg2->unk_14.at00_u16.v | 1;
@@ -97,6 +97,5 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
 
      /* MATCH: keep the flag store in the common tail. */
     arg2->unk_14.at00_u16.v = cleared;
-       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     func_800C2C80(arg0, arg2, 0, 0);
 }

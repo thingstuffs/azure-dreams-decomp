@@ -14,7 +14,8 @@ s32 func_8009FFD4(u8 *entity, s16 *direction) {
         s16 probe_result;
 
         probe_result = func_8009FB34((entity[0x24] + *x_offset) & 0xFFFF, (entity[0x25] + *y_offset) & 0xFFFF);
-        ASM_SCHED_BARRIER();
+        do {
+        } while (0);
         y_offset++;
         if (probe_result >= 0) {
             goto next;

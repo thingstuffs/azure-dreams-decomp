@@ -15,8 +15,8 @@ typedef struct S_8009CD58_1 {
 s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
     s32 shifted_mode;
     s32 base_flags;
-    register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 extra_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 flags;
+    s32 extra_flags;
     s32 third_kind;
     u8 *kind_ptr;
     s32 kind;
@@ -24,7 +24,8 @@ s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
 
     shifted_mode = mode << 16;
     base_flags = record->unk_14.as_u16 & mask;
-    flags = base_flags;
+    flags = (base_flags) + base_flags;
+    flags -= base_flags;
     if (shifted_mode != 0) {
         detail = record->unk_4C.as_pv;
         if (detail != NULL) {
