@@ -2,6 +2,7 @@
 """Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
 import collections, json, time
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
+from pin_census import sites_of
 
 def main():
     rs = rows(); by = {r["id"]: r for r in rs}
@@ -32,14 +33,19 @@ def main():
         t = p.read_text(errors="replace")
         return {"boiler": "This header contains macros emitted by m2c" in t or "typedef float f32;" in t,
                 "m2c_field": len(_re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in t.splitlines() if not l.lstrip().startswith("#")))),
-                "pin_total": len(PIN_RE.findall(t)), "gotos": len(_re.findall(r"\bgoto\s+[A-Za-z_]", t)),
+                # through the pin machinery, not the raw text: PIN_RE also matches a pin note in a
+                # comment and a local wrapper #define, so a row the campaign had freed kept
+                # being counted and this column drifted from pin_watch and the sweep
+                "pin_total": len(sites_of(t)), "gotos": len(_re.findall(r"\bgoto\s+[A-Za-z_]", t)),
                 "computed_goto": len(_re.findall(r"\bgoto\s*\*", t)), "inline_asm": len(_re.findall(r"__asm__|\basm\s*\(", t)),
                 "m2c_locals": len(set(_re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+|phi_[a-z0-9_]+)\b", t))),
                 "n_local_structs": len(set(_re.findall(r"\b((?:S_|Struct|Func)[0-9A-F]{7,8}[A-Za-z0-9_]*)\b", t))),
                 "audit": cen.get(r["id"], {}).get("audit", {}),   # live: sites still spelled in the current text
                 "tail_idiom": len(_re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", t)) + len(_re.findall(r"\basm\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)|__asm__\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", t)),
                 "dowhile0": len(_re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", t, _re.S)),
-                "markers": len(_re.findall(r"\bASM_(?:TAILSLOT_PIN|TAILSLOT_PIN_TIED|PAGEBASE_PIN|JALDELAY_PIN|LIVE_SIBCALL_PIN|SHAPE_D_SIBCALL_PIN|BRANCH_LABEL_SPLIT)\(", t))}
+                "markers": sum(1 for _s in sites_of(t) if _s[1] in (
+                    "ASM_TAILSLOT_PIN", "ASM_TAILSLOT_PIN_TIED", "ASM_PAGEBASE_PIN", "ASM_JALDELAY_PIN",
+                    "ASM_LIVE_SIBCALL_PIN", "ASM_SHAPE_D_SIBCALL_PIN", "ASM_BRANCH_LABEL_SPLIT"))}
     curc = {r["id"]: cur_facts(r) for r in rs}
     defs = [("m2c boilerplate block", lambda c: c["boiler"]), ("M2C_FIELD raw offsets", lambda c: c["m2c_field"] > 0), ("m2c local names", lambda c: c["m2c_locals"] > 0),
             ("ASM_ pins", lambda c: c["pin_total"] > 0), ("goto", lambda c: c["gotos"] > 0), ("computed-goto jump table", lambda c: c["computed_goto"] > 0),

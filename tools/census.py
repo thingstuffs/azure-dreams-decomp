@@ -3,6 +3,7 @@
 import json, re, collections
 from pathlib import Path
 from common import ROOT, LEDGER, rows, write_jsonl, raw_path
+from pin_census import sites_of
 
 PIN_RE = re.compile(r"\bASM_([A-Z0-9_]+)\(")
 REG_RE = re.compile(r'ASM_REG\("\$?([a-z0-9]+)"\)')
@@ -100,7 +101,13 @@ def census_one(row, audit):
     text = p.read_text(errors="replace")
     body = text
     defs = set(DEF_RE.findall(text))
-    pins = collections.Counter(PIN_RE.findall(text))
+    # Count what the pin MACHINERY can see, not what the text mentions.  PIN_RE matches any
+    # `ASM_x(` including a pin note in a comment and a local wrapper `#define` - so a row the
+    # campaign had already freed went on being counted as pinned, and STATUS drifted further
+    # from pin_watch/pin_probe/the sweep the more rows were cleared.  `sites_of` is the
+    # detector every one of those tools acts on, so counting through it makes them agree by
+    # construction.  Verified 2026-09-10 to miss no real site anywhere in src/.
+    pins = collections.Counter(s[1][4:] for s in sites_of(text))
     regs = collections.Counter(REG_RE.findall(text))
     labels = [l for l in LABEL_RE.findall(text) if l not in ("default", "case")]
     keys = [f"{row['container']}/{f}" for f in (row.get("defs") or [row["func"]])]

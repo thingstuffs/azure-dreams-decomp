@@ -8,7 +8,6 @@ extern void func_80043458(void);
 #define ASM_KEEP(value) \
     __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
-#define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
 #endif
 
 /* Reset global state and initialize default parameters. */
