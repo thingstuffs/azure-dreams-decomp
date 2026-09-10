@@ -103,7 +103,7 @@ Then, by class:
   twin transfers.
 - **A loop's trailing counter update belongs in its own condition.**  When the operand the scheduler
   swapped out is the loop's own `x -= 1;` or `x += 1;` immediately before the back-edge test,
-  merging it in (`} while (--x >= 0);`, `if (++x < 4) goto loop;`) changes the RTL shape enough to
+  merging it in (`}} while (--x >= 0);`, `if (++x < 4) goto loop;`) changes the RTL shape enough to
   fix or improve the ordering, where ordinary statement reordering is inert.  Now a sweep generator.
 - **Real dependency injection works, but only on a non-constant anchor.**  Splitting
   `target = other_real_value + anchor; target -= anchor;` across two statements creates a RAW
