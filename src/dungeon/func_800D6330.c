@@ -91,10 +91,11 @@ post_init:
     if (transform->unk18 > 0) {
         do {
             transformed = &scratch.s.sp30;
-            ASM_KEEP(transformed);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            do {
+                ASM_KEEP(transformed);
+            } while (0);
             vertex_offset = row_vertex_index * 8;
             vertices = transform->unk00;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_80065450((s8 *) vertices + vertex_offset, transformed, &column_flags);
             *(u16 *) ((s8 *) transform->unk04 + row_vertex_index * 8) = *(u16 *) &scratch.s.sp30;
             *(u16 *) ((s8 *) transform->unk04 + row_vertex_index * 8 + 2) = *(u16 *) &scratch.s.sp34;

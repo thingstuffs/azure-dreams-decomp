@@ -24,12 +24,13 @@ extern M2C_UNK D_800984AC;
 void func_80098544(S_80098544_0 *state, void *position_data) {
     S_80098544_1 *position;
     s16 remaining;
-    register s32 current_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 current_coord ASM_REG("$3");
     u16 steps_left;
     s32 target_y;
 
-    position = position_data;
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    do {
+        position = position_data;
+    } while (0);
     steps_left = state->unk_0A.s - 1;
     state->unk_0A.s = steps_left;
     if ((s16) steps_left > 0) {

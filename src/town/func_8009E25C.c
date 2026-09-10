@@ -104,13 +104,17 @@ void func_8009B9BC(void *object, S_8009B9BC_1 *owner, Rec_D_800E3D7C *resolved_p
         handler = (DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_14;
         dispatch_pos = resolved_pos;
     } else if (current_state == (s32)&D_80093328) {
-        ASM_USE2(dispatch_param, dispatch_param); /* MATCH: preserve the fourth argument register allocation. */
+         /* MATCH: preserve the fourth argument register allocation. */
         dispatch_object = object;
         dispatch_owner = owner;
         handler = (DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_0C;
         dispatch_pos = resolved_pos;
     } else if (current_state == (s32)&D_80093638) {
-        func_8009C340(object, owner, resolved_pos, dispatch_param);
+        do {
+            do {
+                func_8009C340(object, owner, resolved_pos, dispatch_param);
+            } while (0);
+        } while (0);
         goto tail;
     } else {
         if (current_state == (s32)&D_80092698 || current_state == (s32)&D_800927EC ||

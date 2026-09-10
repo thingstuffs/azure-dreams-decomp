@@ -45,7 +45,7 @@ void func_801740F8(void *actor, void *transform, void *animation, void *motion)
     s32 timer;
     s16 next_timer;
     s32 state;
-    register u8 *anim_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *anim_page ASM_REG("$2");
     u8 *anim_table;
 
     state = ((S_801740F8_0 *)actor)->unk_9B;
@@ -65,11 +65,12 @@ void func_801740F8(void *actor, void *transform, void *animation, void *motion)
         if (state == 3) {
             goto restore_animation;
         }
-        return;
+        do {
+            return;
+        } while (0);
     }
 
 init_animation:
-    ASM_KEEP(anim_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     anim_table = anim_page + 0x4A7C;
     if (((S_801740F8_1 *)animation)->unk_2C != anim_table) {
         (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;

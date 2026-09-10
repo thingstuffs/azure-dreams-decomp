@@ -21,15 +21,13 @@ s32 func_80172114(void *object, M2C_UNK state_input_a, M2C_UNK state_input_b) {
     M2C_UNK saved_input_a;
     M2C_UNK saved_input_b;
     void *saved_object;
-    register s32 call_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 call_result ASM_REG("$2");
     s32 state;
 
     saved_input_a = state_input_a;
     saved_input_b = state_input_b;
     saved_object = object;
     call_result = func_800ADDA0(saved_input_a, saved_input_b, saved_object, 2, 4, saved_object + 0x9C);
-    ASM_KEEP(saved_input_a);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_input_b);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_result <<= 16;
     state = call_result >> 16;
     call_result = 0;

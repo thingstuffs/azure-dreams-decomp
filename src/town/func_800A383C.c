@@ -32,12 +32,13 @@ s32 func_800A0F9C(TownObject *object, void *item_data, s32 item_count) {
     remaining = item_count;
     items = object->items;
     if (remaining > 0) {
-        ASM_KEEP(remaining);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         item_slot = (void **)((unsigned long)(remaining * sizeof(*items)) +
                         (unsigned long)items);
         item_slot--;
         do {
-            remaining--;
+            do {
+                remaining--;
+            } while (0);
             *item_slot = func_800A1C94(object, remaining, item_data);
             if (items == 0) {
                 return remaining + 1;
@@ -45,7 +46,7 @@ s32 func_800A0F9C(TownObject *object, void *item_data, s32 item_count) {
             item_slot--;
         } while (remaining > 0);
         item_slot++;
-        ASM_USE(item_slot);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_USE(item_slot);
     }
 
     object->field_00 = 0;

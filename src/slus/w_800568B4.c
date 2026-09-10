@@ -8,7 +8,7 @@
 
 /* Steps an enabled value toward its positive or negative limit. */
 void func_800568B4(void *state) {
-    register u8 *fields ASM_REG("$6") = state;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u8 *fields = state;
     s32 next_value;
     s32 lower_limit;
     u16 upper_limit;
@@ -21,12 +21,16 @@ void func_800568B4(void *state) {
                 return;
             }
             S16_FIELD(fields, 0x52) = upper_limit;
-            return;
+            do {
+                return;
+            } while (0);
         }
         next_value = S16_FIELD(fields, 0x52) - S16_FIELD(fields, 0x54);
         lower_limit = -U16_FIELD(fields, 0x56);
         if (lower_limit < next_value) {
-            S16_FIELD(fields, 0x52) = U16_FIELD(fields, 0x52) - U16_FIELD(fields, 0x54);
+            do {
+                S16_FIELD(fields, 0x52) = U16_FIELD(fields, 0x52) - U16_FIELD(fields, 0x54);
+            } while (0);
             return;
         }
         S16_FIELD(fields, 0x52) = lower_limit;

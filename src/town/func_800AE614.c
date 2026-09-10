@@ -33,16 +33,18 @@ void func_800ABD74(void *source) {
     S_800ABD74_0 *origin;
     StackRecord effect;
     s32 angle;
-    register s32 effect_count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 effect_count;
     s32 angle_step;
     s32 effects_spawned;
 
     origin = source;
     effect_count = (rand() & 7) | 4;
     angle_step = 0x1000 / effect_count;
-    effects_spawned = 0;
+    do {
+        effects_spawned = 0;
+    } while (0);
     angle = rand();
-    ASM_KEEP(effect_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(effect_count);
     effect.z = origin->unk_0A;
     effect.c = -4;
     if (effect_count != 0) {

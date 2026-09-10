@@ -57,8 +57,9 @@ void func_80025D28(void *state, void *points, void *appearance) {
     direction_x = func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
     side_direction_x = func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
     radial_offset_x = end_wave_x * direction_x;
-    radial_offset_x *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    do {
+        radial_offset_x *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
+    } while (0);
     side_offset_x = side_direction_x * ((Rec_func_80025D28_arg0 *)state)->unk_40;
     ((S_80025D28_1 *)points)->unk_0C = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
         (radial_offset_x >> 7) + (side_offset_x << 6);
@@ -66,8 +67,9 @@ void func_80025D28(void *state, void *points, void *appearance) {
     direction_y = func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
     side_direction_y = func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
     radial_offset_y = end_wave_y * direction_y;
-    radial_offset_y *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    do {
+        radial_offset_y *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
+    } while (0);
     side_offset_y = side_direction_y * ((Rec_func_80025D28_arg0 *)state)->unk_40;
     ((S_80025D28_1 *)points)->unk_10 = (((Rec_func_80025D28_arg0 *)state)->unk_1E << 0x10) +
         (radial_offset_y >> 7) + (side_offset_y << 6);

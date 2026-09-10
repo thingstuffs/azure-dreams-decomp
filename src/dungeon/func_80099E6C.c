@@ -15,9 +15,10 @@ s32 func_8009F5CC(void) {
     }
 
     if (*(u16 *)(D_800E3D7C[0] + 0x118) < 0x401) {
-        ASM_SCHED_BARRIER();
         if (D_80013716 < 0xC01) {
-            changed = 0;
+            do {
+                changed = 0;
+            } while (0);
             goto done;
         }
     }

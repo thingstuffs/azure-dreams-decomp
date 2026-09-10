@@ -76,7 +76,7 @@ void func_80170E54(void *input_controller, void *input_context, void *input_enti
     void *controller;
     void *context;
     void *entity;
-    register void *actor_state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *actor_state;
     u8 *anim_table;
     register u8 *next_table ASM_REG("$5"); /* MATCH: both paths supply the shared tail anim_table in a1. */
     s32 room_id;
@@ -94,8 +94,6 @@ void func_80170E54(void *input_controller, void *input_context, void *input_enti
         return;
     }
 
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((Rec_D_800E3D7C *)actor_state)->unk_24.at01_u8.v == 0) {
         func_800AA79C(controller, context, entity, actor_state);
@@ -125,7 +123,6 @@ void func_80170E54(void *input_controller, void *input_context, void *input_enti
             return;
         }
 
-        ASM_KEEP(controller);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if (((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 != 0xE) {
             u8 control_state = 0xE;
 
@@ -290,7 +287,6 @@ ordinary_cleanup:
     if (((S_80170E54_2 *)entity)->unk_2C == anim_table) {
         return;
     }
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     next_table = anim_table;
 update_table:
     anim_table = next_table;

@@ -100,11 +100,12 @@ void *func_8191C938(S_8191C938_3 *source)
         func_8004491C(object, D_80045340);
         object_block = ((S_8191C938_0 *)object)->unk_08;
         source_block = source->unk_20;
-        *object_block = *source_block;
+        do {
+            *object_block = *source_block;
+        } while (0);
         word_override = source->unk_16;
-        ASM_KEEP(word_override);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         result = object;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(result);
         ((S_8191C938_4 *)object_block)->unk_0A = word_override;
         func_8002426C(object_block);
         return object;

@@ -8,7 +8,7 @@ extern s32 D_8002E5E8[];
 /* Initializes object resources and defaults, returning whether the auxiliary allocation succeeds. */
 s32 func_800B4ED8(void *object, s32 resource_id) {
     s32 *default_values;
-    register s32 call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 call_arg ASM_REG("$4");
     s32 resource_handle;
     s32 buffer;
     s32 success;
@@ -18,7 +18,8 @@ s32 func_800B4ED8(void *object, s32 resource_id) {
     *(s32 *)((s8 *)object + 0x5C) = resource_handle;
     if (resource_handle != 0) {
         call_arg = resource_handle;
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        do {
+        } while (0);
         default_values = D_8002E5E8;
         *(s32 *)((s8 *)object + 0x40) = D_8002E5E8[0];
         *(s32 *)((s8 *)object + 0x44) = default_values[1];

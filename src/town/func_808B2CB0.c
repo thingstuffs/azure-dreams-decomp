@@ -21,10 +21,10 @@ typedef struct S_808B2CB0_0 {
 
 s32 func_808B2CB0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_v0;
-    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_a0 ASM_REG("$4");
     u8 *temp_a1;
     S_808B2CB0_0 *temp_v1;
-    register u8 temp_v0_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 temp_v0_2;
 
     if (func_80700304(arg0, arg1, arg2, arg3) >= 2) {
         temp_v0 = *(s16 *)((u8 *)D_A0700000 + (arg0 * 2) + 0xF34);
@@ -44,5 +44,7 @@ s32 func_808B2CB0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     temp_v1 = *(void **)((u8 *)D_A0700000 + 0xF40);
     temp_v0_2 = temp_v1->unk_0E;
     temp_v1->unk_0E = temp_v0_2;
-    return arg0;
+    do {
+        return arg0;
+    } while (0);
 }

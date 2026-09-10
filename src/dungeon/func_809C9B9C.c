@@ -45,13 +45,13 @@ typedef struct S_8017139C_3 {
 /* Advances the entity along its stored path and updates movement state and timing. */
 void func_8017139C(void *controller, void *context, void *entity, void *path_state)
 {
-    register void *state ASM_REG("$17") = path_state;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *state = path_state;
     s32 move_flags;
     s16 direction;
     s16 move_result;
     s32 x;
     s32 y;
-    register u16 control_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u16 control_flags;
 
     if (((S_8017139C_0 *)state)->unk_71.s <= 0) {
         return;
@@ -83,7 +83,8 @@ void func_8017139C(void *controller, void *context, void *entity, void *path_sta
         ((S_8017139C_3 *)((u8 *)state + ((S_8017139C_0 *)state)->unk_8A.s))->unk_74,
         ((S_8017139C_3 *)((u8 *)state + ((S_8017139C_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)controller + 0x98);
-    move_result = func_8009A66C(direction, entity, state, 0x20);
+    move_result = (func_8009A66C(direction, entity, state, 0x20)) + x;
+    move_result -= x;
 
     ((Rec_D_80082E80 *)entity)->unk_24 =
         ((S_8017139C_3 *)((u8 *)state + ((S_8017139C_0 *)state)->unk_8A.s))->unk_74;
@@ -114,9 +115,10 @@ void func_8017139C(void *controller, void *context, void *entity, void *path_sta
     } else {
         control_flags = ((S_8017139C_2 *)controller)->unk_98;
         ((S_8017139C_2 *)controller)->unk_9A = 0xF;
-        control_flags &= ~8;
+        do {
+            control_flags &= ~8;
+        } while (0);
         ((S_8017139C_2 *)controller)->unk_98 = control_flags;
-        ASM_KEEP(control_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_8017139C_2 *)controller)->unk_8C = 0;
     }
     (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;

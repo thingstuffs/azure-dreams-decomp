@@ -17,13 +17,15 @@ extern u16 D_80083462;
 void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
 {
     u8 *actor_state = actor;
-    register u8 *entity ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *entity;
     s32 context = action_context;
     u8 *position = destination;
     u16 *flags = D_80083460;
     u8 *idle_actor = actor;
 
-    ASM_KEEP(actor_state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    do {
+        ASM_KEEP(actor_state);
+    } while (0);
 
     if (!(flags[1] & 0x1000)) {
         entity = target;

@@ -32,7 +32,7 @@ typedef struct S_800AE324_1 {
 /* Create an object and initialize its state, releasing the state if setup fails. */
 s32 func_800AE324(s32 selector) {
     register s32 object_selector = selector;
-    register void *object ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *object;
     S_800AE324_0 *state;
     void *initializer;
     s32 count;
@@ -48,10 +48,11 @@ s32 func_800AE324(s32 selector) {
         initializer = (void *)0x8001029C;
         state = (u8 *)object + 0x20;
         state->unk_20 = initializer;
-        state->unk_1C = func_800B0718();
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            state->unk_1C = func_800B0718();
+        } while (0);
         count = state->unk_1C;
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(count);
         state->unk_74 = object_selector;
         if (count != 0) {
             state->unk_14 = (count - 1) / 10;

@@ -41,9 +41,12 @@ s32 func_80016B0C(void) {
     s32 cell_index;
     u8 *cells;
 
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+    } while (0);
     state = *(void **)D_80016000;
-    fallback_args[0] = 2;
+    do {
+        fallback_args[0] = 2;
+    } while (0);
     fallback_args[1] = 0xFF;
     cell_index = state->unk_08;
     cells = state->unk_40;

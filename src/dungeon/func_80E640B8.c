@@ -59,10 +59,10 @@ extern u8 D_8017558C[];
 /* Updates timed movement, returns the actor to its tile, and resets its action state. */
 void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *room_arg)
 {
-    register void *object ASM_REG("$16") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *motion ASM_REG("$17") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$18") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *room ASM_REG("$19") = room_arg;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *object = object_arg;
+    void *motion = motion_arg;
+    void *actor = actor_arg;
+    void *room = room_arg;
     s16 timer;
     u16 old_timer;
     s32 room_ref;
@@ -79,7 +79,9 @@ void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *ro
         if (!(((S_801738B8_2 *)actor)->unk_14 & 0x8000)) {
             return;
         }
-        ((S_801738B8_0 *)object)->unk_96.s = 0;
+        do {
+            ((S_801738B8_0 *)object)->unk_96.s = 0;
+        } while (0);
         ((S_801738B8_0 *)object)->unk_9B = 3;
         return;
 
@@ -145,7 +147,9 @@ start_action:
         ((S_801738B8_3 *)motion)->unk_10 = 0;
         ((S_801738B8_3 *)motion)->unk_0C = 0;
         ((S_801738B8_0 *)object)->unk_9B++;
-        return;
+        do {
+            return;
+        } while (0);
 
     case 3:
         ((S_801738B8_3 *)motion)->unk_14 = 0;
@@ -165,10 +169,6 @@ start_action:
         }
         ((S_801738B8_0 *)object)->unk_8C = D_801716F4;
         ((S_801738B8_0 *)object)->unk_9A = 0xE;
-        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(room);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         return;
 
     default:

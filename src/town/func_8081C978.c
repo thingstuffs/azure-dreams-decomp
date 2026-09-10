@@ -89,11 +89,12 @@ void func_80026978(S_80026978_1 *origin)
         transform->unk_0C = origin->unk_0C;
         random_delta = rand(spawn_z);
         color = 0x808080;
-        random_delta = ((random_delta & 0x1FF) - 0x100) << 0xA;
-        ASM_KEEP(random_delta);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            random_delta = ((random_delta & 0x1FF) - 0x100) << 0xA;
+        } while (0);
         effect_state = (u8 *)effect + 0x20;
         transform->unk_14 = random_delta;
-        ASM_KEEP(effect_state);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(effect_state);
         effect_state->unk_0E = 3;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;

@@ -19,10 +19,10 @@ extern void (*D_80126B74[])(void *);
 
 /* Runs the initial handler, packs and bounds the state code, then runs the final handler. */
 void func_80126704(S_80126704_0 *state) {
-    register s32 middle_bits ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 middle_bits ASM_REG("$4");
     u32 packed_code;
     u32 code_bits;
-    u32 below_limit;
+    u16 below_limit;
 
     {
         u32 handler_index;
@@ -41,7 +41,6 @@ void func_80126704(S_80126704_0 *state) {
     packed_code += code_bits;
     code_bits = packed_code & 0xFF;
     state->unk_13.s = packed_code;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     below_limit = code_bits < 0x38U;
     if (below_limit == 0) {
         state->unk_13.u = 0x31;

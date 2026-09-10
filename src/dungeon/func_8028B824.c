@@ -19,9 +19,9 @@ void func_8001E824(void *arg0) {
         &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17, &&jt_c18
     };
     u8 *entity = arg0;
-    s32 var_s0;
-    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 var_s0;
+    s16 var_s1;
+    s16 var_s2;
     s32 minus_128;
     s32 temp_v0_2;
     u8 temp_v0;
@@ -61,14 +61,12 @@ jt_c16:
 block_11:
 block_12:
     minus_128 = -0x80;
-    ASM_KEEP(minus_128);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     var_s1 = var_s0 | minus_128;
     var_s0 = var_s1;
     if (func_800A6D30() & 7) {
         goto block_16;
     }
     var_s2 = -1;
-       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     var_s0 = var_s1 | 0x40;
     goto block_16;
 jt_c18:

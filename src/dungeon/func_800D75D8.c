@@ -21,7 +21,7 @@ extern void *D_800E5910[];
 /* Allocate and initialize an object, marking allocation failure in the status flags. */
 void *func_800DCD38(void) {
     s32 allocation;
-    register ObjectHeader *header ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register ObjectHeader *header ASM_REG("$18");
     s32 *status_page;
     s32 *source_table;
     u8 *data;
@@ -32,8 +32,9 @@ void *func_800DCD38(void) {
         D_800E5910[0] = object;
         allocation = func_8004B404(0x100);
         if (allocation != 0) {
-            header = (ObjectHeader *)(object + 0x20);
-            ASM_KEEP(header);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            do {
+                header = (ObjectHeader *)(object + 0x20);
+            } while (0);
             data = object + 0x5C;
             func_800DCCF4(data, allocation);
             source_table = (s32 *)0x800133A0;

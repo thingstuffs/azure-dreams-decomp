@@ -23,7 +23,7 @@ void func_800402F4(void)
 {
     Callback *callback_slot;
     Callback callback;
-    register s32 slot_index ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 slot_index;
     Entry **entry_slot;
     Entry *entry;
     s32 stop_requested;
@@ -39,7 +39,7 @@ loop:
             if (!(entry->flags & 0x800)) {
                 callback(entry->data, entry->arg1, entry->arg2);
                 stop_requested = func_80045310(*(s32 *)((u8 *)D_80083160[0] + 0x8D0));
-                ASM_KEEP(stop_requested);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(stop_requested);
                 callback_slot++;
                 if (stop_requested == 0) {
                     slot_index++;
@@ -54,7 +54,9 @@ loop:
     callback_slot++;
     slot_index++;
 next:
-    entry_slot++;
+    do {
+        entry_slot++;
+    } while (0);
     if (slot_index < 0x20) {
         goto loop;
     }

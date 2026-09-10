@@ -111,8 +111,9 @@ state_zero:
 
         ((S_80173E50_3 *)counter_base)->unk_0A--;
     }
-    ASM_USE_NV(actor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((S_80173E50_0 *)actor)->unk_9B++;
+    do {
+        ((S_80173E50_0 *)actor)->unk_9B++;
+    } while (0);
     goto done;
 
 state_one:
@@ -196,14 +197,15 @@ state_one:
     goto done;
 
 state_two:
-    ASM_USE_NV(actor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (!(((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0xE000)) {
         goto repeat_calls;
     }
     {
-        register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *counter_base;
 
-        counter_base = (u8 *)&D_80083460;
+        do {
+            counter_base = (u8 *)&D_80083460;
+        } while (0);
         ((S_80173E50_3 *)counter_base)->unk_0A--;
     }
 

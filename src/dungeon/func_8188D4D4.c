@@ -65,7 +65,7 @@ void func_80024CD4(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) 
     u16 delay_left;
     u16 final_ramp;
     u16 decaying_value;
-    register void *call_transform ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *call_transform;
     s32 base_value;
 
     D_80026472.value++;
@@ -104,12 +104,14 @@ ramp_up:
         call_transform = transform;
         base_value = ((S_80024CD4_0 *)effect)->unk_16;
         decaying_value = ((S_80024CD4_0 *)effect)->unk_18.s;
-        rising_value = ((S_80024CD4_0 *)effect)->unk_1C;
-        ASM_USE2(decaying_value, rising_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            rising_value = ((S_80024CD4_0 *)effect)->unk_1C;
+        } while (0);
         decaying_value =
             (u16) (decaying_value - ((s32) (decaying_value << 0x10) >> 0x13));
+        do {
+        } while (0);
         rising_value += 0x80;
-        ASM_USE(rising_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_80024CD4_0 *)effect)->unk_1C = rising_value;
         ((S_80024CD4_0 *)effect)->unk_18.u = decaying_value;
         func_8002522C(call_transform, base_value,

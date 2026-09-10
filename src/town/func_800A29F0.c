@@ -22,10 +22,11 @@ void itm_mon_koyaw_set(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_
     s32 *chunk_end;
     s32 flag_bits;
     s32 flags_offset;
-    register s32 slot_index ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 slot_index;
 
+    do {
+    } while (0);
     slot_index = slot;
-    ASM_KEEP(slot_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     flags = (u8 *)0x80010000;
     slot = slot_index * 4;
     flags += slot;
@@ -43,8 +44,9 @@ void itm_mon_koyaw_set(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_
             record_src += 4;
             record_dst += 4;
         } while (record_src != chunk_end);
-        *record_dst = *record_src;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        do {
+            *record_dst = *record_src;
+        } while (0);
         flags_offset = slot_index * 4;
         copy_page = (u8 *)0x80010000;
         copy_flags = copy_page + flags_offset;

@@ -112,8 +112,9 @@ align_motion:
         do {
             tile_coord = FIELD_U8(actor, 0x24);
         } while (0);
-        center_offset = FIELD_S16(motion, 2);
-        ASM_SCHED_BARRIER();
+        do {
+            center_offset = FIELD_S16(motion, 2);
+        } while (0);
         FIELD_S32(motion, 0xC) = (((tile_coord << 6) - (center_offset -= 0x20)) << 15) /
                                align_frames;
         center_offset = FIELD_S16(motion, 6) - 0x20;

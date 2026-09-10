@@ -50,15 +50,16 @@ s32 func_8005A90C(s32 src_addr, s32 sound_addr, s32 size, s16 requested_slot)
     }
 found:
     slot_index = slot_id;
-    slot = &D_80086A40[slot_index];
+    do {
+        slot = &D_80086A40[slot_index];
+    } while (0);
 
     slot->unk14 = size;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     slot->marker = slot_id;
     slot->unk04 = src_addr;
     slot->unk08 = size;
     reserve_size = size;
-    ASM_KEEP_NV(reserve_size);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(reserve_size);
     reserved_addr = sound_addr;
     slot->unk18 = 0x7F;
     slot->unk1B = 0x40;

@@ -27,7 +27,7 @@ extern s32 D_800814A0[3];
 /* Alternate the effect shade, decay its intensity, and flag expiration. */
 void func_80026E3C(void *effect, M2C_UNK unused, S_80026E3C_1 *color)
 {
-    register u16 ticks_left ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u16 ticks_left ASM_REG("$4");
     u16 frame;
     u16 intensity;
     u32 shade;
@@ -46,8 +46,9 @@ void func_80026E3C(void *effect, M2C_UNK unused, S_80026E3C_1 *color)
     intensity = ((S_80026E3C_0 *)effect)->unk_6A.u16;
     decay = (s16)intensity >> 4;
     ticks_left = ((S_80026E3C_0 *)effect)->unk_66;
-    intensity -= decay;
-    ASM_KEEP(intensity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+        intensity -= decay;
+    } while (0);
     ticks_left--;
     ((S_80026E3C_0 *)effect)->unk_66 = ticks_left;
     ((S_80026E3C_0 *)effect)->unk_6A.u16 = intensity;

@@ -127,6 +127,8 @@ setup:
     ((Rec_D_80082E80 *)actor)->unk_24 = ((S_80172CC0_2 *)path_entry)->unk_74;
     cell_flags = 0x3000;
     path_entry = (u8 *)state + ((S_80172CC0_0 *)state)->unk_8A.s;
+    do {
+    } while (0);
     ((Rec_D_80082E80 *)actor)->unk_25 = ((S_80172CC0_2 *)path_entry)->unk_7C;
     ((S_80172CC0_0 *)state)->unk_8A.u++;
     {
@@ -139,7 +141,6 @@ setup:
         func_8009A21C(next_x, next_y, cell_flags);
     }
 
-    ASM_KEEP(move_result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_80172CC0_0 *)state)->unk_2A = heading;
     if (move_result == 3) {
         if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {

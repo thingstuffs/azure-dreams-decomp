@@ -58,8 +58,10 @@ void func_800A6684(void *entity, Rec_D_800E3D7C *position, S_800A6684_0 *sprite)
         } else {
             sprite_flags = sprite->unk_14 & 0xFFFE;
         }
-        sprite->unk_14 = sprite_flags;
-        ASM_SCHED_BARRIER();   /* MATCH: keep the flags store before call argument setup. */
+        do {
+            sprite->unk_14 = sprite_flags;
+        } while (0);
+           /* MATCH: keep the flags store before call argument setup. */
         func_800478B8(sprite);
 
         height_or_shade = position->unk_04.at00_s32.v;

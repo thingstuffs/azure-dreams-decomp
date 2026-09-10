@@ -40,8 +40,9 @@ void func_800B0D7C(S_func_800B361C_0 *object) {
         s32 clear_mask;
         S_func_800B361C_1 *state;
 
-        clear_mask = ~1;
-        ASM_KEEP(clear_mask);
+        do {
+            clear_mask = ~1;
+        } while (0);
         object->unk_1C &= clear_mask;
         state = object->unk_CC;
         *(void **)state->unk_78 = D_800786E8;

@@ -15,7 +15,7 @@ void func_8004AEC4(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *)) {
     s32 element_count;
     s32 (*compare)(u8 *, u8 *);
     register s32 sort_index ASM_REG("$20"); /* s4 */
-    register s32 element_size ASM_REG("$21"); /* s5 */
+    s32 element_size; /* s5 */
 
     element_count = count;
     element_size = size;
@@ -27,7 +27,9 @@ void func_8004AEC4(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *)) {
         if ((element_count - 1) > 0) {
             swap_data = swap_buffer;
             do {
-                best = current;
+                do {
+                    best = current;
+                } while (0);
                 scan_index = sort_index + 1;
                 candidate = current + element_size;
                 if (scan_index < element_count) {

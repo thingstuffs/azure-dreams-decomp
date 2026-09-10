@@ -18,9 +18,9 @@ void func_80875404(void)
     Packed8 test_values;
     CallbackTable callbacks;
     s32 value_offset;
-    register s16 *value_base ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s16 *value_base ASM_REG("$17");
     s16 *saved_base;
-    register s32 choice_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 choice_index;
     s16 *next_value;
     s32 callback_offset;
 
@@ -38,7 +38,9 @@ check_value:
         }
         value_offset += 2;
         choice_index += 1;
-        next_value = (s16 *)(value_offset + (s32)saved_base);
+        do {
+            next_value = (s16 *)(value_offset + (s32)saved_base);
+        } while (0);
         if (*next_value == 0) {
             goto end_values;
         }

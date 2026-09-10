@@ -21,7 +21,7 @@ void func_800DC650(u8 *object_data) {
     s32 target;
     s32 delta;
     register u32 mode ASM_REG("$5");
-    register void *handle ASM_REG("$4");
+    void *handle;
     s32 result;
 
     state = object + 0x3C;
@@ -55,7 +55,9 @@ compare:
         handle = *(void **)(object + 0x3C);
         mode = ((mode >> 1) ^ 1) % 2;
     }
-    result = func_800DCA1C(handle, mode);
+    do {
+        result = func_800DCA1C(handle, mode);
+    } while (0);
     do {
         D_800E5910->value = result;
     } while (0);

@@ -40,8 +40,8 @@ u32 func_800C8150(Rec_D_800E3D7C *actor, s16 action_arg_1, s16 action_arg_2, s32
     s32 state_offset;
     s32 state;
     s32 next_state;
-    register s32 shifted_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register TablePage *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 shifted_index;
+    register TablePage *table_page ASM_REG("$2");
 
     slot = 1;
     if (actor->unk_14.as_u32 & 0x4000) {
@@ -72,7 +72,9 @@ common:
         if ((state != 4) && (actor->unk_10.at03_u8.v != 0)) {
             actor->unk_10.at02_u8.v = state + 1;
             raw_state_index = func_800A1BD0(actor);
-            shifted_index = raw_state_index << 16;
+            do {
+                shifted_index = raw_state_index << 16;
+            } while (0);
             state_index = shifted_index >> 16;
             table_page = (TablePage *)0x80010000;
             if (state_index >= 0) {

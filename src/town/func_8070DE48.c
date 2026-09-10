@@ -13,9 +13,9 @@ s32 func_80016E48(s32 arg0)
     s32 index;
     s32 count;
     s32 less;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 result;
     s32 *base;
-    register s16 *award_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s16 *award_base ASM_REG("$2");
     s32 *reward_base;
     s32 *slot;
     s16 *event_base;

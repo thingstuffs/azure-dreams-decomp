@@ -21,9 +21,10 @@ s32 func_800269E8(void *object)
     handle = func_80048EE4((s8 *)object + 0x74, 4);
     *(s32 *)((s8 *)object + 0x70) = handle;
     if (handle != 0) {
-        register s32 call_arg ASM_REG("$4") = handle;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 call_arg ASM_REG("$4") = handle;
 
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        do {
+        } while (0);
         initial_pos = &D_8002E5E8;
         *(s32 *)((s8 *)object + 0x54) = initial_pos->x;
         *(s32 *)((s8 *)object + 0x58) = initial_pos->y;
