@@ -21,13 +21,14 @@ void plt_carry_item_del_ext(void) {
     first_value = *(s32 *)((u8 *)input_values + 8);
     second_value = *(s32 *)((u8 *)input_values + 0xC);
     saved_object = *(u8 **)(base + 0x2C);
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     if (func_8009368C(context, first_value, second_value) != 0) {
         u8 *linked_object;
 
         func_80098868(base, first_value, second_value);
-        linked_object = *(u8 **)(base + 0x2C);
+        do {
+            linked_object = *(u8 **)(base + 0x2C);
+        } while (0);
         if (linked_object != 0 && (linked_object[0x14] == 4 || linked_object[0x4D] == 0xD)) {
             *(s32 **)(saved_object + 0x50) = &D_8009C340;
             *(u8 **)(base + 0x2C) = 0;

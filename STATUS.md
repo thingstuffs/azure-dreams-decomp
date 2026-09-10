@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-10T02:08:45Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-10T02:56:33Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -24,7 +24,7 @@ Baseline NOT exact: 0 rows
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 32 | 6,088 | 0.2% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 10 | 7,368 | 0.3% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 2874 | 1,360,504 | 53.2% |
-| ASM_ pins | 2137 | 1,466,884 | 57.3% | 1785 | 1,329,924 | 52.0% |
+| ASM_ pins | 2137 | 1,466,884 | 57.3% | 1781 | 1,327,384 | 51.9% |
 | goto | 1545 | 1,318,412 | 51.5% | 1565 | 1,332,436 | 52.1% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 317 | 437,288 | 17.1% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 335 | 246,252 | 9.6% |
@@ -32,7 +32,7 @@ Baseline NOT exact: 0 rows
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1779 | 960,608 | 37.6% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 341 | 266,540 | 10.4% |
 | maspsx marker pins (scaffolding) | 394 | 351,668 | 13.7% | 138 | 130,644 | 5.1% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 226 | 162,516 | 6.4% | 281 | 158,464 | 6.2% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 226 | 162,516 | 6.4% | 284 | 160,580 | 6.3% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3179 | 1,620,468 | 63.3% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 2740 | 453,424 | 17.7% |
 
