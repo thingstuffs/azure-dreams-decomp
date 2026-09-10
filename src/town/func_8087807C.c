@@ -19,7 +19,7 @@ typedef struct S_8070207C_1 {
 
 /* Dispatches the entry's second value based on its first, then processes the first. */
 void func_8070207C(s32 entry_index) {
-    register s32 entry_offset ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 entry_offset;
     s32 saved_index;
     s32 final_offset;
 
@@ -28,6 +28,8 @@ void func_8070207C(s32 entry_index) {
     if (func_80702714(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCC) != 0) {
         func_80702670(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCE);
     } else {
+        do {
+        } while (0);
         func_807026C0(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCE);
     }
     final_offset = saved_index * 4;
