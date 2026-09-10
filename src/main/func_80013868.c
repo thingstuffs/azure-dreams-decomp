@@ -17,13 +17,15 @@ extern s32 D_800267C0[];
 void *func_80026868(s32 init_value, s32 state_value)
 {
     void *object;
-    register void *state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *state;
 
     object = func_8003FC64(0);
     state = (u8 *)object + 0x20;
     if (object != NULL) {
-        *(s32 *)((u8 *)state + 0x24) = state_value;
-        func_80026728(state, init_value);
+        do {
+            *(s32 *)((u8 *)state + 0x24) = state_value;
+            func_80026728(state, init_value);
+        } while (0);
         func_8002223C();
         func_800220DC();
         *(s32 *)((u8 *)object + 0x20) = func_8004F418(object, 0);

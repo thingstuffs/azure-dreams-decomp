@@ -24,7 +24,7 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
 {
     s32 extra_flags;
     s32 mode;
-    register s32 entity_kind ASM_REG("$3");
+    s32 entity_kind;
     u8 *entity_data;
     s16 *world_state;
 
@@ -41,11 +41,11 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
         }
         D_800DCF4D[0] = -1;
     } else {
-        entity_kind = *(u8 *)(entity_data + 0x13);
-        if (entity_kind != 0x38) {
-            func_80048088(entity_kind);
+        if (*(u8 *)(entity_data + 0x13) != 0x38) {
+            func_80048088(*(u8 *)(entity_data + 0x13));
         }
-        func_8004827C(entity, *(u8 *)(entity_data + 0x13));
+        entity_kind = *(u8 *)(entity_data + 0x13);
+        func_8004827C(entity, entity_kind);
     }
 
     *(s8 *)((u8 *)sprite + 0x26) =

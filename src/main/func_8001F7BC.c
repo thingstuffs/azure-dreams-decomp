@@ -11,20 +11,24 @@ extern void func_8040680C(void);
 
 void func_8001F7BC(void *arg0) {
     void *var_s0;
-    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 var_s1;
 
     var_s1 = 0;
     var_s0 = arg0;
 loop_1:
     if (var_s1 == *(s32 *)((u8 *)arg0 + 0x2C)) {
-        func_804045C8(*(void **)((u8 *)var_s0 + 0xC), 1);
+        do {
+            func_804045C8(*(void **)((u8 *)var_s0 + 0xC), 1);
+        } while (0);
         var_s1++;
         func_8040680C();
     }
     func_80404668(*(void **)((u8 *)var_s0 + 0xC));
     var_s1++;
     if (var_s1 < 5) {
-        var_s0 = (u8 *)var_s0 + 4;
+        do {
+            var_s0 = (u8 *)var_s0 + 4;
+        } while (0);
         goto loop_1;
     }
     func_80405A00(*(s32 *)((u8 *)arg0 + 4), *(s32 *)((u8 *)arg0 + 0x2C));
