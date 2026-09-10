@@ -26,7 +26,9 @@ extern void func_8003CCB0(s32 arg0);
 
 static inline s32 shift10(s32 value)
 {
-    return value >> 10;
+    do {
+        return value >> 10;
+    } while (0);
 }
 
 /* Swap draw buffers and update the animated coordinate history on a new display field. */
@@ -61,7 +63,7 @@ void func_8003CB08(void)
             }
 
             {
-                register s32 remaining ASM_REG("$16") = 63;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                register s32 remaining ASM_REG("$16") = 63;
                 s16 *y_history = D_800838D8;
                 s16 *y_dst = y_history + 63;
                 s16 *y_src = y_history + 62;
@@ -85,7 +87,6 @@ void func_8003CB08(void)
             {
                 s16 *x_head = D_80083858;
                 wave_offset = trig_value >> 7;
-                ASM_KEEP(wave_offset);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 center_offset = shift10(trig_value) + 0x100;
                 *x_head = (s16)(wave_offset + center_offset);
             }
@@ -94,7 +95,6 @@ void func_8003CB08(void)
             {
                 s16 *y_head = D_800838D8;
                 wave_offset = trig_value >> 7;
-                ASM_KEEP(wave_offset);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 center_offset = shift10(trig_value) + 0xB0;
                 *y_head = (s16)(wave_offset + center_offset);
             }

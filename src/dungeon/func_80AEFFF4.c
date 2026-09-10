@@ -81,7 +81,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
     void *actor;
     void *context;
     void *sprite;
-    register void *entity ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *entity ASM_REG("$18");
     s32 direction_aux;
     s32 tile_record;
     u16 action_state;
@@ -95,12 +95,11 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
         func_80171D7C(actor, context, sprite, entity);
-        return;
+        do {
+            return;
+        } while (0);
     }
 
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
         u8 *animations;
@@ -222,7 +221,6 @@ jt_c9:
             return;
         }
         func_8017297C(actor, context, sprite, entity);
-        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         return;
 
 jt_c10:

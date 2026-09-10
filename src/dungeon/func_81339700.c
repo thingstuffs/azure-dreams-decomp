@@ -76,7 +76,7 @@ void func_80170700(void) {
     S_80170700_1 *object;
     void *copy_dst;
     void *copy_src;
-    register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *call_obj ASM_REG("$4");
 
     source_data = ((Rec_D_80175D50 *)D_80175D50)->unk_0C;
     object = func_8003FC64(0x112);
@@ -96,8 +96,9 @@ void func_80170700(void) {
             (render_data->unk_14 & 0xFF7F) | 0x400;
         func_8004491C(object, &D_80045340, copy_dst, copy_src);
         call_obj = render_data;
-        data_index = *(&D_80170000[0x3A80]);
-        ASM_KEEP(data_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            data_index = *(&D_80170000[0x3A80]);
+        } while (0);
         render_data->unk_2C = &D_80170000[0x3A80];
         func_80047784(call_obj, data_index, 0);
         render_data->unk_06 = 6;

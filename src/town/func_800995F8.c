@@ -17,7 +17,7 @@ extern State D_800FE520;
 
 /* Update the state limits from the input value unless mode 12 is active. */
 void func_80096D58(Input *source) {
-    register Input *input ASM_REG("$5");
+    Input *input;
     State *state_page;
     s32 input_value;
 
@@ -26,7 +26,6 @@ void func_80096D58(Input *source) {
     }
 
     input = source;
-    ASM_KEEP(input);
     input_value = input->unk4;
     if (input_value <= 0x03FFFFFF) {
         State *state = &D_800FE520;

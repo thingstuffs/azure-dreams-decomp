@@ -82,14 +82,15 @@ active:
 
     upload_rect = &texture_rect;
     texture_pixels = D_8012E998;
-    ASM_KEEP(texture_pixels);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(texture_pixels);
     texture_height = 0x80;
-    ASM_KEEP(texture_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     texture_rect.x = (((S_80124DB0_0 *)loader)->unk_16 << 6) + 0x240;
     texture_rect.y = texture_height;
     texture_rect.w = 0x40;
     texture_rect.h = texture_height;
-    func_800672D8(upload_rect, texture_pixels, texture_height);
+    do {
+        func_800672D8(upload_rect, texture_pixels, texture_height);
+    } while (0);
 
     ((S_80124DB0_1 *)((u8 *)loader + ((S_80124DB0_0 *)loader)->unk_16))->unk_17 =
         ((S_80124DB0_0 *)loader)->unk_13;

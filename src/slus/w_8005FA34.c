@@ -53,7 +53,7 @@ void func_8005FA34(S_8005FA34 *voice_attr)
   s32 voice_bit;
   S_8005FA34_ent *voice_regs;
   S_8005FA34_ent *voice;
-  register s32 voice_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+  s32 voice_offset;
   u16 *pitch_regs;
   u16 *envelope_regs;
   s32 volume_or_note;
@@ -82,12 +82,13 @@ void func_8005FA34(S_8005FA34 *voice_attr)
   left_mode = 0;
   voice_offset = voice_index * 16;
   voice_regs = D_80079958.ptr;
-  ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   volume_word = voice_index * 2;
   voice_word = voice_index * 8;
   voice = (S_8005FA34_ent *)(voice_offset + (u32)voice_regs);
   volume_or_note = voice->unk0;
-  right_volume = voice->unk2;
+  do {
+      right_volume = voice->unk2;
+  } while (0);
   if (volume_or_note & 0x8000)
   {
     switch (volume_or_note & 0xF000)

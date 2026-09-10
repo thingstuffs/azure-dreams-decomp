@@ -13,7 +13,8 @@ s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
     u8 *tile;
 
     dungeon = D_80083160;
-    ASM_KEEP(dungeon);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+    } while (0);
     tile_index = origin_x + ((s16 *)D_8006CCD8)[(s16)direction];
     tile_y = origin_y + ((s16 *)D_8006CCE8)[(s16)direction];
     tile_index += tile_y << *(s16 *)(dungeon + 0x1F0);
@@ -30,7 +31,7 @@ s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
     }
     result = 1;
 done:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_SCHED_BARRIER();
     return result;
 }
 

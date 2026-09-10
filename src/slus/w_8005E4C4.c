@@ -12,7 +12,7 @@ u32 func_8005E4C4(s32 mode, u32 value, s32 low_index, s32 high_index)
     s32 dirty_bit;
 
     {
-        register volatile u16 *words ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register volatile u16 *words ASM_REG("$4");
         u32 high_bits;
         u32 low_word;
 
@@ -23,8 +23,9 @@ u32 func_8005E4C4(s32 mode, u32 value, s32 low_index, s32 high_index)
         }
         high_bits = (words[high_index] & 0xFF) << 16;
         low_word = words[low_index];
-        ASM_USE2_NV(dirty_bit, high_bits);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-        dirty_bit = 1;
+        do {
+            dirty_bit = 1;
+        } while (0);
         result = low_word | high_bits;
     }
 

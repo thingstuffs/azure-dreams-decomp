@@ -24,7 +24,7 @@ extern struct {
 
 /* Move the position one step in the actor's direction and update movement state. */
 void func_800AA258(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, Rec_D_800E3D7C *actor) {
-    register s32 next_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 next_x;
     s32 direction_index;
     s32 tile_mask;
     s32 move_mask;
@@ -39,8 +39,8 @@ void func_800AA258(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *po
     tile_mask = move_mask & 0xFFFF;
     func_8009A3D0(position->unk_24, position->unk_25.s, tile_mask);
     direction_index = ((u16) actor->unk_6A.as_u16 >> 8) & 0xE;
-    next_x = position->unk_24;
-    next_x = next_x + (u8) *(direction_index + &D_8006CCD8);
+    next_x = (position->unk_24 + (u8) *(direction_index + &D_8006CCD8)) + direction_index;
+    next_x -= direction_index;
     position->unk_24 = (u8) next_x;
     position->unk_25.s = (u8) (position->unk_25.s + *(direction_index + &D_8006CCE8));
     func_8009A21C(position->unk_24, position->unk_25.u, tile_mask);

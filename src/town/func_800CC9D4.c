@@ -57,16 +57,15 @@ void func_800CA134(void *state, void *position) {
     (*(s16 *)((u8 *)position + (6))) = (s16) ((u16) ((S_800CA134_1 *)position)->unk_06 + (y_delta >> 2));
     {
         void *target;
-        register s32 z_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 z_step ASM_REG("$2");
         s32 target_z;
-        register u32 z_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        u16 z_value;
 
         target = (*(void * volatile *)((u8 *)target_table + (8)));
         z_step = ((S_800CA134_1 *)position)->unk_0A.n;
         target_z = ((S_800CA134_2 *)target)->unk_0A;
         z_step += 0xD0;
         z_step = target_z - z_step;
-        ASM_KEEP(z_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         z_value = ((S_800CA134_1 *)position)->unk_0A.v;
         if (z_step < 0) {
             z_step += 3;

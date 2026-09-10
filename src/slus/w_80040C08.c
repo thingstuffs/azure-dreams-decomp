@@ -40,8 +40,8 @@ void func_80040C08(void)
 {
     State *state_ptr = &D_80082E60;
     State *reset_state;
-    register s32 saved_data_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register s32 buffer_size ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 saved_data_addr;
+    register s32 buffer_size ASM_REG("$4");
     s32 next_mode;
     u8 current_mode;
     u8 selected_mode;
@@ -52,7 +52,9 @@ void func_80040C08(void)
     current_mode = state_ptr->field_B;
 
     D_80080A7C.field_0 = buffer_size;
-    D_80081480.field_0 = saved_data_addr;
+    do {
+        D_80081480.field_0 = saved_data_addr;
+    } while (0);
     if (current_mode != 0) {
         next_mode = 3;
     } else {

@@ -75,12 +75,14 @@ mode_zero:
     goto dispatch_done;
 
 mode_one:
-    message = func_80099194(D_800E0CF3, func_80099734(state, message));
+    do {
+        message = func_80099194(D_800E0CF3, func_80099734(state, message));
+    } while (0);
     meter += 0x300;
     goto dispatch_done;
 
 mode_two:
-    ASM_USE2_NV(message, message);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_USE2_NV(message, message);
     message = func_80099194(D_800E0D1B, func_80099734(state, message));
     if ((item != 0) && (item[1] == 0xC) && (item[0] == 6)) {
         meter += 0xA00;
@@ -94,7 +96,6 @@ mode_three:
     meter += 0x6400;
 
 dispatch_done:
-    ASM_USE2_NV(message, message);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if ((item != 0) || (mode == 0)) {
         func_80099290(message);
         func_800A5720(base_message);

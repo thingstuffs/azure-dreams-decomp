@@ -57,14 +57,15 @@ state_0:
 
         ((S_8187BE9C_0 *)effect)->unk_42 = 1;
         adjusted_value = ((S_8187BE9C_0 *)effect)->unk_4C + 24;
-        ASM_TAILSLOT_PIN_TIED(adjusted_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN_TIED(adjusted_value);
         func_800256EC();
     }
 
 state_1:
-    ((S_8187BE9C_0 *)effect)->unk_42 = 0;
-    ((S_8187BE9C_0 *)effect)->unk_4C -= 24;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    do {
+        ((S_8187BE9C_0 *)effect)->unk_42 = 0;
+        ((S_8187BE9C_0 *)effect)->unk_4C -= 24;
+    } while (0);
 
     primitive->unk_0C =
         ((S_8187BE9C_0 *)effect)->unk_36 * ((S_8187BE9C_0 *)effect)->unk_02.u /

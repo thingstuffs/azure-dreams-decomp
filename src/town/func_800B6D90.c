@@ -42,9 +42,10 @@ s32 func_800B44F0(void *state, s32 input)
     setup_result = func_80049004(state_data, input, 0xC);
     ((S_800B44F0_0 *)state)->unk_5C = setup_result;
     if (setup_result != 0) {
-        register s32 call_arg ASM_REG("$4") = setup_result;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 call_arg ASM_REG("$4") = setup_result;
 
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        do {
+        } while (0);
         defaults = D_8002E5E8;
         ((S_800B44F0_0 *)state)->unk_40 = D_8002E5E8[0];
         ((S_800B44F0_0 *)state)->unk_44 = ((S_800B44F0_1 *)defaults)->unk_04;

@@ -56,7 +56,7 @@ s32 func_80099A1C(void *object, S_80099A1C_1 *position, S_80099A1C_2 *offset_dat
     s32 transform_result;
 
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(scratch);
 
 loop:
     ((S_80099A1C_0 *)scratch)->unk_00 = position->unk_02;
@@ -76,8 +76,9 @@ loop:
 
         half_offset = ((S_80099A1C_3 *)object)->unk_00;
         adjusted_coord = ((S_80099A1C_0 *)scratch)->unk_B8;
-        half_offset = (half_offset << 16) >> 17;
-        ASM_KEEP(half_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        do {
+            half_offset = (half_offset << 16) >> 17;
+        } while (0);
         adjusted_coord -= half_offset;
         ((S_80099A1C_0 *)scratch)->unk_B8 = adjusted_coord;
     }

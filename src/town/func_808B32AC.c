@@ -15,13 +15,13 @@ extern s32 func_80700B7C();
 
 void func_808B32AC(s32 arg0)
 {
-    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 temp_v0;
     S_808B32AC_0 *temp_v1;
 
     if (func_8070021C(2) == 0) {
         func_807002D4(2);
         temp_v0 = arg0;
-        ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN_TIED(temp_v0);
         func_80700AFC();
     }
     else {

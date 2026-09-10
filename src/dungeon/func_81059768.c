@@ -91,7 +91,7 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
     void *actor;
     void *context;
     void *map_object;
-    register void *actor_state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *actor_state ASM_REG("$18");
     u8 *anim_table;
     s32 tile_id;
     s32 distance;
@@ -105,12 +105,11 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
         func_80171510(actor, context, map_object, actor_state);
-        return;
+        do {
+            return;
+        } while (0);
     }
 
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(map_object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((S_80170F68_1 *)actor_state)->unk_25 == 0) {
         u8 *inactive_anims;
@@ -147,7 +146,6 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
             return;
         }
 
-        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
             u8 next_state = 0xE;
 

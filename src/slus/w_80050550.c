@@ -21,11 +21,11 @@ typedef struct S_80050550_Outer {
 
 /* Sets equal RGB components and two scaled fields from the supplied ratio. */
 void func_80050550(S_80050550_Outer *outputs, s32 numerator, s32 denominator) {
-    register s32 output_value ASM_REG("v0") = (numerator * 80) / denominator;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 output_value = (numerator * 80) / denominator;
     s32 negative_ratio_128 = (-(numerator * 128)) / denominator;
     s32 ratio_1024 = (numerator * 1024) / denominator;
 
-    register S_80050550_A *primary_output ASM_REG("v1");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register S_80050550_A *primary_output ASM_REG("v1");
 
     output_value = output_value + 0x30;
     primary_output = outputs->fieldA;
@@ -38,7 +38,6 @@ void func_80050550(S_80050550_Outer *outputs, s32 numerator, s32 denominator) {
     output_value = output_value - negative_ratio_128;
     primary_output->unkC = output_value;
 
-    output_value = 0x400;
-    output_value = output_value - ratio_1024;
+    output_value = 0x400 - ratio_1024;
     outputs->fieldB->unk2 = output_value;
 }

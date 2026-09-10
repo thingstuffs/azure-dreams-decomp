@@ -9,7 +9,7 @@ extern s32 D_80025BF4[];
 void func_80025FFC(void *object, s32 range_start, s32 initial_value, s32 text_addr)
 {
     u8 *data = object;
-    register s32 saved_value ASM_REG("$18") = initial_value;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 saved_value = initial_value;
     s32 saved_text = text_addr;
 
     func_80025CD8(*(s32 *)(data + 0x74));
@@ -19,7 +19,9 @@ void func_80025FFC(void *object, s32 range_start, s32 initial_value, s32 text_ad
     *(s32 *)(data + 0x18) = range_start + 0x20;
     *(s32 *)(data + 0x88) = saved_text;
     strcpy(data + 0x78, saved_text);
-    ASM_KEEP(saved_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+        ASM_KEEP(saved_value);
+    } while (0);
     *(s32 **)(data - 0x10) = D_80025BF4;
 }
 

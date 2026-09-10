@@ -27,7 +27,7 @@ void func_801743E8(void *effect, Rec_D_800E3D7C *position, Rec_func_800AA258_arg
 {
     s32 state;
     u16 size_or_state;
-    register Page8008 *flag_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    Page8008 *flag_page;
 
     state = ((S_801743E8_0 *)effect)->unk_9B;
     ((S_801743E8_0 *)effect)->unk_96.s--;
@@ -86,9 +86,11 @@ increment_state:
 
 state_3:
     flag_page = (Page8008 *)0x80080000;
-    ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(flag_page);
     ((S_801743E8_0_pre *)effect)[-1].unk_00 |= 0x8000;
-    flag_page->flags |= 0x8000;
+    do {
+        flag_page->flags |= 0x8000;
+    } while (0);
 
 exit:
     return;

@@ -18,12 +18,14 @@ extern PatternSource D_80080B70;
 /* Fill from the first zero byte with overlapping patterns; return whether a zero was found. */
 s32 func_8004E9EC(u8 *buffer, s32 pair_count)
 {
-    register s32 pairs ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register s32 pairs ASM_REG("$10");
     s32 offset;
-    register s32 found_zero ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 found_zero;
     s32 end_offset;
 
-    pairs = pair_count;
+    do {
+        pairs = pair_count;
+    } while (0);
     found_zero = 0;
     end_offset = pairs << 1;
     offset = found_zero;

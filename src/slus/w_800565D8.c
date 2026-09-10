@@ -12,7 +12,7 @@ s32 func_800565D8(S_800565D8 *scales, u32 level)
     s32 result;
 
     if (level < 0x40) {
-        register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 delta;
         s32 doubled_scale;
         s32 scaled_delta;
 
@@ -21,7 +21,9 @@ s32 func_800565D8(S_800565D8 *scales, u32 level)
         }
         delta = 0x3F - level;
         doubled_scale = scales->unk21;
-        doubled_scale *= 2;
+        do {
+            doubled_scale *= 2;
+        } while (0);
         scaled_delta = doubled_scale * delta;
         result = -scaled_delta;
         goto sign;
@@ -37,7 +39,7 @@ zero:
 
 positive:
     {
-        register s32 delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        register s32 delta ASM_REG("$3");
 
         delta = level - 0x40;
         if (scales->unk20 == 0) {

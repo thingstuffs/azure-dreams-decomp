@@ -54,7 +54,7 @@ s32 func_800254C4(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_m
 
     node = func_8003FC64(0x202);
     if (node != 0) {
-        register s16 saved_mode ASM_REG("$19") = mode;
+        s16 saved_mode = mode;
         s32 mode_test;
 
         ASM_KEEP(saved_mode);
@@ -71,7 +71,9 @@ s32 func_800254C4(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_m
                     (u16)((((S_800254C4_2 *)source)->unk_02 + (rand() & 0x1F)) - 0x10);
                 payload->unk_06 =
                     (u16)((((S_800254C4_2 *)source)->unk_06 + (rand() & 0x1F)) - 0x10);
-                value_0a = ((S_800254C4_2 *)source)->unk_0A - 0x50;
+                do {
+                    value_0a = ((S_800254C4_2 *)source)->unk_0A - 0x50;
+                } while (0);
             } else {
                 payload->unk_02 = ((S_800254C4_2 *)source)->unk_02;
                 payload->unk_06 = ((S_800254C4_2 *)source)->unk_06;

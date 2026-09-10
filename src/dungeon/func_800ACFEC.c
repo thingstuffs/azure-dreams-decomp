@@ -71,7 +71,7 @@ void func_800B274C(void *actor_data, void *motion_data, void *render_data) {
     U8_AT(actor, 0x9D)++;
 
 update_height:
-    ASM_USE_NV(actor_alias);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_USE_NV(actor_alias);
     S32_AT(actor, 0x90) += S32_AT(motion, 0x14);
 
     if (U16_AT(actor, 0x98) & 4) {
@@ -89,7 +89,9 @@ update_height:
 
     old_height = U16_AT(actor_alias, 0x88);
     if ((S16_AT(actor, 0x92) + S16_AT(actor_alias, 0x88)) < (s16)ground_height) {
-        U32_AT(actor_alias, 0x1C) &= 0xF7FFFFFF;
+        do {
+            U32_AT(actor_alias, 0x1C) &= 0xF7FFFFFF;
+        } while (0);
         goto active_flags_set;
     }
 
@@ -101,7 +103,6 @@ update_height:
     S16_AT(actor, 0x92) = (s16)ground_height - old_height;
 
 reset_active:
-    ASM_USE_NV(actor_alias);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     U8_AT(actor, 0x9D) = 0;
     S32_AT(motion, 0x14) = 0;
     U32_AT(actor_alias, 0x1C) |= 0x08000000;
@@ -121,7 +122,6 @@ active_flags_set:
     goto clear_active_tail;
 
 clear_active:
-    ASM_USE_NV(actor_alias);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     U32_AT(actor_alias, 0x1C) &= 0xF7FFFFFF;
 
 clear_active_tail:

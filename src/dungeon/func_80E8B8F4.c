@@ -83,7 +83,7 @@ void func_801710F4(void *actor_input, void *context_input, void *sprite_input, v
     void *actor;
     void *context;
     void *sprite;
-    register void *entity ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *entity ASM_REG("$18");
     u8 *anim_table;
     s32 distance;
     s8 room_id;
@@ -98,12 +98,11 @@ void func_801710F4(void *actor_input, void *context_input, void *sprite_input, v
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
         func_80171684(actor, context);
-        return;
+        do {
+            return;
+        } while (0);
     }
 
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
         func_800AA79C(actor, context, sprite, entity);
@@ -138,7 +137,6 @@ void func_801710F4(void *actor_input, void *context_input, void *sprite_input, v
             return;
         }
 
-        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
             u8 actor_state = 0xE;
 

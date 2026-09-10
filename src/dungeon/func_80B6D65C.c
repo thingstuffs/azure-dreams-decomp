@@ -96,7 +96,7 @@ extern u8 D_80173D4C[];
 void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *status_in)
 {
     void *actor;
-    register void *context ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *context ASM_REG("$16");
     void *sprite;
     void *status;
     u8 *anim_table;
@@ -113,11 +113,11 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
     if (initial_flags & 0x1000) {
         ((S_80170E5C_0 *)actor)->unk_9A = 0xE;
         func_801713D4(actor_in, context_in, sprite_in, status_in);
-        return;
+        do {
+            return;
+        } while (0);
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     if (((S_80170E5C_1 *)status)->unk_25 == 0) {
         func_800AA79C(actor, context, sprite, status);

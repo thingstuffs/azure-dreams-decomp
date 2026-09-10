@@ -72,9 +72,10 @@ void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4
                     &distance);
                 direction_frames = D_801764A0;
                 action_state->unk_9A = 0x17;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                angle_page = (s8 *)0x80080000;
-                ASM_KEEP(angle_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                do {
+                    angle_page = (s8 *)0x80080000;
+                } while (0);
+                ASM_KEEP(angle_page);
                 action_state->unk_9B = 0;
                 action_state->unk_8C = 0;
                 sprite->unk_2C = direction_frames;

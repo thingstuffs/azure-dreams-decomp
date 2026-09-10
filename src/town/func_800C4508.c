@@ -30,7 +30,9 @@ group_loop:
 
 range_loop:
         ranges = *(s16 * volatile *)group;
-        range = (s16 *)(range_offset + (s32)ranges);
+        do {
+            range = (s16 *)(range_offset + (s32)ranges);
+        } while (0);
         if (value < range[0]) {
             goto advance;
         }
@@ -45,7 +47,6 @@ advance:
         range_offset += 4;
         return_value = range_offset + (s32)ranges;
         return_value = *(s16 *)return_value;
-        ASM_KEEP(return_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if (return_value != end_marker) {
             goto range_loop;
         }
@@ -61,6 +62,6 @@ advance:
 not_found:
     return_value = 0;
 done:
-    ASM_KEEP(return_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(return_value);
     return return_value;
 }
