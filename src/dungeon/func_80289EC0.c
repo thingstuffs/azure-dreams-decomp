@@ -26,9 +26,9 @@ void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3
     s32 y_end;
     s32 x;
     s32 y;
-    register s32 initial_y ASM_REG("$3");
+    s32 initial_y;
     s32 initial_x;
-    register s32 initial_width ASM_REG("$2");
+    s32 initial_width;
     s32 initial_height;
     s32 y_parity;
     u16 flags;
@@ -40,11 +40,10 @@ void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3
     initial_y = rect->y;
     initial_x = rect->x;
     initial_width = rect->width;
-    ASM_KEEP4(initial_y, initial_x, initial_width, rect);
-    y = initial_y;
     initial_height = rect->height;
     x_end = initial_x + initial_width;
-    y_end = y + initial_height;
+    y_end = initial_y + initial_height;
+    y = initial_y;
 
     if (y < y_end) {
         do {

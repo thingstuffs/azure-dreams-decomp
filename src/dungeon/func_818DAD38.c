@@ -70,19 +70,22 @@ grow:
     goto done;
 
 fade:
-    if ((u8)target->unkC < 9) {
-        target->unkC = 0;
-        ((u16 *)owner)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
-        func_8002466C();
-        return;
-    }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    do {
+        if ((u8)target->unkC < 9) {
+            target->unkC = 0;
+            ((u16 *)owner)[-1] |= 0x8000;
+            D_800814A0[0] |= 0x8000;
+            func_8002466C();
+            return;
+        }
+    } while (0);
     target->unkC += 0xFFEFEFF0;
 
 done:
 }
 
 /* MECHANISM: Explicit state-test labels keep all three noreturn dispatcher tails at their retail sites.
-   ASM_SCHED_BARRIER blocks the else constant hoist, restoring the global-page delay slot and 83-word length.
-   Updating unk1C before unk1E selects retail's v1/v0 load-add order while held s1/s0 preserve the 0x20 frame. */
+   A do-while(0) wrapped around the fade if-block blocks the else constant hoist (gcc otherwise lifts
+   the 0xFFEFEFF0 lui ahead of the if, sharing it with the not-taken path), restoring the global-page
+   delay slot and 83-word length. Updating unk1C before unk1E selects retail's v1/v0 load-add order
+   while held s1/s0 preserve the 0x20 frame. */

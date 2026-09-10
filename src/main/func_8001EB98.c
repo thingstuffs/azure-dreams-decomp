@@ -7,14 +7,16 @@ extern void func_80405A00(s32, s32);
 extern void func_80405C0C(void);
 
 void func_8001EB98(void *arg0) {
-    register s32 var_s1 ASM_REG("$17");
+    s32 var_s1;
     void *var_s0;
 
     var_s1 = 0;
     var_s0 = arg0;
     while (1) {
         if (var_s1 == *((s32 *)arg0 + 0xB)) {
-            func_80404618(((void **)var_s0)[1], 1);
+            do {
+                func_80404618(((void **)var_s0)[1], 1);
+            } while (0);
             var_s1++;
             func_80405C0C();
         }
