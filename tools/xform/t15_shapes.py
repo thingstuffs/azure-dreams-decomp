@@ -420,6 +420,47 @@ def deadstore_candidates(text):
     return out
 
 
+DEC_RE = re.compile(r"^(?P<i>[ \t]*)(?P<v>[A-Za-z_]\w*)\s*(?P<op>[-+])=\s*1\s*;\s*$")
+WHILE_RE = re.compile(r"^[ \t]*\}\s*while\s*\((?P<c>.+)\)\s*;\s*$")
+IFGOTO_RE = re.compile(r"^[ \t]*if\s*\((?P<c>.+)\)\s*goto\s+(?P<l>\w+)\s*;\s*$")
+
+
+def loop_counter_merge_candidates(text):
+    """A loop's trailing `x -= 1;` merged into its own condition: `} while (--x >= 0);`.
+
+    From a reorder-only lane.  When the operand the scheduler swapped out is the loop's own
+    trailing increment or decrement, merging it into the back-edge test changes the RTL shape
+    enough to fix or improve the ordering - where ordinary statement reordering is completely
+    inert.  It closed one site on each of two twin rows (damage 4 -> 2 apiece) and improved a
+    third.  Distinct from every other generator here: it changes the loop's own control
+    expression rather than a statement's position or a value's type.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    for i in range(len(lines) - 1):
+        d = DEC_RE.match(masked[i].rstrip("\n"))
+        if not d:
+            continue
+        v, op = d.group("v"), d.group("op")
+        nxt = masked[i + 1].rstrip("\n")
+        pre = "--" if op == "-" else "++"
+        w = WHILE_RE.match(nxt)
+        g = IFGOTO_RE.match(nxt)
+        if w:
+            cond = lines[i + 1].split("while", 1)[1].strip().rstrip(";").strip()[1:-1].strip()
+        elif g:
+            cond = lines[i + 1].split("if", 1)[1].split("goto", 1)[0].strip().strip("()").strip()
+        else:
+            continue
+        if not re.search(r"\b%s\b" % re.escape(v), cond):
+            continue
+        newcond = re.sub(r"\b%s\b" % re.escape(v), pre + v, cond, count=1)
+        tail = (lines[i + 1].replace(cond, newcond, 1))
+        out.append(("loopmerge:%s" % v, "".join(lines[:i] + [tail] + lines[i + 2:])))
+    return out
+
+
 class T:
     name = "t15_shapes"
     level = 1
@@ -474,7 +515,7 @@ class T:
             # commute and efence, each of which was harvested from a lane win on some other row.
             # `commute` alone quadrupled the sweep's wall time for nothing, so the default menu is
             # the four that have paid; T15_WIDE=1 runs the whole set when a new class is opened.
-            cands = (dup_after_if_candidates(cur) + narrow_candidates(cur)
+            cands = (loop_counter_merge_candidates(cur) + dup_after_if_candidates(cur) + narrow_candidates(cur)
                      + fence_candidates(cur) + fence_pair_candidates(cur))
             if WIDE:
                 cands = (deadstore_candidates(cur) + inplace_update_candidates(cur)

@@ -92,7 +92,25 @@ Then, by class:
   identity merged - because the loop's constant condition is folded away long before those passes
   run (confirmed on four separate rows).  And even where it does work, the instruction it frees
   migrates to the NEXT available slot rather than retail's position, since nothing stops a
-  still-unscheduled ready instruction filling a later one.
+  still-unscheduled ready instruction filling a later one.  **And barriers are one-directional:**
+  a fence stops something crossing it, but it cannot pull a *later*, independently generated
+  instruction backward past itself - which is why the recurring "a trivial parameter-to-argument
+  copy needs to land right after the PREVIOUS call, not just before the next one" shape resisted
+  every technique in a lane that met it four times.  A fence's effect is also not portable between
+  cosmetically different spellings of the same statement: on one row it took the residue 4 -> 3, and
+  on its twin, with the store spelled as pointer arithmetic instead of array indexing, the same
+  fence scrambled the register roles and went 4 -> 9.  Verify each site; do not assume a working
+  twin transfers.
+- **A loop's trailing counter update belongs in its own condition.**  When the operand the scheduler
+  swapped out is the loop's own `x -= 1;` or `x += 1;` immediately before the back-edge test,
+  merging it in (`} while (--x >= 0);`, `if (++x < 4) goto loop;`) changes the RTL shape enough to
+  fix or improve the ordering, where ordinary statement reordering is inert.  Now a sweep generator.
+- **Real dependency injection works, but only on a non-constant anchor.**  Splitting
+  `target = other_real_value + anchor; target -= anchor;` across two statements creates a RAW
+  dependency the scheduler must respect, and combine folds the round-trip away for free - but only
+  when `anchor` is something gcc cannot constant-propagate (a memory load).  With a literal, `$zero`
+  or anything cse traces to a literal, constant propagation removes the dependency before the
+  scheduler sees it and the edit moves nothing at all.
 - **li-expansion / const-remat / addressing** - `lui;ori` yours against `lui;addiu` retail's means
   your C materialises an integer literal where retail references a **symbol**: find the real
   `D_<addr>` and reference it instead of a `.set` page base plus an offset.  The substitution alone
