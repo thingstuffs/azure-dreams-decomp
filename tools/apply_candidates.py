@@ -32,7 +32,11 @@ def main():
         r = by.get((p.parent.name, p.name))
         if not r: return {"candidate": str(p.relative_to(ROOT)), "outcome": "unknown-row"}
         cur = clean_path(r).read_text(errors="replace"); new = p.read_text(errors="replace")
-        rec = {"id": r["id"], "transform": a.transform, "in_sha": sha_text(cur), "size": r["size"], "source": str(Path(a.dir).relative_to(ROOT)) if Path(a.dir).is_relative_to(ROOT) else a.dir}
+        rec = {"id": r["id"], "transform": a.transform, "in_sha": sha_text(cur), "size": r["size"], "source": str(Path(a.dir).relative_to(ROOT)) if Path(a.dir).is_relative_to(ROOT)
+               else Path(a.dir).name}   # a lane outside the tree records its NAME, never its
+                                        # absolute path: this journal is committed and the
+                                        # scrub hook rejects absolute home paths outside
+                                        # raw/ and src/ (this comment must not contain one either)
         if new == cur: return dict(rec, outcome="noop")
         v = verify(r, p.resolve(), include_root=INCLUDE)   # the scorer runs in the gate root: absolute paths only
         rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs")})

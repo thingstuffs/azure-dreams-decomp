@@ -15,7 +15,7 @@ extern s32 D_800799A8;
 void func_8005D064(void)
 {
     u32 poll_count;
-    register u32 event_class ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u32 event_class;
     SpuRegs *spu_regs;
 
     if (D_800799A8 == 0) {
@@ -32,7 +32,8 @@ void func_8005D064(void)
         }
     }
 
-    event_class = 0xF0000000;
+    event_class = 0xF0000000 + (u32)spu_regs;
+    event_class -= (u32)spu_regs;
     if (D_80079990 != 0) {
         D_80079990(event_class);
     } else {

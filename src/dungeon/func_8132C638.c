@@ -4,11 +4,11 @@
 s32 func_80173E38(s32 read_only) {
     register u32 high_byte;
     register u32 low_byte;
-    register u32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 count;
+    u32 shifted;
+    register u16 count;
 
     {
-        register u8 *addr ASM_REG("$2") = (u8 *)0x80010000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u8 *addr = (u8 *)0x80010000;
         high_byte = addr[0x3610];
         low_byte = addr[0x3611];
     }
@@ -31,5 +31,5 @@ s32 func_80173E38(s32 read_only) {
         }
     }
 
-    return count & 0xFFFF;
+    return count;
 }
