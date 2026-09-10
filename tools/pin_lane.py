@@ -85,7 +85,14 @@ Then, by class:
   or lift it into its own local assigned before the statement it must precede and read only through
   that local.  `do {{ stmt; }} while (0)` is a zero-byte scheduling barrier that pins a definition
   point (a bare block does **not** - only the loop note does); it works, it is counted as
-  scaffolding by `census.py`, so reach for it only after a real shape has failed.
+  scaffolding by `census.py`, so reach for it only after a real shape has failed.  **Its scope is
+  narrow and measured: it is a position barrier for pure instruction-POSITION problems only, and
+  has no effect whatsoever on combine/cse VALUE simplifications** - a redundant shift pair that
+  cancels, a pointer offset folded into a load immediate, a dead value eliminated, a cse-constant
+  identity merged - because the loop's constant condition is folded away long before those passes
+  run (confirmed on four separate rows).  And even where it does work, the instruction it frees
+  migrates to the NEXT available slot rather than retail's position, since nothing stops a
+  still-unscheduled ready instruction filling a later one.
 - **li-expansion / const-remat / addressing** - `lui;ori` yours against `lui;addiu` retail's means
   your C materialises an integer literal where retail references a **symbol**: find the real
   `D_<addr>` and reference it instead of a `.set` page base plus an offset.  The substitution alone
@@ -109,6 +116,11 @@ Rows whose residue is branch-derived *constant* knowledge (`move $v0,$zero` agai
 `move $v0,$s0`) are cse choosing between a literal and a register it has proved holds the same
 constant.  That is not register naming despite the class label - record it and move on.
 
+**A caveat on the `internal_jumps` fact:** it is computed from the addresses, so it is reliable
+about where the symbol lies, but on some rows the named jump ALREADY compiles to a byte-identical
+`j` in the unpinned build.  There the note is provenance, not a defect.  Check whether the named
+jump falls inside the residue words at all before rewriting anything around it.
+
 **Read the `internal_jumps` column of `rows.tsv` before you diagnose anything.**  m2c spells
 retail's plain `j` to a label *inside the same function* as a call to a symbol declared
 `__attribute__((noreturn))`.  When that column is non-empty, the named symbol is NOT a callee: it
@@ -120,6 +132,20 @@ the LABEL_AS_CALL rewrite: `if (c) {{ A; target(); return; }} B; T` becomes
 `if (c) {{ A' }} else {{ B' }} T`, where T is the code the landing word points at; a backward
 target is a loop, not a tail; when the tail is already spelled out after the call, just delete the
 call.  That rewrite closed 67 of 75 rows in this project's earlier reader lanes.
+
+## Two cheap reads before you hypothesise
+
+- `diff work/<pack>/batchN/base/<c>/<f>.c src/<c>/<f>.c` - one named-file open, no search - shows
+  exactly which variable and which position every `ASM_*` macro sat on.  That is much faster than
+  reconstructing a pin's purpose from the disassembly, and it tells you what the pin was *for*.
+- Several rows carry a trailing `MECHANISM:` comment naming the exact gcc internal responsible
+  (`stop_search_p`, `expand_divmod`, cse canonicalisation, ...).  Read it before forming a theory.
+
+A caution about the residue you are handed: on some rows the unpinned build's optimisation is
+simply *correct* and retail's compiler did not perform it - a dead value eliminated, a redundant
+shift round-trip cancelled, an address offset folded into a load immediate.  `include/common.h`
+documents which of those need an assembler-level marker or a hard-register tie rather than a value
+or shape change.  Say so when that is what you find; it is a real result.
 
 ## Commands (run from the repo root; never `cd` elsewhere)
 
