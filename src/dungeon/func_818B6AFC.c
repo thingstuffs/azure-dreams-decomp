@@ -65,7 +65,7 @@ M2C_UNK func_80024780() __attribute__((noreturn));
 extern M2C_UNK D_800814A0;
 
 #ifdef NON_MATCHING
-#define M2C_READ_MUL_HI(dst, a, b) \
+#define do {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (dst) = implicit_hi;   ASM_CLOBBER("hi");  } while (0) \
     do { (dst) = (s32) (((s64) (s32) (a) * (s64) (s32) (b)) >> 32); } while (0)
 #define M2C_MUL_LO(a, b) ((s32) ((s64) (s32) (a) * (s64) (s32) (b)))
 #else
@@ -142,7 +142,7 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
 #endif
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) fade_in_tick >> 31;
-        M2C_READ_MUL_HI(product_result, cycle_value, div_seven_magic);
+        do {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;   ASM_CLOBBER("hi");  } while (0);
         cycle_quotient = ((product_result + cycle_value) >> 2) - div_adjust;
         ASM_KEEP_NV(cycle_quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         cycle_value = cycle_value - (cycle_quotient * 7);
@@ -191,7 +191,7 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
 #endif
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) hold_tick >> 31;
-        M2C_READ_MUL_HI(product_result, cycle_value, div_seven_magic);
+        do {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;   ASM_CLOBBER("hi");  } while (0);
         cycle_quotient = ((product_result + cycle_value) >> 2) - div_adjust;
         ASM_KEEP_NV(cycle_quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         cycle_value = cycle_value - (cycle_quotient * 7);
@@ -230,7 +230,7 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
 #endif
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) fade_out_tick >> 31;
-        M2C_READ_MUL_HI(product_result, fade_out_remainder, div_seven_magic);
+        do {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;   ASM_CLOBBER("hi");  } while (0);
         cycle_quotient = ((product_result + fade_out_remainder) >> 2) - div_adjust;
         ASM_KEEP_NV(cycle_quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         fade_out_remainder = fade_out_remainder - (cycle_quotient * 7);

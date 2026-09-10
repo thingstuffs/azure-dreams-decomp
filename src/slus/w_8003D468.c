@@ -20,7 +20,7 @@ extern u8 D_80080AB4[10];
 extern u8 D_8002D5B4[10];
 
 #if !defined(NON_MATCHING) && __GNUC__ < 3
-#define LEGACY_ASM_KEEP(value) \
+#define ASM_KEEP(value) \
     __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
 #define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
@@ -38,8 +38,8 @@ void func_8003D468(void)
     u16 saved_2094;
     u16 saved_2098;
 
-    LEGACY_ASM_KEEP(page);
-    LEGACY_ASM_KEEP(clear_page);
+    ASM_KEEP(page);
+    ASM_KEEP(clear_page);
 
     saved_3186 = *(u8 *)(page + 0x3186);
     saved_3180 = *(u32 *)(page + 0x3180);

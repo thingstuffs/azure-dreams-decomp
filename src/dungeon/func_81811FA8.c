@@ -7,7 +7,7 @@ typedef struct S_func_81811FA8_0 {
 } S_func_81811FA8_0;
 
 #if !defined(NON_MATCHING) && __GNUC__ < 3
-#define KEEP_INDEX(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
+#define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
 #define KEEP_INDEX(value) ASM_KEEP(value)
 #endif
@@ -18,7 +18,7 @@ s32 func_80026FA8(s32 match_byte_2, s32 match_byte_1, s32 start_index)
     register s32 index ASM_REG("$7") = start_index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_func_81811FA8_0 *entry;
 
-    KEEP_INDEX(index);
+    ASM_KEEP(index);
     if (index < 0x40) {
         entry = (S_func_81811FA8_0 *)0x80010000;
         entry = (S_func_81811FA8_0 *)((u8 *)entry + (((index * 4 + start_index) * 4) - start_index));

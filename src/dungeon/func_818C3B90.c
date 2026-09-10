@@ -88,8 +88,8 @@ extern void func_800259BC(void) __attribute__((noreturn));
 extern void func_80025A58(void) __attribute__((noreturn));
 
 #ifdef NON_MATCHING
-#define LOAD_TABLE_X_BASE(v) ((v) = (s32)D_8006CCD8)
-#define LOAD_TABLE_Y_BASE(v) ((v) = (s32)D_8006CCE8)
+#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)D_8006CCD8)
+#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)D_8006CCE8)
 #else
 #define LOAD_TABLE_X_BASE(v) \
     do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0)
@@ -263,7 +263,7 @@ jt_c1:
                     break;
                 }
 
-                LOAD_TABLE_X_BASE(table_work);
+                do { (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3328; } while (0);
                 ASM_KEEP(table_work);
                 table_offset = (s16)action->angle;
                 probe_z = (u16)owner->z;
@@ -272,7 +272,7 @@ jt_c1:
                 ASM_KEEP(table_x_entry);
                 probe_z -= 32;
                 probe_z = (s16)probe_z;
-                LOAD_TABLE_Y_BASE(table_work);
+                do { (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318; } while (0);
                 table_y_entry = (s16 *)(table_offset + table_work);
                 ASM_KEEP(table_y_entry);
                 probe_result = func_800BCB04(
@@ -284,12 +284,12 @@ jt_c1:
                     break;
                 }
 
-                LOAD_TABLE_X_BASE(table_work);
+                do { (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3328; } while (0);
                 update_offset = (s16)action->angle;
                 index++;
                 update_offset *= 2;
                 update_x_entry = (u16 *)(update_offset + table_work);
-                LOAD_TABLE_Y_BASE(table_work);
+                do { (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318; } while (0);
                 update_y_entry = (u16 *)(update_offset + table_work);
                 ASM_KEEP(update_y_entry);
                 coord_work = grid_x + *update_x_entry;

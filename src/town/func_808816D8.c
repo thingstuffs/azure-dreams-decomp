@@ -22,9 +22,8 @@ extern u8 D_80700704[16];
 extern void func_80700EB4(void);
 
 #ifdef NON_MATCHING
-#define READ_ZERO(value) ((value) = 0)
+#define ASM_UNDEF(value) ((value) = 0)
 #else
-#define READ_ZERO(value) ASM_UNDEF(value)
 #endif
 
 void func_808816D8(void) {
@@ -33,14 +32,14 @@ void func_808816D8(void) {
 
     if (D_80700740[0] != 0) {
         register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        READ_ZERO(zero);
+        ASM_UNDEF(zero);
         D_8070100C[0]->func68(D_807007A8, D_807007D0, zero | 0x4B);
-        READ_ZERO(zero);
+        ASM_UNDEF(zero);
         D_8070100C[0]->func74(zero | 1);
     }
     {
         register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        READ_ZERO(zero);
+        ASM_UNDEF(zero);
         *(s32 *)0x80700740 = zero | 1;
     }
     func_80700EB4();
@@ -51,11 +50,11 @@ void func_808816D8(void) {
         s32 limit;
         register u8 check ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 var_a1;
-        READ_ZERO(zero);
+        ASM_UNDEF(zero);
         check = temp_a0[1];
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         limit = zero | 0x80;
-        READ_ZERO(zero);
+        ASM_UNDEF(zero);
         if (check != limit) {
             var_a1 = zero | 0x80;
             var_a0 = temp_a0 + 1;

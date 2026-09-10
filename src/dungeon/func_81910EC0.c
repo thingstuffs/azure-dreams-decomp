@@ -6,7 +6,6 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
-#define KEEP_MEMDEP_NV_EXPR(v, s, m) ({ ASM_KEEP_MEMDEP_NV(v, s, m); 0; })
 /* Same address as D_80083160 (0x80083178 - 0x18); spelled off D_80083178 so the
    %hi page is one CONST rtx shared with the pin below.  Links to identical words. */
 #define GFX_ROOT_SLOT (((u8 *)&D_80083178) - 0x18)
@@ -29,7 +28,7 @@ void func_81910EC0(void *shape_data, void *position, s16 scale_num, s16 scale_de
 {
     u8 *page_scratch;
     u8 *shape = shape_data;
-    u8 *gfx = (KEEP_MEMDEP_NV_EXPR(shape, page_scratch, *(u8 **)GFX_ROOT_SLOT),
+    u8 *gfx = (({ ASM_KEEP_MEMDEP_NV(shape, page_scratch, *(u8 **)GFX_ROOT_SLOT); 0; }),
                   *(u8 **)GFX_ROOT_SLOT);
     s32 edge = 0;
     s32 scale = scale_num;

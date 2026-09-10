@@ -1,7 +1,7 @@
 #include "common.h"
 
 #if !defined(NON_MATCHING) && __GNUC__ < 3
-#define KEEP_VALUE(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
+#define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
 #define KEEP_VALUE(value) ASM_KEEP(value)
 #endif
@@ -16,7 +16,7 @@ s32 func_80026EC0(s32 target_value, s32 target_occurrence) {
     u8 *entry;
 
     occurrence = 0;
-    KEEP_VALUE(occurrence);
+    ASM_KEEP(occurrence);
     index = occurrence;
     entry = &D_800157D2;
 loop_1:

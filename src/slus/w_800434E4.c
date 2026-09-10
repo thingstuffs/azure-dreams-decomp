@@ -5,7 +5,7 @@
 extern void func_80043458(void);
 
 #if !defined(NON_MATCHING) && __GNUC__ < 3
-#define LEGACY_ASM_KEEP(value) \
+#define ASM_KEEP(value) \
     __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
 #define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
@@ -17,7 +17,7 @@ void func_800434E4(void)
     u8 *globals_base = (u8 *)0x80010000;
 
     *(u8 *)(globals_base + 0x3185) = 1;
-    LEGACY_ASM_KEEP(globals_base);
+    ASM_KEEP(globals_base);
     *(s32 *)(globals_base + 0x2D5C) = 0;
     *(s32 *)(globals_base + 0x2D68) = 0;
     *(s32 *)(globals_base + 0x2D58) = 0;

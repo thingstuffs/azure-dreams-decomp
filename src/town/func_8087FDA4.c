@@ -1,14 +1,8 @@
 #include "common.h"
 
 #ifdef NON_MATCHING
-#define OR_ZERO(value) (value)
+#define ({                                                                       register s32 zero ASM_REG("$0");                                    ASM_KEEP(zero);                                                      zero | (value);                                                      }) (value)
 #else
-#define OR_ZERO(value)                                                      \
-    ({                                                                      \
-        register s32 zero ASM_REG("$0");                                   \
-        ASM_KEEP(zero);                                                     \
-        zero | (value);                                                     \
-    })
 #endif
 
 extern s32 func_80701134(s32);
@@ -24,10 +18,10 @@ extern u16 D_807009DC[];
 
 s32 func_8087FDA4(s32 arg0) {
     if (!func_80701134(*(u16 *)D_807009BA) &&
-        func_80701134(OR_ZERO(0x152)) &&
+        func_80701134(({                                                                       register s32 zero ASM_REG("$0");                                    ASM_KEEP(zero);                                                      zero | (0x152);                                                      })) &&
         func_80700CE8(arg0)) {
         func_80701090(D_807009DC[arg0 * 2]);
-        func_807010E0(OR_ZERO(0x152));
+        func_807010E0(({                                                                       register s32 zero ASM_REG("$0");                                    ASM_KEEP(zero);                                                      zero | (0x152);                                                      }));
         func_80700E3C();
         func_80700E28();
     }

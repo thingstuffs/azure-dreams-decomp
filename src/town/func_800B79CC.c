@@ -1,10 +1,10 @@
 #include "common.h"
 
 #ifdef NON_MATCHING
-#define LEGACY_ASM_KEEP(value) ((void)0)
+#define ASM_KEEP(value) ((void)0)
 static volatile s32 hidden_v1;
 #elif __GNUC__ < 3
-#define LEGACY_ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
+#define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
 register s32 hidden_v1 ASM_REG("$3");
 #else
 #define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
@@ -25,13 +25,13 @@ void *func_800B512C(void *entry, s16 amount) {
     }
 
     remaining = 64;
-    LEGACY_ASM_KEEP(remaining);
+    ASM_KEEP(remaining);
     remaining -= hidden_v1;
     base[2] = remaining;
     {
         void *result = base;
 
-        LEGACY_ASM_KEEP(result);
+        ASM_KEEP(result);
         base[10] = hidden_v1;
         return result;
     }
