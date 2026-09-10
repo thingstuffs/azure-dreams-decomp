@@ -461,6 +461,52 @@ def loop_counter_merge_candidates(text):
     return out
 
 
+LOAD_DECL_RE = re.compile(r"^[ \t]*(?P<v>[A-Za-z_]\w*)\s*=\s*(?P<rhs>[^;]*(?:->|\[|\*)[^;]*)\s*;\s*$")
+ASSIGN_RE = re.compile(r"^(?P<i>[ \t]*)(?P<x>[A-Za-z_]\w*)\s*=\s*(?P<e>[^;=][^;]*?)\s*;\s*$")
+
+
+def depinject_candidates(text, max_cands=24):
+    """A real RAW dependency, injected then folded away: `t = e + a; t -= a;`.
+
+    From a reorder-only lane, which closed a row with it.  Splitting the round trip across two
+    statements creates a dependency the scheduler must respect, and combine folds the add/sub away
+    for free - so it forces an ordering at zero bytes.  **The anchor must be something gcc cannot
+    constant-propagate**: the lane measured that a literal, `$zero`, or anything cse traces to a
+    literal has its dependency removed before the scheduler ever runs, and the edit then moves
+    nothing at all.  So anchors here are only locals assigned from a memory load (`->`, `[]`, `*`).
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    scal = {n for _, _, _, n in decls(text)}
+    anchors = []
+    for i, m in enumerate(masked):
+        a = LOAD_DECL_RE.match(m.rstrip("\n"))
+        if a and a.group("v") in scal:
+            anchors.append((i, a.group("v")))
+    if not anchors:
+        return out
+    for j, ln in enumerate(masked):
+        t = ASSIGN_RE.match(ln.rstrip("\n"))
+        if not t or not movable(ln) or is_decl(ln):
+            continue
+        x = t.group("x")
+        if x not in scal:
+            continue
+        for ai, av in anchors:
+            if ai >= j or av == x:
+                continue
+            real = lines[j]
+            expr = real.split("=", 1)[1].rsplit(";", 1)[0].strip()
+            ind = t.group("i")
+            new = f"{ind}{x} = ({expr}) + {av};\n{ind}{x} -= {av};\n"
+            out.append(("depinject:%s^%s" % (x, av),
+                        "".join(lines[:j] + [new] + lines[j + 1:])))
+            if len(out) >= max_cands:
+                return out
+    return out
+
+
 class T:
     name = "t15_shapes"
     level = 1
@@ -518,7 +564,8 @@ class T:
             cands = (loop_counter_merge_candidates(cur) + dup_after_if_candidates(cur) + narrow_candidates(cur)
                      + fence_candidates(cur) + fence_pair_candidates(cur))
             if WIDE:
-                cands = (deadstore_candidates(cur) + inplace_update_candidates(cur)
+                cands = (depinject_candidates(cur) + deadstore_candidates(cur)
+                         + inplace_update_candidates(cur)
                          + hoist_from_goto_arm_candidates(cur)
                          + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                          + maskfold_candidates(cur) + mask2cast_candidates(cur)

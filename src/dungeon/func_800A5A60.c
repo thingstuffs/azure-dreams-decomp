@@ -57,10 +57,9 @@ s32 func_800AB1C0(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ObjA3
     frames_left = ((S_800AB1C0_0 *)move_state)->unk_96;
     if (frames_left != 0) {
         tile_x = ((Rec_D_80082E80 *)target_tile)->unk_24;
-        ASM_KEEP(tile_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        adjusted_x = ((S_800AB1C0_2 *)motion)->unk_02;
-        adjusted_x -= 0x20;
         scaled_x = tile_x << 6;
+        adjusted_x = ((S_800AB1C0_2 *)motion)->unk_02 - 0x20 + scaled_x;
+        adjusted_x -= scaled_x;
         ((S_800AB1C0_2 *)motion)->unk_0C =
             (s32)(((s32)((scaled_x - adjusted_x) << 0x10)) /
                   frames_left);
