@@ -124,8 +124,9 @@ def fence_candidates(text):
         # value-producing insn survives to final code (a real store, a real computation).  On a
         # plain register-to-register copy, cse/combine delete the insn outright and the fence is a
         # no-op or a regression - four rows of one lane showed exactly that.
-        if re.fullmatch(r"[A-Za-z_]\w*\s*=\s*[A-Za-z_]\w*\s*;", masked[i].strip()):
-            continue
+        cp = re.fullmatch(r"(?P<d>[A-Za-z_]\w*)\s*=\s*(?P<s>[A-Za-z_]\w*)\s*;", masked[i].strip())
+        if cp and cp.group("s") in {n for _, _, _, n in decls(text)}:
+            continue        # a LOCAL-to-local copy only; `x = D_800D0C40;` is a load and does fence
         nl = "\n" if ln.endswith("\n") else ""
         body = ln[:len(ln) - len(nl)]
         ind = re.match(r"[ \t]*", body).group(0)
