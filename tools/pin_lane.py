@@ -116,7 +116,16 @@ Then, by class:
   `D_<addr>` and reference it instead of a `.set` page base plus an offset.  The substitution alone
   often regresses, because a local set once from an address constant is a `reg_equiv_constant` that
   gets rematerialised at each use; a second, non-folding set fixes that, and whether it is free
-  depends on the cell.  It also regresses when the value is later a **call argument**.
+  depends on the cell.  It also regresses when the value is later a **call argument**.  And there is a second, sharper
+  trap, reproduced on four independent rows: **a symbol reference is not delay-slot-eligible for
+  this compiler's fixed-slot filler.**  Substituting the correct `&D_<addr>` does fix the
+  `ori` -> `addiu` encoding exactly as prescribed, but the branch immediately before the constant
+  computation then LOSES its delay-slot filler, because a `CONST_INT` can fill that slot while the
+  first `lui` of a `SYMBOL_REF` computation cannot.  Every such substitution net-regressed
+  (4 -> 17, 4 -> 10, 4 -> 8, 4 -> 5).  It reproduces whether the symbol is one array base with
+  offsets or four distinct externs, and whether the value feeds a return, a struct store or a call
+  argument - so it is an RTL eligibility rule, not something a rewrite reaches.  Check whether the
+  preceding branch's slot is currently filled by the literal's `lui` BEFORE substituting.
 - **broad** - no single named signal; read the row's regions view.  Folding a load into the
   expression that consumes it, instead of pre-loading an accumulator, is what flips which pseudo
   becomes `rs` and which `rt`.
@@ -134,6 +143,13 @@ Then, by class:
   merge.  Removing a `volatile`, renaming which local holds the symbol and reordering the enclosing
   statements are all byte-identical.  It looks like a property of the cell's `reg_equiv_constant`
   path rather than anything the source shape reaches.  Record it and move on.
+
+**A gap in this toolkit, stated so it is not rediscovered per row:** cse merges and cse failures to
+merge are one-directional.  Every lever above defeats an UNWANTED merge (the mode change, the second
+non-folding set).  There is no counterpart that FORCES a wanted one - when retail shares a register
+across two uses of the same value and your build does not, reordering, renaming and
+literal-versus-variable substitution all leave the registers alone.  Two lanes hit this
+independently; if that is your residue, record it.
 
 Rows whose residue is branch-derived *constant* knowledge (`move $v0,$zero` against
 `move $v0,$s0`) are cse choosing between a literal and a register it has proved holds the same

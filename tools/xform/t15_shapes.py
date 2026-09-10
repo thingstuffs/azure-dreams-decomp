@@ -33,17 +33,18 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT / "tools") not in sys.path:
     sys.path.insert(0, str(ROOT / "tools"))
 from common import sha_text
-from pin_census import sites_of
+from pin_census import sites_of, erase
 
 try:
-    from .t12_stmtorder import strip_pins, mask, depths, movable, is_decl
+    from .t12_stmtorder import strip_pins, mask, depths, movable, is_decl, NOTE_RE
 except ImportError:                       # pragma: no cover - direct import
-    from t12_stmtorder import strip_pins, mask, depths, movable, is_decl
+    from t12_stmtorder import strip_pins, mask, depths, movable, is_decl, NOTE_RE
 
 BAND = int(os.environ.get("T15_BAND", "12"))       # strip damage a row must be within
 BUDGET = int(os.environ.get("T15_BUDGET", "45"))   # verify runs per row (T15_BUDGET to raise)
 ROUNDS = int(os.environ.get("T15_ROUNDS", "3"))    # greedy hill-climb rounds
 WIDE = os.environ.get("T15_WIDE") == "1"          # include the generators with no measured win yet
+PARTIAL = os.environ.get("T15_PARTIAL", "1") == "1"   # accept a partial removal (10 pins -> 1) as a result
 NARROW = {"s32": ["s16", "s8"], "u32": ["u16", "u8"], "int": ["s16", "s8"],
           "unsigned": ["u16", "u8"], "s16": ["s8"], "u16": ["u8"]}
 DECL_RE = re.compile(r"^(?P<i>[ \t]+)(?P<ty>u8|s8|u16|s16|u32|s32|int|unsigned)[ \t]+(?P<n>[A-Za-z_]\w*)[ \t]*;[ \t]*$")
@@ -522,6 +523,74 @@ def depinject_candidates(text, max_cands=24):
     return out
 
 
+LOADLOCAL_RE = re.compile(r"^(?P<i>[ \t]*)(?P<n>[A-Za-z_]\w*)\s*=\s*(?P<e>[^;=]*(?:->|\[|\*)[^;=]*)\s*;\s*$")
+
+
+def fold_load_candidates(text):
+    """A local assigned once from a memory load, inlined into every consumer.
+
+    From a `broad` lane, 2 for 2, WITH a precondition that says when to reach for it: compare the
+    residue's register sets.  When retail's set is a strict SUPERSET of ours - retail keeps one
+    more value live - folding the load directly into each consuming expression, instead of storing
+    it to a named intermediate, recovers the missing register.  When the two sets are EQUAL it is a
+    hard-register tie and no C reshaping moved a single word in five attempts, so do not spend
+    probes.  `pin_facts` now prints that verdict per row.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    whole = mask(text)
+    scal = {n for _, _, _, n in decls(text)}
+    for i, ln in enumerate(masked):
+        m = LOADLOCAL_RE.match(ln.rstrip("\n"))
+        if not m or m.group("n") not in scal:
+            continue
+        name = m.group("n")
+        uses = len(re.findall(r"\b%s\b" % re.escape(name), whole))
+        if uses < 3:                      # declaration + this assignment + at least one use
+            continue
+        expr = lines[i].split("=", 1)[1].rsplit(";", 1)[0].strip()
+        rest = "".join(lines[:i] + lines[i + 1:])
+        rest = re.sub(r"\b%s\b" % re.escape(name), "(" + expr + ")", rest)
+        rest = re.sub(r"^[ \t]*(?:u8|s8|u16|s16|u32|s32|int|unsigned|void)[\w \t\*]*?\b%s\b[ \t]*;[ \t]*\n"
+                      % re.escape(name), "", rest, count=1, flags=re.M)
+        out.append(("foldload:%s" % name, rest))
+    return out
+
+
+STORE_RE = re.compile(r"^[ \t]*[A-Za-z_]\w*(?:\s*(?:->|\.)\s*\w+|\s*\[[^\]]*\])+\s*=\s*[^;=][^;]*;\s*$")
+DIRECT_CALL_RE = re.compile(r"^[ \t]*(?:[A-Za-z_]\w*\s*=\s*)?(?P<f>[A-Za-z_]\w*)\s*\([^;]*\)\s*;\s*$")
+
+
+def fence_store_before_call_candidates(text):
+    """Fence a memory store that sits immediately before a DIRECT call.
+
+    From a code-motion lane, with the precondition that makes it usable: wrapping the store in
+    `do { ... } while (0);` re-pins it ahead of the call's argument-setup moves, which took one row
+    from 7 words to 3.  It works when the call is a direct `jal` to a named symbol, and **backfires
+    on an indirect call through a loaded function pointer** (4 -> 7 on the row that tried it),
+    because the barrier then also pins the pointer load, and retail schedules that load after the
+    argument moves while the unbarriered build puts it before.  So a call whose callee is a
+    dereferenced pointer or a struct member is skipped here.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    for i in range(len(lines) - 1):
+        if not STORE_RE.match(masked[i].rstrip("\n")):
+            continue
+        nxt = masked[i + 1].rstrip("\n")
+        m = DIRECT_CALL_RE.match(nxt)
+        if not m:
+            continue
+        if "->" in nxt.split("(")[0] or "." in nxt.split("(")[0] or "*" in nxt.split("(")[0]:
+            continue                       # an indirect call: measured to regress
+        ind = re.match(r"[ \t]*", lines[i]).group(0)
+        new = f"{ind}do {{\n{ind}    {lines[i].strip()}\n{ind}}} while (0);\n"
+        out.append(("fencestore:%d" % (i + 1), "".join(lines[:i] + [new] + lines[i + 1:])))
+    return out
+
+
 class T:
     name = "t15_shapes"
     level = 1
@@ -544,6 +613,37 @@ class T:
         if t is None or t > BAND:
             return f"strip damage {t} above band {BAND}"
         return None
+
+    @staticmethod
+    def _menu(cur):
+        cands = (fence_store_before_call_candidates(cur) + loop_counter_merge_candidates(cur)
+                 + dup_after_if_candidates(cur)
+                 + narrow_candidates(cur) + fence_candidates(cur) + fence_pair_candidates(cur))
+        if WIDE:
+            cands = (fold_load_candidates(cur) + depinject_candidates(cur) + deadstore_candidates(cur)
+                     + inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur)
+                     + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
+                     + maskfold_candidates(cur) + mask2cast_candidates(cur)
+                     + commute_candidates(cur) + cands + empty_fence_candidates(cur))
+        return cands
+
+    @staticmethod
+    def _strip_keeping(text, keep):
+        """Erase every pin site except the one at index `keep` (None = erase all)."""
+        cur = text
+        n = len(sites_of(text))
+        for i in sorted(range(n), reverse=True):
+            if i == keep:
+                continue
+            cur = erase(cur, sites_of(cur)[i])
+        out = []
+        for ln in cur.splitlines(True):
+            nl = "\n" if ln.endswith("\n") else ""
+            body = NOTE_RE.sub("", ln[:len(ln) - len(nl)])
+            if not body.strip() and ("MATCH pin:" in ln or "UNRESOLVED C shape (pin)" in ln):
+                continue
+            out.append(body.rstrip() + nl if body != ln[:len(ln) - len(nl)] else ln)
+        return "".join(out)
 
     @staticmethod
     def apply_verified(text, row, census, verify_fn):
@@ -576,15 +676,7 @@ class T:
             # commute and efence, each of which was harvested from a lane win on some other row.
             # `commute` alone quadrupled the sweep's wall time for nothing, so the default menu is
             # the four that have paid; T15_WIDE=1 runs the whole set when a new class is opened.
-            cands = (loop_counter_merge_candidates(cur) + dup_after_if_candidates(cur) + narrow_candidates(cur)
-                     + fence_candidates(cur) + fence_pair_candidates(cur))
-            if WIDE:
-                cands = (depinject_candidates(cur) + deadstore_candidates(cur)
-                         + inplace_update_candidates(cur)
-                         + hoist_from_goto_arm_candidates(cur)
-                         + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
-                         + maskfold_candidates(cur) + mask2cast_candidates(cur)
-                         + commute_candidates(cur) + cands + empty_fence_candidates(cur))
+            cands = T._menu(cur)
             round_best = None
             for label, cand in cands:
                 if tried >= BUDGET:
@@ -608,6 +700,34 @@ class T:
                 break
             cur_total, best_label, cur = round_best[0], round_best[1], round_best[2]
             steps.append(round_best[1])
+        # PARTIAL REMOVAL.  Landing 10 pins -> 9 is a real result: the row is measurably less
+        # scaffolded and the next pass has one fewer site to explain.  Until now this plugin only
+        # ever accepted a FULLY pin-free candidate, so every partial success was computed and then
+        # thrown away.  If the full strip could not be made exact, try leaving each single pin in
+        # place and run the whole menu against that base; the first exact result removes pins_in-1
+        # sites, and the row comes back to the next sweep smaller.
+        if PARTIAL and pins_in > 1:
+            for keep in range(pins_in):
+                if tried >= BUDGET:
+                    break
+                pbase = T._strip_keeping(text, keep)
+                v = verify_fn(pbase)
+                tried += 1
+                if v.get("exact"):
+                    return pbase, {"step": "partial-strip", "tried": tried, "pins_in": pins_in,
+                                   "pins_out": 1, "kept": keep}
+                for label, cand in T._menu(pbase):
+                    if tried >= BUDGET:
+                        break
+                    h = sha_text(cand)
+                    if h in seen:
+                        continue
+                    seen.add(h)
+                    v = verify_fn(cand)
+                    tried += 1
+                    if v.get("exact"):
+                        return cand, {"step": "partial+" + label, "tried": tried,
+                                      "pins_in": pins_in, "pins_out": 1, "kept": keep}
         return None, {"tried": tried, "pins_in": pins_in, "pins_out": pins_in,
                       "best_total": cur_total, "best_label": best_label, "strip_total": strip_total,
                       "climb": "+".join(steps) or None,

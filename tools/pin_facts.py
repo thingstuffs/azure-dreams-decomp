@@ -110,6 +110,16 @@ def facts(row, text, regions_text=""):
         if not has_arg:
             lines.append("- none of them is an argument register ($a0-$a3), so an under-declared "
                          "callee taking the value as a parameter is ruled out without a probe")
+        # A `broad` lane measured this as a selector, 2/2 one way and 0/5 the other.
+        if tgt > got:
+            lines.append("- RETAIL'S SET IS A STRICT SUPERSET of yours: retail keeps one more value "
+                         "live.  FOLD THE LOAD - inline the loaded value directly into every "
+                         "consuming expression instead of storing it to a named intermediate.  That "
+                         "recovered the missing register on both rows a lane tried it on.")
+        elif got == tgt and got:
+            lines.append("- THE TWO SETS ARE EQUAL: same registers, different roles.  That is a "
+                         "hard-register tie, and five rows of one lane moved not a single word with "
+                         "any C reshaping.  Record it and move on rather than spending the budget.")
     return "\n".join(lines)
 
 
