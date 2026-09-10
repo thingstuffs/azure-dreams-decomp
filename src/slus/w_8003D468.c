@@ -38,8 +38,6 @@ void func_8003D468(void)
     u16 saved_2094;
     u16 saved_2098;
 
-    ASM_KEEP(page);
-    ASM_KEEP(clear_page);
 
     saved_3186 = *(u8 *)(page + 0x3186);
     saved_3180 = *(u32 *)(page + 0x3180);
