@@ -152,6 +152,34 @@ after every launch — commit your own tree changes (tools, config, ledger) *bef
 they get swept into a campaign commit without their config; a bash `a && b && nohup c &` backgrounds
 the whole list, not just `c`; never print a set of window names.
 
+## PICK UP HERE (2026-09-10)
+
+**A sweep is running and will be for hours.**  `sweep.py t15_shapes` over all 1,769 pinned rows,
+twelve generators, `T15_WIDE=1 T15_PARTIAL=1 T15_BUDGET=400 T15_ROUNDS=3`, log `work/t15_full.log`,
+journal `ledger/sweeps/t15_shapes.jsonl`.  It writes `src/` as it goes and its landings are **not
+yet committed or gated**.  Monitor with `python3 tools/pin_watch.py [--follow] [--totals]`.
+
+**When it finishes (or if you stop it):**
+1. `python3 tools/build/gate_all.py --workers 6` - must be 2,172/2,172 MATCH.  If a window fails,
+   `git checkout` that row's file and re-sweep it with `--force`.
+2. `python3 tools/census.py && python3 tools/levels.py && python3 tools/status.py`, then commit
+   `src ledger docs STATUS.md`.
+3. `python3 tools/pin_probe.py --strip` (refreshes the changed rows), then
+   `python3 tools/pin_probe.py --report > docs/PIN_FAMILIES.md`.
+4. Next run uses the **two-pass schedule** measured above under "Sweep tuning": a cheap pass at
+   budget ~25 over everything, then budget 400 only where `tools/pin_target.py` ranks highly.
+
+**Astra's `--mode depin` quota returns Sep 15** and is the strongest unused lever: 38 % acceptance
+on rows the sweep and the Opus/Sonnet lanes had both failed, and the packet it gets now carries the
+full `pin_facts` block, which it did not have then.
+
+**The rule that decides what to build.**  Every generator was harvested from a lane that closed a
+row by hand, and the ones that generalise are the ones whose lane stated the **precondition** under
+which the shape works.  `depinject` came with one and landed rows; bare shapes harvested without a
+condition mostly sit at zero.  So ask every lane for the precondition, and treat a *negative*
+precondition as equally valuable - two of them are now candidate filters that stop the sweep
+spending probes where it provably cannot win, and two more are stop-rules in `pin_facts`.
+
 ## Session 2026-09-09 (evening) — the pin burn-down, after the Codex credit ran out
 
 The Astra plan finished (`work/campaign_state.json` tier 6, `plan complete`) and the Codex credit is
