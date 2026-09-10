@@ -47,7 +47,15 @@ WIDE = os.environ.get("T15_WIDE") == "1"          # include the generators with 
 PARTIAL = os.environ.get("T15_PARTIAL", "1") == "1"   # accept a partial removal (10 pins -> 1) as a result
 NARROW = {"s32": ["s16", "s8"], "u32": ["u16", "u8"], "int": ["s16", "s8"],
           "unsigned": ["u16", "u8"], "s16": ["s8"], "u16": ["u8"]}
-DECL_RE = re.compile(r"^(?P<i>[ \t]+)(?P<ty>u8|s8|u16|s16|u32|s32|int|unsigned)[ \t]+(?P<n>[A-Za-z_]\w*)[ \t]*;[ \t]*$")
+# `register` is a hint with no ABI meaning, so retyping through it is safe - but until 2026-09-10
+# this pattern had no storage-class slot at all, and every declaration carrying one was invisible
+# to `decls()` and therefore to maskfold, narrow and retype.  dungeon/func_8132C638 hid three of
+# its four locals that way: the sweep spent 400 candidates on it and could not win, while the
+# shape that took it byte-exact was `maskfold` on `register u32 count;` + `return count & 0xFFFF;`
+# - a candidate this generator would have produced on its own.  128 pinned rows carry such a
+# declaration, 26 of them alongside an explicit mask.  `static` and `volatile` are deliberately NOT
+# admitted: those change storage duration and access semantics, not just width.
+DECL_RE = re.compile(r"^(?P<i>[ \t]+)(?:register[ \t]+)?(?P<ty>u8|s8|u16|s16|u32|s32|int|unsigned)[ \t]+(?P<n>[A-Za-z_]\w*)[ \t]*;[ \t]*$")
 MASK_RE = re.compile(r"\b(?P<n>[A-Za-z_]\w*)[ \t]*&[ \t]*0x(?P<m>[Ff]{2}|[Ff]{4})\b")
 
 _STRIP = None
