@@ -388,6 +388,38 @@ def inplace_update_candidates(text):
     return out
 
 
+def deadstore_candidates(text):
+    """A trailing dead store after a local's LAST use: `x = 0;` before the return.
+
+    From a broad lane, which closed a row with it.  A dead write *after* the last real use (not a
+    dead init before the first) stops the register allocator recycling that local's hardware
+    register as scratch for an unrelated computation sitting in between, which is what forced the
+    row's third range check onto the same register as its first two - and that in turn unlocked the
+    matching delay-slot fill.  Distinct from every other entry here: it adds a statement rather
+    than moving, folding or retyping one.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    whole = mask(text)
+    for idx, ind, ty, name in decls(text):
+        uses = [i for i, m in enumerate(masked)
+                if i != idx and re.search(r"\b%s\b" % re.escape(name), m)]
+        if len(uses) < 2:
+            continue
+        last = uses[-1]
+        # place the dead store after the last use, at the first statement boundary at that depth
+        dep = depths(masked)
+        for j in range(last + 1, min(last + 6, len(lines))):
+            if dep[j] != dep[last] or not movable(masked[j]):
+                continue
+            new = f"{ind}{name} = 0;\n"
+            out.append(("deadstore:%s@%d" % (name, j + 1),
+                        "".join(lines[:j] + [new] + lines[j:])))
+            break
+    return out
+
+
 class T:
     name = "t15_shapes"
     level = 1
@@ -445,7 +477,8 @@ class T:
             cands = (dup_after_if_candidates(cur) + narrow_candidates(cur)
                      + fence_candidates(cur) + fence_pair_candidates(cur))
             if WIDE:
-                cands = (inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur)
+                cands = (deadstore_candidates(cur) + inplace_update_candidates(cur)
+                         + hoist_from_goto_arm_candidates(cur)
                          + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                          + maskfold_candidates(cur) + mask2cast_candidates(cur)
                          + commute_candidates(cur) + cands + empty_fence_candidates(cur))
