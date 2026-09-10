@@ -12,7 +12,7 @@ void func_80044698(void)
 {
     s32 first_poll_done = 0;
     s32 poll_state;
-    register s32 frame_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 frame_value;
 
     for (;;)
     {
@@ -34,8 +34,7 @@ void func_80044698(void)
 
         func_80044618(2);
 
-        frame_value = (u32)VSync(1) >> 8;
-        frame_value = frame_value & 0x1FF;
+        frame_value = (u32)VSync(1) >> 8 & 0x1FF;
         if ((u32)frame_value != D_80080B00)
         {
             D_80080B00 = (u16)frame_value;

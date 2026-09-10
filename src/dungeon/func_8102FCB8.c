@@ -141,10 +141,10 @@ typedef struct S_801714B8_9 {
 /* Updates actor behavior, facing, and timed animation effects in the dungeon. */
 void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
 {
-    register void *actor ASM_REG("$19");
+    void *actor;
     void *context;
-    register void *sprite ASM_REG("$17");
-    register void *stats ASM_REG("$18");
+    void *sprite;
+    void *stats;
     s32 room_id;
     s32 distance;
     u16 spawn_offset[3];
@@ -161,10 +161,6 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         return;
     }
 
-    ASM_KEEP(actor);
-    ASM_KEEP(context);
-    ASM_KEEP(sprite);
-    ASM_KEEP(stats);
 
     if (((S_801714B8_1 *)stats)->unk_25 == 0) {
         func_800AA79C(actor, context, sprite, stats);
@@ -404,7 +400,9 @@ ordinary_cleanup:
                     0);
                 func_800478B8(sprite);
 
-                object = func_8003FC64(0x212);
+                do {
+                    object = func_8003FC64(0x212);
+                } while (0);
                 if (object != 0) {
                     func_80170DD0(object, actor, context);
                     ((S_801714B8_6 *)object)->unk_10 = D_80170A0C;
