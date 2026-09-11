@@ -25,28 +25,17 @@ extern void *func_800A1C94(TownObject *, s32, void *);
 
 /* Initializes the object's items in reverse order and sets its default fields. */
 s32 func_800A0F9C(TownObject *object, void *item_data, s32 item_count) {
-    void **item_slot;
     void **items;
     s32 remaining;
 
     remaining = item_count;
     items = object->items;
-    if (remaining > 0) {
-        item_slot = (void **)((unsigned long)(remaining * sizeof(*items)) +
-                        (unsigned long)items);
-        item_slot--;
-        do {
-            do {
-                remaining--;
-            } while (0);
-            *item_slot = func_800A1C94(object, remaining, item_data);
-            if (items == 0) {
-                return remaining + 1;
-            }
-            item_slot--;
-        } while (remaining > 0);
-        item_slot++;
-        ASM_USE(item_slot);
+    while (remaining > 0) {
+        remaining--;
+        items[remaining] = func_800A1C94(object, remaining, item_data);
+        if (items == 0) {
+            return remaining + 1;
+        }
     }
 
     object->field_00 = 0;
@@ -65,4 +54,3 @@ s32 func_800A0F9C(TownObject *object, void *item_data, s32 item_count) {
     object->field_0A = 0;
     return 0;
 }
-
