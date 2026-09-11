@@ -1,11 +1,9 @@
 #include "common.h"
 
-typedef long long s64;
-
 typedef struct S_800A2E30_0 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
-} S_800A2E30_0;   /* initial_ctx in func_800A2E30 */
+} S_800A2E30_0;
 
 typedef struct S_800A2E30_1 {
     u8 pad_00[0x4];
@@ -33,13 +31,12 @@ typedef struct S_800A2E30_1 {
     u8 pad_1F[0x1];
     u16 unk_20;
     u16 unk_22;
-} S_800A2E30_1;   /* obj in func_800A2E30 */
+} S_800A2E30_1;
 
 typedef struct S_800A2E30_2 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
-} S_800A2E30_2;   /* ctx in func_800A2E30 */
-
+} S_800A2E30_2;
 
 typedef struct InputPair {
     u32 first;
@@ -51,7 +48,6 @@ typedef struct OutputPair {
     u16 second;
     u32 pad;
 } OutputPair;
-
 
 extern u8 D_80083160[];
 
@@ -115,9 +111,8 @@ void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
     if (depth_or_page >= 0x1E0) {
         depth_or_page = 0x1DF;
     }
-    ASM_USE(depth_or_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
+    func_8006658C(*(u8 **)D_80083160 + 0xD8, packet + depth_or_page - depth_or_page);
 
     draw_ctx = *(u8 **)D_80083160;
     packet = ((S_800A2E30_2 *)draw_ctx)->unk_8D0;
@@ -127,7 +122,3 @@ void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
 
     func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
 }
-
-/* MECHANISM: Four address-taken 8-byte aggregate inputs force the a0-a3 homes
-   and aggregate lowering orders the a1 store before a0. Four sibling 8-byte
-   outputs plus two words make the 0x60 frame; s1/s0 hold page/current record. */
