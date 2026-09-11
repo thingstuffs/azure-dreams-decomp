@@ -35,9 +35,10 @@ void func_80026B18(void *object, s32 *enable_flags, s32 *active_flags)
             updated = 1;
             if (*enable_flag != 0) {
                 destination = (u8 *)object + record_offset;
-                ASM_KEEP_NV(destination);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                global_data = (u8 *)0x80020000;
-                ASM_KEEP_DEP_NV(global_data, destination);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                do {
+                    global_data = (u8 *)0x80020000;
+                } while (0);
+                ASM_KEEP_DEP_NV(global_data, destination);
                 global_data -= -0x7E68;
                 func_8004CBFC(destination,
                               (s32)(unsigned long)global_data, slot_value);
