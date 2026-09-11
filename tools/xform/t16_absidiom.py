@@ -17,17 +17,15 @@ POPULATION  2026-09-11, pinned rows: 97 adjacent copy+negate sites in 55 rows (4
             a row t15's damage band never looks at).
 
 NOT EVERY conditional negate is an abs: a plain `if (x < 0) x = -x;` that retail compiled as a
-branch around a negate must stay as written.  So the search is greedy, one idiom at a time, last
-first, each in two spellings - `d = abs(d);` (the copy above stays, and cse propagates it into the
-operand) and, when the copy is the statement right above, `d = abs(t);` with the copy folded in -
-first with the pins naming d erased, then keeping them.  Whatever stays exact is kept.  Then every
-pin left is tried once on its own, because a rewrite can leave another pin with nothing to hold.
-The result lands only if it carries fewer pins than it started with.
+branch around a negate must stay as written, so the rewrite is searched, not applied blindly -
+see `idiom_search`, which the other idiom plugins (t17) share.  The spellings are `d = abs(d);`
+(the copy above stays, and cse propagates it into the operand) and, when the copy is the statement
+right above, `d = abs(t);` with the copy folded in.
 """
 import re, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from pin_census import sites_of, erase, asm_blocker
+from pin_census import sites_of, asm_blocker
 from pin_sites import erase_many               # erases the pins' own notes with them
 try:
     from .t12_stmtorder import mask
@@ -55,7 +53,7 @@ def last_copy_source(masked, pos, d):
 
 
 def idioms(text):
-    """[{start, end, d, t, copy: (start, end) | None}] for every rewritable conditional negate."""
+    """[{start, end, d, t, copy: (start, end, src) | None}] for every rewritable conditional negate."""
     masked = mask(text)
     out = []
     for m in IF_RE.finditer(masked):
@@ -103,11 +101,83 @@ def spellings(text, it):
     return [(l, with_abs_decl(t)) for l, t in out]
 
 
+def all_inplace(text, its):
+    for it in reversed(its):               # last first: earlier offsets stay valid
+        text = text[:it["start"]] + f"{it['d']} = abs({it['d']});" + text[it["end"]:]
+    return with_abs_decl(text)             # once, at the end: it shifts every offset below it
+
+
 def names_var(site, names):
     kind, macro, arg, start, end, line_no, repl = site
     if kind == "reg":
         return bool(repl) and repl.split()[-1].lstrip("*") in names
     return any(a.strip() in names for a in arg.split(","))
+
+
+def idiom_search(text, find, spell_one, spell_all, verify_fn, budget=BUDGET):
+    """The greedy search every idiom plugin shares.  `find(text)` lists the idioms (dicts with a
+    "d" key naming the variable the pins sit on), `spell_one(text, it)` offers [(label, text)]
+    rewrites of one idiom, `spell_all(text, its)` rewrites all of them in their first spelling.
+
+    0. every idiom at once with every pin naming one of them - some rows only fall JOINTLY
+       (town/func_803300DC: two abs idioms and their pins together, neither alone);
+    1. each idiom, last first (a rewrite never moves an earlier idiom's place in the list), in
+       each spelling, first with the pins naming it erased, then keeping them; what stays exact
+       is kept;
+    2. every pin still standing, once on its own - a rewrite can leave a pin nothing to hold.
+    Returns (text, info); text is None unless the result carries fewer pins than it started."""
+    pins_in = len(sites_of(text))
+    n = n_found = len(find(text))
+    cur, steps, tried = text, [], 0
+
+    def attempt(cand):
+        nonlocal tried
+        tried += 1
+        return verify_fn(cand).get("exact")
+
+    if n > 1:
+        its = find(cur)
+        new = spell_all(cur, its)
+        on = [s for s in sites_of(new) if names_var(s, {it["d"] for it in its})]
+        if on and attempt(erase_many(new, on, clean_notes=True)):
+            cur = erase_many(new, on, clean_notes=True)
+            steps.append("all+unpin")
+            n = 0                          # nothing left to rewrite
+    for idx in reversed(range(n)):
+        found = find(cur)
+        if idx >= len(found) or tried >= budget:
+            continue
+        it, done = found[idx], False
+        for label, new in spell_one(cur, it):
+            on = [s for s in sites_of(new) if names_var(s, {it["d"]})]
+            for cand, tag in ((erase_many(new, on, clean_notes=True), "+unpin") if on else (None, ""), (new, "")):
+                if cand is None or tried >= budget:
+                    continue
+                if attempt(cand):
+                    cur, done = cand, True
+                    steps.append(f"{label}:{it['d']}{tag}")
+                    break
+            if done:
+                break
+    if not steps:
+        return None, {"tried": tried, "pins_in": pins_in, "pins_out": pins_in, "idioms": n_found}
+    i = 0
+    while tried < budget:
+        live = sites_of(cur)
+        if i >= len(live):
+            break
+        cand = erase_many(cur, [live[i]], clean_notes=True)
+        if attempt(cand):
+            cur = cand
+            steps.append("dead:" + live[i][1])
+        else:
+            i += 1
+    pins_out = len(sites_of(cur))
+    if pins_out >= pins_in:
+        return None, {"tried": tried, "pins_in": pins_in, "pins_out": pins_in, "idioms": n_found,
+                      "rewrote": "+".join(steps)}
+    return cur, {"step": "+".join(steps), "tried": tried, "pins_in": pins_in, "pins_out": pins_out,
+                 "idioms": n_found}
 
 
 class T:
@@ -128,62 +198,4 @@ class T:
 
     @staticmethod
     def apply_verified(text, row, census, verify_fn):
-        pins_in = len(sites_of(text))
-        n = n_found = len(idioms(text))
-        cur, steps, tried = text, [], 0
-
-        def attempt(cand):
-            nonlocal tried
-            tried += 1
-            return verify_fn(cand).get("exact")
-
-        # 0. every idiom at once with every pin naming one of them: some rows only fall JOINTLY
-        #    (town/func_803300DC: both idioms and their pins together, neither alone)
-        if n > 1:
-            its, new = idioms(cur), cur
-            for it in reversed(its):            # last first: earlier offsets stay valid
-                new = new[:it["start"]] + f"{it['d']} = abs({it['d']});" + new[it["end"]:]
-            new = with_abs_decl(new)            # once, at the end: it shifts every offset below it
-            names = {it["d"] for it in its}
-            on = [s for s in sites_of(new) if names_var(s, names)]
-            if on and attempt(erase_many(new, on, clean_notes=True)):
-                cur = erase_many(new, on, clean_notes=True)
-                steps.append("all+unpin")
-                n = 0                      # nothing left to rewrite
-        # 1. each idiom, last first (a rewrite never moves an earlier idiom's position in the list)
-        for idx in reversed(range(n)):
-            found = idioms(cur)
-            if idx >= len(found) or tried >= BUDGET:
-                continue
-            it = found[idx]
-            done = False
-            for label, new in spellings(cur, it):
-                on = [s for s in sites_of(new) if names_var(s, {it["d"]})]
-                for cand, tag in ((erase_many(new, on, clean_notes=True), "+unpin") if on else (None, ""), (new, "")):
-                    if cand is None or tried >= BUDGET:
-                        continue
-                    if attempt(cand):
-                        cur, done = cand, True
-                        steps.append(f"{label}:{it['d']}{tag}")
-                        break
-                if done:
-                    break
-        if not steps:
-            return None, {"tried": tried, "pins_in": pins_in, "pins_out": pins_in, "idioms": n_found}
-        # 2. every pin still standing, once on its own
-        i = 0
-        while tried < BUDGET:
-            live = sites_of(cur)
-            if i >= len(live):
-                break
-            cand = erase_many(cur, [live[i]], clean_notes=True)
-            if attempt(cand):
-                cur = cand
-                steps.append("dead:" + live[i][1])
-            else:
-                i += 1
-        pins_out = len(sites_of(cur))
-        if pins_out >= pins_in:
-            return None, {"tried": tried, "pins_in": pins_in, "pins_out": pins_in, "idioms": n_found,
-                          "rewrote": "+".join(steps)}
-        return cur, {"step": "+".join(steps), "tried": tried, "pins_in": pins_in, "pins_out": pins_out, "idioms": n_found}
+        return idiom_search(text, idioms, spellings, all_inplace, verify_fn)
