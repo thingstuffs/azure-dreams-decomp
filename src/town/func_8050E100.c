@@ -10,8 +10,6 @@ typedef struct S_8050E100_1 {
     s16 unk_35BE;
 } S_8050E100_1;   /* town in func_8050E100 */
 
-
-
 extern u8 D_80016000[0x10];
 extern void (*D_80017618)(void);
 extern s16 D_80017614;
@@ -23,34 +21,15 @@ extern void func_80017560(void);
 void func_8050E100(void)
 {
     s32 current_town_value;
-#ifndef NON_MATCHING
-    u8 *callback_code_base;
-#endif
     S_8050E100_1 *town = ((S_8050E100_0 *)(*(void **)D_80016000))->unk_38;
-#ifndef NON_MATCHING
-    u8 *callback_storage_base = (u8 *)0x80010000;
 
-    ASM_KEEP(callback_storage_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    callback_code_base = (u8 *)0x80010000;
-    ASM_KEEP(callback_code_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-#endif
     current_town_value = town->unk_35BE;
-
-    do {
-#ifdef NON_MATCHING
-        D_80017618 = func_80017560;
-#else
-        *(void (**)(void))(callback_storage_base + 0x7618) =
-            (void (*)(void))(callback_code_base + 0x7560);
-#endif
-    } while (0);
+    D_80017618 = func_80017560;
     if (current_town_value < 40) {
         town->unk_35BE = 40;
     }
     func_800173F8(0xAE3, town);
     func_800173F8(0xAE4);
-    do {
-        D_80017614 = 0;
-    } while (0);
+    D_80017614 = 0;
     func_800173F8(0xAE6);
 }

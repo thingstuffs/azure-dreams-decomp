@@ -154,11 +154,12 @@ the whole list, not just `c`; never print a set of window names.
 
 ## PICK UP HERE (2026-09-11, evening) — then `docs/PIN_PATTERNS.md` sections 4, 8 and 9
 
-**1,716 rows carry pins, 11,533 live sites** (1,717 / 11,872 at the afternoon's start); every
-landing gated (104 windows re-gated MATCH, SLUS untouched). **Read the fence line before quoting a
-pin count:** `census.py` counts a `do { stmt; } while (0)` fence "like a pin", and most of the
-day's removals were that trade. This session: **339 pins out, 224 fences in — net −115**; STATUS's
-`do{}while(0)` row went from 365 to 504 rows. Report the net, never the raw pin count.
+**1,715 rows carry pins, 11,527 live sites** (1,717 / 11,872 at the afternoon's start); every
+landing gated (every touched window re-gated MATCH, no SLUS row touched). **Read the fence line
+before quoting a pin count:** `census.py` counts a `do { stmt; } while (0)` fence "like a pin", and
+most of the day's removals were that trade. This session, measured against 019f5c9a over 174
+rows: **345 pins out, 221 fences in — net −124**; 3 rows now carry neither; STATUS's
+`do{}while(0)` row went from 365 to 502 rows. Report the net, never the raw pin count.
 
 ### What this session did
 
@@ -190,10 +191,22 @@ day's removals were that trade. This session: **339 pins out, 224 fences in — 
   site is held by the row's other `ASM_REG` pins, not a `narrow` case).
 - **agy group packs:** `pin_lane.py --groups` → `work/agy_groups` (48 rows, 6 batches; 217
   qualify), `GROUP_MODE` understood by `~/agy_lane/go.sh` and `harvest.py`; the briefs forbid
-  fences and the harvest rejects any candidate with more fences than its base. **Not launched** —
-  the owner runs `! AGY_PACK=work/agy_groups bash ~/agy_lane/go.sh "Gemini 3.8 Flash (High)" batch1
-  batch2 batch3`, then `python3 ~/agy_lane/harvest.py --model "Gemini 3.8 Flash (High)" --pack
-  <repo>/work/agy_groups` and `apply_candidates.py <cand dir> --transform t13_depin`.
+  fences and the harvest rejects any candidate with more fences than its base. **Batches 1–3 ran
+  (Gemini 3.8 Flash High): lanes claimed 5 of 24, all 5 landed and gated — 6 pins and 2 fences
+  off, nothing added.** Shapes: a direct symbol for hand-built base-page arithmetic
+  (`town/func_8050E100`, `func_8077DC0C` — `(u8 *)0x80010000 + 0x601C` → `&D_8001601C`: the
+  literal-page family `litsym` never closed); a value-preserving `(s16)` at the use
+  (`town/func_800B63B8`); a local widened to its partner's mode (`main/func_80010258`); the outer
+  return variable instead of a block temp (`town/func_805D3370`, accepted by hand — the lane had
+  to rename a marker pin's argument, which the harvest's strict check rejects). Batches 4–6 are
+  unrun: `! AGY_PACK=work/agy_groups bash ~/agy_lane/go.sh "Gemini 3.8 Flash (High)" batch4
+  batch5 batch6`, then `python3 ~/agy_lane/harvest.py --model "Gemini 3.8 Flash (High)" --pack
+  <repo>/work/agy_groups`.
+- **Arm collapse lands** (`pin_census.landing_refusal`): `town/func_8050E100`'s lane dropped the
+  `#ifdef NON_MATCHING` split because the port arm's own `D_80017618 = func_80017560;` is
+  byte-exact for retail too — the row is now free of pins and fences. The guard used to refuse any
+  change to port text; it now accepts one when `port_view` (what `-DNON_MATCHING` compiles, minus
+  barrier wrappers and no-op pins) is identical and no `#if 0` text changed. Tested both ways.
 
 ### Start here, in order
 
@@ -204,7 +217,12 @@ day's removals were that trade. This session: **339 pins out, 224 fences in — 
    goto loop whose increment m2c duplicated into each arm → a real `do { } while` with the
    increment once (`town/func_800B6514`). The nine `t20_fencefree` rows are their test cases. Then
    put them ahead of the fence family in t15/t18's menu and resume t18.
-2. Harvest the agy group pack if it ran (commands above).
+2. **A generator for the base-page shape** agy found twice: a pointer built as a page literal plus
+   an offset (`p = (void *)0x80010000; p += 0x601C;`, or `base + 0x7618` through a cast) becomes
+   the symbol at the sum (`&D_8001601C`), declared if missing; try it with the neighbouring pins
+   and fences erased too, as the lane did. Then agy batches 4–6. **Land only from a fresh dir:**
+   `harvest.py` stages into a cand dir SHARED with older staged candidates — copy the new rows and
+   their `.base_sha` into a fresh dir and `apply_candidates.py` that, never the whole cand dir.
 3. The shared control-flag unit (`dungeon/func_80091258`, `func_80087054`): decide whether a named
    macro in a shared header is honest (it frees a pin in 80091258; inline it is net zero).
 4. Address materialisation: the second handle on `dungeon/func_8098D5A8` with the instrumented

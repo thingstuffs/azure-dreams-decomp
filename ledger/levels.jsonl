@@ -109,7 +109,7 @@
 {"id":"main/func_8001016C","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["fidelity_site"]}
 {"id":"main/func_80010194","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"main/func_800101E4","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["inline_asm"]}
-{"id":"main/func_80010258","level":3,"evidence":[],"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["pins"]}
+{"id":"main/func_80010258","level":3,"evidence":[],"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["pins"]}
 {"id":"main/func_800103D0","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_func_800233D0_arg0"],"l5_residue":[]}
 {"id":"main/func_80010470","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"main/func_8001052C","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["inline_asm"]}
@@ -1303,7 +1303,7 @@
 {"id":"town/func_800B5FD4","level":3,"evidence":[],"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["pins"]}
 {"id":"town/func_800B60EC","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_800B6384","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["inline_asm","non_matching"]}
-{"id":"town/func_800B63B8","level":3,"evidence":[],"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["pins"]}
+{"id":"town/func_800B63B8","level":3,"evidence":[],"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["pins"]}
 {"id":"town/func_800B64A4","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_800B6514","level":3,"evidence":[],"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["pins"]}
 {"id":"town/func_800B65A4","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
@@ -2418,7 +2418,7 @@
 {"id":"town/func_804F027C","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_80016000"],"l5_residue":["fidelity_site"]}
 {"id":"town/func_80500100","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_80500158","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_80016000"],"l5_residue":[]}
-{"id":"town/func_8050E100","level":3,"evidence":[],"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["pins","non_matching"]}
+{"id":"town/func_8050E100","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_8050E188","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_80016000"],"l5_residue":[]}
 {"id":"town/func_8050E1B0","level":0,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":true,"records":[],"l5_residue":["tail_call","fidelity_site"]}
 {"id":"town/func_8051E904","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
@@ -2531,7 +2531,7 @@
 {"id":"town/func_805D31E8","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_805D3208","level":0,"evidence":[],"pins_left":6,"m2c_field":0,"blocking":true,"records":[],"l5_residue":["pins","tail_call","fidelity_site"]}
 {"id":"town/func_805D32DC","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
-{"id":"town/func_805D3370","level":0,"evidence":[],"pins_left":29,"m2c_field":0,"blocking":true,"records":[],"l5_residue":["pins","tail_call","fidelity_site"]}
+{"id":"town/func_805D3370","level":0,"evidence":[],"pins_left":28,"m2c_field":0,"blocking":true,"records":[],"l5_residue":["pins","tail_call","fidelity_site"]}
 {"id":"town/func_805D34AC","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_805D34CC","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":["fidelity_site"]}
 {"id":"town/func_805D3524","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
@@ -2808,7 +2808,7 @@
 {"id":"town/func_80770040","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_807700D4","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_807748D0","level":0,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":true,"records":[],"l5_residue":["tail_call","fidelity_site"]}
-{"id":"town/func_8077DC0C","level":0,"evidence":[],"pins_left":6,"m2c_field":0,"blocking":true,"records":[],"l5_residue":["pins","tail_call","fidelity_site"]}
+{"id":"town/func_8077DC0C","level":0,"evidence":[],"pins_left":5,"m2c_field":0,"blocking":true,"records":[],"l5_residue":["pins","tail_call","fidelity_site"]}
 {"id":"town/func_8079A1EC","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_8080BBE0","level":3,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"l5_residue":[]}
 {"id":"town/func_8080BCD4","level":0,"evidence":[],"pins_left":0,"m2c_field":0,"blocking":true,"records":[],"l5_residue":["tail_call","fidelity_site"]}
