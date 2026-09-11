@@ -241,7 +241,16 @@ the SLUS SHA-1 gate MATCH after each phase.
   (one win frees several), residue ≤ 2, not `reg-rename`, every row with a true name (no batch-1
   gate trap); up to 40 pins if every group falls. Harvest when it exits:
   `python3 ~/agy_lane/harvest.py --model "Claude Opus 4.6 (Thinking)" --pack <repo>/work/agy_opus1`,
-  land from a fresh dir (`--transform t13_depin`), t20 + t2, **window-gate before committing**. Gate every agy landing before committing it, and expect this on any
+  land from a fresh dir (`--transform t13_depin`), t20 + t2, **window-gate before committing**.
+  **Result: the agy Claude quota ran out during batch 1** (`Individual quota reached … Resets in
+  135h45m` at ~23:07 UTC, i.e. about 2026-09-17 14:50 UTC; Gemini's pool is separate). Batch 1 left no
+  candidate; before the quota hit, the lane named one blocker — an `ASM_KEEP_NV(scratch)` pin that
+  keeps the `0x1F800000` scratchpad base from being constant-folded, with no C equivalent found.
+  Batches 2–3 never ran (the run was stopped). Re-run them after the reset if still wanted.
+- **Native lane (owner: "if 4.6 opus doesn't find any value, use an agent here natively"):**
+  launched 23:08 UTC on `dungeon/func_8098D5A8` pin site 3 (`anim_table ASM_REG("$5")`, the
+  address-materialisation second handle, PIN_PATTERNS 8a) with `work/native_lane/func_8098D5A8/BRIEF.md`;
+  its `REPORT.md` and any candidate land in that directory. Gate every agy landing before committing it, and expect this on any
   row with no `true_name` whose pins sit on a noreturn/label-as-call jump — those pins are fidelity,
   not shape.
 - **A fence is re-testable debt, like a pin**: 18 % of the fenced rows' fences were dead.
