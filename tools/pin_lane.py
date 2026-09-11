@@ -24,7 +24,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, read_jsonl, clean_path, sha_text
-from pin_census import sites_of
+from pin_census import sites_of, asm_blocker
 from verify import verify
 sys.path.insert(0, str(ROOT / "tools" / "xform"))
 from xform.t12_stmtorder import strip_pins
@@ -300,12 +300,11 @@ def main():
         text = p.read_text(errors="replace")
         if sha_text(text) != rec.get("in_sha") or not sites_of(text):
             continue                      # the probe is stale for this text
-        if "NON_MATCHING" in text:
-            continue
-        if re.search(r'__asm__\s*(__volatile__\s*)?\(\s*"[a-z]', text):
+        if asm_blocker(text):
             # a raw asm BODY is not an ASM_* pin: `strip_pins` leaves it, so the "pin-free" base a
             # lane would start from still carries hand-written instructions and can never be a
             # clean result.  A reorder-only lane hit exactly this (4 asm blocks, rows.tsv said 1 pin).
+            # (A NON_MATCHING arm is not a blocker: apply_candidates refuses an edit to it.)
             continue
         live.append((rec, row, text))
     # one mechanism per lane: group by class, then damage, then size

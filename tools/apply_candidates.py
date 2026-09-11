@@ -15,6 +15,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, append_jsonl, sha_text, clean_path
 from verify import verify
+from pin_census import landing_refusal
 
 INCLUDE = ROOT / "include"
 
@@ -41,6 +42,9 @@ def main():
         v = verify(r, p.resolve(), include_root=INCLUDE)   # the scorer runs in the gate root: absolute paths only
         rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs")})
         if v.get("exact"):
+            bad = landing_refusal(new, cur, str(clean_path(r).relative_to(ROOT)))
+            if bad:
+                return dict(rec, outcome="refused", reason=bad.replace(str(ROOT), "<repo>"))
             if not a.dry_run:
                 clean_path(r).write_text(new)
             return dict(rec, outcome="applied", out_sha=sha_text(new), lines_delta=new.count("\n") - cur.count("\n"))

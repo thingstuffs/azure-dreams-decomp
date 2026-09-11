@@ -14,6 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, raw_path, parse_cfg, is_stock_cfg, set_row_cfg
 from verify import verify
+from pin_census import unscored_text, landing_refusal
 import xform
 
 INCLUDE = ROOT / "include"
@@ -48,11 +49,16 @@ def one(args):
     if why:
         return dict(rec, outcome="refused", reason=why)
     info = {}
+    usig = unscored_text(text)
     try:
         if getattr(T, "needs_verify", False):
             def vf(cand, cfg=None):
                 # cfg: try the candidate at another STOCK cell (a row whose pinned cell was an artefact of
                 # its scaffolding); the plugin reports the winning cfg in info["cfg"] and the sweep records it
+                if unscored_text(cand) != usig:
+                    # an edit inside a NON_MATCHING / #if 0 arm: no verify can see it, so it can
+                    # never be the reason a candidate is exact - and must never ride along with one
+                    return {"exact": False, "status": "unscored-arm-edit", "total": None}
                 with tempfile.TemporaryDirectory() as td:
                     p = Path(td) / Path(row["c_path"]).name
                     p.write_text(cand)
@@ -78,7 +84,11 @@ def one(args):
         v = verify(row, p, include_root=INCLUDE)
     rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs"), "err": _scrub(v.get("err"))})
     if v.get("exact"):
-        cp = clean_path(row); cp.parent.mkdir(parents=True, exist_ok=True); cp.write_text(new)
+        cp = clean_path(row)
+        bad = landing_refusal(new, text, str(cp.relative_to(ROOT)))
+        if bad:
+            return dict(rec, outcome="refused", reason=_scrub(bad))
+        cp.parent.mkdir(parents=True, exist_ok=True); cp.write_text(new)
         if info.get("cfg") and rec.get("cfg_was") is None and info["cfg"] != rows_cfg(row["id"]):
             with _CFG_LOCK:      # the row database is read-modify-written: one correction at a time
                 set_row_cfg(row["id"], info["cfg"], note=f"{T.name}: exact at this stock cell without scaffolding")

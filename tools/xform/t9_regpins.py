@@ -53,7 +53,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT / "tools") not in sys.path:
     sys.path.insert(0, str(ROOT / "tools"))
-from pin_census import sites_of, erase          # the census' own definition of a pin site
+from pin_census import sites_of, erase, asm_blocker   # the census' own definition of a pin site
 
 try:                                            # the shared C-shape parser lives in T8
     from .t8_passthru import find_defs, matching_paren, split_params, param_type
@@ -381,14 +381,11 @@ def calls_between(masked, lo, hi):
 # --------------------------------------------------------------------------- eligibility
 
 def guards(text):
-    if "NON_MATCHING" in text:
-        return "NON_MATCHING arm"
+    # NON_MATCHING arms and asm LABELS (`__asm__("func_...")`, the tail-call spelling) are not
+    # refusals any more: see pin_census.arm_labels / asm_blocker.
     if re.search(r"\b\w+_pre\b", text):
         return "_pre struct"
-    for m in re.finditer(r"\b__?asm__?\b", text):
-        if not re.match(r"\s*\(\s*\"\.set\b", text[m.end():m.end() + 40]):
-            return "inline asm body"
-    return None
+    return asm_blocker(text)
 
 
 def live_pins(text, row):

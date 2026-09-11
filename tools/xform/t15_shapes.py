@@ -33,7 +33,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT / "tools") not in sys.path:
     sys.path.insert(0, str(ROOT / "tools"))
 from common import sha_text
-from pin_census import sites_of, erase
+from pin_census import sites_of, erase, asm_blocker
 
 try:
     from .t12_stmtorder import strip_pins, mask, depths, movable, is_decl, NOTE_RE
@@ -799,10 +799,11 @@ class T:
     def eligible(text, row, census):
         if not sites_of(text):
             return "no live pin site"
-        if "NON_MATCHING" in text:
-            return "NON_MATCHING arm"
-        if re.search(r"__asm__\s*(__volatile__\s*)?\(\s*\"[a-z]", text):
-            return "inline asm body"
+        # A NON_MATCHING arm is no longer a refusal: `sites_of` ignores pins in code no byte gate
+        # compiles, and `sweep.py` refuses any candidate that edits that code (`unscored_text`).
+        why = asm_blocker(text)
+        if why:
+            return why
         rec = strip_census().get(row["id"])
         if rec is None:
             return "no strip probe for this row"

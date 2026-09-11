@@ -36,7 +36,8 @@ def main():
                 # through the pin machinery, not the raw text: PIN_RE also matches a pin note in a
                 # comment and a local wrapper #define, so a row the campaign had freed kept
                 # being counted and this column drifted from pin_watch and the sweep
-                "pin_total": len(sites_of(t)), "gotos": len(_re.findall(r"\bgoto\s+[A-Za-z_]", t)),
+                "pin_total": len(sites_of(t)), "pins_by": collections.Counter(s[1][4:] for s in sites_of(t)),
+                "gotos": len(_re.findall(r"\bgoto\s+[A-Za-z_]", t)),
                 "computed_goto": len(_re.findall(r"\bgoto\s*\*", t)), "inline_asm": len(_re.findall(r"__asm__|\basm\s*\(", t)),
                 "m2c_locals": len(set(_re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+|phi_[a-z0-9_]+)\b", t))),
                 "n_local_structs": len(set(_re.findall(r"\b((?:S_|Struct|Func)[0-9A-F]{7,8}[A-Za-z0-9_]*)\b", t))),
@@ -64,7 +65,15 @@ def main():
     pins = collections.Counter(); 
     for c in cen.values():
         for k, v in c.get("pins", {}).items(): pins[k] += v
-    out.append(f"\nPin sites: {sum(pins.values()):,} total; " + ", ".join(f"{k} {v:,}" for k, v in pins.most_common(8)) + ".\n")
+    # `cen` is the census of the frozen text at the pin; the live count is the current tree's.
+    # This line used to print only the former under the bare label "Pin sites" (25,788 against
+    # 12,041 live on 2026-09-11), which read as the size of the remaining debt.
+    now = collections.Counter()
+    for c in curc.values():
+        if c: now.update(c["pins_by"])
+    out.append(f"\nPin sites now: {sum(now.values()):,} in {sum(1 for c in curc.values() if c and c['pin_total']):,} rows; "
+               + ", ".join(f"{k} {v:,}" for k, v in now.most_common(8))
+               + f".  At the pin: {sum(pins.values()):,}; " + ", ".join(f"{k} {v:,}" for k, v in pins.most_common(8)) + ".\n")
     lv = LEDGER / "levels.jsonl"
     out.append("## Cleanliness levels (bytes at or above each level)\n")
     if lv.exists():
