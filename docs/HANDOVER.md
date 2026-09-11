@@ -222,6 +222,15 @@ the SLUS SHA-1 gate MATCH after each phase.
 
 ### Rules learned today
 
+- **The harvest proves the scorer, never the window.** Pack 2 batch 1 (owner-launched): the lane
+  claimed 1 of 8 and the harvest accepted it (`dungeon/func_8185CE28`, 4 pins and an asm clobber
+  gone), but its window gate failed — the lane had respelled a `noreturn` jump to the row's own
+  epilogue (`func_800247B4()`, listed in `config/noreturn_syms.dungeon.txt`) as `return`. The row has
+  no true name, so the gate links it at its synthetic address, where the local epilogue jump encodes
+  a different target from retail's absolute one. Reverted (journal `t13_depin`, `gate-mismatch`);
+  **batch 1's yield is 0 of 8.** Gate every agy landing before committing it, and expect this on any
+  row with no `true_name` whose pins sit on a noreturn/label-as-call jump — those pins are fidelity,
+  not shape.
 - **A fence is re-testable debt, like a pin**: 18 % of the fenced rows' fences were dead.
 - **The smallest closing step is often less than the lane's edit** (8009A874: the lane rewrote the
   goto/return structure; `ptr2index` alone closes it) — test a lane win one piece at a time on its
