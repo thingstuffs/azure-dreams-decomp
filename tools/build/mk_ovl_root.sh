@@ -38,7 +38,10 @@ ln -sfn "$ROOT/baserom"           "$B/baserom"
 ln -sfn "$ROOT/work/disc/containers" "$B/work/s3_splat/extract"
 ln -sfn "$ROOT/work/disc/extract" "$B/work/roundtrip/extract"     # main_7fdd and the scorer's residue classes read the disc layout
 ln -sfn "$ROOT/tools/gate/extract_bins.py" "$B/work/overlay_recon/extract_bins.py"
-ln -sfn "$B/tools/overlay_func_compare.py" "$B/work/g3/overlay_func_compare.py"   # residue_class loads it from work/g3
+# residue_class loads it from work/g3.  A REAL FILE, like $B/tools: it finds match.py as
+# Path(__file__).resolve().parents[2]/tools, and through a symlink that resolves to the repo root
+# (no tools/match.py there), so every scorer run failed with a HARNESS-ERROR after a rebuild.
+rm -f "$B/work/g3/overlay_func_compare.py"; cp -L "$B/tools/overlay_func_compare.py" "$B/work/g3/overlay_func_compare.py"
 for f in names.tsv slus_006.14.yaml slus_006.14.symbols.txt noreturn_syms.txt noreturn_syms.dungeon.txt noreturn_syms.town.txt noreturn_syms.ovmovie.txt sibcall_syms.txt sibcall_syms.dungeon.txt sibcall_syms.town.txt sibcall_syms.ovmovie.txt noreturn_false_members.jsonl; do
   [ -f "$ROOT/config/$f" ] && ln -sfn "$ROOT/config/$f" "$B/config/$f"
 done
