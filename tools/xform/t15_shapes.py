@@ -698,7 +698,9 @@ def livetie_candidates(text, max_cands=24):
     return out
 
 
-DOWHILE_END_RE = re.compile(r"^(?P<i>[ \t]+)(?P<v>[A-Za-z_]\w*)\+\+;[ \t]*$")
+DOWHILE_END_RE = re.compile(r"^(?P<i>[ \t]+)(?P<v>[A-Za-z_]\w*)[ \t]*(?:\+\+|\+=[ \t]*1)[ \t]*;[ \t]*$")
+DOWHILE_LABEL_RE = re.compile(r"^[ \t]*(?P<l>[A-Za-z_]\w*)[ \t]*:[ \t]*$")
+DOWHILE_DECL_RE = r"^(?P<d>[ \t]*(?:register[ \t]+)?(?:u8|s8|u16|s16|u32|s32|int|unsigned)[ \t]+)%s[ \t]*=[ \t]*(?P<s>[^;=,]+);[ \t]*$"
 DOWHILE_TEST_RE = re.compile(r"^[ \t]*\}[ \t]*while[ \t]*\([ \t]*(?P<v>[A-Za-z_]\w*)[ \t]*"
                              r"(?P<op><=?)[ \t]*(?P<k>[^)]+?)[ \t]*\)[ \t]*;[ \t]*$")
 
@@ -720,6 +722,12 @@ def dowhile2for_candidates(text):
     and `livetie` were each built from a single win and closed nothing.
 
     Two independent wins, dungeon/func_80A4B134 and dungeon/func_80B9A94C (2026-09-11).
+
+    Two m2c spellings it used to miss (t20, dungeon/func_8009A924, closed by `ptr2index` and then
+    this): the counter started in its declaration (`s32 direction = 0;` - the declaration keeps
+    the variable, the header takes the start), and a label sitting right before the increment
+    (`next: direction++;`) - the label is where m2c's `goto next` continued the loop, so in the
+    `for` those gotos are `continue`, and the label goes.
     """
     out = []
     lines = text.splitlines(True)
@@ -741,22 +749,37 @@ def dowhile2for_candidates(text):
                 break
         if top is None:
             continue
-        init = None                      # nearest preceding `v = <start>;`
+        init = None                      # nearest preceding `v = <start>;` (or `s32 v = <start>;`)
         for x in range(top - 1, -1, -1):
             m0 = re.match(r"^[ \t]*%s[ \t]*=[ \t]*(?P<s>[^;=]+);[ \t]*$" % re.escape(v),
                           masked[x].rstrip("\n"))
             if m0:
-                init = (x, m0.group("s").strip())
+                init = (x, m0.group("s").strip(), None)
+                break
+            m1 = re.match(DOWHILE_DECL_RE % re.escape(v), masked[x].rstrip("\n"))
+            if m1:
+                init = (x, m1.group("s").strip(), lines[x][:m1.end("d")] + v + ";\n")
                 break
             if re.search(r"\b%s\b" % re.escape(v), masked[x]):
                 break                    # touched by something else first: not a plain counter
         if init is None:
             continue
-        ix, start = init
+        ix, start, keep_decl = init
         ind = re.match(r"^([ \t]*)", lines[top]).group(1)
         head = "%sfor (%s = %s; %s %s %s; %s++) {\n" % (ind, v, start, v, op, k, v)
         body = lines[top + 1:j - 1]                      # drop the trailing `v++;`
-        new = lines[:ix] + lines[ix + 1:top] + [head] + body + ["%s}\n" % ind] + lines[j + 1:]
+        lab = DOWHILE_LABEL_RE.match(masked[j - 2].rstrip("\n")) if j >= 2 and j - 2 > top else None
+        if lab:
+            name = lab.group("l")
+            refs = [x for x, m in enumerate(masked) if re.search(r"\bgoto[ \t]+%s[ \t]*;" % re.escape(name), m)]
+            nested = any(re.match(r"^[ \t]*(?:do\b|while\b|for\b|switch\b)", masked[x]) for x in range(top + 1, j - 2))
+            if refs and all(top < x < j - 2 for x in refs) and not nested:
+                body = [re.sub(r"\bgoto[ \t]+%s[ \t]*;" % re.escape(name), "continue;", b)
+                        for b in lines[top + 1:j - 2]]
+            else:
+                body = body + ["%s    ;\n" % ind]            # a label needs a statement after it
+        pre = lines[:ix] + ([keep_decl] if keep_decl else []) + lines[ix + 1:top]
+        new = pre + [head] + body + ["%s}\n" % ind] + lines[j + 1:]
         out.append(("dowhile2for:%s<%s" % (v, k), "".join(new)))
     return out
 
