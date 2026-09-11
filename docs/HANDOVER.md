@@ -233,7 +233,15 @@ the SLUS SHA-1 gate MATCH after each phase.
   shape through an integer cast (`resource_addr = (s32)0x80170000; … += 0x1D90;` →
   `(s32)D_80171D90`), which widened `basesym` again (integer cast on the literal): 9 more rows, 9
   pins and 2 fences off. Pack 2 so far: 1 of 24 — against 11 of 48 for pack 1, whose rows had not yet
-  been through the natural shapes. Measure a few more batches before spending real capacity on it. Gate every agy landing before committing it, and expect this on any
+  been through the natural shapes. Measure a few more batches before spending real capacity on it.
+  Gemini on pack 2 batches 4–5 is on hold (owner, on advice): every row there is one word off, mostly
+  `broad`, and the batch 2 report shows those last words are operand order and register-source ties.
+- **Targeted Opus pack, launched 22:37 UTC (agent-launched; go.sh was not blocked):**
+  `work/agy_opus1`, 12 pack-2 rows in 3 batches of 4 — groups of 3+ pins or a row's only pins
+  (one win frees several), residue ≤ 2, not `reg-rename`, every row with a true name (no batch-1
+  gate trap); up to 40 pins if every group falls. Harvest when it exits:
+  `python3 ~/agy_lane/harvest.py --model "Claude Opus 4.6 (Thinking)" --pack <repo>/work/agy_opus1`,
+  land from a fresh dir (`--transform t13_depin`), t20 + t2, **window-gate before committing**. Gate every agy landing before committing it, and expect this on any
   row with no `true_name` whose pins sit on a noreturn/label-as-call jump — those pins are fidelity,
   not shape.
 - **A fence is re-testable debt, like a pin**: 18 % of the fenced rows' fences were dead.
