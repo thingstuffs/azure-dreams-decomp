@@ -62,15 +62,25 @@ _STRIP = None
 
 
 def strip_census():
+    """The strip probe, keyed by row.
+
+    Built into a LOCAL and rebound in one assignment.  `sweep.py` runs rows through a
+    ThreadPoolExecutor, and the previous form set the global to `{}` before filling it: every
+    worker that arrived during the ~1,900-line read saw a non-None, half-filled dict, missed its
+    row and refused it as "no strip probe for this row".  It cost 15 of the 21 rows in one sweep
+    and has been quietly refusing rows in every threaded run.  Rebinding once makes the dict
+    either absent or complete, never partial.
+    """
     global _STRIP
     if _STRIP is None:
-        _STRIP = {}
+        built = {}
         p = ROOT / "ledger/pins_strip.jsonl"
         if p.exists():
             for line in p.read_text().splitlines():
                 if line.strip():
                     r = json.loads(line)
-                    _STRIP[r["id"]] = r
+                    built[r["id"]] = r
+        _STRIP = built
     return _STRIP
 
 
