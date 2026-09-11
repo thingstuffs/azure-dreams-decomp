@@ -39,6 +39,11 @@ def main():
                                         # scrub hook rejects absolute home paths outside
                                         # raw/ and src/ (this comment must not contain one either)
         if new == cur: return dict(rec, outcome="noop")
+        # a candidate cut from an older text would silently revert whatever landed since: the
+        # verdict below proves only that the candidate is exact, not what it replaces
+        side = p.with_name(p.name + ".base_sha")
+        if side.exists() and side.read_text().strip() != sha_text(cur):
+            return dict(rec, outcome="refused", reason="stale candidate: its row changed after it was cut (.base_sha)")
         v = verify(r, p.resolve(), include_root=INCLUDE)   # the scorer runs in the gate root: absolute paths only
         rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs")})
         if v.get("exact"):

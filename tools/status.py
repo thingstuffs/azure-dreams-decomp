@@ -68,10 +68,16 @@ def main():
     # `cen` is the census of the frozen text at the pin; the live count is the current tree's.
     # This line used to print only the former under the bare label "Pin sites" (25,788 against
     # 12,041 live on 2026-09-11), which read as the size of the remaining debt.
+    # parked containers are listed, not counted (the ALL row above excludes them too)
+    live ={i: c for i, c in curc.items() if c and i.split("/")[0] not in PARKED_CONTAINERS}
+    pins = collections.Counter()
+    for i, c in cen.items():
+        if i.split("/")[0] not in PARKED_CONTAINERS:
+            pins.update(c.get("pins", {}))
     now = collections.Counter()
-    for c in curc.values():
-        if c: now.update(c["pins_by"])
-    out.append(f"\nPin sites now: {sum(now.values()):,} in {sum(1 for c in curc.values() if c and c['pin_total']):,} rows; "
+    for c in live.values():
+        now.update(c["pins_by"])
+    out.append(f"\nPin sites now: {sum(now.values()):,} in {sum(1 for c in live.values() if c['pin_total']):,} rows; "
                + ", ".join(f"{k} {v:,}" for k, v in now.most_common(8))
                + f".  At the pin: {sum(pins.values()):,}; " + ", ".join(f"{k} {v:,}" for k, v in pins.most_common(8)) + ".\n")
     lv = LEDGER / "levels.jsonl"

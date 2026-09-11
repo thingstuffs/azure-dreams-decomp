@@ -425,6 +425,8 @@ def run_subsets(a):
         p = out / row["container"] / Path(row["c_path"]).name
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(cand)
+        # the text the candidate was cut from: apply_candidates refuses it if the row has moved on
+        p.with_name(p.name + ".base_sha").write_text(sh + "\n")
         print(f"candidate {rid}: {len(sub)} of {len(sites)} pins", flush=True)
     print(f"{len(best)} candidates in {out}", flush=True)
 

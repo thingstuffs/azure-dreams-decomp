@@ -5,6 +5,10 @@ Measured by `tools/pin_sites.py` (per-site census, `ledger/pins_site.jsonl`; sub
 pre-fix text recovered from git). The question it answers is the owner's: *are the thousands of
 pins really a few dozen patterns, and do pins that sit together hold each other up?*
 
+The numbers below are as measured on 2026-09-11. `tools/pin_patterns.py --history >
+docs/PIN_PATTERNS_DATA.md` regenerates every table from the ledgers (only records at a row's
+current text count, so re-run `pin_sites.py` on changed rows first); this file is the reading.
+
 ## 1. The measurement
 
 Every live site of every pinned row outside the day's sweep set (9,249 sites) was erased **on its
@@ -112,8 +116,10 @@ Replay of 301 landings (428 removed sites) from t15, the depin lanes, the cell f
 | t15 `efence`, `fence2`, `fence+fence-return` | 31 |
 | t15 `depinject`, `deadstore`, `dup_after_if`, partial strip | ~40 |
 
-**60 % of every pin ever removed was replaced by a fence or a fence variant** — compiler steering
-spelled in portable C, not a recovered source shape. Only 44 of the 428 were pure erasure. The
+**Over half of every pin removed before this session (≈55 %, 237 of 428) was replaced by a fence
+or a fence variant** — compiler steering spelled in portable C, not a recovered source shape.
+With this session's t16/t17/subset landings in the replay the share falls to 47 % (244 of 515):
+the first sizeable batch of removals that were not fences. Only 44 of the 428 were pure erasure. The
 removed sites were REG 194, KEEP 145, barrier 52, USE 22, KEEP_NV 13.
 
 ## 6. Compiler idioms — the family that pays

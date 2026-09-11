@@ -171,7 +171,9 @@ start of this session).
 - **The "~109 race rows" lead below was a record count**: 90 distinct rows were ever refused by
   the race, 9 still were, all outside the band. Spent.
 - t2 over the 95 rows its journal was stale for: 13 landings (the standing rule holds again).
-  t15 over the 280 unlocked rows + the refreshed ones (`T15_BAND=20`, WIDE, budget 140): 9 closes.
+  t15 over the 280 unlocked rows + the refreshed ones (`T15_BAND=20`, WIDE, budget 140): 9 closes -
+  6 from the NON_MATCHING unlock (2 `narrow`, 2 `fence2`, 2 `fence`), 3 from rows t2 had just
+  refreshed, none from the asm-label rows (4 in band).
 - **`tools/pin_sites.py`** — the per-site census on the live text (9,249 sites, each erased alone,
   scored with word positions, next to what the site is) and every subset of the 2..5-pin rows
   (5,018). Its analysis is `docs/PIN_PATTERNS.md`.
@@ -215,10 +217,39 @@ start of this session).
   division: 2).
 - **A candidate built from an older text must be checked against the row's current sha before it
   lands** — `apply_candidates` only checks exactness, so a stale candidate silently reverts a
-  later landing. The subset landing was guarded by hand (scratch `subset_guard.py`); build it into
-  `apply_candidates` before the next lane pack is landed.
+  later landing. Now built in: `pin_sites.py --land-dir` writes a `.base_sha` sidecar next to each
+  candidate and `apply_candidates.py` refuses one whose sidecar differs from the row's current
+  sha. Lane packs (`pin_lane.py`) do not write the sidecar yet - add it before the next pack.
 - **A substring test is a blind spot.** `"NON_MATCHING" in text` hid 189 rows from three tools for
   weeks. Grep the tools for `in text` refusals before trusting any "refused" count.
+
+### Checked, in proportion, and left over
+
+- **In proportion:** 148 pins is 1.2 % of the live sites and 12 rows 0.7 % of the pinned rows. What
+  carries is the method: a generator built from a census cluster's MECHANISM (t16) transferred to
+  36 rows, where ten of eleven lane-harvested generators had closed zero; and the pattern question
+  has a measured answer at two granularities instead of an opinion.
+- **Port arms:** 20 rows landed today carry a NON_MATCHING arm. In 13 an edited line names an
+  identifier the port arm also uses - every one a pin erasure (a no-op in the port build) or a
+  fence around a macro call; neither `narrow` retype in those rows touches a port-arm identifier.
+  The byte gate proves the matching arm and the landing guard proves the port arm still compiles;
+  neither proves the meaning of a declaration both arms share, so a retype of a port-shared
+  variable should be checked by hand.
+- **Phantom pins:** the 21 port-arm pins are no longer counted but are still in the text. Erasing
+  them is pure cleanup, but the landing guard (rightly) refuses edits to port arms, so it needs a
+  one-off script.
+- **Lane pack ready:** `pin_lane.py` now sees the unlocked near-band rows; a pack over what t15 left
+  is one command for the next agy launch (recipe in the section below).
+- **Tables regenerate:** `python3 tools/pin_patterns.py --history > docs/PIN_PATTERNS_DATA.md`
+  (coverage, signatures, rename kinds, linkage, and every landed pin removal replayed from git).
+- **Trap fixed: rebuilding the gate root broke the scorer.** `mk_ovl_root.sh` symlinked
+  `build_ovl/work/g3/overlay_func_compare.py`; that module finds `match.py` as
+  `Path(__file__).resolve().parents[2]/tools`, which through the symlink is the repo root, so after
+  a rebuild every `verify.py` run returned `HARNESS-ERROR ... tools/match.py`. The window gate does
+  not use that path (it passed 51/51 throughout), and nothing landed through the broken scorer.
+  The standing root had kept a real-file copy since 09-07 and was not rebuilt until today; the
+  experiment roots (`build_ovl_pins/_lac/_passthru`) had the symlink. The script now copies a real
+  file, and the three experiment roots were repaired in place.
 
 ## Earlier the same day (2026-09-11, ~05:00 UTC)
 
