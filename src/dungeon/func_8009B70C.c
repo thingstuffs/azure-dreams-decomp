@@ -219,9 +219,7 @@ L_BB24: {
     base_page = 0x800E0000;
     ASM_KEEP_NV(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     x_offsets = (u16 *)(base_page - 0x3154);
-    do {
-        tail = (s16)(((masked >> 25) - 4) & 7);
-    } while (0);
+    tail = (s16)(((masked >> 25) - 4) & 7);
     bit_next = &bitmap[tail];
     *bit_next = 1;
     idx = (tail + 1) & 7;
@@ -251,9 +249,7 @@ L_BB24: {
             zero += masked;
             zero &= 0xFFFF;
             ASM_USE(zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            masked = 0x800E0000;
-            ASM_KEEP_NV(masked);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            masked -= 0x3144;
+            masked = (s32)&D_800DCEBC;
             bitmap_idx += masked;
             call_a2 = (s16)(call_a2 - 0x20);
             masked = p3[0x25];

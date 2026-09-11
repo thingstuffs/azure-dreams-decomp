@@ -58,9 +58,7 @@ void *func_800262BC(void *context) {
         } else {
             SD_Call(0x503);
 #ifndef NON_MATCHING
-            next_state = (u8 *)0x80020000;
-            ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            next_state += 0x65B8;
+            next_state = (u8 *)&D_800265B8;
 #else
             result = D_800265B8;
 #endif

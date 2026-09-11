@@ -42,9 +42,7 @@ void func_8009AE88(Entity *input_entity, s32 unused_1, s32 unused_2) {
 #ifdef NON_MATCHING
         state_or_handler = (s32)D_8009B0EC;
 #else
-        state_or_handler = (s32)0x800A0000;
-        ASM_KEEP(state_or_handler);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        state_or_handler += -0x4F14;
+        state_or_handler = (s32)&D_8009B0EC;
 #endif
     } else {
         register void *tail_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

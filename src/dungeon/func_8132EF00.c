@@ -73,7 +73,6 @@ void func_80165F00(S_80165F00_0 *source)
     s32 y_jitter;
     s32 x_jitter;
     s32 scale;
-    s32 resource_page;
     S_80165F00_1 *source_pos;
     S_80165F00_3 *sprite;
     void *effect;
@@ -89,9 +88,7 @@ void func_80165F00(S_80165F00_0 *source)
             base_x + x_jitter;
         y_jitter = rand() & 0x3F;
         source_pos = source->unk_08;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        resource_page = (s32)0x80040000;
-        ASM_KEEP(resource_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         base_y = source_pos->unk_06 - 0x1A0;
         ((S_80165F00_5 *)((*(void **)((u8 *)effect + 8))))->unk_06 =
             base_y + y_jitter;
@@ -102,7 +99,7 @@ void func_80165F00(S_80165F00_0 *source)
         effect_transform->unk_10 = 0;
         effect_transform->unk_0C = 0;
         ((S_80165F00_5 *)((*(void **)((u8 *)effect + 8))))->unk_14 = 0x200000;
-        func_8004491C(effect, (void *)(resource_page + 0x5C34));
+        func_8004491C(effect, (void *)((s32)&D_80045C34));
         sprite = (*(void **)((u8 *)effect + 0xC));
         sprite->unk_14 =
             (u16)(sprite->unk_14 & 0xFFF3);
