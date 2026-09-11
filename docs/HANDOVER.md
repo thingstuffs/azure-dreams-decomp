@@ -172,7 +172,10 @@ SHA-1 gate MATCH (15 SLUS rows touched).
 - **Over every fenced row** (503 rows / 692 scored fences): 122 rows, 151 fences + 21 pins off,
   nothing added, net −172. **123 of the 151 fences were dead** — exact with the fence simply taken
   off; 109 of those sit in rows no t15/t18 fence ever touched: agent lanes wrote them and nothing
-  re-tested a fence the way t2 re-tests pins.
+  re-tested a fence the way t2 re-tests pins. **Owner review point:** 7 rows traded a fence for t15's
+  `dup_after_if` (a statement written into both if-arms) — honest per the census, but arguably not
+  more natural C; list them with `grep dup_after_if ledger/sweeps/t20_fencefree.jsonl` and put the
+  fence back by hand where the duplicate reads worse.
 - **The shapes on the pinned rows with no fence** (585 rows where a shape deletes a pin, + 10 fenced
   rows re-run after a `_declare` fix): 83 rows, 121 pins off — `dropcopy` 67, `basesym` 29 (the
   base-page shape is a family: `p = (u8 *)0x80020000; ASM_KEEP(p); p += 0x61C0;` → `p = (u8
@@ -268,14 +271,14 @@ rows: **345 pins out, 221 fences in — net −124**; 3 rows now carry neither; 
 
 ### Start here, in order
 
-1. **Build the fence study's six natural shapes as generators** and run them over every fenced
+1. **[Done — see the late section above.]** **Build the fence study's six natural shapes as generators** and run them over every fenced
    row BEFORE any new fence: drop a copy and use its source; the store / `|=` / `&=` in both
    if-arms instead of a join temp (extend `dup_after_if`); `return` in a loop → `break` + return
    after it; a pointer walk → an array-indexed `for`; the post-increment folded into its use; a
    goto loop whose increment m2c duplicated into each arm → a real `do { } while` with the
    increment once (`town/func_800B6514`). The nine `t20_fencefree` rows are their test cases. Then
    put them ahead of the fence family in t15/t18's menu and resume t18.
-2. **A generator for the base-page shape** agy found twice: a pointer built as a page literal plus
+2. **[Generator done — `basesym`, 29 rows, late section; agy batches 4–6 still unrun.]** **A generator for the base-page shape** agy found twice: a pointer built as a page literal plus
    an offset (`p = (void *)0x80010000; p += 0x601C;`, or `base + 0x7618` through a cast) becomes
    the symbol at the sum (`&D_8001601C`), declared if missing; try it with the neighbouring pins
    and fences erased too, as the lane did. Then agy batches 4–6. **Land only from a fresh dir:**
