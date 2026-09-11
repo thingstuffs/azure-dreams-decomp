@@ -43,6 +43,7 @@ extern void func_800256AC(void) __attribute__((noreturn));
 extern void func_80024FC4() __attribute__((noreturn));
 extern void func_80025228() __attribute__((noreturn));
 extern void func_8002555C() __attribute__((noreturn));
+extern u8 D_800248B8;
 
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
 void func_81941338(void *effect, void *effect_pos, void *effect_data)
@@ -363,9 +364,7 @@ emit_flash:
     ASM_KEEP_NV(init_data);
     F(particle, s16, 0x4A) = 6;
     ASM_SCHED_BARRIER();
-    bits = (u32)0x80020000;
-    ASM_KEEP_NV(bits);
-    bits += 0x48B8;
+    bits = (u32)&D_800248B8;
     F(particle, void *, 0x10) = (void *)bits;
     func_8004491C(init_object, init_data);
     bits = 0x20;

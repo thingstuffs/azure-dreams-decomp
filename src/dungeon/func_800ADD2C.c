@@ -342,7 +342,6 @@ bump_state_9b:
         break;
     }
     case 10: {
-        u32 end_page;
         s32 *end_base;
         s32 end_mask;
         s32 end_timer_state;
@@ -363,9 +362,7 @@ jt_10:
                 func_80048A44(case10_arg2, D_800DD0A0[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             }
             func_80099F04(((Rec_D_800E3D7C *)actor)->unk_5C);
-            end_page = 0x80080000;
-            ASM_KEEP(end_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            end_base = (s32 *)(end_page + 0x3460);
+            end_base = (s32 *)((u32)&D_80083460);
             end_mask = -8;
             ((S_800B348C_6 *)end_base)->unk_02 = (u16) (((S_800B348C_6 *)end_base)->unk_02 | 0x412);
             end_timer_state = 0x800E0000;

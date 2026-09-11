@@ -316,13 +316,8 @@ shrink_sprite:
                 ((void **)model_table)[D_80176498[model_direction]];
         }
         {
-            void *sprite_arg;
             s32 model_data;
 
-            do {
-                sprite_arg = sprite;
-            } while (0);
-            ASM_KEEP(sprite_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_80172FC0_4 *)sprite)->unk_00 = selected_model;
             model_data = ((S_80172FC0_6 *)selected_model)->unk_04;
             {
@@ -332,7 +327,7 @@ shrink_sprite:
                 offset[1] = 0;
                 offset[0] = 0;
                 if (func_8003DE58(
-                        ((S_80172FC0_4 *)sprite)->unk_08, sprite_arg, offset, 0) != 0) {
+                        ((S_80172FC0_4 *)sprite)->unk_08, sprite, offset, 0) != 0) {
                     u16 height_offset;
 
                     ((S_80172FC0_5 *)transform)->unk_02 += offset[0];

@@ -1038,10 +1038,13 @@ def top_name(ml, t0):
 
 # ------------------------------------------------------------------------------ 7. basesym
 
-# the cast is optional: an integer local takes the page uncast (town/func_8080C324, agy batch 6:
-# `s32 offset_addr; offset_addr = 0x80530000; ... offset_addr += 0x6D6;` -> `(s32)&D_805306D6`)
+# the pointer cast is optional: an integer local takes the page uncast (town/func_8080C324, agy
+# batch 6: `offset_addr = 0x80530000; ... offset_addr += 0x6D6;` -> `(s32)&D_805306D6`) or through an
+# integer cast (dungeon/func_8132A730, agy pack 2: `resource_addr = (s32)0x80170000; ... += 0x1D90;`
+# -> `(s32)D_80171D90`); both are byte arithmetic on an integer local
 PAGE_RE = re.compile(r"^(?P<i>[ \t]*)(?P<decl>(?:(?:const|volatile|register|unsigned|signed)[ \t]+)*%s(?:[ \t]*\*+[ \t]*|[ \t]+))?(?P<v>%s)[ \t]*=[ \t]*"
-                     r"(?:\((?P<t>[^()]*\*)[ \t]*\)[ \t]*)?0x(?P<a>8[0-9A-Fa-f]{7})[ \t]*;[ \t]*$" % (ID, ID))
+                     r"(?:\((?P<t>[^()]*\*)[ \t]*\)[ \t]*|\((?P<ic>(?:signed[ \t]+|unsigned[ \t]+)?(?:s32|u32|int|long|unsigned|unsigned[ \t]+long|M2C_UNK))[ \t]*\)[ \t]*)?"
+                     r"0x(?P<a>8[0-9A-Fa-f]{7})[ \t]*;[ \t]*$" % (ID, ID))
 LIT_RE = re.compile(r"\((?P<t>[^()]*\*)[ \t]*\)[ \t]*0x(?P<a>8[0-9A-Fa-f]{7})(?:[ \t]*\+[ \t]*(?P<k>%s)(?![ \t]*[*/%%\w(\[]))?" % NUM)
 _HEADER_SYMS = None
 

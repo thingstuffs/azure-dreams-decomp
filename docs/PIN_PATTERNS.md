@@ -344,7 +344,12 @@ shape on an integer local (`offset_addr = 0x80530000; … offset_addr += 0x6D6;`
 `(s32)&D_805306D6`). The last widened `basesym` (uncast literal, integer local, byte arithmetic):
 from that row's pre-agy text all four of its page sites close, two more than the lane took.
 Across the pack: 11 of 48 rows. The widened `basesym` over the 128 pinned rows it now reaches:
-8 rows, 9 pins off, nothing added.
+8 rows, 9 pins off, nothing added. agy pack 2's one gated row (`dungeon/func_8132A730`) spelled the
+same page through an integer cast (`resource_addr = (s32)0x80170000; … += 0x1D90;`); `basesym` takes
+that too now — from the row's pre-agy text it closes the lane's site and a second one — and over the
+161 pinned rows it then reached: 9 rows, 9 pins and 2 fences off, nothing added. Three agy wins,
+three widenings, 46 rows in all: the base-page shape is the family this campaign's lanes kept
+finding.
 
 **What it says.** Section 9's "natural shapes perhaps a third" does not carry to the corpus with
 these generators: at fences they took 28 of 692 (4 %); dead fences were 18 %; 78 % of the fences

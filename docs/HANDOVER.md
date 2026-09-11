@@ -231,7 +231,9 @@ the SLUS SHA-1 gate MATCH after each phase.
   **batch 1's yield is 0 of 8.** Batches 2–3: each lane claimed 1 of 8; one was refused by the
   harvest (a raw asm body), one landed and gated MATCH — `dungeon/func_8132A730`, the base-page
   shape through an integer cast (`resource_addr = (s32)0x80170000; … += 0x1D90;` →
-  `(s32)D_80171D90`), which widened `basesym` again. Pack 2 so far: 1 of 24. Gate every agy landing before committing it, and expect this on any
+  `(s32)D_80171D90`), which widened `basesym` again (integer cast on the literal): 9 more rows, 9
+  pins and 2 fences off. Pack 2 so far: 1 of 24 — against 11 of 48 for pack 1, whose rows had not yet
+  been through the natural shapes. Measure a few more batches before spending real capacity on it. Gate every agy landing before committing it, and expect this on any
   row with no `true_name` whose pins sit on a noreturn/label-as-call jump — those pins are fidelity,
   not shape.
 - **A fence is re-testable debt, like a pin**: 18 % of the fenced rows' fences were dead.

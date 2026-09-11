@@ -48,6 +48,7 @@ extern void func_8002569C(void);
 extern void func_800257E0(void);
 extern void *D_80024098[];
 extern u8 D_8006CCD8;
+extern u8 D_8006CCE8;
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -226,10 +227,8 @@ await_launch:
         table_value = (void **)((u32)table_value + (u32)offset_value);
         U8(effect, 0xA4) = (u32)table_value;
 
-        table_value = (void **)0x80070000;
-        ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         offset_value = (void *)(s32)S16(effect, 0x7E);
-        table_value = (void **)((u8 *)table_value - 0x3318);
+        table_value = (void **)&D_8006CCE8;
         offset_value = (void *)((s32)offset_value * 2);
         offset_value = (u8 *)offset_value + (u32)table_value;
         table_value = (void **)(u32)U8(owner_sprite, 0x25);
