@@ -62,9 +62,7 @@ void func_80123A60(void *object_data) {
     }
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     grid_category = object->unk_0F;
-    ASM_KEEP(grid_category);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     loop_image_base = (u8 *)D_80126E98;
-    ASM_KEEP(loop_image_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     image_id = grid_category * 0x10;
     image_entry = (ImageEntry *)(((((grid_category << 5) + image_id) << 2)) +
                             (u32)loop_image_base);

@@ -34,7 +34,7 @@ void func_80057948(s32 first_key, s32 second_key) {
     s32 record_mask;
     s32 record_index;
     s32 second_byte;
-    register s32 combined_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 combined_mask;
     s32 first_byte;
 
     record_index = 0;
@@ -62,6 +62,8 @@ void func_80057948(s32 first_key, s32 second_key) {
         } while (++record_index < ACTIVE_COUNT);
     }
     if (combined_mask != 0) {
-        func_8005E97C(0, combined_mask);
+        do {
+            func_8005E97C(0, combined_mask);
+        } while (0);
     }
 }

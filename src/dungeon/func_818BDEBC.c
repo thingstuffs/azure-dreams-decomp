@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct Motion {
     s32 x;
@@ -75,9 +76,9 @@ extern void func_80024024(void *, u8, void *);
 #define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)D_8006CCE8)
 #else
 #define LOAD_TABLE_X_BASE(v) \
-    do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0)
+    do { (v) = 0x80070000;  (v) -= 0x3328; } while (0)
 #define LOAD_TABLE_Y_BASE(v) \
-    do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0)
+    do { (v) = 0x80070000;  (v) -= 0x3318; } while (0)
 #endif
 
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */
@@ -181,29 +182,22 @@ case_0:
 
         motion_x = S16_AT(motion, 2);
         x_distance = S16_AT(target_motion, 2) - motion_x;
-        if (x_distance < 0) {
-            x_distance = -x_distance;
-        }
+        x_distance = abs(x_distance);
         work.probe_delta[0] = x_distance;
 
         {
             s32 y_delta = S16_AT(target_motion, 6);
-            register s32 motion_y ASM_REG("$3") = S16_AT(motion, 6);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            s32 motion_y = S16_AT(motion, 6);
+               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             color_part = (u8 *)&work.destination + 2;
-            ASM_KEEP(color_part);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             y_delta -= motion_y;
-            if (y_delta < 0) {
-                y_delta = -y_delta;
-            }
+            y_delta = abs(y_delta);
             work.probe_delta[1] = y_delta;
         }
 
         z_distance = S16_AT(target_motion, 0xA) -
                 D_800DDC40[U8_AT(state->target, 0x13)] - S16_AT(motion, 0xA);
-        if (z_distance < 0) {
-            z_distance = -z_distance;
-        }
+        z_distance = abs(z_distance);
         work.probe_delta[2] = z_distance;
 
         state->duration = x_distance;
@@ -321,25 +315,23 @@ case_0:
         s32 motion_coord;
 
         motion_coord = S16_AT(motion, 2);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         next_x = (s32)next_x >> 16;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         dest_x -= motion_coord;
-        if (dest_x < 0) dest_x = -dest_x;
+        dest_x = abs(dest_x);
         work.probe_delta[0] = dest_x;
 
         motion_coord = S16_AT(motion, 6);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         next_y = (u32)next_y << 16;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         next_x -= motion_coord;
-        if (next_x < 0) next_x = -next_x;
+        next_x = abs(next_x);
         work.probe_delta[1] = next_x;
 
         motion_coord = S16_AT(motion, 0xA);
         next_y = (s32)next_y >> 16;
         next_y -= motion_coord;
-        if (next_y < 0) next_y = -next_y;
+        next_y = abs(next_y);
         work.probe_delta[2] = next_y;
     }
 

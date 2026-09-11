@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 #ifndef NULL
 #define NULL 0
@@ -425,14 +426,11 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                 ((S_80020DF0_2 *)motion)->unk_08.at00.v = 0x200000;
             }
             {
-                register s32 center_dist ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 center_dist;
 
                 center_dist = ((S_80020DF0_2 *)motion)->unk_00;
                 center_dist = center_dist - 0x03A00000;
-                if (center_dist < 0) {
-                    center_dist = -center_dist;
-                }
-                ASM_KEEP(center_dist);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                center_dist = abs(center_dist);
                 if (center_dist <= 0x80000 && ((S_80020DF0_0 *)object)->unk_6C.u < 0) {
                     ((S_80020DF0_1 *)actor)->unk_2A |= 2;
                     ((S_80020DF0_2 *)motion)->unk_14 = 0;

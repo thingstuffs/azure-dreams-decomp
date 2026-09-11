@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef s32 M2C_UNK;
 typedef void (*Callback)();
@@ -112,7 +113,7 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     s32 height_gap;
     u16 global_flags;
     u16 *flag_word;
-    register s32 height_delta ASM_REG("$2");
+    s32 height_delta;
     s32 height_fixed;
     s32 divisor_magic;
     s32 height_step;
@@ -210,25 +211,17 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
         ASM_KEEP_NV(height_bits);
         if (target_height > height) {
             height_gap = target_height - height;
-            if (height_gap < 0) {
-                height_gap = -height_gap;
-            }
+            height_gap = abs(height_gap);
             divisor_magic = 0x66660000;
             if (height_gap >= 0x65) {
                 next_height = height_bits + 8;
                 ((S_8017112C_4 *)motion)->unk_08.at02.v = next_height;
             } else {
-                ASM_KEEP_NV(divisor_magic);
                 height_delta = ((S_8017112C_4 *)motion)->unk_14.at00.v;
                 height_fixed = ((S_8017112C_4 *)motion)->unk_08.at00.v;
-                ASM_SCHED_BARRIER();
                 divisor_magic |= 0x6667;
-                ASM_KEEP_NV(divisor_magic);
                 height_delta -= height_fixed;
-                if (height_delta < 0) {
-                    height_delta = -height_delta;
-                }
-                ASM_KEEP_NV(height_delta);
+                height_delta = abs(height_delta);
                 product.value = (long long)height_delta * divisor_magic;
                 height_step = (product.word.high >> 2) - (height_delta >> 31);
                 height_fixed += height_step;

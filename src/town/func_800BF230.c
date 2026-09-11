@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 #define F_S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define F_U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -31,14 +32,14 @@ void func_800BC990(void *actor, void *motion, void *sprite, s32 update_context) 
     s16 *y_steps;
     register s16 *step_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s16 *step_x;
-    register s16 *probe_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 *probe_x;
     s32 state;
     u16 timer;
     s32 choice;
     s32 direction_index;
-    register s32 step_offset ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 step_offset;
     register s32 distance ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 delta_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 delta_x;
     s32 delta_y;
     s32 walk_ticks;
 
@@ -131,13 +132,10 @@ random_direction:
     direction_index = rand() & 3;
     step_offset = direction_index * 4;
     probe_x = (s16 *)(step_offset + (s32)x_steps);
-    ASM_KEEP(probe_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     distance = F_S16(actor, 0xA2);
     delta_x = *probe_x;
     distance += delta_x;
-    if (distance < 0) {
-        distance = -distance;
-    }
+    distance = abs(distance);
     choice = direction_index * 2;
     if (distance >= 2) {
         goto random_direction;
@@ -145,9 +143,7 @@ random_direction:
     distance = F_S16(actor, 0xA0);
     delta_y = *(s16 *)(step_offset + (s32)y_steps);
     distance += delta_y;
-    if (distance < 0) {
-        distance = -distance;
-    }
+    distance = abs(distance);
     if (distance >= 2) {
         goto random_direction;
     }

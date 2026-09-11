@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct TownObj {
     s32 unk0;
@@ -26,7 +27,7 @@ void func_80095A94(TownObj *obj, s32 base_value, TownVec **vec_ptr)
     s32 y;
     s32 divisor;
     s32 abs_x;
-    register s32 abs_y ASM_REG("$2");
+    s32 abs_y;
     s32 adjustment;
     s32 clamp_value;
 
@@ -51,9 +52,7 @@ calculate:
     y = vec->y;
     abs_x = (x < 0) ? -x : x;
     abs_y = y;
-    if (y < 0) {
-        abs_y = -abs_y;
-    }
+    abs_y = abs(abs_y);
     if (abs_y < abs_x) {
         adjustment = (((-obj->valueC) << 8) / divisor) * x;
     } else {

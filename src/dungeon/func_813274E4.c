@@ -111,10 +111,8 @@ void func_8016ECE4(void) {
     ASM_KEEP_NV(mode_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     one = 1;
     ASM_KEEP_DEP_NV(one, source);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     mode = mode_page;
     mode = *(u8 *)(mode + 0x3611);
-    ASM_KEEP_NV(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     source_pos = ((S_8016ECE4_0 *)source)->unk_08;
     source_state = source + 0x20;
     if (((mode & 3) == one) && !(func_80069EF8(source) & 1)) {

@@ -25,7 +25,7 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
     u8 *texture;
     s32 column;
     s32 row;
-    register u8 *scratch ASM_REG("$21") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *scratch = (u8 *)0x1F800000;
     u8 *page;
     u8 *initial_page;
     u32 page_dependency;
@@ -81,7 +81,6 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
     func_80064BC0((u8 *)((u32)scratch | 0x54), (u8 *)((u32)scratch | 0x34));
     func_80064D80((u8 *)((u32)scratch | 0x54));
     func_80064CF0((u8 *)((u32)scratch | 0x54));
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     texture = *(u8 **)((u8 *)material + 8);
     *(u16 *)(scratch + 0x28) = *(u16 *)((u8 *)material + 0x14);
     for (;;) {

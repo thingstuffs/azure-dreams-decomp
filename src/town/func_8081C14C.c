@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 #define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -110,10 +111,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
             break;
         }
         y_distance = D_80083784 - position[1];
-        if (y_distance < 0) {
-            y_distance = -y_distance;
-        }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        y_distance = abs(y_distance);
         if (y_distance > 0x200000 || next_x > 0x43FFFFF || (U16(state, 0x10) & 4)) {
             break;
         }

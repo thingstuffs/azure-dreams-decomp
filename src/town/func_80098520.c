@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+extern int abs(int);
 
 typedef struct S_80095C80_0 {
     u8 pad_00[0xC];
@@ -315,10 +316,7 @@ check_neg_x_pos_y_corner:
                             axis_test = 0 - axis_test;
                         }
                         axis_test &= 0x3F;
-                        ASM_KEEP_NV(axis_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        if (y_offset < 0) {
-                            y_offset = -y_offset;
-                        }
+                        y_offset = abs(y_offset);
                         y_offset &= 0x3F;
                         if (axis_test < y_offset) {
                             goto apply_y;

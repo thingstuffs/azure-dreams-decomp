@@ -8,6 +8,7 @@ extern void func_800A2B04(void *, u8, u8);
 
 extern s16 D_80083228;
 extern u8 D_80174A7C[];
+extern u8 D_80170000[];
 
 
 typedef struct S_801740F8_0 {
@@ -45,7 +46,6 @@ void func_801740F8(void *actor, void *transform, void *animation, void *motion)
     s32 timer;
     s16 next_timer;
     s32 state;
-    register u8 *anim_page ASM_REG("$2");
     u8 *anim_table;
 
     state = ((S_801740F8_0 *)actor)->unk_9B;
@@ -53,7 +53,6 @@ void func_801740F8(void *actor, void *transform, void *animation, void *motion)
         goto update_offset;
     }
     if (state < 2) {
-        anim_page = (u8 *)0x80170000;
         if (state == 0) {
             goto init_animation;
         }
@@ -71,7 +70,7 @@ void func_801740F8(void *actor, void *transform, void *animation, void *motion)
     }
 
 init_animation:
-    anim_table = anim_page + 0x4A7C;
+    anim_table = D_80170000 + 0x4A7C;
     if (((S_801740F8_1 *)animation)->unk_2C != anim_table) {
         (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;
         func_80047784(

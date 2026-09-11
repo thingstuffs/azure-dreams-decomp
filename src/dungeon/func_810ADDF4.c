@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800814A8.h"
+extern int abs(int);
 
 typedef struct S_801715F4_0 {
     u8 pad_00[0x2];
@@ -307,9 +308,7 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
 
         dx = ((S_801715F4_2 *)position)->unk_24.at00.v;
         dx -= (target_x_wide = (u16)target_x);
-        if (dx < 0) {
-            dx = -dx;
-        }
+        dx = abs(dx);
         if (dx >= 2) {
             goto call_path_held;
         }
@@ -317,12 +316,9 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
             s32 current_y;
 
             current_y = ((S_801715F4_2 *)position)->unk_24.at01.v;
-            ASM_KEEP(current_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dy = current_y - (u16)target_y;
         }
-        if (dy < 0) {
-            dy = -dy;
-        }
+        dy = abs(dy);
         if (dy < 2) {
             goto random_angle;
         }
@@ -339,9 +335,7 @@ call_path_held:
     }
     dx = ((S_801715F4_2 *)position)->unk_24.at00.v;
     dx -= (target_x_wide = (u16)target_x);
-    if (dx < 0) {
-        dx = -dx;
-    }
+    dx = abs(dx);
     if (dx >= 2) {
         goto call_path_direct;
     }
@@ -349,12 +343,9 @@ call_path_held:
         s32 current_y;
 
         current_y = ((S_801715F4_2 *)position)->unk_24.at01.v;
-        ASM_KEEP(current_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         dy = current_y - (u16)target_y;
     }
-    if (dy < 0) {
-        dy = -dy;
-    }
+    dy = abs(dy);
     if (dy < 2) {
         goto random_angle;
     }

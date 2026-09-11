@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct {
     s16 x;
@@ -97,10 +98,7 @@ middle_range:
         }
 
         abs_dx = dx;
-        if (abs_dx < 0) {
-            ASM_KEEP(abs_dx);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            abs_dx = -abs_dx;
-        }
+        abs_dx = abs(abs_dx);
         abs_dy = dy;
         if (abs_dy < 0) {
             ASM_KEEP(abs_dy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 #define HI16(v) (((s16 *)&(v))[1])
 #define HI16U(v) (((u16 *)&(v))[1])
@@ -319,15 +320,9 @@ set_destination:
     index_or_x = HI16(target_pos.x) - motion->unk_00.h.unk_02;
     offset_y = HI16(target_pos.y) - motion->unk_04.h.unk_06;
     distance = index_or_x;
-    if (index_or_x < 0) {
-        ASM_KEEP_NV(distance);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        distance = -distance;
-    }
+    distance = abs(distance);
     abs_dy = offset_y;
-    if (offset_y < 0) {
-        ASM_KEEP_NV(abs_dy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        abs_dy = -abs_dy;
-    }
+    abs_dy = abs(abs_dy);
     if (distance < abs_dy) {
         distance = abs_dy;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 
@@ -33,11 +34,11 @@ void func_800A08A0(s32 spawn_mode) {
     s32 spawn_level;
     register u8 raw_variant ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 attempt;
-    register s32 distance ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 distance;
     u8 *reference_object;
     s32 fixed_entry_offset;
     s32 spawn_height;
-    register s32 dx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 dx;
     register s32 dy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 tile_x;
     u8 tile_y;
@@ -74,14 +75,9 @@ void func_800A08A0(s32 spawn_mode) {
                 dx -= x_value;
             }
             dy = reference_object[0x25];
-            if (dx < 0) {
-                dx = -dx;
-            }
+            dx = abs(dx);
             dy -= tile_y_value;
-            if (dy < 0) {
-                dy = -dy;
-            }
-            ASM_USE_NV(dy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            dy = abs(dy);
             distance = dx + dy;
         }
         if ((s16)distance < 0x21) {

@@ -21,9 +21,7 @@ void func_80019BC0(void)
 
     ASM_KEEP(page);
     index = *(s32 *)(*(u8 **)D_80016000 + 0x14);
-    ASM_KEEP(index);
     offset = index * 0x1C;
-    ASM_KEEP(offset);
     func_8001ACE8(*(s16 *)(offset + *(s32 *)(page - 0x3C90) + 0x18));
 #else
     s32 index = *(s32 *)(*(u8 **)D_80016000 + 0x14);

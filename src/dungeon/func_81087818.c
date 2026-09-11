@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct Vec3Work {
     s32 x;
@@ -185,9 +186,7 @@ state0:
         }
         delta[0] = distance_x;
         distance_y = motion->unk_2C.half.unk_2E - base_y;
-        if (distance_y < 0) {
-            distance_y = -distance_y;
-        }
+        distance_y = abs(distance_y);
         delta[1] = distance_y;
         motion->unk_04.s = delta[0];
         if (motion->unk_04.s < (s16)delta[1]) {
@@ -209,7 +208,7 @@ state0:
         s32 axis = 1;
         s32 distance_x;
         s32 distance_y;
-        register s32 distance_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 distance_z;
         u8 *delta_scan;
         s32 origin_x;
         s32 origin_y;
@@ -230,24 +229,16 @@ state0:
         origin_x = ((S_81087818_4 *)&base)->unk_02.s;
         origin_y = ((S_81087818_4 *)&base)->unk_06.s;
         distance_x -= origin_x;
-        if (distance_x < 0) {
-            distance_x = -distance_x;
-        }
+        distance_x = abs(distance_x);
         delta[0] = distance_x;
         distance_y = motion->unk_2C.half.unk_2E - origin_y;
-        if (distance_y < 0) {
-            distance_y = -distance_y;
-        }
+        distance_y = abs(distance_y);
         delta[1] = distance_y;
         distance_z = motion->unk_30.half.unk_32.s;
         origin_z = ((S_81087818_4 *)&base)->unk_0A.s;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         delta_scan = (u8 *)&base + 2;
-        ASM_KEEP_NV(distance_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         distance_z -= origin_z;
-        if (distance_z < 0) {
-            distance_z = -distance_z;
-        }
+        distance_z = abs(distance_z);
         delta[2] = distance_z;
 
         motion->unk_04.s = delta[0];

@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 
 extern void *D_80024008[];
@@ -415,7 +416,7 @@ case_0_finish_coords:
 case_1:
     {
 #ifdef __mips__
-        register s32 velocity ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 velocity;
 #else
         s32 velocity;
 #endif
@@ -428,10 +429,7 @@ case_1:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         adjusted += adjusted >> 4;
         magnitude = adjusted;
-        if (adjusted < 0) {
-            ASM_KEEP_NV(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            magnitude = -magnitude;
-        }
+        magnitude = abs(magnitude);
         ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v = adjusted;
         if (magnitude > 0x200000) {
             s32 limit = -0x200000;
@@ -443,7 +441,7 @@ case_1:
     }
     {
 #ifdef __mips__
-        register s32 velocity ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 velocity;
 #else
         s32 velocity;
 #endif
@@ -456,10 +454,7 @@ case_1:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         adjusted += adjusted >> 4;
         magnitude = adjusted;
-        if (adjusted < 0) {
-            ASM_KEEP_NV(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            magnitude = -magnitude;
-        }
+        magnitude = abs(magnitude);
         ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v = adjusted;
         if (magnitude > 0x200000) {
             s32 limit = -0x200000;

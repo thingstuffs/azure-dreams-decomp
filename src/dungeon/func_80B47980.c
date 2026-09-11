@@ -54,7 +54,7 @@ extern u8 D_801749EC[];
 /* Creates and initializes an effect at an offset from the supplied position. */
 void func_80175180(void *source_arg, void *spawn_pos_arg)
 {
-    register void *source ASM_REG("$17") = source_arg;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    void *source = source_arg;
     register void *spawn_pos ASM_REG("$18") = spawn_pos_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 render_flags;
     void *effect;
@@ -63,7 +63,6 @@ void func_80175180(void *source_arg, void *spawn_pos_arg)
     u8 *state;
 
     effect = func_8003FC64(0x12);
-    ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(spawn_pos);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     state = (u8 *)effect + 0x20;
     if (effect != 0) {

@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
@@ -65,7 +66,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   s16 x;
   s16 y;
   s32 height_delta;
-  register s32 actor_height ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  s32 actor_height;
   s32 score;
   s32 x_steps_base;
   s32 flags;
@@ -86,10 +87,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   actor_entity = *((Entity **) (((u8 *) self) - 0x14));
   actor_height = actor->coord88;
   height_delta = actor_height - target->coord88;
-  if (height_delta < 0)
-  {
-    height_delta = -height_delta;
-  }
+  height_delta = abs(height_delta);
   if (height_delta >= 0x40)
   {
     return -1;

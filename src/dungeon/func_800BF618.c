@@ -34,7 +34,7 @@ typedef struct S_800C4D78_1 {
 void func_800C4D78(s32 payload, s32 trigger_event) {
     S_800C4D78_0 *object;
     u8 *counter_base;
-    register s32 held_payload ASM_REG("$17") = payload;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 held_payload = payload;
     register s32 held_event ASM_REG("$16") = trigger_event;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     object = func_8003FD64(0x200, &D_80083498);
@@ -48,7 +48,6 @@ void func_800C4D78(s32 payload, s32 trigger_event) {
         counter_base = (u8 *)&D_80083460;
         ((S_800C4D78_1 *)counter_base)->unk_0A =
             (u16)(((S_800C4D78_1 *)counter_base)->unk_0A + 1);
-        ASM_KEEP(held_payload);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_event);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
 }

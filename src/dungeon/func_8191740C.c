@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80024600_arg1.h"
+extern int abs(int);
 
 
 extern void func_80024A34();
@@ -77,14 +78,9 @@ moving:
         s32 distance;
 
         distance = current_x - target_x;
-        if (distance < 0) {
-            distance = -distance;
-        }
-        ASM_KEEP(distance);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        distance = abs(distance);
         next_distance = next_x - target_x;
-        if (next_distance < 0) {
-            next_distance = -next_distance;
-        }
+        next_distance = abs(next_distance);
         if (next_distance < distance) {
             goto done;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 #ifndef NULL
 #define NULL 0
 #endif
@@ -618,9 +619,7 @@ Lcase44:
     }
     {
         s32 height_delta = (s16)func_800A0134(creature, D_800E3D7C[0]);
-        if (height_delta < 0) {
-            height_delta = -height_delta;
-        }
+        height_delta = abs(height_delta);
         if (height_delta >= 0x21) {
             goto wander;
         }
@@ -694,9 +693,7 @@ Lcase41:
         target = *(u8 **)(((u8 *)D_800E3D7C[0] + scan_index * 4) + 0xAC);
         if (target != NULL) {
             s32 height_delta = (s16)func_800A0134(creature, target);
-            if (height_delta < 0) {
-                height_delta = -height_delta;
-            }
+            height_delta = abs(height_delta);
             if (height_delta < 0x21) {
                 if ((func_800A41F0(target) << 16) != 0) {
                     target_pos = *(void **)(target - 0x14);
@@ -881,10 +878,7 @@ Lcase36:
         shifted_x_delta = x_delta << 16;
         delta_or_result = position[0x25] - target_y;
         y_distance = delta_or_result;
-        if (delta_or_result < 0) {
-            ASM_SET(y_distance);
-            y_distance = -y_distance;
-        }
+        y_distance = abs(y_distance);
         tile_y = y_distance;
         x_delta = shifted_x_delta < (y_distance << 16);
         if (x_delta) {
@@ -1004,9 +998,7 @@ Lcase27:
         target = *(u8 **)(((u8 *)D_800E3D7C[0] + scan_index * 4) + 0xAC);
         if (target != NULL) {
             s32 height_delta = (s16)func_800A0134(creature, target);
-            if (height_delta < 0) {
-                height_delta = -height_delta;
-            }
+            height_delta = abs(height_delta);
             if (height_delta < 0x21) {
                 if ((func_800A41F0(target) << 16) != 0) {
                     if ((func_80042900(target, 0xC) << 16) == 0) {

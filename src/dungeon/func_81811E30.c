@@ -11,13 +11,15 @@ extern u8 D_800157D2;
 /* Count matching entry values, stopping at a zero value or 64 entries. */
 s32 func_80026E30(s32 target_value) {
     s32 index;
-    register s32 count ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 count;
     u8 *entry;
     u8 value;
 
     count = 0;
-    COPY_REGISTER(index, count);
-    entry = &D_800157D2;
+    do {
+        COPY_REGISTER(index, count);
+        entry = &D_800157D2;
+    } while (0);
 loop:
     value = *entry;
     if (value != 0) {

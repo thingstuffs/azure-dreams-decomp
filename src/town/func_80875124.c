@@ -15,5 +15,5 @@ void func_80875124(void) {
 }
 
 /* MECHANISM: The seed already had retail's 24-byte frame, sole $ra save, and two-call CFG.
-   A portable guarded hard-$zero ({                                                                       register s32 zero ASM_REG("$0");                                     zero | (3);                                                      }) prevents li/addiu folding and emits retail's
+   A portable guarded hard-$zero ({                                                                       s32 zero;                                     zero | (3);                                                      }) prevents li/addiu folding and emits retail's
    ori $a0,$zero,3 in the first jal delay slot; every other word stays unchanged. */

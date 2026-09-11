@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct {
     s32 unk0[3];
@@ -18,20 +19,20 @@ void func_80094DA8(TownObject *object) {
     s32 y_direction;
     s32 component_x;
     s32 limit_x;
-    register s32 limit_abs_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 limit_abs_x;
     s32 current_abs_x;
     s32 current_x;
     s32 step_x;
     register s32 clamp_work_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 clamp_abs_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 clamp_abs_x;
     s32 component_y;
     s32 limit_y;
-    register s32 limit_abs_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 limit_abs_y;
     s32 current_abs_y;
     s32 current_y;
     s32 step_y;
     s32 clamp_work_y;
-    register s32 clamp_abs_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 clamp_abs_y;
 
     state = D_80083160;
     direction = func_80094BC8(*(s32 *)(state + 8), *(s16 *)(state + 0xC8));
@@ -40,12 +41,8 @@ void func_80094DA8(TownObject *object) {
         current_abs_x = object->x;
         limit_x = component_x << 7;
         limit_abs_x = limit_x;
-        if (limit_x < 0) {
-            limit_abs_x = -limit_abs_x;
-        }
-        if (current_abs_x < 0) {
-            current_abs_x = -current_abs_x;
-        }
+        limit_abs_x = abs(limit_abs_x);
+        current_abs_x = abs(current_abs_x);
 #ifdef __mips__
         if (!(limit_abs_x < current_abs_x)) {
             clamp_work_x = (u32)(u16)direction << 16;
@@ -63,12 +60,8 @@ void func_80094DA8(TownObject *object) {
             }
             clamp_work_x = object->x;
             clamp_abs_x = limit_x;
-            if (limit_x < 0) {
-                clamp_abs_x = -clamp_abs_x;
-            }
-            if (clamp_work_x < 0) {
-                clamp_work_x = -clamp_work_x;
-            }
+            clamp_abs_x = abs(clamp_abs_x);
+            clamp_work_x = abs(clamp_work_x);
             clamp_work_x = clamp_work_x < clamp_abs_x;
 #ifdef __mips__
             __asm__ __volatile__(".set\tnoreorder\n\t.set\tnomacro");
@@ -97,12 +90,8 @@ x_done:
         current_abs_y = object->y;
         limit_y = component_y << 7;
         limit_abs_y = limit_y;
-        if (limit_y < 0) {
-            limit_abs_y = -limit_abs_y;
-        }
-        if (current_abs_y < 0) {
-            current_abs_y = -current_abs_y;
-        }
+        limit_abs_y = abs(limit_abs_y);
+        current_abs_y = abs(current_abs_y);
         if (limit_abs_y < current_abs_y) {
             component_y = func_80064584(y_direction);
             current_y = object->y;
@@ -113,12 +102,8 @@ x_done:
             }
             clamp_work_y = object->y;
             clamp_abs_y = limit_y;
-            if (limit_y < 0) {
-                clamp_abs_y = -clamp_abs_y;
-            }
-            if (clamp_work_y < 0) {
-                clamp_work_y = -clamp_work_y;
-            }
+            clamp_abs_y = abs(clamp_abs_y);
+            clamp_work_y = abs(clamp_work_y);
             clamp_work_y = clamp_work_y < clamp_abs_y;
             if (clamp_work_y) {
                 object->y = limit_y;

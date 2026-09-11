@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 #ifndef NULL
 #define NULL 0
@@ -145,7 +146,7 @@ state_done:
         ASM_TAILSLOT_PIN_TIED(upper_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8052E1B8();
     } else {
-        register s32 target_const ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 target_const;
         s32 retreat_x;
         register s32 retreat_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 delta_x;
@@ -156,16 +157,12 @@ state_done:
         retreat_y = S16_AT(arg0, 0x10);
         delta_x = target_const - retreat_x;
         retreat_x += delta_x >> 1;
-        ASM_KEEP(retreat_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         target_const -= retreat_y;
         target_const >>= 1;
         retreat_y += target_const;
         S16_AT(arg0, 0x10) = retreat_y;
         motion_value = (s16)retreat_y + 0x60;
-        if (motion_value < 0) {
-            motion_value = -motion_value;
-        }
-        ASM_KEEP(motion_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        motion_value = abs(motion_value);
         S16_AT(arg0, 8) = retreat_x;
         if (motion_value < 2) {
             flag_value = U16_AT(arg0, 0x24) | 1;
