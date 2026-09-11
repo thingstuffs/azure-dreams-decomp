@@ -102,7 +102,7 @@ s32 func_80023258(S_80023258_0 *state)
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *offset_slot ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 old_offset;
-    u8 next_offset;
+    s32 next_offset;
     u8 offset;
     u8 *node_cursor;
     u8 *offset_cursor;
@@ -142,7 +142,6 @@ loop:
     } else {
         next_offset = old_offset;
         if (next_offset != 0) {
-            ASM_KEEP_NV(next_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             next_offset--;
         }
     }

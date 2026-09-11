@@ -43,10 +43,8 @@ void func_8077DC0C(void) {
         func_80016464();
     }
     ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    dispatch_value = (void *)0x80010000;
-    ASM_KEEP(dispatch_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     dispatch_base = state->unk_1C;
-    dispatch_value = (u8 *)dispatch_value + 0x601C;
+    dispatch_value = &D_8001601C;
     dispatch_base->unk_40 = dispatch_value;
     event = 0x7E;
     *temp_a2 = (*temp_a2 + 1) & 1;

@@ -102,6 +102,26 @@ def asm_blocker(text):
 
 
 _LINT = None
+_PIN_STMT_RE = re.compile(r"\bASM_[A-Z0-9_]+\s*\([^;]*\)\s*;")
+_DW0_OPEN_RE = re.compile(r"\bdo\s*\{")
+_DW0_CLOSE_RE = re.compile(r"\}\s*while\s*\(\s*0\s*\)\s*;")
+
+
+def _arm_view(text, want):
+    """The code lines carrying one of the labels in `want`, directives and comments dropped."""
+    lines = text.splitlines()
+    labs = arm_labels(text) if HAS_PP_RE.search(text) else ["both"] * len(lines)
+    keep = [ln for ln, lab in zip(lines, labs) if lab in want and not PP_RE.match(ln)]
+    return CMT_RE.sub(" ", "\n".join(keep))
+
+
+def port_view(text):
+    """What the -DNON_MATCHING port build compiles, for comparison only: whitespace squeezed, the
+    no-op ASM_* statements and the `do { ... } while (0)` barrier wrappers dropped - neither
+    means anything to the port build."""
+    s = _PIN_STMT_RE.sub(" ", _arm_view(text, ("port", "both")))
+    s = _DW0_CLOSE_RE.sub(" ", _DW0_OPEN_RE.sub(" ", s))
+    return " ".join(s.split())
 
 
 def landing_refusal(new, cur, relpath):
@@ -110,10 +130,18 @@ def landing_refusal(new, cur, relpath):
     Byte equality proves only the code the matching build compiles.  So a candidate is refused
     when it edits code no byte gate compiles (`unscored_text`), or when the -DNON_MATCHING port
     build's front end rejects it (tools/gate/portability_lint.py, 16 ms, self-grandfathering: a
-    row whose landed text already fails does not block its own candidate)."""
+    row whose landed text already fails does not block its own candidate).
+
+    One exception, an ARM COLLAPSE: a candidate that drops an `#ifdef NON_MATCHING` split because
+    one spelling turned out byte-exact for the matching build (town/func_8050E100, 2026-09-11: the
+    port arm's `D_80017618 = func_80017560;` was retail's source all along).  Its port arm text
+    changes, but what the port build compiles does not - so it lands when `port_view` is identical
+    (barriers and no-op pins aside) and no `#if 0` text changed; the matching side is proven by the
+    byte gate, the port side by that identity plus the port front end below."""
     global _LINT
     if unscored_text(new) != unscored_text(cur):
-        return "edits a NON_MATCHING/#if 0 arm that no byte gate compiles"
+        if port_view(new) != port_view(cur) or _arm_view(new, ("dead",)).split() != _arm_view(cur, ("dead",)).split():
+            return "edits a NON_MATCHING/#if 0 arm that no byte gate compiles"
     if _LINT is None:
         import importlib.util
         spec = importlib.util.spec_from_file_location("portability_lint", ROOT / "tools/gate/portability_lint.py")
