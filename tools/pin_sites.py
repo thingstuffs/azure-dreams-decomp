@@ -4,6 +4,7 @@
     python3 tools/pin_sites.py --sites   [--workers 10] [--only ids|file] [--skip file]
     python3 tools/pin_sites.py --subsets [--max-pins 5] [--workers 10] [--only ...] [--skip ...]
                                          [--land-dir DIR]
+    python3 tools/pin_sites.py --subsets --min-pins 6 --max-pins 10 --max-k 2     # pairs only
 
 Why this exists.  `ledger/pins.jsonl` (tools/pin_census.py) measured one pin at a time against the
 text frozen at the pin: 22,505 sites, half of them since removed, every body since rewritten by the
@@ -295,6 +296,110 @@ def erase_many(text, chosen, clean_notes=False):
     return cur
 
 
+# ----------------------------------------------------------------------------------- groups
+
+def _tranges(rec):
+    """The retail word ranges a single erasure moved (pins_site.jsonl's compact regions)."""
+    return [tuple(r["t"]) for r in rec.get("regions") or [] if isinstance(r, dict)]
+
+
+def _touch(ra, rb, slack=1):
+    """Do two sets of retail word ranges meet (within `slack` words)?  Empty = unknown = yes."""
+    if not ra or not rb:
+        return True
+    return any(a0 <= b1 + slack and b0 <= a1 + slack for a0, a1 in ra for b0, b1 in rb)
+
+
+def linked(a, b, j, ra=(), rb=()):
+    """Do two pins hold the SAME instructions?  a, b: each pin's cost erased alone; j: both erased.
+
+    `shared = a + b - j` is roughly how many residue words the two have in common.  The pair is
+    one unit when the smaller pin's damage is (almost) all shared - not merely when the joint
+    cost is below the sum, which in a ten-pin row with 40 % overlapping pairs chains every pin
+    into one group, i.e. the strip again - and when their retail word ranges actually meet.
+    A pair that costs LESS than either alone always is one unit."""
+    if a is None or b is None or j is None:
+        return False
+    if j < min(a, b):
+        return True
+    shared = a + b - j
+    return shared >= max(1, min(a, b) - 1) and _touch(ra, rb)
+
+
+_LINK = None
+
+
+def linkage_index():
+    """{(row id, in_sha): (singles {site: (total, tranges, line)}, pairs {(i, j): total})} from
+    the two ledgers.  Built into a local and rebound once: sweep workers are threads."""
+    global _LINK
+    if _LINK is None:
+        built = collections.defaultdict(lambda: ({}, {}))
+        for r in read_jsonl(SITES_OUT):
+            if r.get("status") == "ok":
+                built[(r["id"], r["in_sha"])][0][r["site"]] = (r.get("total"), _tranges(r), r.get("line"))
+        for r in read_jsonl(SUBSETS_OUT):
+            if len(r["s"]) == 2 and r.get("status") == "ok":
+                built[(r["id"], r["in_sha"])][1][tuple(r["s"])] = r.get("total")
+        _LINK = dict(built)
+    return _LINK
+
+
+def pin_groups(row_id, sha, n):
+    """The row's pins grouped by what they hold, at the text with this sha, as
+    [{"sites": [i, ...], "cost": estimated joint damage, "pairs": measured pairs inside}].
+
+    Union-find over `linked` pairs.  A group's cost is its largest measured pair (or its single
+    cost): an ESTIMATE for groups of three or more, whose joint cost nobody measured - the search
+    that uses a group measures it with its first verify.  None when the ledgers have nothing for
+    this text (a row that changed since pin_sites last ran)."""
+    singles, pairs = linkage_index().get((row_id, sha), ({}, {}))
+    if len(singles) < n:
+        return None
+    parent = list(range(n))
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+    for (i, k), j in pairs.items():
+        if i < n and k < n and linked(singles[i][0], singles[k][0], j, singles[i][1], singles[k][1]):
+            parent[find(i)] = find(k)
+    comp = collections.defaultdict(list)
+    for i in range(n):
+        comp[find(i)].append(i)
+    out = []
+    for members in comp.values():
+        inner = [t for (i, k), t in pairs.items() if i in members and k in members and t is not None]
+        cost = max(inner) if inner else singles[members[0]][0]
+        out.append({"sites": sorted(members), "cost": cost, "pairs": len(inner)})
+    return sorted(out, key=lambda g: (g["cost"] is None, g["cost"] or 0, -len(g["sites"])))
+
+
+def run_groups(a):
+    """The group-size histogram over every row the ledgers cover at its current text."""
+    hist, rows_n, costs = collections.Counter(), 0, collections.Counter()
+    for row, text, sites in targets(a):
+        g = pin_groups(row["id"], sha_text(text), len(sites))
+        if g is None or len(sites) < 2:
+            continue
+        pair_data = any(x["pairs"] for x in g) or len(sites) == 1
+        rows_n += 1
+        for x in g:
+            hist[(len(sites) if len(sites) <= 10 else 11, min(len(x["sites"]), 6))] += 1
+            if len(x["sites"]) > 1:
+                c = x["cost"]
+                costs["<= 2" if c is not None and c <= 2 else "3-5" if c is not None and c <= 5 else
+                      "6-12" if c is not None and c <= 12 else "13+"] += 1
+    print(f"{rows_n} rows with groups at their current text")
+    for n in sorted({k[0] for k in hist}):
+        cells = {s: hist[(n, s)] for s in range(1, 7)}
+        print(f"  {('%d pins' % n) if n <= 10 else '11+ pins':>9}: " +
+              "  ".join(f"size{s if s < 6 else '6+'}={cells[s]}" for s in range(1, 7)))
+    print("multi-pin groups by estimated joint cost:", dict(costs))
+
+
 # ------------------------------------------------------------------------------------ driver
 
 def scored_mask(text):
@@ -378,11 +483,11 @@ def run_subsets(a):
     jobs, per_row = [], {}
     for row, text, sites in targets(a):
         n = len(sites)
-        if n < 2 or n > a.max_pins:
+        if n < max(2, a.min_pins) or n > a.max_pins:
             continue
         sh = sha_text(text)
         per_row[row["id"]] = (row, text, sites, sh)
-        for k in range(2, n + 1):
+        for k in range(2, min(n, a.max_k or n) + 1):
             for sub in itertools.combinations(range(n), k):
                 if (row["id"], sh, sub) not in done:
                     jobs.append((row, text, sites, sub, sh))
@@ -435,7 +540,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sites", action="store_true")
     ap.add_argument("--subsets", action="store_true")
+    ap.add_argument("--groups", action="store_true", help="print the pin-group histogram")
     ap.add_argument("--max-pins", type=int, default=5)
+    ap.add_argument("--min-pins", type=int, default=2)
+    ap.add_argument("--max-k", type=int, help="largest subset to erase (2 = pairs only: the linkage "
+                    "of a row with too many pins for every subset)")
     ap.add_argument("--workers", type=int, default=10)
     ap.add_argument("--only")
     ap.add_argument("--skip")
@@ -445,6 +554,8 @@ def main():
         run_sites(a)
     if a.subsets:
         run_subsets(a)
+    if a.groups:
+        run_groups(a)
 
 
 if __name__ == "__main__":

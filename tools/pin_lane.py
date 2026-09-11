@@ -327,6 +327,11 @@ def main():
         base = strip_pins(text)
         (d / "base" / row["container"]).mkdir(parents=True, exist_ok=True)
         (d / "base" / row["container"] / Path(row["c_path"]).name).write_text(base)
+        # the text this pack was cut from, next to where the lane's candidate will land:
+        # apply_candidates refuses a candidate whose row has changed since (a lane that runs for
+        # days would otherwise silently revert every landing made in the meantime)
+        (d / "out" / row["container"]).mkdir(parents=True, exist_ok=True)
+        (d / "out" / row["container"] / (Path(row["c_path"]).name + ".base_sha")).write_text(sha_text(text) + "\n")
         with tempfile.TemporaryDirectory() as td:
             f = Path(td) / Path(row["c_path"]).name
             f.write_text(base)

@@ -138,7 +138,7 @@ def idiom_search(text, find, spell_one, spell_all, verify_fn, budget=BUDGET):
     if n > 1:
         its = find(cur)
         new = spell_all(cur, its)
-        on = [s for s in sites_of(new) if names_var(s, {it["d"] for it in its})]
+        on = [s for s in sites_of(new) if names_var(s, set().union(*(it.get("vars") or {it["d"]} for it in its)))]
         if on and attempt(erase_many(new, on, clean_notes=True)):
             cur = erase_many(new, on, clean_notes=True)
             steps.append("all+unpin")
@@ -149,7 +149,7 @@ def idiom_search(text, find, spell_one, spell_all, verify_fn, budget=BUDGET):
             continue
         it, done = found[idx], False
         for label, new in spell_one(cur, it):
-            on = [s for s in sites_of(new) if names_var(s, {it["d"]})]
+            on = [s for s in sites_of(new) if names_var(s, it.get("vars") or {it["d"]})]
             for cand, tag in ((erase_many(new, on, clean_notes=True), "+unpin") if on else (None, ""), (new, "")):
                 if cand is None or tried >= budget:
                     continue
