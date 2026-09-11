@@ -275,6 +275,16 @@ GROUP_PREAMBLE = """> **GROUP MODE.**  Each row's `base/` erases ONE GROUP of it
 > nearest the group first, fences included) already failed on every group here - the residue it
 > reached is in `rows.tsv` column `machine_best`.
 >
+> **What the machine already tried, so you need not** (t18's menu leads with these since
+> 2026-09-11, `tools/xform/natural.py` + t15): drop a copy and use its source; the store / `|=` /
+> `&=` written in both if-arms instead of a join temp; `return` inside a loop -> `break` + return
+> after it; a pointer walk -> the array indexed by the loop counter; `p += 1` folded into its use
+> (`(p++)->f`); m2c's goto loop as a real `do { } while` with the increment once; a literal page
+> plus an offset -> the symbol at the sum (`(u8 *)0x80010000 + 0x601C` -> `&D_8001601C`); a
+> statement written into both arms; a counted do/while as a `for`; a value-preserving narrowing.
+> Every group here survived all of them - look for the shape none of these is, and name it in
+> your report so it can become the next generator.
+>
 > **No fences in this pack.**  A candidate that adds a `do { ... } while (0)` - the zero-byte
 > scheduling barrier listed below as a recipe - is NOT a result here: `census.py` counts each fence
 > like a pin, and the fences are under study.  If a fence is the only thing that closes a row, say
@@ -288,6 +298,7 @@ def main_groups(a):
     the row's unchanged text, cheapest measured residue first."""
     from pin_sites import erase_many
     only_rows = set(Path(a.only_rows).read_text().split()) if a.only_rows else None
+    exclude = set(Path(a.exclude_rows).read_text().split()) if a.exclude_rows else set()
     skip = set(filter(None, a.skip_class.split(",")))
     by = {r["id"]: r for r in rows()}
     latest = {}
@@ -298,7 +309,7 @@ def main_groups(a):
         row = by.get(rid)
         if row is None or j.get("outcome") != "noop" or not j.get("groups"):
             continue
-        if only_rows is not None and rid not in only_rows:
+        if (only_rows is not None and rid not in only_rows) or rid in exclude:
             continue
         p = clean_path(row)
         if not p.exists():
@@ -391,6 +402,7 @@ def main():
     ap.add_argument("--out", default="work/pin_lane")
     ap.add_argument("--only-class")
     ap.add_argument("--only-rows", help="path to a file of row ids, one per line")
+    ap.add_argument("--exclude-rows", help="--groups: path to a file of row ids an earlier pack already served")
     ap.add_argument("--budget", type=int, default=12)
     ap.add_argument("--workers", type=int, default=8)
     a = ap.parse_args()

@@ -1038,8 +1038,10 @@ def top_name(ml, t0):
 
 # ------------------------------------------------------------------------------ 7. basesym
 
-PAGE_RE = re.compile(r"^(?P<i>[ \t]*)(?P<decl>(?:(?:const|volatile|register)[ \t]+)*%s[ \t]*\*+[ \t]*)?(?P<v>%s)[ \t]*=[ \t]*"
-                     r"\((?P<t>[^()]*\*)[ \t]*\)[ \t]*0x(?P<a>8[0-9A-Fa-f]{7})[ \t]*;[ \t]*$" % (ID, ID))
+# the cast is optional: an integer local takes the page uncast (town/func_8080C324, agy batch 6:
+# `s32 offset_addr; offset_addr = 0x80530000; ... offset_addr += 0x6D6;` -> `(s32)&D_805306D6`)
+PAGE_RE = re.compile(r"^(?P<i>[ \t]*)(?P<decl>(?:(?:const|volatile|register|unsigned|signed)[ \t]+)*%s(?:[ \t]*\*+[ \t]*|[ \t]+))?(?P<v>%s)[ \t]*=[ \t]*"
+                     r"(?:\((?P<t>[^()]*\*)[ \t]*\)[ \t]*)?0x(?P<a>8[0-9A-Fa-f]{7})[ \t]*;[ \t]*$" % (ID, ID))
 LIT_RE = re.compile(r"\((?P<t>[^()]*\*)[ \t]*\)[ \t]*0x(?P<a>8[0-9A-Fa-f]{7})(?:[ \t]*\+[ \t]*(?P<k>%s)(?![ \t]*[*/%%\w(\[]))?" % NUM)
 _HEADER_SYMS = None
 
@@ -1061,6 +1063,11 @@ def _pointee(ty):
         return 4
     base = ty.rstrip("* \t").split()
     return SIZE.get(base[-1]) if base else None
+
+
+def _scale(ty):
+    """Bytes one unit of `v + K` adds: the pointee for a pointer, 1 for an integer."""
+    return _pointee(ty) if "*" in ty else 1
 
 
 def _sym(text, addr):
@@ -1097,6 +1104,8 @@ def basesym_candidates(text):
         v, page = pm.group("v"), int(pm.group("a"), 16)
         vk, vty, _ = _decl(t.m, a, b, v) if not pm.group("decl") else (i, pm.group("decl").strip(), None)
         vty = vty or pm.group("t")
+        if not vty or (not pm.group("t") and "*" in vty):
+            continue                  # an uncast literal only ever fills an integer local
         rv = _occ(v)
         body = "\n".join(t.m[a:b + 1])
         # (a) v = page; [pins on v]; v = (T *)v + K;  ->  v = &D_<page + K>;
@@ -1116,7 +1125,7 @@ def basesym_candidates(text):
             m2 = re.match(r"^(?P<i>[ \t]*)%s[ \t]*(?P<op>[-+])=[ \t]*(?P<k>-?[ \t]*%s)[ \t]*;[ \t]*$" % (re.escape(v), NUM), s)
             m = m1 or m2
             if m:
-                scale = _pointee(m.group("c2")) if m1 and m.group("c2") else _pointee(vty)
+                scale = _pointee(m.group("c2")) if m1 and m.group("c2") else _scale(vty)
                 kval = int(re.sub(r"\s+", "", m.group("k")), 0) * (1 if m.group("op") == "+" else -1)
                 if scale and 0x80000000 <= page + kval * scale < 0x81000000:
                     name = _sym(text, page + kval * scale)
@@ -1151,7 +1160,7 @@ def basesym_candidates(text):
                 lead = (before[:cm.start()] if cm else before).rstrip()
                 if km and (not lead or lead[-1] in "(=,{;"):
                     cast = cm.group("c").strip() if cm else vty
-                    scale = _pointee(cast)
+                    scale = _pointee(cast) if cm else _scale(vty)
                     if not scale:
                         dynamic = True
                         continue
@@ -1159,7 +1168,7 @@ def basesym_candidates(text):
                     names.append(name)
                     rep = "(%s)&%s" % (cast, name)
                     ln = ln[:cm.start() if cm else s0] + rep + ln[e0 + km.end():]
-                elif im and not re.match(r"[ \t]*\[[^\]]*\][ \t]*(?:\+\+|--)", after):
+                elif im and "*" in vty and not re.match(r"[ \t]*\[[^\]]*\][ \t]*(?:\+\+|--)", after):
                     scale = _pointee(vty)
                     if not scale:
                         dynamic = True
