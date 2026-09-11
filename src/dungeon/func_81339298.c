@@ -47,7 +47,7 @@ void func_80170298(void)
         (*(void * *)((u8 *)object + 0x10)) = D_801701CC;
         func_8004491C(object, D_80044BB0);
 
-        do { axis_state = (*(void * *)((u8 *)object + 8)); } while (0);
+        axis_state = (*(void * *)((u8 *)object + 8));
         axis_state->unk_0A = 0;
         axis_state->unk_06 = 0;
         axis_state->unk_02 = 0;

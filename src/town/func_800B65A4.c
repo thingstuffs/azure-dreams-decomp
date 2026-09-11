@@ -20,6 +20,6 @@ extern Raw16 D_80089298;
 void func_800B3D04(Arg0 *entry_table, s32 entry_index) {
     Raw16 values;
 
-    do { values = D_80089298; } while (0);
+    values = D_80089298;
     entry_table->entries[entry_index]->dst[0] = ((s32 *)values.bytes)[entry_index - 2];
 }

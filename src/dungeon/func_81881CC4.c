@@ -54,10 +54,8 @@ s32 func_800254C4(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_m
 
     node = func_8003FC64(0x202);
     if (node != 0) {
-        s16 saved_mode = mode;
         s32 mode_test;
 
-        ASM_KEEP(saved_mode);
         ((S_800254C4_0 *)node)->unk_10 = D_800250E8;
         func_8004491C(node, D_800252E0);
         mode_test = mode << 0x10;
@@ -71,9 +69,7 @@ s32 func_800254C4(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_m
                     (u16)((((S_800254C4_2 *)source)->unk_02 + (rand() & 0x1F)) - 0x10);
                 payload->unk_06 =
                     (u16)((((S_800254C4_2 *)source)->unk_06 + (rand() & 0x1F)) - 0x10);
-                do {
-                    value_0a = ((S_800254C4_2 *)source)->unk_0A - 0x50;
-                } while (0);
+                value_0a = ((S_800254C4_2 *)source)->unk_0A - 0x50;
             } else {
                 payload->unk_02 = ((S_800254C4_2 *)source)->unk_02;
                 payload->unk_06 = ((S_800254C4_2 *)source)->unk_06;
@@ -87,7 +83,7 @@ s32 func_800254C4(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_m
 
             fields->unk_1A = field_1a;
             fields->unk_1C = field_1c;
-            fields->unk_26 = saved_mode;
+            fields->unk_26 = mode;
         }
     }
 }

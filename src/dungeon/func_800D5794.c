@@ -111,7 +111,7 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
             work = (u8 *)object + 0x20;
 
             offset_roll_a = func_80069EF8();
-            do {
+            {
                 const s32 offset_roll_b = func_80069EF8();
                 register s32 roll_remainder ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 s32 biased_roll;
@@ -130,9 +130,9 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
                 }
                 offset_sum = (biased_roll >> 6) << 6;
                 offset_sum = roll_remainder + (offset_roll_b - offset_sum) - 64;
-                ASM_USE_NV(offset_roll_b);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 ((S_800DAEF4_1 *)part)->unk_02 = ((S_800DAEF4_2 *)params)->unk_02 + offset_sum / 2;
-            } while (0);
+            }
 
             spread_roll_a = func_80069EF8();
             spread_roll_b = func_80069EF8();

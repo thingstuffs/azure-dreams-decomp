@@ -48,9 +48,7 @@ restart:
             tile_y = tile_row << 8;
             addr_mask += tile_col;
             addr_mask -= tile_col;
-            do {
-                page_x = 0x280;
-            } while (0);
+            page_x = 0x280;
             addr_mask += page_x;
             addr_mask -= page_x;
             do {

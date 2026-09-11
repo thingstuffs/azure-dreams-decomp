@@ -134,7 +134,6 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
     s32 turn_size;
     s32 motion_flags;
     u16 elapsed_time;
-    u16 sprite_flags;
     S_800C035C_3 *controls;
     S_800C035C_4 *progress;
     S_800C035C_2 *course;
@@ -372,14 +371,11 @@ update_sprite:
         ((S_800C035C_0 *)actor)->unk_12 = (s16) sprite_dir;
     }
     if (((u8 *)&D_8006CCF8)[sprite_dir] != 0) {
-        sprite_flags = sprite->unk_14.at00_u16.v | 1;
+        sprite->unk_14.at00_u16.v |= 1;
     } else {
-        sprite_flags = sprite->unk_14.at00_u16.v & 0xFFFE;
+        sprite->unk_14.at00_u16.v &= 0xFFFE;
     }
-    sprite->unk_14.at00_u16.v = sprite_flags;
-    do {
-        func_80048AC8(sprite, 0);
-    } while (0);
+    func_80048AC8(sprite, 0);
     func_800A48B0(&D_80100D98, motion);
     ((Rec_D_80100D98 *)(&D_80100D98))->unk_08 = 0;
 }

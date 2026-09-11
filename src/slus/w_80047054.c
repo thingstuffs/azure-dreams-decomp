@@ -71,10 +71,10 @@ void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
                         part += 0xC;
                     } while (!x_or_end_flag);
                 }
-            }
-            do {
                 entries_end = ((S_80047054_0 *)header)->unk_08;
-            } while (0);
+            } else {
+                entries_end = ((S_80047054_0 *)header)->unk_08;
+            }
             entry_addr += 8;
             entry += 8;
         } while (entry_addr < entries_end);

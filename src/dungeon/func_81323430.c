@@ -49,7 +49,7 @@ void func_8016AC30(void) {
         (*(void * *)((u8 *)object + 0x10)) = D_8016A9FC;
         func_8004491C(object, D_80044BB0);
 
-        do { position = (*(void * *)((u8 *)object + 8)); } while (0);
+        position = (*(void * *)((u8 *)object + 8));
         position->unk_0A = 0;
         position->unk_06 = 0;
         position->unk_02 = 0;

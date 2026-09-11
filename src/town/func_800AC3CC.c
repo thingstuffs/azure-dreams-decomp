@@ -26,9 +26,7 @@ s32 func_800A9B2C(s32 group_id, void *record) {
                 if (func_80033B2C(0x12CB) != 0) {
                     u8 *special_result;
 
-                    special_result = (u8 *)0x80070000;
-                    ASM_KEEP(special_result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    special_result -= 0x4386;
+                    special_result = (u8 *)&D_8006BC7A;
                     return (s32)special_result;
                 }
                 return 0;

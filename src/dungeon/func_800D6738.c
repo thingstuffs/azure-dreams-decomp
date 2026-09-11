@@ -11,6 +11,6 @@ extern void func_800673A0(void *arg0, s32 arg1, s32 arg2);
 void func_800DBE98(void) {
     Copy8 copy;
 
-    do { copy = *(Copy8 *)D_80089490; } while (0);
+    copy = *(Copy8 *)D_80089490;
     func_800673A0(&copy, 0x1C2, 0x19C);
 }

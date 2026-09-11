@@ -64,9 +64,7 @@ void func_801740F8(void *actor, void *transform, void *animation, void *motion)
         if (state == 3) {
             goto restore_animation;
         }
-        do {
-            return;
-        } while (0);
+        return;
     }
 
 init_animation:

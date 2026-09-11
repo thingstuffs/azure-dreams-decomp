@@ -10,7 +10,7 @@ void func_8009CD18(s32 slot_id, void *object, s32 object_id)
     u8 *state;
 
     *(s16 *)((u8 *)object + 0x20) = 0x1000;
-    do { *(s16 *)((u8 *)object + 0x1E) = 0x1000; } while (0);
+    *(s16 *)((u8 *)object + 0x1E) = 0x1000;
     *(s16 *)((u8 *)object + 0x1C) = 0x1000;
     *(s16 *)((u8 *)object + 0x12) = 0;
     *(s16 *)((u8 *)object + 0x14) = 0;

@@ -14,8 +14,6 @@ void func_800A9358(s32 shape, s32 source)
     register volatile s32 segment ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *count_base;
     s32 angle_sum;
-    s32 saved_source;
-    s32 saved_shape;
     u32 *call_scratch;
     register s32 angle ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 call_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -40,19 +38,15 @@ void func_800A9358(s32 shape, s32 source)
     u32 saved_middle_xy;
     u32 saved_outer_xy;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    saved_shape = shape;
-    ASM_KEEP_NV(saved_shape);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    saved_source = source;
-    ASM_KEEP_NV(saved_source);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     angle_sum = 0;
-    ASM_KEEP_NV(angle_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     count_index = func_800B28A0();
     call_scratch = (u32 *)0x1F800000;
     ASM_KEEP_NV(call_scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     angle = 0;
     ASM_KEEP_NV(angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    call_source = saved_source;
-    call_shape = saved_shape;
+    call_source = source;
+    call_shape = shape;
     segment_counts = D_800D0E48;
     ASM_KEEP_NV(segment_counts);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     segment_count = segment_counts[count_index];
@@ -89,7 +83,7 @@ void func_800A9358(s32 shape, s32 source)
             angle_sum = angle;
             ASM_KEEP_NV(angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_800A8CA8((void *)scratch, (s16)angle,
-                          saved_source, saved_shape);
+                          source, shape);
             if (scratch[0xC4 / 4] < 0x1E0U) {
                 func_800A8EE8((void *)scratch);
             }
@@ -111,7 +105,7 @@ void func_800A9358(s32 shape, s32 source)
     angle = 0x1000;
     func_800A8CA8((void *)scratch,
                   (s16)(angle_sum + (angle / D_80100E30)),
-                  saved_source, saved_shape);
+                  source, shape);
     closing_depth = scratch[0xC4 / 4];
     ASM_KEEP_NV(closing_depth);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     closing_color = saved_color[-1];

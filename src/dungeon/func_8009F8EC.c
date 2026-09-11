@@ -330,9 +330,7 @@ spawn_copy:
     flags_result = ((S_800A504C_4 *)spawned)->unk_10.at00.v;
     global_page = (u8 *)0x80080000;
     ((S_800A504C_4 *)spawned)->unk_10.at00.v = flags_result | update_flags;
-    do {
-        update_flags = ((S_800A504C_1_pre *)entity)[-1].unk_12;
-    } while (0);
+    update_flags = ((S_800A504C_1_pre *)entity)[-1].unk_12;
     mode_page = (u8 *)0x800E0000;
     ((S_800A504C_1_pre *)entity)[-1].unk_12 = update_flags | 0x8000;
     update_flags = ((S_800A504C_6 *)global_page)->unk_14A0;

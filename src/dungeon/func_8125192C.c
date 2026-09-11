@@ -91,10 +91,9 @@ typedef struct S_8017112C_5 {
 /* Updates actor behavior, movement, facing, and height. */
 void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
 {
-    void *entity = entity_arg;
     void *motion = motion_arg;
     void *monster = monster_arg;
-    void *actor = entity;
+    void *actor = entity_arg;
     register s16 state_direction ASM_REG("$17");
     register u8 raw_state ASM_REG("$2");
     register void *call_entity ASM_REG("$4");
@@ -147,16 +146,16 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     }
 
     if (D_80083462 & 0x2000) {
-        callback = (*(Callback *)((u8 *)entity + (0x8C)));
+        callback = (*(Callback *)((u8 *)entity_arg + (0x8C)));
         if (callback == (Callback)&D_80171514) {
-            callback(entity, motion, monster, actor);
+            callback(entity_arg, motion, monster, actor);
             return;
         }
         ((S_8017112C_0 *)actor)->unk_71 &= 0x7F;
         return;
     }
 
-    call_entity = entity;
+    call_entity = entity_arg;
     call_motion = motion;
     call_monster = monster;
     raw_state = ((S_8017112C_0 *)actor)->unk_6D.v;
@@ -165,17 +164,17 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
         return;
     }
 
-    active_callback = (*(Callback *)((u8 *)entity + (0x8C)));
+    active_callback = (*(Callback *)((u8 *)entity_arg + (0x8C)));
     if (active_callback != 0) {
-        active_callback(entity, motion, monster, actor);
+        active_callback(entity_arg, motion, monster, actor);
     }
-    D_80173EF4[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, monster, actor);
+    D_80173EF4[(*(u8 *)((u8 *)entity_arg + (0x9A)))](entity_arg, motion, monster, actor);
 
     saved_state = (s32)state_direction << 16;
     current_state = ((S_8017112C_0 *)actor)->unk_6D.n2;
     saved_state >>= 16;
     if (saved_state != current_state) {
-        func_800AA36C(entity, motion, monster, actor);
+        func_800AA36C(entity_arg, motion, monster, actor);
     }
 
     ((S_8017112C_4 *)motion)->unk_00 += ((S_8017112C_4 *)motion)->unk_0C;
@@ -183,11 +182,11 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
 
     view_angle = D_80083228 + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
     state_direction = (view_angle >> 9) & 7;
-    if ((*(s16 *)((u8 *)entity + (0x94))) != state_direction) {
+    if ((*(s16 *)((u8 *)entity_arg + (0x94))) != state_direction) {
         func_80047738(monster,
                      *((u8 *)((S_8017112C_5 *)monster)->unk_2C + state_direction),
                      ((S_8017112C_5 *)monster)->unk_04);
-        (*(s16 *)((u8 *)entity + (0x94))) = state_direction;
+        (*(s16 *)((u8 *)entity_arg + (0x94))) = state_direction;
     }
 
     ((S_8017112C_5 *)monster)->unk_14 &= 0xFFFE;
@@ -202,7 +201,7 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
         ((S_8017112C_0 *)actor)->unk_1C &= 0xFFFBFFFF;
     }
 
-    if ((*(s16 *)((u8 *)entity + (0xB8))) == 1) {
+    if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 1) {
         target_height = ((S_8017112C_4 *)motion)->unk_14.at02.v;
         ASM_KEEP_NV(target_height);
         height = ((S_8017112C_4 *)motion)->unk_08.at02.v;
@@ -230,7 +229,7 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
         }
     }
 
-    if ((*(s16 *)((u8 *)entity + (0xB8))) == 2 && ((S_8017112C_4 *)motion)->unk_08.at02.v >= -0x3EF) {
+    if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 2 && ((S_8017112C_4 *)motion)->unk_08.at02.v >= -0x3EF) {
         ((S_8017112C_4 *)motion)->unk_08.at02.v = ((S_8017112C_4 *)motion)->unk_08.at02u.v - 4;
     }
 
@@ -240,13 +239,11 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
                               (((S_8017112C_5 *)monster)->unk_25 << 6) | 0x20,
                               (s16)(((S_8017112C_0 *)actor)->unk_88 - 0x20));
         if (floor_height < 0x200) {
-            (*(u16 *)((u8 *)entity + (0x92))) += ((S_8017112C_0 *)actor)->unk_88 - floor_height;
+            (*(u16 *)((u8 *)entity_arg + (0x92))) += ((S_8017112C_0 *)actor)->unk_88 - floor_height;
             ((S_8017112C_0 *)actor)->unk_88 = floor_height;
         }
     }
 
     ((S_8017112C_5 *)monster)->unk_14 |= 0x40;
-    ASM_KEEP(entity);
     ASM_KEEP(motion);
-    ASM_KEEP(actor);
 }

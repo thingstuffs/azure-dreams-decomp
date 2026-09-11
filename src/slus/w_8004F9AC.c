@@ -35,8 +35,10 @@ void func_8004F9AC(S_8004F9AC_Obj *obj)
   {
     spacing = 0x20;
     obj->func = func_8004F67C;
+      index = 0;
+  } else {
+      index = 0;
   }
-  do { index = 0; } while (0);
   if (obj->count > 0)
   {
     value = 0x18;

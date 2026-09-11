@@ -558,10 +558,10 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
         if (transition_timer <= 0) {
             if (D_80113158[0] != 0) {
                 D_80024338[0] = func_800B1BEC(0, -0x50, 0x40);
-            }
-            do {
                 state_value = ((S_800218E4_0 *)game)->unk_2C.u;
-            } while (0);
+            } else {
+                state_value = ((S_800218E4_0 *)game)->unk_2C.u;
+            }
              /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
             ASM_SCHED_BARRIER(); /* MATCH: keep the timer setup local to each state transition. */

@@ -154,11 +154,7 @@ void func_800BB14C(void *effect_data, register S_800BB14C *effect, S_800BB14C_TA
     }
     while (0);
     effect->field0D = pulse_value;
-    do
-    {
-      pulse_step = effect->phase;
-    }
-    while (0);
+    pulse_step = effect->phase;
     pulse_step &= 0x1F;
     if ((phase & 0x20) != 0)
     {

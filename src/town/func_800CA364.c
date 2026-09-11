@@ -19,12 +19,10 @@ extern s32 D_800D5FE8;
 /* Try random directions against the bounds, then initialize the entity state. */
 void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context_arg)
 {
-    void *bounds;
     s32 context;
     s32 attempts;
     s32 direction;
 
-    bounds = bounds_arg;
     context = context_arg;
     attempts = 0;
 loop:
@@ -36,7 +34,7 @@ loop:
 
         upper_edge = entity->unk_84.as_s16;
         extent = entity->unk_8C;
-        bound_test = ((S_800C7AC4_1 *)bounds)->unk_02;
+        bound_test = ((S_800C7AC4_1 *)bounds_arg)->unk_02;
         upper_edge += extent;
         bound_test = bound_test < upper_edge;
         if (bound_test != 0) {
@@ -50,7 +48,7 @@ loop:
 
         upper_edge = entity->unk_86.as_s16;
         extent = entity->unk_8E;
-        bound_test = ((S_800C7AC4_1 *)bounds)->unk_06;
+        bound_test = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
         upper_edge += extent;
         bound_test = bound_test < upper_edge;
         if (bound_test != 0) {
@@ -64,7 +62,7 @@ loop:
 
         lower_edge = entity->unk_84.as_s16;
         extent = entity->unk_8C;
-        bound_coord = ((S_800C7AC4_1 *)bounds)->unk_02;
+        bound_coord = ((S_800C7AC4_1 *)bounds_arg)->unk_02;
         lower_edge -= extent;
         lower_edge = lower_edge < bound_coord;
         if (lower_edge != 0) {
@@ -78,7 +76,7 @@ loop:
 
         lower_edge = entity->unk_86.as_s16;
         extent = entity->unk_8E;
-        bound_coord = ((S_800C7AC4_1 *)bounds)->unk_06;
+        bound_coord = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
         lower_edge -= extent;
         lower_edge = lower_edge < bound_coord;
         if (lower_edge != 0) {
@@ -87,9 +85,7 @@ loop:
         }
     }
 
-    do {
-        attempts++;
-    } while (0);
+    attempts++;
     if (attempts < 0x10) {
         goto loop;
     }

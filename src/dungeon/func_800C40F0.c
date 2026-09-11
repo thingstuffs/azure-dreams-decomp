@@ -101,17 +101,13 @@ void *func_800C9850(u8 tile_x, u8 tile_z, u16 height) {
         direction_entry = ((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 9) & 7;
         state_tail = state;
         {
-            u32 sprite_flags;
             if (D_8006CCF8[direction_entry] != 0) {
-                sprite_flags = FLD(sprite, u16, 0x14) | 1;
+                FLD(sprite, u16, 0x14) |= 1;
             } else {
-                sprite_flags = FLD(sprite, u16, 0x14) & 0xFFFE;
+                FLD(sprite, u16, 0x14) &= 0xFFFE;
             }
-            FLD(sprite, u16, 0x14) = sprite_flags;
         }
-        do {
-            tint = 0x404040;
-        } while (0);
+        tint = 0x404040;
         tint_entity = entity;
         tint_arg = 0;
         ASM_KEEP4(tint, tint_entity, tint_arg, state);

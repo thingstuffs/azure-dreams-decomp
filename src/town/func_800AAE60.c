@@ -18,7 +18,6 @@ extern void func_800A84D0(LocalRecord *, s32);
 /* Builds and submits records at randomized offsets from the origin. */
 void func_800A85C0(void *origin, void *spread, s32 count) {
     LocalRecord record;
-    void *ranges = spread;
     register s32 index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 z;
 
@@ -31,18 +30,17 @@ void func_800A85C0(void *origin, void *spread, s32 count) {
             do {
                 index++;
                 record.x = (*(u16 *)((u8 *)origin + 2) +
-                           func_800374F4(*(u16 *)ranges)) -
-                          (*(s32 *)ranges / 2);
+                           func_800374F4(*(u16 *)spread)) -
+                          (*(s32 *)spread / 2);
                 record.y = (*(u16 *)((u8 *)origin + 6) +
-                           func_800374F4(*(u16 *)((u8 *)ranges + 4))) -
-                          (*(s32 *)((u8 *)ranges + 4) / 2);
+                           func_800374F4(*(u16 *)((u8 *)spread + 4))) -
+                          (*(s32 *)((u8 *)spread + 4) / 2);
                 z = (*(u16 *)((u8 *)origin + 0xA) -
-                         func_800374F4(*(u16 *)((u8 *)ranges + 8))) -
-                        (*(s32 *)((u8 *)ranges + 8) / 2);
+                         func_800374F4(*(u16 *)((u8 *)spread + 8))) -
+                        (*(s32 *)((u8 *)spread + 8) / 2);
                 record.z = z;
                 func_800A84D0(&record, z);
             } while (index < count);
-            ASM_KEEP(ranges);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         }
     }
 }

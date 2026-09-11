@@ -342,13 +342,10 @@ initialize_position:
 
     entity_mask = 0xFFEFFFFF;
     {
-        u8 *entries_page;
         register s32 *entries_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
-        entries_page = (u8 *)0x800E0000;
-        ASM_KEEP(entries_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        entries_base = (s32 *)(entries_page + 0x3D80);
-        ASM_KEEP(entries_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        entries_base = (s32 *)((u8 *)&D_800E3D80);
+           /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         entity_flags = ((S_800165B8_5 *)entity)->unk_14;
         reverse_entries = entries_base + 7;
         entity_flags &= entity_mask;

@@ -16,21 +16,18 @@ extern u16 D_80083462;
 /* Dispatch an entity action and update the actor and destination state. */
 void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
 {
-    u8 *actor_state = actor;
     u8 *entity;
     s32 context = action_context;
     u8 *position = destination;
     u16 *flags = D_80083460;
     u8 *idle_actor = actor;
 
-    do {
-        ASM_KEEP(actor_state);
-    } while (0);
+    ASM_KEEP(actor);
 
     if (!(flags[1] & 0x1000)) {
         entity = target;
         if (*(u8 *)(entity + 0x25) == 0) {
-            *(s8 *)(actor_state + 0xAD) = 0;
+            *(s8 *)(actor + 0xAD) = 0;
             func_800ACB98(idle_actor);
             return;
         }
@@ -38,23 +35,23 @@ void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
         if ((func_80042900(entity, 1) << 16) == 0) {
             if (!(flags[1] & 0x2000)) {
                 if (*(s32 *)(entity + 0x1C) & 0x100) {
-                    func_800AA258(actor_state, context, position, entity);
+                    func_800AA258(actor, context, position, entity);
                     return;
                 }
 
-                if (*(u8 *)(actor_state + 0x9A) != 0xE) {
-                    *(u8 *)(actor_state + 0x9A) = 0xE;
+                if (*(u8 *)(actor + 0x9A) != 0xE) {
+                    *(u8 *)(actor + 0x9A) = 0xE;
                 }
-                *(u16 *)(actor_state + 0x98) &= 0xFFF3;
+                *(u16 *)(actor + 0x98) &= 0xFFF3;
 
                 if ((*(s16 *)(entity + 0x64) != 0) &&
-                    (func_800AA6B4(actor_state, context, position, 0) != 0)) {
+                    (func_800AA6B4(actor, context, position, 0) != 0)) {
                     return;
                 }
 
                 if (*(s32 *)(entity + 0x1C) & 0x80000) {
-                    func_800AA888(actor_state, context, position, entity);
-                    func_800B318C(actor_state, context, position, entity);
+                    func_800AA888(actor, context, position, entity);
+                    func_800B318C(actor, context, position, entity);
                     return;
                 }
 
@@ -81,8 +78,8 @@ void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
         }
 
 fail:
-        *(s8 *)(actor_state + 0xAD) = 0;
-        func_800ACB98(actor_state, context, position, entity);
+        *(s8 *)(actor + 0xAD) = 0;
+        func_800ACB98(actor, context, position, entity);
         return;
 
 clear:

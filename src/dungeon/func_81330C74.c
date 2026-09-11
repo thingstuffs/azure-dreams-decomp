@@ -152,7 +152,6 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     u8 *motion_table;
     register u8 *table_join ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register u8 *clamp_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u8 *table_page;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *clamp_coord;
     s16 life_left;
     s16 phase;
@@ -414,9 +413,7 @@ copy_axes:
             func_80165018(effect_object, color->unk_0C.at00.v, particle_life, (s16) (interp_x0 + interp_x1 + step_x), (s32) (s16) (interp_y0 + interp_y1 + step_y), (s32) (s16) (interp_z0 + interp_z1 + step_z));
         } while (particle_index < (particle_count + 1));
     }
-    table_page = (u8 *)0x80170000;
-    ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    object_table_base = table_page + 0x5DD8;
+    object_table_base = (u8 *)&D_80175DD8;
     head_pos = (u8 *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)object_table_base);
     if ((((S_80167C74_12 *)head_pos)->unk_00 != 0x190) && (((S_80167C74_12 *)head_pos)->unk_02 != 0x190) && (((S_80167C74_12 *)head_pos)->unk_04 != 0x190)) {
         object_index = 0;

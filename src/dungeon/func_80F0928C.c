@@ -66,7 +66,6 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
     }
 
     {
-        register s32 saved_direction ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         EntityCallback callback;
         s16 old_mode;
         s16 direction;
@@ -133,9 +132,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
                 S16_AT(state, 0x94) = direction;
             }
 
-            saved_direction = direction;
-            direction_enabled = D_8006CCF8[saved_direction];
-            ASM_KEEP(saved_direction);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            direction_enabled = D_8006CCF8[direction];
             if (direction_enabled != 0) {
                 U16_AT(part, 0x14) |= 1;
             } else {

@@ -57,7 +57,6 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
         &&phase_update_b,
     };
     S_80170A70_2 *object = entity;
-    register void *motion ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *sprite ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     Callback paused_callback;
     Callback update_callback;
@@ -69,7 +68,6 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
     u16 sprite_flags;
     u16 visibility_flags;
 
-    motion = motion_arg;
     sprite = sprite_arg;
     bob_offset = 0;
     if (D_80083462 & 0x2000) {
@@ -82,33 +80,32 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
         return;
     }
 
-    ASM_KEEP_NV(motion);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     state_or_facing = (s8)(*(u8 *)((u8 *)entity + (0x6D)));
-    if (func_800A9E70(entity, motion, sprite, entity) != 0) {
+    if (func_800A9E70(entity, motion_arg, sprite, entity) != 0) {
         return;
     }
 
     update_callback = (*(Callback *)((u8 *)entity + (0x8C)));
     if (update_callback != 0) {
-        update_callback(entity, motion, sprite, entity);
+        update_callback(entity, motion_arg, sprite, entity);
     }
-    D_80174B1C[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, entity);
+    D_80174B1C[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion_arg, sprite, entity);
     if ((s16)state_or_facing != (*(s8 *)((u8 *)entity + (0x6D)))) {
-        func_800AA36C(entity, motion, sprite, entity);
+        func_800AA36C(entity, motion_arg, sprite, entity);
     }
 
-    ((S_80170A70_0 *)motion)->unk_00.at00.v += ((S_80170A70_0 *)motion)->unk_0C;
-    ((S_80170A70_0 *)motion)->unk_04.at00.v += ((S_80170A70_0 *)motion)->unk_10;
+    ((S_80170A70_0 *)motion_arg)->unk_00.at00.v += ((S_80170A70_0 *)motion_arg)->unk_0C;
+    ((S_80170A70_0 *)motion_arg)->unk_04.at00.v += ((S_80170A70_0 *)motion_arg)->unk_10;
 
     if (!((*(s32 *)((u8 *)entity + (0x1C))) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-        ((S_80170A70_0 *)motion)->unk_14 += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
+        ((S_80170A70_0 *)motion_arg)->unk_14 += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)entity + (0x9D)))++;
     } else {
         (*(u8 *)((u8 *)entity + (0x9D))) = 0;
     }
-    (*(s32 *)((u8 *)entity + (0x90))) += ((S_80170A70_0 *)motion)->unk_14;
+    (*(s32 *)((u8 *)entity + (0x90))) += ((S_80170A70_0 *)motion_arg)->unk_14;
     sprite_flags = ((S_80170A70_1 *)sprite)->unk_14;
 
     if (!(sprite_flags & 0x8000)) {
@@ -164,7 +161,7 @@ phase_update_a:
 
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
                 ground_height = (s16)(func_800BCB04(
-                    ((S_80170A70_0 *)motion)->unk_00.at02.v, ((S_80170A70_0 *)motion)->unk_04.at02.v,
+                    ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) -
                     object->unk_88.u);
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_height - 0x30) {
@@ -186,14 +183,14 @@ phase_update_a:
             register s32 object_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             ground_delta = (s16)func_800BCB04(
-                ((S_80170A70_0 *)motion)->unk_00.at02.v, ((S_80170A70_0 *)motion)->unk_04.at02.v,
+                ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                 (s16)(object->unk_88.u - 0x20));
             object_height = object->unk_88.s;
             ground_delta -= object_height;
             if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
                 (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
                 (*(u8 *)((u8 *)entity + (0x9D))) = 0;
-                ((S_80170A70_0 *)motion)->unk_14 = 0;
+                ((S_80170A70_0 *)motion_arg)->unk_14 = 0;
                 object->unk_1C |= 0x08000000;
                 goto reset_bob;
             }
@@ -220,14 +217,14 @@ phase_update_a:
             register s32 object_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             ground_delta = (s16)func_800BCB04(
-                ((S_80170A70_0 *)motion)->unk_00.at02.v, ((S_80170A70_0 *)motion)->unk_04.at02.v,
+                ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                 (s16)(object->unk_88.u - 0x20));
             object_height = object->unk_88.s;
             ground_delta -= object_height;
             if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
                 (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
                 (*(u8 *)((u8 *)entity + (0x9D))) = 0;
-                ((S_80170A70_0 *)motion)->unk_14 = 0;
+                ((S_80170A70_0 *)motion_arg)->unk_14 = 0;
                 object->unk_1C |= 0x08000000;
                 goto finish_height;
             }
@@ -250,7 +247,7 @@ phase_update_b:
 
     if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
         ground_height = (s16)(func_800BCB04(
-            ((S_80170A70_0 *)motion)->unk_00.at02.v, ((S_80170A70_0 *)motion)->unk_04.at02.v,
+            ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
             (s16)(object->unk_88.u - 0x20)) -
             object->unk_88.u);
         if ((*(s16 *)((u8 *)entity + (0x92))) > ground_height - 0x30) {
@@ -282,7 +279,7 @@ reset_bob:
         }
     }
 
-    ((S_80170A70_0 *)motion)->unk_0A =
+    ((S_80170A70_0 *)motion_arg)->unk_0A =
         object->unk_88.u + (u16)(*(s16 *)((u8 *)entity + (0x92))) + bob_offset;
     ((S_80170A70_1 *)sprite)->unk_14 |= 0x40;
 }

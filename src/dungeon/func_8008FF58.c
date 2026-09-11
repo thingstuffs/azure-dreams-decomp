@@ -112,20 +112,16 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
     index = func_800A1BD0(object);
     {
         void *st;
-        s32 two; /* MATCH: retain retail's v0 literal and v1 state pointer in the shared tail. */
 
         if (index >= 0) {
             void *tail_selected;
             tail_selected = ((S_800956B8_2 *)((u8 *)arg0 + index * 4))->unk_AC;
-            do {
-                st = tail_selected;
-                two = 2;
-            } while (0);
+            st = tail_selected;
+            ((S_800956B8_4 *)st)->unk_9A = 2;
         } else {
             st = ((Rec_func_8008D024_arg0 *)arg0)->unk_60;
-            two = 2;
+            ((S_800956B8_4 *)st)->unk_9A = 2;
         }
-        ((S_800956B8_4 *)st)->unk_9A = two;
         ((S_800956B8_4 *)st)->unk_9B = 0;
         ((S_800956B8_4 *)st)->unk_8C = 0;
         ((Rec_func_8008D024_arg0 *)arg0)->unk_110 = arg3;

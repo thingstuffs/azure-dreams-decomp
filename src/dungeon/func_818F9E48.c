@@ -92,8 +92,6 @@ extern void func_80025908() __attribute__((noreturn));
 
 /* Update a timed visual effect using its owner's appearance and position. */
 void func_818F9E48(void *state, void *position_out, void *effect_arg) {
-    void *position = position_out;
-    void *effect = effect_arg;
     s32 fade_or_phase;
     PackedVector origin;
     Pair16 anchor;
@@ -109,8 +107,6 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
     s32 one;
 
     origin = D_8002400C;
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     D_800266BC = 1;
     ((S_818F9E48_0 *)state)->unk_98 += 0xC8;
 
@@ -143,18 +139,18 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if (frame_or_phase >= 0x50) {
         intensity = ((0x64 - frame_or_phase) * 6) - 0x80;
-        ((S_818F9E48_1 *)effect)->unk_0E = intensity;
-        ((S_818F9E48_1 *)effect)->unk_0D = intensity;
-        ((S_818F9E48_1 *)effect)->unk_0C = intensity;
+        ((S_818F9E48_1 *)effect_arg)->unk_0E = intensity;
+        ((S_818F9E48_1 *)effect_arg)->unk_0D = intensity;
+        ((S_818F9E48_1 *)effect_arg)->unk_0C = intensity;
     }
 
     ((S_818F9E48_0 *)state)->unk_9A += 4;
     owner = ((S_818F9E48_0 *)state)->unk_2C;
     owner_position = ((S_818F9E48_2_pre *)owner)[-1].unk_00;
     motion = ((S_818F9E48_2_pre *)owner)[-1].unk_04;
-    ((S_818F9E48_3 *)position)->unk_00 = ((S_818F9E48_4 *)owner_position)->unk_00;
-    ((S_818F9E48_3 *)position)->unk_04 = ((S_818F9E48_4 *)owner_position)->unk_04;
-    ((S_818F9E48_3 *)position)->unk_08 = ((S_818F9E48_4 *)owner_position)->unk_08;
+    ((S_818F9E48_3 *)position_out)->unk_00 = ((S_818F9E48_4 *)owner_position)->unk_00;
+    ((S_818F9E48_3 *)position_out)->unk_04 = ((S_818F9E48_4 *)owner_position)->unk_04;
+    ((S_818F9E48_3 *)position_out)->unk_08 = ((S_818F9E48_4 *)owner_position)->unk_08;
 
     frame_or_phase = ((S_818F9E48_0 *)state)->unk_00.s;
     if (frame_or_phase == 0) {
@@ -170,13 +166,13 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
 
 state_zero:
     ((S_818F9E48_0 *)state)->unk_00.u++;
-    effect_flags = ((S_818F9E48_1 *)effect)->unk_14 & 0xFF7F;
-    ((S_818F9E48_1 *)effect)->unk_14 = effect_flags;
-    ((S_818F9E48_1 *)effect)->unk_14 = effect_flags | (((S_818F9E48_5 *)motion)->unk_14 & 0xC);
-    ((S_818F9E48_1 *)effect)->unk_10 = ((S_818F9E48_5 *)motion)->unk_10;
-    ((S_818F9E48_1 *)effect)->unk_0C = ((S_818F9E48_5 *)motion)->unk_0C;
-    ((S_818F9E48_1 *)effect)->unk_0D = ((S_818F9E48_5 *)motion)->unk_0D;
-    ((S_818F9E48_1 *)effect)->unk_0E = ((S_818F9E48_5 *)motion)->unk_0E;
+    effect_flags = ((S_818F9E48_1 *)effect_arg)->unk_14 & 0xFF7F;
+    ((S_818F9E48_1 *)effect_arg)->unk_14 = effect_flags;
+    ((S_818F9E48_1 *)effect_arg)->unk_14 = effect_flags | (((S_818F9E48_5 *)motion)->unk_14 & 0xC);
+    ((S_818F9E48_1 *)effect_arg)->unk_10 = ((S_818F9E48_5 *)motion)->unk_10;
+    ((S_818F9E48_1 *)effect_arg)->unk_0C = ((S_818F9E48_5 *)motion)->unk_0C;
+    ((S_818F9E48_1 *)effect_arg)->unk_0D = ((S_818F9E48_5 *)motion)->unk_0D;
+    ((S_818F9E48_1 *)effect_arg)->unk_0E = ((S_818F9E48_5 *)motion)->unk_0E;
     ((S_818F9E48_5 *)motion)->unk_14 |= 0x80;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     one = 1;
@@ -186,8 +182,8 @@ state_done:
     anchor.y = origin.y + 0x48;
     saved_scale_x = ((S_818F9E48_5 *)motion)->unk_1C;
     saved_scale_y = ((S_818F9E48_5 *)motion)->unk_1E;
-    ((S_818F9E48_1 *)effect)->unk_1C = saved_scale_x;
-    ((S_818F9E48_1 *)effect)->unk_1E = ((S_818F9E48_5 *)motion)->unk_1E;
+    ((S_818F9E48_1 *)effect_arg)->unk_1C = saved_scale_x;
+    ((S_818F9E48_1 *)effect_arg)->unk_1E = ((S_818F9E48_5 *)motion)->unk_1E;
     ((S_818F9E48_5 *)motion)->unk_1E = 0x1000;
     ((S_818F9E48_5 *)motion)->unk_1C = 0x1000;
     func_80024CD4(state, ((S_818F9E48_0 *)state)->unk_2C, &origin, &anchor, one, one);

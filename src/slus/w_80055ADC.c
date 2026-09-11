@@ -52,7 +52,6 @@ void func_80055ADC(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
     recordHeaderSize = 0x10;
     if (slotIndex >= recordCount)
     {
-      do { } while (0);
       *outputSlot = *firstSlot;
     }
     else

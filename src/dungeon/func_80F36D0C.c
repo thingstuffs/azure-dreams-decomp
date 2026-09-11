@@ -249,7 +249,6 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
             break;
         }
 
-        animation = (u8 *)0x80170000;
         angle_index = object->angle;
         angle_bits = angle_index >> 8;
         step_table = D_8006CCD8;
@@ -262,8 +261,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         return_step_addr += (unsigned long)step_table;
         ASM_KEEP_NV(return_step_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         velocity = *(s16 *)return_step_addr;
-        ASM_KEEP_DEP_NV(animation, velocity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        animation += 0x4A74;
+        animation = (u8 *)&D_80174A74;
         velocity = -velocity;
         velocity <<= 16;
         motion->velocity_y = velocity;

@@ -125,10 +125,8 @@ void func_800945E8(void *input_state) {
 
         slot_index = 0x13;
         index_cursor = (u8 *)0x80010013;
-        buffer_addr = (u8 *)0x800E0000;
-        ASM_KEEP_NV(buffer_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        buffer_addr += 0x3DF0;
-        ASM_KEEP_NV(buffer_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        buffer_addr = (u8 *)&D_800E3DF0;
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         record_slot = (s32 *)buffer_addr + 0x13;
         buffer_page = (u8 *)0x800E0000;
         ASM_KEEP_NV(buffer_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */

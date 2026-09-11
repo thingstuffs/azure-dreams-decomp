@@ -154,7 +154,6 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     s32 motion_damp_y;
     u16 linked_flags;
     s32 *linked_global;
-    u8 *resident_page;
     s16 frame_toggle;
     s16 fade_ticks;
     s16 next_z;
@@ -240,9 +239,7 @@ rise:
     goto finish_update;
 
 follow:
-    resident_page = (u8 *) 0x80080000;
-    ASM_KEEP_NV(resident_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    sprite = resident_page + 0x2E80;
+    sprite = (u8 *)&D_80082E80;
     transform_result = func_8003DE58(((S_80025C80_1 *)sprite)->unk_08, sprite, effect + 0x24, 0);
     follow_ticks = (u16) ((S_80025C80_0 *)effect)->unk_30.n - 1;
     ((S_80025C80_0 *)effect)->unk_30.n = follow_ticks;

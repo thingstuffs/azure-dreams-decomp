@@ -67,12 +67,10 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
     u8 effect_e;
     u8 fade_level;
     DungeonEffect *effect = input_effect;
-    u16 *flag_page = (u16 *)0x80020000;
     s32 first_angle = anim->angle;
 
-    ASM_USE_NV(flag_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    position->unk_00 = (s32) (anim->base0 + (anim->count * func_800644B8((flag_page[0x2984] = 1, first_angle)) * 0x10));
+    position->unk_00 = (s32) (anim->base0 + (anim->count * func_800644B8((*(u16 *)&D_80025308 = 1, first_angle)) * 0x10));
     position->unk_04 = (s32) (anim->base1 + (anim->count * func_80064584(anim->angle) * 0x10));
     func_800478B8(effect);
     phase = anim->state;

@@ -51,7 +51,7 @@ void func_819602D8(s16 center_x, s32 center_y) {
         ASM_KEEP4_NV(store_page, row, tile_y, sample_row);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         store_page[0x744C] = center_x_byte;
     }
-    do { *D_8002744D = center_y; } while (0);
+    *D_8002744D = center_y;
 row_loop:
     {
         register u32 row_center_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

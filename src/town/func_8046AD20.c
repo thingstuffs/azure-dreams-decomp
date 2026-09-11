@@ -43,10 +43,8 @@ typedef struct S_8001BD20_3 {
 s32 func_8001BD20(s32 fallback_first, s32 fallback_second) {
     LocalValues indexed_values;
     void *page;
-    s32 saved_first;
     s32 second_or_base;
 
-    saved_first = fallback_first;
     second_or_base = fallback_second;
     indexed_values = D_80019164;
     if (func_8001E670(0xA3) != 0) {
@@ -76,8 +74,7 @@ s32 func_8001BD20(s32 fallback_first, s32 fallback_second) {
         return 1;
     }
 
-    ASM_KEEP(saved_first);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    func_8001BC98(saved_first, second_or_base);
+    func_8001BC98(fallback_first, second_or_base);
     return 0;
 }
 

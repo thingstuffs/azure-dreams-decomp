@@ -42,7 +42,6 @@ void *func_81984C44(void *source_entity)
 {
     void *node;
     u8 *globals;
-    register void *entity ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 owner_limit;
     u8 *initial_globals;
     s32 initial_limit;
@@ -51,13 +50,11 @@ void *func_81984C44(void *source_entity)
     s8 entity_floor;
     S_81984C44_4 *owner;
 
-    entity = source_entity;
     initial_globals = (u8 *)0x80080000;
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(initial_globals);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     node = ((S_81984C44_0 *)initial_globals)->unk_14A8;
     initial_limit = 0x100;
-    if (((S_81984C44_1 *)entity)->unk_26 < 0) {
+    if (((S_81984C44_1 *)source_entity)->unk_26 < 0) {
         initial_limit = 4;
     }
     next_link = ((S_81984C44_2 *)node)->unk_5C;
@@ -69,7 +66,7 @@ void *func_81984C44(void *source_entity)
             if (((func_800A2CB8(((S_81984C44_3 *)globals)->unk_14A8, node) << 16) != 0) &&
                 ((func_800A41F0(node) << 16) != 0) &&
                 !(((S_81984C44_2_pre *)node)[-1].unk_12 & 0x2000)) {
-                entity_floor = ((S_81984C44_1 *)entity)->unk_26;
+                entity_floor = ((S_81984C44_1 *)source_entity)->unk_26;
                 owner = ((S_81984C44_2_pre *)node)[-1].unk_00;
                 if (entity_floor >= 0) {
                     if (entity_floor == owner->unk_26) {
@@ -78,7 +75,7 @@ void *func_81984C44(void *source_entity)
                         func_8002652C();
                     }
                 } else {
-                    if (func_8009FD40(owner, entity) < owner_limit) {
+                    if (func_8009FD40(owner, source_entity) < owner_limit) {
                         return node;
                     }
                 }

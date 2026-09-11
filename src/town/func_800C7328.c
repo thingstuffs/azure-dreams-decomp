@@ -22,9 +22,7 @@ void func_800C4A88(void *town_object)
     slot = &D_80082660[*(s32 *)((u8 *)town_object + 0x60)];
     raw_variant = slot->variant;
     slot->active = 0;
-    do {
-        child = *(void **)((u8 *)town_object + 0x98);
-    } while (0);
+    child = *(void **)((u8 *)town_object + 0x98);
     variant = raw_variant & 3;
     if (child != 0) {
         ASM_USE(raw_variant);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

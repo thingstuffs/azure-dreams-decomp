@@ -114,7 +114,7 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
     s32 message_id;
     s32 action_id;
     s32 target_experience;
-    s32 egg_bomb_level;
+    s16 egg_bomb_level;
     u16 remaining_frames;
     S_8003E2D8 *state_base;
     Coord *coord_arg = position;
@@ -163,14 +163,12 @@ state_0:
         ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
         func_800A48F0(monster, 0x1B, 0);
         {
-        register s32 clamp_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 clamp_value;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 first_call_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 first_call_mode;
         s32 raw_first_result;
         clamp_value = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_10.at01_u8.v + 0x32;
-        do {
-            egg_bomb_level = clamp_value;
-        } while (0);
+        egg_bomb_level = clamp_value;
         if (clamp_value >= 0x64) {
             egg_bomb_level = 0x63;
         }

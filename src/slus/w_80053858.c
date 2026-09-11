@@ -109,5 +109,5 @@ s32 func_80053858(S_80053858_rec *first_text)
   }
   while (next_node != 0);
   ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
- do { return 0; } while (0);
+ return 0;
 }

@@ -243,8 +243,8 @@ case_0:
             break;
         }
 
-        do { (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3328; } while (0);
-        ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3328;
+           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         table_offset = (s16)state->direction;
         probe_z = U16_AT(owner, 0x88);
         table_offset *= 2;
@@ -252,7 +252,7 @@ case_0:
         ASM_KEEP(table_x_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         probe_z -= 0x20;
         probe_z = (s16)probe_z;
-        do { (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3318; } while (0);
+        (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3318;
         table_y_entry = (s16 *)(table_offset + table_base);
         ASM_KEEP(table_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ground_z = func_800BCB04(
@@ -267,12 +267,12 @@ case_0:
             break;
         }
 
-        do { (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3328; } while (0);
+        (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3328;
         update_offset = (s16)state->direction;
         index++;
         update_offset *= 2;
         update_x_entry = (u16 *)(update_offset + table_base);
-        do { (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3318; } while (0);
+        (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3318;
         update_y_entry = (u16 *)(update_offset + table_base);
         ASM_KEEP(update_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         next_x = tile_x + *update_x_entry;

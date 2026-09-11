@@ -208,10 +208,7 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
                 ((S_80172790_3 *)particle_motion)->unk_10 = ((S_80172790_4 *)motion)->unk_0A + 8;
                 ((S_80172790_3 *)particle_motion)->unk_14 = rand();
                 heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
-                do {
-                    color = 0x00C00000;
-                } while (0);
-                ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                color = 0x00C00000;
                 ((S_80172790_3 *)particle_motion)->unk_4C = 0;
                 ((S_80172790_3 *)particle_motion)->unk_48 = 0;
                 ((S_80172790_3 *)particle_motion)->unk_18 = heading_raw;

@@ -404,12 +404,10 @@ void func_818FF710(void *effect, void *motion, void *sprite) {
     void *flight_target;
     void *impact_target;
 
-    void *effect_ptr = effect;
     register void *motion_ptr ASM_REG("$19") = motion;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register void *sprite_ptr ASM_REG("$17") = sprite;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(effect_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(sprite_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#define effect effect_ptr
+#define effect effect
 #define motion motion_ptr
 #define sprite sprite_ptr
 

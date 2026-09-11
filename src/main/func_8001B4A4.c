@@ -7,13 +7,9 @@ extern s32 D_8008DAB4;
 
 /* Updates the object's indirect value and sets the object and global 0x8000 flags. */
 void func_8001B4A4(void *object) {
-    u8 *objectBytes;
 
-    do {
-        objectBytes = object;
-    } while (0);
-    if (objectBytes != 0) {
-        **(s32 ***)(objectBytes + 0x20) = func_800484A4(*(s32 *)(objectBytes + 0x24) + 6, *(s32 *)(objectBytes + 0x20));
+    if (object != 0) {
+        **(s32 ***)(object + 0x20) = func_800484A4(*(s32 *)(object + 0x24) + 6, *(s32 *)(object + 0x20));
         asm volatile(
             "lhu $2, 30(%0)\n\t"
             "lui $3, 0x8009\n\t"
@@ -23,6 +19,6 @@ void func_8001B4A4(void *object) {
             "sh $2, 30(%0)\n\t"
             "lui $1, 0x8009\n\t"
             "sw $3, -9548($1)"
-            : : "r"(objectBytes) : "$1", "$2", "$3", "memory");
+            : : "r"(object) : "$1", "$2", "$3", "memory");
     }
 }

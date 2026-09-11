@@ -25,6 +25,7 @@ extern u8 D_80083460[];
 extern s32 D_80083780[];
 extern u16 D_800DDE84[];
 extern s32 D_800E3D7C[];
+extern u8 D_800E101C;
 
 /* Dispatch an item action using its category flags and target selector, then decrement the counter. */
 s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
@@ -33,7 +34,6 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
     DungeonItem *item_entries;
     u16 *selector_table;
     u8 *counter_base;
-    u8 *fallback_page;
     u8 *selector_page;
     s32 selector_index;
     s32 selector;
@@ -74,9 +74,7 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
         }
         func_80098B38(item);
     } else {
-        fallback_page = (u8 *)0x800E0000;
-        ASM_KEEP(fallback_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_800997FC(fallback_page + 0x101C, action_value, action_type);
+        func_800997FC((u8 *)&D_800E101C, action_value, action_type);
     }
     counter_base = D_80083460;
     *(u16 *)(counter_base + 0xA) = *(u16 *)(counter_base + 0xA) - 1;

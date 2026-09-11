@@ -75,7 +75,6 @@ retry:
 
         {
             register u8 *position_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            u8 *meta_page;
             u8 *meta;
             register u8 *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
@@ -83,9 +82,7 @@ retry:
             position_page = (u8 *)0x800e0000;
             ASM_KEEP(position_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             position = position_page + 0x39c8;
-            meta_page = (u8 *)0x800e0000;
-            ASM_KEEP(meta_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            meta = meta_page + 0x3648;
+            meta = (u8 *)&D_800E3648;
 
             do {
                 if ((meta[1] != 0) && (position[6] == x) &&

@@ -77,7 +77,7 @@ void func_801715D0(void) {
     s32 owner_y;
     s32 tile_x;
     s32 tile_y;
-    register S_801715D0_4 *object_pos ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_801715D0_4 *object_pos;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_801715D0_6 *owner_state;
     S_801715D0_5 *owner_pos;
     u8 *direction;
@@ -101,9 +101,7 @@ void func_801715D0(void) {
         object_pos->unk_02 = (u16) owner_pos->unk_02;
         object_pos->unk_06 = (u16) owner_pos->unk_06;
         object_pos->unk_0A = (u16) owner_pos->unk_0A;
-        direction_table = (u8 *) 0x80170000;
-        ASM_KEEP(direction_table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        direction_table += 0x3AFC;
+        direction_table = (u8 *)&D_80173AFC;
         direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
         object_pos->unk_02 = (u16) (object_pos->unk_02 + (((S_801715D0_7 *)direction)->unk_00 * 6));
         direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);

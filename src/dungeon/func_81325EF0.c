@@ -87,7 +87,6 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, vo
     u8 *counter_base;
     u8 *globals_page;
     u8 *flags_page;
-    u8 *reference_page;
     u8 *reference_base;
     void *action_actor;
     register u8 *counter_update ASM_REG("$2");
@@ -150,9 +149,7 @@ state_one:
         }
     }
     if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) {
-        reference_page = (u8 *)0x80080000;
-        ASM_KEEP(reference_page);
-        reference_base = reference_page + 0x3460;
+        reference_base = (u8 *)&D_80083460;
         if (((S_8016D6F0_6 *)reference_base)->unk_10 ==
             (u32)((u8 *)entity - 0x20)) {
             ((S_8016D6F0_6 *)reference_base)->unk_10 &= 0x7FFFFFFF;

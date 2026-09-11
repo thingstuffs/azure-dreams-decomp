@@ -109,9 +109,7 @@ advance_state:
 align_motion:
     align_frames = FIELD_S16(action, 0x96);
     if (align_frames != 0) {
-        do {
-            tile_coord = FIELD_U8(actor, 0x24);
-        } while (0);
+        tile_coord = FIELD_U8(actor, 0x24);
         do {
             center_offset = FIELD_S16(motion, 2);
         } while (0);

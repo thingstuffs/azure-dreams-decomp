@@ -77,7 +77,6 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
     s32 pos_x;
     s32 state;
     register void *work_data ASM_REG("$19") = transform;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *appearance ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *spawned_obj;
     S_8017390C_5 *spawned_render;
     void *spawned_data;
@@ -87,7 +86,6 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
     void *init_obj;
     register s32 angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    appearance = actor_data;
     state = actor->unk_9B;
     if (state == 1) {
         goto active;
@@ -113,7 +111,7 @@ state_zero:
     actor->unk_9B = 1;
 
 active:
-    if (((S_8017390C_1 *)appearance)->unk_49 != 0) {
+    if (((S_8017390C_1 *)actor_data)->unk_49 != 0) {
         spawned_obj = func_8003FC64(0x12);
         if (spawned_obj != 0) {
             init_obj = spawned_obj;
@@ -135,29 +133,29 @@ active:
             spawned_data = (u8 *)spawned_obj + 0x20;
             spawned_render->unk_1C = angle;
             work_data = spawned_data;
-            if (((S_8017390C_1 *)appearance)->unk_49 == 0x12) {
+            if (((S_8017390C_1 *)actor_data)->unk_49 == 0x12) {
                 render_asset = &D_8006E240;
             } else {
                 render_asset = (void *)func_8004A658(
-                    ((S_8017390C_1 *)appearance)->unk_49, ((S_8017390C_1 *)appearance)->unk_48);
+                    ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
             }
             spawned_render->unk_08 = render_asset;
             ASM_KEEP(render_asset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_8017390C_3 *)work_data)->unk_A8 = render->unk_24;
             ((S_8017390C_3 *)work_data)->unk_AA = render->unk_25;
             *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
-                *(Unaligned32 *)((u8 *)appearance + 0x48);
+                *(Unaligned32 *)((u8 *)actor_data + 0x48);
             func_800BC26C(spawned_obj, 0, 0, 0);
             ((S_8017390C_2 *)spawned_obj)->unk_10 = &D_80173770;
         }
-        ((S_8017390C_1 *)appearance)->unk_48 = 0;
-        ((S_8017390C_1 *)appearance)->unk_49 = 0;
+        ((S_8017390C_1 *)actor_data)->unk_48 = 0;
+        ((S_8017390C_1 *)actor_data)->unk_49 = 0;
     }
 
     render->unk_10 = 0x20;
     render->unk_12 -= 0x80;
     render->unk_14 |= 0xC;
-    ((S_8017390C_1 *)appearance)->unk_1C |= 0x10000000;
+    ((S_8017390C_1 *)actor_data)->unk_1C |= 0x10000000;
     render->unk_0C = 0x808080;
     actor->unk_96 = 0x10;
     actor->unk_9B++;
@@ -168,8 +166,8 @@ state_two:
     update_actor = actor;
     ASM_KEEP(update_actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(work_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800AD058(update_actor, work_data, render, appearance);
+       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    func_800AD058(update_actor, work_data, render, actor_data);
 
 done:
     return;

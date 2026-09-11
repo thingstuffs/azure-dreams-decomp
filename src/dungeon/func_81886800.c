@@ -337,7 +337,7 @@ void BODY_NAME(void *effect_in, void *motion_in, void *sprite_in)
 {
 #ifdef __mips__
     S_func_81886800_1 *effect = effect_in;
-    register S_func_81886800_11 *motion ASM_REG("$17") = motion_in;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_81886800_11 *motion = motion_in;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_func_81886800_3 *sprite = sprite_in;
     register S_func_81886800_8 *owner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_func_81886800_2 *owner_base;
@@ -678,23 +678,21 @@ case_2:
 case_3:
     {
 #ifdef __mips__
-        register S_func_81886800_11 *moving_motion ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #else
-        S_func_81886800_11 *moving_motion;
+        S_func_81886800_11 *motion;
 #endif
-        moving_motion = motion;
-        moving_motion->unk_00.s32 += moving_motion->unk_0C.s32;
-        moving_motion->unk_04.s32 += moving_motion->unk_10.s32;
+        motion->unk_00.s32 += motion->unk_0C.s32;
+        motion->unk_04.s32 += motion->unk_10.s32;
         {
             s32 target_height = (s32)effect->unk_10.s16 << 16;
-            s32 height = moving_motion->unk_08.s32;
+            s32 height = motion->unk_08.s32;
             height += (target_height - height) >> 4;
-            moving_motion->unk_08.s32 = height;
+            motion->unk_08.s32 = height;
         }
         sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 1;
         sprite->unk_0C.parts.unk_0D -= sprite->unk_0C.parts.unk_0D >> 1;
         sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 1;
-        func_80024DE8(moving_motion, sprite);
+        func_80024DE8(motion, sprite);
         if (sprite->unk_0C.parts.unk_0C < 2) {
             effect->unk_0A.u16++;
             func_800247C8();

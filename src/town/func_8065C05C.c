@@ -33,21 +33,18 @@ void func_8065C05C(void *entries) {
     register S_func_8065C05C_1 *globals_page ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register S_func_8065C05C_0 *entries_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 terminator;
-    register S_func_8065C05C_0 *entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     entries_base = entries;
     entry_count = 0;
     entry_id = 0;
     globals_page = (S_func_8065C05C_1 *)0x80010000;
     entry_tag = 0x17;
-    entry = entries_base;
     do {
         if (((S_func_8065C05C_3 *)((S_func_8065C05C_2 *)globals_page->unk_6000)->unk_20)->unk_70(entry_id) != 0) {
-            entry->unk_00 = entry_id;
-            entry->unk_01 = entry_tag;
-            entry->unk_03 = 0;
-            entry->unk_02 = 0;
-            entry += 1;
+            entries_base[entry_count].unk_00 = entry_id;
+            entries_base[entry_count].unk_01 = entry_tag;
+            entries_base[entry_count].unk_03 = 0;
+            entries_base[entry_count].unk_02 = 0;
             entry_count += 1;
         }
         entry_id += 1;

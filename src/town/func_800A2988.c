@@ -54,9 +54,7 @@ void func_800A00E8(s32 entryIndex) {
     D_80100B68[0] = selectedEntryIndex;
 
     entryOffsetOrAddress = selectedEntryIndex * sizeof(TownEntry);
-    do {
-        owner = root->owner;
-    } while (0);
+    owner = root->owner;
     rootX = root->x;
     rootY = root->y;
     entries = owner->entries;
@@ -67,15 +65,13 @@ void func_800A00E8(s32 entryIndex) {
 #ifdef NON_MATCHING
     entry = (TownEntry *)((u8 *)entries + entryOffsetOrAddress);
 #else
-    do {
-        entryOffsetOrAddress += (u32)entries;
-        entry = (TownEntry *)entryOffsetOrAddress;
-    } while (0);
+    entryOffsetOrAddress += (u32)entries;
+    entry = (TownEntry *)entryOffsetOrAddress;
 #endif
     entryX = entry->x;
     output = &D_80100B50;
     output->second.word = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     output->first.half.y = entryX + rootX;
     entryY = entry->y;
     outputThirdWord = 0xFFE00000;

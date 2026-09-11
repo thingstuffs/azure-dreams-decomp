@@ -114,7 +114,6 @@ check_tile:
                         {
                             register u8 *page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                            do { } while (0);
                             page = (u8 *)0x800E0000;
                             ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                             if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)(page + 0x3D7C)))->unk_124))->unk_13 < 0) {

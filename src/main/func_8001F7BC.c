@@ -22,13 +22,13 @@ loop_1:
         } while (0);
         var_s1++;
         func_8040680C();
+        func_80404668(*(void **)((u8 *)var_s0 + 0xC));
+    } else {
+        func_80404668(*(void **)((u8 *)var_s0 + 0xC));
     }
-    func_80404668(*(void **)((u8 *)var_s0 + 0xC));
     var_s1++;
     if (var_s1 < 5) {
-        do {
-            var_s0 = (u8 *)var_s0 + 4;
-        } while (0);
+        var_s0 = (u8 *)var_s0 + 4;
         goto loop_1;
     }
     func_80405A00(*(s32 *)((u8 *)arg0 + 4), *(s32 *)((u8 *)arg0 + 0x2C));

@@ -28,8 +28,6 @@ void func_8004A464(ObjA464 *obj)
     if (obj != 0) {
         obj->flags |= 0x8000;
         inner = &obj->inner;
-        do {
-        } while (0);
         D_800814A0_store = D_800814A0[0] | 0x8000;
         func_8004B530(inner->field_8);
         func_8004B530(inner->field_18);

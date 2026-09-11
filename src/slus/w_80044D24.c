@@ -285,7 +285,7 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
                 }
                 {
                     u32 ot_base;
-                    do { ot_base = U32_AT(scratch, 0x20); } while (0);
+                    ot_base = U32_AT(scratch, 0x20);
                     packet = (u8 *)packet + 0x28;
                     AddPrim((u8 *)ot_base + ot_offset, draw_prim);
                 }

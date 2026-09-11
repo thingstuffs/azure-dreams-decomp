@@ -83,11 +83,9 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
     s16 shade;
     s32 remaining;
     s32 angle;
-    register u16 saved_z ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register u32 setup_word ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    saved_z = z;
-    ASM_KEEP_NV(saved_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     homes.arg1 = tile_y;
     setup_word = speed;
     homes.arg4 = (s32) setup_word;
@@ -108,7 +106,7 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
         center->x = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         angle = 0xEA7;
         setup_word = homes.arg1;
-        center->z = saved_z;
+        center->z = z;
         center->y = (s16) (((s32) (setup_word << 0x10) >> 0xA) + 0x20);
         ASM_USE(setup_word);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         render = parent->render;

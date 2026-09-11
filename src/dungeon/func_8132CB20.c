@@ -59,7 +59,6 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     u8 *stream;
     void *call_obj;
     register void *obj ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    void *ctx;
     void *entity;
     register s32 result;
     u32 anim_page;
@@ -72,8 +71,6 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     s32 clear_opcode;
 
     call_obj = object_arg;
-    ctx = context_arg;
-    ASM_KEEP_NV(ctx);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     entity = entity_arg;
     obj = object_arg;
     if (((S_80174320_0 *)entity)->unk_14 & 0x40) {
@@ -160,14 +157,14 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
 block_8:
     call_obj = obj;
     ASM_KEEP_NV(call_obj);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    func_8016FCE4(call_obj, ctx, entity, call_obj);
+    func_8016FCE4(call_obj, context_arg, entity, call_obj);
     result = 0;
     return result;
 
 block_C0:
     ((S_80174320_1 *)obj)->unk_9B = 0;
 block_C8:
-    func_801740F8(call_obj, ctx, entity, obj);
+    func_801740F8(call_obj, context_arg, entity, obj);
     goto block_common;
 
 block_10:
@@ -206,7 +203,7 @@ block_E8:
             anim[((D_80083228 + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_80171594(((S_80174320_0 *)entity)->unk_24, ((S_80174320_0 *)entity)->unk_25,
-            ((S_80174320_2 *)ctx)->unk_0A);
+            ((S_80174320_2 *)context_arg)->unk_0A);
         func_800A152C(0x15, 1);
         goto block_common;
     }

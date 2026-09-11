@@ -369,8 +369,7 @@ case_0:
             break;
         }
 
-        do { (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328; } while (0);
-        ASM_KEEP(table_addr);
+        (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328;
         table_offset = (s16)state->direction;
         probe_height = (u16)entity->height;
         table_offset *= 2;
@@ -378,7 +377,7 @@ case_0:
         ASM_KEEP(step_x);
         probe_height -= 32;
         probe_height = (s16)probe_height;
-        do { (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3318; } while (0);
+        (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3318;
         step_y = (s16 *)(table_offset + table_addr);
         ASM_KEEP(step_y);
         terrain_height = func_800BCB04(
@@ -390,12 +389,12 @@ case_0:
             break;
         }
 
-        do { (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328; } while (0);
+        (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328;
         update_offset = (s16)state->direction;
         index++;
         update_offset *= 2;
         update_x = (u16 *)(update_offset + table_addr);
-        do { (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3318; } while (0);
+        (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3318;
         update_y = (u16 *)(update_offset + table_addr);
         ASM_KEEP(update_y);
         next_x = tile_x + *update_x;

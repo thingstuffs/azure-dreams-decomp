@@ -193,9 +193,7 @@ apply_effect:
         {
             s32 special_flag;
 
-            do {
-                special_flag = is_special;
-            } while (0);
+            special_flag = is_special;
             ASM_KEEP(special_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             if (special_flag != 0) {
                 effect = D_800814A8[0];
@@ -285,12 +283,9 @@ shrink_sprite:
     }
 
     ((S_80172FC0_0 *)anim)->unk_A0 = func_80175858(anim, transform, sprite);
-    do {
-    } while (0);
     {
         s16 *camera_data;
 #ifndef NON_MATCHING
-        u8 *camera_page;
 #endif
         s32 direction;
         u8 frame;
@@ -302,9 +297,7 @@ shrink_sprite:
 #ifdef NON_MATCHING
         camera_data = D_80083160;
 #else
-        camera_page = (u8 *)0x80080000;
-        ASM_KEEP(camera_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        camera_data = (s16 *)(camera_page + 0x3160);
+        camera_data = (s16 *)((u8 *)&D_80083160);
 #endif
         {
             s32 model_direction;
@@ -314,11 +307,9 @@ shrink_sprite:
             view_angle = camera_data[0x64];
             actor_angle = ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16;
             model_root = ((S_80172FC0_4 *)sprite)->unk_28;
-            do {
-                model_direction =
-                    ((view_angle + actor_angle + 0x100) >> 9) & 7;
-            } while (0);
-            ASM_KEEP_NV(model_direction);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            model_direction =
+                ((view_angle + actor_angle + 0x100) >> 9) & 7;
+               /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             model = *(void **)model_root;
             model_table = *(void **)model;
             selected_model =
@@ -335,18 +326,13 @@ shrink_sprite:
             ((S_80172FC0_4 *)sprite)->unk_00 = selected_model;
             model_data = ((S_80172FC0_6 *)selected_model)->unk_04;
             {
-                u16 *offset_arg;
 
-                do {
-                    offset_arg = offset;
-                } while (0);
-                ASM_KEEP(offset_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 ((S_80172FC0_4 *)sprite)->unk_08 = model_data;
                 offset[2] = 0;
                 offset[1] = 0;
                 offset[0] = 0;
                 if (func_8003DE58(
-                        ((S_80172FC0_4 *)sprite)->unk_08, sprite_arg, offset_arg, 0) != 0) {
+                        ((S_80172FC0_4 *)sprite)->unk_08, sprite_arg, offset, 0) != 0) {
                     u16 height_offset;
 
                     ((S_80172FC0_5 *)transform)->unk_02 += offset[0];

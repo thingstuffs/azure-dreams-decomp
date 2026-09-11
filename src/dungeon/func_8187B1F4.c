@@ -100,7 +100,6 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     volatile u16 *point_coords;
     u32 depth;
     s32 point_count;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 linked_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 component;
@@ -223,6 +222,5 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
 #ifndef __mips__
     hard_zero = 0;
 #endif
-    result = hard_zero;
-    return result;
+    return hard_zero;
 }

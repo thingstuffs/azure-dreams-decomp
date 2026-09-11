@@ -35,7 +35,7 @@ s32 func_800A0E6C(void *arg0, s32 arg1, void *arg2, u16 *arg3) {
     s32 b72, b73;
     s32 d;
     s32 s5v;
-    s32 idx;
+    s16 idx;
     register s32 tail ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     E2970 *ct2;
     E2970 *ct1;
@@ -203,9 +203,7 @@ L_BB24: {
     *(s32 *)&bitmap[4] = 0;
     bit_next = &bitmap[tail];
     *bit_next = 1;
-    do {
-        idx = (tail + 1) & 7;
-    } while (0);
+    idx = (tail + 1) & 7;
     bit_next = &bitmap[idx];
     tail = (tail - 1) & 7;
     bit_prev_v0 = &bitmap[tail];
@@ -226,9 +224,7 @@ L_BB24: {
     } while (0);
     bit_next = &bitmap[tail];
     *bit_next = 1;
-    do {
-        idx = (tail + 1) & 7;
-    } while (0);
+    idx = (tail + 1) & 7;
     bit_next = &bitmap[idx];
     tail = (tail - 1) & 7;
     bit_prev_s0 = &bitmap[tail];

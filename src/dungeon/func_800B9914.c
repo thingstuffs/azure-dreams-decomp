@@ -64,9 +64,7 @@ s32 func_800BF074(Rec_D_800E3D7C *entity, s32 action_id, s16 action_type, s32 ac
             return 1;
         }
     } else {
-        do {
-            message_pos = func_800990FC();
-        } while (0);
+        message_pos = func_800990FC();
         entity_state = D_80082EB0;
         saved_message_pos = message_pos;
         message_pos = func_80099194(D_800E11F5, func_80099368(((S_800BF074_1 *)entity_state)->unk_04, message_pos));

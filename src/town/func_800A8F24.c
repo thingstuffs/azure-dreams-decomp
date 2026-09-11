@@ -41,7 +41,6 @@ void func_800A6684(void *entity, Rec_D_800E3D7C *position, S_800A6684_0 *sprite)
     s32 frame_index;
     register s32 above_height ASM_REG("$3"); /* MATCH: keep the shared height predicate in retail's v1 across both guards. */
     register s32 height_or_shade;
-    u32 sprite_flags;
 
     (*(EntityCallback *)((u8 *)entity + 0x50))(entity, entity, position, sprite);
     if (!((*(u16 *)((u8 *)entity + -2)) & 0x8000)) {
@@ -54,13 +53,10 @@ void func_800A6684(void *entity, Rec_D_800E3D7C *position, S_800A6684_0 *sprite)
         }
 
         if ((func_800C2F14((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64))) << 0x10) != 0) {
-            sprite_flags = sprite->unk_14 | 1;
+            sprite->unk_14 |= 1;
         } else {
-            sprite_flags = sprite->unk_14 & 0xFFFE;
+            sprite->unk_14 &= 0xFFFE;
         }
-        do {
-            sprite->unk_14 = sprite_flags;
-        } while (0);
            /* MATCH: keep the flags store before call argument setup. */
         func_800478B8(sprite);
 

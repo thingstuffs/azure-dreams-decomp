@@ -13,18 +13,15 @@ s32 func_800A45D8(s32 x, s32 y, s32 z)
     s32 query_kind;
     s32 tile_x;
     s32 tile_y;
-    s32 saved_z;
     s32 height_result;
     s32 height_limit;
 
-    saved_z = z;
     grid_x = (u16)x >> 6;
     left_x = grid_x - 1;
     grid_y = (u16)y >> 6;
     query_kind = 0;
     tile_x = grid_x;
     tile_y = grid_y;
-    ASM_KEEP(saved_z);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(query_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(tile_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(tile_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -39,7 +36,7 @@ s32 func_800A45D8(s32 x, s32 y, s32 z)
 
     height_result = func_800BCB04((tile_x << 6) | 0x20,
                                  (tile_y << 6) | 0x20,
-                                 (s16)(saved_z - 0x20));
+                                 (s16)(z - 0x20));
     height = height_result;
     height_result <<= 16;
     height_limit = 0x02000000;

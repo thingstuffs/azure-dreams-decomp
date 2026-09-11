@@ -23,7 +23,7 @@ loop:
         do { entry_cursor = (u8 *)entry_cursor + 4; } while (0);
     } else {
         func_80024274(*(void **)((u8 *)entry_cursor + 0xC));
-        do { entry_cursor = (u8 *)entry_cursor + 4; } while (0);
+        entry_cursor = (u8 *)entry_cursor + 4;
     }
     KEEP_VALUE(entry_cursor);
     entry_index++;

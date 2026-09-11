@@ -192,11 +192,9 @@ void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
         {
             void *current =
                 ((S_80170F6C_2 *)arg2)->unk_2C;
-            u8 *page = (u8 *)0x80170000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             void *table;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            table = page + 0x5298;
+            table = (u8 *)&D_80175298;
             post_current = current;
             post_table = table;
             goto post_compare;
@@ -545,12 +543,9 @@ sw_generic:
 
     if (!(D_80083462[0] & 0x2000) &&
         !(((S_80170F6C_2 *)arg2)->unk_14 & 0x40)) {
-        u8 *post_page;
         post_current =
             ((S_80170F6C_2 *)arg2)->unk_2C;
-        post_page = (u8 *)0x80170000;
-        ASM_KEEP(post_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        post_table = post_page + 0x5258;
+        post_table = (u8 *)&D_80175258;
 post_compare:
         if (post_current != post_table) {
             u32 post_index;

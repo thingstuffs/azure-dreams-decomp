@@ -147,7 +147,6 @@ s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_param
     u8 *primitive_check;
     u8 **primitive_ref;
     u8 *next_batch;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 ot_entry_addr;
     s32 quad_extent;
 #ifdef NON_MATCHING
@@ -330,7 +329,6 @@ lists_done:
 
 done:
     manager = global_addr->manager;
-    result = hard_zero;
     ((S_800B06F0_7 *)manager)->unk_8D0 = packet;
-    return result;
+    return hard_zero;
 }

@@ -47,8 +47,6 @@ extern u8 *D_800814A8;
 /* Updates an owner-following effect or its fade, wait, and rising phases. */
 void func_80025800(void *effect_in, void *position_in, void *visual_in)
 {
-    register void *effect ASM_REG("$18");
-    register void *position ASM_REG("$19");
     register void *visual ASM_REG("$17");
     LocalPoints offsets;
     register u8 *copy_src ASM_REG("$6");
@@ -76,11 +74,7 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
     s32 anim_ticks;
     LocalPoint *point;
 
-    effect = effect_in;
-    position = position_in;
     visual = visual_in;
-    ASM_KEEP_NV(effect);
-    ASM_KEEP_NV(position);
     ASM_KEEP_NV(visual);
     copy_dst = (u8 *)&offsets;
 #ifdef NON_MATCHING
@@ -130,11 +124,11 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
     half_tile = 0x20;
     S16_AT(visual, 0x10) = half_tile;
     U16_AT(visual, 0x14) |= 0xC;
-    owner = PTR_AT(effect, 0x20);
+    owner = PTR_AT(effect_in, 0x20);
     world = D_800814A8;
 
     if (owner == 0) {
-        state = S16_AT(effect, 0x2C);
+        state = S16_AT(effect_in, 0x2C);
         if (state == 1) {
             goto state_one;
         }
@@ -151,50 +145,50 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
         goto function_done;
 
 state_zero:
-        move_ticks = U16_AT(effect, 0x30);
-        anim_ticks = U16_AT(effect, 0x32);
+        move_ticks = U16_AT(effect_in, 0x30);
+        anim_ticks = U16_AT(effect_in, 0x32);
         ASM_KEEP_NV(move_ticks);
         ASM_KEEP_NV(anim_ticks);
         move_ticks--;
         anim_ticks++;
         ASM_KEEP_NV(move_ticks);
-        VU16_AT(effect, 0x32) = anim_ticks;
+        VU16_AT(effect_in, 0x32) = anim_ticks;
         anim_ticks = (anim_ticks << 16) >> 16;
-        VU16_AT(effect, 0x30) = move_ticks;
+        VU16_AT(effect_in, 0x30) = move_ticks;
         if (anim_ticks < 0x19) {
             fade = anim_ticks << 8;
             U16_AT(visual, 0x20) = fade;
             U16_AT(visual, 0x1E) = fade;
             U16_AT(visual, 0x1C) = fade;
-            S16_AT(effect, 0x3A) = 0;
-            S16_AT(effect, 0x38) = 1;
-            S16_AT(effect, 0x34) = 1;
-            func_80026060(visual, (u8 *)effect + 0x34,
-                          S16_AT(effect, 0x3A), S16_AT(effect, 0x38));
-            func_80025FB0(effect, S32_AT(visual, 0));
+            S16_AT(effect_in, 0x3A) = 0;
+            S16_AT(effect_in, 0x38) = 1;
+            S16_AT(effect_in, 0x34) = 1;
+            func_80026060(visual, (u8 *)effect_in + 0x34,
+                          S16_AT(effect_in, 0x3A), S16_AT(effect_in, 0x38));
+            func_80025FB0(effect_in, S32_AT(visual, 0));
             goto function_done;
         }
-        U16_AT(effect, 0x30) = 0;
-        U16_AT(effect, 0x32) = 0;
-        U16_AT(effect, 0x2C) = U16_AT(effect, 0x2C) + 1;
+        U16_AT(effect_in, 0x30) = 0;
+        U16_AT(effect_in, 0x32) = 0;
+        U16_AT(effect_in, 0x2C) = U16_AT(effect_in, 0x2C) + 1;
         goto function_done;
 
 state_one:
-        next_tick = U16_AT(effect, 0x32) + 1;
-        U16_AT(effect, 0x32) = next_tick;
+        next_tick = U16_AT(effect_in, 0x32) + 1;
+        U16_AT(effect_in, 0x32) = next_tick;
         if (next_tick & 1) {
-            S16_AT(effect, 0x3A) = state;
-            S16_AT(effect, 0x38) = 0xF;
-            S16_AT(effect, 0x34) = state;
-            func_80026060(visual, (u8 *)effect + 0x34,
-                          S16_AT(effect, 0x3A), S16_AT(effect, 0x38));
-            func_80025FB0(effect, S32_AT(visual, 0));
+            S16_AT(effect_in, 0x3A) = state;
+            S16_AT(effect_in, 0x38) = 0xF;
+            S16_AT(effect_in, 0x34) = state;
+            func_80026060(visual, (u8 *)effect_in + 0x34,
+                          S16_AT(effect_in, 0x3A), S16_AT(effect_in, 0x38));
+            func_80025FB0(effect_in, S32_AT(visual, 0));
         }
         if (S16_AT(D_800814A8, 0x96) == 0) {
-            U16_AT(effect, 0x30) = 0;
-            S32_AT(effect, 0x50) = 0x200000;
-            S32_AT(effect, 0x5C) = 0;
-            U16_AT(effect, 0x2C) = U16_AT(effect, 0x2C) + 1;
+            U16_AT(effect_in, 0x30) = 0;
+            S32_AT(effect_in, 0x50) = 0x200000;
+            S32_AT(effect_in, 0x5C) = 0;
+            U16_AT(effect_in, 0x2C) = U16_AT(effect_in, 0x2C) + 1;
             goto function_done;
         }
         goto state_done;
@@ -208,16 +202,16 @@ state_two:
             register s32 biased_x ASM_REG("$4");
             register s32 biased_y ASM_REG("$2");
 
-            S32_AT(position, 0x14) = S32_AT(position, 8);
-            rise_speed = S32_AT(effect, 0x50) + S32_AT(effect, 0x5C);
-            S32_AT(effect, 0x50) = rise_speed;
-            S32_AT(position, 8) += rise_speed;
-            pos_x = S16_AT(position, 2);
+            S32_AT(position_in, 0x14) = S32_AT(position_in, 8);
+            rise_speed = S32_AT(effect_in, 0x50) + S32_AT(effect_in, 0x5C);
+            S32_AT(effect_in, 0x50) = rise_speed;
+            S32_AT(position_in, 8) += rise_speed;
+            pos_x = S16_AT(position_in, 2);
             biased_x = pos_x - 0x20;
             if (biased_x < 0) {
                 biased_x = pos_x + 0x1F;
             }
-            pos_y = S16_AT(position, 6);
+            pos_y = S16_AT(position_in, 6);
             biased_y = pos_y - 0x20;
             if (biased_y < 0) {
                 biased_y = pos_y + 0x1F;
@@ -245,20 +239,20 @@ state_two:
                     func_80025710(world,
                                   tile_x,
                                   tile_y,
-                                  S16_AT(position, 0xA),
-                                  (s16)(U16_AT(position, 0xA) - 0x40));
+                                  S16_AT(position_in, 0xA),
+                                  (s16)(U16_AT(position_in, 0xA) - 0x40));
                     offset_x = S16_AT(point, 0);
-                    func_80025648((u8 *)effect - 0x20,
-                                  (s16)(U16_AT(position, 2) + (offset_x << 6)),
-                                  (s16)(U16_AT(position, 6) + ((s32)(point->y << 16) >> 10)),
-                                  S16_AT(position, 0xA), S16_AT(position, 0x16));
+                    func_80025648((u8 *)effect_in - 0x20,
+                                  (s16)(U16_AT(position_in, 2) + (offset_x << 6)),
+                                  (s16)(U16_AT(position_in, 6) + ((s32)(point->y << 16) >> 10)),
+                                  S16_AT(position_in, 0xA), S16_AT(position_in, 0x16));
                     row++;
                 } while (row < 3);
                 column++;
             } while (column < 3);
 
-            next_tick = U16_AT(effect, 0x30) + 1;
-            U16_AT(effect, 0x30) = next_tick;
+            next_tick = U16_AT(effect_in, 0x30) + 1;
+            U16_AT(effect_in, 0x30) = next_tick;
             if (next_tick >= 0x28) {
                 D_8002992C = 0;
                 D_80028630 = 0;
@@ -270,23 +264,23 @@ state_done:
     } else {
         if (U16_AT(owner, 0x1E) & 0x8000) {
 object_dead:
-            U16_AT(effect, -2) |= 0x8000;
+            U16_AT(effect_in, -2) |= 0x8000;
             D_800814A0 |= 0x8000;
             goto function_done;
         }
 
         owner_pos = PTR_AT(owner, 8);
-        S16_AT(position, 2) = U16_AT(owner_pos, 2);
-        S16_AT(position, 6) = U16_AT(owner_pos, 6);
-        S16_AT(position, 0xA) = U16_AT(owner_pos, 0xA);
-        owner = PTR_AT(effect, 0x20);
+        S16_AT(position_in, 2) = U16_AT(owner_pos, 2);
+        S16_AT(position_in, 6) = U16_AT(owner_pos, 6);
+        S16_AT(position_in, 0xA) = U16_AT(owner_pos, 0xA);
+        owner = PTR_AT(effect_in, 0x20);
         flags = U16_AT(visual, 0x14);
         owner_visual = PTR_AT(owner, 0xC);
         flags |= 0xC;
         U16_AT(visual, 0x14) = flags;
         S16_AT(visual, 0x10) = half_tile;
         func_8002612C(visual, S8_AT(owner_visual, 4));
-        func_80025FB0(effect, S32_AT(visual, 0));
+        func_80025FB0(effect_in, S32_AT(visual, 0));
         U16_AT(visual, 0x1C) = U16_AT(owner_visual, 0x1C);
         U16_AT(visual, 0x1E) = U16_AT(owner_visual, 0x1E);
         U16_AT(visual, 0x20) = U16_AT(owner_visual, 0x20);

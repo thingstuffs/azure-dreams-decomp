@@ -220,9 +220,7 @@ case_fff: {
     s32 global_flags;
 
     FIELD(arg0, u16 *, -2) = (u16)(FIELD(arg0, u16 *, -2) | 0x8000);
-    do {
-        global_flags = D_80084D5C;
-    } while (0);
+    global_flags = D_80084D5C;
     global_flags |= 0x8000;
     D_80084D5C = global_flags;
     goto block_60;

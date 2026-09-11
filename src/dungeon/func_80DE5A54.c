@@ -54,13 +54,11 @@ typedef struct S_80173254_5 {
 void func_80173254(void *action, void *context, void *sprite, void *entity)
 {
     void *saved_context;
-    void *saved_sprite;
     u8 state;
 
     saved_context = context;
-    saved_sprite = sprite;
 #define context saved_context
-#define sprite saved_sprite
+#define sprite sprite
 
     state = ((S_80173254_0 *)action)->unk_9B;
     if (state == 0) {
@@ -173,5 +171,4 @@ state_one:
         ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 &= ~0x200;
         ((S_80173254_0 *)action)->unk_8C = D_80170E5C;
     }
-    ASM_KEEP(saved_sprite);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

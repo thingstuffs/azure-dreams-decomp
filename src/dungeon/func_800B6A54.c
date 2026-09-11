@@ -13,13 +13,11 @@ void func_800BC1B4(void *scrollState) {
     s16 sourceRect[4];
 
     {
-        register void *sourceRectPtr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         s32 destinationX;
         s32 destinationY;
         s32 offsetOrRectValue;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 scrollStepOrSourceY;
 
-        sourceRectPtr = sourceRect;
         destinationX = 0x270;
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         offsetOrRectValue = *(u16 *)((unsigned char *)scrollState + 2);
@@ -37,7 +35,7 @@ void func_800BC1B4(void *scrollState) {
         sourceRect[3] = offsetOrRectValue;
         scrollStepOrSourceY = scrollStepOrSourceY + 0x140;
         sourceRect[1] = scrollStepOrSourceY;
-        func_800673A0(sourceRectPtr, destinationX, destinationY, scrollState);
+        func_800673A0(sourceRect, destinationX, destinationY, scrollState);
     }
     func_800673A0(sourceRect, 0x270, 0x120);
 }

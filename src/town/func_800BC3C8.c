@@ -36,7 +36,7 @@ void func_800B9B28(u8 *object, u8 *render_data, FuncData *state) {
 
     *(s16 *)(object + 0x66) = 0;
     state->unk1C = 0x1000;
-    do { state->unk1E = 0x1000; } while (0);
+    state->unk1E = 0x1000;
     state->unk20 = 0x1000;
     colors = D_80083160;
     state->unk12 = 0;

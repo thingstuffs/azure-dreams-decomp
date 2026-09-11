@@ -21,7 +21,6 @@ void func_8016E138(s32 offset_index) {
     Copy12 offsets;
     s32 old_tile_mask;
     s32 new_tile_mask;
-    register s32 saved_index ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *offset_bytes;
     register u8 *offset_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register Copy12 *offset_src ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -36,8 +35,6 @@ void func_8016E138(s32 offset_index) {
     s32 x;
     s32 y;
 
-    saved_index = offset_index;
-    ASM_KEEP_NV(saved_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state = D_80174704;
     ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
@@ -65,7 +62,7 @@ void func_8016E138(s32 offset_index) {
     func_8009A3D0(x, y, old_tile_mask, offset_src);
     origin = D_80082E80;
     ASM_KEEP_NV(origin);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    offset_pos = saved_index << 1;
+    offset_pos = offset_index << 1;
     xy_offset = (s16 *)(offset_bytes + offset_pos);
     object[0x24] = origin[0x24] + ((u8 *)xy_offset)[0];
     object[0x25] = origin[0x25] + ((u8 *)xy_offset)[1];

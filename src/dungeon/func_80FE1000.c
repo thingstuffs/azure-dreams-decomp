@@ -135,7 +135,6 @@ void *BODY_NAME(s16 kind_flags, s8 part_value_24, s8 part_value_25, s16 part_val
     register s8 saved_value_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 saved_value_0a;
     register s8 saved_value_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 init_kind_flags;
     register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *init_part_a;
 
@@ -145,8 +144,6 @@ void *BODY_NAME(s16 kind_flags, s8 part_value_24, s8 part_value_25, s16 part_val
     saved_value_25 = part_value_25;
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
-        init_kind_flags = kind_flags;
-        ASM_KEEP(init_kind_flags);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         work = (u8 *)obj + 0x20;
         ((S_80FE1000_0 *)obj)->unk_10 = D_8016AA7C;
         ((S_80FE1000_1 *)work)->unk_13 = 0x28;
@@ -202,7 +199,7 @@ post_kind:
 call_a1_setup:
         init_part_a = part_a;
 call_a2_setup:
-        func_800A9C18(init_obj, init_part_a, part_b, init_kind_flags);
+        func_800A9C18(init_obj, init_part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8016AEA8;

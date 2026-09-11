@@ -40,9 +40,7 @@ s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
     data_base = (void *) (data_page - 0x75F4);
     result = func_80017960(data_base, (void *) (table_page - 0x746C),
                           saved_context, event_id);
-    do {
-        state_index = func_80018868(0x990, 2);
-    } while (0);
+    state_index = func_80018868(0x990, 2);
 
     if (event_id != 0xB) {
         return result;

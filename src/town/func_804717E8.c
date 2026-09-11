@@ -65,5 +65,5 @@ typedef s64 M2C_UNK64;
 extern long long D_80016000[0x10];
 void func_800187E8(void)
 {
- do { (*((M2C_UNK (**)(M2C_UNK, M2C_UNK)) (((s8 *) (*((void **) (((s8 *) (*D_80016000)) + 0x20)))) + 0x238)))(0x11, 0x200); } while (0);
+ (*((M2C_UNK (**)(M2C_UNK, M2C_UNK)) (((s8 *) (*((void **) (((s8 *) (*D_80016000)) + 0x20)))) + 0x238)))(0x11, 0x200);
 }

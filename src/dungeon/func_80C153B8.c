@@ -118,9 +118,7 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
         ((S_80170BB8_0 *)motion)->unk_14 += (s8)(*(u8 *)((u8 *)actor + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)actor + (0x9D)))++;
     } else {
-        do {
-            (*(volatile u8 *)((u8 *)actor + (0x9D))) = 0;
-        } while (0);
+        (*(volatile u8 *)((u8 *)actor + (0x9D))) = 0;
     }
     (*(s32 *)((u8 *)actor + (0x90))) += ((S_80170BB8_0 *)motion)->unk_14;
     status_flags = ((S_80170BB8_1 *)object)->unk_14;

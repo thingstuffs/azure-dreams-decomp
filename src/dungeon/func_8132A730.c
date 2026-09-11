@@ -72,7 +72,6 @@ void func_80171F30(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16
     void *init_data;
     void *tail;
     register s32 resource_addr;
-    register s16 mode ASM_REG("$19");
     s32 mode_index;
     register s16 tail_value;
     s16 mode_value;
@@ -91,7 +90,6 @@ void func_80171F30(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16
         return;
     }
 
-    mode = mode_value;
     resource_addr = ((s32)mode_value) << 16;
     mode_index = resource_addr >> 16;
     resource_addr = (s32)0x80170000;
@@ -116,7 +114,7 @@ void func_80171F30(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16
     ((S_80171F30_5 *)(((S_80171F30_0 *)object)->unk_08))->unk_0A =
         ((S_80171F30_6 *)(parent->unk_08))->unk_0A;
 
-    if ((mode << 16) == 0) {
+    if ((mode_value << 16) == 0) {
         jitter = rand();
         position = ((S_80171F30_0 *)object)->unk_08;
         coord = ((S_80171F30_2 *)position)->unk_02;
@@ -130,7 +128,6 @@ void func_80171F30(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16
         jitter &= 7;
         coord -= 4;
     } else {
-        ASM_KEEP(mode);
         jitter = rand();
         position = ((S_80171F30_0 *)object)->unk_08;
         coord = ((S_80171F30_2 *)position)->unk_02;

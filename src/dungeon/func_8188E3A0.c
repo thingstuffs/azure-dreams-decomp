@@ -84,7 +84,6 @@ extern Cell D_80026648[];
 /* Spawn quad effects at cell centers with randomized motion, then clear the pending count. */
 void func_80025BA0(void) {
     Cell *vertices;
-    register Cell *corner ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     Cell *diagonal;
     Cell *below;
     Cell *right;
@@ -113,7 +112,6 @@ void func_80025BA0(void) {
     quad_index = 0;
     if (D_80026476 > 0) {
         vertices = D_800265C8;
-        corner = vertices;
         do {
             effect = func_8003FC64(0x202);
             SET_COUNT_PAGE();
@@ -133,7 +131,7 @@ void func_80025BA0(void) {
                 index_or_coord += 0x10;
                 diagonal = (Cell *)((unsigned long)((row_start + index_or_coord) * 8) + (unsigned long)vertices);
 
-                effect_or_x = corner->x;
+                effect_or_x = vertices[quad_index].x;
                 addr_or_coord = right->x;
                 index_or_coord = diagonal->x;
                 motion = effect->unk_08;
@@ -147,8 +145,8 @@ void func_80025BA0(void) {
                 diagonal_z = diagonal->z;
                 effect_or_x += addr_or_coord;
                 effect_or_x += index_or_coord;
-                addr_or_coord = corner->y;
-                index_or_coord = corner->z;
+                addr_or_coord = vertices[quad_index].y;
+                index_or_coord = vertices[quad_index].z;
                 effect_or_x >>= 2;
                 motion->unk_02 = effect_or_x;
                 addr_or_coord = (addr_or_coord + right_y + below_y + diagonal_y) >> 2;
@@ -166,8 +164,8 @@ void func_80025BA0(void) {
 
                 quad_data = (S_func_80025BA0_3 *)((u8 *)effect + 0x20);
                 quad_data->unk_1A = 0x20;
-                quad_data->unk_34 = *(s32 *)corner;
-                quad_data->unk_38 = corner->z;
+                quad_data->unk_34 = *(s32 *)&vertices[quad_index];
+                quad_data->unk_38 = vertices[quad_index].z;
                 quad_data->unk_3C = *(s32 *)right;
                 quad_data->unk_40 = right->z;
                 quad_data->unk_44 = *(s32 *)&D_80026648[quad_index];
@@ -189,9 +187,8 @@ void func_80025BA0(void) {
                 SET_COUNT_PAGE();
             }
             quad_count = READ_COUNT_PAGE();
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             quad_index++;
-            corner++;
         } while (quad_index < quad_count);
     }
     *(volatile s16 *)&D_80026476 = 0;

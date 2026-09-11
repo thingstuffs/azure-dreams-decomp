@@ -66,7 +66,6 @@ extern u8 D_80176478[];
 /* Updates actor behavior and directional animation through three states, then sets its next callback. */
 void func_80173DD4(void *controller, void *context_in, void *object_in, void *actor)
 {
-    register void *context ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register void *object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 actor_flags;
     u16 current_value;
@@ -74,7 +73,6 @@ void func_80173DD4(void *controller, void *context_in, void *object_in, void *ac
     u8 *global_base;
     s32 state;
 
-    context = context_in;
     object = object_in;
 
     state = ((Rec_func_80173DD4_arg0 *)controller)->unk_9B;
@@ -115,7 +113,7 @@ state_one:
             goto done;
         }
         if (((S_80173DD4_2 *)actor)->unk_64 != 0) {
-            if (func_800AA6B4(controller, context, object, 0) != 0) {
+            if (func_800AA6B4(controller, context_in, object, 0) != 0) {
                 goto done;
             }
         }
@@ -123,7 +121,7 @@ state_one:
             if (((S_80173DD4_4 *)global_base)->unk_02 & 0x2008) {
                 goto done;
             }
-            func_800AA79C(controller, context, object, actor);
+            func_800AA79C(controller, context_in, object, actor);
             goto done;
         }
         if ((func_800A2C34(actor) << 16) != 0) {
@@ -131,17 +129,17 @@ state_one:
         }
         actor_flags = ((S_80173DD4_2 *)actor)->unk_1C.s;
         if (actor_flags & 0x100) {
-            func_800AA258(controller, context, object, actor);
+            func_800AA258(controller, context_in, object, actor);
             goto done;
         }
         if (actor_flags & 0x80000) {
-            func_800AA888(controller, context, object, actor);
+            func_800AA888(controller, context_in, object, actor);
             current_value = ((Rec_func_80173DD4_arg0 *)controller)->unk_92;
             value_adjustment = ((Rec_func_80173DD4_arg0 *)controller)->unk_A6;
             ((Rec_func_80173DD4_arg0 *)controller)->unk_A6 = 0;
             ((Rec_func_80173DD4_arg0 *)controller)->unk_AC = 0;
             ((Rec_func_80173DD4_arg0 *)controller)->unk_92 = current_value - value_adjustment;
-            func_80174520(controller, context, object, actor);
+            func_80174520(controller, context_in, object, actor);
             goto done;
         }
         if (((S_80173DD4_2 *)actor)->unk_6D == 0) {
@@ -204,13 +202,12 @@ set_callback:
     goto done;
 
 repeat_calls:
-    func_80175060(controller, context);
-    func_80175060(controller, context);
-    func_80175060(controller, context);
-    func_80175060(controller, context);
+    func_80175060(controller, context_in);
+    func_80175060(controller, context_in);
+    func_80175060(controller, context_in);
+    func_80175060(controller, context_in);
 
 done:
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

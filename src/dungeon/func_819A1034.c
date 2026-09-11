@@ -37,7 +37,7 @@ void func_819A1034(void *fade_data)
     u16 ticks_left;
 
     fade = fade_data;
-    do { color_index = 0; } while (0);
+    color_index = 0;
     color_ptr = fade;
 #ifdef NON_MATCHING
     global_page = (u8 *)&D_800261B0 - 0x5FF4;

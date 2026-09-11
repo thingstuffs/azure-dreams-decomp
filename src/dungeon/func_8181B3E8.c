@@ -254,6 +254,7 @@ extern s32 D_800814A0[3];
 extern s32 D_8008346C[3];
 extern u8 D_800DE870[];
 extern u8 D_800DE9D0[];
+extern u8 D_80024028;
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
 void func_80024BE8(void *effect_data, void *motion_data, void *sprite_data) {
@@ -286,10 +287,8 @@ void func_80024BE8(void *effect_data, void *motion_data, void *sprite_data) {
         if ((u32)state >= 9U) {
             goto common;
         }
-        jump_table = (void **)0x80020000;
-        ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        jump_table = (void **)((u8 *)jump_table + 0x4028);
-        ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        jump_table = (void **)&D_80024028;
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         goto *jump_table[state];
 
 state_0:

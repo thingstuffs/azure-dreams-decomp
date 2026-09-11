@@ -88,9 +88,8 @@ extern u8 *D_800E3D7C;
 
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
 void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_in) {
-    void *trap_state = trap_state_in;
     S_800CB9DC_2 *motion_state = motion_state_in;
-    register S_800CB9DC_4 *animation ASM_REG("$18") = animation_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_800CB9DC_4 *animation = animation_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     M2C_UNK *actor_data;
     M2C_UNK tile_mask;
     s32 vertical_speed;
@@ -99,15 +98,14 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
     void *actor;
 
     func_800478B8(animation);
-    ASM_KEEP(trap_state); /* MATCH: preserve the trap-state save order after sharing the final update. */
-    actor = ((S_800CB9DC_0 *)trap_state)->unk_00;
+    actor = ((S_800CB9DC_0 *)trap_state_in)->unk_00;
     actor_data = ((S_800CB9DC_1_pre *)actor)[-1].unk_04;
     position = ((S_800CB9DC_1_pre *)actor)[-1].unk_00;
     vertical_speed = motion_state->unk_14 + 0xFFFA0000;
     motion_state->unk_14 = vertical_speed;
     position->unk_08 = (s32) (position->unk_08 + vertical_speed);
-    elapsed_frames = ((S_800CB9DC_0 *)trap_state)->unk_06 + 1;
-    ((S_800CB9DC_0 *)trap_state)->unk_06 = elapsed_frames;
+    elapsed_frames = ((S_800CB9DC_0 *)trap_state_in)->unk_06 + 1;
+    ((S_800CB9DC_0 *)trap_state_in)->unk_06 = elapsed_frames;
     if (((s16) elapsed_frames >= 0x41) || ((animation->unk_14 & 0x8000) != 0)) {
         if (actor == D_800E3D7C) {
             s16 *trap_counts;
@@ -181,9 +179,9 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
             u8 *status_page_again;
             u16 removal_flags;
 
-            removal_flags = ((S_800CB9DC_0_pre *)trap_state)[-1].unk_00;
+            removal_flags = ((S_800CB9DC_0_pre *)trap_state_in)[-1].unk_00;
             status_page_again = (u8 *)0x80080000;
-            ((S_800CB9DC_0_pre *)trap_state)[-1].unk_00 = removal_flags | 0x8000;
+            ((S_800CB9DC_0_pre *)trap_state_in)[-1].unk_00 = removal_flags | 0x8000;
             global_flags = ((S_800CB9DC_9 *)status_page_again)->unk_14A0.s;
             global_flags |= 0x8000;
             ((S_800CB9DC_9 *)status_page_again)->unk_14A0.u = global_flags;

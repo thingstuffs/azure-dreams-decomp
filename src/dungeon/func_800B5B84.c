@@ -39,12 +39,11 @@ extern u8 D_801C9E40[16];
 void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 content_id)
 {
     CoordPair bottom_center;
-    u8 *draw_rect = rect;
     register s32 fill_rect ASM_REG("$22") = fill;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     register s32 draw_id ASM_REG("$19") = content_id;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 **state_addr ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *state;
-    register u8 *ordering_table ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *ordering_table;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *packet;
     u8 *primitive;
     u16 width;
@@ -64,7 +63,6 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
     buffer_diff = (s32)state ^ (s32)D_801C9E40;
     offset_y = buffer_diff != 0;
     rect_offset_y = offset_y;
-    ASM_KEEP_NV(draw_rect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(fill_rect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(state_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(ordering_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -75,13 +73,13 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
         func_80067EF4(primitive, 0, 0);
         func_8006658C(ordering_table, primitive);
 
-        width = ((S_800BB2E4_1 *)draw_rect)->unk_04;
+        width = ((S_800BB2E4_1 *)rect)->unk_04;
         width_hi = width << 16;
-        bottom_center.x = ((S_800BB2E4_1 *)draw_rect)->unk_00 +
+        bottom_center.x = ((S_800BB2E4_1 *)rect)->unk_00 +
             ((s32)((width_hi >> 16) +
                 ((u32)width_hi >> 31)) >> 1);
-        bottom_center.y = ((S_800BB2E4_1 *)draw_rect)->unk_02.u + ((S_800BB2E4_1 *)draw_rect)->unk_06;
-        func_800B8FC8(draw_id, draw_rect, &bottom_center, 0, 0);
+        bottom_center.y = ((S_800BB2E4_1 *)rect)->unk_02.u + ((S_800BB2E4_1 *)rect)->unk_06;
+        func_800B8FC8(draw_id, rect, &bottom_center, 0, 0);
         state = *(u8 **)D_80083160;
         primitive_flag = 1;
         goto allocate_primitive;
@@ -125,17 +123,17 @@ draw_packet:
         ((S_800BB2E4_0 *)state)->unk_8D0 = packet + 0x10;
         ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0x60000000;
         ((S_800BB2E4_2 *)packet)->unk_03 = 3;
-        ((S_800BB2E4_2 *)packet)->unk_08.at00u.v = ((S_800BB2E4_1 *)draw_rect)->unk_00;
+        ((S_800BB2E4_2 *)packet)->unk_08.at00u.v = ((S_800BB2E4_1 *)rect)->unk_00;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         apply_offset_y = rect_offset_y;
-        y = ((S_800BB2E4_1 *)draw_rect)->unk_02.s;
+        y = ((S_800BB2E4_1 *)rect)->unk_02.s;
         ASM_USE2(apply_offset_y, y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (apply_offset_y != 0) {
             y -= 0xE0;
         }
         ((S_800BB2E4_2 *)packet)->unk_08.at02u.v = y;
-        ((S_800BB2E4_2 *)packet)->unk_0C.at00u.v = ((S_800BB2E4_1 *)draw_rect)->unk_04;
-        ((S_800BB2E4_2 *)packet)->unk_0C.at02.v = ((S_800BB2E4_1 *)draw_rect)->unk_06;
+        ((S_800BB2E4_2 *)packet)->unk_0C.at00u.v = ((S_800BB2E4_1 *)rect)->unk_04;
+        ((S_800BB2E4_2 *)packet)->unk_0C.at02.v = ((S_800BB2E4_1 *)rect)->unk_06;
         func_8006658C(ordering_table, packet);
 
         state = *state_addr;
@@ -147,7 +145,7 @@ draw_packet:
         state = *state_addr;
         primitive = ((S_800BB2E4_0 *)state)->unk_8D0;
         ((S_800BB2E4_0 *)state)->unk_8D0 = primitive + 0xC;
-        func_80067E2C(primitive, draw_rect);
+        func_80067E2C(primitive, rect);
         func_8006658C(ordering_table, primitive);
     }
 

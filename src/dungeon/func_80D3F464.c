@@ -228,7 +228,7 @@ state1_test:
                     if (history_x != 0 ||
                         (history_load = (signed long)(*(signed short *)((u8 *)history_base + 0x68))) != 0) {
                         history_index = 2;
-                        do { history_base = (u8 *)history_addr + 0x20; } while (0);
+                        history_base = (u8 *)history_addr + 0x20;
                         do {
                             u8 *history_entry = history_base + (history_index << 2);
 

@@ -28,14 +28,14 @@ loop_3:
         i += 1;
         func_80405B5C();
         /* no return: fall through is dead; avoids j-epilogue after tail j */
+        func_80404668(*(s32 *)((u8 *)p + 4));
+    } else {
+        func_80404668(*(s32 *)((u8 *)p + 4));
     }
-    func_80404668(*(s32 *)((u8 *)p + 4));
     i += 1;
     if (i >= 5) {
         func_80405A00(*(s32 *)((u8 *)arg0 + 0x1C), *(s32 *)((u8 *)arg0 + 0x28));
-        do {
-            return;
-        } while (0);
+        return;
     }
     p = (u8 *)p + 4;
     goto loop_3;

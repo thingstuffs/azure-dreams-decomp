@@ -104,7 +104,7 @@ update_tiles:
         ASM_KEEP_NV(selection);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         D_800DF37A = angle;
         func_800403BC(tile_list);
-        do { mode = selection & 0x3FFF; } while (0);
+        mode = selection & 0x3FFF;
         position = ((S_800BA810_0 *)((u8 *)entity - 0x18))->unk_00;
         height = entity->height88;
         entry_value = (u16) position->unk_02;

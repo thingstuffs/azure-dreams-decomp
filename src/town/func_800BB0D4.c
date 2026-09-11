@@ -11,8 +11,6 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
     s32 entity_index;
     s32 record_index;
     s32 match_index;
-    register s32 raw_record_id ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 raw_entity_id ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 record_kind;
     u8 *entity_base;
     u8 *entity;
@@ -22,17 +20,15 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
     u8 *scan_link_page;
     u8 *slot;
 
-    raw_record_id = record_id;
-    raw_entity_id = entity_id;
     entity_base = D_800D2644;
-    entity_index = raw_entity_id & 0xFF;
+    entity_index = entity_id & 0xFF;
     entity = entity_base + (entity_index << 5);
     if (func_80033B2C(*(s16 *)(entity + 8)) == 0) {
         goto return_zero;
     }
 
     record_base = D_800D2EA4;
-    record_index = raw_record_id & 0xFF;
+    record_index = record_id & 0xFF;
     record = record_base + (record_index << 3);
     if (record[2] != entity[4]) {
         return 0;
@@ -43,7 +39,7 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
     ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
     record_link_page = (u8 *)0x80010000;
-    if (record_link_page[((raw_record_id & 0xFF) << 1) + 0x33A5] != 0) {
+    if (record_link_page[((record_id & 0xFF) << 1) + 0x33A5] != 0) {
         return 0;
     }
 
@@ -82,7 +78,7 @@ continue_loop:
 
     case 2:
     case 3:
-        do {
+        {
             register s32 no_match ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             s32 other_entity_index;
             u8 *other_entity_base;
@@ -92,15 +88,13 @@ continue_loop:
             no_match = 0;
             other_entity_base = D_800D2644;
             other_link_page = (u8 *)0x80010000;
-            other_entity_index = other_link_page[((raw_record_id & 0xFF) << 1) + 0x33A4];
+            other_entity_index = other_link_page[((record_id & 0xFF) << 1) + 0x33A4];
             other_entity = other_entity_base + (other_entity_index << 5);
-            ASM_KEEP(raw_record_id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            if (other_entity[7] != (raw_entity_id & 0xFF)) {
+            if (other_entity[7] != (entity_id & 0xFF)) {
                 return no_match;
             }
-            ASM_KEEP(raw_entity_id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             return 1;
-        } while (0);
+        }
 
     default:
         return 1;

@@ -53,12 +53,12 @@ void func_800DC724(S_800DC724_0 *state, s32 coord)
     holder = state->unk_3C;
     target = (index * 4) + positions;
     target_x = target->unk_00;
-    do { target_y = target->unk_02; } while (0);
-    do { position = holder->unk_04; } while (0);
+    target_y = target->unk_02;
+    position = holder->unk_04;
     state->unk_58 = 0;
     delta_x = (s16)target_x - position->unk_08;
     if (delta_x != 0) {
-        do { state->unk_58 = 1; } while (0);
+        state->unk_58 = 1;
         coord = position->unk_08;
         biased_dx = delta_x + 3;
         if (delta_x <= 0) {
