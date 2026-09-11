@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-10T22:59:23Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-11T00:04:30Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -24,7 +24,7 @@ Baseline NOT exact: 0 rows
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 32 | 6,088 | 0.2% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 10 | 7,368 | 0.3% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 2874 | 1,360,504 | 53.2% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 1744 | 1,306,968 | 51.1% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 1741 | 1,306,268 | 51.1% |
 | goto | 1545 | 1,318,412 | 51.5% | 1565 | 1,332,436 | 52.1% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 317 | 437,288 | 17.1% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 335 | 246,252 | 9.6% |
@@ -34,7 +34,7 @@ Baseline NOT exact: 0 rows
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 137 | 130,576 | 5.1% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 360 | 195,068 | 7.6% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3179 | 1,620,468 | 63.3% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2754 | 459,280 | 18.0% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2756 | 459,756 | 18.0% |
 
 Pin sites: 25,788 total; REG 12,804, KEEP 6,857, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 

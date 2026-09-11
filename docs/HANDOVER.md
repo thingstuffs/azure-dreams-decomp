@@ -175,15 +175,27 @@ Both drive this tree read-only and journal to `~/or_lane/out/journal.jsonl`. Res
 
 | lane | exact | cost |
 |---|---|---|
-| agy / Gemini 3.8 Flash (High) | 2 / 6 | subscription quota |
-| agy / Claude Opus 4.6 (Thinking) | 1 / 4 (quota cut batch3) | subscription quota |
+| agy / Gemini 3.8 Flash (High), head-to-head set | 2 / 6 | subscription quota |
+| agy / Gemini 3.8 Flash (High), `work/agy_boost` | **3 / 18** | subscription quota |
+| agy / Claude Opus 4.6 (Thinking) | 1 / 4, then 0 / 18 | subscription quota |
 | OpenRouter / qwen3-coder-next, agentic 16 turns/row | 0 / 6 | $0.17 |
 
-Both agy exacts landed at `e8440498` on rows the mechanical search had run at full budget and
-failed. Cheap OpenRouter models never beat the text they started from; the strong agy models
+**Two hard lessons about quota.** Opus 4.6 gets roughly **27 minutes of lane work per ~4.5 h
+window** - about one batch, so give it ONE well-chosen batch, never three (the 2nd and 3rd fail
+instantly). And in that window it made **zero `verify.py` calls**: it read, reasoned soundly about
+noreturn and tail-call spelling, and expired having scored nothing. On a byte-equality problem an
+unscored hypothesis is worth nothing, so `go.sh`'s brief now tells a lane to score within its first
+few minutes. Gemini scores early and often, which is why it out-landed Opus 3-0 in the same
+wall-clock despite being the cheaper model.
+
+The first two agy exacts landed at `e8440498`, three more at `d876ca54`, all on rows the
+mechanical search had run at full budget and failed. Cheap OpenRouter models never beat the text they started from; the strong agy models
 did. **Claude Code's classifier blocks agent-side agy spawns, so the owner launches**
-`! bash ~/agy_lane/go.sh "<model>"`. Unspent and ready: `work/agy_boost`, 27 rows whose FACTS
-carry the fold-the-load recipe.
+`! bash ~/agy_lane/go.sh "<model>"`. `work/agy_boost` (27 rows whose FACTS carry the fold-the-load recipe) is
+**part-spent: 18 served, 3 landed**; batches 3 and 5-7 are untouched. Its hit rate (3/18) beat the
+unscreened set (2/6 counts better but had two FACTS-dead rows in six), and `addressing` was the
+weak class at 0/3. Two of the three wins were the same shape the selector predicts: a literal page
+pointer where retail references a SYMBOL.
 
 ### The rule that decides what to build, revised
 

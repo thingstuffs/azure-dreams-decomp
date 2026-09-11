@@ -1,27 +1,27 @@
 # Pin families (tools/pin_probe.py --strip)
 
-Rows probed: 1741.  Every ASM_* site of the row erased at once; the scorer's aligned distance and the shape of the residue below.
+Rows probed: 1738.  Every ASM_* site of the row erased at once; the scorer's aligned distance and the shape of the residue below.
 
 - **strip-exact (pin-free for free): 0 rows**, 0 B, 0 pins
 
 | strip damage | rows |
 |---|---:|
-| 1-3 | 95 |
-| 4-8 | 214 |
+| 1-3 | 93 |
+| 4-8 | 213 |
 | 9-20 | 408 |
 | 21+ | 1018 |
 | error | 6 |
 
 | residue shape | rows | rows at damage<=8 |
 |---|---:|---:|
-| mixed | 1305 | 88 |
-| ? | 246 | 0 |
+| mixed | 1304 | 87 |
+| ? | 245 | 0 |
 | none | 96 | 9 |
 | reg_perm | 40 | 31 |
 | order | 29 | 20 |
-| reg_local | 25 | 12 |
+| reg_local | 24 | 11 |
 
-## The near band: 473 rows within 12 words of pin-free (167,676 B, 976 pins)
+## The near band: 470 rows within 12 words of pin-free (166,976 B, 973 pins)
 
 A row here is byte-exact today and one C shape away from carrying no scaffolding at
 all.  The class is the scorer's residue class for the row with every pin erased, and it
@@ -30,8 +30,8 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 
 | class | rows | pins | bytes | what the residue says |
 |---|---:|---:|---:|---|
-| broad | 102 | 205 | 33,100 | no single named signal; read the row's regions view |
-| length-drift | 74 | 177 | 23,740 | retail keeps or drops a word gcc does not |
+| broad | 100 | 203 | 32,812 | no single named signal; read the row's regions view |
+| length-drift | 73 | 176 | 23,328 | retail keeps or drops a word gcc does not |
 | reg-rename | 57 | 82 | 26,800 | same instructions, two registers swapped: the variable map, not the register |
 | reorder-only | 41 | 81 | 15,220 | same instructions, one moved by the scheduler |
 | code-motion | 29 | 68 | 8,264 | a statement crossed a call or a branch |
@@ -68,7 +68,6 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 | dungeon/func_807AEF8C | 832 | 2.7.2-cdk-G0 | 3 | 1 | delay-slot |
 | dungeon/func_809CAE20 | 1028 | 2.7.2-cdk-G0 | 1 | 1 | reg-rename |
 | dungeon/func_800A1A94 | 64 | 2.7.2 | 1 | 2 | broad |
-| dungeon/func_800AF9C8 | 64 | 2.7.2-cdk-G0 | 1 | 2 | broad |
 | dungeon/func_800A22D8 | 68 | 2.8.1 | 2 | 2 | delay-slot |
 | dungeon/func_8009A590 | 80 | 2.7.2-cdk | 1 | 2 | broad |
 | dungeon/func_80CC2614 | 88 | 2.7.2 | 3 | 2 | reg-rename |
@@ -87,6 +86,7 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 | dungeon/func_81338144 | 188 | 2.8.1-G0 | 3 | 2 | code-motion |
 | dungeon/func_813292EC | 192 | 2.8.1-G0 | 1 | 2 | reg-rename |
 | dungeon/func_818C2E40 | 208 | 2.7.2-cdk-G0 | 3 | 2 | broad |
-| town/func_8059E540 | 224 | 2.7.2-cdk | 1 | 2 | broad |
 | dungeon/func_800C96AC | 232 | 2.7.2-cdk-G0 | 1 | 2 | broad |
 | town/func_800B0BC4 | 240 | 2.8.1-G0 | 1 | 2 | code-motion |
+| dungeon/func_800B4204 | 276 | 2.8.1-G0 | 1 | 2 | reorder-only |
+| dungeon/func_81881CC4 | 280 | 2.8.1 | 1 | 2 | reorder-only |
