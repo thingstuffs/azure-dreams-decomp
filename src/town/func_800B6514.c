@@ -36,32 +36,22 @@ void func_800B3C74(void *state) {
     owner = state;
     slot = 2;
     count_cursor = owner + 8;
-next_slot:
-    countdown = ((S_800B3C74_0 *)count_cursor)->unk_0C;
-    if (countdown != 0) {
-        goto nonzero_count;
-    }
-    slot_offset = slot << 2;
-    table = ((S_800B3C74_1 *)owner)->unk_5C;
-    entry = (s32 *)(slot_offset + (s32)table);
-    resource_addr = *entry;
-    ASM_USE(slot_offset);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    count_cursor += 4;
     do {
-        func_800B3B18(((S_800B3C74_2 *)((s32 *)resource_addr))->unk_04);
-    } while (0);
-    slot += 1;
-    goto check_done;
-
-nonzero_count:
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    countdown--;
-    ((S_800B3C74_0 *)count_cursor)->unk_0C = countdown;
-    count_cursor += 4;
-    slot += 1;
-check_done:
-    if (slot >= 5) {
-        return;
-    }
-    goto next_slot;
+        countdown = ((S_800B3C74_0 *)count_cursor)->unk_0C;
+        if (countdown == 0) {
+            slot_offset = slot << 2;
+            table = ((S_800B3C74_1 *)owner)->unk_5C;
+            entry = (s32 *)(slot_offset + (s32)table);
+            resource_addr = *entry;
+            ASM_USE(slot_offset);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            count_cursor += 4;
+            func_800B3B18(((S_800B3C74_2 *)((s32 *)resource_addr))->unk_04);
+        } else {
+            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            countdown--;
+            ((S_800B3C74_0 *)count_cursor)->unk_0C = countdown;
+            count_cursor += 4;
+        }
+        slot += 1;
+    } while (slot < 5);
 }
