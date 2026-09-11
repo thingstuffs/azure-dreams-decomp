@@ -570,6 +570,56 @@ STORE_RE = re.compile(r"^[ \t]*[A-Za-z_]\w*(?:\s*(?:->|\.)\s*\w+|\s*\[[^\]]*\])+
 DIRECT_CALL_RE = re.compile(r"^[ \t]*(?:[A-Za-z_]\w*\s*=\s*)?(?P<f>[A-Za-z_]\w*)\s*\([^;]*\)\s*;\s*$")
 
 
+PTRTY = r"(?:u8|s8|void|char|M2C_UNK)"
+LITDECL_RE = re.compile(r"^(?P<i>[ \t]+)%s[ \t]*\*[ \t]*(?P<n>[A-Za-z_]\w*)[ \t]*=[ \t]*"
+                        r"\(%s[ \t]*\*\)[ \t]*0x(?P<a>8[0-9A-Fa-f]{7})[ \t]*;[ \t]*$"
+                        % (PTRTY, PTRTY), re.M)
+LITASSIGN_RE = re.compile(r"^(?P<i>[ \t]+)(?P<n>[A-Za-z_]\w*)[ \t]*=[ \t]*"
+                          r"\(%s[ \t]*\*\)[ \t]*0x(?P<a>8[0-9A-Fa-f]{7})[ \t]*;[ \t]*$" % PTRTY, re.M)
+
+
+def _add_extern(text, decl):
+    """Put an extern next to the others, or after the includes if there are none."""
+    if decl.strip() in text:
+        return text
+    lines = text.splitlines(True)
+    last = max((i for i, l in enumerate(lines) if l.startswith("extern ")), default=None)
+    if last is None:
+        last = max((i for i, l in enumerate(lines) if l.startswith("#include")), default=-1)
+    lines.insert(last + 1, decl)
+    return "".join(lines)
+
+
+def litsym_candidates(text):
+    """A local holding a literal page address, where retail references a SYMBOL.
+
+    `li-expansion` in the brief: `lui;ori` yours against `lui;addiu` retail's means the C
+    materialises an integer where retail names a symbol, and the extra live value is what the pin
+    was holding down.  Two rows fell to exactly this on 2026-09-10 (town/func_8059E540,
+    dungeon/func_800AF9C8, landed d876ca54), one needing the array-decay spelling with the extern
+    already present and one needing `&D_X` with the extern added - so both spellings are emitted
+    and the budget decides.
+    """
+    out = []
+    for rx in (LITDECL_RE, LITASSIGN_RE):
+        for m in rx.finditer(text):
+            name, addr = m.group("n"), m.group("a").upper()
+            sym = "D_8" + addr[1:]
+            uses = len(re.findall(r"\b%s\b" % re.escape(name), text))
+            if uses < 2:                      # the assignment itself plus at least one read
+                continue
+            for repl, decl in ((sym, "extern u8 %s[];\n" % sym), ("&" + sym, "extern u8 %s;\n" % sym)):
+                t = text[:m.start()] + text[m.end() + 1:]          # drop the assignment line
+                # a separate `u8 *name;` declaration is now dead
+                t = re.sub(r"^[ \t]*%s[ \t]*\*[ \t]*%s[ \t]*;[ \t]*\n" % (PTRTY, re.escape(name)),
+                           "", t, flags=re.M)
+                t = re.sub(r"\b%s\b" % re.escape(name), repl.replace("\\", "\\\\"), t)
+                t = _add_extern(t, decl)
+                if t != text:
+                    out.append(("litsym:%s->%s" % (name, repl), t))
+    return out
+
+
 def fence_store_before_call_candidates(text):
     """Fence a memory store that sits immediately before a DIRECT call.
 
@@ -632,6 +682,7 @@ class T:
                      + inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur)
                      + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                      + maskfold_candidates(cur) + mask2cast_candidates(cur)
+                     + litsym_candidates(cur)
                      + commute_candidates(cur) + cands + empty_fence_candidates(cur))
         return cands
 
