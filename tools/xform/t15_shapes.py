@@ -698,6 +698,69 @@ def livetie_candidates(text, max_cands=24):
     return out
 
 
+DOWHILE_END_RE = re.compile(r"^(?P<i>[ \t]+)(?P<v>[A-Za-z_]\w*)\+\+;[ \t]*$")
+DOWHILE_TEST_RE = re.compile(r"^[ \t]*\}[ \t]*while[ \t]*\([ \t]*(?P<v>[A-Za-z_]\w*)[ \t]*"
+                             r"(?P<op><=?)[ \t]*(?P<k>[^)]+?)[ \t]*\)[ \t]*;[ \t]*$")
+
+
+def dowhile2for_candidates(text):
+    """m2c's counted `do/while` written back as the `for` it came from.
+
+    APPEARS when m2c lowers a counted loop: `v = 0;` then `do { ... v++; } while (v < K);`.
+    That spelling puts the increment at the bottom of the body as an ordinary statement.
+
+    RESOLVES because a `for` header makes the increment the loop's own update expression, which
+    gcc's `reorg` may then steal into a branch delay slot - which is exactly the word the pinned
+    build was missing.  Both source rows were `length-drift` and one carried the
+    `ASM_SCHED_BARRIER` the shape removes outright.
+
+    POPULATION at the time it was written: 41 pinned rows match the appearance condition, 9 of
+    them in band, 7 of those not already closed by the lane - so it is a class, not a one-off.
+    That count is the bar a harvested shape has to clear before it is worth a generator: `litsym`
+    and `livetie` were each built from a single win and closed nothing.
+
+    Two independent wins, dungeon/func_80A4B134 and dungeon/func_80B9A94C (2026-09-11).
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    for j, ln in enumerate(masked):
+        mt = DOWHILE_TEST_RE.match(ln.rstrip("\n"))
+        if not mt:
+            continue
+        v, k, op = mt.group("v"), mt.group("k").strip(), mt.group("op")
+        mi = DOWHILE_END_RE.match(masked[j - 1].rstrip("\n")) if j else None
+        if not mi or mi.group("v") != v:
+            continue
+        # walk back to the matching `do {`
+        depth, top = 0, None
+        for x in range(j, -1, -1):
+            depth += masked[x].count("}") - masked[x].count("{")
+            if depth == 0 and re.match(r"^[ \t]*do[ \t]*\{[ \t]*$", masked[x].rstrip("\n")):
+                top = x
+                break
+        if top is None:
+            continue
+        init = None                      # nearest preceding `v = <start>;`
+        for x in range(top - 1, -1, -1):
+            m0 = re.match(r"^[ \t]*%s[ \t]*=[ \t]*(?P<s>[^;=]+);[ \t]*$" % re.escape(v),
+                          masked[x].rstrip("\n"))
+            if m0:
+                init = (x, m0.group("s").strip())
+                break
+            if re.search(r"\b%s\b" % re.escape(v), masked[x]):
+                break                    # touched by something else first: not a plain counter
+        if init is None:
+            continue
+        ix, start = init
+        ind = re.match(r"^([ \t]*)", lines[top]).group(1)
+        head = "%sfor (%s = %s; %s %s %s; %s++) {\n" % (ind, v, start, v, op, k, v)
+        body = lines[top + 1:j - 1]                      # drop the trailing `v++;`
+        new = lines[:ix] + lines[ix + 1:top] + [head] + body + ["%s}\n" % ind] + lines[j + 1:]
+        out.append(("dowhile2for:%s<%s" % (v, k), "".join(new)))
+    return out
+
+
 def fence_store_before_call_candidates(text):
     """Fence a memory store that sits immediately before a DIRECT call.
 
@@ -761,6 +824,7 @@ class T:
                      + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                      + maskfold_candidates(cur) + mask2cast_candidates(cur)
                      + litsym_candidates(cur) + livetie_candidates(cur)
+                     + dowhile2for_candidates(cur)
                      + commute_candidates(cur) + cands + empty_fence_candidates(cur))
         return cands
 
