@@ -1,27 +1,27 @@
 # Pin families (tools/pin_probe.py --strip)
 
-Rows probed: 1738.  Every ASM_* site of the row erased at once; the scorer's aligned distance and the shape of the residue below.
+Rows probed: 1729.  Every ASM_* site of the row erased at once; the scorer's aligned distance and the shape of the residue below.
 
 - **strip-exact (pin-free for free): 0 rows**, 0 B, 0 pins
 
 | strip damage | rows |
 |---|---:|
-| 1-3 | 93 |
-| 4-8 | 213 |
-| 9-20 | 408 |
+| 1-3 | 91 |
+| 4-8 | 205 |
+| 9-20 | 409 |
 | 21+ | 1018 |
 | error | 6 |
 
 | residue shape | rows | rows at damage<=8 |
 |---|---:|---:|
-| mixed | 1304 | 87 |
-| ? | 245 | 0 |
+| mixed | 1301 | 84 |
+| ? | 239 | 0 |
 | none | 96 | 9 |
 | reg_perm | 40 | 31 |
 | order | 29 | 20 |
 | reg_local | 24 | 11 |
 
-## The near band: 470 rows within 12 words of pin-free (166,976 B, 973 pins)
+## The near band: 461 rows within 12 words of pin-free (162,576 B, 958 pins)
 
 A row here is byte-exact today and one C shape away from carrying no scaffolding at
 all.  The class is the scorer's residue class for the row with every pin erased, and it
@@ -30,20 +30,20 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 
 | class | rows | pins | bytes | what the residue says |
 |---|---:|---:|---:|---|
-| broad | 100 | 203 | 32,812 | no single named signal; read the row's regions view |
-| length-drift | 73 | 176 | 23,328 | retail keeps or drops a word gcc does not |
+| broad | 99 | 201 | 32,580 | no single named signal; read the row's regions view |
+| length-drift | 69 | 172 | 20,664 | retail keeps or drops a word gcc does not |
 | reg-rename | 57 | 82 | 26,800 | same instructions, two registers swapped: the variable map, not the register |
 | reorder-only | 41 | 81 | 15,220 | same instructions, one moved by the scheduler |
-| code-motion | 29 | 68 | 8,264 | a statement crossed a call or a branch |
-| li-expansion | 27 | 70 | 7,804 | lui;ori against lui;addiu: an integer literal where retail has a symbol |
+| code-motion | 28 | 66 | 7,188 | a statement crossed a call or a branch |
 | addressing | 26 | 51 | 7,556 | %hi/%lo against base+offset: how the address is formed |
+| li-expansion | 26 | 68 | 7,704 | lui;ori against lui;addiu: an integer literal where retail has a symbol |
 | slus-diff | 26 | 35 | 16,564 | the SLUS object differs; check the row's TU, not its C |
 | const-remat | 23 | 59 | 10,520 | retail keeps a constant in a register that gcc recomputes |
 | slot-rotation | 18 | 37 | 4,544 | a different instruction fills a delay slot |
-| block-order | 13 | 19 | 3,040 | the basic blocks are laid out in another order |
+| block-order | 12 | 18 | 2,812 | the basic blocks are laid out in another order |
 | polarity | 10 | 25 | 3,128 | a branch is inverted |
-| dead-code-retention | 10 | 33 | 3,152 | retail keeps a computation gcc deletes |
-| hold-set | 9 | 14 | 1,492 | a different callee-saved set / frame layout |
+| hold-set | 10 | 15 | 1,724 | a different callee-saved set / frame layout |
+| dead-code-retention | 8 | 28 | 2,820 | retail keeps a computation gcc deletes |
 | delay-slot | 8 | 20 | 2,752 | retail fills a slot this build leaves as nop |
 
 ### The closest rows (strip damage 1-2)
@@ -60,7 +60,6 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 | town/func_806F1A40 | 104 | 2.7.2-cdk-G0 | 2 | 1 | delay-slot |
 | dungeon/func_800A7828 | 208 | 2.7.2-cdk-G0 | 1 | 1 | broad |
 | slus/w_80042A80 | 232 | 2.7.2-cdk | 1 | 1 | slus-diff |
-| main/func_80013B18 | 232 | 2.7.2-G0 | 2 | 1 | broad |
 | town/func_8032E8C0 | 260 | 2.6.3-G0 | 1 | 1 | broad |
 | dungeon/func_80DE6AAC | 436 | 2.7.2-cdk-G0 | 2 | 1 | delay-slot |
 | slus/w_80059E94 | 480 | 2.8.1 -fno-schedule-insns | 1 | 1 | slus-diff |
@@ -90,3 +89,4 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 | town/func_800B0BC4 | 240 | 2.8.1-G0 | 1 | 2 | code-motion |
 | dungeon/func_800B4204 | 276 | 2.8.1-G0 | 1 | 2 | reorder-only |
 | dungeon/func_81881CC4 | 280 | 2.8.1 | 1 | 2 | reorder-only |
+| town/func_800BBB00 | 292 | 2.7.2-cdk-G0 | 2 | 2 | broad |

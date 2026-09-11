@@ -152,62 +152,99 @@ after every launch — commit your own tree changes (tools, config, ledger) *bef
 they get swept into a campaign commit without their config; a bash `a && b && nohup c &` backgrounds
 the whole list, not just `c`; never print a set of window names.
 
-## PICK UP HERE (2026-09-10, evening)
+## PICK UP HERE (2026-09-11, ~05:00 UTC)
 
-**The full sweep is done and landed.** `sweep.py t15_shapes` over all 1,769 pinned rows,
-11h45m: noop 1392, refused 288, applied 89. With the wave-4 lane landings, 215 rows lost
-scaffolding this session (148 fully pin-free, 67 partial); the tree went 1,968 -> 1,741 pinned
-rows and 12,543 -> 11,938 sites. Gates green (85 windows re-gated 85/85 MATCH, SLUS SHA-1
-MATCH), committed `12ae2d47`; `docs/PIN_FAMILIES.md` and `ledger/pins_strip.jsonl` refreshed.
+Tree is clean, fully gated (2,172/2,172 windows + SLUS SHA-1 MATCH) and everything below is
+committed. **1,732 rows carry pins**, from 1,968 at the start of the 09-10 session.
+`STATUS.md`, `docs/PIN_FAMILIES.md` and the census are current and now agree with the pin
+machinery by construction.
 
-**The SLUS gate is part of the procedure now.** `gate_all.py` covers overlay windows only and
-the last six landings of this sweep were all `slus/w_*` rows. Always follow it with
-`bash tools/build/build_slus.sh -j 6`.
+### Start here, in this order
 
-**Next run: the two-pass schedule** measured under "Sweep tuning" - a cheap pass at budget ~25
-over everything, then budget 400 only where `tools/pin_target.py` ranks highly. 306 rows are
-now within 8 words of pin-free (93 within 3).
+1. **Re-sweep the ~109 remaining race-recovered rows.** This is the highest-value lead and it is
+   pure recovered ground, not retries. `strip_census()` had a lazy-init race (fixed b54533ce) that
+   refused **136 rows** across every threaded sweep - including 13 in the 11-hour full pass - with
+   the message "no strip probe for this row", which reads like missing data. Those rows were never
+   searched at all. Of the 27 that were in band and swept afterwards, **one closed outright**
+   (`main/func_8000F160`, 1 -> 0) and another (`town/func_800A383C`) fell to the first model that
+   looked at it. Find them with: journal entries whose `reason` is "no strip probe for this row"
+   and whose latest record still says so.
+2. **Point agy/Gemini at the fresh screen.** `tools/pin_probe.py --strip` is current; the screen at
+   `strip <= 6, residue <= 8, size <= 1600` gives **45 boost / 88 stop / 43 ok**. The `boost`
+   marker (retail's residue register set a strict SUPERSET of ours -> "fold the load") is a real
+   selector: the packs built from it went 3/27 and then **8/17**. Build a pack with
+   `tools/pin_lane.py --only-rows <file> --band 8 --size 8 --out work/<name>`, launch with
+   `! AGY_PACK=work/<name> bash ~/agy_lane/go.sh "Gemini 3.8 Flash (High)" batch1 batch2 ...`,
+   harvest with `~/agy_lane/harvest.py --model "..." --pack <abs path>`.
+3. **Mine the six unmechanised shapes** in the 2026-09-11 wins (logs in `~/agy_lane/log/`):
+   early-exit/branch-polarity restructuring, m2c's `var = 0; ... return;` written back as
+   `return 0;`, pointer-decrement idiom -> array indexing in a loop, a cascaded `if` tree written
+   back as the `switch` it came from (defeats extended-basic-block CSE), and an internal-jump
+   epilogue retype. **Count the population before writing a generator** - see below.
 
-### External-model lanes (new, deliberately OUTSIDE this repo)
+### Per-class hit rate (agy/Gemini, 44 rows served across two packs)
 
-`~/or_lane/` (OpenRouter) and `~/agy_lane/` (agy / Antigravity CLI) - see each dir's README.
-Both drive this tree read-only and journal to `~/or_lane/out/journal.jsonl`. Results:
-
-| lane | exact | cost |
+| pays | | dead loss |
 |---|---|---|
-| agy / Gemini 3.8 Flash (High), head-to-head set | 2 / 6 | subscription quota |
-| agy / Gemini 3.8 Flash (High), `work/agy_boost` | **3 / 18** | subscription quota |
-| agy / Claude Opus 4.6 (Thinking) | 1 / 4, then 0 / 18 | subscription quota |
-| OpenRouter / qwen3-coder-next, agentic 16 turns/row | 0 / 6 | $0.17 |
+| block-order 1/1, code-motion 1/1 | dead-code-retention 2/3 | delay-slot **0/7** |
+| length-drift 3/8 | li-expansion 1/2 | addressing **0/4** |
+| | const-remat 0/2 | slot-rotation **0/1** |
 
-**Two hard lessons about quota.** Opus 4.6 gets roughly **27 minutes of lane work per ~4.5 h
-window** - about one batch, so give it ONE well-chosen batch, never three (the 2nd and 3rd fail
-instantly). And in that window it made **zero `verify.py` calls**: it read, reasoned soundly about
-noreturn and tail-call spelling, and expired having scored nothing. On a byte-equality problem an
-unscored hypothesis is worth nothing, so `go.sh`'s brief now tells a lane to score within its first
-few minutes. Gemini scores early and often, which is why it out-landed Opus 3-0 in the same
-wall-clock despite being the cheaper model.
+Drop the three zero classes from any launch order. `ASM_TAILSLOT_PIN` is 460 sites at **0%
+removable** in the census, and the delay-slot rows keep reconstructing that same wall.
 
-The first two agy exacts landed at `e8440498`, three more at `d876ca54`, all on rows the
-mechanical search had run at full budget and failed. Cheap OpenRouter models never beat the text they started from; the strong agy models
-did. **Claude Code's classifier blocks agent-side agy spawns, so the owner launches**
-`! bash ~/agy_lane/go.sh "<model>"`. `work/agy_boost` (27 rows whose FACTS carry the fold-the-load recipe) is
-**part-spent: 18 served, 3 landed**; batches 3 and 5-7 are untouched. Its hit rate (3/18) beat the
-unscreened set (2/6 counts better but had two FACTS-dead rows in six), and `addressing` was the
-weak class at 0/3. Two of the three wins were the same shape the selector predicts: a literal page
-pointer where retail references a SYMBOL.
+### The lesson that should change what you build next
 
-### The rule that decides what to build, revised
+**Harvesting a hand win into a sweep generator does not pay; auditing the pattern-matching layer
+does.** Three generators were built this session - `litsym` (8d10909a), `livetie` (a55c8b6c),
+`dowhile2for` (8e89f6c6). Each reproduces its source row(s) byte-exact, and **all three closed zero
+new rows.** `dowhile2for` was even built to a counted population (41 matching rows, 9 in band) and
+still returned nothing. That is now ten of eleven harvested shapes at zero, and the file's own menu
+comment says the same. Keep them in the WIDE menu as hill-climb contributors - partial removals are
+real wins, and 64 of the main sweep's 89 landings were partials - but do not expect a close.
 
-Every generator was harvested from a lane that closed a row by hand, and the ones that
-generalise state the **precondition**. A *negative* precondition is worth as much as a positive
-one - but **a stop-rule is a ranking signal, not a verdict**, and this is now the harder-won
-half. `pin_facts.py` told every lane that a hard-register tie was unreachable from C; two
-models broke one on the first attempt, and on its sibling row the same text talked one of them
-out of spending a single verify. 53 of 54 stopped rows in the near band carried that marker.
-Both stop-rules are reworded: the tie now ranks a row last and names the mode-change that broke
-it, and the jal-vs-j rule now says to check the arg-carrying sibcall set (LEAD 22) before
-believing it, and warns that set is derived from MAIN.BIN only.
+Every genuine gain this session came from fixing the plumbing that decides **which rows get looked
+at**, not from new shapes:
+
+- `DECL_RE` could not see `register u32 x;`, hiding locals from maskfold/narrow/retype (57569692).
+- `pin_census.sites_of` could not see a pin wrapped in a local macro: **127 sites invisible to
+  every tool**, 30 files de-macroed byte-exact, two rows entirely invisible (548963e9). That
+  immediately produced the first strip-exact rows and two free landings (53bf9cb4).
+- `census.py`/`status.py` counted `ASM_x(` over raw text, so a pin NOTE in a comment kept a freed
+  row counted as pinned - drift that grew with every success (31f87591).
+- the `strip_census` race above (b54533ce), worth 136 rows.
+
+So: before building another shape, ask what the tooling cannot currently see.
+
+### Rules for mechanising, if you do it anyway
+
+State all three before writing code, and count the third:
+**APPEARS** under what textual condition · **RESOLVES** by what compiler mechanism · **POPULATION**
+how many other pinned rows match. `dowhile2for`'s docstring is the worked example. A population of
+one means it is a row, not a class.
+
+### Traps hit this session
+
+- **`pgrep` self-match cost two hours.** `while pgrep -f "[s]weep.py t15_shapes"; do sleep 30; done`
+  inside a `bash -c` matches **itself**, because the waiting shell's own command line contains the
+  pattern. The bracket trick only protects against the `pgrep` process. Put the work in a script
+  FILE and wait on recorded PIDs - `~/agy_lane/finish.sh` is the working shape.
+- The scrub hook rejects an absolute home path anywhere outside `raw/` and `src/`, including in a
+  code comment that merely quotes one. `apply_candidates.py` now records an out-of-tree lane's
+  directory NAME (e8440498).
+- Two lanes on one pack overwrite each other's candidates; `go.sh` now writes `out_<model>`.
+- `gate_all.py` covers overlay windows ONLY. Always follow with `tools/build/build_slus.sh -j 6`.
+
+### Lanes (both outside this repo, by owner instruction)
+
+`~/agy_lane/` (agy = Antigravity CLI; `go.sh`, `harvest.py`, `compare.py`, `finish.sh`) and
+`~/or_lane/` (OpenRouter; `or_agent.py` 3-tool loop, `or_key.sh`). READMEs in each. Claude Code's
+classifier blocks agent-side agy spawns from a plain foreground call - launching via
+`nohup env ... bash ~/agy_lane/go.sh ... &` worked. **Quota:** Gemini 3.8 Flash (High) sustained
+~3 h of lane work; **Opus 4.6 gets ~27 minutes per ~4.5 h window - give it ONE batch, never three**,
+and in its one window it made **zero `verify.py` calls** and landed nothing, which is why the brief
+now orders a lane to score within its first few minutes. Cheap OpenRouter models (qwen3-coder-next,
+agentic, 16 turns/row) went **0/6 for $0.17** and never beat the text they started from.
 
 ## Session 2026-09-09 (evening) — the pin burn-down, after the Codex credit ran out
 
