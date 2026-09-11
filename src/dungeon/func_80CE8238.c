@@ -86,7 +86,7 @@ void func_80171A38(void *object, S_80171A38_4 *position, S_80171A38_3 *part_stat
         goto mark_used;
     }
 
-    do { part = record->unk_0C; } while (0);
+    part = record->unk_0C;
     part_value = part->unk_06;
     base_position = record->unk_08;
     part_state->unk_06 = part_value + 1;

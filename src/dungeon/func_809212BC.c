@@ -28,8 +28,8 @@ extern u8 D_80173AF8;
 /* Pulses the actor color, then fades it out and marks completion. */
 void func_800F62BC(void *state_data, s32 unused, void *actor_data) {
     s16 fade_ticks;
-    s32 pulse;
-    s32 pulse_color;
+    s16 pulse;
+    s16 pulse_color;
     u8 fade_color;
     void *state = state_data;
     void *actor = actor_data;
@@ -37,9 +37,7 @@ void func_800F62BC(void *state_data, s32 unused, void *actor_data) {
     if (((S_800F62BC_0 *)state)->unk_00.s == 0) {
         pulse = func_800644B8(((S_800F62BC_0 *)state)->unk_04 << 7) >> 6;
         pulse_color = pulse + 0x80;
-        do {
-            pulse = (s32) (pulse << 0x10) >> 0x11;
-        } while (0);
+        pulse = (s32) (pulse << 0x10) >> 0x11;
         pulse_color += pulse;
         ((S_800F62BC_1 *)actor)->unk_0D = pulse_color;
         ((S_800F62BC_1 *)actor)->unk_0E = pulse_color;

@@ -63,9 +63,10 @@ u8 *func_806D2C3C(u8 *dst, u8 *src, s32 control_bits, u32 byte_value)
     if (control_bits != 0)
     {
       *((u32 *) (field_ptr - 4)) = (control_bits & 0x3FFF0000) | 0xC0000010;
+        src += 20;
+    } else {
+        src += 20;
     }
-    do { } while (0);
-    src += 20;
     {
       u32 packed_word;
       u32 combined_bits;

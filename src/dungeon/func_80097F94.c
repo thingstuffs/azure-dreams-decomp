@@ -86,9 +86,7 @@ col_loop:
                 shift = ((S_8009D6F4_0 *)grid_dims)->unk_14;
                 value_bits = (s16) (((S_8009D6F4_1 *)(((((row << shift) + col) * 6) + table)))->unk_02 + 0x200) / 64;
                 clamped_level = value_bits;
-                do {
-                    level = value_bits;
-                } while (0);
+                level = value_bits;
                 if (level >= 0x10) {
                     clamped_level = 15;
                     goto clamp_value;

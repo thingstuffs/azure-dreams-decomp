@@ -14,7 +14,6 @@ extern s32 func_800DCA1C(void *, s32);
 
 /* Moves the current value toward its selected target and updates the object state. */
 void func_800DC650(u8 *object_data) {
-    u8 *object = object_data;
     u8 *state;
     u32 flags;
     s32 current;
@@ -24,8 +23,8 @@ void func_800DC650(u8 *object_data) {
     void *handle;
     s32 result;
 
-    state = object + 0x3C;
-    flags = *(u32 *)(object + 0x50);
+    state = object_data + 0x3C;
+    flags = *(u32 *)(object_data + 0x50);
     current = *(s16 *)(*(u8 **)(state + 8) + 0xE);
     target = *(s16 *)((u8 *)D_800E2934 + (flags & 2));
     delta = target - current;
@@ -47,17 +46,15 @@ set_target:
     current = target;
 compare:
     if (current != target) {
-        *(s32 *)(object + 0x58) = 1;
-        handle = *(void **)(object + 0x3C);
+        *(s32 *)(object_data + 0x58) = 1;
+        handle = *(void **)(object_data + 0x3C);
         mode = 0;
     } else {
-        mode = *(u32 *)(object + 0x50);
-        handle = *(void **)(object + 0x3C);
+        mode = *(u32 *)(object_data + 0x50);
+        handle = *(void **)(object_data + 0x3C);
         mode = ((mode >> 1) ^ 1) % 2;
     }
-    do {
-        result = func_800DCA1C(handle, mode);
-    } while (0);
+    result = func_800DCA1C(handle, mode);
     do {
         D_800E5910->value = result;
     } while (0);

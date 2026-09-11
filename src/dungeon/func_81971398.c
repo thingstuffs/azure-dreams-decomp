@@ -37,7 +37,7 @@ void func_81971398(void *fade_data)
     u16 ticks_left;
 
     fade = fade_data;
-    do { vertex_index = 0; } while (0);
+    vertex_index = 0;
     vertex = fade;
 #ifdef NON_MATCHING
     global_page = (u8 *)&D_80025FF4 - 0x5FF4;

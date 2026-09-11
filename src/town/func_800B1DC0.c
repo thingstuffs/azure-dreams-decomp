@@ -49,9 +49,7 @@ void func_800AF520(void *context) {
     S_800AF520_0 *ctx = context;
 
     page_index = ((S_800AF520_4 *)(((S_800AF520_3 *)ctx)->unk_00))->unk_10;
-    do {
-        slot_index = 6;
-    } while (0);
+    slot_index = 6;
     index_offset = page_index << 2;
     index_offset += page_index;
     entry_index = index_offset << 1;

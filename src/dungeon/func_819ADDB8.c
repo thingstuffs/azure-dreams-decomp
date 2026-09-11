@@ -183,9 +183,7 @@ loop:
 #ifdef NON_MATCHING
             sprite_table = D_800274C0;
 #else
-            sprite_table = (u8 *)0x80020000;
-            ASM_KEEP_NV(sprite_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            sprite_table += 0x74C0;
+            sprite_table = (u8 *)&D_800274C0;
 #endif
             component_data = (u8 *)((u32)component_data + (u32)sprite_table);
             ((S_800255B8_2 *)sprite)->unk_08 = component_data;

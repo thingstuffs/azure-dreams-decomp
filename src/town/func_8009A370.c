@@ -61,7 +61,7 @@ void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
     if (count != 0) {
         angle_step = 0x1000 / count;
         do { object_index = 0; } while (0);
-        do { angle = rand(); } while (0);
+        angle = rand();
         initial_y = origin->unk_0A;
         record.field16 = -4;
         record.y = initial_y;

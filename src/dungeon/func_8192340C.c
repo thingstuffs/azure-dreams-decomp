@@ -24,24 +24,22 @@ typedef struct {
 
 /* Advance the effect, fade it as its timer runs down, and flag it for removal when finished. */
 void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
-    u8 *entity = entity_data;
     DungeonEffect *effect = effect_data;
-    register u16 ticks_left ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 ticks_left;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
     u8 *active_page = (u8 *)0x80020000;
 #endif
     u16 updated_value;
     s32 fade_level;
 
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
 #endif
-    do { ticks_left = *(u16 *)(entity + 0x5A); } while (0);
+    ticks_left = *(u16 *)(entity_data + 0x5A);
 #ifdef NON_MATCHING
     do { D_80025B60.value = 1; } while (0);
 #else
-    do { *(s16 *)(active_page + 0x5B60) = 1; } while (0);
+    *(s16 *)(active_page + 0x5B60) = 1;
 #endif
     if (!(ticks_left & 3)) {
         func_800478B8(effect);
@@ -59,15 +57,15 @@ void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
         effect->unk_1E = 0x2000;
     }
 
-    updated_value = *(u16 *)(entity + 0x5A) - 1;
-    fade_level = ((s32)(updated_value << 16) >> 9) / *(s16 *)(entity + 0x5C);
-    *(u16 *)(entity + 0x5A) = updated_value;
+    updated_value = *(u16 *)(entity_data + 0x5A) - 1;
+    fade_level = ((s32)(updated_value << 16) >> 9) / *(s16 *)(entity_data + 0x5C);
+    *(u16 *)(entity_data + 0x5A) = updated_value;
     effect->unk_E = fade_level;
     effect->unk_D = fade_level;
     effect->unk_C = fade_level;
 
-    if (*(s16 *)(entity + 0x5A) <= 0) {
-        *(u16 *)(entity - 2) |= 0x8000;
+    if (*(s16 *)(entity_data + 0x5A) <= 0) {
+        *(u16 *)(entity_data - 2) |= 0x8000;
 #ifdef NON_MATCHING
         D_800814A0 |= 0x8000;
 #else
@@ -78,7 +76,7 @@ void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
 #endif
     }
     if (effect->flags_14 & 0x8000) {
-        *(u16 *)(entity - 2) |= 0x8000;
+        *(u16 *)(entity_data - 2) |= 0x8000;
 #ifdef NON_MATCHING
         D_800814A0 |= 0x8000;
 #else

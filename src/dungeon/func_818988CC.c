@@ -46,14 +46,12 @@ void *func_800240CC(void *context, Copy24 *copy_src, s16 initial_value)
     Sprite *sprite;
     Copy24 *dst;
     s32 random_value;
-    register Object *result;
-    register Object *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
         obj->callback = D_80024024;
         fields = (u8 *)obj + 0x20;
-        do { fields->unk_0C = context; } while (0);
+        fields->unk_0C = context;
         fields->unk_10 = 0;
         fields->unk_12 = initial_value;
 
@@ -63,17 +61,14 @@ void *func_800240CC(void *context, Copy24 *copy_src, s16 initial_value)
         sprite->color[0] = 0x80;
         sprite->callback = D_80024E88;
         random_value = rand();
-        call_obj = obj;
-        do { sprite->rotation = random_value % 0x1000; } while (0);
+        sprite->rotation = random_value % 0x1000;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
 
-        func_8004491C(call_obj, D_80045340);
-        do { dst = obj->dst; } while (0);
-        result = obj;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        func_8004491C(obj, D_80045340);
+        dst = obj->dst;
         *dst = *copy_src;
-        return result;
+        return obj;
     }
     return 0;
 }

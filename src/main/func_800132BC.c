@@ -40,9 +40,7 @@ void *func_800262BC(void *context) {
         func_80022EEC((s8 *)context - 0x20);
 #endif
 #ifndef NON_MATCHING
-        next_state = (u8 *)0x80020000;
-        ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        next_state += 0x61C0;
+        next_state = (u8 *)&D_800261C0;
 #else
         result = D_800261C0;
 #endif
@@ -53,9 +51,7 @@ void *func_800262BC(void *context) {
         if (D_80010208[0] != 0) {
             func_800A6104();
 #ifndef NON_MATCHING
-            next_state = (u8 *)0x80020000;
-            ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            next_state += 0x6240;
+            next_state = (u8 *)&D_80026240;
 #else
             result = D_80026240;
 #endif

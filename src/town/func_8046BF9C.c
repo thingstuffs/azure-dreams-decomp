@@ -26,7 +26,7 @@ typedef struct S_8001CF9C_0 {
 s32 func_8001CF9C(S_8001CF9C_0 *table, s32 entry_index) {
     M2C_UNK *state_pointers[2];
 
-    do { state_pointers[0] = &D_8001F0D8; } while (0);
+    state_pointers[0] = &D_8001F0D8;
     state_pointers[1] = &D_8001F18C;
     ((S_8001CF9C_1 *)(((entry_index * 0x10) + table->unk_10)))->unk_08 = state_pointers[D_8001E950.ptr[1]];
     return 0;

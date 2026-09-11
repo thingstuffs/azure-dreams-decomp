@@ -19,7 +19,6 @@ void func_8005CB88(void)
     if (D_80079950[1] == 0) {
         D_80079954[0] = 1;
         EnterCriticalSection();
-        do { } while (0);
         func_8005D798(func_8005D064);
         event_handle = OpenEvent(0xF0000009, 0x20, 0x2000, 0);
         D_800794EC[0] = event_handle;

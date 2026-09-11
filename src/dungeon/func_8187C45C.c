@@ -47,6 +47,7 @@ extern void func_80045340(void);
 extern void func_8002569C(void);
 extern void func_800257E0(void);
 extern void *D_80024098[];
+extern u8 D_8006CCD8;
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -201,22 +202,18 @@ await_launch:
         object = PTR(table_value, -0x18);
         U16(effect, 0x74) = U16(object, 2);
         U16(effect, 0x76) = U16(object, 6);
-        ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         offset_value = PTR(owner, 0x60);
-        ASM_KEEP_NV(offset_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        table_value = (void **)0x800E0000;
-        ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         offset_value = (void *)(u32)U8(offset_value, 0x13);
-        table_value = (void **)((u8 *)table_value - 0x23C0);
+        table_value = (void **)&D_800DDC40;
         offset_value = (u8 *)offset_value + (u32)table_value;
         ASM_KEEP_DEP_NV(offset_value, table_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         table_value = (void **)(u32)U8(offset_value, 0);
         offset_value = (void *)(u32)U16(object, 0xA);
         table_value = (void **)((u32)table_value + 0x20);
         offset_value = (void *)((u32)offset_value - (u32)table_value);
-        table_value = (void **)0x80070000;
-        ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        table_value = (void **)((u8 *)table_value - 0x3328);
+        table_value = (void **)&D_8006CCD8;
         U16(effect, 0x78) = (u32)offset_value;
         offset_value = (void *)(s32)S16(effect, 0x7E);
         ASM_KEEP(offset_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */

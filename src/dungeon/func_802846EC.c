@@ -19,7 +19,7 @@ void func_800176EC(void) {
     s32 entry_count;
     s32 entry_index;
 
-    do { entry_index = 0; } while (0);
+    entry_index = 0;
     entry_count = 0;
     read_entry = (s8 *)D_800E2970;
     write_entry = (s8 *)D_800E2970;

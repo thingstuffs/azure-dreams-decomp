@@ -47,7 +47,7 @@ void func_80043D04(void)
     struct S_80082E60 *state;
 
     source_value = D_8008148C.field0;
-    do { D_80081480.field0 = source_value; } while (0);
+    D_80081480.field0 = source_value;
     func_8003E2D8();
 
     state = &D_80082E60;

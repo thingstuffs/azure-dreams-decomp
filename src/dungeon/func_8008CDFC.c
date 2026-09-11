@@ -73,7 +73,6 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Rec_D
     void *spawned;
     S_8009255C_6 *position;
     S_8009255C_7 *spawned_state;
-    void *globals_page;
     volatile s16 *view_data;
     S_8009255C_3 *animation_actor;
     u8 *animation_entry;
@@ -95,9 +94,7 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Rec_D
     goto end;
 
 state_0:
-    globals_page = (void *)0x80080000;
-    ASM_KEEP(globals_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    view_data = (volatile s16 *)(globals_page + 0x3160);
+    view_data = (volatile s16 *)((void *)&D_80083160);
     if ((((((S_8009255C_1 *)view_data)->unk_C8 +
              transform->unk_2A.as_s16 + 0x100) >> 9) & 7) == 2) {
         animation_actor = actor;

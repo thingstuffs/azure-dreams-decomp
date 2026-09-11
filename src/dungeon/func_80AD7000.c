@@ -164,7 +164,6 @@ s32 BODY_NAME(void *object_ptr, void *position_ptr) {
     }
     {
         register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 #ifdef NON_MATCHING
         zero = 0;
@@ -172,7 +171,6 @@ s32 BODY_NAME(void *object_ptr, void *position_ptr) {
         ASM_SET(zero);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #endif
         ((S_80AD7000_6 *)(*context_slot))->unk_8D0 = (*(void * *)((u8 *)scratch + 0x1C));
-        result = zero;
-        return result;
+        return zero;
     }
 }

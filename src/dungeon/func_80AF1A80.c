@@ -187,12 +187,10 @@ use_kind:
             u8 kind;
             u8 *kind_entry;
 
-            kind_table = (u8 *)0x80070000;
-            ASM_KEEP(kind_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             kind = *kind_data;
-            kind_table -= 0x21DC;
+            kind_table = (u8 *)&D_8006DE24;
             kind_entry = (u8 *)((u32)(kind * 20) + (u32)kind_table);
-            ASM_KEEP(kind_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             if (kind_entry[0x12] == 2) {
                 target_obj = ((S_80173280_1 *)action)->unk_60;

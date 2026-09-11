@@ -107,7 +107,6 @@ void change_map(InputRecord *input)
 
     pair = func_800C1034(D_8006ADEC_read.field_18,
                          D_8006ADEC_read.field_1A);
-    do { } while (0);
     if (pair->field_04 == D_800D426C &&
         pair->field_06 == D_800D426E) {
         D_80080A88 = 1;
@@ -146,7 +145,6 @@ void change_map(InputRecord *input)
         s32 check_result = func_80034FE4(D_80082A38);
         if (check_result != 0) {
             s16 enabled = 1;
-            do { } while (0);
             D_8006ADE8[0] = enabled;
             D_8006AE18[0] = 0;
         } else {

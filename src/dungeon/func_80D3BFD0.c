@@ -63,7 +63,6 @@ extern void func_800C77D0(void *, s32, s32, s32);
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
 void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frames, s32 fallback_state)
 {
-    register s32 saved_param ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *action_sprite ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *frame_table ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *self;
@@ -79,12 +78,10 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
     s32 entry_index;
     register s32 state_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    saved_param = action_param;
     action_sprite = sprite;
     frame_table = direction_frames;
     special_action = 0;
     self = entity;
-    ASM_KEEP(saved_param);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(action_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_801717D0_0 *)self)->unk_71 &= 0x7F;
 
@@ -123,7 +120,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
         goto done;
     }
 
-    func_800C77D0(self - 0x20, saved_param, 8, 0x300);
+    func_800C77D0(self - 0x20, action_param, 8, 0x300);
     if ((func_800A2B5C(self) << 16) != 0) {
         goto done;
     }

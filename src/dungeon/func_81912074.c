@@ -42,7 +42,7 @@ void *func_80025874(s32 state_value, Copy24 *source_data, s16 initial_setting) {
     void *object_data;
     register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    do { obj = func_8003FC64(0x212); } while (0);
+    obj = func_8003FC64(0x212);
     result = 0;
     if (obj != 0) {
         ((S_80025874_0 *)obj)->unk_10 = &D_800253F4;

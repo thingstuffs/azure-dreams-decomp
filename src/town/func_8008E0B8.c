@@ -27,8 +27,6 @@ void func_8008B818(s32 type_id, s32 *init_value_ptr, void *object, void *context
   s32 *value_table_base;
   s32 *value_table;
   s32 *type_entry;
-  register void *saved_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  saved_context = context;
   *((M2C_UNK **) (((s8 *) object) + 0x10)) = &D_8008B9D8;
   func_8004491C(object, &D_80033D54);
   init_value = 0;
@@ -39,13 +37,13 @@ void func_8008B818(s32 type_id, s32 *init_value_ptr, void *object, void *context
   {
     init_value = *init_value_ptr;
   }
-  func_80033C1C(saved_context, init_value);
+  func_80033C1C(context, init_value);
   {
     s32 context_mode;
     context_mode = 2;
     type_table = D_800CFB74;
-    *((void **) (((s8 *) object) + 0x20)) = saved_context;
-    *((s32 *) (((s8 *) saved_context) + 0x60)) = context_mode;
+    *((void **) (((s8 *) object) + 0x20)) = context;
+    *((s32 *) (((s8 *) context) + 0x60)) = context_mode;
   }
   *((s32 *) (((s8 *) state) + 4)) = 0;
   *((s16 *) (((s8 *) state) + 0x66)) = type_id;
@@ -90,5 +88,4 @@ void func_8008B818(s32 type_id, s32 *init_value_ptr, void *object, void *context
   {
     func_80033D08(state);
   }
-  ASM_KEEP(saved_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

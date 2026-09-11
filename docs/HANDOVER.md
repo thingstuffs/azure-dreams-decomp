@@ -152,6 +152,64 @@ after every launch — commit your own tree changes (tools, config, ledger) *bef
 they get swept into a campaign commit without their config; a bash `a && b && nohup c &` backgrounds
 the whole list, not just `c`; never print a set of window names.
 
+## PICK UP HERE (2026-09-11, late) — then `docs/PIN_PATTERNS.md` section 10
+
+**1,703 rows carry pins, 11,341 live sites** (1,715 / 11,527 at this session's start); **557 fences**
+(708); STATUS's `do{}while(0)` row went from 502 to 424 rows. This session, against c5ab67d1 over 205
+rows: **186 pins and 151 fences off, nothing added — net −337**; 47 rows now carry neither. Every
+landing byte-exact through the scorer; the 158 touched overlay windows re-gated MATCH and the SLUS
+SHA-1 gate MATCH (15 SLUS rows touched).
+
+### What this session did
+
+- **The fence study's natural shapes are generators** (`tools/xform/natural.py`): `dropcopy`,
+  `armstore`, `ret2break`, `ptr2index`, `postinc`, `gotoloop` and agy's base-page `basesym`, each
+  written from the pre-images of the rows that shape closed by hand. **`t20_fencefree`** searches
+  them per fence (take the fence off; the shapes over the whole function nearest the fence; one
+  nearby pin erased too; then the shapes on the text itself where a shape deletes a pin) and lands
+  only when pins do not grow and pins + fences strictly fall. Acceptance first: all nine hand-closed
+  rows and both agy base-page rows close again from their pre-images, byte-exact, no fence, no new pin.
+- **Over every fenced row** (503 rows / 692 scored fences): 122 rows, 151 fences + 21 pins off,
+  nothing added, net −172. **123 of the 151 fences were dead** — exact with the fence simply taken
+  off; 109 of those sit in rows no t15/t18 fence ever touched: agent lanes wrote them and nothing
+  re-tested a fence the way t2 re-tests pins.
+- **The shapes on the pinned rows with no fence** (585 rows where a shape deletes a pin, + 10 fenced
+  rows re-run after a `_declare` fix): 83 rows, 121 pins off — `dropcopy` 67, `basesym` 29 (the
+  base-page shape is a family: `p = (u8 *)0x80020000; ASM_KEEP(p); p += 0x61C0;` → `p = (u8
+  *)&D_800261C0;`), `ptr2index` 3. Then t2 over all 205 touched rows: 39 rows, 44 more pins dead.
+- A readability pass: `armstore` now tries `D |= K` first; the three rows it had landed as
+  `D = D | K` were respelled (byte-identical, journalled under t20).
+- **t15/t18 menus lead with the natural shapes and end with the fence family**
+  (`t15_shapes.T._menu(cur, slus)`, `basesym` off for SLUS rows); t15's `dowhile2for` takes a counter
+  started in its declaration and a `goto next` before the increment (→ `continue`).
+
+### Start here, in order
+
+1. **Resume t18** (`python3 tools/sweep.py t18_groups --workers 16`; it resumes where it stopped and
+   skips rows whose per-site census is stale): its menu now tries the natural shapes before any
+   fence. Land, gate, t2, then **t20 over the rows t18 touched**.
+2. **Make t20 a standing sweep after every lane or campaign landing**, the way t2 is for pins: a
+   fence is scaffolding census counts like a pin, and nothing else re-tests one.
+3. agy batches 4–6 are unrun: `! AGY_PACK=work/agy_groups bash ~/agy_lane/go.sh "Gemini 3.8 Flash
+   (High)" batch4 batch5 batch6`, then `python3 ~/agy_lane/harvest.py --model "Gemini 3.8 Flash
+   (High)" --pack <repo>/work/agy_groups`. **Land only from a fresh dir** (harvest stages into a cand
+   dir shared with older candidates — copy the new rows and their `.base_sha`, apply that). Some pack
+   rows changed today: `apply_candidates` refuses a stale candidate by its `.base_sha`.
+4. Unchanged from the section below: the shared control-flag unit (`dungeon/func_80091258`,
+   `func_80087054`) and the address-materialisation second handle (`dungeon/func_8098D5A8`).
+
+### Rules learned today
+
+- **A fence is re-testable debt, like a pin**: 18 % of the fenced rows' fences were dead.
+- **The smallest closing step is often less than the lane's edit** (8009A874: the lane rewrote the
+  goto/return structure; `ptr2index` alone closes it) — test a lane win one piece at a time on its
+  own pre-image before building the generator.
+- **The study's sample over-states a shape's reach**: "a third are natural shapes" became 4 % of the
+  corpus's fences; the shapes that carry are the ones that are also pin shapes (`dropcopy`, `basesym`).
+- **A generator that edits and then checks its own output checks nothing**: `_declare` looked for the
+  new symbol in the edited text and never declared it (every candidate needing a fresh `extern` failed
+  to build until the fix; 10 rows re-run).
+
 ## PICK UP HERE (2026-09-11, evening) — then `docs/PIN_PATTERNS.md` sections 4, 8 and 9
 
 **1,715 rows carry pins, 11,527 live sites** (1,717 / 11,872 at the afternoon's start); every

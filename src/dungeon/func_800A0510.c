@@ -41,9 +41,7 @@ s32 func_800A5C70(void) {
     S_800A5C70_2 *entry_coords;
 
     entry_addr = &D_800E3D7C;
-    do {
-        buttons = D_80013714;
-    } while (0);
+    buttons = D_80013714;
     entry = *entry_addr;
     if (buttons & 2) {
         return 1;

@@ -86,8 +86,6 @@ typedef struct S_800B348C_7 {
 
 /* Advances the attack and mixing sequence, resetting element flags at its start and finish. */
 void func_800B348C(void *action_state, void *motion, void *animation, void *actor) {
-    void *held_arg1;
-    register void *held_arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *windup_animations;
     u8 *attack_animations;
     u8 *mix_animations;
@@ -109,10 +107,8 @@ void func_800B348C(void *action_state, void *motion, void *animation, void *acto
         &&jt_default, &&jt_default, &&jt_default, &&jt_15
     };
 
-    held_arg1 = motion;
-    held_arg2 = animation;
-#define motion held_arg1
-#define animation held_arg2
+#define motion motion
+#define animation animation
     jt_index = ((S_800B348C_0 *)action_state)->unk_9B;
     (void)jt_keep;
     if (jt_index >= 16) {
@@ -361,7 +357,7 @@ jt_10:
             ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
             {
-                register void *case10_arg2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                void *case10_arg2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 case10_arg2 = animation;
                 (*(u8 **)((u8 *)case10_arg2 + 0x2C)) = D_800DD0A0;
                 func_80048A44(case10_arg2, D_800DD0A0[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
@@ -390,8 +386,6 @@ jt_10:
 jt_default:
         break;
     }
-    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 }
 #undef motion
 #undef animation

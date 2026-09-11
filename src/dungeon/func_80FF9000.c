@@ -89,10 +89,8 @@ void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 part_value) BODY_ATTR
 
 /* Allocates an actor and initializes its parts, position, and spawn flags. */
 void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 part_value) {
-    register s16 saved_flags ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s8 saved_x;
     s8 saved_y;
-    s16 saved_part_value;
     s16 init_flags;
     S_80FF9000_1 *work;
     register s32 alloc_kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -107,29 +105,25 @@ void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 part_value) {
     void *obj;
     S_80FF9000_4 *actor;
 
-    saved_flags = spawn_flags;
-    ASM_KEEP_NV(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     work = NULL;
     alloc_kind = 0x112;
     saved_x = grid_x;
     ASM_KEEP_NV(saved_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     alloc_desc = &D_80083498;
-    saved_part_value = part_value;
-    ASM_KEEP_NV(saved_part_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_y = grid_y;
     ASM_KEEP_NV(saved_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     random_bits = (s32) *(s8 *)0x4A64;
     obj = func_8003FD64(alloc_kind, alloc_desc);
-    init_flags = saved_flags;
+    init_flags = spawn_flags;
     if (obj != NULL) {
         work = obj + 0x20;
         ((S_80FF9000_0 *)obj)->unk_10 = &D_80152A7C;
         work->unk_13 = 0x28;
         func_8004491C(obj, &D_80045340);
         part_a = ((S_80FF9000_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_part_value;
+        part_a->unk_0A = part_value;
         part_b = ((S_80FF9000_0 *)obj)->unk_0C;
-        kind = saved_flags & 3;
+        kind = spawn_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;
         part_b->unk_2C = &D_80156038;
@@ -152,8 +146,7 @@ write_kind:
         goto post_kind;
 
 normal_kind:
-        extra_flags = (saved_flags & ~3) << 0x10;
-        ASM_USE_NV(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        extra_flags = (spawn_flags & ~3) << 0x10;
         alloc_kind = (s32)obj;
         if (extra_flags != 0) {
             goto set_part_arg;

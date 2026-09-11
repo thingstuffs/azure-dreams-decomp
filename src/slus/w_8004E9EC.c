@@ -18,16 +18,12 @@ extern PatternSource D_80080B70;
 /* Fill from the first zero byte with overlapping patterns; return whether a zero was found. */
 s32 func_8004E9EC(u8 *buffer, s32 pair_count)
 {
-    register s32 pairs ASM_REG("$10");
     s32 offset;
     s32 found_zero;
     s32 end_offset;
 
-    do {
-        pairs = pair_count;
-    } while (0);
     found_zero = 0;
-    end_offset = pairs << 1;
+    end_offset = pair_count << 1;
     offset = found_zero;
     if (end_offset >= 0) {
         do {
@@ -43,7 +39,7 @@ s32 func_8004E9EC(u8 *buffer, s32 pair_count)
                 }
             }
             offset++;
-            end_offset = pairs << 1;
+            end_offset = pair_count << 1;
         } while (end_offset >= offset);
     }
     return found_zero;

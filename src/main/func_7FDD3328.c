@@ -278,11 +278,7 @@ void func_8008A288(Menu *menu)
       {
         return;
       }
-      do
-      {
-        shade = (s16) menu->shade;
-      }
-      while (0);
+      shade = (s16) menu->shade;
       delta = shade << 5;
       channel_or_color = ((Gfx *) 0x80010000)->color & 0xFF000000;
       volume_or_red = 0xFF;
@@ -300,11 +296,7 @@ void func_8008A288(Menu *menu)
       {
         green_bits = 0xFF00;
       }
-      do
-      {
-        red_green = volume_or_red + green_bits;
-      }
-      while (0);
+      red_green = volume_or_red + green_bits;
       do
       {
         blue = menu->blue;

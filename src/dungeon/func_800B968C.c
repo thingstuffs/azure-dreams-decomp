@@ -46,9 +46,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
     ASM_KEEP_NV(target);
 
     if (effect_type == 0xD) {
-        do {
-            return func_80098864(item, effect_value);
-        } while (0);
+        return func_80098864(item, effect_value);
     }
 
     actor = D_800E3D7C[0];

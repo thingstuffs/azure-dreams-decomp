@@ -273,3 +273,68 @@ through allocation weighting and cannot be a macro at all. `census.py` now count
 and `for (;0;)` too (none in the tree yet; a lane that learned the equivalence could otherwise
 trade a counted fence for an invisible one). Share of the ~400 fences in the tree, from a sample
 of small functions: natural shapes perhaps a third, evidenced macros ~10 %, about half H4.
+
+## 10. The natural shapes as generators — t20 over every fenced row (2026-09-11, late)
+
+Section 9's shapes, one generator each (`tools/xform/natural.py`: `dropcopy`, `armstore`,
+`ret2break`, `ptr2index`, `postinc`, `gotoloop`, plus agy's base-page `basesym`), searched per fence
+by `tools/xform/t20_fencefree.py`: take the fence off (if the text is still exact, the fence was
+dead); otherwise the shapes over the WHOLE function, nearest the fence first — the shape lives next
+to the fence, not in it (the if/else before a fenced call, the copy a fenced statement reads) — two
+greedy rounds, then with one pin near the fence erased too; last, the shapes on the text itself
+where a shape deletes a pin by itself (a copy's `register … ASM_REG` declaration, a keep on a page
+base). A candidate lands only when pins do not grow and pins + fences strictly fall.
+
+**Acceptance before any sweep** (the nine rows section 9 closed by hand, from their fenced
+pre-images, byte-exact through the scorer): all nine close again with no fence and no new pin — and
+the smallest closing step is often less than the hand edit. `dungeon/func_8009A874` needs only
+`ptr2index` (the lane also rewrote its goto/return structure); `town/func_800B6514` only the goto-form
+join hoist (the lane wrote the whole do/while); `main/func_8001AA50` only the post-increment (no temp
+fold). `dungeon/func_8009A924` needs a second step, m2c's counted do/while as the `for` it came from —
+`dowhile2for` now takes a counter started in its declaration and turns a `goto next` before the
+increment into `continue`. agy's two base-page rows reproduce too: `town/func_8077DC0C` 6 → 5 pins;
+`town/func_8050E100`'s two fences are dead alone, then `basesym` twice: 2 → 0 pins, without the arm
+collapse the lane needed.
+
+**Over every fenced row** (503 rows, 692 fences in scored code, 16 min at 12 workers): 122 rows
+landed — **151 fences and 21 pins off, nothing added: net −172**; 38 rows now carry neither. By what
+the fence wrapped (against HEAD):
+
+| fence body | fences | off |
+|---|---:|---:|
+| local assignment | 316 | 67 |
+| store | 115 | 21 |
+| several statements | 88 | 28 |
+| copy `x = y` | 55 | 12 |
+| empty | 37 | 11 |
+| `return` | 33 | 6 |
+| call statement | 30 | 6 |
+| `x = <page literal>` | 15 | 0 |
+
+**Most of it was dead fences: 123 of the 151 came off alone** — exact with the fence simply taken
+off. 109 of those 123 sit in rows where no t15/t18 sweep ever landed a fence: the agent lanes wrote
+them, and nothing re-tested a fence the way t2 re-tests every pin after every landing. The shapes
+took the other 28 fences and the 21 pins: `dropcopy` 11 at a fence + 10 in the pin pass, `dup_after_if`
+7 (t15's statement in both arms — it trades a fence for a duplicated statement), `narrow` 6,
+`armstore` 4, `basesym` 4, one pin erased with its fence.
+
+**The same shapes on the pinned rows that carry no fence** (585 rows where some shape's candidate
+deletes a pin, plus the 10 fenced rows the first pass had searched with a `_declare` bug — it looked
+for the new symbol in its own output and so never declared one): 83 rows, **121 pins off, nothing
+added** — `dropcopy` 67, `basesym` 29, `ptr2index` 3. The base-page shape agy found twice is a family
+once the generator writes the symbol at the sum (`p = (u8 *)0x80020000; ASM_KEEP(p); p += 0x61C0;`
+→ `p = (u8 *)&D_800261C0;`): 29 rows, 33 steps in all. Then t2 over all 205 touched rows: 39 rows,
+44 more pins dead once the fence or the copy beside them was gone.
+
+**Session total** (205 rows, against HEAD): **186 pins + 151 fences off, nothing added — net −337**;
+47 rows now carry neither pins nor fences; every landing byte-exact through the scorer and re-gated.
+
+**What it says.** Section 9's "natural shapes perhaps a third" does not carry to the corpus with
+these generators: at fences they took 28 of 692 (4 %); dead fences were 18 %; 78 % of the fences
+remain. `ret2break`, `postinc` and `gotoloop` closed nothing outside their own test rows, and
+`ptr2index` only 3 pins — the study's rows WERE those shapes' population. The shapes that carry are
+the two that are also pin shapes: `dropcopy` (73 rows, 88 steps — mostly the copy a `register …
+ASM_REG` or keep was pinning) and `basesym` (29 rows). The standing rule it leaves: **run t20 after every lane or
+campaign landing**, as t2 is run for pins — a fence is re-testable debt, and nothing else tests it.
+Readability pass on top: `armstore` now tries `D |= K` before `D = D | K` (three landed rows
+respelled, byte-identical).

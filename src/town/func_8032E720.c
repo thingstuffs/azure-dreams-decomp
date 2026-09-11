@@ -86,12 +86,12 @@ s32 func_80018F20(s32 *slot_list)
                 ASM_KEEP(message_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 report_error(name_page + 0x6034, message_page + 0x605C, 0x71);
                 (*(TownCall1 *)((u8 *)(((S_80018F20_4 *)(((S_80018F20_2 *)page)->unk_6000.p2))->unk_20) + 0x174))(1);
+                slot_addr = *slot_cursor;
+            } else {
+                slot_addr = *slot_cursor;
             }
-            slot_addr = *slot_cursor;
             used_flag = used_map + ((u32)(slot_addr - slot_base) >> 2);
-            do {
-                *used_flag = 1;
-            } while (0);
+            *used_flag = 1;
             do {
                 slot_cursor++;
             } while (0);

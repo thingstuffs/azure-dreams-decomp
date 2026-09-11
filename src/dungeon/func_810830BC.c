@@ -80,9 +80,7 @@ void *func_801708BC(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
 
         page = (void *)0x80170000;
         ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        do {
-            part0 = object->unk_08;
-        } while (0);
+        part0 = object->unk_08;
         handler = (u8 *)page + 0x5F10;
         part0->unk_0A = arg3;
         part1 = object->unk_0C;

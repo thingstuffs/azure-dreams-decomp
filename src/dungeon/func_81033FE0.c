@@ -130,7 +130,6 @@ typedef struct S_801757E0_8 {
 /* Update the action sequence, spawning particles and checking the tile ahead. */
 void func_801757E0(void *actor, void *motion, void *animation, void *entity)
 {
-    void *held_motion;
     u16 offsets[3];
     u16 collision_flags;
     s16 timer;
@@ -147,8 +146,7 @@ void func_801757E0(void *actor, void *motion, void *animation, void *entity)
     void *owner;
     Pair16 *directions;
 
-    held_motion = motion;
-#define motion held_motion
+#define motion motion
 
 #ifdef __mips__
     {
@@ -504,6 +502,5 @@ state_16:
 #endif
 
 end:
-    ASM_KEEP(held_motion);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return;
 }

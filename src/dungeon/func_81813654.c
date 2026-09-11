@@ -11,7 +11,7 @@ void *func_80028654(void *packet, void *coords) {
     *(u32 *)((u8 *)packet + 4) = D_8002954C;
     *((u8 *)packet + 1) = 0x48;
     *((u8 *)packet + 2) = coord_bytes[0];
-    do { *((u8 *)packet + 3) = coord_bytes[2]; } while (0);
+    *((u8 *)packet + 3) = coord_bytes[2];
     *((u8 *)packet + 0xA) = coord_bytes[4];
     *((u8 *)packet + 0xB) = coord_bytes[6];
 
@@ -30,9 +30,7 @@ void *func_80028654(void *packet, void *coords) {
     *((u8 *)packet + 1) = 0x48;
     *((u8 *)packet + 2) = coord_bytes[0];
     *((u8 *)packet + 3) = coord_bytes[2];
-    do {
-        *((u8 *)packet + 0xA) = coord_bytes[4];
-    } while (0);
+    *((u8 *)packet + 0xA) = coord_bytes[4];
     *((u8 *)packet + 0xB) = coord_bytes[6];
     packet_type = 3;
     *((u8 *)packet + 0) = packet_type;

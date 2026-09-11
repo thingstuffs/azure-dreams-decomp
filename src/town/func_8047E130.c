@@ -43,7 +43,7 @@ typedef struct S_8047E130_2 {
 
 /* Assign the global, child, and current entry table pointers. */
 void func_8047E130(void) {
-    do { D_8001794C._0 = &D_80017720[0]; } while (0);
+    D_8001794C._0 = &D_80017720[0];
     {
         S_8047E130_0 *context = D_80016000._0;
         ((S_8047E130_1 *)(context->unk_1C))->unk_40 = &D_80017B88[0];

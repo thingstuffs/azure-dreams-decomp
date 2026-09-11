@@ -121,7 +121,6 @@ typedef struct S_8009C12C_7 {
 
 /* Resolve an attack against the linked target and display its damage and effects. */
 void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance) {
-    void *attacker = attacker_in;
     S_8009C12C_2 *tile = tile_in;
     s16 tile_result;
     s16 height_diff;
@@ -174,21 +173,20 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
 #ifdef NON_MATCHING
     zero = 0;
 #endif
-    ASM_KEEP(attacker);
-    ((S_8009C12C_0 *)attacker)->unk_73 = 0;
+    ((S_8009C12C_0 *)attacker_in)->unk_73 = 0;
     ASM_KEEP(tile);
-    ((S_8009C12C_0 *)attacker)->unk_72 = 0;
+    ((S_8009C12C_0 *)attacker_in)->unk_72 = 0;
     ASM_KEEP(direction);
     homes.arg2 = direction;
-    target = ((S_8009C12C_0 *)attacker)->unk_60;
+    target = ((S_8009C12C_0 *)attacker_in)->unk_60;
     message_state = modifier;
     homes.arg3 = distance;
     if (target == NULL) {
         S_8009C12C_1 *entry_page;
         entry_page = (void *)0x800E0000;
         null_result = NULL;
-        if (attacker == entry_page->unk_3D7C) {
-            tile_result = func_800B5ED0(tile->unk_24, tile->unk_25, direction, ((S_8009C12C_0 *)attacker)->unk_88);
+        if (attacker_in == entry_page->unk_3D7C) {
+            tile_result = func_800B5ED0(tile->unk_24, tile->unk_25, direction, ((S_8009C12C_0 *)attacker_in)->unk_88);
             null_result = NULL;
             if (tile_result >= 0) {
                 s32 tile_text;
@@ -204,27 +202,27 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
                 func_80099290(tile_message);
                 func_800A5720(message_start);
                 func_800A56E0(0x700);
-                func_800A2D68(attacker, 8);
-                func_800B4C7C(0x82, attacker, 8, 1);
+                func_800A2D68(attacker_in, 8);
+                func_800B4C7C(0x82, attacker_in, 8, 1);
             }
         }
         return NULL;
     }
     message_start = func_800990FC();
     message_cursor = message_start;
-    attacker_kind = ((S_8009C12C_0 *)attacker)->unk_13;
-    kind_check = *(volatile u8 *)((s8 *)attacker + 0x13);
+    attacker_kind = ((S_8009C12C_0 *)attacker_in)->unk_13;
+    kind_check = *(volatile u8 *)((s8 *)attacker_in + 0x13);
     if (attacker_kind >= 0) {
         target_data = ((S_8009C12C_3_pre *)target)[-1].unk_00;
         target_traits = target_data->unk_14;
-        if (!(tile->unk_14 & target_traits & 0x8000) || ((kind_check == 0x23) && (((S_8009C12C_0 *)attacker)->unk_A6 != 0) && !(target_traits & 0x8000))) {
-            message_cursor = func_8009929C(0xA, func_80099194(&D_800E0D92, func_80099734(attacker, message_start)));
+        if (!(tile->unk_14 & target_traits & 0x8000) || ((kind_check == 0x23) && (((S_8009C12C_0 *)attacker_in)->unk_A6 != 0) && !(target_traits & 0x8000))) {
+            message_cursor = func_8009929C(0xA, func_80099194(&D_800E0D92, func_80099734(attacker_in, message_start)));
         } else {
-            attacker_blocked = ((S_8009C12C_0 *)attacker)->unk_14.s32 & 0x4000;
+            attacker_blocked = ((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x4000;
             if ((attacker_blocked != 0) || (message_state = -1, ((((S_8009C12C_3 *)target)->unk_14 & 0x4000) != 0))) {
                 blocked_actor = target;
                 if (attacker_blocked != 0) {
-                    blocked_actor = attacker;
+                    blocked_actor = attacker_in;
                 }
                 message_cursor = func_80099194(&D_800E0D9E, func_80099734(blocked_actor, message_cursor));
                 message_state = 1;
@@ -232,9 +230,9 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         }
     }
     ((S_8009C12C_3 *)target)->unk_14 = (s32) (((S_8009C12C_3 *)target)->unk_14 | 0x01000000);
-    if (((S_8009C12C_0 *)attacker)->unk_14.s32 & 0x04000000) {
+    if (((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x04000000) {
         func_800B4C7C(3, target, -1, 0);
-        if (((S_8009C12C_0 *)attacker)->unk_13 >= 0) {
+        if (((S_8009C12C_0 *)attacker_in)->unk_13 >= 0) {
             signed_value = message_state << 16;
             modifier = signed_value >> 16;
             if (modifier == 0) {
@@ -250,7 +248,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         }
         return (void *)zero;
     }
-    attack_script = ((S_8009C12C_0 *)attacker)->unk_4C;
+    attack_script = ((S_8009C12C_0 *)attacker_in)->unk_4C;
     if ((attack_script != NULL) && (*attack_script == 0xF0D)) {
         ((S_8009C12C_3 *)target)->unk_22.n = ((S_8009C12C_3 *)target)->unk_27;
     } else {
@@ -266,11 +264,11 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
             ((S_8009C12C_3 *)target)->unk_22.n = (u16) (defense_raw + 1);
         }
     }
-    attack_elements = func_8009CD58(attacker, 7, 1);
+    attack_elements = func_8009CD58(attacker_in, 7, 1);
     target_elements = func_8009CD58(target, 7, 0);
     if (attack_elements & 1) {
         if ((func_80042900(target, 0x13) << 0x10) != 0) {
-            ((S_8009C12C_0 *)attacker)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker)->unk_20.n << 0x10) >> 0x12);
+            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10) >> 0x12);
         } else {
             if (target_elements & 4) {
                 modifier += 1;
@@ -284,7 +282,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     element_match = attack_elements & 2;
     if (element_match != 0) {
         if ((func_80042900(target, 0x14) << 0x10) != 0) {
-            ((S_8009C12C_0 *)attacker)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker)->unk_20.n << 0x10) >> 0x12);
+            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10) >> 0x12);
         } else {
             if (target_elements & 1) {
                 modifier += 1;
@@ -298,7 +296,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     element_check = attack_elements & 4;
     if (element_check != 0) {
         if ((func_80042900(target, 0x12) << 0x10) != 0) {
-            ((S_8009C12C_0 *)attacker)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker)->unk_20.n << 0x10) >> 0x12);
+            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10) >> 0x12);
         } else {
             element_check = target_elements & 2;
             if (element_check) {
@@ -310,7 +308,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
             }
         }
     }
-    height_diff = (u16) ((S_8009C12C_0 *)attacker)->unk_88 - ((S_8009C12C_3 *)target)->unk_88;
+    height_diff = (u16) ((S_8009C12C_0 *)attacker_in)->unk_88 - ((S_8009C12C_3 *)target)->unk_88;
     if (height_diff >= 0x20) {
         modifier -= 1;
     } else {
@@ -327,32 +325,32 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         s32 attack_value;
         register s32 element_product ASM_REG("$12");
         u16 attack_raw;
-        register void *bonus_actor ASM_REG("$4");
-        attack_value = (s16)((S_8009C12C_0 *)attacker)->unk_20.n;
+        void *bonus_actor;
+        attack_value = (s16)((S_8009C12C_0 *)attacker_in)->unk_20.n;
         ASM_KEEP(attack_value);
         element_product = attack_value * (scaled_modifier >> 0x10);
-        bonus_actor = attacker;
-        attack_raw = ((S_8009C12C_0 *)attacker)->unk_20.v;
+        bonus_actor = attacker_in;
+        attack_raw = ((S_8009C12C_0 *)attacker_in)->unk_20.v;
         ASM_KEEP4(bonus_actor, attack_raw, element_product, attack_value);
         attack_value = element_product >> 3;
-        ((S_8009C12C_0 *)attacker)->unk_20.n = (u16)(attack_raw + attack_value);
+        ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(attack_raw + attack_value);
         attack_bonus = func_800C82B8(bonus_actor);
     }
     if (attack_bonus != 0) {
         u16 bonus_base;
         register s32 bonus_scale ASM_REG("$2");
         register s32 bonus_product ASM_REG("$12");
-        bonus_base = ((S_8009C12C_0 *)attacker)->unk_20.n;
+        bonus_base = ((S_8009C12C_0 *)attacker_in)->unk_20.n;
         bonus_scale = (s32)(bonus_base << 0x10) >> 0x13;
         bonus_product = bonus_scale * attack_bonus;
-        ((S_8009C12C_0 *)attacker)->unk_20.n = (u16)(bonus_base + bonus_product);
+        ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(bonus_base + bonus_product);
     }
-    if (((S_8009C12C_0 *)attacker)->unk_1C & 0x01000000) {
-        half_delta = (s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n - (s16) ((S_8009C12C_0 *)attacker)->unk_20.n) / 2;
+    if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
+        half_delta = (s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20.n) / 2;
         quarter_delta = (s32) ((s16) half_delta + ((u32) (half_delta << 0x10) >> 0x1F)) >> 1;
         ((S_8009C12C_3 *)target)->unk_64.n = (s16) (half_delta + quarter_delta);
     } else {
-        ((S_8009C12C_3 *)target)->unk_64.v = (s16) ((s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n - (s16) ((S_8009C12C_0 *)attacker)->unk_20.n) / 2);
+        ((S_8009C12C_3 *)target)->unk_64.v = (s16) ((s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20.n) / 2);
     }
     if (((S_8009C12C_3 *)target)->unk_64.n >= 0) {
         ((S_8009C12C_3 *)target)->unk_64.n = -1;
@@ -363,7 +361,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         message_cursor = func_80099734(target, message_cursor);
         {
             void *attack_text;
-            if (((S_8009C12C_0 *)attacker)->unk_14.s32 & 0x2000) {
+            if (((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x2000) {
                 attack_text = (void *)0x800E0000;
                 ASM_KEEP(attack_text);
                 attack_text += 0xDD0;
@@ -402,7 +400,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         one = 1;
         signed_distance = (s16)distance_raw;
         if (signed_distance == one) {
-            func_800C7DEC(attacker, target);
+            func_800C7DEC(attacker_in, target);
         }
     }
     effect_flags = 0xDFFFFFFF;
@@ -412,7 +410,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     target_data = target_data->unk_3D7C;
     ((S_8009C12C_3 *)target)->unk_1C = target_flags;
     if (target == target_data) {
-        func_8009BFF8(target, attacker);
+        func_8009BFF8(target, attacker_in);
     }
     signed_value = modifier << 0x10;
     damage = 0;
@@ -429,13 +427,13 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         func_80094E34();
         actor_page = (void **)0x80080000;
     }
-    ((S_8009C12C_3 *)target)->unk_60 = attacker;
-    ((S_8009C12C_0 *)attacker)->unk_60 = target;
+    ((S_8009C12C_3 *)target)->unk_60 = attacker_in;
+    ((S_8009C12C_0 *)attacker_in)->unk_60 = target;
     ((S_8009C12C_6 *)actor_page)->unk_3470 = target - 0x20;
-    if (((S_8009C12C_0 *)attacker)->unk_1C & 0x01000000) {
+    if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
         register s32 effect_mode ASM_REG("$5");
         func_800A56E0(0x700);
-        effect_flags = ((S_8009C12C_0 *)attacker)->unk_14.u16;
+        effect_flags = ((S_8009C12C_0 *)attacker_in)->unk_14.u16;
         effect_mode = 4;
         effect_flags &= 0x2000;
         effect_flags <<= 0x10;
@@ -448,8 +446,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         func_800419EC(8, 0x10);
     }
     effect_elements = attack_elements << 0x10;
-    if (attacker == ((S_8009C12C_5 *)((void *)message_cursor))->unk_3D7C) {
-        if (((S_8009C12C_0 *)attacker)->unk_A8 != 0) {
+    if (attacker_in == ((S_8009C12C_5 *)((void *)message_cursor))->unk_3D7C) {
+        if (((S_8009C12C_0 *)attacker_in)->unk_A8 != 0) {
             return target;
         }
     }
@@ -479,7 +477,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     x_offset = *opposite_x_ptr;
     effect_y = tile->unk_25;
     y_step = *(s16 *)direction_offset;
-    direction_ptr = (s16 *)((S_8009C12C_0 *)attacker)->unk_60;
+    direction_ptr = (s16 *)((S_8009C12C_0 *)attacker_in)->unk_60;
     opposite_offset = *(s16 *)opposite_offset;
     x_offset <<= 5;
     x_offset += 0x20;
@@ -488,7 +486,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     effect_x = tile->unk_24;
     direction_offset = ((S_8009C12C_7 *)direction_ptr)->unk_88 - 0x30;
     direction_offset = (s16)direction_offset;
-    direction_ptr = (s16 *)(s32)((S_8009C12C_0 *)attacker)->unk_2A;
+    direction_ptr = (s16 *)(s32)((S_8009C12C_0 *)attacker_in)->unk_2A;
     effect_x += x_step;
     effect_x <<= 6;
     effect_x += x_offset;

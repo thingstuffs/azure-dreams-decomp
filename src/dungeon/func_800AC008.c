@@ -101,7 +101,7 @@ void func_800B1768(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
     register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 color1;
     u32 color2;
-    u32 tail_flags;
+    u8 tail_flags;
     u32 tail_field1c;
 
     obj = func_8003FD64(0x12, D_80083498, (s32)arg2_reg);
@@ -231,9 +231,7 @@ shared_setup:
             *(s32 *)((u8 *)buf + 4) = sub->field10;
             *(s32 *)((u8 *)buf + 0xC) = sub->field14;
             *(s32 *)((u8 *)buf + 0x10) = sub->field18;
-            do {
-                tail_flags = ((u8 *)buf)[1];
-            } while (0);
+            tail_flags = ((u8 *)buf)[1];
             tail_field1c = sub->field1C;
             tail_flags |= 2;
             ((u8 *)buf)[1] = tail_flags;

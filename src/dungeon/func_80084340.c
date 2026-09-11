@@ -383,15 +383,12 @@ update_audio:
     ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     if (D_80013714 & 4) {
         register s16 *effect_data ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        s32 *effect_step_page;
         s32 effect_angle;
         s32 angle_step;
         effect_data = (s16 *)0x800E0000;
         ASM_KEEP_NV(effect_data);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-        effect_step_page = (s32 *)0x80080000;
-        ASM_KEEP_NV(effect_step_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         effect_data = (s16 *)((u8 *)effect_data - 0x31A0);
-        angle_step = *(s32 *)((u8 *)effect_step_page + 0x1468);
+        angle_step = *(s32 *)((u8 *)&D_80081468);
         effect_angle = effect_data[2];
         if (angle_step & 1) {
             angle_step = effect_angle + 8;
@@ -544,9 +541,7 @@ update_actor_state:
                                 callback_page = (M2C_UNK *)0x80080000;
                                 if (current_callback == (Callback4)&D_8008ACDC) {
                                     if ((func_80042900(actor, 0xA) << 0x10) != 0) {
-                                        callback_status = (void *)0x80080000;
-                                        ASM_KEEP_NV(callback_status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                                        callback_status = (u8 *)callback_status + 0x3460;
+                                        callback_status = (u8 *)&D_80083460;
                                         (*(Callback4 *)((u8 *)actor_or_result + 0x8C)) = (Callback4)D_80096384;
                                         goto mark_callback_change;
                                     }

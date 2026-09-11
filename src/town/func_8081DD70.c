@@ -77,7 +77,6 @@ extern s32 D_80045340;
 
 /* Create an object, copy its source and record data, and initialize its rendering state. */
 void func_8081DD70(void *source_data, void *record_data) {
-    register void *source ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register void *record ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *global_data;
     void *object;
@@ -94,15 +93,14 @@ void func_8081DD70(void *source_data, void *record_data) {
     s32 word_2;
     s32 word_3;
 
-    source = source_data;
     record = record_data;
     global_data = &D_80020014;
     object = func_8003FC64(0x136);
     copy_dst = (u8 *)object + 0x20;
     if (object != 0) {
         dst_start = copy_dst;
-        src_start = source;
-        src_limit = (u8 *)source + 0x50;
+        src_start = source_data;
+        src_limit = (u8 *)source_data + 0x50;
         dst = dst_start;
         src = src_start;
         src_end = src_limit;
@@ -169,7 +167,7 @@ void func_8081DD70(void *source_data, void *record_data) {
             resource_addr = (s32)D_8002445C;
             object_packet->unk_1E = setup_value;
             object_packet->unk_1C = setup_value;
-            setup_value = ((S_8081DD70_6 *)source)->unk_54;
+            setup_value = ((S_8081DD70_6 *)source_data)->unk_54;
             resource_addr = *(s32 *)(resource_addr + (setup_value * 4));
             setup_value = object_packet->unk_14;
             ASM_KEEP(copy_dst);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -185,7 +183,7 @@ void func_8081DD70(void *source_data, void *record_data) {
             object_packet = ((S_8081DD70_2 *)object)->unk_08;
             func_8008F074(state_fields, object_packet, (void *)color_or_context);
         }
-        ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(source_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }

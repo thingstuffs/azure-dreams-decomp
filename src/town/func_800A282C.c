@@ -25,7 +25,6 @@ s32 func_8009FF8C(s32 record_set, void *target)
     TownRecord *records;
     register TownRecord *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *flag_base;
-    register u8 *target_pos ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 count;
     s32 best_distance;
     register s32 best_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -37,8 +36,6 @@ s32 func_8009FF8C(s32 record_set, void *target)
     u16 raw_x;
     u16 raw_y;
 
-    target_pos = target;
-    ASM_KEEP_NV(target_pos);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     best_distance = 0x7FFFFFFF;
     record_index = 0;
     count = D_800D0728[record_set];
@@ -54,8 +51,8 @@ s32 func_8009FF8C(s32 record_set, void *target)
         do {
             if (flag_base[0x981] == 0) {
                 distance = func_8003BD84(
-                    ((record->x + base_x) - *(s16 *)(target_pos + 2)) << 16,
-                    ((record->y + base_y) - *(s16 *)(target_pos + 6)) << 16);
+                    ((record->x + base_x) - *(s16 *)(target + 2)) << 16,
+                    ((record->y + base_y) - *(s16 *)(target + 6)) << 16);
                 if (distance < best_distance) {
                     best_distance = distance;
                     best_index = record_index;

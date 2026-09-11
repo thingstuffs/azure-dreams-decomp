@@ -47,7 +47,7 @@ void func_80041AE4(void)
     struct S_80082E60 *state;
 
     copied_value = D_8008148C.field0;
-    do { D_80081480.field0 = copied_value; } while (0);
+    D_80081480.field0 = copied_value;
     func_8003E2D8();
 
     state = &D_80082E60;

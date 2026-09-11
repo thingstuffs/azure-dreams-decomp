@@ -74,9 +74,7 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
             record_offset = scan_record_index << 2;
             record_offset += scan_record_index;
             record_offset <<= 2;
-            record_base = (DungeonRecord *)0x800E0000;
-            ASM_KEEP_NV(record_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            record_base = (DungeonRecord *)((s8 *)record_base + 0x2970);
+            record_base = (DungeonRecord *)&D_800E2970;
             record = (DungeonRecord *)(record_offset + (s32)record_base);
         }
         row_bits = (s32)y << 16;

@@ -32,7 +32,7 @@ void func_800177D8(s16 row_index, s8 first_byte, s8 second_byte, s16 value) {
     if (row->unk_0A != 0) {
         row_offset = row_index << 6;
         entries_base = (void *)D_800E2C40;
-        do { entry_count = row->unk_0E; } while (0);
+        entry_count = row->unk_0E;
         row->unk_10 = row_offset + entries_base;
         entry = ((s32)(entry_count << 0x10) >> 0xE) + row_offset + entries_base;
         row->unk_0E = (u16)(entry_count + 1);

@@ -268,11 +268,11 @@ state_case0:
             }
             ASM_SCHED_BARRIER(); /* MATCH: preserve the jump into the shared state update. */
         } else {
-            do { ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v))->unk_110 = 0; } while (0);
+            ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v))->unk_110 = 0;
         }
-        do { state0 = (u8 *)&D_80083460; } while (0);
+        state0 = (u8 *)&D_80083460;
         ((S_800AB778_2 *)state0)->unk_0A++;
-        do { next_state = 3; } while (0);
+        next_state = 3;
         state->unk_9B = next_state;
         goto return_zero;
     }

@@ -107,7 +107,7 @@ void func_818C3B90(State *action, Motion *motion_arg, Motion *aux_arg)
     };
     register Motion *motion ASM_REG("$20") = motion_arg;
     Motion *aux_motion = aux_arg;
-    register OwnerPrefix *prefix ASM_REG("$18");
+    OwnerPrefix *prefix;
     Owner *owner;
     s32 dispatch_state;
     s32 index;
@@ -257,8 +257,7 @@ jt_c1:
                     break;
                 }
 
-                do { (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3328; } while (0);
-                ASM_KEEP(table_work);
+                (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3328;
                 table_offset = (s16)action->angle;
                 probe_z = (u16)owner->z;
                 table_offset *= 2;
@@ -266,7 +265,7 @@ jt_c1:
                 ASM_KEEP(table_x_entry);
                 probe_z -= 32;
                 probe_z = (s16)probe_z;
-                do { (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318; } while (0);
+                (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318;
                 table_y_entry = (s16 *)(table_offset + table_work);
                 ASM_KEEP(table_y_entry);
                 probe_result = func_800BCB04(
@@ -278,12 +277,12 @@ jt_c1:
                     break;
                 }
 
-                do { (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3328; } while (0);
+                (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3328;
                 update_offset = (s16)action->angle;
                 index++;
                 update_offset *= 2;
                 update_x_entry = (u16 *)(update_offset + table_work);
-                do { (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318; } while (0);
+                (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318;
                 update_y_entry = (u16 *)(update_offset + table_work);
                 ASM_KEEP(update_y_entry);
                 coord_work = grid_x + *update_x_entry;

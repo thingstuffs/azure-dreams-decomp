@@ -57,7 +57,7 @@ check_entry:
         }
     } else {
 missing_entry:
-        do { root = (*(void **)((u8 *)D_80010000 + 0x6000)); } while (0);
+        root = (*(void **)((u8 *)D_80010000 + 0x6000));
         do { callbacks = ((S_800194E4_2 *)root)->unk_20; } while (0);
         report_error = (*(Callback3 *)((u8 *)callbacks + 0x168));
         report_error(&D_80016064, &D_8001608C, 0x28);

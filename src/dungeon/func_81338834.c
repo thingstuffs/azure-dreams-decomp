@@ -15,9 +15,7 @@ void func_8016F834(s32 input_value) {
     s32 word_value;
     s32 *state_words;
 
-    do {
-        D_80175D48 = INITIAL_VALUE;
-    } while (0);
+    D_80175D48 = INITIAL_VALUE;
     word_value = D_80175D48;
 
     state_words = &D_80175D48;

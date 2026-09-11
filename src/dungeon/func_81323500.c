@@ -47,7 +47,7 @@ void func_8016AD00(void)
         (*(void * *)((u8 *)object + 0x10)) = D_8016ABC8;
         func_8004491C(object, D_80044BB0);
 
-        do { primary_state = (*(void * *)((u8 *)object + 8)); } while (0);
+        primary_state = (*(void * *)((u8 *)object + 8));
         primary_state->unk_0A = 0;
         primary_state->unk_06 = 0;
         primary_state->unk_02 = 0;

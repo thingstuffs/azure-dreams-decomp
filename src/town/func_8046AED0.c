@@ -32,9 +32,7 @@ s32 func_8001BED0(void) {
     Message *message;
 
     if (D_8001E950->enabled == 1) {
-        do {
-            message = func_80019AFC(0, D_8001E950->messageId);
-        } while (0);
+        message = func_80019AFC(0, D_8001E950->messageId);
         D_80016000->callbacks->callback(message->x, message->y);
         D_8001E950->enabled++;
         func_8001E578(0x408);

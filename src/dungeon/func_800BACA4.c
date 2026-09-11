@@ -86,7 +86,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
     Primitive *prim;
     u8 *prim_list;
     s32 index_or_phase;
-    register s32 area_origin ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 area_origin;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register Primitive *first_prim ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     area_origin = 0x01800340;
@@ -94,9 +94,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
     draw_data.field1C = 0x00400040;
     render_state_slot = &D_80083160;
     render_state = *render_state_slot;
-    do {
-        prim = (Primitive *)render_state->nextPrim;
-    } while (0);
+    prim = (Primitive *)render_state->nextPrim;
     prim_list = (u8 *)render_state + 0x8B0;
     first_prim = prim;
     render_state->nextPrim = (u8 *)prim + 0xC;

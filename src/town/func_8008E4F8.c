@@ -11,6 +11,7 @@ extern u8 D_80083160[];
 extern u8 D_80083780[];
 extern u8 D_8008BED8[];
 extern u8 D_800FC418;
+extern u8 D_800D2EA4;
 
 /* Handle input and update the object display position for its current state. */
 void func_8008BC58(u8 *object, void *transform, void *context) {
@@ -68,7 +69,6 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
         s32 entry_index;
         u8 entry_id;
         u8 *positions;
-        register u8 *position_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         func_800478B8();
         buttons = *(s32 *)(input + 0x10);
@@ -86,10 +86,8 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
         func_8008B620(entries[*(s32 *)(object + 0x74)]);
     update_position:
         entry_index = *(s32 *)(object + 0x74);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        position_page = (u8 *)0x800D0000;
-        ASM_KEEP(position_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        positions = position_page + 0x2EA4;
+           /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        positions = (u8 *)&D_800D2EA4;
         entry_id = entries[entry_index];
         *(s32 *)(*(u8 **)object + 0x30) = positions[entry_id * 8] - 0x18;
 

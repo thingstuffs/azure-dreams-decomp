@@ -8,31 +8,26 @@
 
 /* Steps an enabled value toward its positive or negative limit. */
 void func_800568B4(void *state) {
-    u8 *fields = state;
     s32 next_value;
     s32 lower_limit;
     u16 upper_limit;
 
-    if (S16_FIELD(fields, 0x50) != 0) {
-        if (S32_FIELD(fields, 0x58) != 0) {
-            upper_limit = U16_FIELD(fields, 0x56);
-            if ((S16_FIELD(fields, 0x52) + S16_FIELD(fields, 0x54)) < (s32) upper_limit) {
-                S16_FIELD(fields, 0x52) = U16_FIELD(fields, 0x52) + U16_FIELD(fields, 0x54);
+    if (S16_FIELD(state, 0x50) != 0) {
+        if (S32_FIELD(state, 0x58) != 0) {
+            upper_limit = U16_FIELD(state, 0x56);
+            if ((S16_FIELD(state, 0x52) + S16_FIELD(state, 0x54)) < (s32) upper_limit) {
+                S16_FIELD(state, 0x52) = U16_FIELD(state, 0x52) + U16_FIELD(state, 0x54);
                 return;
             }
-            S16_FIELD(fields, 0x52) = upper_limit;
-            do {
-                return;
-            } while (0);
-        }
-        next_value = S16_FIELD(fields, 0x52) - S16_FIELD(fields, 0x54);
-        lower_limit = -U16_FIELD(fields, 0x56);
-        if (lower_limit < next_value) {
-            do {
-                S16_FIELD(fields, 0x52) = U16_FIELD(fields, 0x52) - U16_FIELD(fields, 0x54);
-            } while (0);
+            S16_FIELD(state, 0x52) = upper_limit;
             return;
         }
-        S16_FIELD(fields, 0x52) = lower_limit;
+        next_value = S16_FIELD(state, 0x52) - S16_FIELD(state, 0x54);
+        lower_limit = -U16_FIELD(state, 0x56);
+        if (lower_limit < next_value) {
+            S16_FIELD(state, 0x52) = U16_FIELD(state, 0x52) - U16_FIELD(state, 0x54);
+            return;
+        }
+        S16_FIELD(state, 0x52) = lower_limit;
     }
 }

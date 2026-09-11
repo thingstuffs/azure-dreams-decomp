@@ -141,9 +141,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 s32 target_height;
                 height_base = (u8 *)work->node;
                 entity = ((Node *)height_base)->entity;
-                height_base = (u8 *)0x800E0000;
-                ASM_KEEP_NV(height_base);
-                height_base -= 0x23C0;
+                height_base = (u8 *)&D_800DDC40;
                 height_addr = (u8 *)(u32)entity->kind;
                 target_height = entity->height;
                 height_addr += (u32)height_base;

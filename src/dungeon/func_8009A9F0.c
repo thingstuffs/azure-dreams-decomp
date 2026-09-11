@@ -14,11 +14,7 @@ void itm_mon_koyaw_set(u8 *src, s8 *dst)
   weight &= 0x1F;
   if (weight & 0x10)
   {
-    do
-    {
-      weight = (-weight) & 0x1F;
-    }
-    while (0);
+    weight = (-weight) & 0x1F;
     if (weight == 0)
     {
       weight = 0x10;

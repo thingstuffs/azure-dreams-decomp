@@ -61,7 +61,7 @@ void func_800A895C(S_800A895C_0 *center, S_800A895C_1 *spread, s32 count) {
     if (count != 0) {
         angle_step = 0x1000 / count;
         do { spawn_index = 0; } while (0);
-        do { angle = rand(); } while (0);
+        angle = rand();
         initial_y = center->unk_0A;
         record.field16 = -4;
         record.y = initial_y;

@@ -162,7 +162,6 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
     register Position *origin ASM_REG("$4");
     register DungeonState *dungeon ASM_REG("$3");
     void **state_table;
-    u8 *dungeon_page;
     register u8 *search_page ASM_REG("$3");
     u8 *effect_page;
     u8 *active_page;
@@ -191,9 +190,7 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
     goto *state_table[state];
 
 state0:
-    dungeon_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(dungeon_page);
-    dungeon = *(DungeonState **)(dungeon_page + 0x14A8);
+    dungeon = *(DungeonState **)((u8 *)&D_800814A8);
     init_timer = 33;
     effect_page = (u8 *)0x80020000;
     *(s32 *)&dungeon->pad0[0xF4] = 0;

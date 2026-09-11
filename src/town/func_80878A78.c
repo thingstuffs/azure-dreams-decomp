@@ -58,7 +58,7 @@ void func_80878A78(s32 arg0, s32 arg1)
         do {
             u32 index = *(volatile u32 *)(ptr + 11);
             u8 **table = D_807030B4;
-            do { *(volatile u32 *)(ptr + 11) = (u32)table[index]; } while (0);
+            *(volatile u32 *)(ptr + 11) = (u32)table[index];
             ptr += 20;
         } while (*ptr != terminator);
     }

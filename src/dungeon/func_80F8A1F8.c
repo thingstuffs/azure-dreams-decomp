@@ -53,24 +53,18 @@ typedef struct S_801739F8_5 {
 /* Advances entity animation states and updates the shared activity count. */
 void func_801739F8(void *controller, void *context, void *sprite, void *entity)
 {
-    void *saved_controller;
     register void *saved_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *saved_sprite;
     register void *dungeon_state;
-    register void *saved_entity ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *saved_entity;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 state;
     register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 direction;
 
-    saved_controller = controller;
     saved_context = context;
-    saved_sprite = sprite;
-#define controller saved_controller
+#define controller controller
 #define context saved_context
-#define sprite saved_sprite
-    ASM_KEEP_NV(saved_controller);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+#define sprite sprite
     ASM_KEEP_NV(saved_context);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(saved_sprite);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = ((S_801739F8_0 *)controller)->unk_9B;
     saved_entity = entity;

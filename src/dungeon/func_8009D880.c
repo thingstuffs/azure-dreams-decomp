@@ -76,7 +76,7 @@ void func_800A2FE0(Rec_D_800E3D7C *arg0) {
         if ((var_s2 != 0) && (temp_v1_2 = arg0->unk_60.as_pv, (temp_v1_2 != NULL))) {
             if (temp_v1_2->unk_14 & 0x4000) {
                 if (!(arg0->unk_14.as_s32 & 0x4000)) {
-                    do { temp_v0_raw = func_800990FC(); } while (0);
+                    temp_v0_raw = func_800990FC();
                     temp_global = D_8007359C;
                     temp_v0_5 = temp_v0_raw;
                     func_80099290(func_80099194(&D_800E09E6, func_8003AD08(var_s2, func_80099194(&D_800E09D9, func_80099194(temp_global->unk_04, temp_v0_5)))));
@@ -87,7 +87,7 @@ void func_800A2FE0(Rec_D_800E3D7C *arg0) {
                 if (temp_v1_2->unk_13 < 0) {
                     return;
                 }
-                do { temp_v0_4 = func_800990FC(); } while (0);
+                temp_v0_4 = func_800990FC();
                 temp_v0_5 = temp_v0_4;
                 func_80099290(func_80099194(&D_800E09FB, func_8003AD08(var_s2, func_80099194(&D_800E09EE, func_80099734(arg0->unk_60.as_pv, temp_v0_5)))));
             }

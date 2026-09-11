@@ -36,18 +36,14 @@ void func_8001A484(void) {
     address_base = (u8 *)0x80020000;
     ASM_KEEP(address_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     func_80016748();
-    do {
-        resource_id = D_8001C370;
-    } while (0);
+    resource_id = D_8001C370;
     ASM_KEEP(resource_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     callback = address_base - 0x3B80;
     resource_data = &D_8001DA10;
     func_8001A044(resource_id, callback, resource_data);
     ASM_KEEP(address_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    do {
-        runtime = *(TownRuntime **)D_80016000;
-    } while (0);
+    runtime = *(TownRuntime **)D_80016000;
     do {
         runtime->field_28 = address_base - 0x3B80;
     } while (0);

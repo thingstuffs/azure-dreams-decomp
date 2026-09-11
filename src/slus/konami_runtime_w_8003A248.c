@@ -14,7 +14,5 @@ void func_8003A248(RuntimeState *state) {
     u32 source = *state->read_ptr++;
     u32 destination = *state->read_ptr++;
 
-    do {
-        state->slots[destination + 0x12] = state->slots[source + 0x12];
-    } while (0);
+    state->slots[destination + 0x12] = state->slots[source + 0x12];
 }

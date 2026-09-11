@@ -50,9 +50,7 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
   u32 track_index;
   s32 track_count;
   S_80085FA8 *track_iter;
-  register S_80085FA8 *track ASM_REG("$13");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   register s32 event_data ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  track = track_arg;
   channel = status & 0xF;
   event_data = first_data;
   switch (status & 0xF0)
@@ -77,7 +75,6 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
       return;
 
     case 0xB0:
-      ASM_KEEP(track);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
       if ((event_data & 0xFF) == 0x63)
       {
         if ((second_data & 0xFF) == 0x14)
@@ -120,17 +117,17 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
           }
           else
           {
-            track->unk08 = 0x7F;
-            track->unk04 = track->unk00;
+            track_arg->unk08 = 0x7F;
+            track_arg->unk04 = track_arg->unk00;
           }
         }
         else if ((second_data & 0xFF) == 0x1E)
         {
-          if (track->unk08 != 0)
+          if (track_arg->unk08 != 0)
           {
-            if (track->unk08 < 0x7FU)
+            if (track_arg->unk08 < 0x7FU)
             {
-              track->unk08 = track->unk08 - 1;
+              track_arg->unk08 = track_arg->unk08 - 1;
             }
             if (D_800869B8[0] != 0)
             {
@@ -167,7 +164,7 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
             }
             else
             {
-              track->unk00 = track->unk04;
+              track_arg->unk00 = track_arg->unk04;
             }
           }
         }
@@ -197,7 +194,7 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
           }
           else
           {
-            track->unk08 = second_data & 0xFF;
+            track_arg->unk08 = second_data & 0xFF;
             return;
           }
         }

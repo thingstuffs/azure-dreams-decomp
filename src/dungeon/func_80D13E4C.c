@@ -171,13 +171,11 @@ check_target_type:
         u8 ability_kind;
         u32 ability_entry;
 
-        ability_table = (u8 *)0x80070000;
-        ASM_KEEP(ability_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ability_kind = *ability;
-        ability_table -= 0x21DC;
+        ability_table = (u8 *)&D_8006DE24;
         ability_entry = ability_kind * 20;
         ability_entry += (u32)ability_table;
-        ASM_KEEP(ability_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (((u8 *)ability_entry)[0x12] != 2) {
             goto find_target;
         }

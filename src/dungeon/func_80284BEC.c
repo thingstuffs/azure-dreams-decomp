@@ -129,7 +129,7 @@ scan_neighbors:
         coord_work = (s16)next_direction;
         if (coord_work >= 0) {
             s32 tile_x;
-            s32 tile_y;
+            s16 tile_y;
 
             coord_work *= 2;
             lookup_base = (u8 *)&D_8006CCD8;
@@ -147,9 +147,7 @@ scan_neighbors:
                 register s32 tile_index ASM_REG("$4");
 
                 tile_x = coord_work >> 16;
-                do {
-                    value_work = (u32)(u16)next_y << 16;
-                } while (0);
+                value_work = (u32)(u16)next_y << 16;
                 coord_work = ((S_80017BEC_0 *)map_info)->unk_14;
                 tile_y = value_work >> 16;
                 tile_index = tile_x + (tile_y << coord_work);

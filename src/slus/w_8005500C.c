@@ -60,7 +60,6 @@ void func_8005500C(s32 code)
     }
     if (code == 0x1000) {
         goto do_71;
-        do { } while (0);
     }
     return;
 

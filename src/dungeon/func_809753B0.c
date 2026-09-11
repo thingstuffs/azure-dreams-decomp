@@ -85,7 +85,7 @@ void *func_80170BB0(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
 
         page = (void *)0x80170000;
         ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        do { part_a = ((S_80170BB0_0 *)object)->unk_08; } while (0);
+        part_a = ((S_80170BB0_0 *)object)->unk_08;
         handler = (u8 *)page + 0x40E0;
         part_a->unk_0A = arg3;
         part_b = ((S_80170BB0_0 *)object)->unk_0C;
@@ -115,14 +115,12 @@ store_flags:
             goto finish_kind;
         if (!(func_800A6D30() & 1))
             goto finish_kind;
-        do {
-            func_800A48F0(actor, 1, (func_800A6D30() & 0x3F) | 0x20);
-            part_b->unk_2C = D_80174158;
-        } while (0);
+        func_800A48F0(actor, 1, (func_800A6D30() & 0x3F) | 0x20);
+        part_b->unk_2C = D_80174158;
 
 finish_kind:
         func_800A9C18(object, part_a, part_b, arg0);
-        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         actor2->unk_9A = 0xFF;
         actor2->unk_9C = -1;
         actor2->unk_8C = D_801714D4;

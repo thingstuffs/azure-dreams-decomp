@@ -261,12 +261,9 @@ jt_c4: {
         if (((S_81988800_0 *)state)->unk_50.s == 8) {
             object = D_800814A8;
             if (object != 0) {
-                u8 *data_base;
 
                 position_ref = object;
-                data_base = (u8 *)0x80080000;
-                ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                work = data_base + 0x2E80;
+                work = (u8 *)&D_80082E80;
 loop:
                 object = func_800A3F28(work[0x24], work[0x25], position_ref, object);
                 if (object == 0) {

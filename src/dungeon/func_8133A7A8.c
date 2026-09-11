@@ -75,8 +75,6 @@ jt_c0: {
     entity->timer = 0;
     entity->phase = 2;
     entity->state++;
-    do {
-    } while (0);
     offset_x = D_800DCE60[0];
     *(volatile s16 *)&D_801760E0[0] = offset_x;
     offset_y = D_800DCE60[1];

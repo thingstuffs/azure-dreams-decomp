@@ -34,9 +34,7 @@ void func_80096D58(Input *source) {
         state->unk24 = 0x0F500000;
         state->unk30 = 0x10B00000;
     } else {
-        state_page = (State *)0x80100000;
-        ASM_KEEP(state_page);
-        state_page = (State *)((u8 *)state_page - 0x1AE0);
+        state_page = (State *)&D_800FE520;
         state_page->unk24 = 0x13500000 - input_value;
         state_page->unk30 = input->unk4 + 0x0CB00000;
     }

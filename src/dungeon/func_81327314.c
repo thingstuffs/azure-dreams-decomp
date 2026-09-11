@@ -115,9 +115,7 @@ void func_8016EB14(void)
 #ifdef NON_MATCHING
         direction_table = (u8 *)D_80174708;
 #else
-        direction_table = (u8 *)0x80170000;
-        ASM_KEEP(direction_table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        direction_table += 0x4708;
+        direction_table = (u8 *)&D_80174708;
 #endif
         x = *(s16 *)(u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
                            (u32)direction_table);

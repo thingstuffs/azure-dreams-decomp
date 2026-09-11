@@ -40,7 +40,6 @@ extern s32 D_80083460;
 
 /* Fades out an entity, then removes it and updates its tile flags. */
 void func_801735B8(void *fade_state, void *unused, void *visual_data, void *entity) {
-    register void *visual ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     M2C_UNK *world;
     s32 state;
     s32 entity_flags;
@@ -50,7 +49,6 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
     s32 tile_mask;
     u16 countdown;
 
-    visual = visual_data;
     state = ((S_801735B8_0 *)fade_state)->unk_9B;
     switch (state) {
     case 0:
@@ -69,27 +67,27 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
         ((S_801735B8_0 *)fade_state)->unk_96.u = 6;
         ((S_801735B8_0 *)fade_state)->unk_9B =
             (u8)(((S_801735B8_0 *)fade_state)->unk_9B + 1);
-        ((S_801735B8_3 *)visual)->unk_12 = 0xFF80;
+        ((S_801735B8_3 *)visual_data)->unk_12 = 0xFF80;
         /* fallthrough */
     case 2:
         ((Rec_D_80082E80 *)entity)->unk_1C.at00_s32.v |= 0x10000000;
         countdown = ((S_801735B8_0 *)fade_state)->unk_96.u - 1;
         ((S_801735B8_0 *)fade_state)->unk_96.u = countdown;
         if ((countdown << 16) <= 0) {
-            if (((S_801735B8_3 *)visual)->unk_0C.u8 >= 0x10U) {
-                ((S_801735B8_3 *)visual)->unk_0C.s32 += (s32)0xFFEFEFF0;
+            if (((S_801735B8_3 *)visual_data)->unk_0C.u8 >= 0x10U) {
+                ((S_801735B8_3 *)visual_data)->unk_0C.s32 += (s32)0xFFEFEFF0;
             }
-            ((S_801735B8_3 *)visual)->unk_10 = 0x20;
-            ((S_801735B8_3 *)visual)->unk_14 |= 0xC;
+            ((S_801735B8_3 *)visual_data)->unk_10 = 0x20;
+            ((S_801735B8_3 *)visual_data)->unk_14 |= 0xC;
         } else {
-            ((S_801735B8_3 *)visual)->unk_0C.s32 = 0x00808080;
+            ((S_801735B8_3 *)visual_data)->unk_0C.s32 = 0x00808080;
         }
 
         if (((S_801735B8_0 *)fade_state)->unk_96.s == 0) {
             func_800A56E0(0x805);
         }
-        if (!(((S_801735B8_3 *)visual)->unk_14 & 0x8000)) {
-            if (((S_801735B8_3 *)visual)->unk_0C.u8 >= 0x10U) {
+        if (!(((S_801735B8_3 *)visual_data)->unk_14 & 0x8000)) {
+            if (((S_801735B8_3 *)visual_data)->unk_0C.u8 >= 0x10U) {
                 return;
             }
         }
@@ -103,8 +101,8 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
         func_800A2FE0(entity);
         func_800A32A4(entity);
 
-        tile_x = ((S_801735B8_3 *)visual)->unk_24;
-        tile_y = ((S_801735B8_3 *)visual)->unk_25;
+        tile_x = ((S_801735B8_3 *)visual_data)->unk_24;
+        tile_y = ((S_801735B8_3 *)visual_data)->unk_25;
         tile_mask = 0x3000;
         if (((Rec_D_80082E80 *)entity)->unk_1C.at00_s32.v & 0x2000) {
             tile_mask = 0x300;
@@ -117,7 +115,6 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
     default:
         return;
     }
-    ASM_KEEP(visual);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: A natural three-case switch preserves the retail dispatch and fallthrough block order.

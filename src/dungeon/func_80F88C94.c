@@ -129,12 +129,10 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
     void *particle_sprite;
     void *particle;
     u8 *particle_texture;
-    register void *actor ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *direction_x_table;
     u8 *direction_y_table;
 
-    actor = actor_arg;
-    index = ((S_80172494_0 *)actor)->unk_2A.s >> 8;
+    index = ((S_80172494_0 *)actor_arg)->unk_2A.s >> 8;
     setup_value = index & 0xE;
     direction_x_table = (u8 *)&D_8006CCD8;
     direction_x_table += setup_value;
@@ -149,7 +147,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         if (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172494_1 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, map_actor, ((S_80172494_0 *)actor)->unk_2A.u, 1);
+            func_8009C12C(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
             goto action_end;
         }
         setup_value = 0xF7FFFFFF;
@@ -161,10 +159,10 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         result <<= 18;
         ((S_80172494_3 *)motion)->unk_10 = result;
         ((S_80172494_1 *)action)->unk_98 |= 8;
-        result = ((S_80172494_0 *)actor)->unk_1C;
+        result = ((S_80172494_0 *)actor_arg)->unk_1C;
         result &= setup_value;
         result &= operand;
-        ((S_80172494_0 *)actor)->unk_1C = result;
+        ((S_80172494_0 *)actor_arg)->unk_1C = result;
         ((S_80172494_1 *)action)->unk_96.s = 4;
         ((S_80172494_3 *)motion)->unk_14 = 0xFFFD0000;
         goto advance_state;
@@ -192,7 +190,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
             ((S_80172494_3 *)motion)->unk_10 = 0;
             ((S_80172494_3 *)motion)->unk_14 = 0;
             (*(void * *)((u8 *)map_actor + 0x2C)) = D_80174AE4;
-            result = (D_80083228 + ((S_80172494_0 *)actor)->unk_2A.u + 0x100) >> 9;
+            result = (D_80083228 + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
             func_80047784(map_actor, D_80174AE4[result & 7], 0);
         }
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
@@ -217,7 +215,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
             goto action_end;
         }
         func_800A56E0(0x808);
-        func_8009C12C(actor, map_actor, ((S_80172494_0 *)actor)->unk_2A.u, 1);
+        func_8009C12C(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
 
 advance_state:
         result = ((S_80172494_1 *)action)->unk_9B;
@@ -232,8 +230,8 @@ store_next_state:
         }
         ((S_80172494_3 *)motion)->unk_14 = 0;
         ((S_80172494_1 *)action)->unk_98 &= 0xFFF7;
-        ((S_80172494_0 *)actor)->unk_1C |= 0x40000;
-        ((S_80172494_0 *)actor)->unk_1C |= 0x08000000;
+        ((S_80172494_0 *)actor_arg)->unk_1C |= 0x40000;
+        ((S_80172494_0 *)actor_arg)->unk_1C |= 0x08000000;
         ((S_80172494_1 *)action)->unk_96.s = state;
         ((S_80172494_1 *)action)->unk_9B = 0xFF;
         goto action_end;
@@ -273,7 +271,7 @@ store_next_state:
                     result = rand();
                     setup_value = 0xC00000;
                     ((S_80172494_5 *)particle_motion)->unk_14 = result;
-                    operand = ((S_80172494_0 *)actor)->unk_2A.s;
+                    operand = ((S_80172494_0 *)actor_arg)->unk_2A.s;
                     ((S_80172494_5 *)particle_motion)->unk_48 = 5;
                     ((S_80172494_5 *)particle_motion)->unk_18 = operand;
                     operand = ((S_80172494_6 *)particle_sprite)->unk_14;
@@ -299,19 +297,19 @@ store_next_state:
         ((S_80172494_3 *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)map_actor)->unk_24,
                       ((Rec_D_80082E80 *)map_actor)->unk_25);
-        func_800AD594(actor, 0x100);
+        func_800AD594(actor_arg, 0x100);
         ((S_80172494_1 *)action)->unk_8C = D_80171138;
         D_8008346C = 0;
         (*(void * *)((u8 *)map_actor + 0x2C)) = D_80174AD4;
-        result = (D_80083228 + ((S_80172494_0 *)actor)->unk_2A.u + 0x100) >> 9;
+        result = (D_80083228 + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
         func_80047784(map_actor, D_80174AD4[result & 7], 0);
-        func_800A4ACC(actor);
-        if (((S_80172494_0 *)actor)->unk_6D == 0) {
-            ((S_80172494_0 *)actor)->unk_46 &= 0x7FFF;
+        func_800A4ACC(actor_arg);
+        if (((S_80172494_0 *)actor_arg)->unk_6D == 0) {
+            ((S_80172494_0 *)actor_arg)->unk_46 &= 0x7FFF;
             goto action_end;
         }
         operand = (s32)((u8 *)&D_800E3DE8 - 0x3DE8);
-        result = (s32)((u8 *)actor - 0x20);
+        result = (s32)((u8 *)actor_arg - 0x20);
         ((S_80172494_8 *)((void *)operand))->unk_3DE8 = (void *)result;
         goto action_end;
 

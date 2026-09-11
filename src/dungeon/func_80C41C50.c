@@ -29,6 +29,7 @@ typedef struct S_80173450_3 {
 
 extern s32 D_800814A0;
 extern s32 D_80083460;
+extern u8 D_8008346A;
 
 void func_8009A028(void *);
 void func_8009A3D0(s32, s32, s32);
@@ -48,7 +49,6 @@ void func_80173450(void *action, void *unused, void *sprite, void *entity)
     s32 tile_x;
     s32 tile_y;
     s32 tile_mask;
-    s16 *globals_page;
 
     state = ((S_80173450_0 *)action)->unk_9B;
     if (state == 1) {
@@ -57,22 +57,20 @@ void func_80173450(void *action, void *unused, void *sprite, void *entity)
     if (state >= 2) {
         goto state_ge_2;
     }
-    globals_page = (s16 *)0x80080000;
     if (state == 0) {
         goto state_zero;
     }
     goto end;
 
 state_ge_2:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto update;
     }
     goto end;
 
 state_zero:
-    ASM_KEEP(globals_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    if (globals_page[0x1A35] != 0) {
+    if (*(s16 *)&D_8008346A != 0) {
         goto end;
     }
     ((S_80173450_0 *)action)->unk_9B = 1;
