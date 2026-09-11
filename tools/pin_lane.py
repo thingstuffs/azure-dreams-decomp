@@ -265,8 +265,121 @@ def internal_jumps(row, text):
     return ",".join(out)
 
 
+GROUP_PREAMBLE = """> **GROUP MODE.**  Each row's `base/` erases ONE GROUP of its pins - the sites in `rows.tsv`
+> column `group` - and KEEPS the row's other pins exactly where they are.  The group is a set of pins
+> the machine measured as holding the SAME instructions (erasing them together costs little more
+> than erasing the worst one alone), and the residue in `residue/` is that group's alone: it is
+> what your C has to change.  The other pins are not your job - do not add, move or remove any of
+> them.  A candidate is a result when it is byte-exact and carries NO MORE `ASM_` macros than its
+> base; one with fewer is a bonus.  The mechanical search (t18_groups: t15's whole shape menu,
+> nearest the group first, fences included) already failed on every group here - the residue it
+> reached is in `rows.tsv` column `machine_best`.
+
+"""
+
+
+def main_groups(a):
+    """One pin GROUP per row, from t18_groups' journal: the group it tried and could not close, at
+    the row's unchanged text, cheapest measured residue first."""
+    from pin_sites import erase_many
+    only_rows = set(Path(a.only_rows).read_text().split()) if a.only_rows else None
+    skip = set(filter(None, a.skip_class.split(",")))
+    by = {r["id"]: r for r in rows()}
+    latest = {}
+    for j in read_jsonl(LEDGER / "sweeps" / "t18_groups.jsonl"):
+        latest[j["id"]] = j
+    picks = []
+    for rid, j in latest.items():
+        row = by.get(rid)
+        if row is None or j.get("outcome") != "noop" or not j.get("groups"):
+            continue
+        if only_rows is not None and rid not in only_rows:
+            continue
+        p = clean_path(row)
+        if not p.exists():
+            continue
+        text = p.read_text(errors="replace")
+        if sha_text(text) != j.get("in_sha") or asm_blocker(text):
+            continue                          # the journal's groups index THIS text's sites only
+        sites = sites_of(text)
+        gs = [g for g in j["groups"] if g.get("joint") and g["joint"] <= a.max_joint
+              and all(i < len(sites) for i in g["sites"])]
+        if not gs:
+            continue
+        g = min(gs, key=lambda g: (min(g["joint"], g.get("best") or g["joint"]), -len(g["sites"]), row["size"]))
+        picks.append((row, text, sites, g))
+    print(f"{len(picks)} rows with a group t18 could not close within {a.max_joint} words", flush=True)
+
+    def score_base(job):
+        row, text, sites, g = job
+        base = erase_many(text, [sites[i] for i in g["sites"]], clean_notes=True)
+        with tempfile.TemporaryDirectory() as td:
+            f = Path(td) / Path(row["c_path"]).name
+            f.write_text(base)
+            v = verify(row, f, include_root=INCLUDE, regions=True)
+        body = v.get("text", "") or ""
+        m = re.search(r"\bTOTAL\s+(\d+)\s+class\s+(\S+)", body)
+        return row, text, sites, g, base, body, (int(m.group(1)), m.group(2)) if m else (None, None)
+    with ThreadPoolExecutor(max_workers=a.workers) as ex:
+        scored = list(ex.map(score_base, picks))
+    live = [s for s in scored if s[6][0] and s[6][1] not in skip]
+    why = collections.Counter("no TOTAL (build failure or exact)" if not s[6][0] else s[6][1]
+                              for s in scored if not (s[6][0] and s[6][1] not in skip))
+    exact = [s[0]["id"] for s in scored if "*** MATCH ***" in s[5]]
+    print(f"{len(live)} after dropping {dict(why)}", flush=True)
+    if exact:                                 # t18 should have landed these: say so loudly
+        print(f"EXACT group bases (t18 missed them): {exact}", flush=True)
+    live.sort(key=lambda s: (s[6][0], -len(s[3]["sites"]), s[0]["size"]))
+    if a.batches:
+        live = live[:a.batches * a.size]
+    out = ROOT / a.out
+    from pin_facts import facts
+    for bi in range(0, len(live), a.size):
+        d = out / f"batch{bi // a.size + 1}"
+        if d.exists():
+            shutil.rmtree(d)
+        for sub in ("residue", "scratch", "out"):
+            (d / sub).mkdir(parents=True)
+        (d / "GROUP_MODE").write_text("one pin group per row; see BRIEF.md\n")
+        lines = ["row_id\tcontainer\tfile\tsize\tcfg\tpins\tgroup\tgroup_macros\tdamage\tmachine_best\tclass\twindow\tinternal_jumps"]
+        items = live[bi:bi + a.size]
+        for row, text, sites, g, base, body, (total, cls) in items:
+            name = Path(row["c_path"]).name
+            (d / "base" / row["container"]).mkdir(parents=True, exist_ok=True)
+            (d / "base" / row["container"] / name).write_text(base)
+            (d / "out" / row["container"]).mkdir(parents=True, exist_ok=True)
+            (d / "out" / row["container"] / (name + ".base_sha")).write_text(sha_text(text) + "\n")
+            (d / "residue" / (row["id"].replace("/", "__") + ".txt")).write_text(
+                "FACTS (mechanical - do not re-derive these):\n" + facts(row, base, body)
+                + f"\n\nGROUP: sites {g['sites']} of {len(sites)} ("
+                + ", ".join(f"line {sites[i][5]} {sites[i][1]}({sites[i][2][:30]})" for i in g["sites"])
+                + f"); the row's other {len(sites) - len(g['sites'])} pins stay in base/.\n"
+                + "\nRESIDUE of the group-erased text against retail:\n" + body)
+            lines.append("\t".join(str(x) for x in [
+                row["id"], row["container"], f"src/{row['container']}/{name}", row["size"], row["cfg"],
+                len(sites), ",".join(map(str, g["sites"])), ",".join(sites[i][1] for i in g["sites"]),
+                total, g.get("best"), cls, Path(row.get("gate_config") or "").stem,
+                internal_jumps(row, text) or "-"]))
+        (d / "rows.tsv").write_text("\n".join(lines) + "\n")
+        brief = BRIEF.format(n=bi // a.size + 1, cls="pin groups", budget=a.budget, count=len(items))
+        brief = brief.replace("\n\nEvery row here", "\n\n" + GROUP_PREAMBLE + "Every row here", 1)
+        brief = brief.replace("retail's bytes **with no\npin at all**", "retail's bytes **without this\ngroup's pins**", 1)
+        brief = brief.replace(
+            "- **A candidate must contain no `ASM_` macro at all.** A row that only gets *fewer* pins is not a\n"
+            "  result for this lane; record it and move on.",
+            "- **GROUP MODE: a candidate must be byte-exact and carry no more `ASM_` macros than its base.**\n"
+            "  Never add, move or re-spell one of the row's other pins to get there.")
+        (d / "BRIEF.md").write_text(brief)
+    print(f"wrote {len(live)} rows into {out} ({(len(live) + a.size - 1) // a.size} batches)")
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--groups", action="store_true",
+                    help="one pin GROUP per row from t18_groups' journal; base erases only that group")
+    ap.add_argument("--max-joint", type=int, default=6, help="--groups: max measured group residue")
+    ap.add_argument("--skip-class", default="delay-slot,addressing,slot-rotation",
+                    help="--groups: residue classes lanes have never won (0/7, 0/4, 0/1 on 2026-09-10)")
     ap.add_argument("--band", type=int, default=8, help="max strip damage to include")
     ap.add_argument("--size", type=int, default=12, help="rows per batch")
     ap.add_argument("--batches", type=int, default=0, help="0 = all")
@@ -276,6 +389,8 @@ def main():
     ap.add_argument("--budget", type=int, default=12)
     ap.add_argument("--workers", type=int, default=8)
     a = ap.parse_args()
+    if a.groups:
+        return main_groups(a)
 
     only_rows = set(Path(a.only_rows).read_text().split()) if a.only_rows else None
     by = {r["id"]: r for r in rows()}

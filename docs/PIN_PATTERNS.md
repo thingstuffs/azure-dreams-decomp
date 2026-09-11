@@ -131,7 +131,7 @@ the C operator restores the compiler's own copy, and the pin has nothing left to
 
 | idiom | APPEARS | RESOLVES | POPULATION | RESULT |
 |---|---|---|---|---|
-| `x % (1 << n)` | `q = x; q >>= n; if (x < 0) q = (x + m) >> n; r = x - (q << n)` | expand_divmod's `copy_to_mode_reg` | 35 pinned rows (2026-09-09) | 2 rows by the reg-rename lane; no sweep yet |
+| `x % (1 << n)` (t19) | bias `if (t < 0)` (`b = x + K`, `b += K`, `b = (x + K) >> n`), then `x - ((b >> n) << n)` / `x - (q << n)` | expand_divmod's `copy_to_mode_reg` | 42 idioms in 28 pinned rows (arm reads a copy in 13) | 2 rows by the reg-rename lane (09-09); **t19: 2 rows, 2 pins** (one copy arm, one source arm freed by the dead pass); 16 byte-neutral rewrites |
 | `abs(x)` (t16) | `if (t < 0) { d = -d; }`, guard on d or on what d was copied from | MIPS `abssi2` = `bgez; move; subu` as one insn | 142 pinned rows eligible | **36 rows, 75 pins off, 3 rows pin-free** — half of them freed OTHER pins once the idiom was gone |
 | `x / (1 << n)` (t17) | `if (t < 0) d += 2^n-1; … d >> n` | expand_divmod's branch form | 108 pinned rows eligible | 2 rows, 2 pins; in 64 rows the `/` spelling is byte-identical and frees nothing — a negative, with a reason |
 
@@ -141,6 +141,11 @@ spelling of a division reads the source (`d = t + K`), so there is nothing to fo
 already reproduces retail — with the copy (`main/func_8001AA50`) or in place
 (`town/func_80097A54`). Check this before building the next idiom plugin: count the sites whose
 arm reads the copy, not the sites where the pattern appears.
+
+**t19 refines it: necessary-looking, not sufficient.** Of the 13 `%` rows whose arm reads a copy,
+one gained (`dungeon/func_81934928`, the lane's own spelling, jointly with its pins); one
+source-arm row gained too (`town/func_808B2D90`, where the rewrite left an `ASM_REG` nothing to
+hold). The rule explains abs against division; it does not predict a row.
 
 ## 7. Next leads, ranked
 
@@ -165,3 +170,54 @@ arm reads the copy, not the sites where the pattern appears.
    to this campaign; the journals name the rows.
 6. The scheduler-move head (~750 sites) is what the fence family already covers; the literal-page
    family (~240) waits on the second non-folding set. Neither is new.
+
+## 8. Two classes measured before any lane is briefed (2026-09-11, afternoon)
+
+### 8a. Address materialisation (FOLD-`addiu` with a `%lo`: 121 sites within 12 words)
+
+**Mechanism, from the genuine SN source** (`config/mips/mips.md` `movsi`, `mips.c:3678`): with GAS
+and optimisation on, every non-GP symbol address is split at expand time — `tem = HIGH (sym)`
+into a FRESH pseudo, then `dest = LO_SUM (tem, sym)`. Retail's one-register form
+(`lui $a1; addiu $a1,$a1,%lo`) means `tem` and `dest` got the same hard register.
+
+**Measured with the instrumented cc1** (the preserved `cc1-oracle-all-blocks` build of the genuine
+SN source, kept with the compiler sources outside this tree; output byte-identical to the shipped
+cc1 on both texts), on
+`dungeon/func_8098D5A8` (`register u8 *anim_table ASM_REG("$5")`):
+
+| text | `dest` | `tem`'s local-alloc quantity | code |
+|---|---|---|---|
+| pinned | hard reg 5 | `sugg=5 phys=5` | `lui $a1; addiu $a1,$a1,%lo` (retail) |
+| pin erased | `reg/v 91`, "used 6 times across 22 insns" — one variable for TWO arms | no suggestion, `phys=2` | `lui $v0; addiu $a1,$v0,%lo` |
+| one variable per arm, or the symbol inlined and the variable dropped | block-local pseudo | tied | `lui $v1; addiu $v1,$v1,%lo` — one register again |
+
+So the tie needs a destination local-alloc can see: a hard register, or a pseudo that lives in one
+basic block. m2c's habit of reusing ONE pointer variable across arms makes it a cross-block
+pseudo, and the split is what the pin was holding. **82 of the 121 sites pin a pointer that is
+assigned from an address two or more times** — the population for that half of the fix.
+
+It is only half. With the tie restored, local-alloc's priority order picks the register, and on
+this row the address quantity and its neighbour (`facing_angle`) swap `$v1`/`$a1`: residue 16,
+where the pinned-then-erased text sat at 4; four statement orders gave 16–32. A lane brief for
+this class must name both halves — block-local first, then the register choice among that
+block's quantities — and inlining the symbol while the variable stays is inert (cse folds the uses
+back into it: byte-identical, measured).
+
+### 8b. The sign-extension copy (FOLD-`sll`: 102 sites / 76 rows within 12 words)
+
+71 are sign extensions (`sll …,0x10` / `0x18`), 31 are index scaling (`sll …,2/3/5`) — a different
+mechanism the old count mixed in. The sign-extension shape: `y = x; KEEP(x); … (s16)x` — retail
+extends in the COPY's register (`sll $a1,$a1,16`), gcc reads the source (`sll $a1,$s3,16`).
+`narrow` never sees it: it retypes only a plain local declaration with no initializer. Hand tests on
+two one-word rows (`dungeon/func_800B5DFC`, `town/func_800ABBF8`): reading the copy at the use,
+reversing the copy direction, an `s16` temp — all inert (1 → 1) or worse (→ 5). The variable map
+is the wrong axis here too.
+
+The oracle trace of `dungeon/func_800B5DFC` (2.7.2-cdk, output identical to the shipped cc1) says
+why: the unpinned `sll` reads `reg/v:SI 18 s2` — `slot_or_angle`, which ANOTHER pin of the row
+(`ASM_REG("$18")`, 61 words alone) fixes in a hard register, while `packet_or_angle` is fixed in
+`$16` by a third (`ASM_REG("$16")`, 63 words). `slot_or_angle = packet_or_angle` makes the two
+hard-register variables one cse class, and the `(s16)` use is rewritten to the other one; the
+one-word `ASM_KEEP_NV` only stands between them. The site's cost of 1 is an artefact of the row's
+register pins: the fix belongs to that group, not to `narrow`. Count how many of the 71 sites
+have a hard-register variable on BOTH sides of the copy before widening `narrow` at all.

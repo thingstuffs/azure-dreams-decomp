@@ -12,8 +12,10 @@ RESOLVES    the same mechanisms t15's menu already carries (fence, narrow, dup_a
             shape at all.  A row with ten pins and a strip cost of 60 can still hold a pair that
             falls to one fence - 40 % of pin pairs hold the same instructions (PIN_PATTERNS.md
             section 4), and 29 pairs fall only together, invisible to both.
-POPULATION  2026-09-11, pinned rows at their current text: 6,000-odd single sites and ~500
-            multi-pin groups within 12 words (pins_site.jsonl + the 6..10-pin pair census).
+POPULATION  2026-09-11, pinned rows at their current text (pins_site.jsonl + pins_subsets.jsonl,
+            the 6..10-pin rows by pairs): 1,378 rows grouped; 980 multi-pin groups, 417 of them
+            within 12 words (66 at <= 2, 119 at 3-5, 232 at 6-12); rows of 11+ pins group by
+            singles only (no pair census).  Eligible at T18_BAND=12: ~1,400 rows.
 
 Search, per row, cheapest group first and within T18_BUDGET verifies:
   1. erase the group (every candidate is cut from the current text, and the census's own
@@ -63,6 +65,11 @@ def _edit_line(a, b):
         else:
             hi = mid - 1
     return a.count("\n", 0, lo) + 1
+
+
+def _is_fence(label):
+    """t15 menu labels whose candidate adds a `do { } while (0)` barrier."""
+    return label.split(":")[0] in ("fence", "fence2", "fencestore", "efence", "fence-return")
 
 
 def usable(groups):
@@ -130,7 +137,10 @@ class T:
             here, here_total, gb, seen, climb, won = base, t, 0, {sha_text(base)}, [], None
             for _ in range(ROUNDS):
                 cands = T15._menu(here)
-                cands.sort(key=lambda lc: min(abs(_edit_line(here, lc[1]) - l) for l in lines))
+                # real shapes before fences, then nearest the group's pins.  A fence is scaffolding
+                # the census counts like a pin: the first full pass removed 236 pins and added 185
+                # fences (net -51), so a shape that frees the group without one is tried first.
+                cands.sort(key=lambda lc: (_is_fence(lc[0]), min(abs(_edit_line(here, lc[1]) - l) for l in lines)))
                 best = None
                 for label, cand in cands:
                     if gb >= GROUP_BUDGET or tried >= BUDGET:
