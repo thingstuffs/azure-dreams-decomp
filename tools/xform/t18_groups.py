@@ -143,7 +143,7 @@ class T:
                 continue
             here, here_total, gb, seen, climb, won = base, t, 0, {sha_text(base)}, [], None
             for _ in range(ROUNDS):
-                cands = T15._menu(here)
+                cands = T15._menu(here, row.get("kind") == "slus")
                 # real shapes before fences, then nearest the group's pins.  A fence is scaffolding
                 # the census counts like a pin: the first full pass removed 236 pins and added 185
                 # fences (net -51), so a shape that frees the group without one is tried first.

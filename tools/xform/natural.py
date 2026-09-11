@@ -549,7 +549,7 @@ def armstore_candidates(text):
                 if not pm or pm.group("v") != v or _occ(v).search(pm.group("e")):
                     continue
                 pre = (p, _nl(t.lines[p])[pm.start("e"):pm.end("e")])
-            for compound in (False, True):
+            for compound in (True, False):         # `D |= K` reads better than `D = D | K`: first
                 edits, changed = {}, False
                 for k, ind, e in sets:
                     c = _compound(dest, e) if compound else None
@@ -1069,8 +1069,11 @@ def _sym(text, addr):
     return f if re.search(r"\b%s\b" % f, text) else "D_%08X" % addr
 
 
-def _declare(text, name):
-    if re.search(r"\b%s\b" % name, text) or name in _header_syms() or name.startswith("func_"):
+def _declare(text, name, before):
+    """`extern u8 name;` added unless `before` - the text the edit started from - or a header
+    already declares it.  (Asking the edited text always finds the new use: the first sweep lost
+    every candidate that needed a fresh symbol to "undeclared" that way.)"""
+    if re.search(r"\b%s\b" % name, before) or name in _header_syms() or name.startswith("func_"):
         return text
     lines = text.splitlines(True)
     last = max((i for i, l in enumerate(lines) if l.startswith("extern ")), default=None)
@@ -1097,24 +1100,26 @@ def basesym_candidates(text):
         rv = _occ(v)
         body = "\n".join(t.m[a:b + 1])
         # (a) v = page; [pins on v]; v = (T *)v + K;  ->  v = &D_<page + K>;
+        #     (also `v -= K`, `v -= -K` - main/func_80013B18 spells +0x7E68 that way)
         j, pins = None, set()
         for k in range(i + 1, b + 1):
             if not rv.search(t.m[k]):
                 continue
-            if PIN_STMT_RE.match(t.m[k]) and re.search(r"\(\s*%s\s*\)" % re.escape(v), t.m[k]):
+            if PIN_STMT_RE.match(t.m[k]) and re.search(r"[(,]\s*%s\s*[,)]" % re.escape(v), t.m[k]):
                 pins.add(k)
                 continue
             j = k
             break
         if j is not None:
             s = t.m[j]
-            m1 = re.match(r"^(?P<i>[ \t]*)%s[ \t]*=[ \t]*(?:\((?P<c1>[^()]*)\)[ \t]*)?\(?[ \t]*(?:\((?P<c2>[^()]*\*)[ \t]*\)[ \t]*)?%s[ \t]*\+[ \t]*(?P<k>%s)[ \t]*\)?[ \t]*;[ \t]*$" % (re.escape(v), re.escape(v), NUM), s)
-            m2 = re.match(r"^(?P<i>[ \t]*)%s[ \t]*\+=[ \t]*(?P<k>%s)[ \t]*;[ \t]*$" % (re.escape(v), NUM), s)
+            m1 = re.match(r"^(?P<i>[ \t]*)%s[ \t]*=[ \t]*(?:\((?P<c1>[^()]*)\)[ \t]*)?\(?[ \t]*(?:\((?P<c2>[^()]*\*)[ \t]*\)[ \t]*)?%s[ \t]*(?P<op>[-+])[ \t]*(?P<k>-?[ \t]*%s)[ \t]*\)?[ \t]*;[ \t]*$" % (re.escape(v), re.escape(v), NUM), s)
+            m2 = re.match(r"^(?P<i>[ \t]*)%s[ \t]*(?P<op>[-+])=[ \t]*(?P<k>-?[ \t]*%s)[ \t]*;[ \t]*$" % (re.escape(v), NUM), s)
             m = m1 or m2
             if m:
                 scale = _pointee(m.group("c2")) if m1 and m.group("c2") else _pointee(vty)
-                if scale:
-                    name = _sym(text, page + int(m.group("k"), 0) * scale)
+                kval = int(re.sub(r"\s+", "", m.group("k")), 0) * (1 if m.group("op") == "+" else -1)
+                if scale and 0x80000000 <= page + kval * scale < 0x81000000:
+                    name = _sym(text, page + kval * scale)
                     cast = (m1.group("c1") if m1 and m1.group("c1") else vty).strip()
                     rhs = ("&%s" % name) if _sq(cast) in ("void*",) else "(%s)&%s" % (cast, name)
                     edits = {j: m.group("i") + "%s = %s;" % (v, rhs)}
@@ -1123,7 +1128,7 @@ def basesym_candidates(text):
                         edits[i] = pm.group("i") + pm.group("decl").rstrip() + ("" if pm.group("decl").rstrip().endswith("*") else " ") + v + ";"
                     else:
                         drop.add(i)
-                    out.append(("basesym:%s=%s" % (v, name), _declare(t.build(edits, drop), name)))
+                    out.append(("basesym:%s=%s" % (v, name), _declare(t.build(edits, drop), name, text)))
         # (b) a base assigned once: every `(T *)v + K`, `v + K`, `v[K]` -> the symbol at the sum
         if _writes(body, v) != 1 or _addr_taken(body, v):
             continue
@@ -1133,7 +1138,7 @@ def basesym_candidates(text):
             hits = list(rv.finditer(s))
             if not hits:
                 continue
-            if PIN_STMT_RE.match(s) and re.search(r"\(\s*%s\s*\)" % re.escape(v), s):
+            if PIN_STMT_RE.match(s) and re.search(r"[(,]\s*%s\s*[,)]" % re.escape(v), s):
                 pins.add(k)
                 continue
             ln = _nl(t.lines[k])
@@ -1178,7 +1183,7 @@ def basesym_candidates(text):
                     drop.add(vk)
             cand = t.build(e2, drop if full else set())
             for nm in sorted(set(names)):
-                cand = _declare(cand, nm)
+                cand = _declare(cand, nm, text)
             out.append(("basesym:%s%s" % (v, "" if full else "+keep"), cand))
     # (c) inline literals: `(T *)0x8XXXYYYY` (low half set) or `(T *)0x8XXX0000 + K`
     groups = {}
@@ -1199,7 +1204,7 @@ def basesym_candidates(text):
         for k, s0, e0, rep in sorted(hits, key=lambda h: (h[0], -h[1])):
             ln = edits.get(k, _nl(t.lines[k]))
             edits[k] = ln[:s0] + rep + ln[e0:]
-        out.append(("basesym:lit=%s" % name, _declare(t.build(edits), name)))
+        out.append(("basesym:lit=%s" % name, _declare(t.build(edits), name, text)))
     return out
 
 

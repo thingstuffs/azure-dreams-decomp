@@ -37,8 +37,10 @@ from pin_census import sites_of, erase, asm_blocker
 
 try:
     from .t12_stmtorder import strip_pins, mask, depths, movable, is_decl, NOTE_RE
+    from . import natural
 except ImportError:                       # pragma: no cover - direct import
     from t12_stmtorder import strip_pins, mask, depths, movable, is_decl, NOTE_RE
+    import natural
 
 BAND = int(os.environ.get("T15_BAND", "12"))       # strip damage a row must be within
 BUDGET = int(os.environ.get("T15_BUDGET", "45"))   # verify runs per row (T15_BUDGET to raise)
@@ -838,19 +840,22 @@ class T:
         return None
 
     @staticmethod
-    def _menu(cur):
-        cands = (fence_store_before_call_candidates(cur) + loop_counter_merge_candidates(cur)
-                 + dup_after_if_candidates(cur)
-                 + narrow_candidates(cur) + fence_candidates(cur) + fence_pair_candidates(cur))
+    def _menu(cur, slus=False):
+        """Real source first, barriers last.  The fence study's natural shapes (`natural.py`) lead:
+        a third of the fences the first passes landed stood for one of them, and census.py counts
+        a fence like a pin, so a shape that frees a pin without one must be tried before any fence
+        (`basesym` never on a SLUS row - that scorer compares object identity)."""
+        real = (natural.candidates(cur, basesym=not slus) + loop_counter_merge_candidates(cur)
+                + dup_after_if_candidates(cur) + dowhile2for_candidates(cur) + narrow_candidates(cur))
         if WIDE:
-            cands = (fold_load_candidates(cur) + depinject_candidates(cur) + deadstore_candidates(cur)
+            real += (fold_load_candidates(cur) + depinject_candidates(cur) + deadstore_candidates(cur)
                      + inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur)
                      + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                      + maskfold_candidates(cur) + mask2cast_candidates(cur)
-                     + litsym_candidates(cur) + livetie_candidates(cur)
-                     + dowhile2for_candidates(cur)
-                     + commute_candidates(cur) + cands + empty_fence_candidates(cur))
-        return cands
+                     + litsym_candidates(cur) + livetie_candidates(cur) + commute_candidates(cur))
+        fences = (fence_store_before_call_candidates(cur) + fence_candidates(cur) + fence_pair_candidates(cur)
+                  + (empty_fence_candidates(cur) if WIDE else []))
+        return real + fences
 
     @staticmethod
     def _strip_keeping(text, keep):
@@ -901,7 +906,7 @@ class T:
             # commute and efence, each of which was harvested from a lane win on some other row.
             # `commute` alone quadrupled the sweep's wall time for nothing, so the default menu is
             # the four that have paid; T15_WIDE=1 runs the whole set when a new class is opened.
-            cands = T._menu(cur)
+            cands = T._menu(cur, row.get("kind") == "slus")
             round_best = None
             for label, cand in cands:
                 if tried >= BUDGET:
@@ -941,7 +946,7 @@ class T:
                 if v.get("exact"):
                     return pbase, {"step": "partial-strip", "tried": tried, "pins_in": pins_in,
                                    "pins_out": 1, "kept": keep}
-                for label, cand in T._menu(pbase):
+                for label, cand in T._menu(pbase, row.get("kind") == "slus"):
                     if tried >= BUDGET:
                         break
                     h = sha_text(cand)

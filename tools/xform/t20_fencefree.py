@@ -18,6 +18,15 @@ SEARCH      per fence, in text order: take it off (`unwrap`; a fence that is dea
 ACCEPTANCE  pins never grow and pins + fences strictly fall: census.py counts a fence like a pin, and
             nothing here may trade one for the other.  Every step label names a shape, never a
             fence (t18's `_is_fence` keys on the label).
+RESULT      2026-09-11, every fenced row (503 rows, 692 scored fences): 122 rows, 151 fences + 21
+            pins off, nothing added (net -172), 38 rows left with neither.  123 of the 151 fences
+            were DEAD - exact with the fence simply taken off, 109 of them in rows no t15/t18 fence
+            ever touched (agent-lane fences nothing had re-tested).  The shapes took the rest:
+            dropcopy 21, dup_after_if 7, narrow 6, armstore 4, basesym 4, one pin erased with its
+            fence.  Then the pinned rows with no fence (585 where a shape deletes a pin, + 10 fenced
+            rows re-run after the `_declare` fix): 83 rows, 121 pins off - dropcopy 67, basesym 29,
+            ptr2index 3.  Session: 205 rows, net -293, 45 rows free of pins and fences.  Run it after
+            every lane or campaign landing, the way t2 re-tests pins: nothing else re-tests a fence.
 """
 import os, sys
 from pathlib import Path
