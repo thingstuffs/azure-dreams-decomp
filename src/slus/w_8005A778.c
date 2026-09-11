@@ -39,7 +39,7 @@ s32 func_8005A778(S_8005A778_Arg0 *header, s32 requested_slot, void *payload)
 {
     s16 slot;
     s32 result;
-    register s32 raw_slot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s16 raw_slot;
     s32 offset_blocks;
     S_8005A778_D80086A40 *entry;
     S_8005A778_Arg0 *header_fields;

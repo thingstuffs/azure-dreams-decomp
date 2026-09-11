@@ -82,9 +82,7 @@ void func_80174D24(void *state, void *output, void *target)
     ((S_80174D24_1 *)output)->unk_14 = copy_word_b;
 
     object = ((S_80174D24_0 *)state)->unk_08;
-    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     offset_mode = 0;
-    ASM_KEEP(offset_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object_id = ((S_80174D24_2 *)object)->unk_08;
     if (func_8003DE58(object_id, object,
                       (s16 *)offsets, offset_mode) != 0) {
@@ -112,8 +110,10 @@ mode_zero:
     target_flags = ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v;
     if ((target_flags & 0x6000) == 0) {
         goto out;
+        ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v = target_flags | 0x80;
+    } else {
+        ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v = target_flags | 0x80;
     }
-    ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v = target_flags | 0x80;
     ((S_80174D24_0 *)state)->unk_02 = 0;
     ((S_80174D24_0 *)state)->unk_00.u++;
     goto out;

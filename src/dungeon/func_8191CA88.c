@@ -60,7 +60,7 @@ void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
     u8 *global_base;
     s32 x_position;
     s32 x_velocity;
-    s32 next_state;
+    s16 next_state;
     s32 y_velocity;
     s32 z_velocity;
     u16 phase;
@@ -69,9 +69,7 @@ void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
     inner = ((S_8191CA88_0 *)object)->unk_00;
     inner->unk_14 = inner->unk_14 + 1;
     phase = effect->unk_1A;
-    ASM_USE(phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     motion = motion_data;
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     effect->unk_1A = phase + 0x300;
     old_timer = ((S_8191CA88_0 *)object)->unk_10.s;
     state = ((S_8191CA88_0 *)object)->unk_0E.s;

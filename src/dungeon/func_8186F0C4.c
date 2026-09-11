@@ -83,11 +83,9 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
 #ifdef NON_MATCHING
     jump_table = (void **)((u8 *)D_80024058 - 0x4058);
 #else
-    jump_table = (void **)0x80020000;
 #endif
-    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    jump_table = (void **)((u8 *)jump_table + 0x4058);
-    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    jump_table = (void **)&D_80024058;
+       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     goto *jump_table[state];
 
 state0:

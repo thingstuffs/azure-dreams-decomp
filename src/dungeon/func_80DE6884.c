@@ -84,7 +84,6 @@ void func_80DE6884(void *owner_arg, void *motion_arg, void *origin_arg) {
     register S_80DE6884_3 *source_motion ASM_REG("$21") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_80DE6884_5 *owner;
     M2C_UNK *effect_data;
-    u32 effect_data_page;
     register S_80DE6884_0 *origin ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *offset_ptr;
     void *render_config;
@@ -101,9 +100,7 @@ void func_80DE6884(void *owner_arg, void *motion_arg, void *origin_arg) {
     owner = owner_arg;
     ASM_KEEP(offset_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_8003DE58(origin->unk_08, origin, offset_ptr, effect_index);
-    effect_data_page = 0x80170000;
-    ASM_KEEP(effect_data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    effect_data = (M2C_UNK *)(effect_data_page + 0x3F8C);
+    effect_data = (M2C_UNK *)((u32)&D_80173F8C);
     do {
         effect = func_8003FC64(0x212);
         if (effect != NULL) {

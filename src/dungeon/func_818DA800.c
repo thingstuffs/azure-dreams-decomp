@@ -346,12 +346,10 @@ case1:
                 position_or_z_offset = (s32)burst_obj->unk_08;
                 center_coord = motion->unk_04.half.unk_06.as_s16;
                 if ((actor_or_corner & 1) == 0) {
-                    corner_coord = center_coord + 16;
+                    ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06.as_s16 = center_coord + 16;
                 } else {
-                    corner_coord = center_coord - 16;
+                    ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06.as_s16 = center_coord - 16;
                 }
-                ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06.as_s16 = corner_coord;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 prim_color = 0xC00000;
                 ASM_KEEP(prim_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 position_or_z_offset = -0x100000;

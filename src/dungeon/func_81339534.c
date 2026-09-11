@@ -81,9 +81,8 @@ state_1:
         D_801760D8[0] = 1;
 #else
         {
-            register u8 *flag_page ASM_REG("$3") = (u8 *) 0x80170000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            *(u16 *)(flag_page + 0x60D8) = 1;
+            u8 *flag_page = (u8 *) 0x80170000;
+            *(u16 *)((u8 *)&D_801760D8) = 1;
         }
 #endif
     }

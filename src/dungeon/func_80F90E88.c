@@ -199,10 +199,11 @@ draw_object:
         endpoint->value = half_width;
         if (side != 0) {
             endpoint->value = left_offset;
+            endpoint->zero4 = 0;
+        } else {
+            endpoint->zero4 = 0;
         }
-        endpoint->zero4 = 0;
         endpoint->zero2 = 0;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         side -= 1;
         endpoint -= 1;
     } while (side >= 0);

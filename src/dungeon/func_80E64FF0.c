@@ -213,15 +213,13 @@ flight:
     ((S_801747F0_0 *)motion)->unk_54 += ((S_801747F0_0 *)motion)->unk_60;
     ((S_801747F0_1 *)position)->unk_04.at00.v += ((S_801747F0_0 *)motion)->unk_58;
     {
-        register s32 velocity_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 velocity_y;
         s32 accel_y;
         velocity_y = ((S_801747F0_0 *)motion)->unk_58;
         accel_y = ((S_801747F0_0 *)motion)->unk_64;
         velocity_y += accel_y;
         directions = D_801755E0;
-        ASM_USE(directions);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         ((S_801747F0_0 *)motion)->unk_58 = velocity_y;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
     direction = (((S_801747F0_0 *)motion)->unk_24 * 4) + directions;
     next_cell_x = ((S_801747F0_0 *)motion)->unk_50.s + ((S_801747F0_3 *)direction)->unk_00;

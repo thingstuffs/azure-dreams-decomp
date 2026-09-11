@@ -62,7 +62,7 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
 
     if (((S_8187BB80_0 *)effect)->unk_40.at00.v == 0) {
         s32 mid_y;
-        register u32 mid_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        u16 mid_x;
 
         ((S_8187BB80_0 *)effect)->unk_20.s =
             (((S_8187BB80_0 *)effect)->unk_1E.s + ((S_8187BB80_0 *)effect)->unk_58) / 2;

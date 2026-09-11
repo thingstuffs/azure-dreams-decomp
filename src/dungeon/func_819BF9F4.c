@@ -145,10 +145,10 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
     s32 min_v;
     s32 end_v;
     s32 tile_offset;
-    register s32 uv_scratch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 uv_scratch;
     register s32 tile_end_offset ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 tile_max ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 tile_min;
+    s16 tile_min;
     s32 signed_z;
     u32 template_x;
     register u32 template_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -310,9 +310,10 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
             ((S_800251F4_2 *)transform)->unk_0D = brightness;
             ((S_800251F4_2 *)transform)->unk_0C = brightness;
             func_8003DB94(transform, &D_800DE870, 0);
+            particle_index = (u16)stack.iteration;
+        } else {
+            particle_index = (u16)stack.iteration;
         }
-        particle_index = (u16)stack.iteration;
-        ASM_KEEP(particle_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         next_particle = particle_index + 1;
         stack.iteration = next_particle;
     } while ((s16)next_particle < 4);

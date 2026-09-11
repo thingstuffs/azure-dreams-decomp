@@ -86,7 +86,6 @@ void func_80172A40(void *owner_input, void *motion_input, void *actor_input, voi
         &&slot_one, &&slot_two, &&slot_three, &&slot_none,
         &&special_one, &&special_two, &&special_three
     };
-    register void *owner ASM_REG("$19") = owner_input;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *motion ASM_REG("$21") = motion_input;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register void *actor ASM_REG("$18") = actor_input;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *object = object_input;
@@ -105,12 +104,11 @@ void func_80172A40(void *owner_input, void *motion_input, void *actor_input, voi
     s32 item_id;
     u8 *status;
 
-    ASM_KEEP_NV(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
 
-    state = ((S_80172A40_0 *)owner)->unk_9B;
+    state = ((S_80172A40_0 *)owner_input)->unk_9B;
     special = 0;
     if (state == 1) {
         goto state_one;
@@ -177,7 +175,7 @@ slot_none:
 
 selected:
     if (*item_slot != 0) {
-        ((S_80172A40_0 *)owner)->unk_98 &= 0xFF7F;
+        ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFF7F;
 
         special_copy = special;
         ASM_KEEP(special_copy);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -221,15 +219,15 @@ copy_record:
 
 move_setup:
         if (func_800A94A0(object, item_slot, special,
-                          (u16 *)((u8 *)owner + 0x98)) == 0) {
+                          (u16 *)((u8 *)owner_input + 0x98)) == 0) {
             return;
         }
         ((S_80172A40_4 *)actor)->unk_14 &= 0xF7FF;
         func_800DAE44(motion, 4);
         func_800A56E0(0x703);
-        ((S_80172A40_0 *)owner)->unk_96.u = 4;
-        ((S_80172A40_0 *)owner)->unk_9B++;
-        ((S_80172A40_0 *)owner)->unk_98 |= 8;
+        ((S_80172A40_0 *)owner_input)->unk_96.u = 4;
+        ((S_80172A40_0 *)owner_input)->unk_9B++;
+        ((S_80172A40_0 *)owner_input)->unk_98 |= 8;
         ((S_80172A40_1 *)object)->unk_1C &= 0xF7FFFFFF;
         ((S_80172A40_1 *)object)->unk_1C &= 0xFFFBFFFF;
         return;
@@ -243,7 +241,7 @@ move_setup:
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
     func_800A4ACC(object);
     ((S_80172A40_1 *)object)->unk_6D.u--;
-    ((S_80172A40_0 *)owner)->unk_8C = D_80171138;
+    ((S_80172A40_0 *)owner_input)->unk_8C = D_80171138;
     ((S_80172A40_1 *)object)->unk_73.u = 0;
     ((S_80172A40_1 *)object)->unk_72.u = 0;
     ((S_80172A40_1 *)object)->unk_46 &= 0x7FFF;
@@ -255,18 +253,18 @@ state_one:
         return;
     }
     ((S_80172A40_4 *)actor)->unk_14 &= 0xF7FF;
-    ((S_80172A40_0 *)owner)->unk_9B++;
+    ((S_80172A40_0 *)owner_input)->unk_9B++;
 
 state_two:
-    ((S_80172A40_0 *)owner)->unk_92 +=
-        (-0x30 - ((S_80172A40_0 *)owner)->unk_92) >> 3;
-    ((S_80172A40_0 *)owner)->unk_96.u--;
-    if (((S_80172A40_0 *)owner)->unk_96.s > 0) {
+    ((S_80172A40_0 *)owner_input)->unk_92 +=
+        (-0x30 - ((S_80172A40_0 *)owner_input)->unk_92) >> 3;
+    ((S_80172A40_0 *)owner_input)->unk_96.u--;
+    if (((S_80172A40_0 *)owner_input)->unk_96.s > 0) {
         if ((((S_80172A40_4 *)actor)->unk_14 & 0xE000) == 0) {
             return;
         }
     }
-    ((S_80172A40_0 *)owner)->unk_98 |= 0x80;
+    ((S_80172A40_0 *)owner_input)->unk_98 |= 0x80;
     if ((((S_80172A40_4 *)actor)->unk_14 & 0xE000) == 0) {
         return;
     }
@@ -275,7 +273,7 @@ state_two:
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((S_80172A40_4 *)actor)->unk_24, ((S_80172A40_4 *)actor)->unk_25);
-    ((S_80172A40_0 *)owner)->unk_98 &= 0xFFF7;
+    ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFFF7;
     ((S_80172A40_1 *)object)->unk_1C |= 0x08000000;
     ((S_80172A40_1 *)object)->unk_1C |= 0x00040000;
 
@@ -284,7 +282,7 @@ state_two:
         func_80047784(actor,
                       D_80174AD4[((D_80083228 +
                                    ((S_80172A40_1 *)object)->unk_2A + 0x100) >> 9) & 7],
-                      ((S_80172A40_0 *)owner)->unk_A0);
+                      ((S_80172A40_0 *)owner_input)->unk_A0);
     }
 
     status = (u8 *)&D_80083460;
@@ -293,7 +291,7 @@ state_two:
     }
     ((S_80172A40_6 *)status)->unk_0A--;
     ((S_80172A40_4 *)actor)->unk_14 &= 0xF7FF;
-    ((S_80172A40_0 *)owner)->unk_8C = D_80171138;
+    ((S_80172A40_0 *)owner_input)->unk_8C = D_80171138;
     func_800A4ACC(object);
     if (((S_80172A40_1 *)object)->unk_6D.s > 0) {
         ((S_80172A40_1 *)object)->unk_6D.u--;

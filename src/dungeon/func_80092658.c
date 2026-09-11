@@ -30,7 +30,7 @@ extern u8 D_80097C78;
 extern s32 func_80042900(void *, s32);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
-extern s32 func_800A5C70(Resource *, s32, s32, Resource *);
+extern s32 func_800A5C70(Resource *);
 
 void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
     s32 state;
@@ -40,7 +40,7 @@ void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
     /* MATCH: Keep the shared flag table in its retail saved register. */
     register u16 *flags ASM_REG("$17");
     /* MATCH: Keep the incoming resource in a3 for the pass-through call. */
-    register Resource *resource ASM_REG("$7") = arg3;
+    Resource *resource = arg3;
     /* MATCH: Set a0 in both guard delay slots without a redundant call-slot move. */
     Resource *callResource;
 
@@ -72,7 +72,7 @@ state_one:
         guard = ctx->flags & 0x20;
         callResource = arg3;
         if (guard != 0) {
-            guard = func_800A5C70(callResource, arg1, arg2, resource);
+            guard = func_800A5C70(callResource);
             callResource = arg3;
             if (guard != 0) {
                 flags = D_80083460;

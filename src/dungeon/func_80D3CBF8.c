@@ -47,7 +47,6 @@ extern u8 D_800E2970[];
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
 void func_801723F8(void *work_data, void *action_context, void *position_data, void *actor_data) {
-    register u8 *move_work ASM_REG("$21") = work_data;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register u8 *position ASM_REG("$20") = position_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *actor = actor_data;
     u8 *turn_state;
@@ -71,13 +70,12 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
 
     turn_state = (u8 *)&D_80083460;
     turn_flags = U16_AT(turn_state, 2);
-    ASM_KEEP(move_work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     limit_turn = turn_flags & 0;
 
     if ((turn_flags & 0x4000) || (S8_AT(actor, 0x71) >= 0)) {
-        if ((U8_AT(actor, 0x12) >= 2) || U8_AT(move_work, 0xB5) ||
-            ((func_80172BB0(move_work, action_context, position, actor) << 16) == 0)) {
+        if ((U8_AT(actor, 0x12) >= 2) || U8_AT(work_data, 0xB5) ||
+            ((func_80172BB0(work_data, action_context, position, actor) << 16) == 0)) {
             func_800A9A0C(actor);
             return;
         }
@@ -91,7 +89,7 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
         return;
     }
 
-    func_800A19E4(position, actor, 3, 6, (u8 *)move_work + 0x9C);
+    func_800A19E4(position, actor, 3, 6, (u8 *)work_data + 0x9C);
     movement_flags = S32_AT(actor, 0x1C);
 
     if (movement_flags & 0x410) {
@@ -102,14 +100,13 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
                 s32 history_index;
 
                 parent = PTR_AT(node, -0x14);
-                node_work = (u8 *)move_work + 0x98;
+                node_work = (u8 *)work_data + 0x98;
                 U16_AT(actor, 0x2A) = func_800A0818(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
                     U8_AT(parent, 0x24), U8_AT(parent, 0x25),
                     node_work);
                 history_index = U8_AT(actor, 0x71);
                 history_index &= 0x7F;
-                ASM_KEEP_DEP_NV(history_index, move_work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 U8_AT(actor, 0x71) = history_index;
                 return;
             }
@@ -157,7 +154,7 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
                 goto clear_history;
             }
 
-            path_work = (u8 *)move_work + 0x98;
+            path_work = (u8 *)work_data + 0x98;
             path_angle = func_800A0818(
                 U8_AT(position, 0x24), U8_AT(position, 0x25),
                 (s16)target_x, (s16)target_y, path_work);
@@ -219,7 +216,7 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
         U16_AT(actor, 0x2A) = func_800A0818(
             U8_AT(position, 0x24), U8_AT(position, 0x25),
             U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
-            (u8 *)move_work + 0x98);
+            (u8 *)work_data + 0x98);
 
         if ((func_8009FD7C(
                 U8_AT(position, 0x24), U8_AT(position, 0x25),
@@ -239,7 +236,7 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
     }
 
 direct_move:
-    func_800A0E6C(position, S8_AT(move_work, 0x9C), actor, (u8 *)move_work + 0x98);
+    func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
 
 loop_setup:
     attempt = 0;
@@ -251,7 +248,7 @@ loop_ready:
 
 loop_head:
     angle = S16_AT(actor, 0x2A);
-    if (U16_AT(move_work, 0x98) & 2) {
+    if (U16_AT(work_data, 0x98) & 2) {
         candidate_angle = angle - *angle_step;
     } else {
         candidate_angle = angle + *angle_step;
@@ -338,7 +335,7 @@ loop_done:
     }
 
     U16_AT(actor, 0x46) &= 0x7FFF;
-    S8_AT(move_work, 0x9C) = U8_AT(position, 0x26);
+    S8_AT(work_data, 0x9C) = U8_AT(position, 0x26);
     U8_AT(actor, 0x6D)--;
     {
         u8 *turn_state_tail = (u8 *)&D_80083460;

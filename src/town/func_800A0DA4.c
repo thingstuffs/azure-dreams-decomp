@@ -17,6 +17,8 @@ extern void func_8009B218();
 extern void func_8009DC8C();
 extern void func_8009F148();
 extern s32 func_8009FF50();
+extern u8 D_8009DD40;
+extern u8 D_8006E240;
 
 #define BU(p, off) (*(u8 *)((u8 *)(p) + (off)))
 #define WD(p, off) (*(s32 *)((u8 *)(p) + (off)))
@@ -58,9 +60,7 @@ store_common:
     }
 
     if (func_8009FF50() == 0) {
-        resource = 0x800A0000;
-        ASM_KEEP(resource);
-        resource -= 0x22C0;
+        resource = (u32)&D_8009DD40;
     } else {
         resource = (u32)D_8009DEBC;
     }
@@ -72,9 +72,7 @@ store_common:
 
     type = BU(object, 0x4D);
     if (type == 0x12) {
-        resource = 0x80070000;
-        ASM_KEEP(resource);
-        resource -= 0x1DC0;
+        resource = (u32)&D_8006E240;
     } else if (type == 0x13) {
         u8 *data_base = (u8 *)0x80010000;
 

@@ -135,10 +135,9 @@ selection_ready:
     ((S_80172798_0 *)action)->unk_98 &= 0xFF7F;
     ASM_KEEP(selection);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     {
-        s32 special_test;
+        s16 special_test;
 
         special_test = special;
-        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (special_test != 0) {
             active = D_800814A8;
             (*(void * *)((u8 *)actor + 0x60)) = active;

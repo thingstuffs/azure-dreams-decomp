@@ -66,7 +66,6 @@ void func_818FECCC(
     s32 y_offset,
     s32 z_offset)
 {
-    register s32 saved_x_offset ASM_REG("$18") = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *source = source_obj;
     register s16 saved_param_34 ASM_REG("$21") = param_34;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 saved_param_28 ASM_REG("$23") = param_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -99,7 +98,7 @@ void func_818FECCC(
         x_pos = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source)->unk_08))->unk_02;
         x_dest = ((S_818FECCC_0 *)effect_cursor)->unk_08.s;
         x_pos += x_random;
-        x_bias = saved_x_offset - 0x10;
+        x_bias = x_offset - 0x10;
         x_pos += x_bias;
         x_dest->unk_02 = (s16)x_pos;
 
@@ -123,7 +122,6 @@ void func_818FECCC(
         z_bias = saved_z_offset + 0x10;
         z_pos += z_bias;
         z_dest->unk_0A = (s16)z_pos;
-        ASM_KEEP(saved_x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(effect_cursor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_818FECCC_0 *)effect_cursor)->unk_14 = saved_param_34;
         ASM_KEEP(saved_param_34);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

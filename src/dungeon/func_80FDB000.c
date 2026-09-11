@@ -135,9 +135,9 @@ void *BODY_NAME(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     S_80FDB000_4 *actor;
     s32 left;
     s32 right;
-    register s32 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_arg1;
     s32 saved_arg3;
-    register s32 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_arg2;
     register s32 saved_arg0 = (s32)arg0;
     register s32 original_arg0 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *call_a0;

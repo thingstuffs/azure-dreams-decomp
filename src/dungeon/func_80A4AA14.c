@@ -66,7 +66,6 @@ void func_80174214(
     s32 y_offset,
     s32 z_offset)
 {
-    register s32 saved_x_offset ASM_REG("$18") = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_80174214_1 *source_obj = source;
     register s16 saved_value_34 ASM_REG("$21") = value_34;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 saved_value_28 ASM_REG("$23") = value_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -99,7 +98,7 @@ void func_80174214(
         x_pos = ((S_80174214_6 *)(source_obj->unk_08))->unk_02;
         x_dest = object_fields->unk_08.s;
         x_pos += x_jitter;
-        x_bias = saved_x_offset - 0x10;
+        x_bias = x_offset - 0x10;
         x_pos += x_bias;
         x_dest->unk_02 = (s16)x_pos;
 
@@ -123,7 +122,6 @@ void func_80174214(
         z_bias = saved_z_offset - 0x10;
         z_pos += z_bias;
         z_dest->unk_0A = (s16)z_pos;
-        ASM_KEEP(saved_x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(object_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         object_fields->unk_14 = saved_value_34;
         ASM_KEEP(saved_value_34);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

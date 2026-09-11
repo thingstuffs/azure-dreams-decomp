@@ -92,7 +92,7 @@ void func_80AC55DC(
     S_80AC55DC_3 *origin_pos;
     u16 origin_z;
     u16 sprite_flags;
-    s32 sprite_size;
+    s8 sprite_size;
     void *sprite_data;
     s32 duration_shifted;
     s32 offset_fixed;
@@ -159,7 +159,6 @@ void func_80AC55DC(
         sprite = ((S_80AC55DC_0 *)node)->unk_0C;
         sprite_size = 0x20;
         sprite_flags = sprite->unk_14;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         sprite->unk_10 = sprite_size;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;

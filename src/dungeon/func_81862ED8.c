@@ -283,16 +283,13 @@ case_late:
     line_or_red = (u8 *)(mask_or_phase * x);
     multiplier = 23;
 #ifdef __mips__
-    ASM_KEEP(multiplier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
     mask_or_phase *= multiplier;
     ((S_800246D8_2 *)packet)->unk_0D = 0;
 #ifdef __mips__
-    ASM_KEEP_NV(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
     ((S_800246D8_2 *)packet)->unk_05 = (x - y) * 8;
 #ifdef __mips__
-    ASM_KEEP_NV(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
     multiplier = 0x7F;
     ((S_800246D8_2 *)packet)->unk_0C = multiplier;

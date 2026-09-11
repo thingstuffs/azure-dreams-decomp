@@ -273,7 +273,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         }
         if (state->status != 0) {
             s32 strength;
-            register s32 clamped_strength ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s16 clamped_strength;
             u32 effect_id;
             s32 variation;
 
@@ -286,7 +286,6 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             strength += variation & 3;
             strength += 16;
             clamped_strength = strength;
-            ASM_KEEP(strength);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (strength >= 256) {
                 clamped_strength = 255;
             }
