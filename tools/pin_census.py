@@ -27,8 +27,114 @@ REG_CLASS = {**{f"{n}": "v" for n in ("2", "3", "v0", "v1")}, **{f"{n}": "a" for
              **{f"{n}": "t" for n in ("8", "9", "10", "11", "12", "13", "14", "15", "24", "25", "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9")},
              "30": "fp", "fp": "fp", "29": "sp", "sp": "sp", "31": "ra", "ra": "ra", "28": "gp", "gp": "gp", "1": "at", "at": "at"}
 
+PP_RE = re.compile(r"^[ \t]*#[ \t]*(ifdef|ifndef|if|elif|else|endif)\b[ \t]*(.*?)[ \t]*(?:/[*/].*)?$")
+NM_TRUE_RE = re.compile(r"^(?:NON_MATCHING|defined[ \t]*\(?[ \t]*NON_MATCHING[ \t]*\)?)$")
+NM_FALSE_RE = re.compile(r"^![ \t]*(?:NON_MATCHING|defined[ \t]*\(?[ \t]*NON_MATCHING[ \t]*\)?)$")
+HAS_PP_RE = re.compile(r"^[ \t]*#[ \t]*if", re.M)
+CMT_RE = re.compile(r"/\*.*?\*/|//[^\n]*", re.S)
+# An instruction written into a string (`__asm__("lui $2, ...")`, `"nop"`).  NOT an asm label
+# (`extern void f(void) __asm__("func_8001672C");` - the noreturn tail spelling, 160 files), a
+# `.set` page-base or a `#maspsx_*` marker: a label names a symbol, it emits nothing.  The older
+# per-tool regex (`"[a-z]`) matched labels too, and t15/pin_lane refused 80 rows on it.
+ASM_BODY_RE = re.compile(r'\b(?:__asm__|__asm|asm)\s*(?:__volatile__|volatile)?\s*\(\s*"(?:nop"|[a-z][a-z0-9.]*(?:[ \t;]|\\n))')
+RAW_REG_ASM_RE = re.compile(r'\bregister\b[^;=\n]*\b(?:__asm__|asm)\s*\(\s*"\$')
+
+
+def arm_labels(text):
+    """One label per line: which build compiles it.
+
+      'match'  only the byte-exact build: an `#ifndef NON_MATCHING` arm, the `#else` of an
+               `#ifdef NON_MATCHING`
+      'port'   only the -DNON_MATCHING port build - never scored against retail, and every ASM_*
+               macro there expands to a no-op
+      'dead'   neither (`#if 0`, or a port arm nested in a match arm)
+      'both'   everything else, the directive lines included
+
+    Every pin tool used to refuse a row outright when "NON_MATCHING" appeared anywhere in its text:
+    189 pinned rows, 105 of them with every pin outside any such arm and 52 within 12 words of
+    pin-free, were never searched by t15, t9 or a lane pack.  This is what they needed instead.
+    """
+    labels, stack = [], []           # per open #if: [side of the first arm, side of the current arm]
+    flip = {"port": "match", "match": "port"}
+    for ln in text.splitlines():
+        m = PP_RE.match(ln)
+        if m:
+            d, cond = m.group(1), m.group(2).strip()
+            if d in ("ifdef", "ifndef", "if"):
+                if d == "ifdef":
+                    side = "port" if cond == "NON_MATCHING" else None
+                elif d == "ifndef":
+                    side = "match" if cond == "NON_MATCHING" else None
+                else:
+                    side = ("port" if NM_TRUE_RE.match(cond) else "match" if NM_FALSE_RE.match(cond)
+                            else "dead" if cond == "0" else None)
+                stack.append([side, side])
+            elif d in ("elif", "else") and stack:
+                stack[-1][1] = flip.get(stack[-1][0])      # every later arm is the other build (or both)
+            elif d == "endif" and stack:
+                stack.pop()
+            labels.append("both")
+            continue
+        sides = {f[1] for f in stack if f[1]}
+        labels.append("dead" if "dead" in sides or sides >= {"port", "match"} else
+                      "port" if "port" in sides else "match" if "match" in sides else "both")
+    return labels
+
+
+def unscored_text(text):
+    """The code no byte gate ever compiles (the 'port' and 'dead' arms), comments dropped and
+    whitespace squeezed.  A candidate that changes it edited something no verify can see: the
+    byte-exact verdict says nothing about it, so the sweep and the lane lander refuse it."""
+    if not HAS_PP_RE.search(text):
+        return ""
+    lines = text.splitlines()
+    keep = [ln for ln, lab in zip(lines, arm_labels(text)) if lab in ("port", "dead")]
+    return " ".join(CMT_RE.sub(" ", "\n".join(keep)).split())
+
+
+def asm_blocker(text):
+    """Why a row's pin-free text still carries hand-written scaffolding, or None."""
+    if ASM_BODY_RE.search(text):
+        return "inline asm body"
+    if RAW_REG_ASM_RE.search(text):
+        return "raw register asm binding"
+    return None
+
+
+_LINT = None
+
+
+def landing_refusal(new, cur, relpath):
+    """Why a byte-exact candidate must still not land, or None.
+
+    Byte equality proves only the code the matching build compiles.  So a candidate is refused
+    when it edits code no byte gate compiles (`unscored_text`), or when the -DNON_MATCHING port
+    build's front end rejects it (tools/gate/portability_lint.py, 16 ms, self-grandfathering: a
+    row whose landed text already fails does not block its own candidate)."""
+    global _LINT
+    if unscored_text(new) != unscored_text(cur):
+        return "edits a NON_MATCHING/#if 0 arm that no byte gate compiles"
+    if _LINT is None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("portability_lint", ROOT / "tools/gate/portability_lint.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _LINT = mod                    # bound only once complete: a racing thread sees None or all
+    errs = _LINT.port_compile_refusals(new, relpath, str(ROOT))
+    return errs[0][:300] if errs else None
+
+
 def sites_of(text):
-    """Return [(kind, macro, arg, start, end, line_no, replacement_text)]."""
+    """Return [(kind, macro, arg, start, end, line_no, replacement_text)] for every LIVE pin: a pin in
+    a 'port'/'dead' arm compiles to nothing in either build and scaffolds nothing."""
+    out = _all_sites(text)
+    if out and HAS_PP_RE.search(text):
+        labels = arm_labels(text)
+        out = [s for s in out if s[5] > len(labels) or labels[s[5] - 1] not in ("port", "dead")]
+    return out
+
+
+def _all_sites(text):
     out = []
     for m in STMT_RE.finditer(text):
         indent, macro, arg, bs = m.group(1), m.group(2), m.group(3), m.group(4)
