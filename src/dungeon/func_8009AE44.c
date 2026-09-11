@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+extern int abs(int);
 
 typedef struct S_800A05A4_1 {
     u8 pad_00[0x88];
@@ -115,10 +116,7 @@ start:
                 s32 height_delta;
 
                 height_delta = ((S_800A05A4_1 *)found)->unk_88 - ((Rec_D_800E3D7C *)source)->unk_88.as_s16;
-                if (height_delta < 0) {
-                    height_delta = -height_delta;
-                }
-                ASM_SCHED_BARRIER();
+                height_delta = abs(height_delta);
                 if (!((s16)height_range < height_delta)) {
                     break;
                 }

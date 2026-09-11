@@ -14,7 +14,7 @@ typedef struct {
 
 /* Sets randomized entry values according to its type. */
 void func_800ABA1C(Struct800AE2BC *record) {
-    register s32 amount ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 amount;
     s32 flags;
     register Struct800AE2BC *entry = record;
     s32 roll;

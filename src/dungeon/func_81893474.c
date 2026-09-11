@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct Motion {
     s32 x;
@@ -216,25 +217,19 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             s32 delta_z;
 
             delta_x = S16_AT(target_pos, 2) - S16_AT(motion, 2);
-            if (delta_x < 0) {
-                delta_x = -delta_x;
-            }
+            delta_x = abs(delta_x);
             probe[0] = delta_x;
             delta_y = S16_AT(target_pos, 6) - S16_AT(motion, 6);
-            if (delta_y < 0) {
-                delta_y = -delta_y;
-            }
+            delta_y = abs(delta_y);
             probe[1] = delta_y;
             {
-                register s32 motion_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                s32 motion_z;
 
                 delta_z = S16_AT(target_pos, 0xA);
                 motion_z = S16_AT(motion, 0xA);
                 delta_z -= motion_z;
             }
-            if (delta_z < 0) {
-                delta_z = -delta_z;
-            }
+            delta_z = abs(delta_z);
             probe[2] = delta_z;
         }
         state->duration = 12;

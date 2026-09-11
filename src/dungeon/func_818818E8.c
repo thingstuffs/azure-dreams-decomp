@@ -40,7 +40,7 @@ __asm__(".set D_800257CE, 0x800257CE");
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
 void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
 {
-    register void *owner_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *owner_state;
     s32 life_left;
     s32 y_step;
     s32 z_velocity;
@@ -57,7 +57,6 @@ void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
     u16 *counter_ptr;
 
     owner_state = owner;
-    ASM_KEEP_NV(owner_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     counter_ptr = D_800257CE;
     x = motion->unk_00.at02.v;
     counter = counter_ptr[0];

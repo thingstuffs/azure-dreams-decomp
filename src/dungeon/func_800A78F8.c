@@ -110,7 +110,7 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
         dispatch_zero = 0;
         goto update_spiral;
     }
-    ASM_SCHED_BARRIER(); /* MATCH: keep the phase-3 branch followed by the default epilogue jump. */
+     /* MATCH: keep the phase-3 branch followed by the default epilogue jump. */
     return 0;
 
 wait_to_start:
@@ -187,7 +187,6 @@ update_fade:
     return finished;
 
 update_spiral:
-    ASM_KEEP(dispatch_zero);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_80064584(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;
     ((S_800AD058_3 *)position)->unk_00.at00.v += (s32) ((((Rec_D_800E3D7C *)D_80083780)->unk_00.at00_s32.v + orbit_offset - ((S_800AD058_3 *)position)->unk_00.at00.v) >> 2);
     orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_800644B8(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;

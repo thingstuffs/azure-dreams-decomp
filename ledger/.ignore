@@ -1,0 +1,5 @@
+# ripgrep / ugrep skip these (git still tracks them).  Per-site pin censuses are 10+ MB of
+# JSONL each: a recursive search over ledger/ would read them in full every time.  Search them
+# on purpose with `rg --no-ignore`, or read them with python.
+pins.jsonl
+pins_site.jsonl

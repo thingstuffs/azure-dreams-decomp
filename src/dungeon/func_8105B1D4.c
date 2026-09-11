@@ -84,7 +84,7 @@ void func_801729D4(void *action, void *motion, void *sprite, void *actor)
     };
     u16 position[3];
     u8 *animation;
-    register s32 reuse_target ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 reuse_target;
     s32 reuse_test;
     s32 state;
     s32 anim_kind;
@@ -171,7 +171,6 @@ selected:
         goto empty_anim;
     }
     ((S_801729D4_0 *)action)->unk_98 &= 0xFF7F;
-    ASM_KEEP(reuse_target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     reuse_test = reuse_target;
     ASM_KEEP(reuse_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (reuse_test != 0) {

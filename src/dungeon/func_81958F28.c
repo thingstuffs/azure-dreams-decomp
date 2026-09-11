@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 #define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 #define S32(p, off) FIELD(p, s32, off)
@@ -142,11 +143,8 @@ main_phase:
         colorValue = color.x;
         currentValue = S16(arg0, 0xC);
         diff = colorValue - currentValue;
-        if (diff < 0) {
-            diff = -diff;
-        }
+        diff = abs(diff);
         isClose = diff < 0x801;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         currentValue = (u16)color.x;
         if (!isClose) {
             color.x = (U16(arg0, 0xC) & 0xF000) | (currentValue & 0xFFF);
@@ -161,11 +159,8 @@ main_phase:
         colorValue = color.y;
         currentValue = S16(arg0, 0xE);
         diff = colorValue - currentValue;
-        if (diff < 0) {
-            diff = -diff;
-        }
+        diff = abs(diff);
         isClose = diff < 0x801;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         currentValue = (u16)color.y;
         if (!isClose) {
             color.y = (U16(arg0, 0xE) & 0xF000) | (currentValue & 0xFFF);
@@ -176,9 +171,7 @@ main_phase:
         s32 isClose;
 
         diff = color.z - S16(arg0, 0x10);
-        if (diff < 0) {
-            diff = -diff;
-        }
+        diff = abs(diff);
         isClose = diff < 0x801;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         {

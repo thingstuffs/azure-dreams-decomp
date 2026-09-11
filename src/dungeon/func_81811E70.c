@@ -12,7 +12,7 @@ extern u8 D_800157D2[];
 /* Count entries matching both bytes, stopping at a zero value or 64 entries. */
 s32 func_80026E70(s32 target_value, s32 prefix_value) {
     s32 count;
-    register s32 index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 index;
     u8 *entry;
     u8 value;
 
@@ -25,8 +25,10 @@ loop:
         if ((value == target_value) && (entry[-1] == prefix_value)) {
             count++;
         }
-        index++;
-        entry += 0x13;
+        do {
+            index++;
+            entry += 0x13;
+        } while (0);
         if (index < 0x40) {
             goto loop;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct { s32 x; s32 y; s32 z; } Vec3i;
 typedef struct { s32 x; s32 y; s32 z; s32 pad; } Vec4i;
@@ -48,8 +49,7 @@ loop:
                 ASM_KEEP_NV(radius);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 radius = -radius;
             }
-            if (offset_y < 0) offset_y = -offset_y;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            offset_y = abs(offset_y);
             if (radius < offset_y) radius = offset_y;
             probe.work.z = origin->z - (radius * 2);
             func_8008CF48(&probe.work, &probe.item, radius);

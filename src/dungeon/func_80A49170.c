@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+extern int abs(int);
 
 typedef struct S_80172970_0 {
     u8 pad_00[0x8C];
@@ -157,7 +158,6 @@ kind_none:
     move_data = 0;
 
 have_choice:
-    ASM_KEEP(move_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (*move_data != 0) {
         ((S_80172970_0 *)action)->unk_98 &= 0xFF7F;
         special_check = is_special;
@@ -188,12 +188,8 @@ copy_existing:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         target_x = ((S_80172970_1 *)actor)->unk_72.u;
         target_y = ((S_80172970_1 *)actor)->unk_73.u;
-        if (target_x < 0) {
-            target_x = -target_x;
-        }
-        if (target_y < 0) {
-            target_y = -target_y;
-        }
+        target_x = abs(target_x);
+        target_y = abs(target_y);
         ((S_80172970_1 *)actor)->unk_72.s = target_x;
         ((S_80172970_1 *)actor)->unk_73.s = target_y;
 

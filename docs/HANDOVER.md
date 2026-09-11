@@ -152,7 +152,75 @@ after every launch — commit your own tree changes (tools, config, ledger) *bef
 they get swept into a campaign commit without their config; a bash `a && b && nohup c &` backgrounds
 the whole list, not just `c`; never print a set of window names.
 
-## PICK UP HERE (2026-09-11, ~05:00 UTC)
+## PICK UP HERE (2026-09-11, afternoon) — then read `docs/PIN_PATTERNS.md`
+
+**1,717 rows carry pins** (1,729 live at this session's start), every landing gated (window gate +
+SLUS SHA-1). STATUS's "Pin sites" line now prints the live count next to the at-the-pin count;
+the old line (25,788) was the frozen text at the pin, not the remaining debt (12,041 live at the
+start of this session).
+
+### What this session did (≈148 pins off, 12 rows cleared)
+
+- **Plumbing first, as the section below says** (a04b050a). Three pin tools refused a row outright
+  when the text contained the substring `NON_MATCHING` (189 pinned rows; in 105 every pin sat
+  outside any such arm; 52 within 12 words of pin-free) and on an asm-body regex that matched asm
+  LABELS (`__asm__("func_…")`, 80 of 82 refusals). Now `pin_census.arm_labels` labels every line
+  match/port/dead/both; a pin in a port-only arm is not a pin (21 phantom sites in 12 rows); a
+  candidate that edits code no byte gate compiles is refused in `sweep.py` and at landing, where
+  the port front end (`portability_lint.port_compile_refusals`) also runs.
+- **The "~109 race rows" lead below was a record count**: 90 distinct rows were ever refused by
+  the race, 9 still were, all outside the band. Spent.
+- t2 over the 95 rows its journal was stale for: 13 landings (the standing rule holds again).
+  t15 over the 280 unlocked rows + the refreshed ones (`T15_BAND=20`, WIDE, budget 140): 9 closes.
+- **`tools/pin_sites.py`** — the per-site census on the live text (9,249 sites, each erased alone,
+  scored with word positions, next to what the site is) and every subset of the 2..5-pin rows
+  (5,018). Its analysis is `docs/PIN_PATTERNS.md`.
+- **t16_absidiom** — found by reading the census's largest one-word cluster, not harvested from a
+  lane: m2c's `d = s; if (s < 0) d = -d;` is MIPS `abssi2` (one insn, invisible to cse); written
+  back as `abs()`, **36 rows, 75 pins off, 3 rows pin-free**, on rows t15's band never looks at.
+  Its greedy search is `idiom_search`, shared by the next idiom plugin.
+- **t17_divpow2** — the signed power-of-two division idiom, 108 rows eligible, **2 rows**. Kept as
+  the measurement: m2c's bias spelling reads the SOURCE in its arm, so cse has nothing to fold and
+  the text already reproduces retail (in 64 rows the `/` rewrite is byte-identical).
+- **`pin_subsets`** — 12 exact proper subsets (pairs/triples of 4–5-pin rows) that no tool had
+  tried; the largest per row landed: 10 rows, 22 pins.
+
+### The owner's three questions, answered by measurement (details: PIN_PATTERNS.md)
+
+- *20–30 patterns?* Yes at the level of mechanism — 24 macro-family × residue-class clusters
+  cover 80 % of the live sites, 37 cover 90 %. No at the level of fix: the exact instruction
+  change has a long tail, so a pattern needs its APPEARS condition, not just its label.
+- *Do nearby pins interact?* 40 % of pin pairs hold the same instructions (52 % within 3 lines),
+  and 32 % of pairs 16+ lines apart still do. 29 pairs fall only together.
+- *Is one pin of many progress?* Yes, and it compounds: half of t16's rows shed pins the rewrite
+  did not touch (`dead:` steps), and partial landings move rows into the band that closes.
+
+### Start here, in order
+
+1. **Group-aware search.** Pairs for the 6–10-pin rows (`pin_sites.py --subsets` with a pairs-only
+   mode, ~9,000 scorer runs), then feed t15/idiom plugins/lanes a pin GROUP.
+2. **The `%` idiom** on `idiom_search` (33 remainder sites) — check the arm-reads-the-copy
+   precondition first.
+3. **Address materialisation** (FOLD-`addiu`, 124 sites / 99 rows, mostly `ASM_REG` on pointers
+   from globals): measure with the instrumented cc1 which cells split `%hi` into its own pseudo
+   before briefing any lane (lanes 0/4 on `addressing`).
+4. **FOLD-`sll`** (43 sites): widen `narrow` after finding its missing precondition by hand.
+5. Before targeting from the census, re-run `pin_sites.py --sites` on the rows landed today: its
+   records are keyed by `in_sha` and the analysis ignores stale ones.
+
+### Rules learned today
+
+- **Count the sites where the hand spelling's branch arm reads the copy**, not the sites where an
+  idiom appears: that is what decides whether a compiler-idiom rewrite frees pins (abs: 36 rows;
+  division: 2).
+- **A candidate built from an older text must be checked against the row's current sha before it
+  lands** — `apply_candidates` only checks exactness, so a stale candidate silently reverts a
+  later landing. The subset landing was guarded by hand (scratch `subset_guard.py`); build it into
+  `apply_candidates` before the next lane pack is landed.
+- **A substring test is a blind spot.** `"NON_MATCHING" in text` hid 189 rows from three tools for
+  weeks. Grep the tools for `in text` refusals before trusting any "refused" count.
+
+## Earlier the same day (2026-09-11, ~05:00 UTC)
 
 Tree is clean, fully gated (2,172/2,172 windows + SLUS SHA-1 MATCH) and everything below is
 committed. **1,732 rows carry pins**, from 1,968 at the start of the 09-10 session.

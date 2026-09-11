@@ -68,7 +68,7 @@ s32 func_80874E18(s32 arg0) {
     }
 
 callback_path:
-    callback = D_80701984[0]->callback(({                                                                       register s32 zero ASM_REG("$0");                                   ASM_KEEP(zero);                                                      zero | (2);                                                      }));
+    callback = D_80701984[0]->callback(({                                                                       register s32 zero ASM_REG("$0");                                                                                         zero | (2);                                                      }));
     tail_arg = 0x40000000;
     if (callback != 0) {
         {

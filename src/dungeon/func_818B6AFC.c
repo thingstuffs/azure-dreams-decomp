@@ -72,11 +72,11 @@ extern M2C_UNK D_800814A0;
 register s32 implicit_lo ASM_REG("lo");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #define M2C_READ_MUL_HI(dst, a, b) \
     do { \
-        register s32 implicit_hi ASM_REG("hi"); \
-        ASM_CLOBBER("hi"); \
+        s32 implicit_hi; \
+        \
         (dst) = implicit_hi; \
         \
-        ASM_CLOBBER("hi"); \
+        \
     } while (0)
 #define M2C_MUL_LO(a, b) \
     (implicit_lo = (s32) (a) * (s32) (b), implicit_lo)

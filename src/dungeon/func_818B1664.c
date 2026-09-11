@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef union FixedWord {
     s32 word;
@@ -118,9 +119,9 @@ extern void func_80024050(void *, u8);
 #define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)D_8006CCE8)
 #else
 #define LOAD_TABLE_X_BASE(v) \
-    do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0)
+    do { (v) = 0x80070000;  (v) -= 0x3328; } while (0)
 #define LOAD_TABLE_Y_BASE(v) \
-    do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0)
+    do { (v) = 0x80070000;  (v) -= 0x3318; } while (0)
 #endif
 
 /* Updates movement toward a child or terrain target and animates the associated effects. */
@@ -202,10 +203,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
         angle_signed = (s16)angle_raw;
         angle_adjusted = angle_signed;
         *(u16 *)(angle_update + 26) = angle_raw;
-        if (angle_signed < 0) {
-            angle_adjusted = angle_signed + 127;
-        }
-        angle_raw = angle_signed - ((angle_adjusted >> 7) << 7);
+        angle_raw = angle_signed - (((angle_adjusted / 128)) << 7);
         *(u16 *)(angle_update + 26) = angle_raw;
         index--;
         angle_update -= 2;
@@ -289,17 +287,13 @@ case_0:
         motion_coord = motion->x.half.hi;
         child_delta = child_motion->x.half.hi;
         child_delta -= motion_coord;
-        if (child_delta < 0) {
-            child_delta = -child_delta;
-        }
+        child_delta = abs(child_delta);
         work.distance[0] = child_delta;
 
         child_delta = child_motion->y.half.hi;
         motion_coord = motion->y.half.hi;
         child_delta -= motion_coord;
-        if (child_delta < 0) {
-            child_delta = -child_delta;
-        }
+        child_delta = abs(child_delta);
         work.distance[1] = child_delta;
 
         if (entity->child->flags & 0x40000) {
@@ -311,9 +305,7 @@ case_0:
             motion_coord = motion->z.half.hi;
             child_delta -= motion_coord;
         }
-        if (child_delta < 0) {
-            child_delta = -child_delta;
-        }
+        child_delta = abs(child_delta);
         work.distance[2] = child_delta;
         ASM_SCHED_BARRIER();
         index = 1;
@@ -456,21 +448,15 @@ case_0:
         work.distance[0] = target_x;
 
         source_coord = motion->y.half.hi;
-        ASM_SCHED_BARRIER();
         target_z = (u32)target_z << 16;
-        ASM_SCHED_BARRIER();
         target_y -= source_coord;
-        if (target_y < 0) {
-            target_y = -target_y;
-        }
+        target_y = abs(target_y);
         work.distance[1] = target_y;
 
         source_coord = motion->z.half.hi;
         target_z = (s32)target_z >> 16;
         target_z -= source_coord;
-        if (target_z < 0) {
-            target_z = -target_z;
-        }
+        target_z = abs(target_z);
         work.distance[2] = target_z;
     }
 

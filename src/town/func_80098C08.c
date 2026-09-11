@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct {
     s32 x;
@@ -17,8 +18,8 @@ s32 func_80096368(Vec3s32 *input_pos) {
     s16 initial_result;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x_delta;
-    register s32 abs_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 offset_limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 abs_delta;
+    s32 offset_limit;
 
     probe_pos.x = input_pos->x;
     probe_pos.y = input_pos->y;
@@ -31,9 +32,7 @@ s32 func_80096368(Vec3s32 *input_pos) {
     }
     offset_limit = 0x140000;
     abs_delta = x_delta;
-    if (x_delta < 0) {
-        abs_delta = -abs_delta;
-    }
+    abs_delta = abs(abs_delta);
     if (abs_delta <= offset_limit) {
         result = initial_result;
     } else {

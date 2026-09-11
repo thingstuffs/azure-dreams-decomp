@@ -36,7 +36,7 @@ extern DungeonGroup D_80073414[];
 void func_800A9160(void)
 {
     DungeonGroup *item_category;
-    register DungeonGroup *cell_group ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    DungeonGroup *cell_group;
     s32 group_bits_offset;
     s32 set_index;
     s32 bit_index;
@@ -56,8 +56,6 @@ void func_800A9160(void)
         if (item_category->count != 0) {
             group_bits_offset = group_index * 8;
             cell_group = item_category;
-            ASM_KEEP(group_bits_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(cell_group);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             cell_offset = 0;
             do {
                 if (!(cell_index & 7)) {

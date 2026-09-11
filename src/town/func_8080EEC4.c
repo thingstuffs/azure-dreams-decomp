@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 
 typedef struct {
@@ -168,14 +169,12 @@ far_check:
 
     {
         register s32 dx_abs ASM_REG("$3") = dx;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 dy_abs ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 dy_abs;
         if (dx < 0) {
             dx_abs = -dx_abs;
         }
         dy_abs = dy;
-        if (dy < 0) {
-            dy_abs = -dy_abs;
-        }
+        dy_abs = abs(dy_abs);
         if (dx_abs > dy_abs || D_80132AEC <= 0x033FFFFF) {
         ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC;
         if (dx > 0) {

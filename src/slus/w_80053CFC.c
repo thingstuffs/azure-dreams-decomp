@@ -28,12 +28,13 @@ extern S_80081568_Hi D_80081568_hi asm("D_80081568");
 /* Builds and submits a command from the source fields and packed value. */
 void func_80053CFC(S_80053CFC *source, s32 packed_value)
 {
-    register s32 saved_value ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 saved_value;
     s32 low_bits;
     S_80081568_Hi *command;
 
-    saved_value = packed_value;
-    ASM_KEEP_INPUT(saved_value);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    do {
+        saved_value = packed_value;
+    } while (0);
     D_80081568 = source->field_0;
     D_8008156C = source->field_4;
     __asm__ volatile("" : "=r"(saved_value) : "0"(saved_value), "m"(D_80081568) : "memory");

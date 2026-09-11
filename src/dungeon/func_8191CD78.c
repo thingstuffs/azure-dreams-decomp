@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 
 extern void *jtbl_80024008[];
@@ -314,23 +315,22 @@ case_1_entry:
         DELTA(0) = (s16)delta_x;
         {
             s32 distance_y;
-            register s32 position_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 position_y;
             distance_y = work_base->unk_04.parts_06.unk_06.s16;
             position_y = position->unk_04.parts_06.unk_06.s16;
             distance_y -= position_y;
-            if (distance_y < 0) distance_y = -distance_y;
+            distance_y = abs(distance_y);
             DELTA(1) = (s16)distance_y;
         }
         {
             s32 distance_z;
-            register s32 position_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 position_z;
             position_z = position->unk_08.parts_0A.unk_0A.s16;
             distance_z = ((S_func_80024578_3 *)(actor->unk_60))->unk_88.s16;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             delta_cursor = (s16 *)(scratch + 2);
-            ASM_KEEP(delta_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             distance_z -= position_z;
-            if (distance_z < 0) distance_z = -distance_z;
+            distance_z = abs(distance_z);
             DELTA(2) = (s16)distance_z;
         }
         effect->unk_12 = DELTA(0);
@@ -433,7 +433,7 @@ case_1_entry:
         {
             register s32 expanded_floor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 widened_y;
-            register s32 position_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 position_y;
             s16 *delta_scan = (s16 *)(scratch + 2);
 
             work_base->unk_08.parts_0A.unk_0A = final_floor;
@@ -448,11 +448,11 @@ case_1_entry:
             widened_y <<= 16;
             widened_y >>= 16;
             widened_y -= position_y;
-            if (widened_y < 0) widened_y = -widened_y;
+            widened_y = abs(widened_y);
             DELTA(1) = (s16)widened_y;
             expanded_floor >>= 16;
             expanded_floor -= position->unk_08.parts_0A.unk_0A.s16;
-            if (expanded_floor < 0) expanded_floor = -expanded_floor;
+            expanded_floor = abs(expanded_floor);
             DELTA(2) = (s16)expanded_floor;
             effect->unk_12 = DELTA(0);
             do {

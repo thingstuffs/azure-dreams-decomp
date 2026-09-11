@@ -1,27 +1,27 @@
 # Pin families (tools/pin_probe.py --strip)
 
-Rows probed: 1729.  Every ASM_* site of the row erased at once; the scorer's aligned distance and the shape of the residue below.
+Rows probed: 1707.  Every ASM_* site of the row erased at once; the scorer's aligned distance and the shape of the residue below.
 
 - **strip-exact (pin-free for free): 0 rows**, 0 B, 0 pins
 
 | strip damage | rows |
 |---|---:|
-| 1-3 | 91 |
-| 4-8 | 205 |
-| 9-20 | 409 |
-| 21+ | 1018 |
+| 1-3 | 89 |
+| 4-8 | 198 |
+| 9-20 | 404 |
+| 21+ | 1010 |
 | error | 6 |
 
 | residue shape | rows | rows at damage<=8 |
 |---|---:|---:|
-| mixed | 1301 | 84 |
-| ? | 239 | 0 |
-| none | 96 | 9 |
+| mixed | 1285 | 80 |
+| ? | 235 | 0 |
+| none | 95 | 9 |
 | reg_perm | 40 | 31 |
 | order | 29 | 20 |
-| reg_local | 24 | 11 |
+| reg_local | 23 | 11 |
 
-## The near band: 461 rows within 12 words of pin-free (162,576 B, 958 pins)
+## The near band: 451 rows within 12 words of pin-free (159,704 B, 926 pins)
 
 A row here is byte-exact today and one C shape away from carrying no scaffolding at
 all.  The class is the scorer's residue class for the row with every pin erased, and it
@@ -30,19 +30,19 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 
 | class | rows | pins | bytes | what the residue says |
 |---|---:|---:|---:|---|
-| broad | 99 | 201 | 32,580 | no single named signal; read the row's regions view |
-| length-drift | 69 | 172 | 20,664 | retail keeps or drops a word gcc does not |
-| reg-rename | 57 | 82 | 26,800 | same instructions, two registers swapped: the variable map, not the register |
+| broad | 95 | 194 | 32,152 | no single named signal; read the row's regions view |
+| length-drift | 68 | 166 | 20,160 | retail keeps or drops a word gcc does not |
+| reg-rename | 57 | 82 | 27,208 | same instructions, two registers swapped: the variable map, not the register |
 | reorder-only | 41 | 81 | 15,220 | same instructions, one moved by the scheduler |
-| code-motion | 28 | 66 | 7,188 | a statement crossed a call or a branch |
+| code-motion | 27 | 60 | 7,052 | a statement crossed a call or a branch |
 | addressing | 26 | 51 | 7,556 | %hi/%lo against base+offset: how the address is formed |
-| li-expansion | 26 | 68 | 7,704 | lui;ori against lui;addiu: an integer literal where retail has a symbol |
-| slus-diff | 26 | 35 | 16,564 | the SLUS object differs; check the row's TU, not its C |
-| const-remat | 23 | 59 | 10,520 | retail keeps a constant in a register that gcc recomputes |
+| li-expansion | 26 | 63 | 7,704 | lui;ori against lui;addiu: an integer literal where retail has a symbol |
+| slus-diff | 24 | 32 | 14,984 | the SLUS object differs; check the row's TU, not its C |
+| const-remat | 22 | 55 | 10,048 | retail keeps a constant in a register that gcc recomputes |
 | slot-rotation | 18 | 37 | 4,544 | a different instruction fills a delay slot |
 | block-order | 12 | 18 | 2,812 | the basic blocks are laid out in another order |
 | polarity | 10 | 25 | 3,128 | a branch is inverted |
-| hold-set | 10 | 15 | 1,724 | a different callee-saved set / frame layout |
+| hold-set | 9 | 14 | 1,564 | a different callee-saved set / frame layout |
 | dead-code-retention | 8 | 28 | 2,820 | retail keeps a computation gcc deletes |
 | delay-slot | 8 | 20 | 2,752 | retail fills a slot this build leaves as nop |
 
@@ -50,7 +50,7 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 
 | row | size | cfg | pins | damage | class |
 |---|---:|---|---:|---:|---|
-| town/func_80875124 | 40 | 2.7.2 | 3 | 1 | li-expansion |
+| town/func_80875124 | 40 | 2.7.2 | 1 | 1 | li-expansion |
 | dungeon/func_81811EC0 | 68 | 2.7.2-G0 | 2 | 1 | reg-rename |
 | town/func_8088116C | 72 | 2.7.2 | 2 | 1 | li-expansion |
 | town/func_8087FD58 | 76 | 2.7.2 | 2 | 1 | li-expansion |
@@ -63,12 +63,12 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 | town/func_8032E8C0 | 260 | 2.6.3-G0 | 1 | 1 | broad |
 | dungeon/func_80DE6AAC | 436 | 2.7.2-cdk-G0 | 2 | 1 | delay-slot |
 | slus/w_80059E94 | 480 | 2.8.1 -fno-schedule-insns | 1 | 1 | slus-diff |
+| town/func_8008EFF8 | 556 | 2.7.2-cdk-G0 | 1 | 1 | reg-rename |
 | dungeon/func_8196BA5C | 736 | 2.7.2-cdk-G0 | 2 | 1 | delay-slot |
 | dungeon/func_807AEF8C | 832 | 2.7.2-cdk-G0 | 3 | 1 | delay-slot |
 | dungeon/func_809CAE20 | 1028 | 2.7.2-cdk-G0 | 1 | 1 | reg-rename |
 | dungeon/func_800A1A94 | 64 | 2.7.2 | 1 | 2 | broad |
 | dungeon/func_800A22D8 | 68 | 2.8.1 | 2 | 2 | delay-slot |
-| dungeon/func_8009A590 | 80 | 2.7.2-cdk | 1 | 2 | broad |
 | dungeon/func_80CC2614 | 88 | 2.7.2 | 3 | 2 | reg-rename |
 | main/func_8001F2F4 | 100 | 2.7.2-cdk | 1 | 2 | reg-rename |
 | town/func_800A2F44 | 100 | 2.95.2-G0 | 1 | 2 | reg-rename |

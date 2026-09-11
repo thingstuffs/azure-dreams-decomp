@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct Motion {
     s32 x;
@@ -278,29 +279,22 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
             ASM_SCHED_BARRIER();
 
             {
-                register s32 delta_x ASM_REG("$4");
-                register s32 raised_z ASM_REG("$3");
+                s32 delta_x;
+                s32 raised_z;
                 s32 delta_y;
                 s32 delta_z;
 
                 axis = 1;
                 delta_ptr = (u8 *)&scratch + 2;
-                ASM_KEEP(delta_ptr);
                 delta_x = S16_AT(target_pos, 2) - S16_AT(motion, 2);
-                if (delta_x < 0) {
-                    delta_x = -delta_x;
-                }
+                delta_x = abs(delta_x);
                 probe[0] = delta_x;
                 delta_y = S16_AT(target_pos, 6) - S16_AT(motion, 6);
-                if (delta_y < 0) {
-                    delta_y = -delta_y;
-                }
+                delta_y = abs(delta_y);
                 probe[1] = delta_y;
                 raised_z = S16_AT(motion, 0xA) + 160;
                 delta_z = S16_AT(target_pos, 0xA) - raised_z;
-                if (delta_z < 0) {
-                    delta_z = -delta_z;
-                }
+                delta_z = abs(delta_z);
                 probe[2] = delta_z;
                 state->duration = delta_x;
             }

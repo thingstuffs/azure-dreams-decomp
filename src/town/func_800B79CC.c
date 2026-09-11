@@ -25,13 +25,11 @@ void *func_800B512C(void *entry, s16 amount) {
     }
 
     remaining = 64;
-    ASM_KEEP(remaining);
     remaining -= hidden_v1;
     base[2] = remaining;
     {
         void *result = base;
 
-        ASM_KEEP(result);
         base[10] = hidden_v1;
         return result;
     }

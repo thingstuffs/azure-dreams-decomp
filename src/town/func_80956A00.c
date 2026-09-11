@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct S_80023A00_0 {
     u8 pad_00[0x18];
@@ -56,7 +57,7 @@ void func_80023A00(void *object, void *output, void *entity_data)
     s32 state;
     s32 initial_magnitude;
     s32 magnitude;
-    register s32 limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 limit;
     u8 *direction_table;
     static void *const switch_keep[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4
@@ -102,9 +103,7 @@ case_2:
     magnitude = ((S_80023A00_1 *)state_base)->unk_48;
     limit = 0xFFFF;
     ASM_KEEP(limit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (magnitude < 0) {
-        magnitude = -magnitude;
-    }
+    magnitude = abs(magnitude);
     if (limit < magnitude) {
         goto common;
     }
@@ -119,9 +118,7 @@ case_3:
     magnitude = ((S_80023A00_1 *)state_base)->unk_48;
     limit = 0xFFFF;
     ASM_KEEP(limit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (magnitude < 0) {
-        magnitude = -magnitude;
-    }
+    magnitude = abs(magnitude);
     if (limit >= magnitude) {
         goto common;
     }

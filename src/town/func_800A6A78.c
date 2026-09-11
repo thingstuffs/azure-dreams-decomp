@@ -116,7 +116,7 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
     u16 base_shade;
     u16 screen_y;
     s16 strip_shade;
-    register s32 strip_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 strip_offset;
     s16 shade;
     register s32 uv_top ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 uv_value;
@@ -219,10 +219,7 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                 ((S_800A41D8_2 *)next_prim)->unk_22 = (s16) bottom_y;
                 strip_offset = (s16) ((S_800A41D8_1 *)state)->unk_74 % 3584;
                 ((S_800A41D8_1 *)state)->unk_90 = (s32) strip_offset;
-                if (strip_offset < 0) {
-                    strip_offset += 0xFF;
-                }
-                coord_value = strip_offset >> 8;
+                coord_value = (strip_offset / 256);
                 ((S_800A41D8_1 *)state)->unk_90 = coord_value;
                 strip_shade = (base_shade + (strip_index * 0xE)) - 0x40;
                 shade = 0x80;

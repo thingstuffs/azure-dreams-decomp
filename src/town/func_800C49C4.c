@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct {
     void *callback;
@@ -34,7 +35,7 @@ s32 func_800C2124(TownObject *object) {
     s32 check_id;
     register void *callback ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 distance_x;
-    register s16 distance_z ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 distance_z;
 
     position = (TownPosition *)D_80083780;
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -49,10 +50,7 @@ s32 func_800C2124(TownObject *object) {
         distance_x = -distance_x;
     }
     coord_value -= (s32)position;
-    distance_z = coord_value;
-    if (coord_value < 0) {
-        distance_z = -distance_z;
-    }
+    distance_z = abs(coord_value);
     ASM_KEEP(check_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (func_80033B2C(check_id, offset_x) != 0) {
         if (object->range_x >= distance_x) {

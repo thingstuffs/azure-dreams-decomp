@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -225,18 +226,14 @@ object_loop:
     {
         s32 min_depth;
         s32 max_shift;
-        register s32 max_depth ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 max_depth;
         register s32 use_min ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
         min_depth = SC32(scratch, 0x10);
         max_shift = SC32(scratch, 0x14);
-        if (min_depth < 0) {
-            min_depth = -min_depth;
-        }
+        min_depth = abs(min_depth);
         max_depth = max_shift;
-        if (max_shift < 0) {
-            max_depth = -max_depth;
-        }
+        max_depth = abs(max_depth);
         use_min = min_depth < max_depth;
         if (use_min) {
             SCU8(scratch, 0x28) = U8_AT(collider, 0x37);
@@ -249,13 +246,9 @@ object_loop:
 
         min_depth = SC32(scratch, 0x18);
         max_shift = SC32(scratch, 0x1C);
-        if (min_depth < 0) {
-            min_depth = -min_depth;
-        }
+        min_depth = abs(min_depth);
         max_depth = max_shift;
-        if (max_shift < 0) {
-            max_depth = -max_depth;
-        }
+        max_depth = abs(max_depth);
         use_min = min_depth < max_depth;
         if (use_min) {
             SCU8(scratch, 0x29) = U8_AT(collider, 0x39);
@@ -268,13 +261,9 @@ object_loop:
 
         min_depth = SC32(scratch, 0x20);
         max_shift = SC32(scratch, 0x24);
-        if (min_depth < 0) {
-            min_depth = -min_depth;
-        }
+        min_depth = abs(min_depth);
         max_depth = max_shift;
-        if (max_shift < 0) {
-            max_depth = -max_depth;
-        }
+        max_depth = abs(max_depth);
         use_min = min_depth < max_depth;
         if (use_min) {
             SCU8(scratch, 0x2A) = U8_AT(collider, 0x35);
@@ -309,7 +298,7 @@ object_loop:
         register s32 abs_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 y_depth;
         s32 z_depth;
-        register s32 abs_z ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 abs_z;
 
         x_depth = VSC32(scratch, 0x10);
         y_depth = VSC32(scratch, 0x18);
@@ -317,16 +306,11 @@ object_loop:
         if (x_depth < 0) {
             abs_x = -abs_x;
         }
-        if (y_depth < 0) {
-            y_depth = -y_depth;
-        }
-        ASM_KEEP_NV(y_depth);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        y_depth = abs(y_depth);
         if (abs_x < y_depth) {
             z_depth = VSC32(scratch, 0x20);
             abs_z = z_depth;
-            if (z_depth < 0) {
-                abs_z = -abs_z;
-            }
+            abs_z = abs(abs_z);
             z_depth = y_depth < abs_z;
             if (z_depth) {
                 goto call_55c;
@@ -340,9 +324,7 @@ call_55c:
             goto next_object;
         } else {
             z_depth = VSC32(scratch, 0x20);
-            if (z_depth < 0) {
-                z_depth = -z_depth;
-            }
+            z_depth = abs(z_depth);
             if (y_depth < z_depth) {
                 goto call_5b4;
             }

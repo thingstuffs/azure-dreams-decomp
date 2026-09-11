@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct {
     s32 x;
@@ -16,7 +17,7 @@ extern s32 D_800814A0;
 void func_81959D28(void *actor, Motion *motion) {
     s32 x_velocity;
     s32 y_velocity;
-    register s32 speed ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 speed;
     s32 y_speed;
     u16 timer;
     u16 counter;
@@ -39,9 +40,7 @@ void func_81959D28(void *actor, Motion *motion) {
         speed = *(s16 *)((u8 *)motion + 0xE);
         y_speed = *(s16 *)((u8 *)motion + 0x12);
         speed += y_speed;
-        if (speed < 0) {
-            speed = -speed;
-        }
+        speed = abs(speed);
         if (speed >= 4) {
             return;
         }

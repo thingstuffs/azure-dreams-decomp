@@ -58,7 +58,7 @@ extern M2C_UNK D_80045C34;
 
 /* Creates an effect with randomized appearance and a depth-adjusted copy of the source transform. */
 s32 func_8191CBCC(void *params_input, void *transform_input) {
-    register S_8191CBCC_2 *params ASM_REG("$19") = params_input;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_8191CBCC_2 *params = params_input;
     void *source_transform = transform_input;
     register void *result_obj ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 depth_scale;
@@ -72,8 +72,6 @@ s32 func_8191CBCC(void *params_input, void *transform_input) {
     void *object;
 
     object = func_8003FC64(0x212);
-    ASM_KEEP(params);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(source_transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (object != NULL) {
         state = object + 0x20;
         ((S_8191CBCC_0 *)object)->unk_10 = &D_80024288;

@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef union Fixed32 {
     s32 val;
@@ -92,9 +93,9 @@ extern void func_80025A58(void) __attribute__((noreturn));
 #define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)D_8006CCE8)
 #else
 #define LOAD_TABLE_X_BASE(v) \
-    do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0)
+    do { (v) = 0x80070000;  (v) -= 0x3328; } while (0)
 #define LOAD_TABLE_Y_BASE(v) \
-    do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0)
+    do { (v) = 0x80070000;  (v) -= 0x3318; } while (0)
 #endif
 
 
@@ -169,24 +170,17 @@ jt_c1:
             target = *(Motion **)((u8 *)owner->target - 24);
             axis_delta = motion->x.h.hi;
             x_delta = target->x.h.hi - axis_delta;
-            if (x_delta < 0) {
-                x_delta = -x_delta;
-            }
+            x_delta = abs(x_delta);
             stack.diffs[0] = x_delta;
             axis_delta = target->y.h.hi;
             coord = motion->y.h.hi;
             axis_delta -= coord;
-            if (axis_delta < 0) {
-                axis_delta = -axis_delta;
-            }
+            axis_delta = abs(axis_delta);
             stack.diffs[1] = axis_delta;
             delta_iter = (u8 *)&stack.local + 2;
             coord = motion->z.h.hi;
             axis_delta = *(s16 *)((u8 *)owner->target + 0x88) - coord;
-            ASM_SCHED_BARRIER();
-            if (axis_delta < 0) {
-                axis_delta = -axis_delta;
-            }
+            axis_delta = abs(axis_delta);
             stack.diffs[2] = axis_delta;
 
             action->duration = x_delta;
@@ -324,31 +318,21 @@ jt_c1:
                 s32 coord;
 
                 coord = motion->x.h.hi;
-                ASM_SCHED_BARRIER();
                 coord_work = (s32)coord_work >> 16;
-                ASM_SCHED_BARRIER();
                 x_work -= coord;
-                if (x_work < 0) {
-                    x_work = -x_work;
-                }
+                x_work = abs(x_work);
                 stack.diffs[0] = x_work;
 
                 coord = motion->y.h.hi;
-                ASM_SCHED_BARRIER();
                 coord_aux = (u32)coord_aux << 16;
-                ASM_SCHED_BARRIER();
                 coord_work -= coord;
-                if (coord_work < 0) {
-                    coord_work = -coord_work;
-                }
+                coord_work = abs(coord_work);
                 stack.diffs[1] = coord_work;
 
                 coord = motion->z.h.hi;
                 coord_aux = (s32)coord_aux >> 16;
                 coord_aux -= coord;
-                if (coord_aux < 0) {
-                    coord_aux = -coord_aux;
-                }
+                coord_aux = abs(coord_aux);
                 stack.diffs[2] = coord_aux;
             }
 
