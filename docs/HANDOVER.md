@@ -228,7 +228,10 @@ the SLUS SHA-1 gate MATCH after each phase.
   epilogue (`func_800247B4()`, listed in `config/noreturn_syms.dungeon.txt`) as `return`. The row has
   no true name, so the gate links it at its synthetic address, where the local epilogue jump encodes
   a different target from retail's absolute one. Reverted (journal `t13_depin`, `gate-mismatch`);
-  **batch 1's yield is 0 of 8.** Gate every agy landing before committing it, and expect this on any
+  **batch 1's yield is 0 of 8.** Batches 2–3: each lane claimed 1 of 8; one was refused by the
+  harvest (a raw asm body), one landed and gated MATCH — `dungeon/func_8132A730`, the base-page
+  shape through an integer cast (`resource_addr = (s32)0x80170000; … += 0x1D90;` →
+  `(s32)D_80171D90`), which widened `basesym` again. Pack 2 so far: 1 of 24. Gate every agy landing before committing it, and expect this on any
   row with no `true_name` whose pins sit on a noreturn/label-as-call jump — those pins are fidelity,
   not shape.
 - **A fence is re-testable debt, like a pin**: 18 % of the fenced rows' fences were dead.

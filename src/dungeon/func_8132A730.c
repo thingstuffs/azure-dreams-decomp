@@ -99,9 +99,7 @@ void func_80171F30(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16
     } else {
         resource_addr = 1;
         if (mode_index == resource_addr) {
-            resource_addr = (s32)0x80170000;
-            ASM_KEEP(resource_addr);
-            resource_addr += 0x1D90;
+            resource_addr = (s32)D_80171D90;
         } else {
             resource_addr = (s32)D_80171E60;
         }
