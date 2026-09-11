@@ -253,7 +253,21 @@ matched elsewhere proves nothing: its closing brace always sat where an empty fe
 matched. And because census excludes `#define` bodies, naming the H4 fences as macros would hide
 the debt without paying it — they stay counted.
 
-**Rules it leaves:** try the five natural shapes BEFORE any fence (they are the next generators);
+**Follow-up on the five H4 near misses** (best fence-free spelling within 1–5 words; ~25 runs
+each, gcc's own `.s` used as a free pre-filter): **one closed — `town/func_800B6514`**, m2c's goto
+loop written as the real `do { ... } while (slot < 5);` with the loop increment ONCE at the end
+instead of in each arm (a sixth shape: at the join sched1 can no longer hoist the increment above
+the call, and the delay-slot filler re-creates retail's per-arm copy). Landed as `t20_fencefree`
+(9 rows). The other four are stuck on a named heuristic, not on budget: `dungeon/func_808CB16C` —
+sched's single-set priority boost and hazard test inside a two-insn region between two volatile
+keeps; `main/func_80013128` — sched2's "greater potential hazard" ordering around an unaligned
+block move; `town/func_80330560` — a load-delay stall only a block boundary reproduces;
+`town/func_80810F98` — cse following a one-use label that sits right after a noreturn call. Three
+of them sit between OTHER pins of the row (the keeps that bound 808CB16C's region, 80330560's
+register pin and asm alias, 80810F98's `ASM_REG("$4")` and noreturn attribute): their fences may
+only fall together with those pins — a group question, not a fence question.
+
+**Rules it leaves:** try the six natural shapes BEFORE any fence (they are the next generators);
 when a fence does land, try an empty fence on each side — if neither matches, the fence works
 through allocation weighting and cannot be a macro at all. `census.py` now counts `while (0) { }`
 and `for (;0;)` too (none in the tree yet; a lane that learned the equivalence could otherwise

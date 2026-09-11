@@ -180,7 +180,7 @@ day's removals were that trade. This session: **339 pins out, 224 fences in — 
 - **The fence study** (PIN_PATTERNS 9; an Opus lane, 22 rows, every exact re-verified here): the
   owner's compiled-out debug-hook theory is byte-compatible (an empty fence matches at 22 of 24
   sites) but not supported by position (one specific side of one statement; function entry 0/20;
-  two fences work through allocation weight, which no empty loop can). **8 of 22 rows hide a
+  two fences work through allocation weight, which no empty loop can). **9 of 22 rows (8, then 1 more on a follow-up over five near misses) hide a
   natural shape — landed as `t20_fencefree`**, two rows now free of pins and fences; 2 share a
   macro-like unit (only worth it as a real named macro); ~55 % are barriers and nothing else.
   `census.py` now also counts `while (0) { }` and `for (;0;)` (byte-identical barriers).
@@ -197,12 +197,13 @@ day's removals were that trade. This session: **339 pins out, 224 fences in — 
 
 ### Start here, in order
 
-1. **Build the fence study's five natural shapes as generators** and run them over every fenced
+1. **Build the fence study's six natural shapes as generators** and run them over every fenced
    row BEFORE any new fence: drop a copy and use its source; the store / `|=` / `&=` in both
    if-arms instead of a join temp (extend `dup_after_if`); `return` in a loop → `break` + return
-   after it; a pointer walk → an array-indexed `for`; the post-increment folded into its use. The
-   eight `t20_fencefree` rows are their test cases. Then put them ahead of the fence family in
-   t15/t18's menu and resume t18.
+   after it; a pointer walk → an array-indexed `for`; the post-increment folded into its use; a
+   goto loop whose increment m2c duplicated into each arm → a real `do { } while` with the
+   increment once (`town/func_800B6514`). The nine `t20_fencefree` rows are their test cases. Then
+   put them ahead of the fence family in t15/t18's menu and resume t18.
 2. Harvest the agy group pack if it ran (commands above).
 3. The shared control-flag unit (`dungeon/func_80091258`, `func_80087054`): decide whether a named
    macro in a shared header is honest (it frees a pin in 80091258; inline it is net zero).
