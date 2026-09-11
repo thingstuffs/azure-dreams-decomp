@@ -18,21 +18,13 @@ s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames)
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
     if (state->flags & 0x2008) {
-        *(volatile s8 *)((u8 *)actor + 0x9A) = 0xE;
+        *(s8 *)((u8 *)actor + 0x9A) = 0xE;
         return 1;
     }
     if (*(s32 *)((u8 *)actor + 0x1C) & 0x20) {
-        register s32 dispatch_id ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        s32 state_bits = 0xE;
-        register s32 mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-        *(s8 *)((u8 *)actor + 0x9A) = state_bits;
-        ASM_KEEP(dispatch_id);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        state_bits = *(volatile s32 *)((u8 *)actor + 0x1C);
-        mask = ~0x200;
-        state_bits &= mask;
-        *(s32 *)((u8 *)actor + 0x1C) = state_bits;
-        return;
+        *(s8 *)((u8 *)actor + 0x9A) = 0xE;
+        *(s32 *)((u8 *)actor + 0x1C) &= ~0x200;
+        return 0;
     }
 
     *(s8 *)((u8 *)actor + 0x9A) = 0xD;

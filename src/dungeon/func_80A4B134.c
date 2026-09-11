@@ -166,14 +166,11 @@ phase_two:
 
 build_objects:
     ((S_80174934_0 *)effect)->unk_20 = ((S_80174934_0 *)effect)->unk_20 + 1;
-    strip_index = 0;
-    do {
+    for (strip_index = 0; strip_index < 4; strip_index++) {
         strip_obj = func_8003FC64(0x12);
         if (strip_obj != 0) {
             init_obj = strip_obj;
-            ASM_KEEP(init_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             callback = D_8017489C;
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             strip_data = strip_obj + 0x20;
             ((S_80174934_1 *)strip_data)->unk_1A = 1;
             ((S_80174934_1 *)strip_data)->unk_1C = 1;
@@ -243,8 +240,7 @@ build_objects:
             ((S_80174934_1 *)strip_data)->unk_7A = bottom;
             ((S_80174934_1 *)strip_data)->unk_74 = bottom;
         }
-        strip_index++;
-    } while (strip_index < 4);
+    }
 
     frames_left = ((S_80174934_0 *)effect)->unk_1A.u - 1;
     ((S_80174934_0 *)effect)->unk_1A.s = frames_left;

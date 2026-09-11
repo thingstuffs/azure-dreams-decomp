@@ -112,7 +112,7 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
     s32 green;
     s32 blue;
     u16 *direction_table;
-    register S_80025C94_1 *motion ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_80025C94_1 *motion;
     S_80025C94_0 *object;
     S_80025C94_2 *sprite;
     S_80025C94_3 *position;
@@ -130,24 +130,19 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
     D_8002715C = update_count + 1;
     render_context = D_80083160;
     state = object->unk_72.s;
-    if (state == 1) {
+    switch (state) {
+    case 0:
+        goto initialize;
+    case 1:
         goto fade_in;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto initialize;
-        }
+    case 2:
+        goto check_fade_out;
+    case 3:
+        goto fade_out;
+    default:
         motion->unk_96 = 0;
         goto done;
     }
-    if (state == 2) {
-        goto check_fade_out;
-    }
-    if (state == 3) {
-        goto fade_out;
-    }
-    motion->unk_96 = 0;
-    goto done;
 initialize:
     sprite->unk_1E = 0x1000;
     sprite->unk_1C = 0x1000;
@@ -233,12 +228,10 @@ prepare_draw:
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v + 0x100);
     if (D_80027158 == object->unk_6A) {
         draw_scale = (D_80027156 << 9) + 0x400;
-        goto store_draw_scale;
+        object->unk_2A = draw_scale;
+    } else {
+        object->unk_2A = 0x400;
     }
-    draw_scale = 0x400;
-store_draw_scale:
-    object->unk_2A = draw_scale;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object->unk_5C(motion, position, sprite, motion);
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v - 0x100);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v - 0x100);

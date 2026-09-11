@@ -111,11 +111,9 @@ fade_out:
 
 spawn_objects:
     state->spawn_count++;
-    object_index = 0;
-    do {
+    for (object_index = 0; object_index < 4; object_index++) {
         object = func_8003FC64(0x12);
         if (object != 0) {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             effect_data = object->sub;
             *(s16 *)(effect_data + 0x1A) = 1;
             *(s16 *)(effect_data + 0x1C) = 1;
@@ -180,8 +178,7 @@ spawn_objects:
             *(s16 *)(effect_data + 0x7A) = current_offset;
             *(s16 *)(effect_data + 0x74) = current_offset;
         }
-        object_index++;
-    } while (object_index < 4);
+    }
 
     state->lifetime--;
     if (state->lifetime <= 0) {
@@ -195,7 +192,7 @@ spawn_objects:
    increment) and retargeting the branch one word past it. Our gcc predicts the
    EQ branch not-taken, so fill_eager_delay_slots searches the FALLTHROUGH thread
    first and takes `addiu $s1,$s0,0x20` instead (292 words, 1 short).
-   ASM_SCHED_BARRIER() as the first statement of the `if (object != 0)` body makes
+   A scheduling barrier as the first statement of the `if (object != 0)` body makes
    stop_search_p() abort the fallthrough search at word 0, so reorg falls back to
    the target thread and performs retail's steal. Loop index is a plain `i++` at
    the loop bottom (NOT an explicit next-index phi: that shape emits the addiu in
