@@ -44,14 +44,14 @@ void func_800AF520(void *context) {
     s32 has_slot;
     S_800AF520_2 *entry;
     s32 *slot;
-    register void *slot_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *slot_addr;
     S_800AF520_1 *entries;
     S_800AF520_0 *ctx = context;
 
     page_index = ((S_800AF520_4 *)(((S_800AF520_3 *)ctx)->unk_00))->unk_10;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    slot_index = 6;
-    ASM_KEEP(slot_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    do {
+        slot_index = 6;
+    } while (0);
     index_offset = page_index << 2;
     index_offset += page_index;
     entry_index = index_offset << 1;
@@ -70,16 +70,18 @@ void func_800AF520(void *context) {
         slot = *((s32 **)((slot_index * 4) + (u8 *)slots));
         slot_index += 1;
         *slot = value;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        has_slot = slot_index < 0x10;
+        do {
+            has_slot = slot_index < 0x10;
+        } while (0);
         if (has_slot == 0) {
             goto check_slots;
         }
     }
 clear_slot:
     slot_offset = slot_index << 2;
-    slot_addr = (void *)(slot_offset + ctx->unk_A8);
-    ASM_KEEP(slot_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    do {
+        slot_addr = (void *)(slot_offset + ctx->unk_A8);
+    } while (0);
     empty_slot = *(s32 **)slot_addr;
     slot_index += 1;
     *empty_slot = 0;

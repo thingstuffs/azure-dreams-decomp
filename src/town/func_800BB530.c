@@ -95,9 +95,10 @@ loop_preheader:
             goto return_zero;
         }
         required_num++;
-        required_cursor++;
+        do {
+            required_cursor++;
+        } while (0);
     } while (required_num < 4);
-    ASM_KEEP(required_cursor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 1;
 }
 

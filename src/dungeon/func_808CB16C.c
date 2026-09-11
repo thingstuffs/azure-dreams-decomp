@@ -80,8 +80,9 @@ void func_80123604(void) {
         records = D_80120000;
         ASM_KEEP(slots);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         current = slots->slots[12];
-        ASM_USE(current);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        records += 0x6A18;
+        do {
+            records += 0x6A18;
+        } while (0);
         ASM_KEEP(records);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         current->part_8->value_6 = ((RecordTable *)records)->records[12].value_4;
         slots->slots[12]->part_8->value_8 = ((RecordTable *)records)->records[12].value_6;

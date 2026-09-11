@@ -96,7 +96,7 @@ void func_81934928(void *effect, void *output)
     void *saved_origin;
     register void *tail_origin ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     void *particle;
-    register s32 rand_quotient ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 rand_quotient;
     s16 state;
     s32 spawn_index;
     s32 origin_component;
@@ -178,11 +178,8 @@ main_state:
                 rand_quotient = rand();
                 random_value = rand_quotient;
                 origin_component = ((S_81934928_0 *)self)->unk_10.u;
-                rand_quotient >>= 9;
-                if (random_value < 0) {
-                    rand_quotient = (random_value + 0x1FF) >> 9;
-                }
-                value = origin_component + (random_value - (rand_quotient << 9)) - 0x100;
+                rand_quotient = random_value / 512;
+                value = origin_component + ((random_value % 512)) - 0x100;
                 if (value < 0) {
                     value = 0;
                 }
@@ -192,11 +189,8 @@ main_state:
                 rand_quotient = rand();
                 random_value = rand_quotient;
                 origin_component = ((S_81934928_0 *)self)->unk_12.u;
-                rand_quotient >>= 9;
-                if (random_value < 0) {
-                    rand_quotient = (random_value + 0x1FF) >> 9;
-                }
-                value = origin_component + (random_value - (rand_quotient << 9)) - 0x100;
+                rand_quotient = random_value / 512;
+                value = origin_component + ((random_value % 512)) - 0x100;
                 if (value < 0) {
                     value = 0;
                 }

@@ -29,8 +29,9 @@ void func_80096B50(s32 *entries) {
     if (*entry != 0) {
         do {
             func_80096A90(D_800FE508, *entry);
-            ASM_SCHED_BARRIER();
-            entry++;
+            do {
+                entry++;
+            } while (0);
         } while (*entry != 0);
     }
     mode = D_8006ADD6;

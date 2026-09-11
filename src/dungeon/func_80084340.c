@@ -860,9 +860,10 @@ process_turns:
     pending_passes = 0;
     actor_root_page = (u8 *)0x800E0000;
     ASM_KEEP(actor_root_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    next_record_page = (u8 *)0x800E0000;
+    do {
+        next_record_page = (u8 *)0x800E0000;
+    } while (0);
     repeat_pass = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     next_flags = tail_status->unk_02 | 1;
     loop_status = tail_status;
 store_loop_flags:

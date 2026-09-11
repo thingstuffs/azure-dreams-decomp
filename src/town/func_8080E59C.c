@@ -96,8 +96,9 @@ void func_8080E59C(void)
     s32 unit_scale;
 
     child_slots = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    upload_rect.copy = D_80526440[0];
+    do {
+        upload_rect.copy = D_80526440[0];
+    } while (0);
     object = func_800373DC(2, D_80526440);
     shared_state = D_8052643C;
     if (object != 0) {
@@ -118,8 +119,9 @@ void func_8080E59C(void)
         setup_target = (u8 *)object + 0x2C;
         saved_state = (u8 *)object + 0x78;
         setup_table = D_805300DC;
-        ASM_KEEP(setup_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        object_state = ((S_8080E59C_0 *)object)->unk_08;
+        do {
+            object_state = ((S_8080E59C_0 *)object)->unk_08;
+        } while (0);
         render_part = ((S_8080E59C_0 *)object)->unk_0C;
         ((S_8080E59C_0 *)object)->unk_10 = D_80529AC4;
         ((S_8080E59C_0 *)object)->unk_20 = child_slots;

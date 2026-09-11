@@ -182,8 +182,9 @@ state_two:
     }
     func_800AD594(actor, 0x100);
     PTR(action, 0x8C) = D_801710EC;
-    ASM_SCHED_BARRIER();
-    globals_base = (u8 *)0x80080000;
+    do {
+        globals_base = (u8 *)0x80080000;
+    } while (0);
     ASM_KEEP(globals_base);
     S32(globals_base, 0x346C) = 0;
     U16(actor, 0x46) &= 0x7FFF;

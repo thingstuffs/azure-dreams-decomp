@@ -175,7 +175,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     register s32 idx1_copy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *entry_ptr;
     register S_800E3E48 *entries ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 ff ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 ff;
     u8 *d3df0;
     S_800E3E48 *entries_src;
     register u8 *addr_temp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -208,8 +208,9 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     func_80041E28(arg1, (s32)page | 0x2194);
     var_t1 = 0;
     ff = 0xFF;
-    ASM_KEEP(ff);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    addr_temp = (u8 *)0x800E0000;
+    do {
+        addr_temp = (u8 *)0x800E0000;
+    } while (0);
     ASM_KEEP(addr_temp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     var_t5 = addr_temp + 0x3DF0;
     var_t3 = page;

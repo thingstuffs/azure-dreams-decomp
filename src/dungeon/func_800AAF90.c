@@ -301,9 +301,10 @@ fallback:
 
                 ot_entry = ((S_800B06F0_0 *)scratch)->unk_C0.i;
                 ASM_KEEP_NV(ot_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                packet = func_8004CD28(ot_entry, params, primitive_ref, packet);
+                do {
+                    packet = func_8004CD28(ot_entry, params, primitive_ref, packet);
+                } while (0);
             }
-            ASM_KEEP(packet);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if (primitive != 0) {
                 goto loop;
             }

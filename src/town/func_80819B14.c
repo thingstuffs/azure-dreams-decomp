@@ -115,8 +115,9 @@ void func_80023B14(TownObject *obj_arg, TownMotion *motion)
         }
 store_timer:
         obj->timer = next_timer;
-        ASM_KEEP(next_timer);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        func_80093CEC(D_800D0138);
+        do {
+            func_80093CEC(D_800D0138);
+        } while (0);
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;

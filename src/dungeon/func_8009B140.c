@@ -39,7 +39,7 @@ void func_800A08A0(s32 spawn_mode) {
     s32 fixed_entry_offset;
     s32 spawn_height;
     s32 dx;
-    register s32 dy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 dy;
     u8 tile_x;
     u8 tile_y;
     register u32 *limits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -68,9 +68,11 @@ void func_800A08A0(s32 spawn_mode) {
         if (mode == 0) {
             s32 tile_y_value;
             {
-                register s32 x_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                dx = reference_object[0x24];
-                x_value = tile_x;
+                s32 x_value;
+                do {
+                    dx = reference_object[0x24];
+                    x_value = tile_x;
+                } while (0);
                 tile_y_value = tile_y;
                 dx -= x_value;
             }

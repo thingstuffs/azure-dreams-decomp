@@ -79,8 +79,10 @@ set_control:
 
         ((S_8008C7B4_2 *)control)->unk_02 = (u16)(((S_8008C7B4_2 *)control)->unk_02 | 0x80);
     }
-    ASM_SCHED_BARRIER(); /* MATCH: keep the control arm's a0 reload after its store. */
-    entity_arg = entity;
+     /* MATCH: keep the control arm's a0 reload after its store. */
+    do {
+        entity_arg = entity;
+    } while (0);
 after_control:
     func_8009F644(entity_arg, 0x10, 0, 0);
     {

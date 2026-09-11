@@ -17,7 +17,7 @@ extern u8 D_8001B3D2[];
 /* Selects a response and advances the four-state counter for event 11. */
 s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
 {
-    register s32 saved_context ASM_REG("$19") = context;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 saved_context = context;
     register void *data_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u32 data_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 table_page;
@@ -40,8 +40,9 @@ s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
     data_base = (void *) (data_page - 0x75F4);
     result = func_80017960(data_base, (void *) (table_page - 0x746C),
                           saved_context, event_id);
-    ASM_KEEP(saved_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    state_index = func_80018868(0x990, 2);
+    do {
+        state_index = func_80018868(0x990, 2);
+    } while (0);
 
     if (event_id != 0xB) {
         return result;

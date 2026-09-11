@@ -186,7 +186,9 @@ next_primitive:
 done:
     {
         s32 best_height = (s16)work->best;
-        ASM_KEEP(best_height); /* MATCH: keep best_height sign extension before the shared epilogue. */
-        return best_height;
+         /* MATCH: keep best_height sign extension before the shared epilogue. */
+        do {
+            return best_height;
+        } while (0);
     }
 }

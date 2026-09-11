@@ -45,8 +45,9 @@ void func_80123A60(void *object_data) {
     if (category == 3) {
         ASM_KEEP(category);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         slot = category;
-        first_image_id = slot * 0x10;
-        ASM_KEEP(first_image_id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        do {
+            first_image_id = slot * 0x10;
+        } while (0);
         if (func_80123200(first_image_id & 0xF0) & 0xFF) {
             u8 *image_base = (u8 *)D_80126E98;
             void **image_ptr;

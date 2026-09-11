@@ -84,9 +84,10 @@ s32 func_8009B2C4(TownObject *object, void *owner, void *context) {
                 }
             }
         }
+        control_page = (TownControl *)0x800D0000;
+    } else {
+        control_page = (TownControl *)0x800D0000;
     }
-    control_page = (TownControl *)0x800D0000;
-    ASM_KEEP(control_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     owner_control = (TownControl *)((u8 *)control_page - 0x34C);
     if (((owner_control->state != 0) && (owner_control->owner == owner)) ||
         ((((Rec_D_800CFCB4 *)owner)->unk_3B != 0) &&

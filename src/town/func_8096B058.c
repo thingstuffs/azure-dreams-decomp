@@ -81,13 +81,13 @@ void func_801234F0(void) {
         s16 first_default = 0x10;
         s16 second_default = 0xE0;
 
-        ASM_KEEP(first_default);
-        ASM_KEEP(second_default);
 #ifdef NON_MATCHING
         object_slot = (void **)D_80129728;
         src_entry = (volatile SourceEntry *)D_80126A18;
 #else
-        address_base = (u8 *)0x80130000;
+        do {
+            address_base = (u8 *)0x80130000;
+        } while (0);
         ASM_KEEP(address_base);
         object_slot = (void **)(address_base - 0x68D8);
         address_base = (u8 *)0x80120000;

@@ -73,13 +73,11 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
 
         ASM_USE(flip_table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (flip_table[direction] != 0) {
-            sprite_flags = *(u16 *)((u8 *)sprite + 0x14) | 1;
+            *(u16 *)((u8 *)sprite + 0x14) |= 1;
         } else {
-            sprite_flags = *(u16 *)((u8 *)sprite + 0x14) & 0xFFFE;
+            *(u16 *)((u8 *)sprite + 0x14) &= 0xFFFE;
         }
-        *(u16 *)((u8 *)sprite + 0x14) = sprite_flags;
     }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_80048AC8(sprite, 0);
     {
         u8 *render_state = D_80100D98;

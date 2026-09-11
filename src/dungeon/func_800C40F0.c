@@ -109,8 +109,9 @@ void *func_800C9850(u8 tile_x, u8 tile_z, u16 height) {
             }
             FLD(sprite, u16, 0x14) = sprite_flags;
         }
-        ASM_MEM_BARRIER();
-        tint = 0x404040;
+        do {
+            tint = 0x404040;
+        } while (0);
         tint_entity = entity;
         tint_arg = 0;
         ASM_KEEP4(tint, tint_entity, tint_arg, state);

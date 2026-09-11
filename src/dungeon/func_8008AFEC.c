@@ -50,9 +50,11 @@ jt_c6:
     {
         register s32 relative_direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 relative_angle;
-        register s32 direction_or_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 direction_or_flags;
         direction_or_flags = (s16)direction_offset;
-        relative_direction = 1 - direction_or_flags;
+        do {
+            relative_direction = 1 - direction_or_flags;
+        } while (0);
         relative_angle = relative_direction << 9;
         direction_or_flags = (*flags & 0xFFF) | direction_mask;
         result_angle = relative_angle;
@@ -182,8 +184,9 @@ block_27:
         u16 wrap_hi;
         register u16 wrap_lo ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         wrap_hi = current_bits & 0xF000;
-        ASM_KEEP(wrap_hi);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        wrap_lo = result_angle & 0xFFF;
+        do {
+            wrap_lo = result_angle & 0xFFF;
+        } while (0);
         ASM_KEEP(wrap_lo);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         result_angle = wrap_hi | wrap_lo;
     }

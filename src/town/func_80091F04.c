@@ -61,13 +61,15 @@ object_loop:
         void *self_box;
         register void *other_pos ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 separation;
-        register s32 self_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        register s32 other_edge ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 self_offset;
+        s32 other_edge;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 other_offset;
         register s32 other_size ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         self_box = VSPTR(scratch, 0);
-        separation = S32_AT(position, 0);
+        do {
+            separation = S32_AT(position, 0);
+        } while (0);
         self_offset = S32_AT(self_box, 0);
         other_pos = VSPTR(scratch, 8);
         separation += self_offset;
@@ -113,17 +115,19 @@ object_loop:
 
     {
         void *self_box;
-        register void *other_pos ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *other_pos;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         void *other_box;
         s32 separation;
-        register s32 self_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 self_offset;
         s32 other_edge;
         register s32 other_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 other_size ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
         self_box = VSPTR(scratch, 0);
-        separation = S32_AT(position, 4);
-        self_offset = S32_AT(self_box, 4);
+        do {
+            separation = S32_AT(position, 4);
+            self_offset = S32_AT(self_box, 4);
+        } while (0);
         other_box = VSPTR(scratch, 0xC);
         separation += self_offset;
         other_pos = VSPTR(scratch, 8);
@@ -169,17 +173,19 @@ object_loop:
 
     {
         void *self_box;
-        register void *other_pos ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *other_pos;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         void *other_box;
         s32 separation;
-        register s32 self_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 self_offset;
         s32 other_edge;
         register s32 other_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 other_size ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
         self_box = VSPTR(scratch, 0);
-        separation = S32_AT(position, 8);
-        self_offset = S32_AT(self_box, 8);
+        do {
+            separation = S32_AT(position, 8);
+            self_offset = S32_AT(self_box, 8);
+        } while (0);
         other_box = VSPTR(scratch, 0xC);
         separation += self_offset;
         other_pos = VSPTR(scratch, 8);

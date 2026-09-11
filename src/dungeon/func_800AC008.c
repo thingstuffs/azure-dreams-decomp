@@ -175,8 +175,9 @@ shared_setup:
             color1 = 0x808080;
             *(volatile u32 *)arg2_reg = color1;
             arg2_reg += 4;
-            ASM_KEEP_NV(arg2_reg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            buf = (u8 *)buf + 0x60;
+            do {
+                buf = (u8 *)buf + 0x60;
+            } while (0);
             *(void **)((u8 *)sub + 0x50 + count++ * 4) = buf;
             call_arg = buf;
             prev_arg = (u8 *)buf - 0x60;
@@ -213,9 +214,10 @@ shared_setup:
             var_v0 = var_a0_2;
             if (arg4 != 0) {
                 var_v0 -= 2;
+                color2 = 0x80000;
+            } else {
+                color2 = 0x80000;
             }
-            color2 = 0x80000;
-            ASM_KEEP_NV(color2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((s8 *)buf)[0xA] = var_v0;
             var_v0 = 0x10;
             var_a0_2 = 0xC0;
@@ -229,8 +231,9 @@ shared_setup:
             *(s32 *)((u8 *)buf + 4) = sub->field10;
             *(s32 *)((u8 *)buf + 0xC) = sub->field14;
             *(s32 *)((u8 *)buf + 0x10) = sub->field18;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            tail_flags = ((u8 *)buf)[1];
+            do {
+                tail_flags = ((u8 *)buf)[1];
+            } while (0);
             tail_field1c = sub->field1C;
             tail_flags |= 2;
             ((u8 *)buf)[1] = tail_flags;

@@ -385,8 +385,9 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
             state_value = 0xFFC00000;
             init_value += state_value;
             init_position->unk_14 = 0;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            init_position->unk_10 = 0;
+            do {
+                init_position->unk_10 = 0;
+            } while (0);
             init_position->unk_0C = 0;
             init_position->unk_08 = 0;
             ((S_800218E4_8 *)angle_slot)->unk_3C = 0;
@@ -558,8 +559,10 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
             if (D_80113158[0] != 0) {
                 D_80024338[0] = func_800B1BEC(0, -0x50, 0x40);
             }
-            state_value = ((S_800218E4_0 *)game)->unk_2C.u;
-            ASM_SCHED_BARRIER(); /* MATCH: the state load precedes timer materialization. */
+            do {
+                state_value = ((S_800218E4_0 *)game)->unk_2C.u;
+            } while (0);
+             /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
             ASM_SCHED_BARRIER(); /* MATCH: keep the timer setup local to each state transition. */
             ((S_800218E4_0 *)game)->unk_2E.s = transition_timer;
@@ -789,8 +792,9 @@ check_partner:
                         object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
                         object_motion->unk_10 = (s32) (object_motion->unk_10 + bounce_y);
                         partner_speed = ((S_800218E4_17 *)partner_slot)->unk_00;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                        collision_value |= 0xFFFF;
+                        do {
+                            collision_value |= 0xFFFF;
+                        } while (0);
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                         other_speed_y = partner_speed->unk_0C;
                         other_speed_x = partner_speed->unk_10;

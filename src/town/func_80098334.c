@@ -61,9 +61,10 @@ calculate:
     if (adjustment < 0) {
         adjustment += 0xFF;
     }
-    adjustment >>= 8;
+    do {
+        adjustment >>= 8;
+    } while (0);
     obj->value14 = adjustment;
-    ASM_KEEP(adjustment);
     clamp_value = *(volatile s32 *)&obj->value14;
     if (clamp_value > 0xCC000) {
         obj->value14 = 0xCC000;

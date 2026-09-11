@@ -89,12 +89,12 @@ void func_8015EDA8(void *actor_in, void *motion_in, void *sprite_in)
             return;
         }
         (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
-        return;
+        do {
+            return;
+        } while (0);
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     previous_state = (s8)(*(u8 *)((u8 *)actor + 0x6D));
     if (func_800A9E70(actor, motion, sprite, actor) != 0) {

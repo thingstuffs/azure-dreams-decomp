@@ -90,8 +90,9 @@ void func_8009D3B0(void) {
         y = tile_index_or_level;
         x_sum = ((S_8009D3B0_0 *)region)->unk_00 + ((S_8009D3B0_0 *)region)->unk_04;
         tile_value = x_sum + 1;
-        ASM_KEEP(x_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        y_limit = ((S_8009D3B0_0 *)region)->unk_06 + tile_index_or_level + 2;
+        do {
+            y_limit = ((S_8009D3B0_0 *)region)->unk_06 + tile_index_or_level + 2;
+        } while (0);
         y_end = y_limit;
         if ((tile_index_or_level << 0x10) < (y_limit << 0x10)) {
             x_end_or_neighbor = tile_value;
@@ -126,8 +127,9 @@ scan_tile:
                         tile_or_map = (u8 *)(map_index + (s32)map);
                         status_or_level = (u8 *)((s16)(tile_index_or_level + 0x200) / 64);
                         tile_value = (s32)status_or_level;
-                        ASM_KEEP(status_or_level);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        tile_index_or_level = (s32)status_or_level;
+                        do {
+                            tile_index_or_level = (s32)status_or_level;
+                        } while (0);
                         if (tile_index_or_level >= 0x10) {
                             tile_value = 15;
                             goto clamp_region_level;
@@ -199,8 +201,9 @@ scan_neighbor:
                 tile_or_map = (u8 *)(map_index + (s32)map);
                 status_or_level = (u8 *)((s16)(tile_index_or_level + 0x200) / 64);
                 neighbor_value = (s32)status_or_level;
-                ASM_KEEP(status_or_level);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                tile_index_or_level = (s32)status_or_level;
+                do {
+                    tile_index_or_level = (s32)status_or_level;
+                } while (0);
                 if (tile_index_or_level >= 0x10) {
                     neighbor_value = 15;
                     goto clamp_neighbor_level;

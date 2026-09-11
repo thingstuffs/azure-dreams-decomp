@@ -193,10 +193,9 @@ selected:
     }
     ((S_80172D74_1 *)action)->unk_98 &= 0xFF7F;
     {
-        s32 special_test;
+        s16 special_test;
 
         special_test = special_item;
-        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_test != 0) {
             entity = D_800814A8;
             ((S_80172D74_0 *)actor)->unk_60 = entity;

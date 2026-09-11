@@ -77,8 +77,9 @@ void func_800945E8(void *input_state) {
                             copy_dst_cursor[1] = copy_word1;
                             copy_dst_cursor[2] = copy_word2;
                             copy_dst_cursor[3] = copy_word3;
-                            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                            copy_src_cursor += 4;
+                            do {
+                                copy_src_cursor += 4;
+                            } while (0);
                             copy_dst_cursor += 4;
                         } while (copy_src_cursor != copy_end);
 
@@ -162,8 +163,9 @@ void func_800945E8(void *input_state) {
                     copy_dst_cursor[1] = copy_word1;
                     copy_dst_cursor[2] = copy_word2;
                     copy_dst_cursor[3] = copy_word3;
-                    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    copy_src_cursor += 4;
+                    do {
+                        copy_src_cursor += 4;
+                    } while (0);
                     copy_dst_cursor += 4;
                 } while (copy_src_cursor != copy_end);
 

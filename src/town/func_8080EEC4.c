@@ -275,8 +275,9 @@ case_3:
             ((S_8080EEC4_3 *)work)->unk_24 = (i & 1) ? 1 : 2;
         }
         ((S_8080EEC4_3 *)work)->unk_1A.s = 0;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        shift = ((S_8080EEC4_3 *)work)->unk_22 == 2 ? 6 : 5;
+        do {
+            shift = ((S_8080EEC4_3 *)work)->unk_22 == 2 ? 6 : 5;
+        } while (0);
         value = ((S_8080EEC4_2 *)arg0)->unk_72.s;
         value -= value >> shift;
         ((S_8080EEC4_2 *)arg0)->unk_72.s = value;
@@ -306,8 +307,9 @@ case_4:
 case_5:
         ((S_8080EEC4_2 *)arg0)->unk_70 = 7;
         ((S_8080EEC4_2 *)arg0)->unk_72.s = 0;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        dx = 0;
+        do {
+            dx = 0;
+        } while (0);
         dy = 0x7A;
     case_5_loop:
             local.rect.natural.x = dy;

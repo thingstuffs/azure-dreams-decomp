@@ -35,8 +35,9 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
         side_offset = -1;
         x = (s16)tile_x;
         center_x = (x << 6) + 0x20;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        table_page = 0x800E0000;
+        do {
+            table_page = 0x800E0000;
+        } while (0);
         ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         x_offsets = (u16 *)(table_page - 0x3154);
         y = (s16)tile_y;

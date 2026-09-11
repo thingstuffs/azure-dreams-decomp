@@ -216,9 +216,10 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
                     local_y += normal_height;
                 }
                 *(u16 *)(scratch + 0x08A) = local_y;
-                *(u16 *)(scratch + 0x082) = local_y;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
+                do {
+                    *(u16 *)(scratch + 0x082) = local_y;
+                    func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
+                } while (0);
                 width = *(u32 *)(scratch + 0x010);
                 if (width < 0) {
                     width += 3;

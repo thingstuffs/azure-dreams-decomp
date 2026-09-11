@@ -53,11 +53,13 @@ s32 func_80018F20(s32 *slot_list)
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     slot_cursor = slot_list;
     initial_page = (u8 *)0x80010000;
-    initial_root = ((S_80018F20_0 *)initial_page)->unk_6000;
-    ASM_KEEP(initial_root);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+        initial_root = ((S_80018F20_0 *)initial_page)->unk_6000;
+    } while (0);
     loaded_base = ((S_80018F20_1 *)initial_root)->unk_38;
-    slot_base = (s32)loaded_base + 0x248;
-    ASM_KEEP(slot_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+        slot_base = (s32)loaded_base + 0x248;
+    } while (0);
     func_800193F4(used_slots, 0x14);
     used_map = used_slots;
     if (*slot_cursor != 0) {
@@ -76,8 +78,9 @@ s32 func_80018F20(s32 *slot_list)
 
                 root = ((S_80018F20_2 *)page)->unk_6000.p;
                 call_table = ((S_80018F20_3 *)root)->unk_20;
-                ASM_KEEP(call_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                name_page = (u8 *)0x80010000;
+                do {
+                    name_page = (u8 *)0x80010000;
+                } while (0);
                 ASM_KEEP(name_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 report_error = (*(TownCall3 *)((u8 *)call_table + 0x168));
                 ASM_KEEP(message_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -86,10 +89,12 @@ s32 func_80018F20(s32 *slot_list)
             }
             slot_addr = *slot_cursor;
             used_flag = used_map + ((u32)(slot_addr - slot_base) >> 2);
-            ASM_KEEP(used_flag);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            *used_flag = 1;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            slot_cursor++;
+            do {
+                *used_flag = 1;
+            } while (0);
+            do {
+                slot_cursor++;
+            } while (0);
             next_slot_addr = *slot_cursor;
         } while (next_slot_addr != 0);
     }
@@ -115,8 +120,9 @@ s32 func_80018F20(s32 *slot_list)
         root = ((S_80018F20_2 *)page)->unk_6000.p;
         call_table = ((S_80018F20_3 *)root)->unk_20;
         report_error = (*(TownCall3 *)((u8 *)call_table + 0x168));
-        ASM_KEEP(report_error);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        report_error(D_80016034, D_8001605C, 0x76);
+        do {
+            report_error(D_80016034, D_8001605C, 0x76);
+        } while (0);
         (*(TownCall1 *)((u8 *)(((S_80018F20_4 *)(((S_80018F20_2 *)page)->unk_6000.p2))->unk_20) + 0x174))(1);
     }
     return slot_base + free_slot * 4;

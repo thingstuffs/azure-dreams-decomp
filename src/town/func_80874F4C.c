@@ -89,8 +89,9 @@ callback_path:
 #endif
         state = (void *)D_80701968[0];
         new_flags = FIELD(state, s32 *, 0x30) | tail_arg;
-        ASM_TAILSLOT_PIN_TIED(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        FIELD(state, s32 *, 0x30) = new_flags;
+        do {
+            FIELD(state, s32 *, 0x30) = new_flags;
+        } while (0);
     }
     func_80701024(tail_arg);
 

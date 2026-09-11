@@ -78,8 +78,9 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   register u16 *x_step ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   selected_action = -1;
   facing_angle = actor->field2a;
-  ASM_USE_NV(facing_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  best_score = -0x100;
+  do {
+      best_score = -0x100;
+  } while (0);
   ASM_KEEP(best_score);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   *out_angle = facing_angle;
   self = actor;

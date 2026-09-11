@@ -91,8 +91,9 @@ void func_800AB7FC(void) {
     view_state->unk_68 = 0;
     func_80064D50(render_data + 0x70);
     light_matrix = render_data + 0x50;
-    ASM_KEEP(light_matrix);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    light_coeff_b = -0x800;
+    do {
+        light_coeff_b = -0x800;
+    } while (0);
     light_coeff_a = 0x800;
     ASM_KEEP(light_coeff_a);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     view_state->unk_38 = light_coeff_b;

@@ -63,9 +63,10 @@ state_three:
         ASM_KEEP_NV(completion_flag);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (selected_slot != 0) {
             completion_flag++;
+            status = 2;
+        } else {
+            status = 2;
         }
-        status = 2;
-        ASM_KEEP_NV(status);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         {
             register s32 flag_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             flag_value = 1;

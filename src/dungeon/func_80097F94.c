@@ -78,7 +78,7 @@ col_loop:
             if (nibble_mask != 0) {
                 register s32 value_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 level;
-                register s32 clamped_level ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                s16 clamped_level;
                 s32 col;
                 register s16 shift;
 
@@ -86,8 +86,9 @@ col_loop:
                 shift = ((S_8009D6F4_0 *)grid_dims)->unk_14;
                 value_bits = (s16) (((S_8009D6F4_1 *)(((((row << shift) + col) * 6) + table)))->unk_02 + 0x200) / 64;
                 clamped_level = value_bits;
-                ASM_KEEP(value_bits);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                level = value_bits;
+                do {
+                    level = value_bits;
+                } while (0);
                 if (level >= 0x10) {
                     clamped_level = 15;
                     goto clamp_value;
@@ -115,8 +116,9 @@ advance_col:
             } else {
                 next_col = col_index + 1;
             }
-            col_index = next_col;
-            ASM_KEEP_NV(next_col);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            do {
+                col_index = next_col;
+            } while (0);
             if ((s16) next_col >= (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_14)) {
                 goto advance_row;
             }

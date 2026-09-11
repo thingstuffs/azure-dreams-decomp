@@ -297,8 +297,9 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
                     s32 second_height;
 
                     second_base_shade = 0x100;
-                    second_height = ((S_800C55F4_8 *)params)->unk_32;
-                    ASM_KEEP_DEP_NV(scratch, second_height);
+                    do {
+                        second_height = ((S_800C55F4_8 *)params)->unk_32;
+                    } while (0);
                     second_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
                     second_shade = ((S_800C55F4_1 *)scratch)->unk_C4;
                     second_base_shade -= second_height;
@@ -328,8 +329,9 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
                     s32 third_height;
 
                     third_base_shade = 0x100;
-                    third_height = ((S_800C55F4_8 *)params)->unk_32;
-                    ASM_KEEP_DEP_NV(scratch, third_height);
+                    do {
+                        third_height = ((S_800C55F4_8 *)params)->unk_32;
+                    } while (0);
                     third_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
                     third_shade = ((S_800C55F4_1 *)scratch)->unk_C8.s;
                     third_base_shade -= third_height;

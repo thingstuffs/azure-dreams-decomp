@@ -42,7 +42,7 @@ void func_800B8E08(s32 draw_param) {
     u8 *status_page;
     s32 entry_kind;
     s32 draw_x;
-    register s32 draw_kind ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 draw_kind;
     u32 overlay_index;
 
     func_8009CDB4();
@@ -76,8 +76,8 @@ case_12:
             func_800B7A6C(0x2E, 0x24, D_80126E3C, draw_param);
 switch_done:
             {
-                s32 status_c8;
-                register u8 *status_c8_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                s16 status_c8;
+                u8 *status_c8_page;
 
                 status_c8_page = (u8 *)0x80010000;
                 status_c8 = status_c8_page[0x33C8];
@@ -85,7 +85,6 @@ switch_done:
                 if (7 == status_c8) {
                     func_800B7A6C(0x40, 0xC, D_80127024, draw_param);
                 }
-                ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 if (status_page[0x33C4] == 5) {
                     func_800B7A6C(0xE, 0xE, D_80126494, draw_param);
                 }

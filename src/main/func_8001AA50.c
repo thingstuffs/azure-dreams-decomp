@@ -15,7 +15,7 @@ s32 func_8001AA50(s32 entry_count) {
     register s32 sum ASM_REG("$3"); /* v1 */
     register Entry *entry ASM_REG("$5"); /* a1 */
     s32 rounded_sum;   /* v0 */
-    register s32 entry_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 entry_value;
 
     i = 0;
     ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -23,10 +23,8 @@ s32 func_8001AA50(s32 entry_count) {
     if (entry_count > 0) {
         entry = D_80409290;
         do {
-            entry_value = entry->field18;
+            sum += (entry++)->field18;
             i += 1;
-            sum += entry_value;
-            entry += 1;
         } while (i < entry_count);
     }
     rounded_sum = sum;

@@ -22,14 +22,9 @@ void itm_mon_koyaw_set(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_
     s32 *chunk_end;
     s32 flag_bits;
     s32 flags_offset;
-    s32 slot_index;
 
-    do {
-    } while (0);
-    slot_index = slot;
     flags = (u8 *)0x80010000;
-    slot = slot_index * 4;
-    flags += slot;
+    flags += slot * 4;
     flags[0x980] = entry_flags[0];
     flags[0x981] = entry_flags[1];
     flags[0x982] = entry_flags[2];
@@ -37,7 +32,7 @@ void itm_mon_koyaw_set(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_
 
     if (entry_flags[1] == 0x13) {
         record_src = (s32 *)record;
-        record_dst = (s32 *)((u8 *)0x80010A80 + (slot_index * 0x54));
+        record_dst = (s32 *)((u8 *)0x80010A80 + (slot * 0x54));
         chunk_end = record_src + 20;
         do {
             *(CopyChunk *)record_dst = *(CopyChunk *)record_src;
@@ -47,13 +42,13 @@ void itm_mon_koyaw_set(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_
         do {
             *record_dst = *record_src;
         } while (0);
-        flags_offset = slot_index * 4;
+        flags_offset = slot * 4;
         copy_page = (u8 *)0x80010000;
         copy_flags = copy_page + flags_offset;
-        record_base = copy_page + (slot_index * 0x54);
+        record_base = copy_page + (slot * 0x54);
         flag_bits = copy_flags[0x983];
         flag_bits &= 0xC0;
-        flag_bits |= slot_index;
+        flag_bits |= slot;
         copy_flags[0x983] = flag_bits;
         record_base[0xAC4] = record_byte;
     }

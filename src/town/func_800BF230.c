@@ -148,8 +148,9 @@ random_direction:
         goto random_direction;
     }
 
-    walk_ticks = 0x40;
-    ASM_KEEP(walk_ticks);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+        walk_ticks = 0x40;
+    } while (0);
     step_x = D_8006CCD8;
     step_x = (s16 *)((u8 *)step_x + step_offset);
     step_y = D_8006CCE8;

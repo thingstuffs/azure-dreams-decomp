@@ -149,8 +149,9 @@ void func_800BA00C(void *parent, void *position_data)
             ((S_800BA00C_1 *)obj)->unk_10 = part_callback;
             func_8004491C(obj, D_80046398);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-            ASM_KEEP(parent_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            entity = obj + 0x20;
+            do {
+                entity = obj + 0x20;
+            } while (0);
             ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
             (*(s16 *)((u8 *)entity + 0x66)) = 0;
@@ -195,8 +196,9 @@ void func_800BA00C(void *parent, void *position_data)
             ((S_800BA00C_1 *)obj)->unk_10 = sprite_callback;
             func_8004491C(obj, D_80045C34);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-            ASM_KEEP(parent_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            entity = obj + 0x20;
+            do {
+                entity = obj + 0x20;
+            } while (0);
             ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
             (*(s8 *)((u8 *)entity + 0x97)) = part_index;
@@ -237,8 +239,9 @@ void func_800BA00C(void *parent, void *position_data)
         ((S_800BA00C_1 *)obj)->unk_10 = extra_callback;
         func_8004491C(call_obj, init_data);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-        ASM_KEEP(parent_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        entity = obj + 0x20;
+        do {
+            entity = obj + 0x20;
+        } while (0);
         ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         (*(void * volatile *)((u8 *)entity + 0x9C)) = parent;
         (*(volatile s32 *)((u8 *)entity + 0x98)) = parent_value;
@@ -276,8 +279,9 @@ void func_800BA00C(void *parent, void *position_data)
         ((S_800BA00C_1 *)obj)->unk_10 = extra_callback;
         func_8004491C(call_obj, init_data);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-        ASM_KEEP(parent_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        entity = obj + 0x20;
+        do {
+            entity = obj + 0x20;
+        } while (0);
         ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         (*(void * *)((u8 *)entity + 0x9C)) = parent;
         (*(s32 *)((u8 *)entity + 0x98)) = parent_value;

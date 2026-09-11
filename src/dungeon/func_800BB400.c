@@ -42,9 +42,10 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
         *(u8 **)(entity + 0x110) = event;
         ASM_KEEP_NV(target_copy);
         func_8008D330(target_copy, D_80083780, D_80082E80, target_copy);
-        return 0;
+        do {
+            return 0;
+        } while (0);
     }
-    ASM_CLOBBER("$4");
     if ((u32)entity <= 0x9FFFFFFF) {
         func_800A63B8(entity, event, (s16)value);
         if (func_800AD6FC(entity, (D_800DDE84[entity[0x13]] >> 6) & 3, 0) == 0) {

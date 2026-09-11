@@ -51,7 +51,7 @@ s32 func_8009B88C(u8 *entry, s32 target_x, s32 target_y, s16 *out_x, s16 *out_y)
     s32 far_x;
     s32 far_y;
     s32 wrap_pending;
-    register s32 wrap_check ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 wrap_check;
 
     occupied = (u8 *)0x1F800000;
     if (entry != 0) {
@@ -141,8 +141,9 @@ found_far:
 search_nearby:
     attempts = 0;
     near_x = (s16)target_x;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    search_seed = D_8008347E;
+    do {
+        search_seed = D_8008347E;
+    } while (0);
     near_y = (s16)target_y;
     ASM_USE(near_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     slot = search_seed & 7;

@@ -70,8 +70,9 @@ void func_800B62A4(void *source, s32 output) {
             slot_value = (*(s32 * volatile *)((u8 *)slot_cursor + 0x38));
             index += 1;
             *slot_value = 0;
-            ASM_KEEP(slot_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            slot_cursor += 4;
+            do {
+                slot_cursor += 4;
+            } while (0);
         } while (index < 3);
     }
 }

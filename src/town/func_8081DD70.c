@@ -115,15 +115,17 @@ void func_8081DD70(void *source_data, void *record_data) {
             ((S_8081DD70_1 *)dst)->unk_04 = word_1;
             ((S_8081DD70_1 *)dst)->unk_08 = word_2;
             ((S_8081DD70_1 *)dst)->unk_0C = word_3;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            src += 0x10;
+            do {
+                src += 0x10;
+            } while (0);
             dst += 0x10;
         } while (src != src_end);
         word_0 = ((S_8081DD70_0 *)src)->unk_00;
         word_1 = ((S_8081DD70_0 *)src)->unk_04;
         ((S_8081DD70_1 *)dst)->unk_00 = word_0;
-        ((S_8081DD70_1 *)dst)->unk_04 = word_1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            ((S_8081DD70_1 *)dst)->unk_04 = word_1;
+        } while (0);
 
         {
             register void *call_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

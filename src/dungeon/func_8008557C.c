@@ -269,8 +269,9 @@ check_status:
                         target_angle = normalized;
                         angle_bits = target_angle << 16;
                         signed_target = angle_bits >> 16;
-                        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                        angle_or_flags = ((S_8008ACDC_4 *)stats)->unk_2A.u;
+                        do {
+                            angle_or_flags = ((S_8008ACDC_4 *)stats)->unk_2A.u;
+                        } while (0);
                         angle_raw = ((S_8008ACDC_4 *)stats)->unk_2A.s;
                         angle_delta = angle_or_flags - signed_target;
                         if (angle_delta < 0) {
@@ -362,8 +363,9 @@ finish_command:
                         call_motion = motion;
                         slot_addr = slot << 2;
                         slot_addr = slot_addr + (s32) call_actor;
-                        action_target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
-                        ASM_KEEP(action_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                        do {
+                            action_target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
+                        } while (0);
                         call_sprite = sprite;
 apply_target_action:
                         func_80094270(call_actor, call_motion, call_sprite, action_target, slot);

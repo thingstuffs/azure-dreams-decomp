@@ -156,11 +156,12 @@ calc_call:
         next_index = scan_result + 1;
         goto scan_increment;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if ((func_8009A180(actor, ((S_800CA444_4 *)(*D_800814A8))->unk_58 + 0x20) << 0x10) != 0) {
         goto done;
     }
-    next_index = scan_result + 1;
+    do {
+        next_index = scan_result + 1;
+    } while (0);
 scan_increment:
     scan_result = next_index;
     if (next_index < 8) {

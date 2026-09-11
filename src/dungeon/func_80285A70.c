@@ -140,16 +140,18 @@ void func_80018A70(void) {
             common_arg = D_80083780;
             ASM_KEEP_NV(common_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             v1role = state->seed;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            v0role = 0x80080000;
+            do {
+                v0role = 0x80080000;
+            } while (0);
             ASM_KEEP_NV(v0role);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state->field8 = 0;
             state->fieldA = 0;
             *(s32 *)(v0role + 0x1468) = v1role;
             v1role = 0x80010000;
             v1role = *(volatile u16 *)(v1role + 0x234);
-            ASM_KEEP_NV(v1role);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            v0role += 0x1468;
+            do {
+                v0role += 0x1468;
+            } while (0);
             ASM_KEEP_NV(v0role);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             *(u16 *)(v0role + 4) = v1role;
             func_8004D0C8(common_arg);
@@ -226,8 +228,9 @@ after_optional_setup:
         track_no--;
         func_80017560();
         v1base = (u32)D_8001F62C;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        v0index = (u32)track_no << 2;
+        do {
+            v0index = (u32)track_no << 2;
+        } while (0);
         v0index += track_no;
         track = (TrackRecord *)(v0index + v1base);
         func_800B0544(track->track);

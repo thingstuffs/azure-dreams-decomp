@@ -47,8 +47,9 @@ next_slot:
     resource_addr = *entry;
     ASM_USE(slot_offset);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     count_cursor += 4;
-    func_800B3B18(((S_800B3C74_2 *)((s32 *)resource_addr))->unk_04);
-    ASM_USE(owner);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    do {
+        func_800B3B18(((S_800B3C74_2 *)((s32 *)resource_addr))->unk_04);
+    } while (0);
     slot += 1;
     goto check_done;
 

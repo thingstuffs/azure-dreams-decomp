@@ -272,8 +272,10 @@ prepare_next_state:
     state = ((S_800C4F20_0 *)anim)->unk_28.u;
     next_ticks = 0x10;
 advance_state:
-    ((S_800C4F20_0 *)anim)->unk_2A = next_ticks;
-    ASM_SCHED_BARRIER(); /* MATCH: keep the shared count store before the state increment. */
+    do {
+        ((S_800C4F20_0 *)anim)->unk_2A = next_ticks;
+    } while (0);
+     /* MATCH: keep the shared count store before the state increment. */
     ((S_800C4F20_0 *)anim)->unk_28.s = (s16) (state + 1);
     goto sync_position;
 jt_c3:

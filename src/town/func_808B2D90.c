@@ -34,19 +34,16 @@ void func_808B2D90(s32 unused_count, s32 unused_flag, s16 *input_ids, u8 *input_
     ASM_KEEP(flag_ids);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     set_count = 0;
     if (*flag_ids != 0) {
-        register s32 flag_group ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 flag_group;
         flag_bits = D_A0700000;
         flag_bits = *(u8 **)(flag_bits + 0xF40);
         flag_cursor = flag_ids;
 check_flag:
         flag_id = (s32) *flag_cursor;
         flag_group = flag_id;
-        if ((s32) flag_id < 0) {
-            flag_group = flag_id + 0x1F;
-        }
-        flag_group >>= 5;
+        flag_group = flag_id / 32;
         flag_cursor++;
-        if (((s32) *(flag_bits + flag_group) >> (flag_id - (flag_group << 5))) & 1) {
+        if (((s32) *(flag_bits + flag_group) >> ((flag_id % 32))) & 1) {
             set_count += 1;
             if (*flag_cursor != 0) {
                 goto check_flag;

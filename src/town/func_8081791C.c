@@ -392,8 +392,9 @@ void func_8002191C(void *arg0)
                 s32 y1;
 
                 x0 = ((S_8002191C_8 *)node_pos)->unk_02;
-                ASM_KEEP(x0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                y0 = ((S_8002191C_9 *)compare)->unk_02;
+                do {
+                    y0 = ((S_8002191C_9 *)compare)->unk_02;
+                } while (0);
                 delta0 = x0 - y0;
                 y0 = ((S_8002191C_8 *)node_pos)->unk_06;
                 y1 = ((S_8002191C_9 *)compare)->unk_06;

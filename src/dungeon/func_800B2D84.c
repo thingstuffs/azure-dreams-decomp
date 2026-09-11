@@ -89,8 +89,9 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
         *((volatile u8 *) (((volatile u8 *) packet_code) + 41)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 5))) + u_offset;
       }
       trig_value = func_800644B8(angle_step / parameters->count);
-      angle_step += 0x1000;
-      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+      do {
+          angle_step += 0x1000;
+      } while (0);
       {
         s32 v_offset;
         register s32 scaled_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

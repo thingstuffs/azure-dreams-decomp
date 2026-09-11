@@ -117,9 +117,10 @@ void *func_8009792C(S_8009792C_2 *source, u32 angle) {
                   ((rand(y_offset) & 1) + 2));
         if (x_velocity < 0) {
             x_velocity += 0xF;
+            effect_params = (s16 *)((s8 *)effect + 0x20);
+        } else {
+            effect_params = (s16 *)((s8 *)effect + 0x20);
         }
-        effect_params = (s16 *)((s8 *)effect + 0x20);
-        ASM_KEEP(effect_params);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         motion->unk_0C = (s32)(x_velocity >> 4);
         y_velocity = 0 -
                    (source->unk_10 *

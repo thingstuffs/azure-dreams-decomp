@@ -119,9 +119,10 @@ s32 func_8080DAB8(void *first_record) {
         depth0_raw = *(volatile u16 *)depths;
         depth0_shifted = depth0_raw << 0x10;
         depth1_raw = *((volatile u16 *)depths + 1);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         depth0 = (s32)depth0_shifted >> 0x10;
-        depth1_shifted = depth1_raw << 0x10;
+        do {
+            depth1_shifted = depth1_raw << 0x10;
+        } while (0);
         depth1 = (s32)depth1_shifted >> 0x10;
         depth0_shifted = (u32)((s32)depth0_shifted >> 0x13);
         if (depth0 >= depth1) {

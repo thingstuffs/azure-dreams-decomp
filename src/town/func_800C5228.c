@@ -28,13 +28,11 @@ void func_800C2988(void *object_data, void *motion_data) {
     u32 page;
 
     if (D_8006ADD4 == 0x17000C) {
-        page = 0xFF600000;
+        motion->unk_08 = 0xFF600000;
     } else {
         ASM_KEEP(object);
-        page = 0xFFE00000;
+        motion->unk_08 = 0xFFE00000;
     }
-    motion->unk_08 = page;
-    ASM_SCHED_BARRIER();
     func_8008F074(object, motion, func_800C296C(0));
     object->unk_50 = &D_800C2A10;
     object->unk_16 = (s16) ((object->unk_72 - 0x800) & 0xFFF);

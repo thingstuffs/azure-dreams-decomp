@@ -120,7 +120,7 @@ void func_80023260(void *actor, void *motion, void *sprite) {
     u16 old_state;
     u16 path_ticks;
     s32 path_flags;
-    register s32 clamp_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 clamp_value;
     Record12 *paths;
     void *position_ref;
     void *waypoint;

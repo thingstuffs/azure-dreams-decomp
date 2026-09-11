@@ -121,8 +121,9 @@ spawn_loop:
                 area_calc = (s16)area_raw;
                 ASM_KEEP(area_calc);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 area_offset = area_calc * sizeof(AreaRecord);
-                ASM_KEEP(area_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                area_raw = (unsigned long)D_800E2970;
+                do {
+                    area_raw = (unsigned long)D_800E2970;
+                } while (0);
                 area = (u8 *)(area_offset + area_raw);
             }
 retry_position:
@@ -202,8 +203,10 @@ initial_done:
         next_state = *(u16 *)(ctx + 6);
         tail_value = 0x10;
     }
-    *(u16 *)(ctx + 4) = tail_value;
-    ASM_SCHED_BARRIER(); /* MATCH: keep the timer store before the state increment. */
+    do {
+        *(u16 *)(ctx + 4) = tail_value;
+    } while (0);
+     /* MATCH: keep the timer store before the state increment. */
     *(u16 *)(ctx + 6) = next_state + 1;
     return;
 

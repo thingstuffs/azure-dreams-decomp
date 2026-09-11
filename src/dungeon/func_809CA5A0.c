@@ -41,8 +41,9 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     saved_motion_param = motion_param;
     actor_flags &= 0x7F;
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = actor_flags;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    status_page = 0x80080000U;
+    do {
+        status_page = 0x80080000U;
+    } while (0);
     ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     status = (u16 *)(status_page + 0x3460);
     ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -87,13 +88,13 @@ transition_ok:
         u8 *effect_table;
 
         action_state->unk_9A.as_u8 = 0x11;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        effect_lookup = 0x7C;
+        do {
+            effect_lookup = 0x7C;
+        } while (0);
         effect_table = &D_80173C7C;
         action_state->unk_9B.as_u8 = 0;
         action_state->unk_8C = 0;
         ((Rec_D_800E3D7C *)actor)->unk_84.as_u8 = effect_lookup;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         effect_lookup = 0x80080000U;
         ASM_KEEP(effect_lookup);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((Rec_D_800E3D7C *)actor)->unk_85.as_u8 = 0;

@@ -36,8 +36,9 @@ void func_80026128(UA32 *buffer, s32 config, s32 mode) {
     *buffer = *initial_word;
 
     saved_mode = mode;
-    ASM_KEEP(saved_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    state_base = (u8 *)0x80010000;
+    do {
+        state_base = (u8 *)0x80010000;
+    } while (0);
     is_mode_two = (saved_mode == 2);
     *(s16 *)(state_base + 0x208) = is_mode_two;
     *(s16 *)(state_base + 0x20A) = is_mode_two;

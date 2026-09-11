@@ -39,8 +39,9 @@ case_one:
 
 case_three:
     selection = D_804094EC;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    selected_slot = (s32 *)0x800A0000;
+    do {
+        selected_slot = (s32 *)0x800A0000;
+    } while (0);
     ASM_KEEP(selected_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     selected_slot -= 1820;
     ASM_KEEP(selected_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

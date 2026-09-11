@@ -121,8 +121,9 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                 s32 y_offset = func_80069EF8() & 0x3F;
                 s32 bottom_y;
                 prim->fieldA = 0x180 - y_offset;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                bottom_y = 0x1BF - y_offset;
+                do {
+                    bottom_y = 0x1BF - y_offset;
+                } while (0);
                 prim->fieldE = bottom_y;
                 if (use_alt_buffer) {
                     bottom_y -= 0xE0;

@@ -187,8 +187,9 @@ static void func_804FE87C(void)
     func_80064D50(render_data + 0x70);
 
     light_matrix = render_data + 0x50;
-    ASM_KEEP(light_matrix);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    light_xz = -0x800;
+    do {
+        light_xz = -0x800;
+    } while (0);
     light_y = 0x800;
     ASM_KEEP(light_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ((S_804FE87C_0 *)render_state)->unk_38 = light_xz;

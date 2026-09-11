@@ -589,8 +589,9 @@ block_high107:
         temp_v1_3 |= 0xC;
         ((S_8080C650_3 *)arg2)->unk_14 = temp_v1_3;
         temp_v0_6 = (u16) ((S_8080C650_0 *)arg0)->unk_68.u;
-        ASM_KEEP(temp_v0_6);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        var_s2 = (s32)D_8028940C;
+        do {
+            var_s2 = (s32)D_8028940C;
+        } while (0);
         ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_v0_6 += 1;
         ASM_TAILSLOT_PIN_TIED(temp_v0_6);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */

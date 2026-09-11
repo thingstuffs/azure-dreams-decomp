@@ -117,8 +117,9 @@ case_0:
         {
             register s32 divisor ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             divisor = 100;
-            call_a0 = entity->field1E;
-            ASM_KEEP(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            do {
+                call_a0 = entity->field1E;
+            } while (0);
             call_a0 /= divisor;
         }
         {
