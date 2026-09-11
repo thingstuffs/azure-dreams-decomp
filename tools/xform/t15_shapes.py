@@ -620,6 +620,74 @@ def litsym_candidates(text):
     return out
 
 
+CALLSTMT_RE = re.compile(r"^(?P<i>[ \t]+)(?P<f>func_[0-9A-Fa-f]{8}|[A-Za-z_]\w*)\((?P<a>.*)\);[ \t]*$")
+
+
+def _args(s):
+    out, depth, cur = [], 0, ""
+    for ch in s:
+        if ch == "," and depth == 0:
+            out.append(cur); cur = ""; continue
+        if ch in "([": depth += 1
+        elif ch in ")]": depth -= 1
+        cur += ch
+    out.append(cur)
+    return out
+
+
+def livetie_candidates(text, max_cands=24):
+    """Tie a value that is DEAD ACROSS A CALL into one of the call's arguments, at zero bytes.
+
+    The `ASM_USE` class, mechanised.  Retail keeps a copy of a value the unpinned build drops,
+    because after the call the value is never read - it is overwritten - so gcc has no reason to
+    keep it live and the copy disappears.  `arg + v - v` makes the argument expression depend on
+    `v`, which keeps it live, while combine cancels the round trip so no instruction is emitted.
+
+    Harvested from town/func_800A56D0 (landed d876ca54), where `ASM_USE(depth_or_page)` sat
+    immediately before `func_8006658C(ptr, packet)` and the answer was
+    `func_8006658C(ptr, packet + depth_or_page - depth_or_page)`.
+
+    The precondition is the one the win had and is checked here: the next mention of `v` after
+    the call is a WRITE (or there is none), so the value really is dead across it.  Tying a value
+    that is read later changes nothing, because it was already live.
+    """
+    out = []
+    lines = text.splitlines(True)
+    masked = mask(text).splitlines(True)
+    scal = {n for _, _, _, n in decls(text)}
+    if not scal:
+        return out
+    for j, ln in enumerate(masked):
+        m = CALLSTMT_RE.match(ln.rstrip("\n"))
+        if not m or not m.group("a").strip():
+            continue
+        args = _args(m.group("a"))
+        for v in sorted(scal):
+            # v must be assigned somewhere before the call
+            if not any(re.match(r"^[ \t]*%s[ \t]*=" % re.escape(v), masked[k]) for k in range(j)):
+                continue
+            # and dead across it: the next mention after the call is a write
+            nxt = None
+            for k in range(j + 1, len(masked)):
+                if re.search(r"\b%s\b" % re.escape(v), masked[k]):
+                    nxt = masked[k]; break
+            if nxt is not None and not re.match(r"^[ \t]*%s[ \t]*(=[^=]|\+\+|--)" % re.escape(v), nxt):
+                continue
+            if re.search(r"\b%s\b" % re.escape(v), m.group("a")):
+                continue                      # already in the argument list: nothing to tie
+            for ai, a in enumerate(args):
+                if not a.strip():
+                    continue
+                new_args = list(args)
+                new_args[ai] = "%s + %s - %s" % (a.strip(), v, v)
+                new = "%s%s(%s);\n" % (m.group("i"), m.group("f"), ", ".join(x.strip() for x in new_args))
+                out.append(("livetie:%s^%s#%d" % (v, m.group("f"), ai),
+                            "".join(lines[:j] + [new] + lines[j + 1:])))
+                if len(out) >= max_cands:
+                    return out
+    return out
+
+
 def fence_store_before_call_candidates(text):
     """Fence a memory store that sits immediately before a DIRECT call.
 
@@ -682,7 +750,7 @@ class T:
                      + inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur)
                      + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                      + maskfold_candidates(cur) + mask2cast_candidates(cur)
-                     + litsym_candidates(cur)
+                     + litsym_candidates(cur) + livetie_candidates(cur)
                      + commute_candidates(cur) + cands + empty_fence_candidates(cur))
         return cands
 
