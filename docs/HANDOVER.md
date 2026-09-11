@@ -249,8 +249,16 @@ the SLUS SHA-1 gate MATCH after each phase.
   Batches 2–3 never ran (the run was stopped). Re-run them after the reset if still wanted.
 - **Native lane (owner: "if 4.6 opus doesn't find any value, use an agent here natively"):**
   launched 23:08 UTC on `dungeon/func_8098D5A8` pin site 3 (`anim_table ASM_REG("$5")`, the
-  address-materialisation second handle, PIN_PATTERNS 8a) with `work/native_lane/func_8098D5A8/BRIEF.md`;
-  its `REPORT.md` and any candidate land in that directory. Gate every agy landing before committing it, and expect this on any
+  address-materialisation second handle, PIN_PATTERNS 8a) with `work/native_lane/func_8098D5A8/BRIEF.md`.
+  **Result: closed, byte-exact, 27 scorer runs** (`work/native_lane/func_8098D5A8/REPORT.md`). m2c's
+  `goto` was its rendering of jump2's cross-jumping between two separate calls; each arm making its
+  own call, with the temporaries substituted into the call, makes the arm one block, and
+  local-alloc's priority order then gives the address `$a1` by exclusion. The same rewrite
+  (`scratch/xform.py`) closed the row's six siblings: **7 rows, 7 pins, journal `t21_crossjump`**.
+  **Next: build it as a statement-level generator in `tools/xform`** — 90 pinned pointers sit behind a
+  goto whose label starts with a call (the cross-jump rendering); the template only matches these 7.
+  Undoing the goto and substituting are mechanical; whether the register lands right is a post-sched1
+  priority margin, so every candidate must be scored (the oracle's block trace is a cheap pre-filter). Gate every agy landing before committing it, and expect this on any
   row with no `true_name` whose pins sit on a noreturn/label-as-call jump — those pins are fidelity,
   not shape.
 - **A fence is re-testable debt, like a pin**: 18 % of the fenced rows' fences were dead.

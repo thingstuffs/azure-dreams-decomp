@@ -203,6 +203,21 @@ this class must name both halves — block-local first, then the register choice
 block's quantities — and inlining the symbol while the variable stays is inert (cse folds the uses
 back into it: byte-identical, measured).
 
+**Closed (2026-09-11, a native lane with the oracle; `work/native_lane/func_8098D5A8/REPORT.md`).**
+The second handle is not a register preference at all: **m2c's `goto` was its rendering of jump2's
+post-reload cross-jumping between two SEPARATE calls.** Written as each arm making its own call,
+with the temporaries forward-substituted into the call's arguments (expression form), the arm is one
+basic block; the address quantity then ranks last by local-alloc's `QTY_CMP_PRI` (4545 against the
+direction chain 22500, `%hi` 10000, facing 5000), `find_free_reg` scans v0, v1, a0, a1 in order,
+v0/v1 are taken and a0 is live because sched1 hoisted the `a0 = s4` argument copy into the address's
+life - so it gets `$a1` by exclusion, not suggestion (the oracle prints `sugg= copy=` empty). Four
+conditions, each broken by one measured variant (one variable per value, facing kept global, the
+chain kept global, the goto tail kept: 16–51 words). The same rewrite closes the row's six siblings
+(same function in six other overlays): 7 pins, landed as `t21_crossjump`. Only the goto-undoing and
+substitution are mechanical; whether the register then lands right is a post-sched1 priority margin,
+so every candidate must be scored. Reach: 90 pinned pointers sit behind a goto whose label starts
+with a call (the cross-jump rendering) — the population for a statement-level generator.
+
 ### 8b. The sign-extension copy (FOLD-`sll`: 102 sites / 76 rows within 12 words)
 
 71 are sign extensions (`sll …,0x10` / `0x18`), 31 are index scaling (`sll …,2/3/5`) — a different

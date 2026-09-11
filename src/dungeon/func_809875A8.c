@@ -60,11 +60,6 @@ void func_8015EDA8(void *actor_in, void *motion_in, void *sprite_in)
     void *motion = motion_in;
     register void *sprite ASM_REG("$20") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *actor_state ASM_REG("$19") = actor;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    u8 *animation_id;
-    s32 direction_index;
-    s32 facing_angle;
-    void *next_sprite;
-    register u8 *animation_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 previous_state;
     s16 direction;
     s16 sprite_direction;
@@ -173,14 +168,8 @@ void func_8015EDA8(void *actor_in, void *motion_in, void *sprite_in)
                 (*(u16 *)((u8 *)actor + 0x9E)) = bob_phase;
                 (*(s32 *)((u8 *)actor + 0xA0)) = func_800644B8(bob_angle) << 7;
                 if (((S_8015EDA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                    animation_table = D_801620E8;
-                    (*(u8 * *)((u8 *)sprite + 0x2C)) = animation_table;
-                    direction_index = D_80083228;
-                    facing_angle = ((S_8015EDA8_2 *)actor_state)->unk_2A;
-                    next_sprite = sprite;
-                    direction_index = ((direction_index + facing_angle + 0x100) >> 9) & 7;
-                    animation_id = &animation_table[direction_index];
-                    goto play_animation_1;
+                    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801620E8;
+                    func_80047784(sprite, D_801620E8[((D_80083228 + ((S_8015EDA8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
                 }
             } else if (((S_8015EDA8_1 *)sprite)->unk_2C == D_801620E8) {
                 bob_phase = (*(u16 *)((u8 *)actor + 0x9E));
@@ -191,13 +180,7 @@ void func_8015EDA8(void *actor_in, void *motion_in, void *sprite_in)
                 (*(s32 *)((u8 *)actor + 0xA0)) = func_800644B8(bob_angle) << 7;
                 if (((S_8015EDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801620E0;
-                    direction_index = D_80083228;
-                    facing_angle = ((S_8015EDA8_2 *)actor_state)->unk_2A;
-                    next_sprite = sprite;
-                    direction_index = ((direction_index + facing_angle + 0x100) >> 9) & 7;
-                    animation_id = &D_801620E0[direction_index];
-play_animation_1:
-                    func_80047784(next_sprite, *animation_id, 0);
+                    func_80047784(sprite, D_801620E0[((D_80083228 + ((S_8015EDA8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
                 }
             }
         }
@@ -254,14 +237,8 @@ reset_offset:
             (*(u16 *)((u8 *)actor + 0x9E)) = bob_phase;
             (*(s32 *)((u8 *)actor + 0xA0)) = func_800644B8(bob_angle) << 7;
             if (((S_8015EDA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                animation_table = D_801620E8;
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = animation_table;
-                direction_index = D_80083228;
-                facing_angle = ((S_8015EDA8_2 *)actor_state)->unk_2A;
-                next_sprite = sprite;
-                direction_index = ((direction_index + facing_angle + 0x100) >> 9) & 7;
-                animation_id = &animation_table[direction_index];
-                goto play_animation_2;
+                (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801620E8;
+                func_80047784(sprite, D_801620E8[((D_80083228 + ((S_8015EDA8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
             }
         } else if (((S_8015EDA8_1 *)sprite)->unk_2C == D_801620E8) {
             bob_phase = (*(u16 *)((u8 *)actor + 0x9E));
@@ -272,13 +249,7 @@ reset_offset:
             (*(s32 *)((u8 *)actor + 0xA0)) = func_800644B8(bob_angle) << 7;
             if (((S_8015EDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801620E0;
-                direction_index = D_80083228;
-                facing_angle = ((S_8015EDA8_2 *)actor_state)->unk_2A;
-                next_sprite = sprite;
-                direction_index = ((direction_index + facing_angle + 0x100) >> 9) & 7;
-                animation_id = &D_801620E0[direction_index];
-play_animation_2:
-                func_80047784(next_sprite, *animation_id, 0);
+                func_80047784(sprite, D_801620E0[((D_80083228 + ((S_8015EDA8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
             }
         }
     }

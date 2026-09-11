@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-11T18:58:50Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-11T23:33:37Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -36,7 +36,7 @@ Baseline NOT exact: 0 rows
 | local address-named struct | 633 | 346,988 | 13.6% | 3179 | 1,620,468 | 63.3% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2775 | 464,008 | 18.1% |
 
-Pin sites now: 11,209 in 1,701 rows; REG 5,590, KEEP 2,813, KEEP_NV 1,074, SCHED_BARRIER 608, TAILSLOT_PIN 166, USE_NV 150, KEEP_DEP_NV 134, USE 109.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 11,202 in 1,701 rows; REG 5,583, KEEP 2,813, KEEP_NV 1,074, SCHED_BARRIER 608, TAILSLOT_PIN 166, USE_NV 150, KEEP_DEP_NV 134, USE 109.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 ## Cleanliness levels (bytes at or above each level)
 
