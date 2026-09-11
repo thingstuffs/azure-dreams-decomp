@@ -42,7 +42,7 @@ typedef struct {
 void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
     s16 scale;
     s32 color_bits;
-    register s32 color_cycle ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 color_cycle;
     s16 angle;
     s16 next_tick;
     s16 phase;
@@ -52,7 +52,7 @@ void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
     s32 half_color;
     s32 velocity_y;
     s32 velocity_z;
-    register s32 full_scale ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 full_scale;
     s32 opposite_angle;
     s32 position_x;
     s32 random_value;

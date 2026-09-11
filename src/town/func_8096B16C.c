@@ -86,10 +86,8 @@ void func_80123604(void) {
         source_entry = (volatile SourceEntry *)D_80126A18;
 #else
         do {
-            address_base = (u8 *)0x80130000;
         } while (0);
-        ASM_KEEP(address_base);
-        address_base -= 0x68D8;
+        address_base = (u8 *)&D_80129728;
         ASM_KEEP(address_base);
         object_slot = (void **)(address_base + 0x38);
         address_base = (u8 *)0x80120000;

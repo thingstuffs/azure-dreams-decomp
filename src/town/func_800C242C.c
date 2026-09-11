@@ -59,7 +59,7 @@ void func_800BFB8C(void *source)
     register s16 fixed_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 state;
     s32 coord_term;
-    register s32 random_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 random_value;
     s32 spawn_count;
     s32 count_bits;
     register s32 random_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -93,8 +93,9 @@ void func_800BFB8C(void *source)
                 random_coord = rand();
                 random_value = random_coord;
                 coord_term = ((S_800BFB8C_2 *)town)->unk_BC;
-                random_coord >>= 0xA;
-                if (random_value < 0) {
+                if (random_value >= 0) {
+                    random_coord = random_coord >> 0xA;
+                } else {
                     random_coord = (s32)(random_value + 0x3FF) >> 0xA;
                 }
                 random_coord <<= 0xA;

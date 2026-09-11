@@ -332,11 +332,8 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                     func_8004491C(task, func_80045340);
                     burst_size = 96;
                     sprite = task->sprite;
-                    ASM_SCHED_BARRIER();
-                    origin_second = (Coord *)0x80080000;
-                    ASM_KEEP(origin_second);
                     burst_flags = sprite->flags;
-                    origin_second = (Coord *)((u8 *)origin_second + 0x3780);
+                    origin_second = (Coord *)&D_80083780;
                     sprite->field10 = burst_size;
                     sprite->flags = burst_flags | 0xC;
                     coord = task->coord;

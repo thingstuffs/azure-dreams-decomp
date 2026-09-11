@@ -111,14 +111,9 @@ case_0: {
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
             goto tail;
         }
-        random_value = rand();
-        action_choice = random_value;
-        ASM_KEEP(random_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        quotient = random_value >> 2;
-        if (action_choice < 0) {
-            quotient = (action_choice + 3) >> 2;
-        }
-        action_choice = action_choice - (quotient * 4);
+        action_choice = rand();
+        quotient = action_choice / 4;
+        action_choice -= quotient * 4;
         if (action_choice == 1) {
             goto random_case_1;
         }

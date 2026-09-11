@@ -68,14 +68,18 @@ L1:
     goto tail;
 L2:
     object->unk_95 = 24;
-    object->unk_A1 = 24;
-    ASM_SCHED_BARRIER(); /* MATCH: keep each arm's stores before the shared tail. */
+    do {
+        object->unk_A1 = 24;
+    } while (0);
+     /* MATCH: keep each arm's stores before the shared tail. */
     pair_offset = -12;
     goto shared;
 L3:
     object->unk_95 = 16;
-    object->unk_A1 = 16;
-    ASM_SCHED_BARRIER(); /* MATCH: keep each arm's stores before the shared tail. */
+    do {
+        object->unk_A1 = 16;
+    } while (0);
+     /* MATCH: keep each arm's stores before the shared tail. */
     pair_offset = -8;
 shared:
     object->unk_8D = pair_offset;

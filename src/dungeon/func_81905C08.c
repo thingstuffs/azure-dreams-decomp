@@ -54,8 +54,7 @@ void func_80025408(void *context, void *unused, void *effect_data) {
     register Point *center_ptr ASM_REG("$20");
     void *effect;
     u8 *pixel_page;
-    u8 *template_page;
-    register Box *rect_template ASM_REG("$6");
+    Box *rect_template;
 
     effect = effect_data;
     rect_template = (Box *)(void *)&D_80024004;
@@ -63,13 +62,9 @@ void func_80025408(void *context, void *unused, void *effect_data) {
 #ifdef NON_MATCHING
     rect_template = (Box *)(void *)&D_8002400C;
 #else
-    template_page = (u8 *)0x80020000;
-    ASM_KEEP_NV(template_page);
-    rect_template = (Box *)(template_page + 0x400C);
-    ASM_KEEP_NV(rect_template);
+    rect_template = (Box *)((u8 *)&D_8002400C);
 #endif
     mask_rect = *rect_template;
-    ASM_USE2_NV(rect_template, template_page);
     state = *(s16 *)context;
     D_800267B8 = 1;
     if (state != 0) {

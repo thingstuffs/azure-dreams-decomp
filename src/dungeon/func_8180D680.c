@@ -16,10 +16,10 @@ extern s32 D_800814A0;
 void func_80026680(void *effect, void *transform, void *render_data)
 {
     s32 history_index;
-    s32 brightness;
-    register s32 brightness_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 source_brightness ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 brightness_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 brightness;
+    s32 brightness_delta;
+    u8 source_brightness;
+    u16 brightness_offset;
     s16 phase;
     s16 frames_left;
     u16 fade_brightness;
@@ -126,7 +126,6 @@ attached:
     brightness_offset = U16_AT(effect, 0x6E);
     brightness_delta = source_brightness - brightness_offset;
     brightness = brightness_delta;
-    ASM_KEEP(brightness_delta);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if ((s16)brightness_delta < 0x20) {
         brightness = 0;
     }

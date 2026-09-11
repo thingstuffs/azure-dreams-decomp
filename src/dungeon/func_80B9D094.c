@@ -17,7 +17,6 @@ extern void func_8016AA98(void);
 
 u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
 {
-    register s32 mode_arg ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 byte_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 half_arg3 ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register u8 byte_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -28,14 +27,14 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
     u8 *secondary;
     s16 saved_arg0;
 
-    ASM_KEEP_NV(mode_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     result = 0;
     allocation = func_8003FD64(0x112, D_80083498);
     if (allocation == 0) {
         goto done;
     }
 
-    saved_arg0 = mode_arg;
+    saved_arg0 = arg0;
     result = allocation + 0x20;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     result[0x13] = 14;
@@ -48,7 +47,7 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
     secondary = result;
     part_b[36] = byte_arg1;
 
-    if ((mode_arg & 3) == 1) {
+    if ((arg0 & 3) == 1) {
         *(void (**)(void))(result + 140) = func_8016AE9C;
         *(u32 *)(result + 20) |= 0x6000;
         *(u32 *)(result + 28) |= 0x6000;
@@ -56,7 +55,7 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
         goto common_tail;
     }
 
-    if ((mode_arg & 3) >= 2) {
+    if ((arg0 & 3) >= 2) {
         *(void (**)(void))(result + 140) = func_8016AE9C;
         *(u32 *)(result + 20) |= 0x2000;
         *(u32 *)(result + 28) |= 0x2000;
@@ -64,7 +63,7 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
         goto common_tail;
     }
 
-    if ((s16)(mode_arg & -4) != 0) {
+    if ((s16)(arg0 & -4) != 0) {
         goto high_variant;
     }
 
@@ -85,7 +84,6 @@ load_handler:
     *(void (**)(void))(part_b + 44) = func_8016EED8;
 
 common_tail:
-    ASM_USE(mode_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     *(void (**)(void))(allocation + 16) = func_8016AA98;
     func_800A9C18(allocation, part_a, part_b, saved_arg0);
 

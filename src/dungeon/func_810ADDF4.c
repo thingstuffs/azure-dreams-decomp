@@ -386,10 +386,9 @@ loop:
 
     if (func_8009A66C((s16)next_angle, position, actor, 0x20) > 0) {
         if (turn_index >= 3) {
-            s32 turn_limit;
+            s16 turn_limit;
 
             turn_limit = limit_turns;
-            ASM_KEEP(turn_limit);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (turn_limit != 0) {
                 goto clear_history;
             }

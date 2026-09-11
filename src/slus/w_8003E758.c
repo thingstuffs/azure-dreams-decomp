@@ -357,8 +357,8 @@ process_queue:
         goto *jtbl_8002D5C0[opcode];
         {
             complete_noop: {
-                register u8 *state_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                register int idle_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                u8 *state_ptr;
+                s16 idle_state;
                 int old_head;
                 idle_state = 0xFF;
                 D_800814D3_14[0] = idle_state;

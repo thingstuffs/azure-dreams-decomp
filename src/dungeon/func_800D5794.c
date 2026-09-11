@@ -81,9 +81,8 @@ extern s32 D_800DEA68;
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
 void func_800DAEF4(void *source_owner, void *spawn_params)
 {
-    void *owner;
     void *params;
-    register s32 remaining ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 remaining;
     u8 *link;
     void *object;
     void *node;
@@ -98,7 +97,6 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
     u16 target_height;
     void *part;
 
-    owner = source_owner;
     params = spawn_params;
     remaining = 12;
     link = (u8 *)&D_800DEA68;
@@ -138,12 +136,12 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
             spread_roll_b = func_80069EF8();
             ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_06 = ((S_800DAEF4_2 *)params)->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
 
-            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_0A = ((S_800DAEF4_3 *)owner)->unk_10.s;
+            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_0A = ((S_800DAEF4_3 *)source_owner)->unk_10.s;
             ((S_800DAEF4_4 *)work)->unk_10 = ((S_800DAEF4_2 *)params)->unk_08.at02.v;
 
             divisor = (func_80069EF8() & 3) + 4;
             height_delta = ((S_800DAEF4_2 *)params)->unk_08.at00.v;
-            height_delta -= ((S_800DAEF4_3 *)owner)->unk_10.u << 16;
+            height_delta -= ((S_800DAEF4_3 *)source_owner)->unk_10.u << 16;
             ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_14 = height_delta / divisor;
 
             ((S_800DAEF4_5 *)node)->unk_14 |= 0xC;
@@ -166,10 +164,10 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
         remaining--;
     } while (remaining >= 0);
 
-    timer = ((S_800DAEF4_3 *)owner)->unk_48 - 1;
-    ((S_800DAEF4_3 *)owner)->unk_48 = timer;
+    timer = ((S_800DAEF4_3 *)source_owner)->unk_48 - 1;
+    ((S_800DAEF4_3 *)source_owner)->unk_48 = timer;
     if ((timer << 16) <= 0) {
-        ((S_800DAEF4_3_pre *)owner)[-1].unk_00 |= 0x8000;
+        ((S_800DAEF4_3_pre *)source_owner)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 

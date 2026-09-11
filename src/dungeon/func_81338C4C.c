@@ -258,16 +258,14 @@ update_sprite:
     common_page = 0x80170000;
     ASM_KEEP(common_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (((S_8016FC4C_8 *)((u8 *)common_page))->unk_5D50 != 0) {
-        s32 sprite_direction;
+        s16 sprite_direction;
         s32 old_direction;
         common_page = 0x80080000U;
         ASM_KEEP(common_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         common_page = (u32)(s32)((S_8016FC4C_8 *)((u8 *)common_page))->unk_3228;
         direction = (((s32)common_page + (s16)heading->unk_2A + 0x100) >> 9) & 7;
         old_direction = ((S_8016FC4C_3 *)effect)->unk_94;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         sprite_direction = direction;
-        ASM_KEEP(sprite_direction);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (old_direction != sprite_direction) {
             func_80047738(object, *(object->unk_2C + sprite_direction), object->unk_04);
             ((S_8016FC4C_3 *)effect)->unk_94 = direction;

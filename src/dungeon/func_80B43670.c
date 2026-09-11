@@ -107,7 +107,6 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
     void *sprite = sprite_in;
     register void *actor ASM_REG("$18") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 next_state;
-    u32 player_page;
 #ifdef __mips__
     register u8 *stack_base ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 #endif
@@ -285,9 +284,7 @@ jt_default:
         if ((tile_id < 0) ||
             ((((DungeonRecord *)D_800E2970)[tile_id].flags & 2) == 0)) {
             if ((actor_flags & 0x430) == 0) {
-                player_page = 0x80080000;
-                ASM_KEEP(player_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                entity = (void *)(player_page + 0x2E80);
+                entity = (void *)((u32)&D_80082E80);
                 if ((s16)func_8009FD7C(
                         ((S_80170E70_2 *)sprite)->unk_24.at00.v, ((S_80170E70_2 *)sprite)->unk_24.at01.v,
                         ((S_80170E70_0 *)entity)->unk_24, ((S_80170E70_0 *)entity)->unk_25) != 0) {

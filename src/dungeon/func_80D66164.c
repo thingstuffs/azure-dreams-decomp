@@ -53,7 +53,6 @@ typedef struct S_80171964_2 {
 /* Updates object callbacks, motion, sprite direction, and ground-relative height. */
 void func_80171964(void *object_arg, void *motion_arg, void *part_arg)
 {
-    register void *motion ASM_REG("$21") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *part ASM_REG("$20") = part_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *base = object_arg;
     Callback first_callback;
@@ -80,44 +79,43 @@ void func_80171964(void *object_arg, void *motion_arg, void *part_arg)
         return;
     }
 
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     {
         s16 old_state = (s8)(*(u8 *)((u8 *)object_arg + (0x6D)));
 
-        if (func_800A9E70(object_arg, motion, part, object_arg) != 0) {
+        if (func_800A9E70(object_arg, motion_arg, part, object_arg) != 0) {
             return;
         }
         dispatch_callback = (*(Callback *)((u8 *)object_arg + (0x8C)));
         if (dispatch_callback != 0) {
-            dispatch_callback(object_arg, motion, part, object_arg);
+            dispatch_callback(object_arg, motion_arg, part, object_arg);
         }
-        D_8017664C[(*(u8 *)((u8 *)object_arg + (0x9A)))](object_arg, motion, part, object_arg);
+        D_8017664C[(*(u8 *)((u8 *)object_arg + (0x9A)))](object_arg, motion_arg, part, object_arg);
         if ((s16)old_state != (s8)(*(u8 *)((u8 *)object_arg + (0x6D)))) {
-            func_800AA36C(object_arg, motion, part, object_arg);
+            func_800AA36C(object_arg, motion_arg, part, object_arg);
         }
     }
 
-    ((S_80171964_0 *)motion)->unk_00.at00.v += ((S_80171964_0 *)motion)->unk_0C;
-    ((S_80171964_0 *)motion)->unk_04.at00.v += ((S_80171964_0 *)motion)->unk_10;
+    ((S_80171964_0 *)motion_arg)->unk_00.at00.v += ((S_80171964_0 *)motion_arg)->unk_0C;
+    ((S_80171964_0 *)motion_arg)->unk_04.at00.v += ((S_80171964_0 *)motion_arg)->unk_10;
 
     if (!((*(u32 *)((u8 *)object_arg + (0x1C))) & 0x40000) &&
         !((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
-        ((S_80171964_0 *)motion)->unk_14 += (*(s8 *)((u8 *)object_arg + (0x9D))) * 0x14000;
+        ((S_80171964_0 *)motion_arg)->unk_14 += (*(s8 *)((u8 *)object_arg + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)object_arg + (0x9D)))++;
     } else {
         (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
     }
 
-    (*(s32 *)((u8 *)object_arg + (0x90))) += ((S_80171964_0 *)motion)->unk_14;
+    (*(s32 *)((u8 *)object_arg + (0x90))) += ((S_80171964_0 *)motion_arg)->unk_14;
     part_flags = ((S_80171964_1 *)part)->unk_14;
 
     if (!(part_flags & 0x8000)) {
         s32 view_direction;
         s32 direction_index;
-        register s32 page_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        register u8 *page_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s16 page_index;
+        u8 *page_table;
 
         view_direction = (D_80083228[0] + ((S_80171964_2 *)base)->unk_2A + 0x100) >> 9;
         direction_index = view_direction & 7;
@@ -195,14 +193,14 @@ clear_velocity:
         (*(s32 *)((u8 *)object_arg + (0xA0))) = 0;
         (*(s32 *)((u8 *)object_arg + (0x90))) -= bob_offset;
         if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
-            ground_height = func_800BCB04(((S_80171964_0 *)motion)->unk_00.at02.v,
-                                  ((S_80171964_0 *)motion)->unk_04.at02.v,
+            ground_height = func_800BCB04(((S_80171964_0 *)motion_arg)->unk_00.at02.v,
+                                  ((S_80171964_0 *)motion_arg)->unk_04.at02.v,
                                   (s16)(((S_80171964_2 *)base)->unk_88 - 0x20)) -
                     ((S_80171964_2 *)base)->unk_88;
             if (ground_height < (*(s16 *)((u8 *)object_arg + (0x92)))) {
                 (*(s16 *)((u8 *)object_arg + (0x92))) = ground_height;
                 (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
-                ((S_80171964_0 *)motion)->unk_14 = 0;
+                ((S_80171964_0 *)motion_arg)->unk_14 = 0;
                 ((S_80171964_2 *)base)->unk_1C.u |= 0x08000000;
                 goto common_tail;
             }
@@ -253,11 +251,11 @@ common_tail:
         }
     }
     if ((*(u8 *)((u8 *)object_arg + (0x9A))) != 0x18) {
-        ((S_80171964_0 *)motion)->unk_0A =
+        ((S_80171964_0 *)motion_arg)->unk_0A =
             ((S_80171964_2 *)base)->unk_88 + (*(u16 *)((u8 *)object_arg + (0x92))) -
             (*(u16 *)((u8 *)object_arg + (0xA2)));
     } else {
-        ((S_80171964_0 *)motion)->unk_0A = (*(u16 *)((u8 *)object_arg + (0x92))) - (*(u16 *)((u8 *)object_arg + (0xA2)));
+        ((S_80171964_0 *)motion_arg)->unk_0A = (*(u16 *)((u8 *)object_arg + (0x92))) - (*(u16 *)((u8 *)object_arg + (0xA2)));
     }
     ((S_80171964_1 *)part)->unk_14 |= 0x40;
 }

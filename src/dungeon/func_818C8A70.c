@@ -271,12 +271,11 @@ update_phase:
             ((S_818C8A70_0 *)effect)->unk_00 = 2;
             ((S_818C8A70_0 *)effect)->unk_02 = 0U;
             if (func_8009D218(source->unk_60, 1, source) == 0) {
-                s32 random_bonus;
+                s16 random_bonus;
                 u32 effect_scale;
                 random_bonus = func_800A6D30();
                 random_bonus &= 3;
                 effect_scale = ((S_818C8A70_0 *)effect)->unk_15;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 random_bonus += 2;
                 effect_scale >>= 2;
                 effect_value = effect_scale + random_bonus;

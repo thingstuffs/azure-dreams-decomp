@@ -100,9 +100,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
                         tail_page = 0x80080000;
                         ASM_KEEP(tail_page);
                         ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
-                        tail_page = 0x80090000;
-                        ASM_KEEP(tail_page);
-                        tail_page -= 0x5324;
+                        tail_page = (u32)&D_8008ACDC;
                         action->unk_124 = 0;
                         action->unk_8C.p = (void *)tail_page;
                         return;

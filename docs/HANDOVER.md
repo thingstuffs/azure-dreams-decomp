@@ -154,11 +154,13 @@ the whole list, not just `c`; never print a set of window names.
 
 ## PICK UP HERE (2026-09-11, late) — then `docs/PIN_PATTERNS.md` section 10
 
-**1,703 rows carry pins, 11,341 live sites** (1,715 / 11,527 at this session's start); **557 fences**
-(708); STATUS's `do{}while(0)` row went from 502 to 424 rows. This session, against c5ab67d1 over 205
-rows: **186 pins and 151 fences off, nothing added — net −337**; 47 rows now carry neither. Every
-landing byte-exact through the scorer; the 158 touched overlay windows re-gated MATCH and the SLUS
-SHA-1 gate MATCH (15 SLUS rows touched).
+**1,702 rows carry pins, 11,220 live sites** (1,715 / 11,527 at this session's start); **561 fences
+in 428 rows** (708 in 505). This session, against c5ab67d1 over 268 rows: **307 pins off, 151 fences
+off and 4 added — net −454**. First phase (t20 over every fenced row, the pinned-row pass, t2): 205
+rows, net −337, 47 rows left with neither pins nor fences. Second phase (t18 resumed with the shapes
+first, the census refresh, agy batches 4–6, the widened `basesym`, t20/t2 after each): 71 rows, net
+−117. Every landing byte-exact through the scorer; every touched overlay window re-gated MATCH and
+the SLUS SHA-1 gate MATCH after each phase.
 
 ### What this session did
 
@@ -172,10 +174,10 @@ SHA-1 gate MATCH (15 SLUS rows touched).
 - **Over every fenced row** (503 rows / 692 scored fences): 122 rows, 151 fences + 21 pins off,
   nothing added, net −172. **123 of the 151 fences were dead** — exact with the fence simply taken
   off; 109 of those sit in rows no t15/t18 fence ever touched: agent lanes wrote them and nothing
-  re-tested a fence the way t2 re-tests pins. **Owner review point:** 7 rows traded a fence for t15's
-  `dup_after_if` (a statement written into both if-arms) — honest per the census, but arguably not
-  more natural C; list them with `grep dup_after_if ledger/sweeps/t20_fencefree.jsonl` and put the
-  fence back by hand where the duplicate reads worse.
+  re-tested a fence the way t2 re-tests pins. 7 rows traded a fence for t15's `dup_after_if` (a
+  statement written into both if-arms); **owner's call (2026-09-11): keep them** — the same statement
+  in both branches is most likely the original's copy-paste, plausible 1997 source, where a fence never
+  is (`grep dup_after_if ledger/sweeps/t20_fencefree.jsonl` lists them).
 - **The shapes on the pinned rows with no fence** (585 rows where a shape deletes a pin, + 10 fenced
   rows re-run after a `_declare` fix): 83 rows, 121 pins off — `dropcopy` 67, `basesym` 29 (the
   base-page shape is a family: `p = (u8 *)0x80020000; ASM_KEEP(p); p += 0x61C0;` → `p = (u8
@@ -188,16 +190,33 @@ SHA-1 gate MATCH (15 SLUS rows touched).
 
 ### Start here, in order
 
-1. **Resume t18** (`python3 tools/sweep.py t18_groups --workers 16`; it resumes where it stopped and
-   skips rows whose per-site census is stale): its menu now tries the natural shapes before any
-   fence. Land, gate, t2, then **t20 over the rows t18 touched**.
+1. **[Done]** t18 resumed with the natural shapes ahead of the fences (2,656 rows, 33 min at 16
+   workers): **50 rows, 88 pins off, 4 fences added — net −84**. The first pass landed 232 fence
+   steps against ~20 real shapes; this one 4 fences against 57 shape steps (`narrow` 34, `dropcopy`
+   8, `dup_after_if` 4, `basesym` 3, `gotoloop` 2, `armstore` 1) plus 5 group erasures. t20 over its
+   rows found no dead fence; t2 freed 2 more pins. Refusals: 1,684 rows with no pin left, 141 with no
+   group within band, **165 with a per-site census stale for today's text** — re-measured
+   (`pin_sites.py --sites`, `--subsets`, pairs for 6–10 pins; 10 min) and t18 re-run over them: 8
+   rows, 11 pins off, no fence. Re-measure after any sweep that rewrites many pinned rows, or t18
+   and the agy pack builder go blind on exactly the rows that just changed.
 2. **Make t20 a standing sweep after every lane or campaign landing**, the way t2 is for pins: a
    fence is scaffolding census counts like a pin, and nothing else re-tests one.
-3. agy batches 4–6 are unrun: `! AGY_PACK=work/agy_groups bash ~/agy_lane/go.sh "Gemini 3.8 Flash
-   (High)" batch4 batch5 batch6`, then `python3 ~/agy_lane/harvest.py --model "Gemini 3.8 Flash
-   (High)" --pack <repo>/work/agy_groups`. **Land only from a fresh dir** (harvest stages into a cand
-   dir shared with older candidates — copy the new rows and their `.base_sha`, apply that). Some pack
-   rows changed today: `apply_candidates` refuses a stale candidate by its `.base_sha`.
+3. **[Done]** agy batches 4–6 (owner-launched, Gemini 3.8 Flash High): lanes claimed 7 of 24, the
+   harvest accepted 6 (the 7th, `town/func_8081E410`, was cut from a text a sweep rewrote today),
+   all 6 landed through `apply_candidates --transform t13_depin` from a fresh dir: an over-declared
+   callee prototype trimmed to the argument it takes (`dungeon/func_80092658`), a load folded into
+   its consumer (`town/func_800B1544`), a hand-expanded `/4` written back as `/`
+   (`town/func_800BF718`), the division bias as explicit branch arms (`town/func_800C242C`), block
+   temps folded into the store (`town/func_800C5DFC`), and the base-page shape on an INTEGER local
+   (`town/func_8080C324`) — which `basesym` now takes too (uncast literal, integer local): over the
+   128 pinned rows it then reached, 8 more rows, 9 pins off. Pack totals: 11 of 48 rows landed.
+   **Pack 2 is built: `work/agy_groups2`, 793 rows in 100 batches of 8, best-first** (batch 1's
+   rows are one word from pin-free), cut after every landing and gate of 2026-09-11 with the 48
+   served rows excluded; its brief lists what the machine already tries. Launch (owner):
+   `! AGY_PACK=work/agy_groups2 bash ~/agy_lane/go.sh "Gemini 3.8 Flash (High)" batch1 batch2 …`,
+   then `python3 ~/agy_lane/harvest.py --model "Gemini 3.8 Flash (High)" --pack <repo>/work/agy_groups2`.
+   **Land only from a fresh dir** — harvest stages into a cand dir shared with older candidates —
+   through `apply_candidates.py <dir> --transform t13_depin`, then t20 + t2 over the landed rows.
 4. Unchanged from the section below: the shared control-flag unit (`dungeon/func_80091258`,
    `func_80087054`) and the address-materialisation second handle (`dungeon/func_8098D5A8`).
 

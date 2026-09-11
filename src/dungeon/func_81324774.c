@@ -153,7 +153,7 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     s32 step_y;
     s32 next_x;
     s32 current_x;
-    register s32 next_path_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 next_path_index;
     register s32 current_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register u8 *y_offsets ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *y_offset_ptr;
@@ -356,7 +356,6 @@ take_step:
                 new_tile_mask = 0x300;
             }
             func_8009A21C(next_x, tile_y, new_tile_mask);
-            result = turn_index < 8;
             goto complete_step;
 finish_search:
             goto finish_path;
@@ -367,9 +366,8 @@ finish_search:
             if (turn_index >= 8) {
                 s8 *step_state;
 
-                ASM_KEEP(turn_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                result = turn_index < 8;
 complete_step:
+                result = turn_index < 8;
                 if (result == 0) {
                     ((S_8016BF74_1 *)actor)->unk_71.s = (s8) ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F);
                     ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);

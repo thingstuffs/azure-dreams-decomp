@@ -34,8 +34,9 @@ s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
 #else
     slot_base = D_800274C0;
 #endif
-    ASM_KEEP(slot_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    slot_index = 0;
+    do {
+        slot_index = 0;
+    } while (0);
     for (;;) {
         slot = slot_base;
         entry_or_link = entry;

@@ -253,8 +253,8 @@ set_target_velocity:
         u16 *x_step_ptr;
         register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register u32 table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 last_tile_x;
-        register s32 path_tile_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s16 last_tile_x;
+        s32 path_tile_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 path_tile_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         index = 0;
         tile_info = ((S_80024660_3 *)source_record)->unk_0C;
@@ -306,7 +306,6 @@ set_target_velocity:
                 next_y = *y_step;
                 next_x = path_tile_x + next_x;
                 path_tile_x = next_x;
-                ASM_KEEP(path_tile_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 next_y = path_tile_y + next_y;
                 path_tile_y = next_y;
                 scratch.saved_y = (u16) next_y;

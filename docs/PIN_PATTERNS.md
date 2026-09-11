@@ -326,8 +326,25 @@ once the generator writes the symbol at the sum (`p = (u8 *)0x80020000; ASM_KEEP
 → `p = (u8 *)&D_800261C0;`): 29 rows, 33 steps in all. Then t2 over all 205 touched rows: 39 rows,
 44 more pins dead once the fence or the copy beside them was gone.
 
-**Session total** (205 rows, against HEAD): **186 pins + 151 fences off, nothing added — net −337**;
+**First phase** (205 rows, against HEAD): **186 pins + 151 fences off, nothing added — net −337**;
 47 rows now carry neither pins nor fences; every landing byte-exact through the scorer and re-gated.
+With the second phase below (t18 resumed, agy 4–6, the widened `basesym`: 71 rows, net −117), the
+session comes to 268 rows, 307 pins off, 151 fences off and 4 added — **net −454**.
+
+**t18 with the shapes first.** t18 resumed where the owner stopped it, its menu now leading with
+the natural shapes and ending with the fences: 50 rows, 88 pins off, **4 fences added** (net −84).
+Its first pass had landed 232 fence steps against ~20 real shapes; this pass 4 fences against 57
+shape steps (`narrow` 34, `dropcopy` 8, `dup_after_if` 4, `basesym` 3, `gotoloop` 2, `armstore` 1)
+and 5 group erasures. A fence was what t18 reached for when nothing else was on its menu.
+
+**agy batches 4–6** (24 rows, fences forbidden): 6 landed — a callee prototype trimmed to the
+argument it really takes, a load folded into its consumer, a hand-expanded `/4` written back as `/`,
+the division bias as explicit branch arms, block temps folded into the store, and the base-page
+shape on an integer local (`offset_addr = 0x80530000; … offset_addr += 0x6D6;` →
+`(s32)&D_805306D6`). The last widened `basesym` (uncast literal, integer local, byte arithmetic):
+from that row's pre-agy text all four of its page sites close, two more than the lane took.
+Across the pack: 11 of 48 rows. The widened `basesym` over the 128 pinned rows it now reaches:
+8 rows, 9 pins off, nothing added.
 
 **What it says.** Section 9's "natural shapes perhaps a third" does not carry to the corpus with
 these generators: at fences they took 28 of 692 (4 %); dead fences were 18 %; 78 % of the fences

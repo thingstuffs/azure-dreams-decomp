@@ -63,7 +63,6 @@ void func_8016CB80(void *state, void *motion_arg, void *actor_arg, void *entity_
     s32 phase;
     u8 *action_counter;
     register void *current_anims;
-    register u32 anim_page;
     u8 *anims;
 
     phase = ((S_8016CB80_0 *)state)->unk_9B;
@@ -124,9 +123,7 @@ finish_move:
 update_animation:
     if (((S_8016CB80_0 *)state)->unk_B3 == 0) {
         current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
-        anim_page = 0x80170000;
-        ASM_KEEP(anim_page);
-        anims = (u8 *)anim_page + 0x467C;
+        anims = (u8 *)&D_8017467C;
     } else {
         current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
         anims = D_80174684;

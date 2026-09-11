@@ -76,7 +76,6 @@ void func_8016B778(Rec_func_800A9E70_arg0 *actor, M2C_UNK context, S_8016B778_2 
     u16 action_flags;
     u8 *action_data;
     register void *current_anim;
-    register u32 anim_page;
     u8 *idle_anim;
     void *action_actor;
     s32 flag_mask_hi;
@@ -124,9 +123,7 @@ block_12:
     if (actor->unk_9A.as_u8 != 0xE) {
         if (actor->unk_B3 == 0) {
             current_anim = map_actor->unk_2C.p2;
-            anim_page = 0x80170000;
-            ASM_KEEP(anim_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            idle_anim = (u8 *)anim_page + 0x467C;
+            idle_anim = (u8 *)&D_8017467C;
         } else {
             current_anim = map_actor->unk_2C.p2;
             idle_anim = D_80174684;

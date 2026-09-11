@@ -41,7 +41,6 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s32 start_x, s32 start_y, s32 
     register S_8004A330_Sub20 *state ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 buffer_addr;
     s32 saved_style_flags = style_flags;
-    register s32 saved_start_x ASM_REG("$22") = start_x;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     register s32 saved_start_y ASM_REG("$20") = start_y;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     register s32 saved_target_x ASM_REG("$18") = target_x;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     register s32 saved_target_y ASM_REG("$19") = target_y;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
@@ -61,10 +60,10 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s32 start_x, s32 start_y, s32 
             state->field0 = (u16)flags;
             state->x = (s16)(saved_target_x - 0xA0);
             state->y = (s16)(saved_target_y - 0x80);
-            func_8004A24C(state, saved_style_flags, content_id, (s16)saved_start_x,
+            func_8004A24C(state, saved_style_flags, content_id, (s16)start_x,
                           (s16)saved_start_y,
                           (s16)saved_width);
-            ASM_KEEP(saved_start_x);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(start_x);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(saved_start_y);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(saved_target_x);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(saved_target_y);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */

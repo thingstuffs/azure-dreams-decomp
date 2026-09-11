@@ -54,21 +54,17 @@ void func_80025360(void *effect_arg, void *unused, void *sprite_arg)
     s16 next_frame;
     s16 state;
     s16 frame;
-    void *effect;
     void *sprite;
     s32 one;
     register s16 rect_x ASM_REG("$2");
     register u16 flags ASM_REG("$2");
     Rect *rect_template;
 
-    effect = effect_arg;
     sprite = sprite_arg;
     rect_template = &D_80024048;
     work.rect = *rect_template;
-    ASM_KEEP(effect);
-    ASM_KEEP(sprite);
     D_80026428 = 1;
-    state = ((S_80025360_0 *)effect)->unk_00;
+    state = ((S_80025360_0 *)effect_arg)->unk_00;
     if (state != 0) {
         if (state != 1) {
             ASM_SCHED_BARRIER();
@@ -77,7 +73,7 @@ void func_80025360(void *effect_arg, void *unused, void *sprite_arg)
         rect_x = 0x340;
         goto draw_effect;
     }
-    ((S_80025360_0 *)effect)->unk_00 = (s16)((u16)((S_80025360_0 *)effect)->unk_00 + 1);
+    ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
     flags = ((S_80025360_1 *)sprite)->unk_14;
     flags &= 0xFF7F;
     ((S_80025360_1 *)sprite)->unk_14 = flags;
@@ -90,25 +86,25 @@ draw_effect:
     work.x = 0x370;
     work.y = 0x120;
     one = 1;
-    func_80024A5C(((S_80025360_0 *)effect)->unk_48, &work.rect, &work.x, one, one);
-    frame = ((S_80025360_0 *)effect)->unk_02;
+    func_80024A5C(((S_80025360_0 *)effect_arg)->unk_48, &work.rect, &work.x, one, one);
+    frame = ((S_80025360_0 *)effect_arg)->unk_02;
     if (frame < 0x15) {
         ((S_80025360_1 *)sprite)->unk_0E = (s8)((frame << 7) / 20);
-        ((S_80025360_1 *)sprite)->unk_0D = (s8)((((S_80025360_0 *)effect)->unk_02 << 7) / 20);
-        ((S_80025360_1 *)sprite)->unk_0C = (s8)((((S_80025360_0 *)effect)->unk_02 << 7) / 20);
+        ((S_80025360_1 *)sprite)->unk_0D = (s8)((((S_80025360_0 *)effect_arg)->unk_02 << 7) / 20);
+        ((S_80025360_1 *)sprite)->unk_0C = (s8)((((S_80025360_0 *)effect_arg)->unk_02 << 7) / 20);
     }
-    if (((S_80025360_0 *)effect)->unk_02 >= 0x51) {
-        ((S_80025360_1 *)sprite)->unk_0E = (s8)(((0x64 - ((S_80025360_0 *)effect)->unk_02) << 7) / 20);
-        ((S_80025360_1 *)sprite)->unk_0D = (s8)(((0x64 - ((S_80025360_0 *)effect)->unk_02) << 7) / 20);
-        ((S_80025360_1 *)sprite)->unk_0C = (s8)(((0x64 - ((S_80025360_0 *)effect)->unk_02) << 7) / 20);
+    if (((S_80025360_0 *)effect_arg)->unk_02 >= 0x51) {
+        ((S_80025360_1 *)sprite)->unk_0E = (s8)(((0x64 - ((S_80025360_0 *)effect_arg)->unk_02) << 7) / 20);
+        ((S_80025360_1 *)sprite)->unk_0D = (s8)(((0x64 - ((S_80025360_0 *)effect_arg)->unk_02) << 7) / 20);
+        ((S_80025360_1 *)sprite)->unk_0C = (s8)(((0x64 - ((S_80025360_0 *)effect_arg)->unk_02) << 7) / 20);
     }
-    next_frame = (u16)((S_80025360_0 *)effect)->unk_02 + 1;
-    ((S_80025360_0 *)effect)->unk_02 = next_frame;
+    next_frame = (u16)((S_80025360_0 *)effect_arg)->unk_02 + 1;
+    ((S_80025360_0 *)effect_arg)->unk_02 = next_frame;
     if (next_frame >= 0x65) {
-        ((S_80025360_0 *)effect)->unk_02 = 0;
-        ((S_80025360_0 *)effect)->unk_00 = (s16)((u16)((S_80025360_0 *)effect)->unk_00 + 1);
-        ((S_80025360_2 *)(((S_80025360_0 *)effect)->unk_40))->unk_9C = one;
-        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_80025360_0_pre *)effect)[-1].unk_00 | 0x8000);
+        ((S_80025360_0 *)effect_arg)->unk_02 = 0;
+        ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
+        ((S_80025360_2 *)(((S_80025360_0 *)effect_arg)->unk_40))->unk_9C = one;
+        (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((S_80025360_0_pre *)effect_arg)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 }

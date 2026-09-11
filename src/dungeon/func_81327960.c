@@ -60,7 +60,7 @@ typedef struct S_8016F160_4 {
 /* Allocate an actor, initialize its parts and mode flags, and return its work area. */
 void *func_8016F160(s16 mode, s8 config_24, s8 config_25, s16 config_0a)
 {
-    s32 mode_kind;
+    s16 mode_kind;
     void *obj;
     S_8016F160_2 *part_a;
     S_8016F160_3 *part_b;
@@ -103,7 +103,6 @@ void *func_8016F160(s16 mode, s8 config_24, s8 config_25, s16 config_0a)
         }
 
         func_800A9C18(obj, part_a, part_b, saved_mode);
-        ASM_USE_NV(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         actor_state = actor;
         ((S_8016F160_4 *)actor_state)->unk_9A = 0xFF;
         ((S_8016F160_4 *)actor_state)->unk_9C = -1;

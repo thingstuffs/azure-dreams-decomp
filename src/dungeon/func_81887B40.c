@@ -28,18 +28,17 @@ s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
     void *vertex_data = first_vertices;
     void *line_data = first_line;
     register u8 **render_state ASM_REG("$22") = (u8 **) &D_80083160; /* MATCH: keep render_state in s6 across the loop, preserving retail register allocation. */
-    register u8 *scratch ASM_REG("$17") = (u8 *) 0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *line_packet ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *scratch = (u8 *) 0x1F800000;
+    u8 *line_packet;
     u8 *packet;
-    u32 red_blue;
-    u32 green;
+    u16 red_blue;
+    u8 green;
     void *next_node;
     s32 avg_depth;
     s16 blend;
     s32 point_index;
     s32 color_word;
     ASM_KEEP(render_state);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     *(u8 **)(scratch + 0x18) = *(u8 **)(render_data + 0x8D0);
     *(u8 **)(scratch + 0x20) = render_data + 0xB0;
     for (;;)
@@ -96,7 +95,6 @@ s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
         *(s32 *)(packet + 4) = color_word;
         red_blue = *(u8 *)(packet + 4);
         *(volatile u8 *)(packet + 7) = 0x52;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         green = *(u8 *)(packet + 5);
         red_blue >>= 1;
         *(u8 *)(packet + 0xC) = red_blue;

@@ -201,9 +201,10 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
                 ((S_8187B1F4_8 *)state)->unk_00 =
                     (((S_8187B1F4_8 *)state)->unk_00 & tag_length_mask) |
                     ((u32)draw_mode_packet & tag_addr_mask);
+                point_count = ((S_8187B1F4_3 *)points)->unk_14;
+            } else {
+                point_count = ((S_8187B1F4_3 *)points)->unk_14;
             }
-            point_count = ((S_8187B1F4_3 *)points)->unk_14;
-            ASM_KEEP(point_count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             point_index += 1;
             point_coords += 1;
         } while (point_index < point_count);

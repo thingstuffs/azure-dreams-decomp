@@ -226,7 +226,6 @@ take_step:
                     tile_mask = 0x3000;
                 }
                 func_8009A21C(step_coord, tile_y, tile_mask);
-                move_result = turn_index < 8;
                 goto check_step;
             }
         }
@@ -235,9 +234,8 @@ take_step:
             turn_offsets += 1;
             if (turn_index >= 8) {
 finish_search:
-                ASM_KEEP_NV(turn_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                move_result = turn_index < 8;
 check_step:
+                move_result = turn_index < 8;
                 if (move_result == 0) {
                     ((S_8016FCE4_0 *)actor)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor)->unk_71.s & 0x7F);
                     ((S_8016FCE4_0 *)actor)->unk_46 = (u16) (((S_8016FCE4_0 *)actor)->unk_46 & 0x7FFF);

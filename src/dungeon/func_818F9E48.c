@@ -158,7 +158,6 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
     }
     fade_or_phase = 1;
     if (frame_or_phase == fade_or_phase) {
-        one = 1;
         goto state_done;
     }
     func_80025908();
@@ -174,10 +173,9 @@ state_zero:
     ((S_818F9E48_1 *)effect_arg)->unk_0D = ((S_818F9E48_5 *)motion)->unk_0D;
     ((S_818F9E48_1 *)effect_arg)->unk_0E = ((S_818F9E48_5 *)motion)->unk_0E;
     ((S_818F9E48_5 *)motion)->unk_14 |= 0x80;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    one = 1;
 
 state_done:
+    one = 1;
     anchor.x = origin.x + ((s16)origin.z >> 1);
     anchor.y = origin.y + 0x48;
     saved_scale_x = ((S_818F9E48_5 *)motion)->unk_1C;

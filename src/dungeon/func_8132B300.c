@@ -102,7 +102,7 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
     void *setup_object;
     s32 direction_index;
     s32 parent_angle;
-    s32 setup_mode;
+    s16 setup_mode;
 
     parent_object = parent_data - 0x20;
     effect_object = func_8003FD64(0x112, parent_object);
@@ -142,9 +142,7 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         effect_pos->unk_06 = (u16) source_pos->unk_06;
         effect_pos->unk_0A = (u16) source_pos->unk_0A;
         template_1c = ((S_80172B00_7 *)sprite_template)->unk_1C;
-        ASM_KEEP(template_1c);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         setup_object = effect_object;
-        ASM_KEEP(setup_object);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_80172B00_3 *)sprite)->unk_1C = template_1c;
         ((S_80172B00_3 *)sprite)->unk_1E = (u16) ((S_80172B00_7 *)sprite_template)->unk_1E;
         ((S_80172B00_3 *)sprite)->unk_0E = 0x80;

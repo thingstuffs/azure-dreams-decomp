@@ -79,13 +79,7 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
 
 check_max_x:
     if (entity->unk_84.s + entity->unk_8C.s < ((S_800C355C_0 *)motion)->unk_00.at02.v) {
-        u16 center;
-        register u16 extent ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u16 boundary;
-        center = entity->unk_84.u;
-        extent = entity->unk_8C.u;
-        boundary = extent + center;
-        ((S_800C355C_0 *)motion)->unk_00.at02u.v = boundary;
+        ((S_800C355C_0 *)motion)->unk_00.at02u.v = entity->unk_84.u + entity->unk_8C.u;
         goto handle_boundary;
     }
     goto update_speed;

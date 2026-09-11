@@ -93,7 +93,7 @@ s32 func_8080C324(void) {
     s16 *offset_entry;
     s32 remaining;
     s32 initial_offset;
-    register s32 offset_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 offset_addr;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 clear_addr;
     s32 state_page;
     s32 initial_state;
@@ -134,13 +134,9 @@ s32 func_8080C324(void) {
 
     remaining = 7;
     initial_offset = 0x30;
-    offset_addr = 0x80530000;
-    ASM_KEEP_NV(offset_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    offset_addr += 0x6D6;
+    offset_addr = (s32)D_805306D6;
     offset_entry = (s16 *)offset_addr;
-    clear_addr = 0x80530000;
-    ASM_KEEP_NV(clear_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    clear_addr += 0x666;
+    clear_addr = (s32)&D_80530666;
     clear_entry = (s16 *)clear_addr;
     do {
         *clear_entry = 0;

@@ -129,8 +129,7 @@ void func_800AECA4(void *list) {
         do {
             row_slot = row_index * 4;
             {
-                register u8 *row_slots ASM_REG("$2") = ((S_800AECA4_0 *)list)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                row_slots = (u8 *)(row_slot + (s32)row_slots);
+                u8 *row_slots = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 ((S_800AECA4_11 *)(((S_800AECA4_6 *)(((S_800AECA4_3 *)row_slots)->unk_38))->unk_04))->unk_0A = row_y;
             }
             {

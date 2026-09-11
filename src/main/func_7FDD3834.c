@@ -28,7 +28,7 @@ s32 func_8008A794(void *node_data, void *scroll_state)
     s32 page_x;
     u16 scroll_y;
     s32 screen_y;
-    s32 screen_x;
+    s16 screen_x;
     s32 clut_x;
     void *sprite;
     void *draw_mode;
@@ -58,7 +58,6 @@ restart:
                 func_80066758(sprite);
                 func_80066640(sprite, 1);
                 clut_x = 0;
-                ASM_KEEP(clut_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 screen_x = tile_col;
                 screen_x <<= 8;
                 screen_x += layer_offset;
