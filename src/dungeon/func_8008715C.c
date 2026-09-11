@@ -85,8 +85,9 @@ s32 func_8008C8BC(void *actor_state_arg, void *unused, void *position_arg, void 
     ASM_KEEP(actor_state);
     direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
     if ((func_8009A540(direction, ((S_8008C8BC_1 *)position)->unk_24, ((S_8008C8BC_1 *)position)->unk_25, (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
-        target = func_8009B25C(entity, (((S_8008C8BC_1 *)position)->unk_24 + D_8006CCD8[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position)->unk_25 + D_8006CCE8[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
-        ASM_SCHED_BARRIER();
+        do {
+            target = func_8009B25C(entity, (((S_8008C8BC_1 *)position)->unk_24 + D_8006CCD8[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position)->unk_25 + D_8006CCE8[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
+        } while (0);
         page_or_entity = (u8 *)0x80010000;
         ((S_8008C8BC_0 *)entity)->unk_60.i = target;
         if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0) && (((S_8008C8BC_3 *)target)->unk_14 & 0x4000)

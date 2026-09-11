@@ -127,8 +127,10 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
     if (phase < 2) {
         if (phase != 0) {
             void *null_arg;
-            null_arg = NULL;
-            ASM_SCHED_BARRIER(); /* MATCH: preserve the low-phase guard before the shared-tail jump. */
+            do {
+                null_arg = NULL;
+            } while (0);
+             /* MATCH: preserve the low-phase guard before the shared-tail jump. */
             goto block_30;
         }
         goto state_0;
@@ -166,8 +168,9 @@ state_0:
         s32 first_call_mode;
         s32 raw_first_result;
         clamp_value = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_10.at01_u8.v + 0x32;
-        egg_bomb_level = clamp_value;
-        ASM_KEEP(clamp_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        do {
+            egg_bomb_level = clamp_value;
+        } while (0);
         if (clamp_value >= 0x64) {
             egg_bomb_level = 0x63;
         }

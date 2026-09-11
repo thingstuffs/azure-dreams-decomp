@@ -62,7 +62,7 @@ extern void func_800DBA90(WorkBlock *);
 void func_800DAB50(void *effect_data) {
     WorkBlock work;
     void *effect = effect_data;
-    register s32 index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 index;
     register s32 vertex_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 color_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 color_value;
@@ -96,8 +96,9 @@ void func_800DAB50(void *effect_data) {
         work.unk4 = (s16 *)((s8 *)effect + vertex_offset);
         func_800DBA90(&work);
         phase_value = work.unkC;
-        ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        index += 1;
+        do {
+            index += 1;
+        } while (0);
         work.unkC = phase_value + 0x200;
         vertex_offset += 0x10;
     } while (index < 2);

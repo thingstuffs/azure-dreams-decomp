@@ -29,7 +29,7 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
     void *ordering_table;
     Packet *area_packet;
     register s32 saved_clear_bg ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 shift_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 shift_y;
     s32 saved_draw_flags;
     s32 y;
 

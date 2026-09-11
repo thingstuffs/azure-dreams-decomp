@@ -230,8 +230,9 @@ reverse_segment:
                            (object->unk_00 << 5)) >> 1);
     }
     result = reverse_angle - 0x80;
-    reverse_angle = result;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    do {
+        reverse_angle = result;
+    } while (0);
     next_angle = (s16)result;
     scratch->data8A = coord_value;
     scratch->data7A = coord_value;
@@ -274,8 +275,9 @@ reverse_segment:
                            (object->unk_00 << 5)) >> 1);
     }
     result = reverse_angle - 0x80;
-    reverse_angle = result;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    do {
+        reverse_angle = result;
+    } while (0);
     next_angle = (s16)result;
     scratch->data8A = coord_value;
     scratch->data7A = coord_value;

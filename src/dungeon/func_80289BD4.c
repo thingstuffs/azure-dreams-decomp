@@ -16,7 +16,7 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     register u32 dir_or_tiles ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 y_offsets;
     u32 x_offsets;
-    register s32 origin_y ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 origin_y;
     s32 origin_x;
     register s32 row_work ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 tiles_or_shift;
@@ -25,9 +25,9 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     tile_or_turn = y;
     direction = requested_dir;
     origin_x = neighbor_x;
-    ASM_KEEP_NV(origin_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    origin_y = tile_or_turn;
-    ASM_KEEP_NV(origin_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+        origin_y = tile_or_turn;
+    } while (0);
     config_or_dir = 0x80080000;
     ASM_KEEP_NV(config_or_dir);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     lookup_value = direction << 16;

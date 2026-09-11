@@ -136,8 +136,9 @@ s32 func_800254A4(void)
     register s32 final_extent ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 row_y;
 
-    ASM_KEEP(parent_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    left_data[0] = D_8002012C;
+    do {
+        left_data[0] = D_8002012C;
+    } while (0);
     left_data[1] = D_80020134;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     right_data[0] = D_8002013C;
@@ -215,11 +216,11 @@ create_child:
         first_dst_byte = (u8 *)right_data[0] + index;
         second_dst_byte = (u8 *)right_data[1] + index;
         initial_byte = *src_byte;
-        ASM_KEEP(first_dst_byte);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(second_dst_byte);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         index--;
-        *second_dst_byte = initial_byte;
-        *first_dst_byte = initial_byte;
+        do {
+            *second_dst_byte = initial_byte;
+            *first_dst_byte = initial_byte;
+        } while (0);
     } while (index >= 0);
 
     index = 1;

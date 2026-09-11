@@ -256,8 +256,9 @@ align_view:
     }
     controls->unk_C8.s = view_angle;
     controls->unk_C8.u = (s16) ((controls->unk_C8.p + 0x1000) & 0xFFF);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    turn_size = angle_delta;
+    do {
+        turn_size = angle_delta;
+    } while (0);
     if (angle_delta < 0) {
         turn_size = 0 - turn_size;
     }
@@ -376,8 +377,9 @@ update_sprite:
         sprite_flags = sprite->unk_14.at00_u16.v & 0xFFFE;
     }
     sprite->unk_14.at00_u16.v = sprite_flags;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    func_80048AC8(sprite, 0);
+    do {
+        func_80048AC8(sprite, 0);
+    } while (0);
     func_800A48B0(&D_80100D98, motion);
     ((Rec_D_80100D98 *)(&D_80100D98))->unk_08 = 0;
 }

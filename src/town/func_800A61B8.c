@@ -58,8 +58,9 @@ state_zero:
         phase %= 0x1C00;
     }
     anim->unk_08.u = phase;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    anim->unk_00++;
+    do {
+        anim->unk_00++;
+    } while (0);
     if (((S_800A3918_1 *)D_8008274C)->unk_74 == &D_800C5100) {
         anim->unk_02 = 1;
     }

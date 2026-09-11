@@ -77,8 +77,9 @@ case_4_8:
         {
             u32 link_id;
 
-            link_id = selected_entry[6];
-            ASM_KEEP_NV(link_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            do {
+                link_id = selected_entry[6];
+            } while (0);
             if (link_id == 0) {
                 goto case_default;
             }

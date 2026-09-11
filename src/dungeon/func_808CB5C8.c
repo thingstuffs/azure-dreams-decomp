@@ -45,9 +45,10 @@ void func_80123A60(S_80123A60_0 *state) {
             func_80123928(*((entry_id * 3) + entry_table), 0x1A4, 0xA0);
         }
         func_80067014(0);
-        return;
+        do {
+            return;
+        } while (0);
     }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     group = state->unk_0F;
     entry_id = group * 0x10;
     entry_table = &D_80126E98;

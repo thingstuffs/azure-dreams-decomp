@@ -219,9 +219,10 @@ try_heading:
                     next_index = turn_index + 1;
                     goto increment_index;
                 }
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 if ((func_8009A180(actor, ((S_800D92C0_1 *)(*D_800814A8))->unk_58 + 0x20) << 0x10) != 0) {
-                    return;
+                    do {
+                        return;
+                    } while (0);
                 }
                 next_index = turn_index + 1;
 increment_index:

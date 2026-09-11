@@ -408,10 +408,12 @@ check_item_use:
     actor->unk_8A = func_8009904C(action->unk_BC);
 show_item_progress:
     func_800B4C7C(0xA4, actor, (s16) (0x64 - (s8) ((S_func_800B1364_12 *)action->unk_BC)->unk_02), 0);
-    return;
+    do {
+        return;
+    } while (0);
 check_cancel:
     {
-        register s32 cancel_test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s32 cancel_test;
         cancel_test = ((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1;
         if (cancel_test) {
             goto done;

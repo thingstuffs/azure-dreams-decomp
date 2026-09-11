@@ -87,7 +87,7 @@ void func_80092E90(void *controller, void *motion, void *actor, void *entry)
     s32 tile_origin;
     s32 target_pos;
     register s32 effect_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    register s32 match_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 match_result;
     s16 frames_left;
     s16 move_frames;
     s16 *move_state;

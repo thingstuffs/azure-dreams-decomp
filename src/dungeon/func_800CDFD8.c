@@ -362,8 +362,9 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
             local_matrix = scratch;
             ASM_KEEP_NV(local_matrix);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             scratch->unk_E4 = (u32) pivot_x;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            scratch->unk_108 = pivot_x;
+            do {
+                scratch->unk_108 = pivot_x;
+            } while (0);
             pivot_y = sprite->unk_22;
             local_matrix = (void *) ((u32) local_matrix | 0xD0);
             scratch->unk_E8 = (u32) pivot_y;
@@ -393,8 +394,9 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
             void *combined_matrix;
             view_matrix = matrix_or_part;
             ASM_KEEP_NV(view_matrix);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_SET(local_matrix);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            local_matrix = scratch;
+            do {
+                local_matrix = scratch;
+            } while (0);
             ASM_KEEP_NV(local_matrix);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             local_matrix = (void *) ((u32) local_matrix | 0xD0);
             ASM_SET(combined_matrix);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

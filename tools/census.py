@@ -69,6 +69,7 @@ def live_audit(row, text):
     return dict(c)
 
 _DW0 = re.compile(r"\bdo\s*\{", re.S)
+_LOOP0 = re.compile(r"\bwhile\s*\(\s*0\s*\)\s*\{|\bfor\s*\(\s*;\s*0\s*;\s*\)")   # never a do-while tail
 
 
 def _dowhile0(text):
@@ -90,6 +91,13 @@ def _dowhile0(text):
         if i >= len(text):
             continue
         if re.match(r"\s*while\s*\(\s*0\s*\)", text[i + 1:i + 24]):
+            n += 1
+    # `while (0) { }` and `for (; 0;) { }` are the SAME zero-byte barrier - byte-identical to the
+    # empty do-while in all 18 checks of the 2026-09-11 fence study (docs/PIN_PATTERNS.md section 9).
+    # Uncounted, a lane that learned the equivalence could trade a counted fence for an invisible one.
+    for m in _LOOP0.finditer(text):
+        line_start = text.rfind("\n", 0, m.start()) + 1
+        if not text[line_start:m.start()].lstrip().startswith("#define"):
             n += 1
     return n
 

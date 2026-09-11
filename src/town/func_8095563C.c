@@ -106,8 +106,9 @@ check_zone:
         u8 *box_data;
         Box *linked_box;
         box_data = (u8 *)D_800240E0;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        box_offset = box_id << 3;
+        do {
+            box_offset = box_id << 3;
+        } while (0);
         linked_box = (Box *)(box_data + box_offset);
         ASM_KEEP_NV(linked_box);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         box = linked_box;
@@ -155,8 +156,9 @@ check_zone:
         s32 box_height;
         s32 edge_delta;
         actor_y = actor->y;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        edge_y = box->y;
+        do {
+            edge_y = box->y;
+        } while (0);
         box_height = box->h;
         edge_delta = actor_y - edge_y;
         if (edge_delta < 0) {
@@ -194,8 +196,9 @@ clamp_x:
         goto store_x;
     }
     actor_x = actor->x;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    edge_x = box->x;
+    do {
+        edge_x = box->x;
+    } while (0);
     box_width = box->w;
     edge_delta = actor_x - edge_x;
     if (edge_delta < 0) {
@@ -356,14 +359,15 @@ diagonal_5:
         s32 actor_y;
         s32 edge_x;
         zone_y = CURRENT_ZONE(y);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        zone_width = CURRENT_ZONE(w);
+        do {
+            zone_width = CURRENT_ZONE(w);
+        } while (0);
         zone_x = CURRENT_ZONE(x);
         edge_delta = zone_y + zone_width;
         edge_x = zone_x - 0x100;
         edge_delta = edge_delta + edge_x;
         band = edge_delta + zone_width;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         neg_x = actor->x;
         actor_y = actor->y;
         neg_x = -neg_x;

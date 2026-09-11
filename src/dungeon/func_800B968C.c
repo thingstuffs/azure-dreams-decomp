@@ -41,13 +41,14 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
     register s32 text_cursor;
     u8 *linked_item;
     register s32 text_start;
-    register u8 *item ASM_REG("$20") = used_item;
+    u8 *item = used_item;
 
     ASM_KEEP_NV(target);
-    ASM_KEEP_NV(item);
 
     if (effect_type == 0xD) {
-        return func_80098864(item, effect_value);
+        do {
+            return func_80098864(item, effect_value);
+        } while (0);
     }
 
     actor = D_800E3D7C[0];

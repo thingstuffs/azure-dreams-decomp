@@ -274,6 +274,11 @@ GROUP_PREAMBLE = """> **GROUP MODE.**  Each row's `base/` erases ONE GROUP of it
 > base; one with fewer is a bonus.  The mechanical search (t18_groups: t15's whole shape menu,
 > nearest the group first, fences included) already failed on every group here - the residue it
 > reached is in `rows.tsv` column `machine_best`.
+>
+> **No fences in this pack.**  A candidate that adds a `do { ... } while (0)` - the zero-byte
+> scheduling barrier listed below as a recipe - is NOT a result here: `census.py` counts each fence
+> like a pin, and the fences are under study.  If a fence is the only thing that closes a row, say
+> which statement it wrapped in your report, and keep looking for a shape without one.
 
 """
 

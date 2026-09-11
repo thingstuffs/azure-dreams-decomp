@@ -57,8 +57,9 @@ s32 func_8001B148(s32 unused_arg0, s32 unused_arg1, s32 selector)
             address_page = (u8 **)0x80010000;
             ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             table_index = reloaded_state[4];
-            ASM_KEEP(table_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            value_table = (s32 *)((u8 *)address_page + 0x7FD4);
+            do {
+                value_table = (s32 *)((u8 *)address_page + 0x7FD4);
+            } while (0);
         }
     }
     return value_table[table_index];

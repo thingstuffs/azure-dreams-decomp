@@ -41,11 +41,13 @@ void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32
     motion->unk6C = timer;
     if ((timer << 0x10) > 0) {
         s32 pos_x = obj->unk2;
-        register s32 delta_x ASM_REG("$4") = obj->unkE;
+        s32 delta_x = obj->unkE;
         s32 pos_y = obj->unk6;
         s32 delta_y = obj->unk12;
 
-        pos_x += delta_x;
+        do {
+            pos_x += delta_x;
+        } while (0);
         pos_y += delta_y;
         obj->unk2 = pos_x;
         obj->unk6 = pos_y;

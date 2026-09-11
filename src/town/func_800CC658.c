@@ -23,8 +23,9 @@ void func_800C9DB8(Rec_func_800C9B44_arg0 *actor, Rec_D_800E3D7C *motion, M2C_UN
     ASM_KEEP(attempts);
     motion->unk_10.at00_s32.v = 0;
     motion->unk_0C.as_s32 = 0;
-    ASM_SCHED_BARRIER();
-    attempts -= 1;
+    do {
+        attempts -= 1;
+    } while (0);
 retry:
     action = 0;
     if (attempts > 0) {

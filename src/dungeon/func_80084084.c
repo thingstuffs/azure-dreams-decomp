@@ -116,9 +116,10 @@ loop_second:
                     if (entry->active != 0) {
                         callback_data = entry->data;
                         callback_arg1 = entry->arg1;
-                        callback_arg2 = entry->arg2;
+                        do {
+                            callback_arg2 = entry->arg2;
+                        } while (0);
                         saved = entry->saved;
-                        ASM_KEEP(saved);
                         entry->saved = 0;
                         callback(callback_data, callback_arg1, callback_arg2);
                         ASM_KEEP(callback_base);

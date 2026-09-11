@@ -147,9 +147,11 @@ s32 func_800212B8(void) {
         widget_params = &widget_init;
         do {
             register u8 *widget_handler ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register Init10 *widget_args ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            Init10 *widget_args;
             widget_handler = D_800225F0;
-            widget_args = widget_params;
+            do {
+                widget_args = widget_params;
+            } while (0);
             ASM_KEEP_DEP_NV(widget_args, widget_handler);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             widget_init.h16 = widget_index * 0xC + 0x14;
             widget_init.p4 = (void *)((s32 *)&widget_init)[0x16 + widget_index];

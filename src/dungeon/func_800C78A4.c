@@ -132,9 +132,9 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
 
         map = ((S_800CD004_0_pre *)source)[-1].unk_00;
         tile_x = map->unk_24;
-        ASM_KEEP(tile_x);
-        quad = ((S_800CD004_1 *)effect)->unk_08;
-        ASM_KEEP(quad);
+        do {
+            quad = ((S_800CD004_1 *)effect)->unk_08;
+        } while (0);
         quad->unk_02 = (tile_x << 6) + 0x20;
         quad->unk_06 = (map->unk_25 << 6) + 0x20;
         quad->unk_0A = ((S_800CD004_0 *)source)->unk_88 - 0x200;

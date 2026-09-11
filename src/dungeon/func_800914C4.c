@@ -148,17 +148,19 @@ finish_move:
         func_80094ED4(tail_obj, move_mode, actor, map);
         map_flags = S32(map, 0x1C);
         {
-            register s32 map_flag_mask ASM_REG("$3");
+            s32 map_flag_mask;
 
             map_flag_mask = 0x40000000;
             map_flags |= map_flag_mask;
         }
         state_base = (u8 *)&D_80083460;
         {
-            register u8 *final_state_base ASM_REG("$3");
+            u8 *final_state_base;
 
-            final_state_base = state_base;
-            S32(map, 0x1C) = map_flags;
+            do {
+                final_state_base = state_base;
+                S32(map, 0x1C) = map_flags;
+            } while (0);
             ((u16 *)final_state_base)[1] |= 0x812;
         }
     }

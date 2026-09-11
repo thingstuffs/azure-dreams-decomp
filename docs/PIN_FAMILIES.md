@@ -7,21 +7,21 @@ Rows probed: 1707.  Every ASM_* site of the row erased at once; the scorer's ali
 | strip damage | rows |
 |---|---:|
 | 1-3 | 89 |
-| 4-8 | 198 |
-| 9-20 | 404 |
-| 21+ | 1010 |
+| 4-8 | 206 |
+| 9-20 | 410 |
+| 21+ | 996 |
 | error | 6 |
 
 | residue shape | rows | rows at damage<=8 |
 |---|---:|---:|
-| mixed | 1285 | 80 |
-| ? | 235 | 0 |
+| mixed | 1269 | 78 |
+| ? | 250 | 0 |
 | none | 95 | 9 |
-| reg_perm | 40 | 31 |
+| reg_perm | 41 | 31 |
 | order | 29 | 20 |
 | reg_local | 23 | 11 |
 
-## The near band: 451 rows within 12 words of pin-free (159,704 B, 926 pins)
+## The near band: 459 rows within 12 words of pin-free (161,836 B, 930 pins)
 
 A row here is byte-exact today and one C shape away from carrying no scaffolding at
 all.  The class is the scorer's residue class for the row with every pin erased, and it
@@ -30,19 +30,19 @@ neighbours.  `tools/pin_lane.py --band N` cuts this table into lane packs.
 
 | class | rows | pins | bytes | what the residue says |
 |---|---:|---:|---:|---|
-| broad | 95 | 194 | 32,152 | no single named signal; read the row's regions view |
-| length-drift | 68 | 166 | 20,160 | retail keeps or drops a word gcc does not |
-| reg-rename | 57 | 82 | 27,208 | same instructions, two registers swapped: the variable map, not the register |
-| reorder-only | 41 | 81 | 15,220 | same instructions, one moved by the scheduler |
-| code-motion | 27 | 60 | 7,052 | a statement crossed a call or a branch |
-| addressing | 26 | 51 | 7,556 | %hi/%lo against base+offset: how the address is formed |
-| li-expansion | 26 | 63 | 7,704 | lui;ori against lui;addiu: an integer literal where retail has a symbol |
+| broad | 97 | 195 | 32,748 | no single named signal; read the row's regions view |
+| length-drift | 71 | 171 | 21,136 | retail keeps or drops a word gcc does not |
+| reg-rename | 59 | 84 | 29,776 | same instructions, two registers swapped: the variable map, not the register |
+| reorder-only | 42 | 84 | 15,356 | same instructions, one moved by the scheduler |
+| addressing | 28 | 55 | 8,492 | %hi/%lo against base+offset: how the address is formed |
+| li-expansion | 26 | 62 | 7,704 | lui;ori against lui;addiu: an integer literal where retail has a symbol |
+| code-motion | 26 | 56 | 6,536 | a statement crossed a call or a branch |
 | slus-diff | 24 | 32 | 14,984 | the SLUS object differs; check the row's TU, not its C |
-| const-remat | 22 | 55 | 10,048 | retail keeps a constant in a register that gcc recomputes |
+| const-remat | 20 | 47 | 7,328 | retail keeps a constant in a register that gcc recomputes |
 | slot-rotation | 18 | 37 | 4,544 | a different instruction fills a delay slot |
 | block-order | 12 | 18 | 2,812 | the basic blocks are laid out in another order |
-| polarity | 10 | 25 | 3,128 | a branch is inverted |
-| hold-set | 9 | 14 | 1,564 | a different callee-saved set / frame layout |
+| polarity | 10 | 24 | 3,128 | a branch is inverted |
+| hold-set | 10 | 17 | 1,720 | a different callee-saved set / frame layout |
 | dead-code-retention | 8 | 28 | 2,820 | retail keeps a computation gcc deletes |
 | delay-slot | 8 | 20 | 2,752 | retail fills a slot this build leaves as nop |
 

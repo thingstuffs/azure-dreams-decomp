@@ -41,7 +41,7 @@ s32 func_800A0E6C(void *arg0, s32 arg1, void *arg2, u16 *arg3) {
     E2970 *ct1;
     E2970 *table;
     s16 *offsets;
-    register u16 *x_offsets ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u16 *x_offsets;
     s32 scan_s0;
     s32 bitmap_idx;
     u8 *bit_next;
@@ -195,7 +195,7 @@ L_DIR2_DONE:
 
 L_BB24: {
     s32 masked;
-    register u32 base_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 base_page;
     s32 call_a2;
 
     tail = (s16)((((s16)*(u16 *)(p4 + 0x2A) >> 9) - 4) & 7);
@@ -203,8 +203,9 @@ L_BB24: {
     *(s32 *)&bitmap[4] = 0;
     bit_next = &bitmap[tail];
     *bit_next = 1;
-    ASM_KEEP(bit_next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    idx = (tail + 1) & 7;
+    do {
+        idx = (tail + 1) & 7;
+    } while (0);
     bit_next = &bitmap[idx];
     tail = (tail - 1) & 7;
     bit_prev_v0 = &bitmap[tail];
@@ -220,12 +221,14 @@ L_BB24: {
     base_page = 0x800E0000;
     ASM_KEEP_NV(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     x_offsets = (u16 *)(base_page - 0x3154);
-    ASM_KEEP_NV(x_offsets);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    tail = (s16)(((masked >> 25) - 4) & 7);
+    do {
+        tail = (s16)(((masked >> 25) - 4) & 7);
+    } while (0);
     bit_next = &bitmap[tail];
     *bit_next = 1;
-    ASM_KEEP(bit_next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    idx = (tail + 1) & 7;
+    do {
+        idx = (tail + 1) & 7;
+    } while (0);
     bit_next = &bitmap[idx];
     tail = (tail - 1) & 7;
     bit_prev_s0 = &bitmap[tail];

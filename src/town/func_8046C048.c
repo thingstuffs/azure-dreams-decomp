@@ -36,7 +36,7 @@ void func_8001D048(void) {
     register s32 row_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 row_offset;
     s32 check_offset;
-    register s32 mode_offset ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 mode_offset;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 entry_value ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 *row;
     register s8 *check_base ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -58,13 +58,14 @@ void func_8001D048(void) {
     }
     mode = 1;
 mode_done:
-    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     row_index = 0;
     ASM_KEEP(row_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    row_offset = row_index;
-    ASM_KEEP(row_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    row = (s8 *)row_or_column;
-    ASM_KEEP(row);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    do {
+        row_offset = row_index;
+    } while (0);
+    do {
+        row = (s8 *)row_or_column;
+    } while (0);
     check_offset = mode * 8;
     do {
         check_base = (s8 *)D_8001902C;
@@ -81,9 +82,10 @@ process_entry:
             if (entry_value != 0) {
                 entry_result = func_8001D280(row_index, row_or_column, mode);
                 global_base = D_80016000;
-                ASM_USE(global_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                callback_arg = entry_result;
-                ASM_KEEP(callback_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                do {
+                    callback_arg = entry_result;
+                    ASM_KEEP(callback_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                } while (0);
                 callback_base = global_base->unk_20;
                 callback = callback_base->unk_2D0;
                 callback(callback_arg, entry_value, mode);

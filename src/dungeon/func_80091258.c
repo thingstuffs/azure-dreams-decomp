@@ -28,8 +28,9 @@ void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
     *((s8 *)object + 0x9A) = action;
     *((s8 *)object + 0x9B) = 0;
     *(s32 *)((s8 *)object + 0x8C) = 0;
-    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    saved_target = target;
+    do {
+        saved_target = target;
+    } while (0);
 
     if (D_80013714.flags & 2) {
         goto apply_flag;

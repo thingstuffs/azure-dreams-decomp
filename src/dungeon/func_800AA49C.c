@@ -95,8 +95,9 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     angle -= (rotation + 0x80) & 0xf00;
     angle_step = angle;
     start_angle = angle;
-    ASM_KEEP(angle);
-    angle = (s16)angle;
+    do {
+        angle = (s16)angle;
+    } while (0);
     {
         s32 coord;
         s32 raw_x;

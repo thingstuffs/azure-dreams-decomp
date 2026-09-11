@@ -63,8 +63,9 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     cursor = cursor->unk_24;
     cursor = cursor->unk_6C;
     entries = cursor->unk_1EC;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    group_id = *(s16 *)((u8 *)entries + (entry_id * 0x14));
+    do {
+        group_id = *(s16 *)((u8 *)entries + (entry_id * 0x14));
+    } while (0);
     group_state = state_base + group_id;
     next_count = group_state->unk_3700.s;
     next_count += 1;
@@ -82,8 +83,9 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
         slot = history + slot_index;
         old_entry = *slot;
         *slot = entry_id;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        slot_index += 1;
+        do {
+            slot_index += 1;
+        } while (0);
         entry_id = old_entry;
     } while (slot_index < 0xC);
 }

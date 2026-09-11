@@ -112,8 +112,9 @@ scan_inner:
         goto next_inner;
     }
     inner_offset = call_dir << 1;
-    ASM_KEEP_NV(inner_offset);
-    addr = (u32)D_8006CCD8;
+    do {
+        addr = (u32)D_8006CCD8;
+    } while (0);
     dx = (u16 *)(inner_offset + addr);
     distance_z = (s16)(base_z - 0x20);
     dy = (u16 *)((u8 *)D_8006CCE8 + inner_offset);
@@ -140,8 +141,9 @@ next_inner:
 scan_outer:
     probe_dir = zero;
     outer_offset = outer_dir << 1;
-    ASM_KEEP_NV(outer_offset);
-    addr = (u32)D_800DCE6C;
+    do {
+        addr = (u32)D_800DCE6C;
+    } while (0);
     dx = (u16 *)(outer_offset + addr);
     flags_ptr = &tile_flags;
     ASM_KEEP_NV(flags_ptr);

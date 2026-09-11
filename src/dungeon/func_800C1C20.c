@@ -122,10 +122,10 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
         render->blend = (s16) (render->blend | 0xC);
         frame = 0x37;
         state->mode = tile_x;
-        setup_word = (u16) homes.arg1;
-        ASM_USE(setup_word);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        do {
+            setup_word = (u16) homes.arg1;
+        } while (0);
         state_limit = 0x14;
-        ASM_USE(state_limit);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         state->value = (u16) setup_word;
         setup_word = (u16) homes.arg3;
         state->limit = state_limit;

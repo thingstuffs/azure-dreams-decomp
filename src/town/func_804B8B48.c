@@ -38,9 +38,10 @@ s32 func_80017348(void) {
         TownState *state;
 
         context = *context_ptr;
-        calls = *(u8 * volatile *)&context->calls;
+        do {
+            calls = *(u8 * volatile *)&context->calls;
+        } while (0);
         state = *(TownState * volatile *)&context->state;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         previous_value = state->value;
         (*(TownCall2 *)(calls + 0x248))(1, state);
     }

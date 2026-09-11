@@ -41,8 +41,9 @@ void func_800B4188(CopyTarget *target)
     register u32 tail_word2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     target_base = target;
-    ASM_KEEP(target_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    src = D_800D16FC;
+    do {
+        src = D_800D16FC;
+    } while (0);
     dst = (u8 *)target_base;
     if (((u32)src | (u32)target_base) & 3) {
         src_end = src + 0x30;
@@ -69,8 +70,9 @@ void func_800B4188(CopyTarget *target)
             *(u32 *)(dst + 0x4) = word1;
             *(u32 *)(dst + 0x8) = word2;
             *(u32 *)(dst + 0xC) = word3;
-            ASM_KEEP(src);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            dst += 0x10;
+            do {
+                dst += 0x10;
+            } while (0);
             src += 0x10;
         } while (src != src_end);
         data_page = 0x800D0000;

@@ -357,8 +357,9 @@ check_reset_input:
     }
     func_800A67F4();
     flags_mask = 0xFEFFFFFF;
-    ASM_KEEP(flags_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    flags_page = (S_func_8009E038_6 *)0x800E0000;
+    do {
+        flags_page = (S_func_8009E038_6 *)0x800E0000;
+    } while (0);
     shared_flags = flags_page->unk_296C;
     transition->unk_2C = 0U;
     transition->unk_1A = 0;

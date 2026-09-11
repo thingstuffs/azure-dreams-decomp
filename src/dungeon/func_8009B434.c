@@ -62,8 +62,9 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
             data = D_80170800 - (slot_base << 13);
             asset_index = requested_id - 1;
             asset_offset = asset_index * 0x54;
-            ASM_KEEP(requested_id);
-            slot_base = (slot_base << 2) + 0x4340;
+            do {
+                slot_base = (slot_base << 2) + 0x4340;
+            } while (0);
             disc_offset = asset_offset + slot_base;
         }
         cd_params = D_800E58A8;

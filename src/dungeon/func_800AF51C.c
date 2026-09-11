@@ -107,8 +107,9 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     object = new_object;
     if (object != NULL) {
         saved_value = value;
-        ASM_KEEP(saved_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        position = (*(void **)((u8 *)object + 8));
+        do {
+            position = (*(void **)((u8 *)object + 8));
+        } while (0);
         text_link = (*(void **)((u8 *)object + 0xC));
         source_object = source_data - 0x20;
         (*(void **)((u8 *)object + 0x20)) = source_object;
@@ -129,8 +130,9 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
         number_style = text_style;
         position->unk_0A = anchor_z;
         ((S_800B4C7C_1 *)state)->unk_1C = anchor_z;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        text_storage = object + 0x40;
+        do {
+            text_storage = object + 0x40;
+        } while (0);
         text = text_storage;
         ASM_KEEP(text);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         text_link->unk_08 = text_storage;

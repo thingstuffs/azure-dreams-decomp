@@ -27,12 +27,12 @@ s32 func_800A9528(void *object, s32 unused, s32 initial_value) {
         current_value = *(s32 *)((u8 *)current_object - 8);
         current_object = (Struct800ABDC8 *)((u8 *)current_value + 0x20);
         if (current_value == 0) {
-            ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            return 0;
+            break;
         }
            /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         x = ((Struct800ABDC8 *)current_value)->unk08;
         ASM_KEEP(x);   /* UNRESOLVED C shape (pin): retail keeps this dead load; the source shape that makes it unnecessary has not been found */
         current_value = ((Struct800ABDC8 *)current_value)->unk0C;
     }
+    return 0;
 }

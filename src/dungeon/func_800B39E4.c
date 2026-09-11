@@ -319,12 +319,14 @@ next_part:
         }
 
         {
-            register s32 part_code ASM_REG("$4") = U8(part, 1);
+            s32 part_code = U8(part, 1);
             s32 draw_code;
             s32 draw_flags;
             U8(sprite, 0x0F) = part_code;
-            draw_flags = U16(scratch, 0x24);
-            draw_code = draw_flags & 8;
+            do {
+                draw_flags = U16(scratch, 0x24);
+                draw_code = draw_flags & 8;
+            } while (0);
             if (draw_code != 0) {
                 draw_code = draw_flags & 4;
                 if (draw_code == 0) {

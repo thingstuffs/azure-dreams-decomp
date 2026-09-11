@@ -112,13 +112,15 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
     index = func_800A1BD0(object);
     {
         void *st;
-        register s32 two ASM_REG("$2"); /* MATCH: retain retail's v0 literal and v1 state pointer in the shared tail. */
+        s32 two; /* MATCH: retain retail's v0 literal and v1 state pointer in the shared tail. */
 
         if (index >= 0) {
             void *tail_selected;
             tail_selected = ((S_800956B8_2 *)((u8 *)arg0 + index * 4))->unk_AC;
-            st = tail_selected;
-            two = 2;
+            do {
+                st = tail_selected;
+                two = 2;
+            } while (0);
         } else {
             st = ((Rec_func_8008D024_arg0 *)arg0)->unk_60;
             two = 2;

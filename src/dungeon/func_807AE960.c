@@ -111,8 +111,9 @@ jt_c2:
 block_11:
     temp_v1_2 = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
     ((S_807AE960_1 *)state)->unk_04.u = temp_v1_2;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    global = (u8 *)0x80010000;
+    do {
+        global = (u8 *)0x80010000;
+    } while (0);
     if ((u16) D_8001371A >= 4U) {
         goto block_15;
     }

@@ -16,6 +16,13 @@ POPULATION  2026-09-11, pinned rows at their current text (pins_site.jsonl + pin
             the 6..10-pin rows by pairs): 1,378 rows grouped; 980 multi-pin groups, 417 of them
             within 12 words (66 at <= 2, 119 at 3-5, 232 at 6-12); rows of 11+ pins group by
             singles only (no pair census).  Eligible at T18_BAND=12: ~1,400 rows.
+RESULT      2026-09-11, first pass, stopped by the owner at ~4,200 of 6,767 rows for a fence study:
+            164 rows landed and gated; of its steps, 232 were fences and ~20 real shapes (narrow,
+            group erasure, dup_after_if, dead pins).  census.py counts a fence like a pin, so the
+            figure is the NET: with t19, the t2 dead-pin pass and t20's fence-free rewrites, 339
+            pins out, 224 fences in, -115.  The study (docs/PIN_PATTERNS.md section 9) found half
+            the sampled fences hide a natural shape: those shapes go ahead of the fence family
+            before this plugin runs again.
 
 Search, per row, cheapest group first and within T18_BUDGET verifies:
   1. erase the group (every candidate is cut from the current text, and the census's own

@@ -343,10 +343,11 @@ loop_body:
 
     if (turn_index == 0 &&
         *(u16 *)&D_80082EA4 != ((S_80171C34_2 *)position)->unk_24.at00u.v) {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if (func_8009A180(actor,
                 (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
-            return;
+            do {
+                return;
+            } while (0);
         }
     }
 

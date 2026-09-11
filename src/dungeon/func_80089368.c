@@ -187,9 +187,10 @@ block_5:
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         {
             void *callback = &D_8008ACDC;
-            ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             {
-                data = (u8 *) &D_800DCFB0;
+                do {
+                    data = (u8 *) &D_800DCFB0;
+                } while (0);
                    /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_pv = callback;
                 goto block_154;
@@ -423,8 +424,9 @@ code_D8:
                                 code8_a0 = arg0;
                                 if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x400) {
                                     ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) (((S_8008EAC8_1 *)arg3)->unk_2A.u + (func_800A6D30(code8_a0) & 0xE00));
-                                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                                    code8_a0 = arg0;
+                                    do {
+                                        code8_a0 = arg0;
+                                    } while (0);
                                 }
 code_8:
                                 func_8008C13C(code8_a0, arg1, arg2, arg3);

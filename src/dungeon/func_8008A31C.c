@@ -147,8 +147,10 @@ state_0:
 
         init_entry = ((D_80083228[0] + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
         init_entry += (u32)D_800DD0C8;
-        init_frame = *(volatile u8 *)init_entry;
-        ASM_SCHED_BARRIER(); /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
+        do {
+            init_frame = *(volatile u8 *)init_entry;
+        } while (0);
+         /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
         func_80048A44(init_anim, init_frame, 0, 1);
         actor[0x9B]++;
 #else
@@ -206,9 +208,10 @@ state_1:
 #ifndef NON_MATCHING
         ASM_KEEP(set_mask);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #endif
-        linked_flags = ((S_8008FA7C_4 *)linked_object)->unk_1C;
+        do {
+            linked_flags = ((S_8008FA7C_4 *)linked_object)->unk_1C;
+        } while (0);
 #ifndef NON_MATCHING
-        ASM_KEEP(linked_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
 #ifndef NON_MATCHING
         mask_or_base |= 0xFFFF;
@@ -228,8 +231,9 @@ state_1:
         ((S_8008FA7C_5 *)linked_result)->unk_8A = action_result;
 #ifndef NON_MATCHING
         effect_duration = 0x78;
-        object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
-        ASM_KEEP(object_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        do {
+            object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
+        } while (0);
         ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_84 = effect_duration;
         object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
         ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_85 = 2;
@@ -257,9 +261,10 @@ state_1:
         ((S_8008FA7C_8 *)active_anim)->unk_2C = (u8 *)mask_or_base;
         active_entry = D_80083228[0];
         entity_angle = ((S_8008FA7C_2 *)entity)->unk_2A;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        object_or_base = 0x800E0000;
-        ASM_KEEP(object_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        do {
+            object_or_base = 0x800E0000;
+            ASM_KEEP(object_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        } while (0);
         ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_3540 = saved_value;
         active_entry += entity_angle;
         active_entry += 0x100;

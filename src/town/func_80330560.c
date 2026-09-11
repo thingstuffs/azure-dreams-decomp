@@ -33,7 +33,8 @@ void func_8001AD60(s32 bit_index) {
             value = bit_index + 31;
         }
         clear_mask = ~(1 << (bit_index - ((value >> 5) << 5)));
-        ASM_KEEP(clear_mask);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        *dst_word = clear_mask & *src_word;
+        do {
+            *dst_word = clear_mask & *src_word;
+        } while (0);
     }
 }

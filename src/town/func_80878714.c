@@ -5,26 +5,24 @@ extern s32 *D_807030A4[];
 /* Tests an indexed flag, treating indices zero and one as constant results. */
 s32 func_80702714(s32 flag_index)
 {
-    register s32 input ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 unit_bit;
     register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *flag_word;
     s32 adjusted_index;
     unsigned long word_address;
 
-    input = flag_index;
     unit_bit = 1;
-    if (input != 0) {
-        if (input != unit_bit) {
-            adjusted_index = input;
-            if (input < 0) {
-                adjusted_index = input + 31;
+    if (flag_index != 0) {
+        if (flag_index != unit_bit) {
+            adjusted_index = flag_index;
+            if (flag_index < 0) {
+                adjusted_index = flag_index + 31;
             }
             value = adjusted_index >> 5;
             word_address = value << 2;
             value <<= 5;
             word_address += (unsigned long)D_807030A4[0];
-            value = input - value;
+            value = flag_index - value;
             value = unit_bit << value;
             flag_word = (s32 *)word_address;
             value &= *flag_word;

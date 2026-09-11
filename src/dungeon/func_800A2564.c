@@ -104,8 +104,9 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
             U16(entity, 2) = world_z;
             depth = func_80065420(scratch, scratch + 0xB8, scratch + depth_offset, scratch + flags_offset);
             U32(scratch, 0xC0) = depth;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            sort_depth = depth;
+            do {
+                sort_depth = depth;
+            } while (0);
             ASM_KEEP_NV(sort_depth);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ASM_KEEP_DEP_NV(sort_depth, depth * 4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ASM_KEEP_MEMDEP_NV(sort_depth, rotation_arg, U32(view_matrix, 0x1C));   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

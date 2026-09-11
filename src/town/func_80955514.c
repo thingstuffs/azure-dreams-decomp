@@ -16,7 +16,7 @@ void func_80022514(void *effect) {
     s16 phase;
     s32 color_step;
     s32 frames_left;
-    register s32 phase_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 phase_value;
 
     phase = ((S_80022514_0 *)effect)->unk_00.s;
     phase_value = ((S_80022514_0 *)effect)->unk_00.u;
@@ -66,9 +66,11 @@ mode_one:
         goto done;
     }
     {
-        register s32 next_phase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 next_phase;
 
-        next_phase = phase_value + 1;
+        do {
+            next_phase = phase_value + 1;
+        } while (0);
         ((S_80022514_0 *)effect)->unk_00.u = next_phase;
     }
     goto done;

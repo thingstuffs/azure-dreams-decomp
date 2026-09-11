@@ -278,8 +278,9 @@ third_pair:
             even_ids = (u8 *)scratch;
             odd_ids = even_ids + 1;
             scratch = D_8008146C[0];
-            level = scratch + level_bonus;
-            ASM_KEEP_NV(level);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            do {
+                level = scratch + level_bonus;
+            } while (0);
             do {
                 dungeon->records[i + 8].value = monster_id;
                 dungeon->records[i + 8].level = level;
@@ -312,8 +313,9 @@ third_pair:
             even_ids = (u8 *)scratch;
             odd_ids = even_ids + 1;
             scratch = D_8008146C[0];
-            level = scratch + level_bonus;
-            ASM_KEEP_NV(level);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            do {
+                level = scratch + level_bonus;
+            } while (0);
             do {
                 dungeon->records[i + 12].value = monster_id;
                 dungeon->records[i + 12].level = level;

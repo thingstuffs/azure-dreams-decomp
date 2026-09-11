@@ -95,9 +95,9 @@ void func_80020900(TownEntity *menu)
     s32 total_factor;
     s32 scaled_quantity;
     s32 second_factor;
-    s32 first_factor;
+    s16 first_factor;
     s16 *prices;
-    register s32 quantity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 quantity;
     s32 state;
     u8 *input;
     u8 *data_page;
@@ -254,9 +254,9 @@ state_3:
         func_80033B9C(0x592);
         func_80033B9C(0x594);
         entity->quantity = (u16)entity->quantity + 1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        do {
+        } while (0);
         D_80012D5C -= 100;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         entity->timer = 0x10;
         entity->state = (u16)entity->state - 1;
         goto exit;
@@ -269,18 +269,20 @@ state_3:
         func_80033B9C(0x592);
         func_80033B9C(0x595);
         entity->quantity = (u16)entity->quantity - 1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        do {
+        } while (0);
         *money += 100;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         entity->timer = 0x10;
         entity->state = (u16)entity->state - 1;
         goto exit;
     }
     if (*(s32 *)(input + 0x10) & 0x40) {
-        register Pair04 *selected_pair ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        Pair04 *selected_pair;
 
-        SD_Call(0x503);
-        selected_pair = factor_pairs.pair;
+        do {
+            SD_Call(0x503);
+            selected_pair = factor_pairs.pair;
+        } while (0);
         prices = D_80024308;
         selected_pair += entity->selection;
         first_factor = prices[*(s16 *)(void *)selected_pair];

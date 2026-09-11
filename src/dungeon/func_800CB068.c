@@ -126,7 +126,7 @@ typedef struct S_800D07C8_6 {
 /* Transform sprite parts into textured quads, queue visible quads, and invoke part callbacks. */
 void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     u8 matrix[32];
-    register u8 *scratch ASM_REG("$17") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *scratch = (u8 *)0x1F800000;
     u8 *packet_code;
     u8 *part_uv;
     u8 *part;
@@ -210,10 +210,11 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
                 ((S_800D07C8_0 *)scratch)->unk_72 = vertex_y;
                 vertex_y = vertex_y + ((S_800D07C8_0 *)scratch)->unk_14.u16;
             }
-            ((S_800D07C8_0 *)scratch)->unk_8A = vertex_y;
+            do {
+                ((S_800D07C8_0 *)scratch)->unk_8A = vertex_y;
+            } while (0);
             ((S_800D07C8_0 *)scratch)->unk_82 = vertex_y;
 
-            ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             depth = (func_80065590(scratch + 0x70, scratch + 0x78,
                                        scratch + 0x80, scratch + 0x88,
                                        packet + 8, packet + 0x14,
@@ -307,8 +308,10 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
                         ((S_800D07C8_5 *)packet_code)->unk_00 = draw_command;
                     }
                     {
-                        register u8 *draw_packet ASM_REG("$5") = packet;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        packet_code += 0x34;
+                        u8 *draw_packet = packet;
+                        do {
+                            packet_code += 0x34;
+                        } while (0);
                         packet += 0x34;
                         func_8006658C(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4), draw_packet);
                     }

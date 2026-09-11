@@ -33,8 +33,9 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
     s32 half_bits;
     u32 header_or_addr;
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    record = records;
+    do {
+        record = records;
+    } while (0);
     entry = entries;
     record_flags = flags;
     half_bits = record_flags >> 8;

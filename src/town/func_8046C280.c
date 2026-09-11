@@ -61,8 +61,9 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
         lookup_offset = lookup_offset + (s32)lookup_base;
         lookup = (Lookup *)lookup_offset;
     }
-    lookup_flag = lookup->flag;
-    ASM_KEEP_NV(lookup_flag);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    do {
+        lookup_flag = lookup->flag;
+    } while (0);
 
     {
         u8 *engine_page;
@@ -74,17 +75,15 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
         ASM_KEEP(engine_page);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         engine = *(Engine **)(engine_page + 0x6000);
         dispatch_ptr = engine->items;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         dispatch_ptr += group;
         head = dispatch_ptr[0x3700];
-        ASM_KEEP_NV(head);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ptr = lookup->entries;
-        ASM_KEEP_NV(ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            ptr = lookup->entries;
+        } while (0);
         dispatch_ptr = (u8 *)engine->callbacks;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
+        } while (0);
         data_page = (u8 *)0x80020000;
         ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((Callback)dispatch_ptr)(data_page - 0x6E94, D_80019178, n, group);
@@ -92,11 +91,12 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
 
         dispatch_ptr = *(u8 **)(engine_page + 0x6000);
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((Callback)dispatch_ptr)(data_page - 0x6E94, &D_8001917C, head);
+        do {
+            ((Callback)dispatch_ptr)(data_page - 0x6E94, &D_8001917C, head);
+        } while (0);
     }
 
     delta = n - head;
@@ -127,10 +127,9 @@ common:
         ASM_KEEP(engine_page);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         dispatch_ptr = *(u8 **)(engine_page + 0x6000);
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
+        } while (0);
         data_page = (u8 *)0x80020000;
         ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((Callback)dispatch_ptr)(data_page - 0x6E94, D_80019178, n);
@@ -143,8 +142,9 @@ common:
         vertex = (Entry *)(n << 3);
         vertex = (Entry *)((s32)vertex + (s32)ptr);
         ASM_KEEP(vertex);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
+        } while (0);
         callback_context = data_page - 0x6E94;
         ASM_KEEP_NV(callback_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         format_page = (u8 *)0x80020000;
@@ -154,10 +154,11 @@ common:
 
         dispatch_ptr = *(u8 **)(engine_page + 0x6000);
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
-        ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
+        } while (0);
         callback_context = data_page - 0x6E94;
         ASM_KEEP_NV(callback_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         format_page = (u8 *)0x80020000;

@@ -86,8 +86,9 @@ void func_806D85A0(void) {
     group_index = initial_value;
     dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
     count_offset = variant * 8;
-    dispatch_ptr = ((S_806D85A0_1 *)dispatch_ptr)->unk_2D0;
-    ASM_KEEP(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    do {
+        dispatch_ptr = ((S_806D85A0_1 *)dispatch_ptr)->unk_2D0;
+    } while (0);
     group_flags = entry_flags;
     ((M2C_UNK (*)(M2C_UNK, M2C_UNK, M2C_UNK))dispatch_ptr)(initial_x, initial_y, initial_value);
     do {

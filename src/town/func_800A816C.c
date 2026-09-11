@@ -86,8 +86,9 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     target_yaw = (state->unk_10 - 0x800) & 0xFFF;
     yaw = func_80094AA0(((S_800A58CC_3 *)town)->unk_C8, target_yaw, 0x80);
     ((S_800A58CC_3 *)town)->unk_C8 = yaw;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    yaw_delta = (yaw & 0xFFF) - target_yaw;
+    do {
+        yaw_delta = (yaw & 0xFFF) - target_yaw;
+    } while (0);
     if (yaw_delta < 0) {
         yaw_delta = 0 - yaw_delta;
     }

@@ -62,13 +62,15 @@ void func_808B3620(s8 *overlay_state) {
         ((S_808B3620_1 *)dst_words)->unk_04 = word_1;
         ((S_808B3620_1 *)dst_words)->unk_08 = word_2;
         ((S_808B3620_1 *)dst_words)->unk_0C = word_3;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        src_words += 4;
+        do {
+            src_words += 4;
+        } while (0);
         ASM_KEEP(src_words);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         dst_words += 4;
     } while (src_words != chunk_end);
-    ((S_808B3620_1 *)dst_words)->unk_00 = ((S_808B3620_0 *)src_words)->unk_00;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    do {
+        ((S_808B3620_1 *)dst_words)->unk_00 = ((S_808B3620_0 *)src_words)->unk_00;
+    } while (0);
     kind_format = D_A0700000 + 0x144;
     ((S_808B3620_4 *)(*(volatile void **)(D_A0700000 + 0xF58)))->unk_64.s(kind_format, D_A0700150, ((S_808B3620_2 *)p)->unk_08, dst_words);
     ((S_808B3620_4 *)(*(volatile void **)(D_A0700000 + 0xF58)))->unk_64.u(kind_format, D_A0700158, *(s32 *)(D_A0700000 + 0xF48));

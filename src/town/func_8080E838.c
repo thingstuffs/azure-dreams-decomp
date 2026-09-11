@@ -125,8 +125,9 @@ void func_8080E838(void *source_data, void *initial_data) {
         copy_word_1 = ((S_8080E838_0 *)copy_src)->unk_04;
         ((S_8080E838_1 *)copy_dst)->unk_00 = field_value;
         ((S_8080E838_1 *)copy_dst)->unk_04 = copy_word_1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        copy_or_obj = (s32)obj;
+        do {
+            copy_or_obj = (s32)obj;
+        } while (0);
         ASM_KEEP(copy_or_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         setup_data = D_8003C558;
         part = ((S_8080E838_2 *)obj)->unk_08;
@@ -167,12 +168,14 @@ void func_8080E838(void *source_data, void *initial_data) {
         ((S_8080E838_4 *)part)->unk_0C = field_or_table;
         field_value |= 0x80;
         ((S_8080E838_4 *)part)->unk_14.u16 = field_value;
-        ASM_KEEP(field_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_8080E838_4 *)part)->unk_08 = copy_or_entry;
+        do {
+            ((S_8080E838_4 *)part)->unk_08 = copy_or_entry;
+        } while (0);
         ((S_8080E838_7 *)payload)->unk_50 = payload_table;
         ASM_KEEP_NV(payload);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        setup_data = ((S_8080E838_2 *)obj)->unk_08;
-        ASM_KEEP(setup_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            setup_data = ((S_8080E838_2 *)obj)->unk_08;
+        } while (0);
         field_or_table = (s32)D_805300F4;
         ASM_KEEP(field_or_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         func_8023FA58(payload + 8, setup_data, (void *)field_or_table);

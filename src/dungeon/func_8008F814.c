@@ -165,9 +165,10 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
             if (D_80012094 != 3) {
                 state_page[0x104B] = 3;
             } else {
-                state_page[0x104B] = 5;
+                do {
+                    state_page[0x104B] = 5;
+                } while (0);
             }
-            ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             *(u16 *) 0x8001209A = 0;
         } else if (item_kind == 14) {
             pickup_value = func_800438E4();

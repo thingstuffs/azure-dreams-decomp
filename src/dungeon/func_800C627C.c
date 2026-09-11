@@ -157,11 +157,13 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
             {
                 u8 *status_page;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 u8 *actor_counts;
-                register s32 global_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                s32 global_flags;
                 u16 actor_count;
                 u16 removal_flags;
 
-                status_page = (u8 *)0x80080000;
+                do {
+                    status_page = (u8 *)0x80080000;
+                } while (0);
                 actor_counts = (u8 *)&D_80083460;
                 removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
                 ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;

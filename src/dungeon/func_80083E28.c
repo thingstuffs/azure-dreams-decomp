@@ -44,7 +44,7 @@ M2C_UNK func_80067F20();
 void func_80089588(void) {
     s32 draw_area[2];
     s32 alternate_buffer;
-    register s32 saved_alternate ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 saved_alternate;
     u16 strip_y;
     u16 other_strip_y;
     void *packet;

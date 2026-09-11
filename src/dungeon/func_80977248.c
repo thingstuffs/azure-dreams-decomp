@@ -71,7 +71,7 @@ typedef struct S_80172A48_5 {
 /* Advance item use through effect activation, actor animation, and cleanup. */
 void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_in)
 {
-    register void *action ASM_REG("$16") = action_in;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *action = action_in;
     void *motion = motion_in;
     register void *actor ASM_REG("$19") = actor_in; /* MATCH: retain the actor register across the shared model tail. */
     register void *item ASM_REG("$18") = item_in; /* MATCH: retain the item register across the shared model tail. */
@@ -95,9 +95,10 @@ void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_
     void *target;
     register u8 *model_base ASM_REG("$5"); /* MATCH: shared model setup materializes its pointer in a1. */
 
-    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    is_special = 0;
+    do {
+        is_special = 0;
+    } while (0);
     state = ((S_80172A48_0 *)action)->unk_9B;
     if ((u32)state >= 24) {
         goto end;
@@ -200,8 +201,9 @@ copy_active_coords:
                 item, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25,
                 (*(s16 *)((u8 *)item + 0x2A)), 0x10);
             (*(void * volatile *)((u8 *)item + 0x60)) = target;
-            ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            dx = (*(s8 *)((u8 *)item + 0x72));
+            do {
+                dx = (*(s8 *)((u8 *)item + 0x72));
+            } while (0);
             dy = (*(s8 *)((u8 *)item + 0x73));
             if (dx < 0) {
                 dx = -dx;

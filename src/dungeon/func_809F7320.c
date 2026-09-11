@@ -273,8 +273,9 @@ jt_c4:
     }
     random_value = func_80069EF8(call_arg);
     style = random_value % 3;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    call_arg = sprite;
+    do {
+        call_arg = sprite;
+    } while (0);
 set_animation:
     func_8003DB94(call_arg, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
     entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);

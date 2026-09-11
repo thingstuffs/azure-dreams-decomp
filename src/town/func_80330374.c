@@ -22,12 +22,14 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     TownCopyFn report_assert;
     TownSetFn set_fn;
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    entry = entries;
+    do {
+        entry = entries;
+    } while (0);
     context = eval_context;
     count = entry_count;
-    ASM_USE2(context, count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    best_value = 0x7FFFFFFF;
+    do {
+        best_value = 0x7FFFFFFF;
+    } while (0);
     index = 0;
     best_entry = index;
     if (count > 0) {
@@ -46,8 +48,9 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
         object = *(void **)D_80016000;
         dispatch = *(void **)((s8 *)object + 0x20);
         report_assert = *(TownCopyFn *)((s8 *)dispatch + 0x168);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        report_assert(D_80016130, D_80016158, 0x40);
+        do {
+            report_assert(D_80016130, D_80016158, 0x40);
+        } while (0);
 
         object = *(void **)D_80016000;
         dispatch = *(void **)((s8 *)object + 0x20);

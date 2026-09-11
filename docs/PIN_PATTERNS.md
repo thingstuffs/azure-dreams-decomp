@@ -221,3 +221,41 @@ hard-register variables one cse class, and the `(s16)` use is rewritten to the o
 one-word `ASM_KEEP_NV` only stands between them. The site's cost of 1 is an artefact of the row's
 register pins: the fix belongs to that group, not to `narrow`. Count how many of the 71 sites
 have a hard-register variable on BOTH sides of the copy before widening `narrow` at all.
+
+## 9. The fence study — what a `do { } while (0)` stands for (2026-09-11)
+
+The owner stopped t18 at ~4,200 of 6,767 rows to ask whether the fences hide a real 1997 C shape,
+including one specific theory: a compiled-out debug hook (`#define HOOK() do { } while (DEBUG)`,
+0 in the release build, 1 to spin until a debugger attaches). An Opus lane took 22 rows / 24
+fence sites (16 landed that day by t18, 6 older empty fences from t15), 184 scorer runs, and
+per-pass `-da` dumps of fenced vs unfenced text. Every claimed exact was re-verified here.
+
+**How a fence acts** (gcc 2.7.2 source + the dumps; no fence changes the basic-block count):
+a loop note is a full barrier to the scheduler (14 sites: 13 sched1, 1 sched2); cse ends its
+block at the loop-end note and will not follow a jump past it (8); flow weights the references
+inside a loop, which changes allocation priority (2 — `town/func_8046C048`).
+
+**The debug-hook theory: the bytes allow it, the positions do not.** One EMPTY `do {} while (0);`
+next to the statement reproduces retail at 22 of 24 sites, and `while (0) { }` / `for (;0;) { }`
+are byte-identical to it in all 18 checks. But it works on one specific side of one specific
+statement (before only 9, after only 4, either 3), never at the natural home of a hook — function
+entry: 0 of 20 — and the two allocation-weight fences cannot be an empty loop at all.
+
+| verdict | rows | what it means |
+|---|---:|---|
+| H3 — a natural shape, no fence at all | 8 | drop a copy and use its source (`town/func_80878714`, `town/func_800A29F0`); the store / `\|=` / `&=` written inside both if-arms instead of a join temp (`town/func_800C5228`, `town/func_800A7FDC`); `return` inside a loop → `break` + return after it (`town/func_800ABDC8`); a pointer walk → an array-indexed `for` (`dungeon/func_8009A874`/`924`, the pointers were loop's output); the post-increment folded into its use, `sum += (entry++)->field18` (`main/func_8001AA50`) |
+| H2 — a shared statement macro | 2 | `dungeon/func_80091258` and `func_80087054` carry the same control-flag store unit (`D_80083460.unk_02 \|= 0x80`) and set-action stores; wrapping the flag store as a unit also frees `ASM_KEEP(saved_target)` — inline that is a pin for a fence (net 0), so it only pays as a real named macro in a shared header |
+| H4 — a barrier and nothing else | 12 | ~55 %: 11 byte-compatible with an empty fence on one side, 1 row of allocation-weight fences |
+
+**Landed as `t20_fencefree`: the 8 H3 rows** — 8 fences gone, nothing added, two rows now carry
+neither pins nor fences (`dungeon/func_8009A874`, `func_8009A924`). A macro-shaped wrap that
+matched elsewhere proves nothing: its closing brace always sat where an empty fence already
+matched. And because census excludes `#define` bodies, naming the H4 fences as macros would hide
+the debt without paying it — they stay counted.
+
+**Rules it leaves:** try the five natural shapes BEFORE any fence (they are the next generators);
+when a fence does land, try an empty fence on each side — if neither matches, the fence works
+through allocation weighting and cannot be a macro at all. `census.py` now counts `while (0) { }`
+and `for (;0;)` too (none in the tree yet; a lane that learned the equivalence could otherwise
+trade a counted fence for an invisible one). Share of the ~400 fences in the tree, from a sample
+of small functions: natural shapes perhaps a third, evidenced macros ~10 %, about half H4.

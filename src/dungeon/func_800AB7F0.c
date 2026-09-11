@@ -121,9 +121,10 @@ void *func_800B0F50(void *owner)
         position_text:
         text_width = func_80069E98(text_addr + 1);
 
-        text_width *= 4;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        func_800B1320(prim, (s16) ((((s32) (0x20 - text_width)) >> 1) + 0x80), (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 0x11)));
+        do {
+            text_width *= 4;
+            func_800B1320(prim, (s16) ((((s32) (0x20 - text_width)) >> 1) + 0x80), (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 0x11)));
+        } while (0);
         func_800B135C(prim, 8);
         prim += 0x30;
       }

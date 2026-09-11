@@ -57,13 +57,13 @@ case_789:
         entry_index = 0x1C;
         entry_table = (u8 *)&D_80129728;
         entry_slot = (void **)(entry_table + 0x70);
-        ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
             entry = *entry_slot;
             entry_data = ((S_80125DDC_1 *)entry)->unk_08;
             field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
-            ASM_KEEP(field_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            entry_index++;
+            do {
+                entry_index++;
+            } while (0);
             field_value += 0x100;
             ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
             entry_slot = (void **)((u8 *)entry_slot + 4);
@@ -82,8 +82,9 @@ case_10:
         entry_table = (u8 *)&D_80129728;
         entry_slot = (s32 **)(entry_table + 0x78);
         do {
-            entry = *entry_slot;
-            ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            do {
+                entry = *entry_slot;
+            } while (0);
             entry_index++;
             *entry = 0;
             entry_slot = (s32 **)((u8 *)entry_slot + 4);
@@ -102,13 +103,13 @@ case_111213:
         entry_index = 0x1C;
         entry_table = (u8 *)&D_80129728;
         entry_slot = (void **)(entry_table + 0x70);
-        ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
             entry = *entry_slot;
             entry_data = ((S_80125DDC_1 *)entry)->unk_08;
             field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
-            ASM_KEEP(field_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            entry_index++;
+            do {
+                entry_index++;
+            } while (0);
             field_value += 0x100;
             ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
             entry_slot = (void **)((u8 *)entry_slot + 4);
@@ -128,13 +129,13 @@ case_14:
         entry_index = 0x1C;
         entry_table = (u8 *)&D_80129728;
         entry_slot = (void **)(entry_table + 0x70);
-        ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
             entry = *entry_slot;
             entry_data = ((S_80125DDC_1 *)entry)->unk_08;
             field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
-            ASM_KEEP(field_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            entry_index++;
+            do {
+                entry_index++;
+            } while (0);
             field_value += 0x100;
             ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
             entry_slot = (void **)((u8 *)entry_slot + 4);
@@ -150,8 +151,9 @@ case_14:
         entry_table = (u8 *)&D_80129728;
         entry_slot = (s32 **)(entry_table + 0x70);
         do {
-            entry = *entry_slot;
-            ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            do {
+                entry = *entry_slot;
+            } while (0);
             entry_index++;
             *entry = 0;
             entry_slot = (s32 **)((u8 *)entry_slot + 4);

@@ -64,7 +64,7 @@ void func_800B2074(s32 world_x, s32 world_z) {
     s32 tile_addr;
     void *object;
     s32 pos_x;
-    register s32 pos_z ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 pos_z;
     void *init_object;
     void *init_data;
     void *callback;
@@ -98,8 +98,9 @@ void func_800B2074(s32 world_x, s32 world_z) {
         transform->unk_02 = pos_x;
         transform->unk_06 = pos_z;
         tile_addr += (((s32) (pos_x << 0xA) >> 0x10) + (((s32) (pos_z << 0xA) >> 0x10) << ((S_800B2074_0 *)map_state)->unk_1F0)) * 6;
-        ASM_KEEP(pos_z);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ((S_800B2074_1 *)object)->unk_20 = (u16 *) (tile_addr + 2);
+        do {
+            ((S_800B2074_1 *)object)->unk_20 = (u16 *) (tile_addr + 2);
+        } while (0);
         ((S_800B2074_4 *)tile_addr)->unk_00 = 3;
         transform->unk_0A = (s16) (0 - *((S_800B2074_1 *)object)->unk_20);
         ((S_800B2074_4 *)tile_addr)->unk_02 = (u16) (((S_800B2074_4 *)tile_addr)->unk_02 + 0x20);

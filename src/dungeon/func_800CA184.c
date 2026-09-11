@@ -343,8 +343,9 @@ L_CF974:
             blended_coord = ((S_800CF8E4_2 *)view)->unk_1C;
             coord_delta >>= 1;
             blended_coord += coord_delta;
-            ((S_800CF8E4_2 *)view)->unk_1C = (u16)blended_coord;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            do {
+                ((S_800CF8E4_2 *)view)->unk_1C = (u16)blended_coord;
+            } while (0);
             coord_delta = (s16)view_corners[12];
             blended_coord = (s16)((S_800CF8E4_2 *)view)->unk_20;
             next_delta = (s16)view_corners[13];
@@ -400,10 +401,10 @@ L_CFB98:
             draw_mode = *(u8 *)(setup_value + 0x3184);
             setup_value = *(u8 *)(setup_value + 0x3185);
             setup_base += 0xB8;
-            ASM_KEEP(setup_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            *(s32 *)(ram_base + 0x124) = width_shift_or_end;
+            do {
+                *(s32 *)(ram_base + 0x124) = width_shift_or_end;
+            } while (0);
             *(u16 *)(ram_base + 0x178) = (u16)setup_value;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             setup_value = width_shift_or_end;
             ASM_KEEP(setup_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             *(s32 *)(ram_base + 0x0BC) = setup_base;
@@ -411,8 +412,9 @@ L_CFB98:
             setup_value = setup_base << setup_value;
             *(s32 *)(ram_base + 0x128) = height_shift;
             *(s32 *)(ram_base + 0x114) = setup_value;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            setup_value = height_shift;
+            do {
+                setup_value = height_shift;
+            } while (0);
             ASM_KEEP(setup_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             setup_base <<= setup_value;
             *(s32 *)(ram_base + 0x11C) = column_mask;

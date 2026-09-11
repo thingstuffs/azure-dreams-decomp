@@ -337,9 +337,10 @@ check_winding:
         register s32 signed_depth_bias ASM_REG("$3");
 
         raw_depth_bias = saved_transform.saved_arg3;
-        ASM_KEEP(raw_depth_bias);
-        signed_depth_bias = (s16)raw_depth_bias;
-        ((S_800C9088_1 *)scratch)->unk_C0 -= signed_depth_bias;
+        do {
+            signed_depth_bias = (s16)raw_depth_bias;
+            ((S_800C9088_1 *)scratch)->unk_C0 -= signed_depth_bias;
+        } while (0);
         if ((u32)((S_800C9088_1 *)scratch)->unk_C0 < 0x1E0) {
             func_80065034(normals + (*(u16 *)((u8 *)record_end + -0xF)) * 8,
                           base_color, packet + 4);

@@ -48,7 +48,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
   register s32 render_state;
   register u8 *sprite_placement ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   u8 *sprite;
-  register u8 *packet ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  u8 *packet;
   u8 *packet_data;
   u8 *quad_data;
   u8 *part;
@@ -295,9 +295,11 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
               *((u8 *) (((u8 *) packet_data) + 0x21)) -= 1;
             }
             {
-              register u16 part_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+              u16 part_flags;
               register u8 flags;
-              part_flags = *((u16 *) (((u8 *) part) + 0x14));
+              do {
+                  part_flags = *((u16 *) (((u8 *) part) + 0x14));
+              } while (0);
               flags = quad_data[0];
               *((u8 *) (((u8 *) part) + 0xF)) = flags;
               if (part_flags & 8)
@@ -312,7 +314,6 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
                   draw_flags = flags & 0xFD;
                 }
                 *((u8 *) (((u8 *) part) + 0xF)) = draw_flags;
-                ASM_KEEP(part_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
               }
             }
             {
@@ -338,11 +339,12 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
               ordering_table = scratch->data20;
               {
                 u32 *ot_entry;
-                register u32 packet_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                u32 packet_tag;
                 u32 ot_tag;
                 ot_entry = (u32 *) ((depth << 2) + ((u32) ordering_table));
-                ASM_KEEP(ot_entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                packet_tag = *((u32 *) (((u8 *) packet) + 0));
+                do {
+                    packet_tag = *((u32 *) (((u8 *) packet) + 0));
+                } while (0);
                 ot_tag = *ot_entry;
                 packet_tag &= length_mask;
                 ot_tag &= addr_mask;

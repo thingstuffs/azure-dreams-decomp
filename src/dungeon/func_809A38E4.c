@@ -105,9 +105,10 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
         scale_b_x = radii.arg2;
         scale_b_y = radii.arg3;
         scale_a_x = radii.arg0;
-        scale_a_y = radii.arg1;
-        vertex_data = prim + 0x1A;
-        ASM_USE2(vertex_data, scale_a_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        do {
+            scale_a_y = radii.arg1;
+            vertex_data = prim + 0x1A;
+        } while (0);
         do {
                ASM_USE_NV(angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);

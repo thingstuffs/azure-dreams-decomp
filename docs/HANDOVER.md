@@ -152,6 +152,74 @@ after every launch — commit your own tree changes (tools, config, ledger) *bef
 they get swept into a campaign commit without their config; a bash `a && b && nohup c &` backgrounds
 the whole list, not just `c`; never print a set of window names.
 
+## PICK UP HERE (2026-09-11, evening) — then `docs/PIN_PATTERNS.md` sections 4, 8 and 9
+
+**1,716 rows carry pins, 11,533 live sites** (1,717 / 11,872 at the afternoon's start); every
+landing gated (104 windows re-gated MATCH, SLUS untouched). **Read the fence line before quoting a
+pin count:** `census.py` counts a `do { stmt; } while (0)` fence "like a pin", and most of the
+day's removals were that trade. This session: **339 pins out, 224 fences in — net −115**; STATUS's
+`do{}while(0)` row went from 365 to 504 rows. Report the net, never the raw pin count.
+
+### What this session did
+
+- **Pairs census for the 6–10-pin rows** (`pin_sites.py --subsets --min-pins 6 --max-pins 10
+  --max-k 2`: 9,528 pairs / 368 rows, 18 min at 12 workers) and **pin groups**
+  (`pin_sites.pin_groups`; `--groups` prints the histogram): two pins are one unit when their pair
+  erasure shares (almost) all of the smaller one's residue AND their retail word ranges meet —
+  the report's `joint < sum` chains a ten-pin row into one group, i.e. the strip again. 980
+  multi-pin groups, 417 within 12 words.
+- **t18_groups** (erase the cheapest group; then t15's menu nearest the group; then each pin
+  alone) reached rows t15's whole-row band never admits: **164 rows** before the owner stopped it
+  at ~4,200 of 6,767 — but 232 of its steps were fences. It now tries real shapes first
+  (`_is_fence`). It resumes where it stopped (`sweep.py t18_groups --workers 16`; the journal
+  skips rows it already tried) — **do not resume it until the natural-shape generators (below)
+  run ahead of its fences.** Three in-flight writes of the killed sweep had no journal record and
+  were reverted to HEAD.
+- **t19_modpow2** (`%` on `idiom_search`): 2 rows / 2 pins; the arm-reads-the-copy rule does not
+  predict a row (PIN_PATTERNS 6). t2 over everything t18/t19 touched: 19 rows of newly dead pins.
+- **The fence study** (PIN_PATTERNS 9; an Opus lane, 22 rows, every exact re-verified here): the
+  owner's compiled-out debug-hook theory is byte-compatible (an empty fence matches at 22 of 24
+  sites) but not supported by position (one specific side of one statement; function entry 0/20;
+  two fences work through allocation weight, which no empty loop can). **8 of 22 rows hide a
+  natural shape — landed as `t20_fencefree`**, two rows now free of pins and fences; 2 share a
+  macro-like unit (only worth it as a real named macro); ~55 % are barriers and nothing else.
+  `census.py` now also counts `while (0) { }` and `for (;0;)` (byte-identical barriers).
+- **Measured before any lane:** address materialisation (PIN_PATTERNS 8a — the pin ties the `%hi`
+  pseudo by `sugg=5`; m2c's one-variable-for-two-arms is what loses the tie; a second handle for
+  the register choice is still missing) and the sign-extension copy (8b — on the traced row the
+  site is held by the row's other `ASM_REG` pins, not a `narrow` case).
+- **agy group packs:** `pin_lane.py --groups` → `work/agy_groups` (48 rows, 6 batches; 217
+  qualify), `GROUP_MODE` understood by `~/agy_lane/go.sh` and `harvest.py`; the briefs forbid
+  fences and the harvest rejects any candidate with more fences than its base. **Not launched** —
+  the owner runs `! AGY_PACK=work/agy_groups bash ~/agy_lane/go.sh "Gemini 3.8 Flash (High)" batch1
+  batch2 batch3`, then `python3 ~/agy_lane/harvest.py --model "Gemini 3.8 Flash (High)" --pack
+  <repo>/work/agy_groups` and `apply_candidates.py <cand dir> --transform t13_depin`.
+
+### Start here, in order
+
+1. **Build the fence study's five natural shapes as generators** and run them over every fenced
+   row BEFORE any new fence: drop a copy and use its source; the store / `|=` / `&=` in both
+   if-arms instead of a join temp (extend `dup_after_if`); `return` in a loop → `break` + return
+   after it; a pointer walk → an array-indexed `for`; the post-increment folded into its use. The
+   eight `t20_fencefree` rows are their test cases. Then put them ahead of the fence family in
+   t15/t18's menu and resume t18.
+2. Harvest the agy group pack if it ran (commands above).
+3. The shared control-flag unit (`dungeon/func_80091258`, `func_80087054`): decide whether a named
+   macro in a shared header is honest (it frees a pin in 80091258; inline it is net zero).
+4. Address materialisation: the second handle on `dungeon/func_8098D5A8` with the instrumented
+   cc1 (kept with the compiler sources in the old checkout — the in-tree `toolchain/compiler-src`
+   path in older notes is stale; drive it by hand: this tree's `gcc -E`, then it and the shipped
+   cc1 on the `.i`).
+
+### Rules learned today
+
+- **The net scaffolding change is the figure**, not pins removed.
+- **A killed sweep can leave a written file with no journal record** — reconcile `git diff` against
+  the journal's `out_sha` before gating; gate by the tree, not the journal.
+- **Inlining a symbol while its variable stays is inert** (cse folds the uses back into it).
+- **An equivalence the census cannot see is a way to hide debt** — count every spelling of a
+  barrier (the `while (0)` / `for (;0;)` fix).
+
 ## PICK UP HERE (2026-09-11, afternoon) — then read `docs/PIN_PATTERNS.md`
 
 **1,717 rows carry pins** (1,729 live at this session's start), every landing gated (window gate +

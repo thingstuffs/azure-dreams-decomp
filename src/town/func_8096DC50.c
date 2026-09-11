@@ -109,8 +109,9 @@ case_0:
         clear_base = (u8 *)D_80129728;
         clear_cursor = (s32 **)(clear_base + 0x38);
         do {
-            clear_entry = *clear_cursor;
-            ASM_KEEP(clear_entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            do {
+                clear_entry = *clear_cursor;
+            } while (0);
             clear_index += 1;
             *clear_entry = 0;
             clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
@@ -179,8 +180,9 @@ case_16:
         clear_base = (u8 *)D_80129728;
         clear_cursor = (s32 **)(clear_base + 0x38);
         do {
-            clear_entry = *clear_cursor;
-            ASM_KEEP(clear_entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            do {
+                clear_entry = *clear_cursor;
+            } while (0);
             clear_index += 1;
             *clear_entry = 0;
             clear_cursor = (s32 **)((u8 *)clear_cursor + 4);

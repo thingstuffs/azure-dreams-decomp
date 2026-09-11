@@ -62,10 +62,10 @@ void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
                 do {
                     dst_index = rect->unk_00;
                     dst_index += col;
-                    ASM_KEEP(dst_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    row_offset = rect->unk_02;
+                    do {
+                        row_offset = rect->unk_02;
+                    } while (0);
                     row_offset += row;
-                    ASM_KEEP(row_offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     stride_shift = ((S_8001A51C_2 *)grid_info)->unk_14;
                     row_offset <<= stride_shift;
                     dst_index += row_offset;

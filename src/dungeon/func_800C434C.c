@@ -165,8 +165,10 @@ void func_800C9AAC(void *object_state, void *object_motion, void *object_part)
         } else {
             register s32 height_adjustment ASM_REG("$2") = (*(s32 *)((u8 *)state + (0xA0)));   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 height_position = (*(s32 *)((u8 *)state + (0x90)));
-            register u32 motion_flags ASM_REG("$4") = (*(u16 *)((u8 *)state + (0x98)));   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            (*(u16 *)((u8 *)state + (0x9E))) = 0;
+            u32 motion_flags = (*(u16 *)((u8 *)state + (0x98)));
+            do {
+                (*(u16 *)((u8 *)state + (0x9E))) = 0;
+            } while (0);
             (*(s32 *)((u8 *)state + (0xA0))) = 0;
             height_position -= height_adjustment;
             (*(s32 *)((u8 *)state + (0x90))) = height_position;

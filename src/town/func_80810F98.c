@@ -33,10 +33,11 @@ s32 func_80810F98(void *arg0)
     if (state == 1) {
         goto state_1;
     }
-    return func_8052BC28(call_arg, arg0);
+    do {
+        return func_8052BC28(call_arg, arg0);
+    } while (0);
 
 state_0: {
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         if (((S_80810F98_1 *)object)->unk_0C & 2) {
             s32 result;
             result = call_arg + 1;

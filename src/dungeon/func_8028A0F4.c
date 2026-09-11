@@ -40,7 +40,7 @@ void func_8001D0F4(DungeonRect *rect)
 {
     u16 tile_flags;
     s32 slot_limit_calc;
-    register s32 slot_limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 slot_limit;
     register s32 item_kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 stored_kind;
     s32 special_roll;
@@ -58,7 +58,6 @@ void func_8001D0F4(DungeonRect *rect)
     slot_limit_calc = ((rect->height * rect->width) >> 3) +
                  (func_800A6D30() & 7);
     slot_limit = slot_limit_calc;
-    ASM_KEEP(slot_limit);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if ((s16)slot_limit_calc >= 29) {
         slot_limit = 28;
     }

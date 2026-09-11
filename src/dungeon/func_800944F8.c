@@ -87,8 +87,9 @@ void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
             texture = D_800DE870;
         }
         (*(void **)((u8 *)sprite + 0)) = texture;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        color = 0x808080;
+        do {
+            color = 0x808080;
+        } while (0);
         ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         texture_data = (*(void * volatile *)((u8 *)sprite + 0));
         texture_data = texture_data->unk_04;
@@ -127,8 +128,9 @@ void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
                 texture = D_800DE870;
             }
             (*(void **)((u8 *)sprite + 0)) = texture;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            color = 0x808080;
+            do {
+                color = 0x808080;
+            } while (0);
             ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             texture_data = (*(void * volatile *)((u8 *)sprite + 0));
             texture_data = texture_data->unk_04;
