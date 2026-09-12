@@ -55,7 +55,7 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
 {
     register void *motion ASM_REG("$21") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *monster ASM_REG("$20") = monster_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$17") = entity_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *actor = entity_arg;
     register s32 direction_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 direction;
     register u32 old_direction_raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -68,7 +68,6 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
     if (D_80083462 & 0x2000) {
         Callback early_callback;
 
-        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         early_callback = (*(Callback *)((u8 *)entity_arg + 0x8C));
         if (early_callback == (Callback)D_80170EE4) {
             early_callback(entity_arg, motion_arg, monster_arg, entity_arg);
@@ -80,7 +79,6 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
 
     ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(monster);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     old_direction_raw = (*(volatile u8 *)((u8 *)entity_arg + 0x6D));
     entity_kind = (*(u8 *)((u8 *)entity_arg + 0x9A));

@@ -50,15 +50,13 @@ its window and SLUS passed. Net reduction: **32 pins**, leaving **10,232 pins in
 1,633 pinned rows**. `dungeon/func_800B30D0` is now pin-free. Receipts and measured
 cohorts are in [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md).
 
-**Next batch:** `pins_joint_families_20260912` targets 288 larger functions / 5,355
-pins, excluding the 60 large rows just searched. Use `--mode erasures --families-only
---fallback 0 --screens 96 --verifies 8 --cpu-seconds 10`, four detached workers.
-The limited plan tries the full set, same-variable groups and macro families, skipping
-exhaustive subsets/pairs. It still byte-verifies every possible acceptance and saves
-near misses. Zero fallback is a measured throughput experiment after 435 extra near
-checks across two batches added no wins; it is not proof those variants cannot match.
-Check the actual run state/process before resuming or harvesting. All 43 tests pass.
-Selection: `work/pin_search/joint_family_audit_20260912/ids.txt`.
+**Family pass harvested:** 288 functions produced 22 removals in 79 CPU seconds;
+a note-cleaning replay preserved all ten candidates. Publication gates passed, and
+T2 removed four more pins. Follow-up and comment-cleanup gates passed. Final harvest:
+**26 pins**, leaving **10,206 pins in 1,633 pinned rows**. Source changes only erase
+pins and their obsolete notes. The next 87-row selection is deferred: the user asked
+for a broader strategy and accepts a multi-hour CPU job. The current interaction
+atlas is described in `docs/PIN_ATLAS_20260912.md` (check actual run state before resuming).
 The old sharded launcher and its partial journal remain historical.
 
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on

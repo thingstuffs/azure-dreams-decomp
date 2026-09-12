@@ -202,11 +202,8 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
 
     if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 1) {
         target_height = ((S_8017112C_4 *)motion)->unk_14.at02.v;
-        ASM_KEEP_NV(target_height);
         height = ((S_8017112C_4 *)motion)->unk_08.at02.v;
-        ASM_KEEP_NV(height);
         height_bits = ((S_8017112C_4 *)motion)->unk_08.at02u.v;
-        ASM_KEEP_NV(height_bits);
         if (target_height > height) {
             height_gap = target_height - height;
             height_gap = abs(height_gap);

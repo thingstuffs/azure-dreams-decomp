@@ -188,3 +188,38 @@ Final net reduction this cycle is 32 pins: 33 removed and one restored for hones
 Current census: 10,232 pins in 1,633 pinned rows. Tracked receipts include the separate
 repair in `ledger/pin_runs/host_type_repair_20260912.json`; combined evidence is
 [joint_expand_20260912.json](evidence/joint_expand_20260912.json).
+
+## Family-only pass: 26 removals harvested
+
+`pins_joint_families_20260912` completed all 288 larger functions in 79 CPU seconds:
+2,249 compiler calls, ten full verifies, ten candidates and 22 pin removals. No budget
+stops or errors occurred. Eight wins remove a register/keep (or undef) group on one
+variable; one removes three keep markers together, and one removes a register plus
+two keeps. This is roughly 1,001 staged pins per CPU hour, before publication costs.
+The prior larger-row sample yielded about 417; population differences still matter.
+
+Review found stale `Byte-exact pin` and `MATCH:` annotations left on erased-pin lines.
+The eraser now removes those annotations only on selected pin lines, preserving other
+comments and retained pins. A ten-winner replay, `pins_joint_families_clean_20260912`,
+retained all 22 removals in 12 CPU seconds and is the publication source. Original
+candidate artifacts remain immutable. All 14 publication windows and SLUS passed.
+T2 removed four further pins in three functions; all four affected windows and SLUS
+passed. Four obsolete follow-up pin comments were removed with token equality checked
+and another fresh four-window/SLUS gate. The shared T2 eraser now cleans these notes.
+Final harvest: **26 pins**, leaving **10,206 pins in 1,633 pinned rows**. Receipts are
+in `ledger/pin_runs/pins_joint_families_clean_20260912*.json`.
+
+The next learned grouping mechanism is multi-operand connectivity: a keep/use involving
+several named variables connects their register declarations. The old family pass only
+recognized single-identifier arguments. The new plan tries each variable's pin group
+and each connected group, with duplicate groups removed. It does not change C expressions.
+Of 102 statically linked functions, 15 have fresh complete small-subset searches;
+a saved selection contains the other 87 functions / 1,695 pins. This small batch is
+deferred while we map the current population and compare interaction predictors.
+The search/eraser suite has 46 passing tests.
+
+Cache replay exposed a separate efficiency issue: batch-wide recipe identities change
+when the selected compiler/SLUS-reference set changes, invalidating some reusable row
+compilations. The ten-row replay made 90 compiler calls and ten cache hits. Queue stable
+row recipe identities with cross-batch regression and legacy-publication compatibility;
+do not weaken current source/recipe checks merely to reuse old cache entries.

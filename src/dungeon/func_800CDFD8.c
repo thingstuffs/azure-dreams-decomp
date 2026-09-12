@@ -265,7 +265,7 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     u8 *page_dependency;
     S_func_800CDFD8_6 *matrix_or_part;
     S_func_800CDFD8_7 *part;
-    register S_func_800CDFD8_4 *render_state ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_func_800CDFD8_4 *render_state;
     S_func_800CDFD8_9 *packet;
     S_func_800CDFD8_5 *sprite;
     register s16 depth_bias ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -315,7 +315,6 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
         packet = render_root->unk_8D0;
         scratch->unk_C0 = func_80065420((render_state = (S_func_800CDFD8_4 *)(globals_page + 0x3160), world_pos), screen_pos, depth_out, projection_flags);
     }
-    ASM_KEEP_NV(render_state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     sprite->unk_14 = (u16) (sprite->unk_14 | 0x8000);
     depth = scratch->unk_C0;
     matrix_or_part = (S_func_800CDFD8_6 *)&D_8006CD30;

@@ -96,7 +96,7 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     void *slot_entry;
     S_80169EC0_2 *slot_record;
     u16 status;
-    register u16 height ASM_REG("$4"); /* MATCH: reserve the unsigned height register used by the shared landing tail. */
+    u16 height;
     s32 signed_height;
     s32 height_offset;
 
@@ -223,7 +223,6 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
             (*(s32 *)((u8 *)owner + (0x90))) = 0;
         } else {
             (*(s16 *)((u8 *)owner + (0x92))) = terrain_height - height;
-            ASM_KEEP(height); /* MATCH: keep the height operand intact so the difference uses the retail scratch register. */
         }
         ((S_80169EC0_5 *)motion)->unk_14 = 0;
         ((S_80169EC0_3 *)actor)->unk_1C |= 0x08000000;

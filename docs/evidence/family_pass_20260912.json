@@ -1,0 +1,1728 @@
+{
+  "search": {
+    "tag": "pins_joint_families_20260912",
+    "run_key": "b6577ff998f2a9d50d106577ea9d7f74b8cc6b7b40595373998aaeb9da901661",
+    "at": "2026-09-12T12:28:40Z",
+    "modes": {
+      "erasures": {
+        "records": 288,
+        "outcomes": {
+          "noop": 278,
+          "candidate": 10
+        },
+        "stops": {
+          "complete": 288
+        },
+        "pins_removed": 22,
+        "fences_removed": 0,
+        "totals": {
+          "compiled": 2249,
+          "screened": 2270,
+          "cache_hits": 21,
+          "tried": 10,
+          "seconds": 79.74063739925623,
+          "cpu_seconds": 79.096115,
+          "generation_seconds": 0,
+          "fallback_tried": 0,
+          "fallback_wins": 0,
+          "compile_timeouts": 0
+        }
+      }
+    }
+  },
+  "replay": {
+    "tag": "pins_joint_families_clean_20260912",
+    "run_key": "008c04a5e979ffedc15f43d49b5ea843c63b2e2cda9f0c365637f34108825cac",
+    "at": "2026-09-12T12:32:42Z",
+    "modes": {
+      "erasures": {
+        "records": 10,
+        "outcomes": {
+          "candidate": 10
+        },
+        "stops": {
+          "complete": 10
+        },
+        "pins_removed": 22,
+        "fences_removed": 0,
+        "totals": {
+          "compiled": 90,
+          "screened": 100,
+          "cache_hits": 10,
+          "tried": 10,
+          "seconds": 11.529426109045744,
+          "cpu_seconds": 11.887743,
+          "generation_seconds": 0,
+          "fallback_tried": 0,
+          "fallback_wins": 0,
+          "compile_timeouts": 0
+        }
+      }
+    }
+  },
+  "publication_tag": "pins_joint_families_clean_20260912",
+  "publication": "complete",
+  "next_selection": {
+    "rows": [
+      {
+        "id": "town/func_800A5DA8",
+        "source_sha": "6b5b18b8200763f044d502d784353b05f88be3e39af028f3f155163ca0038d9c",
+        "pins": 4,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "obj",
+              "vec",
+              "record",
+              "unit_scale"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "town/func_8065C05C",
+        "source_sha": "12236224a88b0a26c8755756e18c670f16e27f224215401e562d9a7ea832092e",
+        "pins": 4,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "entries_copy",
+              "terminator"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "town/func_8081DD70",
+        "source_sha": "d313d7a4fab7701e717acf292e421b5ae055a1c7dc3eb67159f5361573c74fd2",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "call_object",
+              "call_data"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "town/func_809542B8",
+        "source_sha": "3668ce22b61a2a11da20620db022d4ca72e582247d5c6760a34a6afb52652e69",
+        "pins": 14,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "widget_args",
+              "widget_handler"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "handler_page",
+              "template_page"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "child_index",
+              "sprite_state"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8008D990",
+        "source_sha": "d82215868db853abb83759019f7aeb37aea7a26c81eeb8d55c006c8564c7774c",
+        "pins": 9,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "command",
+              "zero_arg_1",
+              "zero_arg_2",
+              "zero_arg_3"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80092138",
+        "source_sha": "03c6490536dbc6c580f18a5a85f13408a591ad8831516121c23ef5084677f259",
+        "pins": 3,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "saved2",
+              "saved"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800957B8",
+        "source_sha": "36fbba0dc46b3d9f3c7ac8fc63a031816d7e25855f45dd78eb5e68a77e69aef5",
+        "pins": 13,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "shifted_limit",
+              "step_limit"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800969CC",
+        "source_sha": "570b1b3b14b1aa69699b9c11c641d48b1b64bae6fc7a5581d93dc531d2f1aefd",
+        "pins": 38,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "bonus_actor",
+              "attack_raw",
+              "element_product",
+              "attack_value"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8009BEB8",
+        "source_sha": "9678265dc22fe34b7ab2cc541a5f45ad534976f8a9f4a2096c81b7006b6d4d61",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "result",
+              "table",
+              "ram_base",
+              "saved_type"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "result",
+              "table",
+              "ram_base",
+              "saved_type"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "scan_start",
+              "scan_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8009F190",
+        "source_sha": "163ff90d5b99189848eb1e61e8fabe167391e57b7a621ff4ff76cfec438f6187",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "entry_owner",
+              "entry_id",
+              "entry_value",
+              "min_id"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8009F8EC",
+        "source_sha": "945524fa688be95f2cf1ce61327f7d59a2517c08e46c1b5e4499163d9c555871",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "base",
+              "tail_dst",
+              "entity",
+              "spawned"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800AC3B0",
+        "source_sha": "7a5641b4355634dcbb7a7abe3209b3da2a1266c3aaf61b80c50108d4e990940c",
+        "pins": 18,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "call_a1",
+              "call3_a0"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "arg5_t0",
+              "raw_arg4"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "call_a1",
+              "arg5_t0"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800AFA68",
+        "source_sha": "7c8424f3adb7887c3b8b521b2d2c4f8ef4abfa82f1ac46ba78b29610f24aa767",
+        "pins": 43,
+        "linked": [
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "shadow_camera",
+              "shadow_roll"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800B2D84",
+        "source_sha": "f35b920bb836ed97ce81080919b69b8432629f3ff2dc8ff7cf08bf3676ef4f0f",
+        "pins": 20,
+        "linked": [
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "u_offset",
+              "scaled_offset"
+            ]
+          },
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "v_offset",
+              "scaled_offset"
+            ]
+          },
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "x_offset",
+              "scaled_offset"
+            ]
+          },
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "y_offset",
+              "scaled_offset"
+            ]
+          },
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "u_offset",
+              "scaled_offset"
+            ]
+          },
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "v_offset",
+              "scaled_offset"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800B4318",
+        "source_sha": "0ffe9fd4fd753bf1cc7d724ad82c2db626f777652d137926a63b006bd29973e3",
+        "pins": 24,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "objects_page",
+              "amount"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "objects_page",
+              "amount"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800B5B84",
+        "source_sha": "9465a9ac6ff71177c83babd14cb3b4351b218f7d19af021b36b630be796587f5",
+        "pins": 15,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "apply_offset_y",
+              "y"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800B6D74",
+        "source_sha": "03238f1168ac9f0bbe28cfc3453c1c2c5bac5ddd8802f90abee8f128693f2f90",
+        "pins": 30,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "coord_y",
+              "quad_height"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "coord_y",
+              "quad_height"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "top_left",
+              "top_right",
+              "bottom_left",
+              "bottom_right"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800B8758",
+        "source_sha": "8db6bc79b11726aaee914ffcfab95b4ee6d425dbceb1ae66976599dd60c1e66d",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "entity",
+              "action_id",
+              "special_case",
+              "return_address"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "entity",
+              "action_id",
+              "special_case",
+              "original_id"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800BFE94",
+        "source_sha": "8db3a8381de276736d9e395db160a14713666fcbbb21750d381b480467142a4e",
+        "pins": 23,
+        "linked": [
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "vector_arg",
+              "screen_arg"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "shade_arg",
+              "second_shade"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "shade_arg",
+              "third_shade"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800C40F0",
+        "source_sha": "fa852aaa4b9c3d0c053a6df3e599647d08623be886360ef9a020257c6c0216ea",
+        "pins": 14,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "tint",
+              "tint_entity",
+              "tint_arg",
+              "state"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800C4A80",
+        "source_sha": "9678e600ab9d4439a7f7c8954b79d876bb4778cac674343121ca9cb04c12c3ea",
+        "pins": 33,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "bounds_page",
+              "target_x"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800C9858",
+        "source_sha": "d5a20dd9fa81067a6914bd299afa18be4f45af45c2d547b6019f3f9395605665",
+        "pins": 41,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "depth_out",
+              "global_base"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "depth_out",
+              "second_coord"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_800CA184",
+        "source_sha": "fe36f8e9dbb248c366ac051c772bdea455e6dc572fbe7778907e966e100eeb09",
+        "pins": 30,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "width_shift_or_end",
+              "height_shift",
+              "column_mask",
+              "row_mask"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_802835B8",
+        "source_sha": "5e7745d1ffe0807130ebb9004a144d8e67501363e2bd38a308a1fabd47d43baf",
+        "pins": 33,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "entry_addr",
+              "table_base"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "zero_arg",
+              "bind_state"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "entry_addr",
+              "table_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8028516C",
+        "source_sha": "39bb49d92f3a49bc657ebd0ed92bd1d42370f428a8223ac84182aa969f8c51dc",
+        "pins": 13,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "record",
+              "row_offset"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8028BF0C",
+        "source_sha": "0c6546909aed526a9eba2dd076e89c9a12273078b60af49993cd3e1cc330e438",
+        "pins": 9,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "lookup_index",
+              "lookup_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80A4AA14",
+        "source_sha": "acbe246501e0d239bb913c57719731356d27e524098c7ea108b64dd495605444",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "new_object",
+              "init_data"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80BAF094",
+        "source_sha": "98570712cd9e81f26b71bc6562e4d1ac780be13f95713c0aeb6733456f9fd126",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "saved_arg1",
+              "create_kind"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "saved_arg0",
+              "saved_arg1",
+              "part_or_arg3",
+              "actor_or_arg2"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80BC1BA8",
+        "source_sha": "16767fa5082ecd0d901b7bd298235f97a9707ae340b44fcc23a2d6e95f997f81",
+        "pins": 9,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "call_entity",
+              "call_motion",
+              "call_sprite",
+              "entity_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80BC7BA8",
+        "source_sha": "5428a850af0ccd1593a9aded31640c858a49462f817300dfd4c4c01ac061e419",
+        "pins": 9,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "call_self",
+              "call_motion",
+              "call_sprite",
+              "actor_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80BCDBA8",
+        "source_sha": "07718029af082bb82675a6b11a5d5c23c174177bbf83657903e30a1ec59ebff5",
+        "pins": 9,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "check_entity",
+              "check_motion",
+              "check_sprite",
+              "entity_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80BD3BA8",
+        "source_sha": "275e200f8d011c0983acda7760146cd23ce6600b71ae91dabb0f1b6ce6053827",
+        "pins": 11,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "call_entity",
+              "call_motion",
+              "call_sprite",
+              "entity_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80BD9BA8",
+        "source_sha": "8ddf231825f3eb68ddbb9f6406bb87007ab4a2f95b4e8309b53ac856b975e59a",
+        "pins": 9,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "check_entity",
+              "check_motion",
+              "check_sprite",
+              "entity_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80BDFBA8",
+        "source_sha": "fed2e018c9d92a11f4805a9139c12dd6b7c92b3f8a62c5058e03040470261c47",
+        "pins": 9,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "call_entity",
+              "call_motion",
+              "call_sprite",
+              "entity_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80BE5BA8",
+        "source_sha": "527ac7e5c462f63f5b877daeeeab73aac1158d21185585fd779e7dd40fb714a6",
+        "pins": 9,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "call_entity",
+              "call_motion",
+              "call_sprite",
+              "entity_base"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80C96F24",
+        "source_sha": "64048b11ce1ad2b690dcfc7aa293dafb232e037ab6bd24064374ebe1d80f2258",
+        "pins": 23,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "effect_data",
+              "trig_angle"
+            ]
+          },
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "scaled_trig",
+              "vertex_coord"
+            ]
+          },
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "prev_band",
+              "next_band"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80CE8564",
+        "source_sha": "6fd19c08c5ff80306143b149f9ae9186739804f8f7b0d66dd82f1ce817c3e7ec",
+        "pins": 13,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "saved_x",
+              "mode_or_object"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80D3B9B0",
+        "source_sha": "39689624948ba9871c0078dd33916b577298327aa95292460b97545d2cf3225a",
+        "pins": 20,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "bob_step",
+              "bob_phase"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "bob_step",
+              "bob_phase"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80DE9000",
+        "source_sha": "8ff13f5ad73a244b776d112c78bba92845286998cf4930fe7594ebbb921050ae",
+        "pins": 9,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "arg1_role",
+              "opcode"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "arg3_part",
+              "factory"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80DF5054",
+        "source_sha": "8090efb8b7d70e804fd693d0d510a6230076eddc8ae74a40491515ec1dcb421b",
+        "pins": 5,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "saved_arg2",
+              "saved_arg3"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80E07054",
+        "source_sha": "aa14eec89dff2273db5cad041bd1d53e1e65358abefebf77924a4d880faa90ff",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "v_s4",
+              "alloc_data"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80E129AC",
+        "source_sha": "41d6754f74b13a9c7383d4b7d099d1fc2d1a79e862afcdf7637866b6b64e6c5e",
+        "pins": 4,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "r",
+              "d"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80F36D0C",
+        "source_sha": "5f8fef00f5dd2d658a2a353ae4074abd484370ab5acfa06dd932b01c746523ee",
+        "pins": 34,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "entity",
+              "motion",
+              "effect",
+              "object"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80F5F040",
+        "source_sha": "50208f98077d0fc1b9d5e4da953618eb1c5feb9c3b17053524c12e0e483fe67e",
+        "pins": 15,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "sprite",
+              "actor",
+              "saved_reg",
+              "heading"
+            ]
+          },
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "heading_x",
+              "random_x"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80F90E88",
+        "source_sha": "a08196fdc112cb08beff75185f86c13c8037ea882bbed1ead22039f8ec746d82",
+        "pins": 35,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "base",
+              "tag_mask"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80FB5398",
+        "source_sha": "c9ca53bfe407c7b757b2c7a7a24d9f24e800c18f5f12becb6e370ae571baab59",
+        "pins": 12,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "vertex",
+              "right_x",
+              "left_x",
+              "index_or_row"
+            ]
+          },
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "depth_out_or_phase",
+              "next_phase"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80FB7000",
+        "source_sha": "33efcf61654d901148a158430b5e0d9cf52a1e53880be442b66dc528caf4f0c9",
+        "pins": 17,
+        "linked": [
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "saved_part_value",
+              "object_pool"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80FD5000",
+        "source_sha": "94c95b883c737dcca12a7ad82aaf4b2859ba6239204b27055535194c67749c69",
+        "pins": 13,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "saved_x",
+              "call_id"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "call_definition",
+              "saved_x"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_80FED000",
+        "source_sha": "e12d95e58ae76394f06278858bf9c6349cf61bc57b864b9fc7f512767fb8b239",
+        "pins": 11,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "saved_grid_x",
+              "call_count"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "saved_placement",
+              "call_target"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "saved_grid_y",
+              "call_target"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8132A210",
+        "source_sha": "34673021761957bfb4e9c254d180213b8fd0a19f458d16a74c336c0ef753256a",
+        "pins": 17,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "direction",
+              "handler"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8132B8AC",
+        "source_sha": "b8f02980a690910c04542cd015b2c831fd2c510eee22c80831ba9b1f0169dcfa",
+        "pins": 17,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "particle_a0",
+              "particle_color",
+              "particle_variation",
+              "beldo"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "particle_a0",
+              "particle_color",
+              "particle_variation",
+              "beldo"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "particle_a0",
+              "particle_color",
+              "particle_variation",
+              "beldo"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "particle_a0",
+              "particle_color",
+              "particle_variation",
+              "beldo"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81331C88",
+        "source_sha": "c601dcaa2e4af9fc7368a166b8c050af93ae5dd068d2eee56cc6925c6c7fe3f1",
+        "pins": 20,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "start_coord",
+              "endpoint"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8133A7A8",
+        "source_sha": "63b80e32cf544e297d8e4b70c939c554c618f92923678b811f06be49614da6bd",
+        "pins": 16,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "height",
+              "selected_slot"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81809A0C",
+        "source_sha": "e569ae2cb2cc2903736c2d1bbc1097279003c0b62c1ff06d20459a68c74170c7",
+        "pins": 23,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "base_x",
+              "step_value"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8180E534",
+        "source_sha": "891722369f05915dc16c809becfe0a61eee005189fe4259151cb637f12b25cc4",
+        "pins": 26,
+        "linked": [
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "setup_asset",
+              "setup_data"
+            ]
+          },
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "init_effect",
+              "init_data"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81820800",
+        "source_sha": "2bd6f3a03565907c009e4947446713005c288e6d3f53b9968cce907ab7c6004a",
+        "pins": 21,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "direction_offset",
+              "header_raw"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81875828",
+        "source_sha": "cfdecbce44b37aa7b108802c03c31ac82a8cd90cf1f3093d06b511bfedc4171c",
+        "pins": 13,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "table_word",
+              "entry"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81875B38",
+        "source_sha": "f4cf1a73e505a47eeddfe9a9b53a1cc4f75ec236bdedbf4d5b9e0c6b047cadeb",
+        "pins": 11,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "effect_obj",
+              "effect_config"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818761D8",
+        "source_sha": "f8d4465b7669703856231764304738ba011e9224b754f3f9d87d13ea0ddd5492",
+        "pins": 21,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "resident_delta",
+              "resident_copy"
+            ]
+          },
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "p0",
+              "c2"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8187B1F4",
+        "source_sha": "347d435fac7bd2ed5d4fd20b0c53dcd03cb2f8b1d171ff119a47ff98e93419a6",
+        "pins": 17,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "points",
+              "aux_ptr"
+            ]
+          },
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "tail",
+              "point_packet"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8187B8B0",
+        "source_sha": "00111b4657a709b3bd812807be356983dc0058525164a0d4a9588086ada33e31",
+        "pins": 11,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "init_obj",
+              "init_data"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8187C45C",
+        "source_sha": "af0ce351557e98cd2f834b844581ba8aea9a0c793e5b613ece68cbc92d3bcbd2",
+        "pins": 51,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "offset_value",
+              "table_value"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "table_value",
+              "offset_value",
+              "direction_offset",
+              "target_data"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "table_value",
+              "offset_value",
+              "target_data",
+              "effect"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81892C5C",
+        "source_sha": "d7d4209fce6f41fa9074a7ae4215a59330886f180079f96e7d8ac23fb223682f",
+        "pins": 14,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "end_vertex",
+              "end_y_scaled"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818AAE60",
+        "source_sha": "6982798fac7d2003a47fde0d01b6c9eea865e3a193e65dd65fdeafaf1fa5b141",
+        "pins": 26,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "probe_z",
+              "x_step_ptr"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818B1664",
+        "source_sha": "76ba5e537e3d4d73e77aa00a252ac472eb65c52c3612bbb0aafe93f21b6e1676",
+        "pins": 43,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "next_x",
+              "next_y",
+              "tile_x",
+              "tile_y"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "table_addr",
+              "direction_index"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818B7F38",
+        "source_sha": "aca82614ee83756e8602c8ffd75f52da77ba11ff43d36e4cc2bdd34810915613",
+        "pins": 39,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "probe_x",
+              "next_tile_y",
+              "tile_x",
+              "tile_y"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818BDEBC",
+        "source_sha": "22da2c50c39f616f9b5f49f8575690d798e4977837e6d23ffabd4b61a35ac14f",
+        "pins": 26,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "next_x",
+              "next_y",
+              "tile_x",
+              "tile_y"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "table_base",
+              "direction_index"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818C3B90",
+        "source_sha": "d70bcaedecb5df64b39d390127246582f70e34b145dfbebb26ac75c86d8149bd",
+        "pins": 30,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "coord_work",
+              "coord_aux",
+              "grid_x",
+              "grid_y"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818CEB58",
+        "source_sha": "d9172cea76a2ba8e376b855da72b292bd0b5a276cbdd1331e6004ff3c0b40ce8",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "new_object",
+              "init_data"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818CF0E8",
+        "source_sha": "9173d4b3eb4f572ba90fef711955e0259c40221f47ca3f2c89db1a8f799059ef",
+        "pins": 59,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "a2v",
+              "a3v"
+            ]
+          },
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "a2v",
+              "a1v"
+            ]
+          },
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "a2v",
+              "a1v"
+            ]
+          },
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "a2v",
+              "a1v"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818CFB74",
+        "source_sha": "c03edc611bfe4f156dd2995e7f3664b66c6b7489f6e96d508c9365003c661adb",
+        "pins": 41,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "state",
+              "position",
+              "graphic",
+              "entity"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "offset_source",
+              "offset_page"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "template_source",
+              "template_page"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818E6800",
+        "source_sha": "2561d239aeb26a4886ba1dd16cfb969e8ae702ad3b165bd2fc49e9d215aaed69",
+        "pins": 32,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "hold_frames",
+              "current_state"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818EC800",
+        "source_sha": "f7df522778714824b39a5f4d5fd38d2a7e73674b969c913ccfdac878632cb43d",
+        "pins": 27,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "sprite",
+              "frame_data"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_818FECCC",
+        "source_sha": "6ec5c8ecef04f4d8a9d358c429ad8fb5c3598f9c81c921a1625eee7743b9d309",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "effect",
+              "effect_data"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81904800",
+        "source_sha": "5becf4c9092fd678792d82bd8a311f51381073ee6ecefdc51b9fa8f48fd81b8b",
+        "pins": 11,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "event_id",
+              "event_entity"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81912154",
+        "source_sha": "28a2a8b18848cbd3449f3b720256f8a3cd494af3f8652a6f4be0b4b1190cb5e0",
+        "pins": 36,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "y_delta",
+              "motion_value"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81941338",
+        "source_sha": "1fe53624f292ac31812b0297ce992b699e3e9de6950452ae3fb99b6b29c78147",
+        "pins": 34,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "animation",
+              "anim_context"
+            ]
+          },
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "animation",
+              "anim_context"
+            ]
+          },
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "animation",
+              "anim_context"
+            ]
+          },
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "animation",
+              "anim_context"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8194D354",
+        "source_sha": "5d7acbb15e23efad7f7b3d8a8841729df65d69ed9d1c321d4b374a21efebc0cc",
+        "pins": 16,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "actor_value",
+              "next_state"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "effect_data",
+              "actor_value"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8195E81C",
+        "source_sha": "10ea2b7b3c6f90b56a663fa35145a88a9fe84f3d49bedfc95f3dc3e161ddc2e5",
+        "pins": 11,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_MEMDEP",
+            "args": [
+              "config_byte",
+              "dependency_scratch",
+              "D_800814A8"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8197192C",
+        "source_sha": "ab5dbc47338c166610948466b90f35f2c67764282c8e74cb70499ccde6e77493",
+        "pins": 39,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "effect",
+              "owner",
+              "context",
+              "context"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_8197CEC0",
+        "source_sha": "500ea815876fba6e8089c459452c43e6d8a310e0891c1bdf0eef0f3d2013e3ac",
+        "pins": 5,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "child",
+              "packed_color"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_81988E48",
+        "source_sha": "117f02c238df6bd2ea23974c9a054f04c34b473f063b80cb512bc9b7e5209f39",
+        "pins": 10,
+        "linked": [
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "count",
+              "state_count"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_819A1654",
+        "source_sha": "1e0ae02acea921eb1e1504308fbcd8b899b7c16e25156a17bcab0ef98d7a71cd",
+        "pins": 66,
+        "linked": [
+          {
+            "macro": "ASM_USE2",
+            "args": [
+              "path_saved_base",
+              "path_z_work"
+            ]
+          },
+          {
+            "macro": "ASM_KEEP4",
+            "args": [
+              "call_entity",
+              "call_context",
+              "call_data",
+              "out_x"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dungeon/func_819ADDB8",
+        "source_sha": "f146dc77d927f18a3835648deeab165f6efd1beb1b820802932660a599960e02",
+        "pins": 19,
+        "linked": [
+          {
+            "macro": "ASM_KEEP4_NV",
+            "args": [
+              "origin_x",
+              "origin_y",
+              "origin_z",
+              "heading"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "slus/w_80044D24",
+        "source_sha": "6c76427e75bf56b3a94ec69910f496f6ffce2ea865a342c7644cad323dc4df62",
+        "pins": 20,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "blend_code",
+              "sprite_flags"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "slus/w_800453E0",
+        "source_sha": "0412fa9f8e93ee08575de51f3477a1bf9607735a395130202f9855385a713338",
+        "pins": 5,
+        "linked": [
+          {
+            "macro": "ASM_USE2_NV",
+            "args": [
+              "matrix_arg_guard",
+              "rotation_z"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "slus/w_80057D20",
+        "source_sha": "f9028118b7f2080b906ea384a8054498e2762a310897a69a8e95889882995d42",
+        "pins": 15,
+        "linked": [
+          {
+            "macro": "ASM_KEEP_DEP_NV",
+            "args": [
+              "merged_mask",
+              "voice_mask"
+            ]
+          }
+        ]
+      }
+    ],
+    "count": 87,
+    "pins": 1695,
+    "macros": {
+      "ASM_KEEP4": 21,
+      "ASM_USE2": 24,
+      "ASM_KEEP_DEP_NV": 59,
+      "ASM_KEEP4_NV": 16,
+      "ASM_USE2_NV": 16,
+      "ASM_KEEP_MEMDEP": 1
+    }
+  },
+  "publication_receipt": "ledger/pin_runs/pins_joint_families_clean_20260912.json",
+  "followup_receipt": "ledger/pin_runs/pins_joint_families_clean_20260912_followup.json",
+  "pins_removed": 26,
+  "pins_remaining": 10206,
+  "pinned_rows": 1633,
+  "next_selection_status": "deferred pending current interaction atlas"
+}
