@@ -23,6 +23,19 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Seventh round, gated (15 windows MATCH, SLUS SHA-1 MATCH): **9,432 pins in 1,577 rows** (28 pins).
+- **Residue map refreshed.** 644 rows were re-atlased single-site, so records now cover 99% of
+  pins. The `pin_atlas.py` long-probe-name bug is fixed; a crashed run must be finished under a new
+  tag.
+- **The 20–30-patterns question.** By residue there are 5,178 coarse signatures and the top 30
+  cover 15%. By source mechanism there are far fewer.
+- **`t40_prologue_param`**: 8 rows. The residue names the parameter.
+- **The cascade** (the cheap generators re-run over changed rows until a fixpoint): 19 records,
+  one of them a fence. `land7.sh` carries it.
+- **Pilot, dropped: unprototyped callees**, 0 of 12.
+- **The 42-pin row.** Luna and sol failed; sol's best is TOTAL 2 at 41 pins. Astra, the last
+  escalation, was launched after this gate (`work/native_lane/angle_astra/`).
+
 Sixth round, gated (202 windows MATCH, SLUS SHA-1 MATCH): **9,460 pins in 1,577 rows**, 288 pins
 and 21 more functions pin-free since round 5. Parts: `t36` 102, `t37` 81 rows, `t37b` 37 rows,
 `t38` 8, `t39` 8, lane wins 4, T2 14. The next-lever notes are in PIN_MECHANISMS (sixth-round

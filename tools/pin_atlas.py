@@ -173,6 +173,8 @@ def probe_child(a):
 
 def measure(d, m, item, rowdir, selected, retry_errors=False):
     key = 'base' if not selected else '-'.join(map(str, selected))
+    if len(key) > 120:    # a strip probe on a many-pin row overflowed NAME_MAX (2026-09-12, 56+ pins)
+        key = 'h' + digest(selected)[:16]
     path = rowdir / 'probes' / (key + '.json')
     bound = digest([m['key'], item['row']['id'], selected])
     if path.exists():

@@ -444,6 +444,13 @@ The register binding stays; only the keep becomes unnecessary once the local has
 `tools/xform/t37b_localwidth_keep.py` retypes a local that has two or more pins and erases one pin
 at a time.
 
+**The 42-pin row, sol (escalation after luna): no exact candidate.** Its best is TOTAL 2 at 41 pins
+(`work/native_lane/angle_sol/candidate.c`). One `angle` use is removed, and the first two `0xfb`
+stores become a chained assignment. `best.lreg` shows the `0xfb` pseudo back at 10 references over
+10 instructions and in `$v0`; the remaining residue is one pointer add scheduled 3 words early.
+Sol measured the loop, aggregate, pointer, declaration, type, angle-derived and assignment-order
+directions. Astra is the last escalation for this row, queued after the next gate.
+
 **Argmove, astra (last escalation): 1 of 3** (`work/native_lane/argmove_astra/REPORT.md`).
 
 `dungeon/func_8188E3A0` is exact at its current cell, 2.7.2-cdk-G0, with its `$4` pin off and
@@ -497,6 +504,52 @@ Next levers:
 - Re-cluster the residue records. Only rows whose text has not changed since the atlas still have
   valid records, so a fresh atlas over the changed rows would renew the map.
 - Widths of struct fields and globals: the next level of the type-width family.
+
+**Seventh round: the residue map refreshed, and how many patterns there are.**
+- **Refresh.** The atlas was re-run single-site only (`--pairs 0 --groups 1`) on the 644 rows whose
+  text had changed since 09-12 (5,126 pins). It crashed on a long probe name and was finished under
+  a second tag (1 row). Together with the unchanged 09-12 records, residue records now cover
+  **9,045 of 9,058 stock pins (99%)**. `scratchpad cluster_live.py` merges and clusters them.
+- **Tool fixes in `tools/pin_atlas.py`.** A strip probe on a row with 56+ pins overflowed
+  NAME_MAX, so long probe keys are now hashed. After a crash, the controller's `completed` count
+  undercounts: the worker pool drained its queue first, so 643 of 644 rows had written
+  `result.json`. Any change to the tool's code forces a new tag.
+- **Answer by residue: not 20–30 patterns.** There are 7,113 distinct fine signatures. With
+  registers and immediates folded there are still 5,178, and the top 30 cover 15% (top 100: 23%).
+- **Answer by source mechanism: fewer.** One cause, "m2c declared a type one width off" (`t36`,
+  `t37`, `t37b`), covered 175 functions across many residue classes. The patterns live at the level
+  of what the pin compensates for, not of what it visibly protects.
+- **Largest coarse clusters:**
+  - prologue reorders (`move $sX,$aM` with the save of `$sX`), 205 pins in 131 functions;
+  - displaced argument moves (`move $aN`), 163 pins in 122 functions;
+  - displaced argument constants (`li $aN`), 121 pins in 97 functions.
+- **`tools/xform/t40_prologue_param.py`.** The prologue residue names its parameter (`$aM`), so
+  `t40` retypes exactly that parameter with the pin erased. Targets come from the residue map:
+  276 pins in 174 functions. First sweep: **8 rows**.
+  - Five spawner rows had `s8 arg1` widened to `s16` alone; `t36`'s joint widening of both
+    parameters had failed on them.
+  - Two had an `s16` parameter declared `s32`, and one an `s32` declared `s16`.
+
+  The residue named the right parameter every time. But 8 of 174 says most prologue reorders are
+  not a type question.
+- **Cascade.** Re-running the type generators on `t40`'s 8 changed rows landed 11 more:
+  - `t36` 5, the spawner rows' `arg2` now widening too;
+  - `t37` 6.
+
+  Removing one pin changes the text enough for another generator to apply. Until now only T2 was
+  re-run on changed rows, so round 6's 186 changed rows never went back through `t36`–`t39`. The
+  cascade reruns `t36`, `t37`, `t37b`, `t38`, `t39` and T2 over every row changed since round 5
+  until a pass applies nothing. The journals skip text a transform has already seen, and `t40`
+  stays out because its target site indices go stale. `land7.sh` now ends every landing with the
+  same loop.
+
+  Over the rows changed since round 5, pass 1 applied 8: `t37` 1, T2 6, and `t38` 1, which
+  removed an `ASM_SCHED_BARRIER`. Pass 2 applied nothing. With the 8-row follow-up that makes 19
+  records. Most of the cascade's value is in the rows the latest generator just changed, not in
+  older rounds.
+- **Pilot, dropped: an unprototyped callee.** Removing the parameter list of a prototyped callee
+  declaration, with an argmove pin erased, went 0 of 12 candidates on 10 rows. Few files prototype
+  their callees at all.
 
 Lanes launched after this gate:
 - **astra on three argmove rows** (`work/native_lane/argmove_astra/`), the owner's last escalation

@@ -106,12 +106,13 @@ def build(text, fname, widen, locals_):
     t = text
     for a, b, rep in sorted(edits, reverse=True):
         t = t[:a] + rep + t[b:]
-    F = next((f for f in functions(t) if f[0] == fname), None)
-    pins = [s for s in sites_of(t) if F and F[2] < s[3] < F[3]
-            and any(re.search(r"\b%s\b" % re.escape(v), t[s[3]:s[4]]) for v in locals_)]
-    if not pins:
-        return None
-    t = erase_many(t, pins, clean_notes=True)
+    if locals_:           # an empty set retypes only (t40 erases its own pin)
+        F = next((f for f in functions(t) if f[0] == fname), None)
+        pins = [s for s in sites_of(t) if F and F[2] < s[3] < F[3]
+                and any(re.search(r"\b%s\b" % re.escape(v), t[s[3]:s[4]]) for v in locals_)]
+        if not pins:
+            return None
+        t = erase_many(t, pins, clean_notes=True)
     if unscored_text(t) != unscored_text(text):
         return None
     return t

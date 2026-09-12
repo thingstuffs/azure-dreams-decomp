@@ -54,7 +54,7 @@ extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEC70;
 
 /* Creates a sprite node with a randomized offset from the supplied origin. */
-s32 func_8002443C(s32 owner, void *origin, s16 motion, s32 frame) {
+s32 func_8002443C(s32 owner, void *origin, s32 motion, s32 frame) {
     u16 origin_z;
     u16 position_z;
     s32 angle;
@@ -63,7 +63,7 @@ s32 func_8002443C(s32 owner, void *origin, s16 motion, s32 frame) {
     s32 result;
     u8 *state = (u8 *)owner;
     u8 *position = (u8 *)origin;
-    register s16 motion_value ASM_REG("$16") = motion;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 motion_value = motion;
     u8 *node;
     s16 frame_index = frame;
     s32 sprite_mode;
