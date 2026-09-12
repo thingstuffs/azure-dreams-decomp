@@ -31,7 +31,6 @@ s32 func_800A9B2C(s32 group_id, void *record) {
                 }
                 return 0;
             } else {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 record = (void *)3;
             }
         } else {

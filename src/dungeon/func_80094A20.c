@@ -46,9 +46,7 @@ s32 func_8009A180(void *entry, S_8009A180_0 *anchor) {
 
         prev_link = anchor->unk_5C.s;
         ((Rec_D_800E3D7C *)entry)->unk_5C = prev_link;
-        ASM_KEEP(prev_link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         prev_node = (void *)(prev_link + 0x20);
-        ASM_KEEP(prev_node);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         link_bits = (u32)prev_node->unk_58;
         ASM_KEEP(link_bits);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         result = 1;

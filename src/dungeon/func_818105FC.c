@@ -45,7 +45,6 @@ loop_records:
     write_slot = *(s32 *)0x80015C80;
     *(s32 *)0x80015C80 = write_slot + 1;
     data_base = (u8 *)0x80010000;
-    ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     if (*(s32 *)(data_base + 0x5C80) == 64) {
         *(s32 *)(data_base + 0x5C80) = 0;
     }

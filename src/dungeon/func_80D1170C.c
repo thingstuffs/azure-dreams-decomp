@@ -76,7 +76,6 @@ void func_80170F0C(S_func_80D1170C_1 *effect, S_func_80D1170C_2 *position)
     if ((life_left << 16) <= 0) {
         ((S_func_80D1170C_3 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
         flag_page = (s32 *)0x80080000;
-        ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         flag_page[0x14A0 / sizeof(s32)] =
             flag_page[0x14A0 / sizeof(s32)] | 0x8000;
     }

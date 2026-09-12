@@ -5,7 +5,9 @@ as symbols, at the recorded cell or at a CDK cell that admits the pinned text. I
 **139 pins in 44 functions** (14 pin-free), all gated. Neither the rewrite nor the cell switch works
 alone. `apply_candidates.py --cells` lands switches under `pin_cells_land.py` rules 1–2. Next:
 the admissible-cell scan's pins dead at a CDK cell, then the CDK hypothesis. See
-[PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md), last section.
+[PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md), last section. A second round (t29
+wider, the first scan hits) removed 43 more: **9,959 pins in 1,607 rows**. `xform/cdkcell.py`
+runs any transform at the CDK cell (`sweep.py t31_cdk_t26_alloc`, `…t20_fencefree`, `…t2_pins`).
 
 **2026-09-12 atlas harvest (15:45 UTC):** `pins_atlas_20260912` completed. No single pin
 erases alone; 22 functions had exact joint subsets. Those subsets plus T2/T20 follow-up

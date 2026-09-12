@@ -70,7 +70,7 @@ void func_81977D08(S_81977D08_4 *owner, S_81977D08_3 *position)
 
     effect = func_8003FD64(0x212, &D_80083498);
     if (effect != NULL) {
-        register void *sprite_data ASM_REG("$5") = &D_800DEB70;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        void *sprite_data = &D_800DEB70;
 
         ASM_KEEP_NV(sprite_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         effect->unk_10 = &D_8002548C;

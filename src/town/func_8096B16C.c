@@ -88,7 +88,6 @@ void func_80123604(void) {
         do {
         } while (0);
         address_base = (u8 *)&D_80129728;
-        ASM_KEEP(address_base);
         object_slot = (void **)(address_base + 0x38);
         address_base = (u8 *)0x80120000;
         ASM_KEEP(address_base);

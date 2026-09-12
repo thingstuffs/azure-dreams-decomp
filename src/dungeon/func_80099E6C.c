@@ -30,6 +30,5 @@ s32 func_8009F5CC(void) {
         changed = 0;
     }
 done:
-    ASM_SCHED_BARRIER();
     return changed;
 }

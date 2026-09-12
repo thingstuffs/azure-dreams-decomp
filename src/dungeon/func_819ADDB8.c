@@ -104,14 +104,9 @@ void *func_800255B8(s32 x, s32 y, s16 z, u16 angle) {
     color_table = D_80082E80;
 #else
     {
-        u8 *page_base;
 
-        page_base = (u8 *)0x80070000;
-        ASM_KEEP_NV(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        x_offsets = (s16 *)(page_base - 0x3328);
-        page_base = (u8 *)0x80080000;
-        ASM_KEEP_NV(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        color_table = page_base + 0x2E80;
+        x_offsets = D_8006CCD8;
+        color_table = D_80082E80;
     }
 #endif
     object_base = objects;
@@ -120,7 +115,6 @@ void *func_800255B8(s32 x, s32 y, s16 z, u16 angle) {
 loop:
         {
             void *template;
-            u8 *template_page;
 
             if (piece_index != 0) {
                 template = objects[0];
@@ -128,9 +122,7 @@ loop:
 #ifdef NON_MATCHING
                 template = D_80083498;
 #else
-                template_page = (u8 *)0x80080000;
-                ASM_KEEP_NV(template_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                template = template_page + 0x3498;
+                template = D_80083498;
 #endif
             }
             *object_slot = func_8003FD64(2, template);

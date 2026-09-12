@@ -306,3 +306,14 @@ found another admissible cell for most of them. 96% of rows recorded at `2.8.1-G
 that the pins happened to resolve. The resumable admissible-cell scan continues; its pins
 dead at a CDK cell are the next harvest. Hits at 2.95.2 and 2.91.66 are recorded, not
 landed: those are 1999 compilers, after the game's release.
+
+Second round (one gate): `t29` now scales `V + K` by the element size of `s16 *`, `s32 *` and
+pointer-to-pointer pages, and refuses rewrites that touch a NON_MATCHING arm. Its sweep over
+every row plus a rerun of the refused ones landed 5 more functions. The first 548 scanned rows
+gave 28 functions whose pin is dead at a CDK cell (journal `t30_cellpins`, landed with
+`apply_candidates.py --cells`), and T2 at the new cells followed. **Net 43 pins; 11 more
+functions pin-free.** 33 windows MATCH, SLUS SHA-1 MATCH. Census: 9,959 pins in 1,607 rows.
+
+`tools/xform/cdkcell.py` wraps any transform to run at the CDK cell (bindings
+`t31_cdk_t2_pins`, `t31_cdk_t26_alloc`, `t31_cdk_t20_fencefree`), under the same rules 1–2.
+246 of the 548 scanned rows admit a CDK cell without being recorded there.

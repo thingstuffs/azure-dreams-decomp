@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
+extern u8 D_80080000[];
 
 void func_800353F4(void *);                   /* extern */
 void func_80047738(void *, u8, s8);              /* extern */
@@ -176,7 +177,6 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     register u32 level_index;
     u16 facing_flags;
     register s16 prior_state;
-    u16 *flags_page;
     register u16 height_bits;
     u16 sprite_flags;
     u16 display_flags;
@@ -291,9 +291,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
             D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
         }
     }
-    flags_page = (u16 *)0x80080000;
-    ASM_KEEP_NV(flags_page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    if (((S_8016B0E8_13 *)flags_page)->unk_3462 & 0x2000) {
+    if (((S_8016B0E8_13 *)D_80080000)->unk_3462 & 0x2000) {
         paused_callback = ((S_8016B0E8_0 *)entity)->unk_8C;
         if (paused_callback == &D_8016B778) {
             paused_callback(entity, motion, sprite, actor);

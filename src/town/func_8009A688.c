@@ -30,13 +30,11 @@ void func_80097DE8(s32 arg0, void *arg1, void *arg2, void *arg3) {
     carrier = (void *)0x80080000;
     ASM_KEEP(carrier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     state = (u8 *)carrier + 0x2660;
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     status = *(s8 *)(state + 8);
     if (status >= 2) {
         call_arg0 = arg0;
         call_arg1 = arg1;
         carrier = D_800D0508;
-        ASM_KEEP(carrier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         carrier = ((void **)carrier)[status];
            /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         call_arg2 = arg2;

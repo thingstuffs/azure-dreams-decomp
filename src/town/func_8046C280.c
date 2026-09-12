@@ -70,7 +70,7 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
         Engine *engine;
         register u8 *dispatch_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-        engine = *(Engine **)((u8 *)D_80016000);
+        engine = *(Engine **)D_80016000;
         dispatch_ptr = engine->items;
         dispatch_ptr += group;
         head = dispatch_ptr[0x3700];
@@ -86,7 +86,7 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
         ((Callback)dispatch_ptr)(data_page - 0x6E94, D_80019178, n, group);
         ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-        dispatch_ptr = *(u8 **)((u8 *)D_80016000);
+        dispatch_ptr = *(u8 **)D_80016000;
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -116,10 +116,9 @@ common:
         Entry *vertex;
         u8 *dispatch_ptr;
         u8 *callback_context;
-        u8 *format_page;
         s32 coordinate;
 
-        dispatch_ptr = *(u8 **)((u8 *)D_80016000);
+        dispatch_ptr = *(u8 **)D_80016000;
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
         do {
             dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
@@ -129,7 +128,7 @@ common:
         ((Callback)dispatch_ptr)(data_page - 0x6E94, D_80019178, n);
         ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-        dispatch_ptr = *(u8 **)((u8 *)D_80016000);
+        dispatch_ptr = *(u8 **)D_80016000;
         ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
         ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -141,12 +140,10 @@ common:
         } while (0);
         callback_context = data_page - 0x6E94;
         ASM_KEEP_NV(callback_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        format_page = (u8 *)0x80020000;
-        ASM_KEEP_NV(format_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         coordinate = vertex->first;
-        ((Callback)dispatch_ptr)(callback_context, format_page - 0x6E7C, coordinate);
+        ((Callback)dispatch_ptr)(callback_context, (u8 *)D_80019184, coordinate);
 
-        dispatch_ptr = *(u8 **)((u8 *)D_80016000);
+        dispatch_ptr = *(u8 **)D_80016000;
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -155,10 +152,8 @@ common:
         } while (0);
         callback_context = data_page - 0x6E94;
         ASM_KEEP_NV(callback_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        format_page = (u8 *)0x80020000;
-        ASM_KEEP_NV(format_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         coordinate = vertex->second;
-        ((Callback)dispatch_ptr)(callback_context, format_page - 0x6E70, coordinate);
+        ((Callback)dispatch_ptr)(callback_context, (u8 *)D_80019190, coordinate);
         return vertex;
     }
 }

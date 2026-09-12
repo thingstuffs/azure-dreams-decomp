@@ -34,6 +34,7 @@ LIT = r"\(?\s*" + CAST + r"*0x(?P<a>8[0-9A-Fa-f]{7})[Uu]?[Ll]?\s*\)?"
 NUM = r"(?:0x[0-9A-Fa-f]+|\d+)"
 BYTEPTR = {"u8", "s8", "char", "void", "unsigned char", "signed char"}
 INTTY = {"u32", "s32", "int", "unsigned int", "unsigned long", "long", "unsigned", "signed"}
+ELEMSIZE = dict({t: 1 for t in BYTEPTR}, u16=2, s16=2, u32=4, s32=4, int=4, **{"unsigned int": 4})
 NOTE_RE = re.compile(r"^[ \t]*/\*[^\n]*(?:\(pin\)|\bPin:|Byte-exact pin|MATCH:)[^\n]*\*/[ \t]*\n", re.M)
 LOCAL_SYM_RE = re.compile(r"^[ \t]+(?:register[ \t]+)?(?!(?:return|else|case|goto|do|sizeof)\b)"
                           r"[A-Za-z_][\w \t]*[\s*]\**\s*D_[0-9A-F]{8}\s*[;=,\[]", re.M)
@@ -117,7 +118,14 @@ def rewrite_var(text, v):
     if len({(ty, p) for ty, p, _ in decs}) != 1:
         return None, "mixed-decl"
     ty, ptr, _ = decs[0]
-    if ptr > 1 or (ptr == 1 and ty not in BYTEPTR) or (ptr == 0 and ty not in INTTY):
+    # `V + K` on a pointer steps K elements: scale to bytes (void * steps bytes, a GNU extension)
+    if ptr == 0 and ty in INTTY:
+        scale = 1
+    elif ptr == 1 and ty in ELEMSIZE:
+        scale = ELEMSIZE[ty]
+    elif ptr == 2:
+        scale = 4
+    else:
         return None, "type:%s%s" % (ty, "*" * ptr)
     t = text
     split = re.compile(r"^[ \t]*\(?%s\)?\s*=\s*%s\s*;\s*ASM_\w+\(\s*%s\s*\)\s*;\s*\(?%s\)?\s*(?P<op>[-+])=\s*(?P<k>%s)\s*;[^\n]*\n"
@@ -198,7 +206,7 @@ def rewrite_var(text, v):
         tail = after[:1]
         deref = after.startswith(("->", "["))
         if m.group("c1"):
-            k = int(m.group("k1"), 0); a = val + k if m.group("o1") == "+" else val - k
+            k = int(m.group("k1"), 0) * scale; a = val + k if m.group("o1") == "+" else val - k
             if tail not in (")", ";", ",", "]") and not deref:
                 return None, "operand-context"
             rep = sym_expr(t, a, m.group("t1"), externs)
@@ -212,7 +220,7 @@ def rewrite_var(text, v):
                 return None, "operand-context"
             rep = sym_expr(t, a, m.group("t2"), externs)
         elif m.group("c3"):
-            k = int(m.group("k3"), 0); a = val + k if m.group("o3") == "+" else val - k
+            k = int(m.group("k3"), 0) * scale; a = val + k if m.group("o3") == "+" else val - k
             if tail not in (")", ";", ",") or not operand_lead(masked, m.start()):
                 return None, "operand-context"
             rep = sym_expr(t, a, (ty + " *") if ptr else None, externs)
@@ -250,6 +258,8 @@ def rewrite_var(text, v):
             orig_notes[k] -= 1; return m.group(0)
         return ""
     t = NOTE_RE.sub(drop_new_orphans, t)
+    # `(T *)((u8 *)D_X)` is `(T *)D_X`: the byte view was only there for the offset that is gone
+    t = re.sub(r"\((\s*[A-Za-z_][\w ]*\*+\s*)\)\s*\(\s*\(u8 \*\)(&?D_[0-9A-F]{8})\s*\)", r"(\1)\2", t)
     for e in sorted(externs):
         if e.strip() in t:
             continue

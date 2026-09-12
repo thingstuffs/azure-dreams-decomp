@@ -11,7 +11,6 @@ s32 func_800A9878(s32 target_value) {
     ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     carrier = *(s16 *)(base + 0x1054);
     result = -1;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     index = 0;
     if (carrier != result) {
         s32 sentinel = result;

@@ -121,7 +121,6 @@ clear_5C:
 finish:
     ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
     next_timer = 0x80080000;
-    ASM_KEEP(next_timer);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *(s32 *)(next_timer + 0x14A0) |= 0x8000;
 done:
     return;

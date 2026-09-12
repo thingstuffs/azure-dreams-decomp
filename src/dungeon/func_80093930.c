@@ -26,6 +26,5 @@ s32 func_80099090(void)
 
     result = -1;
 done:
-    ASM_KEEP(result);
     return result;
 }

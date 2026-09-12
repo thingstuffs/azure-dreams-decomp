@@ -85,7 +85,6 @@ void func_80AC5820(void *state, S_80AC5820_0 *position, Rec_D_80082E80 *result)
         register u32 flags_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         flags_page = 0x80080000;
-        ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_80AC5820_1_pre *)state)[-1].unk_00 |= 0x8000;
         *(s32 *)(flags_page + 0x14A0) |= 0x8000;
     }
