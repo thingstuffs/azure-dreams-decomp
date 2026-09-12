@@ -192,7 +192,7 @@ L_10: {
         s32 spawn_mode;
         int is_registered;
         int tile_mask;
-        int has_owner;
+        s16 has_owner;
         Ctor_80042BDC create_entity;
         u32 entity_flags;
 
@@ -273,7 +273,7 @@ L_10: {
         }
 
         {
-            register int attach_owner ASM_REG("$2") = has_owner;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+            int attach_owner = has_owner;
             if (attach_owner) {
                 S_80042BDC *owned_ent = spawn_result;
                 u8 *owner_data;

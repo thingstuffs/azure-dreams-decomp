@@ -14,7 +14,6 @@ extern s32 D_8006E7B4[];
 /* Registers a node under an existing or newly allocated registration ID. */
 s32 func_8004491C(RegistrationNode *entry, s32 registration_id)
 {
-    RegistrationNode *node;
     s32 slot;
     s32 first_free;
     s32 last_free;
@@ -22,7 +21,6 @@ s32 func_8004491C(RegistrationNode *entry, s32 registration_id)
     RegistrationNode *head;
     s32 success;
 
-    node = entry;
     first_free = -1;
     last_free = 0;
     slot = last_free;
@@ -31,15 +29,16 @@ s32 func_8004491C(RegistrationNode *entry, s32 registration_id)
     for (; slot < 0x20; slot++) {
         if (D_80083360[slot] == registration_id) {
             head = D_800833E0[slot];
-            node->next = head;
+            entry->next = head;
             if (head != 0) {
-                head->prev = node;
+                head->prev = entry;
+                D_800833E0[slot] = entry;
+            } else {
+                D_800833E0[slot] = entry;
             }
-            D_800833E0[slot] = node;
-            ASM_USE(&D_800833E0[slot]);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
             success = 1;
-            node->prev = (RegistrationNode *)&D_800833E0[slot];
-            node->type = slot;
+            entry->prev = (RegistrationNode *)&D_800833E0[slot];
+            entry->type = slot;
             return success;
         }
         if (D_80083360[slot] == 0) {
@@ -51,16 +50,16 @@ s32 func_8004491C(RegistrationNode *entry, s32 registration_id)
     }
 
     if (first_free >= 0) {
-        node->next = 0;
+        entry->next = 0;
         if (D_8006E7B4[0] != 0) {
             s32 preferred_index = 0;
             do {
                 if (D_8006E7B4[preferred_index] == registration_id) {
                     D_80083360[first_free] = registration_id;
-                    D_800833E0[first_free] = node;
+                    D_800833E0[first_free] = entry;
                     success = 1;
-                    node->prev = (RegistrationNode *)&D_800833E0[first_free];
-                    node->type = first_free;
+                    entry->prev = (RegistrationNode *)&D_800833E0[first_free];
+                    entry->type = first_free;
                     return success;
                 }
                 preferred_index++;
@@ -68,10 +67,10 @@ s32 func_8004491C(RegistrationNode *entry, s32 registration_id)
         }
 
         D_80083360[last_free] = registration_id;
-        D_800833E0[last_free] = node;
+        D_800833E0[last_free] = entry;
         success = 1;
-        node->prev = (RegistrationNode *)&D_800833E0[last_free];
-        node->type = last_free;
+        entry->prev = (RegistrationNode *)&D_800833E0[last_free];
+        entry->type = last_free;
         return success;
     }
     return 0;

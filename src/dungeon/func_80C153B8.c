@@ -82,9 +82,8 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
     if (initial_flags & 0x2000) {
         EntityCallback early_callback = (*(EntityCallback *)((u8 *)actor + (0x8C)));
         if ((void *)early_callback == (void *)D_801713A8) {
-            register void *callback_actor ASM_REG("$4") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(callback_actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            early_callback(actor_arg, motion_arg, object_arg, callback_actor);
+            ASM_KEEP_NV(actor_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            early_callback(actor_arg, motion_arg, object_arg, actor_arg);
             return;
         } else {
             (*(u8 *)((u8 *)actor + (0x71))) &= 0x7F;

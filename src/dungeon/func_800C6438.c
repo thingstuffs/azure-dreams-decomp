@@ -48,8 +48,8 @@ typedef struct S_800CBB98_4 {
 
 /* Creates an effect at the tile center, links it to its owner, and increments the effect count. */
 void *func_800CBB98(s32 tile_x, s32 tile_y, s16 height, void *owner) {
-    register s16 saved_height ASM_REG("$20") = height;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register S_800CBB98_3 *saved_owner ASM_REG("$19") = owner;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_height = height;
+    S_800CBB98_3 *saved_owner = owner;
     register s32 saved_tile_x ASM_REG("$17") = tile_x;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s32 saved_tile_y ASM_REG("$18") = tile_y;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_800CBB98_2 *sprite;
@@ -77,8 +77,6 @@ void *func_800CBB98(s32 tile_x, s32 tile_y, s16 height, void *owner) {
         effect->unk_20 = saved_owner;
         saved_owner->unk_14 = (s32) (saved_owner->unk_14 | 0x100000);
         func_800A56E0(0x614);
-        ASM_KEEP(saved_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(saved_owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(saved_tile_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(saved_tile_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         effect_state = D_80083460;

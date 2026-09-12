@@ -116,7 +116,7 @@ void func_8017163C(void *move_ctx_in, void *action_ctx, void *position_in, void 
     u8 *dungeon_state = (u8 *)&D_80083460;
     u16 dungeon_flags = ((S_8017163C_0 *)dungeon_state)->unk_02;
     s32 near_target = 0;
-    register s32 stop_turning;
+    register s16 stop_turning;
     s32 actor_flags;
     void *target;
     s32 trial_angle;
@@ -310,7 +310,6 @@ loop_body:
     if (func_8009A66C(trial_angle, position, actor, 0x20) > 0) {
         if (turn_index >= 3) {
             stop_turning = near_target;
-            ASM_KEEP_NV(stop_turning);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (stop_turning != 0) {
                 goto success;
             }

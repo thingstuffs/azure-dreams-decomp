@@ -30,8 +30,6 @@ void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 s
     s32 held_y_offset = y_offset;
     s32 held_z_offset = z_offset;
     s32 state_14 = state_14_value;
-    register s32 state_08 ASM_REG("$23") = state_08_value;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 state_32 ASM_REG("$22") = state_32_value;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     Object *spawned;
     Data *position;
     u8 *state;
@@ -55,11 +53,9 @@ void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 s
             parent->data->z +
             (jitter & 0x1F) + (held_z_offset - 0x10);
         *(s16 *)(state + 0x14) = state_14;
-        *(s16 *)(state + 0x32) = state_32;
+        *(s16 *)(state + 0x32) = state_32_value;
         func_8004491C(spawned, D_800244E4, position);
-        *(s32 *)(state + 8) = state_08;
-        ASM_KEEP(state_08);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(state_32);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        *(s32 *)(state + 8) = state_08_value;
         ASM_KEEP(held_x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_y_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */

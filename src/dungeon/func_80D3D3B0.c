@@ -12,6 +12,7 @@ s32 func_800A2CB8(void *, s32);
 void func_800C7930(void *, s32, s32, s32);
 void func_80175F44(void *, s32, void *, s32, s32);
 extern s32 D_80083460;
+extern u8 D_80080000[];
 
 
 
@@ -20,21 +21,18 @@ extern s32 D_80083460;
 s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, Rec_D_80082E80 *target, void *actor) {
     s32 target_angle;
     s32 result;
-    register u16 *global_flags ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 *global_flags;
 
     {
-        register s32 history ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 history;
 
         history = ((Rec_D_800E3D7C *)actor)->unk_71.as_u8;
         history &= 0x7F;
         ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = history;
     }
     {
-        register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-        page = (u8 *)0x80080000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        global_flags = (u16 *)(page + 0x3460);
+        global_flags = (u16 *)(D_80080000 + 0x3460);
     }
     result = 0;
     if (global_flags[1] & 0x2000) {

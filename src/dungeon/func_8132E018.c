@@ -73,8 +73,8 @@ void func_80165018(Rec_D_800E3D7C *parent, s32 effect_value, s16 effect_size, s3
     S_80165018_2 *state;
     S_80165018_4 *effect_data;
     S_80165018_3 *transform;
-    register s32 jitter ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 coordinate ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 jitter;
+    s16 coordinate;
 
     effect = func_8003FD64(0x211, parent);
     if (effect != 0) {

@@ -86,17 +86,15 @@ state_ready:
 
     {
         u32 state_value = ((S_801254D8_0 *)context)->unk_13;
-        register u32 index_limit ASM_REG("$3") = ((S_801254D8_0 *)context)->unk_14;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u32 index_limit = ((S_801254D8_0 *)context)->unk_14;
 
         state_value = state_value < index_limit;
         if (state_value == 0) {
-            state_value = 0xB;
+            ((S_801254D8_0 *)context)->unk_0A = 0xB;
         } else {
-            state_value = 0xA;
+            ((S_801254D8_0 *)context)->unk_0A = 0xA;
         }
-        ((S_801254D8_0 *)context)->unk_0A = state_value;
-        state_value = 1;
-        ((S_801254D8_0 *)context)->unk_04 = state_value;
+        ((S_801254D8_0 *)context)->unk_04 = 1;
     }
     ((S_801254D8_0 *)context)->unk_0B = 0;
     ((S_801254D8_0 *)context)->unk_06 = 0x19;

@@ -60,10 +60,9 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s16 pos_z, M2C_UNK transform_data, s
     S_800BBA40_1 *position;
     S_800BBA40_2 *render_data;
     s32 held_tile_x = tile_x;
-    register s32 held_tile_y ASM_REG("$20") = tile_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 held_pos_z ASM_REG("$21") = pos_z;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register M2C_UNK held_transform ASM_REG("$22") = transform_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *setup_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *setup_base;
 
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
@@ -78,7 +77,7 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s16 pos_z, M2C_UNK transform_data, s
         func_8004491C(effect, &D_800BBA20);
         position = ((S_800BBA40_0 *)effect)->unk_08;
         position->unk_02 = (s16) (((s32) (held_tile_x << 0x10) >> 0xA) + 0x20);
-        position->unk_06 = (s16) (((s32) (held_tile_y << 0x10) >> 0xA) + 0x20);
+        position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
         position->unk_0A = held_pos_z;
         render_data = ((S_800BBA40_0 *)effect)->unk_0C;
         render_data->unk_08 = &D_800DF3C0;
@@ -87,7 +86,6 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s16 pos_z, M2C_UNK transform_data, s
         render_data->unk_0C = 0x808080;
         render_data->unk_06 = 8;
         func_8003DB94(effect + 0x2C, held_transform, 0);
-        ASM_KEEP(held_tile_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_pos_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_transform);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         setup_base = effect + 0x20;

@@ -99,7 +99,7 @@ void func_80172AB4(void *action_in, void *motion_in, void *sprite_in, void *acto
     };
     u8 *move_id;
     s32 state;
-    s32 use_player;
+    s16 use_player;
     s32 move_kind;
     void *target;
     void *action = action_in;
@@ -201,7 +201,6 @@ have_choice:
         {
             s32 player_target = use_player;
 
-            ASM_KEEP(player_target);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (player_target != 0) {
                 target = D_800814A8;
                 ((S_80172AB4_1 *)actor)->unk_60 = target;

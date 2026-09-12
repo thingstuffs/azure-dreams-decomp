@@ -16,26 +16,24 @@ void func_8196048C(void)
 {
     s8 *dungeon_state;
     DungeonMap *map;
-    register s16 row ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 row;
     s16 first_column;
     s32 rows_copied;
     s32 columns_copied;
     u16 *source_row;
     u16 *source_tile;
     u16 tile_value;
-    register u8 center_row ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 center_row;
     u8 center_column;
 
     dungeon_state = D_80083160;
     map = (DungeonMap *)(dungeon_state + 0x1DC);
-    ASM_KEEP(map);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rows_copied = 0;
     source_row = D_800273CC;
     center_row = D_8002744D[0];
     center_column = D_8002744C[0];
     row = center_row - 3;
     first_column = center_column - 3;
-    ASM_KEEP(center_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     do {
         s16 column;
         s32 row_index;
@@ -44,14 +42,15 @@ void func_8196048C(void)
         columns_copied = 0;
         row_index = row;
         source_tile = source_row;
-loop:
-        tile_value = *source_tile++;
-        columns_copied++;
-        map->tiles[(column + (row_index << map->row_shift)) * 3 + 1] = tile_value;
-        column++;
-        if (columns_copied < 7) {
-            goto loop;
-        }
+        do {
+            tile_value = *source_tile++;
+            columns_copied++;
+            map->tiles[(column + (row_index << map->row_shift)) * 3 + 1] = tile_value;
+            column++;
+            if (columns_copied >= 7) {
+                break;
+            }
+        } while (1);
         source_row += 8;
         rows_copied++;
         row++;

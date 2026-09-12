@@ -83,9 +83,7 @@ s32 func_8002443C(s32 owner, void *origin, s16 motion, s32 frame) {
         ((S_8002443C_1 *)state)->unk_08 = (u16) ((S_8002443C_2 *)position)->unk_02.s;
         ((S_8002443C_1 *)state)->unk_0A = (u16) ((S_8002443C_2 *)position)->unk_06.s;
         origin_z = ((S_8002443C_2 *)position)->unk_0A.s;
-        ASM_KEEP(origin_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         sprite_mode = 0x7E09;
-        ASM_USE(sprite_mode);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_8002443C_1 *)state)->unk_0C = origin_z;
         sprite = ((S_8002443C_0 *)node)->unk_0C;
         sprite->unk_0E = 0;

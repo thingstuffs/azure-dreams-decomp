@@ -57,7 +57,7 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     Func80BBB094PartC *result = 0;
     register s32 arg1Reg ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register unsigned long slot1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 arg2Reg ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 arg2Reg;
     register Func80BBB094PartC *resultAlias;
     Func80BBB094Object *obj;
     Func80BBB094PartA *partA;

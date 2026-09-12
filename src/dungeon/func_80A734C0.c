@@ -52,7 +52,7 @@ void func_80172CC0(void *action, void *motion, void *sprite, void *actor) {
         &&item_8, &&item_b, &&item_e
     };
     u16 pos[3];
-    s32 is_special;
+    s16 is_special;
     register u8 *item ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *entity;
     void *node;
@@ -120,7 +120,6 @@ item_ready:
             s32 use_existing;
 
             use_existing = is_special;
-            ASM_KEEP(use_existing);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (use_existing) {
                 node = D_800814A8;
                 (*(void * *)((u8 *)entity + 0x60)) = node;

@@ -121,7 +121,7 @@ void func_801730E4(void *action, void *position, void *sprite, void *actor)
         &&kind_default, &&kind_default, &&kind_default
     };
     u16 position_delta[3];
-    s32 is_special;
+    s16 is_special;
     void *active;
     register u8 *linked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 linked_x;
@@ -209,7 +209,6 @@ selection_ready:
     {
         s32 use_special = is_special;
 
-        ASM_KEEP(use_special);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (use_special != 0) {
             active = D_800814A8;
             (*(void * *)((u8 *)actor + 0x60)) = active;

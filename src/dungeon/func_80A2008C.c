@@ -68,13 +68,11 @@ extern u8 D_80174860[];
 /* Advance the actor action through animation setup, status handling, and completion. */
 void func_8017388C(void *in_action, void *in_context, void *in_sprite, void *in_actor)
 {
-    void *action = in_action;
     void *context = in_context;
-    register void *sprite ASM_REG("$18") = in_sprite;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *actor = in_actor;
     s32 state;
 
-    state = ((S_8017388C_0 *)action)->unk_9B;
+    state = ((S_8017388C_0 *)in_action)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -93,18 +91,18 @@ state_ge_two:
     return;
 
 state_zero:
-    if (((S_8017388C_1 *)sprite)->unk_14 & 0xE000) {
+    if (((S_8017388C_1 *)in_sprite)->unk_14 & 0xE000) {
         u8 *direction_frames;
         u8 *system_base;
 
         direction_frames = D_80174860;
-        (*(void * *)((u8 *)sprite + 0x2C)) = direction_frames;
-        func_80047784(sprite,
+        (*(void * *)((u8 *)in_sprite + 0x2C)) = direction_frames;
+        func_80047784(in_sprite,
             direction_frames[((D_80083228 + ((S_8017388C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         system_base = (u8 *)&D_80083460;
         ((S_8017388C_3 *)system_base)->unk_0A--;
-        ((S_8017388C_0 *)action)->unk_9B++;
+        ((S_8017388C_0 *)in_action)->unk_9B++;
     }
     return;
 
@@ -119,7 +117,7 @@ state_one:
         }
 
         if ((((S_8017388C_2 *)actor)->unk_64 != 0) &&
-            (func_800AA6B4(action, context, sprite, 0) != 0)) {
+            (func_800AA6B4(in_action, context, in_sprite, 0) != 0)) {
             return;
         }
 
@@ -127,7 +125,7 @@ state_one:
             if (((S_8017388C_3 *)system_base)->unk_02 & 0x2008) {
                 return;
             }
-            func_800AA79C(action, context, sprite, actor);
+            func_800AA79C(in_action, context, in_sprite, actor);
             return;
         }
 
@@ -137,13 +135,13 @@ state_one:
 
         actor_flags = ((S_8017388C_2 *)actor)->unk_1C;
         if (actor_flags & 0x100) {
-            func_800AA258(action, context, sprite, actor);
+            func_800AA258(in_action, context, in_sprite, actor);
             return;
         }
 
         if (actor_flags & 0x80000) {
-            func_800AA888(action, context, sprite, actor);
-            func_80173F28(action, context, sprite, actor);
+            func_800AA888(in_action, context, in_sprite, actor);
+            func_80173F28(in_action, context, in_sprite, actor);
             return;
         }
 
@@ -166,10 +164,10 @@ state_one:
             s8 coordinate;
 
             origin = D_80082E80;
-            coordinate = ((S_8017388C_1 *)sprite)->unk_26;
+            coordinate = ((S_8017388C_1 *)in_sprite)->unk_26;
             if ((((coordinate == ((S_8017388C_5 *)origin)->unk_26) &&
                         (coordinate >= 0)) ||
-                    (func_8009FD40(origin, sprite) < 2)) &&
+                    (func_8009FD40(origin, in_sprite) < 2)) &&
                 ((func_800A6D30() & 7) == 0)) {
                 func_80042B68(actor, 1);
             }
@@ -180,17 +178,17 @@ state_one:
         }
     }
 
-    if (!(((S_8017388C_1 *)sprite)->unk_14 & 0x8000)) {
+    if (!(((S_8017388C_1 *)in_sprite)->unk_14 & 0x8000)) {
         u8 *system_base = (u8 *)&D_80083460;
 
         ((S_8017388C_3 *)system_base)->unk_0A++;
-        ((S_8017388C_0 *)action)->unk_9B++;
+        ((S_8017388C_0 *)in_action)->unk_9B++;
         return;
     }
     goto finish;
 
 state_two:
-    if (!(((S_8017388C_1 *)sprite)->unk_14 & 0xE000)) {
+    if (!(((S_8017388C_1 *)in_sprite)->unk_14 & 0xE000)) {
         return;
     }
     {
@@ -200,7 +198,6 @@ state_two:
 
 finish:
     ((S_8017388C_2 *)actor)->unk_1C &= ~0x200;
-    ((S_8017388C_0 *)action)->unk_8C = D_80170E84;
-    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ((S_8017388C_0 *)in_action)->unk_8C = D_80170E84;
+    ASM_KEEP(in_action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

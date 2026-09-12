@@ -39,11 +39,11 @@ extern s32 func_8005914C(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 /* Read and dispatch the next event, reusing the previous status when needed. */
 s32 func_8005947C(S_80085FA8 *stream)
 {
-    s32 status;
+    s16 status;
     register s32 first_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 second_data;
     register s32 data_count ASM_REG("$19");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 input_byte ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 input_byte;
     register s32 event_byte ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 status_group;
     s32 subcommand;

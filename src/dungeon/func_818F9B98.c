@@ -54,11 +54,10 @@ extern void func_80024CD4();
 void func_80025398(void *effect, void *unused, void *primitive)
 {
     PackedVector source;
-    register PackedVector *source_ptr ASM_REG("$6");
+    PackedVector *source_ptr;
     PackedVector *render_source;
     Pair16 *derived_ptr;
-    u32 source_page;
-    register void *output ASM_REG("$7") = primitive;
+    void *output = primitive;
     Pair16 derived;
     s32 frame;
     s32 peak_frame;
@@ -77,12 +76,8 @@ void func_80025398(void *effect, void *unused, void *primitive)
     s32 fill_shade;
     void *shade_cursor;
 
-    source_page = 0x80020000;
-    ASM_KEEP(source_page);
-    source_ptr = (PackedVector *)(source_page + 0x4004);
-    ASM_KEEP(source_ptr);
+    source_ptr = (PackedVector *)((u32)&D_80024004);
     source = *source_ptr;
-    ASM_KEEP(source_page);
     frame = ((S_80025398_0 *)effect)->unk_04.s;
     peak_frame = ((S_80025398_0 *)effect)->unk_0A;
     D_800266BC[0] = 1;

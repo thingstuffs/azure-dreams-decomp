@@ -61,7 +61,7 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_v0;
     s32 temp_v1;
     s32 var_a1;
-    s32 var_s1;
+    s16 var_s1;
     s32 var_s2;
     s32 temp_a0_3;
     S_800CE748_1 *temp_s0;
@@ -80,7 +80,6 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 s32 is_one;
 
                 is_one = temp_s0->unk_00 == 1;
-                ASM_KEEP_NV(is_one);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 var_s1 = is_one;
             }
             if (*D_800E3D40 == 0) {

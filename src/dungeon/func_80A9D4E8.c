@@ -71,7 +71,7 @@ void func_80172CE8(void *action, void *motion, void *actor, void *object) {
         &&item_8, &&item_b, &&item_e
     };
     u16 position[3];
-    s32 is_special;
+    s16 is_special;
     u8 *item_slot;
     void *node;
     u8 state;
@@ -137,7 +137,6 @@ item_ready:
             s32 use_existing;
 
             use_existing = is_special;
-            ASM_KEEP(use_existing);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (use_existing) {
                 node = D_800814A8;
                 (*(void * *)((u8 *)object + 0x60)) = node;

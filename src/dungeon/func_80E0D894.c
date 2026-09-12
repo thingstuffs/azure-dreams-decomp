@@ -112,8 +112,6 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
         &&jt_s0, &&jt_s1, &&jt_s2, &&jt_s3, &&jt_s4
     };
-    void *actor = actor_arg;
-    void *context = context_arg;
     register void *sprite ASM_REG("$18") = sprite_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *stats = stats_arg;
     s16 distance;
@@ -122,17 +120,15 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     u16 action_flags;
 
     if (D_80083462 & 0x1000) {
-        ((S_80171094_0 *)actor)->unk_9A = 14;
-        func_801716D8(actor, context, sprite, stats);
+        ((S_80171094_0 *)actor_arg)->unk_9A = 14;
+        func_801716D8(actor_arg, context_arg, sprite, stats);
         return;
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     if (((S_80171094_1 *)stats)->unk_25 == 0) {
-        func_800AA79C(actor, context, sprite, stats);
+        func_800AA79C(actor_arg, context_arg, sprite, stats);
         if (((S_80171094_2 *)sprite)->unk_2C == D_80176470) {
             return;
         }
@@ -149,25 +145,25 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
 
     if (((S_80171094_1 *)stats)->unk_1C & 0x200) {
         if (((S_80171094_2 *)sprite)->unk_2C == D_80176470) {
-            ((S_80171094_0 *)actor)->unk_9A = 13;
-            ((S_80171094_0 *)actor)->unk_9B = 1;
-            ((S_80171094_0 *)actor)->unk_8C = 0;
+            ((S_80171094_0 *)actor_arg)->unk_9A = 13;
+            ((S_80171094_0 *)actor_arg)->unk_9B = 1;
+            ((S_80171094_0 *)actor_arg)->unk_8C = 0;
             ((S_80171094_1 *)stats)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(actor, context, sprite, D_80176468) != 0) {
+        if (func_800AA924(actor_arg, context_arg, sprite, D_80176468) != 0) {
             return;
         }
     }
 
     if ((D_80083462 & 0x2000) == 0) {
         if (((S_80171094_1 *)stats)->unk_1C & 0x100) {
-            func_800AA258(actor, context, sprite, stats);
+            func_800AA258(actor_arg, context_arg, sprite, stats);
             return;
         }
 
-        if (((S_80171094_0 *)actor)->unk_9A != 14) {
-            ((S_80171094_0 *)actor)->unk_9A = 14;
+        if (((S_80171094_0 *)actor_arg)->unk_9A != 14) {
+            ((S_80171094_0 *)actor_arg)->unk_9A = 14;
         }
 
         if (((S_80171094_2 *)sprite)->unk_2C != D_80176460) {
@@ -178,8 +174,8 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
                 animations[((D_80083228 + ((S_80171094_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
             ((S_80171094_2 *)sprite)->unk_05 = 1;
-            ((S_80171094_0 *)actor)->unk_A6.s = 0;
-            ((S_80171094_0 *)actor)->unk_AC.s = 0;
+            ((S_80171094_0 *)actor_arg)->unk_A6.s = 0;
+            ((S_80171094_0 *)actor_arg)->unk_AC.s = 0;
         }
 
         {
@@ -188,34 +184,34 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
 
             if (flags & 0x20) {
                 ((S_80171094_1 *)stats)->unk_1C = flags & ~0x40000;
-                actor_flags = ((S_80171094_0 *)actor)->unk_98 | 8;
+                actor_flags = ((S_80171094_0 *)actor_arg)->unk_98 | 8;
                 goto store_98;
             }
 
             ((S_80171094_1 *)stats)->unk_1C = flags | 0x40000;
-            actor_flags = ((S_80171094_0 *)actor)->unk_98 & 0xFFF7;
+            actor_flags = ((S_80171094_0 *)actor_arg)->unk_98 & 0xFFF7;
 
 store_98:
-            ((S_80171094_0 *)actor)->unk_98 = actor_flags;
+            ((S_80171094_0 *)actor_arg)->unk_98 = actor_flags;
         }
 
         if (((S_80171094_1 *)stats)->unk_64 != 0) {
-            if (func_800AA6B4(actor, context, sprite, D_801764A8) != 0) {
+            if (func_800AA6B4(actor_arg, context_arg, sprite, D_801764A8) != 0) {
                 return;
             }
         }
 
         if (((S_80171094_1 *)stats)->unk_1C & 0x80000) {
-            func_800AA888(actor, context, sprite, stats);
-            ((S_80171094_0 *)actor)->unk_92 -= ((S_80171094_0 *)actor)->unk_A6.u;
-            ((S_80171094_0 *)actor)->unk_A6.u = 0;
-            ((S_80171094_0 *)actor)->unk_AC.u = 0;
-            func_80174520(actor, context, sprite, stats);
+            func_800AA888(actor_arg, context_arg, sprite, stats);
+            ((S_80171094_0 *)actor_arg)->unk_92 -= ((S_80171094_0 *)actor_arg)->unk_A6.u;
+            ((S_80171094_0 *)actor_arg)->unk_A6.u = 0;
+            ((S_80171094_0 *)actor_arg)->unk_AC.u = 0;
+            func_80174520(actor_arg, context_arg, sprite, stats);
             return;
         }
 
         if ((s16)func_800A1C58(stats) != 0) {
-            func_800AAB10(actor, context, sprite, stats);
+            func_800AAB10(actor_arg, context_arg, sprite, stats);
         }
     }
 
@@ -237,7 +233,7 @@ store_98:
                     return;
                 }
             }
-            if ((s16)func_80172A5C(actor, context, sprite, 0) == 0) {
+            if ((s16)func_80172A5C(actor_arg, context_arg, sprite, 0) == 0) {
                 return;
             }
             action_flags = ((S_80171094_1 *)stats)->unk_46 | 0x4000;
@@ -255,10 +251,10 @@ store_98:
         goto *D_80170808[dispatch_index];
 
 jt_c9:
-        if ((s16)func_80171FFC(actor, context, sprite, stats) != 0) {
+        if ((s16)func_80171FFC(actor_arg, context_arg, sprite, stats) != 0) {
             return;
         }
-        func_801721C0(actor, context, sprite, stats);
+        func_801721C0(actor_arg, context_arg, sprite, stats);
         return;
 
 jt_c8:
@@ -271,22 +267,22 @@ jt_c8:
                 ((S_80171094_1 *)stats)->unk_2A.u += (func_800A6D30() & 7) << 9;
             }
         }
-        dispatch_index = (s16)(func_80172438(actor, context, sprite, stats) + 1);
+        dispatch_index = (s16)(func_80172438(actor_arg, context_arg, sprite, stats) + 1);
         if ((u32)dispatch_index >= 5U) {
             return;
         }
         goto *(((void **)D_80170838)[dispatch_index]);
 
 jt_s0:
-        func_8017272C(actor, context, sprite, stats);
+        func_8017272C(actor_arg, context_arg, sprite, stats);
         return;
 
 jt_s1:
-        func_8017283C(actor, context, sprite, stats);
+        func_8017283C(actor_arg, context_arg, sprite, stats);
         return;
 
 jt_s2:
-        func_8017294C(actor, context, sprite, stats);
+        func_8017294C(actor_arg, context_arg, sprite, stats);
         return;
 
 jt_s3:
@@ -313,14 +309,14 @@ jt_c1:
 jt_c2:
 jt_c3:
 jt_call:
-        func_800AAF00(actor, context, sprite, D_80176460, D_80171094);
+        func_800AAF00(actor_arg, context_arg, sprite, D_80176460, D_80171094);
         return;
 
 jt_c4:
 jt_c10:
 jt_c11:
 jt_default:
-        func_801718B4(actor, context, sprite, stats);
+        func_801718B4(actor_arg, context_arg, sprite, stats);
         return;
     }
 

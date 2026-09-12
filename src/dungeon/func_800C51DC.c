@@ -40,8 +40,6 @@ extern void func_800CA788(void *, s32, void *, void *);
 
 /* Selects a target and updates the object's state before dispatching its action. */
 s32 func_800CA93C(void *actor_arg, s32 action_arg, void *origin_arg) {
-    register void *saved_actor = actor_arg;
-    s32 action = action_arg;
     S_800CA93C_2 *origin = origin_arg;
     void *actor;
     s32 clear_flag_mask;
@@ -51,7 +49,7 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, void *origin_arg) {
     void *target_entry;
 
     lookup_origin = origin;
-    actor = saved_actor;
+    actor = actor_arg;
     ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
     ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
     ((S_800CA93C_0 *)actor)->unk_60 = func_800A3D18(lookup_origin, actor, 4);
@@ -72,9 +70,8 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, void *origin_arg) {
         ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
         ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
         if (found_entry == (s32)((S_800CA93C_0 *)actor)->unk_60) {
-            ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             ASM_KEEP(clear_flag_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            func_800CA788(actor, action, origin, actor);
+            func_800CA788(actor, action_arg, origin, actor);
             return 0;
         }
         ((S_800CA93C_0 *)actor)->unk_2A = func_800A0818(
@@ -86,10 +83,8 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, void *origin_arg) {
         ((S_800CA93C_0 *)actor)->unk_46 |= 0x8000;
     }
 
-    ASM_KEEP(saved_actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(origin);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    func_800CA444(saved_actor, action, origin, actor);
+       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    func_800CA444(actor_arg, action_arg, origin, actor);
     return 0;
 }
 

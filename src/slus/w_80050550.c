@@ -25,7 +25,7 @@ void func_80050550(S_80050550_Outer *outputs, s32 numerator, s32 denominator) {
     s32 negative_ratio_128 = (-(numerator * 128)) / denominator;
     s32 ratio_1024 = (numerator * 1024) / denominator;
 
-    register S_80050550_A *primary_output ASM_REG("v1");
+    S_80050550_A *primary_output;
 
     output_value = output_value + 0x30;
     primary_output = outputs->fieldA;
@@ -33,10 +33,8 @@ void func_80050550(S_80050550_Outer *outputs, s32 numerator, s32 denominator) {
     primary_output->unk1 = (u8)output_value;
     primary_output->unk0 = (u8)output_value;
 
-    output_value = 0x180;
-    primary_output = outputs->fieldA;
-    output_value = output_value - negative_ratio_128;
-    primary_output->unkC = output_value;
+    output_value = 0x180 - negative_ratio_128;
+    outputs->fieldA->unkC = output_value;
 
     output_value = 0x400 - ratio_1024;
     outputs->fieldB->unk2 = output_value;

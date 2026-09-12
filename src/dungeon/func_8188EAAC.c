@@ -103,12 +103,10 @@ void *func_800262AC(s16 x, s16 y, s16 z)
                 render = ((S_800262AC_0 *)object)->unk_0C;
                 render->unk_06 = 0x10;
                 if (group_index != 0) {
-                    ASM_SCHED_BARRIER();
-                    init_value = 0x100;
+                    render->unk_1E.s = 0x100;
                 } else {
-                    init_value = 0x800;
+                    render->unk_1E.s = 0x800;
                 }
-                render->unk_1E.s = init_value;
                 render_flags = render->unk_1E.u;
                 render->unk_14 = 0xC;
                 render->unk_10 = 0x20;

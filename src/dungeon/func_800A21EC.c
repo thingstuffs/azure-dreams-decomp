@@ -48,7 +48,7 @@ s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
     s32 payload;
     s32 stored_ae;
     u16 object_count;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 result;
     register u8 *callback ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     object = func_800A8608(&D_80083498, payload_ptr, 0, 0, 0);

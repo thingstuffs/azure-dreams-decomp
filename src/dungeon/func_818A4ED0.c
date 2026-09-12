@@ -89,7 +89,7 @@ s32 func_818A4ED0(s32 object_param, S_818A4ED0_3 *spawn_position) {
             __asm__ __volatile__("" : : : "$2");
 #endif
             {
-                register s32 object_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                s16 object_result;
                 object_result = (s32) object;
                 ASM_KEEP(object_result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 position->unk_0A = final_z;

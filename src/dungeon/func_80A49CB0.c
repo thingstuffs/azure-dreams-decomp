@@ -174,17 +174,15 @@ state_one_active:
             goto done;
         }
         if (entity_flags & 0x80000) {
-            void *actor_copy;
 
             func_800AA888(actor, context, sprite, entity);
-            actor_copy = actor;
-            ASM_KEEP(actor_copy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            stat_value = ((S_801734B0_5 *)actor_copy)->unk_92;
-            stat_delta = ((S_801734B0_5 *)actor_copy)->unk_B6;
-            ((S_801734B0_5 *)actor_copy)->unk_B6 = 0;
-            ((S_801734B0_5 *)actor_copy)->unk_B8 = 0;
-            ((S_801734B0_5 *)actor_copy)->unk_92 = stat_value - stat_delta;
-            func_80173C34(actor_copy, context, sprite, entity);
+            ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            stat_value = ((S_801734B0_5 *)actor)->unk_92;
+            stat_delta = ((S_801734B0_5 *)actor)->unk_B6;
+            ((S_801734B0_5 *)actor)->unk_B6 = 0;
+            ((S_801734B0_5 *)actor)->unk_B8 = 0;
+            ((S_801734B0_5 *)actor)->unk_92 = stat_value - stat_delta;
+            func_80173C34(actor, context, sprite, entity);
             goto done;
         }
         if (((S_801734B0_2 *)entity)->unk_6D == 0) {
@@ -262,7 +260,6 @@ assign_callback:
     ((S_801734B0_0 *)actor)->unk_8C = D_8017140C;
 
 done:
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */

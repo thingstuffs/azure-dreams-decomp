@@ -245,19 +245,15 @@ state_1:
     func_800A56E0(0x703);
 
 state_2:
-    ASM_SET(delay_slot);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     step = 0;
     if (!(((S_8017472C_0 *)action)->unk_96.s & 1) &&
         ((S_8017472C_0 *)action)->unk_AE.s != 0) {
         ((S_8017472C_0 *)action)->unk_AE.u--;
-        ASM_SET(step);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        step = 0;
-        ASM_USE(delay_slot);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
-    do {
+    for (step = 0; step < 10; step++) {
         func_80171790(action, transform, sprite, actor);
-        step++;
-    } while (step < 10);
+    }
 
     if (((S_8017472C_0 *)action)->unk_96.u == 0x16) {
         func_80171928(action, transform, sprite);

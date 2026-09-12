@@ -112,15 +112,11 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     s32 offset_y_index;
     u32 initial_result;
     register u8 *table_or_owner ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    Position *position;
-    Source *source;
     Context *context;
 
-    position = position_arg;
-    source = source_arg;
     context = context_arg;
-    ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(source_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(position_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     target_y = target_x = 0;
     if (context->f60 == D_800E3D7C) {
         special_data = *(u8 **)((u8 *)context->f60 + 0x4C);
@@ -139,7 +135,7 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     }
 
     direction = (((s16)context->f2A >> 9) + 4) & 7;
-    initial_result = (u16)func_8017506C(source->x, source->y, position->z, direction, &hit) << 16;
+    initial_result = (u16)func_8017506C(source_arg->x, source_arg->y, position_arg->z, direction, &hit) << 16;
     if (initial_result != 0) {
         goto initial_success;
     }
@@ -164,9 +160,9 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
         }
 search:
         trial_result = func_8017506C(
-            (s16)(source->x + first_x_step[0]),
-            (s16)(source->y + first_y_step[0]),
-            position->z,
+            (s16)(source_arg->x + first_x_step[0]),
+            (s16)(source_arg->y + first_y_step[0]),
+            position_arg->z,
             (s16)trial_dir,
             &hit);
         if ((s16)trial_result != 0) {
@@ -194,8 +190,8 @@ trial_success:
             table_or_owner = (u8 *)D_8006CCE8;
             trial_y_address = trial_offset + (s32)table_or_owner;
             ASM_KEEP(trial_x_step);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            target_x = trial_x_step[0] + (source->x + first_x_step[0]);
-            target_y = *(u16 *)trial_y_address + (source->y + first_y_step[0]);
+            target_x = trial_x_step[0] + (source_arg->x + first_x_step[0]);
+            target_y = *(u16 *)trial_y_address + (source_arg->y + first_y_step[0]);
             goto search_done;
         }
     }
@@ -209,8 +205,8 @@ initial_success:
         x_steps_address = (s32)D_8006CCD8_success;
         direction_offset = direction << 1;
         x_step_address = x_steps_address + direction_offset;
-        target_x = source->x + *(u16 *)x_step_address;
-        target_y = source->y + D_8006CCE8[direction];
+        target_x = source_arg->x + *(u16 *)x_step_address;
+        target_y = source_arg->y + D_8006CCE8[direction];
     }
 
 allocate:
@@ -223,26 +219,25 @@ allocate:
     display = object->display;
     work = (Work *)((u8 *)object + 0x20);
     object->callback = &D_80174CCC;
-    work->source = source;
-    work->position = position;
+    work->source = source_arg;
+    work->position = position_arg;
 
     display->f1E = 0x1000;
     display->f1C = 0x1000;
     display->color = 0x00808080;
-    display->f28 = source->f28;
-    display->f12 = source->f12;
+    display->f28 = source_arg->f28;
+    display->f12 = source_arg->f12;
 
     offset_x_index = ((D_80083228 + context->f2A + 0x100) >> 8) & 0xE;
     local_offset.x = D_801766F0[offset_x_index];
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     offset_y_index = ((D_80083228 + context->f2A + 0x100) >> 8) & 0xE;
     local_offset.y = D_801766F0[offset_y_index + 1];
     local_offset.z = 0;
     func_8003E02C(&local_offset, &world_offset);
 
-    object->position->x = position->x + world_offset.x;
-    object->position->y = position->y + world_offset.y;
-    object->position->z = position->z + world_offset.z;
+    object->position->x = position_arg->x + world_offset.x;
+    object->position->y = position_arg->y + world_offset.y;
+    object->position->z = position_arg->z + world_offset.z;
     func_80047784(display, 0x41, 0);
     func_8004491C(object, &D_80045340);
 
@@ -252,7 +247,7 @@ allocate:
     work->y = target_y;
     work->hit = hit;
     work->flags = context->f14 & 0x2007;
-    work->source_id = source->f12;
+    work->source_id = source_arg->f12;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     table_or_owner = owner_data;
     owner_byte = table_or_owner[0xAC];

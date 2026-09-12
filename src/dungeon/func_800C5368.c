@@ -29,10 +29,9 @@ typedef struct S_800CAAC8_1 {
 /* Updates the actor and entity counter, then advances the entity or sets its callback. */
 void func_800CAAC8(void *entity_ptr, s32 input_arg_1, s32 input_arg_2, void *actor_ptr)
 {
-    void *entity = entity_ptr;
-    register s32 update_arg_1 ASM_REG("$18") = input_arg_1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 update_arg_2 ASM_REG("$19") = input_arg_2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$16") = actor_ptr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 update_arg_1 = input_arg_1;
+    s32 update_arg_2 = input_arg_2;
+    void *actor = actor_ptr;
     u16 remaining_count;
 
     if (func_800AB1C0() == 0) {
@@ -40,8 +39,8 @@ void func_800CAAC8(void *entity_ptr, s32 input_arg_1, s32 input_arg_2, void *act
     }
 
     func_800A4ACC(actor);
-    remaining_count = ((S_800CAAC8_0 *)entity)->unk_B6 - 1;
-    ((S_800CAAC8_0 *)entity)->unk_B6 = remaining_count;
+    remaining_count = ((S_800CAAC8_0 *)entity_ptr)->unk_B6 - 1;
+    ((S_800CAAC8_0 *)entity_ptr)->unk_B6 = remaining_count;
 
     if ((remaining_count << 16) > 0) {
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -54,15 +53,15 @@ void func_800CAAC8(void *entity_ptr, s32 input_arg_1, s32 input_arg_2, void *act
         goto set_callback;
     }
 
-    func_800CAA94(entity, update_arg_1, update_arg_2);
+    func_800CAA94(entity_ptr, update_arg_1, update_arg_2);
     return;
 
 set_callback:
-    ((S_800CAAC8_0 *)entity)->unk_8C = &D_800C9F34;
+    ((S_800CAAC8_0 *)entity_ptr)->unk_8C = &D_800C9F34;
 
 check_flag:
     if (D_80083462 & 0x80) {
-        ((S_800CAAC8_0 *)entity)->unk_92 = -0x20;
+        ((S_800CAAC8_0 *)entity_ptr)->unk_92 = -0x20;
     }
 }
 

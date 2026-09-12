@@ -1,0 +1,912 @@
+{
+  "run_key": "4faaf5f4114f9e8830d4354f2455340bdc3c4cb111ce61135b2c6d5e8c5f8ffa",
+  "finished": "2026-09-12T11:09:30Z",
+  "options": {
+    "screens": 1200,
+    "verifies": 12,
+    "cpu_seconds": 40.0,
+    "group_screens": 240,
+    "depth": 3,
+    "beam": 4,
+    "fallback": 2,
+    "band": 30,
+    "cache_namespace": "production"
+  },
+  "recipe": "5e31c8e3d55086d1ddae97c6822a5e1a7ca3e9a0df4e25e73837bd115544e504",
+  "search": "2c616e73d56f88c2c52532452cca6c9541d0c77d9775ffb0fef3e8b3505fad92",
+  "files": [
+    {
+      "id": "slus/w_80046E38",
+      "path": "src/slus/w_80046E38.c",
+      "before_sha": "1ffd5e7bbd4a2797dd19b6a9fbe8771a16e6bee5694cf5b7417f328cd9e99a50",
+      "after_sha": "d03d946346cfb584da272f3f50f8c7f81519df29e7fc56bc6ad5499d09f220a1"
+    },
+    {
+      "id": "slus/w_80056098",
+      "path": "src/slus/w_80056098.c",
+      "before_sha": "7d9ca5fbe57112c3163de62e94ed4b7dfcc7f3f6683cb4bdef18aa91d72f707b",
+      "after_sha": "7ba5f1dd405a1698461843365cdfd0a96f14717016f6995850baad2a4fb035f1"
+    },
+    {
+      "id": "dungeon/func_8196B780",
+      "path": "src/dungeon/func_8196B780.c",
+      "before_sha": "244a3462eab16145563f276dfd6573eefe04e297332286dc93640b9b73ebf481",
+      "after_sha": "d160ca5e60fb1643b1a8860ef030ed6559cac59d3a77541e9ad11d933aea552d"
+    },
+    {
+      "id": "slus/w_80056E10",
+      "path": "src/slus/w_80056E10.c",
+      "before_sha": "d29d614bf0d2c43b89fc15f0b43873efe5d76dffa96bf64f07c32d12dfad55f9",
+      "after_sha": "bdac00d07a6af6e855e323ea040d942d13bb4fa81258350748e0553bb19246bd"
+    },
+    {
+      "id": "slus/w_80042BDC",
+      "path": "src/slus/w_80042BDC.c",
+      "before_sha": "73d703d63e9f195df07bf6ce39a1d765e94590bb8ec4b8bfe55f4b464c398438",
+      "after_sha": "cca8747656ec31d1096b35be9d484be85df91390fbad50f80cae32f4360d4a21"
+    },
+    {
+      "id": "dungeon/func_800B62E0",
+      "path": "src/dungeon/func_800B62E0.c",
+      "before_sha": "a0edc24dc707d398c8684c42cfa8e061ffa8f35f3017542a9aeef48725a34dc4",
+      "after_sha": "254ccf56f7fef6bbfb8a94b797e4ec3ca33ac49a6b90df0ebcb0097aaa562f14"
+    },
+    {
+      "id": "dungeon/func_80095E4C",
+      "path": "src/dungeon/func_80095E4C.c",
+      "before_sha": "2416e4ca12874067136411b5c53fa92b98b9cc3dfeed5e0ee65b242e4e46c2ea",
+      "after_sha": "0164ba3300b19fe18eabae64a14af7cc2e99d0b05417112f39e885409a39845e"
+    },
+    {
+      "id": "dungeon/func_809F7320",
+      "path": "src/dungeon/func_809F7320.c",
+      "before_sha": "dbb564cfc2216487a1b06f4186fb16cf04a934705461342b7d631becb1774b46",
+      "after_sha": "94b9641b3f9048393a269fdedbda9e43c84d61224738b15072e992152d2dac97"
+    },
+    {
+      "id": "dungeon/func_8192340C",
+      "path": "src/dungeon/func_8192340C.c",
+      "before_sha": "7aab207ac21192ea48ddacce9e983d7a0d0fb2b10b34a06f182ab0633ebd8976",
+      "after_sha": "d127a5dd62d750e36d53876d8c8f301cf952eb27390613c192ff68e5a5985dac"
+    },
+    {
+      "id": "dungeon/func_800C6438",
+      "path": "src/dungeon/func_800C6438.c",
+      "before_sha": "532e5c9f615fe3c0c48e6010af33a7db7c5a4583b6cee1722e7d1e20e35220a5",
+      "after_sha": "01a4f6f707dbe0f5d24e00df940069cc22b60c77f921da34275fd078d8092841"
+    },
+    {
+      "id": "dungeon/func_80FD5000",
+      "path": "src/dungeon/func_80FD5000.c",
+      "before_sha": "f65b81e877cfddb73e4739d12908edf85066822e58ad1996ade9480a4d6e7de8",
+      "after_sha": "94c95b883c737dcca12a7ad82aaf4b2859ba6239204b27055535194c67749c69"
+    },
+    {
+      "id": "slus/w_8004491C",
+      "path": "src/slus/w_8004491C.c",
+      "before_sha": "48da38c39a2c61217eba7c9f18aa539d57ab2334927cbdb35e2e43858e218711",
+      "after_sha": "d22f0309f5be1a66c6a53402a6be4c3cd059b5a3f20d794969c18b953a74a46d"
+    },
+    {
+      "id": "dungeon/func_800B8758",
+      "path": "src/dungeon/func_800B8758.c",
+      "before_sha": "44191d368d99836c3441fcbdf68f0f0ffa81960e9d0e676dfd4c68da7b933368",
+      "after_sha": "8db6bc79b11726aaee914ffcfab95b4ee6d425dbceb1ae66976599dd60c1e66d"
+    },
+    {
+      "id": "dungeon/func_8192286C",
+      "path": "src/dungeon/func_8192286C.c",
+      "before_sha": "e65674733084bbba6c4ee95cc98195e4fb11d66af4bbe4741ec27ca94bcc3528",
+      "after_sha": "b49978080ec796695011a9aa06b71cb5e687c1f39d04a5cae4ac737221da687a"
+    },
+    {
+      "id": "dungeon/func_800A21EC",
+      "path": "src/dungeon/func_800A21EC.c",
+      "before_sha": "188018cf8b4765ea64e8e7485bf98f1fcab9bd7c4d1834e7acdc1005654d6238",
+      "after_sha": "df7a8a58c2d7c17cbb96215bf4ea7849902dafe0470660c836b8cd3fd94f2747"
+    },
+    {
+      "id": "dungeon/func_80D3D3B0",
+      "path": "src/dungeon/func_80D3D3B0.c",
+      "before_sha": "d172a7621d8311a292035e326ee0d6ddfa8082efef67427e2485e613c893f0c3",
+      "after_sha": "fa841a9340b959ed694ac5deceea992d345c898977cebcff1272d3bd777356af"
+    },
+    {
+      "id": "dungeon/func_80A49CB0",
+      "path": "src/dungeon/func_80A49CB0.c",
+      "before_sha": "f2db63308913c39a0ef25d066397e43f5e6e08486204387185bf08e4b258f857",
+      "after_sha": "3b3592a5f68885d900a3e172e42fd943756a60278f1f8c8e83f01efdaea86d5f"
+    },
+    {
+      "id": "dungeon/func_8187B9E8",
+      "path": "src/dungeon/func_8187B9E8.c",
+      "before_sha": "0ad85d1054c9365da5b4f1860862f0130c9a6052ab1b5914be1887d79b68c543",
+      "after_sha": "ae7b9b964db2846ffcf0bc26df36f2e1d6acf3a46456abcfb2dce1fd6971c9bc"
+    },
+    {
+      "id": "dungeon/func_80A49170",
+      "path": "src/dungeon/func_80A49170.c",
+      "before_sha": "50055b575123b81893ca470df6e80ec4f943d56b7c892018020de3a8fb5bbce1",
+      "after_sha": "477110053328dd97b6c9be4feee68c584d00e595345778b2168d900026a5ed51"
+    },
+    {
+      "id": "dungeon/func_818EDB60",
+      "path": "src/dungeon/func_818EDB60.c",
+      "before_sha": "fe1df84ada36c3e6dbf2faf85822ddc15301d3b830468952865235aba3578b85",
+      "after_sha": "00d9a51e983845d8585cec490316059ad3bd2a5eba1e97dc5f7d34b0e16766e2"
+    },
+    {
+      "id": "dungeon/func_800A57A0",
+      "path": "src/dungeon/func_800A57A0.c",
+      "before_sha": "9f265566d3a3c57f3d4962f111c30efe5e18e06555eae7acb79276d9ac640d28",
+      "after_sha": "9347289462875d2a5aceaf8dea03cc4ac8a2835157c2aedb49aeae922594c8d2"
+    },
+    {
+      "id": "dungeon/func_800D25D0",
+      "path": "src/dungeon/func_800D25D0.c",
+      "before_sha": "a59af27f7878c310f0ae5a134c6d218d50fb19a0e5015a59eec94d305f0a4cba",
+      "after_sha": "68a279a0476b58422df96da6c5cffc435e3b8d7d1492cf1495d4dc3262e9d437"
+    },
+    {
+      "id": "dungeon/func_80976E28",
+      "path": "src/dungeon/func_80976E28.c",
+      "before_sha": "83fb51e51a6b8f5eaf3743ca0aa28eb19a4e7f596ea306dd4f9d4cace9115135",
+      "after_sha": "40cd6fa6963006838c7c499983c59410099d35bb0328068aeb9b467b857c7cbc"
+    },
+    {
+      "id": "dungeon/func_800B0F68",
+      "path": "src/dungeon/func_800B0F68.c",
+      "before_sha": "c1176473b5ca4679fd45bec44911bb096e1229039a04ff02bac8786eac78eee7",
+      "after_sha": "2bebd20735ac794f1c054365fcc79dfac7270babda5e7eef3914bf84d7ad89e2"
+    },
+    {
+      "id": "slus/w_80055E84",
+      "path": "src/slus/w_80055E84.c",
+      "before_sha": "b151eeef45d01f4e6300e70b32af607c524eb5702a2e2d6da7d55cabe002388d",
+      "after_sha": "9786d9d1b616d945eb1db5e67307288f3c3d5fe3a5c6958118b1f02acd1b2e1e"
+    },
+    {
+      "id": "dungeon/func_809A079C",
+      "path": "src/dungeon/func_809A079C.c",
+      "before_sha": "1320cc0a7e5216c7844cd03ac68d54550af53b9d8d0b826bdaa6bba4468025de",
+      "after_sha": "e174b380e4c0e6b4965b94d3b00443affb57f760732bcbc022f46392ef553271"
+    },
+    {
+      "id": "dungeon/func_818C370C",
+      "path": "src/dungeon/func_818C370C.c",
+      "before_sha": "6bd7f6e9c08d297b446702e9e82d0742bef500f8e5fe61b2a5758653de85c776",
+      "after_sha": "5f5cfe7f5de7b48ab46eea4de65f86318fdd645272b6fcd6951c40c21501a9ee"
+    },
+    {
+      "id": "dungeon/func_800A3C30",
+      "path": "src/dungeon/func_800A3C30.c",
+      "before_sha": "33a77e088c0faa6557af10c359ce042352b4419948baad839d888c67dac7673c",
+      "after_sha": "f8a1a6a6a094273f04986f085f74306348d9c1c5858bea1295587c683b10ff62"
+    },
+    {
+      "id": "dungeon/func_81339534",
+      "path": "src/dungeon/func_81339534.c",
+      "before_sha": "1eba2770002ce241a9257e92854cd3bf02819730842b6a1f33c419e5a6ab2657",
+      "after_sha": "6f73da908abf826bfe7f7567710c8124777b4b362ba42ae11d3d78a16794122f"
+    },
+    {
+      "id": "slus/w_8005947C",
+      "path": "src/slus/w_8005947C.c",
+      "before_sha": "78e44b0f3a738f7da32323a8511c7fc9ae7c377e87ec336231a66c4df7fe2e42",
+      "after_sha": "d707ea1f6b3f04d8c3c1a014786b09cf03e83a7f744b7526eb6275c8e4127f9d"
+    },
+    {
+      "id": "dungeon/func_8196B4A4",
+      "path": "src/dungeon/func_8196B4A4.c",
+      "before_sha": "e120d71872e22f52f77d9c37b3b55f8cead51c7fcbb26cb0982f246e0fdb2454",
+      "after_sha": "f90e61eeb9a3439cc4567d44d5b279046fe28144f9d2569f9bf72db6fd0402ee"
+    },
+    {
+      "id": "dungeon/func_818C3A3C",
+      "path": "src/dungeon/func_818C3A3C.c",
+      "before_sha": "a73559e31b72f1af9c7a69ae133c4613f7ea8826cc5e202c1592457e2cdf395c",
+      "after_sha": "8df1a0bab32576eac40eb8f6eb2360c0129a6ec98f6a10eb912f2c426782931e"
+    },
+    {
+      "id": "dungeon/func_819BFE48",
+      "path": "src/dungeon/func_819BFE48.c",
+      "before_sha": "199c33c5149bd4ef1839bf7a1680549538b9a65a04746d7ee37e3fd662f225bf",
+      "after_sha": "69de53b7c9e43fdf932bc79f839f417d107df2bc17ec8ce34b857b7cbaf3c7f2"
+    },
+    {
+      "id": "dungeon/func_80283BF0",
+      "path": "src/dungeon/func_80283BF0.c",
+      "before_sha": "5eda90da2fec0e7697de1e99d17d2b45a0e29eb8756f693df7f17f87d2e7046c",
+      "after_sha": "87c7622e975f934cea76b629c9b66c33afdf0d4d7c93111c577fbd50693789c6"
+    },
+    {
+      "id": "dungeon/func_80284668",
+      "path": "src/dungeon/func_80284668.c",
+      "before_sha": "441070c5383d9bde89247bc539bf89107d15a5a6a91a1ce7bb803a893b840a91",
+      "after_sha": "c67c3511f52538e674d31d84d0f3fb2fa84f96376390d023532083ab9ab669ba"
+    },
+    {
+      "id": "dungeon/func_80CEA348",
+      "path": "src/dungeon/func_80CEA348.c",
+      "before_sha": "68ca47eebae15b321ace05b9167a99072d170f095f66188d0d4994a64c0f13cd",
+      "after_sha": "c84c80e8b7d33517a21f7c83c509a5fc2c647452ea7467135b3b9028c2e5e111"
+    },
+    {
+      "id": "dungeon/func_80C2709C",
+      "path": "src/dungeon/func_80C2709C.c",
+      "before_sha": "18ce5475c58e4f7a6469e6946ff9e65e29ff895706906495570da0ac60fee5d6",
+      "after_sha": "bf9de17694fe4cc3cb823a1618886840a4e9a83eb539052a62e52c41a5357f0b"
+    },
+    {
+      "id": "dungeon/func_8180B064",
+      "path": "src/dungeon/func_8180B064.c",
+      "before_sha": "a03282b763b51cb2d62f5922d384898a73dbaf4f4b1f9ff0bda3ff0a069fd5d4",
+      "after_sha": "9c9d9e54163f2eca8968a60c6b15da368681f7e7393297d0cbf6dc6cb6a9cfdd"
+    },
+    {
+      "id": "dungeon/func_800C74C0",
+      "path": "src/dungeon/func_800C74C0.c",
+      "before_sha": "93d514e0be111466aa106aa69c7210abc9aec2ebf010030674d31ec7dc3a5e10",
+      "after_sha": "c3733e8a26e500193947a83a25eab6a539c9ec24c2da5f111ba12b3bd39f6fcf"
+    },
+    {
+      "id": "dungeon/func_800AF51C",
+      "path": "src/dungeon/func_800AF51C.c",
+      "before_sha": "a93c35f5b788c1e2e11b1829725b6af5e57a5f36f90de36ac4049e4e413cb592",
+      "after_sha": "100e2012723b5d02f0ced20248f1a6e8d4725ded6540c2090914161baa00a206"
+    },
+    {
+      "id": "slus/w_80050550",
+      "path": "src/slus/w_80050550.c",
+      "before_sha": "afaaf90a7179ba27763d2a8ac6a758fd894c54f3529ceb7649ebcbbdb52c6d34",
+      "after_sha": "7938a2718c7b519e4a91834732d12cc1d2c70cef268438506d1f16efbe40f169"
+    },
+    {
+      "id": "dungeon/func_8132E018",
+      "path": "src/dungeon/func_8132E018.c",
+      "before_sha": "00426420e4b36cebdec8f6eec180803a9ee9bef504e175e4fc67194b0b3cf779",
+      "after_sha": "d0de0fb3841fb6318e161c789105439f0c85085e67534c58b8861520451196e3"
+    },
+    {
+      "id": "dungeon/func_80D3E260",
+      "path": "src/dungeon/func_80D3E260.c",
+      "before_sha": "26dc4b74084f39646f46c731fa09ddbf6bacfbe64d36e0ac6102f86a3a38e795",
+      "after_sha": "92767da74cb7ceb688f44ad332f34e0b5e3cc60e8d1ba633a5dd5c64d72f771c"
+    },
+    {
+      "id": "dungeon/func_80AC5F28",
+      "path": "src/dungeon/func_80AC5F28.c",
+      "before_sha": "309fe74d6d1686b8bf25d6986e4c7ef9ba28097e179375c01b72346dd12c7615",
+      "after_sha": "73a4571f2dda24e2a1e8063c6072ce344482416a15d0c91e011b329957beaba1"
+    },
+    {
+      "id": "dungeon/func_80F3575C",
+      "path": "src/dungeon/func_80F3575C.c",
+      "before_sha": "adc3b5ff2c3af900f6e118860d23cbb307ff29a2dfbc62269efe24037019b849",
+      "after_sha": "0f9f77152bf0abd12606f0cbd902872ee64198ac411aa6288cd6962ed8e1578a"
+    },
+    {
+      "id": "dungeon/func_80C3909C",
+      "path": "src/dungeon/func_80C3909C.c",
+      "before_sha": "4708e68c38bb74dbd294106c5ec2c262ed7d7bc83fc9877f96dad70c9d4b3ede",
+      "after_sha": "92e63fc7a34b8df553e7b64581bbcea09ff4aad5b164d20ca2dd26f248c56695"
+    },
+    {
+      "id": "dungeon/func_80B9ADE0",
+      "path": "src/dungeon/func_80B9ADE0.c",
+      "before_sha": "603ac45c3bbdeac5a5b12a29ee346e617e62ef24969ce817fd0f3e23cb90ab7e",
+      "after_sha": "a5c6ba4e306066248a9297352457282932451bf8082c44a0a97ecc40c48caee9"
+    },
+    {
+      "id": "dungeon/func_8196048C",
+      "path": "src/dungeon/func_8196048C.c",
+      "before_sha": "c62eeb3790c6bcb5684186b2a79f6838127671f2e037cb6967680e25f57cac52",
+      "after_sha": "64c23ec148f1a4cadd9927712a9710ba0b34845c2b243bc10bfccd443966dedc"
+    },
+    {
+      "id": "dungeon/func_80E12058",
+      "path": "src/dungeon/func_80E12058.c",
+      "before_sha": "56f08d0cbb456293da896816d14cd79a9a9a83f72ed7ea209cd715304a953b56",
+      "after_sha": "b1a04f308acc392e66db8385440bff203b6764a8179ea1316368f906019adec6"
+    },
+    {
+      "id": "dungeon/func_800C5368",
+      "path": "src/dungeon/func_800C5368.c",
+      "before_sha": "c20c75a244cdfb71719fa9010220f3eae56c1fd12b8fdb6f88a25ad757c24b80",
+      "after_sha": "04ec5b42baa0d0f263918e0a737e9c32163ca2ca7b244dd9850aeac826bb4706"
+    },
+    {
+      "id": "dungeon/func_8028A0F4",
+      "path": "src/dungeon/func_8028A0F4.c",
+      "before_sha": "debc5f6e9cb81c32b5c18f6fe4c5da531969baeca2d627c7fc0e289c3ef6035e",
+      "after_sha": "a102c23e67af93c570f8b5da849a4d085ba37466e4fa43081e6f5901b46a5023"
+    },
+    {
+      "id": "dungeon/func_80287768",
+      "path": "src/dungeon/func_80287768.c",
+      "before_sha": "aa8eb32e2ff0ad3d0235a0ba312973a75e15a608bbc1b7ef847ed801bf244b31",
+      "after_sha": "f542c4dc24ee8552efc81a46b96d24d99021e1afe4fc2f883beb0119a11f92f1"
+    },
+    {
+      "id": "dungeon/func_80F36D0C",
+      "path": "src/dungeon/func_80F36D0C.c",
+      "before_sha": "b29548d75742379486e6605113e48c96814d5e44a91d6d3d7797cf1973bb95e8",
+      "after_sha": "5f8fef00f5dd2d658a2a353ae4074abd484370ab5acfa06dd932b01c746523ee"
+    },
+    {
+      "id": "dungeon/func_80D6671C",
+      "path": "src/dungeon/func_80D6671C.c",
+      "before_sha": "950d32b13ca9133d51646c498d72db0c86ffadfe7718a5850eff18fb04adaecd",
+      "after_sha": "83062a85cc37d13282c14755203c8f1a92c09d8828bc19575016ce55f3bf3f5e"
+    },
+    {
+      "id": "dungeon/func_809F90DC",
+      "path": "src/dungeon/func_809F90DC.c",
+      "before_sha": "181d3e5c0a9ee6e0d1cacfa906cc99ef2b3e74bd70409a2b18b56bd3af7428a7",
+      "after_sha": "856bfd2cdab7c83977798d98dccb71fb4d179a1741703c3a29728ad5ae6c1f12"
+    },
+    {
+      "id": "dungeon/func_80D3CBF8",
+      "path": "src/dungeon/func_80D3CBF8.c",
+      "before_sha": "040a4cdd82ee693604f6df0d89d7c92beb51e222bc0bedbee0910143eeac52aa",
+      "after_sha": "56cd930fc76259f033b5b93c783b2cb04e651dc7c455da4d0e2e0287991607ec"
+    },
+    {
+      "id": "dungeon/func_8009DE78",
+      "path": "src/dungeon/func_8009DE78.c",
+      "before_sha": "c74159cd8342b49183f8cf05b5c8f23a72c68a2b0c4bb95347abd64efd2d9c98",
+      "after_sha": "4cbd59517be4b40f1eebc8fb1d068255b4ebd9385919900ff2d0f2c53e8cdef6"
+    },
+    {
+      "id": "dungeon/func_818571BC",
+      "path": "src/dungeon/func_818571BC.c",
+      "before_sha": "c4cbeb1fe254e8c37599e371ce268f2ded2049b9dba266ef1c3ecca34dc5670d",
+      "after_sha": "b5240bb966cde6c005564df09d40a663347451e814dab683a6a30c3a1c6d3b33"
+    },
+    {
+      "id": "dungeon/func_80A050DC",
+      "path": "src/dungeon/func_80A050DC.c",
+      "before_sha": "f45faad481ba7690ac6431aaa42b0b6ff150eaaf07829959198a57ad6a593a83",
+      "after_sha": "36e125a6209bf1483d85f6e0f8d242d19872eaee3c2043e5aa485425c5cea78c"
+    },
+    {
+      "id": "dungeon/func_80E37EA4",
+      "path": "src/dungeon/func_80E37EA4.c",
+      "before_sha": "57abd8ffa0749a0031cf58c38467382abaccbe0fc2603b277059923987a20517",
+      "after_sha": "ce32124363703fb9c64e1d8604ccd7053ac6214259f30850e4ac4ea2c5c9f85c"
+    },
+    {
+      "id": "dungeon/func_80F33E3C",
+      "path": "src/dungeon/func_80F33E3C.c",
+      "before_sha": "e11303befa00b87064c988c31c31ce3e2cd3e6e668ffa25a8003fde7af68cf0a",
+      "after_sha": "60ad28b3a1c9fa7f22c11816282cbdb787efb078d189e6aca6cab17608650dff"
+    },
+    {
+      "id": "dungeon/func_81912154",
+      "path": "src/dungeon/func_81912154.c",
+      "before_sha": "36fed71a1edbd88d61e503379168cafbe785bd7f9fab0cf87f459d0ca6e62b48",
+      "after_sha": "28a2a8b18848cbd3449f3b720256f8a3cd494af3f8652a6f4be0b4b1190cb5e0"
+    },
+    {
+      "id": "dungeon/func_80CEAF2C",
+      "path": "src/dungeon/func_80CEAF2C.c",
+      "before_sha": "93dcf2e4ffdef5ca9dfff2411a33a6313b8986f774d384e2e887c15865d8287e",
+      "after_sha": "4d88ffbe46aa2af96c934e13fc73b49e1479c043296be8e8f47486a89502ea6d"
+    },
+    {
+      "id": "dungeon/func_8028A9CC",
+      "path": "src/dungeon/func_8028A9CC.c",
+      "before_sha": "a69b1955f6d4fd5b8884da284c6402f54b6b7e4abf3391f02824f73a3c51d6d4",
+      "after_sha": "3aec9ff3a3db9ddcefae5ae87669fe65afab84ed384d067076157a13d6177c2f"
+    },
+    {
+      "id": "town/func_8096D040",
+      "path": "src/town/func_8096D040.c",
+      "before_sha": "0ceb536d67ce7eed06fba98d280158b19af721f09f45fa0c712799280fd5111c",
+      "after_sha": "e2942817b8751c422df9e4a3835af34dea8de2670c3002cdb4ed2d22fb91f43f"
+    },
+    {
+      "id": "dungeon/func_81905C08",
+      "path": "src/dungeon/func_81905C08.c",
+      "before_sha": "102e760011917e326140f4434b7bc486ce629cad21dabc3ed29fc05a2a006e96",
+      "after_sha": "ef4b3bc6e2f1d88b2e75553ec21acaffa423e309abab20471e1f50eaa2040f90"
+    },
+    {
+      "id": "dungeon/func_81329D94",
+      "path": "src/dungeon/func_81329D94.c",
+      "before_sha": "0716d2ffcf7e41cc68c49015789bd4f2abf7a0d788822287accd4cc7d99c9786",
+      "after_sha": "e7395b66c053adaab1b20c0f84ac27d3b8b02bb9d5ceb2863086b604660e3e7e"
+    },
+    {
+      "id": "slus/w_80048C3C",
+      "path": "src/slus/w_80048C3C.c",
+      "before_sha": "c9366d9059a7e61fa255dce9cb1b641f21aeb0959f3c155f7961d3bf2c516838",
+      "after_sha": "84ef8b9f251f89a53bdafc003841e39fbd1691aee2f815ecf50454d00a836a06"
+    },
+    {
+      "id": "dungeon/func_80BBB094",
+      "path": "src/dungeon/func_80BBB094.c",
+      "before_sha": "57912e25a7849adb2b98f41edca876d4111e61ad320c7ede934b0ac768d9112c",
+      "after_sha": "1ba36ea560350a6c3a88421f035602f67614f3bc098268a041c0d86e9b9fd3c0"
+    },
+    {
+      "id": "dungeon/func_80B97C10",
+      "path": "src/dungeon/func_80B97C10.c",
+      "before_sha": "4cdc3af2cc68eeacb6cff08b289268b4dbc7a275a396545673a41770354e2042",
+      "after_sha": "be8954dda8834e74f09d0df442015e8ba4d72ff42bc3cf6dfdb5bc0ffb3a425f"
+    },
+    {
+      "id": "dungeon/func_81940F98",
+      "path": "src/dungeon/func_81940F98.c",
+      "before_sha": "6d897f252b6f33cb294aa826925aca4f5a01518cffdc5496d844b0406a0189c6",
+      "after_sha": "0c33ba549e74663dfc42d59e8f159f5367d8329f0f0a37d6dda438c86238abdd"
+    },
+    {
+      "id": "dungeon/func_818ED25C",
+      "path": "src/dungeon/func_818ED25C.c",
+      "before_sha": "ad307982788babf0e89362e088c169378533ac5770f4a1553ef1cbb5fdedc79e",
+      "after_sha": "34e33c95f48fe7e9460156eb6f9621541ef5251ceb5c90fbb3d7ddea36fbba92"
+    },
+    {
+      "id": "dungeon/func_80C1B09C",
+      "path": "src/dungeon/func_80C1B09C.c",
+      "before_sha": "36dd4ab868c7872e3749cded10e566c299eab2e3614b174d6df125cacc8d20dd",
+      "after_sha": "0972ff256ae5ccc30623ad738ec91e0370b63f51f42dd06a19de4d28b06eaa29"
+    },
+    {
+      "id": "dungeon/func_810078B4",
+      "path": "src/dungeon/func_810078B4.c",
+      "before_sha": "75087d16adbd9fc5b197150e15e9caf0d3e383c12ef6f2d78790f3ca34af2127",
+      "after_sha": "6bc4a329543a7adbc5ca2291a66646c020ab8b7eef77b757cad62b9731533a27"
+    },
+    {
+      "id": "dungeon/func_80C2D09C",
+      "path": "src/dungeon/func_80C2D09C.c",
+      "before_sha": "81dfe2f8085caa8efb3b538996e7073297372e167c614eec4e50b18cc63aaefe",
+      "after_sha": "16f7307c12c2b1520b4021c5b99b86a250dc863afcc2bfe36e28c096108db212"
+    },
+    {
+      "id": "dungeon/func_818C32F4",
+      "path": "src/dungeon/func_818C32F4.c",
+      "before_sha": "e7a9122e770ded7a5cb6f7dee548adf07af52925120f4e439822497c47699663",
+      "after_sha": "6bc1aecceab0b212bfe033559594a0b4e24aaed069dad81151ad742db8d51d88"
+    },
+    {
+      "id": "dungeon/func_800C51DC",
+      "path": "src/dungeon/func_800C51DC.c",
+      "before_sha": "8d6badbcd81d90977b88400a94f5b27f37a8576bece16742e89ad367a263463c",
+      "after_sha": "efa103007158772447efd052fa93eae7c7478050e9c2cb7237dc9e9336c044d3"
+    },
+    {
+      "id": "dungeon/func_813274E4",
+      "path": "src/dungeon/func_813274E4.c",
+      "before_sha": "b54544cadf579abd693293bef54a29d084f359049f1531f211594513b182069d",
+      "after_sha": "50731d52f2544248affb48411852cbfff272f594a07589e8e4ef948da226cd8e"
+    },
+    {
+      "id": "dungeon/func_800CCF04",
+      "path": "src/dungeon/func_800CCF04.c",
+      "before_sha": "d9152f8fec1cb179e56aa9484ce64c5cd296fa21643fedae5c98e07ba806790f",
+      "after_sha": "c2b82ca8520fa83997f95d6af44fdd44b7437b9287224602a88da1b31631bf1b"
+    },
+    {
+      "id": "dungeon/func_810AF0B4",
+      "path": "src/dungeon/func_810AF0B4.c",
+      "before_sha": "b5126a95952a8f359299c87bd25720fcb0aed82d8da48e960d1b24aee84f9975",
+      "after_sha": "c731811913b6638acc0be9ac4433b73f7c96084b66f7ff6362576c6a4b98fa32"
+    },
+    {
+      "id": "dungeon/func_80AC88DC",
+      "path": "src/dungeon/func_80AC88DC.c",
+      "before_sha": "49cff659afe472160a4ba2c6e34789e073cceb0e9104142d03588f5dcae4cd4d",
+      "after_sha": "802e9e7be22ed0b6254bbd78e4361805496f8760f41b31f096c3d3225de7d534"
+    },
+    {
+      "id": "dungeon/func_818BCFB0",
+      "path": "src/dungeon/func_818BCFB0.c",
+      "before_sha": "bb26018550a888450c9e88af138762b1fc2867bd16815ea4ec24ccff4c829804",
+      "after_sha": "8fcc97beb920e701add192d1571eec52b83b1c6e36963e3794cd1a8e24cc9900"
+    },
+    {
+      "id": "dungeon/func_80EB6FC8",
+      "path": "src/dungeon/func_80EB6FC8.c",
+      "before_sha": "11791c0ed38bdaf06d5f7581bae5ca5914e39786aace8ea58e9112bae0865ebc",
+      "after_sha": "6f78bc3ae05351ceb3d40e2793c4290c19f13e285bf5ba8766f19dd35859d358"
+    },
+    {
+      "id": "dungeon/func_80E376E4",
+      "path": "src/dungeon/func_80E376E4.c",
+      "before_sha": "51816be6df79df99a84d76b9601062b06bdb4b54584ea7c677a49a0c68e07bc6",
+      "after_sha": "fce95cbdf7b196acf8e3b632ce07a5672c6253a0e1ad7a6543d8af7e676aec45"
+    },
+    {
+      "id": "dungeon/func_80A1F0C4",
+      "path": "src/dungeon/func_80A1F0C4.c",
+      "before_sha": "8f67c8440cad2beada6a5a12ca5e9d333a53546d88579e67c4fd5056cf01c4cb",
+      "after_sha": "6f97dad7d81a6afa34889385a09fea71e728fcc3786376b40e660542d176bcfd"
+    },
+    {
+      "id": "dungeon/func_818F9B98",
+      "path": "src/dungeon/func_818F9B98.c",
+      "before_sha": "3e8f2dc16f85fc3c497445df9a9558fab828f206d11cdf7ae49793eb5a7c8446",
+      "after_sha": "b9e4904d87c8a9cd65faa5902bb3bf6065c099755a001c802465664dc9d36214"
+    },
+    {
+      "id": "dungeon/func_8185CE28",
+      "path": "src/dungeon/func_8185CE28.c",
+      "before_sha": "00c8a48d91dee14294da0455ce2cfbee81da8e2a45a71a7f2e73f61d6edaea82",
+      "after_sha": "d98206b5a66ead27c2fbe17b07201d1d080ed321afaaf983963adb0af38d07f1"
+    },
+    {
+      "id": "dungeon/func_8008AFEC",
+      "path": "src/dungeon/func_8008AFEC.c",
+      "before_sha": "97508e84f19da2a9981d1cc6df4142142cc984d1b87c800bfceb2fcf8e62eee9",
+      "after_sha": "25f2487eff458a43047490e4563eaf6b7b89c83e49c7c1d48b5be76149fd3dca"
+    },
+    {
+      "id": "dungeon/func_800C40F0",
+      "path": "src/dungeon/func_800C40F0.c",
+      "before_sha": "5eb1a29871d32bc3258561dbe4de1566e2b78f96b72e76fcfd41dbdf85951847",
+      "after_sha": "fa852aaa4b9c3d0c053a6df3e599647d08623be886360ef9a020257c6c0216ea"
+    },
+    {
+      "id": "dungeon/func_7FFED850",
+      "path": "src/dungeon/func_7FFED850.c",
+      "before_sha": "d793b2483786f77616286f07ea20659e771cd522064eb0ff17f23de1412207eb",
+      "after_sha": "ae03f632070f7d0c495f479980a085c0bbce84de0a9eb4f85e3bb38ef11e1948"
+    },
+    {
+      "id": "dungeon/func_8127C3E0",
+      "path": "src/dungeon/func_8127C3E0.c",
+      "before_sha": "cb2af6ed69561b137286a769f7e5855b102552e200a95207c22b7a264cd24de0",
+      "after_sha": "430413cda3b8728450ed2b2913891783e88bb872b7c19e5386acb735f5794e4c"
+    },
+    {
+      "id": "dungeon/func_80A2008C",
+      "path": "src/dungeon/func_80A2008C.c",
+      "before_sha": "c75ab762d893a16514dc213662790bb611941c6189943d4d065f7684304f1f8e",
+      "after_sha": "a86e5d131eefde9eee21b6591ae44ee761d783d0a42c8759cdb8fdb3e78e3a85"
+    },
+    {
+      "id": "dungeon/func_8009612C",
+      "path": "src/dungeon/func_8009612C.c",
+      "before_sha": "912e9cb08011f4378d62fdf56ea5f4b6ad9feef5c5219281526d7ffe706c375d",
+      "after_sha": "ccac5cb33f436717ce155decd25e836a5b2f2d0208d27f49c59761b25c62f584"
+    },
+    {
+      "id": "dungeon/func_80E11860",
+      "path": "src/dungeon/func_80E11860.c",
+      "before_sha": "034b5f11933abfbff9503c06af300a2c75ff7a75fe513d5d26855aaaa1a402d8",
+      "after_sha": "b4c19c0a89d94ca2bd997011e4b79c93d198058792f67a9fbb53afba0119d47f"
+    },
+    {
+      "id": "dungeon/func_800BF618",
+      "path": "src/dungeon/func_800BF618.c",
+      "before_sha": "6661d8f994b5fddf083acc914c6a49bd28ad88076283b344b99ecd5a0328713e",
+      "after_sha": "1f9d0764734b8cb307ac766cdf71b968e36496f8ee35a3bac93e2c89929bfb5f"
+    },
+    {
+      "id": "dungeon/func_818D4B94",
+      "path": "src/dungeon/func_818D4B94.c",
+      "before_sha": "f90d569a158f6f7b623ac84e86c21d8447df84c6ead711aceed5a5c04ae653ca",
+      "after_sha": "d9fccc3558a095e53a130b2dd54f55a0331826a0df0f67e1ce32969bf57a0a99"
+    },
+    {
+      "id": "dungeon/func_80E639C8",
+      "path": "src/dungeon/func_80E639C8.c",
+      "before_sha": "af1fc4f0aa681fe49264185da5670bb0e40a9d81cf736a27ee67b872b4134113",
+      "after_sha": "1126e2c8787bc88ab8a37d118e581f8c2f50c97bd1fd8693c176cbae9e584b8b"
+    },
+    {
+      "id": "dungeon/func_80C412B4",
+      "path": "src/dungeon/func_80C412B4.c",
+      "before_sha": "c343b37913f077c5ba70ed942a761f600017bbf83cc6793cb019f8affe372381",
+      "after_sha": "975d6d249d0a65005fcf81f2e30f37cc0976656a2105186803fb122b003b1f43"
+    },
+    {
+      "id": "dungeon/func_818A4ED0",
+      "path": "src/dungeon/func_818A4ED0.c",
+      "before_sha": "aa9210e7f49204e7d2006175d47cece8ee7fe3e25e37feb48df665d565f06823",
+      "after_sha": "162cd8535c56b7b5f5889b26149607d36a1c45f4342a63940dfe21aa1900c49e"
+    },
+    {
+      "id": "dungeon/func_80BC44D4",
+      "path": "src/dungeon/func_80BC44D4.c",
+      "before_sha": "9f8e5e76679dc70aff345bba708d423e58bcc684317402bb2527bb41502bcba1",
+      "after_sha": "f57c78446f8672512fd83c809df1e7e81b2f21a12602b468b96ec09c1fbb607c"
+    },
+    {
+      "id": "dungeon/func_80DE365C",
+      "path": "src/dungeon/func_80DE365C.c",
+      "before_sha": "de8995165cab10a726178e8dde2984a7b8530eec30ca2314ff9fd2478e3effd6",
+      "after_sha": "5a5839bcee4818cbab6fb5e921c77a235d4be02ba75c05e5fcdd7f4244b70477"
+    },
+    {
+      "id": "dungeon/func_80A0B0DC",
+      "path": "src/dungeon/func_80A0B0DC.c",
+      "before_sha": "c2ed498b5cb0546b1e0b5130a5e7030e2d78b484586a0906038e551b1f514de9",
+      "after_sha": "64ed766432302b75e30d98cd8675beb448e9bddd76277bb4687e1d440ac496d4"
+    },
+    {
+      "id": "dungeon/func_80A170DC",
+      "path": "src/dungeon/func_80A170DC.c",
+      "before_sha": "47c96068e62eb5f54d6058d41ff70673d5b40e71b2619121675be8bd068ac600",
+      "after_sha": "2463d887775c20ff43c355dc5d43fad9e295140eeccaabd210fbbcee2ed72e81"
+    },
+    {
+      "id": "dungeon/func_818B0C3C",
+      "path": "src/dungeon/func_818B0C3C.c",
+      "before_sha": "bb0d12a695659b8f3f48ace75d11f694dec34ac0d1a7a09853f959617512b999",
+      "after_sha": "ca33e0d392c43810766ea120a7c8c7a7544927f5005992559245577408d20b80"
+    },
+    {
+      "id": "dungeon/func_809CBB58",
+      "path": "src/dungeon/func_809CBB58.c",
+      "before_sha": "e9fcfaeec3b6eec76e36e371dd7a2093b75d69f0b189bc4982c46ad8b71e65d1",
+      "after_sha": "8f3301257016a39e1a0253270caf3becad0da4929c4c9ab87c24900f179c3720"
+    },
+    {
+      "id": "dungeon/func_80D3B0B8",
+      "path": "src/dungeon/func_80D3B0B8.c",
+      "before_sha": "84486fddd3aa6f74ea3221ca14662ffb0a813b0b6deae611b6295ea995a7bf2b",
+      "after_sha": "b415a20dfdc2dd1df4c1e8ceecdb81ac876890d098996fcd8c3515a69315cbd0"
+    },
+    {
+      "id": "dungeon/func_81960864",
+      "path": "src/dungeon/func_81960864.c",
+      "before_sha": "b115cad73dd53c55fe4f88c5de00bec671ef856c6fb696463df0ffd8f8daaf04",
+      "after_sha": "257fd20cef9245f28c647e83f5d043e5bbe828e35e34bf356b3b5a119885d8f4"
+    },
+    {
+      "id": "dungeon/func_8188EAAC",
+      "path": "src/dungeon/func_8188EAAC.c",
+      "before_sha": "ca10b8bbfd2b75b2962a29cd1de2d9a20831057279ac904d1c98855be5369955",
+      "after_sha": "78756ef7873c3fa90ac15bd6f2c66334b8cfe179015a8b230fb6cbeedec28f07"
+    },
+    {
+      "id": "dungeon/func_80BC21DC",
+      "path": "src/dungeon/func_80BC21DC.c",
+      "before_sha": "873970a933ae25ef487795abccb9726fc593134ff05afc9c54bb1c7d11cd3bb3",
+      "after_sha": "18d8fff6d6af8bea4ba70be618ad2b661322c57880564b97b0e5ed6d3b151efb"
+    },
+    {
+      "id": "dungeon/func_80E3B96C",
+      "path": "src/dungeon/func_80E3B96C.c",
+      "before_sha": "e26a8d743835a4fc21cdc5ecf2f5fb206367528391a0b29be8000571dc3d487c",
+      "after_sha": "5bae96b34d95c7686bb1cf0393cb989089ac713dd999fde1adab743edaa55fde"
+    },
+    {
+      "id": "dungeon/func_800A2FBC",
+      "path": "src/dungeon/func_800A2FBC.c",
+      "before_sha": "2dfea0c2f9f4b96636f4c4a8cc6fc0bd4ca34a2d7a176d98ec9c078064861e3b",
+      "after_sha": "f9bc952f800b9d92979cf3276965483aeed00779379a0e70ddb990701105b5d8"
+    },
+    {
+      "id": "dungeon/func_80C17418",
+      "path": "src/dungeon/func_80C17418.c",
+      "before_sha": "fd80a0feecf6e7c0be96de0adffbdf9d0714472af7ac546bc4f58deba091decc",
+      "after_sha": "580b9c657160753c2281270d6862e3180792722b5af2d427d453eeeb70e0aadd"
+    },
+    {
+      "id": "dungeon/func_80C153B8",
+      "path": "src/dungeon/func_80C153B8.c",
+      "before_sha": "25ec87a79a65a54713dc8820dc39c62c4fdb367feed4c643944c14000af0d0d3",
+      "after_sha": "f3fb3300cac8234e6c437ae17d43867d1310ce7f63530377813cfbc3e03ac1a0"
+    },
+    {
+      "id": "dungeon/func_80CBED38",
+      "path": "src/dungeon/func_80CBED38.c",
+      "before_sha": "61a88f9cf66c7c9d5adbd8f9930a20d9b0be39579d2526691af4c7e585b807b3",
+      "after_sha": "476d8f2ec3630ff349d4083816f4d8230a4521bd660d75e336432d563578a3f0"
+    },
+    {
+      "id": "dungeon/func_80F89A94",
+      "path": "src/dungeon/func_80F89A94.c",
+      "before_sha": "cae6e3d30a315e1e9845a1461be6be1daa1484afa28656813692ba3edc025420",
+      "after_sha": "1e5f99aa563714833a53259fe3527c09581bd30f950f78be6c92d75c93840d95"
+    },
+    {
+      "id": "dungeon/func_80AE9000",
+      "path": "src/dungeon/func_80AE9000.c",
+      "before_sha": "5e26c24e44d92488eff00f477e2ed7d36fa45315d8c35cfb0d2c569e0fb88cd7",
+      "after_sha": "2954277bab44d113de10e40dd0c1e09da5714182d6c7ee8b91ff447006425895"
+    },
+    {
+      "id": "dungeon/func_810ADDF4",
+      "path": "src/dungeon/func_810ADDF4.c",
+      "before_sha": "90e6b6065ca2f18dbaf692a1c163892720370c65dae78aad7167c30430075ac2",
+      "after_sha": "44ab0df4eab49f493e3486e21fe3bf8a26efeadf7e460bfd144f737a247d0ea3"
+    },
+    {
+      "id": "dungeon/func_81335C70",
+      "path": "src/dungeon/func_81335C70.c",
+      "before_sha": "f09e15e4ae058a5064d4e210f720d9a065f1ad4774fa3b4314d6af9c710aa6bb",
+      "after_sha": "3db80dfd6ee3cee4cf3d149743c0c059f59a4e9aa91220d254bb83008cf9e7fd"
+    },
+    {
+      "id": "dungeon/func_80FB176C",
+      "path": "src/dungeon/func_80FB176C.c",
+      "before_sha": "0ce212dc7a6efdfc442e26d3968ef45ec5f21de9a65023e1bf74491ffcd5f2cf",
+      "after_sha": "5fc8bee5b161e7d83d0966224e982b51245a1a7b49c7b0ddc12884634bd3631b"
+    },
+    {
+      "id": "dungeon/func_80F89240",
+      "path": "src/dungeon/func_80F89240.c",
+      "before_sha": "ff9bc577fcdc3d9f2085da82b505d9a50b0857ae2bef68a883e518ff6b42002d",
+      "after_sha": "b1a76d422b33d5519012706794c2f87a2fdff4b6970b29ef615984195784a676"
+    },
+    {
+      "id": "dungeon/func_80977248",
+      "path": "src/dungeon/func_80977248.c",
+      "before_sha": "ce9af66f7952cbfac2a91b11829c235d47f593a351dada5292aa61a62c1e9397",
+      "after_sha": "a35184968cab381b0d98e86b0fa3350ed5ab64b214223db82dffacf4eef02806"
+    },
+    {
+      "id": "dungeon/func_80976434",
+      "path": "src/dungeon/func_80976434.c",
+      "before_sha": "4e2186f8819f8f632ff93b19c47633729a9eea2893d4ab19a14e7d8576457607",
+      "after_sha": "3cb7f049959c7eb46ee0c4b36d7f0e783330d09c332f6d41d7b114353bf8d741"
+    },
+    {
+      "id": "dungeon/func_80975CD4",
+      "path": "src/dungeon/func_80975CD4.c",
+      "before_sha": "db4718f66dc5a3c9df814e653d8dd4b88566c37e696d8e11736794dc448c8d19",
+      "after_sha": "d73916d8bf39ecb257713b9a336a09524e3b064453ea6290f3ec970dbc269d0f"
+    },
+    {
+      "id": "dungeon/func_800B30D0",
+      "path": "src/dungeon/func_800B30D0.c",
+      "before_sha": "186378f3edb0b4668dcb50216037751967ca3ed0814afedecc5d5141574bb6a8",
+      "after_sha": "5f6799f3d42ed72a918c013c9b44c0637971354741120618966d23119f32e8dc"
+    },
+    {
+      "id": "dungeon/func_800B93D0",
+      "path": "src/dungeon/func_800B93D0.c",
+      "before_sha": "9290928aa7a7e5046661e0153767169d9dc41dd65aa835a5ba8a3ecf821ff5bb",
+      "after_sha": "87baeba87b3d77ffaf73cac136471750f37485461290618265581d95e33551a9"
+    },
+    {
+      "id": "dungeon/func_80E61EF4",
+      "path": "src/dungeon/func_80E61EF4.c",
+      "before_sha": "fbf7be69e9bce51296a508723763f58c6eacf23fb7821bc60eae00ddc2ba3c53",
+      "after_sha": "9c5da7651bbff84bc9d2b35431495628b74dd678a6015f0aaf663a79d8f3a612"
+    },
+    {
+      "id": "dungeon/func_809F30DC",
+      "path": "src/dungeon/func_809F30DC.c",
+      "before_sha": "077b7f33fce9aec911478a7ba0884caf8ce95fb3a150d7f914ff3e71260fd275",
+      "after_sha": "a1afbdf0f291606bddb47b43c3d59854c7970cced2cec579423b7fe0c793caf8"
+    },
+    {
+      "id": "dungeon/func_818CE83C",
+      "path": "src/dungeon/func_818CE83C.c",
+      "before_sha": "9305d3d60e6c4d47715b6b0857e18300d702cb3d81a12f5a6ec5fb53b5467b04",
+      "after_sha": "ded121b9ca8fad73196df62ec9bb4debf1834d80b7c914920e7e4ee9b349c482"
+    },
+    {
+      "id": "dungeon/func_8105B1D4",
+      "path": "src/dungeon/func_8105B1D4.c",
+      "before_sha": "bf2a94601b438827c7346ee757cbd83550168d0c89370385722b44b0250ac0a0",
+      "after_sha": "ffb7c8c16e51f2a1394f061d095be2b7c6506bf21e113e75ca158e825daa9d81"
+    },
+    {
+      "id": "dungeon/func_81339F68",
+      "path": "src/dungeon/func_81339F68.c",
+      "before_sha": "d8061459f20d655f77d41e4a252f7d5e0804f1a46544f35b4667a7a76fd6eb7e",
+      "after_sha": "ad99ab11a71b63117930dd114664f7714842630af7f2bf28b5dd32c20cf2c3f7"
+    },
+    {
+      "id": "dungeon/func_80DBA620",
+      "path": "src/dungeon/func_80DBA620.c",
+      "before_sha": "b9d8e4bbc67f2963b72d9bab15ca09fb9e091546a3c929512cb32cb30113549a",
+      "after_sha": "ef5c25b403e6bf68fb4e509466cc7b73009d7b2b7ac0204bb32cfb45b967b1e5"
+    },
+    {
+      "id": "dungeon/func_80E0D894",
+      "path": "src/dungeon/func_80E0D894.c",
+      "before_sha": "46c1eeae031049b4f9887889bfd332d66d250ead2df66e41cea889d1c857dc73",
+      "after_sha": "e7a1858cab7d50913c501720855ad263cf562a2c2a5ad012e21b49bf34b20b1e"
+    },
+    {
+      "id": "dungeon/func_800AEA34",
+      "path": "src/dungeon/func_800AEA34.c",
+      "before_sha": "44f4984b6c1e3ee032f17fdce4c059e106a191e3a18a511ae4d7fa16b9aefad6",
+      "after_sha": "3c854ae39acaba0f03193f261359c7a4439f43e421b5e1a705f432fcbff5df12"
+    },
+    {
+      "id": "dungeon/func_80DBBFC8",
+      "path": "src/dungeon/func_80DBBFC8.c",
+      "before_sha": "b277e66dd397fab9734e7ff351fff9d8114cdcae36a126340ffc411794975dd8",
+      "after_sha": "d86c39f30bf8080d7b2c8ff59ce5d05452f3a30aef63e1e32c2b20290f89048f"
+    },
+    {
+      "id": "dungeon/func_80A734C0",
+      "path": "src/dungeon/func_80A734C0.c",
+      "before_sha": "903646ddf9839589ce02f89cc98ff2b0cbe26a9dc27a1d4c693085b9bc22659f",
+      "after_sha": "ea383ee6722664c873702003e645e87d6548400e8afb92062708985e65f12b29"
+    },
+    {
+      "id": "dungeon/func_80FDD1A0",
+      "path": "src/dungeon/func_80FDD1A0.c",
+      "before_sha": "f5d2807e8e8d3aa93478cadf01f4628c296522a9f96b3f788efc94f1fcee4b74",
+      "after_sha": "cb35e92c686fd9a0f376e504479abb9ec41b5286b15e3e8c70c142adbcd7e459"
+    },
+    {
+      "id": "dungeon/func_800C8FE8",
+      "path": "src/dungeon/func_800C8FE8.c",
+      "before_sha": "736c3a20c3356204486fac7a638501ed2c6f208844053402a55e5fbe843c0a41",
+      "after_sha": "8b179cc378787afea6f0a5272774e4c256a93bcedfab7a79b3646e3c233af2de"
+    },
+    {
+      "id": "dungeon/func_81917004",
+      "path": "src/dungeon/func_81917004.c",
+      "before_sha": "1f9328213894d7f3e26514e46705446b02e0284470095b43beb2a522b455e3b3",
+      "after_sha": "202d09764d0db76fcd5c3e83c80a42e045ce8b1ad71e5f165aaf72a4aefac1bb"
+    },
+    {
+      "id": "dungeon/func_810318E4",
+      "path": "src/dungeon/func_810318E4.c",
+      "before_sha": "08c0bf67471a8823c3fb75a392bf3d58ba085a0dec97cedcab07e2eaaacc044b",
+      "after_sha": "0861d46aff78e177d74854d991cd5a66773bd7a80be2d6b7bcce13182da6eff8"
+    },
+    {
+      "id": "dungeon/func_8180D0DC",
+      "path": "src/dungeon/func_8180D0DC.c",
+      "before_sha": "597fa10c8817240713af1485f7836a253c4001925f022888c3cbaec24ccf170a",
+      "after_sha": "66dcb9270e094c80f3640fb65c208e966b97b72d601a839dc9daf5ad66813ff0"
+    },
+    {
+      "id": "dungeon/func_80C1509C",
+      "path": "src/dungeon/func_80C1509C.c",
+      "before_sha": "df985f159181cb1c53b240cc437bde2862dc84fbf45c867005f6691cc4a89f30",
+      "after_sha": "a92adf8a0c203b54f7f436fb548f3d160d46d576061dd23d3592964b2e696a52"
+    },
+    {
+      "id": "dungeon/func_8188E648",
+      "path": "src/dungeon/func_8188E648.c",
+      "before_sha": "fb9c28aa25aaff642d75350e30936586881866969d3322764b758671ecb93ae0",
+      "after_sha": "46d47e2b9110c60ca262fd0d9eec37f9e0728bd1e76fd6c9560e24d614a4c90e"
+    },
+    {
+      "id": "dungeon/func_8184AF90",
+      "path": "src/dungeon/func_8184AF90.c",
+      "before_sha": "b81f66fd3e030eefcd00b0826d99e279e190fb70dc08dff257e7cf5713a6deb8",
+      "after_sha": "2914d9d5552322b06146d8866188f417f9dad281241b1b030e867ac137594d75"
+    },
+    {
+      "id": "dungeon/func_8180E7F4",
+      "path": "src/dungeon/func_8180E7F4.c",
+      "before_sha": "4f98886c495efec625b69c98d127021eaa3bf5230a5a3a4a9d51a9cf2ededcdf",
+      "after_sha": "9fe621d53043225a25ae41a8207b5121fdb1e195b4319ee3901ae99f3c0ad785"
+    },
+    {
+      "id": "dungeon/func_80A9D4E8",
+      "path": "src/dungeon/func_80A9D4E8.c",
+      "before_sha": "9958ceddc22320b76693126c143197bec8d1c882f6c068d090a58978215ed057",
+      "after_sha": "e03e4999d5557f2e2bb3cb6668af51c37fa7667754e1aafd895491bcb9106e9a"
+    },
+    {
+      "id": "dungeon/func_802835B8",
+      "path": "src/dungeon/func_802835B8.c",
+      "before_sha": "6de2a19114f765aff67db6fa9fe1600a26d272f740f756b789112c299901aa8f",
+      "after_sha": "a7b8026f2e7416ff418dea2020ab7784b5db096330d2d683468a82ff87f290fe"
+    },
+    {
+      "id": "dungeon/func_8028B18C",
+      "path": "src/dungeon/func_8028B18C.c",
+      "before_sha": "d514d772829c0e8c1a5ad452f518a206fd0cd8764d45a4a3a56d8aaf7d306bc7",
+      "after_sha": "a5f6ebe5bd0a0c3c33be861800ea7e23452756eb01214aad31fbe93dd7e6225d"
+    }
+  ],
+  "deferred": [
+    {
+      "id": "dungeon/func_800C4A80",
+      "source_sha": "9678e600ab9d4439a7f7c8954b79d876bb4778cac674343121ca9cb04c12c3ea",
+      "outcome": "error",
+      "stop_reason": "error",
+      "reason": "TimeoutExpired(['<repo>/toolchain/compilers/gcc-2.7.2/cc1', 'f.i', '-quiet', '-O2', '-G0', '-w', '-o', 'f.s'], 30.0)"
+    }
+  ],
+  "overlay": "MATCH",
+  "slus": "MATCH"
+}

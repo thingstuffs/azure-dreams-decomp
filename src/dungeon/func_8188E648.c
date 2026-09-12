@@ -124,7 +124,7 @@ void func_80025E48(void *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
 
 state_0:
     {
-        register s32 color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 color;
         register s32 target_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 fade_frames;
         s32 phase_duration;
@@ -133,8 +133,10 @@ state_0:
 
         if (((S_80025E48_0 *)effect)->unk_64.s > ((S_80025E48_0 *)effect)->unk_66.s) {
             ((S_80025E48_0 *)effect)->unk_66.u++;
+            color = tint->unk_0D;
+        } else {
+            color = tint->unk_0D;
         }
-        color = tint->unk_0D;
         target_color = ((S_80025E48_0 *)effect)->unk_24;
         fade_frames = ((S_80025E48_0 *)effect)->unk_1A.s;
         if (target_color != 0) {

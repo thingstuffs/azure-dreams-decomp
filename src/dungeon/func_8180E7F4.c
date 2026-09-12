@@ -214,7 +214,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
     s16 result_match;
     s16 other_match;
     register s16 ability_count ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s16 source_side ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 source_side;
     s32 match_offset;
     s32 result_traits;
     s32 next_clear;
@@ -233,7 +233,6 @@ void *func_800277F4(void *first, void *second, void *destination) {
     register s32 clear_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *ability_data;
     u8 *slot_addr;
-    register u8 *slot_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 matched_ability;
     u8 ability_level;
     u8 result_kind;
@@ -425,8 +424,10 @@ donor_primary_done:
             u16 merge_limit = 3;
             if ((((S_800277F4_0 *)result)->unk_0E != 0) || (((S_800277F4_8 *)donor)->unk_0E != 0)) {
                 ability_limit = merge_limit;
+                source_side = 0;
+            } else {
+                source_side = 0;
             }
-            source_side = 0;
         }
         scan_index = 0;
         result_seen = merge_buffer;
@@ -639,9 +640,9 @@ store_ability:
                 u8 *slot_page = (u8 *) 0x80080000;
 #endif
                 ASM_KEEP_NV(slot_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                slot_base = *(u8 **) (slot_page + 0x14A8);
+                element_mask = *(u8 **) (slot_page + 0x14A8);
             }
-            slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) slot_base);
+            slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) element_mask);
             ASM_KEEP_NV(slot_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             slot_flags = ((S_800277F4_8 *)donor)->unk_1C & 0x2000;

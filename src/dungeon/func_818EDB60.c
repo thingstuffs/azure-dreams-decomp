@@ -56,8 +56,8 @@ void func_80025360(void *effect_arg, void *unused, void *sprite_arg)
     s16 frame;
     void *sprite;
     s32 one;
-    register s16 rect_x ASM_REG("$2");
-    register u16 flags ASM_REG("$2");
+    s16 rect_x;
+    u16 flags;
     Rect *rect_template;
 
     sprite = sprite_arg;
@@ -70,15 +70,14 @@ void func_80025360(void *effect_arg, void *unused, void *sprite_arg)
             ASM_SCHED_BARRIER();
             return;
         }
-        rect_x = 0x340;
         goto draw_effect;
     }
     ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
     flags = ((S_80025360_1 *)sprite)->unk_14;
     flags &= 0xFF7F;
     ((S_80025360_1 *)sprite)->unk_14 = flags;
-    rect_x = 0x340;
 draw_effect:
+    rect_x = 0x340;
     work.rect.x = rect_x;
     work.rect.y = 0x100;
     work.rect.w = 0x60;

@@ -82,7 +82,7 @@ s32 func_818BCFB0(s32 *initial_word, void *source_data, s16 offset)
             offset_numerator += 3;
         }
         {
-            register s32 object_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            s16 object_addr;
             register s32 component ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             register s32 component_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 

@@ -45,17 +45,15 @@ void func_80025408(void *context, void *unused, void *effect_data) {
     s32 tile_x;
     s32 mask_x;
     s32 tile_y;
-    register u16 mask_pixel ASM_REG("$23");
+    u16 mask_pixel;
     s16 frame;
     s32 pixel_index;
     s32 one;
     s32 image_width;
     u16 *pixel;
-    void *effect;
     u8 *pixel_page;
     Box *rect_template;
 
-    effect = effect_data;
     rect_template = (Box *)(void *)&D_80024004;
     image_rect = *rect_template;
 #ifdef NON_MATCHING
@@ -108,7 +106,7 @@ void func_80025408(void *context, void *unused, void *effect_data) {
         tile_x += 0x18;
     } while (tile_column < 4);
     *(s16 *)context = (u16)*(s16 *)context + 1;
-    *(u16 *)((u8 *)effect + 0x14) &= 0xff7f;
+    *(u16 *)((u8 *)effect_data + 0x14) &= 0xff7f;
 update_fade:
     {
         Box *call_rect;
@@ -147,14 +145,14 @@ update_fade:
     }
     frame = *(s16 *)((u8 *)context + 2);
     if (frame < 0x15) {
-        *(s8 *)((u8 *)effect + 0xe) = (frame << 7) / 20;
-        *(s8 *)((u8 *)effect + 0xd) = (*(s16 *)((u8 *)context + 2) << 7) / 20;
-        *(s8 *)((u8 *)effect + 0xc) = (*(s16 *)((u8 *)context + 2) << 7) / 20;
+        *(s8 *)((u8 *)effect_data + 0xe) = (frame << 7) / 20;
+        *(s8 *)((u8 *)effect_data + 0xd) = (*(s16 *)((u8 *)context + 2) << 7) / 20;
+        *(s8 *)((u8 *)effect_data + 0xc) = (*(s16 *)((u8 *)context + 2) << 7) / 20;
     }
     if (*(s16 *)((u8 *)context + 2) >= 0x51) {
-        *(s8 *)((u8 *)effect + 0xe) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
-        *(s8 *)((u8 *)effect + 0xd) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
-        *(s8 *)((u8 *)effect + 0xc) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
+        *(s8 *)((u8 *)effect_data + 0xe) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
+        *(s8 *)((u8 *)effect_data + 0xd) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
+        *(s8 *)((u8 *)effect_data + 0xc) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
     }
     frame = (u16)*(s16 *)((u8 *)context + 2) + 1;
     *(s16 *)((u8 *)context + 2) = frame;
@@ -167,7 +165,7 @@ update_fade:
     }
 update_visibility:
     if ((u32)(*(u8 *)(*(u8 **)((u8 *)context + 0x3c) + 0x13) - 0x33) < 4U) {
-        *(u16 *)((u8 *)effect + 0x14) |= 0x80;
+        *(u16 *)((u8 *)effect_data + 0x14) |= 0x80;
     }
     return;
 }

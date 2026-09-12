@@ -166,7 +166,7 @@ void func_80174B20(void *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity
     s32 color_index;
     s32 random_value;
     s32 style_index;
-    register s32 style ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s16 style;
     s32 position_z;
     register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u16 fade_ticks;
@@ -266,7 +266,7 @@ jt_c4:
     sprite->unk_0C.s = tint;
     style_index = func_800498A0(call_arg, globals_base, effect_position, tint) - 1;
     style = style_index;
-    ASM_KEEP_NV(style_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     call_arg = sprite;
     if ((style_index << 0x10) >= 0) {
         goto set_animation;

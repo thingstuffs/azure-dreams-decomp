@@ -36,8 +36,6 @@ void func_80170534(void *state_data, void *unused, void *color_data) {
     static void *const state_labels[] = {
         &&state_end, &&state_1, &&state_2, &&state_end, &&state_4
     };
-    void *state = state_data;
-    void *colors;
     void * volatile *dispatch;
     s32 phase;
     s32 bright_shade;
@@ -46,37 +44,35 @@ void func_80170534(void *state_data, void *unused, void *color_data) {
     u16 frame;
     u16 blink_frame;
 
-    phase = ((S_80170534_0 *)state)->unk_12.s;
+    phase = ((S_80170534_0 *)state_data)->unk_12.s;
     if ((u32) phase >= 5) {
         goto state_end;
     }
-    colors = color_data;
-    ASM_KEEP(colors);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     dispatch = jtbl_80164A38;
     (void)state_labels;
     goto *dispatch[(u32) phase];
 
 state_1:
-    frame = ((S_80170534_0 *)state)->unk_18 + 1;
-    ((S_80170534_0 *)state)->unk_18 = frame;
+    frame = ((S_80170534_0 *)state_data)->unk_18 + 1;
+    ((S_80170534_0 *)state_data)->unk_18 = frame;
     if (!(frame & 3)) {
         func_800419EC(6, 0xC);
         func_800A56E0(0x818);
     }
-    if (!(((S_80170534_0 *)state)->unk_18 & 7)) {
+    if (!(((S_80170534_0 *)state_data)->unk_18 & 7)) {
         bright_shade = 0xFF;
-        if (((S_80170534_1 *)colors)->unk_0C != bright_shade) {
-            ((S_80170534_1 *)colors)->unk_0E.s = bright_shade;
-            ((S_80170534_1 *)colors)->unk_0D.s = bright_shade;
-            ((S_80170534_1 *)colors)->unk_0C = bright_shade;
+        if (((S_80170534_1 *)color_data)->unk_0C != bright_shade) {
+            ((S_80170534_1 *)color_data)->unk_0E.s = bright_shade;
+            ((S_80170534_1 *)color_data)->unk_0D.s = bright_shade;
+            ((S_80170534_1 *)color_data)->unk_0C = bright_shade;
         } else {
             dim_shade = 0x80;
-            ((S_80170534_1 *)colors)->unk_0E.u = dim_shade;
-            ((S_80170534_1 *)colors)->unk_0D.u = dim_shade;
-            ((S_80170534_1 *)colors)->unk_0C = dim_shade;
+            ((S_80170534_1 *)color_data)->unk_0E.u = dim_shade;
+            ((S_80170534_1 *)color_data)->unk_0D.u = dim_shade;
+            ((S_80170534_1 *)color_data)->unk_0C = dim_shade;
         }
     }
-    if ((s16) ((S_80170534_0 *)state)->unk_18 == 0x28) {
+    if ((s16) ((S_80170534_0 *)state_data)->unk_18 == 0x28) {
 #ifdef NON_MATCHING
         D_801760D8[0] = 1;
 #else
@@ -86,38 +82,38 @@ state_1:
         }
 #endif
     }
-    if ((s16) ((S_80170534_0 *)state)->unk_18 >= 0x28) {
-        next_phase = ((S_80170534_0 *)state)->unk_12.u + 1;
-        ((S_80170534_0 *)state)->unk_12.u = next_phase;
+    if ((s16) ((S_80170534_0 *)state_data)->unk_18 >= 0x28) {
+        next_phase = ((S_80170534_0 *)state_data)->unk_12.u + 1;
+        ((S_80170534_0 *)state_data)->unk_12.u = next_phase;
         return;
     }
     goto state_end;
 
 state_2:
-    blink_frame = ((S_80170534_0 *)state)->unk_18 + 1;
-    ((S_80170534_0 *)state)->unk_18 = blink_frame;
+    blink_frame = ((S_80170534_0 *)state_data)->unk_18 + 1;
+    ((S_80170534_0 *)state_data)->unk_18 = blink_frame;
     if (!(blink_frame & 3)) {
         func_800A56E0(0x818);
     }
-    if (!(((S_80170534_0 *)state)->unk_18 & 7)) {
+    if (!(((S_80170534_0 *)state_data)->unk_18 & 7)) {
         bright_shade = 0xFF;
-        if (((S_80170534_1 *)colors)->unk_0C != bright_shade) {
-            ((S_80170534_1 *)colors)->unk_0E.s = bright_shade;
-            ((S_80170534_1 *)colors)->unk_0D.s = bright_shade;
-            ((S_80170534_1 *)colors)->unk_0C = bright_shade;
+        if (((S_80170534_1 *)color_data)->unk_0C != bright_shade) {
+            ((S_80170534_1 *)color_data)->unk_0E.s = bright_shade;
+            ((S_80170534_1 *)color_data)->unk_0D.s = bright_shade;
+            ((S_80170534_1 *)color_data)->unk_0C = bright_shade;
         } else {
             dim_shade = 0x80;
-            ((S_80170534_1 *)colors)->unk_0E.u = dim_shade;
-            ((S_80170534_1 *)colors)->unk_0D.u = dim_shade;
-            ((S_80170534_1 *)colors)->unk_0C = dim_shade;
+            ((S_80170534_1 *)color_data)->unk_0E.u = dim_shade;
+            ((S_80170534_1 *)color_data)->unk_0D.u = dim_shade;
+            ((S_80170534_1 *)color_data)->unk_0C = dim_shade;
         }
     }
-    if ((s16) ((S_80170534_0 *)state)->unk_18 >= 0x3C) {
-        ((S_80170534_0 *)state)->unk_18 = 0U;
-        ((S_80170534_0 *)state)->unk_12.s = (s16) ((u16) ((S_80170534_0 *)state)->unk_12.s + 1);
-        ((S_80170534_1 *)colors)->unk_0E.u = 0x80;
-        ((S_80170534_1 *)colors)->unk_0D.u = 0x80;
-        ((S_80170534_1 *)colors)->unk_0C = 0x80;
+    if ((s16) ((S_80170534_0 *)state_data)->unk_18 >= 0x3C) {
+        ((S_80170534_0 *)state_data)->unk_18 = 0U;
+        ((S_80170534_0 *)state_data)->unk_12.s = (s16) ((u16) ((S_80170534_0 *)state_data)->unk_12.s + 1);
+        ((S_80170534_1 *)color_data)->unk_0E.u = 0x80;
+        ((S_80170534_1 *)color_data)->unk_0D.u = 0x80;
+        ((S_80170534_1 *)color_data)->unk_0C = 0x80;
         return;
     }
     goto state_end;
@@ -125,12 +121,12 @@ state_2:
 state_4:
     {
         u8 *flags_page;
-        u16 flags = ((S_80170534_0_pre *)state)[-1].unk_00;
+        u16 flags = ((S_80170534_0_pre *)state_data)[-1].unk_00;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         flags_page = (u8 *) 0x80080000;
         ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         flags = (u16) (flags | 0x8000);
-        ((S_80170534_0_pre *)state)[-1].unk_00 = flags;
+        ((S_80170534_0_pre *)state_data)[-1].unk_00 = flags;
 #ifdef NON_MATCHING
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
 #else

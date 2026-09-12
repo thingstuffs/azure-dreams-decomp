@@ -61,7 +61,7 @@ typedef struct S_80024790_4 {
 
 /* Creates an effect at the origin with index-dependent color, scale, and position. */
 s32 func_80024790(S_80024790_1 *origin, s32 index) {
-    register s32 signed_index ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 signed_index;
     s32 index_high;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s16 scale;
@@ -86,10 +86,9 @@ s32 func_80024790(S_80024790_1 *origin, s32 index) {
         ((S_80024790_0 *)effect)->unk_20 = (u16) origin->unk_02;
         state = effect + 0x20;
         state->unk_02 = (u16) origin->unk_06;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         index_high = index << 16;
         signed_index = index_high >> 16;
-        ASM_KEEP(index_high);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         angle = signed_index << 8;
         angle_dividend = angle;
         state->unk_04 = (u16) origin->unk_0A;
@@ -117,7 +116,6 @@ s32 func_80024790(S_80024790_1 *origin, s32 index) {
         sprite->unk_10 = (u16) (sprite->unk_10 | 0x20);
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
         func_8004491C(effect, &D_80045340);
-        ASM_KEEP(signed_index);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         position = ((S_80024790_0 *)effect)->unk_08;
         position->unk_02 = (s16) (((S_80024790_0 *)effect)->unk_20 + ((s32) (func_800644B8(state->unk_08) * 2) >> 8));
         position->unk_06 = (s16) (state->unk_02 + ((s32) (func_80064584(state->unk_08) * 2) >> 8));

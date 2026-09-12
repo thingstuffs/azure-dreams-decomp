@@ -77,7 +77,7 @@ void func_801727C8(void *action, void *motion, void *sprite, void *actor) {
     s32 visual_base;
     s32 special_slot;
     s32 slot;
-    s32 is_special;
+    s16 is_special;
     s32 target_x;
     s32 target_y;
     u16 ticks_left;
@@ -172,7 +172,6 @@ block_22:
         s32 special_check;
 
         special_check = is_special;
-        ASM_KEEP(special_check);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (special_check == 0) {
             goto block_25;
         }

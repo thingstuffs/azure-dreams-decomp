@@ -134,7 +134,7 @@ void func_80025954(void *state, void *motion_in, void *appearance) {
     s32 current_y;
     u32 origin_z;
     register s32 source_coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 end_tile_x;
+    s16 end_tile_x;
     s32 tile_x;
     s32 tile_y;
     void *model;
@@ -357,7 +357,6 @@ scan_tiles:
     }
     source_coord = tile_x + (u16) *x_lookup_next;
     tile_x = source_coord;
-    ASM_KEEP_NV(tile_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     motion_value = tile_y + (u16) *y_lookup_next;
     tile_y = motion_value;
     stack.saved_y = (u16) motion_value;

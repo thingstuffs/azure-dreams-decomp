@@ -93,9 +93,10 @@ s32 func_800BDEB8(void *target, s32 action, s16 mode) {
         if ((((S_800BDEB8_0 *)entity)->unk_A4 != 0) || (((S_800BDEB8_0 *)entity)->unk_AA != 0)) {
             special_case = 1;
         }
+        result = special_case;
+    } else {
+        result = special_case;
     }
-    result = special_case;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (result != 0) {
         goto show_special;
     }

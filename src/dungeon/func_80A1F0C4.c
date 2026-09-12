@@ -149,7 +149,7 @@ void func_801728C4(void *action, void *motion, void *sprite, void *actor)
     u32 action_kind;
     u32 dispatch_index;
     s32 normal_action;
-    s32 special_mode;
+    s16 special_mode;
     s32 special_test;
     s32 particle_count;
     s32 current_state;
@@ -245,7 +245,6 @@ selected:
     }
     ((S_801728C4_0 *)action)->unk_98.s &= 0xFF7F;
     special_test = special_mode;
-    ASM_KEEP_NV(special_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (special_test != 0) {
         special_target = D_800814A8;
         ((S_801728C4_1 *)actor)->unk_60 = special_target;

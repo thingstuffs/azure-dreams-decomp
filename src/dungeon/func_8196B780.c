@@ -93,7 +93,6 @@ void func_8196B780(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s32 x, s32 
     LocalPoint *point_base;
     LocalPoint *point;
     s32 point_index;
-    register s32 offset_x ASM_REG("$21") = x;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 offset_y ASM_REG("$19") = y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 offset_z ASM_REG("$20") = z;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
@@ -114,7 +113,7 @@ void func_8196B780(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s32 x, s32 
 
         position = ((S_8196B780_1 *)effect)->unk_08;
         position_base = D_80083780;
-        position->unk_02 = offset_x;
+        position->unk_02 = x;
         position->unk_06 = offset_y;
         position->unk_0A = offset_z;
         position->unk_02 += ((S_8196B780_4 *)position_base)->unk_02;
@@ -151,7 +150,7 @@ void func_8196B780(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s32 x, s32 
         sprite->unk_14 |= 0x100;
         func_8003DB94(sprite, D_800DECF8, 0);
     }
-    ASM_KEEP(offset_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The 0x20 byte-aligned copy object preserves the 0x58 frame and lwl/lwr stack copy;

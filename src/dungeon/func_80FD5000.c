@@ -188,6 +188,8 @@ void *BODY_NAME(void *spawn_flags, s8 tile_x, s8 tile_y, s16 heading)
         s32 twice_index;
         Rect *palette_rect;
         S_80FD5000_4 *selected;
+        S_80FD5000_4 *selected2;
+        S_80FD5000_4 *selected3;
 
         actor_state = (S_80FD5000_1 *)((u8 *)created + 0x20);
         saved_flags = (s32)spawn_flags;
@@ -257,11 +259,10 @@ scan_entry:
         }
 
         palette_rect = &palette_strip;
-        ASM_KEEP(palette_rect);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         selected = (S_80FD5000_4 *)(twice_index + entry_index);
-        selected = (S_80FD5000_4 *)((s32)selected * 4);
-        selected = (S_80FD5000_4 *)((u8 *)selected + (s32)monster->unk_08);
-        palette_y = selected->unk_06 >> 6;
+        selected2 = (S_80FD5000_4 *)((s32)selected * 4);
+        selected3 = (S_80FD5000_4 *)((u8 *)selected2 + (s32)monster->unk_08);
+        palette_y = selected3->unk_06 >> 6;
         palette_strip.x = 0;
         palette_strip.y = palette_y;
         palette_strip.w = 0x100;

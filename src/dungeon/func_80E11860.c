@@ -95,7 +95,6 @@ s32 func_80175060(Rec_func_80173DD4_arg0 *owner, Rec_D_800E3D7C *initial_state) 
             register s32 copy_word_3 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             state = ((S_80175060_0 *)object)->unk_08;
-            ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             copy_word_0 = initial_state->unk_00.at00_s32.v;
             copy_word_1 = initial_state->unk_04.at00_s32.v;
             copy_word_2 = initial_state->unk_08.at00_s32.v;
@@ -104,14 +103,12 @@ s32 func_80175060(Rec_func_80173DD4_arg0 *owner, Rec_D_800E3D7C *initial_state) 
             state->unk_04 = copy_word_1;
             state->unk_08.at00.v = copy_word_2;
             state->unk_0C = copy_word_3;
-            copy_word_0 = initial_state->unk_10.at00_s32.v;
             copy_word_1 = initial_state->unk_14.as_s32;
-            state->unk_10 = copy_word_0;
+            state->unk_10 = initial_state->unk_10.at00_s32.v;
             state->unk_14 = copy_word_1;
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            copy_word_0 = state->unk_00;
             copy_word_1 = state->unk_04;
-            state->unk_0C = copy_word_0;
+            state->unk_0C = state->unk_00;
             state->unk_10 = copy_word_1;
         }
         state->unk_08.at02.v = owner->unk_88;

@@ -12,12 +12,21 @@ functions**, leaving **10,588 pins in 1,647 rows**. See
 [PIN_SEARCH.md](PIN_SEARCH.md) for restart/publication commands and
 [PIN_SEARCH_PILOT_20260912.md](PIN_SEARCH_PILOT_20260912.md) for measured results.
 
-**Active restart:** `pins_restart_20260912`, baseline search, 1,646 eligible pinned rows,
-four low-priority processes, 1,200 screens / 12 full verifies / 40 CPU seconds per row.
-It runs detached and stages candidates. Inspect with
-`python3 tools/pin_search.py status --tag pins_restart_20260912` and publish only through
-the controller's checked `publish` command after search completes. The old sharded launcher
-and its partial journal are retained as historical evidence, not used as completion claims.
+**Production results:** `pins_restart_20260912` staged 147 improvements removing 266 pins.
+All passed independent verification, 151 changed overlay windows and the full SLUS gate.
+T2/T20 then removed 19 more pins and two fences; all 17 affected windows and SLUS passed.
+The combined landing removes **285 pins and two fences across 147 functions**, leaving
+**10,303 pins in 1,634 rows**. Thirteen functions became pin-free. The one timed-out row
+was explicitly deferred in the original receipt; its invalid load-folding generator is
+now fixed and its diagnostic replay completes without a timeout. See
+[PIN_SEARCH_RESULTS_20260912.md](PIN_SEARCH_RESULTS_20260912.md) and `ledger/pin_runs/`.
+
+**Active restart (11:21 UTC):** `pins_followup_20260912`, baseline search over 84 productive rows that
+exhausted budgets, plus the repaired timeout row. Four low-priority processes, 2,400 screens /
+24 full verifies / 80 CPU seconds per row. Inspect with
+`python3 tools/pin_search.py status --tag pins_followup_20260912`; publication uses the
+controller's checked `publish` command after search completes. Search stages candidates
+and makes no model calls. The old sharded launcher and its partial journal remain historical.
 
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on
 2026-09-08, the old URL redirects), local `~/azure-clean`, branch `master`.

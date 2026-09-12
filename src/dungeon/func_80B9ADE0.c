@@ -81,7 +81,7 @@ void func_801745E0(Source *source, Vec3i *origin)
         Prim *prim;
         s32 angle;
         s32 next_angle;
-        s32 radial_offset;
+        s16 radial_offset;
         u16 flags;
         volatile u16 *prim_flags;
         Entity *init_entity;
@@ -89,7 +89,7 @@ void func_801745E0(Source *source, Vec3i *origin)
         s32 unit_scale;
         u8 color_copy;
         s32 trig_angle;
-        register s32 trig_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 trig_value;
 
         entity = func_8003FC64(18);
         if (entity == 0) {
@@ -130,7 +130,6 @@ void func_801745E0(Source *source, Vec3i *origin)
             angle <<= 8;
         } while (0);
         trig_angle = angle;
-        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(trig_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         radial_offset = (trig_value * 24) >> 12;
         sub->field_70 = radial_offset;
@@ -138,14 +137,12 @@ void func_801745E0(Source *source, Vec3i *origin)
 
         trig_value = func_80064584(trig_angle);
         trig_angle = next_angle;
-        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         radial_offset = (trig_value * 24) >> 12;
         sub->field_76 = radial_offset;
         sub->field_6A = radial_offset;
 
         trig_value = func_800644B8(trig_angle);
         trig_angle = angle;
-        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         radial_offset = (trig_value * 24) >> 12;
         sub->field_72 = radial_offset;
         sub->field_66 = radial_offset;

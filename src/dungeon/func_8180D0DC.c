@@ -23,8 +23,8 @@ extern HeightData D_80083780;
 /* Updates position history, motion and shading, and flags objects whose positions have settled. */
 void func_800260DC(u8 *obj, u8 *coords_out, u8 *rgb)
 {
-    register u8 *linked_obj ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 *linked_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *linked_obj;
+    u8 *linked_data;
     u8 *room;
     u8 *history_src;
     u8 *history_dst;
@@ -35,9 +35,9 @@ void func_800260DC(u8 *obj, u8 *coords_out, u8 *rgb)
     register s32 direction_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 frames_left;
     s32 shade;
-    register u8 *linked_rgb ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *linked_rgb;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 raw_shade;
-    register s32 linked_shade ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 linked_shade;
     s32 final_coord;
     register s32 final_adjust ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 final_state;
@@ -172,7 +172,7 @@ have_other:
     linked_rgb = PTR_AT(PTR_AT(obj, 8), 0x0C);
     raw_shade = U8_AT(linked_rgb, 0x0C) - S16_AT(obj, 0x6E) * 8;
     linked_shade = raw_shade;
-    ASM_KEEP(linked_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if ((s16)raw_shade < 0) {
         linked_shade = 0;
     }

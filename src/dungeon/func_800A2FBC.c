@@ -198,7 +198,6 @@ typedef struct S_800A871C_26 {
 void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
     void *object = object_arg;
     register void *motion = motion_arg;
-    register void *tile_input ASM_REG("$6") = tile_arg;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *tile;
     register void *object_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 offset[3];
@@ -210,18 +209,18 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
     s16 drop_height;
     s32 *payload;
     s32 next_dir_offset;
-    register s32 launch_dir_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 launch_dir_offset;
     s32 drop_dir_offset;
     s32 axis_origin;
     s32 axis_target;
-    register s32 direction ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 direction;
     s32 dir_offset;
     u16 drop_heading;
     u16 steps_left;
     u16 launch_heading;
     u8 *next_y_step;
     u8 *launch_y_step;
-    register u8 *launch_x_steps ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u8 *launch_x_steps;
     u8 *drop_x_steps;
     register u8 *next_x_steps ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     S_800A871C_5 *launch_source;
@@ -239,9 +238,9 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
     s32 dungeon_flags;
     s32 height;
 
-    ASM_KEEP4_NV(object, motion, tile, tile_input);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP4_NV(object, motion, tile, tile_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object_data = object;
-    tile = tile_input;
+    tile = tile_arg;
     payload = (*(s32 **)((u8 *)object_data + (0x9C)));
     if ((payload == &D_80081484) && (((S_800A871C_0 *)payload)->unk_01 == 0)) {
         (*(s32 **)((u8 *)object_data + (0x9C))) = &D_800E3540;

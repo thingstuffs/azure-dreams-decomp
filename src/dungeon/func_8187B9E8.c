@@ -62,7 +62,6 @@ extern u8 D_80024D40[];
 
 /* Create an effect with 23 random radial vectors and initialize its position and state. */
 void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U16Arg position_y, U16Arg position_z) {
-    register s32 held_radius ASM_REG("$23") = radius;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 position_xyz[3];
     s32 point_count;
     s32 angle_a;
@@ -90,7 +89,7 @@ void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U1
             point_count++;
             angle_a = func_80069EF8() & 0xFFF;
             angle_b = func_80069EF8() & 0xFFF;
-            work_value = held_radius * func_80064584(angle_a);
+            work_value = radius * func_80064584(angle_a);
             plane_radius = work_value >> 12;
             work_value = plane_radius * func_800644B8(angle_b);
             component = work_value >> 12;
@@ -98,7 +97,7 @@ void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U1
             work_value = plane_radius * func_80064584(angle_b);
             component = work_value >> 12;
             ((S_8187B9E8_0 *)point)->unk_44 = component;
-            work_value = held_radius * func_800644B8(angle_a);
+            work_value = radius * func_800644B8(angle_a);
             component = work_value >> 12;
             ((S_8187B9E8_0 *)point)->unk_72 = component;
             point = (u8 *)point + 2;

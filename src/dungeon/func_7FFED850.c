@@ -21,9 +21,6 @@ s32 func_8008AFB0(s8 resource_kind, s8 resource_group, s16 resource_id, s32 entr
     register s32 lookup_kind ASM_REG("$4");
     register s32 lookup_group ASM_REG("$5");
     register s32 lookup_id ASM_REG("$6");
-    s8 saved_kind = resource_kind;
-    s8 saved_group = resource_group;
-    s16 saved_id = resource_id;
     s32 entry = entry_index;
     u32 *resource;
     s32 alloc_size;
@@ -34,9 +31,6 @@ s32 func_8008AFB0(s8 resource_kind, s8 resource_group, s16 resource_id, s32 entr
     s32 used_bytes;
 
     resource = func_8008AF2C(lookup_kind, lookup_group, lookup_id);
-    ASM_KEEP(saved_kind);
-    ASM_KEEP(saved_group);
-    ASM_KEEP(saved_id);
     block_count = 0;
     if (resource == NULL)
         return block_count;
@@ -66,9 +60,9 @@ s32 func_8008AFB0(s8 resource_kind, s8 resource_group, s16 resource_id, s32 entr
     }
     func_8008AD90(entry, alloc_size);
     func_8008AC84(entry + 1);
-    D_800CF720[0] = saved_kind;
-    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_01 = saved_group;
-    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_02 = saved_id;
+    D_800CF720[0] = resource_kind;
+    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_01 = resource_group;
+    ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_02 = resource_id;
     ((S_8008AFB0_0 *)(&D_800CF720[0]))->unk_04 = alloc_size;
     func_80053CFC(resource, D_801131E4[0]);
     return 0;

@@ -41,8 +41,8 @@ void func_8001D0F4(DungeonRect *rect)
     u16 tile_flags;
     s32 slot_limit_calc;
     s16 slot_limit;
-    register s32 item_kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 stored_kind;
+    s32 item_kind;
+    s16 stored_kind;
     s32 special_roll;
     s32 slot_index;
     u32 kind_roll;
@@ -83,7 +83,6 @@ void func_8001D0F4(DungeonRect *rect)
                 } else {
                     kind_roll = func_800A6D30() & 0xFFFF;
                     item_kind = (kind_roll % 19) + 1;
-                    ASM_KEEP(item_kind);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     item_flags = *(u16 *)(item_category_table[21].entries +
                                            ((s16)item_kind * 12));
                     stored_kind = item_kind;

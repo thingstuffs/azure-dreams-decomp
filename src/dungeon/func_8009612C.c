@@ -41,7 +41,7 @@ s32 func_8009B88C(u8 *entry, s32 target_x, s32 target_y, s16 *out_x, s16 *out_y)
     s32 tile_distance;
     s32 separation;
     s32 y_distance;
-    s32 slot;
+    s16 slot;
     s32 near_dir;
     s32 far_dir;
     s16 attempts;
@@ -149,7 +149,6 @@ search_nearby:
     slot = search_seed & 7;
     do {
         near_dir = slot;
-        ASM_KEEP_NV(near_dir);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         ASM_USE2(target_x, target_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_USE2(target_x, target_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_USE2(target_y, target_y);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -179,13 +178,12 @@ search_nearby:
     slot = search_seed & 15;
     do {
         far_dir = slot;
-        ASM_KEEP_NV(far_dir);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         ASM_USE2(target_x, target_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_USE2(target_y, target_y);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         if (*(occupied + far_dir + 9) == 0) {
             far_dx = D_800DCE6C + far_dir;
             far_dy = D_800DCE8C + far_dir;
-            ASM_USE(far_dy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if ((far_offset_x = far_dx[0], far_offset_y = far_dy[0],
                  func_800A0548((s16)(target_x + far_offset_x), (s16)(target_y + far_offset_y))) == 0 &&
                 ((tile_offset_x = far_dx[0], tile_offset_y = far_dy[0],

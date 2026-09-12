@@ -73,8 +73,6 @@ extern u8 D_80173AD0[];
 
 /* Processes object action states, dispatches actor actions, and updates directional tiles. */
 void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor_arg) {
-    void *obj = obj_arg;
-    s32 context = context_arg;
     void *target = target_arg;
     register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *held_base;
@@ -86,7 +84,7 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
     s32 actor_flags;
     s8 target_room;
 
-    action_state = ((S_8016CC70_0 *)obj)->unk_9B;
+    action_state = ((S_8016CC70_0 *)obj_arg)->unk_9B;
     if (action_state == 1) {
         goto state_one;
     }
@@ -105,7 +103,7 @@ state_zero:
     if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
         goto done;
     }
-    obj_kind = ((S_8016CC70_0 *)obj)->unk_AC;
+    obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
     if (obj_kind == 0xE) {
         goto zero_setup;
     }
@@ -127,7 +125,7 @@ decrement_counter:
     goto counter_changed;
 
 state_one:
-    obj_kind = ((S_8016CC70_0 *)obj)->unk_AC;
+    obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
     if (obj_kind == 0xE) {
         goto one_setup;
     }
@@ -149,7 +147,7 @@ call_check:
     if ((func_80042900(actor, 1) << 0x10) != 0) {
         goto action_body;
     }
-    obj_kind = ((S_8016CC70_0 *)obj)->unk_AC;
+    obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
     if (obj_kind == 0xE) {
         goto update_tiles;
     }
@@ -166,7 +164,7 @@ action_body:
         goto done;
     }
     if (((S_8016CC70_2 *)actor)->unk_64 != 0) {
-        if (func_800AA6B4(obj, context, target, 0) != 0) {
+        if (func_800AA6B4(obj_arg, context_arg, target, 0) != 0) {
             goto done;
         }
     }
@@ -174,7 +172,7 @@ action_body:
         if (((S_8016CC70_4 *)held_base)->unk_02 & 0x2008) {
             goto done;
         }
-        func_800AA79C(obj, context, target, actor);
+        func_800AA79C(obj_arg, context_arg, target, actor);
         goto done;
     }
     if ((func_800A2C34(actor) << 0x10) != 0) {
@@ -182,12 +180,12 @@ action_body:
     }
     actor_flags = ((S_8016CC70_2 *)actor)->unk_1C;
     if (actor_flags & 0x100) {
-        func_800AA258(obj, context, target, actor);
+        func_800AA258(obj_arg, context_arg, target, actor);
         goto done;
     }
     if (actor_flags & 0x80000) {
-        func_800AA888(obj, context, target, actor);
-        func_8016D4B8(obj, context, target, actor);
+        func_800AA888(obj_arg, context_arg, target, actor);
+        func_8016D4B8(obj_arg, context_arg, target, actor);
         goto done;
     }
     if (((S_8016CC70_2 *)actor)->unk_6D == 0) {
@@ -218,7 +216,7 @@ second_check:
     }
 
 post_actions:
-    obj_kind = ((S_8016CC70_0 *)obj)->unk_AC;
+    obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
     if (obj_kind == 0xE) {
         goto update_tiles;
     }
@@ -244,7 +242,7 @@ after_tiles:
     counter_base = (u8 *)&D_80083460;
     ((S_8016CC70_3 *)counter_base)->unk_0A++;
 counter_changed:
-    ((S_8016CC70_0 *)obj)->unk_9B++;
+    ((S_8016CC70_0 *)obj_arg)->unk_9B++;
     goto done;
 
 state_two:
@@ -255,11 +253,10 @@ state_two:
     ((S_8016CC70_3 *)counter_base)->unk_0A--;
 set_callback:
     callback = &D_8016A36C;
-    ((S_8016CC70_0 *)obj)->unk_8C = callback;
+    ((S_8016CC70_0 *)obj_arg)->unk_8C = callback;
 
 done:
-    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(obj_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return;
 }

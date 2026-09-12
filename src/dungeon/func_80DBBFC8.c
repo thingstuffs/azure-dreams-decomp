@@ -94,7 +94,7 @@ void func_801737C8(void *controller, void *motion, void *actor, void *object)
         &&kind_7, &&kind_6, &&kind_5
     };
     u8 *item_slot;
-    s32 use_player;
+    s16 use_player;
     u8 state;
     void *target;
 
@@ -177,7 +177,6 @@ selection_ready:
         s32 target_player;
 
         target_player = use_player;
-        ASM_KEEP(target_player);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (target_player != 0) {
             target = D_800814A8;
             (*(void * *)((u8 *)object + 0x60)) = target;

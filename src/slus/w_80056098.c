@@ -25,8 +25,8 @@ void func_80056098(S_80085458 *envelope) {
     s32 target_level;
     s32 scaled_wave;
     s32 phase;
-    register s32 doubled_phase ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    s32 wave;
+    s8 doubled_phase;
+    s8 wave;
     u8 delay_ticks;
     u8 ramp_ticks;
     u8 *phase_unsigned;

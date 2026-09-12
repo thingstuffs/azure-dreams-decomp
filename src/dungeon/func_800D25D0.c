@@ -39,7 +39,7 @@ typedef struct S_800D7D30_1 {
 
 /* Update a spiraling effect's motion and color, then retire it below its height limit. */
 void func_800D7D30(void *effect, void *motion, void *sprite) {
-    register s32 radius_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 radius_step;
     s32 velocity_y;
     s32 velocity_z;
     s32 radius;
@@ -88,8 +88,10 @@ void func_800D7D30(void *effect, void *motion, void *sprite) {
     radius = ((S_800D7D30_1 *)effect)->unk_1C.at00.v;
     if (radius <= 0) {
         radius_step >>= 2;
+        ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius_step + radius;
+    } else {
+        ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius + radius_step;
     }
-    ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius + radius_step;
 
     red = ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v;
     green = ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v;

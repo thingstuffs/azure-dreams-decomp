@@ -86,7 +86,7 @@ void func_80173CD4(void *action_in, void *context_in, void *sprite_in, void *act
     register void *context ASM_REG("$19") = context_in;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register void *sprite ASM_REG("$17") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *actor;
-    register u8 *world_state ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *world_state;
 
     state = ((S_80173CD4_0 *)action)->unk_9B;
     actor = actor_in;
@@ -126,7 +126,7 @@ state_zero:
 
 state_one:
     {
-        register u32 world_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u32 world_page;
         u32 actor_flags;
 
         if ((func_80042900(actor, 1) << 16) == 0) {
@@ -134,8 +134,7 @@ state_one:
         }
 
         world_page = 0x80080000;
-        ASM_KEEP(world_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        world_state = (u8 *)(world_page + 0x3460);
+        world_state = (u8 *)((u32)&D_80083460);
         if (((S_80173CD4_4 *)world_state)->unk_02 & 0x1000) {
             goto done;
         }

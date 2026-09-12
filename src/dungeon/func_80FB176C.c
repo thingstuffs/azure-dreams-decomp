@@ -322,9 +322,7 @@ sw1_case2: {
                     ((S_80170F6C_5 *)payload)->unk_04 = ((S_80170F6C_3 *)arg1)->unk_04.at00.v;
                     payload = object->unk_08;
                     payload_word = ((S_80170F6C_3 *)arg1)->unk_08;
-                    ASM_KEEP(payload_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     color = 0x00800000;
-                    ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     ((S_80170F6C_5 *)payload)->unk_08 = payload_word;
                     ((S_80170F6C_6 *)part)->unk_1E = 0x1000;
                     ((S_80170F6C_6 *)part)->unk_1C = 0x1000;
