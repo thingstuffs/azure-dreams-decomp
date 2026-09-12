@@ -42,13 +42,23 @@ Final total: **18 pins removed**, leaving **10,264 pins in 1,634 pinned rows**.
 Receipts: `ledger/pin_runs/pins_joint_erase_20260912*.json`; measured joint-pair proof
 and evaluation: [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md).
 
-**Next expansion:** `pins_joint_expand_20260912`: 305 remaining small functions plus
-60 larger functions containing register/keep groups on the same variable. The large-row
-menu now prioritizes these distant groups before scanning all pairs; all 41 tests pass.
-Selection: `work/pin_search/joint_expand_audit_20260912/ids.txt`. Use mode `erasures`,
-512 screens, 12 full verifies, 20 CPU seconds and four workers. Check the actual manifest
-and live process with `pin_search.py status`; source is only harvested after independent
-verification and the checked publication/follow-up workflow.
+**Expansion harvested:** `pins_joint_expand_20260912` completed 365 functions,
+removing 33 pins in nine functions; all 13 publication windows and SLUS passed.
+T2/T20 made no further changes. A separate audit restored one pin in an earlier
+pointer/integer host rewrite (`dungeon/func_8180E7F4`); independent verification,
+its window and SLUS passed. Net reduction: **32 pins**, leaving **10,232 pins in
+1,633 pinned rows**. `dungeon/func_800B30D0` is now pin-free. Receipts and measured
+cohorts are in [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md).
+
+**Next batch:** `pins_joint_families_20260912` targets 288 larger functions / 5,355
+pins, excluding the 60 large rows just searched. Use `--mode erasures --families-only
+--fallback 0 --screens 96 --verifies 8 --cpu-seconds 10`, four detached workers.
+The limited plan tries the full set, same-variable groups and macro families, skipping
+exhaustive subsets/pairs. It still byte-verifies every possible acceptance and saves
+near misses. Zero fallback is a measured throughput experiment after 435 extra near
+checks across two batches added no wins; it is not proof those variants cannot match.
+Check the actual run state/process before resuming or harvesting. All 43 tests pass.
+Selection: `work/pin_search/joint_family_audit_20260912/ids.txt`.
 The old sharded launcher and its partial journal remain historical.
 
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on

@@ -1,0 +1,165 @@
+{
+  "phase": "complete",
+  "at": "2026-09-12T12:21:47Z",
+  "files": [
+    {
+      "id": "dungeon/func_8188D268",
+      "path": "src/dungeon/func_8188D268.c",
+      "backup": "backups/dungeon_func_8188D268.c",
+      "before_sha": "026818144b08f8b46b8317bfa8e91b48a6d2655caff239f213378ac8dc80c39b",
+      "debt_before": [
+        1,
+        0,
+        0
+      ],
+      "after_sha": "026818144b08f8b46b8317bfa8e91b48a6d2655caff239f213378ac8dc80c39b",
+      "debt_after": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_81989320",
+      "path": "src/dungeon/func_81989320.c",
+      "backup": "backups/dungeon_func_81989320.c",
+      "before_sha": "397ca5977dceb74b7ee3bda3ccf784b884249dfe617a4b9d840b79b685f309c5",
+      "debt_before": [
+        10,
+        0,
+        0
+      ],
+      "after_sha": "397ca5977dceb74b7ee3bda3ccf784b884249dfe617a4b9d840b79b685f309c5",
+      "debt_after": [
+        10,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_8194CF00",
+      "path": "src/dungeon/func_8194CF00.c",
+      "backup": "backups/dungeon_func_8194CF00.c",
+      "before_sha": "c0dc2c222794899fb011aab222535b7dc8524bfc5d7fa40b313ea0cc7b68436e",
+      "debt_before": [
+        8,
+        0,
+        0
+      ],
+      "after_sha": "c0dc2c222794899fb011aab222535b7dc8524bfc5d7fa40b313ea0cc7b68436e",
+      "debt_after": [
+        8,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_81904800",
+      "path": "src/dungeon/func_81904800.c",
+      "backup": "backups/dungeon_func_81904800.c",
+      "before_sha": "5becf4c9092fd678792d82bd8a311f51381073ee6ecefdc51b9fa8f48fd81b8b",
+      "debt_before": [
+        11,
+        0,
+        0
+      ],
+      "after_sha": "5becf4c9092fd678792d82bd8a311f51381073ee6ecefdc51b9fa8f48fd81b8b",
+      "debt_after": [
+        11,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_800B30D0",
+      "path": "src/dungeon/func_800B30D0.c",
+      "backup": "backups/dungeon_func_800B30D0.c",
+      "before_sha": "9c9f0989ec80999d55b680b770c0655856a3bb7ba943c9f9928ba5ddb7a0e14e",
+      "debt_before": [
+        0,
+        0,
+        0
+      ],
+      "after_sha": "9c9f0989ec80999d55b680b770c0655856a3bb7ba943c9f9928ba5ddb7a0e14e",
+      "debt_after": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_81971760",
+      "path": "src/dungeon/func_81971760.c",
+      "backup": "backups/dungeon_func_81971760.c",
+      "before_sha": "31fd6a19112eb07dde49164af44b9c1e16b66f401f86b5ba2c476c4b8dd23441",
+      "debt_before": [
+        4,
+        0,
+        0
+      ],
+      "after_sha": "31fd6a19112eb07dde49164af44b9c1e16b66f401f86b5ba2c476c4b8dd23441",
+      "debt_after": [
+        4,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_80AC55DC",
+      "path": "src/dungeon/func_80AC55DC.c",
+      "backup": "backups/dungeon_func_80AC55DC.c",
+      "before_sha": "600370cea5eeef103d62ee18d09226a9e75143eb1c9b12333694cae9f2694ab9",
+      "debt_before": [
+        10,
+        0,
+        0
+      ],
+      "after_sha": "600370cea5eeef103d62ee18d09226a9e75143eb1c9b12333694cae9f2694ab9",
+      "debt_after": [
+        10,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_818876F4",
+      "path": "src/dungeon/func_818876F4.c",
+      "backup": "backups/dungeon_func_818876F4.c",
+      "before_sha": "8dae7e8c30b11f213922bb27d1568748563e1dfc00b1f97ea984838e6d5709ca",
+      "debt_before": [
+        1,
+        0,
+        0
+      ],
+      "after_sha": "8dae7e8c30b11f213922bb27d1568748563e1dfc00b1f97ea984838e6d5709ca",
+      "debt_after": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_81326938",
+      "path": "src/dungeon/func_81326938.c",
+      "backup": "backups/dungeon_func_81326938.c",
+      "before_sha": "c071b695d31b20cfecca7f56db1795311273333384f0375deb9e6a6a22b39686",
+      "debt_before": [
+        7,
+        0,
+        0
+      ],
+      "after_sha": "c071b695d31b20cfecca7f56db1795311273333384f0375deb9e6a6a22b39686",
+      "debt_after": [
+        7,
+        0,
+        0
+      ]
+    }
+  ],
+  "changed": 0,
+  "finished": "2026-09-12T12:22:09Z",
+  "overlay": "MATCH",
+  "slus": "MATCH",
+  "pins_removed": 0,
+  "parent_run": "pins_joint_expand_20260912"
+}

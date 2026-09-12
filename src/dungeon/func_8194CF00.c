@@ -88,9 +88,7 @@ void func_80024700(void *source_object)
         (*(WordQuad *)((u8 *)object + 0x34)) = (*(WordQuad *)((u8 *)source + 0x5C));
 
         offset_length = (*(u16 *)((u8 *)source + 0x78));
-        ASM_KEEP(offset_length);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         angle_or_zero = 0;
-        ASM_KEEP(angle_or_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         data->unk_2C.u = offset_length;
         offset_angle = (*(u16 *)((u8 *)source + 0x76));
         data->unk_30 = 1;

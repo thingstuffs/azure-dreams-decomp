@@ -155,3 +155,36 @@ sharing a variable before enumerating all distant pairs, using the verified regi
 plus keep example as the control. Avoid applying an exponential search to large pin
 sets. Preserve results and exact source hashes to avoid repeating completed work.
 Evidence: [joint_erase_batch_20260912.json](evidence/joint_erase_batch_20260912.json).
+
+## Joint-erasure expansion and type-repair audit
+
+`pins_joint_expand_20260912` completed 365 rows without errors or budget stops:
+nine candidates removing 33 pins, including the last four pins in
+`dungeon/func_800B30D0`. Search used 19,734 compiler calls, 335 full verifies and
+629 CPU seconds. All 13 publication windows and SLUS passed. Bounded T2/T20 made
+no further changes. The source diffs only erase register/keep/barrier scaffolding.
+
+The 305 smaller functions supplied 14 removals in 465 CPU seconds. The 60 larger
+functions supplied 19 removals in 164 CPU seconds. This is selected coverage, not a
+randomized comparison, but supports trying variable-linked groups in the remaining
+large functions. Across both joint-erasure batches, 435 near-screen fallback checks
+produced no extra wins. The next bounded throughput experiment disables those extra
+checks while retaining full verification for every possible acceptance and saving
+near misses. It also tries only the full set, variable groups and macro families in
+288 larger functions / 5,355 pins; it does not enumerate their quadratic pair space.
+
+A bounded review of 156 exact saved production pairs plus 18 follow-up pairs found
+one earlier incompatible legacy-host rewrite in `dungeon/func_8180E7F4`: a pointer
+`slot_base` was reused in the signed integer `element_mask`. Four correctly typed
+alternatives failed (aligned distances five, five, five, seven). Restoring its original
+pointer declaration requires restoring one pin. This audit matches changed assignment
+RHSs and declaration types; it is not a full semantic audit. Older history without
+matching intermediate sources remains unknown. Artifacts and probes are retained under
+`work/pin_search/host_type_audit_20260912/`; the guarded generator prevents new
+incompatible type reuse. The repair is tracked separately from the 33-removal harvest.
+
+The restoration passed independent byte verification, its affected window and SLUS.
+Final net reduction this cycle is 32 pins: 33 removed and one restored for honest types.
+Current census: 10,232 pins in 1,633 pinned rows. Tracked receipts include the separate
+repair in `ledger/pin_runs/host_type_repair_20260912.json`; combined evidence is
+[joint_expand_20260912.json](evidence/joint_expand_20260912.json).

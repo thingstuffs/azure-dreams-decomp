@@ -62,17 +62,17 @@ typedef struct S_81971760_4 {
 
 /* Creates an effect at a randomized offset from the origin and initializes its rendering data. */
 void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x, s32 offset_y, s32 offset_z) {
-    register u16 jittered_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *effect_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 position_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    u16 jittered_x;
+    void *effect_arg;
+    u16 coord;
+    u16 position_x;
     s32 random_value;
     S_81971760_2 *render_data;
     S_81971760_0 *effect_state;
     S_81971760_3 *position;
     void *effect;
     S_81971760_4 *origin = origin_data;
-    register s32 initial_x ASM_REG("$17") = offset_x;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 initial_x = offset_x;
     register s32 initial_y ASM_REG("$19") = *(volatile s32 *)&offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 initial_z ASM_REG("$20") = *(volatile s32 *)&offset_z;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     effect = func_8003FC64(0x212);
@@ -81,7 +81,6 @@ void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
         effect_state = effect + 0x20;
         effect_state->unk_38 = 0x1E;
         effect_state->unk_3A = 0x1E;
-        ASM_KEEP4_NV(initial_x, effect_state, initial_y, initial_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         effect_state->unk_44 = initial_x;
         effect_state->unk_46 = (u16) initial_y;
         effect_state->unk_48 = (u16) initial_z;

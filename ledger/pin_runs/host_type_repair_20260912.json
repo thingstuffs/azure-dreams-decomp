@@ -1,0 +1,13 @@
+{
+  "phase": "complete",
+  "id": "dungeon/func_8180E7F4",
+  "path": "src/dungeon/func_8180E7F4.c",
+  "before_sha": "0154a99e007e0c668b185b0778ea1cfd447b1a7cf4f9cb62639135767c908b4b",
+  "after_sha": "9fe621d53043225a25ae41a8207b5121fdb1e195b4319ee3901ae99f3c0ad785",
+  "pins_added": 1,
+  "reason": "Reject pointer slot_base hosted in signed integer element_mask; compatible alternatives did not match",
+  "at": "2026-09-12T12:23:35Z",
+  "finished": "2026-09-12T12:24:29Z",
+  "overlay": "MATCH",
+  "slus": "MATCH"
+}

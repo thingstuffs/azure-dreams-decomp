@@ -73,8 +73,8 @@ loop:
             Entry *quad;
             u32 *row_left;
             u32 *row_right;
-            register u32 *next_row_left ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register u32 *next_row_right ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u32 *next_row_left;
+            u32 *next_row_right;
             u32 *next_row;
             u32 next_right_xy;
             s32 row_start;
@@ -87,9 +87,7 @@ loop:
             row_left = &scratch->value70;
             row_start = quad_index & ~0xF;
             quad = (Entry *)scratch->current;
-            ASM_KEEP(quad);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             row_right = &scratch->value78;
-            ASM_KEEP(row_right);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             next_row_left = &scratch->value80;
             scratch->current = (u8 *)quad + 0x24;
             scratch->value70 = *(u32 *)vertex_record;
@@ -103,7 +101,6 @@ loop:
             row_z = *(u16 *)(vertex_record + 4);
             scratch->half74 = row_z;
             scratch->half7c = row_z;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             next_row_index = quad_index + 16;
             next_row_z = ((u16 *)vertices)[(next_row_index * 4) + 2];
 
