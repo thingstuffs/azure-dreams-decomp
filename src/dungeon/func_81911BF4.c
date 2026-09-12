@@ -83,7 +83,7 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
             return;
         }
         {
-            register u16 next_duration ASM_REG("$3") = 4;
+            u16 next_duration = 4;
             ASM_KEEP(next_duration);
             state_value = *(volatile u16 *)&obj->state;
             obj->timer = 0;

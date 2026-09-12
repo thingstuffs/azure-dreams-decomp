@@ -110,7 +110,7 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     S_8017121C_6 *source;
     S_8017121C_2 *part;
     S_8017121C_9 *target_coords;
-    register s16 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s16 *direction_table;
     register s32 coord_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 untracked_mask;
     u32 target_flags;
@@ -188,11 +188,8 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         ((S_8017121C_0 *)effect_state)->unk_58 = 0;
 
         x_table_addr = target->unk_2A.as_u16;
-        ASM_KEEP_NV(x_table_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         target_handle = target->unk_60.as_pv;
-        ASM_KEEP_NV(target_handle);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         effect_x = coords->unk_02.u;
-        ASM_KEEP_NV(effect_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         x_table_addr = (x_table_addr >> 7) & 0x1C;
         x_table_addr += (u32)direction_table;
         x_entry = (s16 *)x_table_addr;
@@ -206,7 +203,6 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         ((S_8017121C_0 *)effect_state)->unk_5A = coord_delta / 2;
 
         y_table_addr = target->unk_2A.as_u16;
-        ASM_KEEP_NV(y_table_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         target_y = target_coords->unk_06;
         ASM_KEEP_NV(target_y);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         effect_y = coords->unk_06.u;

@@ -299,13 +299,12 @@ rewrite, so the pair of levers, not the cell, is the finding. T2 at the new cell
 (module corroboration): 25 of the 29 switches checked have module siblings at the
 target cell; four are alone in theirs.
 
-**The CDK hypothesis, not yet proven:** a stage-1 scan of the 355 smallest pinned rows
-found another admissible cell for most of them. 96% of rows recorded at `2.8.1-G0`, and
-58% at `2.7.2`, are also exact at a CDK cell. All 32 addrsym switches, and all 30 earlier
-`pin_cells_land.py` switches, point at CDK. Many recorded non-CDK cells may be ambiguities
-that the pins happened to resolve. The resumable admissible-cell scan continues; its pins
-dead at a CDK cell are the next harvest. Hits at 2.95.2 and 2.91.66 are recorded, not
-landed: those are 1999 compilers, after the game's release.
+**The CDK hypothesis (withdrawn in the fifth round, below):** a stage-1 scan of the 355
+smallest pinned rows found another admissible cell for most of them. 96% of rows recorded at
+`2.8.1-G0`, and 58% at `2.7.2`, are also exact at a CDK cell. All 32 addrsym switches, and all
+30 earlier `pin_cells_land.py` switches, point at CDK. That looked like recorded non-CDK cells
+being ambiguities the pins had resolved. Hits at 2.95.2 and 2.91.66 are recorded, not landed:
+those are 1999 compilers, after the game's release.
 
 Second round (one gate): `t29` now scales `V + K` by the element size of `s16 *`, `s32 *` and
 pointer-to-pointer pages, and refuses rewrites that touch a NON_MATCHING arm. Its sweep over
@@ -353,3 +352,48 @@ Fourth round (one gate): 28 pins; 24 windows MATCH, SLUS SHA-1 MATCH; census 9,8
 
 Lesson: count a lane's result only after scoring it and diffing it for added scaffolding. Two of
 three lane claims this session (luna's drafts, sol's candidate) did not hold up.
+
+Fifth round (one gate): **84 pins**; 68 windows MATCH, SLUS SHA-1 MATCH; census **9,748 pins in
+1,598 rows**.
+- **Fake-dependency lane (luna, `work/native_lane/fakedep3/`), 1 of 12.** In `town/func_800C5ABC`,
+  `x = load; ASM_KEEP_NV(x); x &= 0xfffe;` became one typed load-and-mask assignment,
+  `x = (u16)(*(u16 *)p & 0xfffe);`. No other site in `src/` has that shape, so there is no generator.
+- **`t35` at CDK (`t31_cdk_t35_shiftspell`): 0 of 6,767 candidates.**
+- **The scan's hits at every plausible cell.** `pin_cells_scan.py build --plausible` also builds
+  the hits at FSF 2.6.3, 2.7.2, 2.8.0 and 2.8.1. 55 rows landed and 54 changed cell. **None moved to
+  CDK**: 43 went to 2.8.0 or 2.8.0-G0, 5 to 2.8.1, 5 to 2.6.3(-G0), and 1 to 2.7.2 (off 2.95.2-G0).
+  28 of the 54 moved off a CDK cell. Rule 3: 12 have a module sibling at the target cell and **42
+  are alone there**. 9 hits at 1999 compilers were recorded and not built. 17 stale hits go back
+  through the scan.
+- **Full strip (`pin_cells_scan.py strip`).** Every pin is erased at once and the text is scored over
+  the row's admissible cells. **2 of 940 rows** with two or more pins are pin-free at some cell:
+  `town/func_80097A54` at 2.8.0 and `town/func_80814D60` at 2.6.3. Both landed.
+- T2 on the 56 changed rows landed 12 more.
+
+**What the cell rounds show.**
+- **`t29`'s CDK dependence stands.** It belongs to that mechanism (CDK splits symbol addresses
+  into HIGH/LO_SUM; the FSF compilers emit `la`), and it survived its attribution control.
+- **The single-pin scan hits say nothing about the build compiler.** Most pinned rows are exact
+  at several cells, so a one-pin residue disappears at whichever cell happens to differ in those
+  words.
+- **"Every switch points at CDK" was a selection effect.** Rounds 2–4 built only the CDK hits.
+  Once the FSF hits were admitted, the switches pointed mostly at 2.8.0, which had 15 rows before
+  this round and has 58 now.
+- **The switches are safe and can be undone.** They obey rules 1–2, so the shipped bytes do not
+  depend on them. The `t30_cellpins` journal records each row's old cell (`cell_from`). To revert
+  one, call `common.set_row_cfg` with that cell and regate.
+
+**The cell levers are measured and used up:**
+- the single-pin scan over 1,502 rows (every hit at a pre-1999 cell has landed);
+- the full strip, 2 of 940;
+- `t26` at CDK, 0 of 51;
+- `t20` at CDK, 1 of 51;
+- `t35` at CDK, 0 of 6,767.
+
+The scan is keyed on each row's text hash and resumes itself, so it only rescans rows whose text
+changes.
+
+Lanes launched after this gate:
+- **astra on three argmove rows** (`work/native_lane/argmove_astra/`), the owner's last escalation
+  after luna and sol. Its brief states that sol's fence-for-pin trade was refused.
+- **luna on 12 more fake-evidence rows** (`work/native_lane/fakedep4/`). 21 such rows remain.

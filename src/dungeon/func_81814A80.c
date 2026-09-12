@@ -41,7 +41,7 @@ extern void func_800243C8(void) __attribute__((noreturn));
 /* Accumulate motion, process the update mode, and mark expired or flagged state. */
 void func_81814A80(State *state, s32 *sum, Flags *flags) {
     s32 update_count;
-    register s32 more_updates ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 more_updates;
     u16 next_tick;
 
     state->unk02 = state->unk02 - 1;

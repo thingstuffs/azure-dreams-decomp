@@ -72,7 +72,6 @@ void func_800A9160(void)
                     }
                     bit_byte = group_bits_offset + (set_index >> 3) + (s32)ram;
                     bit_index = cell_index & 7;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     one = 1;
                     ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     bit_byte->unk_5720 =

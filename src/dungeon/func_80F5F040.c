@@ -369,7 +369,7 @@ state_2:
             counter = 9;
             effect_base = D_800DEA68;
             for (; counter >= 0; counter--) {
-                register void *particle_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                void *particle_data;
                 particle = func_8003FD64(0x312, D_80083498);
                 if (particle != 0) {
                     func_8004491C(particle, D_80045340);
@@ -391,7 +391,6 @@ state_2:
                         origin_x = ((S_80172840_5 *)position)->unk_02;
                         offset_x = coords[4];
                         heading_x = direction_x;
-                        ASM_USE2_NV(heading_x, random_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         origin_x += offset_x;
                         offset_x = heading_x << 6;
                         origin_x += offset_x;

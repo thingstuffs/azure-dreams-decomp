@@ -100,15 +100,15 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5)
     S_800B1B10_4 *arg0_s5 = arg0;
     register s32 arg1_s0 ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 arg2_s1 = arg2;
-    register s32 arg3_s4 ASM_REG("$20") = arg3;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 arg3_s4 = arg3;
     register s32 raw_arg4 ASM_REG("$23") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 arg5_t0 = arg5;
     register s32 temp_s8;
     M2C_UNK var_a1;
     M2C_UNK temp_s2;
-    register s32 arg3_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 arg3_v0;
     s32 geom_v1;
-    register s32 call3_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 call3_a0;
     register s32 call69_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *call_a1;
     s32 copy_v0;
@@ -146,7 +146,6 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5)
         ((S_800B1B10_0 *)temp_s2)->unk_10 = &D_800B14FC;
         func_8004491C(temp_s2, &D_800B06F0);
         call3_a0 = 3;
-        ASM_KEEP_NV(call3_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         arg3_v0 = (s32) (arg3_s4 << 0x10) >> 0x18;
         ((S_800B1B10_2 *)temp_s3)->unk_24 = (s16) arg3_v0;
         ((S_800B1B10_2 *)temp_s3)->unk_0A = arg1_s0;
@@ -244,7 +243,6 @@ block_shared:
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_14 = copy_v1;
             arg2_s1 += 0x18;
             ((S_800B1B10_7 *)(((arg3_s4 * 4) + temp_s3)))->unk_50 = arg2_s1;
-            ASM_USE_NV(arg3_s4);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_01.n = 0x81;
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_04.at00u.v = 0x20;
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_04.at02.v = 0;

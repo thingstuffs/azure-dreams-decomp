@@ -173,9 +173,7 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
         u32 translation_y;
 
         translation_y = ((S_800C55F4_2 *)mesh_data)->unk_1E;
-        ASM_SCHED_BARRIER();
         screen_arg = (u8 *)((u32)screen_arg | 0xF0);
-        ASM_USE2_NV(vector_arg, screen_arg);
         ((S_800C55F4_1 *)scratch)->unk_34 = translation_y;
     }
     ((S_800C55F4_1 *)scratch)->unk_38 = ((S_800C55F4_2 *)mesh_data)->unk_20;

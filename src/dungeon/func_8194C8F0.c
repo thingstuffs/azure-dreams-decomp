@@ -130,7 +130,7 @@ state_one:
     }
 
     if (((S_800240F0_7 *)(((S_800240F0_0 *)effect)->unk_08))->unk_00 & 0x80) {
-        register u16 travel_frames ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u16 travel_frames;
 
         travel_frames = 10;
         ASM_KEEP_NV(travel_frames);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

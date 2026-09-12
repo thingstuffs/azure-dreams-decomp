@@ -62,7 +62,7 @@ void func_8001D5D8(DungeonRect *rect) {
     DungeonCell *cell;
     register s32 patch_row ASM_REG("$23");
     s32 right_hi;
-    register u32 col_hi ASM_REG("$2") = 0x80080000;
+    u32 col_hi = 0x80080000;
     DungeonState *state = &D_8008333C;
 
     ASM_KEEP(col_hi);

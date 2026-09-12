@@ -141,7 +141,6 @@ void func_80172AF8(void *action, void *transform, void *sprite, void *actor)
 
         if (*motion != 0) {
             ((S_80172AF8_0 *)action)->unk_98 &= 0xFF7F;
-            ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             {
                 s32 use_special = special_motion;
 

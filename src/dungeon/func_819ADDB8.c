@@ -146,7 +146,6 @@ loop:
         component_data = ((S_800255B8_0 *)(*object_slot))->unk_08;
         x_offset = x_offsets[offset_addr / 2] << 5;
         ((S_800255B8_1 *)component_data)->unk_02 = origin_x + x_offset;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         {
             s16 *y_offsets;
 

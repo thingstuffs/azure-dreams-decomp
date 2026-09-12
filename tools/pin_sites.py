@@ -296,7 +296,12 @@ def erase_many(text, chosen, clean_notes=False):
             le = len(cur) if le < 0 else le
         if not cur[ls:le].strip():
             cur = cur[:ls] + cur[le + 1:]
+    if clean_notes:      # an `#ifndef NON_MATCHING` block left empty goes too (preprocessor only)
+        cur = EMPTY_NM_RE.sub("", cur)
     return cur
+
+
+EMPTY_NM_RE = re.compile(r"^[ \t]*#ifndef NON_MATCHING[ \t]*\n[ \t]*#endif[^\n]*\n", re.M)
 
 
 # ----------------------------------------------------------------------------------- groups

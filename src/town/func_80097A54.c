@@ -65,7 +65,6 @@ void func_800951B4(Actor *actor)
     }
     position_ptr = &position;
     call_result = &side_result;
-    ASM_KEEP(call_result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     position.y = fixed_coord >> 12;
     position.z = 0;
 
@@ -106,7 +105,6 @@ void func_800951B4(Actor *actor)
     }
     position_ptr = &position;
     call_result = &side_result;
-    ASM_KEEP(call_result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     position.y = fixed_coord >> 12;
     position.z = 0;
 

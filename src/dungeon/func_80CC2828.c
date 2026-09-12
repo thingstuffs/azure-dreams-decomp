@@ -114,9 +114,7 @@ state_1:
         secondary_table = D_80082E80;
         actor_map = D_800E3D7C;
         owner[0xA9] = actor_index;
-        ASM_KEEP_DEP_NV(actor, actor_index);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ASM_JALDELAY_PIN(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((Rec_D_800E3D7C *)D_800E3D7C)->unk_60.as_pu8 = actor;
         ((S_80176028_2 *)actor_map)->unk_8A = actor_index;
         func_80093E74(D_800E3D7C, primary_table, secondary_table, D_800E3D7C);

@@ -163,7 +163,7 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
     {
 #ifdef __mips__
         s32 *item_dest;
-        register s32 *item_slot ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s32 *item_slot;
 #else
         s32 *item_dest;
         s32 *item_slot;

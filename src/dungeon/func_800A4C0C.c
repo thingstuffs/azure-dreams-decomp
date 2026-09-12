@@ -33,7 +33,6 @@ s32 func_800AA36C(void *action, void *context, void *position, void *entity) {
             register u32 move_mask ASM_REG("$3") = 0x40000000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 sound_x = old_x;
             s32 sound_y;
-            ASM_KEEP(move_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ASM_KEEP(sound_x);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             entity_flags = *(u32 *)((u8 *)entity + 0x1C) | move_mask;
             *(u32 *)((u8 *)entity + 0x1C) = entity_flags;

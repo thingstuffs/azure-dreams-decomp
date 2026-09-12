@@ -48,7 +48,6 @@ void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 un
     s32 raw_mode;
 
     flags_71 &= 0x7F;
-    ASM_KEEP(flags_71);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     raw_mode = initial_mode;
     ASM_KEEP_NV(initial_mode);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     initial_mode = (s16)initial_mode;

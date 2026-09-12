@@ -256,7 +256,6 @@ next_record:
     ((S_800C9088_1 *)scratch)->unk_70 = vertex_xy;
     vertex_xy = ((S_800C9088_6 *)(positions + vertex_index * 8))->unk_00;
     vertex_index = (*(u16 *)((u8 *)record_end + -0x1B));
-    ASM_KEEP(vertex_index);
     vertex2_pos = (u8 *)(vertex_index * 8 + (u32)positions);
     ((S_800C9088_1 *)scratch)->unk_78 = vertex_xy;
     last_index = (*(u16 *)((u8 *)record_end + -0x19));

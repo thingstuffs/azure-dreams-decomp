@@ -53,7 +53,6 @@ case_three:
     }
     *selected_slot = 0;
     D_804094E8 = 0;
-    ASM_KEEP(return_code);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     goto fast_done;
 
 done:

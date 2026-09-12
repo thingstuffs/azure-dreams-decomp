@@ -38,7 +38,6 @@ void func_800DCC3C(u8 *object) {
     record_template = (Template0 *)(record_page - 0x1A28);
     ASM_KEEP(record_template);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     tail_byte = 4;
-    ASM_KEEP(tail_byte);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     vector_page = (u8 *)0x80030000;
     ASM_KEEP(vector_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     vector_template = (Vec3 *)(vector_page - 0x1A18);

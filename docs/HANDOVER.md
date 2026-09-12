@@ -15,6 +15,14 @@ CDK hits. Fourth round: **9,832 pins in 1,600 rows**. New `t35_shiftspell` (from
 lane). Argmove family: luna 0/10, sol 0 real; parked with evidence, astra not yet spent.
 Never gate while a codex lane scores. Stock-ASPSX tail-slot check (parked): `tools/maspsx/aspsx/`
 has the harness; it needs `download.sh` (PsyQ 3.3–4.6 from GitHub) and dosemu/wine.
+Fifth round: **9,748 pins in 1,598 rows** (84 pins). The scan's hits at FSF cells landed as 54 cell
+switches. None went to CDK and 42 are alone in their module, so the CDK hypothesis is withdrawn.
+Each switch can be undone from the `t30_cellpins` journal (`cell_from`). The cell levers are used up;
+see PIN_MECHANISMS, "What the cell rounds show". fakedep3 luna 1/12 (load-and-mask; no other site).
+Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astra/`, the last
+escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
+Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
+blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
 
 **2026-09-12 atlas harvest (15:45 UTC):** `pins_atlas_20260912` completed. No single pin
 erases alone; 22 functions had exact joint subsets. Those subsets plus T2/T20 follow-up

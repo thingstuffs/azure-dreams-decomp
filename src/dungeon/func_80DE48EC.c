@@ -141,11 +141,9 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
         func_800A4ACC(entity);
         {
             register s32 update_mode ASM_REG("$6") = 8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 update_flags ASM_REG("$7") = 0x300;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            s32 update_flags = 0x300;
             void *entity_base = state.saved_ptr;
-            ASM_KEEP_NV(update_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ASM_KEEP_NV(update_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(entity_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_801720EC_0 *)entity)->unk_6D--;
             func_800C77D0(entity_base, update_arg, update_mode, update_flags);
         }

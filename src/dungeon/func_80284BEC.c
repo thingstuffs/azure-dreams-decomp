@@ -174,13 +174,10 @@ scan_neighbors:
             s32 retry_region;
 
             lookup_base = (u8 *)(u32)(u16)cursor.sp18;
-            ASM_KEEP_NV(lookup_base);
             out_x = &cursor.sp10;
             ASM_KEEP_NV(out_x);
             out_y = &cursor.sp12;
-            ASM_KEEP_NV(out_y);
             retry_mode = 1;
-            ASM_KEEP_NV(retry_mode);
             retry_region = (s16)(u32)lookup_base;
             tile_id = func_8001816C(retry_region, out_x, out_y, retry_mode);
         }

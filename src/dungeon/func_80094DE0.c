@@ -50,7 +50,6 @@ loop:
         x_offset_ptr = (u16 *)((side_dir << 1) + (u32)x_offsets);
         probe_height = (s16)saved_height;
         x_offset = *x_offset_ptr;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         y_offsets = D_800DCEBC;
         ASM_KEEP(y_offsets);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         y_offset = y_offsets[side_dir];
