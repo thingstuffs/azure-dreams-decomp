@@ -76,13 +76,10 @@ case_0:
     do {
         initial_entry = (s32 *)((u32)initial_offset + (u32)initial_base);
         initial_offset += 8;
-        object = objects[0];
-        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        object = (objects++)[0];
         initial_data = *initial_entry;
-        ASM_KEEP(initial_data);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         object_index += 1;
         object->unk_00 = initial_data;
-        objects += 1;
     } while (object_index < 0x1E);
 
 case_123:
@@ -90,12 +87,10 @@ case_123:
     object_base = D_80129728;
     objects = &object_base[0x1C];
     do {
-        object_data = ((S_80125FB8_2 *)(*objects))->unk_08;
+        object_data = ((S_80125FB8_2 *)(*objects++))->unk_08;
         data_value = object_data->unk_02;
-        ASM_KEEP(data_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_index += 1;
         object_data->unk_02 = (u16)(data_value - 0x100);
-        objects += 1;
     } while (object_index < 0x62);
     goto done;
 
@@ -108,12 +103,10 @@ case_567:
     object_base = D_80129728;
     objects = &object_base[0x1C];
     do {
-        object_data = ((S_80125FB8_2 *)(*objects))->unk_08;
+        object_data = ((S_80125FB8_2 *)(*objects++))->unk_08;
         data_value = object_data->unk_02;
-        ASM_KEEP(data_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_index += 1;
         object_data->unk_02 = (u16)(data_value - 0x100);
-        objects += 1;
     } while (object_index < 0x62);
 
 done:

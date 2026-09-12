@@ -54,9 +54,6 @@ extern s32 D_800D0E3C[];
 
 /* fukidasi_set: create a speech bubble object and initialize its part and body from indexed data. */
 void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_value) {
-    s32 saved_part_index;
-    s32 saved_body_index;
-    s32 saved_body_value;
     void *entry_or_body;
     void *entry_data;
     void *object_template;
@@ -67,9 +64,6 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     s32 *value_slot;
     S_800A75E4_2 *part_data;
 
-    saved_part_index = part_index;
-    saved_body_index = body_index;
-    saved_body_value = body_value;
     entry_or_body = NULL;
     entry_data = entry_or_body;
     if (entry_index != 0) {
@@ -88,7 +82,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
         entry_or_body = body;
         ASM_KEEP(entry_or_body);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         entry = D_800D0E24;
-        value_slot = (s32 *)(((u32)saved_part_index << 2) + (u32)entry);
+        value_slot = (s32 *)(((u32)part_index << 2) + (u32)entry);
         ASM_KEEP(value_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         part = ((S_800A75E4_1 *)object)->unk_08;
         part_data = ((S_800A75E4_1 *)object)->unk_0C;
@@ -96,13 +90,10 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
         func_80033CD8(entry_or_body, &D_80045340, part_data);
         part->unk_0A = part->unk_0A - 0x62;
         ((S_800A75E4_4 *)body)->unk_90 = 0xA;
-        ((S_800A75E4_4 *)body)->unk_6C = saved_body_value;
-        ((S_800A75E4_4 *)body)->unk_95 = saved_part_index;
-        ((S_800A75E4_4 *)body)->unk_96 = saved_body_index;
-        ((S_800A75E4_4 *)body)->unk_50 = D_800D0E3C[saved_body_index];
+        ((S_800A75E4_4 *)body)->unk_6C = body_value;
+        ((S_800A75E4_4 *)body)->unk_95 = part_index;
+        ((S_800A75E4_4 *)body)->unk_96 = body_index;
+        ((S_800A75E4_4 *)body)->unk_50 = D_800D0E3C[body_index];
     }
-    ASM_KEEP(saved_part_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_body_index);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_body_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 }

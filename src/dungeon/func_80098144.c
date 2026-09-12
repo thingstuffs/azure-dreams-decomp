@@ -69,11 +69,10 @@ next_cell:
             cell_type = *(u16 *)cell;
             if ((cell_type != 0) && (cell_type != 3)) {
                 register u16 clamped_level ASM_REG("$4");
-                s32 raw_level;
+                s16 raw_level;
 
                 value = (s16) (*(u16 *)(cell + 2) + 0x200) / 64;
                 clamped_level = value;
-                ASM_KEEP_NV(value);
                 raw_level = value;
                 if (raw_level >= 0x10) {
                     clamped_level = 15;

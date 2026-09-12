@@ -1,5 +1,12 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+**2026-09-12 interruption recovery:** T27 stopped at 08:21 UTC. Its 27 changed rows,
+including three unjournalled writes, were recovered and independently checked. T2/T20
+follow-up brings the recovery to 49 pins removed; all changed overlay windows and SLUS
+passed. See [PIN_RECOVERY_20260912.md](PIN_RECOVERY_20260912.md). Preserve useful unjournalled
+source and verify it before deciding to revert. The older sharded launcher is historical;
+the replacement staged controller is being validated in a frozen 60-row comparison.
+
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on
 2026-09-08, the old URL redirects), local `~/azure-clean`, branch `master`.
 Dashboard: served on the LAN by `tools/dashboard_serve.sh` (port 8002; restart it if the box rebooted).
@@ -377,6 +384,15 @@ the SLUS SHA-1 gate MATCH after each phase.
 
 ### Rules learned today
 
+- **`sweep.py` runs its workers as THREADS, so a Python-heavy plugin is GIL-bound.** The first t27
+  run used one core of 24: the sweep at 109% CPU, 2 cc1 children, load 6.5. That gave 66 rows in 34
+  min, which projects to about 14 h. A plugin that spends its time in the scorer or cc1 subprocesses
+  parallelises fine; one that spends it generating menus in Python (t27's beam; t18 with a large
+  menu) does not. Shard it into processes over interleaved id lists, as
+  `t27_shards.sh` does with 12 processes of 2 threads each. `sweep.py` skips a row whose current text
+  is already journalled. It also WRITES a row's file before its (submission-order) journal record, so
+  a killed sweep can leave landed-but-unjournalled files: reconcile and put them back to HEAD before
+  relaunching.
 - **The harvest proves the scorer, never the window.** Pack 2 batch 1 (owner-launched): the lane
   claimed 1 of 8 and the harvest accepted it (`dungeon/func_8185CE28`, 4 pins and an asm clobber
   gone), but its window gate failed — the lane had respelled a `noreturn` jump to the row's own

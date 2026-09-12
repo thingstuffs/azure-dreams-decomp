@@ -40,7 +40,7 @@ void func_800B7428(s32 x, s32 y, u16 *src_tiles)
     s32 signed_width;
     s32 has_columns;
     register s32 origin_x_s16 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 origin_y_s16 ASM_REG("$24");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 origin_y_s16;
     register s32 origin_x ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 origin_y ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 *dst_tile;
@@ -193,8 +193,10 @@ store:
             if (scratch < signed_width) {
                 goto inner;
             }
+            scratch = row + 1;
+        } else {
+            scratch = row + 1;
         }
-        scratch = row + 1;
         row = scratch;
         ASM_KEEP_NV(height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         scratch <<= 16;

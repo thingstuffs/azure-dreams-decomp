@@ -19,11 +19,10 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
     u8 *entries = *(u8 **)(object + 0x7C);
     s16 state;
     register void *context_copy ASM_REG("$4"); /* MATCH: retain retail's unused a2-to-a0 move in the entry branch delay slot. */
-    register void *context_arg ASM_REG("$6") = context; /* MATCH: keep the context_arg argument in a2 until its delay-slot copy. */
 
-    context_copy = context_arg;
+    context_copy = context;
     if (D_800FC418 != 0) {
-        ASM_USE2_NV(context_copy, context_arg);
+        ASM_USE2_NV(context_copy, context);
         *(void **)(object + 0x68) = D_8008BED8;
         return;
     }

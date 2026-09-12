@@ -78,12 +78,10 @@ void func_80089588(void) {
         register s32 strip_top;
         if (alternate_buffer != 0) {
             ASM_SCHED_BARRIER(); /* MATCH: keep the width arms separate so the shared store has a jump. */
-            strip_top = 0xE0;
+            ((S_80089588_1 *)packet)->unk_0E = 0xE0;
         } else {
-            strip_top = 0x1C0;
+            ((S_80089588_1 *)packet)->unk_0E = 0x1C0;
         }
-        ((S_80089588_1 *)packet)->unk_0E = strip_top;
-        ASM_KEEP(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     strip_y = ((S_80089588_1 *)packet)->unk_0E;
     ((S_80089588_1 *)packet)->unk_03 = 5;
@@ -93,7 +91,7 @@ void func_80089588(void) {
     func_8006658C(((S_80089588_2 *)context_slot)->unk_00 + 0x830, packet);
     packet += 0x18;
     {
-        register s32 cmd_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        s32 cmd_value;
         cmd_value = 0x2A000000;
         ((S_80089588_1 *)packet)->unk_04 = cmd_value;
         cmd_value = 1;
@@ -104,15 +102,13 @@ void func_80089588(void) {
         ((S_80089588_1 *)packet)->unk_0C.u = cmd_value;
     }
     {
-        register s32 strip_top ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        s32 strip_top;
         strip_top = saved_alternate;
         if (strip_top != 0) {
-            strip_top = 0xE0;
+            ((S_80089588_1 *)packet)->unk_0E = 0xE0;
         } else {
-            strip_top = 0x1C0;
+            ((S_80089588_1 *)packet)->unk_0E = 0x1C0;
         }
-        ((S_80089588_1 *)packet)->unk_0E = strip_top;
-        ASM_KEEP(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     other_strip_y = ((S_80089588_1 *)packet)->unk_0E;
     ((S_80089588_1 *)packet)->unk_03 = 5;

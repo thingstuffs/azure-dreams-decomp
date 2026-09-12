@@ -31,8 +31,7 @@ void func_80018D14(u8 *object_ref)
 {
     void **global_page;
     u8 *context;
-    register u8 *loaded_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register u32 object_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 object_flags;
     u8 *callbacks;
     TownCall3 callback_168;
     u8 *updated_context;
@@ -50,9 +49,9 @@ void func_80018D14(u8 *object_ref)
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     global_page = (void **)0x80010000;
     context = ((S_80018D14_0 *)global_page)->unk_6000;
-    loaded_state = ((S_80018D14_1 *)context)->unk_38;
-    object_table = loaded_state + 0x2F0;
-    state_base = loaded_state;
+    callbacks = ((S_80018D14_1 *)context)->unk_38;
+    object_table = callbacks + 0x2F0;
+    state_base = callbacks;
     object_flags = object_ref[3];
     ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     slot = object_flags & 0x1F;

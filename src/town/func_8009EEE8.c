@@ -68,24 +68,20 @@ void func_8009C648(u8 *source_data, M2C_UNK spawn_arg) {
     void *source_object;
     s32 random_z;
     S_8009C648_5 *motion;
-    register void *source ASM_REG("$22") = source_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    M2C_UNK spawn_context = spawn_arg;
 
     memcpy(part_indices, D_80088D78, 6);
     part_index = 0;
     velocity_bias = 0xFFFC0000;
     ASM_KEEP(velocity_bias);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     part_params = D_800D06C8;
-    ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(spawn_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    source_object = (u8 *)source - 0x20;
+    source_object = (u8 *)source_data - 0x20;
 spawn_part:
-    part_object = func_8009C390(source_object, spawn_context, ((S_8009C648_0 *)part_params)->unk_00, ((S_8009C648_0 *)part_params)->unk_04);
+    part_object = func_8009C390(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00, ((S_8009C648_0 *)part_params)->unk_04);
     if (part_object != NULL) {
         velocity = ((S_8009C648_1 *)part_object)->unk_08;
         part_data = (u8 *)part_object + 0x20;
         ((S_8009C648_7 *)(((S_8009C648_6 *)part_object)->unk_0C))->unk_08 =
-            ((s32 *)((S_8009C648_2 *)source)->unk_80)[part_indices[part_index]];
+            ((s32 *)((S_8009C648_2 *)source_data)->unk_80)[part_indices[part_index]];
         part_data->unk_60 = part_index;
         velocity->unk_0C = (s32)((rand() * 0x10) + velocity_bias);
         velocity->unk_10 = (s32)((rand() * 0x10) + velocity_bias);
@@ -99,7 +95,7 @@ spawn_part:
             (s32)(motion->unk_04 + (motion->unk_10 * 8));
         func_8009C46C(part_data, motion, ((S_8009C648_1 *)part_object)->unk_0C);
         part_index += 1;
-        source_object = (u8 *)source - 0x20;
+        source_object = (u8 *)source_data - 0x20;
         if (part_index < 6) {
             goto spawn_part;
         }

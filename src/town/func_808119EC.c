@@ -28,7 +28,7 @@ extern void *D_8052671C[];
 void func_808119EC(void) {
     void *object;
     s8 *parent;
-    register s8 *slot ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s8 *slot;
     s8 *primitive;
     register s8 *state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 i;
@@ -141,8 +141,10 @@ switch_done:
                 break;
             }
 #endif
+            i--;
+        } else {
+            i--;
         }
-        i--;
         slot -= 4;
     } while (i >= 0);
     rect[0] = 0x40;

@@ -7,6 +7,7 @@ extern void *D_80089490[];
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
 extern u8 D_800D2644_case1[] __asm__("D_800D2644");
+extern u8 D_80010000[];
 
 /* CheckBuildBuildingLandNo collects eligible land slots for a building and returns their count. */
 s32 CheckBuildBuildingLandNo(s32 entry_id, s8 *slots_out) {
@@ -128,12 +129,9 @@ case_16:
             }
         }
         {
-            u8 *special_base;
             u32 special_entry_id;
 
-            special_base = (u8 *)0x80010000;
-            ASM_KEEP_NV(special_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            special_entry_id = special_base[0x33E7];
+            special_entry_id = D_80010000[0x33E7];
             ASM_KEEP_NV(special_entry_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if (special_entry_id == selected_id) {
                 goto case_default;
