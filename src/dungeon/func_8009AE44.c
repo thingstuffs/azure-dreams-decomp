@@ -125,19 +125,21 @@ start:
             {
                 register u8 *loop_y_table ASM_REG("$2");
                 register s32 loop_offset ASM_REG("$8");
-                register s32 next_x ASM_REG("$4");
+                s32 next_x;
+                s32 next_x2;
+                s32 next_x3;
                 register s32 next_y ASM_REG("$5");
 
                 loop_y_table = (u8 *)D_8006CCE8;
                 next_x = *(u16 *)(u32)offset_or_x_step;
                 loop_offset = *(volatile s32 *)&frame_slots[16];
-                next_x = x + next_x;
-                next_x = (s32)((u32)next_x << 16);
-                ASM_KEEP(next_x);
+                next_x2 = x + next_x;
+                next_x3 = (s32)((u32)next_x2 << 16);
+                ASM_KEEP(next_x3);
                 limit_or_y_step = (s32)(loop_y_table + loop_offset);
                 next_y = *(u16 *)(u32)limit_or_y_step;
                 next_y = y + next_y;
-                if (func_800A0548(next_x >> 16, (s16)next_y) != 0) {
+                if (func_800A0548(next_x3 >> 16, (s16)next_y) != 0) {
                     goto collision_exit;
                 }
             }

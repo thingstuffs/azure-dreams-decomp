@@ -126,8 +126,10 @@ next_shape:
                 u16 width_u16;
                 u16 start_y;
                 u16 end_y;
-                register u8 tex_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                register u8 tex_span ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                u8 tex_coord;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                u8 tex_coord2;
+                u8 tex_coord3;
+                u8 tex_span;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 u32 *ordering_entry;
                 DungeonDrawState *ordering_state;
                 register u32 primitive_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -174,17 +176,17 @@ next_shape:
                 PRIM_U8(primitive, 0x1C) = tex_coord;
                 PRIM_U8(primitive, 0x0C) = tex_coord;
                 tex_span = shape->unk3C;
-                tex_coord = tex_coord + tex_span;
-                PRIM_U8(primitive, 0x24) = tex_coord;
-                PRIM_U8(primitive, 0x14) = tex_coord;
+                tex_coord2 = tex_coord + tex_span;
+                PRIM_U8(primitive, 0x24) = tex_coord2;
+                PRIM_U8(primitive, 0x14) = tex_coord2;
 
-                tex_coord = shape->unk3A;
-                PRIM_U8(primitive, 0x25) = tex_coord;
-                PRIM_U8(primitive, 0x1D) = tex_coord;
+                tex_coord2 = shape->unk3A;
+                PRIM_U8(primitive, 0x25) = tex_coord2;
+                PRIM_U8(primitive, 0x1D) = tex_coord2;
                 tex_span = shape->unk3E;
-                tex_coord = tex_coord + tex_span;
-                PRIM_U8(primitive, 0x15) = tex_coord;
-                PRIM_U8(primitive, 0x0D) = tex_coord;
+                tex_coord3 = tex_coord2 + tex_span;
+                PRIM_U8(primitive, 0x15) = tex_coord3;
+                PRIM_U8(primitive, 0x0D) = tex_coord3;
 
                 ordering_state = *draw_state_p;
                 primitive_tag = PRIM_U32(primitive, 0);
