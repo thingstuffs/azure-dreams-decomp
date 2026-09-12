@@ -102,7 +102,7 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
     s16 previous_direction;
     s32 direction_sector;
     s32 state_direction;
-    register s32 lookup_direction ASM_REG("$21");
+    s16 lookup_direction;
     s16 compare_direction;
     s16 floor_height;
     u16 model_flags;
@@ -160,7 +160,6 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
             if (D_8006CCF8[lookup_direction] != 0) {
                 facing_flags = monster->unk_14 | 1;
             } else {
-                ASM_KEEP(lookup_direction);
                 facing_flags = ((volatile S_func_800D8728_2 *)monster)->unk_14 & 0xFFFE;
             }
             ((volatile S_func_800D8728_2 *)monster)->unk_14 = facing_flags;

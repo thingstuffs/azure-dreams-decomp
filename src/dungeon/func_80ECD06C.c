@@ -101,12 +101,12 @@ extern u8 D_801591A4[];
 extern u8 D_8015C18C[];
 extern u8 D_8015C1CC[];
 
-void *func_8015886C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *func_8015886C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
     register void *work ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s8 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s8 saved_arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg1;
+    s8 saved_arg2;
     void *obj;
     S_8015886C_2 *part_a;
     S_8015886C_3 *part_b;
@@ -120,7 +120,7 @@ void *func_8015886C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_8015886C_7 *elem;
     s32 count;
     register s32 i;
-    register s32 elem_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 elem_offset;
     s32 child_arg;
     u16 flags;
     u16 child_flags;
@@ -197,7 +197,7 @@ call_actor_setup:
             child_obj = func_8003FD64(0x112, D_80083498);
             ((S_8015886C_5 *)current)->unk_A4 = child_obj;
             if (child_obj != 0) {
-                register void *child ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                void *child;
 
                 child = (u8 *)child_obj + 0x20;
 

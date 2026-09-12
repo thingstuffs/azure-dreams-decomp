@@ -356,11 +356,8 @@ emit_flash:
     }
     init_object = particle;
     init_data = D_80045340;
-    ASM_KEEP_NV(init_data);
     F(particle, s16, 0x4A) = 6;
-    ASM_SCHED_BARRIER();
-    bits = (u32)&D_800248B8;
-    F(particle, void *, 0x10) = (void *)bits;
+    F(particle, void *, 0x10) = (void *)((u32)&D_800248B8);
     func_8004491C(init_object, init_data);
     bits = 0x20;
     sprite = F(particle, void *, 0xC);

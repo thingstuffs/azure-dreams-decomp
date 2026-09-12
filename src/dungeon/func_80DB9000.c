@@ -221,7 +221,7 @@ __asm__(".globl func_80170800\n"
 #endif
 
 /* Project sprite entries into textured quads and append visible quads to the ordering table. */
-void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s16 depth_bias_arg) {
+void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_bias_arg) {
     s32 screen_y3;
     register s32 view_rot_z;
     register s32 view_rot_x;
@@ -256,7 +256,7 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s16 depth_b
     register u8 packet_code ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 right_u;
     u8 bottom_v;
-    register u8 blend_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 blend_code;
     void *(*draw_callback)(void *, void *, void *, void *, void *);
     S_80DB9000_8 *entry_uv;
     S_80DB9000_7 *render_data;
@@ -268,7 +268,7 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s16 depth_b
     S_80DB9000_1 *sprite_size = size_arg;
     register S_80DB9000_2 *position = position_arg;
     register S_80DB9000_3 *sprite ASM_REG("$20") = sprite_arg;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s16 depth_bias ASM_REG("$16") = depth_bias_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 depth_bias = depth_bias_arg;
     register u8 *work_src ASM_REG("$4") = (u8 *)0x1F800004;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *work_dst ASM_REG("$5") = (u8 *)0x1F8000F8;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register u8 *work_aux ASM_REG("$6") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
