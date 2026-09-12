@@ -31,18 +31,17 @@ extern s32 D_800C5100;
 
 /* Advances the animation phase and frame index, applying the state-one offset transition. */
 void func_800A3918(S_800A3918_0 *anim, s32 unused) {
-    s16 state;
     s32 phase;
-    register u8 *global_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *global_base;
     s16 offset;
     u16 offset_bits;
 
-    state = anim->unk_02;
-    if (state == 0) {
+    offset = anim->unk_02;
+    if (offset == 0) {
         goto state_zero;
     }
     global_base = (u8 *)0x80100000;
-    if (state == 1) {
+    if (offset == 1) {
         goto state_one;
     }
     goto finish;

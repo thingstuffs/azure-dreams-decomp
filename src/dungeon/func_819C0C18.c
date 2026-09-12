@@ -148,7 +148,7 @@ case_0:
 case_1:
     {
         u16 timer = effect->unk_28.u;
-        register GlobalObj *owner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        GlobalObj *owner;
         Position *position;
         OffsetPair *offset_base;
         u16 next_state;
@@ -161,9 +161,8 @@ case_1:
             effect->unk_1C.s = 0x21;
             owner->unkA6 = owner->unkA6 - 1;
             owner->unkA8 = effect->unk_08;
-            owner = D_800814A8[0];
             next_state = effect->unk_0A.u;
-            direction = owner->unk2A;
+            direction = D_800814A8[0]->unk2A;
             effect->unk_0A.u = next_state + 1;
             effect->unk_28.u = 0;
             effect->unk_24 = (direction >> 9) & 7;

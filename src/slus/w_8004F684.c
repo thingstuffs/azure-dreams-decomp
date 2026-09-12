@@ -44,7 +44,7 @@ void func_8004F684(S_8004F684 *state)
     s32 offset2;
     s32 offset3;
     s32 target_value;
-    register void *entry_or_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    void *entry_or_target;
     S_8004F684_Obj *obj;
 
     settings = state;
@@ -60,11 +60,10 @@ void func_8004F684(S_8004F684 *state)
             offset = (value_delta * scaled_weight) / settings->divisor;
             entry_or_target = entry_slot[1];
             obj = ((S_8004F684_Entry *)entry_or_target)->obj;
-            entry_or_target = obj->target;
             target_value = start_value * 30;
             offset2 = offset + 0x200;
             target_value = target_value + offset2;
-            ((S_8004F684_Target *)entry_or_target)->field_C = (s16)target_value;
+            ((S_8004F684_Target *)obj->target)->field_C = (s16)target_value;
 
             scaled_weight = settings->multiplier * 12;
             offset2 = (value_delta * scaled_weight) / settings->divisor;

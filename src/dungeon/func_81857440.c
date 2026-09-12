@@ -119,7 +119,7 @@ animate:
         point_index++;
     } while (point_index < 5);
     {
-        register s32 update_value ASM_REG("$3");
+        s32 update_value;
         s32 timer_bits;
         jitter_coord = entity->timer48;
         update_value = (u16)entity->delta44;
@@ -129,9 +129,8 @@ animate:
         timer_bits = entity->timer48;
         update_value -= jitter_coord;
         entity->delta44 = update_value;
-        update_value = entity->timer48;
         entity->field38 = ((timer_bits & 3) << 5) + 0x80;
-        entity->field3A = ((s16)update_value >> 2) << 5;
+        entity->field3A = ((s16)entity->timer48 >> 2) << 5;
         if ((s16)entity->timer48 >= 8) {
             entity->value34 = 0;
             state = (u16)entity->state4A + 1;

@@ -210,7 +210,6 @@ void *func_800277F4(void *first, void *second, void *destination) {
     u8 *other_data;
     M2C_UNK map_mask;
     s16 result_primary;
-    register s32 donor_match ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 donor_primary;
     s16 result_match;
     s16 other_match;
@@ -222,7 +221,6 @@ void *func_800277F4(void *first, void *second, void *destination) {
     register s32 donor_traits ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 donor_trait_bits;
     s32 ability_offset;
-    s32 element_flags;
     s32 clear_shifted;
     s32 clear_slot;
     s32 ability_index;
@@ -233,7 +231,6 @@ void *func_800277F4(void *first, void *second, void *destination) {
     s32 owner_action;
     s32 scan_index;
     register s32 clear_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 owner_mark;
     u8 *ability_data;
     u8 *slot_addr;
     register u8 *slot_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -296,13 +293,12 @@ select_donor:
         clear_result_seen = merge_buffer;
         clear_donor_seen = donor_seen;
         element_mask = merged_element;
-        element_flags = ((S_800277F4_0 *)result)->unk_14.n & ~7;
-        ((S_800277F4_0 *)result)->unk_14.v = element_flags;
-        element_flags |= element_mask;
-        ((S_800277F4_0 *)result)->unk_14.n = element_flags;
+        clear_shifted = ((S_800277F4_0 *)result)->unk_14.n & ~7;
+        ((S_800277F4_0 *)result)->unk_14.v = clear_shifted;
+        clear_shifted |= element_mask;
+        ((S_800277F4_0 *)result)->unk_14.n = clear_shifted;
         do {
             clear_shifted = clear_index << 0x10;
-            ASM_KEEP_NV(clear_shifted);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             next_clear = clear_index - 1;
             clear_index = next_clear;
             clear_slot = clear_shifted >> 0x10;
@@ -329,11 +325,10 @@ select_donor:
             }
 #endif
             result_primary_data = result + (result_primary * 3);
-            donor_match = (s16) func_800A57B4(donor, ((S_800277F4_2 *)result_primary_data)->unk_08);
-            ASM_KEEP_NV(donor_match);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            if (donor_match >= 0) {
-                donor_seen[donor_match] = (u8) seen_mark;
-                donor_ability = donor + (donor_match * 3);
+            element_mask = (s16) func_800A57B4(donor, ((S_800277F4_2 *)result_primary_data)->unk_08);
+            if (element_mask >= 0) {
+                donor_seen[element_mask] = (u8) seen_mark;
+                donor_ability = donor + (element_mask * 3);
                 if ((u8) ((S_800277F4_2 *)result_primary_data)->unk_0A < (u8) ((S_800277F4_3 *)donor_ability)->unk_0A) {
                     primary_output = merged_abilities + (ability_count * 3);
                     ((S_800277F4_4 *)primary_output)->unk_00 = ((S_800277F4_3 *)donor_ability)->unk_08;
@@ -502,9 +497,9 @@ copy_source_ability:
                 }
                 {
                     s32 fallback_index = scan_index >> 1;
-                    register s32 fallback_twice ASM_REG("$2") = fallback_index * 2;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    s32 fallback_twice = fallback_index * 2;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     s32 fallback_offset = fallback_twice + fallback_index;
-                    register u8 *fallback_source ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    u8 *fallback_source;
                     u8 *second_source;
 
                     fallback_source = clear_result_seen + fallback_offset;
@@ -515,9 +510,8 @@ copy_source_ability:
                         second_source = result;
                     }
 
-                    fallback_source = second_source + fallback_offset;
 
-                    ((S_800277F4_13 *)fallback_output)->unk_02 = ((S_800277F4_14 *)fallback_source)->unk_0A;
+                    ((S_800277F4_13 *)fallback_output)->unk_02 = ((S_800277F4_14 *)(second_source + fallback_offset))->unk_0A;
                 }
 finish_ability:
                 merged_entry = merge_out + (ability_count * 3);
@@ -630,9 +624,8 @@ store_ability:
                 owner_action = 1;
 
                 ((S_800277F4_0 *)result)->unk_43 = donor_owner;
-                owner_mark = owner_action;
-                ASM_KEEP_NV(owner_mark);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                ((S_800277F4_0 *)result)->unk_44 = (s8) owner_mark;
+                slot_index = owner_action;
+                ((S_800277F4_0 *)result)->unk_44 = (s8) slot_index;
             }
         }
         if (destination == NULL) {

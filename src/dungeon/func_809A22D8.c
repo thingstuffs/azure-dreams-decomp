@@ -24,7 +24,7 @@ void func_80173AD8(void *action, void *motion, void *actor, void *source) {
     s32 x_rounding;
     s32 z_rounding;
     s32 tile_coord;
-    register s32 center_offset ASM_REG("$3");
+    s32 center_offset;
     s32 *entity_refs;
     s16 motion_frames;
     s32 align_frames;
@@ -116,8 +116,7 @@ align_motion:
         FIELD_S32(motion, 0xC) = (((tile_coord << 6) - (center_offset -= 0x20)) << 15) /
                                align_frames;
         center_offset = FIELD_S16(motion, 6) - 0x20;
-        tile_coord = FIELD_U8(actor, 0x25);
-        FIELD_S32(motion, 0x10) = (((tile_coord << 6) - center_offset) << 15) /
+        FIELD_S32(motion, 0x10) = ((((FIELD_U8(actor, 0x25)) << 6) - center_offset) << 15) /
                                 FIELD_S16(action, 0x96);
     }
     next_frames = (u16)FIELD_S16(action, 0x96) - 1;

@@ -297,6 +297,7 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
     s32 depth_offset;
     u16 object_flags;
     MATRIX matrix;
+    u16 render_flags;
 
     ot_base = *(u8 **)(D_80083150 + 0x10);
     ASM_KEEP_MEMDEP(ot_base, barrier_scratch, *(u8 **)(D_80083150 + 0x10));   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -339,7 +340,6 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
     if (mesh->unk_4E != 0) {
         S_func_8187A9A8_6 *packet;
         s32 ot_index;
-        u16 render_flags;
         u8 texture_flags;
         s32 texture_adjust;
         S_func_8187A9A8_5 *render_state;
@@ -452,7 +452,6 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
                 object->unk_0C.as_u8_0F.unk_0F = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
-            ASM_KEEP(render_flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             packet->unk_04.as_u32_04 = object->unk_0C.as_u32_0C;
             packet->unk_00.as_u32_00 = (packet->unk_00.as_u32_00 & tag_mask) |
@@ -472,7 +471,6 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
         s32 coord_b;
         s32 end_z_a;
         s32 end_z_b;
-        u16 render_flags;
         u8 *vertex_a;
         u8 *vertex_b;
         u8 *vertex_c;

@@ -169,8 +169,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         s32 raw_y;
         register s32 call_value ASM_REG("$4");
         void *call_segment;
-        register s16 *call_scratch ASM_REG("$6");
-        register s32 call_previous ASM_REG("$7");
+        s16 *call_scratch;
+        s32 call_previous;
         s32 scaled_coord;
         s32 end_x;
         saved_angle = start_angle;
@@ -180,6 +180,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         coord = func_800644B8(angle) * 6 - offset_y;
 
         for (;;) {
+            s32 end_y;
             saved_angle = start_angle;
             next_angle = saved_angle - 0x80;
             ASM_KEEP(next_angle);

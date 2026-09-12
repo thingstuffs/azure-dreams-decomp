@@ -334,7 +334,7 @@ spawn_effects:
                 register s32 tile_distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 compare_one;
                 u8 *motion;
-                register s32 z_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 z_step;
                 s32 other_z;
 
                 ((S_818154FC_7 *)work)->unk_08 = 1;
@@ -371,8 +371,7 @@ spawn_effects:
                     }
                     goto configure_effect;
                 }
-                z_step = position->unk_14;
-                ((S_818154FC_7 *)work)->unk_60 = z_step;
+                ((S_818154FC_7 *)work)->unk_60 = position->unk_14;
                 func_8002512C();
             } else {
                 ((S_818154FC_7 *)work)->unk_02.s = 8;

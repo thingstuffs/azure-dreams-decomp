@@ -162,8 +162,7 @@ L_B9A8:
                 if (entry->b0 != 0) {
                     if (p3[0x27] != (s16)mod) {
                         zero = 0;
-                        dir = p4[0x67];
-                        switch (dir) {
+                        switch (p4[0x67]) {
                         case 0:
                             tail = *(s16 *)&entry->b2 < 2;
                             break;
@@ -244,7 +243,6 @@ L_BB24: {
             masked = p3[0x24];
             zero = *(u16 *)bit_next;
             call_a2 = *(u16 *)(p4 + 0x88);
-            ASM_KEEP4_NV(masked, zero, call_a2, bit_next);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             masked <<= 6;
             zero += masked;
             zero &= 0xFFFF;

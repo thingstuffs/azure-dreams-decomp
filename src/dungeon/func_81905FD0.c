@@ -365,7 +365,7 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
             if (target != 0) {
                 register S_func_81905FD0_2 *target_motion ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 S_func_81905FD0_3 *owner_info;
-                register s32 tile_distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 tile_distance;
 
                 s32 target_height;
 
@@ -379,17 +379,16 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
                 effect->unk_BB = owner_info->unk_25 +
                     D_8006CCE8[effect->unk_7E.s16 * 2];
                 {
-                    s32 owner_tile;
                     s32 target_tile;
 
-                    owner_tile = owner->unk_72;
+                    random_bits = owner->unk_72;
                     target_tile = owner_info->unk_24;
-                    if (owner_tile == target_tile) {
-                        owner_tile = owner->unk_73;
+                    if (random_bits == target_tile) {
+                        random_bits = owner->unk_73;
                         target_tile = owner_info->unk_25;
-                        tile_distance = owner_tile - target_tile;
+                        tile_distance = random_bits - target_tile;
                     } else {
-                        tile_distance = owner_tile - target_tile;
+                        tile_distance = random_bits - target_tile;
                     }
                 }
                 if (tile_distance < 0) {
@@ -570,16 +569,14 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
                 rect_value = 340;
                 ((S_func_81905FD0_8 *)scratch)->unk_0A = rect_value;
                 rect_value = 96;
-                ASM_SET(rect_height);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 rect_height = 84;
-                ASM_SET(dest_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 dest_x = 880;
                 ((S_func_81905FD0_8 *)scratch)->unk_0C = rect_value;
-                rect_value = 410;
                 ((S_func_81905FD0_8 *)scratch)->unk_08 = rect_x;
                 ((S_func_81905FD0_8 *)scratch)->unk_0E = rect_height;
                 ((S_func_81905FD0_8 *)scratch)->unk_10 = dest_x;
-                ((S_func_81905FD0_8 *)scratch)->unk_12 = rect_value;
+                ((S_func_81905FD0_8 *)scratch)->unk_12 = 410;
                 func_800B8FC8(owner->unk_60, rect_arg,
                               dest_arg, 1, frame);
                 rect_arg = tex_rect;
@@ -606,9 +603,9 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
             register S_func_81905FD0_5 *upper_effect ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             S_func_81905FD0_5 *lower_effect;
             S_func_81905FD0_5 *ring_effect;
-            register S_func_81905FD0_5 *control_effect ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            S_func_81905FD0_5 *control_effect;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             S_func_81905FD0_7 *child_data;
-            register S_func_81905FD0_3 *child_render ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            S_func_81905FD0_3 *child_render;
             S_func_81905FD0_2 *child_motion;
 
             upper_effect = func_8003FC64(0x212);
@@ -809,7 +806,6 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
                 child_render->unk_0C.u8 = 128;
                 *(Copy12 *)((u8 *)control_effect + 0x40) = *(Copy12 *)D_80026760;
                 child_render->unk_08 = (u8 *)control_effect + 0x40;
-                ASM_KEEP(control_effect);
             }
             if (effect->unk_82.s16 == 4) {
                 effect->unk_0A.u16 = 4;

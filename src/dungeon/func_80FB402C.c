@@ -224,7 +224,7 @@ state_two:
         void *effect;
         u8 *effect_state;
         void *check_actor;
-        register u16 facing ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        u16 facing;
 
         if (((S_8017382C_0 *)action)->unk_AC.u == 0) {
             record_index = 0;
@@ -364,6 +364,7 @@ second_call:
         effect = func_8003FD64(0x10, D_80083498);
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
+            u16 facing;
             ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
             ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
             facing = ((S_8017382C_0 *)action)->unk_AC.s;

@@ -54,7 +54,7 @@ void func_80172458(void *action, void *motion, void *map_entry, void *actor) {
     u8 *reference_map_entry;
     s32 move_value;
     s32 flags_mask;
-    register s32 move_operand ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 move_operand;
     u16 timer_or_flags;
     s32 phase;
 
@@ -132,8 +132,7 @@ height_frame_ge5:
         if (height_frame != 6) {
             goto clear_height;
         }
-        move_operand = (((S_80172458_0 *)action)->unk_A6 - (s16) ((S_80172458_0 *)action)->unk_A8) << 0x10;
-        ((S_80172458_0 *)action)->unk_90 = (s32) (0xFFFE0000 - move_operand);
+        ((S_80172458_0 *)action)->unk_90 = (s32) (0xFFFE0000 - ((((S_80172458_0 *)action)->unk_A6 - (s16) ((S_80172458_0 *)action)->unk_A8) << 0x10));
         flags_mask |= 0xFFFF;
         ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & flags_mask);
         goto advance_movement;

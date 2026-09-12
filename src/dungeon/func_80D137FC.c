@@ -138,7 +138,7 @@ void func_80172FFC(void *action, void *motion, void *sprite, void *actor) {
     s32 effect_depth;
     s32 random_value;
     s32 velocity_base;
-    register s32 vertical_speed ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 vertical_speed;
     u16 effect_tick;
     u16 wait_tick;
     u16 spawn_tick;
@@ -274,9 +274,8 @@ emit:
                 velocity_base += (random_value & 0x3FFF) << 4;
                 ((S_80172FFC_7 *)effect_motion)->unk_10 = velocity_base;
                 random_value = rand();
-                velocity_base = 0xFFF80000;
                 vertical_speed = ((S_80172FFC_7 *)effect_motion)->unk_14;
-                vertical_speed += velocity_base;
+                vertical_speed += 0xFFF80000;
                 vertical_speed += (random_value & 0x3FFF) << 6;
                 ((S_80172FFC_7 *)effect_motion)->unk_14 = vertical_speed;
                 position[0] = ((S_80172FFC_7 *)effect_motion)->unk_02;

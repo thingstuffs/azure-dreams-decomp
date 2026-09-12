@@ -233,6 +233,7 @@ void func_818FA12C(void *effect, void *motion, void *volatile render_data)
     s32 state;
 
     Copy24 *velocity_table;
+    u8 *impact;
     velocity_table = &D_80024014;
     ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     parent = (*(u8 * *)((u8 *)self + 0));
@@ -382,7 +383,6 @@ void func_818FA12C(void *effect, void *motion, void *volatile render_data)
             register s32 angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             s16 pulse_ticks;
             s32 shrinking;
-            register u8 *impact ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register u8 *flash ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 *flash_data;
             register u8 *impact_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -555,7 +555,6 @@ update_position:
     case 3:
         {
             s16 ticks;
-            u8 *flash;
             register u8 *flash_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             u8 *flash_data;
             register s32 *flash_pos ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -568,9 +567,9 @@ update_position:
             if ((s16)ticks != 4) {
                 goto done;
             }
-            flash = func_8003FC64(0x212);
-            if (flash != 0) {
-                flash_state = flash + 0x20;
+            impact = func_8003FC64(0x212);
+            if (impact != 0) {
+                flash_state = impact + 0x20;
                 clear_index = 95;
                 (*(void * *)((u8 *)flash_state + 0x28)) = parent;
                 (*(void * *)((u8 *)flash_state + 0x2C)) = ((S_818FA12C_2 *)parent)->unk_60.p2;
@@ -581,19 +580,19 @@ update_position:
                     clear_cursor--;
                 }
                 (*(u16 *)((u8 *)flash_state + 0x9A)) = 0;
-                (*(u32 *)((u8 *)flash + 0x10)) = (u32)D_80025648;
-                func_8004491C(flash, D_80045340);
-                flash_data = (*(u8 * *)((u8 *)flash + 0x0C));
+                (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_80025648;
+                func_8004491C(impact, D_80045340);
+                flash_data = (*(u8 * *)((u8 *)impact + 0x0C));
                 render_flags = ((S_818FA12C_8 *)flash_data)->unk_14 & 0xFFF3;
                 ((S_818FA12C_8 *)flash_data)->unk_14 = render_flags;
                 ((S_818FA12C_8 *)flash_data)->unk_10.u = 0x20;
                 ((S_818FA12C_8 *)flash_data)->unk_14 = render_flags | 0x80;
                 target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
-                flash_pos = (*(s32 * *)((u8 *)flash + 8));
+                flash_pos = (*(s32 * *)((u8 *)impact + 8));
                 flash_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v;
                 flash_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v;
                 flash_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v;
-                flash_data = (*(u8 * *)((u8 *)flash + 0x0C));
+                flash_data = (*(u8 * *)((u8 *)impact + 0x0C));
                 ((S_818FA12C_8 *)flash_data)->unk_1E = 0x1000;
                 ((S_818FA12C_8 *)flash_data)->unk_1C = 0x1000;
                 ((S_818FA12C_8 *)flash_data)->unk_0E = 0x80;

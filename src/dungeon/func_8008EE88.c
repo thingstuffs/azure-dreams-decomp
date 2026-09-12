@@ -95,9 +95,7 @@ void func_800945E8(void *input_state) {
                     }
                     ASM_KEEP(record_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);
-                    record_offset = record_index * 0x8C;
-                    ASM_KEEP_NV(record_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    *record_slot = (s32)(record_offset + (unsigned long)record_buffer);
+                    *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);
                 }
             }
             ASM_KEEP(slot_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

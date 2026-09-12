@@ -91,7 +91,7 @@ void func_81934928(void *effect, void *output)
     register void *self ASM_REG("$18") = effect;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *output_data ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *search_origin ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *search_origin;
     void *target;
     void *saved_origin;
     register void *tail_origin ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
@@ -103,7 +103,6 @@ void func_81934928(void *effect, void *output)
     s32 random_value;
     s32 value;
     s16 countdown;
-    void *particle_data;
 
     state = ((S_81934928_0 *)self)->unk_0A.s;
     owner = ((S_81934928_0 *)self)->unk_00;
@@ -173,7 +172,7 @@ main_state:
             if (particle != NULL) {
                 ((S_81934928_2 *)particle)->unk_10 = D_8002445C;
                 func_8004491C(particle, D_80024740);
-                particle_data = (u8 *)particle + 0x20;
+                search_origin = (u8 *)particle + 0x20;
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
@@ -183,8 +182,8 @@ main_state:
                 if (value < 0) {
                     value = 0;
                 }
-                ((S_81934928_3 *)particle_data)->unk_0C = value;
-                ((S_81934928_3 *)particle_data)->unk_1E = value;
+                ((S_81934928_3 *)search_origin)->unk_0C = value;
+                ((S_81934928_3 *)search_origin)->unk_1E = value;
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
@@ -194,12 +193,12 @@ main_state:
                 if (value < 0) {
                     value = 0;
                 }
-                ((S_81934928_3 *)particle_data)->unk_0E = value;
-                ((S_81934928_3 *)particle_data)->unk_22 = value;
+                ((S_81934928_3 *)search_origin)->unk_0E = value;
+                ((S_81934928_3 *)search_origin)->unk_22 = value;
 
                 value = ((S_81934928_0 *)self)->unk_14 - 0x100;
-                ((S_81934928_3 *)particle_data)->unk_10 = value;
-                ((S_81934928_3 *)particle_data)->unk_26 = value;
+                ((S_81934928_3 *)search_origin)->unk_10 = value;
+                ((S_81934928_3 *)search_origin)->unk_26 = value;
                 ((S_81934928_2 *)particle)->unk_20 = self;
             }
             spawn_index--;

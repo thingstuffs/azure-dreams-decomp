@@ -265,6 +265,7 @@ void func_80024BE8(void *effect_data, void *motion_data, void *sprite_data) {
     void *sprite = sprite_data;
     register void *source ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
     s32 state;
+    void *target_graphics;
 
     source = ((S_80024BE8_0 *)effect)->unk_00;
     velocity_table = D_80024004;
@@ -298,12 +299,12 @@ state_0:
             register void *source_graphics ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             register u8 *direction_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
             u8 *direction_entry;
-            register s32 default_steps ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            s32 default_steps;
             s32 tile_distance;
             s32 tile_offset;
             s32 tile_coord;
             s32 source_coord;
-            register s32 direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            s32 direction;
             register s32 target_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
             u16 prev_state;
             u16 source_flags;
@@ -361,8 +362,7 @@ state_0:
                         target_coord = tile_coord + tile_offset;
                         ((S_80024BE8_0 *)effect)->unk_A2 = target_coord;
                         direction_table = D_8006CCE8;
-                        direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
-                        direction_entry = direction_table + direction * 2;
+                        direction_entry = direction_table + ((S_80024BE8_0 *)effect)->unk_7E.s * 2;
                         tile_coord = ((S_80024BE8_8 *)source_graphics)->unk_25;
                         tile_offset = *direction_entry;
                         target_coord = tile_coord + tile_offset;
@@ -381,6 +381,7 @@ state_0:
                         tile_distance -= 1;
                         ((S_80024BE8_0 *)effect)->unk_7B = tile_distance;
                     } else {
+                        u16 target_height;
                         target_height = ((S_80024BE8_3 *)source)->unk_88;
                         ((S_80024BE8_0 *)effect)->unk_7B = default_steps;
                         ((S_80024BE8_0 *)effect)->unk_78.u = target_height - 0x50;
@@ -403,7 +404,6 @@ state_0:
 
 state_1:
     {
-        void *target_graphics;
         void *target_position;
         void *animation;
         void *impact;
@@ -549,7 +549,6 @@ state_2:
 
 state_3:
     {
-        register void *target_graphics ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 color_step;
         u16 prev_state;
 

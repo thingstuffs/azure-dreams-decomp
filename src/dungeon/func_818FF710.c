@@ -629,8 +629,7 @@ update_hit:
     rect_end = &texture_rect.half[4];
     texture_end = rect_end;
     ASM_SET(rect_left);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_SET(rect_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_SET(rect_right);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     rect_left = 0x340;
     rect_value = 0x154;
     texture_rect.half[1] = (s16) rect_value;
@@ -641,8 +640,7 @@ update_hit:
     texture_rect.half[0] = (s16) rect_left;
     texture_rect.half[3] = (s16) rect_height;
     texture_rect.half[4] = (s16) rect_right;
-    rect_value = 0x19A;
-    texture_rect.half[5] = (s16) rect_value;
+    texture_rect.half[5] = (s16) 0x19A;
     func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
     texture_start = rect_start;
     texture_end = rect_end;

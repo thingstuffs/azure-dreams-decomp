@@ -136,15 +136,14 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             work->cur_y = target_pos[1];
             if (work->mode != 2) {
                 u8 *height_base;
-                register Entity *entity ASM_REG("$4");
+                Entity *entity;
                 register u8 *height_addr ASM_REG("$3");
                 s32 target_height;
                 height_base = (u8 *)work->node;
                 entity = ((Node *)height_base)->entity;
-                height_base = (u8 *)&D_800DDC40;
                 height_addr = (u8 *)(u32)entity->kind;
                 target_height = entity->height;
-                height_addr += (u32)height_base;
+                height_addr += (u32)((u8 *)&D_800DDC40);
                 ASM_KEEP_NV(height_addr);
                 height_base = (u8 *)(u32)*height_addr;
                 target_height -= (s32)(u32)height_base;

@@ -107,7 +107,6 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
 
     {
         s32 lower_growth;
-        s32 upper_growth;
         s32 upper_stat;
         s32 stat_value;
         register s32 growth_product ASM_REG("$16");
@@ -121,13 +120,12 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         if (lower_growth < 0) {
             lower_growth += 0x3FF;
         }
-        upper_growth = growth_product * level;
+        stat_value = growth_product * level;
         lower_stat = initial_stats[4] + (lower_growth >> 0xA);
-        if (upper_growth < 0) {
-            upper_growth += 0x3FF;
+        if (stat_value < 0) {
+            stat_value += 0x3FF;
         }
-        ASM_KEEP_NV(lower_stat);
-        upper_stat = initial_stats[4] + (upper_growth >> 0xA);
+        upper_stat = initial_stats[4] + (stat_value >> 0xA);
         stat_value = entity[4] + (lower_stat - upper_stat);
         if (stat_value == 0) {
             stat_value = 1;
@@ -183,7 +181,6 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         if (upper_growth < 0) {
             upper_growth += 0x3F;
         }
-        ASM_KEEP_NV(lower_stat);
         upper_stat = base_stat + (upper_growth >> 6);
         stat_value += lower_stat - upper_stat;
         if (stat_value == 0) {
@@ -204,7 +201,6 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         if (upper_growth < 0) {
             upper_growth += 0x3F;
         }
-        ASM_KEEP_NV(lower_stat);
         upper_stat = base_stat + (upper_growth >> 6);
         stat_value += lower_stat - upper_stat;
         if (stat_value == 0) {
@@ -225,7 +221,6 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         if (upper_growth < 0) {
             upper_growth += 0x3FF;
         }
-        ASM_KEEP_NV(lower_stat);
         upper_stat = base_stat + (upper_growth >> 0xA);
         stat_value += lower_stat - upper_stat;
         if (stat_value == 0) {

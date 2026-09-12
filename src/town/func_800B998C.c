@@ -33,7 +33,6 @@ extern u8 D_8014F004[];
 void func_800B70EC(void) {
     register s32 scene_id ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 special_scene;
-    register s32 below_extra_range ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 scene_index;
     s32 scene_offset;
     s32 single_row;
@@ -88,8 +87,8 @@ void func_800B70EC(void) {
         if ((s32)scene_id >= 0x29) {
             goto common;
         }
-        below_extra_range = (s32)scene_id < 0x26;
-        if (below_extra_range) {
+        scene_offset = (s32)scene_id < 0x26;
+        if (scene_offset) {
             goto common;
         }
         D_80111FA8[0] = 0x330;
@@ -118,7 +117,6 @@ common:
     scene_index = D_800D381A[0];
     scene_offset = scene_index << 5;
     scene_entry = size + scene_offset;
-    ASM_KEEP(scene_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(scene_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     scene_id = *scene_entry;
     if (scene_id != 0x29) {

@@ -15,8 +15,8 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     s32 packed_x;
     s32 probe_x;
     s32 distance;
-    register s32 shifted_x ASM_REG("$2");
-    register s32 shifted_y ASM_REG("$2");
+    s32 shifted_x;
+    s32 shifted_y;
     s32 inner_x;
     s32 inner_y;
     s32 outer_x;
@@ -130,12 +130,9 @@ next_inner:
     }
 
     outer_count = 0;
-    shifted_x = base_x << 0x10;
-    outer_x = shifted_x >> 0x10;
-    ASM_KEEP(outer_x);
+    outer_x = (base_x << 0x10) >> 0x10;
     dir_seed = D_8008347E[0];
-    shifted_y = base_y << 0x10;
-    probe_x = shifted_y >> 0x10;
+    probe_x = (base_y << 0x10) >> 0x10;
     outer_dir = dir_seed & 0xF;
 scan_outer:
     probe_dir = zero;

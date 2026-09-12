@@ -45,7 +45,6 @@ void func_8009D3B0(void) {
     UA64 map_params;
     s16 neighbor_x;
     register s32 x_limit ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 x_limit_shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 next_coord;
     s32 tile_value;
     s16 x;
@@ -96,8 +95,8 @@ void func_8009D3B0(void) {
         y_end = y_limit;
         if ((tile_index_or_level << 0x10) < (y_limit << 0x10)) {
             x_end_or_neighbor = tile_value;
-            x_limit_shifted = tile_value << 0x10;
-            x_limit = x_limit_shifted >> 0x10;
+            map_index = tile_value << 0x10;
+            x_limit = map_index >> 0x10;
             grid = D_800EA000;
             map = D_800E50A8;
 scan_row:

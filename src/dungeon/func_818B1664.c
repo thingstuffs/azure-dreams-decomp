@@ -150,7 +150,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     Effect **effect_shrink;
     register Effect **effect_cleanup ASM_REG("$5");
     s32 index;
-    register s32 child_delta ASM_REG("$2");
+    s32 child_delta;
     register s32 motion_coord ASM_REG("$3");
     s32 next_state;
     s32 angle;
@@ -329,6 +329,7 @@ case_0:
         motion->dy.half.hi =
             (child_motion->y.half.hi - motion->y.half.hi) / state->duration;
         if (entity->child->flags & 0x40000) {
+            s32 child_delta;
             motion_coord = motion->z.half.hi;
             child_delta = child_motion->z.half.hi;
             motion_coord -= 16;

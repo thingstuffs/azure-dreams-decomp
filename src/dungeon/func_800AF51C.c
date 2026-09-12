@@ -98,7 +98,7 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     register void *text_storage ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_800B4C7C_0 *source_object;
     S_800B4C7C_2 *source_position;
-    register void *anchor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *anchor;
 
     text_stack.arg3 = callback_mode;
     new_object = func_8003FD64(0x212, D_80083498);
@@ -123,10 +123,9 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
         anchor_y = ((S_800B4C7C_4 *)anchor)->unk_06;
         space = 0x20;
         position->unk_06 = anchor_y;
-        anchor = ((S_800B4C7C_1 *)state)->unk_14;
         text_style = flags & 0xF;
         ((S_800B4C7C_1 *)state)->unk_1A = anchor_y;
-        anchor_z = ((S_800B4C7C_4 *)anchor)->unk_0A;
+        anchor_z = ((S_800B4C7C_4 *)((S_800B4C7C_1 *)state)->unk_14)->unk_0A;
         number_style = text_style;
         position->unk_0A = anchor_z;
         ((S_800B4C7C_1 *)state)->unk_1C = anchor_z;

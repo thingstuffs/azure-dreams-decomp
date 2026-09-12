@@ -46,7 +46,6 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
   u32 low_mask = 0x00FFFFFF;
   u8 *state = *((u8 **) D_80083160);
   u8 *initial_current;
-  u16 first_coord;
   u16 second_coord;
   u16 third_coord;
   register u8 *entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -66,13 +65,12 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
   active = scratch;
   ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   call_arg = active;
-  ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+     /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   out90 = &active->unk90;
-  first_coord = input->unk2;
-  ASM_KEEP(first_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  second_coord = input->unk2;
   entry = *((u8 * volatile *) (&active->current));
   out94 = &active->unk94;
-  active->unk0 = first_coord;
+  active->unk0 = second_coord;
   second_coord = input->unk6;
   entry_arg = entry + 8;
   active->unk2 = second_coord;

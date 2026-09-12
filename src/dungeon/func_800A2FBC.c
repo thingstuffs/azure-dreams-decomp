@@ -340,7 +340,8 @@ load_world_page:
 check_completion:
             if (((S_800A871C_22 *)(((S_800A871C_15 *)world_page)->unk_3D7C))->unk_124 == 0) {
                 void *finished_object = object_data;
-                register s8 *flags_page ASM_REG("$3") = DUNGEON_FLAGS_PAGE;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                s8 *flags_page = DUNGEON_FLAGS_PAGE;
+                s32 dungeon_flags;
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
                 dungeon_flags = ((S_800A871C_16 *)flags_page)->unk_14A0;
                 dungeon_flags |= 0x8000;

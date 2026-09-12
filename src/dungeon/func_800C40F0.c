@@ -35,11 +35,10 @@ void *func_800C9850(u8 tile_x, u8 tile_z, u16 height) {
     register u8 saved_tile_z ASM_REG("$21") = tile_z;
     void *entity;
     void *state;
-    void *position;
     void *sprite;
     u8 *camera;
-    register void *state_tail ASM_REG("$16");
-    register s32 direction_entry ASM_REG("$2");
+    void *state_tail;
+    s32 direction_entry;
     register u8 *result_page ASM_REG("$2");
     register D80089430_t *result_base ASM_REG("$6");
     register s32 result_word0 ASM_REG("$3");
@@ -58,15 +57,15 @@ void *func_800C9850(u8 tile_x, u8 tile_z, u16 height) {
         state = (u8 *)entity + 0x20;
         FLD(entity, void *, 0x10) = &D_800C9AAC;
         FLD(state, s8, 0x13) = 0x2f;
-        position = FLD(entity, void *, 8);
-        FLD(position, u16, 0xA) = saved_height;
+        state_tail = FLD(entity, void *, 8);
+        FLD(state_tail, u16, 0xA) = saved_height;
         sprite = FLD(entity, void *, 0xC);
         FLD(sprite, u8, 0x24) = saved_tile_x;
         FLD(sprite, u8, 0x25) = saved_tile_z;
         FLD(sprite, u8, 0x26) = func_8009FB34(FLD(sprite, u8, 0x24), FLD(sprite, u8, 0x25));
-        func_800A2B04(position, FLD(sprite, u8, 0x24), FLD(sprite, u8, 0x25));
+        func_800A2B04(state_tail, FLD(sprite, u8, 0x24), FLD(sprite, u8, 0x25));
         FLD(state, s16, 0x88) =
-            func_800BCB04(FLD(position, u16, 2), FLD(position, u16, 6), (s16)(FLD(position, u16, 0xA) - 0x20));
+            func_800BCB04(FLD(state_tail, u16, 2), FLD(state_tail, u16, 6), (s16)(FLD(state_tail, u16, 0xA) - 0x20));
         FLD(sprite, s16, 0x1E) = 0x1000;
         FLD(sprite, s16, 0x1C) = 0x1000;
         FLD(sprite, s32, 0xC) = 0x2c808080;
@@ -98,10 +97,9 @@ void *func_800C9850(u8 tile_x, u8 tile_z, u16 height) {
         }
         FLD(state, s32, 0x1C) |= 0x40000000;
         FLD(state, s8, 0x71) = 0;
-        direction_entry = ((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 9) & 7;
         state_tail = state;
         {
-            if (D_8006CCF8[direction_entry] != 0) {
+            if (D_8006CCF8[((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 9) & 7] != 0) {
                 FLD(sprite, u16, 0x14) |= 1;
             } else {
                 FLD(sprite, u16, 0x14) &= 0xFFFE;

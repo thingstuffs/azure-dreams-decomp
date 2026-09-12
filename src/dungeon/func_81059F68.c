@@ -45,7 +45,6 @@ void func_80171768(u8 *move_work_in, void *entry_context, u8 *position_in, u8 *a
     void *target_link;
     u16 state_flags;
     s32 actor_flags;
-    s32 random_turn;
     register s32 current_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 turn_limit;
     s32 trial_angle;
@@ -108,8 +107,8 @@ negative_entry:
         }
         S32_AT(actor, 0x14) = turn_flags | 0x80000000;
     }
-    random_turn = func_800A6D30();
-    U16_AT(actor, 0x2A) += (random_turn & 7) << 9;
+    turn_limit = func_800A6D30();
+    U16_AT(actor, 0x2A) += (turn_limit & 7) << 9;
     goto zero_counter;
 
 mode_410_without_400:
@@ -276,7 +275,6 @@ loop_setup:
         if ((func_8009A66C((s16)trial_angle, position, actor, 0x20) << 16) > 0) {
             if (step_index >= 3) {
                 turn_limit = limit_turn;
-                ASM_KEEP(turn_limit);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (turn_limit != 0) {
                     goto clear_path;
                 }

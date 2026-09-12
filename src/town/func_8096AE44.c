@@ -124,7 +124,6 @@ void func_801232DC(void)
     {
         void **object_base;
         object_base = D_80129728;
-        ASM_KEEP(object_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_offset = object_index << 2;
         group_slot = (void **)(object_offset + (u32)object_base);
     }
@@ -156,9 +155,7 @@ void func_801232DC(void)
     {
         void **object_base;
         object_base = D_80129728;
-        ASM_KEEP(object_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        object_offset = object_index << 2;
-        entry_slot = (void **)(object_offset + (u32)object_base);
+        entry_slot = (void **)((object_index << 2) + (u32)object_base);
     }
     entry_data = D_801331D0;
     do {

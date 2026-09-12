@@ -76,10 +76,8 @@ void func_80170A28(void *entity_input, void *motion_input, void *part_input)
         callback = (*(EntityCallback *)((u8 *)entity + 0x8C));
         if (callback == (EntityCallback)&D_80170E54) {
             {
-                void *self;
-                self = entity_input;
-                ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                callback(self, motion_input, part_input, self);
+                call_self = entity_input;
+                callback(call_self, motion_input, part_input, call_self);
             }
             goto done;
         }

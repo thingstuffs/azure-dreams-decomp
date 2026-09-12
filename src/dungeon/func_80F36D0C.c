@@ -110,8 +110,8 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     s32 animation_angle;
     register s32 zero_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register PackedRecord *record_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 record_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u16 saved_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 record_offset;
+    u16 saved_y;
     register TileRecord *tile_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *spawn_parent;
     register unsigned long step_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -151,8 +151,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         angle_index = record_index << 16;
         record_index = (s32)angle_index >> 16;
         record_base = D_800E3548;
-        record_offset = record_index << 2;
-        record = (PackedRecord *)(record_offset + (unsigned long)record_base);
+        record = (PackedRecord *)((record_index << 2) + (unsigned long)record_base);
 
         if (record->bytes[1] == 0x12) {
             object->copy = *record;

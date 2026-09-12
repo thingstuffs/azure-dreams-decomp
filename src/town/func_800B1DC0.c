@@ -36,7 +36,7 @@ void func_800AF520(void *context) {
     void *slots;
     register s32 entry_index;
     s32 page_index;
-    register s32 index_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 index_offset;
     s32 value;
     register s32 has_entry;
     s32 slot_index;
@@ -59,8 +59,7 @@ void func_800AF520(void *context) {
         if (has_entry == 0) {
             goto check_slots;
         }
-        index_offset = entry_index << 2;
-        slot_addr = (void *)(index_offset + entries->unk_20);
+        slot_addr = (void *)((entry_index << 2) + entries->unk_20);
         entry = *(void **)slot_addr;
         value = func_8004A658(entry->unk_01, entry->unk_00);
         entry_index += 1;

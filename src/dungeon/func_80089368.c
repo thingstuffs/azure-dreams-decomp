@@ -121,7 +121,6 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u16 temp_v1_4;
     s32 temp_v1_5;
     u16 temp_v1_6;
-    u16 temp_v1_8;
     u16 var_v0;
     u16 var_v0_4;
     u32 temp_v1_7; /* MATCH: both arms merge the fifth argument in v1. */
@@ -418,9 +417,9 @@ code_D8:
                     if (temp_v0_3 != 0xFFF) {
                         ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) temp_v0_3;
                         if (!(((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x10)) {
-                            temp_v1_8 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
-                            if (!(temp_v1_8 & 0x400)) {
-                                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_8 & 0xFFFE);
+                            temp_v1_6 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
+                            if (!(temp_v1_6 & 0x400)) {
+                                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFFE);
                                 code8_a0 = arg0;
                                 if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x400) {
                                     ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) (((S_8008EAC8_1 *)arg3)->unk_2A.u + (func_800A6D30(code8_a0) & 0xE00));
@@ -452,7 +451,6 @@ code_8:
                                 void *tail_a1 = arg1;
 
                                    /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                                ASM_SET(tail_a1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFBF);
                                 goto block_153;
                             }

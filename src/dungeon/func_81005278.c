@@ -63,7 +63,7 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
     s32 height_offset;
     s16 floor_delta;
     u16 part_flags;
-    register u16 bob_phase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 bob_phase;
     register s32 state_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 bob_offset;
     u8 direction_flag;
@@ -211,6 +211,7 @@ reset_height:
 
     if (!(((S_80170A78_1 *)part)->unk_14 & 0x40) &&
         ((S_80170A78_1 *)part)->unk_2C.p2 == D_80174880) {
+        u16 bob_phase;
         bob_phase = (*(u16 *)((u8 *)obj + 0xB2));
         (*(u16 *)((u8 *)obj + 0xB2)) = bob_phase + 1;
         (*(s32 *)((u8 *)obj + 0xA4)) += func_800644B8((s16)bob_phase * 0xAA) << 5;

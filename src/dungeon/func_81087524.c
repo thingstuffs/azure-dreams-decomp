@@ -55,8 +55,7 @@ void func_80174D24(void *state, void *output, void *target)
     s32 object_id;
     s32 phase;
     u16 old_ticks;
-    register u16 ticks ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 signed_ticks ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 signed_ticks;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 target_flags;
 
     if (((S_80174D24_4 *)(((S_80174D24_0 *)state)->unk_08))->unk_2C != &D_80175F38) {
@@ -93,9 +92,8 @@ void func_80174D24(void *state, void *output, void *target)
 
     old_ticks = ((S_80174D24_0 *)state)->unk_02;
     phase = ((S_80174D24_0 *)state)->unk_00.s;
-    ticks = old_ticks + 1;
-    ASM_KEEP(old_ticks);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((S_80174D24_0 *)state)->unk_02 = ticks;
+    copy_word_a = old_ticks + 1;
+    ((S_80174D24_0 *)state)->unk_02 = copy_word_a;
 
     if (phase == 0) {
         goto mode_zero;
@@ -119,7 +117,7 @@ mode_zero:
     goto out;
 
 mode_one:
-    signed_ticks = (s16)ticks;
+    signed_ticks = (s16)copy_word_a;
     if (signed_ticks < 0x40) {
         goto out;
     }

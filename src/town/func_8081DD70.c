@@ -88,7 +88,7 @@ void func_8081DD70(void *source_data, void *record_data) {
     u8 *src;
     u8 *dst;
     u8 *src_end;
-    register s32 word_0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 word_0;
     register s32 word_1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 word_2;
     s32 word_3;
@@ -118,9 +118,8 @@ void func_8081DD70(void *source_data, void *record_data) {
             } while (0);
             dst += 0x10;
         } while (src != src_end);
-        word_0 = ((S_8081DD70_0 *)src)->unk_00;
         word_1 = ((S_8081DD70_0 *)src)->unk_04;
-        ((S_8081DD70_1 *)dst)->unk_00 = word_0;
+        ((S_8081DD70_1 *)dst)->unk_00 = ((S_8081DD70_0 *)src)->unk_00;
         do {
             ((S_8081DD70_1 *)dst)->unk_04 = word_1;
         } while (0);

@@ -54,7 +54,6 @@ extern void *D_80020180[];
 /* Resolve actor collisions against zone boundaries and linked boxes. */
 s32 func_8002263C(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
     register Box *box ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 neighbor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 candidate;
     s32 box_id;
     register s32 old_zone ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -70,9 +69,9 @@ s32 func_8002263C(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
 
     (void)case_labels;
     candidate = 0;
-    neighbor = *zone_id + 1;
-    while (neighbor >= *zone_id - 1) {
-        candidate = (neighbor + 16) % 16;
+    box_id = *zone_id + 1;
+    while (box_id >= *zone_id - 1) {
+        candidate = (box_id + 16) % 16;
         if (actor->x < CANDIDATE_ZONE(x)) {
             goto next_neighbor;
         }
@@ -87,7 +86,7 @@ s32 func_8002263C(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
         }
         goto zone_found;
     next_neighbor:
-        neighbor--;
+        box_id--;
     }
 check_zone:
     if (candidate >= 0) {
@@ -414,15 +413,14 @@ clamp_to_zone:
         *offset_y -= actor->dy * 3;
     }
     {
-        register s32 scratch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 scratch;
         s32 current_zone;
-        ASM_UNDEF(scratch);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         current_zone = *zone_id;
-        ASM_USE(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        neighbor = current_zone + 1;
+        box_id = current_zone + 1;
     }
-    while (neighbor >= *zone_id - 1) {
-        candidate = (neighbor + 16) % 16;
+    while (box_id >= *zone_id - 1) {
+        candidate = (box_id + 16) % 16;
         if (actor->x < CANDIDATE_ZONE(x)) {
             goto next_clamped_neighbor;
         }
@@ -437,7 +435,7 @@ clamp_to_zone:
         }
         *zone_id = candidate;
     next_clamped_neighbor:
-        neighbor--;
+        box_id--;
     }
 adjusted:
     return 2;

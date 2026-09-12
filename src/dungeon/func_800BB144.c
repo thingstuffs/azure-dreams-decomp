@@ -106,15 +106,13 @@ main_path:
         {
             s32 node;
             s32 node_offset;
-            s32 saved_node;
             s32 result;
 
             node = func_80099978(event_value);
-            saved_node = func_80099194(&D_80089378, node);
+            result = func_80099194(&D_80089378, node);
             node_offset = node - 2;
-            ASM_KEEP_DEP_NV(node_offset, node);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(saved_node);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            node = saved_node;
+               /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            node = result;
             result = func_80099368(target, node);
             {
 
@@ -135,15 +133,13 @@ main_path:
     {
         s32 node;
         s32 node_offset;
-        s32 saved_node;
         s32 result;
 
         node = func_80099978(external_event_value);
-        saved_node = func_80099194(&D_80089378, node);
+        result = func_80099194(&D_80089378, node);
         node_offset = node - 2;
-        ASM_KEEP_DEP_NV(node_offset, node);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(saved_node);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        node = saved_node;
+           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        node = result;
         result = func_80099368(target, node);
         {
 

@@ -95,7 +95,6 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     u16 saved_row;
     register s32 texture_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register TempObj *init_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register void *object_handler ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s8 *height_row;
     register void *output ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 *top_heights ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -108,8 +107,8 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         ASM_KEEP(saved_row);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         row_offset = tile_y;
         init_object = object;
-        object_handler = &D_800264D4;
-        object->field10 = object_handler;
+        height_row = &D_800264D4;
+        object->field10 = height_row;
         func_8004491C(init_object, &D_800269CC);
         column = (s16) tile_x;
         x_offset = (column - 3) << 6;

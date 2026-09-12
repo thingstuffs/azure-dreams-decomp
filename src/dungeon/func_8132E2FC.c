@@ -92,7 +92,6 @@ void func_801652FC(
     register s32 quotient_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 quotient_z;
     s32 rounded_x;
-    register s32 rounded_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 rounded_z;
 
     object = func_8003FD64(0x211, source_obj);
@@ -136,11 +135,11 @@ void func_801652FC(
         }
         ((S_801652FC_0 *)state)->unk_58 = rounded_x >> 2;
 
-        rounded_y = quotient_y;
-        if (rounded_y < 0) {
-            rounded_y += 3;
+        rounded_z = quotient_y;
+        if (rounded_z < 0) {
+            rounded_z += 3;
         }
-        ((S_801652FC_0 *)state)->unk_5C = rounded_y >> 2;
+        ((S_801652FC_0 *)state)->unk_5C = rounded_z >> 2;
 
         rounded_z = quotient_z;
         if (rounded_z < 0) {

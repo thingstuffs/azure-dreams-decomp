@@ -44,7 +44,7 @@ extern s32 D_800D0438;
 void func_80090210(void) {
     s32 disabled_flag;
     s32 enabled_flag;
-    register s32 mode_result ASM_REG("$2"); /* MATCH: Keep the merged call result in v0 for the shared stores. */
+    s32 mode_result; /* MATCH: Keep the merged call result in v0 for the shared stores. */
     u8 *work_state = (u8 *)&D_80083780;
     u8 *update_state = D_80082E80;
     u8 *handler_state = (u8 *)&D_800834B8;
@@ -65,6 +65,7 @@ void func_80090210(void) {
         ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
         enabled_flag = func_80033B2C(0x1202);
         if (enabled_flag != func_80033B2C(0x9D)) {
+            s32 mode_result;
             mode_result = func_80048D40();
             D_80080A80 = mode_result;
             ((S_80090210_1 *)update_state)->unk_28 = mode_result;

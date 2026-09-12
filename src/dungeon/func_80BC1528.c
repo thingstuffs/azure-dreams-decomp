@@ -80,7 +80,6 @@ void func_80BC1528(
     register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 step_z;
     s32 rounded_step_x;
-    register s32 rounded_step_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 rounded_step_z;
 
     effect = func_8003FD64(0x211, parent);
@@ -124,11 +123,11 @@ void func_80BC1528(
         }
         effect_data->unk_4C = rounded_step_x >> 2;
 
-        rounded_step_y = step_y;
-        if (rounded_step_y < 0) {
-            rounded_step_y += 3;
+        rounded_step_z = step_y;
+        if (rounded_step_z < 0) {
+            rounded_step_z += 3;
         }
-        effect_data->unk_50 = rounded_step_y >> 2;
+        effect_data->unk_50 = rounded_step_z >> 2;
 
         rounded_step_z = step_z;
         if (rounded_step_z < 0) {

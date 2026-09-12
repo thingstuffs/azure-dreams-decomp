@@ -60,8 +60,8 @@ void func_80171104(void *actor_arg, void *motion_arg, void *object_arg)
 {
     register u8 *actor ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *actor_copy ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *motion ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *motion;
+    u8 *object;
     ActorCallback callback;
     s32 old_direction;
     s16 timer;
@@ -94,8 +94,7 @@ void func_80171104(void *actor_arg, void *motion_arg, void *object_arg)
     }
 
     ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     old_direction = (s8)(*(volatile u8 *)((u8 *)actor + 0x6D));
     if (func_800A9E70(actor, motion, object, actor) != 0) {
@@ -200,6 +199,7 @@ compare_direction:
     if (!(flags & 0x8000)) {
         s16 view_index;
         u16 object_flags;
+        s32 old_direction;
 
         old_direction = ((D_80083228 + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7;
         view_index = old_direction;

@@ -74,7 +74,6 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     S_8195EF44_2 *work;
     register u8 *map ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register u8 *page ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *field_addr;
     void *call_addr;
     void *call_obj;
     void *render;
@@ -137,10 +136,9 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 nonzero:
     call_obj = obj;
     ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    field_addr = &D_80024648;
-    ASM_KEEP(field_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    render = &D_80024648;
     call_addr = &D_80046398;
-    (*(void * *)((u8 *)obj + 0x10)) = field_addr;
+    (*(void * *)((u8 *)obj + 0x10)) = render;
     func_8004491C(call_obj, call_addr);
 
     color = 0x808080;

@@ -82,14 +82,12 @@ void func_800D6C18(void *effect, S_800D6C18_2 *size_state) {
         emit_offset = 0;
         do {
             s32 delta;
-            s32 color;
 
-            color = 0xE0E0E0;
+            delta = 0xE0E0E0;
             /*A*/
-            func_800D6AD4((void *)((s8 *)effect - 0x20), color, 0, 0, emit_offset >> 0x10, (s16) index);
+            func_800D6AD4((void *)((s8 *)effect - 0x20), delta, 0, 0, emit_offset >> 0x10, (s16) index);
             delta = -0x40000;
             emit_offset += delta;
-            ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             index += 1;
         } while (index < 0x51);
     }

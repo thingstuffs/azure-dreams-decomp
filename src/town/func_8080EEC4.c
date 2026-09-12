@@ -95,8 +95,6 @@ void func_8080EEC4(u8 **arg0, u8 *arg1, u8 *arg2)
     register s32 distance ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 step_copy;
-    register s32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 case_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 case_x;
     s32 case_delta;
@@ -211,9 +209,9 @@ copy_position:
 
     value = ((S_8080EEC4_3 *)work)->unk_14 /
         ((((S_8080EEC4_3 *)work)->unk_22 << 8) + 0x300);
-    offset = (3 - ((S_8080EEC4_3 *)work)->unk_22) << 5;
-    base = value + 0x40;
-    step = offset + base;
+    case_delta = (3 - ((S_8080EEC4_3 *)work)->unk_22) << 5;
+    case_x = value + 0x40;
+    step = case_delta + case_x;
 
     state = ((S_8080EEC4_2 *)arg0)->unk_70;
     if ((u32)state < 8) {
