@@ -99,14 +99,13 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
             return;
         }
         {
-            register u16 next_duration ASM_REG("$3");
             state_value = 3;
             obj->field12 = state_value;
             state_value = *(volatile u16 *)&obj->state;
-            next_duration = 0x10;
+            effect = 0x10;
             obj->timer = 0;
             ASM_SCHED_BARRIER();
-            obj->duration = next_duration;
+            obj->duration = effect;
             goto increment;
         }
         return;
@@ -148,12 +147,11 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
         }
         func_8002539C(obj);
         {
-            register u16 next_duration ASM_REG("$3");
             state_value = *(volatile u16 *)&obj->state;
-            next_duration = 0x20;
+            effect = 0x20;
             obj->timer = 0;
             ASM_SCHED_BARRIER();
-            obj->duration = next_duration;
+            obj->duration = effect;
             goto increment;
         }
         return;

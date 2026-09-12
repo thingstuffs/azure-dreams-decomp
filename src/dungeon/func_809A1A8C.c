@@ -90,10 +90,9 @@ state_zero:
 state_one:
 {
     register u8 *direction_base ASM_REG("$2");
-    register s32 next_x ASM_REG("$2");
+    s32 next_x;
     s32 next_y;
-    s32 signed_frame;
-    s32 step_y;
+    s32 signed_value;
 
     direction_base = (u8 *)0x80070000;
     ASM_KEEP_NV(direction_base);
@@ -111,18 +110,18 @@ state_one:
     ASM_KEEP_NV(direction_base);
     direction_base -= 0x3318;
     direction_offset = direction_offset + (s32)direction_base;
-    step_y = *(s16 *)direction_offset;
+    signed_value = *(s16 *)direction_offset;
     delta_x = -delta_x;
     delta_x <<= 16;
-    step_y = -step_y;
-    delta_y = step_y << 16;
+    signed_value = -signed_value;
+    delta_y = signed_value << 16;
     if (frame) {
         next_x = S32(motion, 0xC) - delta_x;
         next_y = S32(motion, 0x10) - delta_y;
         goto store_motion;
     }
-    signed_frame = (s16)next_frame;
-    if (signed_frame < 0x12) {
+    signed_value = (s16)next_frame;
+    if (signed_value < 0x12) {
         next_x = S32(motion, 0xC) + delta_x;
         next_y = S32(motion, 0x10) + delta_y;
 store_motion:

@@ -60,6 +60,7 @@ typedef struct S_80174A28_3 {
 void func_80174A28(void *action, void *motion, void *sprite, void *actor)
 {
     OffsetTable offsets = D_80170884;
+    s32 coord_value;
 
     switch (((S_80174A28_0 *)action)->unk_9B) {
     case 0:
@@ -80,8 +81,7 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
             s32 x_sum;
             s32 tile_x;
             s32 x_offset;
-            register s32 y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 y_sum ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 y_offset;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register void *effect_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             flags = ((S_80174A28_2 *)sprite)->unk_14;
@@ -95,8 +95,8 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
             y_offset = offset->y;
             ASM_USE(y_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             x = x_sum & 0xFFFF;
-            y_sum = ((S_80174A28_2 *)sprite)->unk_25 + y_offset;
-            func_80174800(effect_actor, x, y_sum & 0xFFFF, height);
+            coord_value = ((S_80174A28_2 *)sprite)->unk_25 + y_offset;
+            func_80174800(effect_actor, x, coord_value & 0xFFFF, height);
         }
         if ((((S_80174A28_0 *)action)->unk_96 == 0x0A) ||
             (((S_80174A28_2 *)sprite)->unk_14 & 0x8000)) {
@@ -112,7 +112,6 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
             s32 x;
             s32 x_sum;
             s32 y_offset;
-            s32 coord_value;
 
             angle = ((S_80174A28_3 *)actor)->unk_2A.u;
             offset = offsets.entries + ((angle >> 9) & 7);

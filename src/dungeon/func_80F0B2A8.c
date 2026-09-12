@@ -91,7 +91,6 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, void *acto
     u8 *motion;
     register s32 use_player_target ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *target;
-    register void *target_info ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 target_x;
     s32 target_y;
     s32 recovery_ticks;
@@ -159,9 +158,9 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, void *acto
                     goto advance_motion;
                 }
             copy_target_position:
-                target_info = ((S_80172AA8_2_pre *)target)[-1].unk_00;
-                ((S_80172AA8_1 *)actor)->unk_72.s = ((S_80172AA8_3 *)target_info)->unk_24;
-                ((S_80172AA8_1 *)actor)->unk_73.s = ((S_80172AA8_3 *)target_info)->unk_25;
+                target_y = ((S_80172AA8_2_pre *)target)[-1].unk_00;
+                ((S_80172AA8_1 *)actor)->unk_72.s = ((S_80172AA8_3 *)target_y)->unk_24;
+                ((S_80172AA8_1 *)actor)->unk_73.s = ((S_80172AA8_3 *)target_y)->unk_25;
                 goto advance_motion;
             }
             ((S_80172AA8_1 *)actor)->unk_60 =

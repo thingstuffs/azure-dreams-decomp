@@ -81,7 +81,6 @@ void func_80172DEC(void *action_state, void *transform, void *sprite, void *acto
     register u8 *motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 use_global_target ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *target;
-    register void *target_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 target_x;
     s32 target_y;
     s32 ticks_left;
@@ -149,9 +148,9 @@ void func_80172DEC(void *action_state, void *transform, void *sprite, void *acto
                     goto do_step;
                 }
             have_obj:
-                target_record = ((S_80172DEC_2_pre *)target)[-1].unk_00;
-                ((S_80172DEC_1 *)actor)->unk_72.s = ((S_80172DEC_3 *)target_record)->unk_24;
-                ((S_80172DEC_1 *)actor)->unk_73.s = ((S_80172DEC_3 *)target_record)->unk_25;
+                target_y = ((S_80172DEC_2_pre *)target)[-1].unk_00;
+                ((S_80172DEC_1 *)actor)->unk_72.s = ((S_80172DEC_3 *)target_y)->unk_24;
+                ((S_80172DEC_1 *)actor)->unk_73.s = ((S_80172DEC_3 *)target_y)->unk_25;
                 goto do_step;
             }
             ((S_80172DEC_1 *)actor)->unk_60 =

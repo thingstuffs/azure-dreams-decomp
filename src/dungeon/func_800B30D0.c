@@ -122,7 +122,7 @@ void func_800B8830(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
     s16 one;
     void *source;
     register void *page_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    S_800B8830_4 *source_pos;
+    S_800B8830_4 *pos_record;
     s32 curve;
     u16 render_flags;
     u16 counter;
@@ -156,10 +156,10 @@ state_zero:
         func_8003DE58(((S_800B8830_2 *)source)->unk_08, source, &delta, 0) != NULL) {
         u16 source_z;
 
-        source_pos = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_08;
-        coords->unk_00.at02.v = source_pos->unk_02;
-        coords->unk_04.at02.v = source_pos->unk_06;
-        source_z = source_pos->unk_0A;
+        pos_record = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_08;
+        coords->unk_00.at02.v = pos_record->unk_02;
+        coords->unk_04.at02.v = pos_record->unk_06;
+        source_z = pos_record->unk_0A;
         coords->unk_08.at02.v = source_z;
 
         if (!(((S_800B8830_2 *)source)->unk_14 & 0x8000)) {
@@ -183,19 +183,18 @@ state_zero:
 
 state_two:
 {
-    register void *target_node ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *entry;
     s32 entry_addr;
     s32 start_x;
     s32 start_y;
     s32 start_z;
 
-    target_node = ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_08;
+    pos_record = ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_08;
     start_x = coords->unk_00.at02u.v;
     start_y = coords->unk_04.at02u.v;
     start_z = coords->unk_08.at02u.v;
-    target_pos[0] = ((S_800B8830_5 *)target_node)->unk_00;
-    target_pos[1] = ((S_800B8830_5 *)target_node)->unk_04;
+    target_pos[0] = ((S_800B8830_5 *)pos_record)->unk_00;
+    target_pos[1] = ((S_800B8830_5 *)pos_record)->unk_04;
     target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
 
     entry_addr = ((((S_800B8830_6 *)page_base)->unk_3228 +

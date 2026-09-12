@@ -304,6 +304,39 @@ the SLUS SHA-1 gate MATCH after each phase.
   (combine folds `addu base,K` into `ori` on a constant base; a REAL loop, not m2c's phony goto loop,
   lets loop.c substitute first). One row closed, `dungeon/func_800942BC` - its landing waits for the
   deep t18 pass to finish (a sweep overwrites a file it read earlier).
+- **State at 0ac280d6 (05:20 UTC):** the resume chain's yield was:
+  - t18 over the 86 refreshed-census rows: 7 rows;
+  - the dedicated t20 host pass over its 525-row population: 49 rows;
+  - the lanes' last candidates: 3 rows;
+  - t2 afterwards: 12 more.
+
+  With the deep pass's real shapes, that is 97 rows and 148 pins + 7 fences off; the 14 t15 reverts
+  put 22 back, a net of -133. Every window and SLUS MATCH; 10,874 pin sites in 1,665 rows.
+  Then launched:
+  - `NATURAL_HOST_WIDE=1` t20 over the other 1,132 pinned rows (every register pin, up to 6
+    hosts), then t2, log `work/hostwide_chain.log`. It does not gate, because a gate rebuilds the
+    scorer's root under the native `fakedep` lane.
+  - That lane (`work/native_lane/fakedep/`): 8 pair rows. Gate after it reports.
+- **Wide host pass result:** 58 of 1,132 rows, 65 pins off (63 `host`, 2 `dropcopy`); t2 afterwards
+  found 8 of them already pin-free.
+- **The fakedep lane closed 5 of 8 rows, plus one of two pins on a sixth: 7 pins** (journal
+  `t24_fakedep`; `work/native_lane/fakedep/REPORT.md`). The fake never changed the schedule. It changed
+  register allocation through two combine side effects: a stale reference count (combine does not
+  subtract the folded add/sub's references), and a `(use x)` left at the block head, which makes `x`
+  global. Its natural forms:
+  - HOST, 4 rows: host a variable in an existing one, as before, but the variable hosted is often
+    NOT the pinned one; it is whichever local lost the register.
+  - UNHOST, 1 row: drop a temporary from its second block so it stays local.
+  - DECL ORDER, 1 row: declare `a` right before `x`, which flips greg's allocno-number tie-break.
+
+  Not closed: the 2.8.1 function in two overlays (no oracle for that compiler), and 809A1A8C's
+  `ASM_CLOBBER("$5")`, which only comes off together with the kept `frame` pin.
+- **Decision (naming, byte-neutral):** a hosted variable keeps its host's name, which can stop
+  describing the value. Three of the lane's names were renamed before landing: `source_pos` ->
+  `pos_record`, `position_z` -> `coord` in the one block where it holds x then z, and `signed_frame` ->
+  `signed_value`. A pass over every HOST landing, `t25_hostname`, renames a host that had NO use of its
+  own before (for example an `unused` parameter that now carries the tick count) to the hosted value's
+  name. Hosts that had a real job of their own keep their name: that is the lazy reuse itself.
 
 ### Rules learned today
 

@@ -38,8 +38,6 @@ extern u8 D_80174B14[];
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
 void func_80174260(void *state_input, void *motion_input, void *animation_input, void *actor_input) {
     void *motion = motion_input;
-    void *animation = animation_input;
-    void *actor = actor_input;
     u16 spawn_offset[3];
     Record10 effect_values_1c = D_80170868;
     Record10 effect_values_1e = D_80170874;
@@ -53,8 +51,6 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
     s32 next_state;
 
     ASM_KEEP(state_input);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(animation);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     U16_AT(state_input, 0xA0)--;
     state = U8_AT(state_input, 0x9B);
 
@@ -73,9 +69,9 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
     return;
 
 state_zero:
-    animation_flags = U16_AT(animation, 0x14);
+    animation_flags = U16_AT(animation_input, 0x14);
     if (animation_flags & 0x8000) {
-        effect_data = S32_AT(actor, 0x60);
+        effect_data = S32_AT(actor_input, 0x60);
         if (effect_data != 0) {
             func_800C8150(effect_data, 0x10, 0x10);
         }
@@ -87,7 +83,7 @@ state_zero:
         goto end;
     }
 
-    if (func_8003DE58(S32_AT(animation, 8), animation, spawn_offset, 0) == 0) {
+    if (func_8003DE58(S32_AT(animation_input, 8), animation_input, spawn_offset, 0) == 0) {
         spawn_offset[2] = 0;
         spawn_offset[1] = 0;
         spawn_offset[0] = 0;
@@ -114,7 +110,7 @@ state_zero:
     }
     goto advance_state;
 state_one:
-    effect_data = S32_AT(actor, 0x60);
+    effect_data = S32_AT(actor_input, 0x60);
     if (effect_data != 0) {
         timer = S16_AT(state_input, 0x96);
         if (timer >= 0x12) {
@@ -127,7 +123,7 @@ state_one:
     }
 
     if (S16_AT(state_input, 0x96) == 0x14) {
-        effect_data = S32_AT(actor, 0x60);
+        effect_data = S32_AT(actor_input, 0x60);
         if (effect_data != 0) {
             func_800C8150(effect_data, 0x10, 0x10);
         }
@@ -139,30 +135,30 @@ state_one:
         goto end;
     }
 
-    PTR_AT(animation, 0x2C) = D_80174B14;
-    func_80047784(animation,
-        D_80174B14[((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7],
+    PTR_AT(animation_input, 0x2C) = D_80174B14;
+    func_80047784(animation_input,
+        D_80174B14[((D_80083228 + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
         0);
     next_state = U8_AT(state_input, 0x9B);
 advance_state:
     U8_AT(state_input, 0x9B) = next_state + 1;
     return;
 state_two:
-    if (U16_AT(animation, 0x14) & 0xE000) {
+    if (U16_AT(animation_input, 0x14) & 0xE000) {
         u16 *global_counts;
 
         S32_AT(motion, 0x10) = 0;
         S32_AT(motion, 0x0C) = 0;
-        func_800AD594(actor, 0x800);
-        PTR_AT(animation, 0x2C) = D_80174ACC;
-        func_80047784(animation,
-            D_80174ACC[((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7],
+        func_800AD594(actor_input, 0x800);
+        PTR_AT(animation_input, 0x2C) = D_80174ACC;
+        func_80047784(animation_input,
+            D_80174ACC[((D_80083228 + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
             0);
         global_counts = (u16 *)&D_80083460;
         global_counts[5]--;
-        func_800A4ACC(actor);
-        U8_AT(actor, 0x6D) = 0;
-        U16_AT(actor, 0x46) &= 0x7FFF;
+        func_800A4ACC(actor_input);
+        U8_AT(actor_input, 0x6D) = 0;
+        U16_AT(actor_input, 0x46) &= 0x7FFF;
         PTR_AT(state_input, 0x8C) = D_80171138;
     }
 end:

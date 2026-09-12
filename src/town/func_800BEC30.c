@@ -37,15 +37,14 @@ state_ge_2:
 
 state_0:
 {
-    register s16 phase ASM_REG("$3");
 
     if ((timer << 16) > 0) {
         goto done;
     }
     VU16_AT(object, 2) = 12;
     prior_state = VU16_AT(object, 0);
-    phase = 3;
-    S16_AT(object, 0x14) = phase;
+    state = 3;
+    S16_AT(object, 0x14) = state;
     goto advance_state;
 }
 

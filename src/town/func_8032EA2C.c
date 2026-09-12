@@ -12,7 +12,6 @@ void func_8001922C(void *entries, s32 entry_mode)
     s32 initial_mode;
     u8 *entry;
     s32 entry_index;
-    register u8 excluded_type ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 mode;
 
     entry_list = entries;
@@ -23,9 +22,9 @@ void func_8001922C(void *entries, s32 entry_mode)
     mode = initial_mode;
     entry_index = 0;
     if (entry[1] != 0) {
-        excluded_type = 0x18;
+        entry_list = 0x18;
 loop:
-        if ((entry[3] & 0x20) && entry[1] != excluded_type) {
+        if ((entry[3] & 0x20) && entry[1] != entry_list) {
             if (mode == 0) {
                 func_800190C0(entry);
                 entry += 4;

@@ -24,7 +24,6 @@ void func_80170AEC(void)
     s16 *effect;
     u32 *part_words;
     u32 *initial_words;
-    register void *effect_part ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     node = func_8003FC64(0x212);
     if (node != 0) {
@@ -34,8 +33,8 @@ void func_80170AEC(void)
         node->data10 = D_80170A54;
         func_8004491C(node, D_80045340);
 
-        effect_part = node->partC;
-        *(s16 *)((u8 *)effect_part + 6) = 0;
+        effect = node->partC;
+        *(s16 *)((u8 *)effect + 6) = 0;
         part_words = (u32 *)node->part8;
         initial_words = D_80083780;
         part_words[0] = initial_words[0];

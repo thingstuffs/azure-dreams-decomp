@@ -14,7 +14,6 @@ s16 func_800D175C(s32 grid_x, s32 grid_y)
     u16 cell_height;
     s32 height;
     s32 biased_height;
-    register s32 fallback_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     grid_info = D_8008333C;
     state = grid_info - 0x1C4;
@@ -32,8 +31,8 @@ s16 func_800D175C(s32 grid_x, s32 grid_y)
     if ((s16)height < 0x201) {
         biased_height = height + 0x3F;
     } else {
-        fallback_height = *(u16 *)((u8 *)D_800814A8[0] + 0x88);
-        biased_height = fallback_height + 0x3F;
+        cell_table = *(u16 *)((u8 *)D_800814A8[0] + 0x88);
+        biased_height = cell_table + 0x3F;
     }
     return (s16)(((cell_height + biased_height) & -0x40) - cell_height);
 }

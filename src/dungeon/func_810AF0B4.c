@@ -121,8 +121,6 @@ void func_801728B4(void *actor, void *motion, void *sprite, void *action) {
     u8 *action_status;
     void *effect_sprite;
     void *new_effect;
-    register void *active_effect ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *target_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *target;
 
     state = ((S_801728B4_0 *)actor)->unk_9B;
@@ -218,9 +216,9 @@ block_24:
         goto block_33;
     }
 block_26:
-    target_sprite = ((S_801728B4_2_pre *)target)[-1].unk_00;
-    ((Rec_D_800E3D7C *)action)->unk_72.as_s8 = (s8) ((S_801728B4_3 *)target_sprite)->unk_24;
-    ((Rec_D_800E3D7C *)action)->unk_73.as_s8 = (s8) ((S_801728B4_3 *)target_sprite)->unk_25;
+    action_value = ((S_801728B4_2_pre *)target)[-1].unk_00;
+    ((Rec_D_800E3D7C *)action)->unk_72.as_s8 = (s8) ((S_801728B4_3 *)action_value)->unk_24;
+    ((Rec_D_800E3D7C *)action)->unk_73.as_s8 = (s8) ((S_801728B4_3 *)action_value)->unk_25;
     goto block_32;
 block_27:
     ((Rec_D_800E3D7C *)action)->unk_60.as_pv = func_800A05A4(action, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, ((Rec_D_800E3D7C *)action)->unk_2A.as_s16, 0x10);
@@ -301,11 +299,11 @@ block_39:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801728B4_0 *)actor)->unk_9B = (u8) (((S_801728B4_0 *)actor)->unk_9B + 1);
 block_40:
-    active_effect = ((S_801728B4_0 *)actor)->unk_A0;
-    if (active_effect == NULL) {
+    target_x = ((S_801728B4_0 *)actor)->unk_A0;
+    if (target_x == NULL) {
         goto block_43;
     }
-    slot_or_effect = active_effect;
+    slot_or_effect = target_x;
     effect_sprite = ((S_801728B4_9 *)slot_or_effect)->unk_0C;
     if (!(((S_801728B4_7 *)effect_sprite)->unk_14 & 0xE000)) {
         goto block_43;

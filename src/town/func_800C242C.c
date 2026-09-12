@@ -56,14 +56,13 @@ extern M2C_UNK D_800BFFF4;
 /* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
 void func_800BFB8C(void *source)
 {
-    register s16 fixed_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 fixed_coord;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 state;
     s32 coord_term;
     s32 random_value;
     s32 spawn_count;
     s32 count_bits;
     register s32 random_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 spawn_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 base_coord;
     u16 next_value;
     u8 *town;
@@ -110,10 +109,10 @@ void func_800BFB8C(void *source)
                 fixed_coord = -0x180;
                 ((S_800BFB8C_3 *)coords)->unk_10 = fixed_coord;
                 ((S_800BFB8C_3 *)coords)->unk_26 = fixed_coord;
-                spawn_coord = base_coord;
-                spawn_coord += coord_term;
-                ((S_800BFB8C_3 *)coords)->unk_0E = spawn_coord;
-                ((S_800BFB8C_3 *)coords)->unk_22 = spawn_coord;
+                count_bits = base_coord;
+                count_bits += coord_term;
+                ((S_800BFB8C_3 *)coords)->unk_0E = count_bits;
+                ((S_800BFB8C_3 *)coords)->unk_22 = count_bits;
             }
             spawn_count -= 1;
             object = (void *)0x202;

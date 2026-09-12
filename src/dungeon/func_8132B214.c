@@ -67,7 +67,6 @@ extern u8 D_80174ABC[];
 /* Create an effect linked to its owner and initialize its position and rendering. */
 void func_80172A14(void *owner, S_80172A14_5 *source_pos) {
     S_80172A14_3 *render_flags;
-    register void *render_params ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *effect;
     S_80172A14_2 *effect_state;
     S_80172A14_4 *effect_pos;
@@ -88,12 +87,12 @@ void func_80172A14(void *owner, S_80172A14_5 *source_pos) {
         effect_pos->unk_02 = source_pos->unk_02;
         effect_pos->unk_06 = source_pos->unk_06;
         effect_pos->unk_0A = source_pos->unk_0A;
-        render_params = ((S_80172A14_1 *)effect)->unk_0C;
-        ((S_80172A14_6 *)render_params)->unk_1E = 0xA00;
-        ((S_80172A14_6 *)render_params)->unk_1C = 0xA00;
-        ((S_80172A14_6 *)render_params)->unk_0E = 0;
-        ((S_80172A14_6 *)render_params)->unk_0D = 0;
-        ((S_80172A14_6 *)render_params)->unk_0C = 0;
-        ((S_80172A14_6 *)render_params)->unk_08 = D_80174ABC;
+        render_flags = ((S_80172A14_1 *)effect)->unk_0C;
+        ((S_80172A14_6 *)render_flags)->unk_1E = 0xA00;
+        ((S_80172A14_6 *)render_flags)->unk_1C = 0xA00;
+        ((S_80172A14_6 *)render_flags)->unk_0E = 0;
+        ((S_80172A14_6 *)render_flags)->unk_0D = 0;
+        ((S_80172A14_6 *)render_flags)->unk_0C = 0;
+        ((S_80172A14_6 *)render_flags)->unk_08 = D_80174ABC;
     }
 }

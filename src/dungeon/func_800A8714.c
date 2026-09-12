@@ -276,17 +276,16 @@ idle_ally_scan:
     }
     {
         s32 action_code;
-        register s32 checked_action ASM_REG("$3");
         s32 result;
         action_code = func_800A384C(creature, move_target, &direction, 0);
         action_or_flags = action_code;
         *(u16 *)(creature + 0x2A) = *(u16 *)&direction;
         ASM_SCHED_BARRIER();
-        checked_action = action_code;
-        if ((checked_action << 16) < 0) {
+        lower_limit = action_code;
+        if ((lower_limit << 16) < 0) {
             goto return_wait;
         }
-        pending_action = checked_action | 0x8000;
+        pending_action = lower_limit | 0x8000;
         goto store_move_action;
     }
 
@@ -363,17 +362,16 @@ follow_ally_scan:
     }
     {
         s32 action_code;
-        register s32 checked_action ASM_REG("$3");
         s32 result;
         action_code = func_800A384C(creature, move_target, &direction, 0);
         action_or_flags = action_code;
         *(u16 *)(creature + 0x2A) = *(u16 *)&direction;
         ASM_SCHED_BARRIER();
-        checked_action = action_code;
-        if ((s16)checked_action < 4) {
+        lower_limit = action_code;
+        if ((s16)lower_limit < 4) {
             goto return_wait;
         }
-        pending_action = checked_action | 0x8000;
+        pending_action = lower_limit | 0x8000;
         goto store_move_action;
     }
 

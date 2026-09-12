@@ -49,7 +49,6 @@ void func_800B65D8(void *display, s32 display_mode) {
     u8 *lookup;
     void *entry_slot;
     s32 x_offset;
-    register s32 width ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 spacing;
     s32 entry_id;
     S_800B65D8_1 *entry;
@@ -70,13 +69,13 @@ void func_800B65D8(void *display, s32 display_mode) {
             entry_id -= 1;
         }
         entry->unk_00 = func_80048DCC(entry_id);
-        width = func_80048DE8(entry_id);
-        if (width == 0x10) {
+        spacing = func_80048DE8(entry_id);
+        if (spacing == 0x10) {
             ((S_800B65D8_5 *)(((S_800B65D8_4 *)entry)->unk_04))->unk_0A = 0;
         } else {
             x_offset = total_width - (entry_index * 8);
             position = entry->unk_04;
-            total_width += width;
+            total_width += spacing;
             position->unk_0A = x_offset;
         }
         entry_index += 1;

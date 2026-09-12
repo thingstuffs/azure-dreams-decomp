@@ -208,17 +208,15 @@ check_ready:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) goto increment_count;
     if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) goto clear_action;
     {
-        register u16 effect_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        effect_count = D_80083460[5] + 1;
+        actor_flags = D_80083460[5] + 1;
         ASM_SCHED_BARRIER(); /* MATCH: keep this count update separate, with the store in the jump delay slot. */
-        D_80083460[5] = effect_count;
+        D_80083460[5] = actor_flags;
     }
     goto advance_phase;
 increment_count:
     {
-        register u16 effect_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        effect_count = D_80083460[5];
-        D_80083460[5] = (u16)(effect_count + 1);
+        actor_flags = D_80083460[5];
+        D_80083460[5] = (u16)(actor_flags + 1);
     }
     goto advance_phase;
 phase_transition:

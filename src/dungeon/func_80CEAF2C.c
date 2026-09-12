@@ -93,7 +93,6 @@ void func_8017472C(void *action, void *transform, void *sprite, void *actor)
     s32 kind;
     u8 *move;
     void *target;
-    register void *target_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 target_x;
     s32 target_y;
     u16 ticks_left;
@@ -186,9 +185,9 @@ choice_ready:
                 goto move_setup;
             }
 record_setup:
-            target_record = ((S_8017472C_2_pre *)target)[-1].unk_00;
-            ((S_8017472C_1 *)actor)->unk_72.s = ((S_8017472C_3 *)target_record)->unk_24;
-            ((S_8017472C_1 *)actor)->unk_73.s = ((S_8017472C_3 *)target_record)->unk_25;
+            state = ((S_8017472C_2_pre *)target)[-1].unk_00;
+            ((S_8017472C_1 *)actor)->unk_72.s = ((S_8017472C_3 *)state)->unk_24;
+            ((S_8017472C_1 *)actor)->unk_73.s = ((S_8017472C_3 *)state)->unk_25;
             goto move_setup;
         }
 

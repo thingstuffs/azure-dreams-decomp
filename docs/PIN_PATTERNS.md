@@ -433,7 +433,25 @@ colour pair (`color_a^color_b`, 19 pins in `dungeon/func_809A38E4`). The pin tie
 member's computation to the first. That points at a pair-shaped source idiom - one pointer or index
 reaching both members, a `{x, y}` struct or array, PsyQ's comma-expression pair macros (`setXY0`,
 `setRGB0`; none in `include/`) - not at a statement order: hoisting `old_y`'s load next to `old_x`'s
-is inert on `80E37EA4`. A native lane is on it (`work/native_lane/fakedep/`).
+is inert on `80E37EA4`.
+
+**What the fake actually does, read in the dumps** (native lane, `work/native_lane/fakedep/REPORT.md`;
+5 of 8 rows closed, 7 pins). The pair pattern turned out to be a red herring as to mechanism: the fake
+never changes the schedule. It changes register ALLOCATION through two side effects of combine
+folding the round trip. First, flow counted `a`'s two extra references and combine never subtracts
+them (combine.c:56), so `a` and anything tied to it ranks higher in both allocators
+(`floor_log2(refs)*refs/length`). Second, combine can leave a `(use x)` at the block head
+(combine.c:11239), which makes `x` global and lengthens every local lifetime in the block. So the
+natural C is whatever moves the same value between local-alloc and global-alloc, or reorders a
+tie:
+- **HOST.** Move the losing variable into an existing variable that is already global. The
+  variable to host is often neither `x` nor `a`: it is the local that lost the register.
+- **UNHOST.** Take a variable's use out of its second block so its first value stays local.
+- **DECL ORDER.** Global-alloc breaks a priority tie by allocno number, which is declaration
+  order.
+
+A fake dependency's evidence therefore says "an allocation priority is off here", not "these two
+values are ordered".
 
 **What it says.** Section 9's "natural shapes perhaps a third" does not carry to the corpus with
 these generators: at fences they took 28 of 692 (4 %); dead fences were 18 %; 78 % of the fences

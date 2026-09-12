@@ -98,7 +98,6 @@ void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
     register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *call_a1;
 
     saved_arg1 = arg1;
@@ -137,12 +136,12 @@ write_kind:
         goto post_kind;
 
 normal_kind:
-        call_a0 = obj;
+        obj = obj;
         if (((arg0 & ~3) << 16) == 0) {
             if (!(((S_80FA5000_1 *)work)->unk_14 & 0x200)) {
                 call_a1 = part_a;
                 left = func_800A6D30();
-                call_a0 = obj;
+                obj = obj;
                 if (!(left & 1)) {
                     goto call_a1_setup;
                 }
@@ -156,9 +155,9 @@ normal_kind:
         goto call_a1_setup;
 
 post_kind:
-        call_a0 = obj;
+        obj = obj;
 call_a1_setup:
-        func_800A9C18(call_a0, part_a, part_b, arg0);
+        func_800A9C18(obj, part_a, part_b, arg0);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = D_80153138;

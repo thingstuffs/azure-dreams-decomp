@@ -92,7 +92,6 @@ void FUNC_81880800_BODY(void *effect_data, void *motion_data, void *part_data)
     register u8 *spawn_target ASM_REG("$7");
     register u32 tile_x ASM_REG("$2");
     u32 steps_left;
-    register u32 tile_y ASM_REG("$4");
     s32 cell_center_x;
     u32 red;
     u32 green;
@@ -313,11 +312,11 @@ track_target:
 
     tile_x = F(self, u8, 0x20);
     steps_left = F(self, u16, 0x18) - 1;
-    tile_y = F(self, u8, 0x21);
+    target = F(self, u8, 0x21);
     F(self, u16, 0x18) = steps_left;
     steps_left <<= 16;
     F(self, u8, 0x22) = tile_x;
-    F(self, u8, 0x23) = tile_y;
+    F(self, u8, 0x23) = target;
     if (steps_left != 0) {
         cell_center_x = (((s32)F(self, s8, 0x20) << 6) + 0x20) & 0xFFE0;
         height_result = func_800A45D8(

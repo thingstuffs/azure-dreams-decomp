@@ -168,7 +168,6 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
                 {
                     u32 owner;
                     u16 source_z;
-                    register u32 fade_color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     register u16 render_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     u16 particle_flags;
                     register u16 particle_size ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -178,7 +177,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
                     register u16 draw_param ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                     random_offset %= ((S_801733BC_1 *)effect_state)->unk_A8.s + 0x60;
-                    fade_color = 0x00040404;
+                    particle_render = 0x00040404;
                     particle_color = 0x00500000;
                     source_z = ((S_801733BC_3 *)position)->unk_0A;
                     particle_color |= 0x5050;
@@ -186,7 +185,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
                         source_z - random_offset - 0x10;
 
                     particle_state = (u8 *)spawned_object + 0x20;
-                    ((S_801733BC_4 *)particle_state)->unk_A4 = fade_color;
+                    ((S_801733BC_4 *)particle_state)->unk_A4 = particle_render;
                     ((S_801733BC_4 *)particle_state)->unk_96 = 6;
 
                     particle_render = ((S_801733BC_2 *)spawned_object)->unk_0C;

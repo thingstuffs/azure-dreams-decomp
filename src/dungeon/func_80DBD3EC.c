@@ -186,9 +186,8 @@ spawn_particles:
                     register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     s32 velocity_x;
                     s32 offset_z;
-                    s32 position_z;
+                    s32 coord;
                     s32 position_y;
-                    s32 position_x;
                     u8 *position;
                     u8 *render;
                     u8 *motion;
@@ -236,19 +235,19 @@ spawn_particles:
                     offset_x -= 0x10;
                     offset_y = func_80069EF8() & 0x1F;
                     offset_y -= 0x10;
-                    position_x = ((S_80174BEC_6 *)position)->unk_02;
-                    position_x += offset_x;
+                    coord = ((S_80174BEC_6 *)position)->unk_02;
+                    coord += offset_x;
                     position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
-                    ((S_80174BEC_6 *)position)->unk_02 = position_x;
-                    ASM_KEEP(position_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ((S_80174BEC_6 *)position)->unk_02 = coord;
+                       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     ((S_80174BEC_6 *)position)->unk_06 = position_y;
                     offset_z = func_80069EF8() & 0x1F;
                     velocity_x = (s32)(offset_x << 16) >> 4;
                     velocity_y = (s32)(offset_y << 16) >> 4;
-                    position_z = ((S_80174BEC_6 *)position)->unk_0A;
-                    position_z -= 0x14;
-                    position_z += offset_z;
-                    ((S_80174BEC_6 *)position)->unk_0A = position_z;
+                    coord = ((S_80174BEC_6 *)position)->unk_0A;
+                    coord -= 0x14;
+                    coord += offset_z;
+                    ((S_80174BEC_6 *)position)->unk_0A = coord;
                     ((S_80174BEC_3 *)motion)->unk_A4 = velocity_x;
                     ((S_80174BEC_3 *)motion)->unk_A8 = velocity_y;
 
