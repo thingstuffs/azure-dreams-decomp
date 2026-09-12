@@ -1,0 +1,36 @@
+{
+  "id": "main/func_8001D54C",
+  "before_sha": "c77edf023a0d9443a88e8a96a94ed09894ef83b7f0f02f84689429cb54594664",
+  "after_sha": "07328bd475179839c5ce6b56b926cf59f31b2ce50f9974d072580040160827d8",
+  "independent_exact": true,
+  "info": {
+    "tried": 2,
+    "pins_in": 0,
+    "pins_out": 0,
+    "fences_in": 1,
+    "fences_out": 0,
+    "fences": [
+      {
+        "menu": 1,
+        "best": 0,
+        "fence": 15,
+        "unwrap": 5
+      }
+    ],
+    "step": "@15:loop_test_increment:index",
+    "verify_seconds": 1.3559841960668564,
+    "stop_reason": "complete",
+    "seconds": 1.3862426336854696,
+    "cpu_seconds": 1.452581,
+    "debt_in": [
+      0,
+      1,
+      0
+    ],
+    "debt_out": [
+      0,
+      0,
+      0
+    ]
+  }
+}
