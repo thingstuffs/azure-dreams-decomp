@@ -230,20 +230,17 @@ state_two:
     func_800B8D64(coords->unk_00.at02u.v, coords->unk_04.at02u.v, coords->unk_08.at02u.v);
     {
         void *flags_page;
-        register s32 final_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 final_flags;
         u16 object_flags;
 
         object_flags = ((S_800B8830_0_pre *)motion)[-1].unk_00;
         flags_page = (void *)0x80080000;
         object_flags |= 0x8000;
         ((S_800B8830_0_pre *)motion)[-1].unk_00 = object_flags;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         counter = ((S_800B8830_0 *)motion)->unk_20.u;
-        ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         final_flags = ((S_800B8830_9 *)flags_page)->unk_14A0;
         counter += 1;
         final_flags |= 0x8000;
-        ASM_KEEP(final_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800B8830_0 *)motion)->unk_20.u = counter;
         ((S_800B8830_9 *)flags_page)->unk_14A0 = final_flags;
     }

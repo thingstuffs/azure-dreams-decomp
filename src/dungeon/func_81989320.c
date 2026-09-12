@@ -126,13 +126,12 @@ mode_two:
         s32 base_speed = 0xD0;
         u8 *segment = (u8 *)effect + 0x2A;
         do {
-            register s32 index_squared ASM_REG("$8") = segment_index * segment_index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 index_squared = segment_index * segment_index;
             s32 speed_bias;
             segment_index--;
             speed_bias = base_speed - ((S_80024B20_2 *)effect)->unk_42.u;
             base_speed -= 0x18;
             ((S_80024B20_3 *)segment)->unk_14 = speed_bias + ((index_squared >> 2) * 0x14);
-            ASM_KEEP(index_squared);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             segment -= 6;
         } while (segment_index >= 0);
     }

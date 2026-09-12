@@ -29,8 +29,8 @@ void func_8016E138(s32 offset_index) {
     u8 *object;
     u8 *origin;
     u8 *state;
-    register Status *status ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 offset_pos ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    Status *status;
+    s32 offset_pos;
     s32 status_flags;
     s32 x;
     s32 y;
@@ -49,7 +49,6 @@ void func_8016E138(s32 offset_index) {
     ASM_KEEP_DEP_NV(offset_src, offset_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     old_tile_mask = 0x3000;
     status = (Status *)state + 1;
-    ASM_KEEP_NV(status);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     object = *(u8 **)(state + 0xC);
     object_handle = *(s32 *)(state + 8);
     *(u16 *)(object + 0x14) &= 0xFF7F;
@@ -61,7 +60,6 @@ void func_8016E138(s32 offset_index) {
     offset_bytes = (u8 *)&offsets;
     func_8009A3D0(x, y, old_tile_mask, offset_src);
     origin = D_80082E80;
-    ASM_KEEP_NV(origin);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     offset_pos = offset_index << 1;
     xy_offset = (s16 *)(offset_bytes + offset_pos);
     object[0x24] = origin[0x24] + ((u8 *)xy_offset)[0];

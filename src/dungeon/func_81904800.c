@@ -100,13 +100,12 @@ void BODY_NAME(u8 *entity, u8 chance) {
         entity[0x27] -= removed_count;
         {
             s32 message_arg;
-            register s32 format_code ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 result_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 format_code;
+            s32 result_arg;
 
             message_arg = func_800990FC((s32)effect_input, chance_value);
             format_code = 8;
             result_arg = message_arg;
-            ASM_KEEP(result_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             effect_result = result_arg;
             message_arg = func_8009929C(format_code, result_arg);
             message_arg = func_80099734(entity, message_arg);
