@@ -1,0 +1,403 @@
+{
+  "summary": {
+    "tag": "pins_joint_erase_20260912",
+    "run_key": "251be2f8184c6876860488faa9c16d96cf2c709a042f6569a65c8fa0a1794141",
+    "at": "2026-09-12T12:03:34Z",
+    "modes": {
+      "erasures": {
+        "records": 100,
+        "outcomes": {
+          "noop": 94,
+          "candidate": 6
+        },
+        "stops": {
+          "complete": 100
+        },
+        "pins_removed": 18,
+        "fences_removed": 0,
+        "totals": {
+          "compiled": 20585,
+          "screened": 20807,
+          "cache_hits": 222,
+          "tried": 125,
+          "seconds": 435.3440619558096,
+          "cpu_seconds": 442.686023,
+          "generation_seconds": 0,
+          "fallback_tried": 117,
+          "fallback_wins": 0,
+          "compile_timeouts": 0
+        }
+      }
+    }
+  },
+  "options": {
+    "screens": 512,
+    "verifies": 12,
+    "cpu_seconds": 20.0,
+    "group_screens": 240,
+    "depth": 3,
+    "beam": 4,
+    "fallback": 2,
+    "band": 30,
+    "objective": "pins",
+    "cache_namespace": "production"
+  },
+  "candidates": [
+    {
+      "id": "town/func_800B8934",
+      "source_sha": "956902a4ec0408f03174c694066e50f2e97452dea2e88fa5fc7898920c5b4c83",
+      "candidate_sha": "3bf93aa3966de3a2493118821a57020608c33e005df7a7fd365bbf203b3393cd",
+      "pins_in": 8,
+      "pins_out": 6,
+      "steps": [
+        "erase:0+4"
+      ]
+    },
+    {
+      "id": "dungeon/func_81977230",
+      "source_sha": "95625cb1777a7230f5ebe8ab9f2dc67e48eb59d4fd5c147bf48a4e15d39ced74",
+      "candidate_sha": "d2694200f31d71f12819b6bcedff87105ff031ec801a21b2dd7ea5e854779b53",
+      "pins_in": 8,
+      "pins_out": 4,
+      "steps": [
+        "erase:2+4+5+6"
+      ]
+    },
+    {
+      "id": "town/func_8032F060",
+      "source_sha": "5601850ea0c220b463b5c8c6f63d4bb7e28faa780bc0a33fd5a7f39ab0aa018e",
+      "candidate_sha": "a7804001adf3ad5e4bc0827e8f76a4bfe1923c3c72fc432c3179e0d9206c94da",
+      "pins_in": 7,
+      "pins_out": 4,
+      "steps": [
+        "erase:3+5+6"
+      ]
+    },
+    {
+      "id": "dungeon/func_80976434",
+      "source_sha": "bae1c00c4ddec436b2029825a5c31c0f1b08f7b91ba2e9866f891f87f8122489",
+      "candidate_sha": "cbe11f9cf0834f380d150a89c50091a14db54fd38dcd0c7e58bcadf6c6bb410c",
+      "pins_in": 8,
+      "pins_out": 6,
+      "steps": [
+        "erase:5+6"
+      ]
+    },
+    {
+      "id": "dungeon/func_80E3BD94",
+      "source_sha": "ce29b1558fcc99baf7c4b6a27422d744e397236d68422def6e17f26a2f3d2396",
+      "candidate_sha": "e0f96e273c2b308184863d0a9c7439fbba3475f95eb646b95f7d25c28f5531fc",
+      "pins_in": 8,
+      "pins_out": 6,
+      "steps": [
+        "erase:5+6"
+      ]
+    },
+    {
+      "id": "dungeon/func_8009A288",
+      "source_sha": "8bd14b16bd5fc6f8f9468fc80b64e18b7fed27695e6ee54a773fe9636ae0b04a",
+      "candidate_sha": "919e581c4c3d3f8fc0facca08849f217c69372dd284494470327bd24b523f7bc",
+      "pins_in": 7,
+      "pins_out": 2,
+      "steps": [
+        "erase:2+3+4+5+6"
+      ]
+    }
+  ],
+  "joint_example": {
+    "id": "town/func_800B8934",
+    "source_sha": "956902a4ec0408f03174c694066e50f2e97452dea2e88fa5fc7898920c5b4c83",
+    "probes": [
+      {
+        "group": [
+          0
+        ],
+        "score": {
+          "status": "ok",
+          "exact": false,
+          "total": 4,
+          "class": "code-motion",
+          "regions": [
+            {
+              "op": "d",
+              "g": [
+                37,
+                38
+              ],
+              "t": [
+                37,
+                37
+              ],
+              "got": [
+                "move $s2, $s3"
+              ],
+              "tgt": []
+            },
+            {
+              "op": "r",
+              "g": [
+                41,
+                42
+              ],
+              "t": [
+                40,
+                41
+              ],
+              "got": [
+                "lbu $a0, ($s2)"
+              ],
+              "tgt": [
+                "lbu $a0, ($s3)"
+              ]
+            },
+            {
+              "op": "i",
+              "g": [
+                75,
+                75
+              ],
+              "t": [
+                74,
+                75
+              ],
+              "got": [],
+              "tgt": [
+                "nop"
+              ]
+            }
+          ],
+          "secs": 0.77
+        }
+      },
+      {
+        "group": [
+          4
+        ],
+        "score": {
+          "status": "ok",
+          "exact": false,
+          "total": 27,
+          "class": "hold-set",
+          "regions": [
+            {
+              "op": "i",
+              "g": [
+                1,
+                1
+              ],
+              "t": [
+                1,
+                5
+              ],
+              "got": [],
+              "tgt": [
+                "sw $s3, 0x34($sp)",
+                "move $s3, $a0",
+                "sw $s5, 0x3c($sp)",
+                "move $s5, $a1"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                2,
+                9
+              ],
+              "t": [
+                6,
+                7
+              ],
+              "got": [
+                "move $s4, $a0",
+                "sw $s3, 0x34($sp)",
+                "move $s3, $s4",
+                "sw $s6, 0x40($sp)",
+                "move $s6, $a1",
+                "sw $s5, 0x3c($sp)",
+                "move $s5, $a2"
+              ],
+              "tgt": [
+                "move $s4, $a2"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                11,
+                12
+              ],
+              "t": [
+                9,
+                10
+              ],
+              "got": [
+                "sll $s2, $s5, 4"
+              ],
+              "tgt": [
+                "sll $s2, $s4, 4"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                14,
+                16
+              ],
+              "t": [
+                12,
+                14
+              ],
+              "got": [
+                "sll $s1, $s5, 2",
+                "sw $ra, 0x44($sp)"
+              ],
+              "tgt": [
+                "sll $s1, $s4, 2",
+                "sw $ra, 0x40($sp)"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                17,
+                19
+              ],
+              "t": [
+                15,
+                17
+              ],
+              "got": [
+                "lbu $v0, ($s4)",
+                "addu $s1, $s1, $s6"
+              ],
+              "tgt": [
+                "lbu $v0, ($s3)",
+                "addu $s1, $s1, $s5"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                42,
+                43
+              ],
+              "t": [
+                40,
+                41
+              ],
+              "got": [
+                "lbu $a0, ($s4)"
+              ],
+              "tgt": [
+                "lbu $a0, ($s3)"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                51,
+                52
+              ],
+              "t": [
+                49,
+                50
+              ],
+              "got": [
+                "sll $v1, $s5, 2"
+              ],
+              "tgt": [
+                "sll $v1, $s4, 2"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                54,
+                56
+              ],
+              "t": [
+                52,
+                54
+              ],
+              "got": [
+                "sll $v1, $s5, 2",
+                "addu $v1, $v1, $s6"
+              ],
+              "tgt": [
+                "sll $v1, $s4, 2",
+                "addu $v1, $v1, $s5"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                63,
+                64
+              ],
+              "t": [
+                61,
+                62
+              ],
+              "got": [
+                "sll $v0, $s5, 4"
+              ],
+              "tgt": [
+                "sll $v0, $s4, 4"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                67,
+                69
+              ],
+              "t": [
+                65,
+                66
+              ],
+              "got": [
+                "lw $ra, 0x44($sp)",
+                "lw $s6, 0x40($sp)"
+              ],
+              "tgt": [
+                "lw $ra, 0x40($sp)"
+              ]
+            },
+            {
+              "op": "i",
+              "g": [
+                75,
+                75
+              ],
+              "t": [
+                72,
+                75
+              ],
+              "got": [],
+              "tgt": [
+                "addiu $sp, $sp, 0x48",
+                "jr $ra",
+                "nop"
+              ]
+            }
+          ],
+          "secs": 0.78
+        }
+      },
+      {
+        "group": [
+          0,
+          4
+        ],
+        "score": {
+          "status": "ok",
+          "exact": true,
+          "total": 0,
+          "class": "match",
+          "secs": 0.73
+        }
+      }
+    ]
+  },
+  "publication": "Pending; inspect publication.json and followup/transaction.json before claiming landed"
+}
