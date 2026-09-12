@@ -258,6 +258,7 @@ void FUNC_8197C800_BODY(void *input, void *output)
     u8 *debris_origin;
     register u8 *burst_origin ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 timer;
+    s32 scaled_coord;
     static void *const state_labels[] = {
         &&case_zero, &&case_one, &&case_two, &&case_three, &&case_four
     };
@@ -392,14 +393,12 @@ case_three:
             direction_offsets = D_8006CCD8;
             {
                 s32 grid_coord;
-                s32 scaled_coord;
                 s32 rounded_random;
                 s32 jitter;
                 void *position;
                 grid_coord = ((S_FUNC_8197C800_BODY_13 *)burst_origin)->unk_24 + direction_offsets[offset_index];
                 rounded_random = random_value;
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 scaled_coord = grid_coord << 6;
                 if (random_value < 0) {
                     rounded_random = random_value + 31;
@@ -414,7 +413,6 @@ case_three:
             direction_offsets = D_8006CCE8;
             {
                 s32 grid_coord;
-                s32 scaled_coord;
                 s32 rounded_random;
                 s32 jitter;
                 void *position;

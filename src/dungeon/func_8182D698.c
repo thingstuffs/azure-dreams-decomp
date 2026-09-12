@@ -62,7 +62,6 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
         {
             register s32 z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 z_velocity;
-            s32 x_velocity;
             volatile s32 *x_velocity_addr = &motion->dx;
             s32 x_drag;
             s32 random_value;
@@ -73,10 +72,9 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
             z_velocity = motion->dz;
             y += y_velocity;
             motion->y = y;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            x_velocity = *x_velocity_addr;
+            random_value = *x_velocity_addr;
             z += z_velocity;
-            x_drag = x_velocity >> 3;
+            x_drag = random_value >> 3;
             motion->z = z;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             {
@@ -84,7 +82,7 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
 
                 y_velocity_copy = y_velocity;
                 ASM_KEEP(y_velocity_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                motion->dx = x_velocity - x_drag;
+                motion->dx = random_value - x_drag;
                 motion->dy = y_velocity_copy - (y_velocity_copy >> 3);
             }
             random_value = func_80069EF8(x_drag, y_velocity);

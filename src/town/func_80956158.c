@@ -32,14 +32,13 @@ void func_80023158(S_80023158_0 *sequence, Rec_D_800E3D7C *target)
 
     switch (state) {
     case 0: {
-        register s16 duration ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         if (owner->unk_2C != 3) {
             break;
         }
-        duration = 0x18;
+        state = 0x18;
         next_state = sequence->unk_18.u;
-        sequence->unk_1A = duration;
+        sequence->unk_1A = state;
         goto increment_state;
     }
 

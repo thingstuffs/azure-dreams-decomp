@@ -277,7 +277,8 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
             *((s16 *) (((u8 *) packet_data) + 0x18)) = (*((u16 *) (((u8 *) scratch) + 0x14))) + (*((u16 *) (((u8 *) scratch) + 0x08)));
             {
               s32 bottom_right_uv;
-              register s32 right_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+              s32 right_x;
+              s32 count_or_x;
               bottom_right_uv = *((u16 *) (((u8 *) scratch) + 0x14));
               bottom_right_uv += *((u16 *) (((u8 *) scratch) + 0x10));
               *((s16 *) (((u8 *) packet_data) + 0x20)) = bottom_right_uv;

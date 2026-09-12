@@ -35,11 +35,10 @@ typedef struct S_800BD5C4_0_pre {
 s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     u16 *type_flags;
     void *call_arg;
-    register s32 context_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 saved_context ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 context_arg;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 saved_context;
     D_80083460_t *state;
     s32 type_index;
-    s32 effect_context;
     s32 effect_result;
 
     if (entity == D_800E3D7C[0]) {
@@ -59,10 +58,10 @@ s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     }
     func_800C4AFC(((S_800BD5C4_0_pre *)entity)[-1].unk_00, 0xC02020, entity);
     if ((((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) && !(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x400)) {
-        effect_context = func_800990FC();
+        effect_result = func_800990FC();
         call_arg = &D_800E0E82;
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        context_arg = effect_context;
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        context_arg = effect_result;
         saved_context = context_arg;
         effect_result = func_80099194(call_arg, context_arg);
         func_80099290(effect_result);

@@ -31,6 +31,7 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
     s32 y;
     s32 signed_limit;
     s16 blocked;
+    u8 *loop_y_table;
 
     found = 0;
     direction = (heading >> 9) & 7;
@@ -41,10 +42,9 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
     ASM_KEEP_NV(x_step);
     height_range = 0x20;
     {
-        u8 *y_table;
 
-        y_table = (u8 *)D_8006CCE8;
-        y_step_or_count = (s32)(y_table + offset_or_x_step);
+        loop_y_table = (u8 *)D_8006CCE8;
+        y_step_or_count = (s32)(loop_y_table + offset_or_x_step);
     }
 
     initial_x = *(u16 *)x_step + start_x;
@@ -121,7 +121,6 @@ start:
             }
 
             {
-                register u8 *loop_y_table ASM_REG("$2");
                 register s32 loop_offset ASM_REG("$8");
                 s32 next_x;
                 s32 next_x2;

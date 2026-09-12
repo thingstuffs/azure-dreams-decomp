@@ -147,20 +147,18 @@ s32 func_8002222C(void *first_entry) {
         packet_word = ((S_8002222C_3 *)screen_xy)->unk_04;
         ((S_8002222C_2 *)line_packet)->unk_10 = packet_word;
         {
-            register s32 depth_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 min_depth;
             register u32 first_depth ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             first_depth = ((S_8002222C_4 *)depths)->unk_00;
-            depth_offset = first_depth << 0x10;
+            bucket_addr = first_depth << 0x10;
             min_depth = ((S_8002222C_4 *)depths)->unk_02 << 0x10;
-            if (depth_offset < min_depth) {
-                min_depth = depth_offset >> 0x13;
+            if (bucket_addr < min_depth) {
+                min_depth = bucket_addr >> 0x13;
             } else {
                 min_depth >>= 0x13;
             }
-            depth_offset = min_depth * 4;
-            ASM_KEEP(depth_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            bucket_addr = depth_offset;
+            bucket_addr = min_depth * 4;
+            bucket_addr = bucket_addr;
         }
         packet_word = (s32)*arena_ptr;
         link_word = ((S_8002222C_2 *)line_packet)->unk_00;

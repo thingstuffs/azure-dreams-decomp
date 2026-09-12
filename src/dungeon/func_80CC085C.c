@@ -125,6 +125,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
     register s32 target_y ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 state_flags;
     s32 flags;
+    void *root;
 
     state_flags = D_80083462;
 
@@ -177,7 +178,6 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
         }
         {
             void **root_page = &D_800814A8;
-            void *root;
             register u8 *leader_pos ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             register unsigned long x_lookup ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             unsigned long y_lookup;
@@ -189,7 +189,6 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             leader_pos = D_80082E80;
             x_lookup = (unsigned long)D_8006CCD8;
             root = *root_page;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             y_lookup = ((S_8017405C_0 *)movement)->unk_45;
             leader_x = leader_pos[0x24];
             y_lookup += (s16)((S_8017405C_4 *)root)->unk_2A >> 9;
@@ -271,7 +270,6 @@ update_heading:
         }
         {
             void **root_page = &D_800814A8;
-            void *root;
             register u8 *leader_pos = D_80082E80;
             register unsigned long x_lookup ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             unsigned long y_lookup;

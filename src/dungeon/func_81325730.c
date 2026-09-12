@@ -141,7 +141,7 @@ phase3:
             state->unk9b = 0;
             for (;;) {
                 DungeonEntry *entry;
-                register u32 entry_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                u32 entry_addr;
 
                 entry_addr = (u32)(entry_index * 4) + (u32)D_800E3D7C.entries;
                 entry = (DungeonEntry *)entry_addr;
@@ -149,8 +149,7 @@ phase3:
                     u32 *resource_header;
 
                     func_8016A908(entry->unkac);
-                    entry_addr = (u32)(entry_index * 4) + (u32)D_800E3D7C.entries;
-                    entry = (DungeonEntry *)entry_addr;
+                    entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)D_800E3D7C.entries);
                     resource_header = (u32 *)(entry->unkac - 0x20);
                     resource_header[4] = resource_header[4] | resource_flag;
                 }

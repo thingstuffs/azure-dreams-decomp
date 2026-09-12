@@ -79,7 +79,6 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
         init_object = object;
         ASM_KEEP(init_object);
         transform = ((S_80174D48_0 *)object)->unk_08;
-        ASM_KEEP(transform);
         data_base = source;
         coord_value = ((S_80174D48_1 *)data_base)->unk_00;
         sprite = ((S_80174D48_0 *)object)->unk_0C;
@@ -87,9 +86,8 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
         init_address = 0x80040000;
         ASM_KEEP(init_address);
         transform->unk_00 = coord_value;
-        coord_value = ((S_80174D48_1 *)data_base)->unk_04;
         init_address += 0x5340;
-        transform->unk_04 = coord_value;
+        transform->unk_04 = ((S_80174D48_1 *)data_base)->unk_04;
         coord_z = ((S_80174D48_1 *)data_base)->unk_08;
         transform->unk_10 = 0;
         transform->unk_0C = 0;

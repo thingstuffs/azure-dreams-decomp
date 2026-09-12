@@ -102,11 +102,10 @@ state_zero:
     }
     func_800A56E0(0x815);
     {
-        register s32 duration ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         next_state = U8_AT(state_input, 0x9B);
-        duration = 0x1E;
-        S16_AT(state_input, 0x96) = duration;
+        state = 0x1E;
+        S16_AT(state_input, 0x96) = state;
     }
     goto advance_state;
 state_one:

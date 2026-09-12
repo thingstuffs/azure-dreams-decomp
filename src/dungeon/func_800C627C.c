@@ -113,9 +113,9 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
             register u8 *transition_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             register s32 floors_ascended ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             u16 go_up_trap_count;
+            S_800CB9DC_2 *motion_state;
 
             motion_state = (void *)0x80010000;
-            ASM_KEEP(motion_state);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             if (motion_state->unk_3714 & 4) {
                 func_80040AA0(3U, actor_data);
             } else {

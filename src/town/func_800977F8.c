@@ -18,26 +18,25 @@ typedef struct {
 void func_80094F58(s16 angle, s32 max_length, FuncData *vector) {
     s32 first_step;
     s32 second_step;
-    s32 length;
     s32 over_limit;
     s32 rounded_length;
     register s32 adjusted_length ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 divisor;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 limit_units ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 first_quotient ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 second_quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 second_quotient;
 
     first_step = func_800644B8(angle) << 6;
     second_step = func_80064584(angle) << 6;
     vector->first += first_step;
     vector->second += second_step;
-    length = func_8003BD84(vector->first, vector->second);
-    over_limit = max_length < length;
-    rounded_length = length + 0xFFF;
+    second_quotient = func_8003BD84(vector->first, vector->second);
+    over_limit = max_length < second_quotient;
+    rounded_length = second_quotient + 0xFFF;
     if (over_limit != 0) {
         adjusted_length = rounded_length;
         if (rounded_length < 0) {
-            adjusted_length = length + 0x1FFE;
+            adjusted_length = second_quotient + 0x1FFE;
         }
         divisor = adjusted_length >> 12;
         first_quotient =

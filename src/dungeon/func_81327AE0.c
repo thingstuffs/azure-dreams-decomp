@@ -87,7 +87,6 @@ void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
     s32 direction_check;
     s32 direction_value;
     u8 *tile_slot;
-    register u8 *direction_slot ASM_REG("$2");
     u16 facing_flags;
     u16 sprite_flags;
     u16 updated_flags;
@@ -169,9 +168,8 @@ void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
             (*(s16 *)((u8 *)entity + (0x94))) = old_direction;
         }
 
-        direction_slot = D_8006CCF8 + direction_copy;
-        ASM_KEEP(direction_slot);
-        if (*direction_slot != 0) {
+        tile_slot = D_8006CCF8 + direction_copy;
+        if (*tile_slot != 0) {
             facing_flags = ((S_8016F2E0_4 *)sprite)->unk_14.n;
             facing_flags |= 1;
         } else {

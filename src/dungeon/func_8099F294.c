@@ -31,7 +31,6 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
   register void *actor ASM_REG("$17") = actor_input;
   void *entry_actor = actor_input;
   void *motion = motion_input;
-  s32 direction;
   register s32 direction_index ASM_REG("$16");
   s32 view_direction;
   void *sprite = sprite_input;
@@ -92,13 +91,12 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
   }
   *((s32 *) (((u8 *) actor) + 0x90)) += *((s32 *) (((u8 *) motion) + 0x14));
   view_direction = ((D_80083228.value + (*((s16 *) (((u8 *) actor_base) + 0x2A)))) + 0x100) >> 9;
-  direction = view_direction & 7;
-  ASM_KEEP(direction);
-  direction_index = direction;
+  bob_step = view_direction & 7;
+  direction_index = bob_step;
   if ((*((s16 *) (((u8 *) actor) + 0x94))) != direction_index)
   {
     func_80047738(sprite, *((u8 *) ((*((u8 **) (((u8 *) sprite) + 0x2C))) + direction_index)), *((s8 *) (((u8 *) sprite) + 4)));
-    *((s16 *) (((u8 *) actor) + 0x94)) = direction;
+    *((s16 *) (((u8 *) actor) + 0x94)) = bob_step;
   }
   if (D_8006CCF8[direction_index] != 0)
   {

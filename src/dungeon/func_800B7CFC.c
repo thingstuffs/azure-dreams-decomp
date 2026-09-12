@@ -63,15 +63,14 @@ s32 func_800BD45C(void *entity, s32 item, s16 action) {
     func_800C4AFC(((S_800BD45C_0_pre *)entity)[-1].unk_00, 0x802080, entity);
     if ((((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) && !(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x40)) {
         M2C_UNK *message_text;
-        register s32 message_pos ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 message_start ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        s32 buffer_start;
+        s32 message_pos;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 message_start;
         s32 message_end;
 
-        buffer_start = func_800990FC();
+        message_end = func_800990FC();
         message_text = &D_800E0E69;
-        ASM_USE(message_text);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        message_pos = buffer_start;
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        message_pos = message_end;
         message_start = message_pos;
         message_end = func_80099194(message_text, message_pos);
         func_80099290(message_end);

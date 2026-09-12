@@ -81,7 +81,7 @@ s32 func_80174A6C(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E8
         {
             S_80174A6C_5 *query_arg = source;
             u16 *query_out;
-            register s32 copy_word_0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 copy_word_0;
             register s32 copy_word_1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 copy_word_2;
             s32 copy_word_3;
@@ -100,9 +100,8 @@ s32 func_80174A6C(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E8
             dst_state->unk_04.at00.v = copy_word_1;
             dst_state->unk_08.at00.v = copy_word_2;
             dst_state->unk_0C = copy_word_3;
-            copy_word_0 = src_state->unk_10;
             copy_word_1 = src_state->unk_14;
-            dst_state->unk_10 = copy_word_0;
+            dst_state->unk_10 = src_state->unk_10;
             dst_state->unk_14 = copy_word_1;
 
             offsets[2] = 0;

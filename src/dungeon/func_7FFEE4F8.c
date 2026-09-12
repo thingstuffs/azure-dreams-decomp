@@ -101,7 +101,7 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
     } else if (state == 10) {
         register s32 selection_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         u8 selection_id;
-        register u8 *selection_positions ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *selection_positions;
         s32 buttons;
 
         func_800478B8(update_context);
@@ -129,8 +129,7 @@ update:
         selection_index = ((S_8008BC58_0 *)object)->unk_74.s;
         selection_positions = D_800D2EA4;
         selection_id = selection_ids[selection_index];
-        display_record = *(u8 **)object;
-        ((S_8008BC58_3 *)display_record)->unk_30 = selection_positions[selection_id * 8] - 0x18;
+        ((S_8008BC58_3 *)(*(u8 **)object))->unk_30 = selection_positions[selection_id * 8] - 0x18;
 
         selection_index = ((S_8008BC58_0 *)object)->unk_74.s;
         selection_id = selection_ids[selection_index];

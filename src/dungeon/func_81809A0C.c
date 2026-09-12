@@ -537,7 +537,7 @@ animate_exit:
             if ((exit_left << 0x10) <= 0) {
                 s32 object_or_flags;
                 s32 index_or_object;
-                register s32 flags_or_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 flags_or_page;
                 s32 object_or_state;
                 register s32 *side_ptr ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 *flags_page;
@@ -558,6 +558,7 @@ animate_exit:
                 do {
                     object_or_flags = (s32) ((S_8002520C_17 *)side_ptr)->unk_0C;
                     if (object_or_flags != 0) {
+                        s32 flags_or_page;
                         flags_or_page = ((S_8002520C_8 *)((void *) object_or_flags))->unk_1E;
                         object_or_state = ((S_8002520C_19 *)flags_page)->unk_14A0;
                         flags_or_page |= 0x8000;

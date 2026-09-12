@@ -33,7 +33,7 @@ void func_8195EE48(S_8195EE48_0 *state, S_8195EE48_1 *motion)
     s32 phase_or_height;
     s16 ticks_left;
     s16 next_ticks;
-    register u16 counter ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 counter;
 
     counter = D_80027330[0];
     phase_or_height = state->unk_48;
@@ -41,6 +41,7 @@ void func_8195EE48(S_8195EE48_0 *state, S_8195EE48_1 *motion)
     if (phase_or_height == 0) {
         ticks_left = state->unk_4C;
         if (ticks_left > 0) {
+            s32 phase_or_height;
             phase_or_height = state->unk_3C;
             state->unk_3C =
                 (u16)state->unk_3C +

@@ -55,7 +55,6 @@ typedef struct S_800BE120_1 {
 /* Applies data to an entity and handles the resulting update or fallback. */
 s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
     s32 stored;
-    s32 stored_test;
     void *call_entity;
     register s32 context_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 zero_result ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -98,9 +97,8 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
         }
     }
 
-    stored_test = stored;
-    ASM_KEEP(stored_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (stored_test != 0) {
+    new_context = stored;
+    if (new_context != 0) {
         goto consume_data;
     }
     if ((((S_800BE120_0 *)entity)->unk_13 < 2) ||

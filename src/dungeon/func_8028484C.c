@@ -102,8 +102,8 @@ retry:
             s32 spawn_y;
             s32 cell_offset;
             s32 row_offset;
-            register s32 update_row_shift ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            register s32 copy_row_shift ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            s32 update_row_shift;
+            s32 copy_row_shift;
             s32 flags_row_shift;
             s32 cell_flags;
             s32 cell_index;
@@ -124,8 +124,7 @@ retry:
             map[cell_index].value -= 0x20;
 
             copy_row_shift = *(s16 *)(config + 0x14);
-            cell_index = cell_offset + (row_offset << copy_row_shift);
-            entry->value = map[cell_index].value;
+            entry->value = map[cell_offset + (row_offset << copy_row_shift)].value;
 
             flags_row_shift = *(s16 *)(config + 0x14);
             ASM_KEEP(flags_row_shift);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

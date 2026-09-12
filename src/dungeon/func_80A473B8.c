@@ -352,10 +352,9 @@ ground_reset:
             height_raw = (*(volatile u16 *)((u8 *)actor + 0x92));
             height_limit = ground_offset - 0x18;
             if (height_limit < height_offset) {
-                register u32 next_height ASM_REG("$2");   /* Byte-exact pin. */
 
-                next_height = height_raw - 8;
-                (*(u16 *)((u8 *)actor + 0x92)) = next_height;
+                global_flags = height_raw - 8;
+                (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
                 goto final_collision;
             }
 adjust_height:
@@ -364,10 +363,9 @@ adjust_height:
                 goto final_collision;
             }
             {
-                register u32 next_height ASM_REG("$2");   /* Byte-exact pin. */
 
-                next_height = height_raw + 8;
-                (*(u16 *)((u8 *)actor + 0x92)) = next_height;
+                global_flags = height_raw + 8;
+                (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
             }
         }
     }

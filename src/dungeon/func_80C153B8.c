@@ -125,9 +125,8 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
 
     if (!(status_flags & 0x8000)) {
         {
-            register s32 view_direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            view_direction = (D_80083228 + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9;
-            direction = view_direction & 7;
+            ground_offset = (D_80083228 + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9;
+            direction = ground_offset & 7;
         }
         if ((*(s16 *)((u8 *)actor + (0x94))) != direction) {
             func_80047738(object, ((S_80170BB8_1 *)object)->unk_2C[direction],

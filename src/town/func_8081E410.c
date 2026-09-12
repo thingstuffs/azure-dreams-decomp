@@ -39,7 +39,6 @@ void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
     s32 abs_dx;
     s32 abs_dy;
     s32 speed_limit;
-    register s32 speed_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 sector_start;
     s32 reduced_speed;
     s32 icon_x;
@@ -154,8 +153,8 @@ idle:
     goto wrap_angle;
 
 accelerate:
-    speed_step = (S16(state_arg, 0x72) + 16) >> 4;
-    value = U16(state_arg, 0x72) + speed_step;
+    reduced_speed = (S16(state_arg, 0x72) + 16) >> 4;
+    value = U16(state_arg, 0x72) + reduced_speed;
     U16(state_arg, 0x72) = value;
     if ((s16)value > speed_limit) {
         U16(state_arg, 0x72) = speed_limit;

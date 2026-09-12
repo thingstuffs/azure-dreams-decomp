@@ -236,6 +236,7 @@ extern void func_80025DAC(void) __attribute__((noreturn));
 /* Advance the effect sequence, spawning sprites and particles along its sampled path. */
 void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
 {
+    u8 *position;
     static void *const state_labels[] __attribute__((used)) = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&cleanup, &&done
     };
@@ -333,7 +334,6 @@ case_2:
             void *effect_obj;
             register u8 *effect_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             u8 *sprite;
-            u8 *position;
             u8 *world_pos;
 
             effect_obj = func_8003FC64(0x212);
@@ -445,7 +445,6 @@ after_coords:
         if (effect_obj != 0) {
             u8 *effect_data = (u8 *)effect_obj + 0x20;
             u8 *sprite;
-            register u8 *position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             u32 light_saved;
             register u32 light_copy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             u32 dark_left;

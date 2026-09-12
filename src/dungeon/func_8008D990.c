@@ -157,7 +157,7 @@ jt_c1:
     {
         register UnalignedCopy3 *copy_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         UnalignedCopy3 *copy_dst;
-        register s32 copy_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 copy_word;
         s32 middle_word;
 
         copy_src = (UnalignedCopy3 *)0x80013710;
@@ -167,8 +167,7 @@ jt_c1:
         middle_word = copy_src->unk4;
         copy_dst->unk0 = copy_word;
         copy_dst->unk4 = middle_word;
-        copy_word = copy_src->unk8;
-        copy_dst->unk8 = copy_word;
+        copy_dst->unk8 = copy_src->unk8;
         ((S_800930F0_4 *)saved_state_base)->unk_3714.u = 0;
         ((S_800930F0_4 *)saved_state_base)->unk_3716 = 0;
         ((S_800930F0_4 *)saved_state_base)->unk_3718 = 0;

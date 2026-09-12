@@ -196,7 +196,7 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     register s32 bucket_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 gray ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     void *prim_arg;
-    register s32 tex_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 tex_coord;
     s32 tex_left;
     u8 *world_vertex;
     u8 *screen_vertex;
@@ -391,12 +391,11 @@ build_x_pairs:
     ((S_807B0B3C_7 *)prim)->unk_18.at02.v = func_80066460(0, 1, 0x280, 0x100);
     {
         u16 clut;
-        s32 first_vertex;
 
         clut = func_8006649C(0x90, 0x1F7);
-        first_vertex = ((S_807B0B3C_8 *)verts)->unk_00;
+        tex_left = ((S_807B0B3C_8 *)verts)->unk_00;
         ((S_807B0B3C_7 *)prim)->unk_0C.at02.v = clut;
-        ((S_807B0B3C_7 *)prim)->unk_08 = first_vertex;
+        ((S_807B0B3C_7 *)prim)->unk_08 = tex_left;
     }
     ((S_807B0B3C_7 *)prim)->unk_14 = ((S_807B0B3C_8 *)verts)->unk_04;
     ((S_807B0B3C_7 *)prim)->unk_20 = ((S_807B0B3C_8 *)verts)->unk_08;

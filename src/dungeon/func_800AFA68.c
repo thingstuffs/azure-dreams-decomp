@@ -72,7 +72,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   register u16 initial_pitch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   register u16 initial_yaw ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   s32 shadow_scale[3];
-  register u8 *entry_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  u8 *entry_table;
   s32 world_x;
   s32 depth_or_height;
   u16 world_pos_x;
@@ -162,6 +162,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   entry_flags = (void *) ((entry_index * 4) + ((s32) entry_table));
   if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (D_800E296C[0] & 8)) && ((*((u8 *) (((s8 *) entry_flags) + 1))) != 0)) && ((*((u8 *) (((s8 *) entry_flags) + 0))) != 0))
   {
+    u8 *entry_table;
     entry_table = &D_800E39C8;
     sprite_entry = (entry_index * 0x18) + entry_table;
     if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x40)

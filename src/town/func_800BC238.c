@@ -40,7 +40,7 @@ extern s32 func_8009CFE0(void *, void *);
 
 /* Deactivate the object when triggered; otherwise update its spin from nearby motion and advance rotation. */
 void func_800B9998(void *object, void *position, void *rotation) {
-    register u8 *position_data ASM_REG("$17") = position;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *position_data = position;
     u8 *rotation_data = rotation;
     s8 *active_flag;
     u8 *town_state;
@@ -49,7 +49,6 @@ void func_800B9998(void *object, void *position, void *rotation) {
     s32 near_x;
     s32 speed_sq;
     s32 position_y;
-    s32 spin_speed;
     s32 raw_speed;
     s32 angle_step;
 
@@ -65,12 +64,12 @@ void func_800B9998(void *object, void *position, void *rotation) {
     }
 
     raw_speed = ((S_800B9998_0 *)object)->unk_66.s;
-    spin_speed = ((S_800B9998_0 *)object)->unk_66.u;
-    if (spin_speed >= 0x100) {
+    position_y = ((S_800B9998_0 *)object)->unk_66.u;
+    if (position_y >= 0x100) {
         ((S_800B9998_0 *)object)->unk_66.s = raw_speed - 0x20;
         goto speed_ready;
     }
-    if (spin_speed >= 0x10) {
+    if (position_y >= 0x10) {
         ((S_800B9998_0 *)object)->unk_66.s = raw_speed - 0x10;
         goto speed_ready;
     }

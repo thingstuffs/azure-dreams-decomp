@@ -32,15 +32,14 @@ void reserve_twch_load(s32 character_id) {
     {
         u8 *free_slot;
         u8 *reservations;
-        register u8 *next_slot ASM_REG("$2"); /* MATCH: keep the terminator address in v0 for the branch delay slot. */
 
         reservations = D_800CF828;
         free_slot = (u8 *)(i + (s32)reservations);
         do {
             if (*free_slot == 0) {
-                next_slot = (u8 *)((s32)reservations + i);
+                reservation_slot = (u8 *)((s32)reservations + i);
                 *free_slot = character_id;
-                next_slot[1] = 0;
+                reservation_slot[1] = 0;
                 return;
             }
             i++;

@@ -44,7 +44,7 @@ extern s32 func_80042A80(S_8004AC3C_Item *);
 s32 func_8004AC3C(S_8004AC3C_Item *item, s32 *out_mode)
 {
   s32 item_flags;
-  register S_8004AC3C_CategoryEntry *categories ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  S_8004AC3C_CategoryEntry *categories;
   S_8004AC3C_CategoryEntry *category;
   s32 data_addr;
   *out_mode = 0;
@@ -84,6 +84,7 @@ s32 func_8004AC3C(S_8004AC3C_Item *item, s32 *out_mode)
   }
   else
   {
+    S_8004AC3C_CategoryEntry *categories;
     if (item->unk1 == 0x16)
     {
       *out_mode = 7;

@@ -139,7 +139,8 @@ void func_80022F60(void *arg0) {
     u16 timer;
     register s32 two ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *obj;
-    register u8 *sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *sprite;
+    s32 *position;
 
     ASM_KEEP(arg);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
@@ -283,7 +284,6 @@ void func_80022F60(void *arg0) {
                     obj = func_8003FC64(0x136);
                     if (obj != NULL) {
                         register u8 *image ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                        register s32 *position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         sprite = (u8 *)obj + 0x20;
 
@@ -351,8 +351,8 @@ void func_80022F60(void *arg0) {
 
                 if (obj != NULL) {
                     register u8 *image ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                    s32 *position;
                     s32 random;
+                    u8 *sprite;
 
                     sprite = (u8 *)obj + 0x20;
                     ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;

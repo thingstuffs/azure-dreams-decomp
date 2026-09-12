@@ -171,7 +171,6 @@ main_phase:
         diff = color.z - S16(arg0, 0x10);
         diff = abs(diff);
         isClose = diff < 0x801;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         {
             s32 rawValue;
             s32 newValue;
@@ -179,8 +178,7 @@ main_phase:
             rawValue = U16(arg0, 0x10);
             if (!isClose) {
                 newValue = rawValue & 0xF000;
-                rawValue = (u16)color.z & 0xFFF;
-                newValue |= rawValue;
+                newValue |= ((u16)color.z & 0xFFF);
                 color.z = newValue;
             }
         }

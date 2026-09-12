@@ -309,7 +309,6 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                     glide_note = channel->f5C & 0x7F;
                     ASM_KEEP_NV(glide_note);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     start_note = (u8) glide_note;
-                    ASM_KEEP_NV(channel);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     prev_note = channel->f5C;
                     channel->f52 = 0;
                     if (prev_note < note_key) {
@@ -329,10 +328,10 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                 }
             } else {
                 if (channel->f50 != 0) {
+                    u32 prev_note;
                     glide_note = channel->f5C & 0x7F;
                     ASM_KEEP_NV(glide_note);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     start_note = (u8) glide_note;
-                    ASM_KEEP_NV(channel);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     prev_note = channel->f5C;
                     channel->f52 = 0;
                     if (prev_note < note_key) {

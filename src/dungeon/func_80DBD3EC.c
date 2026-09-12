@@ -136,6 +136,7 @@ void func_80174BEC(void *state, void *source_pos, void *source_render, void *act
     Vec3u map_offset;
     PackedTable velocity_table;
     s16 frame;
+    s32 coord;
 
     velocity_table = *(PackedTable *)D_80170854;
 
@@ -186,7 +187,6 @@ spawn_particles:
                     register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     s32 velocity_x;
                     s32 offset_z;
-                    s32 coord;
                     s32 position_y;
                     u8 *position;
                     u8 *render;
@@ -287,7 +287,6 @@ next_particle_1:
                     s32 offset_z;
                     s32 position_z;
                     s32 position_y;
-                    s32 position_x;
                     u8 *position;
                     u8 *motion;
                     u8 *render;
@@ -321,11 +320,10 @@ next_particle_1:
                     offset_x -= 0x10;
                     offset_y = func_80069EF8() & 0x1F;
                     offset_y -= 0x10;
-                    position_x = ((S_80174BEC_6 *)position)->unk_02;
-                    position_x += offset_x;
+                    coord = ((S_80174BEC_6 *)position)->unk_02;
+                    coord += offset_x;
                     position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
-                    ((S_80174BEC_6 *)position)->unk_02 = position_x;
-                    ASM_KEEP(position_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ((S_80174BEC_6 *)position)->unk_02 = coord;
                     ((S_80174BEC_6 *)position)->unk_06 = position_y;
                     offset_z = func_80069EF8() & 0x1F;
                     velocity_x = (s32)(offset_x << 16) >> 4;

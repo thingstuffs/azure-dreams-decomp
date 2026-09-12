@@ -44,7 +44,6 @@ void func_800260DC(u8 *obj, u8 *coords_out, u8 *rgb)
     u16 final_z;
     s32 previous_z;
     s32 current_z;
-    u16 y;
     u16 z;
 
     U16_AT(obj, 0x1A) = U16_AT(obj, 0x2C);
@@ -64,12 +63,11 @@ copy_history:
         goto copy_history;
     }
 
-    y = U16_AT(obj, 0x12);
+    final_z = U16_AT(obj, 0x12);
     z = U16_AT(obj, 0x16);
     U16_AT(obj, 0x24) = U16_AT(obj, 0x0E);
     linked_obj = PTR_AT(obj, 8);
-    ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    U16_AT(obj, 0x26) = y;
+    U16_AT(obj, 0x26) = final_z;
     U16_AT(obj, 0x28) = z;
 
     if (linked_obj != 0) {

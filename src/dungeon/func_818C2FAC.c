@@ -72,7 +72,6 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
     s32 biased_seed;
     s32 random_value;
     s32 biased_random;
-    s32 x_factor;
     s32 y_factor;
     s32 y_offset;
     s32 new_y;
@@ -84,7 +83,6 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
     s32 position_z;
     s32 position_word_3;
     s32 position_word_4;
-    s32 position_word_5;
     uptr data_addr = (uptr)owner;
     uptr position_addr = (uptr)source_position;
     s32 object_type;
@@ -205,22 +203,20 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
         (*(s32 *)((u8 *)((void *)data_addr) + 8)) = position_z;
         (*(s32 *)((u8 *)((void *)data_addr) + 0xC)) = position_word_3;
         position_word_4 = (*(s32 *)((u8 *)((void *)position_addr) + 0x10));
-        position_word_5 = (*(s32 *)((u8 *)((void *)position_addr) + 0x14));
+        divisor_reciprocal = (*(s32 *)((u8 *)((void *)position_addr) + 0x14));
         (*(s32 *)((u8 *)((void *)data_addr) + 0x10)) = position_word_4;
-        (*(s32 *)((u8 *)((void *)data_addr) + 0x14)) = position_word_5;
+        (*(s32 *)((u8 *)((void *)data_addr) + 0x14)) = divisor_reciprocal;
 
         random_value = func_80069EF8();
         divisor_reciprocal = 0x78787879;
         render_or_radius = (uptr)random_value;
-        ASM_USE_NV(divisor_reciprocal);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         offset_angle = (s16)offset_angle;
         render_or_radius = (uptr)((s32)render_or_radius % 17 + 0x20);
-        x_factor = func_800644B8(offset_angle) >> 4;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        y_factor = func_800644B8(offset_angle) >> 4;
         render_or_radius = (uptr)(s16)(s32)render_or_radius;
         {
             s32 x_offset;
-            scaled_radius = x_factor * (s32)render_or_radius;
+            scaled_radius = y_factor * (s32)render_or_radius;
             x_offset = scaled_radius << 8;
             (*(s32 *)((u8 *)((void *)data_addr) + 0)) += x_offset;
         }

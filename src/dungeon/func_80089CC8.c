@@ -137,7 +137,7 @@ use_effect:
                 u32 entity_mask;
                 u32 owner_mask;
                 u8 *global_page;
-                register s32 flags ASM_REG("$2");
+                s32 flags;
 
                 entity_mask = 0xFFF7FFFF;
                 owner_mask = 0xFFEF0000;
@@ -148,9 +148,8 @@ use_effect:
                 owner_mask |= 0xFFFF;
                 ((S_8008F428_2 *)global_page)->unk_1484 = 0;
                 ((S_8008F428_3 *)entity)->unk_1C = flags & entity_mask;
-                flags = ((S_8008F428_4 *)owner)->unk_1C;
                 D_800E3540 = saved_global;
-                ((S_8008F428_4 *)owner)->unk_1C = flags & owner_mask;
+                ((S_8008F428_4 *)owner)->unk_1C = ((S_8008F428_4 *)owner)->unk_1C & owner_mask;
             }
             ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
             return;

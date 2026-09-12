@@ -43,7 +43,7 @@ typedef struct S_81880F28_3_pre {
 
 /* Tint the object red, restore its color, and advance its motion. */
 void func_81880F28(void *effect, void *motion_data) {
-    register void *motion ASM_REG("$5") = motion_data;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    void *motion = motion_data;
     void *object;
     EffectColor *color;
     s16 state;
@@ -127,8 +127,7 @@ restore_color:
     }
 
     if (D_800257CC[0] == 0) {
-        object = ((S_81880F28_0 *)effect)->unk_00;
-        ((S_81880F28_1 *)object)->unk_1C &= ~0x10000000;
+        ((S_81880F28_1 *)((S_81880F28_0 *)effect)->unk_00)->unk_1C &= ~0x10000000;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }

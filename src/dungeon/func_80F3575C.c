@@ -90,7 +90,6 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
     register u8 *motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 use_player;
     void *target;
-    register void *target_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 target_x;
     s32 target_y;
     s32 wait_ticks;
@@ -157,9 +156,9 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
                     goto do_step;
                 }
             have_obj:
-                target_record = ((S_80172F5C_2_pre *)target)[-1].unk_00;
-                ((S_80172F5C_1 *)actor)->unk_72.s = ((S_80172F5C_3 *)target_record)->unk_24;
-                ((S_80172F5C_1 *)actor)->unk_73.s = ((S_80172F5C_3 *)target_record)->unk_25;
+                action_state = ((S_80172F5C_2_pre *)target)[-1].unk_00;
+                ((S_80172F5C_1 *)actor)->unk_72.s = ((S_80172F5C_3 *)action_state)->unk_24;
+                ((S_80172F5C_1 *)actor)->unk_73.s = ((S_80172F5C_3 *)action_state)->unk_25;
                 goto do_step;
             }
             ((S_80172F5C_1 *)actor)->unk_60 =

@@ -45,7 +45,7 @@ void *func_81984C44(void *source_entity)
     s32 owner_limit;
     u8 *initial_globals;
     s32 initial_limit;
-    register void *next_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *next_link;
     register void *matched_node ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 entity_floor;
     S_81984C44_4 *owner;
@@ -63,6 +63,7 @@ void *func_81984C44(void *source_entity)
         globals = initial_globals;
         owner_limit = initial_limit;
         do {
+            void *next_link;
             if (((func_800A2CB8(((S_81984C44_3 *)globals)->unk_14A8, node) << 16) != 0) &&
                 ((func_800A41F0(node) << 16) != 0) &&
                 !(((S_81984C44_2_pre *)node)[-1].unk_12 & 0x2000)) {

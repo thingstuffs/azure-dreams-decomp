@@ -232,16 +232,15 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
         }
         ASM_SCHED_BARRIER();
         if ((*entity->header & 0x80) != 0) {
-            register u8 *hit_world_page ASM_REG("$4") = (u8 *)0x80080000;
+            u8 *hit_world_page = (u8 *)0x80080000;
             s16 next_state;
             u16 angle;
             hit_world = *(World **)(hit_world_page + 0x14A8);
             entity->timer = 33;
             hit_world->fieldA6--;
             hit_world->fieldA8 = entity->type;
-            hit_world = *(World **)(hit_world_page + 0x14A8);
             next_state = entity->state;
-            angle = hit_world->angle;
+            angle = (*(World **)(hit_world_page + 0x14A8))->angle;
             entity->state = next_state + 1;
             entity->age = 0;
             entity->point_index = (angle >> 9) & 7;
