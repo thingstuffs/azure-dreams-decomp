@@ -140,7 +140,6 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     void *source_data;
     register s16 *update_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *update_ptr;
-    register s16 *update_y_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *update_y_base;
     s16 *update_y_ptr;
     s32 update_y_offset;
@@ -296,10 +295,8 @@ advance_tile:
     update_x = (u16) ((S_80025C80_0 *)effect)->unk_3C;
     x_step = (u16) *update_ptr;
     update_x += x_step;
-    update_y_page = (s16 *) 0x80070000;
-    ASM_KEEP_NV(update_y_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_80025C80_0 *)effect)->unk_3C = update_x;
-    update_y_base = (s16 *) ((u8 *) update_y_page - 0x3318);
+    update_y_base = (s16 *)D_8006CCE8;
     update_y_offset = ((S_80025C80_0 *)effect)->unk_40.s << 1;
     update_y_ptr = (s16 *) ((unsigned long) update_y_offset + (unsigned long) update_y_base);
     update_y = (u16) ((S_80025C80_0 *)effect)->unk_3E.v;

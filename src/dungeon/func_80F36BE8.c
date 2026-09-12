@@ -86,7 +86,6 @@ increment_state:
 
 state_3:
     flag_page = (Page8008 *)0x80080000;
-    ASM_KEEP(flag_page);
     ((S_801743E8_0_pre *)effect)[-1].unk_00 |= 0x8000;
     do {
         flag_page->flags |= 0x8000;

@@ -15,7 +15,6 @@ u8 *func_8009FADC(s32 selector_id) {
     } else {
         result = D_80081484;
     }
-    ASM_SCHED_BARRIER();   /* MATCH: Keep both selector arms jumping to the shared return. */
     return result;
 }
 

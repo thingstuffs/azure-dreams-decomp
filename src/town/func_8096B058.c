@@ -75,7 +75,6 @@ typedef struct SourceEntry {
 void func_801234F0(void) {
     {
         volatile SourceEntry *src_entry;
-        register u8 *address_base;
         void **object_slot;
         s32 entry_index = 0;
         s16 first_default = 0x10;
@@ -85,14 +84,8 @@ void func_801234F0(void) {
         object_slot = (void **)D_80129728;
         src_entry = (volatile SourceEntry *)D_80126A18;
 #else
-        do {
-            address_base = (u8 *)0x80130000;
-        } while (0);
-        ASM_KEEP(address_base);
-        object_slot = (void **)(address_base - 0x68D8);
-        address_base = (u8 *)0x80120000;
-        ASM_KEEP(address_base);
-        src_entry = (volatile SourceEntry *)(address_base + 0x6A18);
+        object_slot = (void **)(D_80129728);
+        src_entry = (volatile SourceEntry *)D_80126A18;
 #endif
         do {
             ((S_801234F0_0 *)(*object_slot))->unk_00 = src_entry->word;

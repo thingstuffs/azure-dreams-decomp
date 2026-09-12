@@ -69,7 +69,7 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
     s32 sprite_size;
     S_80174D48_3 *sprite;
     register void *data_base ASM_REG("$18");
-    register void *object_data ASM_REG("$19");
+    void *object_data;
     void *texture;
     void *object;
     S_80174D48_2 *transform;

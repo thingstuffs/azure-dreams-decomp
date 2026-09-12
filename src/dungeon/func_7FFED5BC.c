@@ -31,6 +31,5 @@ check_entry:
 not_found:
         result = entry_index - 0x80000000;
     }
-    ASM_USE(result);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     return result;
 }

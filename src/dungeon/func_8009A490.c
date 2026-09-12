@@ -42,6 +42,5 @@ s32 func_8009FBF0(s32 pos_x, s32 pos_y) {
     }
     result = -1;
 done:
-    ASM_SCHED_BARRIER();
     return result;
 }

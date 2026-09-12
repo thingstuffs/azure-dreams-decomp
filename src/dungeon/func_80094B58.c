@@ -31,7 +31,6 @@ s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
     }
     result = 1;
 done:
-    ASM_SCHED_BARRIER();
     return result;
 }
 

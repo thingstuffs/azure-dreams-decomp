@@ -58,7 +58,6 @@ search_done:
     if (((S_800195B8_2 *)(((((entry_index * 8) - entry_index) * 4) + entries)))->unk_08 == 0) {
         u8 *page = (u8 *)0x80010000;
         M2C_UNK (*report_missing)(M2C_UNK *, M2C_UNK *, M2C_UNK);
-        ASM_KEEP(page);
         do {
             report_missing = ((S_800195B8_5 *)(((S_800195B8_4 *)(((S_800195B8_3 *)page)->unk_6000))->unk_20))->unk_168;
         } while (0);

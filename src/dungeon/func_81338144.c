@@ -13,7 +13,7 @@ void func_8016F144(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *p;
     void *item;
     /* MATCH: keep the byte-store constant in v0, independent of outgoing a2. */
-    register s32 one ASM_REG("$2");
+    s32 one;
     /* MATCH: prepare outgoing a0 before materializing the byte-store constant. */
     register u8 *callp ASM_REG("$4");
 

@@ -104,6 +104,5 @@ none:
     result->unk_2C.u = 0;
     selection = 0;
 done:
-    ASM_SCHED_BARRIER();
     return selection;
 }

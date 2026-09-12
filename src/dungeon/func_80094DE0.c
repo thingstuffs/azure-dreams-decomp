@@ -12,7 +12,7 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
     s32 side_offset;
     s32 center_x;
     s32 center_y;
-    register s32 side_blocked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 side_blocked;
     s32 x;
     s32 y;
     register u16 *x_offsets ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

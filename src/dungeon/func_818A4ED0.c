@@ -98,9 +98,8 @@ s32 func_818A4ED0(s32 object_param, S_818A4ED0_3 *spawn_position) {
         }
     }
     {
-        register s32 failure_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        s32 failure_result;
         failure_result = 0;
-        ASM_KEEP(failure_result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         return failure_result;
     }
 }
