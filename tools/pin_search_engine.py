@@ -5,6 +5,7 @@ import json
 import re
 import resource
 import sqlite3
+import subprocess
 import sys
 import time
 import zlib
@@ -97,6 +98,7 @@ class Session:
         self.near = []
         self.group_log = []
         self.on_win = on_win
+        self.timeout = None
 
     def check(self):
         if cpu_time() - self.cpu_start >= self.options["cpu_seconds"]:
@@ -117,9 +119,21 @@ class Session:
             raw = zlib.decompress(hit[0]) if isinstance(hit[0],bytes) else hit[0]
             self.memo[h] = json.loads(raw); return self.memo[h]
         t0 = time.monotonic()
-        result = compile_s(row, text)
-        self.stats["compile_seconds"] += time.monotonic() - t0
-        self.stats["compiled"] += 1
+        try:
+            result = compile_s(row, text)
+        except subprocess.TimeoutExpired as exc:
+            # A pathological generated program must not discard the row's proven wins.
+            # End this bounded search and retain the exact input for diagnosis. A timeout
+            # compiling the reference remains an error; neither case enters the cache.
+            self.stats["compile_timeouts"] += 1
+            command=exc.cmd[0] if isinstance(exc.cmd,(list,tuple)) else exc.cmd
+            self.timeout=dict(text=text,source_sha=sha_text(text),seconds=exc.timeout,
+                              compiler=Path(command).name,reference=text==self.original)
+            if text==self.original: raise
+            raise Limit("compiler-timeout") from exc
+        finally:
+            self.stats["compile_seconds"] += time.monotonic() - t0
+            self.stats["compiled"] += 1
         if result is None:
             self.stats["build_failures"] += 1
             # Do not persist failures: missing inputs and temporary compiler errors are retryable.
@@ -285,8 +299,8 @@ class Session:
             info = {"groups": self.group_log[:40]}
         finally:
             self.db.close()
-        # Rejected generated C is ordinary search data. A failed reference or a timeout
-        # remains retryable; don't retry an entire row solely because one mutation was invalid.
+        # A generated-program timeout is a bounded stop, not a negative compilation proof.
+        # Reference failures remain retryable; no timeout is cached as rejected assembly.
         if self.stop == "complete" and self.stats["group_budget_hits"]:
             self.stop = "group-budget"
         return self.best, dict(info, **dict(self.stats), stop_reason=self.stop,

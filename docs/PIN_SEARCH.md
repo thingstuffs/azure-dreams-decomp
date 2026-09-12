@@ -37,7 +37,11 @@ Defaults are 1,200 screen requests, 12 full-verifier calls, and 40 process-plus-
 seconds per row. These are bounded search limits; a single in-progress tool call can take
 the run slightly past the CPU threshold. Compiler screening also has a 30-second timeout.
 Generated C that does not compile is a rejected mutation, not grounds to repeat the whole row.
-Reference-build failures, worker exceptions and timeouts remain retryable.
+Reference-build failures and worker exceptions remain retryable. A timeout compiling a
+generated variant ends that row with `compiler-timeout`, retaining any independently verified
+win and saving the variant under `timeouts/<mode>/`. This is another bounded stop, not proof
+the variant cannot compile. No timed-out compilation is cached as a negative result. Inspect
+that evidence before spending another identical timeout budget on the row.
 
 ## Search and acceptance
 
@@ -65,7 +69,12 @@ they currently emit the same assembly, because later transformations can behave 
 python3 tools/pin_search.py publish --tag pins_next --mode baseline --workers 4
 ```
 
-Publication refuses stale source/candidates and unfinished or retryable-error rows. It reruns
+Publication refuses stale source/candidates and unfinished or retryable-error rows. An explicitly
+named error can be left unresolved with repeatable `--defer <container/function>` arguments;
+the publication receipt records its ID, source hash and error, and its source is not published.
+Missing, stale or completed results cannot be deferred. The default remains strict.
+Publication permits search-code updates since the run, but the frozen manifest and results
+must retain their original identity and the compilation recipe must still match. It reruns
 the candidate verifier and source checks, saves rollback copies, writes a durable transaction,
 and requires the overlay and SLUS gates to succeed. Gate failure restores the transaction's
 source; restart can recover an interrupted publication. Recovery refuses to overwrite a

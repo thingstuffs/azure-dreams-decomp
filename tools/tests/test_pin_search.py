@@ -96,6 +96,30 @@ class SearchTests(unittest.TestCase):
             s=self.session(tmp,lambda t:{"exact":False});s.compile(s.row,PINNED);s.compile(s.row,PINNED);s.db.close()
             self.assertEqual(compile_mock.call_count,2)
 
+    def test_generated_timeout_preserves_win_and_is_not_cached(self):
+        def compile_text(row,text):
+            if text==PINNED:return ['ref']
+            raise subprocess.TimeoutExpired(['cc1'],30)
+        with tempfile.TemporaryDirectory() as tmp,patch.object(engine,'compile_s',side_effect=compile_text) as cc:
+            s=self.session(tmp,lambda t:{'exact':True})
+            s.verify(FREE)
+            text,info=s.run('targeted')
+            self.assertEqual(text,FREE)
+            self.assertEqual(info['stop_reason'],'compiler-timeout')
+            self.assertEqual(info['compile_timeouts'],1)
+            self.assertFalse(s.timeout['reference'])
+            self.assertEqual(s.timeout['source_sha'],controller.sha_text(s.timeout['text']))
+            s=self.session(tmp,lambda t:{'exact':False})
+            with self.assertRaises(engine.Limit):s.compile(s.row,FREE)
+            s.db.close()
+            self.assertEqual(cc.call_count,3)
+
+    def test_reference_timeout_remains_retryable(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(engine,'compile_s',side_effect=subprocess.TimeoutExpired(['cc1'],30)):
+            s=self.session(tmp,lambda t:{'exact':False})
+            with self.assertRaises(subprocess.TimeoutExpired):s.run('targeted')
+            self.assertTrue(s.timeout['reference'])
+
     def test_budget_stop_is_explicit(self):
         with tempfile.TemporaryDirectory() as tmp:
             s=self.session(tmp,lambda t:{"exact":False},screens=0)
@@ -179,7 +203,10 @@ else:
             root=Path(tmp);d=root/'run';d.mkdir();source=root/'src.c';source.write_text(PINNED)
             (d/'candidate.c').write_text(FREE)
             item=dict(row={'id':'town/test','c_path':'src.c'},source_sha=controller.sha_text(PINNED))
-            m=dict(tag='case',rows=[item],modes=['baseline'],run_key='r',options={},fingerprints={'recipe':'p','search':'s'})
+            failed=dict(row={'id':'town/failed'},source_sha='failed-source')
+            m=dict(tag='case',rows=[item,failed],modes=['baseline'],run_key='r',options={},fingerprints={'recipe':'p','search':'s'})
+            controller.atomic_json(controller.result_path(d,'baseline','town/failed'),
+                dict(run_key='r',outcome='error',stop_reason='error',reason='timeout'))
             controller.atomic_json(controller.result_path(d,'baseline','town/test'),
                 dict(run_key='r',outcome='candidate',stop_reason='complete',candidate='candidate.c',candidate_sha=controller.sha_text(FREE)))
             stack.enter_context(patch.object(controller,'ROOT',root))
@@ -190,7 +217,7 @@ else:
             stack.enter_context(patch('verify.verify',return_value={'exact':True}))
             run=stack.enter_context(patch.object(controller.subprocess,'run'))
             run.side_effect=subprocess.CalledProcessError(1,['gate'])
-            args=SimpleNamespace(tag='case',mode='baseline',workers=1)
+            args=SimpleNamespace(tag='case',mode='baseline',workers=1,defer=['town/failed'])
             with self.assertRaises(subprocess.CalledProcessError):controller.publish(args)
             self.assertEqual(source.read_text(),PINNED)
             self.assertEqual(json.loads((d/'publication.json').read_text())['phase'],'rolled-back')
@@ -199,5 +226,54 @@ else:
             self.assertEqual(source.read_text(),FREE)
             self.assertEqual(json.loads((d/'publication.json').read_text())['phase'],'complete')
             self.assertTrue((root/'ledger/pin_runs/case.json').exists())
+            proof=json.loads((root/'ledger/pin_runs/case.json').read_text())
+            self.assertEqual(proof['deferred'][0]['id'],'town/failed')
+
+    def test_reusing_timeout_stop_copies_validated_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(controller,'BASE',Path(tmp)):
+            base=Path(tmp);origin=base/'old';target=base/'new';origin.mkdir();target.mkdir()
+            item=dict(row={'id':'town/test'},source_sha='s')
+            m=dict(run_key='new',fingerprints={},options={},environment={})
+            key=controller.job_key(m,item,'baseline')
+            record=dict(job_key=key,run_key='old',outcome='noop',stop_reason='compiler-timeout',
+                        timeout=dict(source='timeouts/variant.c',source_sha=controller.sha_text(FREE)))
+            controller.atomic_text(origin/'timeouts/variant.c',FREE)
+            controller.atomic_json(base/'completed'/(key+'.json'),dict(directory='old',result=record))
+            self.assertTrue(controller.reuse_completed(target,m,item,'baseline'))
+            self.assertEqual((target/'timeouts/variant.c').read_text(),FREE)
+            (origin/'timeouts/variant.c').write_text('changed')
+            self.assertFalse(controller.reuse_completed(target,m,item,'baseline'))
+
+    def test_publication_deferral_is_explicit_and_preserves_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            d=Path(tmp)
+            m=dict(run_key='r',modes=['baseline'],rows=[
+                dict(row={'id':i},source_sha='s') for i in ('good','failed')])
+            good=controller.result_path(d,'baseline','good')
+            bad=controller.result_path(d,'baseline','failed')
+            controller.atomic_json(good,dict(run_key='r',outcome='candidate',stop_reason='complete'))
+            controller.atomic_json(bad,dict(run_key='r',outcome='error',stop_reason='error',reason='timeout'))
+            original=bad.read_bytes()
+            with self.assertRaises(RuntimeError):controller.publication_results(d,m,'baseline',[])
+            accepted,deferred=controller.publication_results(d,m,'baseline',['failed'])
+            self.assertEqual([x['row']['id'] for x,r in accepted],['good'])
+            self.assertEqual(deferred[0]['id'],'failed')
+            self.assertEqual(deferred[0]['reason'],'timeout')
+            self.assertEqual(bad.read_bytes(),original)
+            for ids in (['good','failed'],['failed','unknown']):
+                with self.assertRaises(RuntimeError):controller.publication_results(d,m,'baseline',ids)
+            controller.atomic_json(bad,dict(run_key='stale',outcome='error'))
+            with self.assertRaises(RuntimeError):controller.publication_results(d,m,'baseline',['failed'])
+
+    def test_publication_recipe_check_allows_only_search_changes(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(controller,'fingerprints') as fp:
+            d=Path(tmp)
+            m=dict(rows=[],fingerprints={'recipe':'r','search':'old'},options={},environment={},modes=['baseline'])
+            m['run_key']=controller.run_key(m);controller.atomic_json(d/'manifest.json',m)
+            fp.return_value={'recipe':'r','search':'new'}
+            self.assertEqual(controller.load_manifest(d,check='recipe'),m)
+            with self.assertRaises(RuntimeError):controller.load_manifest(d)
+            fp.return_value={'recipe':'changed','search':'new'}
+            with self.assertRaises(RuntimeError):controller.load_manifest(d,check='recipe')
 
 if __name__=="__main__":unittest.main()

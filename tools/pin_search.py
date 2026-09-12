@@ -192,6 +192,10 @@ def reuse_completed(d,manifest,item,mode):
         source=origin/r["candidate"]
         if not source.exists() or sha_file(source)!=r["candidate_sha"]:return False
         if source!=d/r["candidate"]:atomic_text(d/r["candidate"],source.read_text())
+    if r.get("timeout"):
+        evidence=r["timeout"];source=origin/evidence["source"]
+        if not source.exists() or sha_file(source)!=evidence["source_sha"]:return False
+        if source!=d/evidence["source"]:atomic_text(d/evidence["source"],source.read_text())
     for n in r.get("near",[]):
         source=origin/n["source"]
         if source.exists() and source!=d/n["source"]:atomic_text(d/n["source"],source.read_text())
@@ -221,7 +225,27 @@ def record_publication(state, manifest):
     atomic_json(proof,dict(run_key=manifest["run_key"],finished=state["finished"],options=manifest["options"],
         recipe=manifest["fingerprints"]["recipe"],search=manifest["fingerprints"]["search"],
         files=[{k:x[k] for k in ("id","path","before_sha","after_sha")} for x in state["files"]],
-        overlay="MATCH",slus="MATCH"))
+        deferred=state.get("deferred",[]), overlay="MATCH",slus="MATCH"))
+
+def publication_results(d, manifest, mode, deferred_ids):
+    """Explicitly defer named retryable rows without accepting their search as complete."""
+    if mode not in manifest["modes"]: raise RuntimeError("mode was not searched")
+    pending=set(deferred_ids); accepted=[]; deferred=[]
+    for item in manifest["rows"]:
+        rowid=item["row"]["id"]; p=result_path(d,mode,rowid)
+        if not p.exists(): raise RuntimeError("search incomplete: "+rowid)
+        r=json.loads(p.read_text())
+        if r.get("run_key")!=manifest["run_key"]: raise RuntimeError("stale result: "+rowid)
+        if rowid in pending:
+            if reusable(r,manifest["run_key"]): raise RuntimeError("cannot defer a completed result: "+rowid)
+            deferred.append(dict(id=rowid,source_sha=item["source_sha"],outcome=r["outcome"],
+                stop_reason=r.get("stop_reason"),reason=r.get("reason","").replace(str(ROOT),"<repo>")))
+            pending.remove(rowid)
+        elif not reusable(r,manifest["run_key"]):
+            raise RuntimeError("retryable search failure remains: "+rowid)
+        else: accepted.append((item,r))
+    if pending: raise RuntimeError("unknown deferred rows: "+", ".join(sorted(pending)))
+    return accepted,deferred
 
 def worker(job):
     d, manifest, item, mode = job; d = Path(d)
@@ -269,6 +293,10 @@ def worker(job):
         if session is not None:
             try: session.db.close()
             except Exception: pass
+    if session is not None and session.timeout:
+        timeout=dict(session.timeout);text=timeout.pop("text")
+        p=d/"timeouts"/mode/(timeout["source_sha"]+".c");atomic_text(p,text)
+        out["timeout"]=dict(timeout,source=str(p.relative_to(d)))
     # Workers persist completion themselves, before returning to the parent. A killed parent
     # cannot lose completed results, even when an earlier submitted row is still running.
     atomic_json(result_path(d, mode, row["id"]), out)
@@ -316,7 +344,7 @@ def summarize(d, m):
         report["modes"][mode] = dict(records=len(records), outcomes=dict(collections.Counter(r["outcome"] for r in records)),
             stops=dict(collections.Counter(r.get("stop_reason") for r in records)),
             pins_removed=sum(r.get("pins_in",0)-r.get("pins_out",0) for r in records if r["outcome"] == "candidate"),
-            totals={k:sum(r.get(k,0) for r in records) for k in ("compiled", "screened", "cache_hits", "tried", "seconds", "cpu_seconds", "generation_seconds", "fallback_tried", "fallback_wins")})
+            totals={k:sum(r.get(k,0) for r in records) for k in ("compiled", "screened", "cache_hits", "tried", "seconds", "cpu_seconds", "generation_seconds", "fallback_tried", "fallback_wins", "compile_timeouts")})
     atomic_json(d / "summary.json", report)
     print(json.dumps(report, indent=2))
     return report
@@ -417,7 +445,9 @@ def publish(a):
     from pin_census import landing_refusal
     from pin_search_engine import improves
     from verify import verify
-    d=safe_tag(a.tag); m=load_manifest(d); mode=a.mode
+    # Historical search output can be independently verified after search-code changes.
+    # The frozen manifest, result identities and actual compilation recipe must still match.
+    d=safe_tag(a.tag); m=load_manifest(d,check="recipe"); mode=a.mode
     if len(m["modes"])>1: raise RuntimeError("pilot is comparison-only; prepare a production tag for current sources")
     tx=d/"publication.json"
     if tx.exists():
@@ -426,12 +456,9 @@ def publish(a):
         # Recover the exact interrupted transaction, refusing to overwrite any other edit.
         restore_publication(state["files"],ROOT,d)
         state["phase"]="rolled-back";atomic_json(tx,state)
+    accepted,deferred=publication_results(d,m,mode,getattr(a,"defer",[]) or [])
     files=[]
-    for x in m["rows"]:
-        p=result_path(d,mode,x["row"]["id"])
-        if not p.exists(): raise RuntimeError("search incomplete")
-        r=json.loads(p.read_text())
-        if not reusable(r,m["run_key"]): raise RuntimeError("retryable search failure remains")
+    for x,r in accepted:
         if r["outcome"]!="candidate": continue
         row=x["row"]; source=clean_path(row); cand=d/r["candidate"]
         if sha_file(source)!=x["source_sha"] or sha_file(cand)!=r["candidate_sha"]: raise RuntimeError("stale source or candidate: "+row["id"])
@@ -444,7 +471,7 @@ def publish(a):
         if not v.get("exact"): raise RuntimeError("candidate no longer exact: "+row["id"])
         backup="backups/"+row["id"].replace("/","_")+".c"; atomic_text(d/backup,before)
         files.append(dict(id=row["id"],path=str(source.relative_to(ROOT)),before_sha=sha_text(before),after_sha=sha_text(text),backup=backup,candidate=r["candidate"]))
-    state=dict(phase="publishing",files=files,run_key=m["run_key"],at=utc());atomic_json(tx,state)
+    state=dict(phase="publishing",files=files,deferred=deferred,run_key=m["run_key"],at=utc());atomic_json(tx,state)
     try:
         for x in files:
             if sha_file(ROOT/x["path"])!=x["before_sha"]:raise RuntimeError("source changed during verification")
@@ -458,7 +485,7 @@ def publish(a):
         state["phase"]="rolled-back";atomic_json(tx,state);raise
     state["phase"]="complete";state["finished"]=utc();atomic_json(tx,state)
     record_publication(state,m)
-    print(f"published {len(files)} functions; overlay and SLUS gates MATCH")
+    print(f"published {len(files)} functions; overlay and SLUS gates MATCH; {len(deferred)} search rows deferred")
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument("action",choices=["prepare","run","start","status","packets","gate-pilot","publish"])
@@ -467,6 +494,8 @@ def main():
     ap.add_argument("--pilot",action="store_true");ap.add_argument("--ids");ap.add_argument("--mode",choices=["targeted","baseline"],default="baseline")
     ap.add_argument("--screens",type=int,default=1200);ap.add_argument("--verifies",type=int,default=12);ap.add_argument("--cpu-seconds",type=float,default=40)
     ap.add_argument("--replay-commit",default="c35efafb")
+    ap.add_argument("--defer",action="append",default=[],metavar="ROW_ID",
+                    help="publish only: explicitly leave this retryable search error unresolved (repeatable)")
     a=ap.parse_args(); d=safe_tag(a.tag)
     if a.action=="packets":packets(a);return
     if a.action=="status":
