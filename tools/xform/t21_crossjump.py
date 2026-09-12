@@ -23,6 +23,17 @@ RESOLVES    work/native_lane/func_8098D5A8/REPORT.md, "Generator": T1 + T2, stat
             erase   when t1 cannot take P, the pin alone is erased from the rewritten text.
             idx     `*(u8 *)(i + (u32)SYM)` spelled `SYM[i]` where SYM is a u8 array (tried first: the
                     simplest spelling that matches wins).
+            host    (work/native_lane/family17/REPORT.md, "Generator") when sink+erase comes within
+                    T21_HOST_MAX words: the misplaced register is the compiler temporary feeding the
+                    erased variable, which inherits a dying hard register's suggestion in combine_regs.
+                    The value moves into a variable local-alloc refuses - word-sized, dead at the site,
+                    already assigned elsewhere, never a fresh block-local - in host order: (1) the
+                    erased variable itself, `V = (K & -4) << 16; if (V == 0)` -> `V = K & -4; if ((V <<
+                    16) == 0)`; (2) a local assigned earlier in the block (a single-assignment
+                    block-local feeding V renamed to it, a test `if (!(V & 8))` or `V &= 8; ... if (!V)`
+                    written `H = V & 8; if (H == 0)`, an operand of V's assignment hoisted); (3) any
+                    other such local; (4) V retyped s32 with `&=`.  Every copy the sink made is
+                    rewritten alike; every small-residue erase candidate is a starting point.
             Candidates are generated cheapest-first per pin and each is scored; a candidate is accepted
             only if byte-exact with FEWER live pins and no more fences (`sites_of`, `_dowhile0`).
 POPULATION  2026-09-11 census (native lane): 2,104 pointer ASM_REG pins, 128 set from a symbol >= 2
@@ -42,6 +53,14 @@ RESULT      2026-09-12.  Acceptance: from the 7 pre-images of aaa1157a the plugi
             where the erased variable stays live in another use - and 22 rows with no scorable
             candidate (P an ASM_KEEP argument, a non-constant definition, a use no definition reaches,
             a copy that would duplicate a volatile or a fence).  work/native_lane/crossjump/.
+            host (2026-09-12, after the 102 landed in dff8c780): the 17-row family closes 17/17 from
+            its current src - the 796-byte function by the split (10), the BC function by the test
+            host `height_offset` (6, byte-identical to the family17 lane's hand candidates), and
+            func_81085508 by an operand host (1).  Re-run over every other eligible row (208, 635 scorer
+            runs): 17 exact, all of them the family.  12 other rows leave sink+erase within 4 words;
+            only 3 offer a host site (8008AFEC split 3 -> 3, 800B39E4 test 1 -> 14, 800C9858 test
+            2 -> 2) and none closed - the other 9 have no split/test/rename/operand shape or no
+            word-sized dead host.
 """
 import os, re, sys
 from pathlib import Path
@@ -1507,9 +1526,389 @@ def _drop_dead_labels(text, names):
 
 # ------------------------------------------------------------------------------ candidates
 
+# ------------------------------------------------------------------------------ host
+
+HOST_MAX = int(os.environ.get("T21_HOST_MAX", "4"))         # a sink+erase residue this small triggers it
+HOST_BUDGET = int(os.environ.get("T21_HOST_BUDGET", "10"))  # scorer runs per pin for host candidates
+WORD_T = re.compile(r"^(?:(?:const|signed|unsigned)\s+)*(?:s32|u32|int|long|unsigned|signed|M2C_UNK|uptr)"
+                    r"(?:\s+(?:int|long))?$")
+NUMK = re.compile(r"^(?:[-~]\s*)?(?:0x[0-9A-Fa-f]+|\d+)[uUlL]*$")
+PREC = {"||": 1, "&&": 2, "|": 3, "^": 4, "&": 5, "==": 6, "!=": 6, "<": 7, ">": 7, "<=": 7, ">=": 7,
+        "<<": 8, ">>": 8, "+": 9, "-": 9, "*": 10, "/": 10, "%": 10}
+ARITH = ("<<", ">>", "&", "|", "^", "+", "-", "*")
+
+
+def _ws_span(e, a, b):
+    while a < b and e[a] in " \t\n":
+        a += 1
+    while b > a and e[b - 1] in " \t\n":
+        b -= 1
+    return a, b
+
+
+def _strip_span(e, a, b):
+    """(a, b) of e[a:b] without surrounding whitespace and wrapping parentheses."""
+    while True:
+        a, b = _ws_span(e, a, b)
+        if a < b and e[a] == "(" and _match_paren(e[:b], a) == b - 1:
+            a, b = a + 1, b - 1
+            continue
+        return a, b
+
+
+CAST_T = re.compile(r"^\s*(?:(?:const|volatile|unsigned|signed|struct|union|enum)\s+)*"
+                    r"(?:u8|s8|u16|s16|u32|s32|int|char|short|long|void|uptr|M2C_UNK|unsigned|signed|%s(?=\s*\*))"
+                    r"(?:\s+(?:int|long|char|short))*\s*\**\s*$" % ID)
+
+
+def _ends_cast(e, k):
+    """e[k-1] is the `)` of a cast (`(u8 *)`, `(s16)`, `(S_X *)`): what follows is an operand, so a
+    `&`, `*`, `-` or `+` after it is unary."""
+    if k <= 0 or e[k - 1] != ")":
+        return False
+    d = 0
+    for j in range(k - 1, -1, -1):
+        if e[j] == ")":
+            d += 1
+        elif e[j] == "(":
+            d -= 1
+            if d == 0:
+                return bool(CAST_T.match(e[j + 1:k - 1]))
+    return False
+
+
+def _split_top(e, a, b):
+    """The loosest top-level binary operator of e[a:b] (the rightmost of equals):
+    (lhs span, op, rhs span, raw lhs span, raw rhs span) - raw spans keep their parentheses - or None."""
+    a, b = _strip_span(e, a, b)
+    best, d, k = None, 0, a
+    while k < b:
+        c = e[k]
+        if c in "([":
+            d += 1
+        elif c in ")]":
+            d -= 1
+        elif d == 0:
+            if c == "?":
+                return None
+            two = e[k:k + 2]
+            if two in ("->", "++", "--"):
+                k += 2
+                continue
+            op = two if two in ("||", "&&", "==", "!=", "<=", ">=", "<<", ">>") else c if c in "|^&<>+-*/%" else None
+            if op:
+                prev = e[a:k].rstrip()
+                if prev and (prev[-1].isalnum() or prev[-1] in "_)]") and not _ends_cast(e, a + len(prev)):
+                    if best is None or PREC[op] <= best[0]:
+                        best = (PREC[op], k, op)
+                k += len(op)
+                continue
+        k += 1
+    if best is None:
+        return None
+    _, k, op = best
+    return (_strip_span(e, a, k), op, _strip_span(e, k + len(op), b), _ws_span(e, a, k), _ws_span(e, k + len(op), b))
+
+
+def _word_local(fn, h, pos):
+    """The declaration of the local h visible at pos when it is a plain word-sized integer (never
+    u16/s16/u8, a pointer, an array, volatile, pinned or address-taken), else None."""
+    sc = _var_scope(fn, h, pos)
+    if sc is None:
+        return None
+    blk, sh = sc
+    if any(b.s <= pos < b.e for b in sh):
+        return None
+    d = next((x for x in fn.decls.get(h, []) if x.parent is blk), None)
+    if d is None:
+        return None
+    md = fn.mt(d)
+    if "ASM_REG" in md or "volatile" in md or len(_decl_names(md)) != 1:
+        return None
+    mm = re.match(r"^\s*(?:register\s+)?(.*?)\s*\b%s\b\s*(?:=[^;]*)?;\s*$" % re.escape(h), md, re.S)
+    if not mm or not WORD_T.match(mm.group(1).strip()):
+        return None
+    if re.search(r"(?:^|[^\w)\]&])&\s*%s\b" % re.escape(h), fn.m[fn.body.s:fn.body.e]):
+        return None
+    return d
+
+
+def _retype_edit(fn, v, pos):
+    """The edit that retypes the (not word-sized, unpinned) declaration of v visible at pos to s32."""
+    d = next((dd for dd in fn.decls.get(v, []) if dd.parent is not None and dd.parent.s <= pos < dd.parent.e), None)
+    if d is None or "ASM_REG" in fn.mt(d) or _word_local(fn, v, pos) is not None or len(_decl_names(fn.mt(d))) != 1:
+        return None
+    mt = re.match(r"^(\s*)((?:register\s+)?)(.*?)(\s*\b%s\b)" % re.escape(v), fn.mt(d), re.S)
+    if not mt or not mt.group(3).strip() or "*" in mt.group(3) or "[" in fn.mt(d):
+        return None
+    return (d.s + mt.start(3), d.s + mt.end(3), "s32")
+
+
+def _ndefs(fn, h):
+    return sum(1 for n in fn.nodes if n.kind == "simple" and h in _assigned(fn.mt(n)))
+
+
+def _hosts(fn, sites, exclude):
+    """[(rank, name)]: word-sized locals dead at every site and already assigned elsewhere (so global
+    to local-alloc) - rank 2 when assigned earlier in the first site's block, 3 otherwise."""
+    first = sites[0]
+    earlier = set()
+    if first.parent is not None and first.parent.kind == "block":
+        for k in first.parent.kids[:first.idx]:
+            if k.kind == "simple":
+                earlier |= _assigned(fn.mt(k))
+    out = []
+    for h in fn.decls:
+        if h in exclude or _ndefs(fn, h) < 1:
+            continue
+        if not all(_word_local(fn, h, n.s) is not None for n in sites):
+            continue
+        if not all(_dead_after(fn, n, h) for n in sites):
+            continue
+        out.append((2 if h in earlier else 3, -_ndefs(fn, h), fn.decls[h][0].s, h))
+    return [(r, h) for r, _, _, h in sorted(out)]
+
+
+def host_candidates(text, vname, ranked=False):
+    """[(label, text)]: the value that inherits a dying hard register's suggestion in combine_regs
+    moved into a variable local-alloc refuses (family17 REPORT, "Generator").  Host order: (1) the
+    erased variable itself, its assignment split `V = inner; use(V op k)`; (2) a word-sized local
+    already assigned earlier in the block; (3) any other word-sized local dead at the site and
+    assigned elsewhere; (4) the erased variable retyped s32 with `&=`.  Identical copies of a site
+    (the sink's) are all rewritten; never a fresh block-local."""
+    m = mask(text)
+    t = text
+    pinned = {p.name for p in pins_of(text)}
+    res = []                                     # (rank, seq, label, edits)
+    for h0, body in _functions(m):
+        fn = Fn(text, m, h0, body)
+        if vname not in fn.decls:
+            continue
+        rx = _occ_re(vname)
+
+        def ln(pos):
+            return t.count("\n", 0, pos) + 1
+
+        def key(n):
+            return " ".join(fn.m[n.s:(n.hdr[1] + 1 if n.kind == "if" else n.e)].split())
+
+        def twins(n):
+            k = key(n)
+            return [x for x in fn.nodes if x.kind == n.kind and x.parent is not None
+                    and x.parent.kind == "block" and key(x) == k]
+
+        def own_start(n):
+            return not m[_ls(m, n.s):n.s].strip()
+
+        vdef = [S for S in fn.nodes if S.kind == "simple" and S.parent is not None and S.parent.kind == "block"
+                and (lambda d: d is not None and d.group(1) == vname and d.group(2) == "=")(VDEF_RE.match(fn.mt(S)))]
+        # (1) split the erased variable's own assignment: V = A op k; use(V) -> V = A; use((V op k))
+        for S in vdef:
+            rs = S.s + VDEF_RE.match(fn.mt(S)).end()
+            sp = _split_top(m, rs, S.e - 1)
+            if not sp or sp[1] not in ARITH or not NUMK.match(m[sp[2][0]:sp[2][1]].strip()) \
+                    or rx.search(m[sp[0][0]:sp[0][1]]) or t[rs:S.e - 1] != m[rs:S.e - 1]:
+                continue
+            blk = S.parent
+            if S.idx + 1 >= len(blk.kids):
+                continue
+            U = blk.kids[S.idx + 1]
+            dU = VDEF_RE.match(fn.mt(U)) if U.kind == "simple" else None
+            if U.kind == "if":
+                ua, ub = U.hdr
+                live = _dead_after(fn, U.then, vname) and _dead_after(fn, U.els if U.els is not None else cont(U), vname)
+            elif U.kind == "simple":
+                ua, ub = U.s, U.e
+                live = bool(dU and dU.group(1) == vname) or _dead_after(fn, cont(U), vname)
+            else:
+                continue
+            uses = [x for x in rx.finditer(m, ua, ub)
+                    if not (dU and dU.group(1) == vname and x.start() == U.s + dU.start(1))]
+            if len(uses) != 1 or not live:
+                continue
+            ea, eb = _ws_span(m, rs, S.e - 1)
+            k = t[sp[2][0]:sp[2][1]].strip()
+            edits = [(ea, eb, t[sp[0][0]:sp[0][1]]), (uses[0].start(), uses[0].end(), "(%s %s %s)" % (vname, sp[1], k))]
+            res.append((1, (0 if U.kind == "if" else 3, S.s), "split:%s@%d" % (vname, ln(S.s)), edits))
+        # (2)/(3) a single-assignment block-local feeding V's assignment, renamed to a host
+        for U in vdef:
+            blk = U.parent
+            if U.idx == 0:
+                continue
+            S = blk.kids[U.idx - 1]
+            mm = VDEF_RE.match(fn.mt(S)) if S.kind == "simple" else None
+            if not mm or mm.group(2) != "=":
+                continue
+            L = mm.group(1)
+            if L == vname or L in pinned or len(fn.decls.get(L, [])) != 1:
+                continue
+            dL = fn.decls[L][0]
+            if dL.parent is fn.body or len(_decl_names(fn.mt(dL))) != 1 or "=" in fn.mt(dL):
+                continue
+            ment = [x for x in _occ_re(L).finditer(m, fn.body.s, fn.body.e) if not (dL.s <= x.start() < dL.e)]
+            inU = [x for x in ment if U.s <= x.start() < U.e]
+            if len(ment) != 2 or len(inU) != 1 or not (S.s <= ment[0].start() < S.e):
+                continue
+            spd = _own_line(t, m, dL.s, dL.e)
+            if spd is None:
+                continue
+            for rank, H in _hosts(fn, [S], {L, vname} | pinned):
+                if _occ_re(H).search(fn.mt(U)):
+                    continue
+                edits = [(S.s + mm.start(1), S.s + mm.end(1), H), (inU[0].start(), inU[0].end(), H), (spd[0], spd[1], "")]
+                res.append((rank, (1, S.s), "rename:%s->%s@%d" % (L, H, ln(S.s)), edits))
+        # (1)-(4) a test on V (or on a kept pin): if (!(V & k)) -> H = V & k; if (H == 0)
+        done = set()
+        for I in fn.nodes:
+            if I.kind != "if" or I.parent is None or I.parent.kind != "block" or id(I) in done:
+                continue
+            ca, cb = I.hdr
+            if t[ca:cb] != m[ca:cb]:
+                continue
+            na, nb = _strip_span(m, ca, cb)
+            X, fmt = None, None
+            if m[na:na + 1] == "!" and m[na + 1:na + 2] != "=":
+                X, fmt = _strip_span(m, na + 1, nb), "%s == 0"
+            else:
+                sp = _split_top(m, ca, cb)
+                if sp and sp[1] in ("==", "!=") and m[sp[2][0]:sp[2][1]].strip() == "0":
+                    X, fmt = sp[0], "%s " + sp[1] + " 0"
+                elif sp and sp[1] in ARITH:
+                    X, fmt = (na, nb), "%s != 0"
+            if X is None:
+                continue
+            spx = _split_top(m, X[0], X[1])
+            if not spx or spx[1] not in ARITH:
+                continue
+            opl, opr = m[spx[0][0]:spx[0][1]].strip(), m[spx[2][0]:spx[2][1]].strip()
+            if vname not in (opl, opr) and opl not in pinned and opr not in pinned:
+                continue
+            tw = twins(I)
+            for x in tw:
+                done.add(id(x))
+            if not all(own_start(x) for x in tw):
+                continue
+            xt = t[X[0]:X[1]]
+
+            def mk(H, assign, tw=tw, fmt=fmt):
+                edits = []
+                for x in tw:
+                    ls = _ls(t, x.s)
+                    edits.append((ls, ls, t[ls:x.s] + assign + "\n"))
+                    edits.append((x.hdr[0], x.hdr[1], fmt % H))
+                return edits
+            tag = "x%d" % len(tw) if len(tw) > 1 else ""
+            vdead = all(_dead_after(fn, x.then, vname) and _dead_after(fn, x.els if x.els is not None else cont(x), vname)
+                        for x in tw)
+            if vname in (opl, opr) and vdead and all(_word_local(fn, vname, x.s) for x in tw):
+                res.append((1, (1, I.s), "test:%s@%d%s" % (vname, ln(I.s), tag), mk(vname, "%s = %s;" % (vname, xt))))
+            for rank, H in _hosts(fn, tw, {vname} | pinned):
+                res.append((rank, (2, I.s), "test:%s@%d%s" % (H, ln(I.s), tag), mk(H, "%s = %s;" % (H, xt))))
+            if opl == vname and spx[1] == "&" and vdead:
+                re4 = _retype_edit(fn, vname, I.s)
+                if re4 is not None:
+                    edits = mk(vname, "%s &= %s;" % (vname, t[spx[2][0]:spx[2][1]].strip())) + [re4]
+                    res.append((4, (2, I.s), "retype:%s@%d%s" % (vname, ln(I.s), tag), edits))
+        # (2)-(4) an in-place update then a bare test: V &= k; if (!V) -> H = V & k; if (H == 0)
+        done2 = set()
+        for S in fn.nodes:
+            if S.kind != "simple" or S.parent is None or S.parent.kind != "block" or id(S) in done2:
+                continue
+            mm = VDEF_RE.match(fn.mt(S))
+            if not mm or mm.group(1) != vname or mm.group(2) == "=" or mm.group(2)[:-1] not in ARITH:
+                continue
+            blk = S.parent
+            if t[S.s:S.e] != m[S.s:S.e]:
+                continue
+            j = S.idx + 1                       # unrelated simple statements may stand between
+            while j < len(blk.kids) and blk.kids[j].kind == "simple" and not rx.search(fn.mt(blk.kids[j])):
+                j += 1
+            if j >= len(blk.kids) or blk.kids[j].kind != "if":
+                continue
+            U, gap = blk.kids[j], j - S.idx
+            c = _strip_parens(" ".join(m[U.hdr[0]:U.hdr[1]].split()))
+            fmt = None
+            if c.startswith("!") and not c.startswith("!=") and _strip_parens(c[1:]) == vname:
+                fmt = "%s == 0"
+            elif re.fullmatch(r"%s\s*(==|!=)\s*0" % re.escape(vname), c):
+                fmt = "%s " + re.search(r"==|!=", c).group(0) + " 0"
+            elif c == vname:
+                fmt = "%s != 0"
+            if fmt is None:
+                continue
+            def after(x, gap=gap):
+                kk = x.parent.kids
+                if x.idx + gap >= len(kk) or kk[x.idx + gap].kind != "if":
+                    return None
+                if any(kk[q].kind != "simple" or rx.search(fn.mt(kk[q])) for q in range(x.idx + 1, x.idx + gap)):
+                    return None
+                return kk[x.idx + gap]
+            pairs = [(x, after(x)) for x in twins(S) if after(x) is not None and key(after(x)) == key(U)]
+            mids = [fn.mt(x.parent.kids[q]) for x, _ in pairs for q in range(x.idx + 1, x.idx + gap)]
+            for x, _ in pairs:
+                done2.add(id(x))
+            if not all(_dead_after(fn, u.then, vname) and _dead_after(fn, u.els if u.els is not None else cont(u), vname)
+                       for _, u in pairs):
+                continue
+            rhs = _paren_bin(t[S.s + mm.end():S.e - 1].strip())
+            op = mm.group(2)[:-1]
+            tag = "x%d" % len(pairs) if len(pairs) > 1 else ""
+
+            def mk2(H, pairs=pairs, op=op, rhs=rhs, fmt=fmt):
+                edits = []
+                for x, u in pairs:
+                    edits.append((x.s, x.e, "%s = %s %s %s;" % (H, vname, op, rhs)))
+                    edits.append((u.hdr[0], u.hdr[1], fmt % H))
+                return edits
+            for rank, H in _hosts(fn, [x for x, _ in pairs], {vname} | pinned):
+                if any(_occ_re(H).search(s) for s in mids):
+                    continue
+                res.append((rank, (2, S.s), "test:%s@%d%s" % (H, ln(S.s), tag), mk2(H)))
+            re4 = _retype_edit(fn, vname, S.s)
+            if re4 is not None:
+                res.append((4, (2, S.s), "retype:%s@%d" % (vname, ln(S.s)), [re4]))
+        # (2)/(3) an operation inside V's assignment moved into a host: V = A - (P << 8) -> H = P << 8; V = A - H
+        for S in vdef:
+            if not own_start(S):
+                continue
+            rs = S.s + VDEF_RE.match(fn.mt(S)).end()
+            sp = _split_top(m, rs, S.e - 1)
+            if not sp or t[rs:S.e - 1] != m[rs:S.e - 1]:
+                continue
+            for side, raw in ((sp[0], sp[3]), (sp[2], sp[4])):
+                sub = _split_top(m, side[0], side[1])
+                if not sub or sub[1] not in ARITH or rx.search(m[side[0]:side[1]]) or not re.search(ID, m[side[0]:side[1]]):
+                    continue
+                for rank, H in _hosts(fn, [S], {vname} | pinned):
+                    if _occ_re(H).search(fn.mt(S)):
+                        continue
+                    ls = _ls(t, S.s)
+                    edits = [(ls, ls, t[ls:S.s] + "%s = %s;\n" % (H, t[side[0]:side[1]])), (raw[0], raw[1], H)]
+                    res.append((rank, (4, S.s), "operand:%s@%d" % (H, ln(S.s)), edits))
+    out, seen = [], {sha_text(text)}
+    for rank, seq, lab, edits in sorted(res, key=lambda r: (r[0], r[1])):
+        c = _apply(text, edits)
+        if c is None or sha_text(c) in seen:
+            continue
+        seen.add(sha_text(c))
+        out.append((rank, lab, c) if ranked else (lab, c))
+    return out
+
+
 def _pin_now(text, key, nth):
     ps = [p for p in pins_of(text) if p.key() == key]
     return ps[nth] if nth < len(ps) else None
+
+
+def _erase_pin(text, site):
+    """erase_many, and the pin's own trailing note whatever it says (`/* MATCH: ... a1 ... */` describes
+    a pin that is gone)."""
+    out = erase_many(text, [site], clean_notes=True)
+    ls = out.rfind("\n", 0, site[3]) + 1
+    le = out.find("\n", site[3])
+    le = len(out) if le < 0 else le
+    mm = re.match(r"^(.*?;)[ \t]*/\*(?:(?!\*/).)*\*/[ \t]*$", out[ls:le])
+    return out[:ls] + mm.group(1) + out[le:] if mm else out
 
 
 def _minimal(pin, j):
@@ -1579,7 +1978,7 @@ def candidates(text, key, nth):
                 if t3k is not None:
                     outs.append((o + ["t1+keep"], t3k))
                 elif sunk:
-                    outs.append((o + ["erase"], erase_many(tv, [p2.site], clean_notes=True)))
+                    outs.append((o + ["erase"], _erase_pin(tv, p2.site)))
             for o2, t3 in outs:
                 spell = []
                 if "fsub" in o:                 # the values t1/erase freed, substituted in turn
@@ -1772,7 +2171,7 @@ class T:
             if not todo:
                 break
             p = todo[0][0]
-            won, spent = None, 0
+            won, spent, best_erase = None, 0, None
             pc, fc = len(sites_of(cur)), _dowhile0(cur)
             for lab, cand in candidates(cur, p.key(), p.nth):
                 if tried >= BUDGET or spent >= PIN_BUDGET:
@@ -1789,6 +2188,35 @@ class T:
                     break
                 if tot is not None and (best is None or tot < best[0]):
                     best = (tot, lab)
+                if tot is not None and "sink" in lab and "erase" in lab and tot <= HOST_MAX:
+                    best_erase = (best_erase or []) + [(tot, len(best_erase or []), lab, cand)]
+            # host: sink+erase came within a few words - the value feeding the erased variable
+            # inherited a hard register's suggestion; move it into a variable local-alloc refuses.
+            # Every such base is a start (best first): fsub may already have folded the site away.
+            if not won and best_erase:
+                hspent, seen_h = 0, set()
+                hosts = sorted((rk, bi, b[2], hl, hc) for bi, b in enumerate(sorted(best_erase))
+                               for rk, hl, hc in host_candidates(b[3], p.name, ranked=True))
+                for _, _, blab, hlab, hc in hosts:
+                    if hspent >= HOST_BUDGET:
+                        break
+                    h = sha_text(hc)
+                    if h in seen_h:
+                        continue
+                    seen_h.add(h)
+                    if not (len(sites_of(hc)) < pc and _dowhile0(hc) <= fc) or _added_scaffolding(hc, cur):
+                        continue
+                    tried += 1
+                    hspent += 1
+                    lab = "%s+host(%s)" % (blab, hlab)
+                    v = verify_fn(hc)
+                    tot = v.get("total")
+                    attempts.append([lab, 0 if v.get("exact") else tot])
+                    if v.get("exact"):
+                        won = (lab, hc)
+                        break
+                    if tot is not None and tot < best[0]:
+                        best = (tot, lab)
             if won:
                 cur = won[1]
                 steps.append(won[0])
